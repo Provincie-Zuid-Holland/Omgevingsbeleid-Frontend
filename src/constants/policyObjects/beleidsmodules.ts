@@ -10,6 +10,7 @@ import {
     useGetValidBeleidsmodules,
 } from '@/api/fetchers'
 import { BeleidsmodulesWrite } from '@/api/fetchers.schemas'
+import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
 import { schemaDefaults, generateSchemaTitles } from '@/utils/yupSchema'
 
@@ -41,13 +42,15 @@ const beleidsmodulesMeta: SchemaMeta<typeof queryBeleidsmodules> = {
 }
 
 // TODO: @Jordy add null type to eind & begin dates
-export const SCHEMA: ObjectSchema<BeleidsmodulesWrite> = object({
-    Titel: schemaDefaults.Titel,
-    Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.notRequired,
-    Eind_Geldigheid: schemaDefaults.Eind_Geldigheid,
-    Beleidskeuzes: schemaDefaults.listReference,
-    Maatregelen: schemaDefaults.listReference,
-}).meta(beleidsmodulesMeta)
+export const SCHEMA: ObjectSchema<MutatedPolicySchema<BeleidsmodulesWrite>> =
+    object({
+        Titel: schemaDefaults.Titel,
+        Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.notRequired,
+        Eind_Geldigheid: schemaDefaults.Eind_Geldigheid,
+        Beleidskeuzes: schemaDefaults.listReference,
+        Maatregelen: schemaDefaults.listReference,
+        Besluit_Datum: schemaDefaults.optionalString,
+    }).meta(beleidsmodulesMeta)
 
 export const META = SCHEMA.describe().meta as SchemaMeta<
     typeof queryBeleidsmodules

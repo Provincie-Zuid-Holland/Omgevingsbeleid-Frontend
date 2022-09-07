@@ -10,6 +10,7 @@ import {
     useGetValidBeleidsregels,
 } from '@/api/fetchers'
 import { BeleidsregelsRead, BeleidsregelsWrite } from '@/api/fetchers.schemas'
+import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
 import { schemaDefaults, generateSchemaTitles } from '@/utils/yupSchema'
 
@@ -42,14 +43,15 @@ const beleidsregelsMeta: SchemaMeta<typeof queryBeleidsregels> = {
 }
 
 // TODO: @Jordy add null type to eind & begin dates
-export const SCHEMA: ObjectSchema<BeleidsregelsWrite> = object({
-    Titel: schemaDefaults.Titel,
-    Omschrijving: schemaDefaults.optionalString,
-    Weblink: schemaDefaults.optionalString,
-    Externe_URL: schemaDefaults.optionalString,
-    Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.notRequired,
-    Eind_Geldigheid: schemaDefaults.Eind_Geldigheid,
-}).meta(beleidsregelsMeta)
+export const SCHEMA: ObjectSchema<MutatedPolicySchema<BeleidsregelsWrite>> =
+    object({
+        Titel: schemaDefaults.Titel,
+        Omschrijving: schemaDefaults.optionalString,
+        Weblink: schemaDefaults.optionalString,
+        Externe_URL: schemaDefaults.optionalString,
+        Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.notRequired,
+        Eind_Geldigheid: schemaDefaults.Eind_Geldigheid,
+    }).meta(beleidsregelsMeta)
 
 export const META = SCHEMA.describe().meta as SchemaMeta<
     typeof queryBeleidsregels

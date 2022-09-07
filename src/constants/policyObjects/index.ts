@@ -7,7 +7,7 @@ import * as BELEIDSPRESTATIES from './beleidsprestaties'
 import * as BELEIDSREGELS from './beleidsregels'
 import * as MAATREGELEN from './maatregelen'
 
-export {
+const policyObjects = {
     AMBITIES,
     BELANGEN,
     BELEIDSDOELEN,
@@ -17,3 +17,8 @@ export {
     BELEIDSREGELS,
     MAATREGELEN,
 }
+
+export type PolicyObjectsMeta =
+    typeof policyObjects[keyof typeof policyObjects]['META']
+
+export default policyObjects

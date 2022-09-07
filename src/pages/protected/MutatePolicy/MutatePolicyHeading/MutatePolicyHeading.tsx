@@ -2,26 +2,26 @@ import { useLocation, useParams } from 'react-router-dom'
 
 import ButtonBackToPage from '@/components/ButtonBackToPage'
 import { LoaderMainTitle } from '@/components/Loader'
+import { PolicyObjectsMeta } from '@/constants/policyObjects'
 
 export interface MutatePolicyHeadingProps {
+    policyObjectMeta: PolicyObjectsMeta
     userIsEditing?: boolean
     isLoading?: boolean
     objectTitle: string
-    titleSingular: string
-    overzichtSlug: string
-    titlePlural: string
 }
 
 function MutatePolicyHeading({
+    policyObjectMeta,
     userIsEditing,
     isLoading,
     objectTitle,
-    titleSingular,
-    overzichtSlug,
-    titlePlural,
 }: MutatePolicyHeadingProps) {
     const { single: objectID } = useParams<{ single: string }>()
     const location = useLocation()
+    const titleSingular = policyObjectMeta.title.singular
+    const titlePlural = policyObjectMeta.title.plural
+    const overviewSlug = policyObjectMeta.slug.overview
 
     const getMainTitle = () => {
         if (titleSingular === 'Beleidsmodule' && !userIsEditing) {
@@ -37,27 +37,34 @@ function MutatePolicyHeading({
         }
     }
 
-    const getBackUrl = () => {
-        if (!objectID && location.hash === '#mijn-beleid') {
-            // User is creating a new object and came from his/her own beleid
-            return `/muteer/mijn-beleid`
-        } else if (!objectID && location.hash !== '#mijn-beleid') {
-            // User is creating a new object and came from an overview page
-            return `/muteer/${overzichtSlug}`
-        } else if (objectID && location.hash === '#mijn-beleid') {
-            // User is editing an existing object and came from a detail page from his/her own beleid
-            return `/muteer/${overzichtSlug}/${objectID}#mijn-beleid`
-        } else if (objectID) {
-            // User is editing an existing object and came from an detail page
-            return `/muteer/${overzichtSlug}/${objectID}`
+    const generateSlugPreviousPage = () => {
+        if (titleSingular === 'Beleidskeuze' || titleSingular === 'Maatregel') {
+            if (!userIsEditing && location.hash === '#mijn-beleid') {
+                // User is creating a new object and came from his/her own beleid
+                return `/muteer/mijn-beleid`
+            } else if (!userIsEditing && location.hash !== '#mijn-beleid') {
+                // User is creating a new object and came from an overview page
+                return `/muteer/${overviewSlug}`
+            } else if (userIsEditing && location.hash === '#mijn-beleid') {
+                // User is editing an existing object and came from a detail page from his/her own beleid
+                return `/muteer/${overviewSlug}/${objectID}#mijn-beleid`
+            } else if (userIsEditing) {
+                // User is editing an existing object and came from an detail page
+                return `/muteer/${overviewSlug}/${objectID}`
+            } else {
+                return `/muteer/${overviewSlug}`
+            }
         } else {
-            // Fallback
-            return `/muteer/${overzichtSlug}`
+            if (location.hash === '#mijn-beleid') {
+                return `/muteer/mijn-beleid`
+            } else {
+                return `/muteer/${overviewSlug}`
+            }
         }
     }
 
     const mainTitle = getMainTitle()
-    const backUrl = getBackUrl()
+    const previousPageSlug = generateSlugPreviousPage()
 
     return (
         <div className="relative w-full px-6 py-24 bg-pzh-blue edit-header">
@@ -66,9 +73,8 @@ function MutatePolicyHeading({
                     <ButtonBackToPage
                         terugNaar={titlePlural.toLowerCase()}
                         color="text-white"
-                        url={backUrl}
+                        url={previousPageSlug}
                     />
-
                     {isLoading ? (
                         <LoaderMainTitle />
                     ) : (

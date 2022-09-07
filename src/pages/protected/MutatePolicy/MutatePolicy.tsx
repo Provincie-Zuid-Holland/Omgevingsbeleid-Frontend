@@ -13,8 +13,7 @@ import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
 import { ContainerMain } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import { filteredDimensieConstants } from '@/constants/dimensies'
-// import { AMBITIES } from '@/constants/policyObjects'
-import * as policyObjects from '@/constants/policyObjects'
+import policyObjects from '@/constants/policyObjects'
 import { AuthContext } from '@/context/AuthContext'
 import { useFullMutateRights } from '@/hooks/useFullMutateRights'
 import useIsWijzigVigerend from '@/hooks/useIsWijzigVigerend'
@@ -142,24 +141,12 @@ const MutatePolicy = ({
     })
 
     const handleFormSubmit = (formState: MutateWriteObjects) => {
-        // TODO: Remove this as it is now checked with the Yup schema
-        // if (
-        //     checkContainsRequiredUnfilledField(
-        //         formState,
-        //         dimensieConstants,
-        //         isWijzigVigerend
-        //     )
-        // ) {
-        //     return
-        // }
-
         const formattedFormState = formatConnectionsForAPI(
             formatDatesForAPI(formState) as MutateReadObjects,
             titleSingular
         )
-        console.log('1')
+
         if (!formattedFormState) return
-        console.log('2')
 
         if (objectID) {
             mutatePolicyLineage.mutate({
@@ -227,14 +214,12 @@ const MutatePolicy = ({
                             </title>
                         </Helmet>
                         <MutatePolicyHeading
+                            policyObjectMeta={policyConstants.META}
                             userIsEditing={!!objectID}
                             isLoading={lineageIsLoading}
                             objectTitle={values?.Titel || ''}
-                            titleSingular={titleSingular}
-                            overzichtSlug={objectSlugOverviewPage || ''}
-                            titlePlural={titlePlural}
                         />
-                        <ContainerMain className="mt-16">
+                        <ContainerMain className="mt-8">
                             <Form className="w-full">
                                 {titleSingular === 'ambitie' ? (
                                     <FieldsAmbities />
@@ -257,7 +242,6 @@ const MutatePolicy = ({
                                 ) : null}
                                 <ButtonSubmitFixed
                                     submit={() => {
-                                        console.log({ isValid, errors, values })
                                         if (isValid) {
                                             handleFormSubmit(values)
                                         } else {

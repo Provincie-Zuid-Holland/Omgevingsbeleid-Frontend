@@ -10,6 +10,7 @@ import {
     useGetValidBeleidsdoelen,
 } from '@/api/fetchers'
 import { BeleidsdoelenWrite } from '@/api/fetchers.schemas'
+import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
 import { schemaDefaults, generateSchemaTitles } from '@/utils/yupSchema'
 
@@ -42,13 +43,15 @@ const beleidsdoelenMeta: SchemaMeta<typeof queryBeleidsdoelen> = {
 }
 
 // TODO: @Jordy add null type to eind & begin dates
-export const SCHEMA: ObjectSchema<BeleidsdoelenWrite> = object({
-    Titel: schemaDefaults.Titel,
-    Omschrijving: schemaDefaults.optionalString,
-    Weblink: schemaDefaults.optionalString,
-    Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.notRequired,
-    Eind_Geldigheid: schemaDefaults.Eind_Geldigheid,
-}).meta(beleidsdoelenMeta)
+export const SCHEMA: ObjectSchema<MutatedPolicySchema<BeleidsdoelenWrite>> =
+    object({
+        Titel: schemaDefaults.Titel,
+        Omschrijving: schemaDefaults.optionalString,
+        Weblink: schemaDefaults.optionalString,
+        Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.notRequired,
+        Eind_Geldigheid: schemaDefaults.Eind_Geldigheid,
+        Ambities: schemaDefaults.listReference,
+    }).meta(beleidsdoelenMeta)
 
 export const META = SCHEMA.describe().meta as SchemaMeta<
     typeof queryBeleidsdoelen

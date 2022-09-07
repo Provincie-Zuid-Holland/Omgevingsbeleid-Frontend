@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { MemoryRouter } from 'react-router-dom'
 
 import allDimensies from '@/constants/dimensies'
-import * as policyObjects from '@/constants/policyObjects'
+import policyObjects from '@/constants/policyObjects'
 import AuthProvider from '@/context/AuthContext'
 
 import MutatePolicy from './MutatePolicy'

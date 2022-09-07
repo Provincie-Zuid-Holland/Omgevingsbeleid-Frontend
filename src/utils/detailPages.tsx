@@ -32,6 +32,7 @@ import {
 } from '@/api/fetchers'
 import ProtectedRoute from '@/App/Routes/ProtectedRoute'
 import allDimensies, { filteredDimensieConstants } from '@/constants/dimensies'
+import policyObjects from '@/constants/policyObjects'
 import {
     BeleidsmodulesOverview,
     Beleidsrelaties,
@@ -40,6 +41,7 @@ import {
     Overview,
     VerordeningenstructuurOverzicht,
 } from '@/pages/protected'
+import MutatePolicy from '@/pages/protected/MutatePolicy'
 import UniversalObjectCRUD from '@/pages/protected/Overview/UniversalObjectCRUD'
 
 export type DetailPageEndpoint =
@@ -78,11 +80,11 @@ export type DetailPageValidEndpoint =
     | typeof getValidVerordeningen
     | typeof getValidGebiedsprogrammas
 
-const getOverview = (dimensie: keyof typeof allDimensies) => (
+const getOverview = (policyType: keyof typeof policyObjects) => (
     <ProtectedRoute
         redirectTo="/muteer/dashboard"
         roles={
-            dimensie === 'BELEIDSMODULES'
+            policyType === 'BELEIDSMODULES'
                 ? [
                       'Beheerder',
                       'Functioneel beheerder',
@@ -103,19 +105,19 @@ const getOverview = (dimensie: keyof typeof allDimensies) => (
         }>
         <Overview
             dimensieConstants={
-                allDimensies[dimensie] as filteredDimensieConstants
+                allDimensies[policyType] as filteredDimensieConstants
             }
         />
     </ProtectedRoute>
 )
 
-const getChildren = (dimensie: keyof typeof allDimensies) => [
+const getChildren = (policyType: keyof typeof policyObjects) => [
     {
         path: 'nieuw',
         element: (
             <UniversalObjectCRUD
                 dimensieConstants={
-                    allDimensies[dimensie] as filteredDimensieConstants
+                    allDimensies[policyType] as filteredDimensieConstants
                 }
             />
         ),
@@ -123,16 +125,16 @@ const getChildren = (dimensie: keyof typeof allDimensies) => [
     {
         path: ':single',
         children: [
-            ...(((dimensie === 'MAATREGELEN' ||
-                dimensie === 'BELEIDSKEUZES') && [
+            ...(((policyType === 'MAATREGELEN' ||
+                policyType === 'BELEIDSKEUZES') && [
                 {
                     index: true,
                     element: (
-                        <Detail dimensieConstants={allDimensies[dimensie]} />
+                        <Detail dimensieConstants={allDimensies[policyType]} />
                     ),
                 },
             ]) ||
-                (dimensie === 'BELEIDSMODULES' && [
+                (policyType === 'BELEIDSMODULES' && [
                     {
                         index: true,
                         element: <BeleidsmodulesOverview />,
@@ -142,11 +144,12 @@ const getChildren = (dimensie: keyof typeof allDimensies) => [
             {
                 path: 'bewerk',
                 element: (
-                    <UniversalObjectCRUD
-                        dimensieConstants={
-                            allDimensies[dimensie] as filteredDimensieConstants
-                        }
-                    />
+                    <MutatePolicy policyConstants={policyObjects[policyType]} />
+                    // <UniversalObjectCRUD
+                    //     dimensieConstants={
+                    //         allDimensies[dimensie] as filteredDimensieConstants
+                    //     }
+                    // />
                 ),
             },
         ],
@@ -214,16 +217,16 @@ const detailPages = [
         dataVersionEndpoint: getVersionBeleidsprestatiesObjectuuid,
         dataValidEndpoint: getValidBeleidsprestaties,
     },
-    {
-        slug: 'themas',
-        dataModel: allDimensies.THEMAS,
-        element: getOverview('THEMAS'),
-        children: getChildren('THEMAS'),
-        isPublic: true,
-        dataEndpoint: getThemasLineageid,
-        dataVersionEndpoint: getVersionThemasObjectuuid,
-        dataValidEndpoint: getValidThemas,
-    },
+    // {
+    //     slug: 'themas',
+    //     dataModel: allDimensies.THEMAS,
+    //     element: getOverview('THEMAS'),
+    //     children: getChildren('THEMAS'),
+    //     isPublic: true,
+    //     dataEndpoint: getThemasLineageid,
+    //     dataVersionEndpoint: getVersionThemasObjectuuid,
+    //     dataValidEndpoint: getValidThemas,
+    // },
     {
         slug: 'beleidsdoelen',
         dataModel: allDimensies.BELEIDSDOELEN,
@@ -234,29 +237,29 @@ const detailPages = [
         dataVersionEndpoint: getVersionBeleidsdoelenObjectuuid,
         dataValidEndpoint: getValidBeleidsdoelen,
     },
-    {
-        slug: 'gebiedsprogrammas',
-        dataModel: allDimensies.BELEIDSDOELEN,
-        element: getOverview('GEBIEDSPROGRAMMAS'),
-        children: getChildren('GEBIEDSPROGRAMMAS'),
-        isPublic: true,
-        dataEndpoint: getGebiedsprogrammas,
-        dataVersionEndpoint: getVersionGebiedsprogrammasObjectuuid,
-        dataValidEndpoint: getValidGebiedsprogrammas,
-    },
-    {
-        slug: 'verordeningen',
-        dataModel: allDimensies.VERORDENINGSARTIKEL,
-        element: (
-            <VerordeningenstructuurOverzicht
-                dataModel={allDimensies.VERORDENINGSTRUCTUUR}
-            />
-        ),
-        isPublic: true,
-        dataEndpoint: getVerordeningenLineageid,
-        dataVersionEndpoint: getVersionVerordeningenObjectuuid,
-        dataValidEndpoint: getValidVerordeningen,
-    },
+    // {
+    //     slug: 'gebiedsprogrammas',
+    //     dataModel: allDimensies.BELEIDSDOELEN,
+    //     element: getOverview('GEBIEDSPROGRAMMAS'),
+    //     children: getChildren('GEBIEDSPROGRAMMAS'),
+    //     isPublic: true,
+    //     dataEndpoint: getGebiedsprogrammas,
+    //     dataVersionEndpoint: getVersionGebiedsprogrammasObjectuuid,
+    //     dataValidEndpoint: getValidGebiedsprogrammas,
+    // },
+    // {
+    //     slug: 'verordeningen',
+    //     dataModel: allDimensies.VERORDENINGSARTIKEL,
+    //     element: (
+    //         <VerordeningenstructuurOverzicht
+    //             dataModel={allDimensies.VERORDENINGSTRUCTUUR}
+    //         />
+    //     ),
+    //     isPublic: true,
+    //     dataEndpoint: getVerordeningenLineageid,
+    //     dataVersionEndpoint: getVersionVerordeningenObjectuuid,
+    //     dataValidEndpoint: getValidVerordeningen,
+    // },
     {
         slug: 'beleidsrelaties',
         element: <Beleidsrelaties />,

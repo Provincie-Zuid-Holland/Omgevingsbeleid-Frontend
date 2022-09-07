@@ -10,6 +10,7 @@ import {
     useGetValidBelangen,
 } from '@/api/fetchers'
 import { BelangenWrite } from '@/api/fetchers.schemas'
+import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
 import { schemaDefaults, generateSchemaTitles } from '@/utils/yupSchema'
 
@@ -40,8 +41,7 @@ const belangenMeta: SchemaMeta<typeof queryBelangen> = {
     query: queryBelangen,
 }
 
-// TODO: @Jordy add null type to eind & begin dates
-export const SCHEMA: ObjectSchema<BelangenWrite> = object({
+export const SCHEMA: ObjectSchema<MutatedPolicySchema<BelangenWrite>> = object({
     Titel: schemaDefaults.Titel,
     Omschrijving: schemaDefaults.optionalString,
     Type: schemaDefaults.optionalString,

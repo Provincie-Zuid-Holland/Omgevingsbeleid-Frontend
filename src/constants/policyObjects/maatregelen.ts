@@ -10,6 +10,7 @@ import {
     useGetValidMaatregelen,
 } from '@/api/fetchers'
 import { MaatregelenWrite } from '@/api/fetchers.schemas'
+import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
 import { schemaDefaults, generateSchemaTitles } from '@/utils/yupSchema'
 
@@ -42,9 +43,20 @@ const maatregelenMeta: SchemaMeta<typeof queryMaatregelen> = {
 }
 
 // TODO: @Jordy add null type to eind & begin dates
-export const SCHEMA: ObjectSchema<MaatregelenWrite> = object({
+export const SCHEMA: ObjectSchema<
+    MutatedPolicySchema<
+        MaatregelenWrite & {
+            Begin_Geldigheid?: string | null
+            Eind_Geldigheid?: string | null
+        }
+    >
+> = object({
     Titel: schemaDefaults.Titel,
     Aanpassing_Op: schemaDefaults.optionalString,
+    Gebied: schemaDefaults.optionalString,
+    Gebied_Duiding: schemaDefaults.optionalString,
+    Tags: schemaDefaults.optionalString,
+    Toelichting_Raw: schemaDefaults.optionalString,
     Eigenaar_1: schemaDefaults.optionalString,
     Eigenaar_2: schemaDefaults.optionalString,
     Opdrachtgever: schemaDefaults.optionalString,
