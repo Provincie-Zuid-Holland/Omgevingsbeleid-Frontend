@@ -9,6 +9,29 @@ import {
     getVerordeningen,
 } from '@/api/fetchers'
 
+const connectionProperties = [
+    'belangen',
+    'beleidsdoelen',
+    'themas',
+    'beleidsprestaties',
+    'maatregelen',
+    'beleidsregels',
+    'taken',
+    'verordening',
+] as const
+export type connectionPropertiesType = typeof connectionProperties[number]
+
+const propertyNames = [
+    'Belangen',
+    'Beleidsdoelen',
+    'Themas',
+    'Beleidsprestaties',
+    'Maatregelen',
+    'Verordeningen',
+    'Beleidsregels',
+] as const
+export type propertyNamesType = typeof propertyNames[number]
+
 const objecten = {
     belangen: {
         buttonTekst: 'belang',
@@ -90,6 +113,6 @@ const objecten = {
         propertyName: 'Beleidsregels',
         type: 'Beleidsregel',
     },
-}
+} as const
 
 export default objecten
