@@ -45,7 +45,7 @@
         "smoothscroll-polyfill": "^0.4.4",
         "typescript": "4.4.4",
         "url-search-params-polyfill": "^8.1.1",
-        "yup": "^0.32.11"
+        "yup": "v1.0.0-beta.7"
     },
     "scripts": {
         "build:css": "npx tailwindcss -i node_modules/@pzh-ui/css/src/tailwind.src.css -o src/css/tailwind.css",
