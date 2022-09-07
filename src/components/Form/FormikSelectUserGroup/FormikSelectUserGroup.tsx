@@ -9,6 +9,7 @@ import {
     GebruikersRead,
     MaatregelenWrite,
 } from '@/api/fetchers.schemas'
+import { LoaderCard } from '@/components/Loader'
 
 interface OptionType {
     value: string
@@ -189,7 +190,21 @@ const FormikSelectUserGroup = ({
                         </div>
                     </div>
                 </>
-            ) : null}
+            ) : (
+                <div className="mt-4">
+                    <div className="flex w-1/2">
+                        <LoaderCard className="mr-2" />
+                    </div>
+                    <div className="flex">
+                        <LoaderCard className="mr-2" />
+                        <LoaderCard className="ml-2" />
+                    </div>
+                    <div className="flex">
+                        <LoaderCard className="mr-2" />
+                        <LoaderCard className="ml-2" />
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
