@@ -1,11 +1,4 @@
-import {
-    render,
-    act,
-    waitFor,
-    screen,
-    waitForElementToBeRemoved,
-    fireEvent,
-} from '@testing-library/react'
+import { render, act, waitFor, screen, fireEvent } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import '@testing-library/jest-dom'
 
