@@ -33,22 +33,18 @@ const beleidsdoelenTitles = generateSchemaTitles({
 
 const beleidsdoelenMeta: SchemaMeta<typeof queryBeleidsdoelen> = {
     title: beleidsdoelenTitles,
-    description:
-        'De beleidsdoelen geven aan wat de provincie wil bereiken. De beleidsdoelen zijn een uitwerking van de ambities en komen voort uit de begroting.',
     slug: {
         overview: 'beleidsdoelen',
-        new: 'nieuw-beleidsdoel',
     },
     query: queryBeleidsdoelen,
 }
 
-// TODO: @Jordy add null type to eind & begin dates
 export const SCHEMA: ObjectSchema<MutatedPolicySchema<BeleidsdoelenWrite>> =
     object({
         Titel: schemaDefaults.Titel,
         Omschrijving: schemaDefaults.optionalString,
         Weblink: schemaDefaults.optionalString,
-        Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.notRequired,
+        Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.required,
         Eind_Geldigheid: schemaDefaults.Eind_Geldigheid,
         Ambities: schemaDefaults.listReference,
     }).meta(beleidsdoelenMeta)

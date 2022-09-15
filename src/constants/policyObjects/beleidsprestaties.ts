@@ -33,11 +33,8 @@ const beleidsprestatiesTitles = generateSchemaTitles({
 
 const beleidsprestatiesMeta: SchemaMeta<typeof queryBeleidsprestaties> = {
     title: beleidsprestatiesTitles,
-    description:
-        'De beleidsprestaties geven aan wat de provincie gaat doen om haar doelen te behalen. De beleidsprestaties zijn een uitwerking van de beleidsdoelen en komen voort uit de begroting.',
     slug: {
         overview: 'beleidsprestaties',
-        new: 'nieuw-beleidsprestatie',
     },
     query: queryBeleidsprestaties,
 }
@@ -47,7 +44,7 @@ export const SCHEMA: ObjectSchema<MutatedPolicySchema<BeleidsprestatiesWrite>> =
         Titel: schemaDefaults.Titel,
         Omschrijving: schemaDefaults.optionalString,
         Weblink: schemaDefaults.optionalString,
-        Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.notRequired,
+        Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.required,
         Eind_Geldigheid: schemaDefaults.Eind_Geldigheid,
     }).meta(beleidsprestatiesMeta)
 

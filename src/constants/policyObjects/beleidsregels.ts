@@ -33,16 +33,12 @@ const beleidsregelsTitles = generateSchemaTitles({
 
 const beleidsregelsMeta: SchemaMeta<typeof queryBeleidsregels> = {
     title: beleidsregelsTitles,
-    description:
-        'De beleidsregels geven aan waar de provincie zich minimaal voor moet inspannen. De beleidsregels zijn individuele regels die de provincie zelf vaststelt.',
     slug: {
         overview: 'beleidsregels',
-        new: 'nieuw-beleidsregel',
     },
     query: queryBeleidsregels,
 }
 
-// TODO: @Jordy add null type to eind & begin dates
 export const SCHEMA: ObjectSchema<MutatedPolicySchema<BeleidsregelsWrite>> =
     object({
         Titel: schemaDefaults.Titel,

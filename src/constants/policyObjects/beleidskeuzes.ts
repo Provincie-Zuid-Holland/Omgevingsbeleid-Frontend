@@ -1,18 +1,18 @@
 import { object, ObjectSchema } from 'yup'
 
 import {
-    usePostBeleidskeuzes,
-    useGetBeleidskeuzesLineageid,
-    usePatchBeleidskeuzesLineageid,
-    useGetValidBeleidskeuzesLineageid,
     useGetBeleidskeuzes,
-    useGetVersionBeleidskeuzesObjectuuid,
+    useGetBeleidskeuzesLineageid,
     useGetValidBeleidskeuzes,
+    useGetValidBeleidskeuzesLineageid,
+    useGetVersionBeleidskeuzesObjectuuid,
+    usePatchBeleidskeuzesLineageid,
+    usePostBeleidskeuzes,
 } from '@/api/fetchers'
-import { BeleidskeuzesRead, BeleidskeuzesWrite } from '@/api/fetchers.schemas'
+import { BeleidskeuzesWrite } from '@/api/fetchers.schemas'
 import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
-import { schemaDefaults, generateSchemaTitles } from '@/utils/yupSchema'
+import { generateSchemaTitles, schemaDefaults } from '@/utils/yupSchema'
 
 const queryBeleidskeuzes: SchemaMetaQueries = {
     usePost: usePostBeleidskeuzes,
@@ -33,18 +33,17 @@ const beleidskeuzesTitles = generateSchemaTitles({
 
 const beleidskeuzesMeta: SchemaMeta<typeof queryBeleidskeuzes> = {
     title: beleidskeuzesTitles,
-    description:
-        'De beleidskeuzes geven aan wat de provincie wil bereiken. De beleidskeuzes zijn een uitwerking van de ambities en komen voort uit de begroting.',
     slug: {
         overview: 'beleidskeuzes',
-        new: 'nieuw-beleidskeuze',
     },
     query: queryBeleidskeuzes,
 }
 
-export const SCHEMA: ObjectSchema<
-    MutatedPolicySchema<BeleidskeuzesWrite | BeleidskeuzesRead>
-> = object({
+type BeleidskeuzeSchema = ObjectSchema<MutatedPolicySchema<BeleidskeuzesWrite>>
+
+export const beleidskeuzeStatussesWithStartValidity = ['Ontwerp GS Concept']
+
+export const SCHEMA: BeleidskeuzeSchema = object({
     Titel: schemaDefaults.Titel,
     Aanleiding: schemaDefaults.optionalString,
     Aanpassing_Op: schemaDefaults.optionalString,
@@ -62,9 +61,9 @@ export const SCHEMA: ObjectSchema<
     Tags: schemaDefaults.optionalString,
     Weblink: schemaDefaults.optionalString,
     Status: schemaDefaults.Status,
-    Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.requiredBasedOnStatusses([
-        'Ontwerp GS Concept',
-    ]),
+    Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.requiredBasedOnStatusses(
+        beleidskeuzeStatussesWithStartValidity
+    ),
     Eind_Geldigheid: schemaDefaults.Eind_Geldigheid,
     Ambities: schemaDefaults.listReference,
     Belangen: schemaDefaults.listReference,
@@ -81,4 +80,5 @@ export const META = SCHEMA.describe().meta as SchemaMeta<
     typeof queryBeleidskeuzes
 >
 
-export const EMPTY_WRITE_OBJECT: BeleidskeuzesWrite = SCHEMA.getDefault()
+export const EMPTY_WRITE_OBJECT: MutatedPolicySchema<BeleidskeuzesWrite> =
+    SCHEMA.getDefault()

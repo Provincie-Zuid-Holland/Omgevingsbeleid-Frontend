@@ -5,7 +5,9 @@ import * as BELEIDSKEUZES from './beleidskeuzes'
 import * as BELEIDSMODULES from './beleidsmodules'
 import * as BELEIDSPRESTATIES from './beleidsprestaties'
 import * as BELEIDSREGELS from './beleidsregels'
+import * as GEBIEDSPROGRAMMAS from './gebiedsprogrammas'
 import * as MAATREGELEN from './maatregelen'
+import * as THEMAS from './themas'
 
 const policyObjects = {
     AMBITIES,
@@ -16,6 +18,8 @@ const policyObjects = {
     BELEIDSPRESTATIES,
     BELEIDSREGELS,
     MAATREGELEN,
+    GEBIEDSPROGRAMMAS,
+    THEMAS,
 }
 
 export type PolicyObjectsMeta =

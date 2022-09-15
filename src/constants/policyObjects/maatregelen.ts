@@ -33,16 +33,12 @@ const maatregelenTitles = generateSchemaTitles({
 
 const maatregelenMeta: SchemaMeta<typeof queryMaatregelen> = {
     title: maatregelenTitles,
-    description:
-        'De maatregelen geven aan wat de provincie gaat doen om de keuzes uit te voeren. De maatregelen zijn een uitwerking van de beleidskeuzes en komen voort uit het Omgevingsprogramma.',
     slug: {
         overview: 'maatregelen',
-        new: 'nieuw-maatregel',
     },
     query: queryMaatregelen,
 }
 
-// TODO: @Jordy add null type to eind & begin dates
 export const SCHEMA: ObjectSchema<
     MutatedPolicySchema<
         MaatregelenWrite & {

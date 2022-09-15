@@ -33,11 +33,8 @@ const ambitiesTitles = generateSchemaTitles({
 
 const ambitiesMeta: SchemaMeta<typeof queryAmbities> = {
     title: ambitiesTitles,
-    description:
-        'De ambities geven aan waar de provincie naar wil streven. De ambities komen voort uit het coalitieakkoord en worden vastgesteld in de Omgevingsvisie.',
     slug: {
         overview: 'ambities',
-        new: 'nieuwe-ambitie',
     },
     query: queryAmbities,
 }

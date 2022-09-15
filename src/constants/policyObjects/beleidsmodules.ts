@@ -33,15 +33,12 @@ const beleidsmodulesTitles = generateSchemaTitles({
 
 const beleidsmodulesMeta: SchemaMeta<typeof queryBeleidsmodules> = {
     title: beleidsmodulesTitles,
-    description: null,
     slug: {
         overview: 'beleidsmodules',
-        new: 'nieuw-beleidsmodule',
     },
     query: queryBeleidsmodules,
 }
 
-// TODO: @Jordy add null type to eind & begin dates
 export const SCHEMA: ObjectSchema<MutatedPolicySchema<BeleidsmodulesWrite>> =
     object({
         Titel: schemaDefaults.Titel,

@@ -33,10 +33,8 @@ const belangenTitles = generateSchemaTitles({
 
 const belangenMeta: SchemaMeta<typeof queryBelangen> = {
     title: belangenTitles,
-    description: null,
     slug: {
         overview: 'belangen',
-        new: 'nieuw-belang',
     },
     query: queryBelangen,
 }
@@ -46,7 +44,7 @@ export const SCHEMA: ObjectSchema<MutatedPolicySchema<BelangenWrite>> = object({
     Omschrijving: schemaDefaults.optionalString,
     Type: schemaDefaults.optionalString,
     Weblink: schemaDefaults.optionalString,
-    Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.notRequired,
+    Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.required,
     Eind_Geldigheid: schemaDefaults.Eind_Geldigheid,
 }).meta(belangenMeta)
 
