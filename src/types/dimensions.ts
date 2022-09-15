@@ -72,6 +72,17 @@ export type MutateWriteObjects =
     | BelangenWrite
     | AmbitiesWrite
 
+export type TransformedMutateWriteObjects =
+    | MutatedPolicySchema<ThemasWrite>
+    | MutatedPolicySchema<MaatregelenWrite>
+    | MutatedPolicySchema<BeleidsregelsWrite>
+    | MutatedPolicySchema<BeleidsprestatiesWrite>
+    | MutatedPolicySchema<BeleidsmodulesWrite>
+    | MutatedPolicySchema<BeleidskeuzesWrite>
+    | MutatedPolicySchema<BeleidsdoelenWrite>
+    | MutatedPolicySchema<BelangenWrite>
+    | MutatedPolicySchema<AmbitiesWrite>
+
 export type BeleidskeuzeConnections =
     | BeleidskeuzesReadVerordeningenItem
     | BeleidskeuzesReadThemasItem
