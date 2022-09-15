@@ -136,9 +136,10 @@ const FormikSelectUserGroup = ({
                     <div className="w-1/2">
                         <div className="mr-2">
                             <span className="text-[0.8rem] leading-5">
-                                Opdrachtgever
+                                Ambtelijk opdrachtgever
                             </span>
                             <FormikSelect
+                                isClearable
                                 testId="formik-select-opdrachtgever"
                                 name="Opdrachtgever"
                                 options={formattedUserList.Opdrachtgever}
@@ -151,6 +152,7 @@ const FormikSelectUserGroup = ({
                                 Eerste eigenaar
                             </span>
                             <FormikSelect
+                                isClearable
                                 testId="formik-select-eigenaar-1"
                                 name="Eigenaar_1"
                                 options={formattedUserList.Eigenaar_1}
@@ -161,6 +163,7 @@ const FormikSelectUserGroup = ({
                                 Tweede eigenaar
                             </span>
                             <FormikSelect
+                                isClearable
                                 testId="formik-select-eigenaar-2"
                                 name="Eigenaar_2"
                                 options={formattedUserList.Eigenaar_2}
@@ -173,6 +176,7 @@ const FormikSelectUserGroup = ({
                                 Eerste portefeuillehouder
                             </span>
                             <FormikSelect
+                                isClearable
                                 testId="formik-select-portefeuillehouder-1"
                                 name="Portefeuillehouder_1"
                                 options={formattedUserList.Portefeuillehouder_1}
@@ -183,6 +187,7 @@ const FormikSelectUserGroup = ({
                                 Tweede portefeuillehouder
                             </span>
                             <FormikSelect
+                                isClearable
                                 testId="formik-select-portefeuillehouder-2"
                                 name="Portefeuillehouder_2"
                                 options={formattedUserList.Portefeuillehouder_2}
