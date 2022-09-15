@@ -30,7 +30,6 @@ const scrollToFormikError = (
     formElement?.focus()
     window.scrollTo({
         top: yPosition,
-        behavior: 'smooth',
     })
 }
 
