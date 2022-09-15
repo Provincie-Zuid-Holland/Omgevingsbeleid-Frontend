@@ -9,6 +9,7 @@ import {
     BeleidsdoelenWrite,
     BelangenWrite,
     AmbitiesWrite,
+    GebiedsprogrammasWrite,
 } from '@/api/fetchers.schemas'
 
 const ambitieEmptyWrite: AmbitiesWrite = {
@@ -129,6 +130,16 @@ const verordeningEmptyWrite: VerordeningenWrite = {
     Weblink: undefined,
 }
 
+const gebiedsprogrammaEmptyWrite: GebiedsprogrammasWrite = {
+    Afbeelding: undefined,
+    Maatregelen: undefined,
+    Titel: undefined,
+    Omschrijving: undefined,
+    Begin_Geldigheid: undefined,
+    Eind_Geldigheid: undefined,
+    Status: undefined,
+}
+
 export const getWriteObjectProperties = (titleSingular: string) => {
     switch (titleSingular) {
         case 'ambitie':
@@ -162,6 +173,10 @@ export const getWriteObjectProperties = (titleSingular: string) => {
         case 'beleidsprestatie':
             return Object.keys(beleidsprestatieEmptyWrite) as Array<
                 keyof typeof beleidsprestatieEmptyWrite
+            >
+        case 'gebiedsprogramma':
+            return Object.keys(gebiedsprogrammaEmptyWrite) as Array<
+                keyof typeof gebiedsprogrammaEmptyWrite
             >
         case 'thema':
             return Object.keys(themaEmptyWrite) as Array<
