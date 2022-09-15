@@ -214,10 +214,6 @@ describe('AppRoutes', () => {
 
         fireEvent.click(screen.getByText('Nieuwe beleidsmodule'))
 
-        expect(
-            screen.getByText('Voeg een nieuwe module toe')
-        ).toBeInTheDocument()
-
         fireEvent.click(screen.getByText('Terug naar beleidsmodules'))
 
         await waitFor(() => {

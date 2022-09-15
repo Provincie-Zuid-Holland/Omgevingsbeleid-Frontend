@@ -1,15 +1,48 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import FormikSelectUserGroup, { FormikSelectUserGroupProps } from './FormikSelectUserGroup';
+import {
+    render,
+    screen,
+    waitForElementToBeRemoved,
+} from '@testing-library/react'
+import '@testing-library/jest-dom'
+import { Formik } from 'formik'
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+import FormikSelectUserGroup, {
+    FormikSelectUserGroupProps,
+} from './FormikSelectUserGroup'
 
 describe('FormikSelectUserGroup', () => {
-    const defaultProps: FormikSelectUserGroupProps = {};
+    const defaultProps = {}
+    const queryClient = new QueryClient()
+    const handleSubmit = jest.fn()
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<FormikSelectUserGroup {...props} />);
+    const setup = (customProps?: FormikSelectUserGroupProps) => {
+        const props = { ...defaultProps, ...customProps }
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Formik
+                    initialValues={{
+                        Afbeelding: null,
+                    }}
+                    onSubmit={handleSubmit}>
+                    <FormikSelectUserGroup {...props} />
+                </Formik>
+            </QueryClientProvider>
+        )
+    }
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('FormikSelectUserGroup')).toBeTruthy();
-    });
-});
+    it('Component renders', async () => {
+        setup()
+        await waitForElementToBeRemoved(() => screen.getAllByRole('img'))
+        expect(screen.getByText('Personen')).toBeInTheDocument()
+        expect(screen.getByText('Ambtelijk opdrachtgever')).toBeInTheDocument()
+        expect(screen.getByText('Eerste eigenaar')).toBeInTheDocument()
+        expect(screen.getByText('Tweede eigenaar')).toBeInTheDocument()
+        expect(
+            screen.getByText('Eerste portefeuillehouder')
+        ).toBeInTheDocument()
+        expect(
+            screen.getByText('Tweede portefeuillehouder')
+        ).toBeInTheDocument()
+    })
+})

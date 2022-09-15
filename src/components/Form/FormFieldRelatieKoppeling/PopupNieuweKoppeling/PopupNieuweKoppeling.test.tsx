@@ -15,7 +15,6 @@ describe('PopupNieuweKoppeling', () => {
     const types = [
         'belangen',
         'taken',
-        'ambities',
         'beleidsdoelen',
         'themas',
         'beleidsregels',
