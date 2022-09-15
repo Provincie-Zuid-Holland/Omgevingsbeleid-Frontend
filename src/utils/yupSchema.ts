@@ -1,57 +1,73 @@
-import { string, object, array, mixed } from 'yup'
+import { string, object, array, mixed, lazy, number } from 'yup'
 
 import { BeleidskeuzesWriteStatus } from '@/api/fetchers.schemas'
 
 const possibleStatusses = Object.values(BeleidskeuzesWriteStatus)
 
-// TODO: Add required for fields based on status
-
 /**
  * Contains the yup validation schema for shared properties
  */
 export const schemaDefaults = {
-    optionalString: string().optional(),
-    listReference: array().of(
-        object({
-            Koppeling_Omschrijving: string().required(),
-            UUID: string().required(),
-        })
+    requiredString: (msg: string) => string().required(msg),
+    optionalString: string().optional().nullable(),
+    listReference: lazy(value =>
+        value?.UUID !== undefined
+            ? array()
+                  .of(
+                      object({
+                          Koppeling_Omschrijving: string(),
+                          UUID: string(),
+                      })
+                  )
+                  .nullable()
+            : array()
+                  .of(
+                      object({
+                          Koppeling_Omschrijving: string(),
+                          Object: object(),
+                      })
+                  )
+                  .nullable()
     ),
     Titel: string()
         .required('Vul een titel in')
         .min(4, 'Vul een titel in van minimaal 4 karakters')
         .max(100, 'Vul een titel in van maximaal 100 karakters')
-        .default(undefined),
+        .default(undefined)
+        .nullable(),
     Begin_Geldigheid: {
         required: string()
             .required('Vul een datum van inwerkingstreding in')
             .default(undefined),
         requiredBasedOnStatusses: (statusses: string[]) =>
-            string().test(
-                'validate-based-on-status',
-                'Vul een datum van inwerkingstreding in',
-                function (Begin_Geldigheid) {
-                    const currentStatus = this.parent.Status
-                    if (
-                        statusses.includes(currentStatus) &&
-                        !Begin_Geldigheid
-                    ) {
-                        return false
-                    } else if (
-                        statusses.includes(currentStatus) &&
-                        Begin_Geldigheid
-                    ) {
-                        return true
-                    } else if (!statusses.includes(currentStatus)) {
-                        return true
-                    } else {
-                        return false
+            string()
+                .test(
+                    'validate-based-on-status',
+                    'Vul een datum van inwerkingstreding in',
+                    function (Begin_Geldigheid) {
+                        const currentStatus = this.parent.Status
+                        if (
+                            statusses.includes(currentStatus) &&
+                            !Begin_Geldigheid
+                        ) {
+                            return false
+                        } else if (
+                            statusses.includes(currentStatus) &&
+                            Begin_Geldigheid
+                        ) {
+                            return true
+                        } else if (!statusses.includes(currentStatus)) {
+                            return true
+                        } else {
+                            return false
+                        }
                     }
-                }
-            ),
-        notRequired: string().default(undefined),
+                )
+                .nullable(),
+        notRequired: string().default(undefined).nullable(),
     },
     Eind_Geldigheid: string()
+        .nullable()
         .optional()
         .test(
             'after-start-validity',
@@ -64,7 +80,7 @@ export const schemaDefaults = {
                 return startValidity < endValidity
             }
         ),
-    Status: mixed().oneOf(possibleStatusses),
+    Status: mixed().oneOf(possibleStatusses).required(),
 }
 
 export const generateSchemaTitles = ({
