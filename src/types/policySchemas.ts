@@ -83,10 +83,8 @@ export type SchemaMeta<T> = {
         prefixPlural: string
         prefixPluralCapitalized: string
     }
-    description: string | null
     slug: {
         overview: string
-        new: string
     }
     query: T
 }
