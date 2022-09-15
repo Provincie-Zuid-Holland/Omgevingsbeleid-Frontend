@@ -3,6 +3,7 @@
  */
 const setCorrectStatus = (obj: any, modus: string | null) => {
     if (
+        obj &&
         'Status' in obj &&
         obj.Status === 'Vigerend' &&
         modus !== 'wijzig_vigerend'
