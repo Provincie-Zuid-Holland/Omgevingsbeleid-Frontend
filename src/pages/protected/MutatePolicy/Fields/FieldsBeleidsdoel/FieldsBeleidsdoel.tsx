@@ -1,8 +1,13 @@
 import { FormikDate, FormikInput, FormikTextArea } from '@pzh-ui/components'
+import { useContext } from 'react'
 
 import { ContainerFormSection } from '@/components/Container'
+import FormSpacer from '@/components/Form/FormSpacer'
+
+import MutateContext from '../../MutateContext'
 
 const FieldsBeleidsdoel = () => {
+    const { isRequired } = useContext(MutateContext)
     return (
         <>
             <ContainerFormSection
@@ -11,7 +16,7 @@ const FieldsBeleidsdoel = () => {
                 <FormikInput
                     name="Titel"
                     label="Titel"
-                    required={true}
+                    required={isRequired('Titel')}
                     description="Formuleer in enkele woorden de titel van deze beleidsprestatie."
                 />
             </ContainerFormSection>
@@ -22,6 +27,7 @@ const FieldsBeleidsdoel = () => {
                 <FormikTextArea
                     name="Omschrijving"
                     label="Omschrijving"
+                    required={isRequired('Omschrijving')}
                     description="Geef een korte omschrijving van dit beleidsdoel."
                 />
             </ContainerFormSection>
@@ -33,22 +39,24 @@ const FieldsBeleidsdoel = () => {
                     label="IDMS"
                     description="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren)."
                     name="Weblink"
+                    required={isRequired('Weblink')}
                     type="text"
-                    className="mb-6"
                 />
+                <FormSpacer />
                 <FormikDate
-                    required={true}
                     label="Inwerkingtreding"
                     description="De datum waarop dit object inwerking moet treden."
                     name="Begin_Geldigheid"
-                    className="mb-6"
+                    required={isRequired('Begin_Geldigheid')}
                     placeholderText="dd-mm-jjjj"
                 />
+                <FormSpacer />
                 <FormikDate
                     label="Uitwerkingtreding"
                     description="De datum waarop dit object uitwerking moet treden."
                     placeholderText="dd-mm-jjjj"
                     name="Eind_Geldigheid"
+                    required={isRequired('Eind_Geldigheid')}
                 />
             </ContainerFormSection>
         </>

@@ -10,13 +10,18 @@ import { useContext } from 'react'
 import { ContainerFormSection } from '@/components/Container'
 import FormikSelectUserGroup from '@/components/Form/FormikSelectUserGroup'
 import FormikWerkingsgebied from '@/components/Form/FormikWerkingsgebied'
+import FormSpacer from '@/components/Form/FormSpacer'
+import { richTextEditorWithImageProps } from '@/utils/form'
 
 import MutateContext from '../../MutateContext'
 
 const FieldsMaatregel = () => {
-    const { userHasFullMutateRights, isVigerend, hideAdditionalInfo } =
-        useContext(MutateContext)
-
+    const {
+        userHasFullMutateRights,
+        isVigerend,
+        hideAdditionalInfo,
+        isRequired,
+    } = useContext(MutateContext)
     return (
         <>
             <ContainerFormSection
@@ -24,6 +29,7 @@ const FieldsMaatregel = () => {
                 beschrijving="De algemene informatie bevat een duidelijke titel.">
                 <FormikInput
                     label="Titel"
+                    required={isRequired('Titel')}
                     disabled={isVigerend}
                     description="Formuleer in enkele woorden de titel van de maatregel."
                     name="Titel"
@@ -40,24 +46,28 @@ const FieldsMaatregel = () => {
                 <FormikRte
                     disabled={isVigerend}
                     label="Omschrijving"
+                    required={isRequired('Omschrijving')}
                     description="Een maatregel beschrijft de wijze waarop uitvoering wordt gegeven aan beleid. Formuleer wat de provincie gaat realiseren, of de maatregel voor een specifiek gebied van toepassing is, aan welke beleidskeuzes de maatregel bijdraagt en in welke rol de provincie op zich neemt."
                     name="Toelichting"
                     placeholder="Schrijf hier uw omschrijving..."
-                    className="mb-6"
+                    {...richTextEditorWithImageProps}
                 />
+                <FormSpacer />
             </ContainerFormSection>
             <ContainerFormSection
                 titel="Werkingsgebied"
                 beschrijving="Het werkingsgebied geeft het gebied weer waar de maatregel betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld,  toegestaan of juist verboden.">
                 <FormikWerkingsgebied
                     disabled={isVigerend}
+                    required={isRequired('Gebied')}
                     titleSingular={'Maatregel'}
                     label="Selecteer werkingsgebied"
                     description="Selecteer het werkingsgebied wat bij deze maatregel van toepassing is. Heeft jouw maatregel nog geen geschikt werkingsgebied, of moet het huidige gebied aangepast worden? Neem dan contact op via omgevingsbeleid@pzh.nl."
                     dataObjectProperty="Gebied"
                 />
                 <FieldLabel
-                    name="Gebied_Duidig"
+                    name="Gebied_Duiding"
+                    required={isRequired('Gebied_Duiding')}
                     label="Intentie van het werkingsgebied"
                     description="Geef de intentie van het werkingsgebied aan. De intentie is de manier waarop de geometrie van het gebied geïnterpreteerd moet worden, niet de nauwkeurigheid van het gebied."
                 />
@@ -82,33 +92,26 @@ const FieldsMaatregel = () => {
                 beschrijving="In deze sectie vragen we aanvullende informatie zoals de link naar het IDMS besluitdocument en indien bekend, de datum van inwerkingtreding.">
                 <FormikInput
                     disabled={isVigerend}
-                    className="mb-6"
                     name="Weblink"
+                    required={isRequired('Weblink')}
                     label="IDMS"
                     placeholder="IDMS"
                     description="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren)."
                 />
-
-                <FormikInput
-                    disabled={isVigerend}
-                    className="mb-6"
-                    name="Besluitnummer"
-                    label="Besluitnummer"
-                    placeholder="Besluitnummer"
-                    description="Geef hier het PZH besluitnummer."
-                />
+                <FormSpacer />
                 <FormikDate
                     disabled={isVigerend}
-                    className="mb-6"
                     name="Begin_Geldigheid"
+                    required={isRequired('Begin_Geldigheid')}
                     label="Inwerkingtreding"
                     placeholder="dd-mm-jjjj"
                     description="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
                 />
-
+                <FormSpacer />
                 <FormikDate
                     disabled={isVigerend}
                     name="Eind_Geldigheid"
+                    required={isRequired('Eind_Geldigheid')}
                     label="Uitwerkingtreding"
                     placeholder="dd-mm-jjjj"
                     description="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"

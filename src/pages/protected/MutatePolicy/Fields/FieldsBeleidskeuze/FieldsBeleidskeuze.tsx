@@ -8,13 +8,19 @@ import FormFieldSelectUserGroup from '@/components/Form/FormFieldSelectUserGroup
 import FormikRelationConnection from '@/components/Form/FormikRelationConnection'
 import FormikSelectUserGroup from '@/components/Form/FormikSelectUserGroup'
 import FormikWerkingsgebied from '@/components/Form/FormikWerkingsgebied'
+import FormSpacer from '@/components/Form/FormSpacer'
+import { beleidskeuzeStatussesWithStartValidity } from '@/constants/policyObjects/beleidskeuzes'
 
 import MutateContext from '../../MutateContext'
 
 const FieldsBeleidskeuze = () => {
     const { values } = useFormikContext<BeleidskeuzesWrite>()
-    const { userHasFullMutateRights, isVigerend, hideAdditionalInfo } =
-        useContext(MutateContext)
+    const {
+        userHasFullMutateRights,
+        isVigerend,
+        hideAdditionalInfo,
+        isRequired,
+    } = useContext(MutateContext)
     return (
         <>
             <ContainerFormSection
@@ -22,7 +28,7 @@ const FieldsBeleidskeuze = () => {
                 beschrijving="De algemene informatie bevat een duidelijke titel en de betrokken collega's.">
                 <FormikInput
                     label="Titel"
-                    required={true}
+                    required={isRequired('Titel')}
                     description="Formuleer in enkele woorden de titel van de beleidskeuze."
                     name="Titel"
                     type="text"
@@ -42,16 +48,16 @@ const FieldsBeleidskeuze = () => {
                     label="Wat wil de provincie bereiken?"
                     description="Hier geef je aan welke keuze de provincie heeft genomen. Formuleer in één of enkele zinnen wat de provincie wil bereiken en welke rechtsgevolgen dit eventueel heeft voor derden."
                     name="Omschrijving_Keuze"
-                    className="mb-6"
                 />
+                <FormSpacer />
                 <FormikRte
                     testId="formik-rte-aanleiding"
                     disabled={isVigerend}
                     label="Aanleiding"
                     description="De aanleiding geeft de lezer informatie over welke ontwikkelingen gaande zijn in de maatschappij en waarom de provincie hier op inspeelt. Beschrijf hier welk probleem, dreiging of kans ten grondslag ligt aan de beleidskeuze."
                     name="Aanleiding"
-                    className="mb-6"
                 />
+                <FormSpacer />
                 <FormikRte
                     disabled={isVigerend}
                     label="Provinciaal belang"
@@ -73,15 +79,15 @@ const FieldsBeleidskeuze = () => {
                         </>
                     }
                     name="Provinciaal_Belang"
-                    className="mb-6"
                 />
+                <FormSpacer />
                 <FormikRte
                     disabled={isVigerend}
                     label="Toelichting"
                     description="Op welke thema’s, onderwerpen en gebieden gaat de beleidskeuze iets wijzigen, en waarom is dit gewenst? Beschrijf ook de relatie met andere beleidsterreinen."
                     name="Omschrijving_Werking"
-                    className="mb-6"
                 />
+                <FormSpacer />
             </ContainerFormSection>
             <ContainerFormSection
                 titel="Nationaal beleid"
@@ -139,33 +145,38 @@ const FieldsBeleidskeuze = () => {
                 beschrijving="In deze sectie vragen we aanvullende informatie die bij de beleidskeuze hoort.">
                 <FormikInput
                     disabled={isVigerend}
-                    className="mb-6"
                     name="Weblink"
                     label="IDMS"
                     placeholder="IDMS"
                     description="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren)."
                 />
+                <FormSpacer />
 
                 <FormikInput
                     disabled={isVigerend}
-                    className="mb-6"
                     name="Besluitnummer"
                     label="Besluitnummer"
                     placeholder="Besluitnummer"
                     description="Geef hier het PZH besluitnummer."
                 />
+                <FormSpacer />
+
                 <FormikDate
                     disabled={isVigerend}
-                    className="mb-6"
                     name="Begin_Geldigheid"
                     label="Inwerkingtreding"
                     placeholder="dd-mm-jjjj"
                     description="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
                     optimized={false}
+                    required={beleidskeuzeStatussesWithStartValidity.includes(
+                        values.Status || ''
+                    )}
                 />
+                <FormSpacer />
                 <FormikDate
                     optimized={false}
                     disabled={isVigerend}
+                    required={isRequired('Eind_Geldigheid')}
                     name="Eind_Geldigheid"
                     label="Uitwerkingtreding"
                     placeholder="dd-mm-jjjj"

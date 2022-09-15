@@ -4,13 +4,18 @@ import {
     FormikInput,
     FormikTextArea,
 } from '@pzh-ui/components'
+import { useContext } from 'react'
 
 import { ContainerFormSection } from '@/components/Container'
 import { FormFieldInputContainer } from '@/components/Form'
+import FormSpacer from '@/components/Form/FormSpacer'
+
+import MutateContext from '../../MutateContext'
 
 export interface FieldsBelangProps {}
 
 function FieldsBelang({}: FieldsBelangProps) {
+    const { isRequired } = useContext(MutateContext)
     return (
         <>
             <ContainerFormSection
@@ -19,15 +24,16 @@ function FieldsBelang({}: FieldsBelangProps) {
                 <FormFieldInputContainer>
                     <FormikInput
                         label="Titel"
-                        required={true}
+                        required={isRequired('Titel')}
                         description="Formuleer in enkele woorden de titel van dit nationaal belang of deze wettelijke taak."
                         name="Titel"
                         type="text"
-                        className="mb-6"
                     />
+                    <FormSpacer />
                     <FormikSelect
                         label="Type"
                         name="Type"
+                        required={isRequired('Type')}
                         options={[
                             {
                                 label: 'Nationaal Belang',
@@ -47,6 +53,7 @@ function FieldsBelang({}: FieldsBelangProps) {
                 <FormikTextArea
                     name="Omschrijving"
                     label="Omschrijving"
+                    required={isRequired('Omschrijving')}
                     description="Geef een korte omschrijving van dit nationaal belang of deze wettelijke taak."
                 />
             </ContainerFormSection>
@@ -56,24 +63,26 @@ function FieldsBelang({}: FieldsBelangProps) {
                 beschrijving="In deze sectie vragen we aanvullende informatie zoals de link naar het IDMS besluitdocument en de in- en uitwerkingstredingsdatum">
                 <FormikInput
                     label="IDMS"
+                    required={isRequired('Weblink')}
                     description="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren)."
                     name="Weblink"
                     type="text"
-                    className="mb-6"
                 />
+                <FormSpacer />
                 <FormikDate
-                    required={true}
                     placeholderText="dd-mm-jjjj"
                     label="Inwerkingtreding"
                     description="De datum waarop dit object inwerking moet treden."
                     name="Begin_Geldigheid"
-                    className="mb-6"
+                    required={isRequired('Begin_Geldigheid')}
                 />
+                <FormSpacer />
                 <FormikDate
                     label="Uitwerkingtreding"
                     description="De datum waarop dit object uitwerking moet treden."
                     placeholderText="dd-mm-jjjj"
                     name="Eind_Geldigheid"
+                    required={isRequired('Eind_Geldigheid')}
                 />
             </ContainerFormSection>
         </>
