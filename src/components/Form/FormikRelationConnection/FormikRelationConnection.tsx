@@ -249,7 +249,7 @@ const FormikRelationConnection = ({
 
     return (
         <>
-            {label === 'Koppelingen' ? (
+            {label === 'Koppelingen' && titleSingular === 'Beleidskeuze' ? (
                 <div className="mb-8">
                     <FieldLabel
                         label="Relaties"
