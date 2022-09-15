@@ -13,20 +13,19 @@ import MutatePolicy from './MutatePolicy'
 const queryClient = new QueryClient()
 
 const urls = {
-    Ambitie: '/ambities/edit/1',
-    Belang: '/belangen/edit/1',
-    Beleidskeuze: '/beleidskeuzes/edit/1',
-    Beleidsregel: '/beleidsregels/edit/1',
-    Beleidsprestatie: '/beleidsprestaties/edit/1',
-    Beleidsmodule: '/beleidsmodule/edit/1',
-    Beleidsdoel: '/beleidsdoelen/edit/1',
-    Maatregel: '/maatregelen/edit/1',
-    Thema: '/themas/edit/1',
+    Ambitie: '/muteer/ambities/1/bewerk',
+    Belang: '/muteer/belangen/1/bewerk',
+    Beleidskeuze: '/muteer/beleidskeuzes/1/bewerk',
+    Beleidsregel: '/muteer/beleidsregels/1/bewerk',
+    Beleidsprestatie: '/muteer/beleidsprestaties/1/bewerk',
+    Beleidsmodule: '/muteer/beleidsmodule/1/bewerk',
+    Beleidsdoel: '/muteer/beleidsdoelen/1/bewerk',
+    Maatregel: '/muteer/maatregelen/1/bewerk',
+    Thema: '/muteer/themas/1/bewerk',
 } as const
 
 describe('MutatePolicyPage', () => {
     const defaultProps = {
-        dimensieConstants: allDimensies.BELEIDSKEUZES,
         policyConstants: policyObjects.BELEIDSKEUZES,
     }
 
@@ -53,7 +52,7 @@ describe('MutatePolicyPage', () => {
             const element = screen.getByText('Algemene informatie')
             expect(element).toBeTruthy()
 
-            const titleInput = screen.getByLabelText('Titel')
+            const titleInput = screen.getByLabelText(/Titel/)
             fireEvent.change(titleInput, { target: { value: 'test title' } })
             expect(titleInput).toHaveValue('test title')
         })

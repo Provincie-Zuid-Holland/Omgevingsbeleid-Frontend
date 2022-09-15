@@ -1,41 +1,26 @@
-import { Form, Formik, FormikProps, yupToFormErrors } from 'formik'
-import cloneDeep from 'lodash.clonedeep'
-import { useEffect, useContext, useRef, useState, useMemo } from 'react'
+import { Form, Formik, FormikProps } from 'formik'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useSearchParam } from 'react-use'
+import { reach, SchemaDescription } from 'yup'
 
-import {
-    AmbitiesWrite,
-    GetTokeninfo200Identifier,
-} from '@/api/fetchers.schemas'
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
 import { ContainerMain } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
-import { filteredDimensieConstants } from '@/constants/dimensies'
 import policyObjects from '@/constants/policyObjects'
 import { AuthContext } from '@/context/AuthContext'
 import { useFullMutateRights } from '@/hooks/useFullMutateRights'
-import useIsWijzigVigerend from '@/hooks/useIsWijzigVigerend'
-import { MutateWriteObjects, MutateReadObjects } from '@/types/dimensions'
-import checkContainsRequiredUnfilledField from '@/utils/checkContainsRequiredUnfilledField'
-import { checkIfUserIsAllowedOnPage } from '@/utils/checkIfUserIsAllowedOnPage'
-import { createEmptyWriteObject } from '@/utils/createEmptyWriteObject'
+import { MutateReadObjects, MutateWriteObjects } from '@/types/dimensions'
 import { createWriteObjectFromReadObject } from '@/utils/createWriteObjectFromReadObject'
 import formatConnectionsForAPI from '@/utils/formatConnectionsForAPI'
 import formatDatesForAPI from '@/utils/formatDatesForAPI'
 import formatGeldigheidDatesForUI from '@/utils/formatGeldigheidDatesForUI'
-import {
-    getFetcherForPolicyLineage,
-    getMutationForPolicyLineage,
-    getPostForPolicy,
-} from '@/utils/getFetchers'
 import { getLatestObjectFromLineage } from '@/utils/getLatestObjectFromLineage'
 import scrollToFormikError from '@/utils/scrollToFormikError'
 import setAanpassingOpValue from '@/utils/setAanpassingOpValue'
 import setCorrectStatus from '@/utils/setCorrectStatus'
 import { toastNotification } from '@/utils/toastNotification'
-import validateFormikValues from '@/utils/validateFormikValues'
 
 import FieldsAmbities from './Fields/FieldsAmbities'
 import FieldsBelang from './Fields/FieldsBelang'
@@ -44,32 +29,24 @@ import FieldsBeleidskeuze from './Fields/FieldsBeleidskeuze'
 import FieldsBeleidsmodule from './Fields/FieldsBeleidsmodule'
 import FieldsBeleidsprestatie from './Fields/FieldsBeleidsprestatie'
 import FieldsBeleidsregel from './Fields/FieldsBeleidsregel'
+import FieldsGebiedsprogramma from './Fields/FieldsGebiedsprogramma'
 import FieldsMaatregel from './Fields/FieldsMaatregel'
 import FieldsThema from './Fields/FieldsThema'
 import MutateContext from './MutateContext'
 import MutatePolicyHeading from './MutatePolicyHeading'
 
 export interface MutatePolicyPageProps {
-    dimensieConstants?: filteredDimensieConstants
     policyConstants: typeof policyObjects[keyof typeof policyObjects]
 }
 
-const MutatePolicy = ({
-    dimensieConstants,
-    policyConstants,
-}: MutatePolicyPageProps) => {
+const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
     const navigate = useNavigate()
     const formRef = useRef<FormikProps<MutateWriteObjects>>(null)
     const { single: objectID } = useParams<{ single: string | undefined }>()
     const modus = useSearchParam('modus')
     const { user } = useContext(AuthContext)
 
-    // TODO: Refactor into formik check
-    const isWijzigVigerend = useIsWijzigVigerend()
-
-    // const titleSingular = dimensieConstants.TITLE_SINGULAR
     const titleSingular = policyConstants.META.title.singular
-    const titlePlural = policyConstants.META.title.plural
     const objectSlugOverviewPage = policyConstants.META.slug.overview
     const emptyWriteObject = policyConstants.EMPTY_WRITE_OBJECT
     const useGetLineage = policyConstants.META.query.useGetLineage
@@ -81,7 +58,7 @@ const MutatePolicy = ({
             if ('Status' in emptyWriteObject) {
                 emptyWriteObject.Status = 'Ontwerp GS Concept'
             }
-            return emptyWriteObject
+            return emptyWriteObject as MutateWriteObjects
         }
     )
 
@@ -170,24 +147,23 @@ const MutatePolicy = ({
 
         if (!readObjectFromLineage) return
 
-        const writeObject = createWriteObjectFromReadObject(
+        let writeObject = createWriteObjectFromReadObject(
             readObjectFromLineage,
             titleSingular
         )
+        writeObject = setAanpassingOpValue(writeObject, titleSingular, modus)
+        writeObject = setCorrectStatus(writeObject, modus)
+        writeObject = formatGeldigheidDatesForUI(writeObject)
 
         if (!writeObject) return
 
-        setInitialValues(
-            setAanpassingOpValue(
-                setCorrectStatus(
-                    formatGeldigheidDatesForUI(writeObject),
-                    modus
-                ),
-                titleSingular,
-                modus
-            )
-        )
+        setInitialValues(writeObject)
     }, [lineage, user, navigate, modus, titleSingular])
+
+    const isRequired = (field: string) =>
+        (
+            reach(policyConstants.SCHEMA, field).describe() as SchemaDescription
+        )?.tests?.some(test => test.name === 'required')
 
     return (
         <MutateContext.Provider
@@ -195,6 +171,7 @@ const MutatePolicy = ({
                 userHasFullMutateRights,
                 isVigerend,
                 hideAdditionalInfo,
+                isRequired,
             }}>
             <Formik
                 innerRef={formRef}
@@ -235,12 +212,18 @@ const MutatePolicy = ({
                                     <FieldsMaatregel />
                                 ) : titleSingular === 'beleidsdoel' ? (
                                     <FieldsBeleidsdoel />
+                                ) : titleSingular === 'gebiedsprogramma' ? (
+                                    <FieldsGebiedsprogramma />
                                 ) : titleSingular === 'beleidsprestatie' ? (
                                     <FieldsBeleidsprestatie />
                                 ) : titleSingular === 'thema' ? (
                                     <FieldsThema />
                                 ) : null}
                                 <ButtonSubmitFixed
+                                    scrollToError={() => {
+                                        scrollToFormikError(errors, formRef)
+                                    }}
+                                    disabled={!isValid}
                                     submit={() => {
                                         if (isValid) {
                                             handleFormSubmit(values)
