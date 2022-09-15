@@ -16,6 +16,7 @@ export interface FormikWerkingsgebiedProps {
     label: string
     description: string
     disabled?: boolean
+    required?: boolean
 }
 
 type parentStateHandlerTypes = 'ADD_CONNECTION' | 'REMOVE_CONNECTION'
@@ -26,6 +27,7 @@ const FormikWerkingsgebied = ({
     label,
     description,
     disabled,
+    required,
 }: FormikWerkingsgebiedProps) => {
     const { values, setFieldValue } = useFormikContext<any>()
 
@@ -69,6 +71,7 @@ const FormikWerkingsgebied = ({
     return (
         <>
             <FieldLabel
+                required={required}
                 label={label}
                 description={description}
                 name={dataObjectProperty}
@@ -99,8 +102,8 @@ const FormikWerkingsgebied = ({
                         <div
                             className="flex justify-center w-full px-4 py-2 mt-2 border-2 border-gray-400 border-dashed rounded-md cursor-pointer"
                             onClick={() => setPopupOpen(true)}>
-                            <div>
-                                <Plus className="mr-2 text-gray-400" />
+                            <div className="flex items-center">
+                                <Plus className="mr-2 -mt-1 text-gray-400" />
                                 <span className="py-4 pr-4 font-bold text-gray-400">
                                     Werkingsgebied koppelen
                                 </span>
