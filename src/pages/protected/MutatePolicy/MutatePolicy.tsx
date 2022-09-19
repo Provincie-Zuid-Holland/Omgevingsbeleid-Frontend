@@ -16,6 +16,7 @@ import { createWriteObjectFromReadObject } from '@/utils/createWriteObjectFromRe
 import formatConnectionsForAPI from '@/utils/formatConnectionsForAPI'
 import formatDatesForAPI from '@/utils/formatDatesForAPI'
 import formatGeldigheidDatesForUI from '@/utils/formatGeldigheidDatesForUI'
+import formatWerkingsgebiedenForWrite from '@/utils/formatWerkingsgebiedenForWrite'
 import { getLatestObjectFromLineage } from '@/utils/getLatestObjectFromLineage'
 import scrollToFormikError from '@/utils/scrollToFormikError'
 import setAanpassingOpValue from '@/utils/setAanpassingOpValue'
@@ -119,7 +120,9 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
 
     const handleFormSubmit = (formState: MutateWriteObjects) => {
         const formattedFormState = formatConnectionsForAPI(
-            formatDatesForAPI(formState) as MutateReadObjects,
+            formatWerkingsgebiedenForWrite(
+                formatDatesForAPI(formState) as MutateReadObjects
+            ) as MutateReadObjects,
             titleSingular
         )
 
