@@ -1,4 +1,4 @@
-import { string, object, array, mixed, lazy, number } from 'yup'
+import { string, object, array, mixed, lazy } from 'yup'
 
 import { BeleidskeuzesWriteStatus } from '@/api/fetchers.schemas'
 
@@ -10,6 +10,7 @@ const possibleStatusses = Object.values(BeleidskeuzesWriteStatus)
 export const schemaDefaults = {
     requiredString: (msg: string) => string().required(msg),
     optionalString: string().optional().nullable(),
+    // listReference can be of type read or write
     listReference: lazy(value =>
         value?.UUID !== undefined
             ? array()

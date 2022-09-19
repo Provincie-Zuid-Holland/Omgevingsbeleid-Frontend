@@ -1,18 +1,9 @@
-import {
-    FormikDate,
-    FormikFileUpload,
-    FormikInput,
-    FormikRte,
-} from '@pzh-ui/components'
+import { FormikDate, FormikInput, FormikRte } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
 import { useContext } from 'react'
 
-import {
-    BeleidskeuzesWrite,
-    GebiedsprogrammasWrite,
-} from '@/api/fetchers.schemas'
+import { GebiedsprogrammasWrite } from '@/api/fetchers.schemas'
 import { ContainerFormSection } from '@/components/Container'
-import FormikImageDisplay from '@/components/Form/FormikImageDisplay'
 import FormikRelationConnection from '@/components/Form/FormikRelationConnection'
 import FormikSelectUserGroup from '@/components/Form/FormikSelectUserGroup'
 import FormSpacer from '@/components/Form/FormSpacer'
@@ -23,7 +14,7 @@ import MutateContext from '../../MutateContext'
 export interface FieldsGebiedsprogrammaProps {}
 
 function FieldsGebiedsprogramma({}: FieldsGebiedsprogrammaProps) {
-    const { values, setFieldValue } = useFormikContext<GebiedsprogrammasWrite>()
+    const { values } = useFormikContext<GebiedsprogrammasWrite>()
     const {
         userHasFullMutateRights,
         isVigerend,

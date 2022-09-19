@@ -1,5 +1,4 @@
 import {
-    getAmbities,
     getBelangen,
     getBeleidsdoelen,
     getBeleidsprestaties,

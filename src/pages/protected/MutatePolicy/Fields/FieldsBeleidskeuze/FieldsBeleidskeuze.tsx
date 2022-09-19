@@ -4,7 +4,6 @@ import { useContext } from 'react'
 
 import { BeleidskeuzesWrite } from '@/api/fetchers.schemas'
 import { ContainerFormSection } from '@/components/Container'
-import FormFieldSelectUserGroup from '@/components/Form/FormFieldSelectUserGroup'
 import FormikRelationConnection from '@/components/Form/FormikRelationConnection'
 import FormikSelectUserGroup from '@/components/Form/FormikSelectUserGroup'
 import FormikWerkingsgebied from '@/components/Form/FormikWerkingsgebied'

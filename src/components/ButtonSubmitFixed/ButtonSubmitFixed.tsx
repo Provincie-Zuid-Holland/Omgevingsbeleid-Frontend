@@ -1,8 +1,6 @@
 import { Button } from '@pzh-ui/components'
 import { KeyboardEvent, MouseEvent } from 'react'
 
-import scrollToFormikError from '@/utils/scrollToFormikError'
-
 /**
  * Displays a fixed placed submit button.
  */
