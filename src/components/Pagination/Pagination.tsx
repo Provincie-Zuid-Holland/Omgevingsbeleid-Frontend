@@ -7,15 +7,14 @@ import {
     GetSearchGeo200ResultsItem,
 } from '@/api/fetchers.schemas'
 import LoaderSpinner from '@/components/Loader/LoaderSpinner'
+import useSearchFilterStore from '@/hooks/useSearchFilterStore'
 import useSearchParam from '@/hooks/useSearchParam'
-import { ACTIONTYPE } from '@/hooks/useSearchResultFilters'
 
 export interface PaginationProps {
     searchResults: GetSearch200ResultsItem[] | GetSearchGeo200ResultsItem[]
     setSearchResults: (
         searchResults: GetSearch200ResultsItem[] | GetSearchGeo200ResultsItem[]
     ) => void
-    setOnPageFilters: (action: ACTIONTYPE) => void
     UUIDs?: string[]
     limit?: number
     total?: number
@@ -24,7 +23,6 @@ export interface PaginationProps {
 function Pagination({
     searchResults,
     setSearchResults,
-    setOnPageFilters,
     UUIDs,
     limit = 20,
     total = 0,
@@ -32,14 +30,13 @@ function Pagination({
     const [isLoading, setIsLoading] = useState(false)
     const [offset, setOffset] = useState(limit)
     const [show, setShow] = useState(true)
+    const initializeFilters = useSearchFilterStore(
+        state => state.initializeFilters
+    )
 
     const { get } = useSearchParam()
-    const [paramTextQuery, paramOnly, paramGeo, paramWerkingsgebied] = get([
-        'query',
-        'only',
-        'geoQuery',
-        'werkingsgebied',
-    ])
+    const [paramTextQuery, paramOnly, paramGeo, paramWerkingsgebied, filter] =
+        get(['query', 'only', 'geoQuery', 'werkingsgebied', 'filter'])
 
     const getResults = async () => {
         if ((paramGeo || paramWerkingsgebied) && UUIDs?.length) {
@@ -70,11 +67,8 @@ function Pagination({
             (await getResults()) || {}
 
         setOffset(offset + limit)
+        initializeFilters([...searchResults, ...newSearchResults], true, filter)
         setSearchResults([...searchResults, ...newSearchResults])
-        setOnPageFilters({
-            type: 'updateFilters',
-            searchResultItems: [...searchResults, ...newSearchResults],
-        })
         setIsLoading(false)
 
         if (searchResults.length + newSearchResults.length >= total)
