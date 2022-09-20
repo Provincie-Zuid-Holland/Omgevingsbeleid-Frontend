@@ -3,21 +3,18 @@ import { Heading, Tag } from '@pzh-ui/components'
 import { AlignLeft, Paragraph, Plus } from '@pzh-ui/icons'
 import { Component, createRef } from 'react'
 import { Link } from 'react-router-dom'
-import { useSpring, animated } from 'react-spring'
+import { motion } from 'framer-motion'
 
 function AnimatedContainer({ classes, children, reference, onClick }) {
     return (
-        <animated.div
-            style={useSpring({
-                config: { tension: 550 },
-                transform: 'scale(1)',
-                from: { transform: 'scale(0.9)' },
-            })}
+        <motion.div
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
             className={classes}
             ref={reference}
             onClick={onClick}>
             {children}
-        </animated.div>
+        </motion.div>
     )
 }
 

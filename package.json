@@ -6,7 +6,7 @@
     "dependencies": {
         "@craco/craco": "7.0.0-alpha.3",
         "@headlessui/react": "^1.5.0",
-        "@pzh-ui/components": "^0.0.182",
+        "@pzh-ui/components": "^0.0.188",
         "@pzh-ui/config": "^0.0.34",
         "@pzh-ui/css": "^0.0.49",
         "@pzh-ui/icons": "^0.0.11",
@@ -34,18 +34,17 @@
         "react-error-boundary": "^3.1.4",
         "react-helmet": "^6.1.0",
         "react-leaflet": "^3.2.5",
-        "react-lines-ellipsis": "0.15.0",
         "react-query": "^3.34.2",
         "react-router-dom": "^6.3.0",
         "react-scripts": "^5.0.0",
         "react-select": "^5.2.2",
-        "react-spring": "^9.2.4",
         "react-toastify": "^7.0.4",
         "react-use": "^17.3.2",
         "smoothscroll-polyfill": "^0.4.4",
         "typescript": "4.4.4",
         "url-search-params-polyfill": "^8.1.1",
-        "yup": "^0.32.11"
+        "yup": "^0.32.11",
+        "zustand": "^4.1.1"
     },
     "scripts": {
         "build:css": "npx tailwindcss -i node_modules/@pzh-ui/css/src/tailwind.src.css -o src/css/tailwind.css",
