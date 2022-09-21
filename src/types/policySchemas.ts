@@ -71,13 +71,17 @@ import {
     useGetThemas,
     useGetVerordeningen,
 } from '@/api/fetchers'
+import {
+    PolicyTitlesPlural,
+    PolicyTitlesSingular,
+} from '@/constants/policyObjects'
 
 export type SchemaMeta<T> = {
     title: {
-        singular: string
-        singularCapitalized: string
-        plural: string
-        pluralCapitalized: string
+        singular: PolicyTitlesSingular
+        singularCapitalized: Capitalize<PolicyTitlesSingular>
+        plural: PolicyTitlesPlural
+        pluralCapitalized: Capitalize<PolicyTitlesPlural>
         prefixSingular: string
         prefixSingularCapitalized: string
         prefixPlural: string

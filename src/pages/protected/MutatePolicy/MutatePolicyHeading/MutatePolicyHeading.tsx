@@ -24,9 +24,9 @@ function MutatePolicyHeading({
     const overviewSlug = policyObjectMeta.slug.overview
 
     const getMainTitle = () => {
-        if (titleSingular === 'Beleidsmodule' && !userIsEditing) {
+        if (titleSingular === 'beleidsmodule' && !userIsEditing) {
             return 'Voeg een nieuwe module toe'
-        } else if (titleSingular === 'Beleidsmodule' && userIsEditing) {
+        } else if (titleSingular === 'beleidsmodule' && userIsEditing) {
             return 'Bewerk module'
         } else if (!isLoading && objectTitle !== '') {
             return objectTitle
@@ -38,7 +38,7 @@ function MutatePolicyHeading({
     }
 
     const generateSlugPreviousPage = () => {
-        if (titleSingular === 'Beleidskeuze' || titleSingular === 'Maatregel') {
+        if (titleSingular === 'beleidskeuze' || titleSingular === 'maatregel') {
             if (!userIsEditing && location.hash === '#mijn-beleid') {
                 // User is creating a new object and came from his/her own beleid
                 return `/muteer/mijn-beleid`
