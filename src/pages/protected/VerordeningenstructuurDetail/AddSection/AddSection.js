@@ -1,9 +1,9 @@
 /* istanbul ignore file */
 import { Heading, Tag } from '@pzh-ui/components'
 import { AlignLeft, Paragraph, Plus } from '@pzh-ui/icons'
+import { motion } from 'framer-motion'
 import { Component, createRef } from 'react'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
 
 function AnimatedContainer({ classes, children, reference, onClick }) {
     return (

@@ -1,7 +1,7 @@
 import 'url-search-params-polyfill'
 
 import { Heading } from '@pzh-ui/components'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useMedia } from 'react-use'
 
 import { getSearch } from '@/api/fetchers'
