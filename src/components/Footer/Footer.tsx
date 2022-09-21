@@ -15,8 +15,8 @@ function Footer() {
                 </div>
                 <div className="grid grid-cols-4 col-span-6 md:col-span-3 lg:col-span-4">
                     <div className="col-span-6 lg:col-span-2">
-                        <ul className="mt-6 text-pzh-blue md:mt-0 font-bold">
-                            <li className="pb-3 hover:text-pzh-blue-dark md:pb-5">
+                        <ul className="mt-6 font-bold text-pzh-blue md:mt-0">
+                            <li className="pb-3 underline hover:text-pzh-blue-dark md:pb-5">
                                 <a
                                     href="https://www.zuid-holland.nl"
                                     target="_blank"
@@ -24,7 +24,7 @@ function Footer() {
                                     Provincie Zuid-Holland
                                 </a>
                             </li>
-                            <li className="pb-3 hover:text-pzh-blue-dark md:pb-5">
+                            <li className="pb-3 underline hover:text-pzh-blue-dark md:pb-5">
                                 <a
                                     rel="noopener noreferrer"
                                     href="https://www.zuid-holland.nl/algemeen/privacyverklaring/"
@@ -32,7 +32,7 @@ function Footer() {
                                     Cookies & Privacy
                                 </a>
                             </li>
-                            <li className="pb-3 hover:text-pzh-blue-dark md:pb-5">
+                            <li className="pb-3 underline hover:text-pzh-blue-dark md:pb-5">
                                 <Link to="/digi-toegankelijkheid">
                                     Toegankelijkheidsverklaring
                                 </Link>
