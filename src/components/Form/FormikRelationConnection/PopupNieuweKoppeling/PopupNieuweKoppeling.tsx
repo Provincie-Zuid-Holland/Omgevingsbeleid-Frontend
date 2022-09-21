@@ -120,10 +120,10 @@ const PopupNieuweKoppeling = ({
         const clonedCrudObject = cloneDeep(crudObject)
 
         // Add active connections to an array
-        const actieveKoppelingen: string[] = []
+        const activeConnections: string[] = []
         if (clonedCrudObject[propertyName]) {
             clonedCrudObject[propertyName].forEach((item: any) => {
-                actieveKoppelingen.push(item.Object.UUID)
+                activeConnections.push(item.Object.UUID)
             })
         }
 
@@ -146,6 +146,8 @@ const PopupNieuweKoppeling = ({
                                 searchFilter.toLowerCase()
                             ))
                 )
+                // Filter out existing connections
+                .filter(item => !activeConnections.includes(item.UUID!))
         )
     }
 
