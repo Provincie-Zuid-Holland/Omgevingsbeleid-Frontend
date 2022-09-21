@@ -171,7 +171,6 @@ const CardSelectedWerkingsgebied = ({
                     <span
                         className="absolute bottom-0 left-0 px-5 py-5 text-sm text-red-600 underline transition-colors duration-100 ease-in cursor-pointer hover:text-red-800"
                         onClick={() => {
-                            console.log('ONTKOPPEL!')
                             setWerkingsgebiedInParentState({
                                 target: {
                                     name: dataObjectProperty,
