@@ -1,6 +1,10 @@
 import { string, object, array, mixed, lazy } from 'yup'
 
 import { BeleidskeuzesWriteStatus } from '@/api/fetchers.schemas'
+import {
+    PolicyTitlesPlural,
+    PolicyTitlesSingular,
+} from '@/constants/policyObjects'
 
 const possibleStatusses = Object.values(BeleidskeuzesWriteStatus)
 
@@ -90,8 +94,8 @@ export const generateSchemaTitles = ({
     prefixSingular,
     prefixPlural,
 }: {
-    titleSingular: string
-    titlePlural: string
+    titleSingular: PolicyTitlesSingular
+    titlePlural: PolicyTitlesPlural
     prefixSingular: string
     prefixPlural: string
 }) => {
@@ -100,9 +104,13 @@ export const generateSchemaTitles = ({
 
     return {
         singular: titleSingular,
-        singularCapitalized: capitalizeFirstLetter(titleSingular),
+        singularCapitalized: capitalizeFirstLetter(
+            titleSingular
+        ) as Capitalize<PolicyTitlesSingular>,
         plural: titlePlural,
-        pluralCapitalized: capitalizeFirstLetter(titlePlural),
+        pluralCapitalized: capitalizeFirstLetter(
+            titlePlural
+        ) as Capitalize<PolicyTitlesPlural>,
         prefixSingular: prefixSingular,
         prefixSingularCapitalized: capitalizeFirstLetter(prefixSingular),
         prefixPlural: prefixPlural,

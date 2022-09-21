@@ -7,6 +7,7 @@ import {
     MaatregelenRead,
     MaatregelenWrite,
 } from '@/api/fetchers.schemas'
+import { PolicyTitlesSingular } from '@/constants/policyObjects'
 import { MutateReadObjects, MutateWriteObjects } from '@/types/dimensions'
 
 /**
@@ -15,9 +16,9 @@ import { MutateReadObjects, MutateWriteObjects } from '@/types/dimensions'
  */
 const formatConnectionsForAPI = (
     crudObject: MutateReadObjects,
-    titleSingular: string
+    titleSingular: PolicyTitlesSingular
 ) => {
-    if (titleSingular === 'Beleidskeuze') {
+    if (titleSingular === 'beleidskeuze') {
         const formattedBeleidskeuze: BeleidskeuzesRead = cloneDeep(
             crudObject as BeleidskeuzesRead
         )
@@ -57,7 +58,7 @@ const formatConnectionsForAPI = (
         }
 
         return formattedBeleidskeuze as BeleidskeuzesWrite
-    } else if (titleSingular === 'Maatregel') {
+    } else if (titleSingular === 'maatregel') {
         const formattedMaatregel: MaatregelenWrite = cloneDeep(
             crudObject as MaatregelenWrite
         )

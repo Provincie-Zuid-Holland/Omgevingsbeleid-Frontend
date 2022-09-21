@@ -9,6 +9,7 @@ import {
     MaatregelenRead,
     ThemasRead,
 } from '@/api/fetchers.schemas'
+import { PolicyTitlesSingular } from '@/constants/policyObjects'
 
 export const getLatestObjectFromLineage = (
     lineage: Array<
@@ -22,11 +23,11 @@ export const getLatestObjectFromLineage = (
         | MaatregelenRead
         | ThemasRead
     >,
-    titleSingular: string,
+    titleSingular: PolicyTitlesSingular,
     modus: string | null
 ) => {
     const isMaatregelOrBeleidskeuze =
-        titleSingular === 'Beleidskeuze' || titleSingular === 'Maatregel'
+        titleSingular === 'beleidskeuze' || titleSingular === 'maatregel'
 
     const isWijzigVigerendOrOntwerpMaken =
         (modus && modus === 'wijzig_vigerend') ||
