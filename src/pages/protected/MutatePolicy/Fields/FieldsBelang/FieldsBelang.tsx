@@ -71,14 +71,14 @@ function FieldsBelang({}: FieldsBelangProps) {
                 <FormSpacer />
                 <FormikDate
                     placeholderText="dd-mm-jjjj"
-                    label="Inwerkingtreding"
+                    label="Inwerking"
                     description="De datum waarop dit object inwerking moet treden."
                     name="Begin_Geldigheid"
                     required={isRequired('Begin_Geldigheid')}
                 />
                 <FormSpacer />
                 <FormikDate
-                    label="Uitwerkingtreding"
+                    label="Uitwerking"
                     description="De datum waarop dit object uitwerking moet treden."
                     placeholderText="dd-mm-jjjj"
                     name="Eind_Geldigheid"

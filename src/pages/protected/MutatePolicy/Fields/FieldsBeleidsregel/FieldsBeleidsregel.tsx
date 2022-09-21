@@ -52,18 +52,18 @@ const FieldsBeleidsregel = () => {
                 <FormikDate
                     name="Begin_Geldigheid"
                     required={isRequired('Begin_Geldigheid')}
-                    label="Inwerkingtreding"
+                    label="Inwerking"
                     placeholder="dd-mm-jjjj"
-                    description="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
+                    description="De datum waarop dit object inwerking moet treden."
                 />
                 <FormSpacer />
 
                 <FormikDate
                     name="Eind_Geldigheid"
-                    label="Uitwerkingtreding"
+                    label="Uitwerking"
                     required={isRequired('Eind_Geldigheid')}
                     placeholder="dd-mm-jjjj"
-                    description="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
+                    description="De datum waarop dit object uitwerking moet treden."
                 />
             </ContainerFormSection>
         </>

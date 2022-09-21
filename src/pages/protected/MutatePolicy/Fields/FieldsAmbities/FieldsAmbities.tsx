@@ -47,7 +47,7 @@ const FieldsAmbities = ({}: FieldsAmbitiesProps) => {
                 />
                 <FormSpacer />
                 <FormikDate
-                    label="Inwerkingtreding"
+                    label="Inwerking"
                     description="De datum waarop dit object inwerking moet treden."
                     name="Begin_Geldigheid"
                     required={isRequired('Begin_Geldigheid')}

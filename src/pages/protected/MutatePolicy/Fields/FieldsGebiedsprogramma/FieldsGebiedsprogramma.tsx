@@ -78,9 +78,9 @@ function FieldsGebiedsprogramma({}: FieldsGebiedsprogrammaProps) {
                 <FormikDate
                     disabled={isVigerend}
                     name="Begin_Geldigheid"
-                    label="Inwerkingtreding"
+                    label="Inwerking"
                     placeholder="dd-mm-jjjj"
-                    description="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
+                    description="De datum waarop dit object inwerking moet treden."
                     optimized={false}
                     required={isRequired('Begin_Geldigheid')}
                 />
@@ -90,9 +90,9 @@ function FieldsGebiedsprogramma({}: FieldsGebiedsprogrammaProps) {
                     disabled={isVigerend}
                     name="Eind_Geldigheid"
                     required={isRequired('Eind_Geldigheid')}
-                    label="Uitwerkingtreding"
+                    label="Uitwerking"
                     placeholder="dd-mm-jjjj"
-                    description="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
+                    description="De datum waarop dit object uitwerking moet treden."
                 />
             </ContainerFormSection>
         </>
