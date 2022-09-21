@@ -5,8 +5,6 @@ import { Fragment } from 'react'
 
 import { useVerordening } from '../../verordeningEditContext'
 
-export interface FormSubmitOrCancelProps {}
-
 const FormSubmitOrCancel = () => {
     const { state, dispatch } = useVerordening()
     const { resetForm } = useFormikContext()
