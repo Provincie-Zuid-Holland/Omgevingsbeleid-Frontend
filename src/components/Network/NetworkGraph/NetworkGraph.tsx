@@ -1,3 +1,4 @@
+import { Minus, Plus } from '@pzh-ui/icons'
 import * as d3 from 'd3'
 import cloneDeep from 'lodash.clonedeep'
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
@@ -554,18 +555,16 @@ const NetworkGraph = () => {
             const maxZoom = 0.5
             const minZoom = 15
             const zoomed = (event: any) => {
-                const transformEvent = event.transform
-                const newZoom = transformEvent.k
-                if (newZoom < maxZoom) return
-
-                const transform = transformEvent.toString()
-                svgElement.selectAll('g').attr('transform', transform)
+                svgElement.selectAll('g').attr('transform', event.transform)
             }
             const zoom: any = d3
                 .zoom()
                 .scaleExtent([maxZoom, minZoom])
+                .translateExtent([
+                    [-1000, -1000],
+                    [1000, 1000],
+                ])
                 .on('zoom', zoomed)
-
             svgElement.call(zoom).on('dblclick.zoom', null)
 
             /**
@@ -616,6 +615,13 @@ const NetworkGraph = () => {
                 .on('click', (_, clickedEl) =>
                     handleNodeClick(clickedEl, svgElement, links)
                 )
+
+            d3.select('#d3-zoom-in').on('click', function () {
+                zoom.scaleBy(svgElement.transition().duration(750), 1.4)
+            })
+            d3.select('#d3-zoom-out').on('click', function () {
+                zoom.scaleBy(svgElement.transition().duration(750), 0.6)
+            })
 
             persistOrInitActiveNode(links, nodes)
 
@@ -690,7 +696,7 @@ const NetworkGraph = () => {
                     setFilters={setFilters}
                 />
                 <div className="w-full px-4 pb-20 mt-6 lg:pb-4 lg:mt-10 lg:w-3/4">
-                    <h2 className="text-xl text-pzh-blue opacity-50">
+                    <h2 className="text-xl opacity-50 text-pzh-blue">
                         Omgevingsbeleid Provincie Zuid-Holland
                     </h2>
                     <h1
@@ -721,6 +727,7 @@ const NetworkGraph = () => {
                             ref={d3Container as any}
                             aria-labelledby="networkvisualization-title"
                         />
+                        <NetworkGraphZoomButtons />
                         <NetworkGraphResetClickedElement
                             resetNodes={resetNodes}
                             clickedNode={clickedNode}
@@ -733,6 +740,25 @@ const NetworkGraph = () => {
                 </div>
                 <NetworkGraphTooltip href={href || ''} variables={variables} />
             </div>
+        </div>
+    )
+}
+
+const NetworkGraphZoomButtons = () => {
+    return (
+        <div className="absolute top-0 right-0 flex flex-col items-end p-2 mt-10">
+            <button
+                className="p-2 bg-white border rounded-md text-pzh-blue-dark hover:bg-gray-50"
+                id="d3-zoom-in"
+                type="button">
+                <Plus />
+            </button>
+            <button
+                className="p-2 mt-1 bg-white border rounded-md text-pzh-blue-dark hover:bg-gray-50"
+                id="d3-zoom-out"
+                type="button">
+                <Minus />
+            </button>
         </div>
     )
 }
