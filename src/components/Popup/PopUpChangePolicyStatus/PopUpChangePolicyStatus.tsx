@@ -60,8 +60,6 @@ function PopUpChangePolicyStatus({
                         ? getGetMaatregelenQueryKey()
                         : ''
 
-                console.log('Invalidate ', queryKeyAllLineages)
-
                 queryClient.invalidateQueries(queryKeyLineage)
                 queryClient.invalidateQueries(queryKeyAllLineages)
 

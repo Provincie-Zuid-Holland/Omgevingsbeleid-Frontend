@@ -221,7 +221,8 @@ const OverviewDropdown = ({
                                         | BeleidskeuzesRead
                                         | MaatregelenRead,
                                     titleSingular,
-                                    queryClient
+                                    queryClient,
+                                    'overview'
                                 )
                           : () => setModulesPopup(true),
                   },
@@ -281,28 +282,28 @@ const OverviewTableRow: FC<OverviewTableRowProps> = ({
             : `/muteer/${overviewSlug}/${policyObject.ID}/bewerk`
 
     return (
-        <Link
-            className="flex items-center justify-between border-b border-gray-300 hover:bg-pzh-gray-100 hover:bg-opacity-50"
-            to={tableRowLink}>
-            <div className="w-4/12 px-4 py-3 text-gray-800">
+        <div className="flex items-center justify-between border-b border-gray-300 hover:bg-pzh-gray-100 hover:bg-opacity-50">
+            <Link className="w-4/12 px-4 py-3 text-gray-800" to={tableRowLink}>
                 {policyObject.Titel}
-            </div>
+            </Link>
             {isMaatregelOrBeleidskeuze ? (
-                <div className="w-4/12 px-4 py-3 text-gray-800">
+                <Link
+                    className="w-4/12 px-4 py-3 text-gray-800"
+                    to={tableRowLink}>
                     {
                         (policyObject as MaatregelenRead | BeleidskeuzesRead)[
                             'Status'
                         ]
                     }
-                </div>
+                </Link>
             ) : null}
-            <div className="w-3/12 px-4 py-3 text-gray-800">
+            <Link to={tableRowLink} className="w-3/12 px-4 py-3 text-gray-800">
                 {formattedModifiedDate}
-            </div>
+            </Link>
             <div className="flex justify-end w-1/12 px-4 py-3 text-gray-800">
                 {children}
             </div>
-        </Link>
+        </div>
     )
 }
 
