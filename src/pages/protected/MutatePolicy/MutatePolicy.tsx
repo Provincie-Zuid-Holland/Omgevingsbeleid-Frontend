@@ -86,17 +86,23 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
         }
     )
 
+    const urlAfterSubmit = useMemo(
+        () =>
+            titleSingular === 'beleidskeuze' || titleSingular === 'maatregel'
+                ? `/muteer/${objectSlugOverviewPage}/${objectID}${
+                      location.hash === '#mijn-beleid' ? '#mijn-beleid' : ''
+                  }`
+                : `/muteer/${objectSlugOverviewPage}`,
+        [objectID, objectSlugOverviewPage, titleSingular]
+    )
+
     const mutatePolicyLineage = useMutatePolicyLineage({
         mutation: {
             onError: () => {
                 toastNotification({ type: 'standard error' })
             },
-            onSuccess: data => {
-                navigate(
-                    `/muteer/${objectSlugOverviewPage}/${data.ID}${
-                        location.hash === '#mijn-beleid' ? '#mijn-beleid' : ''
-                    }`
-                )
+            onSuccess: () => {
+                navigate(urlAfterSubmit)
                 toastNotification({ type: 'saved' })
             },
         },
@@ -107,12 +113,8 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
             onError: () => {
                 toastNotification({ type: 'standard error' })
             },
-            onSuccess: data => {
-                navigate(
-                    `/muteer/${objectSlugOverviewPage}/${data.ID}${
-                        location.hash === '#mijn-beleid' ? '#mijn-beleid' : ''
-                    }`
-                )
+            onSuccess: () => {
+                navigate(urlAfterSubmit)
                 toastNotification({ type: 'saved' })
             },
         },
@@ -199,6 +201,7 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
                             isLoading={lineageIsLoading}
                             objectTitle={values?.Titel || ''}
                         />
+                        {console.log(errors)}
                         <ContainerMain className="mt-8">
                             <Form className="w-full">
                                 {titleSingular === 'ambitie' ? (
