@@ -11,8 +11,20 @@ const scrollToFormikError = (
 
     const errorName = errorNames[0]
 
-    const formElement = document.getElementsByName(errorName)[0]
-    if (!formElement) return
+    let formElement: HTMLElement | null =
+        document.getElementsByName(errorName)[0]
+
+    if (!formElement) {
+        const richTextEditor = document.querySelector(
+            `[data-testid="formik-rte-${errorName.toLowerCase()}"]`
+        ) as HTMLElement
+        if (richTextEditor) {
+            formElement = richTextEditor
+        } else {
+            return
+        }
+    }
+
     const container = formElement.closest('.container-form-section')
 
     if (!container) return
