@@ -45,7 +45,17 @@ const Overview = ({ dimensieConstants }: OverviewProps) => {
     const overviewSlug = dimensieConstants.SLUG_OVERVIEW
 
     const useGetLineage = getFetcherForType(titleSingular)
-    const { data: policyObjectsFromAPI } = useGetLineage()
+    const queryOptions = {
+        query: {
+            staleTime: 0,
+            refetchOnMount: true,
+        },
+    } as const
+
+    const { data: policyObjectsFromAPI } = useGetLineage(
+        undefined,
+        queryOptions
+    )
 
     /**
      * When the component mounts, fetch the objects from the API and prepare state
