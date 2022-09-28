@@ -1,3 +1,4 @@
+import { Text } from '@pzh-ui/components'
 import { Link } from 'react-router-dom'
 
 /**
@@ -19,16 +20,20 @@ const NetworkGraphTooltip = ({ variables, href }: Props) => (
             left: variables.left,
             top: variables.top,
         }}
-        className="absolute z-50 hidden px-4 py-2 bg-white rounded shadow-md hover:block">
+        className="absolute z-50 hidden px-4 py-2 text-white bg-black rounded shadow-md bg-opacity-80 hover:block">
         <Link to={href} className="select-none group" role="tooltip">
-            <div
+            <Text
                 id="d3-tooltip-network-graph-type"
-                className={`text-gray-600 text-sm`}
+                type="body-small"
+                children={undefined}
+                color="text-white"
             />
-            <div
+            <Text
                 id="d3-tooltip-network-graph-title"
-                className={`text-pzh-blue-dark group-hover:underline truncate text-base`}
-                style={{ maxWidth: '400px' }}
+                type="body-small"
+                className="font-bold"
+                children={undefined}
+                color="text-white"
             />
         </Link>
     </div>
