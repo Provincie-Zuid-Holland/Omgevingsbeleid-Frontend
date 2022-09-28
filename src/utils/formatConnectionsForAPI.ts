@@ -3,6 +3,7 @@ import cloneDeep from 'lodash.clonedeep'
 import {
     BeleidskeuzesRead,
     BeleidskeuzesWrite,
+    GebiedsprogrammasRead,
     ListReference,
     MaatregelenRead,
     MaatregelenWrite,
@@ -57,7 +58,28 @@ const formatConnectionsForAPI = (
             formattedBeleidskeuze.Werkingsgebieden = formattedWerkingsgebieden
         }
 
-        return formattedBeleidskeuze as BeleidskeuzesWrite
+        return formattedBeleidskeuze as MutateWriteObjects
+    } else if (titleSingular === 'gebiedsprogramma') {
+        const formattedGebiedsprogramma: GebiedsprogrammasRead = cloneDeep(
+            crudObject as GebiedsprogrammasRead
+        )
+
+        const gebiedsprogrammaConnectionProperties = ['Maatregelen'] as const
+
+        gebiedsprogrammaConnectionProperties.forEach(property => {
+            const originalConnection = formattedGebiedsprogramma[property]
+            if (originalConnection) {
+                const formattedConnections: ListReference[] =
+                    originalConnection.map(connection => ({
+                        Koppeling_Omschrijving:
+                            connection.Koppeling_Omschrijving,
+                        UUID: connection?.Object?.UUID,
+                    }))
+                formattedGebiedsprogramma[property] = formattedConnections
+            }
+        })
+
+        return formattedGebiedsprogramma as MutateWriteObjects
     } else if (titleSingular === 'maatregel') {
         const formattedMaatregel: MaatregelenWrite = cloneDeep(
             crudObject as MaatregelenWrite
@@ -69,7 +91,7 @@ const formatConnectionsForAPI = (
             ).Gebied!.UUID!
         }
 
-        return formattedMaatregel
+        return formattedMaatregel as MutateWriteObjects
     } else {
         return crudObject as MutateWriteObjects
     }
