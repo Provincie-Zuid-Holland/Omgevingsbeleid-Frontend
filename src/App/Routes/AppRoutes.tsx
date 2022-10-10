@@ -4,12 +4,9 @@ import { useNavigate, useRoutes } from 'react-router-dom'
 import { NetworkGraph } from '@/components/Network'
 import allDimensies from '@/constants/dimensies'
 import useAuth from '@/hooks/useAuth'
-import {
-    Dashboard,
-    MijnBeleid,
-    VerordeningenStructuurCRUD,
-    VerordeningenstructuurDetail,
-} from '@/pages/protected'
+import { Dashboard, MijnBeleid } from '@/pages/protected'
+import UniversalObjectCRUD from '@/pages/protected/Overview/UniversalObjectCRUD'
+import VerordeningEdit from '@/pages/protected/VerordeningEdit'
 import {
     Accessibility,
     Home,
@@ -27,8 +24,6 @@ import detailPages from '@/utils/detailPages'
 import ProtectedRoute from './ProtectedRoute'
 
 const AppRoutes = () => {
-    const navigate = useNavigate()
-
     const routes = useRoutes([
         /**
          * Public pages
@@ -84,7 +79,6 @@ const AppRoutes = () => {
                     },
                 ],
             })),
-
         /**
          * Protected pages
          */
@@ -106,29 +100,27 @@ const AppRoutes = () => {
                         {
                             path: 'nieuw',
                             element: (
-                                <VerordeningenStructuurCRUD
+                                <UniversalObjectCRUD
                                     dimensieConstants={
                                         allDimensies.VERORDENINGSTRUCTUUR
                                     }
-                                    navigate={navigate}
                                 />
                             ),
                         },
                         {
-                            path: ':lineageID',
+                            path: ':single',
                             children: [
                                 {
                                     index: true,
-                                    element: <VerordeningenstructuurDetail />,
+                                    element: <VerordeningEdit />,
                                 },
                                 {
-                                    path: ':lineageUUID/bewerk',
+                                    path: 'bewerk',
                                     element: (
-                                        <VerordeningenStructuurCRUD
+                                        <UniversalObjectCRUD
                                             dimensieConstants={
                                                 allDimensies.VERORDENINGSTRUCTUUR
                                             }
-                                            navigate={navigate}
                                         />
                                     ),
                                 },

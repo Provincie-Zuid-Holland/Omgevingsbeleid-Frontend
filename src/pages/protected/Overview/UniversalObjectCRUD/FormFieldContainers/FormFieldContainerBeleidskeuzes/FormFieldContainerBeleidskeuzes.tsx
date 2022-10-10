@@ -186,6 +186,7 @@ function FormFieldContainerBeleidskeuzes({
                 titel="Werkingsgebied"
                 beschrijving="Het werkingsgebied geeft het gebied weer waar de beleidskeuze betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld,  toegestaan of juist verboden.">
                 <FormFieldWerkingsgebied
+                    className="mb-6"
                     disabled={isVigerend}
                     setWerkingsgebiedInParentState={handleChange}
                     werkingsgebiedInParentState={crudObject['Werkingsgebieden']}

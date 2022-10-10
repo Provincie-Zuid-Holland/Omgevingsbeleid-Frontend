@@ -38,9 +38,10 @@ import {
     useGetBeleidsdoelen,
     useGetMaatregelen,
     useGetThemas,
-    useGetVerordeningen,
 } from '@/api/fetchers'
 import { filteredDimensieConstants } from '@/constants/dimensies'
+
+import { useGetVerordeningenStructuren } from './verordening'
 
 export const getFetcherForType = (
     titleSingular: filteredDimensieConstants['TITLE_SINGULAR']
@@ -65,7 +66,7 @@ export const getFetcherForType = (
         case 'Thema':
             return useGetThemas
         case 'Verordening':
-            return useGetVerordeningen
+            return useGetVerordeningenStructuren
     }
 }
 
