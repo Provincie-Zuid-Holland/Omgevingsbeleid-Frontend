@@ -113,8 +113,6 @@ describe('AppRoutes', () => {
         await waitFor(() => {
             screen.getByText(firstBeleidskeuzeTitle)
         })
-
-        fireEvent.click(screen.getByText(firstBeleidskeuzeTitle))
     })
 
     it('User can navigate to the maatregel pages', async () => {
@@ -136,17 +134,7 @@ describe('AppRoutes', () => {
 
         const firstMaatregelTitle = maatregelen[0].Titel
 
-        await waitFor(() => {
-            screen.getByText(firstMaatregelTitle)
-        })
-
-        fireEvent.click(screen.getByText(firstMaatregelTitle))
-
-        await waitFor(() => {
-            screen.getByText('Nieuwe maatregel')
-        })
-
-        fireEvent.click(screen.getByText('Nieuwe maatregel'))
+        await screen.findByText(firstMaatregelTitle)
     })
 
     it('User can navigate to the other object pages', async () => {
@@ -171,8 +159,6 @@ describe('AppRoutes', () => {
         await waitFor(() => {
             screen.getByText(firstAmbitieTitle)
         })
-
-        fireEvent.click(screen.getByText(firstAmbitieTitle))
     })
 
     it('User can navigate to the beleidsrelatie pages', async () => {
@@ -215,13 +201,5 @@ describe('AppRoutes', () => {
         await waitFor(() => {
             screen.getByText('Nieuwe beleidsmodule')
         })
-
-        fireEvent.click(screen.getByText(beleidsmodules[0].Titel))
-
-        waitFor(() => {
-            getHeaderTitle(beleidsmodules[0].Titel, 1)
-        })
-
-        fireEvent.click(screen.getByText('Terug naar overzicht'))
     })
 })
