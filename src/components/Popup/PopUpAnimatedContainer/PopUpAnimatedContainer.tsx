@@ -27,13 +27,13 @@ const PopUpAnimatedContainer: FC<PopUpAnimatedContainer> = ({
     <div>
         <motion.div
             initial={{ opacity: 0 }}
-            animate={{ scale: 0.25 }}
+            animate={{ opacity: 0.25 }}
             className="fixed top-0 left-0 z-10 w-screen h-screen bg-gray-900"
         />
         <div className="fixed top-0 left-0 z-50">
             <div className="top-0 left-0 flex items-center justify-center w-screen h-screen">
                 <motion.div
-                    initial={{ scale: 0.75 }}
+                    initial={{ scale: 0.9 }}
                     animate={{ scale: 1 }}
                     ref={reference}
                     className={`max-w-5xl relative bg-white rounded shadow p-6 ${
