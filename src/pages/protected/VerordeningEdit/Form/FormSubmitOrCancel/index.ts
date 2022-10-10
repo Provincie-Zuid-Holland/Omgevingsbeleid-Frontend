@@ -1,2 +1,1 @@
-export { default } from './FormSubmitOrCancel';
-export * from './FormSubmitOrCancel';
+export { default } from './FormSubmitOrCancel'
