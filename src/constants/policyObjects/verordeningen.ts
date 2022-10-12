@@ -4,7 +4,6 @@ import {
     useGetValidVerordeningen,
     useGetValidVerordeningenLineageid,
     useGetVersionVerordeningenObjectuuid,
-    usePostThemas,
 } from '@/api/fetchers'
 import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
@@ -14,15 +13,17 @@ import {
 } from '@/types/verordening'
 import {
     useGetVerordeningenStructuren,
+    useGetVerordeningenStructurenLineageId,
     usePatchVerordeningenStructureLineageid,
+    usePostVerordeningenStructure,
 } from '@/utils/verordening'
 import { generateSchemaTitles, schemaDefaults } from '@/utils/yupSchema'
 
 const queryVerordeningen: SchemaMetaQueries = {
-    usePost: usePostThemas,
+    usePost: usePostVerordeningenStructure as any,
     useGet: useGetVerordeningenStructuren as any,
     useGetVersion: useGetVersionVerordeningenObjectuuid,
-    useGetLineage: useGetVerordeningenStructuren as any,
+    useGetLineage: useGetVerordeningenStructurenLineageId as any,
     useGetValidLineage: useGetValidVerordeningenLineageid,
     usePatchLineage: usePatchVerordeningenStructureLineageid as any,
     useGetValid: useGetValidVerordeningen,
@@ -55,16 +56,12 @@ export const SCHEMA: ObjectSchema<
         .nullable(),
     Status: mixed().oneOf(['Vigerend', 'Concept', 'Vervallen']).required(),
     Structuur: object<VerordeningStructureChild>({
-        Children: array().of(lazy(() => object())),
-        Gebied: string(),
-        Inhoud: string(),
-        Titel: string(),
-        Type: string(),
-        UUID: string(),
-        Volgnummer: string(),
+        Children: array()
+            .of(lazy(() => object()))
+            .default([]),
     }),
     Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.required,
-    Eind_Geldigheid: schemaDefaults.Eind_Geldigheid,
+    Eind_Geldigheid: schemaDefaults.Eind_Geldigheid.required(),
 }).meta(verordeningenMeta)
 
 export const META = SCHEMA.describe().meta as SchemaMeta<
