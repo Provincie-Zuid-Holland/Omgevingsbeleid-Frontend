@@ -1,5 +1,12 @@
 import { Form, Formik, FormikProps } from 'formik'
-import { useContext, useEffect, useMemo, useRef, useState } from 'react'
+import {
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from 'react'
 import { Helmet } from 'react-helmet'
 import { useQueryClient } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -57,10 +64,14 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
     const useGetLineage = policyConstants.META.query.useGetLineage
     const useMutatePolicyLineage = policyConstants.META.query.usePatchLineage
     const usePostPolicy = policyConstants.META.query.usePost
-
     const [initialValues, setInitialValues] = useState<MutateWriteObjects>(
         () => {
-            if ('Status' in emptyWriteObject) {
+            if (
+                'Status' in emptyWriteObject &&
+                titleSingular === 'verordening'
+            ) {
+                emptyWriteObject.Status = 'Concept'
+            } else if ('Status' in emptyWriteObject) {
                 emptyWriteObject.Status = 'Ontwerp GS Concept'
             }
             return emptyWriteObject as MutateWriteObjects
@@ -90,8 +101,8 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
         }
     )
 
-    const urlAfterSubmit = useMemo(
-        () =>
+    const getUrlAfterSubmit = useCallback(
+        objectID =>
             titleSingular === 'beleidskeuze' ||
             titleSingular === 'maatregel' ||
             titleSingular === 'verordening'
@@ -99,7 +110,7 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
                       location.hash === '#mijn-beleid' ? '#mijn-beleid' : ''
                   }`
                 : `/muteer/${objectSlugOverviewPage}`,
-        [objectID, objectSlugOverviewPage, titleSingular]
+        [objectSlugOverviewPage, titleSingular]
     )
 
     const mutatePolicyLineage = useMutatePolicyLineage({
@@ -115,6 +126,7 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
                 }
                 queryClient.invalidateQueries(`/${titlePlural}/${objectID}`)
                 queryClient.invalidateQueries(`/${titlePlural}`)
+                const urlAfterSubmit = getUrlAfterSubmit(res.ID)
                 navigate(urlAfterSubmit)
                 toastNotification({ type: 'saved' })
             },
@@ -126,7 +138,8 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
             onError: () => {
                 toastNotification({ type: 'standard error' })
             },
-            onSuccess: () => {
+            onSuccess: res => {
+                const urlAfterSubmit = getUrlAfterSubmit(res.ID)
                 navigate(urlAfterSubmit)
                 toastNotification({ type: 'saved' })
             },
@@ -200,7 +213,6 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
                 validateOnMount>
                 {({ errors, values, isValid }) => (
                     <>
-                        {console.log(errors, values)}
                         {lineageIsLoading ? <LoaderContent /> : null}
                         <Helmet>
                             <title>
