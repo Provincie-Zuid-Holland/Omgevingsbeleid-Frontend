@@ -134,6 +134,18 @@ export const useGetVerordeningenStructuren = () =>
         axios.get('/verordeningstructuur').then(res => res.data)
     )
 
+export const useGetVerordeningenStructurenLineageId = (lineageID: string) =>
+    useQuery(
+        `/verordeningstructuur/${lineageID}`,
+        () =>
+            axios
+                .get(`/verordeningstructuur/${lineageID}`)
+                .then(res => res.data),
+        {
+            enabled: !!lineageID,
+        }
+    )
+
 export const postVerordeningSection = (
     values: Omit<VerordeningenWrite, 'Gebied'> & { Gebied?: string | null }
 ) =>
@@ -379,6 +391,22 @@ export const usePatchVerordeningenStructureLineageid = (props: any) => {
 
         return axios
             .patch(`/verordeningstructuur/${lineageid || ''}`, {
+                ...data,
+            })
+            .then(res => res.data)
+            .catch(err => console.log(err))
+    }
+
+    const options = props.mutation
+    return useMutation(mutationFn, options)
+}
+
+export const usePostVerordeningenStructure = (props: any) => {
+    const mutationFn = (props: undefined | { data: any }) => {
+        const { data } = props || {}
+
+        return axios
+            .post(`/verordeningstructuur`, {
                 ...data,
             })
             .then(res => res.data)
