@@ -4,7 +4,9 @@ import '@testing-library/jest-dom'
 import LoaderIndicator from './LoaderIndicator'
 
 describe('LoaderIndicator', () => {
-    const defaultProps = {}
+    const defaultProps = {
+        text: 'Opslaan...',
+    }
 
     const setup = (customProps?: { [key: string]: any }) => {
         const props = { ...defaultProps, ...customProps }
