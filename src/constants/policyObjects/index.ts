@@ -8,6 +8,7 @@ import * as BELEIDSREGELS from './beleidsregels'
 import * as GEBIEDSPROGRAMMAS from './gebiedsprogrammas'
 import * as MAATREGELEN from './maatregelen'
 import * as THEMAS from './themas'
+import * as VERORDENING from './verordeningen'
 
 const policyObjects = {
     AMBITIES,
@@ -20,6 +21,7 @@ const policyObjects = {
     MAATREGELEN,
     GEBIEDSPROGRAMMAS,
     THEMAS,
+    VERORDENING,
 }
 
 export type PolicyObjectsMeta =
@@ -36,6 +38,7 @@ export type PolicyTitlesSingular =
     | 'maatregel'
     | 'gebiedsprogramma'
     | 'thema'
+    | 'verordening'
 
 export type PolicyTitlesPlural =
     | 'ambities'
@@ -48,5 +51,6 @@ export type PolicyTitlesPlural =
     | 'maatregelen'
     | "gebiedsprogramma's"
     | 'themas'
+    | 'verordeningen'
 
 export default policyObjects

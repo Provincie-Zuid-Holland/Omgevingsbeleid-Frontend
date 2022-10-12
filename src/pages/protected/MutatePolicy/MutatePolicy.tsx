@@ -1,6 +1,7 @@
 import { Form, Formik, FormikProps } from 'formik'
 import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet'
+import { useQueryClient } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useSearchParam } from 'react-use'
 import { reach, SchemaDescription } from 'yup'
@@ -33,6 +34,7 @@ import FieldsBeleidsregel from './Fields/FieldsBeleidsregel'
 import FieldsGebiedsprogramma from './Fields/FieldsGebiedsprogramma'
 import FieldsMaatregel from './Fields/FieldsMaatregel'
 import FieldsThema from './Fields/FieldsThema'
+import FieldsVerordening from './Fields/FieldsVerordening'
 import MutateContext from './MutateContext'
 import MutatePolicyHeading from './MutatePolicyHeading'
 
@@ -46,8 +48,10 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
     const { single: objectID } = useParams<{ single: string | undefined }>()
     const modus = useSearchParam('modus')
     const { user } = useContext(AuthContext)
+    const queryClient = useQueryClient()
 
     const titleSingular = policyConstants.META.title.singular
+    const titlePlural = policyConstants.META.title.plural
     const objectSlugOverviewPage = policyConstants.META.slug.overview
     const emptyWriteObject = policyConstants.EMPTY_WRITE_OBJECT
     const useGetLineage = policyConstants.META.query.useGetLineage
@@ -88,7 +92,9 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
 
     const urlAfterSubmit = useMemo(
         () =>
-            titleSingular === 'beleidskeuze' || titleSingular === 'maatregel'
+            titleSingular === 'beleidskeuze' ||
+            titleSingular === 'maatregel' ||
+            titleSingular === 'verordening'
                 ? `/muteer/${objectSlugOverviewPage}/${objectID}${
                       location.hash === '#mijn-beleid' ? '#mijn-beleid' : ''
                   }`
@@ -101,7 +107,14 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
             onError: () => {
                 toastNotification({ type: 'standard error' })
             },
-            onSuccess: () => {
+            onSuccess: res => {
+                if (titleSingular === 'verordening') {
+                    queryClient.invalidateQueries(
+                        `getVerordeningStructuur/${objectID}`
+                    )
+                }
+                queryClient.invalidateQueries(`/${titlePlural}/${objectID}`)
+                queryClient.invalidateQueries(`/${titlePlural}`)
                 navigate(urlAfterSubmit)
                 toastNotification({ type: 'saved' })
             },
@@ -157,7 +170,7 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
             titleSingular
         )
         writeObject = setAanpassingOpValue(writeObject, titleSingular, modus)
-        writeObject = setCorrectStatus(writeObject, modus)
+        writeObject = setCorrectStatus(writeObject, modus, titleSingular)
         writeObject = formatGeldigheidDatesForUI(writeObject)
 
         if (!writeObject) return
@@ -187,6 +200,7 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
                 validateOnMount>
                 {({ errors, values, isValid }) => (
                     <>
+                        {console.log(errors, values)}
                         {lineageIsLoading ? <LoaderContent /> : null}
                         <Helmet>
                             <title>
@@ -201,7 +215,6 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
                             isLoading={lineageIsLoading}
                             objectTitle={values?.Titel || ''}
                         />
-                        {console.log(errors)}
                         <ContainerMain className="mt-8">
                             <Form className="w-full">
                                 {titleSingular === 'ambitie' ? (
@@ -212,6 +225,8 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
                                     <FieldsBelang />
                                 ) : titleSingular === 'beleidsregel' ? (
                                     <FieldsBeleidsregel />
+                                ) : titleSingular === 'verordening' ? (
+                                    <FieldsVerordening />
                                 ) : titleSingular === 'beleidskeuze' ? (
                                     <FieldsBeleidskeuze />
                                 ) : titleSingular === 'maatregel' ? (

@@ -54,6 +54,12 @@ function MutatePolicyHeading({
             } else {
                 return `/muteer/${overviewSlug}`
             }
+        } else if (titleSingular === 'verordening') {
+            if (!userIsEditing) {
+                return `/muteer/${overviewSlug}`
+            } else {
+                return `/muteer/${overviewSlug}/${objectID}`
+            }
         } else {
             if (location.hash === '#mijn-beleid') {
                 return `/muteer/mijn-beleid`

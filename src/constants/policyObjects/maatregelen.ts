@@ -9,7 +9,7 @@ import {
     useGetVersionMaatregelenObjectuuid,
     useGetValidMaatregelen,
 } from '@/api/fetchers'
-import { MaatregelenWrite } from '@/api/fetchers.schemas'
+import { MaatregelenWrite, MaatregelenRead } from '@/api/fetchers.schemas'
 import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
 import { schemaDefaults, generateSchemaTitles } from '@/utils/yupSchema'
@@ -40,16 +40,11 @@ const maatregelenMeta: SchemaMeta<typeof queryMaatregelen> = {
 }
 
 export const SCHEMA: ObjectSchema<
-    MutatedPolicySchema<
-        MaatregelenWrite & {
-            Begin_Geldigheid?: string | null
-            Eind_Geldigheid?: string | null
-        }
-    >
+    MutatedPolicySchema<MaatregelenWrite | MaatregelenRead>
 > = object({
     Titel: schemaDefaults.Titel,
     Aanpassing_Op: schemaDefaults.optionalString,
-    Gebied: schemaDefaults.optionalString,
+    Gebied: schemaDefaults.gebied,
     Gebied_Duiding: schemaDefaults.optionalString,
     Tags: schemaDefaults.optionalString,
     Toelichting_Raw: schemaDefaults.optionalString,

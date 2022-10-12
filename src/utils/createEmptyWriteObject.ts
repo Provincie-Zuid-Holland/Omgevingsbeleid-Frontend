@@ -11,6 +11,7 @@ import {
     AmbitiesWrite,
     GebiedsprogrammasWrite,
 } from '@/api/fetchers.schemas'
+import { VerordeningLineageWrite } from '@/types/verordening'
 
 const ambitieEmptyWrite: AmbitiesWrite = {
     Begin_Geldigheid: undefined,
@@ -113,6 +114,14 @@ const themaEmptyWrite: ThemasWrite = {
     Weblink: undefined,
 }
 
+const verordeningStructureEmptyWrite: VerordeningLineageWrite = {
+    Begin_Geldigheid: undefined,
+    Eind_Geldigheid: undefined,
+    Structuur: undefined,
+    Status: undefined,
+    Titel: undefined,
+}
+
 const verordeningEmptyWrite: VerordeningenWrite = {
     Begin_Geldigheid: undefined,
     Eigenaar_1: undefined,
@@ -183,8 +192,8 @@ export const getWriteObjectProperties = (titleSingular: string) => {
                 keyof typeof themaEmptyWrite
             >
         case 'verordening':
-            return Object.keys(verordeningEmptyWrite) as Array<
-                keyof typeof verordeningEmptyWrite
+            return Object.keys(verordeningStructureEmptyWrite) as Array<
+                keyof typeof verordeningStructureEmptyWrite
             >
     }
 }

@@ -39,7 +39,6 @@ import {
     BeleidsrelatiesCRUD,
     Detail,
     Overview,
-    VerordeningenstructuurOverzicht,
 } from '@/pages/protected'
 import MutatePolicy from '@/pages/protected/MutatePolicy'
 
@@ -79,7 +78,7 @@ export type DetailPageValidEndpoint =
     | typeof getValidVerordeningen
     | typeof getValidGebiedsprogrammas
 
-const getOverview = (policyType: keyof typeof policyObjects) => (
+const getOverview = (policyType: keyof typeof allDimensies) => (
     <ProtectedRoute
         redirectTo="/muteer/dashboard"
         roles={
@@ -238,11 +237,7 @@ const detailPages = [
     {
         slug: 'verordeningen',
         dataModel: allDimensies.VERORDENINGSARTIKEL,
-        element: (
-            <VerordeningenstructuurOverzicht
-                dataModel={allDimensies.VERORDENINGSTRUCTUUR}
-            />
-        ),
+        element: getOverview('VERORDENINGSTRUCTUUR'),
         isPublic: true,
         dataEndpoint: getVerordeningenLineageid,
         dataVersionEndpoint: getVersionVerordeningenObjectuuid,
