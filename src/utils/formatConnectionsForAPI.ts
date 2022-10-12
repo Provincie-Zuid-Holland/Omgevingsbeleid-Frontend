@@ -2,7 +2,6 @@ import cloneDeep from 'lodash.clonedeep'
 
 import {
     BeleidskeuzesRead,
-    BeleidskeuzesWrite,
     GebiedsprogrammasRead,
     ListReference,
     MaatregelenRead,
