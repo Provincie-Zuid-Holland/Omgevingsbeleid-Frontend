@@ -9,7 +9,7 @@ import { Link, useParams } from 'react-router-dom'
 import { VerordeningenRead } from '@/api/fetchers.schemas'
 import ButtonBackToPage from '@/components/ButtonBackToPage'
 import { VerordeningLineageRead } from '@/types/verordening'
-import { patchVerordeningStructure } from '@/utils/verordening'
+import { patchVerordeningStructureChildren } from '@/utils/verordening'
 
 import FormArticleSidebar from '../Form/FormArticleSidebar'
 import VerordeningAddSectionTypeContainer from '../VerordeningAddSectionTypeContainer'
@@ -180,7 +180,7 @@ const VerordeningSectionContainer: FC<VerordeningSectionContainerProps> = ({
                                         })
 
                                         const patchedVerordening =
-                                            await patchVerordeningStructure(
+                                            await patchVerordeningStructureChildren(
                                                 lineageClone!.ID,
                                                 lineageClone?.Structuur
                                                     ?.Children || []

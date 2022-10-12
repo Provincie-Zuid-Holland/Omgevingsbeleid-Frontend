@@ -7,7 +7,7 @@ import {
 } from '@pzh-ui/icons'
 import { FC, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useQueryClient } from 'react-query'
+import { useIsFetching, useQueryClient } from 'react-query'
 import { Link } from 'react-router-dom'
 
 import { BeleidskeuzesRead, MaatregelenRead } from '@/api/fetchers.schemas'
@@ -43,9 +43,19 @@ const Overview = ({ dimensieConstants }: OverviewProps) => {
     const titleSingular = dimensieConstants.TITLE_SINGULAR
     const titlePlural = dimensieConstants.TITLE_PLURAL
     const overviewSlug = dimensieConstants.SLUG_OVERVIEW
-
+    const isFetching = useIsFetching(`/${overviewSlug}`)
     const useGetLineage = getFetcherForType(titleSingular)
-    const { data: policyObjectsFromAPI } = useGetLineage()
+    const queryOptions = {
+        query: {
+            staleTime: 0,
+            refetchOnMount: true,
+        },
+    } as const
+
+    const { data: policyObjectsFromAPI } = useGetLineage(
+        undefined,
+        queryOptions
+    )
 
     /**
      * When the component mounts, fetch the objects from the API and prepare state
@@ -125,7 +135,7 @@ const Overview = ({ dimensieConstants }: OverviewProps) => {
                         </div>
                     </div>
 
-                    {!isLoading ? (
+                    {!isLoading && !isFetching ? (
                         <div className="w-full mt-10">
                             <OverviewTableHeading
                                 ascending={ascending}

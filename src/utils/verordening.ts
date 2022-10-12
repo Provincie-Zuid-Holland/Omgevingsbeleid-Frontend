@@ -1,5 +1,5 @@
 import cloneDeep from 'lodash.clonedeep'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 
 import { getVersionVerordeningenObjectuuid } from '@/api/fetchers'
 import {
@@ -132,6 +132,18 @@ export const patchVerordeningSection = (
 export const useGetVerordeningenStructuren = () =>
     useQuery('/verordeningstructuur', () =>
         axios.get('/verordeningstructuur').then(res => res.data)
+    )
+
+export const useGetVerordeningenStructurenLineageId = (lineageID: string) =>
+    useQuery(
+        `/verordeningstructuur/${lineageID}`,
+        () =>
+            axios
+                .get(`/verordeningstructuur/${lineageID}`)
+                .then(res => res.data),
+        {
+            enabled: !!lineageID,
+        }
     )
 
 export const postVerordeningSection = (
@@ -351,13 +363,61 @@ export const patchOrPostSectionInVerordening = (
 
     const lineageID = verordening.ID
 
-    return patchVerordeningStructure(
+    return patchVerordeningStructureChildren(
         lineageID,
         verordeningStructureForPatch.Structuur.Children
     )
 }
 
-export const patchVerordeningStructure = (
+export const patchVerordeningStructureChildren = (
+    lineageID: number,
+    Chapters: VerordeningStructureChild[]
+) => {
+    return axios
+        .patch(`/verordeningstructuur/${lineageID}`, {
+            Structuur: {
+                Children: Chapters,
+            },
+        })
+        .then(res => res.data)
+        .catch(err => console.log(err))
+}
+
+export const usePatchVerordeningenStructureLineageid = (props: any) => {
+    const mutationFn = (
+        props: undefined | { data: any; lineageid: number }
+    ) => {
+        const { data, lineageid } = props || {}
+
+        return axios
+            .patch(`/verordeningstructuur/${lineageid || ''}`, {
+                ...data,
+            })
+            .then(res => res.data)
+            .catch(err => console.log(err))
+    }
+
+    const options = props.mutation
+    return useMutation(mutationFn, options)
+}
+
+export const usePostVerordeningenStructure = (props: any) => {
+    const mutationFn = (props: undefined | { data: any }) => {
+        const { data } = props || {}
+
+        return axios
+            .post(`/verordeningstructuur`, {
+                ...data,
+            })
+            .then(res => res.data)
+            .catch(err => console.log(err))
+    }
+
+    const options = props.mutation
+    return useMutation(mutationFn, options)
+}
+
+export const usePatchVerordeningStructureLineage = (
     lineageID: number,
     Chapters: VerordeningStructureChild[]
 ) => {

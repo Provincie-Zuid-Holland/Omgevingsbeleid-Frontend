@@ -63,41 +63,6 @@ const revisionObjects = [
         Besluitnummer: '123456',
         Tags: null,
         Aanpassing_Op: null,
-        Ambities: [
-            {
-                Koppeling_Omschrijving: '123',
-                Object: {
-                    ID: 370,
-                    UUID: 'A21AB134-2C79-4786-A517-8FCBBB7B775A',
-                    Begin_Geldigheid: '2020-10-07T00:00:00Z',
-                    Eind_Geldigheid: '9999-12-31T23:00:00Z',
-                    Created_By: '9D4F11BE-A502-4DCE-A6FA-24FB827FD6B7',
-                    Created_Date: '2020-10-26T07:17:19.793000Z',
-                    Modified_By: '359A9254-598E-4BFE-BCEC-AA521E95881A',
-                    Modified_Date: '2021-05-25T14:05:12.783000Z',
-                    Titel: '1. Samen werken aan Zuid-Holland Bewerkt',
-                    Omschrijving:
-                        'De provincie vervult diverse rollen en taken als bestuurslaag midden tussen Europa, Rijk en gemeenten. De provincie is de bestuurslaag bij uitstek om bovenregionale vraagstukken op te pakken. Bijvoorbeeld op het gebied van milieu, recreatie en vervoer en voor alles wat de verbinding brengt tussen dorp en stad. De provincie is ook bij uitstek in staat om afstemming en verbinding tussen gemeenten te stimuleren. De provincie heeft vanuit haar bovenregionale rol overzicht op maatschappelijke vraagstukken en de onderlinge verbanden, trends en best practices. \n\nDe opgaven waar het openbaar bestuur voor gesteld staat, zijn de afgelopen jaren onmiskenbaar complexer geworden. Vooral de transitieopgaven (bijv. sociaal domein, energietransitie, landbouw en klimaatadaptatie) vragen om meer integraliteit en samenwerking tussen overheden en met de samenleving. Er wordt om oplossingen gevraagd, terwijl tegelijkertijd het probleem zich nog ontvouwt. Achteraf kunnen we pas vaststellen wat heeft gewerkt. Met de decentralisatie van taken (decentralisaties sociaal domein, straks Omgevingswet) zijn opgaven en bevoegdheden bovendien naar het lokale niveau gebracht. De (financiële) verantwoordelijkheid van gemeenten is hierdoor fors toegenomen. Dit vraagt ook op lokaal niveau om meer kennis, expertise, betrokkenheid van de samenleving en een solide financiële huishouding om een bijdrage te kunnen leveren aan de maatschappelijke opgaven. Zonder een goed functionerende democratie en bestuur en sterke gemeenten die hun taken goed kunnen uitvoeren gaat het niet lukken om de grote maatschappelijke opgaven aan te pakken. \n\nDe provincie investeert in het behoud en de verbetering van de kwaliteit van het openbaar bestuur en de democratie. Voor een goed werkende democratie zijn lokale en regionale media belangrijk. Zuid-Holland streeft ernaar dat het vertrouwen van inwoners in het openbaar bestuur groeit of op zijn minst gelijk blijft. Een goed openbaar bestuur begint bij de bestuursorganen zelf. Zuid-Holland staat voor effectief eigen bestuur, waarbij effectieve samenwerking op alle niveaus (met collega-overheden, maatschappelijke organisaties, kennisinstellingen, inwoners, PS-GS, regionaal, landelijk en Europees) het uitgangspunt is. Het is een kwestie van samen vormgeven aan de identiteit van Zuid-Holland: veelzijdig, inclusief en vernieuwend. De provincie vindt het belangrijk om sneller tot uitvoering en resultaat te komen. De opgaven zijn vaak complex. Daarom betrekt Zuid-Holland inwoners, organisaties en bedrijfsleven vroegtijdig bij besluitvorming. De provincie stelt zich open en met vertrouwen op voor initiatieven vanuit de samenleving en maakt ruimte voor verschil, experimenten en maatwerk. Participatie verschilt per onderwerp en rol die de provincie heeft. Zuid-Holland is constructief, maar ook duidelijk als iets niet kan. De volksvertegenwoordiging blijft het laatste woord houden.\n',
-                    Weblink: null,
-                },
-            },
-            {
-                Koppeling_Omschrijving: '',
-                Object: {
-                    ID: 513,
-                    UUID: '43D84451-F2F2-4D70-9DED-95D83022117C',
-                    Begin_Geldigheid: '2021-02-03T00:00:00Z',
-                    Eind_Geldigheid: '2021-08-03T00:00:00Z',
-                    Created_By: '359A9254-598E-4BFE-BCEC-AA521E95881A',
-                    Created_Date: '2021-02-03T14:02:18.363000Z',
-                    Modified_By: '359A9254-598E-4BFE-BCEC-AA521E95881A',
-                    Modified_Date: '2021-02-03T14:02:18.363000Z',
-                    Titel: 'Test ambitie woensdag 3 februari 2021',
-                    Omschrijving: 'Omschrijving',
-                    Weblink: 'Weblink',
-                },
-            },
-        ],
         Belangen: [],
         Beleidsdoelen: [
             {
@@ -273,24 +238,6 @@ const revisionObjects = [
         Besluitnummer: '123456',
         Tags: null,
         Aanpassing_Op: 'F43301C2-C373-43F9-B002-E25ED9104102',
-        Ambities: [
-            {
-                Koppeling_Omschrijving: '',
-                Object: {
-                    ID: 513,
-                    UUID: '43D84451-F2F2-4D70-9DED-95D83022117C',
-                    Begin_Geldigheid: '2021-02-03T00:00:00Z',
-                    Eind_Geldigheid: '2021-08-03T00:00:00Z',
-                    Created_By: '359A9254-598E-4BFE-BCEC-AA521E95881A',
-                    Created_Date: '2021-02-03T14:02:18.363000Z',
-                    Modified_By: '359A9254-598E-4BFE-BCEC-AA521E95881A',
-                    Modified_Date: '2021-02-03T14:02:18.363000Z',
-                    Titel: 'Test ambitie woensdag 3 februari 2021',
-                    Omschrijving: 'Omschrijving',
-                    Weblink: 'Weblink',
-                },
-            },
-        ],
         Belangen: [],
         Beleidsdoelen: [
             {
@@ -513,24 +460,6 @@ const revisionObjects = [
         Besluitnummer: '123456',
         Tags: null,
         Aanpassing_Op: null,
-        Ambities: [
-            {
-                Koppeling_Omschrijving: '',
-                Object: {
-                    ID: 513,
-                    UUID: '43D84451-F2F2-4D70-9DED-95D83022117C',
-                    Begin_Geldigheid: '2021-02-03T00:00:00Z',
-                    Eind_Geldigheid: '2021-08-03T00:00:00Z',
-                    Created_By: '359A9254-598E-4BFE-BCEC-AA521E95881A',
-                    Created_Date: '2021-02-03T14:02:18.363000Z',
-                    Modified_By: '359A9254-598E-4BFE-BCEC-AA521E95881A',
-                    Modified_Date: '2021-02-03T14:02:18.363000Z',
-                    Titel: 'Test ambitie woensdag 3 februari 2021',
-                    Omschrijving: 'Omschrijving',
-                    Weblink: 'Weblink',
-                },
-            },
-        ],
         Belangen: [],
         Beleidsdoelen: [
             {
@@ -728,41 +657,6 @@ const revisionObjects = [
         Besluitnummer: '123',
         Tags: null,
         Aanpassing_Op: null,
-        Ambities: [
-            {
-                Koppeling_Omschrijving: '2',
-                Object: {
-                    ID: 375,
-                    UUID: 'B1C374B1-C90A-43D7-B47E-BAABC194FD05',
-                    Begin_Geldigheid: '2020-10-07T00:00:00Z',
-                    Eind_Geldigheid: '9999-12-31T23:59:59Z',
-                    Created_By: '9D4F11BE-A502-4DCE-A6FA-24FB827FD6B7',
-                    Created_Date: '2020-10-26T07:18:57.353000Z',
-                    Modified_By: '9D4F11BE-A502-4DCE-A6FA-24FB827FD6B7',
-                    Modified_Date: '2020-10-28T15:40:50.093000Z',
-                    Titel: '6. Sterke steden en dorpen in Zuid-Holland',
-                    Omschrijving:
-                        'Zuid Holland is een strategisch gelegen delta die altijd mensen heeft aangetrokken. Langs de waterwegen zijn krachtige handelssteden en dorpen ontstaan met elk een uniek profiel en identiteit. Onze steden zijn ontmoetingsplaatsen voor mensen en ideeën. De regio trekt kenniswerkers, bedrijven, toeristen en studenten van over de hele wereld. Stad en land raken steeds sterker met elkaar verbonden. Ons landelijke gebied met zijn dorpen is meer dan ooit een proeftuin voor nieuwe oplossingen op terreinen als klimaat, energie en voedsel. \n\nZuid Holland staat voor de opgave om in het komende decennium een fors aantal betaalbare woningen te realiseren en de bestaande woonvoorraad te verduurzamen. Tegelijkertijd zijn de groeiende steden ook plaatsen waar sociale problematiek zich manifesteert. In het landelijk gebied vormt het behoud van voorzieningen en leefbaarheid een opgave. Onze uitdaging is om een gezonde, sociale, groene en duurzame leefomgeving in te richten. Om die vitale samenleving werkelijkheid te laten worden is meer nodig dan woningbouw alleen. Het leef- en vestigingsklimaat kan versterkt worden door stad en land goed te verbinden, door ruimte te bieden voor groen en water in de stad, door een evenwichtige woningvoorraad en passende werklocaties. De vitaliteit van de stad is ook gebaat bij cultuur, kenniscentra en aantrekkelijke binnensteden. \n\nZuid-Holland wil een aantrekkelijke, duurzame, concurrerende toonaangevende provincie zijn, waar mensen met plezier wonen, werken en recreëren in een aantrekkelijke en gezonde leefomgeving. In Zuid-Holland moet iedereen zich thuis kunnen voelen in sterke steden en dorpen. Daarvoor moeten er voldoende woningen van de juiste kwaliteit op de juiste locatie zijn. De provincie wil de bouw van passende en betaalbare woningen versnellen, met waarborg voor ruimtelijke en sociale kwaliteit en passende mobiliteitsvoorzieningen. Nieuwbouw wordt energieneutraal gebouwd, zolang het de hoeveelheid en het tempo van woningbouw niet belemmert. De provincie wil het economisch potentieel beter benutten door de steden met hun afzonderlijke kwaliteiten te verbinden. Verder wil de provincie dat het bebouwd gebied klimaatadaptief wordt ingericht. Daarbij wordt primair gekozen voor bouwen in bestaand bebouwd gebied en nabij knooppunten van hoogwaardig openbaar vervoer. Daarnaast wordt een integrale afweging gemaakt tussen landschappelijk belang, ruimte voor woningen en bedrijven. Waardevolle landschappen zoals het Groene Hart (inclusief De Waarden), Midden-Delfland, en de kust worden zoveel mogelijk beschermd.\n',
-                    Weblink: null,
-                },
-            },
-            {
-                Koppeling_Omschrijving: '1',
-                Object: {
-                    ID: 513,
-                    UUID: '43D84451-F2F2-4D70-9DED-95D83022117C',
-                    Begin_Geldigheid: '2021-02-03T00:00:00Z',
-                    Eind_Geldigheid: '2021-08-03T00:00:00Z',
-                    Created_By: '359A9254-598E-4BFE-BCEC-AA521E95881A',
-                    Created_Date: '2021-02-03T14:02:18.363000Z',
-                    Modified_By: '359A9254-598E-4BFE-BCEC-AA521E95881A',
-                    Modified_Date: '2021-02-03T14:02:18.363000Z',
-                    Titel: 'Test ambitie woensdag 3 februari 2021',
-                    Omschrijving: 'Omschrijving',
-                    Weblink: 'Weblink',
-                },
-            },
-        ],
         Belangen: [
             {
                 Koppeling_Omschrijving: '1',

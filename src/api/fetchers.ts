@@ -137,6 +137,9 @@ import type {
     GetChangesBeleidsrelatiesOlduuidNewuuid200,
     GetChangesBeleidsrelatiesOlduuidNewuuid404,
     GetChangesBeleidsrelatiesOlduuidNewuuid500,
+    GetChangesGebiedsprogrammasOlduuidNewuuid200,
+    GetChangesGebiedsprogrammasOlduuidNewuuid404,
+    GetChangesGebiedsprogrammasOlduuidNewuuid500,
     GetChangesMaatregelenOlduuidNewuuid200,
     GetChangesMaatregelenOlduuidNewuuid404,
     GetChangesMaatregelenOlduuidNewuuid500,
@@ -150,6 +153,18 @@ import type {
     GetChangesWerkingsgebiedenOlduuidNewuuid404,
     GetChangesWerkingsgebiedenOlduuidNewuuid500,
     GetEdits200Item,
+    GebiedsprogrammasRead,
+    GetGebiedsprogrammas400,
+    GetGebiedsprogrammasParams,
+    PostGebiedsprogrammas400,
+    PostGebiedsprogrammas403,
+    PostGebiedsprogrammas500,
+    GebiedsprogrammasWrite,
+    GetGebiedsprogrammasLineageid404,
+    GetGebiedsprogrammasLineageidParams,
+    PatchGebiedsprogrammasLineageid400,
+    PatchGebiedsprogrammasLineageid403,
+    PatchGebiedsprogrammasLineageid500,
     GebruikersRead,
     GetGraph200,
     PostLogin200,
@@ -229,6 +244,10 @@ import type {
     GetValidBeleidsrelatiesParams,
     GetValidBeleidsrelatiesLineageid404,
     GetValidBeleidsrelatiesLineageidParams,
+    GetValidGebiedsprogrammas404,
+    GetValidGebiedsprogrammasParams,
+    GetValidGebiedsprogrammasLineageid404,
+    GetValidGebiedsprogrammasLineageidParams,
     GetValidMaatregelen404,
     GetValidMaatregelenParams,
     GetValidMaatregelenLineageid404,
@@ -266,6 +285,7 @@ import type {
     GetVersionBeleidsprestatiesObjectuuid404,
     GetVersionBeleidsregelsObjectuuid404,
     GetVersionBeleidsrelatiesObjectuuid404,
+    GetVersionGebiedsprogrammasObjectuuid404,
     GetVersionMaatregelenObjectuuid404,
     GetVersionThemasObjectuuid404,
     GetVersionVerordeningenObjectuuid404,
@@ -2284,6 +2304,62 @@ export const useGetChangesBeleidsrelatiesOlduuidNewuuid = <
 /**
  * @summary Shows the changes between two versions of objects
  */
+export const getChangesGebiedsprogrammasOlduuidNewuuid = (
+    olduuid: string,
+    newuuid: string
+) => {
+    return customInstance<GetChangesGebiedsprogrammasOlduuidNewuuid200>({
+        url: `/changes/gebiedsprogrammas/${olduuid}/${newuuid}`,
+        method: 'get',
+    })
+}
+
+export const getGetChangesGebiedsprogrammasOlduuidNewuuidQueryKey = (
+    olduuid: string,
+    newuuid: string
+) => [`/changes/gebiedsprogrammas/${olduuid}/${newuuid}`]
+
+export const useGetChangesGebiedsprogrammasOlduuidNewuuid = <
+    TData = AsyncReturnType<typeof getChangesGebiedsprogrammasOlduuidNewuuid>,
+    TError =
+        | GetChangesGebiedsprogrammasOlduuidNewuuid404
+        | GetChangesGebiedsprogrammasOlduuidNewuuid500
+>(
+    olduuid: string,
+    newuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getChangesGebiedsprogrammasOlduuidNewuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetChangesGebiedsprogrammasOlduuidNewuuidQueryKey(olduuid, newuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getChangesGebiedsprogrammasOlduuidNewuuid>
+    > = () => getChangesGebiedsprogrammasOlduuidNewuuid(olduuid, newuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getChangesGebiedsprogrammasOlduuidNewuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!(olduuid && newuuid), ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
+/**
+ * @summary Shows the changes between two versions of objects
+ */
 export const getChangesMaatregelenOlduuidNewuuid = (
     olduuid: string,
     newuuid: string
@@ -2537,6 +2613,203 @@ export const useGetEdits = <
         queryKey,
         ...query,
     }
+}
+
+/**
+ * @summary Gets all the gebiedsprogrammas lineages and shows the latests object for each
+ */
+export const getGebiedsprogrammas = (params?: GetGebiedsprogrammasParams) => {
+    return customInstance<GebiedsprogrammasRead[]>({
+        url: `/gebiedsprogrammas`,
+        method: 'get',
+        params,
+    })
+}
+
+export const getGetGebiedsprogrammasQueryKey = (
+    params?: GetGebiedsprogrammasParams
+) => [`/gebiedsprogrammas`, ...(params ? [params] : [])]
+
+export const useGetGebiedsprogrammas = <
+    TData = AsyncReturnType<typeof getGebiedsprogrammas>,
+    TError = GetGebiedsprogrammas400
+>(
+    params?: GetGebiedsprogrammasParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getGebiedsprogrammas>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetGebiedsprogrammasQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getGebiedsprogrammas>
+    > = () => getGebiedsprogrammas(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getGebiedsprogrammas>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
+/**
+ * @summary Creates a new gebiedsprogrammas lineage
+ */
+export const postGebiedsprogrammas = (
+    gebiedsprogrammasWrite: GebiedsprogrammasWrite
+) => {
+    return customInstance<GebiedsprogrammasRead>({
+        url: `/gebiedsprogrammas`,
+        method: 'post',
+        data: gebiedsprogrammasWrite,
+    })
+}
+
+export const usePostGebiedsprogrammas = <
+    TError =
+        | PostGebiedsprogrammas400
+        | PostGebiedsprogrammas403
+        | PostGebiedsprogrammas500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof postGebiedsprogrammas>,
+        TError,
+        { data: GebiedsprogrammasWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof postGebiedsprogrammas>,
+        { data: GebiedsprogrammasWrite }
+    > = props => {
+        const { data } = props || {}
+
+        return postGebiedsprogrammas(data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof postGebiedsprogrammas>,
+        TError,
+        { data: GebiedsprogrammasWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Gets all the gebiedsprogrammas lineages and shows the latests object for each
+ */
+export const getGebiedsprogrammasLineageid = (
+    lineageid: number,
+    params?: GetGebiedsprogrammasLineageidParams
+) => {
+    return customInstance<GebiedsprogrammasRead[]>({
+        url: `/gebiedsprogrammas/${lineageid}`,
+        method: 'get',
+        params,
+    })
+}
+
+export const getGetGebiedsprogrammasLineageidQueryKey = (
+    lineageid: number,
+    params?: GetGebiedsprogrammasLineageidParams
+) => [`/gebiedsprogrammas/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetGebiedsprogrammasLineageid = <
+    TData = AsyncReturnType<typeof getGebiedsprogrammasLineageid>,
+    TError = GetGebiedsprogrammasLineageid404
+>(
+    lineageid: number,
+    params?: GetGebiedsprogrammasLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getGebiedsprogrammasLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetGebiedsprogrammasLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getGebiedsprogrammasLineageid>
+    > = () => getGebiedsprogrammasLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getGebiedsprogrammasLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
+/**
+ * @summary Adds a new gebiedsprogrammas to a lineage
+ */
+export const patchGebiedsprogrammasLineageid = (
+    lineageid: number,
+    gebiedsprogrammasWrite: GebiedsprogrammasWrite
+) => {
+    return customInstance<GebiedsprogrammasRead>({
+        url: `/gebiedsprogrammas/${lineageid}`,
+        method: 'patch',
+        data: gebiedsprogrammasWrite,
+    })
+}
+
+export const usePatchGebiedsprogrammasLineageid = <
+    TError =
+        | PatchGebiedsprogrammasLineageid400
+        | PatchGebiedsprogrammasLineageid403
+        | PatchGebiedsprogrammasLineageid500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof patchGebiedsprogrammasLineageid>,
+        TError,
+        { lineageid: number; data: GebiedsprogrammasWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof patchGebiedsprogrammasLineageid>,
+        { lineageid: number; data: GebiedsprogrammasWrite }
+    > = props => {
+        const { lineageid, data } = props || {}
+
+        return patchGebiedsprogrammasLineageid(lineageid, data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof patchGebiedsprogrammasLineageid>,
+        TError,
+        { lineageid: number; data: GebiedsprogrammasWrite },
+        TContext
+    >(mutationFn, mutationOptions)
 }
 
 /**
@@ -4090,6 +4363,112 @@ export const useGetValidBeleidsrelatiesLineageid = <
 }
 
 /**
+ * @summary Gets all the gebiedsprogrammas lineages and shows the latests valid object for each
+ */
+export const getValidGebiedsprogrammas = (
+    params?: GetValidGebiedsprogrammasParams
+) => {
+    return customInstance<GebiedsprogrammasRead[]>({
+        url: `/valid/gebiedsprogrammas`,
+        method: 'get',
+        params,
+    })
+}
+
+export const getGetValidGebiedsprogrammasQueryKey = (
+    params?: GetValidGebiedsprogrammasParams
+) => [`/valid/gebiedsprogrammas`, ...(params ? [params] : [])]
+
+export const useGetValidGebiedsprogrammas = <
+    TData = AsyncReturnType<typeof getValidGebiedsprogrammas>,
+    TError = GetValidGebiedsprogrammas404
+>(
+    params?: GetValidGebiedsprogrammasParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidGebiedsprogrammas>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetValidGebiedsprogrammasQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidGebiedsprogrammas>
+    > = () => getValidGebiedsprogrammas(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidGebiedsprogrammas>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
+/**
+ * @summary Gets all the gebiedsprogrammas in this lineage that are valid
+ */
+export const getValidGebiedsprogrammasLineageid = (
+    lineageid: number,
+    params?: GetValidGebiedsprogrammasLineageidParams
+) => {
+    return customInstance<GebiedsprogrammasRead[]>({
+        url: `/valid/gebiedsprogrammas/${lineageid}`,
+        method: 'get',
+        params,
+    })
+}
+
+export const getGetValidGebiedsprogrammasLineageidQueryKey = (
+    lineageid: number,
+    params?: GetValidGebiedsprogrammasLineageidParams
+) => [`/valid/gebiedsprogrammas/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetValidGebiedsprogrammasLineageid = <
+    TData = AsyncReturnType<typeof getValidGebiedsprogrammasLineageid>,
+    TError = GetValidGebiedsprogrammasLineageid404
+>(
+    lineageid: number,
+    params?: GetValidGebiedsprogrammasLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidGebiedsprogrammasLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetValidGebiedsprogrammasLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidGebiedsprogrammasLineageid>
+    > = () => getValidGebiedsprogrammasLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidGebiedsprogrammasLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
+/**
  * @summary Gets all the maatregelen lineages and shows the latests valid object for each
  */
 export const getValidMaatregelen = (params?: GetValidMaatregelenParams) => {
@@ -5080,6 +5459,55 @@ export const useGetVersionBeleidsrelatiesObjectuuid = <
 
     const query = useQuery<
         AsyncReturnType<typeof getVersionBeleidsrelatiesObjectuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!objectuuid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
+/**
+ * @summary Gets all the gebiedsprogrammas lineages and shows the latests object for each
+ */
+export const getVersionGebiedsprogrammasObjectuuid = (objectuuid: string) => {
+    return customInstance<GebiedsprogrammasRead>({
+        url: `/version/gebiedsprogrammas/${objectuuid}`,
+        method: 'get',
+    })
+}
+
+export const getGetVersionGebiedsprogrammasObjectuuidQueryKey = (
+    objectuuid: string
+) => [`/version/gebiedsprogrammas/${objectuuid}`]
+
+export const useGetVersionGebiedsprogrammasObjectuuid = <
+    TData = AsyncReturnType<typeof getVersionGebiedsprogrammasObjectuuid>,
+    TError = GetVersionGebiedsprogrammasObjectuuid404
+>(
+    objectuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getVersionGebiedsprogrammasObjectuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetVersionGebiedsprogrammasObjectuuidQueryKey(objectuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getVersionGebiedsprogrammasObjectuuid>
+    > = () => getVersionGebiedsprogrammasObjectuuid(objectuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getVersionGebiedsprogrammasObjectuuid>,
         TError,
         TData
     >(queryKey, queryFn, { enabled: !!objectuuid, ...queryOptions })

@@ -25,13 +25,13 @@ export interface VerordeningStructureChild {
 }
 
 export interface VerordeningLineageWrite {
-    Titel: string
-    Structuur: {
+    Titel?: string
+    Structuur?: {
         Children: VerordeningStructureChild[]
     }
-    Begin_Geldigheid: Date
-    Eind_Geldigheid: Date
-    Status: string
+    Begin_Geldigheid?: string
+    Eind_Geldigheid?: string
+    Status?: string
 }
 
 export interface VerordeningChildWrite {

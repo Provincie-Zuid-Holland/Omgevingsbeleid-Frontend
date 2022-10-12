@@ -26,9 +26,13 @@ import {
     getValidThemas,
     getValidBeleidsdoelen,
     getValidVerordeningen,
+    getGebiedsprogrammas,
+    getVersionGebiedsprogrammasObjectuuid,
+    getValidGebiedsprogrammas,
 } from '@/api/fetchers'
 import ProtectedRoute from '@/App/Routes/ProtectedRoute'
 import allDimensies, { filteredDimensieConstants } from '@/constants/dimensies'
+import policyObjects from '@/constants/policyObjects'
 import {
     BeleidsmodulesOverview,
     Beleidsrelaties,
@@ -36,7 +40,7 @@ import {
     Detail,
     Overview,
 } from '@/pages/protected'
-import UniversalObjectCRUD from '@/pages/protected/Overview/UniversalObjectCRUD'
+import MutatePolicy from '@/pages/protected/MutatePolicy'
 
 export type DetailPageEndpoint =
     | typeof getAmbitiesLineageid
@@ -48,6 +52,7 @@ export type DetailPageEndpoint =
     | typeof getThemasLineageid
     | typeof getBeleidsdoelenLineageid
     | typeof getVerordeningenLineageid
+    | typeof getGebiedsprogrammas
 
 export type DetailPageVersionEndpoint =
     | typeof getVersionAmbitiesObjectuuid
@@ -59,6 +64,7 @@ export type DetailPageVersionEndpoint =
     | typeof getVersionThemasObjectuuid
     | typeof getVersionBeleidsdoelenObjectuuid
     | typeof getVersionVerordeningenObjectuuid
+    | typeof getVersionGebiedsprogrammasObjectuuid
 
 export type DetailPageValidEndpoint =
     | typeof getValidAmbities
@@ -70,12 +76,13 @@ export type DetailPageValidEndpoint =
     | typeof getValidThemas
     | typeof getValidBeleidsdoelen
     | typeof getValidVerordeningen
+    | typeof getValidGebiedsprogrammas
 
-const getOverview = (dimensie: keyof typeof allDimensies) => (
+const getOverview = (policyType: keyof typeof allDimensies) => (
     <ProtectedRoute
         redirectTo="/muteer/dashboard"
         roles={
-            dimensie === 'BELEIDSMODULES'
+            policyType === 'BELEIDSMODULES'
                 ? [
                       'Beheerder',
                       'Functioneel beheerder',
@@ -96,36 +103,30 @@ const getOverview = (dimensie: keyof typeof allDimensies) => (
         }>
         <Overview
             dimensieConstants={
-                allDimensies[dimensie] as filteredDimensieConstants
+                allDimensies[policyType] as filteredDimensieConstants
             }
         />
     </ProtectedRoute>
 )
 
-const getChildren = (dimensie: keyof typeof allDimensies) => [
+const getChildren = (policyType: keyof typeof policyObjects) => [
     {
         path: 'nieuw',
-        element: (
-            <UniversalObjectCRUD
-                dimensieConstants={
-                    allDimensies[dimensie] as filteredDimensieConstants
-                }
-            />
-        ),
+        element: <MutatePolicy policyConstants={policyObjects[policyType]} />,
     },
     {
         path: ':single',
         children: [
-            ...(((dimensie === 'MAATREGELEN' ||
-                dimensie === 'BELEIDSKEUZES') && [
+            ...(((policyType === 'MAATREGELEN' ||
+                policyType === 'BELEIDSKEUZES') && [
                 {
                     index: true,
                     element: (
-                        <Detail dimensieConstants={allDimensies[dimensie]} />
+                        <Detail dimensieConstants={allDimensies[policyType]} />
                     ),
                 },
             ]) ||
-                (dimensie === 'BELEIDSMODULES' && [
+                (policyType === 'BELEIDSMODULES' && [
                     {
                         index: true,
                         element: <BeleidsmodulesOverview />,
@@ -135,11 +136,7 @@ const getChildren = (dimensie: keyof typeof allDimensies) => [
             {
                 path: 'bewerk',
                 element: (
-                    <UniversalObjectCRUD
-                        dimensieConstants={
-                            allDimensies[dimensie] as filteredDimensieConstants
-                        }
-                    />
+                    <MutatePolicy policyConstants={policyObjects[policyType]} />
                 ),
             },
         ],
@@ -226,6 +223,16 @@ const detailPages = [
         dataEndpoint: getBeleidsdoelenLineageid,
         dataVersionEndpoint: getVersionBeleidsdoelenObjectuuid,
         dataValidEndpoint: getValidBeleidsdoelen,
+    },
+    {
+        slug: 'gebiedsprogrammas',
+        dataModel: allDimensies.BELEIDSDOELEN,
+        element: getOverview('GEBIEDSPROGRAMMAS'),
+        children: getChildren('GEBIEDSPROGRAMMAS'),
+        isPublic: true,
+        dataEndpoint: getGebiedsprogrammas,
+        dataVersionEndpoint: getVersionGebiedsprogrammasObjectuuid,
+        dataValidEndpoint: getValidGebiedsprogrammas,
     },
     {
         slug: 'verordeningen',

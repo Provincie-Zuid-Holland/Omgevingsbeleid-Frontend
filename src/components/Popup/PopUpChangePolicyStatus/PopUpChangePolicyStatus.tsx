@@ -60,8 +60,6 @@ function PopUpChangePolicyStatus({
                         ? getGetMaatregelenQueryKey()
                         : ''
 
-                console.log('Invalidate ', queryKeyAllLineages)
-
                 queryClient.invalidateQueries(queryKeyLineage)
                 queryClient.invalidateQueries(queryKeyAllLineages)
 
@@ -109,7 +107,7 @@ function PopUpChangePolicyStatus({
 
         mutatePolicyLineage.mutate({
             lineageid: policy.ID!,
-            data: patchObject,
+            data: patchObject as any,
         })
     }
 

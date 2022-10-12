@@ -157,12 +157,6 @@ export const CRUD_PROPERTIES = {
         requiredMessage: '',
         type: 'connection',
     },
-    Ambities: {
-        initValue: [],
-        required: [],
-        requiredMessage: '',
-        type: 'connection',
-    },
     Beleidsprestaties: {
         initValue: [],
         required: [],

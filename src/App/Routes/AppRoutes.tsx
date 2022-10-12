@@ -2,10 +2,10 @@ import { useCallback, useLayoutEffect } from 'react'
 import { useNavigate, useRoutes } from 'react-router-dom'
 
 import { NetworkGraph } from '@/components/Network'
-import allDimensies from '@/constants/dimensies'
+import policyObjects from '@/constants/policyObjects'
 import useAuth from '@/hooks/useAuth'
 import { Dashboard, MijnBeleid } from '@/pages/protected'
-import UniversalObjectCRUD from '@/pages/protected/Overview/UniversalObjectCRUD'
+import MutatePolicy from '@/pages/protected/MutatePolicy'
 import VerordeningEdit from '@/pages/protected/VerordeningEdit'
 import {
     Accessibility,
@@ -100,10 +100,8 @@ const AppRoutes = () => {
                         {
                             path: 'nieuw',
                             element: (
-                                <UniversalObjectCRUD
-                                    dimensieConstants={
-                                        allDimensies.VERORDENINGSTRUCTUUR
-                                    }
+                                <MutatePolicy
+                                    policyConstants={policyObjects.VERORDENING}
                                 />
                             ),
                         },
@@ -117,9 +115,9 @@ const AppRoutes = () => {
                                 {
                                     path: 'bewerk',
                                     element: (
-                                        <UniversalObjectCRUD
-                                            dimensieConstants={
-                                                allDimensies.VERORDENINGSTRUCTUUR
+                                        <MutatePolicy
+                                            policyConstants={
+                                                policyObjects.VERORDENING
                                             }
                                         />
                                     ),

@@ -43,41 +43,7 @@ const beleidskeuzeChangesRevisions = [
         Besluitnummer: 'PZH-2021-771175798',
         Tags: '',
         Aanpassing_Op: '1E9CC76A-BBED-4D3C-9EA9-EB4F6FA2E3E1',
-        Ambities: [
-            {
-                Koppeling_Omschrijving: null,
-                Object: {
-                    ID: 0,
-                    UUID: '00000000-0000-0000-0000-000000000000',
-                    Begin_Geldigheid: '1753-01-01T00:00:00Z',
-                    Eind_Geldigheid: '9999-12-31T23:59:59Z',
-                    Created_By: '00000000-0000-0000-0000-000000000000',
-                    Created_Date: '1753-01-01T00:00:00Z',
-                    Modified_By: '00000000-0000-0000-0000-000000000000',
-                    Modified_Date: '9999-12-31T23:59:59Z',
-                    Titel: 'Titel',
-                    Omschrijving: null,
-                    Weblink: null,
-                },
-            },
-            {
-                Koppeling_Omschrijving: null,
-                Object: {
-                    ID: 371,
-                    UUID: '0B9E2416-6678-4863-BBC7-EF781EB161E6',
-                    Begin_Geldigheid: '2020-10-07T00:00:00Z',
-                    Eind_Geldigheid: '9999-12-31T23:59:59Z',
-                    Created_By: '9D4F11BE-A502-4DCE-A6FA-24FB827FD6B7',
-                    Created_Date: '2020-10-26T07:17:41.010000Z',
-                    Modified_By: '9D4F11BE-A502-4DCE-A6FA-24FB827FD6B7',
-                    Modified_Date: '2020-10-28T15:36:28.357000Z',
-                    Titel: '2. Bereikbaar Zuid-Holland',
-                    Omschrijving:
-                        'Snel van A naar B. Naar school, naar het werk, een bezoek aan vrienden of om goederen te bezorgen. Bereikbaar Zuid-Holland is belangrijk. Daarom zorgt de provincie voor de aanleg en onderhoud van fietspaden, wandelpaden, (vaar)wegen, bruggen en sluizen. En investeren we in goed openbaar vervoer en nieuwe vervoerswijzen. Ook zorgen we ervoor dat alles goed functioneert en op elkaar aansluit. Zo kan iedereen een snelle en veilige reis van deur tot deur maken op de manier waarvoor hij of zij kiest. Lopend, met de fiets, het openbaar vervoer, de auto of een combinatie daarvan. Ook voor vrachtvervoer streven we naar een bewuste keuze: De bakfiets of zero-emissie stadslogistiek in de binnenstad, de vrachtwagen, trein, schip of buisleiding voor grotere afstanden. \r\n\r\nZuid-Holland is de toegangspoort van Europa en de best bereikbare regio. Voor personen- en goederenvervoer beschikken we over goede netwerken, waaronder de grootste en modernste haven van Europa. Voor Nederland en dus Zuid-Holland is een goede internationale bereikbaarheid van de mainports, steden en andere economische kerngebieden, een basisvoorwaarde voor onze internationale concurrentiepositie. We bieden kansen voor innovatieve vormen van mobiliteit en hebben de hoogste OV-reizigerstevredenheid van Nederland. \r\n\r\nOnze goede bereikbaarheid staat onder druk onder andere door bevolkingsgroei en verstedelijking. Tegelijkertijd is openbaar vervoer in landelijke gebieden een uitdaging. Ook de corona-crisis heeft impact op onze mobiliteit. Voorlopig minder mensen in het OV, meer mensen kiezen voor individuele vervoermiddelen zoals fiets en auto. Het onderhoud aan de infrastructuur gaat de komende jaren voor flinke hinder en financiële uitdagingen zorgen. Bereikbaarheid is daarbij geen op zichzelf staand doel, maar bevordert de leefbaarheid, welzijn, economische ontwikkeling en een goede ontsluiting van woon- en werkgebieden. \r\nDe provincie zet in op lopen, fietsen, openbaar vervoer én de auto. De reiziger in Zuid-Holland wil verschillende mogelijkheden om een goede en betaalbare reis van deur tot deur te kunnen maken. Tegelijkertijd helpt het optimaal benutten van alle verschillende vervoerswijzen het beperken van files op de weg. De opkomst van de E-bike maakt dat inwoners en bezoekers vaker en verder fietsen. Hierdoor is de fiets vaker een volwaardig alternatief. Technologische ontwikkelingen zoals autonoom rijden, digitalisering en de opkomst van Smart Mobility bieden kansen voor de mobiliteit van de toekomst die we graag benutten. \r\nWij willen dat iedereen in Zuid-Holland op een efficiënte veilige, duurzame, snelle en makkelijke manier van huis naar werk, opleiding of vrijetijdsbestemming kan reizen. Of je nu lopend, met de fiets, het openbaar vervoer, de auto, over het water, of een combinatie daarvan naar je bestemming wilt. Voor goederen stimuleren we vervoer over spoor en het water als alternatief voor vrachtverkeer over de weg en streven we naar toegevoegde economische waarde in Zuid-Holland. Luchtvaart komt aan de orde in de ambitie ‘schoon en veilig’. Schone en duurzame mobiliteit draagt bij aan de gezondheid van onze inwoners en zorgt ervoor dat steden aantrekkelijker worden. Ook vergroot het de mogelijkheden voor verdere verstedelijking. De energietransitie zorgt voor de opkomst van schonere alternatieven die voor minder of geen CO2-uitstoot zorgen. De vraag naar schone en slimme distributie neemt toe, ook omdat consumenten steeds vaker inkopen online doen en deze thuis laten bezorgen. \r\n\r\nMet onze inzet op duurzame en schone infrastructuur bouwen we aan een robuuste, toekomstbestendige provinciale infrastructuur en geven we het goede voorbeeld. \r\n\r\nWij willen het aantal verkeersslachtoffers terugbrengen. Ieder verkeersslachtoffer is er één te veel. \r\n\r\nDe ambitie van de provincie is om mobiliteit efficiënt, veilig en duurzaam te laten plaatsvinden, over de weg, het water en het spoor. Daarmee zorgen wij voor een Bereikbaar Zuid-Holland.\r\n',
-                    Weblink: null,
-                },
-            },
-        ],
+
         Belangen: [],
         Beleidsdoelen: [
             {
@@ -229,41 +195,6 @@ const beleidskeuzeChangesRevisions = [
         Besluitnummer: 'PZH-2021-771175798',
         Tags: '',
         Aanpassing_Op: null,
-        Ambities: [
-            {
-                Koppeling_Omschrijving: null,
-                Object: {
-                    ID: 0,
-                    UUID: '00000000-0000-0000-0000-000000000000',
-                    Begin_Geldigheid: '1753-01-01T00:00:00Z',
-                    Eind_Geldigheid: '9999-12-31T23:59:59Z',
-                    Created_By: '00000000-0000-0000-0000-000000000000',
-                    Created_Date: '1753-01-01T00:00:00Z',
-                    Modified_By: '00000000-0000-0000-0000-000000000000',
-                    Modified_Date: '9999-12-31T23:59:59Z',
-                    Titel: 'Titel',
-                    Omschrijving: null,
-                    Weblink: null,
-                },
-            },
-            {
-                Koppeling_Omschrijving: null,
-                Object: {
-                    ID: 371,
-                    UUID: '0B9E2416-6678-4863-BBC7-EF781EB161E6',
-                    Begin_Geldigheid: '2020-10-07T00:00:00Z',
-                    Eind_Geldigheid: '9999-12-31T23:59:59Z',
-                    Created_By: '9D4F11BE-A502-4DCE-A6FA-24FB827FD6B7',
-                    Created_Date: '2020-10-26T07:17:41.010000Z',
-                    Modified_By: '9D4F11BE-A502-4DCE-A6FA-24FB827FD6B7',
-                    Modified_Date: '2020-10-28T15:36:28.357000Z',
-                    Titel: '2. Bereikbaar Zuid-Holland',
-                    Omschrijving:
-                        'Snel van A naar B. Naar school, naar het werk, een bezoek aan vrienden of om goederen te bezorgen. Bereikbaar Zuid-Holland is belangrijk. Daarom zorgt de provincie voor de aanleg en onderhoud van fietspaden, wandelpaden, (vaar)wegen, bruggen en sluizen. En investeren we in goed openbaar vervoer en nieuwe vervoerswijzen. Ook zorgen we ervoor dat alles goed functioneert en op elkaar aansluit. Zo kan iedereen een snelle en veilige reis van deur tot deur maken op de manier waarvoor hij of zij kiest. Lopend, met de fiets, het openbaar vervoer, de auto of een combinatie daarvan. Ook voor vrachtvervoer streven we naar een bewuste keuze: De bakfiets of zero-emissie stadslogistiek in de binnenstad, de vrachtwagen, trein, schip of buisleiding voor grotere afstanden. \r\n\r\nZuid-Holland is de toegangspoort van Europa en de best bereikbare regio. Voor personen- en goederenvervoer beschikken we over goede netwerken, waaronder de grootste en modernste haven van Europa. Voor Nederland en dus Zuid-Holland is een goede internationale bereikbaarheid van de mainports, steden en andere economische kerngebieden, een basisvoorwaarde voor onze internationale concurrentiepositie. We bieden kansen voor innovatieve vormen van mobiliteit en hebben de hoogste OV-reizigerstevredenheid van Nederland. \r\n\r\nOnze goede bereikbaarheid staat onder druk onder andere door bevolkingsgroei en verstedelijking. Tegelijkertijd is openbaar vervoer in landelijke gebieden een uitdaging. Ook de corona-crisis heeft impact op onze mobiliteit. Voorlopig minder mensen in het OV, meer mensen kiezen voor individuele vervoermiddelen zoals fiets en auto. Het onderhoud aan de infrastructuur gaat de komende jaren voor flinke hinder en financiële uitdagingen zorgen. Bereikbaarheid is daarbij geen op zichzelf staand doel, maar bevordert de leefbaarheid, welzijn, economische ontwikkeling en een goede ontsluiting van woon- en werkgebieden. \r\nDe provincie zet in op lopen, fietsen, openbaar vervoer én de auto. De reiziger in Zuid-Holland wil verschillende mogelijkheden om een goede en betaalbare reis van deur tot deur te kunnen maken. Tegelijkertijd helpt het optimaal benutten van alle verschillende vervoerswijzen het beperken van files op de weg. De opkomst van de E-bike maakt dat inwoners en bezoekers vaker en verder fietsen. Hierdoor is de fiets vaker een volwaardig alternatief. Technologische ontwikkelingen zoals autonoom rijden, digitalisering en de opkomst van Smart Mobility bieden kansen voor de mobiliteit van de toekomst die we graag benutten. \r\nWij willen dat iedereen in Zuid-Holland op een efficiënte veilige, duurzame, snelle en makkelijke manier van huis naar werk, opleiding of vrijetijdsbestemming kan reizen. Of je nu lopend, met de fiets, het openbaar vervoer, de auto, over het water, of een combinatie daarvan naar je bestemming wilt. Voor goederen stimuleren we vervoer over spoor en het water als alternatief voor vrachtverkeer over de weg en streven we naar toegevoegde economische waarde in Zuid-Holland. Luchtvaart komt aan de orde in de ambitie ‘schoon en veilig’. Schone en duurzame mobiliteit draagt bij aan de gezondheid van onze inwoners en zorgt ervoor dat steden aantrekkelijker worden. Ook vergroot het de mogelijkheden voor verdere verstedelijking. De energietransitie zorgt voor de opkomst van schonere alternatieven die voor minder of geen CO2-uitstoot zorgen. De vraag naar schone en slimme distributie neemt toe, ook omdat consumenten steeds vaker inkopen online doen en deze thuis laten bezorgen. \r\n\r\nMet onze inzet op duurzame en schone infrastructuur bouwen we aan een robuuste, toekomstbestendige provinciale infrastructuur en geven we het goede voorbeeld. \r\n\r\nWij willen het aantal verkeersslachtoffers terugbrengen. Ieder verkeersslachtoffer is er één te veel. \r\n\r\nDe ambitie van de provincie is om mobiliteit efficiënt, veilig en duurzaam te laten plaatsvinden, over de weg, het water en het spoor. Daarmee zorgen wij voor een Bereikbaar Zuid-Holland.\r\n',
-                    Weblink: null,
-                },
-            },
-        ],
         Belangen: [],
         Beleidsdoelen: [
             {
@@ -437,61 +368,6 @@ const beleidskeuzeChangesRevisions = [
         Besluitnummer: 'PZH-2021-771175798',
         Tags: '',
         Aanpassing_Op: null,
-        Ambities: [
-            {
-                Koppeling_Omschrijving:
-                    'Nieuwe omschrijving in bestaand object.',
-                Object: {
-                    ID: 0,
-                    UUID: '00000000-0000-0000-0000-000000000000',
-                    Begin_Geldigheid: '1753-01-01T00:00:00Z',
-                    Eind_Geldigheid: '9999-12-31T23:59:59Z',
-                    Created_By: '00000000-0000-0000-0000-000000000000',
-                    Created_Date: '1753-01-01T00:00:00Z',
-                    Modified_By: '00000000-0000-0000-0000-000000000000',
-                    Modified_Date: '9999-12-31T23:59:59Z',
-                    Titel: 'Titel',
-                    Omschrijving: null,
-                    Weblink: null,
-                },
-            },
-            {
-                Koppeling_Omschrijving:
-                    'Nieuwe omschrijving in bestaand object met ontzettend lange beschrijving. Lacus pulvinar vel accumsan vulputate mus ac montes egestas adipiscing quis auctor velit, netus viverra habitant aptent purus ultrices sociosqu inceptos bibendum facilisis porta. Gravida posuere fermentum congue ipsum mi aliquet iaculis etiam adipiscing, nibh integer quis nec malesuada netus mus aptent cras, per fringilla feugiat ad sollicitudin cursus a parturient. Augue curabitur suscipit id phasellus mauris tincidunt ligula, risus nibh tristique dolor lorem suspendisse, pellentesque leo habitasse nisi himenaeos nec...',
-                Object: {
-                    ID: 371,
-                    UUID: '0B9E2416-6678-4863-BBC7-EF781EB161E6',
-                    Begin_Geldigheid: '2020-10-07T00:00:00Z',
-                    Eind_Geldigheid: '9999-12-31T23:59:59Z',
-                    Created_By: '9D4F11BE-A502-4DCE-A6FA-24FB827FD6B7',
-                    Created_Date: '2020-10-26T07:17:41.010000Z',
-                    Modified_By: '9D4F11BE-A502-4DCE-A6FA-24FB827FD6B7',
-                    Modified_Date: '2020-10-28T15:36:28.357000Z',
-                    Titel: '2. Bereikbaar Zuid-Holland',
-                    Omschrijving:
-                        'Snel van A naar B. Naar school, naar het werk, een bezoek aan vrienden of om goederen te bezorgen. Bereikbaar Zuid-Holland is belangrijk. Daarom zorgt de provincie voor de aanleg en onderhoud van fietspaden, wandelpaden, (vaar)wegen, bruggen en sluizen. En investeren we in goed openbaar vervoer en nieuwe vervoerswijzen. Ook zorgen we ervoor dat alles goed functioneert en op elkaar aansluit. Zo kan iedereen een snelle en veilige reis van deur tot deur maken op de manier waarvoor hij of zij kiest. Lopend, met de fiets, het openbaar vervoer, de auto of een combinatie daarvan. Ook voor vrachtvervoer streven we naar een bewuste keuze: De bakfiets of zero-emissie stadslogistiek in de binnenstad, de vrachtwagen, trein, schip of buisleiding voor grotere afstanden. \r\n\r\nZuid-Holland is de toegangspoort van Europa en de best bereikbare regio. Voor personen- en goederenvervoer beschikken we over goede netwerken, waaronder de grootste en modernste haven van Europa. Voor Nederland en dus Zuid-Holland is een goede internationale bereikbaarheid van de mainports, steden en andere economische kerngebieden, een basisvoorwaarde voor onze internationale concurrentiepositie. We bieden kansen voor innovatieve vormen van mobiliteit en hebben de hoogste OV-reizigerstevredenheid van Nederland. \r\n\r\nOnze goede bereikbaarheid staat onder druk onder andere door bevolkingsgroei en verstedelijking. Tegelijkertijd is openbaar vervoer in landelijke gebieden een uitdaging. Ook de corona-crisis heeft impact op onze mobiliteit. Voorlopig minder mensen in het OV, meer mensen kiezen voor individuele vervoermiddelen zoals fiets en auto. Het onderhoud aan de infrastructuur gaat de komende jaren voor flinke hinder en financiële uitdagingen zorgen. Bereikbaarheid is daarbij geen op zichzelf staand doel, maar bevordert de leefbaarheid, welzijn, economische ontwikkeling en een goede ontsluiting van woon- en werkgebieden. \r\nDe provincie zet in op lopen, fietsen, openbaar vervoer én de auto. De reiziger in Zuid-Holland wil verschillende mogelijkheden om een goede en betaalbare reis van deur tot deur te kunnen maken. Tegelijkertijd helpt het optimaal benutten van alle verschillende vervoerswijzen het beperken van files op de weg. De opkomst van de E-bike maakt dat inwoners en bezoekers vaker en verder fietsen. Hierdoor is de fiets vaker een volwaardig alternatief. Technologische ontwikkelingen zoals autonoom rijden, digitalisering en de opkomst van Smart Mobility bieden kansen voor de mobiliteit van de toekomst die we graag benutten. \r\nWij willen dat iedereen in Zuid-Holland op een efficiënte veilige, duurzame, snelle en makkelijke manier van huis naar werk, opleiding of vrijetijdsbestemming kan reizen. Of je nu lopend, met de fiets, het openbaar vervoer, de auto, over het water, of een combinatie daarvan naar je bestemming wilt. Voor goederen stimuleren we vervoer over spoor en het water als alternatief voor vrachtverkeer over de weg en streven we naar toegevoegde economische waarde in Zuid-Holland. Luchtvaart komt aan de orde in de ambitie ‘schoon en veilig’. Schone en duurzame mobiliteit draagt bij aan de gezondheid van onze inwoners en zorgt ervoor dat steden aantrekkelijker worden. Ook vergroot het de mogelijkheden voor verdere verstedelijking. De energietransitie zorgt voor de opkomst van schonere alternatieven die voor minder of geen CO2-uitstoot zorgen. De vraag naar schone en slimme distributie neemt toe, ook omdat consumenten steeds vaker inkopen online doen en deze thuis laten bezorgen. \r\n\r\nMet onze inzet op duurzame en schone infrastructuur bouwen we aan een robuuste, toekomstbestendige provinciale infrastructuur en geven we het goede voorbeeld. \r\n\r\nWij willen het aantal verkeersslachtoffers terugbrengen. Ieder verkeersslachtoffer is er één te veel. \r\n\r\nDe ambitie van de provincie is om mobiliteit efficiënt, veilig en duurzaam te laten plaatsvinden, over de weg, het water en het spoor. Daarmee zorgen wij voor een Bereikbaar Zuid-Holland.\r\n',
-                    Weblink: null,
-                },
-            },
-            {
-                Koppeling_Omschrijving: 'Nieuwe koppeling en omschrijving :-)',
-                Object: {
-                    ID: 370,
-                    UUID: '0B7AC66F-042A-40AD-98B8-F20105E78F8F',
-                    Begin_Geldigheid: '2021-08-07T00:00:00Z',
-                    Eind_Geldigheid: '9999-12-31T23:59:59Z',
-                    Created_By: '9D4F11BE-A502-4DCE-A6FA-24FB827FD6B7',
-                    Created_Date: '2020-10-26T07:17:19.793000Z',
-                    Modified_By: '9D4F11BE-A502-4DCE-A6FA-24FB827FD6B7',
-                    Modified_Date: '2021-08-09T07:32:29.417000Z',
-                    Titel: '1. Samen werken aan Zuid-Holland',
-                    Omschrijving:
-                        'De provincie vervult diverse rollen en taken als bestuurslaag midden tussen Europa, Rijk en gemeenten. De provincie is de bestuurslaag bij uitstek om bovenregionale vraagstukken op te pakken. Bijvoorbeeld op het gebied van milieu, recreatie en vervoer en voor alles wat de verbinding brengt tussen dorp en stad. De provincie is ook bij uitstek in staat om afstemming en verbinding tussen gemeenten te stimuleren. De provincie heeft vanuit haar bovenregionale rol overzicht op maatschappelijke vraagstukken en de onderlinge verbanden, trends en best practices.\r\n\r\nDe opgaven waar het openbaar bestuur voor gesteld staat, zijn de afgelopen jaren onmiskenbaar complexer geworden. Vooral de transitieopgaven (bijv. sociaal domein, energietransitie, landbouw en klimaatadaptatie) vragen om meer integraliteit en samenwerking tussen overheden en met de samenleving. Er wordt om oplossingen gevraagd, terwijl tegelijkertijd het probleem zich nog ontvouwt. Achteraf kunnen we pas vaststellen wat heeft gewerkt. Met de decentralisatie van taken (decentralisaties sociaal domein, straks Omgevingswet) zijn opgaven en bevoegdheden bovendien naar het lokale niveau gebracht. De (financiële) verantwoordelijkheid van gemeenten is hierdoor fors toegenomen. Dit vraagt ook op lokaal niveau om meer kennis, expertise, betrokkenheid van de samenleving en een solide financiële huishouding om een bijdrage te kunnen leveren aan de maatschappelijke opgaven. Zonder een goed functionerende democratie en bestuur en sterke gemeenten die hun taken goed kunnen uitvoeren gaat het niet lukken om de grote maatschappelijke opgaven aan te pakken.\r\n\r\nDe provincie investeert in het behoud en de verbetering van de kwaliteit van het openbaar bestuur en de democratie. Voor een goed werkende democratie zijn lokale en regionale media belangrijk. Zuid-Holland streeft ernaar dat het vertrouwen van inwoners in het openbaar bestuur groeit of op zijn minst gelijk blijft. Een goed openbaar bestuur begint bij de bestuursorganen zelf. Zuid-Holland staat voor effectief eigen bestuur,\r\nwaarbij effectieve samenwerking op alle niveaus (met collega-overheden, maatschappelijke organisaties, kennisinstellingen, inwoners, PS-GS, regionaal, landelijk en Europees) het uitgangspunt is. Het is een kwestie van samen vormgeven aan de identiteit van Zuid-Holland: veelzijdig, inclusief en vernieuwend. De provincie vindt het belangrijk om sneller tot uitvoering en resultaat te komen. De opgaven zijn vaak complex. Daarom\r\nbetrekt Zuid-Holland inwoners, organisaties en bedrijfsleven vroegtijdig bij besluitvorming. De provincie stelt zich open en met vertrouwen op voor initiatieven vanuit de samenleving en maakt ruimte voor verschil, experimenten en maatwerk. Participatie verschilt per onderwerp en rol die de provincie heeft. Zuid-Holland is constructief, maar ook duidelijk als iets niet kan. De volksvertegenwoordiging blijft het laatste woord houden. ',
-                    Weblink:
-                        'http://idms/otcs/llisapi.dll/open/PZH-2021-771175798',
-                },
-            },
-        ],
         Belangen: [],
         Beleidsdoelen: [
             {

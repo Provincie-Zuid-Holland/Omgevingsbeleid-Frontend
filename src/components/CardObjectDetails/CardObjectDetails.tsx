@@ -62,11 +62,11 @@ function CardObjectDetails({
             className="w-full h-full">
             <Tippy disabled={disableTippy} content={object.Titel}>
                 <Link
-                    className="relative h-full w-full inline-block px-4 pt-4 pb-6 overflow-hidden bg-white rounded shadow-md"
+                    className="relative inline-block w-full h-full px-4 pt-4 pb-6 overflow-hidden bg-white rounded shadow-md"
                     to={detailPageLink}
                     id={elementID}>
                     <span
-                        className="block py-1 text-sm text-gray-600 font-bold"
+                        className="block py-1 text-sm font-bold text-gray-600"
                         data-testid="card-object-title">
                         {titleSingular}
                     </span>
