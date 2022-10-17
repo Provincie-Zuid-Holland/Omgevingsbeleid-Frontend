@@ -35,7 +35,11 @@ const App = () => {
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
     const isNetworkVisualization = usePage('/netwerkvisualisatie')
 
-    if (process.env.NODE_ENV !== 'production' && !process.env.JEST_WORKER_ID) {
+    if (
+        process.env.NODE_ENV !== 'production' &&
+        !process.env.JEST_WORKER_ID &&
+        process.env.REACT_APP_ENABLE_AXE === 'true'
+    ) {
         axe()
     }
 

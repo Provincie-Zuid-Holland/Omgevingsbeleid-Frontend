@@ -1,7 +1,8 @@
 import { Text } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
+import { useIsFetching } from 'react-query'
 import { useParams, Link } from 'react-router-dom'
 
 import {
@@ -12,7 +13,7 @@ import { BeleidskeuzesRead, MaatregelenRead } from '@/api/fetchers.schemas'
 import CheckedOutPolicyContainer from '@/components/CheckedOutPolicyContainer'
 import { ContainerMain } from '@/components/Container'
 import LineIndicatorArchived from '@/components/LineIndicatorArchived'
-import { LoaderPolicyDetail } from '@/components/Loader'
+import { LoaderIndicator, LoaderPolicyDetail } from '@/components/Loader'
 import PageSpecificNavBar from '@/components/PageSpecificNavBar'
 import PolicyDetailCard from '@/components/PolicyDetailCard'
 import allDimensies from '@/constants/dimensies'
@@ -59,6 +60,9 @@ function Detail({ dimensieConstants }: DetailProps) {
     const { isLoading: lineageIsLoading, data: lineage } = useGetLineage(
         parseInt(objectID!)
     )
+    const isFetching = useIsFetching({
+        queryKey: `/${overviewSlug}/${objectID}`,
+    })
 
     /**
      * Prepare state when the lineage is set
@@ -135,6 +139,15 @@ function Detail({ dimensieConstants }: DetailProps) {
             : ''
     }`
 
+    if (lineageIsLoading || isFetching) {
+        return (
+            <Fragment>
+                <LoaderPolicyDetail />
+                <LoaderIndicator />
+            </Fragment>
+        )
+    }
+
     return (
         <>
             <Helmet>
@@ -148,8 +161,6 @@ function Detail({ dimensieConstants }: DetailProps) {
 
             <ContainerMain>
                 <div className="w-full mt-16 mb-10">
-                    {lineageIsLoading ? <LoaderPolicyDetail /> : null}
-
                     {currentValidPolicy && !checkedOutPolicy ? (
                         <div className="pl-6">
                             <Link

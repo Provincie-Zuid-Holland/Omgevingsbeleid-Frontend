@@ -73,30 +73,22 @@ describe('AppRoutes', () => {
         navigateToMenuItem('Verordening')
 
         await waitFor(() => {
-            screen.getByText('+ Voeg Verordening Toe')
+            screen.getByText('Nieuwe verordening')
         })
 
-        fireEvent.click(screen.getByText('+ Voeg Verordening Toe'))
+        fireEvent.click(screen.getByText('Nieuwe verordening'))
 
         expect(
             getHeaderTitle('Voeg een nieuwe verordening toe', 1)
         ).toBeInTheDocument()
 
-        fireEvent.click(screen.getByText('Terug naar verordening'))
+        fireEvent.click(screen.getByText('Terug naar verordeningen'))
 
         const firstVerordeningTitle = verordeningstructuur[0].Titel
 
         await waitFor(() => {
-            expect(getHeaderTitle(firstVerordeningTitle, 2)).toBeInTheDocument()
+            expect(screen.getByText(firstVerordeningTitle)).toBeInTheDocument()
         })
-
-        fireEvent.click(getHeaderTitle(firstVerordeningTitle, 2))
-
-        await waitFor(() => {
-            expect(screen.getByText('Bewerken')).toBeInTheDocument()
-        })
-
-        fireEvent.click(screen.getByText('Bewerken'))
     })
 
     it('User can navigate to a beleidskeuze page', async () => {
@@ -121,8 +113,6 @@ describe('AppRoutes', () => {
         await waitFor(() => {
             screen.getByText(firstBeleidskeuzeTitle)
         })
-
-        fireEvent.click(screen.getByText(firstBeleidskeuzeTitle))
     })
 
     it('User can navigate to the maatregel pages', async () => {
@@ -144,17 +134,7 @@ describe('AppRoutes', () => {
 
         const firstMaatregelTitle = maatregelen[0].Titel
 
-        await waitFor(() => {
-            screen.getByText(firstMaatregelTitle)
-        })
-
-        fireEvent.click(screen.getByText(firstMaatregelTitle))
-
-        await waitFor(() => {
-            screen.getByText('Nieuwe maatregel')
-        })
-
-        fireEvent.click(screen.getByText('Nieuwe maatregel'))
+        await screen.findByText(firstMaatregelTitle)
     })
 
     it('User can navigate to the other object pages', async () => {
@@ -179,8 +159,6 @@ describe('AppRoutes', () => {
         await waitFor(() => {
             screen.getByText(firstAmbitieTitle)
         })
-
-        fireEvent.click(screen.getByText(firstAmbitieTitle))
     })
 
     it('User can navigate to the beleidsrelatie pages', async () => {
@@ -214,22 +192,10 @@ describe('AppRoutes', () => {
 
         fireEvent.click(screen.getByText('Nieuwe beleidsmodule'))
 
-        expect(
-            screen.getByText('Voeg een nieuwe module toe')
-        ).toBeInTheDocument()
-
         fireEvent.click(screen.getByText('Terug naar beleidsmodules'))
 
         await waitFor(() => {
             screen.getByText('Nieuwe beleidsmodule')
         })
-
-        fireEvent.click(screen.getByText(beleidsmodules[0].Titel))
-
-        waitFor(() => {
-            getHeaderTitle(beleidsmodules[0].Titel, 1)
-        })
-
-        fireEvent.click(screen.getByText('Terug naar overzicht'))
     })
 })

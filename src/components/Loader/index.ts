@@ -2,11 +2,11 @@ import LoaderBeleidsrelatieRegel from './LoaderBeleidsrelatieRegel'
 import LoaderCard from './LoaderCard'
 import LoaderCardHalfWidth from './LoaderCardHalfWidth'
 import LoaderContent from './LoaderContent'
+import LoaderIndicator from './LoaderIndicator'
 import LoaderLeafletLargeViewer from './LoaderLeafletLargeViewer'
 import LoaderLeafletTinyViewer from './LoaderLeafletTinyViewer'
 import LoaderMainTitle from './LoaderMainTitle'
 import LoaderPolicyDetail from './LoaderPolicyDetail'
-import LoaderSaving from './LoaderSaving'
 import LoaderSelect from './LoaderSelect'
 import LoaderSmallCircle from './LoaderSmallCircle'
 import LoaderSmallSpan from './LoaderSmallSpan'
@@ -21,7 +21,7 @@ export {
     LoaderLeafletLargeViewer,
     LoaderLeafletTinyViewer,
     LoaderMainTitle,
-    LoaderSaving,
+    LoaderIndicator,
     LoaderSelect,
     LoaderSmallCircle,
     LoaderSmallSpan,

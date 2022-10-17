@@ -7,9 +7,9 @@ const menuItemsOmgevingsbeleid = {
 }
 
 const menuItemsBeheer = {
-    // "Gebiedsprogramma's": { url: '/muteer/gebiedsprogrammas' },
     Beleidskeuzes: { url: '/muteer/beleidskeuzes' },
     Beleidsregels: { url: '/muteer/beleidsregels' },
+    "Gebiedsprogramma's": { url: '/muteer/gebiedsprogrammas' },
     Maatregelen: { url: '/muteer/maatregelen' },
     Ambities: { url: '/muteer/ambities' },
     Belangen: { url: '/muteer/belangen' },

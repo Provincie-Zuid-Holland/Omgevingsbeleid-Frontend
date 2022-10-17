@@ -13,8 +13,6 @@ const getTypeText = (type: keyof typeof objecten) => {
             return 'het belang'
         case 'taken':
             return 'de taak'
-        case 'ambities':
-            return 'de ambitie'
         case 'beleidsdoelen':
             return 'het beleidsdoel'
         case 'themas':

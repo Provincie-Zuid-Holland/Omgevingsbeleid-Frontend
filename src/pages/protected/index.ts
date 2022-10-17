@@ -7,9 +7,6 @@ import Dashboard from './Dashboard'
 import Detail from './Detail'
 import MijnBeleid from './MijnBeleid'
 import Overview from './Overview'
-import VerordeningenStructuurCRUD from './VerordeningenStructuurCRUD'
-import VerordeningenstructuurDetail from './VerordeningenstructuurDetail'
-import VerordeningenstructuurOverzicht from './VerordeningenstructuurOverzicht'
 
 export {
     BeleidsmodulesOverview,
@@ -21,7 +18,4 @@ export {
     Detail,
     MijnBeleid,
     Overview,
-    VerordeningenStructuurCRUD,
-    VerordeningenstructuurDetail,
-    VerordeningenstructuurOverzicht,
 }

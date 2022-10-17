@@ -107,7 +107,7 @@ function PopUpChangePolicyStatus({
 
         mutatePolicyLineage.mutate({
             lineageid: policy.ID!,
-            data: patchObject,
+            data: patchObject as any,
         })
     }
 

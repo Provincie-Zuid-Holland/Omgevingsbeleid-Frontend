@@ -14,7 +14,7 @@ import {
     BeleidsrelatiesReadStatus,
 } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
-import { LoaderMainTitle, LoaderSaving } from '@/components/Loader'
+import { LoaderIndicator, LoaderMainTitle } from '@/components/Loader'
 
 import SwitchToTabbladButton from './SwitchToTabbladButton'
 import TabDisconnected from './TabDisconnected'
@@ -434,7 +434,9 @@ const BeleidsrelatiesDetail = ({
                     />
                 ) : null}
 
-                {savingInProgress ? <LoaderSaving /> : null}
+                {savingInProgress ? (
+                    <LoaderIndicator text="Opslaan..." />
+                ) : null}
             </div>
         </div>
     )

@@ -7,7 +7,7 @@ import {
 } from '@pzh-ui/icons'
 import { FC, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useQueryClient } from 'react-query'
+import { useIsFetching, useQueryClient } from 'react-query'
 import { Link } from 'react-router-dom'
 
 import { BeleidskeuzesRead, MaatregelenRead } from '@/api/fetchers.schemas'
@@ -43,9 +43,19 @@ const Overview = ({ dimensieConstants }: OverviewProps) => {
     const titleSingular = dimensieConstants.TITLE_SINGULAR
     const titlePlural = dimensieConstants.TITLE_PLURAL
     const overviewSlug = dimensieConstants.SLUG_OVERVIEW
-
+    const isFetching = useIsFetching(`/${overviewSlug}`)
     const useGetLineage = getFetcherForType(titleSingular)
-    const { data: policyObjectsFromAPI } = useGetLineage()
+    const queryOptions = {
+        query: {
+            staleTime: 0,
+            refetchOnMount: true,
+        },
+    } as const
+
+    const { data: policyObjectsFromAPI } = useGetLineage(
+        undefined,
+        queryOptions
+    )
 
     /**
      * When the component mounts, fetch the objects from the API and prepare state
@@ -125,7 +135,7 @@ const Overview = ({ dimensieConstants }: OverviewProps) => {
                         </div>
                     </div>
 
-                    {!isLoading ? (
+                    {!isLoading && !isFetching ? (
                         <div className="w-full mt-10">
                             <OverviewTableHeading
                                 ascending={ascending}
@@ -137,12 +147,9 @@ const Overview = ({ dimensieConstants }: OverviewProps) => {
                             <div>
                                 {policyObjects.map(policyObject => (
                                     <OverviewTableRow
+                                        titleSingular={titleSingular}
                                         key={policyObject.UUID}
-                                        isBeleidsmodule={isBeleidsmodule}
                                         policyObject={policyObject}
-                                        isMaatregelOrBeleidskeuze={
-                                            isMaatregelOrBeleidskeuze
-                                        }
                                         overviewSlug={overviewSlug}>
                                         <OverviewDropdown
                                             overviewSlug={overviewSlug}
@@ -182,9 +189,6 @@ const OverviewDropdown = ({
 
     const queryClient = useQueryClient()
 
-    const linkToRaadpleegPage = `/${overviewSlug}/${policy.UUID}`
-    const linkToEditPage = `/muteer/${overviewSlug}/${policy.ID}/bewerk`
-
     const policyIsInAModule =
         'Ref_Beleidsmodules' in policy
             ? policy?.Ref_Beleidsmodules?.length !== 0
@@ -194,13 +198,19 @@ const OverviewDropdown = ({
         titleSingular === 'Maatregel' || titleSingular === 'Beleidskeuze'
 
     const isBeleidsmodule = titleSingular === 'Beleidsmodule'
+    const isVerordening = titleSingular === 'Verordening'
+
+    const linkToRaadpleegPage = `/${overviewSlug}/${policy.UUID}`
+    const linkToEditPage = isVerordening
+        ? `/muteer/${overviewSlug}/${policy.ID}`
+        : `/muteer/${overviewSlug}/${policy.ID}/bewerk`
 
     const dropdownItems = [
         {
             text: 'Bewerken',
             link: linkToEditPage,
         },
-        ...(isBeleidsmodule
+        ...(isBeleidsmodule || isVerordening
             ? []
             : [
                   {
@@ -258,16 +268,14 @@ const OverviewDropdown = ({
 }
 
 type OverviewTableRowProps = {
+    titleSingular: string
     policyObject: PossiblePolicyRead
-    isMaatregelOrBeleidskeuze: boolean
-    isBeleidsmodule: boolean
     overviewSlug: string
 }
 
 const OverviewTableRow: FC<OverviewTableRowProps> = ({
+    titleSingular,
     policyObject,
-    isMaatregelOrBeleidskeuze,
-    isBeleidsmodule,
     overviewSlug,
     children,
 }) => {
@@ -277,9 +285,15 @@ const OverviewTableRow: FC<OverviewTableRowProps> = ({
     )
 
     const tableRowLink =
-        isMaatregelOrBeleidskeuze || isBeleidsmodule
+        titleSingular === 'Maatregel' ||
+        titleSingular === 'Beleidskeuze' ||
+        titleSingular === 'Verordening' ||
+        titleSingular === 'Beleidsmodule'
             ? `/muteer/${overviewSlug}/${policyObject.ID}`
             : `/muteer/${overviewSlug}/${policyObject.ID}/bewerk`
+
+    const isMaatregelOrBeleidskeuze =
+        titleSingular === 'Maatregel' || titleSingular === 'Beleidskeuze'
 
     return (
         <div className="flex items-center justify-between border-b border-gray-300 hover:bg-pzh-gray-100 hover:bg-opacity-50">
