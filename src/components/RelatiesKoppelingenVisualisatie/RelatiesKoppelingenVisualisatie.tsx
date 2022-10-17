@@ -277,15 +277,25 @@ const RelatiesKoppelingenVisualisatie = ({
             })
 
             const tooltipWidth = tooltipEl?.offsetWidth || 0
-            const circleWidth = 24
-            const { x, y } = (this as Element)?.getBoundingClientRect()
-            const xPos = x - tooltipWidth / 2 + circleWidth / 2 //Center tooltip in the middle
-            const navigationOffset = 90
-            const yPos = y + window.pageYOffset - navigationOffset + circleWidth
+            const tooltipHeight = tooltipEl?.offsetHeight || 0
+
+            const tooltipBottomMargin = 10
+            const {
+                x: nodeXPosition,
+                y: nodeYPosition,
+                right: nodeRightPosition,
+            } = (this as Element)?.getBoundingClientRect()
+            const nodeWidth = nodeRightPosition - nodeXPosition
+            const leftPosition = Math.round(
+                nodeXPosition - tooltipWidth / 2 + nodeWidth / 2
+            )
+            const topPosition = Math.round(
+                nodeYPosition - tooltipHeight - tooltipBottomMargin
+            )
 
             setVariables({
-                left: xPos,
-                top: yPos,
+                left: leftPosition,
+                top: topPosition,
             })
         }
 
@@ -397,11 +407,8 @@ const RelatiesKoppelingenVisualisatie = ({
             <Link
                 to={href || '#'}
                 id="d3-tooltip"
-                style={{
-                    left: variables.left,
-                    top: variables.top,
-                }}
-                className={`absolute hidden hover:block ${
+                style={variables}
+                className={`fixed hidden hover:block ${
                     href ? 'cursor-pointer' : 'cursor-default'
                 }`}>
                 <div

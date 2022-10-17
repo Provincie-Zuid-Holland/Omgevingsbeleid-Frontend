@@ -1,5 +1,5 @@
+import { motion } from 'framer-motion'
 import { FC } from 'react'
-import { useSpring, animated } from 'react-spring'
 
 /**
  * Displays components in an animated popup container.
@@ -25,23 +25,17 @@ const PopUpAnimatedContainer: FC<PopUpAnimatedContainer> = ({
     reference,
 }) => (
     <div>
-        <animated.div
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.25 }}
             className="fixed top-0 left-0 z-10 w-screen h-screen bg-gray-900"
-            style={useSpring({
-                config: { tension: 300 },
-                opacity: 0.25,
-                from: { opacity: 0 },
-            })}
         />
         <div className="fixed top-0 left-0 z-50">
             <div className="top-0 left-0 flex items-center justify-center w-screen h-screen">
-                <animated.div
+                <motion.div
+                    initial={{ scale: 0.9 }}
+                    animate={{ scale: 1 }}
                     ref={reference}
-                    style={useSpring({
-                        config: { tension: 300 },
-                        transform: 'scale(1)',
-                        from: { transform: 'scale(0.75)' },
-                    })}
                     className={`max-w-5xl relative bg-white rounded shadow p-6 ${
                         small
                             ? 'popup-small'
@@ -50,7 +44,7 @@ const PopUpAnimatedContainer: FC<PopUpAnimatedContainer> = ({
                             : 'popup-normal'
                     }`}>
                     {children}
-                </animated.div>
+                </motion.div>
             </div>
         </div>
     </div>

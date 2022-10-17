@@ -113,7 +113,7 @@ function PopUpChangePolicyStatus({
 
     return (
         <Modal
-            maxWidth="sm:w-[450px]"
+            maxWidth="sm:max-w-[450px]"
             overflowVisible={true}
             open={isOpen}
             onClose={() => setIsOpen(false)}
