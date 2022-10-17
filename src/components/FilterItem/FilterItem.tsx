@@ -4,11 +4,11 @@ import useSearchFilterStore from '@/hooks/useSearchFilterStore'
 import { DimensionType } from '@/types/dimensions'
 import getDimensionsConstants from '@/utils/getDimensionsConstants'
 
-interface FilterItemInterface {
+export interface FilterItemProps {
     item: string
 }
 
-const FilterItem = ({ item }: FilterItemInterface) => {
+const FilterItem = ({ item }: FilterItemProps) => {
     const dimensieContants = getDimensionsConstants(item as DimensionType)
     const titleSingular = dimensieContants.TITLE_SINGULAR
     const titlePlural = dimensieContants.TITLE_PLURAL
