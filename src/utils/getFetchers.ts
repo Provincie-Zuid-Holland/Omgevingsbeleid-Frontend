@@ -38,9 +38,12 @@ import {
     useGetBeleidsdoelen,
     useGetMaatregelen,
     useGetThemas,
-    useGetVerordeningen,
+    usePatchGebiedsprogrammasLineageId,
+    useGetGebiedsprogrammas,
 } from '@/api/fetchers'
 import { filteredDimensieConstants } from '@/constants/dimensies'
+
+import { useGetVerordeningenStructuren } from './verordening'
 
 export const getFetcherForType = (
     titleSingular: filteredDimensieConstants['TITLE_SINGULAR']
@@ -65,7 +68,9 @@ export const getFetcherForType = (
         case 'Thema':
             return useGetThemas
         case 'Verordening':
-            return useGetVerordeningen
+            return useGetVerordeningenStructuren
+        case 'Gebiedsprogramma':
+            return useGetGebiedsprogrammas
     }
 }
 
@@ -120,6 +125,8 @@ export const getMutationForPolicyLineage = (
             return usePatchThemasLineageId
         case 'Verordening':
             return usePatchVerordeningenLineageId
+        case 'Gebiedsprogramma':
+            return usePatchGebiedsprogrammasLineageId
     }
 }
 

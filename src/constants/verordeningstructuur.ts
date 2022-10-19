@@ -23,6 +23,18 @@ export const CRUD_PROPERTIES = {
         requiredMessage: 'Vul een titel in',
         type: null,
     },
+    Status: {
+        initValue: 'Concept',
+        required: false,
+        requiredMessage: null,
+        type: null,
+    },
+    Structuur: {
+        initValue: { Children: [] },
+        required: false,
+        requiredMessage: null,
+        type: null,
+    },
     Begin_Geldigheid: {
         initValue: null,
         required: true,

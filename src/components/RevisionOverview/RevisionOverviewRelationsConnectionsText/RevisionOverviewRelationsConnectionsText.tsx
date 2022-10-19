@@ -166,7 +166,6 @@ const ConnectionListItem = ({
 }
 
 const connectionProperties = [
-    'Ambities',
     'Beleidsregels',
     'Beleidsprestaties',
     'Maatregelen',

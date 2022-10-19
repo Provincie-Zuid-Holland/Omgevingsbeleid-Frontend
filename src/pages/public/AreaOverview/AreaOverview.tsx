@@ -47,14 +47,9 @@ function AreaOverview() {
                                             className="h-40 object-cover"
                                         />
                                         <div className="rounded-b border border-pzh-gray-400 p-6 flex flex-1 flex-col">
-                                            <Heading level="3">
+                                            <Heading level="3" className="mb-4">
                                                 {item.Titel}
                                             </Heading>
-                                            <Text
-                                                type="body-small"
-                                                className="block mb-4">
-                                                80 maatregelen
-                                            </Text>
                                             <Link
                                                 to={`/omgevingsprogramma/gebiedsprogrammas/${item.UUID}`}
                                                 className="mt-auto">

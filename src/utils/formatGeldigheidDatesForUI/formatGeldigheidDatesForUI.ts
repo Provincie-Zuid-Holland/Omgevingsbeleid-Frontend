@@ -10,10 +10,18 @@ import formatDate from '../formatDate'
 function formatGeldigheidDatesForUI(crudObject: any) {
     if (!crudObject) return
 
+    /** Currently the API fills in posted dates with a null value for a Datetime */
+    const nullDateValuesFromAPI = [
+        '1753-01-01T00:00:00Z',
+        '9999-12-31T23:59:59Z',
+        '9999-12-31T23:00:00Z',
+    ]
+
     /** Format Begin_Geldigheid */
     const beginGeldigheidIsValid =
         crudObject.Begin_Geldigheid !== undefined &&
         crudObject.Begin_Geldigheid !== null &&
+        !nullDateValuesFromAPI.includes(crudObject.Begin_Geldigheid) &&
         isValid(new Date(crudObject.Begin_Geldigheid))
 
     if (beginGeldigheidIsValid) {
@@ -21,7 +29,7 @@ function formatGeldigheidDatesForUI(crudObject: any) {
             new Date(crudObject.Begin_Geldigheid),
             'yyyy-MM-dd'
         )
-    } else if (crudObject.Begin_Geldigheid === 'Invalid Date') {
+    } else {
         crudObject.Begin_Geldigheid = null
     }
 
@@ -29,6 +37,7 @@ function formatGeldigheidDatesForUI(crudObject: any) {
     const eindGeldigheidIsValid =
         crudObject.Eind_Geldigheid !== undefined &&
         crudObject.Eind_Geldigheid !== null &&
+        !nullDateValuesFromAPI.includes(crudObject.Eind_Geldigheid) &&
         isValid(new Date(crudObject.Eind_Geldigheid))
 
     if (eindGeldigheidIsValid) {
@@ -36,7 +45,7 @@ function formatGeldigheidDatesForUI(crudObject: any) {
             new Date(crudObject.Eind_Geldigheid),
             'yyyy-MM-dd'
         )
-    } else if (crudObject.Eind_Geldigheid === 'Invalid Date') {
+    } else {
         crudObject.Eind_Geldigheid = null
     }
 

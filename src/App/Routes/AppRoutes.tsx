@@ -2,14 +2,11 @@ import { useCallback, useLayoutEffect } from 'react'
 import { useNavigate, useRoutes } from 'react-router-dom'
 
 import { NetworkGraph } from '@/components/Network'
-import allDimensies from '@/constants/dimensies'
+import policyObjects from '@/constants/policyObjects'
 import useAuth from '@/hooks/useAuth'
-import {
-    Dashboard,
-    MijnBeleid,
-    VerordeningenStructuurCRUD,
-    VerordeningenstructuurDetail,
-} from '@/pages/protected'
+import { Dashboard, MijnBeleid } from '@/pages/protected'
+import MutatePolicy from '@/pages/protected/MutatePolicy'
+import VerordeningEdit from '@/pages/protected/VerordeningEdit'
 import {
     Accessibility,
     Home,
@@ -32,8 +29,6 @@ import detailPages from '@/utils/detailPages'
 import ProtectedRoute from './ProtectedRoute'
 
 const AppRoutes = () => {
-    const navigate = useNavigate()
-
     const routes = useRoutes([
         /**
          * Public pages
@@ -156,7 +151,6 @@ const AppRoutes = () => {
                     },
                 ],
             })),
-
         /**
          * Protected pages
          */
@@ -178,29 +172,25 @@ const AppRoutes = () => {
                         {
                             path: 'nieuw',
                             element: (
-                                <VerordeningenStructuurCRUD
-                                    dimensieConstants={
-                                        allDimensies.VERORDENINGSTRUCTUUR
-                                    }
-                                    navigate={navigate}
+                                <MutatePolicy
+                                    policyConstants={policyObjects.VERORDENING}
                                 />
                             ),
                         },
                         {
-                            path: ':lineageID',
+                            path: ':single',
                             children: [
                                 {
                                     index: true,
-                                    element: <VerordeningenstructuurDetail />,
+                                    element: <VerordeningEdit />,
                                 },
                                 {
-                                    path: ':lineageUUID/bewerk',
+                                    path: 'bewerk',
                                     element: (
-                                        <VerordeningenStructuurCRUD
-                                            dimensieConstants={
-                                                allDimensies.VERORDENINGSTRUCTUUR
+                                        <MutatePolicy
+                                            policyConstants={
+                                                policyObjects.VERORDENING
                                             }
-                                            navigate={navigate}
                                         />
                                     ),
                                 },

@@ -24,9 +24,9 @@
         width: 0;
         height: 0;
         border-style: solid;
-        border-width: 0 10px 10px 10px;
-        border-color: transparent transparent rgba(26, 32, 44, 100) transparent;
-        top: -10px;
+        border-width: 10px 10px 0 10px;
+        border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+        bottom: -10px;
         z-index: 10;
         left: calc(50% - 10px);
     }
@@ -36,7 +36,7 @@
         position: absolute;
         width: 25px;
         height: 35px;
-        top: -34px;
+        bottom: -34px;
         z-index: 10;
         right: calc(50% - 12.5px);
     }
@@ -44,12 +44,11 @@
 
 #d3-tooltip-network-graph {
     &:before {
-        border-color: transparent transparent rgba(255, 255, 255, 100)
-            transparent;
+        border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
     }
     &:after {
         height: 10px;
-        top: -10px;
+        bottom: -10px;
         border-width: 0 40px 40px 40px;
         border-color: transparent transparent rgba(255, 255, 255, 0) transparent;
         left: calc(50% - 40px);

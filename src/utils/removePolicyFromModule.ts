@@ -6,6 +6,8 @@ import {
     patchBeleidsmodulesLineageId,
     getGetBeleidskeuzesLineageIdQueryKey,
     getGetMaatregelenLineageIdQueryKey,
+    getGetMaatregelenQueryKey,
+    getGetBeleidskeuzesQueryKey,
 } from '@/api/fetchers'
 import {
     MaatregelenRead,
@@ -21,7 +23,8 @@ import handleError from '@/utils/handleError'
 export const removePolicyFromModule = async (
     policy: MaatregelenRead | BeleidskeuzesRead,
     titleSingular: 'Maatregel' | 'Beleidskeuze',
-    queryClient: QueryClient
+    queryClient: QueryClient,
+    type: 'detail' | 'overview'
 ) => {
     const confirm = window.confirm(
         `Weet je zeker dat je '${policy.Titel}' wil verwijderen uit de module?`
@@ -65,12 +68,17 @@ export const removePolicyFromModule = async (
             )
         )
     )
-        .then(() => {
+        .then(res => {
+            const isDetailPage = type === 'detail'
             const queryKey =
-                titleSingular === 'Beleidskeuze'
+                titleSingular.toLowerCase() === 'Beleidskeuze' && isDetailPage
                     ? getGetBeleidskeuzesLineageIdQueryKey(policy.ID!)
-                    : titleSingular === 'Maatregel'
+                    : titleSingular === 'Maatregel' && isDetailPage
                     ? getGetMaatregelenLineageIdQueryKey(policy.ID!)
+                    : titleSingular === 'Maatregel' && !isDetailPage
+                    ? getGetMaatregelenQueryKey()
+                    : titleSingular === 'Beleidskeuze' && !isDetailPage
+                    ? getGetBeleidskeuzesQueryKey()
                     : ['']
 
             queryClient.invalidateQueries(queryKey)

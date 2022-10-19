@@ -67,7 +67,12 @@ const PolicyDetailCard = ({
                 : 'Toevoegen aan module',
             callback: policyIsInAModule
                 ? () =>
-                      removePolicyFromModule(policy, titleSingular, queryClient)
+                      removePolicyFromModule(
+                          policy,
+                          titleSingular,
+                          queryClient,
+                          'detail'
+                      )
                 : () => setModulesPopup(true),
         },
         ...(policy.Status === 'Vigerend'

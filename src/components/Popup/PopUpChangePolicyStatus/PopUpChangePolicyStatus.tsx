@@ -40,7 +40,7 @@ function PopUpChangePolicyStatus({
 
     const useMutatePolicyLineage = getMutationForPolicyLineage(titleSingular)
 
-    const mutatePolicyLineage = useMutatePolicyLineage({
+    const mutatePolicyLineage = useMutatePolicyLineage?.({
         mutation: {
             onError: () => {
                 toastNotification({ type: 'standard error' })
@@ -59,8 +59,6 @@ function PopUpChangePolicyStatus({
                         : titleSingular === 'Maatregel'
                         ? getGetMaatregelenQueryKey()
                         : ['']
-
-                console.log('Invalidate ', queryKeyAllLineages)
 
                 queryClient.invalidateQueries(queryKeyLineage)
                 queryClient.invalidateQueries(queryKeyAllLineages)
@@ -107,15 +105,15 @@ function PopUpChangePolicyStatus({
             Status: selectedStatus.value,
         }
 
-        mutatePolicyLineage.mutate({
+        mutatePolicyLineage?.mutate({
             lineageId: policy.ID!,
-            data: patchObject,
+            data: patchObject as any,
         })
     }
 
     return (
         <Modal
-            maxWidth="sm:w-[450px]"
+            maxWidth="sm:max-w-[450px]"
             overflowVisible={true}
             open={isOpen}
             onClose={() => setIsOpen(false)}

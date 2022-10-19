@@ -11,8 +11,8 @@ import { ContainerMapSearch } from '@/components/Container'
 import { LeafletMap } from '@/components/Leaflet'
 import { mapPanTo } from '@/components/Leaflet/utils'
 import { RDProj4, leafletBounds } from '@/constants/leaflet'
+import useSearchFilterStore from '@/hooks/useSearchFilterStore'
 import useSearchParam from '@/hooks/useSearchParam'
-import useSearchResultFilters from '@/hooks/useSearchResultFilters'
 
 import SidebarInformation from './SidebarInformation'
 import SidebarResults from './SidebarResults'
@@ -46,7 +46,9 @@ const MapSearch = () => {
     const [searchOpen, setSearchOpen] = useState(paramSearchOpen === 'true')
     const [drawType, setDrawType] = useState('')
 
-    const { onPageFilters, setOnPageFilters } = useSearchResultFilters()
+    const initializeFilters = useSearchFilterStore(
+        state => state.initializeFilters
+    )
 
     /**
      * Set UUIDs of current location or area
@@ -96,10 +98,7 @@ const MapSearch = () => {
         return postSearchGeo({ query: UUIDs.join(',') }).then(data => {
             setSearchResults(data.results || [])
             setSearchResultsTotal(data.total || 0)
-            setOnPageFilters({
-                type: 'initFilters',
-                searchResultItems: data.results || [],
-            })
+            initializeFilters(data.results || [])
             setSearchResultsLoading(false)
 
             return data
@@ -225,7 +224,7 @@ const MapSearch = () => {
 
     return (
         <>
-            <ContainerMapSearch className="border-t overflow-hidden">
+            <ContainerMapSearch className="overflow-hidden border-t">
                 <SidebarInformation
                     mapInstance={mapInstance}
                     searchOpen={searchOpen}
@@ -246,8 +245,6 @@ const MapSearch = () => {
                     setSearchResults={setSearchResults}
                     isLoading={searchResultsLoading}
                     drawType={drawType}
-                    onPageFilters={onPageFilters}
-                    setOnPageFilters={setOnPageFilters}
                     UUIDs={UUIDs}
                 />
             </ContainerMapSearch>

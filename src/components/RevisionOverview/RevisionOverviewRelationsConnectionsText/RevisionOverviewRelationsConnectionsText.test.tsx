@@ -19,7 +19,9 @@ describe('RevisionOverviewRelationsConnectionsText', () => {
 
     it('Component renders', () => {
         setup()
-        const elements = screen.getAllByText('1. Samen werken aan Zuid-Holland')
+        const elements = screen.getAllByText(
+            '2-1-2 Passend en efficiënt personenvervoer'
+        )
         expect(elements).toBeTruthy()
         expect(elements.length).toBe(2)
 

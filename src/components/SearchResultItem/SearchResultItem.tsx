@@ -1,5 +1,4 @@
 import { FC } from 'react'
-import HTMLEllipsis from 'react-lines-ellipsis/lib/html'
 import { Link } from 'react-router-dom'
 
 import {
@@ -18,6 +17,13 @@ interface SearchResultItem {
 const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
     const { get } = useSearchParam()
     const [paramTextQuery] = get('query')
+
+    const truncateTextWithEllipsis = (text: string, characters = 260) => {
+        if (text.length > characters) {
+            return text.substring(0, characters) + '...'
+        }
+        return text
+    }
 
     const highlightString = (
         text: string | undefined,
@@ -46,8 +52,11 @@ const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
             ? highlightString(item.Titel, paramTextQuery.toString())
             : item.Titel || '',
         Omschrijving: paramTextQuery
-            ? highlightString(item.Omschrijving, paramTextQuery.toString())
-            : item.Omschrijving || '',
+            ? highlightString(
+                  truncateTextWithEllipsis(item.Omschrijving || ''),
+                  paramTextQuery.toString()
+              )
+            : truncateTextWithEllipsis(item.Omschrijving || ''),
     }
 
     const type = item.Type
@@ -78,14 +87,12 @@ const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
                     />
                 ) : null}
                 {content.Omschrijving ? (
-                    <div className="mt-2">
-                        <HTMLEllipsis
-                            unsafeHTML={content.Omschrijving}
-                            maxLine="4"
-                            ellipsis="..."
-                            basedOn="words"
-                        />
-                    </div>
+                    <p
+                        className="mt-2"
+                        dangerouslySetInnerHTML={{
+                            __html: content.Omschrijving,
+                        }}
+                    />
                 ) : (
                     <p className="mt-2 italic">
                         Er is nog geen omschrijving voor deze

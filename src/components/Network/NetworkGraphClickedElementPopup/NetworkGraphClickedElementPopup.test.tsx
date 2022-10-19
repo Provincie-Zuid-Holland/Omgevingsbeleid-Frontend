@@ -53,7 +53,7 @@ describe('NetworkGraphClickedElementPopup', () => {
 
     it('should display the type of the clickedNode in the popup', () => {
         setup()
-        expect(screen.getByText('Beleidskeuze')).toBeTruthy()
+        expect(screen.getByText('Bekijk de Beleidskeuze')).toBeTruthy()
     })
 
     it('should contain a link to go to the detail page of the object', () => {
@@ -86,19 +86,5 @@ describe('NetworkGraphClickedElementPopup', () => {
 
         expect(resetNodesMock).toBeCalledTimes(1)
         expect(screen.queryByText('Beleidskeuze')).not.toBeTruthy()
-    })
-
-    it('should not close the popup when user focusses the close button and presses a different key', async () => {
-        const { resetNodesMock } = setup()
-        const closeBtn = screen.queryByRole('button') as HTMLButtonElement
-
-        fireEvent.keyPress(closeBtn, {
-            key: 'Backspace',
-            code: 'Backspace',
-            charCode: 8,
-        })
-
-        expect(resetNodesMock).toBeCalledTimes(0)
-        expect(screen.queryByText('Beleidskeuze')).toBeTruthy()
     })
 })

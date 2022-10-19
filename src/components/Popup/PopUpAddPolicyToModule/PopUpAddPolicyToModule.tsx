@@ -1,6 +1,7 @@
 import { Button, FieldSelect, Heading, Modal, Text } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import {
@@ -8,6 +9,8 @@ import {
     patchBeleidsmodulesLineageId,
     getGetBeleidskeuzesLineageIdQueryKey,
     getGetMaatregelenLineageIdQueryKey,
+    getGetMaatregelenQueryKey,
+    getGetBeleidskeuzesQueryKey,
 } from '@/api/fetchers'
 import {
     BeleidskeuzesRead,
@@ -32,6 +35,7 @@ function PopUpAddPolicyToModule({
     titleSingular,
 }: PopUpAddPolicyToModuleProps) {
     const queryClient = useQueryClient()
+    const { single: idUrlParam } = useParams<{ single: string }>()
 
     const { isLoading: modulesAreLoading, data: policyModules } =
         useGetBeleidsmodules()
@@ -69,11 +73,17 @@ function PopUpAddPolicyToModule({
             ],
         })
             .then(() => {
+                const isDetailPage = idUrlParam !== undefined
                 const queryKey =
-                    titleSingular === 'Beleidskeuze'
+                    titleSingular.toLowerCase() === 'Beleidskeuze' &&
+                    isDetailPage
                         ? getGetBeleidskeuzesLineageIdQueryKey(policy.ID!)
-                        : titleSingular === 'Maatregel'
+                        : titleSingular === 'Maatregel' && isDetailPage
                         ? getGetMaatregelenLineageIdQueryKey(policy.ID!)
+                        : titleSingular === 'Maatregel' && !isDetailPage
+                        ? getGetMaatregelenQueryKey()
+                        : titleSingular === 'Beleidskeuze' && !isDetailPage
+                        ? getGetBeleidskeuzesQueryKey()
                         : ['']
 
                 queryClient.invalidateQueries(queryKey)
@@ -88,7 +98,7 @@ function PopUpAddPolicyToModule({
 
     return (
         <Modal
-            maxWidth="sm:w-[450px]"
+            maxWidth="sm:max-w-[450px]"
             overflowVisible={true}
             open={isOpen}
             onClose={() => setIsOpen(false)}

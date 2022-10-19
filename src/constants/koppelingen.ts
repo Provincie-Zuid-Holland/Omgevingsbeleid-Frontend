@@ -1,5 +1,4 @@
 import {
-    getAmbities,
     getBelangen,
     getBeleidsdoelen,
     getBeleidsprestaties,
@@ -8,6 +7,29 @@ import {
     getThemas,
     getVerordeningen,
 } from '@/api/fetchers'
+
+const connectionProperties = [
+    'belangen',
+    'beleidsdoelen',
+    'themas',
+    'beleidsprestaties',
+    'maatregelen',
+    'beleidsregels',
+    'taken',
+    'verordening',
+] as const
+export type connectionPropertiesType = typeof connectionProperties[number]
+
+const propertyNames = [
+    'Belangen',
+    'Beleidsdoelen',
+    'Themas',
+    'Beleidsprestaties',
+    'Maatregelen',
+    'Verordeningen',
+    'Beleidsregels',
+] as const
+export type propertyNamesType = typeof propertyNames[number]
 
 const objecten = {
     belangen: {
@@ -29,16 +51,6 @@ const objecten = {
         filterType: 'Wettelijke Taak & Bevoegdheid',
         propertyName: 'Belangen',
         type: 'Wettelijke Taak & Bevoegdheid',
-    },
-    ambities: {
-        buttonTekst: 'ambities',
-        volledigeTitel: 'Ambities',
-        volledigeTitelMeervoud: 'Ambities',
-        api: getAmbities,
-        filterAPI: false,
-        filterType: null,
-        propertyName: 'Ambities',
-        type: 'Ambitie',
     },
     beleidsdoelen: {
         buttonTekst: 'beleidsdoelen',
@@ -100,6 +112,6 @@ const objecten = {
         propertyName: 'Beleidsregels',
         type: 'Beleidsregel',
     },
-}
+} as const
 
 export default objecten

@@ -70,40 +70,6 @@ describe('RelatiesKoppelingenVisualisatie', () => {
             Besluitnummer: '123456',
             Tags: null,
             Aanpassing_Op: null,
-            Ambities: [
-                {
-                    Koppeling_Omschrijving: '123',
-                    Object: {
-                        ID: 370,
-                        UUID: 'A21AB134-2C79-4786-A517-8FCBBB7B775A',
-                        Begin_Geldigheid: '2020-10-07T00:00:00Z',
-                        Eind_Geldigheid: '9999-12-31T23:00:00Z',
-                        Created_By: '9D4F11BE-A502-4DCE-A6FA-24FB827FD6B7',
-                        Created_Date: '2020-10-26T07:17:19.793000Z',
-                        Modified_By: '359A9254-598E-4BFE-BCEC-AA521E95881A',
-                        Modified_Date: '2021-05-25T14:05:12.783000Z',
-                        Titel: '1. Samen werken aan Zuid-Holland Bewerkt',
-                        Omschrijving: 'Omschrijving',
-                        Weblink: null,
-                    },
-                },
-                {
-                    Koppeling_Omschrijving: '',
-                    Object: {
-                        ID: 513,
-                        UUID: '43D84451-F2F2-4D70-9DED-95D83022117C',
-                        Begin_Geldigheid: '2021-02-03T00:00:00Z',
-                        Eind_Geldigheid: '2021-08-03T00:00:00Z',
-                        Created_By: '359A9254-598E-4BFE-BCEC-AA521E95881A',
-                        Created_Date: '2021-02-03T14:02:18.363000Z',
-                        Modified_By: '359A9254-598E-4BFE-BCEC-AA521E95881A',
-                        Modified_Date: '2021-02-03T14:02:18.363000Z',
-                        Titel: 'Test ambitie woensdag 3 februari 2021',
-                        Omschrijving: 'Omschrijving',
-                        Weblink: 'Weblink',
-                    },
-                },
-            ],
             Belangen: [
                 {
                     Koppeling_Omschrijving: 'Belang',
@@ -211,7 +177,6 @@ describe('RelatiesKoppelingenVisualisatie', () => {
             Ref_Beleidsmodules: [],
         },
         connectionProperties: [
-            'Ambities',
             'Belangen',
             'Beleidsregels',
             'Beleidsprestaties',
@@ -223,9 +188,6 @@ describe('RelatiesKoppelingenVisualisatie', () => {
         connectionPropertiesColors: {
             MainObject: {
                 hex: '#553c9a',
-            },
-            Ambities: {
-                hex: '#AA0067',
             },
             Belangen: {
                 hex: '#D11F3D',

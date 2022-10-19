@@ -39,9 +39,6 @@ export const connectionPropertiesColors = {
     MainObject: {
         hex: '#553c9a',
     },
-    Ambities: {
-        hex: '#AA0067',
-    },
     Belangen: {
         hex: '#D11F3D',
     },

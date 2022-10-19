@@ -82,8 +82,8 @@ const NetworkGraphSearchBar = ({
     }, [clickedNode])
 
     return (
-        <div ref={innerContainer}>
-            <div className="relative z-20">
+        <div className="w-full" ref={innerContainer}>
+            <div className="relative z-20 pointer-events-auto">
                 <input
                     autoComplete="off"
                     onKeyDown={handleKeyDown}
@@ -121,7 +121,7 @@ const NetworkGraphSearchBar = ({
                     </div>
                 </div>
             </div>
-            <div className="relative">
+            <div className="relative pointer-events-auto">
                 <NetworkGraphSearchBarResults
                     show={searchQuery !== '' && searchResultsOpen}
                     handleNodeClick={handleNodeClick}
@@ -183,7 +183,7 @@ const NetworkGraphSearchBarResults = ({
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 -translate-y-3">
             <ul
-                className="absolute top-0 left-0 z-10 w-full overflow-hidden overflow-y-auto bg-white border border-t-0 border-gray-200 rounded-b-md"
+                className="w-full overflow-hidden overflow-y-auto bg-white border border-t-0 border-gray-200 rounded-b-md"
                 style={{ maxHeight: '400px' }}>
                 {filteredData
                     .filter(filterBasedOnSearchQuery)
