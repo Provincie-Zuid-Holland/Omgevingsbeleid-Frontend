@@ -218,7 +218,7 @@ const ListItem = ({
                     <span>{titel}</span>
                 </Link>
                 {omschrijving ? (
-                    <div className="absolute top-0 z-20 hidden mt-8 cursor-default group-hover:block d3-tooltip-text">
+                    <div className="absolute z-20 hidden pb-0 -mt-4 cursor-default group-hover:block">
                         <div
                             id={UUID}
                             style={{ maxWidth: '50vw' }}
