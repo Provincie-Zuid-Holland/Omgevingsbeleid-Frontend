@@ -213,7 +213,9 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
                 validateOnMount>
                 {({ errors, values, isValid }) => (
                     <>
-                        {lineageIsLoading ? <LoaderContent /> : null}
+                        {lineageIsLoading && !!objectID ? (
+                            <LoaderContent />
+                        ) : null}
                         <Helmet>
                             <title>
                                 {objectID
@@ -224,7 +226,7 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
                         <MutatePolicyHeading
                             policyObjectMeta={policyConstants.META}
                             userIsEditing={!!objectID}
-                            isLoading={lineageIsLoading}
+                            isLoading={lineageIsLoading && !!objectID}
                             objectTitle={values?.Titel || ''}
                         />
                         <ContainerMain className="mt-8">
