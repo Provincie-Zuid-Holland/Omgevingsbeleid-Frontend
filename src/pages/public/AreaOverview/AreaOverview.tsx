@@ -1,7 +1,7 @@
-import { Breadcrumbs, Button, Heading, Text } from '@pzh-ui/components'
-import { Link } from 'react-router-dom'
+import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 
 import { useGetValidGebiedsprogrammas } from '@/api/fetchers'
+import AreaCard from '@/components/AreaCard'
 import { Container } from '@/components/Container'
 import { LoaderContent, LoaderSpinner } from '@/components/Loader'
 
@@ -40,23 +40,11 @@ function AreaOverview() {
                         <ul className="grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
                             {data.map(item => (
                                 <li key={item.UUID}>
-                                    <div className="rounded-t overflow-hidden h-full flex flex-col">
-                                        <img
-                                            src="https://via.placeholder.com/500x200"
-                                            alt={item.Titel}
-                                            className="h-40 object-cover"
-                                        />
-                                        <div className="rounded-b border border-pzh-gray-400 p-6 flex flex-1 flex-col">
-                                            <Heading level="3" className="mb-4">
-                                                {item.Titel}
-                                            </Heading>
-                                            <Link
-                                                to={`/omgevingsprogramma/gebiedsprogrammas/${item.UUID}`}
-                                                className="mt-auto">
-                                                <Button label="Bekijk gebiedsprogramma" />
-                                            </Link>
-                                        </div>
-                                    </div>
+                                    <AreaCard
+                                        image={item?.Afbeelding}
+                                        title={item?.Titel || ''}
+                                        link={`/omgevingsprogramma/gebiedsprogrammas/${item.UUID}`}
+                                    />
                                 </li>
                             ))}
                         </ul>
