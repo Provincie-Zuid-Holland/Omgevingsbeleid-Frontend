@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 import { useKey, useLockBodyScroll } from 'react-use'
 import * as Yup from 'yup'
 
-import { postPasswordreset } from '@/api/fetchers'
+import { postPasswordReset } from '@/api/fetchers'
 
 import { PopUpAnimatedContainer } from '../Popup'
 
@@ -73,7 +73,7 @@ export default function PasswordChangeModal({
         newPassword: string
     }) => {
         setLoading(true)
-        postPasswordreset({
+        postPasswordReset({
             password: currentPassword,
             new_password: newPassword,
         })
@@ -82,7 +82,7 @@ export default function PasswordChangeModal({
                 toast.success('Wachtwoord succesvol gewijzigd')
                 setOpen(false)
             })
-            .catch(err => {
+            .catch(() => {
                 setLoading(false)
             })
     }

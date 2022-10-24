@@ -2,11 +2,11 @@ import { object, ObjectSchema } from 'yup'
 
 import {
     useGetThemas,
-    useGetThemasLineageid,
+    useGetThemasLineageId,
     useGetValidThemas,
-    useGetValidThemasLineageid,
-    useGetVersionThemasObjectuuid,
-    usePatchThemasLineageid,
+    useGetValidThemasLineageId,
+    useGetVersionThemasObjectUuid,
+    usePatchThemasLineageId,
     usePostThemas,
 } from '@/api/fetchers'
 import { ThemasWrite } from '@/api/fetchers.schemas'
@@ -17,10 +17,10 @@ import { generateSchemaTitles, schemaDefaults } from '@/utils/yupSchema'
 const queryThemas: SchemaMetaQueries = {
     usePost: usePostThemas,
     useGet: useGetThemas,
-    useGetVersion: useGetVersionThemasObjectuuid,
-    useGetLineage: useGetThemasLineageid,
-    useGetValidLineage: useGetValidThemasLineageid,
-    usePatchLineage: usePatchThemasLineageid,
+    useGetVersion: useGetVersionThemasObjectUuid,
+    useGetLineage: useGetThemasLineageId,
+    useGetValidLineage: useGetValidThemasLineageId,
+    usePatchLineage: usePatchThemasLineageId,
     useGetValid: useGetValidThemas,
 }
 

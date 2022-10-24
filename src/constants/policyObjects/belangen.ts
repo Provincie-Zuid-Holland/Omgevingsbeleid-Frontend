@@ -2,11 +2,11 @@ import { object, ObjectSchema } from 'yup'
 
 import {
     usePostBelangen,
-    useGetBelangenLineageid,
-    usePatchBelangenLineageid,
-    useGetValidBelangenLineageid,
+    useGetBelangenLineageId,
+    usePatchBelangenLineageId,
+    useGetValidBelangenLineageId,
     useGetBelangen,
-    useGetVersionBelangenObjectuuid,
+    useGetVersionBelangenObjectUuid,
     useGetValidBelangen,
 } from '@/api/fetchers'
 import { BelangenWrite } from '@/api/fetchers.schemas'
@@ -17,10 +17,10 @@ import { schemaDefaults, generateSchemaTitles } from '@/utils/yupSchema'
 const queryBelangen: SchemaMetaQueries = {
     usePost: usePostBelangen,
     useGet: useGetBelangen,
-    useGetVersion: useGetVersionBelangenObjectuuid,
-    useGetLineage: useGetBelangenLineageid,
-    useGetValidLineage: useGetValidBelangenLineageid,
-    usePatchLineage: usePatchBelangenLineageid,
+    useGetVersion: useGetVersionBelangenObjectUuid,
+    useGetLineage: useGetBelangenLineageId,
+    useGetValidLineage: useGetValidBelangenLineageId,
+    usePatchLineage: usePatchBelangenLineageId,
     useGetValid: useGetValidBelangen,
 }
 

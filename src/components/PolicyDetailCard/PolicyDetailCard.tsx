@@ -1,9 +1,9 @@
 import { Heading, Card, Text, Badge, Hyperlink } from '@pzh-ui/components'
 import { ArrowUpRightFromSquare, EllipsisVertical } from '@pzh-ui/icons'
+import { useQueryClient } from '@tanstack/react-query'
 import classNames from 'classnames'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
-import { useQueryClient } from 'react-query'
 
 import { MaatregelenRead, BeleidskeuzesRead } from '@/api/fetchers.schemas'
 import ColoredBall from '@/components/ColoredBall'

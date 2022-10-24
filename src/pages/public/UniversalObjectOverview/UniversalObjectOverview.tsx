@@ -1,12 +1,10 @@
-import { Heading, Text, getHeadingStyles } from '@pzh-ui/components'
-import { AngleRight, ArrowLeft } from '@pzh-ui/icons'
-import { useState } from 'react'
-import { useQuery } from 'react-query'
+import { Heading, Text } from '@pzh-ui/components'
+import { ArrowLeft } from '@pzh-ui/icons'
+import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
-import { useMedia } from 'react-use'
 
 import { Container } from '@/components/Container'
-import { LoaderCard, LoaderSpinner } from '@/components/Loader'
+import ObjectList from '@/components/ObjectList'
 import { DetailPageValidEndpoint } from '@/utils/detailPages'
 
 interface UniversalObjectOverviewProps {
@@ -23,11 +21,8 @@ function UniversalObjectOverview({
     dataModel,
     dataEndpoint,
 }: UniversalObjectOverviewProps) {
-    const isMobile = useMedia('(max-width: 640px)')
-
-    const [filterQuery, setFilterQuery] = useState('')
     const { isLoading, data: allObjects } = useQuery(
-        dataModel?.API_ENDPOINT_VIGEREND || '',
+        [dataModel?.API_ENDPOINT_VIGEREND || ''],
         () =>
             dataEndpoint?.().then(data =>
                 data
@@ -35,22 +30,6 @@ function UniversalObjectOverview({
                     .sort((a, b) => a.Titel!.localeCompare(b.Titel!))
             )
     )
-
-    const getFilteredLength = (items: typeof allObjects) => {
-        if (!items) {
-            return 0
-        } else if (filterQuery === '') {
-            return items.length
-        } else {
-            return items.filter(
-                item =>
-                    item.Titel &&
-                    item.Titel.toLowerCase().includes(filterQuery.toLowerCase())
-            ).length
-        }
-    }
-
-    const filteredLength = getFilteredLength(allObjects)
 
     return (
         <div>
@@ -71,70 +50,16 @@ function UniversalObjectOverview({
                         {dataModel?.DESCRIPTION}
                     </Text>
                     <div className="mt-8">
-                        {!isLoading && allObjects && allObjects?.length > 25 ? (
-                            <div className="mb-4">
-                                <input
-                                    className="w-full px-4 py-1 placeholder-gray-500 transition-colors duration-100 ease-in border rounded appearance-none hover:border-opacity-50 border-pzh-blue border-opacity-30"
-                                    value={filterQuery}
-                                    onChange={e =>
-                                        setFilterQuery(e.target.value)
-                                    }
-                                    placeholder={`Filter de ${dataModel?.TITLE_PLURAL.toLowerCase()}`}
-                                />
-                            </div>
-                        ) : null}
-                        <div className="flex flex-col justify-between sm:flex-row">
-                            <h2
-                                style={getHeadingStyles('3', isMobile)}
-                                className="break-words text-pzh-blue">
-                                {isLoading
-                                    ? `De ${dataModel?.TITLE_PLURAL.toLowerCase()} worden geladen`
-                                    : `De ${filteredLength} ${dataModel?.TITLE_PLURAL}`}
-                                {isLoading ? (
-                                    <LoaderSpinner className="ml-2" />
-                                ) : null}
-                            </h2>
-                            <Link
-                                className="block mt-2 mb-1 sm:mb-0 sm:mt-0"
-                                to="/zoekresultaten">
-                                <Text
-                                    className="underline"
-                                    color="text-pzh-green hover:text-pzh-green-dark">
-                                    uitgebreid zoeken
-                                </Text>
-                            </Link>
-                        </div>
-                        <ul className="mt-2">
-                            {isLoading ? (
-                                <li className="mt-6">
-                                    <LoaderCard height="25" />
-                                    <LoaderCard height="25" />
-                                    <LoaderCard height="25" />
-                                </li>
-                            ) : (
-                                allObjects
-                                    ?.filter((item: any) =>
-                                        item.Titel.toLowerCase().includes(
-                                            filterQuery.toLowerCase()
-                                        )
-                                    )
-                                    ?.map((obj, index) => (
-                                        <li
-                                            key={index}
-                                            className="flex items-center py-1 transition-colors duration-100 ease-in text-pzh-blue hover:text-pzh-blue-dark">
-                                            <AngleRight
-                                                size={16}
-                                                className="relative mr-2 -mt-1"
-                                            />
-                                            <Link
-                                                to={`/${dataModel?.SLUG_OVERVIEW}/${obj.UUID}`}
-                                                className="underline underline-thin">
-                                                {obj.Titel}
-                                            </Link>
-                                        </li>
-                                    ))
-                            )}
-                        </ul>
+                        {allObjects && (
+                            <ObjectList
+                                data={allObjects}
+                                isLoading={isLoading}
+                                objectSlug={dataModel?.SLUG_OVERVIEW || ''}
+                                objectType={
+                                    dataModel?.TITLE_PLURAL.toLowerCase() || ''
+                                }
+                            />
+                        )}
                     </div>
                 </div>
             </Container>

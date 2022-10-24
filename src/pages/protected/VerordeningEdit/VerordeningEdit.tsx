@@ -1,15 +1,15 @@
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Form, Formik } from 'formik'
 import { MotionConfig } from 'framer-motion'
 import cloneDeep from 'lodash.clonedeep'
 import { useEffect } from 'react'
 import { Helmet } from 'react-helmet'
-import { useQuery, useQueryClient } from 'react-query'
 import { useParams } from 'react-router-dom'
 
 import {
-    getGetVersionVerordeningenObjectuuidQueryKey,
-    getVersionVerordeningenObjectuuid,
-    useGetVersionVerordeningenObjectuuid,
+    getGetVersionVerordeningenObjectUuidQueryKey,
+    getVersionVerordeningenObjectUuid,
+    useGetVersionVerordeningenObjectUuid,
 } from '@/api/fetchers'
 import { VerordeningenRead, VerordeningenWrite } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
@@ -52,12 +52,14 @@ function VerordeningEdit() {
     /**
      * Fetch the current active section data.
      */
-    const { data: activeSectionDataFromAPI, isLoading: isLoadingVersion } =
-        useGetVersionVerordeningenObjectuuid(editingSectionUUID || '', {
-            query: {
-                enabled: editingSectionUUID !== null,
-            },
-        })
+    const {
+        data: activeSectionDataFromAPI,
+        isInitialLoading: isLoadingVersion,
+    } = useGetVersionVerordeningenObjectUuid(editingSectionUUID || '', {
+        query: {
+            enabled: !!editingSectionUUID,
+        },
+    })
 
     /**
      * Update loading state
@@ -67,7 +69,7 @@ function VerordeningEdit() {
     }, [isLoadingVersion, dispatch])
 
     const { data: verordening } = useQuery(
-        `getVerordeningStructuur/${id}`,
+        [`getVerordeningStructuur/${id}`],
         () =>
             axios
                 .get(`/verordeningstructuur/${id}`)
@@ -108,7 +110,7 @@ function VerordeningEdit() {
                 if (children.length > 0) {
                     Promise.all(
                         children.map(child =>
-                            getVersionVerordeningenObjectuuid(child.UUID)
+                            getVersionVerordeningenObjectUuid(child.UUID)
                         )
                     )
                         .then(resolvedChildren => {
@@ -258,11 +260,11 @@ function VerordeningEdit() {
 
                 /** Update query Client with responses */
                 queryClient.setQueryData(
-                    `getVerordeningStructuur/${patchedVerordening.ID}`,
+                    [`getVerordeningStructuur/${patchedVerordening.ID}`],
                     patchedVerordening
                 )
                 queryClient.setQueryData(
-                    getGetVersionVerordeningenObjectuuidQueryKey(
+                    getGetVersionVerordeningenObjectUuidQueryKey(
                         patchedSection.UUID || ''
                     ),
                     patchedSection
@@ -343,7 +345,7 @@ function VerordeningEdit() {
                     )
 
                 queryClient.setQueryData(
-                    `getVerordeningStructuur/${patchedVerordening.ID}`,
+                    [`getVerordeningStructuur/${patchedVerordening.ID}`],
                     patchedVerordening
                 )
 

@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import {
     render,
     within,
@@ -6,13 +7,11 @@ import {
     fireEvent,
 } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { QueryClient, QueryClientProvider } from 'react-query'
 import { MemoryRouter } from 'react-router-dom'
 
 import { AuthContext } from '@/context/AuthContext'
 import { ambities } from '@/mocks/data/ambities'
 import { beleidskeuzes } from '@/mocks/data/beleidskeuzes'
-import { beleidsmodules } from '@/mocks/data/beleidsmodules'
 import { maatregelen } from '@/mocks/data/maatregelen'
 import { verordeningstructuur } from '@/mocks/data/verordeningstructuur'
 

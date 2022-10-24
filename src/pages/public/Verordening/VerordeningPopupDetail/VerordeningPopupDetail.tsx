@@ -3,7 +3,7 @@ import { CircleXmark } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-import { getVersionVerordeningenObjectuuid } from '@/api/fetchers'
+import { getVersionVerordeningenObjectUuid } from '@/api/fetchers'
 import { BeleidskeuzeShortInline } from '@/api/fetchers.schemas'
 import { LeafletTinyViewer } from '@/components/Leaflet'
 import handleError from '@/utils/handleError'
@@ -49,7 +49,7 @@ const VerordeningPopupDetail = ({
 
         if (!activeArticle) return
 
-        getVersionVerordeningenObjectuuid(activeArticle.UUID)
+        getVersionVerordeningenObjectUuid(activeArticle.UUID)
             .then(res => {
                 setConnections(res.Ref_Beleidskeuzes || [])
             })

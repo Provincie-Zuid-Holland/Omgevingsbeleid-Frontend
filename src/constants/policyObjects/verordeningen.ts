@@ -2,8 +2,8 @@ import { array, lazy, mixed, object, ObjectSchema, string } from 'yup'
 
 import {
     useGetValidVerordeningen,
-    useGetValidVerordeningenLineageid,
-    useGetVersionVerordeningenObjectuuid,
+    useGetValidVerordeningenLineageId,
+    useGetVersionVerordeningenObjectUuid,
 } from '@/api/fetchers'
 import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
@@ -22,9 +22,9 @@ import { generateSchemaTitles, schemaDefaults } from '@/utils/yupSchema'
 const queryVerordeningen: SchemaMetaQueries = {
     usePost: usePostVerordeningenStructure as any,
     useGet: useGetVerordeningenStructuren as any,
-    useGetVersion: useGetVersionVerordeningenObjectuuid,
+    useGetVersion: useGetVersionVerordeningenObjectUuid,
     useGetLineage: useGetVerordeningenStructurenLineageId as any,
-    useGetValidLineage: useGetValidVerordeningenLineageid,
+    useGetValidLineage: useGetValidVerordeningenLineageId,
     usePatchLineage: usePatchVerordeningenStructureLineageid as any,
     useGetValid: useGetValidVerordeningen,
 }

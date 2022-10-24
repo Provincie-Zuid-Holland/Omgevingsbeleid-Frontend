@@ -1,11 +1,11 @@
 import { Button, FieldSelect, Heading, Modal, Text } from '@pzh-ui/components'
+import { useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import { useQueryClient } from 'react-query'
 
 import {
-    getGetBeleidskeuzesLineageidQueryKey,
+    getGetBeleidskeuzesLineageIdQueryKey,
     getGetBeleidskeuzesQueryKey,
-    getGetMaatregelenLineageidQueryKey,
+    getGetMaatregelenLineageIdQueryKey,
     getGetMaatregelenQueryKey,
 } from '@/api/fetchers'
 import {
@@ -40,7 +40,7 @@ function PopUpChangePolicyStatus({
 
     const useMutatePolicyLineage = getMutationForPolicyLineage(titleSingular)
 
-    const mutatePolicyLineage = useMutatePolicyLineage({
+    const mutatePolicyLineage = useMutatePolicyLineage?.({
         mutation: {
             onError: () => {
                 toastNotification({ type: 'standard error' })
@@ -48,17 +48,17 @@ function PopUpChangePolicyStatus({
             onSuccess: () => {
                 const queryKeyLineage =
                     titleSingular === 'Beleidskeuze'
-                        ? getGetBeleidskeuzesLineageidQueryKey(policy.ID!)
+                        ? getGetBeleidskeuzesLineageIdQueryKey(policy.ID!)
                         : titleSingular === 'Maatregel'
-                        ? getGetMaatregelenLineageidQueryKey(policy.ID!)
-                        : ''
+                        ? getGetMaatregelenLineageIdQueryKey(policy.ID!)
+                        : ['']
 
                 const queryKeyAllLineages =
                     titleSingular === 'Beleidskeuze'
                         ? getGetBeleidskeuzesQueryKey()
                         : titleSingular === 'Maatregel'
                         ? getGetMaatregelenQueryKey()
-                        : ''
+                        : ['']
 
                 queryClient.invalidateQueries(queryKeyLineage)
                 queryClient.invalidateQueries(queryKeyAllLineages)
@@ -105,8 +105,8 @@ function PopUpChangePolicyStatus({
             Status: selectedStatus.value,
         }
 
-        mutatePolicyLineage.mutate({
-            lineageid: policy.ID!,
+        mutatePolicyLineage?.mutate({
+            lineageId: policy.ID!,
             data: patchObject as any,
         })
     }

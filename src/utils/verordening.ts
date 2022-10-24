@@ -1,7 +1,7 @@
+import { useMutation, useQuery } from '@tanstack/react-query'
 import cloneDeep from 'lodash.clonedeep'
-import { useMutation, useQuery } from 'react-query'
 
-import { getVersionVerordeningenObjectuuid } from '@/api/fetchers'
+import { getVersionVerordeningenObjectUuid } from '@/api/fetchers'
 import {
     VerordeningenRead,
     VerordeningenWrite,
@@ -130,13 +130,13 @@ export const patchVerordeningSection = (
         .then(res => res.data as VerordeningenRead)
 
 export const useGetVerordeningenStructuren = () =>
-    useQuery('/verordeningstructuur', () =>
+    useQuery(['/verordeningstructuur'], () =>
         axios.get('/verordeningstructuur').then(res => res.data)
     )
 
 export const useGetVerordeningenStructurenLineageId = (lineageID: string) =>
     useQuery(
-        `/verordeningstructuur/${lineageID}`,
+        [`/verordeningstructuur/${lineageID}`],
         () =>
             axios
                 .get(`/verordeningstructuur/${lineageID}`)
@@ -157,7 +157,7 @@ export const getChildrenOfSectionFromAPI = (
     children: VerordeningStructureChild[]
 ) =>
     Promise.all([
-        children.map(child => getVersionVerordeningenObjectuuid(child.UUID)),
+        children.map(child => getVersionVerordeningenObjectUuid(child.UUID)),
     ])
 
 export const getChildrenOfSectionFromLineage = (
