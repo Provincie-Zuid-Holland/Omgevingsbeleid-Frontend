@@ -57,7 +57,7 @@ function Detail({ dimensieConstants }: DetailProps) {
     const titleSingular = dimensieConstants.TITLE_SINGULAR
     const useGetLineage = getFetcher(titleSingular)
 
-    const { isLoading: lineageIsLoading, data: lineage } = useGetLineage(
+    const { isInitialLoading: lineageIsLoading, data: lineage } = useGetLineage(
         parseInt(objectID!)
     )
     const isFetching = useIsFetching({

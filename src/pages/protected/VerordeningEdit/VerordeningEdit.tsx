@@ -52,12 +52,14 @@ function VerordeningEdit() {
     /**
      * Fetch the current active section data.
      */
-    const { data: activeSectionDataFromAPI, isLoading: isLoadingVersion } =
-        useGetVersionVerordeningenObjectUuid(editingSectionUUID || '', {
-            query: {
-                enabled: editingSectionUUID !== null,
-            },
-        })
+    const {
+        data: activeSectionDataFromAPI,
+        isInitialLoading: isLoadingVersion,
+    } = useGetVersionVerordeningenObjectUuid(editingSectionUUID || '', {
+        query: {
+            enabled: !!editingSectionUUID,
+        },
+    })
 
     /**
      * Update loading state

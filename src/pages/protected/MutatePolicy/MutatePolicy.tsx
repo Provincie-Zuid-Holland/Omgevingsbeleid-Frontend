@@ -91,7 +91,7 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
         [user]
     )
 
-    const { isLoading: lineageIsLoading, data: lineage } = useGetLineage(
+    const { isInitialLoading: lineageIsLoading, data: lineage } = useGetLineage(
         parseInt(objectID!),
         undefined,
         {
@@ -213,9 +213,7 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
                 validateOnMount>
                 {({ errors, values, isValid }) => (
                     <>
-                        {lineageIsLoading && !!objectID ? (
-                            <LoaderContent />
-                        ) : null}
+                        {lineageIsLoading ? <LoaderContent /> : null}
                         <Helmet>
                             <title>
                                 {objectID
@@ -226,7 +224,7 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
                         <MutatePolicyHeading
                             policyObjectMeta={policyConstants.META}
                             userIsEditing={!!objectID}
-                            isLoading={lineageIsLoading && !!objectID}
+                            isLoading={lineageIsLoading}
                             objectTitle={values?.Titel || ''}
                         />
                         <ContainerMain className="mt-8">

@@ -82,7 +82,11 @@ const NetworkGraph = () => {
         { refetchOnMount: true, staleTime: 0 }
     )
 
-    const { isLoading, data, isFetching } = useQuery(
+    const {
+        isInitialLoading: isLoading,
+        data,
+        isFetching,
+    } = useQuery(
         ['/graph'],
         () =>
             getGraph().then(data => {

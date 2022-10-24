@@ -37,7 +37,7 @@ function PopUpAddPolicyToModule({
     const queryClient = useQueryClient()
     const { single: idUrlParam } = useParams<{ single: string }>()
 
-    const { isLoading: modulesAreLoading, data: policyModules } =
+    const { isInitialLoading: modulesAreLoading, data: policyModules } =
         useGetBeleidsmodules()
     const [selectedModuleUUID, setSelectedModuleUUID] = useState<string | null>(
         null

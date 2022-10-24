@@ -7,7 +7,7 @@ import { LoaderContent } from '@/components/Loader'
 import ObjectList from '@/components/ObjectList'
 
 function ThemeOverview() {
-    const { isLoading, data } = useGetValidBeleidsdoelen()
+    const { isInitialLoading: isLoading, data } = useGetValidBeleidsdoelen()
 
     const breadcrumbPaths = [
         { name: 'Home', path: '/' },
