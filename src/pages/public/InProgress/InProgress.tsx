@@ -11,19 +11,17 @@ import { scrollToElementByID } from '@/utils/scrollToElementByID'
 import TableLatestEdits from './TableLatestEdits'
 
 function InProgress() {
-    const { isInitialLoading: isLoading, data: edits } = useQuery(
-        ['/edits'],
-        () =>
-            getEdits().then(data => {
-                const filteredData = data.filter(
-                    item =>
-                        item.Status !== 'Ontwerp GS Concept' &&
-                        item.Status !== 'Definitief ontwerp GS concept'
-                )
-                return filteredData.length > 10
-                    ? filteredData.slice(0, 10)
-                    : filteredData
-            })
+    const { isLoading, data: edits } = useQuery(['/edits'], () =>
+        getEdits().then(data => {
+            const filteredData = data.filter(
+                item =>
+                    item.Status !== 'Ontwerp GS Concept' &&
+                    item.Status !== 'Definitief ontwerp GS concept'
+            )
+            return filteredData.length > 10
+                ? filteredData.slice(0, 10)
+                : filteredData
+        })
     )
 
     return (

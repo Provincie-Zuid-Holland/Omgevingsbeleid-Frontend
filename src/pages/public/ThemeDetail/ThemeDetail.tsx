@@ -15,8 +15,7 @@ import RelatiesKoppelingen from '@/components/RelatiesKoppelingen'
 
 function ThemeDetail() {
     const { id } = useParams<{ id: string }>()
-    const { data, isInitialLoading: isLoading } =
-        useGetVersionBeleidsdoelenObjectUuid(id!)
+    const { data, isLoading } = useGetVersionBeleidsdoelenObjectUuid(id!)
     const beleidskeuzes = useQueries({
         queries: (data?.Ref_Beleidskeuzes || []).map(item => {
             return {

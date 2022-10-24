@@ -19,16 +19,14 @@ function Verordening() {
     const UUIDFromUrl = query.get('actief')
     const [activeArticle, setActiveArticle] = useState(null)
 
-    const { isInitialLoading: isLoading, data: verordening } = useQuery(
-        ['verordening'],
-        () =>
-            axios
-                .get('/verordeningstructuur')
-                .then(res =>
-                    res.data.find(
-                        (verordening: any) => verordening.Status === 'Vigerend'
-                    )
+    const { isLoading, data: verordening } = useQuery(['verordening'], () =>
+        axios
+            .get('/verordeningstructuur')
+            .then(res =>
+                res.data.find(
+                    (verordening: any) => verordening.Status === 'Vigerend'
                 )
+            )
     )
 
     useEffect(() => {

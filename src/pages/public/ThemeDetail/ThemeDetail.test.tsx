@@ -5,7 +5,9 @@ import {
     waitForElementToBeRemoved,
 } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { MemoryRouter } from 'react-router-dom'
+import { MemoryRouter, Routes, Route } from 'react-router-dom'
+
+import { beleidsdoelen } from '@/mocks/data/beleidsdoelen'
 
 import ThemeDetail from './ThemeDetail'
 
@@ -16,10 +18,18 @@ describe('ThemeDetail', () => {
 
     const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
+        const path = `/omgevingsprogramma/thematische-programmas/:id`
+        const initialEntries = `/omgevingsprogramma/thematische-programmas/${beleidsdoelen[0].UUID}`
+
         render(
             <QueryClientProvider client={queryClient}>
-                <MemoryRouter>
-                    <ThemeDetail {...props} />
+                <MemoryRouter initialEntries={[initialEntries]}>
+                    <Routes>
+                        <Route
+                            path={path}
+                            element={<ThemeDetail {...props} />}
+                        />
+                    </Routes>
                 </MemoryRouter>
             </QueryClientProvider>
         )
@@ -32,7 +42,10 @@ describe('ThemeDetail', () => {
             screen.queryByTestId('loader-content')
         )
 
-        const element = screen.getByText('Thematische programma’s')
+        const element = screen.getByRole('heading', {
+            name: beleidsdoelen[0].Titel,
+            level: 1,
+        })
         expect(element).toBeTruthy()
     })
 })

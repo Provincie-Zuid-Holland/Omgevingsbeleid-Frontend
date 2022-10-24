@@ -6,7 +6,7 @@ import { Container } from '@/components/Container'
 import { LoaderContent, LoaderSpinner } from '@/components/Loader'
 
 function AreaOverview() {
-    const { data, isInitialLoading: isLoading } = useGetValidGebiedsprogrammas()
+    const { data, isLoading } = useGetValidGebiedsprogrammas()
 
     const breadcrumbPaths = [
         { name: 'Home', path: '/' },

@@ -1,5 +1,6 @@
 import { render, act, waitFor, screen, fireEvent } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
+
 import '@testing-library/jest-dom'
 
 import App from './App'
@@ -10,9 +11,9 @@ describe('App', () => {
     const setup = (customProps: any) => {
         const props = { ...defaultProps, ...customProps }
         render(
-            <BrowserRouter>
+            <MemoryRouter>
                 <App {...props} />
-            </BrowserRouter>
+            </MemoryRouter>
         )
     }
 
@@ -59,13 +60,6 @@ describe('App', () => {
 
         expect(beleidskeuzesTitle).toBeInTheDocument()
 
-        const firstBeleidskeuzeItem = screen.getByText(
-            'Bovenregionaal warmtenetwerk'
-        )
-        expect(firstBeleidskeuzeItem).toBeInTheDocument()
-
-        fireEvent.click(firstBeleidskeuzeItem)
-
         // User can navigate to the policy changes page
         fireEvent.click(menuBtn)
         const beleidswijzigingenLink = screen.getByText('Beleidswijzigingen')
@@ -78,9 +72,6 @@ describe('App', () => {
 
         // User can navigate to the releases page
         fireEvent.click(logoMenu as Element)
-
-        const raadpleegBtn = screen.getByText('Raadplegen')
-        fireEvent.click(raadpleegBtn)
 
         const releasesLink = screen.getByText('Bekijk alle releases & planning')
         fireEvent.click(releasesLink)

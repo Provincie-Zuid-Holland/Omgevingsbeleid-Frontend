@@ -21,7 +21,7 @@ function UniversalObjectOverview({
     dataModel,
     dataEndpoint,
 }: UniversalObjectOverviewProps) {
-    const { isInitialLoading: isLoading, data: allObjects } = useQuery(
+    const { isLoading, data: allObjects } = useQuery(
         [dataModel?.API_ENDPOINT_VIGEREND || ''],
         () =>
             dataEndpoint?.().then(data =>

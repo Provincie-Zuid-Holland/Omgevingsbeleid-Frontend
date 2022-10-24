@@ -9,8 +9,7 @@ import ObjectList from '@/components/ObjectList'
 
 function AreaDetail() {
     const { id } = useParams<{ id: string }>()
-    const { data, isInitialLoading: isLoading } =
-        useGetVersionGebiedsprogrammasObjectUuid(id!)
+    const { data, isLoading } = useGetVersionGebiedsprogrammasObjectUuid(id!)
 
     const transformedMaatregelen = useMemo(
         () =>
