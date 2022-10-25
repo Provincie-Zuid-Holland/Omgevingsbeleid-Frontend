@@ -1,9 +1,9 @@
 import { Button, Heading, Text } from '@pzh-ui/components'
 import { FloppyDisk, Xmark } from '@pzh-ui/icons'
+import { useQueryClient } from '@tanstack/react-query'
 import classNames from 'classnames'
 import { useFormikContext } from 'formik'
 import { FC, Fragment } from 'react'
-import { useQueryClient } from 'react-query'
 import { Link, useParams } from 'react-router-dom'
 
 import { VerordeningenRead } from '@/api/fetchers.schemas'
@@ -199,7 +199,9 @@ const VerordeningSectionContainer: FC<VerordeningSectionContainerProps> = ({
                                             )
 
                                         queryClient.setQueryData(
-                                            `getVerordeningStructuur/${patchedVerordening.ID}`,
+                                            [
+                                                `getVerordeningStructuur/${patchedVerordening.ID}`,
+                                            ],
                                             patchedVerordening
                                         )
 

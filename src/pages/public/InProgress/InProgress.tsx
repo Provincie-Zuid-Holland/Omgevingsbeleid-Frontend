@@ -1,7 +1,7 @@
 import { Disclosure } from '@headlessui/react'
 import { Button, Divider, Heading, Text } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 
 import { getEdits } from '@/api/fetchers'
 import { Container } from '@/components/Container'
@@ -11,7 +11,7 @@ import { scrollToElementByID } from '@/utils/scrollToElementByID'
 import TableLatestEdits from './TableLatestEdits'
 
 function InProgress() {
-    const { isLoading, data: edits } = useQuery('/edits', () =>
+    const { isLoading, data: edits } = useQuery(['/edits'], () =>
         getEdits().then(data => {
             const filteredData = data.filter(
                 item =>

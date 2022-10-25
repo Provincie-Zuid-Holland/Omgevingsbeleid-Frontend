@@ -2,11 +2,11 @@ import { object, ObjectSchema } from 'yup'
 
 import {
     usePostMaatregelen,
-    useGetMaatregelenLineageid,
-    usePatchMaatregelenLineageid,
-    useGetValidMaatregelenLineageid,
+    useGetMaatregelenLineageId,
+    usePatchMaatregelenLineageId,
+    useGetValidMaatregelenLineageId,
     useGetMaatregelen,
-    useGetVersionMaatregelenObjectuuid,
+    useGetVersionMaatregelenObjectUuid,
     useGetValidMaatregelen,
 } from '@/api/fetchers'
 import { MaatregelenWrite, MaatregelenRead } from '@/api/fetchers.schemas'
@@ -16,11 +16,11 @@ import { schemaDefaults, generateSchemaTitles } from '@/utils/yupSchema'
 
 const queryMaatregelen: SchemaMetaQueries = {
     useGet: useGetMaatregelen,
-    useGetVersion: useGetVersionMaatregelenObjectuuid,
-    useGetLineage: useGetMaatregelenLineageid,
-    useGetValidLineage: useGetValidMaatregelenLineageid,
+    useGetVersion: useGetVersionMaatregelenObjectUuid,
+    useGetLineage: useGetMaatregelenLineageId,
+    useGetValidLineage: useGetValidMaatregelenLineageId,
     usePost: usePostMaatregelen,
-    usePatchLineage: usePatchMaatregelenLineageid,
+    usePatchLineage: usePatchMaatregelenLineageId,
     useGetValid: useGetValidMaatregelen,
 }
 

@@ -23,7 +23,7 @@ function SidebarMain() {
         userRole === 'Tester'
 
     return (
-        <div className="inline-block w-1/4 rounded">
+        <div className="inline-block w-1/4 pt-4 rounded">
             <div>
                 <span className="inline-block mt-1 mb-2 text-gray-800">
                     Omgevingsbeleid

@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikProps } from 'formik'
 import {
     useCallback,
@@ -8,7 +9,6 @@ import {
     useState,
 } from 'react'
 import { Helmet } from 'react-helmet'
-import { useQueryClient } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useSearchParam } from 'react-use'
 import { reach, SchemaDescription } from 'yup'
@@ -91,7 +91,7 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
         [user]
     )
 
-    const { isLoading: lineageIsLoading, data: lineage } = useGetLineage(
+    const { isInitialLoading: lineageIsLoading, data: lineage } = useGetLineage(
         parseInt(objectID!),
         undefined,
         {
@@ -118,14 +118,14 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
             onError: () => {
                 toastNotification({ type: 'standard error' })
             },
-            onSuccess: res => {
+            onSuccess: (res: any) => {
                 if (titleSingular === 'verordening') {
-                    queryClient.invalidateQueries(
-                        `getVerordeningStructuur/${objectID}`
-                    )
+                    queryClient.invalidateQueries([
+                        `getVerordeningStructuur/${objectID}`,
+                    ])
                 }
-                queryClient.invalidateQueries(`/${titlePlural}/${objectID}`)
-                queryClient.invalidateQueries(`/${titlePlural}`)
+                queryClient.invalidateQueries([`/${titlePlural}/${objectID}`])
+                queryClient.invalidateQueries([`/${titlePlural}`])
                 const urlAfterSubmit = getUrlAfterSubmit(res.ID)
                 navigate(urlAfterSubmit)
                 toastNotification({ type: 'saved' })
@@ -158,7 +158,7 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
 
         if (objectID) {
             mutatePolicyLineage.mutate({
-                lineageid: parseInt(objectID),
+                lineageId: parseInt(objectID),
                 data: formattedFormState,
             })
         } else {
