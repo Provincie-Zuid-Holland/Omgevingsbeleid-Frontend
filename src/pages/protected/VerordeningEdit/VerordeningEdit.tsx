@@ -1,4 +1,4 @@
-import { Form, Formik } from 'formik'
+import { Form, Formik, FormikState } from 'formik'
 import { MotionConfig } from 'framer-motion'
 import cloneDeep from 'lodash.clonedeep'
 import { useEffect } from 'react'
@@ -182,10 +182,18 @@ function VerordeningEdit() {
      * We need to transform the values to verordeningenWrite when editing before patching
      * @param values the data from the Formik forms
      */
+    type CustomFormikValues =
+        | (VerordeningenRead & { Children?: VerordeningenRead[] })
+        | (VerordeningenWrite & { Children?: VerordeningenRead[] })
     const handleSubmit = async (
-        values:
-            | (VerordeningenRead & { Children?: VerordeningenRead[] })
-            | (VerordeningenWrite & { Children?: VerordeningenRead[] })
+        values: CustomFormikValues,
+        {
+            resetForm,
+        }: {
+            resetForm: (
+                nextState?: Partial<FormikState<CustomFormikValues>> | undefined
+            ) => void
+        }
     ) => {
         dispatch({
             type: 'setIsLoadingOrSaving',
@@ -200,6 +208,7 @@ function VerordeningEdit() {
                  * If that is the case we need to patch these as well.
                  */
                 let patchedChildren: VerordeningenRead[] | null = null
+
                 if (values.Type === 'Artikel' && values.Children) {
                     patchedChildren = await Promise.all(
                         values.Children.map(async child => {
@@ -274,6 +283,7 @@ function VerordeningEdit() {
                     payload: false,
                 })
                 dispatch({ type: 'resetEditingSection' })
+                resetForm()
             } catch (err) {
                 handleError(err)
 
@@ -293,6 +303,7 @@ function VerordeningEdit() {
                  * If that is the case we need to patch these as well.
                  */
                 let patchedChildren: VerordeningenRead[] | null = null
+
                 if (newSection?.Type === 'Artikel' && postObject.Children) {
                     patchedChildren = await Promise.all(
                         postObject.Children.map(async child => {
@@ -313,6 +324,7 @@ function VerordeningEdit() {
                     delete postObject.Children
                 }
 
+                /** Create Verordening Object from newSection and postObject */
                 const createdSectionFromAPI = await postVerordeningSection({
                     ...newSection,
                     ...postObject,
@@ -347,12 +359,12 @@ function VerordeningEdit() {
                     patchedVerordening
                 )
 
-                dispatch({ type: 'setIsAddingSection', payload: false })
                 dispatch({
                     type: 'setIsLoadingOrSaving',
                     payload: false,
                 })
-                dispatch({ type: 'setNewSection', payload: null })
+                dispatch({ type: 'resetEditingSection' })
+                resetForm()
             } catch (err) {
                 handleError(err)
                 dispatch({

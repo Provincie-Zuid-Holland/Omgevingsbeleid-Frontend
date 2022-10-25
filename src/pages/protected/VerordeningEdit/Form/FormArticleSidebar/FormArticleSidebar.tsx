@@ -21,11 +21,13 @@ function FormArticleSidebar({}: FormArticleSidebarProps) {
         useState(false)
 
     const options = users
-        ? users.map(user => ({
-              value: user.UUID || '',
-              label: user.Gebruikersnaam || '',
-              role: user.Rol || '',
-          }))
+        ? users
+              .map(user => ({
+                  value: user.UUID || '',
+                  label: user.Gebruikersnaam || '',
+                  role: user.Rol || '',
+              }))
+              .sort((a, b) => (a.label > b.label ? 1 : -1))
         : []
 
     if (!values) return null
@@ -33,7 +35,7 @@ function FormArticleSidebar({}: FormArticleSidebarProps) {
     return (
         <SidebarScrollContainer>
             <SidebarContainer
-                title={`Eigenschappen Artikel ${values.Volgnummer}`}>
+                title={`Eigenschappen Artikel ${values?.Volgnummer || ''}`}>
                 <div>
                     <FieldLabel name="Eigenaar_1" label="Eerste Eigenaar" />
                     <FormikSelectUser

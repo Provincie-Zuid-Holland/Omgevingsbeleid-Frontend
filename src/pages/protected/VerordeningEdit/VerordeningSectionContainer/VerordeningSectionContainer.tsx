@@ -77,6 +77,14 @@ const VerordeningSectionContainer: FC<VerordeningSectionContainerProps> = ({
                                     type: 'setActiveSectionData',
                                     payload: null,
                                 })
+                                dispatch({
+                                    type: 'setIsAddingSection',
+                                    payload: false,
+                                })
+                                dispatch({
+                                    type: 'setIsEditingOrder',
+                                    payload: false,
+                                })
                             }}
                         />
                     )}
