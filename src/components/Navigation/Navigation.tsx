@@ -97,6 +97,7 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
                                 <ArrowRightFromBracket
                                     size={16}
                                     className="mr-2 -mt-0.5 inline-block"
+                                    aria-hidden="true"
                                 />
                             }
                             label={isMobile ? null : 'Inloggen'}
