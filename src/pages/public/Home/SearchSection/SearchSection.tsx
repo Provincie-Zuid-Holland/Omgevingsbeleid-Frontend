@@ -70,16 +70,20 @@ interface SearchSectionLabelProps {
 const SearchSectionLabel = ({ active, text }: SearchSectionLabelProps) => {
     if (active) {
         return (
-            <span className="inline-block py-1 font-bold border-b-4 border-pzh-green text-pzh-green">
+            <button
+                type="button"
+                className="inline-block py-1 font-bold border-b-4 border-pzh-green text-pzh-green">
                 {text}
-            </span>
+            </button>
         )
     }
 
     return (
-        <span className="inline-block py-1 transition-colors duration-150 ease-in cursor-pointer hover:text-pzh-green">
+        <button
+            type="button"
+            className="inline-block py-1 transition-colors duration-150 ease-in cursor-pointer hover:text-pzh-green">
             {text}
-        </span>
+        </button>
     )
 }
 
