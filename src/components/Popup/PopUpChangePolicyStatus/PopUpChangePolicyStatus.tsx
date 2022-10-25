@@ -141,8 +141,8 @@ function PopUpChangePolicyStatus({
                     <Text className="underline">Annuleren</Text>
                 </button>
                 <Button
-                    disabled={selectedStatus === null}
-                    onClick={() => updatePolicyStatus()}
+                    isDisabled={selectedStatus === null}
+                    onPress={() => updatePolicyStatus()}
                     variant="cta">
                     Aanpassen
                 </Button>

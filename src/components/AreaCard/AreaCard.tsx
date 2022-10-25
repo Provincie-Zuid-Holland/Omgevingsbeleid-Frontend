@@ -23,7 +23,7 @@ const AreaCard = ({ image, title, link }: AreaCardProps) => (
                 {title}
             </Heading>
             <Link to={link} className="mt-auto">
-                <Button label="Bekijk gebiedsprogramma" />
+                <Button>Bekijk gebiedsprogramma</Button>
             </Link>
         </div>
     </div>

@@ -142,4 +142,5 @@ const DropdownTextElement = ({
     )
 }
 
+export { DropdownContainer }
 export default Dropdown

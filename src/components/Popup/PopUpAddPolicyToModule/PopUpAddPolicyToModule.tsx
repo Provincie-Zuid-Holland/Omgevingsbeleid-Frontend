@@ -140,7 +140,7 @@ function PopUpAddPolicyToModule({
                     }}>
                     <Text className="underline">Annuleren</Text>
                 </button>
-                <Button onClick={() => addPolicyToModule()} variant="cta">
+                <Button onPress={() => addPolicyToModule()} variant="cta">
                     Aanpassen
                 </Button>
             </div>

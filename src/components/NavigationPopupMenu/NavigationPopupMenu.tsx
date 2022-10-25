@@ -92,7 +92,8 @@ const NavigationPopupMenu = ({
                 <>
                     <div
                         style={bannerAdjustedOffsetTop}
-                        className="fixed top-0 left-0 z-0 block w-screen h-screen bg-gray-900 pointer-events-none opacity-40"></div>
+                        className="fixed top-0 left-0 z-0 block w-screen h-screen bg-gray-900 pointer-events-none opacity-40"
+                    />
                     <nav
                         id="popup-menu"
                         className="fixed top-0 left-0 z-10 w-full pb-8 bg-white"

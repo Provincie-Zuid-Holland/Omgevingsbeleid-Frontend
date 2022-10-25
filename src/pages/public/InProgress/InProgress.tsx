@@ -38,12 +38,12 @@ function InProgress() {
                         laten zien die in ontwerp zijn.
                     </Text>
                     <Button
-                        label="Bekijk overzicht"
-                        onClick={() =>
+                        onPress={() =>
                             scrollToElementByID('laatste-bewerkingen')
                         }
-                        className="mt-4"
-                    />
+                        className="mt-4">
+                        Bekijk overzicht
+                    </Button>
                 </div>
                 <div
                     className="relative col-span-3"

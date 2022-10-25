@@ -355,11 +355,9 @@ const BeleidsrelatiesDetail = ({
                     </div>
                     <div className="flex-shrink-0">
                         <Link to={`/muteer/beleidsrelaties/${UUID}/nieuw`}>
-                            <Button
-                                variant="cta"
-                                icon={Plus}
-                                label="Nieuwe relatie"
-                            />
+                            <Button variant="cta" icon={Plus}>
+                                Nieuwe relatie
+                            </Button>
                         </Link>
                     </div>
                 </div>

@@ -202,14 +202,13 @@ export const CreateCustomPopup = ({
             </ul>
             <div className="flex justify-between">
                 {isAdvancedSearch ? (
-                    <Button
-                        label="Bekijk beleid"
-                        className="advanced-search-button"
-                    />
+                    <Button className="advanced-search-button">
+                        Bekijk beleid
+                    </Button>
                 ) : (
                     <a
                         href={`${MAP_SEARCH_PAGE}?${searchParams}&searchOpen=true`}>
-                        <Button label="Bekijk beleid" />
+                        <Button>Bekijk beleid</Button>
                     </a>
                 )}
                 <button className="leaflet-close-popup underline text-pzh-red text-xs">

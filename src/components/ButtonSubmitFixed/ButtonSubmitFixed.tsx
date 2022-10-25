@@ -1,12 +1,11 @@
 import { Button } from '@pzh-ui/components'
 import classNames from 'classnames'
-import { KeyboardEvent, MouseEvent } from 'react'
 
 /**
  * Displays a fixed placed submit button.
  */
 interface ButtonSubmitFixedProps {
-    submit?: ((e: MouseEvent | KeyboardEvent) => void) | null
+    submit?: (() => void) | null
     disabled?: boolean
     scrollToError?: () => void
 }
@@ -35,15 +34,10 @@ function ButtonSubmitFixed({
                 <Button
                     id="form-submit"
                     type="button"
-                    onClick={e => {
-                        submit(e)
+                    onPress={() => {
+                        submit()
                     }}
-                    onKeyPress={e => {
-                        if (e.key === 'Enter') {
-                            submit(e)
-                        }
-                    }}
-                    disabled={disabled}>
+                    isDisabled={disabled}>
                     Opslaan
                 </Button>
             </div>

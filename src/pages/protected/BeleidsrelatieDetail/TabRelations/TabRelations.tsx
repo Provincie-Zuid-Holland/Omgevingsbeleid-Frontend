@@ -225,12 +225,7 @@ const PopUpConfirm = ({
                     Annuleren
                 </span>
                 <Button
-                    label={
-                        relation.Status === 'Akkoord'
-                            ? 'Verbreken'
-                            : 'Intrekken'
-                    }
-                    onClick={() => {
+                    onPress={() => {
                         relationshipDisconnect(relation)
                         setDisconnectPopup(null)
                         updateStatus(
@@ -240,8 +235,9 @@ const PopUpConfirm = ({
                                 : 'NietAkkoord',
                             true
                         )
-                    }}
-                />
+                    }}>
+                    {relation.Status === 'Akkoord' ? 'Verbreken' : 'Intrekken'}
+                </Button>
             </div>
         </PopUpAnimatedContainer>
     )
