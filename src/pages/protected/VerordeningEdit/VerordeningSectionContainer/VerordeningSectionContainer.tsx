@@ -68,12 +68,16 @@ const VerordeningSectionContainer: FC<VerordeningSectionContainerProps> = ({
                     {activeChapterUUID && (
                         <ButtonBackToPage
                             terugNaar="verordening"
-                            onClick={() =>
+                            onClick={() => {
                                 dispatch({
                                     type: 'setActiveChapterUUID',
                                     payload: null,
                                 })
-                            }
+                                dispatch({
+                                    type: 'setActiveSectionData',
+                                    payload: null,
+                                })
+                            }}
                         />
                     )}
                 </div>
