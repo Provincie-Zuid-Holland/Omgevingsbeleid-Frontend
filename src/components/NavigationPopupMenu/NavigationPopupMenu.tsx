@@ -245,7 +245,7 @@ const ToggleMenuButton = ({
 }: ToggleMenuButtonProps) => (
     <button
         onKeyDown={e => {
-            if (e.key === 'Tab' && e.shiftKey) {
+            if (e.key === 'Tab' && e.shiftKey && isOpen) {
                 e.preventDefault()
                 document
                     .getElementById('menu-item-netwerkvisualisatie')
