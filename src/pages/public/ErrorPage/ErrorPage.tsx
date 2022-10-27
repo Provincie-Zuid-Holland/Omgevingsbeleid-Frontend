@@ -5,15 +5,7 @@ import { Link } from 'react-router-dom'
 const ErrorPage = ({ resetErrorBoundary }: FallbackProps) => (
     <>
         <Helmet>
-            <title>ErrorPage - Omgevingsbeleid Provincie Zuid-Holland</title>
-            <meta
-                property="og:title"
-                content="ErrorPage - Omgevingsbeleid Provincie Zuid-Holland"
-            />
-            <meta
-                property="og:description"
-                content="ErrorPage waarop staat beschreven dat er iets technisch fout is gegaan en dat deze melding geregistreerd wordt."
-            />
+            <title>Omgevingsbeleid - Er is iets fout gegaan</title>
         </Helmet>
         <div className="fixed w-full top-1/3" data-testid="errorboundary">
             <div className="max-w-4xl px-5 mx-auto sm:px-24 lg:px-8">

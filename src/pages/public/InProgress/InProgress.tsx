@@ -1,6 +1,7 @@
 import { Disclosure } from '@headlessui/react'
 import { Button, Divider, Heading, Text } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
+import { Helmet } from 'react-helmet'
 import { useQuery } from 'react-query'
 
 import { getEdits } from '@/api/fetchers'
@@ -26,6 +27,9 @@ function InProgress() {
 
     return (
         <div>
+            <Helmet>
+                <title>Omgevingsbeleid - In bewerking</title>
+            </Helmet>
             <Container className="overflow-hidden">
                 <div className="col-span-3">
                     <Heading level="1" className="mt-16">

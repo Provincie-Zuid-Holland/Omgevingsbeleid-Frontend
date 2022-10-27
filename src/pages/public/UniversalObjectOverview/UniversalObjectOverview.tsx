@@ -1,6 +1,7 @@
 import { Heading, Text, getHeadingStyles } from '@pzh-ui/components'
 import { AngleRight, ArrowLeft } from '@pzh-ui/icons'
 import { useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import { useMedia } from 'react-use'
@@ -54,6 +55,9 @@ function UniversalObjectOverview({
 
     return (
         <div>
+            <Helmet>
+                <title>Omgevingsbeleid - {dataModel?.TITLE_PLURAL}</title>
+            </Helmet>
             <Container className="pb-16 mb-8">
                 <div className="col-span-6 sm:col-span-1">
                     <Link
