@@ -81,9 +81,17 @@ const NavigationPopupMenu = ({
                         className="flex items-center justify-center p-8 text-white cursor-pointer bg-pzh-blue-dark"
                         onClick={() => setIsOpen(!isOpen)}>
                         {isOpen ? (
-                            <Xmark size={18} className="absolute" />
+                            <Xmark
+                                aria-hidden="true"
+                                size={18}
+                                className="absolute"
+                            />
                         ) : (
-                            <Bars size={18} className="absolute" />
+                            <Bars
+                                aria-hidden="true"
+                                size={18}
+                                className="absolute"
+                            />
                         )}
                     </div>
                 </div>
@@ -261,9 +269,9 @@ const ToggleMenuButton = ({
         aria-expanded={isOpen}
         onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? (
-            <Xmark size={18} className="mx-1 -mt-1" />
+            <Xmark aria-hidden="true" size={18} className="mx-1 -mt-1" />
         ) : (
-            <Bars size={18} className="mx-1 -mt-1" />
+            <Bars aria-hidden="true" size={18} className="mx-1 -mt-1" />
         )}
         <span className="ml-1 font-bold">{isOpen ? 'Sluit menu' : 'Menu'}</span>
     </button>

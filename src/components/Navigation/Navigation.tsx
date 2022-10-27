@@ -84,7 +84,13 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
                         <MenuIcon
                             setIsOpen={setIsOpen}
                             to="/muteer/dashboard"
-                            icon={<Eye size={16} className="mr-2 -mt-1" />}>
+                            icon={
+                                <Eye
+                                    aria-hidden="true"
+                                    size={16}
+                                    className="mr-2 -mt-1"
+                                />
+                            }>
                             Bewerken
                         </MenuIcon>
                     ) : null}

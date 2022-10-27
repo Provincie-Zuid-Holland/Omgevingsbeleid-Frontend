@@ -2,6 +2,7 @@ import { Minus, Plus } from '@pzh-ui/icons'
 import * as d3 from 'd3'
 import cloneDeep from 'lodash.clonedeep'
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { useQuery } from 'react-query'
 import { matchPath, useLocation } from 'react-router-dom'
 
@@ -707,6 +708,9 @@ const NetworkGraph = () => {
             id="popup-menu-graph"
             className="fixed top-0 left-0 w-full pb-10 overflow-y-auto bg-white"
             style={graphStyles}>
+            <Helmet>
+                <title>Omgevingsbeleid - Netwerkvisualisatie</title>
+            </Helmet>
             <div className="container flex flex-col h-full mx-auto lg:flex-row">
                 <NetworkGraphSidebar
                     isLoading={isLoading || isFetching}
@@ -771,13 +775,15 @@ const NetworkGraphZoomButtons = () => {
                 className="p-2 bg-white rounded-t-md text-pzh-blue-dark hover:bg-gray-50"
                 id="d3-zoom-in"
                 type="button">
-                <Plus />
+                <span className="sr-only">Inzoomen</span>
+                <Plus aria-hidden="true" />
             </button>
             <button
                 className="p-2 bg-white rounded-b-md text-pzh-blue-dark hover:bg-gray-50"
                 id="d3-zoom-out"
                 type="button">
-                <Minus />
+                <span className="sr-only">Uitzoomen</span>
+                <Minus aria-hidden="true" />
             </button>
         </div>
     )
