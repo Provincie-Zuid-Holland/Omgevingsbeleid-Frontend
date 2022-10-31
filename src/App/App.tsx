@@ -87,7 +87,8 @@ const App = () => {
                             </Suspense>
                         </ErrorBoundary>
                         <ToastContainer limit={1} position="bottom-left" />
-                        {!isAdvancedSearchPage && <DNABar blocks={6} />}
+                        {!isAdvancedSearchPage &&
+                            !userIsInMuteerEnvironment && <DNABar blocks={6} />}
                     </BaseLayout>
                     <Feedback
                         email="omgevingsbeleid@pzh.nl"
