@@ -1,7 +1,7 @@
 import { Heading, Text } from '@pzh-ui/components'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useQuery } from 'react-query'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useWindowSize } from 'react-use'
 
@@ -20,7 +20,7 @@ function Verordening() {
     const UUIDFromUrl = query.get('actief')
     const [activeArticle, setActiveArticle] = useState(null)
 
-    const { isLoading, data: verordening } = useQuery('verordening', () =>
+    const { isLoading, data: verordening } = useQuery(['verordening'], () =>
         axios
             .get('/verordeningstructuur')
             .then(res =>

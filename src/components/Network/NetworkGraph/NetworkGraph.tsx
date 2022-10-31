@@ -1,9 +1,9 @@
 import { Minus, Plus } from '@pzh-ui/icons'
+import { useQuery } from '@tanstack/react-query'
 import * as d3 from 'd3'
 import cloneDeep from 'lodash.clonedeep'
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useQuery } from 'react-query'
 import { matchPath, useLocation } from 'react-router-dom'
 
 import { getGraph } from '@/api/fetchers'
@@ -71,7 +71,7 @@ const NetworkGraph = () => {
     const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
 
     const { data: verordeningsStructure } = useQuery(
-        '/verordeningstructuur',
+        ['/verordeningstructuur'],
         () =>
             axios
                 .get('/verordeningstructuur')
@@ -83,8 +83,12 @@ const NetworkGraph = () => {
         { refetchOnMount: true, staleTime: 0 }
     )
 
-    const { isLoading, data, isFetching } = useQuery(
-        '/graph',
+    const {
+        isInitialLoading: isLoading,
+        data,
+        isFetching,
+    } = useQuery(
+        ['/graph'],
         () =>
             getGraph().then(data => {
                 const transformedData = addColorAndUUIDToNodes(data)

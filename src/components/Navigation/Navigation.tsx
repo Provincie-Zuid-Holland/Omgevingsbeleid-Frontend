@@ -37,12 +37,15 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
 
     return (
         <header
-            className={classNames('top-0 z-20 w-full', {
-                fixed: !isAdvancedSearchPage,
-                relative: isAdvancedSearchPage,
-                'bg-pzh-blue': isOpen,
-                'bg-white': !isOpen,
-            })}
+            className={classNames(
+                'top-0 z-20 w-full border-b border-b-pzh-cool-gray-light/30',
+                {
+                    fixed: !isAdvancedSearchPage,
+                    relative: isAdvancedSearchPage,
+                    'bg-pzh-blue': isOpen,
+                    'bg-white': !isOpen,
+                }
+            )}
             id="top-navigation">
             <BannerEnvironment
                 hideBannerLocalStorage={hideBannerLocalStorage}

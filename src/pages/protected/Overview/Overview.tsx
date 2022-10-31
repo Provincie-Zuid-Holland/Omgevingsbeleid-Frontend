@@ -5,9 +5,9 @@ import {
     ArrowDownAZ,
     EllipsisVertical,
 } from '@pzh-ui/icons'
+import { useQueryClient, useIsFetching } from '@tanstack/react-query'
 import { FC, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useIsFetching, useQueryClient } from 'react-query'
 import { Link } from 'react-router-dom'
 
 import { BeleidskeuzesRead, MaatregelenRead } from '@/api/fetchers.schemas'
@@ -43,7 +43,7 @@ const Overview = ({ dimensieConstants }: OverviewProps) => {
     const titleSingular = dimensieConstants.TITLE_SINGULAR
     const titlePlural = dimensieConstants.TITLE_PLURAL
     const overviewSlug = dimensieConstants.SLUG_OVERVIEW
-    const isFetching = useIsFetching(`/${overviewSlug}`)
+    const isFetching = useIsFetching([`/${overviewSlug}`])
     const useGetLineage = getFetcherForType(titleSingular)
     const queryOptions = {
         query: {

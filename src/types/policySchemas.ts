@@ -9,16 +9,16 @@ import {
     usePostMaatregelen,
     usePostThemas,
     usePostVerordeningen,
-    usePatchAmbitiesLineageid,
-    usePatchBelangenLineageid,
-    usePatchBeleidsdoelenLineageid,
-    usePatchBeleidskeuzesLineageid,
-    usePatchBeleidsmodulesLineageid,
-    usePatchBeleidsprestatiesLineageid,
-    usePatchBeleidsregelsLineageid,
-    usePatchMaatregelenLineageid,
-    usePatchThemasLineageid,
-    usePatchVerordeningenLineageid,
+    usePatchAmbitiesLineageId,
+    usePatchBelangenLineageId,
+    usePatchBeleidsdoelenLineageId,
+    usePatchBeleidskeuzesLineageId,
+    usePatchBeleidsmodulesLineageId,
+    usePatchBeleidsprestatiesLineageId,
+    usePatchBeleidsregelsLineageId,
+    usePatchMaatregelenLineageId,
+    usePatchThemasLineageId,
+    usePatchVerordeningenLineageId,
     useGetValidAmbities,
     useGetValidBelangen,
     useGetValidBeleidsdoelen,
@@ -29,37 +29,37 @@ import {
     useGetValidMaatregelen,
     useGetValidThemas,
     useGetValidVerordeningen,
-    useGetValidAmbitiesLineageid,
-    useGetValidBelangenLineageid,
-    useGetValidBeleidsdoelenLineageid,
-    useGetValidBeleidskeuzesLineageid,
-    useGetValidBeleidsmodulesLineageid,
-    useGetValidBeleidsprestatiesLineageid,
-    useGetValidBeleidsregelsLineageid,
-    useGetValidMaatregelenLineageid,
-    useGetValidThemasLineageid,
-    useGetValidVerordeningenLineageid,
-    useGetVersionAmbitiesObjectuuid,
-    useGetVersionBelangenObjectuuid,
-    useGetVersionBeleidsdoelenObjectuuid,
-    useGetVersionBeleidskeuzesObjectuuid,
-    useGetVersionBeleidsmodulesObjectuuid,
-    useGetVersionBeleidsprestatiesObjectuuid,
-    useGetVersionBeleidsregelsObjectuuid,
-    useGetVersionMaatregelenObjectuuid,
-    useGetVersionThemasObjectuuid,
-    useGetVersionVerordeningenObjectuuid,
-    useGetVersionWerkingsgebiedenObjectuuid,
-    useGetAmbitiesLineageid,
-    useGetBelangenLineageid,
-    useGetBeleidsdoelenLineageid,
-    useGetBeleidskeuzesLineageid,
-    useGetBeleidsmodulesLineageid,
-    useGetBeleidsprestatiesLineageid,
-    useGetBeleidsregelsLineageid,
-    useGetMaatregelenLineageid,
-    useGetThemasLineageid,
-    useGetVerordeningenLineageid,
+    useGetValidAmbitiesLineageId,
+    useGetValidBelangenLineageId,
+    useGetValidBeleidsdoelenLineageId,
+    useGetValidBeleidskeuzesLineageId,
+    useGetValidBeleidsmodulesLineageId,
+    useGetValidBeleidsprestatiesLineageId,
+    useGetValidBeleidsregelsLineageId,
+    useGetValidMaatregelenLineageId,
+    useGetValidThemasLineageId,
+    useGetValidVerordeningenLineageId,
+    useGetVersionAmbitiesObjectUuid,
+    useGetVersionBelangenObjectUuid,
+    useGetVersionBeleidsdoelenObjectUuid,
+    useGetVersionBeleidskeuzesObjectUuid,
+    useGetVersionBeleidsmodulesObjectUuid,
+    useGetVersionBeleidsprestatiesObjectUuid,
+    useGetVersionBeleidsregelsObjectUuid,
+    useGetVersionMaatregelenObjectUuid,
+    useGetVersionThemasObjectUuid,
+    useGetVersionVerordeningenObjectUuid,
+    useGetVersionWerkingsgebiedenObjectUuid,
+    useGetAmbitiesLineageId,
+    useGetBelangenLineageId,
+    useGetBeleidsdoelenLineageId,
+    useGetBeleidskeuzesLineageId,
+    useGetBeleidsmodulesLineageId,
+    useGetBeleidsprestatiesLineageId,
+    useGetBeleidsregelsLineageId,
+    useGetMaatregelenLineageId,
+    useGetThemasLineageId,
+    useGetVerordeningenLineageId,
     useGetAmbities,
     useGetBelangen,
     useGetBeleidsdoelen,
@@ -118,16 +118,16 @@ type QueryUsePost =
     | typeof usePostVerordeningen
 
 type QueryUsePatchLineage =
-    | typeof usePatchAmbitiesLineageid
-    | typeof usePatchBelangenLineageid
-    | typeof usePatchBeleidsdoelenLineageid
-    | typeof usePatchBeleidskeuzesLineageid
-    | typeof usePatchBeleidsmodulesLineageid
-    | typeof usePatchBeleidsprestatiesLineageid
-    | typeof usePatchBeleidsregelsLineageid
-    | typeof usePatchMaatregelenLineageid
-    | typeof usePatchThemasLineageid
-    | typeof usePatchVerordeningenLineageid
+    | typeof usePatchAmbitiesLineageId
+    | typeof usePatchBelangenLineageId
+    | typeof usePatchBeleidsdoelenLineageId
+    | typeof usePatchBeleidskeuzesLineageId
+    | typeof usePatchBeleidsmodulesLineageId
+    | typeof usePatchBeleidsprestatiesLineageId
+    | typeof usePatchBeleidsregelsLineageId
+    | typeof usePatchMaatregelenLineageId
+    | typeof usePatchThemasLineageId
+    | typeof usePatchVerordeningenLineageId
 
 type QueryUseGetValid =
     | typeof useGetValidAmbities
@@ -142,41 +142,41 @@ type QueryUseGetValid =
     | typeof useGetValidVerordeningen
 
 type QueryUseGetValidLineage =
-    | typeof useGetValidAmbitiesLineageid
-    | typeof useGetValidBelangenLineageid
-    | typeof useGetValidBeleidsdoelenLineageid
-    | typeof useGetValidBeleidskeuzesLineageid
-    | typeof useGetValidBeleidsmodulesLineageid
-    | typeof useGetValidBeleidsprestatiesLineageid
-    | typeof useGetValidBeleidsregelsLineageid
-    | typeof useGetValidMaatregelenLineageid
-    | typeof useGetValidThemasLineageid
-    | typeof useGetValidVerordeningenLineageid
+    | typeof useGetValidAmbitiesLineageId
+    | typeof useGetValidBelangenLineageId
+    | typeof useGetValidBeleidsdoelenLineageId
+    | typeof useGetValidBeleidskeuzesLineageId
+    | typeof useGetValidBeleidsmodulesLineageId
+    | typeof useGetValidBeleidsprestatiesLineageId
+    | typeof useGetValidBeleidsregelsLineageId
+    | typeof useGetValidMaatregelenLineageId
+    | typeof useGetValidThemasLineageId
+    | typeof useGetValidVerordeningenLineageId
 
 type QueryUseGetLineage =
-    | typeof useGetAmbitiesLineageid
-    | typeof useGetBelangenLineageid
-    | typeof useGetBeleidsdoelenLineageid
-    | typeof useGetBeleidskeuzesLineageid
-    | typeof useGetBeleidsmodulesLineageid
-    | typeof useGetBeleidsprestatiesLineageid
-    | typeof useGetBeleidsregelsLineageid
-    | typeof useGetMaatregelenLineageid
-    | typeof useGetThemasLineageid
-    | typeof useGetVerordeningenLineageid
+    | typeof useGetAmbitiesLineageId
+    | typeof useGetBelangenLineageId
+    | typeof useGetBeleidsdoelenLineageId
+    | typeof useGetBeleidskeuzesLineageId
+    | typeof useGetBeleidsmodulesLineageId
+    | typeof useGetBeleidsprestatiesLineageId
+    | typeof useGetBeleidsregelsLineageId
+    | typeof useGetMaatregelenLineageId
+    | typeof useGetThemasLineageId
+    | typeof useGetVerordeningenLineageId
 
 export type QueryUseGetVersion =
-    | typeof useGetVersionAmbitiesObjectuuid
-    | typeof useGetVersionBelangenObjectuuid
-    | typeof useGetVersionBeleidsdoelenObjectuuid
-    | typeof useGetVersionBeleidskeuzesObjectuuid
-    | typeof useGetVersionBeleidsmodulesObjectuuid
-    | typeof useGetVersionBeleidsprestatiesObjectuuid
-    | typeof useGetVersionBeleidsregelsObjectuuid
-    | typeof useGetVersionMaatregelenObjectuuid
-    | typeof useGetVersionThemasObjectuuid
-    | typeof useGetVersionVerordeningenObjectuuid
-    | typeof useGetVersionWerkingsgebiedenObjectuuid
+    | typeof useGetVersionAmbitiesObjectUuid
+    | typeof useGetVersionBelangenObjectUuid
+    | typeof useGetVersionBeleidsdoelenObjectUuid
+    | typeof useGetVersionBeleidskeuzesObjectUuid
+    | typeof useGetVersionBeleidsmodulesObjectUuid
+    | typeof useGetVersionBeleidsprestatiesObjectUuid
+    | typeof useGetVersionBeleidsregelsObjectUuid
+    | typeof useGetVersionMaatregelenObjectUuid
+    | typeof useGetVersionThemasObjectUuid
+    | typeof useGetVersionVerordeningenObjectUuid
+    | typeof useGetVersionWerkingsgebiedenObjectUuid
 
 export type SchemaMetaQueries = {
     usePost: QueryUsePost

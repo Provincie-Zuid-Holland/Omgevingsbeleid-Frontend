@@ -1,3 +1,4 @@
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import {
     render,
     waitForElementToBeRemoved,
@@ -5,7 +6,6 @@ import {
     within,
     fireEvent,
 } from '@testing-library/react'
-import { QueryClientProvider, QueryClient } from 'react-query'
 import '@testing-library/jest-dom'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 

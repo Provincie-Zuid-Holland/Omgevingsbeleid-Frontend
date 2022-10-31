@@ -2,11 +2,11 @@ import { object, ObjectSchema } from 'yup'
 
 import {
     usePostBeleidsprestaties,
-    useGetBeleidsprestatiesLineageid,
-    usePatchBeleidsprestatiesLineageid,
-    useGetValidBeleidsprestatiesLineageid,
+    useGetBeleidsprestatiesLineageId,
+    usePatchBeleidsprestatiesLineageId,
+    useGetValidBeleidsprestatiesLineageId,
     useGetBeleidsprestaties,
-    useGetVersionBeleidsprestatiesObjectuuid,
+    useGetVersionBeleidsprestatiesObjectUuid,
     useGetValidBeleidsprestaties,
 } from '@/api/fetchers'
 import { BeleidsprestatiesWrite } from '@/api/fetchers.schemas'
@@ -17,10 +17,10 @@ import { schemaDefaults, generateSchemaTitles } from '@/utils/yupSchema'
 const queryBeleidsprestaties: SchemaMetaQueries = {
     usePost: usePostBeleidsprestaties,
     useGet: useGetBeleidsprestaties,
-    useGetVersion: useGetVersionBeleidsprestatiesObjectuuid,
-    useGetLineage: useGetBeleidsprestatiesLineageid,
-    useGetValidLineage: useGetValidBeleidsprestatiesLineageid,
-    usePatchLineage: usePatchBeleidsprestatiesLineageid,
+    useGetVersion: useGetVersionBeleidsprestatiesObjectUuid,
+    useGetLineage: useGetBeleidsprestatiesLineageId,
+    useGetValidLineage: useGetValidBeleidsprestatiesLineageId,
+    usePatchLineage: usePatchBeleidsprestatiesLineageId,
     useGetValid: useGetValidBeleidsprestaties,
 }
 

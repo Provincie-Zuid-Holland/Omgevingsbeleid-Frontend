@@ -1,13 +1,13 @@
 import { Text } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
+import { useIsFetching } from '@tanstack/react-query'
 import { Fragment, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useIsFetching } from 'react-query'
 import { useParams, Link } from 'react-router-dom'
 
 import {
-    useGetBeleidskeuzesLineageid,
-    useGetMaatregelenLineageid,
+    useGetBeleidskeuzesLineageId,
+    useGetMaatregelenLineageId,
 } from '@/api/fetchers'
 import { BeleidskeuzesRead, MaatregelenRead } from '@/api/fetchers.schemas'
 import CheckedOutPolicyContainer from '@/components/CheckedOutPolicyContainer'
@@ -21,9 +21,9 @@ import allDimensies from '@/constants/dimensies'
 const getFetcher = (titleSingular: 'Beleidskeuze' | 'Maatregel') => {
     switch (titleSingular) {
         case 'Beleidskeuze':
-            return useGetBeleidskeuzesLineageid
+            return useGetBeleidskeuzesLineageId
         case 'Maatregel':
-            return useGetMaatregelenLineageid
+            return useGetMaatregelenLineageId
     }
 }
 
@@ -61,7 +61,7 @@ function Detail({ dimensieConstants }: DetailProps) {
         parseInt(objectID!)
     )
     const isFetching = useIsFetching({
-        queryKey: `/${overviewSlug}/${objectID}`,
+        queryKey: [`/${overviewSlug}/${objectID}`],
     })
 
     /**

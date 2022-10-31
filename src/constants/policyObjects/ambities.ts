@@ -2,11 +2,11 @@ import { object, ObjectSchema } from 'yup'
 
 import {
     useGetAmbities,
-    useGetAmbitiesLineageid,
+    useGetAmbitiesLineageId,
     useGetValidAmbities,
-    useGetValidAmbitiesLineageid,
-    useGetVersionAmbitiesObjectuuid,
-    usePatchAmbitiesLineageid,
+    useGetValidAmbitiesLineageId,
+    useGetVersionAmbitiesObjectUuid,
+    usePatchAmbitiesLineageId,
     usePostAmbities,
 } from '@/api/fetchers'
 import { AmbitiesWrite } from '@/api/fetchers.schemas'
@@ -17,10 +17,10 @@ import { generateSchemaTitles, schemaDefaults } from '@/utils/yupSchema'
 const queryAmbities: SchemaMetaQueries = {
     usePost: usePostAmbities,
     useGet: useGetAmbities,
-    useGetVersion: useGetVersionAmbitiesObjectuuid,
-    useGetLineage: useGetAmbitiesLineageid,
-    useGetValidLineage: useGetValidAmbitiesLineageid,
-    usePatchLineage: usePatchAmbitiesLineageid,
+    useGetVersion: useGetVersionAmbitiesObjectUuid,
+    useGetLineage: useGetAmbitiesLineageId,
+    useGetValidLineage: useGetValidAmbitiesLineageId,
+    usePatchLineage: usePatchAmbitiesLineageId,
     useGetValid: useGetValidAmbities,
 }
 
