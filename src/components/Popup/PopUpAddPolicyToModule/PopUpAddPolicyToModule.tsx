@@ -25,7 +25,7 @@ export interface PopUpAddPolicyToModuleProps {
     isOpen: boolean
     setIsOpen: (isOpen: boolean) => void
     policy: MaatregelenRead | BeleidskeuzesRead
-    titleSingular: 'Beleidskeuze' | 'Maatregel'
+    titleSingular: 'Beleidskeuze' | 'Maatregel' | 'Gebiedsprogramma'
 }
 
 function PopUpAddPolicyToModule({
@@ -53,7 +53,11 @@ function PopUpAddPolicyToModule({
         if (!selectedModule?.ID) return
 
         const connectionProperty =
-            titleSingular === 'Maatregel' ? 'Maatregelen' : 'Beleidskeuzes'
+            titleSingular === 'Maatregel'
+                ? 'Maatregelen'
+                : titleSingular === 'Beleidskeuze'
+                ? 'Beleidskeuzes'
+                : 'Gebiedsprogrammas'
 
         const newConnection = {
             Koppeling_Omschrijving: '',

@@ -10,6 +10,13 @@ const networkGraphConnectionProperties = {
         plural: 'Ambities',
         prefix: 'de',
     },
+    gebiedsprogrammas: {
+        hex: '#503D90',
+        hexLight: '#e0dbf0',
+        singular: 'Gebiedsprogramma',
+        plural: "Gebiedsprogramma's",
+        prefix: 'het',
+    },
     belangen: {
         hex: '#D11F3D',
         hexLight: '#f1bcc5',

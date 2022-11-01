@@ -118,7 +118,8 @@ const getChildren = (policyType: keyof typeof policyObjects) => [
         path: ':single',
         children: [
             ...(((policyType === 'MAATREGELEN' ||
-                policyType === 'BELEIDSKEUZES') && [
+                policyType === 'BELEIDSKEUZES' ||
+                policyType === 'GEBIEDSPROGRAMMAS') && [
                 {
                     index: true,
                     element: (

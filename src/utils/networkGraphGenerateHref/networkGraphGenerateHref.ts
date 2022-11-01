@@ -7,6 +7,7 @@
  */
 
 export const networkSlugs = {
+    gebiedsprogrammas: 'gebiedsprogrammas',
     beleidskeuzes: 'beleidskeuzes',
     ambities: 'ambities',
     beleidsregels: 'beleidsregels',
