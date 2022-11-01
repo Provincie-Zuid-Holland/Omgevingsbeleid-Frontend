@@ -1,8 +1,8 @@
 import { Text } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
+import { useIsFetching } from '@tanstack/react-query'
 import { Fragment, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useIsFetching } from 'react-query'
 import { useParams, Link } from 'react-router-dom'
 
 import {
@@ -85,7 +85,7 @@ function Detail({ dimensieConstants }: DetailProps) {
         parseInt(objectID!)
     )
     const isFetching = useIsFetching({
-        queryKey: `/${overviewSlug}/${objectID}`,
+        queryKey: [`/${overviewSlug}/${objectID}`],
     })
 
     /**

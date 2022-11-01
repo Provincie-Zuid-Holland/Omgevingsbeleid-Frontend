@@ -1,14 +1,14 @@
 import { Button, FieldSelect, Heading, Modal, Text } from '@pzh-ui/components'
+import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useQueryClient } from 'react-query'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import {
     useGetBeleidsmodules,
-    patchBeleidsmodulesLineageid,
-    getGetBeleidskeuzesLineageidQueryKey,
-    getGetMaatregelenLineageidQueryKey,
+    patchBeleidsmodulesLineageId,
+    getGetBeleidskeuzesLineageIdQueryKey,
+    getGetMaatregelenLineageIdQueryKey,
     getGetMaatregelenQueryKey,
     getGetBeleidskeuzesQueryKey,
 } from '@/api/fetchers'
@@ -70,7 +70,7 @@ function PopUpAddPolicyToModule({
                 Koppeling_Omschrijving: '',
             })) || []
 
-        patchBeleidsmodulesLineageid(selectedModule.ID, {
+        patchBeleidsmodulesLineageId(selectedModule.ID, {
             [connectionProperty]: [
                 ...(formattedExistingConnections || []),
                 newConnection,
@@ -81,14 +81,14 @@ function PopUpAddPolicyToModule({
                 const queryKey =
                     titleSingular.toLowerCase() === 'Beleidskeuze' &&
                     isDetailPage
-                        ? getGetBeleidskeuzesLineageidQueryKey(policy.ID!)
+                        ? getGetBeleidskeuzesLineageIdQueryKey(policy.ID!)
                         : titleSingular === 'Maatregel' && isDetailPage
-                        ? getGetMaatregelenLineageidQueryKey(policy.ID!)
+                        ? getGetMaatregelenLineageIdQueryKey(policy.ID!)
                         : titleSingular === 'Maatregel' && !isDetailPage
                         ? getGetMaatregelenQueryKey()
                         : titleSingular === 'Beleidskeuze' && !isDetailPage
                         ? getGetBeleidskeuzesQueryKey()
-                        : ''
+                        : ['']
 
                 queryClient.invalidateQueries(queryKey)
 

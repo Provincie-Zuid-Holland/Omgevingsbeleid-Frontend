@@ -2,11 +2,11 @@ import { object, ObjectSchema } from 'yup'
 
 import {
     useGetGebiedsprogrammas,
-    useGetGebiedsprogrammasLineageid,
+    useGetGebiedsprogrammasLineageId,
     useGetValidGebiedsprogrammas,
-    useGetValidGebiedsprogrammasLineageid,
-    useGetVersionGebiedsprogrammasObjectuuid,
-    usePatchGebiedsprogrammasLineageid,
+    useGetValidGebiedsprogrammasLineageId,
+    useGetVersionGebiedsprogrammasObjectUuid,
+    usePatchGebiedsprogrammasLineageId,
     usePostGebiedsprogrammas,
 } from '@/api/fetchers'
 import { GebiedsprogrammasWrite } from '@/api/fetchers.schemas'
@@ -17,10 +17,10 @@ import { generateSchemaTitles, schemaDefaults } from '@/utils/yupSchema'
 const queryGebiedsprogrammas: SchemaMetaQueries = {
     usePost: usePostGebiedsprogrammas,
     useGet: useGetGebiedsprogrammas,
-    useGetVersion: useGetVersionGebiedsprogrammasObjectuuid,
-    useGetLineage: useGetGebiedsprogrammasLineageid,
-    useGetValidLineage: useGetValidGebiedsprogrammasLineageid,
-    usePatchLineage: usePatchGebiedsprogrammasLineageid,
+    useGetVersion: useGetVersionGebiedsprogrammasObjectUuid,
+    useGetLineage: useGetGebiedsprogrammasLineageId,
+    useGetValidLineage: useGetValidGebiedsprogrammasLineageId,
+    usePatchLineage: usePatchGebiedsprogrammasLineageId,
     useGetValid: useGetValidGebiedsprogrammas,
 }
 

@@ -1,11 +1,11 @@
-import { QueryClient } from 'react-query'
+import { QueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 
 import {
     getBeleidsmodules,
-    patchBeleidsmodulesLineageid,
-    getGetBeleidskeuzesLineageidQueryKey,
-    getGetMaatregelenLineageidQueryKey,
+    patchBeleidsmodulesLineageId,
+    getGetBeleidskeuzesLineageIdQueryKey,
+    getGetMaatregelenLineageIdQueryKey,
     getGetMaatregelenQueryKey,
     getGetBeleidskeuzesQueryKey,
 } from '@/api/fetchers'
@@ -62,7 +62,7 @@ export const removePolicyFromModule = async (
 
     Promise.all(
         modulesWithExistingConnection.map((module: BeleidsmodulesRead) =>
-            patchBeleidsmodulesLineageid(
+            patchBeleidsmodulesLineageId(
                 module.ID!,
                 generatePatchObject(module)
             )
@@ -72,14 +72,14 @@ export const removePolicyFromModule = async (
             const isDetailPage = type === 'detail'
             const queryKey =
                 titleSingular.toLowerCase() === 'Beleidskeuze' && isDetailPage
-                    ? getGetBeleidskeuzesLineageidQueryKey(policy.ID!)
+                    ? getGetBeleidskeuzesLineageIdQueryKey(policy.ID!)
                     : titleSingular === 'Maatregel' && isDetailPage
-                    ? getGetMaatregelenLineageidQueryKey(policy.ID!)
+                    ? getGetMaatregelenLineageIdQueryKey(policy.ID!)
                     : titleSingular === 'Maatregel' && !isDetailPage
                     ? getGetMaatregelenQueryKey()
                     : titleSingular === 'Beleidskeuze' && !isDetailPage
                     ? getGetBeleidskeuzesQueryKey()
-                    : ''
+                    : ['']
 
             queryClient.invalidateQueries(queryKey)
 

@@ -1,7 +1,7 @@
 import { Bars, Spinner } from '@pzh-ui/icons'
+import { useQueryClient } from '@tanstack/react-query'
 import { DragControls } from 'framer-motion'
 import { useState } from 'react'
-import { useQueryClient } from 'react-query'
 
 import ButtonDropdown from '@/components/ButtonDropdown'
 import Dropdown from '@/components/Dropdown'
@@ -73,7 +73,7 @@ const VerordeningSectionAction = ({
             )
 
             queryClient.setQueryData(
-                `getVerordeningStructuur/${patchedVerordening.ID}`,
+                [`getVerordeningStructuur/${patchedVerordening.ID}`],
                 patchedVerordening
             )
 

@@ -1,14 +1,14 @@
 import { Button, FieldSelect, Heading, Modal, Text } from '@pzh-ui/components'
+import { useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import { useQueryClient } from 'react-query'
 
 import {
     getGetBeleidskeuzesLineageidQueryKey,
     getGetBeleidskeuzesQueryKey,
-    getGetGebiedsprogrammasLineageidQueryKey,
     getGetGebiedsprogrammasQueryKey,
     getGetMaatregelenLineageidQueryKey,
     getGetMaatregelenQueryKey,
+    getGetGebiedsprogrammasLineageidQueryKey,
 } from '@/api/fetchers'
 import {
     BeleidskeuzesRead,
@@ -42,7 +42,7 @@ function PopUpChangePolicyStatus({
 
     const useMutatePolicyLineage = getMutationForPolicyLineage(titleSingular)
 
-    const mutatePolicyLineage = useMutatePolicyLineage({
+    const mutatePolicyLineage = useMutatePolicyLineage?.({
         mutation: {
             onError: () => {
                 toastNotification({ type: 'standard error' })
@@ -55,7 +55,7 @@ function PopUpChangePolicyStatus({
                         ? getGetMaatregelenLineageidQueryKey(policy.ID!)
                         : titleSingular === 'Gebiedsprogramma'
                         ? getGetGebiedsprogrammasLineageidQueryKey(policy.ID!)
-                        : ''
+                        : ['']
 
                 const queryKeyAllLineages =
                     titleSingular === 'Beleidskeuze'
@@ -64,7 +64,7 @@ function PopUpChangePolicyStatus({
                         ? getGetMaatregelenQueryKey()
                         : titleSingular === 'Gebiedsprogramma'
                         ? getGetGebiedsprogrammasQueryKey()
-                        : ''
+                        : ['']
 
                 queryClient.invalidateQueries(queryKeyLineage)
                 queryClient.invalidateQueries(queryKeyAllLineages)
@@ -111,8 +111,8 @@ function PopUpChangePolicyStatus({
             Status: selectedStatus.value,
         }
 
-        mutatePolicyLineage.mutate({
-            lineageid: policy.ID!,
+        mutatePolicyLineage?.mutate({
+            lineageId: policy.ID!,
             data: patchObject as any,
         })
     }
