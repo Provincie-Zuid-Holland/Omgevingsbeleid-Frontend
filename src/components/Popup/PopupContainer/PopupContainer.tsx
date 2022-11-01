@@ -48,7 +48,7 @@ const PopupContainer: FC<PopupContainerProps> = ({ children, show, close }) => {
 
     return (
         <div
-            className={`fixed bottom-0 inset-x-0 px-4 pb-4 z-50 sm:inset-0 sm:items-center sm:justify-center sm:flex ${
+            className={`fixed bottom-0 inset-x-0 px-4 pb-4 z-10 sm:inset-0 sm:items-center sm:justify-center sm:flex ${
                 show ? '' : 'pointer-events-none'
             }`}>
             <Transition
@@ -73,7 +73,7 @@ const PopupContainer: FC<PopupContainerProps> = ({ children, show, close }) => {
                 leave="ease-in duration-200"
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-                <div className="w-full h-full" ref={node}>
+                <div className="z-20 w-full h-full" ref={node}>
                     {children}
                 </div>
             </Transition>

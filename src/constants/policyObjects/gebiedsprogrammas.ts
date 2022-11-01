@@ -52,6 +52,13 @@ export const SCHEMA: ObjectSchema<MutatedPolicySchema<GebiedsprogrammasWrite>> =
         Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.required,
         Eind_Geldigheid: schemaDefaults.Eind_Geldigheid,
         Status: schemaDefaults.Status,
+        Besluitnummer: schemaDefaults.optionalString,
+        Opdrachtgever: schemaDefaults.optionalString,
+        Portefeuillehouder_1: schemaDefaults.optionalString,
+        Portefeuillehouder_2: schemaDefaults.optionalString,
+        Eigenaar_1: schemaDefaults.optionalString,
+        Eigenaar_2: schemaDefaults.optionalString,
+        Weblink: schemaDefaults.optionalString,
     }).meta(gebiedsprogrammasMeta)
 
 export const META = SCHEMA.describe().meta as SchemaMeta<

@@ -22,7 +22,7 @@ import handleError from '@/utils/handleError'
 
 export const removePolicyFromModule = async (
     policy: MaatregelenRead | BeleidskeuzesRead,
-    titleSingular: 'Maatregel' | 'Beleidskeuze',
+    titleSingular: 'Maatregel' | 'Beleidskeuze' | 'Gebiedsprogramma',
     queryClient: QueryClient,
     type: 'detail' | 'overview'
 ) => {

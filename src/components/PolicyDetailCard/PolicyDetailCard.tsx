@@ -21,6 +21,7 @@ export type PolicyDetailCardProps = {
     dimensieConstants:
         | typeof allDimensies.BELEIDSKEUZES
         | typeof allDimensies.MAATREGELEN
+        | typeof allDimensies.GEBIEDSPROGRAMMAS
     policy: MaatregelenRead | BeleidskeuzesRead
     type: PossibleCardTypes
     lastItem?: boolean

@@ -20,10 +20,10 @@ function ThemeDetail() {
         queries: (data?.Ref_Beleidskeuzes || []).map(item => {
             return {
                 queryKey: getGetVersionBeleidskeuzesObjectUuidQueryKey(
-                    item.UUID || ''
+                    item.Object?.UUID || ''
                 ),
                 queryFn: () =>
-                    getVersionBeleidskeuzesObjectUuid(item.UUID || ''),
+                    getVersionBeleidskeuzesObjectUuid(item.Object?.UUID || ''),
             }
         }),
     })

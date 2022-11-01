@@ -1,12 +1,12 @@
 import { Transition } from '@headlessui/react'
-import { MagnifyingGlass, Plus, Spinner, Xmark } from '@pzh-ui/icons'
+import { FieldInput, Heading, Modal, Text } from '@pzh-ui/components'
+import { MagnifyingGlass, Plus, Spinner } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 import { getWerkingsgebieden } from '@/api/fetchers'
 import { WerkingsgebiedenRead } from '@/api/fetchers.schemas'
-import { PopupContainer } from '@/components/Popup'
 import formatDate from '@/utils/formatDate'
 import handleError from '@/utils/handleError'
 
@@ -235,26 +235,19 @@ const WerkingsgebiedPopup = ({
     dataObjectProperty,
 }: WerkingsgebiedPopupProps) => {
     const [filterQuery, setFilterQuery] = useState('')
-    const [isLoading, setIsLoading] = useState(true)
     const [werkingsgebieden, setWerkingsgebieden] = useState<
-        WerkingsgebiedenRead[] | null
-    >(null)
+        WerkingsgebiedenRead[]
+    >([])
 
-    const getAndSetWerkingsgebieden = () => {
+    useEffect(() => {
         getWerkingsgebieden()
             .then(data => {
                 setWerkingsgebieden(data)
-                setIsLoading(false)
             })
             .catch(err => {
                 handleError(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
-                setIsLoading(false)
             })
-    }
-
-    useEffect(() => {
-        getAndSetWerkingsgebieden()
     }, [])
 
     const getImageUrl = (UUID: string) => {
@@ -286,91 +279,88 @@ const WerkingsgebiedPopup = ({
     }
 
     return (
-        <PopupContainer show={show} close={close}>
-            <div className="container flex items-center justify-center pb-8 mx-auto sm:px-6 lg:px-8">
-                <div className="relative z-10 w-2/3 transition-all transform bg-white rounded-md shadow-xl screen-minus-nav">
-                    <div
-                        onClick={close}
-                        className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
-                        id={`close-werkingsgebied-popup`}>
-                        <Xmark size={20} />
-                    </div>
-                    <div className="h-full px-8 pt-8 pb-12">
-                        <h2 className="font-bold form-field-label">
-                            Werkingsgebied koppelen
-                        </h2>
-                        <span className="form-field-description">
-                            Selecteer het werkingsgebied wat je wilt koppelen
-                        </span>
-                        <div className="relative block w-full mt-4 mb-6">
-                            <input
-                                className="block w-full py-3 pl-4 pr-12 text-sm leading-tight text-gray-700 border border-gray-400 rounded shadow appearance-none focus:outline-none hover:border-gray-500 focus:border-gray-500"
-                                id={`form-field-werkingsgebied-zoekbalk`}
-                                type="text"
-                                value={filterQuery}
-                                onChange={e => setFilterQuery(e.target.value)}
-                                placeholder="Zoeken... (typ minimaal 3 karakters)"
-                            />
-                            <MagnifyingGlass
-                                size={16}
-                                className="absolute top-0 bottom-0 right-0 h-full mr-4 text-gray-600"
-                            />
-                        </div>
-
-                        <div className="grid h-screen grid-cols-2 gap-4 pb-2 pr-2 overflow-x-hidden overflow-y-auto werkingsgebied-container">
-                            {isLoading
-                                ? null
-                                : werkingsgebieden
-                                      ?.filter(e =>
-                                          e.Werkingsgebied?.toLowerCase().includes(
-                                              filterQuery?.toLowerCase()
-                                          )
-                                      )
-                                      .map((gebied, index) => {
-                                          const url = getImageUrl(
-                                              gebied.UUID || ''
-                                          )
-                                          return (
-                                              <div
-                                                  key={gebied.UUID}
-                                                  className={`h-64 flex justify-center items-center relative`}
-                                                  onClick={() => {
-                                                      setInParent(gebied)
-                                                      close()
-                                                  }}>
-                                                  <div
-                                                      className={`cursor-pointer z-0 absolute top-0 left-0 w-full h-full border border-gray-100 rounded-md shadow`}>
-                                                      <div
-                                                          style={{
-                                                              backgroundImage:
-                                                                  'url("' +
-                                                                  url +
-                                                                  '")',
-                                                          }}
-                                                          className="block w-full h-full bg-center bg-cover rounded-md-t"></div>
-                                                      <span className="absolute bottom-0 z-10 block w-full p-4 text-sm text-gray-700 bg-white">
-                                                          {
-                                                              gebied.Werkingsgebied
-                                                          }
-                                                      </span>
-                                                  </div>
-                                                  <span
-                                                      style={{ zIndex: -1 }}
-                                                      className={`absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-500 -mt-4 ${
-                                                          index % 2 === 0
-                                                              ? 'mr-4'
-                                                              : 'ml-4'
-                                                      }`}>
-                                                      <Spinner className="mr-2 animate-spin" />
-                                                  </span>
-                                              </div>
-                                          )
-                                      })}
-                        </div>
-                    </div>
-                </div>
+        <Modal
+            ariaLabel="Selecteer een werkingsgebied"
+            open={show}
+            onClose={close}
+            maxWidth="max-w-2xl"
+            closeButton={true}>
+            <Heading level="2">Werkingsgebied koppelen</Heading>
+            <Text type="body">
+                Selecteer het werkingsgebied wat je wilt koppelen
+            </Text>
+            <FieldInput
+                id={`form-field-werkingsgebied-zoekbalk`}
+                type="text"
+                className="mt-4 mb-6"
+                name="filterWerkingsgebied"
+                value={filterQuery}
+                onChange={e => setFilterQuery(e.target.value)}
+                placeholder="Zoeken... (typ minimaal 3 karakters)"
+                icon={MagnifyingGlass}
+            />
+            <div className="grid grid-cols-2 gap-4">
+                {werkingsgebieden
+                    ?.filter(e =>
+                        e.Werkingsgebied?.toLowerCase().includes(
+                            filterQuery.toLowerCase()
+                        )
+                    )
+                    .map((gebied, index) => (
+                        <GeoPreviewCard
+                            key={gebied.UUID}
+                            onClick={() => {
+                                setInParent(gebied)
+                                close()
+                            }}
+                            imgUrl={getImageUrl(gebied.UUID || '')}
+                            even={index % 2 === 0}
+                            name={gebied.Werkingsgebied || ''}
+                        />
+                    ))}
             </div>
-        </PopupContainer>
+        </Modal>
+    )
+}
+
+interface GeoPreviewCardProps {
+    onClick: () => void
+    imgUrl: string
+    even: boolean
+    name: string
+}
+
+const GeoPreviewCard = ({
+    onClick,
+    imgUrl,
+    even,
+    name,
+}: GeoPreviewCardProps) => {
+    return (
+        <div
+            className={`h-64 flex justify-center items-center relative`}
+            onClick={onClick}>
+            <div
+                className={`cursor-pointer z-0 absolute top-0 left-0 w-full h-full border border-gray-100 rounded-md shadow`}>
+                <div
+                    style={{
+                        backgroundImage: 'url("' + imgUrl + '")',
+                    }}
+                    className="block w-full h-full bg-center bg-cover rounded-md-t"
+                />
+                <span className="absolute bottom-0 z-10 block w-full p-4 text-sm text-gray-700 bg-white">
+                    {name}
+                </span>
+            </div>
+            <span
+                style={{ zIndex: -1 }}
+                className={classNames(
+                    `absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-500 -mt-4`,
+                    { 'mr-4': even, 'ml-4': !even }
+                )}>
+                <Spinner className="mr-2 animate-spin" />
+            </span>
+        </div>
     )
 }
 

@@ -5,8 +5,10 @@ import { useEffect, useState } from 'react'
 import {
     getGetBeleidskeuzesLineageIdQueryKey,
     getGetBeleidskeuzesQueryKey,
+    getGetGebiedsprogrammasQueryKey,
     getGetMaatregelenLineageIdQueryKey,
     getGetMaatregelenQueryKey,
+    getGetGebiedsprogrammasLineageIdQueryKey,
 } from '@/api/fetchers'
 import {
     BeleidskeuzesRead,
@@ -27,7 +29,7 @@ export interface PopUpChangePolicyStatusProps {
     isOpen: boolean
     setIsOpen: (isOpen: boolean) => void
     policy: MaatregelenRead | BeleidskeuzesRead
-    titleSingular: 'Beleidskeuze' | 'Maatregel'
+    titleSingular: 'Beleidskeuze' | 'Maatregel' | 'Gebiedsprogramma'
 }
 
 function PopUpChangePolicyStatus({
@@ -51,6 +53,8 @@ function PopUpChangePolicyStatus({
                         ? getGetBeleidskeuzesLineageIdQueryKey(policy.ID!)
                         : titleSingular === 'Maatregel'
                         ? getGetMaatregelenLineageIdQueryKey(policy.ID!)
+                        : titleSingular === 'Gebiedsprogramma'
+                        ? getGetGebiedsprogrammasLineageIdQueryKey(policy.ID!)
                         : ['']
 
                 const queryKeyAllLineages =
@@ -58,6 +62,8 @@ function PopUpChangePolicyStatus({
                         ? getGetBeleidskeuzesQueryKey()
                         : titleSingular === 'Maatregel'
                         ? getGetMaatregelenQueryKey()
+                        : titleSingular === 'Gebiedsprogramma'
+                        ? getGetGebiedsprogrammasQueryKey()
                         : ['']
 
                 queryClient.invalidateQueries(queryKeyLineage)

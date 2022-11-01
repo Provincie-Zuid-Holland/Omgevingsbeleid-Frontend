@@ -47,6 +47,7 @@ export const SCHEMA: ObjectSchema<MutatedPolicySchema<BeleidsdoelenWrite>> =
         Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.required,
         Eind_Geldigheid: schemaDefaults.Eind_Geldigheid,
         Ambities: schemaDefaults.listReference,
+        Ref_Beleidskeuzes: schemaDefaults.listReference,
     }).meta(beleidsdoelenMeta)
 
 export const META = SCHEMA.describe().meta as SchemaMeta<
