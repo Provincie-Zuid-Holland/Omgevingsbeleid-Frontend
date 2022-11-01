@@ -1,11 +1,9 @@
+import { getHeadingStyles, Heading, Text } from '@pzh-ui/components'
 import { Link } from 'react-router-dom'
 import { useMedia } from 'react-use'
 
 import { Container } from '@/components/Container'
-import Heading from '@/components/Heading'
-import { getHeadingStyles } from '@/components/Heading/Heading'
 import LoginForm from '@/components/LoginForm'
-import Text from '@/components/Text'
 
 /**
  * Component page that imports the component LoginForm, so the user is able to login the application and reset the password when needed.

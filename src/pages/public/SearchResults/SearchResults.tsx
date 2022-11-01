@@ -1,43 +1,42 @@
-import { useEffect, useState } from 'react'
 import 'url-search-params-polyfill'
+
+import { Heading } from '@pzh-ui/components'
+import { useEffect, useMemo, useState } from 'react'
 import { useMedia } from 'react-use'
 
-import {
-    getWerkingsGebieden,
-    getWerkingsGebiedenByArea,
-} from '@/api/axiosGeoJSON'
-import { getSearch, postSearchGeo } from '@/api/fetchers'
+import { getSearch } from '@/api/fetchers'
 import { GetSearch200ResultsItem } from '@/api/fetchers.schemas'
 import Container from '@/components/Container/Container'
-import Heading from '@/components/Heading'
 import { LoaderCard } from '@/components/Loader'
 import Pagination from '@/components/Pagination'
 import SearchBar from '@/components/SearchBar'
 import SearchFilterSection from '@/components/SearchFilterSection'
 import SearchResultItem from '@/components/SearchResultItem'
+import useSearchFilterStore from '@/hooks/useSearchFilterStore'
 import useSearchParam from '@/hooks/useSearchParam'
-import useSearchResultFilters from '@/hooks/useSearchResultFilters'
 import handleError from '@/utils/handleError'
 
 const SearchResults = () => {
+    const initializeFilters = useSearchFilterStore(
+        state => state.initializeFilters
+    )
+    const filterState = useSearchFilterStore(state => state.filterState)
     const [searchResults, setSearchResults] = useState<
         GetSearch200ResultsItem[]
     >([])
-    const [UUIDs, setUUIDs] = useState<string[]>([])
     const [searchResultsTotal, setSearchResultsTotal] = useState(0)
     const [dataLoaded, setDataLoaded] = useState(false)
-
-    const { get } = useSearchParam()
-    const [paramTextQuery, paramOnly, paramGeoQuery] = get([
-        'query',
-        'only',
-        'geoQuery',
-    ])
-
-    const { onPageFilters, setOnPageFilters } = useSearchResultFilters()
+    const [initializedQuery, setInitializedQuery] = useState<null | string>(
+        null
+    )
+    const { get, set, remove } = useSearchParam()
+    const [paramTextQuery, paramOnly, filter] = get(['query', 'only', 'filter'])
     const isMobile = useMedia('(max-width: 768px)')
 
     useEffect(() => {
+        if (initializedQuery !== null && initializedQuery === paramTextQuery)
+            return
+
         const textualSearchQuery = async () => {
             if (!paramTextQuery) {
                 setDataLoaded(true)
@@ -50,12 +49,9 @@ const SearchResults = () => {
                     limit: 20,
                     ...(paramOnly && { only: paramOnly }),
                 })
+                initializeFilters(results || [], false, filter)
                 setSearchResults(results || [])
                 setSearchResultsTotal(total)
-                setOnPageFilters({
-                    type: 'initFilters',
-                    searchResultItems: results || [],
-                })
                 setDataLoaded(true)
             } catch (error) {
                 let message = 'Unknown Error'
@@ -65,78 +61,54 @@ const SearchResults = () => {
             }
         }
 
+        setDataLoaded(false)
+        textualSearchQuery()
+        setInitializedQuery(paramTextQuery)
+    }, [paramTextQuery, paramOnly, initializeFilters, filter, initializedQuery])
+
+    const filteredSearchResults = useMemo(() => {
+        const acceptedTypes = [
+            'ambities',
+            'beleidsdoelen',
+            'beleidskeuzes',
+            'maatregelen',
+            'Beleidsregels',
+        ]
         /**
-         * Gets the intersecting werkingsgebieden based on the x & y from the leaflet map
-         * Then queries the beleid that is connected to these werkingsgebieden
+         * By default none of the filters are active, if so return all
+         * If there is one or more filter checked return the checked
          */
-        const geoSearchQuery = async () => {
-            if (!paramGeoQuery) {
-                setDataLoaded(true)
-                return
-            }
+        return searchResults.filter(item => {
+            const filterIsActive = Object.keys(filterState).some(
+                filter => filterState[filter].checked
+            )
 
-            try {
-                const geoQuery = paramGeoQuery.split(',')
-
-                let werkingsgebieden: any
-
-                if (geoQuery.length === 1) {
-                    // Get point A and Point B from the URL Parameter
-                    const [pointA, pointB] = paramGeoQuery.split('+')
-                    werkingsgebieden = await getWerkingsGebieden(pointA, pointB)
-                } else if (geoQuery.length > 1) {
-                    werkingsgebieden = await getWerkingsGebiedenByArea(
-                        geoQuery.map(item => {
-                            const [x, y] = item.split('+')
-
-                            return { x: parseFloat(x), y: parseFloat(y) }
-                        }) as any
-                    ).then(res => res.features)
-                }
-
-                const werkingsgebiedenUUIDS = werkingsgebieden.map(
-                    (item: any) => item.properties.UUID
-                )
-
-                if (werkingsgebiedenUUIDS.length === 0) return
-
-                setUUIDs(werkingsgebiedenUUIDS)
-
-                const { results, total = 0 } = await postSearchGeo({
-                    query: werkingsgebiedenUUIDS.join(','),
-                }).then(data => data)
-
-                setOnPageFilters({
-                    type: 'initFilters',
-                    searchResultItems: searchResults || [],
-                })
-                setDataLoaded(true)
-                setSearchResultsTotal(total)
-                setSearchResults(results || [])
-            } catch (error) {
-                let message = 'Unknown Error'
-                if (error instanceof Error) message = error.message
-                handleError(message)
-                setDataLoaded(true)
-            }
-        }
-
-        const initialize = () => {
-            setDataLoaded(false)
-            if (paramTextQuery) {
-                // There is a text query
-                textualSearchQuery()
-            } else if (paramGeoQuery) {
-                // There is a geo query
-                geoSearchQuery()
+            if (!item.Type) {
+                return false
+            } else if (!acceptedTypes.includes(item.Type)) {
+                return false
+            } else if (filterIsActive && filterState[item.Type]?.checked) {
+                return true
+            } else if (!filterIsActive) {
+                return true
             } else {
-                setDataLoaded(true)
+                return false
             }
-        }
+        })
+    }, [searchResults, filterState])
 
-        initialize()
+    useEffect(() => {
+        const checkedFilters = Object.keys(filterState).filter(
+            key => filterState[key].checked
+        )
+
+        if (checkedFilters.length) {
+            set('filter', checkedFilters)
+        } else {
+            remove('filter')
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [paramGeoQuery, paramTextQuery, setOnPageFilters, paramOnly])
+    }, [filterState])
 
     return (
         <>
@@ -160,59 +132,27 @@ const SearchResults = () => {
             </Container>
             <Container className="pb-16 mt-4">
                 <SearchFilterSection
+                    searchResults={searchResults}
                     loaded={dataLoaded}
-                    onPageFilters={onPageFilters}
-                    setOnPageFilters={setOnPageFilters}
                 />
 
                 <div className={`col-span-6 md:col-span-4`}>
                     {dataLoaded && searchResults.length > 0 ? (
                         <>
                             <ul id="search-results" className="mb-4">
-                                {searchResults
-                                    /**
-                                     * By default none of the filters are active, if so return all
-                                     * If there is one or more filter checked return the checked
-                                     */
-                                    .filter(item => {
-                                        const filterIsActive = Object.keys(
-                                            onPageFilters.filterState
-                                        ).some(
-                                            filter =>
-                                                onPageFilters.filterState[
-                                                    filter
-                                                ].checked
-                                        )
-
-                                        if (!item.Type) {
-                                            return false
-                                        } else if (
-                                            filterIsActive &&
-                                            onPageFilters.filterState[item.Type]
-                                                ?.checked
-                                        ) {
-                                            return true
-                                        } else if (!filterIsActive) {
-                                            return true
-                                        } else {
-                                            return false
-                                        }
-                                    })
-                                    .map(item => (
-                                        <SearchResultItem
-                                            searchQuery={null}
-                                            item={item}
-                                            key={item.UUID}
-                                        />
-                                    ))}
+                                {filteredSearchResults.map(item => (
+                                    <SearchResultItem
+                                        searchQuery={null}
+                                        item={item}
+                                        key={item.UUID}
+                                    />
+                                ))}
                             </ul>
-                            {(paramTextQuery || paramGeoQuery) && (
+                            {paramTextQuery && (
                                 <Pagination
-                                    setOnPageFilters={setOnPageFilters}
                                     setSearchResults={setSearchResults}
                                     searchResults={searchResults}
-                                    UUIDs={UUIDs}
-                                    limit={10}
+                                    limit={20}
                                     total={searchResultsTotal}
                                 />
                             )}

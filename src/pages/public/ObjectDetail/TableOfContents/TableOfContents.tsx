@@ -1,8 +1,7 @@
+import { Text } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
 import { useEffect, useRef, useState } from 'react'
 import { useWindowSize } from 'react-use'
-
-import Text from '@/components/Text'
 
 const TableOfContents = ({ display }: { display: 'block' | 'fixed' }) => {
     const windowSize = useWindowSize()
@@ -88,7 +87,7 @@ const TableOfContents = ({ display }: { display: 'block' | 'fixed' }) => {
                                     size={16}
                                     className="absolute mt-1"
                                 />
-                                <span className="block pl-5 underline underline-thin">
+                                <span className="block pl-5 underline decoration-1">
                                     {el.title}
                                 </span>
                             </li>

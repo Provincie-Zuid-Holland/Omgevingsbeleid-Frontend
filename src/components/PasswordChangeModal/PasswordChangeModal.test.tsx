@@ -39,12 +39,20 @@ describe('PasswordChangeModal', () => {
         expect(newPasswordRepeatInput).toBeRequired()
 
         // Check if user gets an error when the new passwords don't match
-        fireEvent.change(newPasswordInput, { target: { value: 'test' } })
-        fireEvent.change(newPasswordRepeatInput, { target: { value: 'test2' } })
+        fireEvent.change(currentPasswordInput, {
+            target: { value: 'current-password' },
+        })
+        fireEvent.change(newPasswordInput, {
+            target: { value: 'oaBmMWCXPV4FtZu.9KTPCwix8DuuW@y' },
+        })
+        fireEvent.change(newPasswordRepeatInput, {
+            target: { value: 'oaBmMWCXPV4FtZu.9KTPCwix8DuuW@y1' },
+        })
         fireEvent.click(submitBtn)
-        expect(
-            screen.getByText('Het herhaalde wachtwoord komt niet overeen')
-        ).toBeTruthy()
+        const error = await screen.findByText(
+            'Het herhaalde wachtwoord komt niet overeen'
+        )
+        expect(error).toBeInTheDocument()
 
         fireEvent.change(newPasswordRepeatInput, { target: { value: 'test' } })
         fireEvent.click(submitBtn)

@@ -1,28 +1,38 @@
 import { Text } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
-import { useEffect, useState } from 'react'
+import { useIsFetching } from '@tanstack/react-query'
+import { Fragment, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useParams, Link } from 'react-router-dom'
 
 import {
-    useGetBeleidskeuzesLineageid,
-    useGetMaatregelenLineageid,
+    useGetBeleidskeuzesLineageId,
+    useGetGebiedsprogrammasLineageId,
+    useGetMaatregelenLineageId,
 } from '@/api/fetchers'
-import { BeleidskeuzesRead, MaatregelenRead } from '@/api/fetchers.schemas'
+import {
+    BeleidskeuzesRead,
+    GebiedsprogrammasRead,
+    MaatregelenRead,
+} from '@/api/fetchers.schemas'
 import CheckedOutPolicyContainer from '@/components/CheckedOutPolicyContainer'
 import { ContainerMain } from '@/components/Container'
 import LineIndicatorArchived from '@/components/LineIndicatorArchived'
-import { LoaderPolicyDetail } from '@/components/Loader'
+import { LoaderIndicator, LoaderPolicyDetail } from '@/components/Loader'
 import PageSpecificNavBar from '@/components/PageSpecificNavBar'
 import PolicyDetailCard from '@/components/PolicyDetailCard'
 import allDimensies from '@/constants/dimensies'
 
-const getFetcher = (titleSingular: 'Beleidskeuze' | 'Maatregel') => {
+const getFetcher = (
+    titleSingular: 'Beleidskeuze' | 'Maatregel' | 'Gebiedsprogramma'
+) => {
     switch (titleSingular) {
         case 'Beleidskeuze':
-            return useGetBeleidskeuzesLineageid
+            return useGetBeleidskeuzesLineageId
         case 'Maatregel':
-            return useGetMaatregelenLineageid
+            return useGetMaatregelenLineageId
+        case 'Gebiedsprogramma':
+            return useGetGebiedsprogrammasLineageId
     }
 }
 
@@ -30,6 +40,7 @@ export interface DetailProps {
     dimensieConstants:
         | typeof allDimensies.BELEIDSKEUZES
         | typeof allDimensies.MAATREGELEN
+        | typeof allDimensies.GEBIEDSPROGRAMMAS
 }
 
 const initialState = {
@@ -46,10 +57,24 @@ function Detail({ dimensieConstants }: DetailProps) {
     const { single: objectID } = useParams<{ single: string | undefined }>()
 
     const [state, setState] = useState<{
-        checkedOutPolicy: null | BeleidskeuzesRead | MaatregelenRead
-        currentValidPolicy: null | BeleidskeuzesRead | MaatregelenRead
-        archivedPolicies: BeleidskeuzesRead[] | MaatregelenRead[]
-        originalLineage: BeleidskeuzesRead[] | MaatregelenRead[]
+        checkedOutPolicy:
+            | null
+            | BeleidskeuzesRead
+            | MaatregelenRead
+            | GebiedsprogrammasRead
+        currentValidPolicy:
+            | null
+            | BeleidskeuzesRead
+            | MaatregelenRead
+            | GebiedsprogrammasRead
+        archivedPolicies:
+            | BeleidskeuzesRead[]
+            | MaatregelenRead[]
+            | GebiedsprogrammasRead[]
+        originalLineage:
+            | BeleidskeuzesRead[]
+            | MaatregelenRead[]
+            | GebiedsprogrammasRead[]
     }>(initialState)
 
     const overviewSlug = dimensieConstants.SLUG_OVERVIEW
@@ -59,6 +84,9 @@ function Detail({ dimensieConstants }: DetailProps) {
     const { isLoading: lineageIsLoading, data: lineage } = useGetLineage(
         parseInt(objectID!)
     )
+    const isFetching = useIsFetching({
+        queryKey: [`/${overviewSlug}/${objectID}`],
+    })
 
     /**
      * Prepare state when the lineage is set
@@ -135,6 +163,15 @@ function Detail({ dimensieConstants }: DetailProps) {
             : ''
     }`
 
+    if (lineageIsLoading || isFetching) {
+        return (
+            <Fragment>
+                <LoaderPolicyDetail />
+                <LoaderIndicator />
+            </Fragment>
+        )
+    }
+
     return (
         <>
             <Helmet>
@@ -148,8 +185,6 @@ function Detail({ dimensieConstants }: DetailProps) {
 
             <ContainerMain>
                 <div className="w-full mt-16 mb-10">
-                    {lineageIsLoading ? <LoaderPolicyDetail /> : null}
-
                     {currentValidPolicy && !checkedOutPolicy ? (
                         <div className="pl-6">
                             <Link

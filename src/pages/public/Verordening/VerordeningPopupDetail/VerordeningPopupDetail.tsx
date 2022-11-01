@@ -1,13 +1,11 @@
-import { Modal } from '@pzh-ui/components'
+import { Heading, Modal, Text } from '@pzh-ui/components'
 import { CircleXmark } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-import { getVersionVerordeningenObjectuuid } from '@/api/fetchers'
+import { getVersionVerordeningenObjectUuid } from '@/api/fetchers'
 import { BeleidskeuzeShortInline } from '@/api/fetchers.schemas'
-import Heading from '@/components/Heading'
 import { LeafletTinyViewer } from '@/components/Leaflet'
-import Text from '@/components/Text'
 import handleError from '@/utils/handleError'
 
 interface ActiveArticleInterface {
@@ -51,7 +49,7 @@ const VerordeningPopupDetail = ({
 
         if (!activeArticle) return
 
-        getVersionVerordeningenObjectuuid(activeArticle.UUID)
+        getVersionVerordeningenObjectUuid(activeArticle.UUID)
             .then(res => {
                 setConnections(res.Ref_Beleidskeuzes || [])
             })

@@ -1,11 +1,13 @@
-import { QueryClient } from 'react-query'
+import { QueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 
 import {
     getBeleidsmodules,
-    patchBeleidsmodulesLineageid,
-    getGetBeleidskeuzesLineageidQueryKey,
-    getGetMaatregelenLineageidQueryKey,
+    patchBeleidsmodulesLineageId,
+    getGetBeleidskeuzesLineageIdQueryKey,
+    getGetMaatregelenLineageIdQueryKey,
+    getGetMaatregelenQueryKey,
+    getGetBeleidskeuzesQueryKey,
 } from '@/api/fetchers'
 import {
     MaatregelenRead,
@@ -20,8 +22,9 @@ import handleError from '@/utils/handleError'
 
 export const removePolicyFromModule = async (
     policy: MaatregelenRead | BeleidskeuzesRead,
-    titleSingular: 'Maatregel' | 'Beleidskeuze',
-    queryClient: QueryClient
+    titleSingular: 'Maatregel' | 'Beleidskeuze' | 'Gebiedsprogramma',
+    queryClient: QueryClient,
+    type: 'detail' | 'overview'
 ) => {
     const confirm = window.confirm(
         `Weet je zeker dat je '${policy.Titel}' wil verwijderen uit de module?`
@@ -59,19 +62,24 @@ export const removePolicyFromModule = async (
 
     Promise.all(
         modulesWithExistingConnection.map((module: BeleidsmodulesRead) =>
-            patchBeleidsmodulesLineageid(
+            patchBeleidsmodulesLineageId(
                 module.ID!,
                 generatePatchObject(module)
             )
         )
     )
         .then(res => {
+            const isDetailPage = type === 'detail'
             const queryKey =
-                titleSingular === 'Beleidskeuze'
-                    ? getGetBeleidskeuzesLineageidQueryKey(policy.ID!)
-                    : titleSingular === 'Maatregel'
-                    ? getGetMaatregelenLineageidQueryKey(policy.ID!)
-                    : ''
+                titleSingular.toLowerCase() === 'Beleidskeuze' && isDetailPage
+                    ? getGetBeleidskeuzesLineageIdQueryKey(policy.ID!)
+                    : titleSingular === 'Maatregel' && isDetailPage
+                    ? getGetMaatregelenLineageIdQueryKey(policy.ID!)
+                    : titleSingular === 'Maatregel' && !isDetailPage
+                    ? getGetMaatregelenQueryKey()
+                    : titleSingular === 'Beleidskeuze' && !isDetailPage
+                    ? getGetBeleidskeuzesQueryKey()
+                    : ['']
 
             queryClient.invalidateQueries(queryKey)
 

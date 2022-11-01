@@ -154,7 +154,7 @@ const BeleidsrelatiesOverzicht = ({
                 <title>Omgevingsbeleid - Beleidsrelaties</title>
             </Helmet>
             <SidebarMain />
-            <div className="flex-grow inline-block w-3/4 pl-8 rounded">
+            <div className="flex-grow inline-block w-3/4 pl-8 pt-8 rounded">
                 <h2 className="mb-4 text-gray-800">Beleidsrelaties</h2>
                 <div className="p-5 bg-white rounded shadow">
                     <ul id="beleidskeuzes-overview">

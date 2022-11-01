@@ -80,7 +80,7 @@ const LoginForm = () => {
                                 value={values.password}
                             />
                         </div>
-                        <div className="mt-7 flex justify-between items-center">
+                        <div className="flex items-center justify-between mt-7">
                             <Button
                                 label="Inloggen"
                                 type="submit"

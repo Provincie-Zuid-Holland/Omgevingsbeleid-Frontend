@@ -1,10 +1,7 @@
-import { useDnaBarWidth } from '@pzh-ui/components'
+import { Breadcrumbs, Heading, Text, useDnaBarWidth } from '@pzh-ui/components'
 import { useRef } from 'react'
 
-import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
-import Heading from '@/components/Heading'
-import Text from '@/components/Text'
 import imgDigiToegankelijkheid from '@/images/digi-toegankelijkheid.png'
 
 function Accessibility() {
@@ -26,7 +23,7 @@ function Accessibility() {
             />
             <Container className="pb-20 overflow-hidden">
                 <div className="col-span-6 md:col-span-4">
-                    <Breadcrumbs paths={breadcrumbPaths} className="mt-6" />
+                    <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
                     <Heading level="1" className="mt-4 ">
                         {/* 👇🏻 Contains a soft hyphen */}
                         Toegankelijkheids­verklaring

@@ -9,10 +9,14 @@ import * as MAATREGELEN from '@/constants/maatregelen'
 
 import TableDataCell from '../TableDataCell'
 
+type PolicyType = {
+    Type: 'Beleidskeuze' | 'Maatregel' | 'Gebiedsprogramma'
+}
 interface TableRowProps {
     policy:
-        | BeleidsmodulesReadMaatregelenItem
-        | BeleidsmodulesReadBeleidskeuzesItem
+        | (BeleidsmodulesReadMaatregelenItem & PolicyType)
+        | (BeleidsmodulesReadBeleidskeuzesItem & PolicyType)
+        | (BeleidsmodulesReadMaatregelenItem & PolicyType)
 }
 
 /**
@@ -23,11 +27,7 @@ interface TableRowProps {
 const TableRow = ({ policy }: TableRowProps) => (
     <tr key={policy?.Object?.UUID}>
         <TableDataCell>{policy?.Object?.Titel}</TableDataCell>
-        <TableDataCell>
-            {policy?.Object?.hasOwnProperty('Aanleiding')
-                ? 'Beleidskeuze'
-                : 'Maatregel'}
-        </TableDataCell>
+        <TableDataCell>{policy.Type}</TableDataCell>
         <TableDataCell>{policy?.Object?.Status}</TableDataCell>
         <TableDataCell>
             <Link

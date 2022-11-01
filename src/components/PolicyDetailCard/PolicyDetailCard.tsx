@@ -1,9 +1,9 @@
 import { Heading, Card, Text, Badge, Hyperlink } from '@pzh-ui/components'
 import { ArrowUpRightFromSquare, EllipsisVertical } from '@pzh-ui/icons'
+import { useQueryClient } from '@tanstack/react-query'
 import classNames from 'classnames'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
-import { useQueryClient } from 'react-query'
 
 import { MaatregelenRead, BeleidskeuzesRead } from '@/api/fetchers.schemas'
 import ColoredBall from '@/components/ColoredBall'
@@ -21,6 +21,7 @@ export type PolicyDetailCardProps = {
     dimensieConstants:
         | typeof allDimensies.BELEIDSKEUZES
         | typeof allDimensies.MAATREGELEN
+        | typeof allDimensies.GEBIEDSPROGRAMMAS
     policy: MaatregelenRead | BeleidskeuzesRead
     type: PossibleCardTypes
     lastItem?: boolean
@@ -67,7 +68,12 @@ const PolicyDetailCard = ({
                 : 'Toevoegen aan module',
             callback: policyIsInAModule
                 ? () =>
-                      removePolicyFromModule(policy, titleSingular, queryClient)
+                      removePolicyFromModule(
+                          policy,
+                          titleSingular,
+                          queryClient,
+                          'detail'
+                      )
                 : () => setModulesPopup(true),
         },
         ...(policy.Status === 'Vigerend'

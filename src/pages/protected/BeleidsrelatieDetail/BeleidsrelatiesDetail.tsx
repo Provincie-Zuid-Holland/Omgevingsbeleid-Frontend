@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 
 import {
     getBeleidsrelaties,
-    getVersionBeleidskeuzesObjectuuid,
+    getVersionBeleidskeuzesObjectUuid,
 } from '@/api/fetchers'
 import {
     BeleidskeuzesRead,
@@ -14,7 +14,7 @@ import {
     BeleidsrelatiesReadStatus,
 } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
-import { LoaderMainTitle, LoaderSaving } from '@/components/Loader'
+import { LoaderIndicator, LoaderMainTitle } from '@/components/Loader'
 
 import SwitchToTabbladButton from './SwitchToTabbladButton'
 import TabDisconnected from './TabDisconnected'
@@ -80,7 +80,7 @@ const BeleidsrelatiesDetail = ({
      * @param {string} UUID - UUID of the beleidskeuze we want to retrieve
      */
     const getAndSetBeleidskeuze = (UUID: string) =>
-        getVersionBeleidskeuzesObjectuuid(UUID).then(data =>
+        getVersionBeleidskeuzesObjectUuid(UUID).then(data =>
             setBeleidsObject(data)
         )
 
@@ -317,7 +317,7 @@ const BeleidsrelatiesDetail = ({
     }, [incoming_Beleidskeuzes, outgoing_Beleidskeuzes, UUID])
 
     return (
-        <div className="flex-grow inline-block w-3/4 rounded">
+        <div className="flex-grow inline-block w-3/4 pt-8 rounded">
             <div className="container w-full mx-auto text-sm text-gray-600">
                 <Link
                     onClick={backToOverzicht}
@@ -434,7 +434,9 @@ const BeleidsrelatiesDetail = ({
                     />
                 ) : null}
 
-                {savingInProgress ? <LoaderSaving /> : null}
+                {savingInProgress ? (
+                    <LoaderIndicator text="Opslaan..." />
+                ) : null}
             </div>
         </div>
     )

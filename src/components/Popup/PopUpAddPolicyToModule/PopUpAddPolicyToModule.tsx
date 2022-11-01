@@ -1,13 +1,16 @@
 import { Button, FieldSelect, Heading, Modal, Text } from '@pzh-ui/components'
+import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useQueryClient } from 'react-query'
+import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import {
     useGetBeleidsmodules,
-    patchBeleidsmodulesLineageid,
-    getGetBeleidskeuzesLineageidQueryKey,
-    getGetMaatregelenLineageidQueryKey,
+    patchBeleidsmodulesLineageId,
+    getGetBeleidskeuzesLineageIdQueryKey,
+    getGetMaatregelenLineageIdQueryKey,
+    getGetMaatregelenQueryKey,
+    getGetBeleidskeuzesQueryKey,
 } from '@/api/fetchers'
 import {
     BeleidskeuzesRead,
@@ -22,7 +25,7 @@ export interface PopUpAddPolicyToModuleProps {
     isOpen: boolean
     setIsOpen: (isOpen: boolean) => void
     policy: MaatregelenRead | BeleidskeuzesRead
-    titleSingular: 'Beleidskeuze' | 'Maatregel'
+    titleSingular: 'Beleidskeuze' | 'Maatregel' | 'Gebiedsprogramma'
 }
 
 function PopUpAddPolicyToModule({
@@ -32,6 +35,7 @@ function PopUpAddPolicyToModule({
     titleSingular,
 }: PopUpAddPolicyToModuleProps) {
     const queryClient = useQueryClient()
+    const { single: idUrlParam } = useParams<{ single: string }>()
 
     const { isLoading: modulesAreLoading, data: policyModules } =
         useGetBeleidsmodules()
@@ -49,7 +53,11 @@ function PopUpAddPolicyToModule({
         if (!selectedModule?.ID) return
 
         const connectionProperty =
-            titleSingular === 'Maatregel' ? 'Maatregelen' : 'Beleidskeuzes'
+            titleSingular === 'Maatregel'
+                ? 'Maatregelen'
+                : titleSingular === 'Beleidskeuze'
+                ? 'Beleidskeuzes'
+                : 'Gebiedsprogrammas'
 
         const newConnection = {
             Koppeling_Omschrijving: '',
@@ -62,19 +70,25 @@ function PopUpAddPolicyToModule({
                 Koppeling_Omschrijving: '',
             })) || []
 
-        patchBeleidsmodulesLineageid(selectedModule.ID, {
+        patchBeleidsmodulesLineageId(selectedModule.ID, {
             [connectionProperty]: [
                 ...(formattedExistingConnections || []),
                 newConnection,
             ],
         })
             .then(() => {
+                const isDetailPage = idUrlParam !== undefined
                 const queryKey =
-                    titleSingular === 'Beleidskeuze'
-                        ? getGetBeleidskeuzesLineageidQueryKey(policy.ID!)
-                        : titleSingular === 'Maatregel'
-                        ? getGetMaatregelenLineageidQueryKey(policy.ID!)
-                        : ''
+                    titleSingular.toLowerCase() === 'Beleidskeuze' &&
+                    isDetailPage
+                        ? getGetBeleidskeuzesLineageIdQueryKey(policy.ID!)
+                        : titleSingular === 'Maatregel' && isDetailPage
+                        ? getGetMaatregelenLineageIdQueryKey(policy.ID!)
+                        : titleSingular === 'Maatregel' && !isDetailPage
+                        ? getGetMaatregelenQueryKey()
+                        : titleSingular === 'Beleidskeuze' && !isDetailPage
+                        ? getGetBeleidskeuzesQueryKey()
+                        : ['']
 
                 queryClient.invalidateQueries(queryKey)
 
@@ -88,7 +102,7 @@ function PopUpAddPolicyToModule({
 
     return (
         <Modal
-            maxWidth="sm:w-[450px]"
+            maxWidth="sm:max-w-[450px]"
             overflowVisible={true}
             open={isOpen}
             onClose={() => setIsOpen(false)}

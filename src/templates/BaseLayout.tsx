@@ -14,12 +14,12 @@ export function BaseLayout({ hideFooter, children }: BaseLayoutProps) {
     const { user } = useAuth()
 
     return (
-        <>
+        <div className="min-h-screen flex flex-col">
             <Navigation loggedIn={!!user} />
 
             <main>{children}</main>
 
             {!hideFooter && <Footer />}
-        </>
+        </div>
     )
 }

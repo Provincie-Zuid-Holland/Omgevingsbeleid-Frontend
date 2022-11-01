@@ -6,6 +6,7 @@ import { getBeleidsmodules } from '@/api/fetchers'
 import {
     BeleidsmodulesRead,
     BeleidsmodulesReadBeleidskeuzesItem,
+    BeleidsmodulesReadGebiedsprogrammasItem,
     BeleidsmodulesReadMaatregelenItem,
 } from '@/api/fetchers.schemas'
 import ButtonBackToPage from '@/components/ButtonBackToPage'
@@ -25,6 +26,10 @@ type ModuleParams = {
     single: string
 }
 
+type PolicyType = {
+    Type: 'Beleidskeuze' | 'Maatregel' | 'Gebiedsprogramma'
+}
+
 /**
  * @returns A component that renders an overview of a specific Beleidsmodule
  */
@@ -33,8 +38,9 @@ function BeleidsmodulesOverview() {
         useState<BeleidsmodulesRead>()
     const [policies, setPolicies] = useState<
         (
-            | BeleidsmodulesReadBeleidskeuzesItem
-            | BeleidsmodulesReadMaatregelenItem
+            | (BeleidsmodulesReadBeleidskeuzesItem & PolicyType)
+            | (BeleidsmodulesReadMaatregelenItem & PolicyType)
+            | (BeleidsmodulesReadGebiedsprogrammasItem & PolicyType)
         )[]
     >([])
     const [dataLoaded, setDataLoaded] = useState(false)
@@ -85,8 +91,23 @@ function BeleidsmodulesOverview() {
                     throw 'no current beleidsmodule'
                 }
                 const policies = [
-                    ...(currentBeleidsmodule.Maatregelen || []),
-                    ...(currentBeleidsmodule.Beleidskeuzes || []),
+                    ...(currentBeleidsmodule.Maatregelen || []).map(
+                        i =>
+                            ({
+                                ...i,
+                                Type: 'Maatregel',
+                            } as const)
+                    ),
+                    ...(currentBeleidsmodule.Beleidskeuzes || []).map(
+                        i =>
+                            ({
+                                ...i,
+                                Type: 'Beleidskeuze',
+                            } as const)
+                    ),
+                    ...(currentBeleidsmodule.Gebiedsprogrammas || []).map(
+                        i => ({ ...i, Type: 'Gebiedsprogramma' } as const)
+                    ),
                 ]
                 setPolicies(policies)
                 setFilters({ type: 'init', policies: policies })

@@ -1,12 +1,14 @@
 import { Button, FieldSelect, Heading, Modal, Text } from '@pzh-ui/components'
+import { useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import { useQueryClient } from 'react-query'
 
 import {
-    getGetBeleidskeuzesLineageidQueryKey,
+    getGetBeleidskeuzesLineageIdQueryKey,
     getGetBeleidskeuzesQueryKey,
-    getGetMaatregelenLineageidQueryKey,
+    getGetGebiedsprogrammasQueryKey,
+    getGetMaatregelenLineageIdQueryKey,
     getGetMaatregelenQueryKey,
+    getGetGebiedsprogrammasLineageIdQueryKey,
 } from '@/api/fetchers'
 import {
     BeleidskeuzesRead,
@@ -27,7 +29,7 @@ export interface PopUpChangePolicyStatusProps {
     isOpen: boolean
     setIsOpen: (isOpen: boolean) => void
     policy: MaatregelenRead | BeleidskeuzesRead
-    titleSingular: 'Beleidskeuze' | 'Maatregel'
+    titleSingular: 'Beleidskeuze' | 'Maatregel' | 'Gebiedsprogramma'
 }
 
 function PopUpChangePolicyStatus({
@@ -40,7 +42,7 @@ function PopUpChangePolicyStatus({
 
     const useMutatePolicyLineage = getMutationForPolicyLineage(titleSingular)
 
-    const mutatePolicyLineage = useMutatePolicyLineage({
+    const mutatePolicyLineage = useMutatePolicyLineage?.({
         mutation: {
             onError: () => {
                 toastNotification({ type: 'standard error' })
@@ -48,19 +50,21 @@ function PopUpChangePolicyStatus({
             onSuccess: () => {
                 const queryKeyLineage =
                     titleSingular === 'Beleidskeuze'
-                        ? getGetBeleidskeuzesLineageidQueryKey(policy.ID!)
+                        ? getGetBeleidskeuzesLineageIdQueryKey(policy.ID!)
                         : titleSingular === 'Maatregel'
-                        ? getGetMaatregelenLineageidQueryKey(policy.ID!)
-                        : ''
+                        ? getGetMaatregelenLineageIdQueryKey(policy.ID!)
+                        : titleSingular === 'Gebiedsprogramma'
+                        ? getGetGebiedsprogrammasLineageIdQueryKey(policy.ID!)
+                        : ['']
 
                 const queryKeyAllLineages =
                     titleSingular === 'Beleidskeuze'
                         ? getGetBeleidskeuzesQueryKey()
                         : titleSingular === 'Maatregel'
                         ? getGetMaatregelenQueryKey()
-                        : ''
-
-                console.log('Invalidate ', queryKeyAllLineages)
+                        : titleSingular === 'Gebiedsprogramma'
+                        ? getGetGebiedsprogrammasQueryKey()
+                        : ['']
 
                 queryClient.invalidateQueries(queryKeyLineage)
                 queryClient.invalidateQueries(queryKeyAllLineages)
@@ -107,15 +111,15 @@ function PopUpChangePolicyStatus({
             Status: selectedStatus.value,
         }
 
-        mutatePolicyLineage.mutate({
-            lineageid: policy.ID!,
-            data: patchObject,
+        mutatePolicyLineage?.mutate({
+            lineageId: policy.ID!,
+            data: patchObject as any,
         })
     }
 
     return (
         <Modal
-            maxWidth="sm:w-[450px]"
+            maxWidth="sm:max-w-[450px]"
             overflowVisible={true}
             open={isOpen}
             onClose={() => setIsOpen(false)}

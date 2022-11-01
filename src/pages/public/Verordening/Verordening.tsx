@@ -1,13 +1,12 @@
+import { Heading, Text } from '@pzh-ui/components'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import { useQuery } from 'react-query'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useWindowSize } from 'react-use'
 
 import axios from '@/api/instance'
 import { Container } from '@/components/Container'
-import Heading from '@/components/Heading'
 import { LoaderCard } from '@/components/Loader'
-import Text from '@/components/Text'
 import VERORDENING from '@/constants/verordeningen'
 import useURLQuery from '@/hooks/useURLQuery'
 
@@ -20,7 +19,7 @@ function Verordening() {
     const UUIDFromUrl = query.get('actief')
     const [activeArticle, setActiveArticle] = useState(null)
 
-    const { isLoading, data: verordening } = useQuery('verordening', () =>
+    const { isLoading, data: verordening } = useQuery(['verordening'], () =>
         axios
             .get('/verordeningstructuur')
             .then(res =>

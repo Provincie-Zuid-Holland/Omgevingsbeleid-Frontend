@@ -1,7 +1,8 @@
+import { Minus, Plus } from '@pzh-ui/icons'
+import { useQuery } from '@tanstack/react-query'
 import * as d3 from 'd3'
 import cloneDeep from 'lodash.clonedeep'
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
-import { useQuery } from 'react-query'
 import { matchPath, useLocation } from 'react-router-dom'
 
 import { getGraph } from '@/api/fetchers'
@@ -29,7 +30,10 @@ const NetworkGraph = () => {
     /**
      * Contain the 'left' and 'top' position variables to pass to the tooltip
      */
-    const [variables, setVariables] = useState({}) // X and Y positions for the Tooltip
+    const [variables, setVariables] = useState<{
+        left: number
+        top: number
+    }>({ left: 0, top: 0 }) // X and Y positions for the Tooltip
 
     /**
      * Contains the href link to go to a detail page of a node
@@ -66,7 +70,7 @@ const NetworkGraph = () => {
     const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
 
     const { data: verordeningsStructure } = useQuery(
-        '/verordeningstructuur',
+        ['/verordeningstructuur'],
         () =>
             axios
                 .get('/verordeningstructuur')
@@ -78,8 +82,12 @@ const NetworkGraph = () => {
         { refetchOnMount: true, staleTime: 0 }
     )
 
-    const { isLoading, data, isFetching } = useQuery(
-        '/graph',
+    const {
+        isInitialLoading: isLoading,
+        data,
+        isFetching,
+    } = useQuery(
+        ['/graph'],
         () =>
             getGraph().then(data => {
                 const transformedData = addColorAndUUIDToNodes(data)
@@ -379,14 +387,29 @@ const NetworkGraph = () => {
                     const tooltipEl = document.getElementById(
                         'd3-tooltip-network-graph'
                     )
-                    const { x, bottom } = nodeElement?.getBoundingClientRect()
+                    const {
+                        x: nodeXPosition,
+                        y: nodeYPosition,
+                        right: nodeRightPosition,
+                    } = nodeElement?.getBoundingClientRect()
                     const tooltipWidth = tooltipEl?.offsetWidth || 0
-                    const circleWidth = 24
-                    const leftPosition = x - tooltipWidth / 2 + circleWidth / 2
-                    const bottomPosition = bottom - 65
+                    const tooltipHeight = tooltipEl?.offsetHeight || 0
+                    const tooltipBottomMargin = 10
+                    const nodeWidth = nodeRightPosition - nodeXPosition
+                    const relativePositionOffset = 96
+                    const leftPosition = Math.round(
+                        nodeXPosition - tooltipWidth / 2 + nodeWidth / 2
+                    )
+                    const topPosition = Math.round(
+                        nodeYPosition -
+                            relativePositionOffset -
+                            tooltipHeight -
+                            tooltipBottomMargin
+                    )
+
                     const newVariables = {
                         left: leftPosition,
-                        top: bottomPosition,
+                        top: topPosition,
                     }
 
                     setVariables(newVariables)
@@ -554,18 +577,16 @@ const NetworkGraph = () => {
             const maxZoom = 0.5
             const minZoom = 15
             const zoomed = (event: any) => {
-                const transformEvent = event.transform
-                const newZoom = transformEvent.k
-                if (newZoom < maxZoom) return
-
-                const transform = transformEvent.toString()
-                svgElement.selectAll('g').attr('transform', transform)
+                svgElement.selectAll('g').attr('transform', event.transform)
             }
             const zoom: any = d3
                 .zoom()
                 .scaleExtent([maxZoom, minZoom])
+                .translateExtent([
+                    [-1000, -1000],
+                    [1000, 1000],
+                ])
                 .on('zoom', zoomed)
-
             svgElement.call(zoom).on('dblclick.zoom', null)
 
             /**
@@ -590,7 +611,7 @@ const NetworkGraph = () => {
                 .attr('stroke', '#999')
                 .attr('stroke-opacity', 0.6)
                 .selectAll('line')
-                .data(links as any)
+                .data(links)
                 .join('line')
                 .attr('stroke-width', (d: any) => Math.sqrt(d.value))
 
@@ -601,9 +622,9 @@ const NetworkGraph = () => {
                 .attr('stroke', '#fff')
                 .attr('stroke-width', 1.5)
                 .selectAll('circle')
-                .data(nodes as any)
+                .data(nodes)
                 .join('circle')
-                .attr('data-testid', (d: any) => d.id)
+                .attr('data-testid', (d: SVGCircleElement) => d.id)
                 .attr(
                     'class',
                     'cursor-pointer transition transform ease-in duration-200 scale-100'
@@ -616,6 +637,13 @@ const NetworkGraph = () => {
                 .on('click', (_, clickedEl) =>
                     handleNodeClick(clickedEl, svgElement, links)
                 )
+
+            d3.select('#d3-zoom-in').on('click', function () {
+                zoom.scaleBy(svgElement.transition().duration(750), 1.4)
+            })
+            d3.select('#d3-zoom-out').on('click', function () {
+                zoom.scaleBy(svgElement.transition().duration(750), 0.6)
+            })
 
             persistOrInitActiveNode(links, nodes)
 
@@ -690,7 +718,7 @@ const NetworkGraph = () => {
                     setFilters={setFilters}
                 />
                 <div className="w-full px-4 pb-20 mt-6 lg:pb-4 lg:mt-10 lg:w-3/4">
-                    <h2 className="text-xl text-pzh-blue opacity-50">
+                    <h2 className="text-xl opacity-50 text-pzh-blue">
                         Omgevingsbeleid Provincie Zuid-Holland
                     </h2>
                     <h1
@@ -704,7 +732,7 @@ const NetworkGraph = () => {
                         style={{
                             height: '80%',
                         }}>
-                        <div className="absolute w-full p-2">
+                        <div className="absolute flex w-full p-2 pointer-events-none">
                             <NetworkGraphSearchBar
                                 clickedNode={clickedNode}
                                 data={data}
@@ -714,6 +742,13 @@ const NetworkGraph = () => {
                                 handleNodeClick={handleNodeClick}
                                 svgElement={d3.select(d3Container.current)}
                             />
+                            <div className="flex flex-col ml-2 pointer-events-auto">
+                                <NetworkGraphZoomButtons />
+                                <NetworkGraphResetClickedElement
+                                    resetNodes={resetNodes}
+                                    clickedNode={clickedNode}
+                                />
+                            </div>
                         </div>
                         <svg
                             role="img"
@@ -721,18 +756,33 @@ const NetworkGraph = () => {
                             ref={d3Container as any}
                             aria-labelledby="networkvisualization-title"
                         />
-                        <NetworkGraphResetClickedElement
-                            resetNodes={resetNodes}
-                            clickedNode={clickedNode}
-                        />
                         <NetworkGraphClickedElementPopup
                             clickedNode={clickedNode}
                             resetNodes={resetNodes}
                         />
                     </div>
                 </div>
-                <NetworkGraphTooltip href={href || ''} variables={variables} />
             </div>
+            <NetworkGraphTooltip href={href || ''} variables={variables} />
+        </div>
+    )
+}
+
+const NetworkGraphZoomButtons = () => {
+    return (
+        <div className="flex flex-col items-end border rounded-md">
+            <button
+                className="p-2 bg-white rounded-t-md text-pzh-blue-dark hover:bg-gray-50"
+                id="d3-zoom-in"
+                type="button">
+                <Plus />
+            </button>
+            <button
+                className="p-2 bg-white rounded-b-md text-pzh-blue-dark hover:bg-gray-50"
+                id="d3-zoom-out"
+                type="button">
+                <Minus />
+            </button>
         </div>
     )
 }

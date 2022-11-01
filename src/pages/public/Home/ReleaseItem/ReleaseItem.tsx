@@ -1,4 +1,4 @@
-import Heading from '@/components/Heading'
+import { Heading } from '@pzh-ui/components'
 
 interface ReleaseItemProps {
     date: string

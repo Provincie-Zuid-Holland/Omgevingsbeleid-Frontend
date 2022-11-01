@@ -1,13 +1,47 @@
-import { Transition } from '@headlessui/react'
-import { Button, Notification } from '@pzh-ui/components'
+import { Button, FormikInput, Notification } from '@pzh-ui/components'
 import { Xmark } from '@pzh-ui/icons'
-import { SyntheticEvent, useEffect, useRef, useState } from 'react'
+import { Form, Formik } from 'formik'
+import { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useKey, useLockBodyScroll } from 'react-use'
+import * as Yup from 'yup'
 
-import { postPasswordreset } from '@/api/fetchers'
+import { postPasswordReset } from '@/api/fetchers'
 
 import { PopUpAnimatedContainer } from '../Popup'
+
+const schema = Yup.object().shape({
+    currentPassword: Yup.string().required('Vul je huidige wachtwoord in'),
+    newPassword: Yup.string()
+        .required('Vul een nieuw wachtwoord in')
+        .min(12, 'Gebruik minimaal 12 tekens')
+        .notOneOf(
+            [Yup.ref('currentPassword')],
+            'Het nieuwe wachtwoord mag niet gelijk zijn aan het oude wachtwoord'
+        )
+        .test(
+            'password',
+            'Gebruik minimaal 1 hoofdletter, 1 kleine letter, 1 cijfer en 1 speciaal teken',
+            value => {
+                if (value) {
+                    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{12,}$/.test(
+                        value
+                    )
+                }
+                return true
+            }
+        ),
+    newPasswordCopy: Yup.string()
+        .required('Herhaal hier je nieuwe wachtwoord')
+        .test(
+            'equal',
+            'Het herhaalde wachtwoord komt niet overeen',
+            function (v) {
+                const ref = Yup.ref('newPassword')
+                return v === this.resolve(ref)
+            }
+        ),
+})
 
 /**
  * A modal to change the users password
@@ -22,15 +56,7 @@ interface PasswordChangeModalProps {
 export default function PasswordChangeModal({
     setOpen,
 }: PasswordChangeModalProps) {
-    const [currentPassword, setCurrentPassword] = useState('')
-    const [newPassword, setNewPassword] = useState('')
-    const [copyOfNewPassword, setCopyOfNewPassword] = useState('')
     const [loading, setLoading] = useState(false)
-    const [errors, setErrors] = useState([])
-    const [copyError, setCopyError] = useState(false)
-    const [currentPasswordError, setCurrentPasswordError] = useState(false)
-
-    const currentPasswordInput = useRef<HTMLInputElement>(null)
     const mailToAnchor = useRef<HTMLAnchorElement>(null)
     const closeBtn = useRef<HTMLButtonElement>(null)
     const container = useRef<HTMLDivElement>(null)
@@ -39,35 +65,25 @@ export default function PasswordChangeModal({
 
     useLockBodyScroll(true)
 
-    const handleSubmit = (e: SyntheticEvent) => {
-        e.preventDefault()
-        setCopyError(false)
-        setCurrentPasswordError(false)
+    const handleFormSubmit = ({
+        currentPassword,
+        newPassword,
+    }: {
+        currentPassword: string
+        newPassword: string
+    }) => {
         setLoading(true)
-
-        if (newPassword !== copyOfNewPassword) {
-            setCopyError(true)
-            setLoading(false)
-            return
-        }
-
-        postPasswordreset({
+        postPasswordReset({
             password: currentPassword,
             new_password: newPassword,
         })
             .then(() => {
                 setLoading(false)
+                toast('Wachtwoord succesvol gewijzigd')
                 setOpen(false)
-                toast('Wachtwoord gewijzigd')
             })
-            .catch(error => {
-                if (error?.response?.status === 401) {
-                    setLoading(false)
-                    setCurrentPasswordError(true)
-                } else {
-                    setLoading(false)
-                    setErrors(error.response.data.errors)
-                }
+            .catch(() => {
+                setLoading(false)
             })
     }
 
@@ -120,135 +136,71 @@ export default function PasswordChangeModal({
                 </button>
             </div>
 
-            <form onSubmit={handleSubmit}>
-                <label className="block mt-4">
-                    <span className="font-bold text-gray-700">
-                        Huidig wachtwoord<sup className="text-pzh-red">*</sup>
-                    </span>
-                    <input
-                        ref={currentPasswordInput}
-                        required
-                        id={`password-reset-current-password`}
-                        value={currentPassword}
-                        onChange={e => setCurrentPassword(e.target.value)}
-                        className={`block w-full px-4 pt-2 pb-1 mt-1 leading-tight text-gray-700 border appearance-none focus:outline-none ${
-                            currentPasswordError
-                                ? 'border-pzh-yellow rounded-t hover:border-pzh-yellow focus:border-pzh-yellow'
-                                : 'border-gray-400 rounded hover:border-gray-500 focus:border-gray-500'
-                        }`}
-                        type="password"
-                        placeholder="Voer hier je huidig wachtwoord in"
-                    />
-                    <Transition
-                        show={currentPasswordError}
-                        enter="transition ease-out duration-500"
-                        enterFrom="opacity-0 -translate-y-5 scale-90"
-                        enterTo="opacity-100 translate-y-0 scale-100"
-                        leave="transition ease-in duration-200"
-                        leaveFrom="opacity-100 translate-y-0 scale-100"
-                        leaveTo="opacity-0 -translate-y-5 scale-90">
-                        <ul className="px-4 pt-1 pb-3 text-sm rounded-b text-pzh-blue-dark bg-pzh-yellow">
-                            <li className="pt-2">
-                                Het ingevoerde huidig wachtwoord is onjuist,
-                                probeer het opnieuw
-                            </li>
-                        </ul>
-                    </Transition>
-                </label>
+            <Formik
+                initialValues={{
+                    currentPassword: '',
+                    newPassword: '',
+                    newPasswordCopy: '',
+                }}
+                onSubmit={handleFormSubmit}
+                validationSchema={schema}>
+                {({ values, handleSubmit, isValid, isSubmitting }) => (
+                    <Form onSubmit={handleSubmit}>
+                        <div className="">
+                            <FormikInput
+                                label="Huidig wachtwoord"
+                                id="password-reset-current-password"
+                                required={true}
+                                name="currentPassword"
+                                type="password"
+                                placeholder="Voer hier je huidig wachtwoord in"
+                                value={values.currentPassword}
+                            />
+                        </div>
+                        <Notification className="my-4" size="small">
+                            Het nieuwe wachtwoord moet minimaal 12 karakters
+                            bevatten en moet ten minste 1 cijfer, 1 speciaal
+                            karakter en 1 hoofdletter bevatten.
+                        </Notification>
+                        <FormikInput
+                            id="password-reset-new-password"
+                            label="Nieuw wachtwoord"
+                            required={true}
+                            name="newPassword"
+                            type="password"
+                            placeholder="Geef hier het nieuwe wachtwoord op"
+                            value={values.newPassword}
+                        />
+                        <FormikInput
+                            id="password-reset-copy-new-password"
+                            label="Herhaal nieuw wachtwoord"
+                            required={true}
+                            name="newPasswordCopy"
+                            type="password"
+                            placeholder="Herhaal het nieuwe wachtwoord"
+                            value={values.newPasswordCopy}
+                        />
 
-                <Notification className="mt-4" size="small">
-                    Het nieuwe wachtwoord moet minimaal 12 karakters bevatten en
-                    moet ten minste 1 cijfer, 1 speciaal karakter en 1
-                    hoofdletter bevatten.
-                </Notification>
-
-                <label className="block mt-4">
-                    <span className="font-bold text-gray-700">
-                        Nieuw wachtwoord<sup className="text-pzh-red">*</sup>
-                    </span>
-                    <input
-                        id={`password-reset-new-password`}
-                        required
-                        value={newPassword}
-                        onChange={e => setNewPassword(e.target.value)}
-                        className={`block w-full px-4 pt-2 pb-1 mt-1 leading-tight text-gray-700 border appearance-none focus:outline-none ${
-                            errors.length > 0
-                                ? 'border-pzh-yellow rounded-t hover:border-pzh-yellow focus:border-pzh-yellow'
-                                : 'border-gray-400 rounded hover:border-gray-500 focus:border-gray-500'
-                        }`}
-                        type="password"
-                        placeholder="Geef hier het nieuwe wachtwoord op"
-                    />
-                    <Transition
-                        show={errors.length > 0}
-                        enter="transition ease-out duration-500"
-                        enterFrom="opacity-0 -translate-y-5 scale-90"
-                        enterTo="opacity-100 translate-y-0 scale-100"
-                        leave="transition ease-in duration-200"
-                        leaveFrom="opacity-100 translate-y-0 scale-100"
-                        leaveTo="opacity-0 -translate-y-5 scale-90">
-                        <ul className="px-4 pt-1 pb-3 text-sm rounded-b text-pzh-blue-dark bg-pzh-yellow">
-                            <li className="pt-2">Het wachtwoord moet...</li>
-                            {errors.map((error, index) => (
-                                <li key={`error-${index}`} className="pt-2">
-                                    ...{error}
-                                </li>
-                            ))}
-                        </ul>
-                    </Transition>
-                </label>
-
-                <label className="block mt-4">
-                    <span className="font-bold text-gray-700">
-                        Herhaal nieuw wachtwoord
-                        <sup className="text-pzh-red">*</sup>
-                    </span>
-                    <input
-                        required
-                        id={`password-reset-copy-new-password`}
-                        value={copyOfNewPassword}
-                        onChange={e => setCopyOfNewPassword(e.target.value)}
-                        className={`block w-full px-4 pt-2 pb-1 mt-1 leading-tight text-gray-700 border appearance-none focus:outline-none ${
-                            copyError
-                                ? 'border-pzh-yellow rounded-t hover:border-pzh-yellow focus:border-pzh-yellow'
-                                : 'border-gray-400 rounded hover:border-gray-500 focus:border-gray-500'
-                        }`}
-                        type="password"
-                        placeholder="Herhaal het nieuwe wachtwoord"
-                    />
-                    <Transition
-                        show={copyError}
-                        enter="transition ease-out duration-500"
-                        enterFrom="opacity-0 -translate-y-5 scale-90"
-                        enterTo="opacity-100 translate-y-0 scale-100"
-                        leave="transition ease-in duration-200"
-                        leaveFrom="opacity-100 translate-y-0 scale-100"
-                        leaveTo="opacity-0 -translate-y-5 scale-90">
-                        <ul className="px-4 pt-1 pb-3 text-sm rounded-b text-pzh-blue-dark bg-pzh-yellow">
-                            <li className="pt-2">
-                                Het herhaalde wachtwoord komt niet overeen
-                            </li>
-                        </ul>
-                    </Transition>
-                </label>
-
-                <div className="flex items-center justify-between mt-5">
-                    <button
-                        className="text-sm text-gray-700 underline cursor-pointer hover:text-gray-900 pzh-transition-colors"
-                        onClick={() => setOpen(false)}
-                        type="button"
-                        id="close-password-forget-popup"
-                        data-testid="close-password-forget-popup">
-                        Annuleren
-                    </button>
-                    <Button
-                        type="submit"
-                        variant="cta"
-                        label="Wijzig"
-                        isLoading={loading}
-                    />
-                </div>
-            </form>
+                        <div className="flex items-center justify-between mt-5">
+                            <button
+                                className="text-sm text-gray-700 underline cursor-pointer hover:text-gray-900 pzh-transition-colors"
+                                onClick={() => setOpen(false)}
+                                type="button"
+                                id="close-password-forget-popup"
+                                data-testid="close-password-forget-popup">
+                                Annuleren
+                            </button>
+                            <Button
+                                disabled={!isValid && !isSubmitting}
+                                type="submit"
+                                variant="cta"
+                                label="Wijzig"
+                                isLoading={loading}
+                            />
+                        </div>
+                    </Form>
+                )}
+            </Formik>
 
             <Notification className="mt-4" size="small">
                 <>

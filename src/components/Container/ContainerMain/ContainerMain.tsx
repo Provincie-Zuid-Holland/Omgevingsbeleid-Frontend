@@ -1,11 +1,5 @@
+import classNames from 'classnames'
 import { FC } from 'react'
-
-/**
- * Pages met aparte container:
- * /pages/Login
- * /pages/MuteerUniversalObjectCRUD/ContainerMain
- * /components/Navigation
- * */
 
 /**
  * Displays either a container with or without an id.
@@ -13,20 +7,17 @@ import { FC } from 'react'
 
 interface ContainerProps {
     id?: string
+    className?: string
 }
 
-const ContainerMain: FC<ContainerProps> = ({ id, children }) => {
-    if (id)
-        return (
-            <div
-                className="container flex pb-8 mx-auto sm:px-6 lg:px-8"
-                id={id}>
-                {children}
-            </div>
-        )
-
+const ContainerMain: FC<ContainerProps> = ({ id, children, className }) => {
     return (
-        <div className="container flex pb-8 mx-auto sm:px-6 lg:px-8">
+        <div
+            id={id}
+            className={classNames(
+                `container flex pb-8 mx-auto sm:px-6 lg:px-8`,
+                className
+            )}>
             {children}
         </div>
     )

@@ -5,12 +5,16 @@ import {
     ArrowDownAZ,
     EllipsisVertical,
 } from '@pzh-ui/icons'
+import { useQueryClient, useIsFetching } from '@tanstack/react-query'
 import { FC, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useQueryClient } from 'react-query'
 import { Link } from 'react-router-dom'
 
-import { BeleidskeuzesRead, MaatregelenRead } from '@/api/fetchers.schemas'
+import {
+    BeleidskeuzesRead,
+    GebiedsprogrammasRead,
+    MaatregelenRead,
+} from '@/api/fetchers.schemas'
 import { ContainerMain } from '@/components/Container'
 import Dropdown from '@/components/Dropdown'
 import { LoaderCard } from '@/components/Loader'
@@ -43,9 +47,19 @@ const Overview = ({ dimensieConstants }: OverviewProps) => {
     const titleSingular = dimensieConstants.TITLE_SINGULAR
     const titlePlural = dimensieConstants.TITLE_PLURAL
     const overviewSlug = dimensieConstants.SLUG_OVERVIEW
-
+    const isFetching = useIsFetching([`/${overviewSlug}`])
     const useGetLineage = getFetcherForType(titleSingular)
-    const { data: policyObjectsFromAPI } = useGetLineage()
+    const queryOptions = {
+        query: {
+            staleTime: 0,
+            refetchOnMount: true,
+        },
+    } as const
+
+    const { data: policyObjectsFromAPI } = useGetLineage(
+        undefined,
+        queryOptions
+    )
 
     /**
      * When the component mounts, fetch the objects from the API and prepare state
@@ -68,9 +82,6 @@ const Overview = ({ dimensieConstants }: OverviewProps) => {
         setPolicyObjects(sortedAndFilteredPolicyObjects)
         setIsLoading(false)
     }, [policyObjectsFromAPI, ascending, filterQuery])
-
-    const isMaatregelOrBeleidskeuze =
-        titleSingular === 'Maatregel' || titleSingular === 'Beleidskeuze'
 
     const isBeleidsmodule = titleSingular === 'Beleidsmodule'
 
@@ -125,24 +136,19 @@ const Overview = ({ dimensieConstants }: OverviewProps) => {
                         </div>
                     </div>
 
-                    {!isLoading ? (
+                    {!isLoading && !isFetching ? (
                         <div className="w-full mt-10">
                             <OverviewTableHeading
                                 ascending={ascending}
                                 setAscending={setAscending}
-                                isMaatregelOrBeleidskeuze={
-                                    isMaatregelOrBeleidskeuze
-                                }
+                                titleSingular={titleSingular}
                             />
                             <div>
                                 {policyObjects.map(policyObject => (
                                     <OverviewTableRow
+                                        titleSingular={titleSingular}
                                         key={policyObject.UUID}
-                                        isBeleidsmodule={isBeleidsmodule}
                                         policyObject={policyObject}
-                                        isMaatregelOrBeleidskeuze={
-                                            isMaatregelOrBeleidskeuze
-                                        }
                                         overviewSlug={overviewSlug}>
                                         <OverviewDropdown
                                             overviewSlug={overviewSlug}
@@ -182,25 +188,25 @@ const OverviewDropdown = ({
 
     const queryClient = useQueryClient()
 
-    const linkToRaadpleegPage = `/${overviewSlug}/${policy.UUID}`
-    const linkToEditPage = `/muteer/${overviewSlug}/${policy.ID}/bewerk`
-
     const policyIsInAModule =
         'Ref_Beleidsmodules' in policy
             ? policy?.Ref_Beleidsmodules?.length !== 0
             : false
 
-    const isMaatregelOrBeleidskeuze =
-        titleSingular === 'Maatregel' || titleSingular === 'Beleidskeuze'
-
     const isBeleidsmodule = titleSingular === 'Beleidsmodule'
+    const isVerordening = titleSingular === 'Verordening'
+
+    const linkToRaadpleegPage = `/${overviewSlug}/${policy.UUID}`
+    const linkToEditPage = isVerordening
+        ? `/muteer/${overviewSlug}/${policy.ID}`
+        : `/muteer/${overviewSlug}/${policy.ID}/bewerk`
 
     const dropdownItems = [
         {
             text: 'Bewerken',
             link: linkToEditPage,
         },
-        ...(isBeleidsmodule
+        ...(isBeleidsmodule || isVerordening
             ? []
             : [
                   {
@@ -208,7 +214,9 @@ const OverviewDropdown = ({
                       link: linkToRaadpleegPage,
                   },
               ]),
-        ...(isMaatregelOrBeleidskeuze
+        ...(titleSingular === 'Maatregel' ||
+        titleSingular === 'Beleidskeuze' ||
+        titleSingular === 'Gebiedsprogramma'
             ? [
                   {
                       text: policyIsInAModule
@@ -221,7 +229,8 @@ const OverviewDropdown = ({
                                         | BeleidskeuzesRead
                                         | MaatregelenRead,
                                     titleSingular,
-                                    queryClient
+                                    queryClient,
+                                    'overview'
                                 )
                           : () => setModulesPopup(true),
                   },
@@ -257,16 +266,14 @@ const OverviewDropdown = ({
 }
 
 type OverviewTableRowProps = {
+    titleSingular: string
     policyObject: PossiblePolicyRead
-    isMaatregelOrBeleidskeuze: boolean
-    isBeleidsmodule: boolean
     overviewSlug: string
 }
 
 const OverviewTableRow: FC<OverviewTableRowProps> = ({
+    titleSingular,
     policyObject,
-    isMaatregelOrBeleidskeuze,
-    isBeleidsmodule,
     overviewSlug,
     children,
 }) => {
@@ -276,46 +283,55 @@ const OverviewTableRow: FC<OverviewTableRowProps> = ({
     )
 
     const tableRowLink =
-        isMaatregelOrBeleidskeuze || isBeleidsmodule
+        titleSingular === 'Maatregel' ||
+        titleSingular === 'Beleidskeuze' ||
+        titleSingular === 'Gebiedsprogramma' ||
+        titleSingular === 'Verordening' ||
+        titleSingular === 'Beleidsmodule'
             ? `/muteer/${overviewSlug}/${policyObject.ID}`
             : `/muteer/${overviewSlug}/${policyObject.ID}/bewerk`
 
     return (
-        <Link
-            className="flex items-center justify-between border-b border-gray-300 hover:bg-pzh-gray-100 hover:bg-opacity-50"
-            to={tableRowLink}>
-            <div className="w-4/12 px-4 py-3 text-gray-800">
+        <div className="flex items-center justify-between border-b border-gray-300 hover:bg-pzh-gray-100 hover:bg-opacity-50">
+            <Link className="w-4/12 px-4 py-3 text-gray-800" to={tableRowLink}>
                 {policyObject.Titel}
-            </div>
-            {isMaatregelOrBeleidskeuze ? (
-                <div className="w-4/12 px-4 py-3 text-gray-800">
+            </Link>
+            {titleSingular === 'Maatregel' ||
+            titleSingular === 'Beleidskeuze' ||
+            titleSingular === 'Gebiedsprogramma' ? (
+                <Link
+                    className="w-4/12 px-4 py-3 text-gray-800"
+                    to={tableRowLink}>
                     {
-                        (policyObject as MaatregelenRead | BeleidskeuzesRead)[
-                            'Status'
-                        ]
+                        (
+                            policyObject as
+                                | MaatregelenRead
+                                | BeleidskeuzesRead
+                                | GebiedsprogrammasRead
+                        )['Status']
                     }
-                </div>
+                </Link>
             ) : null}
-            <div className="w-3/12 px-4 py-3 text-gray-800">
+            <Link to={tableRowLink} className="w-3/12 px-4 py-3 text-gray-800">
                 {formattedModifiedDate}
-            </div>
+            </Link>
             <div className="flex justify-end w-1/12 px-4 py-3 text-gray-800">
                 {children}
             </div>
-        </Link>
+        </div>
     )
 }
 
 type OverviewTableHeadingProps = {
     ascending: boolean
     setAscending: (ascending: boolean) => void
-    isMaatregelOrBeleidskeuze: boolean
+    titleSingular: string
 }
 
 const OverviewTableHeading = ({
     ascending,
     setAscending,
-    isMaatregelOrBeleidskeuze,
+    titleSingular,
 }: OverviewTableHeadingProps) => {
     return (
         <div className="border-b border-gray-300">
@@ -330,7 +346,9 @@ const OverviewTableHeading = ({
                         <ArrowDownZA className="inline-block ml-2 text-lg" />
                     )}
                 </div>
-                {isMaatregelOrBeleidskeuze ? (
+                {titleSingular === 'Maatregel' ||
+                titleSingular === 'Beleidskeuze' ||
+                titleSingular === 'Gebiedsprogramma' ? (
                     <div className="w-4/12 px-4 py-3 font-bold text-left text-pzh-blue-dark">
                         Status
                     </div>

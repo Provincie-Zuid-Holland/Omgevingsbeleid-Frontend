@@ -1,20 +1,17 @@
 import { Disclosure } from '@headlessui/react'
+import { Button, Divider, Heading, Text } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 
 import { getEdits } from '@/api/fetchers'
-import Button from '@/components/Button'
 import { Container } from '@/components/Container'
-import Heading from '@/components/Heading'
-import HorizontalDivider from '@/components/HorizontalDivider'
-import Text from '@/components/Text'
 import imageInBewerking from '@/images/in-bewerking.png'
 import { scrollToElementByID } from '@/utils/scrollToElementByID'
 
 import TableLatestEdits from './TableLatestEdits'
 
 function InProgress() {
-    const { isLoading, data: edits } = useQuery('/edits', () =>
+    const { isLoading, data: edits } = useQuery(['/edits'], () =>
         getEdits().then(data => {
             const filteredData = data.filter(
                 item =>
@@ -41,7 +38,7 @@ function InProgress() {
                         laten zien die in ontwerp zijn.
                     </Text>
                     <Button
-                        text="Bekijk overzicht"
+                        label="Bekijk overzicht"
                         onClick={() =>
                             scrollToElementByID('laatste-bewerkingen')
                         }
@@ -84,7 +81,7 @@ function InProgress() {
                 </Text>
                 <TableLatestEdits edits={edits} isLoading={isLoading} />
             </Container>
-            <HorizontalDivider />
+            <Divider />
             <Container className="py-12">
                 <Heading
                     id="besluitvormingsproces"

@@ -12,20 +12,39 @@ import { Link } from 'react-router-dom'
 interface ButtonBackToPageProps {
     terugNaar: string
     color?: string
-    url: string
+    url?: string
+    onClick?: () => void
 }
 
-const ButtonBackToPage = ({ terugNaar, color, url }: ButtonBackToPageProps) => {
+const ButtonBackToPage = ({
+    terugNaar,
+    color,
+    url,
+    onClick,
+}: ButtonBackToPageProps) => {
     if (!color) {
         color =
             'text-pzh-blue opacity-75 hover:opacity-100 transition-opacity ease-in duration-100'
     }
-    return (
-        <Link to={url} className={`${color} text-l mb-4 inline-block`}>
-            <AngleLeft className="mr-2 -mt-[2px] inline-block" />
-            <span>Terug naar {terugNaar}</span>
-        </Link>
-    )
+
+    if (!url) {
+        return (
+            <button
+                type="button"
+                onClick={onClick}
+                className={`${color} text-l mb-4 inline-block`}>
+                <AngleLeft className="mr-2 -mt-[2px] inline-block" />
+                <span>Terug naar {terugNaar}</span>
+            </button>
+        )
+    } else {
+        return (
+            <Link to={url} className={`${color} text-l mb-4 inline-block`}>
+                <AngleLeft className="mr-2 -mt-[2px] inline-block" />
+                <span>Terug naar {terugNaar}</span>
+            </Link>
+        )
+    }
 }
 
 export default ButtonBackToPage

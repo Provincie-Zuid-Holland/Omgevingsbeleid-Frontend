@@ -1,4 +1,4 @@
-import Text from '@/components/Text'
+import { Text } from '@pzh-ui/components'
 
 interface DocumentLinkProps {
     href: string

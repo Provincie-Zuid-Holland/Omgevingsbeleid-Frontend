@@ -1,3 +1,5 @@
+import { Button } from '@pzh-ui/components'
+import classNames from 'classnames'
 import { KeyboardEvent, MouseEvent } from 'react'
 
 /**
@@ -5,26 +7,45 @@ import { KeyboardEvent, MouseEvent } from 'react'
  */
 interface ButtonSubmitFixedProps {
     submit?: ((e: MouseEvent | KeyboardEvent) => void) | null
+    disabled?: boolean
+    scrollToError?: () => void
 }
 
-function ButtonSubmitFixed({ submit }: ButtonSubmitFixedProps) {
+function ButtonSubmitFixed({
+    submit,
+    disabled,
+    scrollToError,
+}: ButtonSubmitFixedProps) {
     if (!submit) return null
 
     return (
         <div className="fixed bottom-0 right-0 z-10 px-6">
-            <div className="inline-block px-4 py-4 bg-white rounded-t shadow">
-                <button
+            <div className="relative z-10 inline-block px-4 py-4 bg-white rounded-t shadow">
+                <div
+                    className={classNames(
+                        'absolute top-0 left-0 z-10 w-full h-full',
+                        disabled ? '' : 'pointer-events-none'
+                    )}
+                    onClick={() => {
+                        if (disabled && scrollToError) {
+                            scrollToError()
+                        }
+                    }}
+                />
+                <Button
                     id="form-submit"
-                    className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer bg-pzh-blue hover:underline"
                     type="button"
-                    onClick={e => submit(e)}
+                    onClick={e => {
+                        submit(e)
+                    }}
                     onKeyPress={e => {
                         if (e.key === 'Enter') {
                             submit(e)
                         }
-                    }}>
+                    }}
+                    disabled={disabled}>
                     Opslaan
-                </button>
+                </Button>
             </div>
         </div>
     )

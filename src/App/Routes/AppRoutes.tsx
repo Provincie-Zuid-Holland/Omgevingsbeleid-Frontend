@@ -2,14 +2,11 @@ import { useCallback, useLayoutEffect } from 'react'
 import { useNavigate, useRoutes } from 'react-router-dom'
 
 import { NetworkGraph } from '@/components/Network'
-import allDimensies from '@/constants/dimensies'
+import policyObjects from '@/constants/policyObjects'
 import useAuth from '@/hooks/useAuth'
-import {
-    Dashboard,
-    MijnBeleid,
-    VerordeningenStructuurCRUD,
-    VerordeningenstructuurDetail,
-} from '@/pages/protected'
+import { Dashboard, MijnBeleid } from '@/pages/protected'
+import MutatePolicy from '@/pages/protected/MutatePolicy'
+import VerordeningEdit from '@/pages/protected/VerordeningEdit'
 import {
     Accessibility,
     Home,
@@ -22,13 +19,16 @@ import {
     UniversalObjectOverview,
     Verordening,
 } from '@/pages/public'
+import AreaDetail from '@/pages/public/AreaDetail'
+import AreaOverview from '@/pages/public/AreaOverview'
+import EnvironmentProgram from '@/pages/public/EnvironmentProgram'
+import ThemeDetail from '@/pages/public/ThemeDetail'
+import ThemeOverview from '@/pages/public/ThemeOverview'
 import detailPages from '@/utils/detailPages'
 
 import ProtectedRoute from './ProtectedRoute'
 
 const AppRoutes = () => {
-    const navigate = useNavigate()
-
     const routes = useRoutes([
         /**
          * Public pages
@@ -64,6 +64,73 @@ const AppRoutes = () => {
             path: 'verordening',
             element: <Verordening />,
         },
+        {
+            path: 'omgevingsprogramma',
+            children: [
+                {
+                    index: true,
+                    element: <EnvironmentProgram />,
+                },
+                {
+                    path: 'gebiedsprogrammas',
+                    children: [
+                        {
+                            index: true,
+                            element: <AreaOverview />,
+                        },
+                        {
+                            path: ':id',
+                            children: [
+                                {
+                                    index: true,
+                                    element: <AreaDetail />,
+                                },
+                                {
+                                    path: ':id',
+                                    element: (
+                                        <ObjectDetail
+                                            {...detailPages.find(
+                                                page =>
+                                                    page.slug === 'maatregelen'
+                                            )}
+                                        />
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    path: 'thematische-programmas',
+                    children: [
+                        {
+                            index: true,
+                            element: <ThemeOverview />,
+                        },
+                        {
+                            path: ':id',
+                            children: [
+                                {
+                                    index: true,
+                                    element: <ThemeDetail />,
+                                },
+                                {
+                                    path: ':id',
+                                    element: (
+                                        <ObjectDetail
+                                            {...detailPages.find(
+                                                page =>
+                                                    page.slug === 'maatregelen'
+                                            )}
+                                        />
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        },
         ...detailPages
             .filter(page => page.isPublic)
             .map(item => ({
@@ -84,7 +151,6 @@ const AppRoutes = () => {
                     },
                 ],
             })),
-
         /**
          * Protected pages
          */
@@ -106,29 +172,25 @@ const AppRoutes = () => {
                         {
                             path: 'nieuw',
                             element: (
-                                <VerordeningenStructuurCRUD
-                                    dimensieConstants={
-                                        allDimensies.VERORDENINGSTRUCTUUR
-                                    }
-                                    navigate={navigate}
+                                <MutatePolicy
+                                    policyConstants={policyObjects.VERORDENING}
                                 />
                             ),
                         },
                         {
-                            path: ':lineageID',
+                            path: ':single',
                             children: [
                                 {
                                     index: true,
-                                    element: <VerordeningenstructuurDetail />,
+                                    element: <VerordeningEdit />,
                                 },
                                 {
-                                    path: ':lineageUUID/bewerk',
+                                    path: 'bewerk',
                                     element: (
-                                        <VerordeningenStructuurCRUD
-                                            dimensieConstants={
-                                                allDimensies.VERORDENINGSTRUCTUUR
+                                        <MutatePolicy
+                                            policyConstants={
+                                                policyObjects.VERORDENING
                                             }
-                                            navigate={navigate}
                                         />
                                     ),
                                 },

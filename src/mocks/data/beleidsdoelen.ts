@@ -1,7 +1,7 @@
 const beleidsdoelen = [
     {
         ID: 530,
-        UUID: '7A8F1BD7-F943-4421-A01E-9C6B85E1FB51',
+        UUID: '5417208F-59E4-4A02-BD67-D9EB15D0BCF2',
         Begin_Geldigheid: '2021-05-11T00:00:00Z',
         Eind_Geldigheid: '2021-11-11T00:00:00Z',
         Created_By: {
@@ -18,7 +18,7 @@ const beleidsdoelen = [
             Status: 'Actief',
         },
         Modified_Date: '2021-05-11T09:23:56.007000Z',
-        Titel: 'Test beleidsdoel dinsdag 11 mei 2021',
+        Titel: '1-1 Beter Bestuur',
         Omschrijving: 'Omschrijving',
         Weblink: 'Weblink',
         Ref_Beleidskeuzes: [],

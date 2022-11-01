@@ -1,16 +1,15 @@
 import './appConfig'
 
-import { DNABar } from '@pzh-ui/components'
+import { DNABar, Feedback } from '@pzh-ui/components'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import classNames from 'classnames'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet'
-import { QueryClient, QueryClientProvider } from 'react-query'
 import { ToastContainer } from 'react-toastify'
 import { useEffectOnce } from 'react-use'
 
 import axe from '@/a11y'
-import FeedbackComponent from '@/components/FeedbackComponent'
 import { LoaderContent } from '@/components/Loader'
 import AuthProvider from '@/context/AuthContext'
 import usePage from '@/hooks/usePage'
@@ -36,7 +35,11 @@ const App = () => {
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
     const isNetworkVisualization = usePage('/netwerkvisualisatie')
 
-    if (process.env.NODE_ENV !== 'production' && !process.env.JEST_WORKER_ID) {
+    if (
+        process.env.NODE_ENV !== 'production' &&
+        !process.env.JEST_WORKER_ID &&
+        process.env.REACT_APP_ENABLE_AXE === 'true'
+    ) {
         axe()
     }
 
@@ -84,10 +87,13 @@ const App = () => {
                             </Suspense>
                         </ErrorBoundary>
                         <ToastContainer limit={1} position="bottom-left" />
-                        {!isAdvancedSearchPage && (
+                        {!isAdvancedSearchPage && !userIsInMuteerEnvironment && (
                             <>
                                 <DNABar blocks={6} />
-                                <FeedbackComponent />
+                                <Feedback
+                                    email="omgevingsbeleid@pzh.nl"
+                                    website="obzh.nl"
+                                />
                             </>
                         )}
                     </BaseLayout>

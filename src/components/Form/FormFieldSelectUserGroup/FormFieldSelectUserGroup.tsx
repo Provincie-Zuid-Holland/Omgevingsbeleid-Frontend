@@ -29,6 +29,7 @@ interface FormFieldSelectUserGroupProps {
     titleSingular: string
     fieldLabel?: string
     disabled?: boolean
+    className?: string
 }
 
 const FormFieldSelectUserGroup = ({
@@ -38,6 +39,7 @@ const FormFieldSelectUserGroup = ({
     titleSingular,
     fieldLabel,
     disabled,
+    className = '',
 }: FormFieldSelectUserGroupProps) => {
     const [gebruikersLijst, setGebruikersLijst] = useState<GebruikersRead[]>([])
     const [dataLoaded, setDataLoaded] = useState(false)
@@ -58,7 +60,7 @@ const FormFieldSelectUserGroup = ({
     }, [])
 
     return (
-        <>
+        <div className={className}>
             <span className="block mb-2 text-sm font-bold tracking-wide text-gray-700">
                 {fieldLabel}
             </span>
@@ -154,7 +156,7 @@ const FormFieldSelectUserGroup = ({
                     <LoaderSelect className="w-full mb-6 mr-4" />
                 )}
             </div>
-        </>
+        </div>
     )
 }
 

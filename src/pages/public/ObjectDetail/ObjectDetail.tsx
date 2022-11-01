@@ -1,3 +1,4 @@
+import { Heading } from '@pzh-ui/components'
 import { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -9,7 +10,6 @@ import {
 } from '@/api/fetchers.schemas'
 import BackButton from '@/components/BackButton'
 import { Container } from '@/components/Container'
-import Heading from '@/components/Heading'
 import { LoaderContent } from '@/components/Loader'
 import RelatiesKoppelingen from '@/components/RelatiesKoppelingen'
 import {
@@ -151,7 +151,7 @@ const ObjectDetail = ({
                         dataObject={dataObject}
                     />
                     <Heading level="1" color="text-pzh-blue" className="mt-4">
-                        {dataObject ? dataObject.Titel : null}
+                        {dataObject?.Titel}
                     </Heading>
                 </div>
                 <RaadpleegObjectDetailSidebar
@@ -166,7 +166,6 @@ const ObjectDetail = ({
                     titleSingular={titleSingular || ''}
                 />
                 <TableOfContents display="fixed" />
-                {/* <TableOfContents /> */}
             </Container>
             {dataLoaded ? (
                 <RelatiesKoppelingen

@@ -1,7 +1,9 @@
 import { MouseEventHandler, useEffect, useState } from 'react'
+import { useUpdateEffect } from 'react-use'
 
 import { getValidBeleidsrelaties } from '@/api/fetchers'
 import {
+    BeleidsdoelenRead,
     BeleidskeuzeShortRead,
     BeleidskeuzesRead,
     BeleidsrelatiesRead,
@@ -15,7 +17,6 @@ import RelatiesKoppelingenTekstueel from '../RelatiesKoppelingenTekstueel'
 import RelatiesKoppelingenVisualisatie from '../RelatiesKoppelingenVisualisatie'
 
 export type ConnectionProperties =
-    | 'Ambities'
     | 'Belangen'
     | 'Beleidsregels'
     | 'Beleidsprestaties'
@@ -25,7 +26,6 @@ export type ConnectionProperties =
     | 'Verordeningen'
 
 const connectionProperties: ConnectionProperties[] = [
-    'Ambities',
     'Belangen',
     'Beleidsregels',
     'Beleidsprestaties',
@@ -38,9 +38,6 @@ const connectionProperties: ConnectionProperties[] = [
 export const connectionPropertiesColors = {
     MainObject: {
         hex: '#553c9a',
-    },
-    Ambities: {
-        hex: '#AA0067',
     },
     Belangen: {
         hex: '#D11F3D',
@@ -77,7 +74,12 @@ export const connectionPropertiesColors = {
  */
 
 interface RelatiesKoppelingenProps {
-    dataObject: (MaatregelenRead & BeleidskeuzesRead & VerordeningenRead) | null
+    dataObject:
+        | (MaatregelenRead &
+              BeleidskeuzesRead &
+              BeleidsdoelenRead &
+              VerordeningenRead)
+        | null
     titleSingular: string
     titleSingularPrefix: string
 }
@@ -96,7 +98,10 @@ const RelatiesKoppelingen = ({
     const [verordeningsStructure, setVerordeningStructure] = useState(null)
 
     // As the height of the containers will vary by the content, we make sure the user can immediately see the whole container by scrolling down
-    useEffect(() => window.scrollTo(0, document.body.scrollHeight), [activeTab])
+    useUpdateEffect(() => {
+        console.log(activeTab)
+        window.scrollTo(0, document.body.scrollHeight)
+    }, [activeTab])
 
     useEffect(() => {
         setIsLoading(true)
