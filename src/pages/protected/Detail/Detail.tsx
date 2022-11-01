@@ -6,9 +6,9 @@ import { Helmet } from 'react-helmet'
 import { useParams, Link } from 'react-router-dom'
 
 import {
-    useGetBeleidskeuzesLineageid,
-    useGetGebiedsprogrammasLineageid,
-    useGetMaatregelenLineageid,
+    useGetBeleidskeuzesLineageId,
+    useGetGebiedsprogrammasLineageId,
+    useGetMaatregelenLineageId,
 } from '@/api/fetchers'
 import {
     BeleidskeuzesRead,
@@ -28,11 +28,11 @@ const getFetcher = (
 ) => {
     switch (titleSingular) {
         case 'Beleidskeuze':
-            return useGetBeleidskeuzesLineageid
+            return useGetBeleidskeuzesLineageId
         case 'Maatregel':
-            return useGetMaatregelenLineageid
+            return useGetMaatregelenLineageId
         case 'Gebiedsprogramma':
-            return useGetGebiedsprogrammasLineageid
+            return useGetGebiedsprogrammasLineageId
     }
 }
 

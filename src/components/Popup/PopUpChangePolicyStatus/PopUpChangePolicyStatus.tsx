@@ -3,12 +3,12 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 
 import {
-    getGetBeleidskeuzesLineageidQueryKey,
+    getGetBeleidskeuzesLineageIdQueryKey,
     getGetBeleidskeuzesQueryKey,
     getGetGebiedsprogrammasQueryKey,
-    getGetMaatregelenLineageidQueryKey,
+    getGetMaatregelenLineageIdQueryKey,
     getGetMaatregelenQueryKey,
-    getGetGebiedsprogrammasLineageidQueryKey,
+    getGetGebiedsprogrammasLineageIdQueryKey,
 } from '@/api/fetchers'
 import {
     BeleidskeuzesRead,
@@ -50,11 +50,11 @@ function PopUpChangePolicyStatus({
             onSuccess: () => {
                 const queryKeyLineage =
                     titleSingular === 'Beleidskeuze'
-                        ? getGetBeleidskeuzesLineageidQueryKey(policy.ID!)
+                        ? getGetBeleidskeuzesLineageIdQueryKey(policy.ID!)
                         : titleSingular === 'Maatregel'
-                        ? getGetMaatregelenLineageidQueryKey(policy.ID!)
+                        ? getGetMaatregelenLineageIdQueryKey(policy.ID!)
                         : titleSingular === 'Gebiedsprogramma'
-                        ? getGetGebiedsprogrammasLineageidQueryKey(policy.ID!)
+                        ? getGetGebiedsprogrammasLineageIdQueryKey(policy.ID!)
                         : ['']
 
                 const queryKeyAllLineages =
