@@ -235,6 +235,13 @@ export const handlers = [
         return res(ctx.status(200), ctx.json(beleidsdoelen))
     }),
 
+    rest.get(
+        `${currentBaseURL}/version/beleidsdoelen/:uuid`,
+        (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(beleidsdoelen[0]))
+        }
+    ),
+
     rest.get(`${currentBaseURL}/valid/beleidsdoelen`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidsdoelen))
     }),
