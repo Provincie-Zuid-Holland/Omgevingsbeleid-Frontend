@@ -81,8 +81,16 @@ function Detail({ dimensieConstants }: DetailProps) {
     const titleSingular = dimensieConstants.TITLE_SINGULAR
     const useGetLineage = getFetcher(titleSingular)
 
+    const queryOptions = {
+        query: {
+            staleTime: 0,
+            refetchOnMount: true,
+        },
+    } as const
     const { isLoading: lineageIsLoading, data: lineage } = useGetLineage(
-        parseInt(objectID!)
+        parseInt(objectID!),
+        undefined,
+        queryOptions
     )
     const isFetching = useIsFetching({
         queryKey: [`/${overviewSlug}/${objectID}`],
