@@ -8,7 +8,7 @@ series [How to Contribute to an Open Source Project on GitHub][egghead]
 ## Project setup
 
 1.  Fork and clone the repo
-2.  Run `npm install` to install dependencies
+2.  Run `yarn install` to install dependencies
 3.  Checkout the development branch, which contains the latest changes
 4.  Create a branch for your PR with `git checkout -b pr/your-branch-name`
 
@@ -28,6 +28,8 @@ series [How to Contribute to an Open Source Project on GitHub][egghead]
 > want to update your version of `dev`, do a regular `git pull`.
 
 ## Committing and Pushing changes
+Contributions should follow the requirements set out in the criteria of the [Standard for Public code](https://standard.publiccode.net/). Reviewers will also be ensuring that contributions are aligned with the [values of public code](https://standard.publiccode.net/introduction.html#values-of-public-code).
+
 We strive to not let our test coverage go down.
 If you implement new features please make sure that you have written tests.
 Also document code where needed. The format we use is JSDoc.
