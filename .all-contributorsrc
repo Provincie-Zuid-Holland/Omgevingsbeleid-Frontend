@@ -114,6 +114,18 @@
       "contributions": [
         "business"
       ]
+    },
+    {
+      "login": "Stefwint",
+      "name": "Stef Winterswijk",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13415565?v=4",
+      "profile": "https://github.com/Stefwint",
+      "contributions": [
+        "code",
+        "doc",
+        "a11y",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 5,
@@ -121,5 +133,6 @@
   "projectOwner": "Provincie-Zuid-Holland",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitConvention": "angular"
 }
