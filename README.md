@@ -21,7 +21,7 @@ Therefore, The Province of South-Holland is committed to maintaining and develop
 
 -   [Git](https://git-scm.com/)
 -   [Node.js](https://nodejs.org/en/)
--   [NPM](https://www.npmjs.com/get-npm)
+-   [Yarn](https://yarnpkg.com/)
 
 ## Setting up a local version
 
@@ -34,7 +34,7 @@ Create a new folder within your documents where you’ll clone the repository to
 ```
 $ git clone https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend.git
 $ cd Omgevingsbeleid-Frontend
-$ npm install
+$ yarn install
 ```
 
 ### Create a .env file
@@ -64,31 +64,29 @@ REACT_APP_RELEASE_VERSION = '' // Used to log version in Sentry bugs
 This runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000/) to view it in the browser. The page will reload if you make edits to the code. You will also see any lint errors in the console.
 
 ```
-npm start
+yarn start
 ```
 
 Launches the test runner in the interactive watch mode. See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ```
-npm test
-```
-
-Runs the Cypress integration tests
-
-```
-npm run cy:run
+yarn test:local
 ```
 
 Builds the app for production to the **`\*build**`\*\* folder. It correctly bundles React in production mode and optimizes the build for the best performance.
 
 ```
-npm run build
+yarn build
 ```
 
-Builds the application just as `npm run build` would do, but also [purges](https://tailwindcss.com/docs/controlling-file-size) the generated Tailwind files. There are two commands to create a build. One for windows `prod:build-win` and one for OSX `prod:build-osx`.
+Builds the application just as `yarn run build` would do, but also [purges](https://tailwindcss.com/docs/controlling-file-size) the generated Tailwind files. There are two commands to create a build. One for windows `prod:build-win` and one for OSX `prod:build-osx`.
 
 ```
-npm run prod:build
+yarn prod:build-osx
+```
+
+```
+yarn prod:build-win
 ```
 
 # Source File Structure
@@ -165,28 +163,9 @@ Contains the images that we use in the front-end, like the Provincie Zuid-Hollan
 
 ---
 
-Static testing is done via ES Lint. Unit testing is done with Jest and React Testing Library. Integration tests are done with [Cypress.io](http://cypress.io). Right now the focus has mostly been on integration tests using [Cypress.io](http://cypress.io), but we want to equal this with more unit tests.
+Static testing is done via ES Lint. Unit and integration testing is done with Jest and React Testing Library. The API calls are mocked with [Mock Service Worker](https://mswjs.io/). The MSW handlers can be found in the `/src/mocks` folder. The mock response data can be found in the `/src/mocks/data` folder. 
 
-The cypress test right now consists of testing the dimensions, with test to create, read and update the dimensions. These integration test live inside the /cypress folder. Inside we have the /integration folder, which contains the actual tests.
 
-The API calls to the server are all stubbed. They live inside the /fixtures folder. The fixture files are created automatically by setting the `"RECORD"` environmental variable to `true` and then running the test with `npm run cy:run`. After the fixtures have been created you `"RECORD"` back to `false` and the tests will be stubbed.
-
-To set the environmental variable for Cypress you need a `cypress.json` file in the root of your directory. To be able to run authenticated tests you will also need to provide user credentials:
-
-```JSON
-{
-    "video": false,
-    "baseUrl": "http://localhost:3000",
-    "env": {
-        "env": "dev",
-        "RECORD": true,
-        "API_VERSION": "api-version",
-        "ACCESS_TOKEN": "local-storage-key",
-        "USERNAME": "username@domain.com",
-        "PASSWORD": "password"
-    }
-}
-```
 
 ## Contributors ✨
 
