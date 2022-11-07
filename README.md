@@ -11,6 +11,12 @@ By storing policies in a database instead of in a document, the province also ai
 
 The application digitalizes the 'physical living environment' policies of the Province of South-Holland. Non authorized users can search policies by text or using a map, see in what area they apply and and view connections between policies. Authorized users can adjust and manage the policies. You can view the roadmap [here](https://www.figma.com/proto/hg7QFPhoCg0juUu3jEdG6w/Omgevingsbeleid-Roadmap?page-id=0%3A1&node-id=1%3A4&viewport=430%2C426%2C0.17213496565818787&scaling=min-zoom&starting-point-node-id=1%3A4).
 
+## Standard for Public Code
+It is the intent of the Omgevingsbeleid development community to develop the codebase collaboratively.
+Adhering to the criteria set forth in [the Standard for Public Code](https://standard.publiccode.net/) gives us confidence in the process.
+Therefore, The Province of South-Holland is committed to maintaining and developing Omgevingsbeleid front-end at a level of quality that meets the Standard for Public Code.
+
+
 ## Pre-Requisites
 
 -   [Git](https://git-scm.com/)
