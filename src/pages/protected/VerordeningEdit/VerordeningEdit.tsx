@@ -14,6 +14,7 @@ import {
 import { VerordeningenRead, VerordeningenWrite } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
 import { Container } from '@/components/Container'
+import { ExtendTypesWithNull } from '@/types/dimensions'
 import {
     VerordeningLineageRead,
     VerordeningStructureChild,
@@ -185,8 +186,12 @@ function VerordeningEdit() {
      * @param values the data from the Formik forms
      */
     type CustomFormikValues =
-        | (VerordeningenRead & { Children?: VerordeningenRead[] })
-        | (VerordeningenWrite & { Children?: VerordeningenRead[] })
+        | (ExtendTypesWithNull<VerordeningenRead> & {
+              Children?: ExtendTypesWithNull<VerordeningenRead>[]
+          })
+        | (ExtendTypesWithNull<VerordeningenWrite> & {
+              Children?: ExtendTypesWithNull<VerordeningenRead>[]
+          })
     const handleSubmit = async (
         values: CustomFormikValues,
         {
