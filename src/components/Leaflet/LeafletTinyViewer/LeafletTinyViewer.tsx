@@ -151,6 +151,10 @@ const LeafletTinyViewerInner = ({
         werkingsgebied.map(layer => {
             map.removeLayer(layer)
         })
+
+        onderverdelingen.map(layer => {
+            map.removeLayer(layer)
+        })
         setWerkingsgebied([])
         setOnderverdelingen([])
 
