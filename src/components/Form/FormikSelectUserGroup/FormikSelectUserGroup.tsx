@@ -111,6 +111,8 @@ const FormikSelectUserGroup = ({
                         label: user.Gebruikersnaam || '',
                         value: user.UUID || '',
                     }))
+                    // Sort alphabetically
+                    .sort((a, b) => a.label.localeCompare(b.label))
             })
 
             return formattedUserList

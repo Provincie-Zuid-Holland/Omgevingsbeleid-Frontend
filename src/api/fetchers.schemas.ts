@@ -2288,12 +2288,16 @@ export type GebiedsprogrammasWriteStatus =
 export const GebiedsprogrammasWriteStatus = {
     Definitief_ontwerp_GS: 'Definitief ontwerp GS',
     Definitief_ontwerp_GS_concept: 'Definitief ontwerp GS concept',
+    Definitief_ontwerp_PS: 'Definitief ontwerp PS',
+    'Niet-Actief': 'Niet-Actief',
     Ontwerp_GS: 'Ontwerp GS',
     Ontwerp_GS_Concept: 'Ontwerp GS Concept',
     Ontwerp_in_inspraak: 'Ontwerp in inspraak',
     Ontwerp_PS: 'Ontwerp PS',
+    Uitgecheckt: 'Uitgecheckt',
     Vastgesteld: 'Vastgesteld',
     Vigerend: 'Vigerend',
+    Vigerend_gearchiveerd: 'Vigerend gearchiveerd',
 } as const
 
 /**
@@ -2304,8 +2308,14 @@ export interface GebiedsprogrammasWrite {
     Afbeelding?: string
     /** None */
     Begin_Geldigheid?: string
+    /** None */
+    Besluitnummer?: string
     /** A UUID reference to a gebruikers object */
     Created_By?: string
+    /** A UUID reference to a gebruikers object */
+    Eigenaar_1?: string
+    /** A UUID reference to a gebruikers object */
+    Eigenaar_2?: string
     /** None */
     Eind_Geldigheid?: string
     /** An list of references to maatregelen objects */
@@ -2314,10 +2324,18 @@ export interface GebiedsprogrammasWrite {
     Modified_By?: string
     /** None */
     Omschrijving?: string
+    /** A UUID reference to a gebruikers object */
+    Opdrachtgever?: string
+    /** A UUID reference to a gebruikers object */
+    Portefeuillehouder_1?: string
+    /** A UUID reference to a gebruikers object */
+    Portefeuillehouder_2?: string
     /** The status of this object */
     Status?: GebiedsprogrammasWriteStatus
     /** None */
     Titel?: string
+    /** None */
+    Weblink?: string
 }
 
 /**
@@ -2330,12 +2348,16 @@ export type GebiedsprogrammasReadStatus =
 export const GebiedsprogrammasReadStatus = {
     Definitief_ontwerp_GS: 'Definitief ontwerp GS',
     Definitief_ontwerp_GS_concept: 'Definitief ontwerp GS concept',
+    Definitief_ontwerp_PS: 'Definitief ontwerp PS',
+    'Niet-Actief': 'Niet-Actief',
     Ontwerp_GS: 'Ontwerp GS',
     Ontwerp_GS_Concept: 'Ontwerp GS Concept',
     Ontwerp_in_inspraak: 'Ontwerp in inspraak',
     Ontwerp_PS: 'Ontwerp PS',
+    Uitgecheckt: 'Uitgecheckt',
     Vastgesteld: 'Vastgesteld',
     Vigerend: 'Vigerend',
+    Vigerend_gearchiveerd: 'Vigerend gearchiveerd',
 } as const
 
 export type GebiedsprogrammasReadMaatregelenItem = {
@@ -2351,10 +2373,16 @@ export interface GebiedsprogrammasRead {
     Afbeelding?: string
     /** None */
     Begin_Geldigheid?: string
+    /** None */
+    Besluitnummer?: string
     /** An inlined gebruikers object */
     Created_By?: GebruikersInline
     /** None */
     Created_Date?: string
+    /** An inlined gebruikers object */
+    Eigenaar_1?: GebruikersInline
+    /** An inlined gebruikers object */
+    Eigenaar_2?: GebruikersInline
     /** None */
     Eind_Geldigheid?: string
     /** None */
@@ -2367,12 +2395,22 @@ export interface GebiedsprogrammasRead {
     Modified_Date?: string
     /** None */
     Omschrijving?: string
+    /** An inlined gebruikers object */
+    Opdrachtgever?: GebruikersInline
+    /** An inlined gebruikers object */
+    Portefeuillehouder_1?: GebruikersInline
+    /** An inlined gebruikers object */
+    Portefeuillehouder_2?: GebruikersInline
+    /** An list of beleidsmodule-short objects that refer to this object (reverse lookup) */
+    Ref_Beleidsmodules?: BeleidsmoduleShortInline[]
     /** The status of this object */
     Status?: GebiedsprogrammasReadStatus
     /** None */
     Titel?: string
     /** None */
     UUID?: string
+    /** None */
+    Weblink?: string
 }
 
 /**
@@ -2385,12 +2423,16 @@ export type GebiedsprogrammasInlineStatus =
 export const GebiedsprogrammasInlineStatus = {
     Definitief_ontwerp_GS: 'Definitief ontwerp GS',
     Definitief_ontwerp_GS_concept: 'Definitief ontwerp GS concept',
+    Definitief_ontwerp_PS: 'Definitief ontwerp PS',
+    'Niet-Actief': 'Niet-Actief',
     Ontwerp_GS: 'Ontwerp GS',
     Ontwerp_GS_Concept: 'Ontwerp GS Concept',
     Ontwerp_in_inspraak: 'Ontwerp in inspraak',
     Ontwerp_PS: 'Ontwerp PS',
+    Uitgecheckt: 'Uitgecheckt',
     Vastgesteld: 'Vastgesteld',
     Vigerend: 'Vigerend',
+    Vigerend_gearchiveerd: 'Vigerend gearchiveerd',
 } as const
 
 /**
@@ -2401,10 +2443,16 @@ export interface GebiedsprogrammasInline {
     Afbeelding?: string
     /** None */
     Begin_Geldigheid?: string
+    /** None */
+    Besluitnummer?: string
     /** A UUID reference to a gebruikers object */
     Created_By?: string
     /** None */
     Created_Date?: string
+    /** A UUID reference to a gebruikers object */
+    Eigenaar_1?: string
+    /** A UUID reference to a gebruikers object */
+    Eigenaar_2?: string
     /** None */
     Eind_Geldigheid?: string
     /** None */
@@ -2415,12 +2463,20 @@ export interface GebiedsprogrammasInline {
     Modified_Date?: string
     /** None */
     Omschrijving?: string
+    /** A UUID reference to a gebruikers object */
+    Opdrachtgever?: string
+    /** A UUID reference to a gebruikers object */
+    Portefeuillehouder_1?: string
+    /** A UUID reference to a gebruikers object */
+    Portefeuillehouder_2?: string
     /** The status of this object */
     Status?: GebiedsprogrammasInlineStatus
     /** None */
     Titel?: string
     /** None */
     UUID?: string
+    /** None */
+    Weblink?: string
 }
 
 /**
@@ -2433,13 +2489,26 @@ export type GebiedsprogrammasChangeStatus =
 export const GebiedsprogrammasChangeStatus = {
     Definitief_ontwerp_GS: 'Definitief ontwerp GS',
     Definitief_ontwerp_GS_concept: 'Definitief ontwerp GS concept',
+    Definitief_ontwerp_PS: 'Definitief ontwerp PS',
+    'Niet-Actief': 'Niet-Actief',
     Ontwerp_GS: 'Ontwerp GS',
     Ontwerp_GS_Concept: 'Ontwerp GS Concept',
     Ontwerp_in_inspraak: 'Ontwerp in inspraak',
     Ontwerp_PS: 'Ontwerp PS',
+    Uitgecheckt: 'Uitgecheckt',
     Vastgesteld: 'Vastgesteld',
     Vigerend: 'Vigerend',
+    Vigerend_gearchiveerd: 'Vigerend gearchiveerd',
 } as const
+
+/**
+ * An object that shows the changes in the list
+ */
+export type GebiedsprogrammasChangeRefBeleidsmodules = {
+    new?: BeleidsmoduleShortInline[]
+    removed?: BeleidsmoduleShortInline[]
+    same?: BeleidsmoduleShortInline[]
+}
 
 /**
  * An object that shows the changes in the list
@@ -2459,6 +2528,8 @@ export interface GebiedsprogrammasChange {
     /** None */
     Begin_Geldigheid?: string
     /** None */
+    Besluitnummer?: string
+    /** None */
     Created_Date?: string
     /** None */
     Eind_Geldigheid?: string
@@ -2470,12 +2541,16 @@ export interface GebiedsprogrammasChange {
     Modified_Date?: string
     /** None */
     Omschrijving?: string
+    /** An object that shows the changes in the list */
+    Ref_Beleidsmodules?: GebiedsprogrammasChangeRefBeleidsmodules
     /** The status of this object */
     Status?: GebiedsprogrammasChangeStatus
     /** None */
     Titel?: string
     /** None */
     UUID?: string
+    /** None */
+    Weblink?: string
 }
 
 /**
@@ -2950,6 +3025,8 @@ export interface BeleidsmodulesWrite {
     Created_By?: string
     /** None */
     Eind_Geldigheid?: string
+    /** An list of references to gebiedsprogrammas objects */
+    Gebiedsprogrammas?: ListReference[]
     /** An list of references to maatregelen objects */
     Maatregelen?: ListReference[]
     /** A UUID reference to a gebruikers object */
@@ -2961,6 +3038,11 @@ export interface BeleidsmodulesWrite {
 export type BeleidsmodulesReadMaatregelenItem = {
     Koppeling_Omschrijving?: string
     Object?: MaatregelenInline
+}
+
+export type BeleidsmodulesReadGebiedsprogrammasItem = {
+    Koppeling_Omschrijving?: string
+    Object?: GebiedsprogrammasInline
 }
 
 export type BeleidsmodulesReadBeleidskeuzesItem = {
@@ -2984,6 +3066,8 @@ export interface BeleidsmodulesRead {
     Created_Date?: string
     /** None */
     Eind_Geldigheid?: string
+    /** An list of gebiedsprogrammas objects */
+    Gebiedsprogrammas?: BeleidsmodulesReadGebiedsprogrammasItem[]
     /** None */
     ID?: number
     /** An list of maatregelen objects */
@@ -3036,6 +3120,15 @@ export type BeleidsmodulesChangeMaatregelen = {
 /**
  * An object that shows the changes in the list
  */
+export type BeleidsmodulesChangeGebiedsprogrammas = {
+    new?: GebiedsprogrammasInline[]
+    removed?: GebiedsprogrammasInline[]
+    same?: GebiedsprogrammasInline[]
+}
+
+/**
+ * An object that shows the changes in the list
+ */
 export type BeleidsmodulesChangeBeleidskeuzes = {
     new?: BeleidskeuzesInline[]
     removed?: BeleidskeuzesInline[]
@@ -3056,6 +3149,8 @@ export interface BeleidsmodulesChange {
     Created_Date?: string
     /** None */
     Eind_Geldigheid?: string
+    /** An object that shows the changes in the list */
+    Gebiedsprogrammas?: BeleidsmodulesChangeGebiedsprogrammas
     /** None */
     ID?: number
     /** An object that shows the changes in the list */
@@ -3643,10 +3738,17 @@ export interface BeleidsdoelenWrite {
     Modified_By?: string
     /** None */
     Omschrijving?: string
+    /** An list of references to beleidskeuze-short objects */
+    Ref_Beleidskeuzes?: ListReference[]
     /** None */
     Titel?: string
     /** None */
     Weblink?: string
+}
+
+export type BeleidsdoelenReadRefBeleidskeuzesItem = {
+    Koppeling_Omschrijving?: string
+    Object?: BeleidskeuzeShortInline
 }
 
 export type BeleidsdoelenReadAmbitiesItem = {
@@ -3676,8 +3778,8 @@ export interface BeleidsdoelenRead {
     Modified_Date?: string
     /** None */
     Omschrijving?: string
-    /** An list of beleidskeuze-short objects that refer to this object (reverse lookup) */
-    Ref_Beleidskeuzes?: BeleidskeuzeShortInline[]
+    /** An list of beleidskeuze-short objects */
+    Ref_Beleidskeuzes?: BeleidsdoelenReadRefBeleidskeuzesItem[]
     /** None */
     Titel?: string
     /** None */

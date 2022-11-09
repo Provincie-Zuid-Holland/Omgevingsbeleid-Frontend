@@ -3,6 +3,20 @@
  * Light color is calculated by changing the HSLA (L) value to 90%
  */
 const networkGraphConnectionProperties = {
+    ambities: {
+        hex: '#AA0067',
+        hexLight: '#e6b3d1',
+        singular: 'Ambitie',
+        plural: 'Ambities',
+        prefix: 'de',
+    },
+    gebiedsprogrammas: {
+        hex: '#503D90',
+        hexLight: '#e0dbf0',
+        singular: 'Gebiedsprogramma',
+        plural: "Gebiedsprogramma's",
+        prefix: 'het',
+    },
     belangen: {
         hex: '#D11F3D',
         hexLight: '#f1bcc5',

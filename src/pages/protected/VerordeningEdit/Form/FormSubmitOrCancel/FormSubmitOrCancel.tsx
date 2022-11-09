@@ -5,7 +5,11 @@ import { Fragment } from 'react'
 
 import { useVerordening } from '../../verordeningEditContext'
 
-const FormSubmitOrCancel = () => {
+interface FormSubmitOrCancelProps {
+    reset?: () => void
+}
+
+const FormSubmitOrCancel = ({ reset }: FormSubmitOrCancelProps) => {
     const { state, dispatch } = useVerordening()
     const { resetForm } = useFormikContext()
     const { isLoadingOrSaving } = state
@@ -15,7 +19,11 @@ const FormSubmitOrCancel = () => {
             <Button
                 variant="cta"
                 type="submit"
-                onClick={e => isLoadingOrSaving && e.preventDefault()}
+                onClick={e => {
+                    if (isLoadingOrSaving) {
+                        e.preventDefault()
+                    }
+                }}
                 disabled={isLoadingOrSaving}
                 className="ml-1">
                 {isLoadingOrSaving ? (
@@ -28,10 +36,9 @@ const FormSubmitOrCancel = () => {
                 type="button"
                 variant="primary"
                 onClick={() => {
-                    resetForm()
+                    if (reset) reset()
+                    resetForm({ values: {} })
                     dispatch({ type: 'resetEditingSection' })
-                    dispatch({ type: 'setNewSection', payload: null })
-                    dispatch({ type: 'setIsAddingSection', payload: false })
                 }}
                 disabled={isLoadingOrSaving}
                 className="ml-1">

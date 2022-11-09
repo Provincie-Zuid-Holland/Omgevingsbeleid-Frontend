@@ -1,7 +1,6 @@
 import { Plus } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { Fragment, useEffect, useState } from 'react'
-import { usePrevious } from 'react-use'
 
 import FormArticleContent from '../Form/FormArticleContent'
 import FormArticleSubSections from '../Form/FormArticleSubSections'
@@ -24,15 +23,13 @@ const AddSection = ({
 }) => {
     const [isAddingASection, setIsAddingASection] = useState(false)
     const { state, dispatch } = useVerordening()
-    const { isAddingSection } = state
-    const previousIsAddingSection = usePrevious(isAddingSection)
+    const { newSection } = state
 
-    /** Reset state when users cancels isAddingSection */
     useEffect(() => {
-        if (!isAddingSection && previousIsAddingSection) {
+        if (newSection === null) {
             setIsAddingASection(false)
         }
-    }, [isAddingSection, previousIsAddingSection])
+    }, [newSection])
 
     if (!show) {
         return null
@@ -40,10 +37,16 @@ const AddSection = ({
         return (
             <div
                 className={classNames(
-                    `flex items-center justify-center p-4 my-2 transition duration-150 ease-in border border-opacity-50 border-dashed rounded cursor-pointer text-pzh-green bg-opacity-20 hover:bg-opacity-25 hover:text-pzh-green-dark bg-pzh-green-light border-pzh-green-light`,
-                    { 'ml-4': marginLeft }
+                    `flex items-center justify-center p-4 my-2 transition duration-150 ease-in border border-opacity-50 border-dashed rounded text-pzh-green bg-opacity-20 hover:bg-opacity-25 hover:text-pzh-green-dark bg-pzh-green-light border-pzh-green-light`,
+                    {
+                        'ml-4': marginLeft,
+                        'cursor-pointer': newSection === null,
+                        'cursor-not-allowed': newSection !== null,
+                    }
                 )}
                 onClick={() => {
+                    if (newSection !== null) return
+
                     setIsAddingASection(!isAddingASection)
                     dispatch({
                         type: 'setEditingSectionIndexPath',
@@ -61,7 +64,9 @@ const AddSection = ({
         return (
             <Fragment>
                 <FormNumberAndTitle marginLeft={marginLeft} type={typeToAdd}>
-                    <FormSubmitOrCancel />
+                    <FormSubmitOrCancel
+                        reset={() => setIsAddingASection(false)}
+                    />
                 </FormNumberAndTitle>
                 {typeToAdd === 'Artikel' ? (
                     <Fragment>

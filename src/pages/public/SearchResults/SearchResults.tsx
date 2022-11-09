@@ -27,13 +27,16 @@ const SearchResults = () => {
     >([])
     const [searchResultsTotal, setSearchResultsTotal] = useState(0)
     const [dataLoaded, setDataLoaded] = useState(false)
-    const [initialized, setInitialized] = useState(false)
+    const [initializedQuery, setInitializedQuery] = useState<null | string>(
+        null
+    )
     const { get, set, remove } = useSearchParam()
     const [paramTextQuery, paramOnly, filter] = get(['query', 'only', 'filter'])
     const isMobile = useMedia('(max-width: 768px)')
 
     useEffect(() => {
-        if (initialized) return
+        if (initializedQuery !== null && initializedQuery === paramTextQuery)
+            return
 
         const textualSearchQuery = async () => {
             if (!paramTextQuery) {
@@ -61,8 +64,8 @@ const SearchResults = () => {
 
         setDataLoaded(false)
         textualSearchQuery()
-        setInitialized(true)
-    }, [paramTextQuery, paramOnly, initializeFilters, filter, initialized])
+        setInitializedQuery(paramTextQuery)
+    }, [paramTextQuery, paramOnly, initializeFilters, filter, initializedQuery])
 
     const filteredSearchResults = useMemo(() => {
         const acceptedTypes = [

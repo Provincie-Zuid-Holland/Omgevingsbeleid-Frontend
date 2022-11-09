@@ -79,7 +79,7 @@ export default function PasswordChangeModal({
         })
             .then(() => {
                 setLoading(false)
-                toast.success('Wachtwoord succesvol gewijzigd')
+                toast('Wachtwoord succesvol gewijzigd')
                 setOpen(false)
             })
             .catch(() => {

@@ -47,6 +47,7 @@ export const SCHEMA: ObjectSchema<MutatedPolicySchema<BeleidsmodulesWrite>> =
         Beleidskeuzes: schemaDefaults.listReference,
         Maatregelen: schemaDefaults.listReference,
         Besluit_Datum: schemaDefaults.optionalString,
+        Gebiedsprogrammas: schemaDefaults.listReference,
     }).meta(beleidsmodulesMeta)
 
 export const META = SCHEMA.describe().meta as SchemaMeta<

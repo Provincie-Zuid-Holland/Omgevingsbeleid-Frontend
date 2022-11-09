@@ -15,6 +15,7 @@ describe('TableRow', () => {
                 UUID: '0000-0001',
                 Modified_Date: new Date(),
             },
+            Type: 'Beleidskeuze',
         },
     }
 

@@ -7,9 +7,14 @@ import { useParams, Link } from 'react-router-dom'
 
 import {
     useGetBeleidskeuzesLineageId,
+    useGetGebiedsprogrammasLineageId,
     useGetMaatregelenLineageId,
 } from '@/api/fetchers'
-import { BeleidskeuzesRead, MaatregelenRead } from '@/api/fetchers.schemas'
+import {
+    BeleidskeuzesRead,
+    GebiedsprogrammasRead,
+    MaatregelenRead,
+} from '@/api/fetchers.schemas'
 import CheckedOutPolicyContainer from '@/components/CheckedOutPolicyContainer'
 import { ContainerMain } from '@/components/Container'
 import LineIndicatorArchived from '@/components/LineIndicatorArchived'
@@ -18,12 +23,16 @@ import PageSpecificNavBar from '@/components/PageSpecificNavBar'
 import PolicyDetailCard from '@/components/PolicyDetailCard'
 import allDimensies from '@/constants/dimensies'
 
-const getFetcher = (titleSingular: 'Beleidskeuze' | 'Maatregel') => {
+const getFetcher = (
+    titleSingular: 'Beleidskeuze' | 'Maatregel' | 'Gebiedsprogramma'
+) => {
     switch (titleSingular) {
         case 'Beleidskeuze':
             return useGetBeleidskeuzesLineageId
         case 'Maatregel':
             return useGetMaatregelenLineageId
+        case 'Gebiedsprogramma':
+            return useGetGebiedsprogrammasLineageId
     }
 }
 
@@ -31,6 +40,7 @@ export interface DetailProps {
     dimensieConstants:
         | typeof allDimensies.BELEIDSKEUZES
         | typeof allDimensies.MAATREGELEN
+        | typeof allDimensies.GEBIEDSPROGRAMMAS
 }
 
 const initialState = {
@@ -47,18 +57,40 @@ function Detail({ dimensieConstants }: DetailProps) {
     const { single: objectID } = useParams<{ single: string | undefined }>()
 
     const [state, setState] = useState<{
-        checkedOutPolicy: null | BeleidskeuzesRead | MaatregelenRead
-        currentValidPolicy: null | BeleidskeuzesRead | MaatregelenRead
-        archivedPolicies: BeleidskeuzesRead[] | MaatregelenRead[]
-        originalLineage: BeleidskeuzesRead[] | MaatregelenRead[]
+        checkedOutPolicy:
+            | null
+            | BeleidskeuzesRead
+            | MaatregelenRead
+            | GebiedsprogrammasRead
+        currentValidPolicy:
+            | null
+            | BeleidskeuzesRead
+            | MaatregelenRead
+            | GebiedsprogrammasRead
+        archivedPolicies:
+            | BeleidskeuzesRead[]
+            | MaatregelenRead[]
+            | GebiedsprogrammasRead[]
+        originalLineage:
+            | BeleidskeuzesRead[]
+            | MaatregelenRead[]
+            | GebiedsprogrammasRead[]
     }>(initialState)
 
     const overviewSlug = dimensieConstants.SLUG_OVERVIEW
     const titleSingular = dimensieConstants.TITLE_SINGULAR
     const useGetLineage = getFetcher(titleSingular)
 
+    const queryOptions = {
+        query: {
+            staleTime: 0,
+            refetchOnMount: true,
+        },
+    } as const
     const { isLoading: lineageIsLoading, data: lineage } = useGetLineage(
-        parseInt(objectID!)
+        parseInt(objectID!),
+        undefined,
+        queryOptions
     )
     const isFetching = useIsFetching({
         queryKey: [`/${overviewSlug}/${objectID}`],

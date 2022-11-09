@@ -29,14 +29,17 @@ const useModuleFilter = () => {
     const [filters, setFilters] = useReducer(filterReducer, {
         statusFilters: ['Filter op status'],
         selectedStatus: 'Filter op status',
-        typeFilters: ['Filter op beleid', 'Beleidskeuze', 'Maatregel'],
+        typeFilters: [
+            'Filter op beleid',
+            'Beleidskeuze',
+            'Maatregel',
+            'Gebiedsprogramma',
+        ],
         selectedType: 'Filter op beleid',
     })
 
-    const getObjectType = (obj: any) =>
-        obj.Object.hasOwnProperty('Aanleiding') ? 'Beleidskeuze' : 'Maatregel'
-
     const filterPolicies = (policy: any, filters: any) => {
+        console.log(policy)
         const activeStatusFilter = filters.selectedStatus !== 'Filter op status'
         const activeTypeFilter = filters.selectedType !== 'Filter op beleid'
 
@@ -47,7 +50,7 @@ const useModuleFilter = () => {
 
         const getFilteredOutByType = () => {
             if (!activeTypeFilter) return false
-            return getObjectType(policy) !== filters.selectedType
+            return policy.Type !== filters.selectedType
         }
 
         const filteredOutByStatus = getFilteredOutByStatus()

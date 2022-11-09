@@ -10,7 +10,11 @@ import { FC, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
-import { BeleidskeuzesRead, MaatregelenRead } from '@/api/fetchers.schemas'
+import {
+    BeleidskeuzesRead,
+    GebiedsprogrammasRead,
+    MaatregelenRead,
+} from '@/api/fetchers.schemas'
 import { ContainerMain } from '@/components/Container'
 import Dropdown from '@/components/Dropdown'
 import { LoaderCard } from '@/components/Loader'
@@ -79,9 +83,6 @@ const Overview = ({ dimensieConstants }: OverviewProps) => {
         setIsLoading(false)
     }, [policyObjectsFromAPI, ascending, filterQuery])
 
-    const isMaatregelOrBeleidskeuze =
-        titleSingular === 'Maatregel' || titleSingular === 'Beleidskeuze'
-
     const isBeleidsmodule = titleSingular === 'Beleidsmodule'
 
     const hideAddButton =
@@ -140,9 +141,7 @@ const Overview = ({ dimensieConstants }: OverviewProps) => {
                             <OverviewTableHeading
                                 ascending={ascending}
                                 setAscending={setAscending}
-                                isMaatregelOrBeleidskeuze={
-                                    isMaatregelOrBeleidskeuze
-                                }
+                                titleSingular={titleSingular}
                             />
                             <div>
                                 {policyObjects.map(policyObject => (
@@ -194,9 +193,6 @@ const OverviewDropdown = ({
             ? policy?.Ref_Beleidsmodules?.length !== 0
             : false
 
-    const isMaatregelOrBeleidskeuze =
-        titleSingular === 'Maatregel' || titleSingular === 'Beleidskeuze'
-
     const isBeleidsmodule = titleSingular === 'Beleidsmodule'
     const isVerordening = titleSingular === 'Verordening'
 
@@ -218,7 +214,9 @@ const OverviewDropdown = ({
                       link: linkToRaadpleegPage,
                   },
               ]),
-        ...(isMaatregelOrBeleidskeuze
+        ...(titleSingular === 'Maatregel' ||
+        titleSingular === 'Beleidskeuze' ||
+        titleSingular === 'Gebiedsprogramma'
             ? [
                   {
                       text: policyIsInAModule
@@ -287,27 +285,30 @@ const OverviewTableRow: FC<OverviewTableRowProps> = ({
     const tableRowLink =
         titleSingular === 'Maatregel' ||
         titleSingular === 'Beleidskeuze' ||
+        titleSingular === 'Gebiedsprogramma' ||
         titleSingular === 'Verordening' ||
         titleSingular === 'Beleidsmodule'
             ? `/muteer/${overviewSlug}/${policyObject.ID}`
             : `/muteer/${overviewSlug}/${policyObject.ID}/bewerk`
-
-    const isMaatregelOrBeleidskeuze =
-        titleSingular === 'Maatregel' || titleSingular === 'Beleidskeuze'
 
     return (
         <div className="flex items-center justify-between border-b border-gray-300 hover:bg-pzh-gray-100 hover:bg-opacity-50">
             <Link className="w-4/12 px-4 py-3 text-gray-800" to={tableRowLink}>
                 {policyObject.Titel}
             </Link>
-            {isMaatregelOrBeleidskeuze ? (
+            {titleSingular === 'Maatregel' ||
+            titleSingular === 'Beleidskeuze' ||
+            titleSingular === 'Gebiedsprogramma' ? (
                 <Link
                     className="w-4/12 px-4 py-3 text-gray-800"
                     to={tableRowLink}>
                     {
-                        (policyObject as MaatregelenRead | BeleidskeuzesRead)[
-                            'Status'
-                        ]
+                        (
+                            policyObject as
+                                | MaatregelenRead
+                                | BeleidskeuzesRead
+                                | GebiedsprogrammasRead
+                        )['Status']
                     }
                 </Link>
             ) : null}
@@ -324,13 +325,13 @@ const OverviewTableRow: FC<OverviewTableRowProps> = ({
 type OverviewTableHeadingProps = {
     ascending: boolean
     setAscending: (ascending: boolean) => void
-    isMaatregelOrBeleidskeuze: boolean
+    titleSingular: string
 }
 
 const OverviewTableHeading = ({
     ascending,
     setAscending,
-    isMaatregelOrBeleidskeuze,
+    titleSingular,
 }: OverviewTableHeadingProps) => {
     return (
         <div className="border-b border-gray-300">
@@ -345,7 +346,9 @@ const OverviewTableHeading = ({
                         <ArrowDownZA className="inline-block ml-2 text-lg" />
                     )}
                 </div>
-                {isMaatregelOrBeleidskeuze ? (
+                {titleSingular === 'Maatregel' ||
+                titleSingular === 'Beleidskeuze' ||
+                titleSingular === 'Gebiedsprogramma' ? (
                     <div className="w-4/12 px-4 py-3 font-bold text-left text-pzh-blue-dark">
                         Status
                     </div>

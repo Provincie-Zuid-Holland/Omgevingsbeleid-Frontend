@@ -113,6 +113,7 @@ function verordeningReducer(state: State, action: Action) {
                 editingSectionUUID: null,
                 activeSectionData: null,
                 editingSectionIndexPath: null,
+                newSection: null,
             }
 
         case 'setEditingSectionIndexPath':
