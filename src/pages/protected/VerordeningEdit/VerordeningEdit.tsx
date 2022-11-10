@@ -14,6 +14,7 @@ import {
 import { VerordeningenRead, VerordeningenWrite } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
 import { Container } from '@/components/Container'
+import { ExtendTypesWithNull } from '@/types/dimensions'
 import {
     VerordeningLineageRead,
     VerordeningStructureChild,
@@ -185,8 +186,12 @@ function VerordeningEdit() {
      * @param values the data from the Formik forms
      */
     type CustomFormikValues =
-        | (VerordeningenRead & { Children?: VerordeningenRead[] })
-        | (VerordeningenWrite & { Children?: VerordeningenRead[] })
+        | (ExtendTypesWithNull<VerordeningenRead> & {
+              Children?: ExtendTypesWithNull<VerordeningenRead>[]
+          })
+        | (ExtendTypesWithNull<VerordeningenWrite> & {
+              Children?: ExtendTypesWithNull<VerordeningenRead>[]
+          })
     const handleSubmit = async (
         values: CustomFormikValues,
         {
@@ -299,7 +304,7 @@ function VerordeningEdit() {
         } else {
             /** POST */
             try {
-                const postObject = cloneDeep(values)
+                let postObject = cloneDeep(values)
                 /**
                  * Check if postObject is of Type `Artikel`. If so it could have `Leden` on the `Children` property
                  * If that is the case we need to patch these as well.
@@ -326,10 +331,14 @@ function VerordeningEdit() {
                     delete postObject.Children
                 }
 
+                postObject = mutateVerordeningenReadToVerordeningenWrite(
+                    postObject as VerordeningenRead
+                )
+
                 /** Create Verordening Object from newSection and postObject */
                 const createdSectionFromAPI = await postVerordeningSection({
-                    ...newSection,
                     ...postObject,
+                    ...newSection,
                 } as VerordeningenWrite)
 
                 const createdSectionForStructurePatch =

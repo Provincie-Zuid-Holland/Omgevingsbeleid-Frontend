@@ -25,6 +25,7 @@ const FormArticleContent = () => {
             })
             if (!newCreatedLid) return
             setFieldValue('Inhoud', '')
+            setFieldValue('Gebied', null)
             setFieldValue('Children', [newCreatedLid])
         } catch (err) {
             console.error(err)

@@ -170,7 +170,7 @@ const AddNewSection = () => {
             </div>
             <ButtonAddNewObject
                 titleSingular="Maatregel"
-                createNewSlug="nieuwe#mijn-beleid"
+                createNewSlug="nieuw#mijn-beleid"
                 hoofdOnderdeelSlug="maatregelen"
             />
         </div>

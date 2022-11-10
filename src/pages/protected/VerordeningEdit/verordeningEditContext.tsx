@@ -16,17 +16,35 @@ export type FormikValues =
     | null
 export type Dispatch = (action: Action) => void
 export type VerordeningProviderProps = { children: React.ReactNode }
+
 export type State = {
+    /** Used to reset the state to when user cancels the reordering */
     lineageClone: VerordeningLineageRead | null
+    /** UUID of current section the user is editing */
     editingSectionUUID: string | null
+    /**
+     * The complete object of the section the user is editing, retrieved from the API when editingSectionUUID is set
+     * It is also populated with a `Children` property if the section is an article with one or more Lid Children under it
+     **/
     activeSectionData: ActiveSectionData
+    /** Object of the new section the user is adding */
     newSection: VerordeningenWrite | null
+    /** Holds the leden if an article (which would be populated in the activeSectionData property) contains them */
     activeLedenFromArticle: VerordeningenRead[] | null
+    /** UUID of current chapter the user is viewing */
     activeChapterUUID: string | null
+    /** IndexPath to navigate to the object the user is editing in the lineage */
     editingSectionIndexPath: number[] | null
+    /** Indicates if user is ordering the sections */
     isEditingOrder: boolean
+    /** Indicates if user is adding sections */
     isAddingSection: boolean
-    addingSectionType: 'Afdeling' | 'Paragraaf' | 'Artikel' // There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.
+    /**
+     * Indicates the type of section the user is adding
+     * There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.
+     **/
+    addingSectionType: 'Afdeling' | 'Paragraaf' | 'Artikel'
+    /** Combines multiple loading states (from the QueryClient) into a universal loading state */
     isLoadingOrSaving: boolean
 }
 
@@ -175,38 +193,16 @@ function verordeningReducer(state: State, action: Action) {
 
 function VerordeningProvider({ children }: VerordeningProviderProps) {
     const [state, dispatch] = useReducer(verordeningReducer, {
-        // Used to reset the state to when user cancels the reordering
         lineageClone: null,
-
-        // UUID of current chapter the user is viewing
         activeChapterUUID: null,
-
-        // UUID of current section the user is editing
         editingSectionUUID: null,
-
-        // The complete object of the section the user is editing, retrieved from the API when editingSectionUUID is set
-        // It is also populated with a `Children` property if the section is an article with one or more Lid Children under it
         activeSectionData: null,
-
-        // IndexPath to navigate to the object the user is editing in the lineage
         editingSectionIndexPath: null,
-
-        // Indicates if user is ordering the sections
         isEditingOrder: false,
-
-        // Indicates if user is ordering the sections
         isAddingSection: false,
-
-        // Indicates the type of section the user is adding
         addingSectionType: 'Afdeling',
-
-        // Combines multiple loading states (from the QueryClient) into a universal loading state
         isLoadingOrSaving: false,
-
-        // To create new sections
         newSection: null,
-
-        // Holds the leden if an article contains them
         activeLedenFromArticle: null,
     })
 

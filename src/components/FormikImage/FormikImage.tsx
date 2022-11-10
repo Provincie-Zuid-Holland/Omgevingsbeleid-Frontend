@@ -7,22 +7,33 @@ export interface FormikImageProps {
     name: string
     label?: string
     maxSize?: number // Defaults to 4MB
+    required?: boolean
 }
 
 interface FormikValues {
     [name: string]: string | null | undefined
 }
 
-function FormikImage({ name, label, maxSize = 4194304 }: FormikImageProps) {
+function FormikImage({
+    name,
+    label,
+    maxSize = 4194304,
+    required,
+}: FormikImageProps) {
     const { values, setFieldValue } = useFormikContext<FormikValues>()
 
     return (
         <>
             {values[name] ? (
-                <FormikImageDisplay label={label} name={name} />
+                <FormikImageDisplay
+                    required={required}
+                    label={label}
+                    name={name}
+                />
             ) : (
                 <FormikFileUpload
                     maxFiles={1}
+                    required={required}
                     onChange={files => {
                         const file = files[0]
                         const reader = new FileReader()
