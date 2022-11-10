@@ -1,4 +1,5 @@
 import { getHeadingStyles, Heading, Text } from '@pzh-ui/components'
+import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 import { useMedia } from 'react-use'
 
@@ -15,6 +16,9 @@ const Login = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Omgevingsbeleid - Inloggen</title>
+            </Helmet>
             <Container
                 style={
                     !isMobile

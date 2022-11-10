@@ -2,6 +2,7 @@ import 'url-search-params-polyfill'
 
 import { Heading } from '@pzh-ui/components'
 import { useEffect, useMemo, useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { useMedia } from 'react-use'
 
 import { getSearch } from '@/api/fetchers'
@@ -112,6 +113,9 @@ const SearchResults = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Omgevingsbeleid - Zoekresultaten</title>
+            </Helmet>
             <Container
                 className="z-10 md:sticky bg-pzh-blue"
                 style={isMobile ? {} : { height: 96 + 'px', top: '96px' }}>

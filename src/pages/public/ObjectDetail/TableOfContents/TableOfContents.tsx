@@ -75,21 +75,22 @@ const TableOfContents = ({ display }: { display: 'block' | 'fixed' }) => {
                         {h2Elements.map(el => (
                             <li
                                 key={el.id}
-                                onClick={() => {
-                                    window.scrollTo({
-                                        left: 0,
-                                        top: el.y,
-                                        behavior: 'smooth',
-                                    })
-                                }}
                                 className="pt-1 cursor-pointer text-pzh-blue hover:text-pzh-blue-dark">
                                 <AngleRight
                                     size={16}
                                     className="absolute mt-1"
                                 />
-                                <span className="block pl-5 underline decoration-1">
+                                <button
+                                    onClick={() => {
+                                        window.scrollTo({
+                                            left: 0,
+                                            top: el.y,
+                                            behavior: 'smooth',
+                                        })
+                                    }}
+                                    className="block pl-5 underline decoration-1">
                                     {el.title}
-                                </span>
+                                </button>
                             </li>
                         ))}
                         <li className="flex items-start py-1 transition-colors duration-100 ease-in text-pzh-blue hover:text-pzh-blue-dark"></li>
