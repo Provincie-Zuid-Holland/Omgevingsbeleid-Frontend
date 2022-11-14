@@ -132,6 +132,7 @@ function verordeningReducer(state: State, action: Action) {
                 activeSectionData: null,
                 editingSectionIndexPath: null,
                 newSection: null,
+                setIsLoadingOrSaving: false,
             }
 
         case 'setEditingSectionIndexPath':
@@ -167,7 +168,7 @@ function verordeningReducer(state: State, action: Action) {
         case 'setActiveSectionData':
             return {
                 ...state,
-                activeSectionData: { ...action.payload },
+                activeSectionData: action.payload,
             }
 
         case 'setNewSection':
