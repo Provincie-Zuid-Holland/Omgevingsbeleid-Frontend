@@ -86,53 +86,61 @@ function VerordeningEdit() {
      * In the case of an 'Artikel' we retrieve and populate the 'Leden'.
      */
     useEffect(() => {
-        if (!activeSectionDataFromAPI) {
+        if (
+            !activeSectionDataFromAPI ||
+            !editingSectionUUID ||
+            !editingSectionIndexPath ||
+            editingSectionIndexPath.length === 0
+        ) {
             dispatch({
                 type: 'setActiveSectionData',
                 payload: null,
             })
+            dispatch({ type: 'setIsLoadingOrSaving', payload: false })
         } else if (activeSectionDataFromAPI.Type !== 'Artikel') {
             dispatch({
                 type: 'setActiveSectionData',
                 payload: activeSectionDataFromAPI,
             })
-        } else if (activeSectionDataFromAPI.Type === 'Artikel') {
-            if (editingSectionIndexPath && verordening) {
-                /**
-                 * If the type is 'Artikel' we need to add the Children property and potentially populate it
-                 * 1. Check in lineage if the current section contains Children
-                 * 2. If so we retrieve them and add them to the activeSectionData under the 'Children' property
-                 */
-                const children = getChildrenOfSectionFromLineage(
-                    editingSectionIndexPath,
-                    verordening
-                )
+        } else if (
+            activeSectionDataFromAPI.Type === 'Artikel' &&
+            editingSectionIndexPath &&
+            verordening &&
+            editingSectionUUID
+        ) {
+            /**
+             * If the type is 'Artikel' we need to add the Children property and potentially populate it
+             * 1. Check in lineage if the current section contains Children
+             * 2. If so we retrieve them and add them to the activeSectionData under the 'Children' property
+             */
+            const children = getChildrenOfSectionFromLineage(
+                editingSectionIndexPath,
+                verordening
+            )
 
-                if (children.length > 0) {
-                    Promise.all(
-                        children.map(child =>
-                            getVersionVerordeningenObjectUuid(child.UUID)
-                        )
+            if (children.length > 0) {
+                Promise.all(
+                    children.map(child =>
+                        getVersionVerordeningenObjectUuid(child.UUID)
                     )
-                        .then(resolvedChildren => {
-                            dispatch({
-                                type: 'setActiveSectionData',
-                                payload: {
-                                    ...activeSectionDataFromAPI,
-                                    Children: resolvedChildren,
-                                },
-                            })
+                )
+                    .then(resolvedChildren => {
+                        dispatch({
+                            type: 'setActiveSectionData',
+                            payload: {
+                                ...activeSectionDataFromAPI,
+                                Children: resolvedChildren,
+                            },
                         })
-                        .catch(err => {
-                            console.log(err)
-                        })
-                } else {
-                    dispatch({
-                        type: 'setActiveSectionData',
-                        payload: activeSectionDataFromAPI,
                     })
-                }
+                    .catch(err => {
+                        console.log(err)
+                    })
             } else {
+                dispatch({
+                    type: 'setActiveSectionData',
+                    payload: activeSectionDataFromAPI,
+                })
             }
         }
     }, [
@@ -140,7 +148,17 @@ function VerordeningEdit() {
         dispatch,
         editingSectionIndexPath,
         verordening,
+        editingSectionUUID,
     ])
+
+    useEffect(() => {
+        if (activeSectionData && !editingSectionUUID) {
+            dispatch({
+                type: 'setActiveSectionData',
+                payload: null,
+            })
+        }
+    }, [activeSectionData, editingSectionUUID, dispatch])
 
     /**
      * Reset scroll position to top when changing chapters
@@ -285,20 +303,10 @@ function VerordeningEdit() {
                 )
 
                 /** Reset state */
-                dispatch({
-                    type: 'setIsLoadingOrSaving',
-                    payload: false,
-                })
                 dispatch({ type: 'resetEditingSection' })
-                resetForm()
+                resetForm({})
             } catch (err) {
                 handleError(err)
-
-                dispatch({
-                    type: 'setIsLoadingOrSaving',
-                    payload: false,
-                })
-
                 dispatch({ type: 'resetEditingSection' })
             }
         } else {
@@ -370,18 +378,11 @@ function VerordeningEdit() {
                     patchedVerordening
                 )
 
-                dispatch({
-                    type: 'setIsLoadingOrSaving',
-                    payload: false,
-                })
                 dispatch({ type: 'resetEditingSection' })
-                resetForm()
+                resetForm({})
             } catch (err) {
                 handleError(err)
-                dispatch({
-                    type: 'setIsLoadingOrSaving',
-                    payload: false,
-                })
+                dispatch({ type: 'resetEditingSection' })
             }
         }
     }
