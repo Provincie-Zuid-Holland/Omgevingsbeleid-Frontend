@@ -3,7 +3,7 @@ import { AngleDown, AngleUp } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useFormikContext } from 'formik'
 import { motion } from 'framer-motion'
-import { FC, Fragment, useRef, useState } from 'react'
+import { FC, Fragment, useEffect, useRef, useState } from 'react'
 
 import { useGetGebruikers } from '@/api/fetchers'
 import { FormFieldWerkingsgebied } from '@/components/Form'
@@ -19,6 +19,19 @@ function FormArticleSidebar({}: FormArticleSidebarProps) {
 
     const [allSubSectionsHaveSameGeoArea, setAllSubSectionsHaveSameGeoArea] =
         useState(false)
+
+    useEffect(() => {
+        const geoAreas = values?.Children?.map(child => {
+            if (typeof child?.Gebied !== 'string') {
+                return child?.Gebied?.UUID
+            } else {
+                return undefined
+            }
+        })
+        if (geoAreas === undefined) return
+        const sameGeoAreas = geoAreas.every(geoArea => geoArea === geoAreas[0])
+        setAllSubSectionsHaveSameGeoArea(sameGeoAreas)
+    }, [values?.Children])
 
     const options = users
         ? users
