@@ -8,17 +8,13 @@ interface AreaCardProps {
 }
 
 const AreaCard = ({ image, title, link }: AreaCardProps) => (
-    <div className="rounded-t overflow-hidden h-full flex flex-col">
+    <div className="flex flex-col h-full overflow-hidden rounded-t">
         {image ? (
-            <img
-                src={`data:image/jpeg;base64,${image}`}
-                alt={title}
-                className="h-40 object-cover"
-            />
+            <img src={image} alt={title} className="object-cover h-40" />
         ) : (
             <div className="h-40 bg-pzh-gray-200" />
         )}
-        <div className="rounded-b border border-pzh-gray-400 p-6 flex flex-1 flex-col">
+        <div className="flex flex-col flex-1 p-6 border rounded-b border-pzh-gray-400">
             <Heading level="3" className="mb-4">
                 {title}
             </Heading>

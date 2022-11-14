@@ -1,4 +1,5 @@
 import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
+import DOMPurify from 'dompurify'
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
@@ -35,6 +36,8 @@ function AreaDetail() {
 
     if (isLoading) return <LoaderContent />
 
+    const cleanHtmlDescription = DOMPurify.sanitize(data?.Omschrijving || '')
+
     return (
         <div>
             <Container className="pb-20 overflow-hidden">
@@ -45,15 +48,15 @@ function AreaDetail() {
                     <Heading level="1" className="mt-10 mb-3">
                         {data?.Titel}
                     </Heading>
-                    <Text className="mb-8 break-words whitespace-pre-line">
-                        {data?.Omschrijving}
-                    </Text>
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: cleanHtmlDescription,
+                        }}
+                        className="mb-8 break-words whitespace-pre-line raadpleeg-innerhtml"
+                    />
                     {data?.Afbeelding && (
                         <figure>
-                            <img
-                                src={`data:image/jpeg;base64,${data.Afbeelding}`}
-                                alt={data?.Titel}
-                            />
+                            <img src={data.Afbeelding} alt={data?.Titel} />
                             <figcaption className="mt-2 text-sm text-pzh-blue-dark">
                                 Indicatieve weergave gebied ‘{data?.Titel}’.
                             </figcaption>
