@@ -46,17 +46,6 @@ const formatConnectionsForAPI = (
             }
         })
 
-        if (
-            'Werkingsgebieden' in formattedBeleidskeuze &&
-            formattedBeleidskeuze.Werkingsgebieden !== undefined
-        ) {
-            const formattedWerkingsgebieden: ListReference[] =
-                formattedBeleidskeuze.Werkingsgebieden.map(connection => ({
-                    UUID: connection?.Object?.UUID,
-                }))
-            formattedBeleidskeuze.Werkingsgebieden = formattedWerkingsgebieden
-        }
-
         return formattedBeleidskeuze as MutateWriteObjects
     } else if (titleSingular === 'gebiedsprogramma') {
         const formattedGebiedsprogramma: GebiedsprogrammasRead = cloneDeep(

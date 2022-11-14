@@ -216,14 +216,15 @@ const PopupRevisionOverview = ({
                             <div
                                 className="block w-full p-4 pb-0 text-left transition-shadow duration-200 ease-in bg-gray-100 md:p-6 md:pb-0 lg:p-6 lg:pb-0 rounded-t-md"
                                 id="revisionOverview-header">
-                                <div
+                                <button
+                                    type="button"
                                     onClick={() => {
                                         setRevisionOverviewOpen(false)
                                     }}
                                     className="absolute top-0 right-0 px-3 py-2 text-gray-600 transition-colors duration-100 ease-in cursor-pointer md:mt-4 md:mr-4 hover:text-gray-800"
                                     id={`close-revisionOverview`}>
                                     <Xmark size={20} />
-                                </div>
+                                </button>
                                 <h2 className="block mb-1 text-xl font-bold tracking-wide text-pzh-blue">
                                     Revisieoverzicht
                                 </h2>

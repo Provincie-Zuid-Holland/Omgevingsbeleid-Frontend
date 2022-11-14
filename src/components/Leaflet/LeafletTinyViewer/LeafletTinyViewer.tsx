@@ -1,3 +1,4 @@
+import { Spinner } from '@pzh-ui/icons'
 import axios from 'axios'
 import Leaflet, { Layer } from 'leaflet'
 import { useEffect, useState, useMemo } from 'react'
@@ -60,6 +61,7 @@ const LeafletTinyViewerInner = ({
 
     const [onderverdelingen, setOnderverdelingen] = useState<any[]>([])
     const [werkingsgebied, setWerkingsgebied] = useState<any[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(true)
 
     /**
      * Function that removes a layer from the currentLeafletMap.leafletElement if currentLeafletmap and this.state.boundsObject contain a value.
@@ -137,6 +139,9 @@ const LeafletTinyViewerInner = ({
                 setWerkingsgebied(geoJsonLayerArray)
                 setOnderverdelingen(onderverdelingLayerArray)
             })
+            .then(() => {
+                setIsLoading(false)
+            })
             .catch(err => {
                 if (axios.isCancel(err)) {
                     console.error('Request canceled')
@@ -149,6 +154,10 @@ const LeafletTinyViewerInner = ({
 
     useEffect(() => {
         werkingsgebied.map(layer => {
+            map.removeLayer(layer)
+        })
+
+        onderverdelingen.map(layer => {
             map.removeLayer(layer)
         })
         setWerkingsgebied([])
@@ -171,25 +180,35 @@ const LeafletTinyViewerInner = ({
     }, [controller])
 
     return (
-        <LeafletControlLayer fullscreen={fullscreen}>
-            <ToggleableSection title="Legenda" positionTop>
-                <ul className="p-2">
-                    {werkingsgebied?.map(layer => (
-                        <LeafletAreaLayer
-                            key={layer?.feature?.id}
-                            layer={layer}
-                        />
-                    ))}
-                    {onderverdelingen?.map((layer, index) => (
-                        <LeafletAreaLayer
-                            key={layer?.feature?.id}
-                            layer={layer}
-                            index={index.toString()}
-                        />
-                    ))}
-                </ul>
-            </ToggleableSection>
-        </LeafletControlLayer>
+        <>
+            <LeafletControlLayer fullscreen={fullscreen}>
+                <ToggleableSection title="Legenda" positionTop>
+                    <ul className="p-2">
+                        {werkingsgebied?.map(layer => (
+                            <LeafletAreaLayer
+                                key={layer?.feature?.id}
+                                layer={layer}
+                            />
+                        ))}
+                        {onderverdelingen?.map((layer, index) => (
+                            <LeafletAreaLayer
+                                key={layer?.feature?.id}
+                                layer={layer}
+                                index={index.toString()}
+                            />
+                        ))}
+                    </ul>
+                </ToggleableSection>
+            </LeafletControlLayer>
+            {isLoading && (
+                <div
+                    className={`z-[999] absolute w-full h-full flex justify-center items-center`}>
+                    <span className="flex items-center justify-center w-8 h-8 p-2 bg-white rounded shadow leaflet-layers">
+                        <Spinner className={`inline-block animate-spin`} />
+                    </span>
+                </div>
+            )}
+        </>
     )
 }
 

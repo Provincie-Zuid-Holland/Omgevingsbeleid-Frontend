@@ -47,12 +47,17 @@ function FieldsGebiedsprogramma({}: FieldsGebiedsprogrammaProps) {
                 <FormikRte
                     testId="formik-rte-omschrijving"
                     disabled={isVigerend}
+                    required={isRequired('Omschrijving')}
                     label="Omschrijving"
                     description="Geef een beschrijving op van het gebiedsprogramma. Denk hierbij aan een omschrijving van de ligging."
                     name="Omschrijving"
                 />
                 <FormSpacer />
-                <FormikImage name="Afbeelding" label="Afbeelding van gebied" />
+                <FormikImage
+                    required={isRequired('Afbeelding')}
+                    name="Afbeelding"
+                    label="Afbeelding van gebied"
+                />
             </ContainerFormSection>
             <ContainerFormSection
                 titel="Koppelingen"

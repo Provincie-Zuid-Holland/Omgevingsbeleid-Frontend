@@ -1,6 +1,7 @@
 import { Map, point } from 'leaflet'
 import Proj from 'proj4leaflet'
 import { useEffect, useMemo, useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { useNavigate } from 'react-router-dom'
 import { useEffectOnce, useMedia, useUpdateEffect } from 'react-use'
 
@@ -224,6 +225,9 @@ const MapSearch = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Omgevingsbeleid - Zoeken op de kaart</title>
+            </Helmet>
             <ContainerMapSearch className="overflow-hidden border-t">
                 <SidebarInformation
                     mapInstance={mapInstance}

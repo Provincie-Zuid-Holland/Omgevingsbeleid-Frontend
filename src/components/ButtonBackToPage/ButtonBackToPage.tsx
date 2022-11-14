@@ -33,14 +33,20 @@ const ButtonBackToPage = ({
                 type="button"
                 onClick={onClick}
                 className={`${color} text-l mb-4 inline-block`}>
-                <AngleLeft className="mr-2 -mt-[2px] inline-block" />
+                <AngleLeft
+                    aria-hidden="true"
+                    className="mr-2 -mt-[2px] inline-block"
+                />
                 <span>Terug naar {terugNaar}</span>
             </button>
         )
     } else {
         return (
             <Link to={url} className={`${color} text-l mb-4 inline-block`}>
-                <AngleLeft className="mr-2 -mt-[2px] inline-block" />
+                <AngleLeft
+                    aria-hidden="true"
+                    className="mr-2 -mt-[2px] inline-block"
+                />
                 <span>Terug naar {terugNaar}</span>
             </Link>
         )

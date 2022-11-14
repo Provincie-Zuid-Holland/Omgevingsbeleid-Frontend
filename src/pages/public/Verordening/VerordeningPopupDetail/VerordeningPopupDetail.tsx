@@ -162,7 +162,13 @@ const VerordeningPopupDetail = ({
                                     gebiedUUID={activeArticle.Gebied}
                                 />
                             </div>
-                        ) : null}
+                        ) : (
+                            <Text
+                                type="body"
+                                color="text-pzh-cool-gray-dark italic">
+                                Er is geen werkingsgebied gekoppeld
+                            </Text>
+                        )}
                     </div>
                     {connections.length > 0 ? (
                         <div className="mt-6">

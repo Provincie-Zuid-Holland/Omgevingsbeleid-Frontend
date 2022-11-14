@@ -10,7 +10,7 @@ const formatWerkingsgebiedenForWrite = (crudObject: MutateReadObjects) => {
     ) {
         formattedCrudObject.Werkingsgebieden = crudObject.Werkingsgebieden?.map(
             geoArea => ({
-                Koppeling_Omschrijving: geoArea.Koppeling_Omschrijving,
+                Koppeling_Omschrijving: geoArea.Koppeling_Omschrijving || '',
                 UUID: geoArea?.Object?.UUID,
             })
         )

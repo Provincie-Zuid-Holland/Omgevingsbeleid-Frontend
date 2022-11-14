@@ -1,6 +1,7 @@
 import { Heading, Text } from '@pzh-ui/components'
 import { ArrowLeft } from '@pzh-ui/icons'
 import { useQuery } from '@tanstack/react-query'
+import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
 import { Container } from '@/components/Container'
@@ -33,6 +34,9 @@ function UniversalObjectOverview({
 
     return (
         <div>
+            <Helmet>
+                <title>Omgevingsbeleid - {dataModel?.TITLE_PLURAL}</title>
+            </Helmet>
             <Container className="pb-16 mb-8">
                 <div className="col-span-6 sm:col-span-1">
                     <Link

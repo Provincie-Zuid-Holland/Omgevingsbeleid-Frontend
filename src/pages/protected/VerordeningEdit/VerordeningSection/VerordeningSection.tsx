@@ -42,6 +42,7 @@ const VerordeningSection = ({
         isAddingSection,
         addingSectionType,
         isEditingOrder,
+        editingSectionUUID,
     } = state
 
     const { values } = useFormikContext<ActiveSectionData>()
@@ -51,7 +52,7 @@ const VerordeningSection = ({
     const currentIndexPath = [...indexPath, index]
 
     const userIsEditingThisSection =
-        values !== null && values.UUID === section.UUID
+        values !== null && values.UUID === section.UUID && editingSectionUUID
 
     const addSectionBasedOnParentType = !parentArray.includes(addingSectionType)
     const sectionHasChildren = section.Children.length > 0

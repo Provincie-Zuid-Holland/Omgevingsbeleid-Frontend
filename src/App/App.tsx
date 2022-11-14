@@ -87,16 +87,13 @@ const App = () => {
                             </Suspense>
                         </ErrorBoundary>
                         <ToastContainer limit={1} position="bottom-left" />
-                        {!isAdvancedSearchPage && !userIsInMuteerEnvironment && (
-                            <>
-                                <DNABar blocks={6} />
-                                <Feedback
-                                    email="omgevingsbeleid@pzh.nl"
-                                    website="obzh.nl"
-                                />
-                            </>
-                        )}
+                        {!isAdvancedSearchPage &&
+                            !userIsInMuteerEnvironment && <DNABar blocks={6} />}
                     </BaseLayout>
+                    <Feedback
+                        email="omgevingsbeleid@pzh.nl"
+                        website="obzh.nl"
+                    />
                 </div>
             </AuthProvider>
         </QueryClientProvider>

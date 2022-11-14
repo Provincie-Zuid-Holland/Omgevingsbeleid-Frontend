@@ -56,14 +56,15 @@ const PopUpRevisionContainer = ({
                         amountOfRevisions > 1 ? 'cursor-pointer' : ''
                     } select-none flex items-center group`}>
                     <ClockRotateLeft size={16} className="mr-2 -mt-1" />
-                    <span
+                    <button
+                        type="button"
                         className={
                             amountOfRevisions >= 1
                                 ? 'underline group-hover:text-pzh-green-dark transition-colors duration-300 ease-in text-pzh-green'
                                 : ''
                         }>
                         {getAmountText(amountOfRevisions)}
-                    </span>
+                    </button>
                 </span>
             </div>
             <div className="absolute top-0 left-0 z-50 inline-block mt-6">
@@ -147,7 +148,9 @@ const PopupRevisionTimeline = ({
                         setRevisionOverviewOpen(true)
                     }}
                     className="flex items-center justify-between px-6 py-3 transition-colors duration-100 ease-in border-t border-gray-300 cursor-pointer text-pzh-green hover:text-pzh-green-dark hover:bg-pzh-blue hover:bg-opacity-5">
-                    <span className="underline">Vergelijk versies</span>
+                    <button type="button" className="underline">
+                        Vergelijk versies
+                    </button>
                     <AngleRight />
                 </div>
             ) : null}

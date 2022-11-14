@@ -1,6 +1,7 @@
 import { Heading, Text } from '@pzh-ui/components'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useWindowSize } from 'react-use'
 
@@ -47,6 +48,9 @@ function Verordening() {
 
     return (
         <Container className="pt-16 lg:pt-8">
+            <Helmet>
+                <title>Omgevingsbeleid - Verordening</title>
+            </Helmet>
             <RaadpleegVerordeningSidebar verordening={verordening} />
             <div className="min-h-screen col-span-6 lg:col-span-4">
                 <Heading

@@ -18,8 +18,10 @@ const FormArticleSubSections = () => {
             values.Children.length === 1
         ) {
             const contentFirstSubItem = values.Children[0]?.Inhoud
+            const geoFirstSubItem = values.Children[0]?.Gebied
             setFieldValue('Children', undefined)
             setFieldValue('Inhoud', contentFirstSubItem)
+            setFieldValue('Gebied', geoFirstSubItem)
         }
     }
 

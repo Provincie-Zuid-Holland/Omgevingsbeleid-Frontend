@@ -9,6 +9,7 @@ import {
 } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
 import { FormikValues } from '@/pages/protected/VerordeningEdit/verordeningEditContext'
+import { ExtendTypesWithNull } from '@/types/dimensions'
 import {
     VerordeningLineageRead,
     VerordeningStructureChild,
@@ -88,7 +89,7 @@ export const replaceReorderedSections = (
 export const mutateVerordeningenReadToVerordeningenWrite = (
     readObject: VerordeningenRead
 ) => {
-    const writeObject: VerordeningenWrite = {}
+    const writeObject: ExtendTypesWithNull<VerordeningenWrite> = {}
 
     const verordeningenWriteProperties = [
         'Begin_Geldigheid',
@@ -115,14 +116,15 @@ export const mutateVerordeningenReadToVerordeningenWrite = (
     })
 
     inlinedProperties.forEach(property => {
-        writeObject[property] = readObject[property]?.UUID
+        writeObject[property] =
+            readObject[property] === null ? null : readObject[property]?.UUID
     })
 
     return writeObject
 }
 
 export const patchVerordeningSection = (
-    values: VerordeningenWrite,
+    values: ExtendTypesWithNull<VerordeningenWrite>,
     lineageID: number
 ) =>
     axios

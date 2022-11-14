@@ -1,5 +1,6 @@
 import { Breadcrumbs, Heading, Text, useDnaBarWidth } from '@pzh-ui/components'
 import { useRef } from 'react'
+import { Helmet } from 'react-helmet'
 
 import { Container } from '@/components/Container'
 import imgDigiToegankelijkheid from '@/images/digi-toegankelijkheid.png'
@@ -14,6 +15,9 @@ function Accessibility() {
 
     return (
         <div>
+            <Helmet>
+                <title>Omgevingsbeleid - Digitale toegankelijkheid</title>
+            </Helmet>
             <div
                 className="hidden w-full bg-center bg-no-repeat bg-cover bg-pzh-blue md:block"
                 style={{
@@ -78,7 +82,7 @@ function Accessibility() {
                         rel="noopener noreferrer">
                         <img
                             src="https://www.toegankelijkheidsverklaring.nl/files/verklaring/label/af8d16e4762bcdbe16d268c44056bcfe.6339.svg"
-                            alt="Status Toegankelijkheid"
+                            alt="Een afbeelding van de huidige status van de Digi Toegankelijkheid."
                         />
                     </a>
                 </div>

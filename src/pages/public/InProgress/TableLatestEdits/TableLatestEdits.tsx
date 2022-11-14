@@ -1,6 +1,6 @@
 import { ArrowDownWideShort, ArrowUpWideShort, CircleInfo } from '@pzh-ui/icons'
 import Tippy from '@tippyjs/react'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css'
 
@@ -82,15 +82,25 @@ function TableLatestEdits({ edits = [], isLoading }: TableLatestEditsProps) {
                                             }>
                                             Laatst bewerkt{' '}
                                             {ascending ? (
-                                                <ArrowDownWideShort
-                                                    size={16}
-                                                    className="ml-2 -mt-0.5 inline-block"
-                                                />
+                                                <Fragment>
+                                                    <span className="sr-only">
+                                                        (oplopend)
+                                                    </span>
+                                                    <ArrowDownWideShort
+                                                        size={16}
+                                                        className="ml-2 -mt-0.5 inline-block"
+                                                    />
+                                                </Fragment>
                                             ) : (
-                                                <ArrowUpWideShort
-                                                    size={16}
-                                                    className="ml-2 -mt-0.5 inline-block"
-                                                />
+                                                <Fragment>
+                                                    <span className="sr-only">
+                                                        (aflopend)
+                                                    </span>
+                                                    <ArrowUpWideShort
+                                                        size={16}
+                                                        className="ml-2 -mt-0.5 inline-block"
+                                                    />
+                                                </Fragment>
                                             )}
                                         </button>
                                     </th>
@@ -167,7 +177,7 @@ const StatusComponent = ({
                 </a>
             }>
             <div className="inline-block ml-1 transition-colors duration-500 ease-in cursor-pointer text-pzh-dark-blue opacity-40 hover:opacity-80">
-                <CircleInfo />
+                <CircleInfo aria-hidden="true" />
             </div>
         </Tippy>
     </span>

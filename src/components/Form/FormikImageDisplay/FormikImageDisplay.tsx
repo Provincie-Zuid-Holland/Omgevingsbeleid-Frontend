@@ -6,12 +6,14 @@ export interface FormikImageDisplayProps {
     name: string
     label?: string
     description?: string
+    required?: boolean
 }
 
 function FormikImageDisplay({
     name,
     label,
     description,
+    required,
 }: FormikImageDisplayProps) {
     const { values, setFieldValue } = useFormikContext<any>()
 
@@ -22,6 +24,7 @@ function FormikImageDisplay({
                     name={name}
                     label={label || ''}
                     description={description || ''}
+                    required={required}
                 />
             )}
             <div className="flex items-center justify-center overflow-hidden rounded-md shadow">
