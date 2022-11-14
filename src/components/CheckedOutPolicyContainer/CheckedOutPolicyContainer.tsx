@@ -49,7 +49,8 @@ const CheckedOutPolicyContainer: FC<CheckedOutPolicyContainerProps> = ({
             // remove every policy in filteredLineageAfterNextValidPolicy that has a value on Aanpassing_Op
             const filteredLineageAfterNextValidPolicyWithoutAanpassing_Op =
                 filteredLineageAfterNextValidPolicy.filter(
-                    policy => policy.Aanpassing_Op === null
+                    policy =>
+                        policy.Aanpassing_Op === null || !policy.Aanpassing_Op
                 )
 
             const statusses =
