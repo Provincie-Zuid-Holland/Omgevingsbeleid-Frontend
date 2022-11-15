@@ -19,6 +19,7 @@ const UserMenu = () => {
                 className="flex items-center text-pzh-white ml-2"
                 onClick={() => setIsOpen(!isOpen)}
                 data-testid="user-menu">
+                <span className="sr-only">Gebruikersmenu</span>
                 <User size={20} />
                 <AngleDown
                     className={classNames(

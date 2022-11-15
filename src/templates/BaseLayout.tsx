@@ -10,12 +10,12 @@ interface BaseLayoutProps {
 
 export function BaseLayout({ hideFooter, children }: BaseLayoutProps) {
     return (
-        <div className="min-h-screen flex flex-col">
+        <>
             <Navigation />
 
             <main>{children}</main>
 
             {!hideFooter && <Footer />}
-        </div>
+        </>
     )
 }

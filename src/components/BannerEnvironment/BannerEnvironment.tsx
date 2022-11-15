@@ -1,3 +1,4 @@
+import { Xmark } from '@pzh-ui/icons'
 import { useCallback, useEffect } from 'react'
 
 import { environment, Environment } from '@/api/instance'
@@ -43,14 +44,10 @@ const BannerEnvironment = ({
     setShowBanner,
 }: BannerEnvironmentProps) => {
     const removeBanner = useCallback(() => {
-        const mainContainer = document.getElementById('main-container')
-        if (!mainContainer) return
-        mainContainer.style.removeProperty('margin-top')
         setShowBanner(false)
     }, [setShowBanner])
 
     const addBanner = useCallback(() => {
-        addMarginAndPaddingTop()
         setShowBanner(true)
     }, [setShowBanner])
 
@@ -71,12 +68,6 @@ const BannerEnvironment = ({
         localStorage.setItem('__OB_hide_banner__', new Date().toString())
     }
 
-    const addMarginAndPaddingTop = () => {
-        const mainContainer = document.getElementById('main-container')
-        if (!mainContainer) return
-        mainContainer.style.marginTop = '148px'
-    }
-
     const getEnvironmentCSSClass = () => {
         switch (environment) {
             case 'dev':
@@ -95,37 +86,26 @@ const BannerEnvironment = ({
     if (!showBanner) return null
 
     return (
-        <div className={`z-10 relative ${getEnvironmentCSSClass()}`}>
-            <div className="max-w-screen-xl px-3 py-2 mx-auto sm:px-6 lg:px-8">
-                <div className="pr-16 sm:text-center sm:px-16">
-                    <p className="font-medium">
-                        <span className="text-sm font-bold leading-4 tracking-wider uppercase rounded hide-banner">
-                            {getEnvironmentText(environment)}
-                        </span>
-                    </p>
+        <div
+            className={`z-10 fixed bottom-0 left-0 rounded-tr ${getEnvironmentCSSClass()}`}>
+            <div className="flex px-4 pt-3 pb-2">
+                <div>
+                    <span className="text-xs block">Huidige omgeving:</span>
+                    <span className="text-sm block font-bold">
+                        {getEnvironmentText(environment)}
+                    </span>
                 </div>
-                <div className="absolute inset-y-0 right-0 flex items-start pt-1 pr-1 sm:pt-1 sm:pr-2 sm:items-start">
+                <div className="ml-2">
                     <button
                         type="button"
-                        className="flex p-1 transition duration-150 ease-in-out rounded-lg focus:outline-none hide-banner"
+                        className="flex p-1 -mt-1 -mr-2 transition duration-150 ease-in-out rounded-lg focus:outline-none hide-banner"
                         onClick={() => {
                             setShowBanner(!showBanner)
                             removeBanner()
                             setHideBannerLocalStorage()
                         }}
                         aria-label="sluiten">
-                        <svg
-                            className="w-6 h-6"
-                            stroke="currentColor"
-                            fill="none"
-                            viewBox="0 0 24 24">
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M6 18L18 6M6 6l12 12"
-                            />
-                        </svg>
+                        <Xmark />
                     </button>
                 </div>
             </div>

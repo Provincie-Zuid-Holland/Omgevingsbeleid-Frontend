@@ -64,7 +64,7 @@ const App = () => {
             <AuthProvider>
                 <div
                     className={classNames(
-                        'min-h-screen text-pzh-blue-dark relative',
+                        'min-h-screen text-pzh-blue-dark relative flex flex-col',
                         {
                             'advanced-search-page': isAdvancedSearchPage,
                         }

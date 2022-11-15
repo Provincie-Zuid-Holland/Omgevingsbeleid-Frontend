@@ -4,11 +4,21 @@ import {
     Tabs,
     TabItem,
     getHeadingStyles,
+    Hyperlink,
 } from '@pzh-ui/components'
+import { AngleDown } from '@pzh-ui/icons'
+import {
+    Accordion,
+    AccordionItem,
+    AccordionItemHeading,
+    AccordionItemButton,
+    AccordionItemPanel,
+} from 'react-accessible-accordion'
 import { Helmet } from 'react-helmet'
 import { useMedia } from 'react-use'
 
 import { Container } from '@/components/Container'
+import ModuleCard from '@/components/ModuleCard'
 import useAuth from '@/hooks/useAuth'
 
 /**
@@ -47,16 +57,122 @@ const Dashboard = () => {
 
                         <Tabs>
                             <TabItem title="Mijn actieve modules">
-                                <div className="py-4">Mijn modules</div>
+                                <ul className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
+                                    <ModuleCard
+                                        title="Koers 2022"
+                                        link="/"
+                                        description="Vivamus aliquam ligula rhoncus venenatis scelerisque. Etiam et ultricies nisl. Integer imperdiet quis ligula sed porttitor."
+                                        status="Inactief"
+                                    />
+                                    <ModuleCard
+                                        title="GP MOB"
+                                        link="/"
+                                        description="Vivamus aliquam ligula rhoncus venenatis scelerisque. Etiam et ultricies nisl. Integer imperdiet quis ligula sed porttitor."
+                                        status="Inspraak"
+                                    />
+                                </ul>
+
+                                <div className="grid grid-cols-6 mt-8">
+                                    <div className="col-span-3 mb-6">
+                                        <Heading level="3" className="mb-4">
+                                            Mijn beleid
+                                        </Heading>
+                                        <Text type="body">
+                                            Binnen het digitaal omgevingsbeleid
+                                            ben jij eigenaar van een aantal
+                                            beleidskeuzes en maatregelen,
+                                            hieronder vind je een overzicht van
+                                            deze onderdelen.
+                                        </Text>
+                                    </div>
+
+                                    <div className="col-span-6">
+                                        <Accordion allowZeroExpanded>
+                                            <AccordionItem>
+                                                <AccordionItemHeading className="py-2 px-4 bg-pzh-gray-100 border-b border-pzh-gray-300">
+                                                    <AccordionItemButton className="group flex items-center justify-between font-bold">
+                                                        <span>
+                                                            Beleidskeuzes (2)
+                                                        </span>
+                                                        <AngleDown className="transform duration-150 group-aria-expanded:rotate-180" />
+                                                    </AccordionItemButton>
+                                                </AccordionItemHeading>
+                                                <AccordionItemPanel>
+                                                    <div className="py-2 px-4 flex items-center justify-between border-b border-pzh-gray-300">
+                                                        <span>
+                                                            Het stimuleren van
+                                                            de transitie naar
+                                                            een Circulair
+                                                            Zuid-Holland
+                                                        </span>
+                                                        <Hyperlink
+                                                            to="/"
+                                                            text="Bekijk"
+                                                        />
+                                                    </div>
+                                                    <div className="py-2 px-4 flex items-center justify-between border-b border-pzh-gray-300">
+                                                        <span>
+                                                            Stimuleren
+                                                            groenparticipatie
+                                                        </span>
+                                                        <Hyperlink
+                                                            to="/"
+                                                            text="Bekijk"
+                                                        />
+                                                    </div>
+                                                </AccordionItemPanel>
+                                            </AccordionItem>
+                                            <AccordionItem>
+                                                <AccordionItemHeading className="py-2 px-4 bg-pzh-gray-100 border-b border-pzh-gray-300">
+                                                    <AccordionItemButton className="group flex items-center justify-between font-bold">
+                                                        <span>
+                                                            Beleidsregels (1)
+                                                        </span>
+                                                        <AngleDown className="transform duration-150 group-aria-expanded:rotate-180" />
+                                                    </AccordionItemButton>
+                                                </AccordionItemHeading>
+                                                <AccordionItemPanel>
+                                                    <div className="py-2 px-4 flex items-center justify-between border-b border-pzh-gray-300">
+                                                        <span>
+                                                            Het stimuleren van
+                                                            de transitie naar
+                                                            een Circulair
+                                                            Zuid-Holland
+                                                        </span>
+                                                        <Hyperlink
+                                                            to="/"
+                                                            text="Bekijk"
+                                                        />
+                                                    </div>
+                                                </AccordionItemPanel>
+                                            </AccordionItem>
+                                        </Accordion>
+                                    </div>
+                                </div>
                             </TabItem>
                             <TabItem title="Alle actieve modules">
-                                <div className="py-4">Alle modules</div>
+                                <ul className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
+                                    <ModuleCard
+                                        title="Koers 2022"
+                                        link="/"
+                                        description="Vivamus aliquam ligula rhoncus venenatis scelerisque. Etiam et ultricies nisl. Integer imperdiet quis ligula sed porttitor."
+                                        status="Inactief"
+                                    />
+                                    <ModuleCard
+                                        title="GP MOB"
+                                        link="/"
+                                        description="Vivamus aliquam ligula rhoncus venenatis scelerisque. Etiam et ultricies nisl. Integer imperdiet quis ligula sed porttitor."
+                                        status="Inspraak"
+                                    />
+                                    <ModuleCard
+                                        title="Energietransitie"
+                                        link="/"
+                                        description="Vivamus aliquam ligula rhoncus venenatis scelerisque. Etiam et ultricies nisl. Integer imperdiet quis ligula sed porttitor."
+                                        status="Concept Ontwerp GS"
+                                    />
+                                </ul>
                             </TabItem>
                         </Tabs>
-                    </div>
-
-                    <div className="mt-8">
-                        <Heading level="3">Mijn beleid</Heading>
                     </div>
                 </div>
             </Container>
