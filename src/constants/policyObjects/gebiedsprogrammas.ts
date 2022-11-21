@@ -34,7 +34,7 @@ const ambitiesTitles = generateSchemaTitles({
 const gebiedsprogrammasMeta: SchemaMeta<typeof queryGebiedsprogrammas> = {
     title: ambitiesTitles,
     slug: {
-        overview: 'gebiedsprogrammas',
+        overview: 'omgevingsprogramma/gebiedsprogrammas',
     },
     query: queryGebiedsprogrammas,
 }
