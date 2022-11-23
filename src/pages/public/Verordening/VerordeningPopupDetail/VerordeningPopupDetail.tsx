@@ -74,6 +74,7 @@ const VerordeningPopupDetail = ({
         <Modal
             open={open}
             onClose={close}
+            closeButton
             ariaLabel={`Artikel ${activeArticle.Volgnummer}`}>
             <Heading
                 level="2"

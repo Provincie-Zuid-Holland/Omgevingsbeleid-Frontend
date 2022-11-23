@@ -90,14 +90,30 @@ function Verordening() {
 interface VerordeningsSectionProps {
     section: any
     setActiveArticle: (section: any) => void
+    chapterUUID?: string
 }
 
 const VerordeningsSection = ({
     section,
     setActiveArticle,
+    chapterUUID,
 }: VerordeningsSectionProps) => {
     const navigate = useNavigate()
     const location = useLocation()
+
+    const handleKeyLeft = () => {
+        const element = document.getElementById(
+            `verordening-sidebar-item-${section.UUID}`
+        )
+        const chapterSidebarItem = document.getElementById(
+            `verordening-sidebar-item-${chapterUUID}`
+        )
+        if (element) {
+            element.focus()
+        } else if (chapterSidebarItem) {
+            chapterSidebarItem.focus()
+        }
+    }
 
     if (section.Type === 'Hoofdstuk') {
         return (
@@ -105,7 +121,13 @@ const VerordeningsSection = ({
                 <div
                     className="relative px-2 pt-2 pb-1 bg-pzh-green-light bg-opacity-10"
                     style={{ width: 'calc(100% + 1rem', left: '-0.5rem' }}
-                    id={section.UUID}>
+                    id={section.UUID}
+                    tabIndex={0}
+                    onKeyDown={e => {
+                        if (e.key === 'ArrowLeft') {
+                            handleKeyLeft()
+                        }
+                    }}>
                     <Heading
                         customStyles={{
                             fontSize: '1rem',
@@ -123,6 +145,7 @@ const VerordeningsSection = ({
                               setActiveArticle={setActiveArticle}
                               key={child.UUID}
                               section={child}
+                              chapterUUID={section.UUID}
                           />
                       ))
                     : null}
@@ -134,7 +157,13 @@ const VerordeningsSection = ({
                 <div
                     className="relative px-2 pt-2 pb-1 bg-pzh-cool-gray bg-opacity-10"
                     style={{ width: 'calc(100% + 1rem', left: '-0.5rem' }}
-                    id={section.UUID}>
+                    id={section.UUID}
+                    tabIndex={0}
+                    onKeyDown={e => {
+                        if (e.key === 'ArrowLeft') {
+                            handleKeyLeft()
+                        }
+                    }}>
                     <Heading
                         customStyles={{
                             fontSize: '1rem',
@@ -154,6 +183,7 @@ const VerordeningsSection = ({
                               setActiveArticle={setActiveArticle}
                               key={child.UUID}
                               section={child}
+                              chapterUUID={chapterUUID}
                           />
                       ))
                     : null}
@@ -168,12 +198,16 @@ const VerordeningsSection = ({
         }
 
         return (
-            <div className="mt-6 mb-4" id={section.UUID}>
+            <div className="mt-6 mb-4">
                 <div
+                    id={section.UUID}
                     tabIndex={0}
                     onClick={setActive}
                     onKeyDown={e => {
                         if (e.key === 'Enter') setActive()
+                        if (e.key === 'ArrowLeft') {
+                            handleKeyLeft()
+                        }
                     }}
                     style={{ width: 'calc(100% + 1rem)' }}
                     className="p-2 -mt-2 -ml-2 transition-colors duration-150 ease-in rounded-md cursor-pointer hover:bg-gray-200 hover:bg-opacity-70">
@@ -194,6 +228,7 @@ const VerordeningsSection = ({
                                     setActiveArticle={setActiveArticle}
                                     key={child.UUID}
                                     section={child}
+                                    chapterUUID={chapterUUID}
                                 />
                             ))
                         ) : (

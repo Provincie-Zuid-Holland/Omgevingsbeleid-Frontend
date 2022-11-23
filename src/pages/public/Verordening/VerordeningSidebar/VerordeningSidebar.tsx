@@ -93,6 +93,7 @@ function VerordeningSidebar({ verordening }: VerordeningSidebarProps) {
                         {verordening?.Structuur?.Children.map(
                             (chapter: any) => (
                                 <VerordeningSidebarItem
+                                    parentIsOpen={true}
                                     setNavMenuOpen={setIsOpen}
                                     key={chapter.UUID}
                                     item={chapter}
@@ -115,16 +116,32 @@ function VerordeningSidebar({ verordening }: VerordeningSidebarProps) {
 interface VerordeningSidebarItemProps {
     item: any
     setNavMenuOpen: (state: boolean) => void
+    parentIsOpen: boolean
 }
 
 const VerordeningSidebarItem = ({
     item,
     setNavMenuOpen,
+    parentIsOpen,
 }: VerordeningSidebarItemProps) => {
     const [isOpen, setIsOpen] = useState(false)
     const navigate = useNavigate()
     const location = useLocation()
     const windowSize = useWindowSize()
+
+    const focusElement = (UUID: string) => {
+        const element = document.getElementById(UUID)
+        if (element) {
+            element.focus()
+        }
+    }
+
+    const setActive = () => {
+        navigate(`${location.pathname}?actief=${item.UUID}`, { replace: true })
+        if (windowSize.width < 1028) {
+            setNavMenuOpen(false)
+        }
+    }
 
     if (
         item.Type === 'Hoofdstuk' ||
@@ -135,10 +152,15 @@ const VerordeningSidebarItem = ({
 
         return (
             <li className="my-2">
-                <div className="">
+                <div>
                     <button
                         onClick={() => hasChildren && setIsOpen(!isOpen)}
-                        className="cursor-pointer">
+                        id={
+                            parentIsOpen || item.Type === 'Hoofdstuk'
+                                ? `verordening-sidebar-item-${item.UUID}`
+                                : undefined
+                        }
+                        className="text-left cursor-pointer">
                         <div
                             className={`mr-2 inline-flex bg-pzh-blue-dark text-white${
                                 hasChildren
@@ -148,24 +170,25 @@ const VerordeningSidebarItem = ({
                             style={{ width: 13, height: 13, borderRadius: 2 }}>
                             {isOpen ? <Minus size={11} /> : <Plus size={11} />}
                         </div>
-
+                        {hasChildren && (
+                            <span className="sr-only">Open menu inhoud </span>
+                        )}
                         <span className="font-bold">
                             {item.Type} {item.Volgnummer}
                         </span>
                     </button>
-                    <span
-                        onClick={() => {
-                            navigate(
-                                `${location.pathname}?actief=${item.UUID}`,
-                                { replace: true }
-                            )
-                            if (windowSize.width < 1028) {
-                                setNavMenuOpen(false)
+                    <button
+                        onClick={setActive}
+                        onKeyPress={e => {
+                            if (e.key === 'Enter') {
+                                setActive()
+                                focusElement(item.UUID)
                             }
                         }}
-                        className="block pl-5 cursor-pointer">
-                        {item.Titel}
-                    </span>
+                        className="block pl-5 text-left cursor-pointer">
+                        <span className="sr-only">Navigeer naar</span>
+                        <span>{item.Titel}</span>
+                    </button>
                 </div>
                 {hasChildren ? (
                     <ul className={`pl-4 my-1 ${isOpen ? 'block' : 'hidden'}`}>
@@ -174,6 +197,7 @@ const VerordeningSidebarItem = ({
                                 setNavMenuOpen={setNavMenuOpen}
                                 key={child.UUID}
                                 item={child}
+                                parentIsOpen={isOpen}
                             />
                         ))}
                     </ul>
@@ -184,13 +208,20 @@ const VerordeningSidebarItem = ({
         return (
             <li>
                 <button
+                    id={
+                        parentIsOpen
+                            ? `verordening-sidebar-item-${item.UUID}`
+                            : undefined
+                    }
                     className="pl-5 my-1 text-left cursor-pointer"
-                    onClick={() => {
-                        navigate(`${location.pathname}?actief=${item.UUID}`, {
-                            replace: true,
-                        })
-                        if (windowSize.width < 1028) {
-                            setNavMenuOpen(false)
+                    onClick={setActive}
+                    onKeyDown={e => {
+                        if (e.key === 'Enter') {
+                            setActive()
+                            focusElement(item.UUID)
+                        } else if (e.key === 'ArrowRight') {
+                            setActive()
+                            focusElement(item.UUID)
                         }
                     }}>
                     <span className="font-bold">
