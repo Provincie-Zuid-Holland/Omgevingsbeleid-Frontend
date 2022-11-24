@@ -10,7 +10,7 @@ export const TITLE_SINGULAR_PREFIX = 'het'
 export const TITLE_PLURAL = "Gebiedsprogramma's"
 export const API_ENDPOINT = 'gebiedsprogrammas'
 export const API_ENDPOINT_VIGEREND = 'valid/gebiedsprogrammas'
-export const SLUG_OVERVIEW = 'omgevingsprogramma/gebiedsprogrammas'
+export const SLUG_OVERVIEW = 'gebiedsprogrammas'
 export const DESCRIPTION = 'omschrijving'
 
 export const CRUD_PROPERTIES = {

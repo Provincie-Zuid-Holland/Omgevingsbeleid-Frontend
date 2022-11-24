@@ -41,7 +41,10 @@ const PolicyDetailCard = ({
 
     const overviewSlug = dimensieConstants.SLUG_OVERVIEW
     const titleSingular = dimensieConstants.TITLE_SINGULAR
-    const linkToRaadpleegPage = `/${overviewSlug}/${policy.UUID}`
+    const linkToRaadpleegPage =
+        titleSingular === 'Gebiedsprogramma'
+            ? `/omgevingsprogramma/${overviewSlug}/${policy.UUID}`
+            : `/${overviewSlug}/${policy.UUID}`
     const linkToEditWithoutCheckingOutNewVersion = `/muteer/${overviewSlug}/${policy.ID}/bewerk?modus=wijzig_vigerend`
     const policyIsInAModule = policy?.Ref_Beleidsmodules?.length !== 0
 

@@ -196,7 +196,11 @@ const OverviewDropdown = ({
     const isBeleidsmodule = titleSingular === 'Beleidsmodule'
     const isVerordening = titleSingular === 'Verordening'
 
-    const linkToRaadpleegPage = `/${overviewSlug}/${policy.UUID}`
+    const linkToRaadpleegPage =
+        titleSingular === 'Gebiedsprogramma'
+            ? `/omgevingsprogramma/${overviewSlug}/${policy.UUID}`
+            : `/${overviewSlug}/${policy.UUID}`
+
     const linkToEditPage = isVerordening
         ? `/muteer/${overviewSlug}/${policy.ID}`
         : `/muteer/${overviewSlug}/${policy.ID}/bewerk`
