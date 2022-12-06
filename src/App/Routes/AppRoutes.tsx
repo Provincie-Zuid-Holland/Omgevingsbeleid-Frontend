@@ -5,6 +5,7 @@ import { NetworkGraph } from '@/components/Network'
 import policyObjects from '@/constants/policyObjects'
 import useAuth from '@/hooks/useAuth'
 import { Dashboard, MijnBeleid } from '@/pages/protected'
+import ModuleDetail from '@/pages/protected/Modules/ModuleDetail'
 import MutatePolicy from '@/pages/protected/MutatePolicy'
 import VerordeningEdit from '@/pages/protected/VerordeningEdit'
 import {
@@ -161,6 +162,20 @@ const AppRoutes = () => {
                 {
                     path: 'dashboard',
                     element: <Dashboard />,
+                },
+                {
+                    path: 'modules',
+                    children: [
+                        {
+                            path: ':single',
+                            children: [
+                                {
+                                    index: true,
+                                    element: <ModuleDetail />,
+                                },
+                            ],
+                        },
+                    ],
                 },
                 {
                     path: 'mijn-beleid',

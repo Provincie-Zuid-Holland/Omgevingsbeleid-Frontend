@@ -60,13 +60,13 @@ const Dashboard = () => {
                                 <ul className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
                                     <ModuleCard
                                         title="Koers 2022"
-                                        link="/"
+                                        link="/muteer/modules/1"
                                         description="Vivamus aliquam ligula rhoncus venenatis scelerisque. Etiam et ultricies nisl. Integer imperdiet quis ligula sed porttitor."
                                         status="Inactief"
                                     />
                                     <ModuleCard
                                         title="GP MOB"
-                                        link="/"
+                                        link="/muteer/modules/2"
                                         description="Vivamus aliquam ligula rhoncus venenatis scelerisque. Etiam et ultricies nisl. Integer imperdiet quis ligula sed porttitor."
                                         status="Inspraak"
                                     />
@@ -154,19 +154,19 @@ const Dashboard = () => {
                                 <ul className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
                                     <ModuleCard
                                         title="Koers 2022"
-                                        link="/"
+                                        link="/muteer/modules/1"
                                         description="Vivamus aliquam ligula rhoncus venenatis scelerisque. Etiam et ultricies nisl. Integer imperdiet quis ligula sed porttitor."
                                         status="Inactief"
                                     />
                                     <ModuleCard
                                         title="GP MOB"
-                                        link="/"
+                                        link="/muteer/modules/2"
                                         description="Vivamus aliquam ligula rhoncus venenatis scelerisque. Etiam et ultricies nisl. Integer imperdiet quis ligula sed porttitor."
                                         status="Inspraak"
                                     />
                                     <ModuleCard
                                         title="Energietransitie"
-                                        link="/"
+                                        link="/muteer/modules/3"
                                         description="Vivamus aliquam ligula rhoncus venenatis scelerisque. Etiam et ultricies nisl. Integer imperdiet quis ligula sed porttitor."
                                         status="Concept Ontwerp GS"
                                     />
