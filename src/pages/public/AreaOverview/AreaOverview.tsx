@@ -37,16 +37,28 @@ function AreaOverview() {
 
                 <div className="col-span-6 mt-8">
                     {data ? (
-                        <ul className="grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
-                            {data.map(item => (
-                                <li key={item.UUID}>
-                                    <AreaCard
-                                        image={item?.Afbeelding}
-                                        title={item?.Titel || ''}
-                                        link={`/omgevingsprogramma/gebiedsprogrammas/${item.UUID}`}
-                                    />
-                                </li>
-                            ))}
+                        <ul className="grid grid-cols-1 gap-9 lg:grid-cols-3 md:grid-cols-2">
+                            {data
+                                .sort((a, b) => {
+                                    if (!a.Titel || !b.Titel) {
+                                        return 0
+                                    } else if (a.Titel < b.Titel) {
+                                        return -1
+                                    } else if (a.Titel > b.Titel) {
+                                        return 1
+                                    } else {
+                                        return 0
+                                    }
+                                })
+                                .map(item => (
+                                    <li key={item.UUID}>
+                                        <AreaCard
+                                            image={item?.Afbeelding}
+                                            title={item?.Titel || ''}
+                                            link={`/omgevingsprogramma/gebiedsprogrammas/${item.UUID}`}
+                                        />
+                                    </li>
+                                ))}
                         </ul>
                     ) : (
                         <div className="flex items-center justify-center w-full">
