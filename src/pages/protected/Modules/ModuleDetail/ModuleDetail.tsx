@@ -1,4 +1,11 @@
-import { Badge, Heading, Hyperlink, Text } from '@pzh-ui/components'
+import {
+    Badge,
+    Button,
+    Divider,
+    Heading,
+    Hyperlink,
+    Text,
+} from '@pzh-ui/components'
 import { Helmet } from 'react-helmet'
 
 import { Container } from '@/components/Container'
@@ -11,7 +18,7 @@ const ModuleDetail = () => {
             </Helmet>
 
             <Container className="pt-10">
-                <div className="col-span-6">
+                <div className="col-span-6 mb-6">
                     <div className="flex items-center justify-between mb-2">
                         <Text type="body">Module</Text>
                         <Hyperlink
@@ -49,6 +56,27 @@ const ModuleDetail = () => {
                                 className="rounded-full border border-pzh-gray-600 -ml-2"
                             />
                         </div>
+                    </div>
+                    <Divider className="mt-3" />
+                </div>
+
+                <div className="col-span-4">
+                    <Text type="body" className="font-bold">
+                        Alle onderdelen in deze module
+                    </Text>
+                </div>
+
+                <div className="col-span-2">
+                    <div className="py-4 px-6 bg-pzh-ui-light-blue">
+                        <Text type="body" className="mb-2 font-bold">
+                            Module inactief
+                        </Text>
+                        <Text type="body" className="mb-3">
+                            Deze module is nog niet actief. Andere gebruikers
+                            kunnen deze module nog niet zien en kunnen nog geen
+                            onderdelen uit deze module bewerken.
+                        </Text>
+                        <Button>Activeer module</Button>
                     </div>
                 </div>
             </Container>

@@ -7,12 +7,13 @@ export default function useAxe() {
 
     React.useEffect(() => {
         const axe = require('@axe-core/react')
-        // axe(React, ReactDOM, 1000) // FIXME https://github.com/dequelabs/react-axe/issues/183
-        const timer = setInterval(() => {
-            axe(React, ReactDOM)
-        }, 1500)
 
-        // clearing interval
-        return () => clearInterval(timer)
+        // Using requestAnimationFrame to ensure that
+        // axe runs after the page has finished rendering
+        const runAxe = () => {
+            axe(React, ReactDOM)
+            requestAnimationFrame(runAxe)
+        }
+        requestAnimationFrame(runAxe)
     })
 }
