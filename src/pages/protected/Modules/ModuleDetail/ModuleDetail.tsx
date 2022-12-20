@@ -9,6 +9,7 @@ import {
 import { Helmet } from 'react-helmet'
 
 import { Container } from '@/components/Container'
+import ModuleItem from '@/components/ModuleItem'
 
 const ModuleDetail = () => {
     return (
@@ -27,7 +28,7 @@ const ModuleDetail = () => {
                         />
                     </div>
                     <div className="flex items-center justify-between">
-                        <div>
+                        <div className="flex-1 w-[85%]">
                             <div className="flex items-center">
                                 <Heading level="1">Koers 2022</Heading>
                                 <Badge
@@ -37,23 +38,25 @@ const ModuleDetail = () => {
                                     variant="gray"
                                 />
                             </div>
-                            <Text type="body">
-                                De module Koers 2022 zorgt voor het aanpassen
-                                van de leefomgeving rondom de havens in
-                                Rotterdam. Als er meer tekst is dan zal deze
-                                worden afgekapt
-                            </Text>
+                            <div>
+                                <Text type="body" className="truncate">
+                                    De module Koers 2022 zorgt voor het
+                                    aanpassen van de leefomgeving rondom de
+                                    havens in Rotterdam. Als er meer tekst is
+                                    dan zal deze worden afgekapt
+                                </Text>
+                            </div>
                         </div>
                         <div className="flex">
                             <img
                                 src="https://via.placeholder.com/46x46"
                                 alt=""
-                                className="rounded-full border border-pzh-gray-600"
+                                className="rounded-full border border-pzh-gray-600 min-w-[46px]"
                             />
                             <img
                                 src="https://via.placeholder.com/46x46"
                                 alt=""
-                                className="rounded-full border border-pzh-gray-600 -ml-2"
+                                className="rounded-full border border-pzh-gray-600 -ml-2 min-w-[46px]"
                             />
                         </div>
                     </div>
@@ -64,6 +67,29 @@ const ModuleDetail = () => {
                     <Text type="body" className="font-bold">
                         Alle onderdelen in deze module
                     </Text>
+                    <div className="mb-4">
+                        <ModuleItem
+                            type="beleidskeuze"
+                            status="Vervallen"
+                            title="De provincie Zuid-Holland draagt bij aan het behoud van de wereldpositie die de Rotterdamse haven bezit"
+                        />
+                        <ModuleItem
+                            type="maatregel"
+                            status="Wijzigen"
+                            title="Faciliteren van gemeenten bij besparen en overschakelen op schone energie"
+                        />
+                        <ModuleItem
+                            type="beleidskeuze"
+                            status="Wijzigen"
+                            title="Gezonde leefomgeving"
+                        />
+                        <ModuleItem
+                            type="gebiedsprogramma"
+                            status="Toevoegen"
+                            title="Zuid-Hollandse Eilanden"
+                        />
+                    </div>
+                    <Hyperlink to="/" text="Onderdeel toevoegen" />
                 </div>
 
                 <div className="col-span-2">

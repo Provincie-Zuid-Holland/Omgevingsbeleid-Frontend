@@ -6,6 +6,7 @@ import policyObjects from '@/constants/policyObjects'
 import useAuth from '@/hooks/useAuth'
 import { Dashboard, MijnBeleid } from '@/pages/protected'
 import ModuleDetail from '@/pages/protected/Modules/ModuleDetail'
+import ModuleEdit from '@/pages/protected/Modules/ModuleEdit'
 import MutatePolicy from '@/pages/protected/MutatePolicy'
 import VerordeningEdit from '@/pages/protected/VerordeningEdit'
 import {
@@ -172,6 +173,10 @@ const AppRoutes = () => {
                                 {
                                     index: true,
                                     element: <ModuleDetail />,
+                                },
+                                {
+                                    path: 'bewerk',
+                                    element: <ModuleEdit />,
                                 },
                             ],
                         },
