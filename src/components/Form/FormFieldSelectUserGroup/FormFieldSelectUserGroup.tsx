@@ -1,8 +1,8 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
-import { getGebruikers } from '@/api/fetchers'
-import { GebruikersRead } from '@/api/fetchers.schemas'
+import { gebruikersV01GebruikersGet } from '@/api/fetchers'
+import { Gebruiker } from '@/api/fetchers.schemas'
 import { LoaderSelect } from '@/components/Loader'
 
 import FormFieldSelectUser from '../FormFieldSelectUser'
@@ -41,12 +41,12 @@ const FormFieldSelectUserGroup = ({
     disabled,
     className = '',
 }: FormFieldSelectUserGroupProps) => {
-    const [gebruikersLijst, setGebruikersLijst] = useState<GebruikersRead[]>([])
+    const [gebruikersLijst, setGebruikersLijst] = useState<Gebruiker[]>([])
     const [dataLoaded, setDataLoaded] = useState(false)
     const [error, setError] = useState(false)
 
     useEffect(() => {
-        getGebruikers()
+        gebruikersV01GebruikersGet()
             .then(data => {
                 setGebruikersLijst(data)
                 setDataLoaded(true)
