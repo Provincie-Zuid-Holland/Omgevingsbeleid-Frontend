@@ -2,7 +2,6 @@ import './appConfig'
 
 import { DNABar, Feedback } from '@pzh-ui/components'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import classNames from 'classnames'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet'
@@ -63,12 +62,7 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
             <AuthProvider>
                 <div
-                    className={classNames(
-                        'min-h-screen text-pzh-blue-dark relative flex flex-col',
-                        {
-                            'advanced-search-page': isAdvancedSearchPage,
-                        }
-                    )}
+                    className="text-pzh-blue-dark relative flex flex-col"
                     id="main-container">
                     <Helmet>
                         <meta charSet="utf-8" />

@@ -37,7 +37,7 @@ const Navigation = () => {
             className={classNames(
                 'top-0 z-20 w-full border-b border-b-pzh-cool-gray-light/30',
                 {
-                    fixed: !isAdvancedSearchPage,
+                    sticky: !isAdvancedSearchPage,
                     relative: isAdvancedSearchPage,
                     'bg-pzh-blue': isOpen || userIsInMuteerEnvironment,
                     'bg-white': !isOpen || !userIsInMuteerEnvironment,

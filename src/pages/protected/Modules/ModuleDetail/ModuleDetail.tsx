@@ -6,19 +6,23 @@ import {
     Hyperlink,
     Text,
 } from '@pzh-ui/components'
+import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 
 import { Container } from '@/components/Container'
-import ModuleItem from '@/components/ModuleItem'
+import ModuleContentsModal from '@/components/Modules/ModuleContentsModal'
+import ModuleItem from '@/components/Modules/ModuleItem'
 
 const ModuleDetail = () => {
+    const [openModal, setOpenModal] = useState(false)
+
     return (
         <>
             <Helmet>
                 <title>Omgevingsbeleid - Module</title>
             </Helmet>
 
-            <Container className="pt-10">
+            <Container className="pt-10 pb-20">
                 <div className="col-span-6 mb-6">
                     <div className="flex items-center justify-between mb-2">
                         <Text type="body">Module</Text>
@@ -89,7 +93,11 @@ const ModuleDetail = () => {
                             title="Zuid-Hollandse Eilanden"
                         />
                     </div>
-                    <Hyperlink to="/" text="Onderdeel toevoegen" />
+                    <button
+                        onClick={() => setOpenModal(true)}
+                        className="underline text-pzh-green hover:text-pzh-green-dark">
+                        Onderdeel toevoegen
+                    </button>
                 </div>
 
                 <div className="col-span-2">
@@ -106,6 +114,13 @@ const ModuleDetail = () => {
                     </div>
                 </div>
             </Container>
+
+            <ModuleContentsModal
+                isOpen={openModal}
+                setIsOpen={setOpenModal}
+                initialStep={1}
+                initialValues={{ state: '', type: '' }}
+            />
         </>
     )
 }

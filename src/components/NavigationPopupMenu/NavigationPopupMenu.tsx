@@ -2,7 +2,7 @@ import { Heading, Text } from '@pzh-ui/components'
 import { AngleRight, Bars, Xmark } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useLockBodyScroll, useWindowSize } from 'react-use'
+import { useWindowSize } from 'react-use'
 
 import { Container } from '../Container'
 import SearchBar from '../SearchBar'
@@ -28,7 +28,7 @@ const NavigationPopupMenu = ({
 }: NavigationPopupMenuProps) => {
     const location = useLocation()
     const windowSize = useWindowSize()
-    useLockBodyScroll(isOpen)
+
     const [bannerAdjustedOffsetTop, setBannerAdjustedOffsetTop] = useState({})
     const [isMobile, setIsMobile] = useState(false)
     const [containerHeightStyle, setContainerHeightStyle] = useState<
