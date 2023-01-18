@@ -184,7 +184,7 @@ const Dashboard = () => {
                                     </div>
                                 )}
                             </TabItem>
-                            <TabItem title="Alle modules">
+                            <TabItem title="Alle actieve modules">
                                 <ul className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
                                     <ModuleCard
                                         title="Koers 2022"
