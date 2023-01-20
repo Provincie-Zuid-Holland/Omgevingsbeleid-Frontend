@@ -544,3 +544,7 @@ ol li .revision-removal {
 #revisie-to input {
     box-shadow: none;
 }
+
+#active-circle-node {
+    filter: drop-shadow(rgba(149, 157, 165, 0.5) 0px 1px 4px);
+}

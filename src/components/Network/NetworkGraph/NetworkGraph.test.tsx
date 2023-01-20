@@ -29,7 +29,7 @@ describe('NetworkGraph', () => {
     it('should render', async () => {
         await initialize()
 
-        const title = screen.getByText('Netwerkvisualisatie')
+        const title = screen.getByText('Beleidsnetwerk')
         expect(title).toBeInTheDocument()
     })
 

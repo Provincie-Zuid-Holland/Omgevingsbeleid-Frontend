@@ -177,7 +177,7 @@ const RaadpleegVerordeningPopupDetail = ({
                                     Koppelingen
                                 </Heading>
                                 <Link
-                                    to="/netwerkvisualisatie"
+                                    to="/beleidsnetwerk"
                                     state={{
                                         from:
                                             location.pathname + location.search,

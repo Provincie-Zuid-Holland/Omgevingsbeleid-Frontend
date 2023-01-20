@@ -1,24 +1,36 @@
+import { Heading, TabItem, Tabs, Text } from '@pzh-ui/components'
 import * as d3 from 'd3'
 import cloneDeep from 'lodash.clonedeep'
-import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
-import { matchPath, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 import { getGraph } from '@/api/fetchers'
 import { GetGraph200, GetGraph200NodesItem } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
+import BackButton from '@/components/BackButton'
+import Footer from '@/components/Footer'
+import { LoaderSpinner } from '@/components/Loader'
 import networkGraphConnectionProperties from '@/constants/networkGraphConnectionProperties'
-import networkGraphFilterMenu from '@/constants/networkGraphFilterMenu'
-import usePage from '@/hooks/usePage'
-import hideBannerLocalStorage from '@/utils/hideBannerLocalStorage'
-import { getFilteredData } from '@/utils/networkGraph'
+import useNetworkGraphFilters from '@/hooks/useNetworkGraphFilters'
+import {
+    addClickedNodeCircle,
+    generateNodes,
+    getFilteredData,
+    getUUIDFromPreviousUrl,
+    removeCircleActiveNode,
+    updateGraphSearch,
+} from '@/utils/networkGraph'
 import networkGraphGenerateHref from '@/utils/networkGraphGenerateHref'
 
 import NetworkGraphClickedElementPopup from '../NetworkGraphClickedElementPopup'
 import NetworkGraphResetClickedElement from '../NetworkGraphResetClickedElement'
 import NetworkGraphSearchBar from '../NetworkGraphSearchBar'
-import NetworkGraphSidebar from '../NetworkGraphSidebar'
+import NetworkGraphSelectFilters from '../NetworkGraphSelectFilters'
 import NetworkGraphTooltip from '../NetworkGraphTooltip'
+import NetworkGraphZoomButtons from '../NetworkGraphZoomButtons'
+import NetworkLegend from '../NetworkLegend'
+import NetworkTextual from '../NetworkTextual'
 
 const NetworkGraph = () => {
     /**
@@ -37,14 +49,14 @@ const NetworkGraph = () => {
     const [href, setHref] = useState<string | null>('#')
 
     /**
-     * Contains the href link to go to a detail page of a node
-     */
-    const [graphStyles, setGraphStyles] = useState({})
-
-    /**
      * The last clicked node
      */
     const [clickedNode, setClickedNode] = useState(null)
+
+    /**
+     * The current active tab
+     */
+    const [activeTab, setActiveTab] = useState('visual')
 
     /**
      * Set to true when the first init is done
@@ -62,9 +74,6 @@ const NetworkGraph = () => {
     const { state } = useLocation()
     const lastLocation = (state as any)?.from
 
-    const userIsInMuteerEnvironment = usePage('/muteer/')
-    const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
-
     const { data: verordeningsStructure } = useQuery(
         '/verordeningstructuur',
         () =>
@@ -78,7 +87,7 @@ const NetworkGraph = () => {
         { refetchOnMount: true, staleTime: 0 }
     )
 
-    const { isLoading, data, isFetching } = useQuery(
+    const { isLoading, data } = useQuery(
         '/graph',
         () =>
             getGraph().then(data => {
@@ -96,55 +105,7 @@ const NetworkGraph = () => {
      */
     const d3Container = useRef<SVGElement | null>(null)
 
-    /**
-     * Reducer for the filters
-     * @param {object} state - Contains the current state
-     * @param {object} action - Contains the type of action and the data
-     */
-    const setFiltersReducer = (state: any, action: any) => {
-        /**
-         * @param {array} nodes - Array containing the d3 node objects
-         * @returns An object containing all the type on keys and a boolean as value, indicating if the filter is on or off
-         */
-        const getFiltersFromData = (nodes: { Type: string }[]) => {
-            const filterTypes: string[] = [] // Contains the types that are present in the nodes
-            const filterState: { [key: string]: any } = {} // The state we will return in the format {'Beleidskeuze': true}
-
-            const getInitialFilterState = (type: string) =>
-                networkGraphFilterMenu.Visie.includes(type)
-
-            const addNodeType = (type: string) => {
-                filterTypes.push(type)
-                filterState[type] = getInitialFilterState(type)
-            }
-
-            nodes.forEach(node =>
-                filterTypes.includes(node.Type) ? null : addNodeType(node.Type)
-            )
-
-            if (lastLocation?.includes('verordening')) {
-                filterState.verordeningen = true
-            }
-
-            return filterState
-        }
-
-        switch (action.type) {
-            case 'init':
-                return getFiltersFromData(action.data.nodes)
-
-            case 'toggleFilter':
-                const filterType = action.filterType
-                const newState = action.newState
-                state[filterType] = newState
-                return { ...state }
-
-            default:
-                throw new Error('No type declared')
-        }
-    }
-
-    const [filters, setFilters] = useReducer(setFiltersReducer, [])
+    const [filters, setFilters] = useNetworkGraphFilters()
 
     /**
      * We use a Ref for the last clicked node in order to preserve it
@@ -190,13 +151,36 @@ const NetworkGraph = () => {
      */
     const resetNodes = useCallback(() => {
         const svgElement = d3.select(d3Container.current)
-        svgElement
-            .selectAll('circle')
-            .attr('fill', (d: any) => d.color)
-            .attr('r', 7.5)
 
         svgElement.selectAll('line').attr('stroke-opacity', 0.6)
+        svgElement.selectAll('path').attr('transform', (d: any) => {
+            const domElement = document.getElementById(d.id)
+            if (!domElement) return ''
+            const transformValue = domElement.getAttribute('transform')
+            if (!transformValue) return ''
+            const newTransformValue = transformValue.replace('scale(1.5)', '')
+            return newTransformValue
+        })
+        svgElement.selectAll('path').attr('fill', (d: any) => d.color)
+
+        const clickedNodeUUID = clickedNodeRef.current.UUID
+
         setClickedNode(null)
+
+        if (clickedNodeUUID) {
+            // Remove Scale
+            const domClickedNode = document.getElementById(clickedNodeUUID)
+            if (!domClickedNode) return
+            const transformValue = domClickedNode.getAttribute('transform')
+            if (!transformValue) return
+            domClickedNode.setAttribute(
+                'transform',
+                transformValue.replace('scale(1.5)', '')
+            )
+
+            // Remove Circle
+            removeCircleActiveNode()
+        }
     }, [])
 
     /** Reset nodes when the user presses the escape key */
@@ -215,7 +199,8 @@ const NetworkGraph = () => {
 
     /**
      * Function to handle click on a node
-     * Sets the style (opacity and circle radius) of the clicked node and the linked nodes
+     * Sets the style (opacity and size) of the clicked node and the linked nodes
+     * Also appends a white circle element in the clicked node path
      * @param {object} clickedEl - Contains the node that is clicked
      * @param {object} svgElement - Contains the SVG container in a Selection object
      * @param {array} links - Contains the d3 links
@@ -223,43 +208,42 @@ const NetworkGraph = () => {
      * @returns {void}
      */
     const handleNodeClick = useCallback(
-        (clickedEl, svgElement, links, refresh?: any) => {
-            const uuidSource = clickedEl.UUID
-
-            if (!uuidSource) return
+        (clickedEl: any, svgElement: any, links: any, refresh?: any) => {
+            const uuidClickedNode = clickedEl.UUID
+            if (!uuidClickedNode) return
 
             const connectedLinks = links.filter((link: any) => {
                 if (typeof link.target === 'string') {
                     return (
-                        link.target === uuidSource || link.source === uuidSource
+                        link.target === uuidClickedNode ||
+                        link.source === uuidClickedNode
                     )
                 } else {
                     return (
-                        link.target.UUID === uuidSource ||
-                        link.source.UUID === uuidSource
+                        link.target.UUID === uuidClickedNode ||
+                        link.source.UUID === uuidClickedNode
                     )
                 }
             })
 
-            svgElement.selectAll('circle').attr('fill', (d: any) => d.color)
+            svgElement.selectAll('path').attr('fill', (d: any) => d.color)
             svgElement.selectAll('line').attr('stroke-opacity', 0)
 
-            const selectCircles = () => {
+            const selectNodes = () => {
                 svgElement
-                    .selectAll('circle')
+                    .selectAll('path')
                     .attr('fill', (d: any) => d.color)
-                    .attr('r', 7.5)
-                    .filter((circle: any) =>
+                    .filter((path: any) =>
                         connectedLinks.every((e: any) => {
                             if (typeof e.target === 'string') {
                                 return (
-                                    e.source !== circle.UUID &&
-                                    e.target !== circle.UUID
+                                    e.source !== path.UUID &&
+                                    e.target !== path.UUID
                                 )
                             } else {
                                 return (
-                                    e.source.UUID !== circle.UUID &&
-                                    e.target.UUID !== circle.UUID
+                                    e.source.UUID !== path.UUID &&
+                                    e.target.UUID !== path.UUID
                                 )
                             }
                         })
@@ -267,10 +251,9 @@ const NetworkGraph = () => {
                     .attr('fill', (d: any) => d.colorLight)
 
                 svgElement
-                    .selectAll('circle')
-                    .filter((circle: any) => circle.UUID === uuidSource)
+                    .selectAll('path')
+                    .filter((circle: any) => circle.UUID === uuidClickedNode)
                     .attr('fill', (d: any) => d.color)
-                    .attr('r', 10)
             }
 
             const selectLinks = () => {
@@ -279,13 +262,16 @@ const NetworkGraph = () => {
                     .attr('stroke-opacity', 0.2)
                     .filter(
                         (link: any) =>
-                            link.source.UUID === uuidSource ||
-                            link.target.UUID === uuidSource
+                            link.source.UUID === uuidClickedNode ||
+                            link.target.UUID === uuidClickedNode
                     )
                     .attr('stroke-opacity', 0.6)
             }
 
-            if (uuidSource === clickedNodeRef.current?.UUID && !refresh) {
+            // Remove circle clicked node if there is one
+            removeCircleActiveNode()
+
+            if (uuidClickedNode === clickedNodeRef.current?.UUID && !refresh) {
                 /**
                  * If the currently clicked node is the same as the previous still active node we reset the state
                  */
@@ -295,7 +281,8 @@ const NetworkGraph = () => {
                  * The user clicked on a new node, so we set this node in the clickedNode state
                  * and update the styles of this and all the connecting nodes
                  */
-                selectCircles()
+                addClickedNodeCircle(uuidClickedNode)
+                selectNodes()
                 selectLinks()
                 setClickedNode(clickedEl)
             }
@@ -312,7 +299,10 @@ const NetworkGraph = () => {
          * @param {object} data - Contains two properties, links and nodes
          * @param {object} filters - Contains keys with boolean values indicating which types are active
          */
-        const initializeD3 = (data: any, filters: any) => {
+        const initializeD3 = (
+            data: GetGraph200 | null | undefined,
+            filters: any
+        ) => {
             /**
              * Function to handle the mouseOver event on nodes
              * We update the data (title, subtitle and href) of the tooltip
@@ -325,14 +315,13 @@ const NetworkGraph = () => {
                     Type: keyof typeof networkGraphConnectionProperties
                     Titel: string
                     index: number
-                    id: string
+                    UUID: string
                 }
             ) => {
-                const index = d.index
-                const nodeElement = d3.selectAll('circle').nodes()[
-                    index
-                ] as Element
+                const nodeUUID = d.UUID
+                const nodeElement = document.getElementById(nodeUUID)
 
+                if (!nodeElement) return
                 /**
                  * Updates the tooltips Title, Subtitle and Href
                  */
@@ -346,6 +335,7 @@ const NetworkGraph = () => {
                     const tooltipTitleEl = document.getElementById(
                         'd3-tooltip-network-graph-title'
                     )
+
                     const tooltipTypeEl = document.getElementById(
                         'd3-tooltip-network-graph-type'
                     )
@@ -361,7 +351,7 @@ const NetworkGraph = () => {
 
                     const hrefURL = networkGraphGenerateHref({
                         property: d.Type,
-                        UUID: d.id,
+                        UUID: d.UUID,
                     })
 
                     setHref(hrefURL)
@@ -370,6 +360,7 @@ const NetworkGraph = () => {
                 /**
                  * Update tooltip X and Y coordinates based on the hovered node element.
                  */
+                // TODO: Move the generator of coordinates to a separate function
                 const updateTooltipCoordinates = () => {
                     setVariables({
                         left: 0,
@@ -379,34 +370,28 @@ const NetworkGraph = () => {
                     const tooltipEl = document.getElementById(
                         'd3-tooltip-network-graph'
                     )
-                    const { x, bottom } = nodeElement?.getBoundingClientRect()
+                    const { x, bottom, width } =
+                        nodeElement?.getBoundingClientRect()
                     const tooltipWidth = tooltipEl?.offsetWidth || 0
-                    const circleWidth = 24
-                    const leftPosition = x - tooltipWidth / 2 + circleWidth / 2
-                    const bottomPosition = bottom - 65
+                    const leftPosition = x - tooltipWidth / 2 + width / 2
+                    const tooltipTriangleHeight = 10
+                    const bottomPosition = bottom + tooltipTriangleHeight
                     const newVariables = {
                         left: leftPosition,
                         top: bottomPosition,
                     }
-
                     setVariables(newVariables)
                 }
 
-                /**
-                 * Updates the tooltips styles (circle radius, position x & y,
-                 */
+                // TODO: Move this to a separate function
                 const updateNodeStyles = () => {
-                    const currentRadius = parseInt(
-                        nodeElement.getAttribute('r') as string
+                    const transformValue = nodeElement.getAttribute('transform')
+                    if (transformValue?.includes('scale')) return
+                    // Add a scale transform to the node
+                    nodeElement.setAttribute(
+                        'transform',
+                        `${transformValue} scale(1.5)`
                     )
-
-                    /**
-                     * Radius is 10 when the nodeElement is clicked.
-                     * We want to reset the radius of all the non-clicked nodes.
-                     */
-                    if (currentRadius !== 10) {
-                        nodeElement.setAttribute('r', '8.5')
-                    }
                 }
 
                 updateTooltipContent()
@@ -416,24 +401,24 @@ const NetworkGraph = () => {
 
             /**
              * Function to handle the mouseOut event on nodes
+             * Resets the hover tooltip and the node hover styles
              * @param {object} d - Contains the node from the mouseOut event
              * @param {number} i - Contains the index of the node
              */
             const handleMouseOut = (_: any, d: any) => {
-                const index = d.index
-                const nodeElement = d3.selectAll('circle').nodes()[
-                    index
-                ] as Element
                 const tooltip = d3.select('#d3-tooltip-network-graph')
-                // Reset display property, user can still see it when hovering over it
                 tooltip.style('display', '')
-                const currentRadius = parseInt(
-                    nodeElement?.getAttribute('r') || ''
+
+                const nodeUUID = d.UUID
+                const nodeDomElement = document.getElementById(nodeUUID)
+                const transformValue = nodeDomElement?.getAttribute('transform')
+
+                // Don't reset the hover styles if the node is clicked
+                if (!transformValue || clickedNodeRef.current) return
+                nodeDomElement?.setAttribute(
+                    'transform',
+                    transformValue.replace('scale(1.5)', '')
                 )
-                // Radius is 10 when the node is clicked
-                if (currentRadius !== 10) {
-                    nodeElement.setAttribute('r', '7.5')
-                }
             }
 
             /**
@@ -457,36 +442,6 @@ const NetworkGraph = () => {
              * @param {array} links - contains the d3 links
              */
             const persistOrInitActiveNode = (links: any, nodes: any) => {
-                /**
-                 * Check if there is a previous URL with an UUID
-                 * @returns {null|string} - if found return string containing the UUID, else return null
-                 */
-                const getUUIDFromPreviousUrl = () => {
-                    if (!lastLocation) return null
-
-                    const getMatch = () => {
-                        if (lastLocation?.includes('verordening')) {
-                            const activeUUID = lastLocation.split('actief=')[1]
-
-                            return {
-                                params: { uuid: activeUUID },
-                            }
-                        } else {
-                            return matchPath(
-                                '/detail/:slug/:uuid',
-                                lastLocation
-                            )
-                        }
-                    }
-
-                    const match = getMatch()
-
-                    const uuidFromUrl = (match?.params as any)?.uuid
-                    if (!uuidFromUrl) return null
-
-                    return uuidFromUrl
-                }
-
                 const svgElement = d3.select(d3Container.current)
 
                 if (firstInitDoneRef.current && !clickedNodeRef.current) {
@@ -530,7 +485,7 @@ const NetworkGraph = () => {
                 return
 
             /**
-             * Get current SVG element
+             * Get current SVG element and remove all existing nodes
              */
             const svgElement = d3.select(d3Container.current)
             svgElement.selectAll('*').remove() // Remove all D3 Nodes
@@ -563,13 +518,22 @@ const NetworkGraph = () => {
 
                 const transform = transformEvent.toString()
                 svgElement.selectAll('g').attr('transform', transform)
+
+                const popupElement = document.getElementById(
+                    'd3-tooltip-network-graph'
+                )
+
+                if (popupElement) {
+                    popupElement.setAttribute('transform', transform)
+                }
             }
-            const zoom: any = d3
-                .zoom()
+
+            const zoomHandler = d3
+                .zoom<SVGElement, any>()
                 .scaleExtent([maxZoom, minZoom])
                 .on('zoom', zoomed)
 
-            svgElement.call(zoom).on('dblclick.zoom', null)
+            svgElement.call(zoomHandler).on('dblclick.zoom', null)
 
             /**
              * Setup the Force Simulation
@@ -587,7 +551,7 @@ const NetworkGraph = () => {
                 .force('y', d3.forceY())
 
             // Generate Links
-            const link = svgElement
+            const generatedLinks = svgElement
                 .append('g')
                 .attr('data-testid', 'test-g-links')
                 .attr('stroke', '#999')
@@ -598,41 +562,36 @@ const NetworkGraph = () => {
                 .attr('stroke-width', (d: any) => Math.sqrt(d.value))
 
             // Generate Nodes
-            const node = svgElement
-                .append('g')
-                .attr('data-testid', 'test-g-nodes')
-                .attr('stroke', '#fff')
-                .attr('stroke-width', 1.5)
-                .selectAll('circle')
-                .data(nodes as any)
-                .join('circle')
-                .attr('data-testid', (d: any) => d.id)
-                .attr(
-                    'class',
-                    'cursor-pointer transition transform ease-in duration-200 scale-100'
-                )
-                .attr('r', 7.5) // r equals the radius of the circle (node)
-                .attr('fill', (d: any) => d.color)
+            const generatedNodes = generateNodes(svgElement, nodes)
                 .on('mouseover', handleMouseOver as any)
                 .on('mouseout', handleMouseOut)
-
                 .on('click', (_, clickedEl) =>
                     handleNodeClick(clickedEl, svgElement, links)
                 )
 
+            d3.select('#d3-zoom-in').on('click', function () {
+                zoomHandler.scaleBy(svgElement.transition().duration(750), 1.4)
+            })
+
+            d3.select('#d3-zoom-out').on('click', function () {
+                zoomHandler.scaleBy(svgElement.transition().duration(750), 0.6)
+            })
+
             persistOrInitActiveNode(links, nodes)
 
-            // Handle updates
+            // // Handle updates
             simulation.on('tick', () => {
-                link.attr('x1', (d: any) => d.source.x + 100)
+                generatedLinks
+                    .attr('x1', (d: any) => d.source.x + 100)
                     .attr('y1', (d: any) => d.source.y + 100)
                     .attr('x2', (d: any) => d.target.x + 100)
                     .attr('y2', (d: any) => d.target.y + 100)
 
-                node.attr('cx', (d: any) => d.x + 100).attr(
-                    'cy',
-                    (d: any) => d.y + 100
-                )
+                generatedNodes.attr('transform', function (d: any) {
+                    const x = d.x + 100
+                    const y = d.y + 100
+                    return 'translate(' + x + ' ' + y + ')'
+                })
             })
         }
 
@@ -640,102 +599,133 @@ const NetworkGraph = () => {
          * Timeout to wait for the transition of the popup to make sure all elements are mounted
          */
         setTimeout(() => {
-            initializeD3(data, filters)
+            if (activeTab === 'visual') {
+                initializeD3(data, filters)
+            }
         }, 250)
-    }, [data, filters, handleNodeClick, verordeningsStructure, lastLocation])
+    }, [
+        data,
+        filters,
+        handleNodeClick,
+        verordeningsStructure,
+        lastLocation,
+        activeTab,
+    ])
 
     /**
-     * Update the graph styles to give it the correct height.
-     * This changes when the banner that displays the environment the user is in
-     */
-    useEffect(() => {
-        if (showBanner) {
-            setGraphStyles({ height: 'calc(100vh - 96px)', top: '121px' })
-        } else {
-            setGraphStyles({ height: 'calc(100vh - 96px)', top: '96px' })
-        }
-    }, [showBanner])
-
-    /**
-     * Update nodes based on search query
+     * Update nodes and links based on search query
      */
     useEffect(() => {
         const svgElement = d3.select(d3Container.current)
-        if (searchQuery === '') {
-            svgElement.selectAll('circle').attr('fill', (d: any) => d.color)
-        } else {
-            svgElement
-                .selectAll('circle')
-                .attr('fill', (d: any) => d.color)
-                .attr('r', 7.5)
-                .filter(
-                    (e: any) =>
-                        !e.Titel?.toLowerCase()?.includes(
-                            searchQuery.toLowerCase()
-                        )
-                )
-                .attr('fill', (d: any) => d.colorLight)
-        }
-
-        svgElement.selectAll('line').attr('stroke-opacity', 0.6)
+        updateGraphSearch(searchQuery, svgElement)
         setClickedNode(null)
     }, [searchQuery])
 
     return (
-        <div
-            id="popup-menu-graph"
-            className="fixed top-0 left-0 w-full pb-10 overflow-y-auto bg-white"
-            style={graphStyles}>
-            <div className="container flex flex-col h-full mx-auto lg:flex-row">
-                <NetworkGraphSidebar
-                    isLoading={isLoading || isFetching}
-                    filters={filters}
-                    setFilters={setFilters}
-                />
-                <div className="w-full px-4 pb-20 mt-6 lg:pb-4 lg:mt-10 lg:w-3/4">
-                    <h2 className="text-xl text-pzh-blue opacity-50">
-                        Omgevingsbeleid Provincie Zuid-Holland
-                    </h2>
-                    <h1
-                        className="py-2 text-3xl text-pzh-blue"
-                        id="networkvisualization-title">
-                        Netwerkvisualisatie
-                    </h1>
-                    <div
-                        className="relative mt-2 mb-10 overflow-hidden border rounded-md"
-                        id="d3-graph-container"
-                        style={{
-                            height: '80%',
-                        }}>
-                        <div className="absolute w-full p-2">
-                            <NetworkGraphSearchBar
-                                clickedNode={clickedNode}
-                                data={data}
-                                filters={filters}
-                                searchQuery={searchQuery}
-                                setSearchQuery={setSearchQuery}
-                                handleNodeClick={handleNodeClick}
-                                svgElement={d3.select(d3Container.current)}
-                            />
-                        </div>
-                        <svg
-                            role="img"
-                            className="w-full h-full d3-component"
-                            ref={d3Container as any}
-                            aria-labelledby="networkvisualization-title"
-                        />
-                        <NetworkGraphResetClickedElement
-                            resetNodes={resetNodes}
-                            clickedNode={clickedNode}
-                        />
-                        <NetworkGraphClickedElementPopup
-                            clickedNode={clickedNode}
-                            resetNodes={resetNodes}
-                        />
-                    </div>
+        <div>
+            <div className="grid grid-cols-6 pr-4 mx-auto pzh-container gap-x-10 gap-y-0">
+                <div className="col-span-6 mt-4">
+                    <BackButton />
+                    <Heading className="mt-6" level="1">
+                        Beleidsnetwerk
+                    </Heading>
+                    <Text className="mb-4">
+                        Het beleid van de provincie Zuid-Holland en de
+                        onderliggende koppelingen
+                    </Text>
+                    <Tabs onSelectionChange={key => setActiveTab(`${key}`)}>
+                        <TabItem key="visual" title="Visueel">
+                            <div className="relative py-4">
+                                {/* Gray background */}
+                                <div
+                                    className="absolute top-0 left-0 h-full bg-pzh-gray-100"
+                                    style={{
+                                        width: '200vw',
+                                        left: '-50vw',
+                                    }}
+                                />
+
+                                {/* Search and filter Section */}
+                                <div className="flex w-full mb-2">
+                                    <NetworkGraphSearchBar
+                                        clickedNode={clickedNode}
+                                        data={data}
+                                        filters={filters}
+                                        searchQuery={searchQuery}
+                                        setSearchQuery={setSearchQuery}
+                                        handleNodeClick={handleNodeClick}
+                                        svgElement={d3.select(
+                                            d3Container.current
+                                        )}
+                                    />
+                                    <NetworkGraphSelectFilters
+                                        filters={filters}
+                                        setFilters={setFilters}
+                                        isLoading={isLoading}
+                                    />
+                                </div>
+
+                                {/* Graph */}
+                                <div
+                                    className="relative mt-2 mb-10 overflow-hidden bg-white border rounded-md"
+                                    id="d3-graph-container"
+                                    style={{
+                                        height: '80vh',
+                                        minHeight: '600px',
+                                    }}>
+                                    {/* Zoom and reset buttons */}
+                                    <div className="absolute top-0 right-0 flex flex-col mt-4 ml-2 mr-4 pointer-events-auto">
+                                        <NetworkGraphZoomButtons />
+                                        <NetworkGraphResetClickedElement
+                                            resetNodes={resetNodes}
+                                            clickedNode={clickedNode}
+                                        />
+                                    </div>
+
+                                    {/* Loader */}
+                                    {isLoading && (
+                                        <div className="flex items-center justify-center w-full h-full pr-24">
+                                            <LoaderSpinner />
+                                        </div>
+                                    )}
+
+                                    {/* Graph */}
+                                    <svg
+                                        role="img"
+                                        className="w-full h-full d3-component"
+                                        ref={d3Container as any}
+                                        aria-labelledby="networkvisualization-title"
+                                    />
+
+                                    {/* Legend */}
+                                    <NetworkLegend
+                                        setFilters={setFilters}
+                                        isLoading={isLoading}
+                                        filters={filters}
+                                    />
+
+                                    {/* Popup when element is clicked */}
+                                    <NetworkGraphClickedElementPopup
+                                        clickedNode={clickedNode}
+                                        resetNodes={resetNodes}
+                                    />
+                                </div>
+                            </div>
+                        </TabItem>
+                        <TabItem key="textual" title="Tekstueel">
+                            <NetworkTextual filters={filters} graphData={data}>
+                                <NetworkGraphSelectFilters
+                                    filters={filters}
+                                    setFilters={setFilters}
+                                    isLoading={isLoading}
+                                />
+                            </NetworkTextual>
+                        </TabItem>
+                    </Tabs>
                 </div>
                 <NetworkGraphTooltip href={href || ''} variables={variables} />
             </div>
+            <Footer />
         </div>
     )
 }

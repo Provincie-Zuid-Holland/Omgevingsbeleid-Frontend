@@ -29,28 +29,24 @@ const NetworkGraphResetClickedElement = ({
     }, [clickedNode])
 
     return (
-        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-            <div className="container relative flex h-full mx-auto">
-                <div className="absolute top-0 right-0 mr-2 mt-14">
-                    <Transition
-                        show={localOpenState}
-                        enter="transition ease-out duration-150 transform"
-                        enterFrom="opacity-0 scale-95"
-                        enterTo="opacity-100 scale-100"
-                        leave="transition ease-in duration-0 transform"
-                        leaveFrom="opacity-100 scale-100"
-                        leaveTo="opacity-0 scale-95">
-                        <div
-                            role="button"
-                            tabIndex={0}
-                            onClick={() => resetNodes && resetNodes()}
-                            className="relative flex items-center justify-center px-2 py-2 mt-0 text-lg transition-shadow duration-100 ease-in bg-white rounded shadow-md cursor-pointer pointer-events-auto hover:shadow-lg"
-                            data-testid="button-reset-nodes">
-                            <FontAwesomeIcon icon={faUndo} />
-                        </div>
-                    </Transition>
+        <div className="container relative flex h-full mx-auto">
+            <Transition
+                show={localOpenState}
+                enter="transition ease-out duration-150 transform"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="transition ease-in duration-0 transform"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95">
+                <div
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => resetNodes && resetNodes()}
+                    className="px-3 py-1 mt-2 text-white border-b rounded-md bg-pzh-red hover:bg-pzh-red-dark"
+                    data-testid="button-reset-nodes">
+                    <FontAwesomeIcon icon={faUndo} />
                 </div>
-            </div>
+            </Transition>
         </div>
     )
 }

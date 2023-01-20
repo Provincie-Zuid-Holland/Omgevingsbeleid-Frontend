@@ -34,10 +34,10 @@ const queryClient = new QueryClient({
 const App = () => {
     const userIsInMuteerEnvironment = usePage('/muteer/')
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
-    const isNetworkVisualization = usePage('/netwerkvisualisatie')
+    const isNetworkVisualization = usePage('/beleidsnetwerk')
 
     if (process.env.NODE_ENV !== 'production' && !process.env.JEST_WORKER_ID) {
-        axe()
+        // axe()
     }
 
     useEffectOnce(() => {
@@ -61,7 +61,7 @@ const App = () => {
             <AuthProvider>
                 <div
                     className={classNames(
-                        'min-h-screen text-pzh-blue-dark relative',
+                        'min-h-screen text-pzh-blue-dark relative overflow-x-hidden',
                         {
                             'bg-gray-100': userIsInMuteerEnvironment,
                             'advanced-search-page': isAdvancedSearchPage,
