@@ -203,16 +203,16 @@ export const CreateCustomPopup = ({
             <div className="flex justify-between">
                 {isAdvancedSearch ? (
                     <Button
-                        label="Bekijk beleid"
+                        aria-label="Bekijk beleid"
                         className="advanced-search-button"
                     />
                 ) : (
                     <a
                         href={`${MAP_SEARCH_PAGE}?${searchParams}&searchOpen=true`}>
-                        <Button label="Bekijk beleid" />
+                        <Button aria-label="Bekijk beleid" />
                     </a>
                 )}
-                <button className="leaflet-close-popup underline text-pzh-red text-xs">
+                <button className="text-xs underline leaflet-close-popup text-pzh-red">
                     {type === 'marker' ? 'Pin' : 'Gebied'} verwijderen
                 </button>
             </div>
