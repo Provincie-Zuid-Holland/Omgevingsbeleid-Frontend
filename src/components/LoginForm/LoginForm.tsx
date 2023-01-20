@@ -71,7 +71,6 @@ const LoginForm = () => {
                         </div>
                         <div className="flex items-center justify-between mt-7">
                             <Button
-                                aria-label="Inloggen"
                                 type="submit"
                                 isDisabled={!isValid || !dirty}>
                                 Inloggen
@@ -143,7 +142,6 @@ const PopupPasswordForgot = ({
                 Annuleren
             </button>
             <Button
-                aria-label="Mail versturen"
                 variant="cta"
                 id="wachtwoord-reset-button-mailto"
                 data-testid="wachtwoord-reset-button-mailto"
@@ -151,8 +149,9 @@ const PopupPasswordForgot = ({
                     window.location.href =
                         'mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten'
                     togglePopup()
-                }}
-            />
+                }}>
+                Mail versturen
+            </Button>
         </div>
     </Modal>
 )
