@@ -37,7 +37,7 @@ const App = () => {
     const isNetworkVisualization = usePage('/beleidsnetwerk')
 
     if (process.env.NODE_ENV !== 'production' && !process.env.JEST_WORKER_ID) {
-        // axe()
+        axe()
     }
 
     useEffectOnce(() => {
