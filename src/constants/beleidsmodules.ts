@@ -1,8 +1,8 @@
-import { getBeleidsmodules } from '@/api/fetchers'
+import { readBeleidsmodules } from '@/api/fetchers'
 
 import { currentDateFormatted, currentDate } from './testValues'
 
-export const apiCall = getBeleidsmodules
+export const apiCall = readBeleidsmodules
 
 export const TITLE_SINGULAR = 'Beleidsmodule'
 export const TITLE_SINGULAR_PREFIX = 'de'

@@ -1,4 +1,4 @@
-import { GebruikersInline } from '@/api/fetchers.schemas'
+import { GebruikerInline } from '@/api/fetchers.schemas'
 
 import EigenaarsDriehoekItem from '../EigenaarsDriehoekItem'
 
@@ -10,11 +10,11 @@ import EigenaarsDriehoekItem from '../EigenaarsDriehoekItem'
 
 interface EigenaarsDriehoekProps {
     dataObject: {
-        Opdrachtgever?: GebruikersInline
-        Eigenaar_1?: GebruikersInline
-        Eigenaar_2?: GebruikersInline
-        Portefeuillehouder_1?: GebruikersInline
-        Portefeuillehouder_2?: GebruikersInline
+        Opdrachtgever?: GebruikerInline
+        Eigenaar_1?: GebruikerInline
+        Eigenaar_2?: GebruikerInline
+        Portefeuillehouder_1?: GebruikerInline
+        Portefeuillehouder_2?: GebruikerInline
     }
 }
 

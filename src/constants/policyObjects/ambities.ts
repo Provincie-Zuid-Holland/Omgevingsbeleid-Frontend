@@ -1,27 +1,27 @@
 import { object, ObjectSchema } from 'yup'
 
 import {
-    useGetAmbities,
-    useGetAmbitiesLineageId,
-    useGetValidAmbities,
-    useGetValidAmbitiesLineageId,
-    useGetVersionAmbitiesObjectUuid,
-    usePatchAmbitiesLineageId,
-    usePostAmbities,
+    useReadAmbities,
+    useReadAmbitieLineage,
+    useReadValidAmbities,
+    useReadValidAmbitieLineage,
+    useReadAmbitieVersion,
+    useUpdateAmbitie,
+    useCreateAmbitie,
 } from '@/api/fetchers'
-import { AmbitiesWrite } from '@/api/fetchers.schemas'
+import { AmbitieUpdate } from '@/api/fetchers.schemas'
 import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
 import { generateSchemaTitles, schemaDefaults } from '@/utils/yupSchema'
 
 const queryAmbities: SchemaMetaQueries = {
-    usePost: usePostAmbities,
-    useGet: useGetAmbities,
-    useGetVersion: useGetVersionAmbitiesObjectUuid,
-    useGetLineage: useGetAmbitiesLineageId,
-    useGetValidLineage: useGetValidAmbitiesLineageId,
-    usePatchLineage: usePatchAmbitiesLineageId,
-    useGetValid: useGetValidAmbities,
+    usePost: useCreateAmbitie,
+    useGet: useReadAmbities,
+    useGetVersion: useReadAmbitieVersion,
+    useGetLineage: useReadAmbitieLineage,
+    useGetValidLineage: useReadValidAmbitieLineage,
+    usePatchLineage: useUpdateAmbitie,
+    useGetValid: useReadValidAmbities,
 }
 
 const ambitiesTitles = generateSchemaTitles({
@@ -39,7 +39,7 @@ const ambitiesMeta: SchemaMeta<typeof queryAmbities> = {
     query: queryAmbities,
 }
 
-export const SCHEMA: ObjectSchema<MutatedPolicySchema<AmbitiesWrite>> = object({
+export const SCHEMA: ObjectSchema<MutatedPolicySchema<AmbitieUpdate>> = object({
     Titel: schemaDefaults.Titel,
     Omschrijving: schemaDefaults.optionalString,
     Weblink: schemaDefaults.optionalString,
@@ -48,4 +48,4 @@ export const SCHEMA: ObjectSchema<MutatedPolicySchema<AmbitiesWrite>> = object({
 }).meta(ambitiesMeta)
 
 export const META = SCHEMA.describe().meta as SchemaMeta<typeof queryAmbities>
-export const EMPTY_WRITE_OBJECT: AmbitiesWrite = SCHEMA.getDefault()
+export const EMPTY_WRITE_OBJECT: AmbitieUpdate = SCHEMA.getDefault()

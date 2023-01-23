@@ -5,8 +5,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useMedia } from 'react-use'
 
-import { getSearch } from '@/api/fetchers'
-import { GetSearch200ResultsItem } from '@/api/fetchers.schemas'
+import { search } from '@/api/fetchers'
+import { SearchResultWrapperResultsItem } from '@/api/fetchers.schemas'
 import Container from '@/components/Container/Container'
 import { LoaderCard } from '@/components/Loader'
 import Pagination from '@/components/Pagination'
@@ -23,7 +23,7 @@ const SearchResults = () => {
     )
     const filterState = useSearchFilterStore(state => state.filterState)
     const [searchResults, setSearchResults] = useState<
-        GetSearch200ResultsItem[]
+        SearchResultWrapperResultsItem[]
     >([])
     const [searchResultsTotal, setSearchResultsTotal] = useState(0)
     const [dataLoaded, setDataLoaded] = useState(false)
@@ -45,7 +45,7 @@ const SearchResults = () => {
             }
 
             try {
-                const { results, total = 0 } = await getSearch({
+                const { results, total = 0 } = await search({
                     query: paramTextQuery,
                     limit: 20,
                     ...(paramOnly && { only: paramOnly }),

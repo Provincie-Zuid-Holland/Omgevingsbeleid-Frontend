@@ -4,9 +4,9 @@ import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import {
-    getGetVersionBeleidskeuzesObjectUuidQueryKey,
-    getVersionBeleidskeuzesObjectUuid,
-    useGetVersionBeleidsdoelenObjectUuid,
+    getReadBeleidskeuzeVersionQueryKey,
+    readBeleidskeuzeVersion,
+    useReadBeleidsdoelVersion,
 } from '@/api/fetchers'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
@@ -15,15 +15,12 @@ import RelatiesKoppelingen from '@/components/RelatiesKoppelingen'
 
 function ThemeDetail() {
     const { id } = useParams<{ id: string }>()
-    const { data, isLoading } = useGetVersionBeleidsdoelenObjectUuid(id!)
+    const { data, isLoading } = useReadBeleidsdoelVersion(id!)
     const beleidskeuzes = useQueries({
         queries: (data?.Ref_Beleidskeuzes || []).map(item => {
             return {
-                queryKey: getGetVersionBeleidskeuzesObjectUuidQueryKey(
-                    item.Object?.UUID || ''
-                ),
-                queryFn: () =>
-                    getVersionBeleidskeuzesObjectUuid(item.Object?.UUID || ''),
+                queryKey: getReadBeleidskeuzeVersionQueryKey(item.UUID || ''),
+                queryFn: () => readBeleidskeuzeVersion(item.UUID || ''),
             }
         }),
     })

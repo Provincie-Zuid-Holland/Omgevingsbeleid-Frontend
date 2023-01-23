@@ -1,9 +1,9 @@
-import { getAmbities, getValidAmbities } from '@/api/fetchers'
+import { readAmbities, readValidAmbities } from '@/api/fetchers'
 
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
-export const apiCall = getAmbities
-export const validApiCall = getValidAmbities
+export const apiCall = readAmbities
+export const validApiCall = readValidAmbities
 
 export const TITLE_SINGULAR = 'Ambitie'
 export const TITLE_SINGULAR_PREFIX = 'de'

@@ -1,13 +1,13 @@
 import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import { useMemo } from 'react'
 
-import { useGetValidBeleidsdoelen } from '@/api/fetchers'
+import { useReadValidBeleidsdoelen } from '@/api/fetchers'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import ObjectList from '@/components/ObjectList'
 
 function ThemeOverview() {
-    const { isLoading, data } = useGetValidBeleidsdoelen()
+    const { isLoading, data } = useReadValidBeleidsdoelen()
 
     const breadcrumbPaths = [
         { name: 'Home', path: '/' },

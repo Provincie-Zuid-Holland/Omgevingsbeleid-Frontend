@@ -1,7 +1,7 @@
 import { useFormikContext } from 'formik'
 import Select from 'react-select'
 
-import { GebruikersInline } from '@/api/fetchers.schemas'
+import { GebruikerInline } from '@/api/fetchers.schemas'
 
 export interface FormikSelectUserProps {
     property:
@@ -22,11 +22,11 @@ export interface FormikSelectUserProps {
 }
 
 interface SelectUserValues {
-    Eigenaar_1: null | GebruikersInline
-    Eigenaar_2: null | GebruikersInline
-    Portefeuillehouder_1: null | GebruikersInline
-    Portefeuillehouder_2: null | GebruikersInline
-    Opdrachtgever: null | GebruikersInline
+    Eigenaar_1: null | GebruikerInline
+    Eigenaar_2: null | GebruikerInline
+    Portefeuillehouder_1: null | GebruikerInline
+    Portefeuillehouder_2: null | GebruikerInline
+    Opdrachtgever: null | GebruikerInline
 }
 
 const FormikSelectUser = ({

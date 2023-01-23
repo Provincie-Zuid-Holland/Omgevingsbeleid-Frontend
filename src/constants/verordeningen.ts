@@ -1,4 +1,4 @@
-import { getVerordeningen } from '@/api/fetchers'
+import { readVerordening } from '@/api/fetchers'
 
 import * as AFDELING from './verordeningsafdeling'
 import * as ARTIKEL from './verordeningsartikel'
@@ -6,7 +6,7 @@ import * as HOOFDSTUK from './verordeningshoofdstuk'
 import * as LID from './verordeningslid'
 import * as PARAGRAAF from './verordeningsparagraaf'
 
-export const apiCall = getVerordeningen
+export const apiCall = readVerordening
 
 const TITLE_SINGULAR = 'Verordening'
 const TITLE_PLURAL = 'Verordeningen'

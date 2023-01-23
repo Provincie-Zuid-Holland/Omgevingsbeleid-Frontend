@@ -2,7 +2,7 @@ import { Xmark } from '@pzh-ui/icons'
 import { useRef } from 'react'
 import { useClickAway, useKey } from 'react-use'
 
-import { BeleidsrelatiesRead } from '@/api/fetchers.schemas'
+import { Beleidsrelatie } from '@/api/fetchers.schemas'
 import { PopUpAnimatedContainer } from '@/components/Popup'
 
 /**
@@ -17,7 +17,7 @@ import { PopUpAnimatedContainer } from '@/components/Popup'
 interface PopupMotivationProps {
     motivationPopUp?: string | null
     setMotivationPopUp: (UUID?: string | null) => void
-    relatie: BeleidsrelatiesRead
+    relatie: Beleidsrelatie
 }
 
 function PopupMotivation({

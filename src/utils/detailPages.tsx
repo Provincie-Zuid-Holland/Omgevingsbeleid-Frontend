@@ -1,34 +1,34 @@
 import {
-    getAmbitiesLineageId,
-    getBelangenLineageId,
-    getBeleidsdoelenLineageId,
-    getBeleidskeuzesLineageId,
-    getBeleidsprestatiesLineageId,
-    getBeleidsregelsLineageId,
-    getMaatregelenLineageId,
-    getThemasLineageId,
-    getVerordeningenLineageId,
-    getVersionAmbitiesObjectUuid,
-    getVersionBelangenObjectUuid,
-    getVersionBeleidsdoelenObjectUuid,
-    getVersionBeleidskeuzesObjectUuid,
-    getVersionBeleidsprestatiesObjectUuid,
-    getVersionBeleidsregelsObjectUuid,
-    getVersionMaatregelenObjectUuid,
-    getVersionThemasObjectUuid,
-    getVersionVerordeningenObjectUuid,
-    getValidAmbities,
-    getValidBeleidsregels,
-    getValidBelangen,
-    getValidMaatregelen,
-    getValidBeleidskeuzes,
-    getValidBeleidsprestaties,
-    getValidThemas,
-    getValidBeleidsdoelen,
-    getValidVerordeningen,
-    getGebiedsprogrammas,
-    getVersionGebiedsprogrammasObjectUuid,
-    getValidGebiedsprogrammas,
+    readAmbitieLineage,
+    readBelangLineage,
+    readBeleidsdoelLineage,
+    readBeleidskeuzeLineage,
+    readBeleidsprestatieLineage,
+    readBeleidsregelLineage,
+    readMaatregelLineage,
+    readThemaLineage,
+    readVerordeningLineage,
+    readGebiedsprogrammas,
+    readAmbitieVersion,
+    readBelangVersion,
+    readBeleidsdoelVersion,
+    readBeleidskeuzeVersion,
+    readBeleidsprestatieVersion,
+    readBeleidsregelVersion,
+    readMaatregelVersion,
+    readThemaVersion,
+    readVerordeningVersion,
+    readGebiedsprogrammaVersion,
+    readValidAmbities,
+    readValidBeleidsregels,
+    readValidBelangen,
+    readValidMaatregelen,
+    readValidBeleidskeuzes,
+    readValidBeleidsprestaties,
+    readValidThemas,
+    readValidBeleidsdoelen,
+    readValidVerordening,
+    readValidGebiedsprogrammas,
 } from '@/api/fetchers'
 import ProtectedRoute from '@/App/Routes/ProtectedRoute'
 import allDimensies, { filteredDimensieConstants } from '@/constants/dimensies'
@@ -43,40 +43,40 @@ import {
 import MutatePolicy from '@/pages/protected/MutatePolicy'
 
 export type DetailPageEndpoint =
-    | typeof getAmbitiesLineageId
-    | typeof getBeleidsregelsLineageId
-    | typeof getBelangenLineageId
-    | typeof getMaatregelenLineageId
-    | typeof getBeleidskeuzesLineageId
-    | typeof getBeleidsprestatiesLineageId
-    | typeof getThemasLineageId
-    | typeof getBeleidsdoelenLineageId
-    | typeof getVerordeningenLineageId
-    | typeof getGebiedsprogrammas
+    | typeof readAmbitieLineage
+    | typeof readBeleidsregelLineage
+    | typeof readBelangLineage
+    | typeof readMaatregelLineage
+    | typeof readBeleidskeuzeLineage
+    | typeof readBeleidsprestatieLineage
+    | typeof readThemaLineage
+    | typeof readBeleidsdoelLineage
+    | typeof readVerordeningLineage
+    | typeof readGebiedsprogrammas
 
 export type DetailPageVersionEndpoint =
-    | typeof getVersionAmbitiesObjectUuid
-    | typeof getVersionBeleidsregelsObjectUuid
-    | typeof getVersionBelangenObjectUuid
-    | typeof getVersionMaatregelenObjectUuid
-    | typeof getVersionBeleidskeuzesObjectUuid
-    | typeof getVersionBeleidsprestatiesObjectUuid
-    | typeof getVersionThemasObjectUuid
-    | typeof getVersionBeleidsdoelenObjectUuid
-    | typeof getVersionVerordeningenObjectUuid
-    | typeof getVersionGebiedsprogrammasObjectUuid
+    | typeof readAmbitieVersion
+    | typeof readBelangVersion
+    | typeof readBeleidsregelVersion
+    | typeof readMaatregelVersion
+    | typeof readBeleidskeuzeVersion
+    | typeof readBeleidsprestatieVersion
+    | typeof readThemaVersion
+    | typeof readBeleidsdoelVersion
+    | typeof readVerordeningVersion
+    | typeof readGebiedsprogrammaVersion
 
 export type DetailPageValidEndpoint =
-    | typeof getValidAmbities
-    | typeof getValidBeleidsregels
-    | typeof getValidBelangen
-    | typeof getValidMaatregelen
-    | typeof getValidBeleidskeuzes
-    | typeof getValidBeleidsprestaties
-    | typeof getValidThemas
-    | typeof getValidBeleidsdoelen
-    | typeof getValidVerordeningen
-    | typeof getValidGebiedsprogrammas
+    | typeof readValidAmbities
+    | typeof readValidBeleidsregels
+    | typeof readValidBelangen
+    | typeof readValidMaatregelen
+    | typeof readValidBeleidskeuzes
+    | typeof readValidBeleidsprestaties
+    | typeof readValidThemas
+    | typeof readValidBeleidsdoelen
+    | typeof readValidVerordening
+    | typeof readValidGebiedsprogrammas
 
 const getOverview = (policyType: keyof typeof allDimensies) => (
     <ProtectedRoute
@@ -151,9 +151,9 @@ const detailPages = [
         element: getOverview('AMBITIES'),
         children: getChildren('AMBITIES'),
         isPublic: true,
-        dataEndpoint: getAmbitiesLineageId,
-        dataVersionEndpoint: getVersionAmbitiesObjectUuid,
-        dataValidEndpoint: getValidAmbities,
+        dataEndpoint: readAmbitieLineage,
+        dataVersionEndpoint: readAmbitieVersion,
+        dataValidEndpoint: readValidAmbities,
     },
     {
         slug: 'beleidsregels',
@@ -161,9 +161,9 @@ const detailPages = [
         element: getOverview('BELEIDSREGELS'),
         children: getChildren('BELEIDSREGELS'),
         isPublic: true,
-        dataEndpoint: getBeleidsregelsLineageId,
-        dataVersionEndpoint: getVersionBeleidsregelsObjectUuid,
-        dataValidEndpoint: getValidBeleidsregels,
+        dataEndpoint: readBeleidsregelLineage,
+        dataVersionEndpoint: readBeleidsregelVersion,
+        dataValidEndpoint: readValidBeleidsregels,
     },
     {
         slug: 'belangen',
@@ -171,9 +171,9 @@ const detailPages = [
         element: getOverview('BELANGEN'),
         children: getChildren('BELANGEN'),
         isPublic: true,
-        dataEndpoint: getBelangenLineageId,
-        dataVersionEndpoint: getVersionBelangenObjectUuid,
-        dataValidEndpoint: getValidBelangen,
+        dataEndpoint: readBelangLineage,
+        dataVersionEndpoint: readBelangVersion,
+        dataValidEndpoint: readValidBelangen,
     },
     {
         slug: 'maatregelen',
@@ -181,9 +181,9 @@ const detailPages = [
         element: getOverview('MAATREGELEN'),
         children: getChildren('MAATREGELEN'),
         isPublic: true,
-        dataEndpoint: getMaatregelenLineageId,
-        dataVersionEndpoint: getVersionMaatregelenObjectUuid,
-        dataValidEndpoint: getValidMaatregelen,
+        dataEndpoint: readMaatregelLineage,
+        dataVersionEndpoint: readMaatregelVersion,
+        dataValidEndpoint: readValidMaatregelen,
     },
     {
         slug: 'beleidskeuzes',
@@ -191,9 +191,9 @@ const detailPages = [
         element: getOverview('BELEIDSKEUZES'),
         children: getChildren('BELEIDSKEUZES'),
         isPublic: true,
-        dataEndpoint: getBeleidskeuzesLineageId,
-        dataVersionEndpoint: getVersionBeleidskeuzesObjectUuid,
-        dataValidEndpoint: getValidBeleidskeuzes,
+        dataEndpoint: readBeleidskeuzeLineage,
+        dataVersionEndpoint: readBeleidskeuzeVersion,
+        dataValidEndpoint: readValidBeleidskeuzes,
     },
     {
         slug: 'beleidsprestaties',
@@ -201,9 +201,9 @@ const detailPages = [
         element: getOverview('BELEIDSPRESTATIES'),
         children: getChildren('BELEIDSPRESTATIES'),
         isPublic: true,
-        dataEndpoint: getBeleidsprestatiesLineageId,
-        dataVersionEndpoint: getVersionBeleidsprestatiesObjectUuid,
-        dataValidEndpoint: getValidBeleidsprestaties,
+        dataEndpoint: readBeleidsprestatieLineage,
+        dataVersionEndpoint: readBeleidsprestatieVersion,
+        dataValidEndpoint: readValidBeleidsprestaties,
     },
     {
         slug: 'themas',
@@ -211,9 +211,9 @@ const detailPages = [
         element: getOverview('THEMAS'),
         children: getChildren('THEMAS'),
         isPublic: true,
-        dataEndpoint: getThemasLineageId,
-        dataVersionEndpoint: getVersionThemasObjectUuid,
-        dataValidEndpoint: getValidThemas,
+        dataEndpoint: readThemaLineage,
+        dataVersionEndpoint: readThemaVersion,
+        dataValidEndpoint: readValidThemas,
     },
     {
         slug: 'beleidsdoelen',
@@ -221,9 +221,9 @@ const detailPages = [
         element: getOverview('BELEIDSDOELEN'),
         children: getChildren('BELEIDSDOELEN'),
         isPublic: true,
-        dataEndpoint: getBeleidsdoelenLineageId,
-        dataVersionEndpoint: getVersionBeleidsdoelenObjectUuid,
-        dataValidEndpoint: getValidBeleidsdoelen,
+        dataEndpoint: readBeleidsdoelLineage,
+        dataVersionEndpoint: readBeleidsdoelVersion,
+        dataValidEndpoint: readValidBeleidsdoelen,
     },
     {
         slug: 'gebiedsprogrammas',
@@ -231,18 +231,18 @@ const detailPages = [
         element: getOverview('GEBIEDSPROGRAMMAS'),
         children: getChildren('GEBIEDSPROGRAMMAS'),
         isPublic: true,
-        dataEndpoint: getGebiedsprogrammas,
-        dataVersionEndpoint: getVersionGebiedsprogrammasObjectUuid,
-        dataValidEndpoint: getValidGebiedsprogrammas,
+        dataEndpoint: readGebiedsprogrammas,
+        dataVersionEndpoint: readGebiedsprogrammaVersion,
+        dataValidEndpoint: readValidGebiedsprogrammas,
     },
     {
         slug: 'verordeningen',
         dataModel: allDimensies.VERORDENINGSARTIKEL,
         element: getOverview('VERORDENINGSTRUCTUUR'),
         isPublic: true,
-        dataEndpoint: getVerordeningenLineageId,
-        dataVersionEndpoint: getVersionVerordeningenObjectUuid,
-        dataValidEndpoint: getValidVerordeningen,
+        dataEndpoint: readVerordeningLineage,
+        dataVersionEndpoint: readVerordeningVersion,
+        dataValidEndpoint: readValidVerordening,
     },
     {
         slug: 'beleidsrelaties',

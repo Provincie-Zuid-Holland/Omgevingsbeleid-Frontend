@@ -1,29 +1,23 @@
 import {
-    BeleidskeuzesReadVerordeningenItem,
-    BeleidskeuzesReadThemasItem,
-    BeleidskeuzesReadMaatregelenItem,
-    BeleidskeuzesReadBeleidsregelsItem,
-    BeleidskeuzesReadBeleidsprestatiesItem,
-    BeleidskeuzesReadBeleidsdoelenItem,
-    BeleidskeuzesReadBelangenItem,
-    AmbitiesRead,
-    AmbitiesWrite,
-    BelangenRead,
-    BelangenWrite,
-    BeleidsdoelenRead,
-    BeleidsdoelenWrite,
-    BeleidskeuzesRead,
-    BeleidskeuzesWrite,
-    BeleidsmodulesRead,
-    BeleidsmodulesWrite,
-    BeleidsprestatiesRead,
-    BeleidsprestatiesWrite,
-    BeleidsregelsRead,
-    BeleidsregelsWrite,
-    MaatregelenRead,
-    MaatregelenWrite,
-    ThemasRead,
-    ThemasWrite,
+    GenericReferenceUpdate,
+    Ambitie,
+    AmbitieUpdate,
+    Belang,
+    BelangUpdate,
+    Beleidsdoel,
+    BeleidsdoelUpdate,
+    Beleidskeuze,
+    BeleidskeuzeUpdate,
+    Beleidsmodule,
+    BeleidsmoduleUpdate,
+    Beleidsprestatie,
+    BeleidsprestatieUpdate,
+    Beleidsregel,
+    BeleidsregelUpdate,
+    Maatregel,
+    MaatregelUpdate,
+    Thema,
+    ThemaUpdate,
 } from '@/api/fetchers.schemas'
 
 /**
@@ -51,43 +45,36 @@ export type DimensionType =
     | 'artikel'
 
 export type MutateReadObjects =
-    | ThemasRead
-    | MaatregelenRead
-    | BeleidsregelsRead
-    | BeleidsprestatiesRead
-    | BeleidsmodulesRead
-    | BeleidskeuzesRead
-    | BeleidsdoelenRead
-    | BelangenRead
-    | AmbitiesRead
+    | Thema
+    | Maatregel
+    | Beleidsregel
+    | Beleidsprestatie
+    | Beleidsmodule
+    | Beleidskeuze
+    | Beleidsdoel
+    | Belang
+    | Ambitie
 
 export type MutateWriteObjects =
-    | ThemasWrite
-    | MaatregelenWrite
-    | BeleidsregelsWrite
-    | BeleidsprestatiesWrite
-    | BeleidsmodulesWrite
-    | BeleidskeuzesWrite
-    | BeleidsdoelenWrite
-    | BelangenWrite
-    | AmbitiesWrite
+    | ThemaUpdate
+    | MaatregelUpdate
+    | BeleidsregelUpdate
+    | BeleidsprestatieUpdate
+    | BeleidsmoduleUpdate
+    | BeleidskeuzeUpdate
+    | BeleidsdoelUpdate
+    | BelangUpdate
+    | AmbitieUpdate
 
 export type TransformedMutateWriteObjects =
-    | MutatedPolicySchema<ThemasWrite>
-    | MutatedPolicySchema<MaatregelenWrite>
-    | MutatedPolicySchema<BeleidsregelsWrite>
-    | MutatedPolicySchema<BeleidsprestatiesWrite>
-    | MutatedPolicySchema<BeleidsmodulesWrite>
-    | MutatedPolicySchema<BeleidskeuzesWrite>
-    | MutatedPolicySchema<BeleidsdoelenWrite>
-    | MutatedPolicySchema<BelangenWrite>
-    | MutatedPolicySchema<AmbitiesWrite>
+    | MutatedPolicySchema<ThemaUpdate>
+    | MutatedPolicySchema<MaatregelUpdate>
+    | MutatedPolicySchema<BeleidsregelUpdate>
+    | MutatedPolicySchema<BeleidsprestatieUpdate>
+    | MutatedPolicySchema<BeleidsmoduleUpdate>
+    | MutatedPolicySchema<BeleidskeuzeUpdate>
+    | MutatedPolicySchema<BeleidsdoelUpdate>
+    | MutatedPolicySchema<BelangUpdate>
+    | MutatedPolicySchema<AmbitieUpdate>
 
-export type BeleidskeuzeConnections =
-    | BeleidskeuzesReadVerordeningenItem
-    | BeleidskeuzesReadThemasItem
-    | BeleidskeuzesReadMaatregelenItem
-    | BeleidskeuzesReadBeleidsregelsItem
-    | BeleidskeuzesReadBeleidsprestatiesItem
-    | BeleidskeuzesReadBeleidsdoelenItem
-    | BeleidskeuzesReadBelangenItem
+export type BeleidskeuzeConnections = GenericReferenceUpdate

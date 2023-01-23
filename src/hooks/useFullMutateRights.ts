@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 
-import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
+import { GebruikerInline } from '@/api/fetchers.schemas'
 import { MutateWriteObjects } from '@/types/dimensions'
 
 /**
  * Function to determine if user can edit all the fields on a mutatePolicy page
  */
 const useFullMutateRights = (
-    user: GetTokeninfo200Identifier | undefined,
+    user: GebruikerInline | undefined,
     initialValues: MutateWriteObjects
 ) => {
     const [hasFullRights, setHasFullRights] = useState(false)

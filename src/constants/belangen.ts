@@ -1,9 +1,9 @@
-import { getBelangen, getValidBelangen } from '@/api/fetchers'
+import { readBelangen, readValidBelangen } from '@/api/fetchers'
 
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
-export const apiCall = getBelangen
-export const validApiCall = getValidBelangen
+export const apiCall = readBelangen
+export const validApiCall = readValidBelangen
 
 export const TITLE_SINGULAR = 'Belang'
 export const TITLE_SINGULAR_PREFIX = 'het'

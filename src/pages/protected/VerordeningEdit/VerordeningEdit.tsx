@@ -7,11 +7,11 @@ import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
 
 import {
-    getGetVersionVerordeningenObjectUuidQueryKey,
-    getVersionVerordeningenObjectUuid,
-    useGetVersionVerordeningenObjectUuid,
+    getReadVerordeningVersionQueryKey,
+    readVerordeningVersion,
+    useReadVerordeningVersion,
 } from '@/api/fetchers'
-import { VerordeningenRead, VerordeningenWrite } from '@/api/fetchers.schemas'
+import { Verordening, VerordeningUpdate } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
 import { Container } from '@/components/Container'
 import { ExtendTypesWithNull } from '@/types/dimensions'
@@ -56,7 +56,7 @@ function VerordeningEdit() {
     const {
         data: activeSectionDataFromAPI,
         isInitialLoading: isLoadingVersion,
-    } = useGetVersionVerordeningenObjectUuid(editingSectionUUID || '', {
+    } = useReadVerordeningVersion(editingSectionUUID || '', {
         query: {
             enabled: !!editingSectionUUID,
         },
@@ -120,9 +120,7 @@ function VerordeningEdit() {
 
             if (children.length > 0) {
                 Promise.all(
-                    children.map(child =>
-                        getVersionVerordeningenObjectUuid(child.UUID)
-                    )
+                    children.map(child => readVerordeningVersion(child.UUID))
                 )
                     .then(resolvedChildren => {
                         dispatch({
@@ -204,11 +202,11 @@ function VerordeningEdit() {
      * @param values the data from the Formik forms
      */
     type CustomFormikValues =
-        | (ExtendTypesWithNull<VerordeningenRead> & {
-              Children?: ExtendTypesWithNull<VerordeningenRead>[]
+        | (ExtendTypesWithNull<Verordening> & {
+              Children?: ExtendTypesWithNull<Verordening>[]
           })
-        | (ExtendTypesWithNull<VerordeningenWrite> & {
-              Children?: ExtendTypesWithNull<VerordeningenRead>[]
+        | (ExtendTypesWithNull<VerordeningUpdate> & {
+              Children?: ExtendTypesWithNull<Verordening>[]
           })
     const handleSubmit = async (
         values: CustomFormikValues,
@@ -232,14 +230,14 @@ function VerordeningEdit() {
                  * Check if values is of Type `Artikel`. If so it could have `Leden` on the `Children` property
                  * If that is the case we need to patch these as well.
                  */
-                let patchedChildren: VerordeningenRead[] | null = null
+                let patchedChildren: Verordening[] | null = null
 
                 if (values.Type === 'Artikel' && values.Children) {
                     patchedChildren = await Promise.all(
                         values.Children.map(async child => {
                             const childInWriteFormat =
                                 mutateVerordeningenReadToVerordeningenWrite(
-                                    child as VerordeningenRead
+                                    child as Verordening
                                 )
 
                             const patchedChild = await patchVerordeningSection(
@@ -255,7 +253,7 @@ function VerordeningEdit() {
                 /** Transform the values to verordeningenWrite type */
                 const valuesInWriteFormat =
                     mutateVerordeningenReadToVerordeningenWrite(
-                        values as VerordeningenRead
+                        values as Verordening
                     )
 
                 /** Patch the section */
@@ -296,7 +294,7 @@ function VerordeningEdit() {
                     patchedVerordening
                 )
                 queryClient.setQueryData(
-                    getGetVersionVerordeningenObjectUuidQueryKey(
+                    getReadVerordeningVersionQueryKey(
                         patchedSection.UUID || ''
                     ),
                     patchedSection
@@ -317,14 +315,14 @@ function VerordeningEdit() {
                  * Check if postObject is of Type `Artikel`. If so it could have `Leden` on the `Children` property
                  * If that is the case we need to patch these as well.
                  */
-                let patchedChildren: VerordeningenRead[] | null = null
+                let patchedChildren: Verordening[] | null = null
 
                 if (newSection?.Type === 'Artikel' && postObject.Children) {
                     patchedChildren = await Promise.all(
                         postObject.Children.map(async child => {
                             const childInWriteFormat =
                                 mutateVerordeningenReadToVerordeningenWrite(
-                                    child as VerordeningenRead
+                                    child as Verordening
                                 )
 
                             const patchedChild = await patchVerordeningSection(
@@ -340,14 +338,14 @@ function VerordeningEdit() {
                 }
 
                 postObject = mutateVerordeningenReadToVerordeningenWrite(
-                    postObject as VerordeningenRead
+                    postObject as Verordening
                 )
 
                 /** Create Verordening Object from newSection and postObject */
                 const createdSectionFromAPI = await postVerordeningSection({
                     ...postObject,
                     ...newSection,
-                } as VerordeningenWrite)
+                } as VerordeningUpdate)
 
                 const createdSectionForStructurePatch =
                     transformVerordeningenReadToVerordeningChildRead(

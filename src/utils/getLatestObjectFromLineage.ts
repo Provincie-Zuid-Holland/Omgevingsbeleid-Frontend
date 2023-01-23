@@ -1,27 +1,27 @@
 import {
-    AmbitiesRead,
-    BelangenRead,
-    BeleidsdoelenRead,
-    BeleidskeuzesRead,
-    BeleidsmodulesRead,
-    BeleidsprestatiesRead,
-    BeleidsregelsRead,
-    MaatregelenRead,
-    ThemasRead,
+    Ambitie,
+    Belang,
+    Beleidsdoel,
+    Beleidskeuze,
+    Beleidsmodule,
+    Beleidsprestatie,
+    Beleidsregel,
+    Maatregel,
+    Thema,
 } from '@/api/fetchers.schemas'
 import { PolicyTitlesSingular } from '@/constants/policyObjects'
 
 export const getLatestObjectFromLineage = (
     lineage: Array<
-        | AmbitiesRead
-        | BelangenRead
-        | BeleidsdoelenRead
-        | BeleidskeuzesRead
-        | BeleidsmodulesRead
-        | BeleidsprestatiesRead
-        | BeleidsregelsRead
-        | MaatregelenRead
-        | ThemasRead
+        | Ambitie
+        | Belang
+        | Beleidsdoel
+        | Beleidskeuze
+        | Beleidsmodule
+        | Beleidsprestatie
+        | Beleidsregel
+        | Maatregel
+        | Thema
     >,
     titleSingular: PolicyTitlesSingular,
     modus: string | null

@@ -4,13 +4,10 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
+import { readBeleidsrelaties, readBeleidskeuzeVersion } from '@/api/fetchers'
 import {
-    getBeleidsrelaties,
-    getVersionBeleidskeuzesObjectUuid,
-} from '@/api/fetchers'
-import {
-    BeleidskeuzesRead,
-    BeleidsrelatiesRead,
+    Beleidskeuze,
+    Beleidsrelatie,
     BeleidsrelatiesReadStatus,
 } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
@@ -49,14 +46,14 @@ const BeleidsrelatiesDetail = ({
 
     /** Incoming and outgoing relations */
     const [incoming_Beleidskeuzes, setIncoming_Beleidskeuzes] = useState<
-        BeleidsrelatiesRead[]
+        Beleidsrelatie[]
     >([])
     const [outgoing_Beleidskeuzes, setOutgoing_Beleidskeuzes] = useState<
-        BeleidsrelatiesRead[]
+        Beleidsrelatie[]
     >([])
 
     /** State for the beleidsObject that the user is viewing the detail page of */
-    const [beleidsObject, setBeleidsObject] = useState<BeleidskeuzesRead>({})
+    const [beleidsObject, setBeleidsObject] = useState<Beleidskeuze>({})
 
     /** Popup State */
     const [motivationPopUp, setMotivationPopUp] = useState<
@@ -67,10 +64,10 @@ const BeleidsrelatiesDetail = ({
     >(null)
 
     /** State containing the filtered relations */
-    const [relations, setRelations] = useState<BeleidsrelatiesRead[]>([])
-    const [rejected, setRejected] = useState<BeleidsrelatiesRead[]>([])
-    const [disconnected, setDisconnected] = useState<BeleidsrelatiesRead[]>([])
-    const [requests, setRequests] = useState<BeleidsrelatiesRead[]>([])
+    const [relations, setRelations] = useState<Beleidsrelatie[]>([])
+    const [rejected, setRejected] = useState<Beleidsrelatie[]>([])
+    const [disconnected, setDisconnected] = useState<Beleidsrelatie[]>([])
+    const [requests, setRequests] = useState<Beleidsrelatie[]>([])
 
     /** Contains the UUID from the URL */
     const { UUID } = useParams<{ UUID: string }>()
@@ -80,16 +77,14 @@ const BeleidsrelatiesDetail = ({
      * @param {string} UUID - UUID of the beleidskeuze we want to retrieve
      */
     const getAndSetBeleidskeuze = (UUID: string) =>
-        getVersionBeleidskeuzesObjectUuid(UUID).then(data =>
-            setBeleidsObject(data)
-        )
+        readBeleidskeuzeVersion(UUID).then(data => setBeleidsObject(data))
 
     /**
      * Function that gets all relations from a specific beleidskeuze
      * @param {string} UUID - UUID of the beleidskeuze
      */
     const getBeleidsrelatiesVanBeleidskeuze = (UUID: string) =>
-        getBeleidsrelaties({ all_filters: `Van_Beleidskeuze:${UUID}` }).then(
+        readBeleidsrelaties({ all_filters: `Van_Beleidskeuze:${UUID}` }).then(
             data => {
                 if (data.length !== 0) setOutgoing_Beleidskeuzes(data)
             }
@@ -100,7 +95,7 @@ const BeleidsrelatiesDetail = ({
      * @param {string} UUID - UUID of the beleidskeuze
      */
     const getBeleidsrelatiesNaarBeleidskeuze = (UUID: string) =>
-        getBeleidsrelaties({ all_filters: `Naar_Beleidskeuze:${UUID}` }).then(
+        readBeleidsrelaties({ all_filters: `Naar_Beleidskeuze:${UUID}` }).then(
             data => {
                 if (data.length !== 0) setIncoming_Beleidskeuzes(data)
             }
@@ -110,7 +105,7 @@ const BeleidsrelatiesDetail = ({
      * Function to accept an incoming relation
      * @param {object} beleidsrelatieObject - Contains the relation object
      */
-    const relationshipAccept = (beleidsrelatieObject: BeleidsrelatiesRead) => {
+    const relationshipAccept = (beleidsrelatieObject: Beleidsrelatie) => {
         const patchedBeleidsrelatieObject = {
             Status: 'Akkoord',
             Begin_Geldigheid: beleidsrelatieObject.Begin_Geldigheid,
@@ -168,7 +163,7 @@ const BeleidsrelatiesDetail = ({
      * Function to refuse an incoming relation
      * @param {object} beleidsrelatieObject - Contains the relation object
      */
-    const relationshipReject = (beleidsrelatieObject: BeleidsrelatiesRead) => {
+    const relationshipReject = (beleidsrelatieObject: Beleidsrelatie) => {
         const patchedBeleidsrelatieObject = {
             Begin_Geldigheid: beleidsrelatieObject.Begin_Geldigheid,
             Eind_Geldigheid: beleidsrelatieObject.Eind_Geldigheid,
@@ -200,9 +195,7 @@ const BeleidsrelatiesDetail = ({
      * Function to disconnect a relation
      * @param {object} beleidsrelatieObject - Contains the relation object
      */
-    const relationshipDisconnect = (
-        beleidsrelatieObject: BeleidsrelatiesRead
-    ) => {
+    const relationshipDisconnect = (beleidsrelatieObject: Beleidsrelatie) => {
         const patchedBeleidsrelatieObject = {
             Begin_Geldigheid: beleidsrelatieObject.Begin_Geldigheid,
             Eind_Geldigheid: beleidsrelatieObject.Eind_Geldigheid,
@@ -355,11 +348,9 @@ const BeleidsrelatiesDetail = ({
                     </div>
                     <div className="flex-shrink-0">
                         <Link to={`/muteer/beleidsrelaties/${UUID}/nieuw`}>
-                            <Button
-                                variant="cta"
-                                icon={Plus}
-                                label="Nieuwe relatie"
-                            />
+                            <Button variant="cta" icon={Plus}>
+                                Nieuwe relatie
+                            </Button>
                         </Link>
                     </div>
                 </div>

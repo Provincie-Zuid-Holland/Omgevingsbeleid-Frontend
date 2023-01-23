@@ -6,7 +6,7 @@ import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Select from 'react-select'
 
-import { useGetValidWerkingsgebieden } from '@/api/fetchers'
+import { useReadValidWerkingsgebied } from '@/api/fetchers'
 import { LeafletSearchInput } from '@/components/Leaflet'
 import { MAP_SEARCH_PAGE } from '@/constants/leaflet'
 import useSearchParam from '@/hooks/useSearchParam'
@@ -34,7 +34,7 @@ const SidebarInformation = ({
 
     const searchInput = useRef<HTMLInputElement>(null)
 
-    const { data, isLoading } = useGetValidWerkingsgebieden()
+    const { data, isLoading } = useReadValidWerkingsgebied()
     const selectedVal = useMemo(
         () => data?.find(item => item.UUID === paramWerkingsgebied),
         [data, paramWerkingsgebied]

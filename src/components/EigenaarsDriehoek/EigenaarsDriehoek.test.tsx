@@ -7,14 +7,35 @@ describe('EigenaarsDriehoek', () => {
         render(
             <EigenaarsDriehoek
                 dataObject={{
-                    Opdrachtgever: { Gebruikersnaam: 'Opdrachtgever_test' },
-                    Eigenaar_1: { Gebruikersnaam: 'Eigenaar_1_test' },
-                    Eigenaar_2: { Gebruikersnaam: 'Eigenaar_2_test' },
+                    Opdrachtgever: {
+                        Gebruikersnaam: 'Opdrachtgever_test',
+                        Rol: '',
+                        Status: '',
+                        UUID: '',
+                    },
+                    Eigenaar_1: {
+                        Gebruikersnaam: 'Eigenaar_1_test',
+                        Rol: '',
+                        Status: '',
+                        UUID: '',
+                    },
+                    Eigenaar_2: {
+                        Gebruikersnaam: 'Eigenaar_2_test',
+                        Rol: '',
+                        Status: '',
+                        UUID: '',
+                    },
                     Portefeuillehouder_1: {
                         Gebruikersnaam: 'Portefeuillehouder_1_test',
+                        Rol: '',
+                        Status: '',
+                        UUID: '',
                     },
                     Portefeuillehouder_2: {
                         Gebruikersnaam: 'Portefeuillehouder_2_test',
+                        Rol: '',
+                        Status: '',
+                        UUID: '',
                     },
                 }}
             />

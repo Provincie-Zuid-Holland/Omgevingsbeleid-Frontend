@@ -2,10 +2,10 @@ import { useEffect, useLayoutEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import { getBeleidskeuzes, getBeleidsrelaties } from '@/api/fetchers'
+import { readBeleidskeuzes, readBeleidsrelaties } from '@/api/fetchers'
 import {
-    BeleidskeuzesRead,
-    BeleidsrelatiesRead,
+    BeleidskeuzeListable,
+    Beleidsrelatie,
     BeleidsrelatiesReadStatus,
 } from '@/api/fetchers.schemas'
 import { ContainerMain } from '@/components/Container'
@@ -19,10 +19,10 @@ import BeleidsrelatiesOverzicht from '../BeleidsrelatiesOverzicht'
  */
 function Beleidsrelaties() {
     const [currentView, setCurrentView] = useState('overzicht')
-    const [beleidsrelaties, setBeleidsrelaties] = useState<
-        BeleidsrelatiesRead[]
-    >([])
-    const [beleidskeuzes, setBeleidskeuzes] = useState<BeleidskeuzesRead[]>([])
+    const [beleidsrelaties, setBeleidsrelaties] = useState<Beleidsrelatie[]>([])
+    const [beleidskeuzes, setBeleidskeuzes] = useState<BeleidskeuzeListable[]>(
+        []
+    )
     const [isLoading, setIsLoading] = useState(true)
 
     const { user } = useAuth()
@@ -56,10 +56,10 @@ function Beleidsrelaties() {
         if (!UserUUID) return
 
         Promise.all([
-            getBeleidskeuzes({
+            readBeleidskeuzes({
                 any_filters: `Created_By:${UserUUID},Eigenaar_1:${UserUUID},Eigenaar_2:${UserUUID},Opdrachtgever:${UserUUID}`,
             }),
-            getBeleidsrelaties(),
+            readBeleidsrelaties(),
         ])
             .then(([beleidskeuzes, beleidsrelaties]) => {
                 setBeleidskeuzes(beleidskeuzes)

@@ -5,8 +5,8 @@ import { useFormikContext } from 'formik'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
-import { getWerkingsgebieden } from '@/api/fetchers'
-import { WerkingsgebiedenRead } from '@/api/fetchers.schemas'
+import { readWerkingsgebied } from '@/api/fetchers'
+import { Werkingsgebied } from '@/api/fetchers.schemas'
 import { PopupContainer } from '@/components/Popup'
 import formatDate from '@/utils/formatDate'
 
@@ -53,8 +53,9 @@ const FormikWerkingsgebied = ({
     }
 
     const [popupOpen, setPopupOpen] = useState(false)
-    const [werkingsgebied, setWerkingsgebied] =
-        useState<WerkingsgebiedenRead | null>(null)
+    const [werkingsgebied, setWerkingsgebied] = useState<Werkingsgebied | null>(
+        null
+    )
 
     useEffect(() => {
         if (dataObjectProperty === 'Gebied') {
@@ -125,7 +126,7 @@ const FormikWerkingsgebied = ({
 interface CardSelectedWerkingsgebiedProps {
     setPopupOpen: (state: boolean) => void
     parentStateHandler: (type: parentStateHandlerTypes, newValue?: any) => void
-    werkingsgebied: WerkingsgebiedenRead | null
+    werkingsgebied: Werkingsgebied | null
     show?: boolean
 }
 
@@ -216,11 +217,11 @@ const WerkingsgebiedPopup = ({
     const [filterQuery, setFilterQuery] = useState('')
     const [isLoading, setIsLoading] = useState(true)
     const [werkingsgebieden, setWerkingsgebieden] = useState<
-        WerkingsgebiedenRead[] | null
+        Werkingsgebied[] | null
     >(null)
 
     const getAndSetWerkingsgebieden = () => {
-        getWerkingsgebieden()
+        readWerkingsgebied()
             .then(data => {
                 setWerkingsgebieden(data)
                 setIsLoading(false)
@@ -240,7 +241,7 @@ const WerkingsgebiedPopup = ({
         return `https://geo-omgevingsbeleid-test.azurewebsites.net/wms/reflect?format=image/png&layers=OMGEVINGSBELEID:Werkingsgebieden_brt&srs=EPSG:28992&width=450&bbox=43662.62,406692,140586.08,483120&cql_filter=UUID IN ('${UUID}')`
     }
 
-    const setInParent = (gebied: WerkingsgebiedenRead) => {
+    const setInParent = (gebied: Werkingsgebied) => {
         if (dataObjectProperty === 'Gebied') {
             parentStateHandler('ADD_CONNECTION', gebied)
         } else if (dataObjectProperty === 'Werkingsgebieden') {

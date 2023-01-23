@@ -1,10 +1,6 @@
 import { Link } from 'react-router-dom'
 
-import {
-    BeleidskeuzeShortRead,
-    BeleidskeuzesRead,
-    BeleidsrelatiesRead,
-} from '@/api/fetchers.schemas'
+import { Beleidskeuze, Beleidsrelatie } from '@/api/fetchers.schemas'
 import { generateHrefVerordeningsartikel } from '@/utils/generateHrefVerordeningsartikel'
 
 import {
@@ -12,7 +8,7 @@ import {
     connectionPropertiesColors,
 } from '../RelatiesKoppelingen'
 
-const getObjectFromRelation = (relation: BeleidsrelatiesRead) => {
+const getObjectFromRelation = (relation: Beleidsrelatie) => {
     return relation.hasOwnProperty('Van_Beleidskeuze')
         ? relation.Van_Beleidskeuze
         : relation.hasOwnProperty('Naar_Beleidskeuze')
@@ -41,10 +37,10 @@ const slugs = {
  */
 
 interface RelatiesKoppelingenTekstueelProps {
-    beleidsObject: BeleidskeuzesRead
+    beleidsObject: Beleidskeuze
     connectionProperties: ConnectionProperties[]
     connectionPropertiesColors: typeof connectionPropertiesColors
-    beleidsRelaties: BeleidskeuzeShortRead[]
+    beleidsRelaties: Beleidsrelatie[]
     verordeningsStructure: any
 }
 

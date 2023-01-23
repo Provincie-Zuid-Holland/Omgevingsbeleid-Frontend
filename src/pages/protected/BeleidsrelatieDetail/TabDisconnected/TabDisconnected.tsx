@@ -1,9 +1,6 @@
 import { useParams } from 'react-router-dom'
 
-import {
-    BeleidskeuzesInline,
-    BeleidsrelatiesRead,
-} from '@/api/fetchers.schemas'
+import { Beleidskeuze, Beleidsrelatie } from '@/api/fetchers.schemas'
 import { LoaderBeleidsrelatieRegel } from '@/components/Loader'
 import formatDate from '@/utils/formatDate'
 
@@ -18,7 +15,7 @@ import PopupMotivation from '../PopupMotivation'
 
 interface TabDisconnectedProps {
     loaded?: boolean
-    disconnected: BeleidsrelatiesRead[]
+    disconnected: Beleidsrelatie[]
     motivationPopUp?: string | null
     setMotivationPopUp: (UUID?: string | null) => void
 }
@@ -32,8 +29,8 @@ function TabDisconnected({
     const { UUID } = useParams<{ UUID: string }>()
 
     const getPropertyFromRelation = (
-        relation: BeleidsrelatiesRead,
-        property: keyof BeleidskeuzesInline
+        relation: Beleidsrelatie,
+        property: keyof Beleidskeuze
     ) => {
         if (relation.Van_Beleidskeuze?.UUID === UUID) {
             return relation.Naar_Beleidskeuze?.[property]

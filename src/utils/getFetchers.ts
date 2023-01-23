@@ -1,45 +1,45 @@
 import {
-    usePostAmbities,
-    usePostBelangen,
-    usePostBeleidskeuzes,
-    usePostBeleidsregels,
-    usePostBeleidsprestaties,
-    usePostBeleidsmodules,
-    usePostBeleidsdoelen,
-    usePostMaatregelen,
-    usePostThemas,
-    usePostVerordeningen,
-    useGetAmbitiesLineageId,
-    useGetBelangenLineageId,
-    useGetBeleidsdoelenLineageId,
-    useGetBeleidskeuzesLineageId,
-    useGetBeleidsmodulesLineageId,
-    useGetBeleidsprestatiesLineageId,
-    useGetBeleidsregelsLineageId,
-    useGetMaatregelenLineageId,
-    useGetThemasLineageId,
-    useGetVerordeningenLineageId,
-    usePatchAmbitiesLineageId,
-    usePatchBelangenLineageId,
-    usePatchBeleidskeuzesLineageId,
-    usePatchBeleidsregelsLineageId,
-    usePatchBeleidsprestatiesLineageId,
-    usePatchBeleidsmodulesLineageId,
-    usePatchBeleidsdoelenLineageId,
-    usePatchMaatregelenLineageId,
-    usePatchThemasLineageId,
-    usePatchVerordeningenLineageId,
-    useGetAmbities,
-    useGetBelangen,
-    useGetBeleidskeuzes,
-    useGetBeleidsregels,
-    useGetBeleidsprestaties,
-    useGetBeleidsmodules,
-    useGetBeleidsdoelen,
-    useGetMaatregelen,
-    useGetThemas,
-    usePatchGebiedsprogrammasLineageId,
-    useGetGebiedsprogrammas,
+    useCreateAmbitie,
+    useCreateBelang,
+    useCreateBeleidskeuze,
+    useCreateBeleidsregel,
+    useCreateBeleidsprestatie,
+    useCreateBeleidsmodule,
+    useCreateBeleidsdoel,
+    useCreateMaatregel,
+    useCreateThema,
+    useCreateVerordening,
+    useReadAmbitieLineage,
+    useReadBelangLineage,
+    useReadBeleidsdoelLineage,
+    useReadBeleidskeuzeLineage,
+    useReadBeleidsmoduleLineage,
+    useReadBeleidsprestatieLineage,
+    useReadBeleidsregelLineage,
+    useReadMaatregelLineage,
+    useReadThemaLineage,
+    useReadVerordeningLineage,
+    useUpdateAmbitie,
+    useUpdateBelang,
+    useUpdateBeleidskeuze,
+    useUpdateBeleidsregel,
+    useUpdateBeleidsprestatie,
+    useUpdateBeleidsmodule,
+    useUpdateBeleidsdoel,
+    useUpdateMaatregel,
+    useUpdateThema,
+    useUpdateVerordening,
+    useUpdateGebiedsprogramma,
+    useReadAmbities,
+    useReadBelangen,
+    useReadBeleidskeuzes,
+    useReadBeleidsregels,
+    useReadBeleidsprestaties,
+    useReadBeleidsmodules,
+    useReadBeleidsdoelen,
+    useReadMaatregelen,
+    useReadThemas,
+    useReadGebiedsprogrammas,
 } from '@/api/fetchers'
 import { filteredDimensieConstants } from '@/constants/dimensies'
 
@@ -50,27 +50,27 @@ export const getFetcherForType = (
 ) => {
     switch (titleSingular) {
         case 'Ambitie':
-            return useGetAmbities
+            return useReadAmbities
         case 'Belang':
-            return useGetBelangen
+            return useReadBelangen
         case 'Beleidskeuze':
-            return useGetBeleidskeuzes
+            return useReadBeleidskeuzes
         case 'Beleidsregel':
-            return useGetBeleidsregels
+            return useReadBeleidsregels
         case 'Beleidsprestatie':
-            return useGetBeleidsprestaties
+            return useReadBeleidsprestaties
         case 'Beleidsmodule':
-            return useGetBeleidsmodules
+            return useReadBeleidsmodules
         case 'Beleidsdoel':
-            return useGetBeleidsdoelen
+            return useReadBeleidsdoelen
         case 'Maatregel':
-            return useGetMaatregelen
+            return useReadMaatregelen
         case 'Thema':
-            return useGetThemas
+            return useReadThemas
         case 'Verordening':
             return useGetVerordeningenStructuren
         case 'Gebiedsprogramma':
-            return useGetGebiedsprogrammas
+            return useReadGebiedsprogrammas
     }
 }
 
@@ -79,25 +79,25 @@ export const getFetcherForPolicyLineage = (
 ) => {
     switch (titleSingular) {
         case 'Ambitie':
-            return useGetAmbitiesLineageId
+            return useReadAmbitieLineage
         case 'Belang':
-            return useGetBelangenLineageId
+            return useReadBelangLineage
         case 'Beleidskeuze':
-            return useGetBeleidskeuzesLineageId
+            return useReadBeleidskeuzeLineage
         case 'Beleidsregel':
-            return useGetBeleidsregelsLineageId
+            return useReadBeleidsregelLineage
         case 'Beleidsprestatie':
-            return useGetBeleidsprestatiesLineageId
+            return useReadBeleidsprestatieLineage
         case 'Beleidsmodule':
-            return useGetBeleidsmodulesLineageId
+            return useReadBeleidsmoduleLineage
         case 'Beleidsdoel':
-            return useGetBeleidsdoelenLineageId
+            return useReadBeleidsdoelLineage
         case 'Maatregel':
-            return useGetMaatregelenLineageId
+            return useReadMaatregelLineage
         case 'Thema':
-            return useGetThemasLineageId
+            return useReadThemaLineage
         case 'Verordening':
-            return useGetVerordeningenLineageId
+            return useReadVerordeningLineage
     }
 }
 
@@ -106,27 +106,27 @@ export const getMutationForPolicyLineage = (
 ) => {
     switch (titleSingular) {
         case 'Ambitie':
-            return usePatchAmbitiesLineageId
+            return useUpdateAmbitie
         case 'Belang':
-            return usePatchBelangenLineageId
+            return useUpdateBelang
         case 'Beleidskeuze':
-            return usePatchBeleidskeuzesLineageId
+            return useUpdateBeleidskeuze
         case 'Beleidsregel':
-            return usePatchBeleidsregelsLineageId
+            return useUpdateBeleidsregel
         case 'Beleidsprestatie':
-            return usePatchBeleidsprestatiesLineageId
+            return useUpdateBeleidsprestatie
         case 'Beleidsmodule':
-            return usePatchBeleidsmodulesLineageId
+            return useUpdateBeleidsmodule
         case 'Beleidsdoel':
-            return usePatchBeleidsdoelenLineageId
+            return useUpdateBeleidsdoel
         case 'Maatregel':
-            return usePatchMaatregelenLineageId
+            return useUpdateMaatregel
         case 'Thema':
-            return usePatchThemasLineageId
+            return useUpdateThema
         case 'Verordening':
-            return usePatchVerordeningenLineageId
+            return useUpdateVerordening
         case 'Gebiedsprogramma':
-            return usePatchGebiedsprogrammasLineageId
+            return useUpdateGebiedsprogramma
     }
 }
 
@@ -135,24 +135,24 @@ export const getPostForPolicy = (
 ) => {
     switch (titleSingular) {
         case 'Ambitie':
-            return usePostAmbities
+            return useCreateAmbitie
         case 'Belang':
-            return usePostBelangen
+            return useCreateBelang
         case 'Beleidskeuze':
-            return usePostBeleidskeuzes
+            return useCreateBeleidskeuze
         case 'Beleidsregel':
-            return usePostBeleidsregels
+            return useCreateBeleidsregel
         case 'Beleidsprestatie':
-            return usePostBeleidsprestaties
+            return useCreateBeleidsprestatie
         case 'Beleidsmodule':
-            return usePostBeleidsmodules
+            return useCreateBeleidsmodule
         case 'Beleidsdoel':
-            return usePostBeleidsdoelen
+            return useCreateBeleidsdoel
         case 'Maatregel':
-            return usePostMaatregelen
+            return useCreateMaatregel
         case 'Thema':
-            return usePostThemas
+            return useCreateThema
         case 'Verordening':
-            return usePostVerordeningen
+            return useCreateVerordening
     }
 }

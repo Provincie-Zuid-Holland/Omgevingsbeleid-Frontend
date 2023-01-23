@@ -5,7 +5,7 @@ import { useFormikContext } from 'formik'
 import { motion } from 'framer-motion'
 import { FC, Fragment, useEffect, useRef, useState } from 'react'
 
-import { useGetGebruikers } from '@/api/fetchers'
+import { useGebruikers } from '@/api/fetchers'
 import { FormFieldWerkingsgebied } from '@/components/Form'
 import FormikSelectUser from '@/components/Form/FormikSelectUser'
 
@@ -15,7 +15,7 @@ export interface FormArticleSidebarProps {}
 
 function FormArticleSidebar({}: FormArticleSidebarProps) {
     const { values, setFieldValue } = useFormikContext<FormikValues>()
-    const { data: users } = useGetGebruikers()
+    const { data: users } = useGebruikers()
 
     const [allSubSectionsHaveSameGeoArea, setAllSubSectionsHaveSameGeoArea] =
         useState(false)

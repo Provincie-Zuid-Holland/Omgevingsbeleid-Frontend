@@ -8,10 +8,10 @@
  * @param {string} eigenaarType - Displays the type of owner in the component.
  */
 
-import { GebruikersInline } from '@/api/fetchers.schemas'
+import { GebruikerInline } from '@/api/fetchers.schemas'
 
 interface EigenaarsDriehoekItem {
-    owner: GebruikersInline
+    owner: GebruikerInline
     eigenaarType?: string
 }
 

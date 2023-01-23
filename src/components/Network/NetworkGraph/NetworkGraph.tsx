@@ -6,8 +6,8 @@ import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { matchPath, useLocation } from 'react-router-dom'
 
-import { getGraph } from '@/api/fetchers'
-import { GetGraph200, GetGraph200NodesItem } from '@/api/fetchers.schemas'
+import { graph } from '@/api/fetchers'
+import { GraphView, NodeItem } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
 import networkGraphConnectionProperties from '@/constants/networkGraphConnectionProperties'
 import networkGraphFilterMenu from '@/constants/networkGraphFilterMenu'
@@ -90,7 +90,7 @@ const NetworkGraph = () => {
     } = useQuery(
         ['/graph'],
         () =>
-            getGraph().then(data => {
+            graph().then(data => {
                 const transformedData = addColorAndUUIDToNodes(data)
                 setFilters({ type: 'init', data: transformedData })
                 return transformedData
@@ -169,26 +169,24 @@ const NetworkGraph = () => {
      * Function to add a Hex value and a UUID to each node
      * @param {object} data - Contains the graph data we receive from the API
      */
-    const addColorAndUUIDToNodes = (data: GetGraph200) => {
+    const addColorAndUUIDToNodes = (data: GraphView) => {
         if (!data) return null
 
-        data.nodes?.forEach(
-            (node: GetGraph200NodesItem & { [key: string]: any }) => {
-                const nodeType =
-                    node.Type as keyof typeof networkGraphConnectionProperties
+        data.nodes?.forEach((node: NodeItem & { [key: string]: any }) => {
+            const nodeType =
+                node.Type as keyof typeof networkGraphConnectionProperties
 
-                if (!networkGraphConnectionProperties[nodeType]) {
-                    console.error(
-                        `Node with type ${node.Type} doesn't exist on connection properties`
-                    )
-                }
-
-                node.color = networkGraphConnectionProperties[nodeType].hex
-                node.colorLight =
-                    networkGraphConnectionProperties[nodeType].hexLight
-                node.id = node.UUID
+            if (!networkGraphConnectionProperties[nodeType]) {
+                console.error(
+                    `Node with type ${node.Type} doesn't exist on connection properties`
+                )
             }
-        )
+
+            node.color = networkGraphConnectionProperties[nodeType].hex
+            node.colorLight =
+                networkGraphConnectionProperties[nodeType].hexLight
+            node.id = node.UUID
+        })
 
         return data
     }

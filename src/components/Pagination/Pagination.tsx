@@ -1,20 +1,15 @@
 import { Button } from '@pzh-ui/components'
 import { useState } from 'react'
 
-import { getSearch, postSearchGeo } from '@/api/fetchers'
-import {
-    GetSearch200ResultsItem,
-    GetSearchGeo200ResultsItem,
-} from '@/api/fetchers.schemas'
+import { search, geoSearch } from '@/api/fetchers'
+import { SearchResultWrapperResultsItem } from '@/api/fetchers.schemas'
 import LoaderSpinner from '@/components/Loader/LoaderSpinner'
 import useSearchFilterStore from '@/hooks/useSearchFilterStore'
 import useSearchParam from '@/hooks/useSearchParam'
 
 export interface PaginationProps {
-    searchResults: GetSearch200ResultsItem[] | GetSearchGeo200ResultsItem[]
-    setSearchResults: (
-        searchResults: GetSearch200ResultsItem[] | GetSearchGeo200ResultsItem[]
-    ) => void
+    searchResults: SearchResultWrapperResultsItem[]
+    setSearchResults: (searchResults: SearchResultWrapperResultsItem[]) => void
     UUIDs?: string[]
     limit?: number
     total?: number
@@ -40,7 +35,7 @@ function Pagination({
 
     const getResults = async () => {
         if ((paramGeo || paramWerkingsgebied) && UUIDs?.length) {
-            return await postSearchGeo({
+            return await geoSearch({
                 query: paramWerkingsgebied || UUIDs.join(','),
                 offset,
                 limit,
@@ -49,7 +44,7 @@ function Pagination({
         }
 
         if (paramTextQuery) {
-            return await getSearch({
+            return await search({
                 query: paramTextQuery,
                 offset,
                 limit,
@@ -85,10 +80,9 @@ function Pagination({
                     <span>Resultaten worden geladen</span>
                 </div>
             ) : (
-                <Button
-                    label="Meer resultaten laden"
-                    onClick={getNewSearchResults}
-                />
+                <Button onPress={getNewSearchResults}>
+                    Meer resultaten laden
+                </Button>
             )}
         </div>
     )

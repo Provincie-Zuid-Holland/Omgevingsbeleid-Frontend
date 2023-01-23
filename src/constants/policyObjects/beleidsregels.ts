@@ -1,27 +1,27 @@
 import { object, ObjectSchema } from 'yup'
 
 import {
-    usePostBeleidsregels,
-    useGetBeleidsregelsLineageId,
-    usePatchBeleidsregelsLineageId,
-    useGetValidBeleidsregelsLineageId,
-    useGetBeleidsregels,
-    useGetVersionBeleidsregelsObjectUuid,
-    useGetValidBeleidsregels,
+    useCreateBeleidsregel,
+    useReadBeleidsregelLineage,
+    useUpdateBeleidsregel,
+    useReadValidBeleidsregelLineage,
+    useReadBeleidsregels,
+    useReadBeleidsregelVersion,
+    useReadValidBeleidsregels,
 } from '@/api/fetchers'
-import { BeleidsregelsWrite } from '@/api/fetchers.schemas'
+import { BeleidsregelUpdate } from '@/api/fetchers.schemas'
 import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
 import { schemaDefaults, generateSchemaTitles } from '@/utils/yupSchema'
 
 const queryBeleidsregels: SchemaMetaQueries = {
-    usePost: usePostBeleidsregels,
-    useGet: useGetBeleidsregels,
-    useGetVersion: useGetVersionBeleidsregelsObjectUuid,
-    useGetLineage: useGetBeleidsregelsLineageId,
-    useGetValidLineage: useGetValidBeleidsregelsLineageId,
-    usePatchLineage: usePatchBeleidsregelsLineageId,
-    useGetValid: useGetValidBeleidsregels,
+    usePost: useCreateBeleidsregel,
+    useGet: useReadBeleidsregels,
+    useGetVersion: useReadBeleidsregelVersion,
+    useGetLineage: useReadBeleidsregelLineage,
+    useGetValidLineage: useReadValidBeleidsregelLineage,
+    usePatchLineage: useUpdateBeleidsregel,
+    useGetValid: useReadValidBeleidsregels,
 }
 
 const beleidsregelsTitles = generateSchemaTitles({
@@ -39,7 +39,7 @@ const beleidsregelsMeta: SchemaMeta<typeof queryBeleidsregels> = {
     query: queryBeleidsregels,
 }
 
-export const SCHEMA: ObjectSchema<MutatedPolicySchema<BeleidsregelsWrite>> =
+export const SCHEMA: ObjectSchema<MutatedPolicySchema<BeleidsregelUpdate>> =
     object({
         Titel: schemaDefaults.Titel,
         Omschrijving: schemaDefaults.optionalString,
@@ -53,4 +53,4 @@ export const META = SCHEMA.describe().meta as SchemaMeta<
     typeof queryBeleidsregels
 >
 
-export const EMPTY_WRITE_OBJECT: BeleidsregelsWrite = SCHEMA.getDefault()
+export const EMPTY_WRITE_OBJECT: BeleidsregelUpdate = SCHEMA.getDefault()

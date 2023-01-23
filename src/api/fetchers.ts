@@ -17,87 +17,96 @@ import type {
 import type {
     Token,
     HTTPValidationError,
-    BodyLoginAccessTokenV01LoginAccessTokenPost,
+    BodyLoginAccessToken,
+    PasswordUpdate,
     Ambitie,
-    ReadAmbitiesV01AmbitiesGetParams,
+    ReadAmbitiesParams,
     AmbitieCreate,
+    ReadAmbitieLineageParams,
     AmbitieUpdate,
-    ReadValidAmbitiesV01ValidAmbitiesGetParams,
-    ReadValidAmbitieLineageV01ValidAmbitiesLineageIdGetParams,
+    ReadValidAmbitiesParams,
+    ReadValidAmbitieLineageParams,
     Belang,
-    ReadBelangenV01BelangenGetParams,
+    ReadBelangenParams,
     BelangCreate,
     BelangUpdate,
-    ReadValidBelangenV01ValidBelangenGetParams,
-    ReadValidBelangLineageV01ValidBelangenLineageIdGetParams,
+    ReadValidBelangenParams,
+    ReadValidBelangLineageParams,
     BeleidskeuzeListable,
-    ReadBeleidskeuzesV01BeleidskeuzesGetParams,
+    ReadBeleidskeuzesParams,
     Beleidskeuze,
     BeleidskeuzeCreate,
+    ReadBeleidskeuzeLineageParams,
     BeleidskeuzeUpdate,
-    ReadValidBeleidskeuzesV01ValidBeleidskeuzesGetParams,
-    ReadValidBeleidskeuzeLineageV01ValidBeleidskeuzesLineageIdGetParams,
+    ReadValidBeleidskeuzesParams,
+    ReadValidBeleidskeuzeLineageParams,
     Beleidsdoel,
-    ReadBeleidsdoelenV01BeleidsdoelenGetParams,
+    ReadBeleidsdoelenParams,
     BeleidsdoelCreate,
     BeleidsdoelUpdate,
-    ReadValidBeleidsdoelenV01ValidBeleidsdoelenGetParams,
-    ReadValidBeleidsdoelLineageV01ValidBeleidsdoelenLineageIdGetParams,
+    ReadValidBeleidsdoelenParams,
+    ReadValidBeleidsdoelLineageParams,
     Beleidsmodule,
-    ReadBeleidsmodulesV01BeleidsmodulesGetParams,
+    ReadBeleidsmodulesParams,
     BeleidsmoduleCreate,
     BeleidsmoduleUpdate,
-    ReadValidBeleidsmodulesV01ValidBeleidsmodulesGetParams,
-    ReadValidBeleidsmoduleLineageV01ValidBeleidsmodulesLineageIdGetParams,
+    ReadValidBeleidsmodulesParams,
+    ReadValidBeleidsmoduleLineageParams,
     Beleidsprestatie,
-    ReadBeleidsprestatiesV01BeleidsprestatiesGetParams,
+    ReadBeleidsprestatiesParams,
     BeleidsprestatieCreate,
     BeleidsprestatieUpdate,
-    ReadValidBeleidsprestatiesV01ValidBeleidsprestatiesGetParams,
-    ReadValidBeleidsprestatieLineageV01ValidBeleidsprestatiesLineageIdGetParams,
+    ReadValidBeleidsprestatiesParams,
+    ReadValidBeleidsprestatieLineageParams,
     Beleidsrelatie,
-    ReadBeleidsrelatiesV01BeleidsrelatiesGetParams,
+    ReadBeleidsrelatiesParams,
     BeleidsrelatieCreate,
     BeleidsrelatieUpdate,
-    ReadValidBeleidsrelatiesV01ValidBeleidsrelatiesGetParams,
-    ReadValidBeleidsrelatieLineageV01ValidBeleidsrelatiesLineageIdGetParams,
+    ReadValidBeleidsrelatiesParams,
+    ReadValidBeleidsrelatieLineageParams,
     Beleidsregel,
-    ReadBeleidsregelsV01BeleidsregelsGetParams,
+    ReadBeleidsregelsParams,
     BeleidsregelCreate,
     BeleidsregelUpdate,
-    ReadValidBeleidsregelsV01ValidBeleidsregelsGetParams,
-    ReadValidBeleidsregelLineageV01ValidBeleidsregelsLineageIdGetParams,
+    ReadValidBeleidsregelsParams,
+    ReadValidBeleidsregelLineageParams,
     LatestVersionInline,
     GraphView,
     Gebruiker,
+    Gebiedsprogramma,
+    ReadGebiedsprogrammasParams,
+    GebiedsprogrammaCreate,
+    GebiedsprogrammaUpdate,
+    ReadValidGebiedsprogrammasParams,
+    ReadValidGebiedsprogrammaLineageParams,
     SearchResultWrapper,
-    SearchV01SearchGetParams,
-    GeoSearchV01GeoSearchGetParams,
+    SearchParams,
+    GeoSearchParams,
     Thema,
-    ReadThemasV01ThemasGetParams,
+    ReadThemasParams,
     ThemaCreate,
     ThemaUpdate,
-    ReadValidThemasV01ValidThemasGetParams,
-    ReadValidThemaLineageV01ValidThemasLineageIdGetParams,
+    ReadValidThemasParams,
+    ReadValidThemaLineageParams,
     Verordening,
-    ReadVerordeningV01VerordeningenGetParams,
+    ReadVerordeningParams,
     VerordeningCreate,
     VerordeningUpdate,
-    ReadValidVerordeningV01ValidVerordeningenGetParams,
-    ReadValidVerordeningLineageV01ValidVerordeningenLineageIdGetParams,
+    ReadValidVerordeningParams,
+    ReadValidVerordeningLineageParams,
     MaatregelListable,
-    ReadMaatregelenV01MaatregelenGetParams,
+    ReadMaatregelenParams,
     Maatregel,
     MaatregelCreate,
     MaatregelUpdate,
-    ReadValidMaatregelenV01ValidMaatregelenGetParams,
-    ReadValidMaatregelLineageV01ValidMaatregelenLineageIdGetParams,
+    ReadValidMaatregelenParams,
+    ReadValidMaatregelLineageParams,
     Werkingsgebied,
-    ReadWerkingsgebiedV01WerkingsgebiedenGetParams,
+    ReadWerkingsgebiedParams,
     WerkingsgebiedCreate,
     WerkingsgebiedUpdate,
-    ReadValidWerkingsgebiedV01ValidWerkingsgebiedenGetParams,
-    ReadValidWerkingsgebiedLineageV01ValidWerkingsgebiedenLineageIdGetParams,
+    ReadValidWerkingsgebiedParams,
+    ReadValidWerkingsgebiedLineageParams,
 } from './fetchers.schemas'
 import { customInstance } from './instance'
 
@@ -197,42 +206,25 @@ export const useHealthRequestHealthHead = <
  * OAuth2 compatible token login, get an access token for future requests
  * @summary Login Access Token
  */
-export const loginAccessTokenV01LoginAccessTokenPost = (
-    bodyLoginAccessTokenV01LoginAccessTokenPost: BodyLoginAccessTokenV01LoginAccessTokenPost
+export const loginAccessToken = (
+    bodyLoginAccessToken: BodyLoginAccessToken
 ) => {
     const formUrlEncoded = new URLSearchParams()
-    if (bodyLoginAccessTokenV01LoginAccessTokenPost.grant_type !== undefined) {
-        formUrlEncoded.append(
-            'grant_type',
-            bodyLoginAccessTokenV01LoginAccessTokenPost.grant_type
-        )
+    if (bodyLoginAccessToken.grant_type !== undefined) {
+        formUrlEncoded.append('grant_type', bodyLoginAccessToken.grant_type)
     }
-    formUrlEncoded.append(
-        'username',
-        bodyLoginAccessTokenV01LoginAccessTokenPost.username
-    )
-    formUrlEncoded.append(
-        'password',
-        bodyLoginAccessTokenV01LoginAccessTokenPost.password
-    )
-    if (bodyLoginAccessTokenV01LoginAccessTokenPost.scope !== undefined) {
-        formUrlEncoded.append(
-            'scope',
-            bodyLoginAccessTokenV01LoginAccessTokenPost.scope
-        )
+    formUrlEncoded.append('username', bodyLoginAccessToken.username)
+    formUrlEncoded.append('password', bodyLoginAccessToken.password)
+    if (bodyLoginAccessToken.scope !== undefined) {
+        formUrlEncoded.append('scope', bodyLoginAccessToken.scope)
     }
-    if (bodyLoginAccessTokenV01LoginAccessTokenPost.client_id !== undefined) {
-        formUrlEncoded.append(
-            'client_id',
-            bodyLoginAccessTokenV01LoginAccessTokenPost.client_id
-        )
+    if (bodyLoginAccessToken.client_id !== undefined) {
+        formUrlEncoded.append('client_id', bodyLoginAccessToken.client_id)
     }
-    if (
-        bodyLoginAccessTokenV01LoginAccessTokenPost.client_secret !== undefined
-    ) {
+    if (bodyLoginAccessToken.client_secret !== undefined) {
         formUrlEncoded.append(
             'client_secret',
-            bodyLoginAccessTokenV01LoginAccessTokenPost.client_secret
+            bodyLoginAccessToken.client_secret
         )
     }
 
@@ -244,40 +236,86 @@ export const loginAccessTokenV01LoginAccessTokenPost = (
     })
 }
 
-export type LoginAccessTokenV01LoginAccessTokenPostMutationResult = NonNullable<
-    Awaited<ReturnType<typeof loginAccessTokenV01LoginAccessTokenPost>>
+export type LoginAccessTokenMutationResult = NonNullable<
+    Awaited<ReturnType<typeof loginAccessToken>>
 >
-export type LoginAccessTokenV01LoginAccessTokenPostMutationBody =
-    BodyLoginAccessTokenV01LoginAccessTokenPost
-export type LoginAccessTokenV01LoginAccessTokenPostMutationError =
-    HTTPValidationError
+export type LoginAccessTokenMutationBody = BodyLoginAccessToken
+export type LoginAccessTokenMutationError = HTTPValidationError
 
-export const useLoginAccessTokenV01LoginAccessTokenPost = <
+export const useLoginAccessToken = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof loginAccessTokenV01LoginAccessTokenPost>>,
+        Awaited<ReturnType<typeof loginAccessToken>>,
         TError,
-        { data: BodyLoginAccessTokenV01LoginAccessTokenPost },
+        { data: BodyLoginAccessToken },
         TContext
     >
 }) => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof loginAccessTokenV01LoginAccessTokenPost>>,
-        { data: BodyLoginAccessTokenV01LoginAccessTokenPost }
+        Awaited<ReturnType<typeof loginAccessToken>>,
+        { data: BodyLoginAccessToken }
     > = props => {
         const { data } = props ?? {}
 
-        return loginAccessTokenV01LoginAccessTokenPost(data)
+        return loginAccessToken(data)
     }
 
     return useMutation<
-        Awaited<ReturnType<typeof loginAccessTokenV01LoginAccessTokenPost>>,
+        Awaited<ReturnType<typeof loginAccessToken>>,
         TError,
-        { data: BodyLoginAccessTokenV01LoginAccessTokenPost },
+        { data: BodyLoginAccessToken },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Password Reset
+ */
+export const passwordReset = (passwordUpdate: PasswordUpdate) => {
+    return customInstance<unknown>({
+        url: `/v0.1/password-reset`,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: passwordUpdate,
+    })
+}
+
+export type PasswordResetMutationResult = NonNullable<
+    Awaited<ReturnType<typeof passwordReset>>
+>
+export type PasswordResetMutationBody = PasswordUpdate
+export type PasswordResetMutationError = HTTPValidationError
+
+export const usePasswordReset = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof passwordReset>>,
+        TError,
+        { data: PasswordUpdate },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof passwordReset>>,
+        { data: PasswordUpdate }
+    > = props => {
+        const { data } = props ?? {}
+
+        return passwordReset(data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof passwordReset>>,
+        TError,
+        { data: PasswordUpdate },
         TContext
     >(mutationFn, mutationOptions)
 }
@@ -286,8 +324,8 @@ export const useLoginAccessTokenV01LoginAccessTokenPost = <
  * Gets all the ambities lineages and shows the latests object for each
  * @summary Read Ambities
  */
-export const readAmbitiesV01AmbitiesGet = (
-    params?: ReadAmbitiesV01AmbitiesGetParams,
+export const readAmbities = (
+    params?: ReadAmbitiesParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Ambitie[]>({
@@ -298,23 +336,24 @@ export const readAmbitiesV01AmbitiesGet = (
     })
 }
 
-export const getReadAmbitiesV01AmbitiesGetQueryKey = (
-    params?: ReadAmbitiesV01AmbitiesGetParams
-) => [`/v0.1/ambities`, ...(params ? [params] : [])]
+export const getReadAmbitiesQueryKey = (params?: ReadAmbitiesParams) => [
+    `/v0.1/ambities`,
+    ...(params ? [params] : []),
+]
 
-export type ReadAmbitiesV01AmbitiesGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof readAmbitiesV01AmbitiesGet>>
+export type ReadAmbitiesQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readAmbities>>
 >
-export type ReadAmbitiesV01AmbitiesGetQueryError = HTTPValidationError
+export type ReadAmbitiesQueryError = HTTPValidationError
 
-export const useReadAmbitiesV01AmbitiesGet = <
-    TData = Awaited<ReturnType<typeof readAmbitiesV01AmbitiesGet>>,
+export const useReadAmbities = <
+    TData = Awaited<ReturnType<typeof readAmbities>>,
     TError = HTTPValidationError
 >(
-    params?: ReadAmbitiesV01AmbitiesGetParams,
+    params?: ReadAmbitiesParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<ReturnType<typeof readAmbitiesV01AmbitiesGet>>,
+            Awaited<ReturnType<typeof readAmbities>>,
             TError,
             TData
         >
@@ -322,15 +361,14 @@ export const useReadAmbitiesV01AmbitiesGet = <
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const { query: queryOptions } = options ?? {}
 
-    const queryKey =
-        queryOptions?.queryKey ?? getReadAmbitiesV01AmbitiesGetQueryKey(params)
+    const queryKey = queryOptions?.queryKey ?? getReadAmbitiesQueryKey(params)
 
-    const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readAmbitiesV01AmbitiesGet>>
-    > = ({ signal }) => readAmbitiesV01AmbitiesGet(params, signal)
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof readAmbities>>> = ({
+        signal,
+    }) => readAmbities(params, signal)
 
     const query = useQuery<
-        Awaited<ReturnType<typeof readAmbitiesV01AmbitiesGet>>,
+        Awaited<ReturnType<typeof readAmbities>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -346,7 +384,7 @@ export const useReadAmbitiesV01AmbitiesGet = <
  * Creates a new ambities lineage
  * @summary Create Ambitie
  */
-export const createAmbitieV01AmbitiesPost = (ambitieCreate: AmbitieCreate) => {
+export const createAmbitie = (ambitieCreate: AmbitieCreate) => {
     return customInstance<Ambitie>({
         url: `/v0.1/ambities`,
         method: 'post',
@@ -355,18 +393,18 @@ export const createAmbitieV01AmbitiesPost = (ambitieCreate: AmbitieCreate) => {
     })
 }
 
-export type CreateAmbitieV01AmbitiesPostMutationResult = NonNullable<
-    Awaited<ReturnType<typeof createAmbitieV01AmbitiesPost>>
+export type CreateAmbitieMutationResult = NonNullable<
+    Awaited<ReturnType<typeof createAmbitie>>
 >
-export type CreateAmbitieV01AmbitiesPostMutationBody = AmbitieCreate
-export type CreateAmbitieV01AmbitiesPostMutationError = HTTPValidationError
+export type CreateAmbitieMutationBody = AmbitieCreate
+export type CreateAmbitieMutationError = HTTPValidationError
 
-export const useCreateAmbitieV01AmbitiesPost = <
+export const useCreateAmbitie = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof createAmbitieV01AmbitiesPost>>,
+        Awaited<ReturnType<typeof createAmbitie>>,
         TError,
         { data: AmbitieCreate },
         TContext
@@ -375,16 +413,16 @@ export const useCreateAmbitieV01AmbitiesPost = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof createAmbitieV01AmbitiesPost>>,
+        Awaited<ReturnType<typeof createAmbitie>>,
         { data: AmbitieCreate }
     > = props => {
         const { data } = props ?? {}
 
-        return createAmbitieV01AmbitiesPost(data)
+        return createAmbitie(data)
     }
 
     return useMutation<
-        Awaited<ReturnType<typeof createAmbitieV01AmbitiesPost>>,
+        Awaited<ReturnType<typeof createAmbitie>>,
         TError,
         { data: AmbitieCreate },
         TContext
@@ -395,39 +433,38 @@ export const useCreateAmbitieV01AmbitiesPost = <
  * Gets all the ambities versions by lineage
  * @summary Read Ambitie Lineage
  */
-export const readAmbitieLineageV01AmbitiesLineageIdGet = (
+export const readAmbitieLineage = (
     lineageId: number,
+    params?: ReadAmbitieLineageParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Ambitie[]>({
         url: `/v0.1/ambities/${lineageId}`,
         method: 'get',
+        params,
         signal,
     })
 }
 
-export const getReadAmbitieLineageV01AmbitiesLineageIdGetQueryKey = (
-    lineageId: number
-) => [`/v0.1/ambities/${lineageId}`]
+export const getReadAmbitieLineageQueryKey = (
+    lineageId: number,
+    params?: ReadAmbitieLineageParams
+) => [`/v0.1/ambities/${lineageId}`, ...(params ? [params] : [])]
 
-export type ReadAmbitieLineageV01AmbitiesLineageIdGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof readAmbitieLineageV01AmbitiesLineageIdGet>>
+export type ReadAmbitieLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readAmbitieLineage>>
 >
-export type ReadAmbitieLineageV01AmbitiesLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadAmbitieLineageQueryError = HTTPValidationError
 
-export const useReadAmbitieLineageV01AmbitiesLineageIdGet = <
-    TData = Awaited<
-        ReturnType<typeof readAmbitieLineageV01AmbitiesLineageIdGet>
-    >,
+export const useReadAmbitieLineage = <
+    TData = Awaited<ReturnType<typeof readAmbitieLineage>>,
     TError = HTTPValidationError
 >(
     lineageId: number,
+    params?: ReadAmbitieLineageParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<typeof readAmbitieLineageV01AmbitiesLineageIdGet>
-            >,
+            Awaited<ReturnType<typeof readAmbitieLineage>>,
             TError,
             TData
         >
@@ -437,15 +474,14 @@ export const useReadAmbitieLineageV01AmbitiesLineageIdGet = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getReadAmbitieLineageV01AmbitiesLineageIdGetQueryKey(lineageId)
+        getReadAmbitieLineageQueryKey(lineageId, params)
 
     const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readAmbitieLineageV01AmbitiesLineageIdGet>>
-    > = ({ signal }) =>
-        readAmbitieLineageV01AmbitiesLineageIdGet(lineageId, signal)
+        Awaited<ReturnType<typeof readAmbitieLineage>>
+    > = ({ signal }) => readAmbitieLineage(lineageId, params, signal)
 
     const query = useQuery<
-        Awaited<ReturnType<typeof readAmbitieLineageV01AmbitiesLineageIdGet>>,
+        Awaited<ReturnType<typeof readAmbitieLineage>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -462,7 +498,7 @@ export const useReadAmbitieLineageV01AmbitiesLineageIdGet = <
  * Adds a new ambities to a lineage
  * @summary Update Ambitie
  */
-export const updateAmbitieV01AmbitiesLineageIdPatch = (
+export const updateAmbitie = (
     lineageId: number,
     ambitieUpdate: AmbitieUpdate
 ) => {
@@ -474,19 +510,18 @@ export const updateAmbitieV01AmbitiesLineageIdPatch = (
     })
 }
 
-export type UpdateAmbitieV01AmbitiesLineageIdPatchMutationResult = NonNullable<
-    Awaited<ReturnType<typeof updateAmbitieV01AmbitiesLineageIdPatch>>
+export type UpdateAmbitieMutationResult = NonNullable<
+    Awaited<ReturnType<typeof updateAmbitie>>
 >
-export type UpdateAmbitieV01AmbitiesLineageIdPatchMutationBody = AmbitieUpdate
-export type UpdateAmbitieV01AmbitiesLineageIdPatchMutationError =
-    HTTPValidationError
+export type UpdateAmbitieMutationBody = AmbitieUpdate
+export type UpdateAmbitieMutationError = HTTPValidationError
 
-export const useUpdateAmbitieV01AmbitiesLineageIdPatch = <
+export const useUpdateAmbitie = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof updateAmbitieV01AmbitiesLineageIdPatch>>,
+        Awaited<ReturnType<typeof updateAmbitie>>,
         TError,
         { lineageId: number; data: AmbitieUpdate },
         TContext
@@ -495,16 +530,16 @@ export const useUpdateAmbitieV01AmbitiesLineageIdPatch = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof updateAmbitieV01AmbitiesLineageIdPatch>>,
+        Awaited<ReturnType<typeof updateAmbitie>>,
         { lineageId: number; data: AmbitieUpdate }
     > = props => {
         const { lineageId, data } = props ?? {}
 
-        return updateAmbitieV01AmbitiesLineageIdPatch(lineageId, data)
+        return updateAmbitie(lineageId, data)
     }
 
     return useMutation<
-        Awaited<ReturnType<typeof updateAmbitieV01AmbitiesLineageIdPatch>>,
+        Awaited<ReturnType<typeof updateAmbitie>>,
         TError,
         { lineageId: number; data: AmbitieUpdate },
         TContext
@@ -515,7 +550,7 @@ export const useUpdateAmbitieV01AmbitiesLineageIdPatch = <
  * Shows the changes between two versions of ambities.
  * @summary Changes Ambities
  */
-export const changesAmbitiesV01ChangesAmbitiesOldUuidNewUuidGet = (
+export const changesAmbities = (
     oldUuid: string,
     newUuid: string,
     signal?: AbortSignal
@@ -527,37 +562,25 @@ export const changesAmbitiesV01ChangesAmbitiesOldUuidNewUuidGet = (
     })
 }
 
-export const getChangesAmbitiesV01ChangesAmbitiesOldUuidNewUuidGetQueryKey = (
+export const getChangesAmbitiesQueryKey = (
     oldUuid: string,
     newUuid: string
 ) => [`/v0.1/changes/ambities/${oldUuid}/${newUuid}`]
 
-export type ChangesAmbitiesV01ChangesAmbitiesOldUuidNewUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof changesAmbitiesV01ChangesAmbitiesOldUuidNewUuidGet
-            >
-        >
-    >
-export type ChangesAmbitiesV01ChangesAmbitiesOldUuidNewUuidGetQueryError =
-    HTTPValidationError
+export type ChangesAmbitiesQueryResult = NonNullable<
+    Awaited<ReturnType<typeof changesAmbities>>
+>
+export type ChangesAmbitiesQueryError = HTTPValidationError
 
-export const useChangesAmbitiesV01ChangesAmbitiesOldUuidNewUuidGet = <
-    TData = Awaited<
-        ReturnType<typeof changesAmbitiesV01ChangesAmbitiesOldUuidNewUuidGet>
-    >,
+export const useChangesAmbities = <
+    TData = Awaited<ReturnType<typeof changesAmbities>>,
     TError = HTTPValidationError
 >(
     oldUuid: string,
     newUuid: string,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof changesAmbitiesV01ChangesAmbitiesOldUuidNewUuidGet
-                >
-            >,
+            Awaited<ReturnType<typeof changesAmbities>>,
             TError,
             TData
         >
@@ -566,31 +589,14 @@ export const useChangesAmbitiesV01ChangesAmbitiesOldUuidNewUuidGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getChangesAmbitiesV01ChangesAmbitiesOldUuidNewUuidGetQueryKey(
-            oldUuid,
-            newUuid
-        )
+        queryOptions?.queryKey ?? getChangesAmbitiesQueryKey(oldUuid, newUuid)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof changesAmbitiesV01ChangesAmbitiesOldUuidNewUuidGet
-            >
-        >
-    > = ({ signal }) =>
-        changesAmbitiesV01ChangesAmbitiesOldUuidNewUuidGet(
-            oldUuid,
-            newUuid,
-            signal
-        )
+        Awaited<ReturnType<typeof changesAmbities>>
+    > = ({ signal }) => changesAmbities(oldUuid, newUuid, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof changesAmbitiesV01ChangesAmbitiesOldUuidNewUuidGet
-            >
-        >,
+        Awaited<ReturnType<typeof changesAmbities>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -607,8 +613,8 @@ export const useChangesAmbitiesV01ChangesAmbitiesOldUuidNewUuidGet = <
  * Gets all the ambities lineages and shows the latests valid object for each.
  * @summary Read Valid Ambities
  */
-export const readValidAmbitiesV01ValidAmbitiesGet = (
-    params?: ReadValidAmbitiesV01ValidAmbitiesGetParams,
+export const readValidAmbities = (
+    params?: ReadValidAmbitiesParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Ambitie[]>({
@@ -619,23 +625,23 @@ export const readValidAmbitiesV01ValidAmbitiesGet = (
     })
 }
 
-export const getReadValidAmbitiesV01ValidAmbitiesGetQueryKey = (
-    params?: ReadValidAmbitiesV01ValidAmbitiesGetParams
+export const getReadValidAmbitiesQueryKey = (
+    params?: ReadValidAmbitiesParams
 ) => [`/v0.1/valid/ambities`, ...(params ? [params] : [])]
 
-export type ReadValidAmbitiesV01ValidAmbitiesGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof readValidAmbitiesV01ValidAmbitiesGet>>
+export type ReadValidAmbitiesQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidAmbities>>
 >
-export type ReadValidAmbitiesV01ValidAmbitiesGetQueryError = HTTPValidationError
+export type ReadValidAmbitiesQueryError = HTTPValidationError
 
-export const useReadValidAmbitiesV01ValidAmbitiesGet = <
-    TData = Awaited<ReturnType<typeof readValidAmbitiesV01ValidAmbitiesGet>>,
+export const useReadValidAmbities = <
+    TData = Awaited<ReturnType<typeof readValidAmbities>>,
     TError = HTTPValidationError
 >(
-    params?: ReadValidAmbitiesV01ValidAmbitiesGetParams,
+    params?: ReadValidAmbitiesParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<ReturnType<typeof readValidAmbitiesV01ValidAmbitiesGet>>,
+            Awaited<ReturnType<typeof readValidAmbities>>,
             TError,
             TData
         >
@@ -644,15 +650,14 @@ export const useReadValidAmbitiesV01ValidAmbitiesGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadValidAmbitiesV01ValidAmbitiesGetQueryKey(params)
+        queryOptions?.queryKey ?? getReadValidAmbitiesQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readValidAmbitiesV01ValidAmbitiesGet>>
-    > = ({ signal }) => readValidAmbitiesV01ValidAmbitiesGet(params, signal)
+        Awaited<ReturnType<typeof readValidAmbities>>
+    > = ({ signal }) => readValidAmbities(params, signal)
 
     const query = useQuery<
-        Awaited<ReturnType<typeof readValidAmbitiesV01ValidAmbitiesGet>>,
+        Awaited<ReturnType<typeof readValidAmbities>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -668,9 +673,9 @@ export const useReadValidAmbitiesV01ValidAmbitiesGet = <
  * Gets all the ambities in this lineage that are valid
  * @summary Read Valid Ambitie Lineage
  */
-export const readValidAmbitieLineageV01ValidAmbitiesLineageIdGet = (
+export const readValidAmbitieLineage = (
     lineageId: number,
-    params?: ReadValidAmbitieLineageV01ValidAmbitiesLineageIdGetParams,
+    params?: ReadValidAmbitieLineageParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Ambitie[]>({
@@ -681,37 +686,25 @@ export const readValidAmbitieLineageV01ValidAmbitiesLineageIdGet = (
     })
 }
 
-export const getReadValidAmbitieLineageV01ValidAmbitiesLineageIdGetQueryKey = (
+export const getReadValidAmbitieLineageQueryKey = (
     lineageId: number,
-    params?: ReadValidAmbitieLineageV01ValidAmbitiesLineageIdGetParams
+    params?: ReadValidAmbitieLineageParams
 ) => [`/v0.1/valid/ambities/${lineageId}`, ...(params ? [params] : [])]
 
-export type ReadValidAmbitieLineageV01ValidAmbitiesLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readValidAmbitieLineageV01ValidAmbitiesLineageIdGet
-            >
-        >
-    >
-export type ReadValidAmbitieLineageV01ValidAmbitiesLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadValidAmbitieLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidAmbitieLineage>>
+>
+export type ReadValidAmbitieLineageQueryError = HTTPValidationError
 
-export const useReadValidAmbitieLineageV01ValidAmbitiesLineageIdGet = <
-    TData = Awaited<
-        ReturnType<typeof readValidAmbitieLineageV01ValidAmbitiesLineageIdGet>
-    >,
+export const useReadValidAmbitieLineage = <
+    TData = Awaited<ReturnType<typeof readValidAmbitieLineage>>,
     TError = HTTPValidationError
 >(
     lineageId: number,
-    params?: ReadValidAmbitieLineageV01ValidAmbitiesLineageIdGetParams,
+    params?: ReadValidAmbitieLineageParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readValidAmbitieLineageV01ValidAmbitiesLineageIdGet
-                >
-            >,
+            Awaited<ReturnType<typeof readValidAmbitieLineage>>,
             TError,
             TData
         >
@@ -721,30 +714,14 @@ export const useReadValidAmbitieLineageV01ValidAmbitiesLineageIdGet = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getReadValidAmbitieLineageV01ValidAmbitiesLineageIdGetQueryKey(
-            lineageId,
-            params
-        )
+        getReadValidAmbitieLineageQueryKey(lineageId, params)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readValidAmbitieLineageV01ValidAmbitiesLineageIdGet
-            >
-        >
-    > = ({ signal }) =>
-        readValidAmbitieLineageV01ValidAmbitiesLineageIdGet(
-            lineageId,
-            params,
-            signal
-        )
+        Awaited<ReturnType<typeof readValidAmbitieLineage>>
+    > = ({ signal }) => readValidAmbitieLineage(lineageId, params, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readValidAmbitieLineageV01ValidAmbitiesLineageIdGet
-            >
-        >,
+        Awaited<ReturnType<typeof readValidAmbitieLineage>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -762,7 +739,7 @@ export const useReadValidAmbitieLineageV01ValidAmbitiesLineageIdGet = <
 available version.
  * @summary Read Latest Version Lineage
  */
-export const readLatestVersionLineageV01VersionAmbitiesObjectUuidGet = (
+export const readAmbitieVersion = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
@@ -773,36 +750,23 @@ export const readLatestVersionLineageV01VersionAmbitiesObjectUuidGet = (
     })
 }
 
-export const getReadLatestVersionLineageV01VersionAmbitiesObjectUuidGetQueryKey =
-    (objectUuid: string) => [`/v0.1/version/ambities/${objectUuid}`]
+export const getReadAmbitieVersionQueryKey = (objectUuid: string) => [
+    `/v0.1/version/ambities/${objectUuid}`,
+]
 
-export type ReadLatestVersionLineageV01VersionAmbitiesObjectUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionAmbitiesObjectUuidGet
-            >
-        >
-    >
-export type ReadLatestVersionLineageV01VersionAmbitiesObjectUuidGetQueryError =
-    HTTPValidationError
+export type ReadAmbitieVersionQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readAmbitieVersion>>
+>
+export type ReadAmbitieVersionQueryError = HTTPValidationError
 
-export const useReadLatestVersionLineageV01VersionAmbitiesObjectUuidGet = <
-    TData = Awaited<
-        ReturnType<
-            typeof readLatestVersionLineageV01VersionAmbitiesObjectUuidGet
-        >
-    >,
+export const useReadAmbitieVersion = <
+    TData = Awaited<ReturnType<typeof readAmbitieVersion>>,
     TError = HTTPValidationError
 >(
     objectUuid: string,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readLatestVersionLineageV01VersionAmbitiesObjectUuidGet
-                >
-            >,
+            Awaited<ReturnType<typeof readAmbitieVersion>>,
             TError,
             TData
         >
@@ -811,29 +775,14 @@ export const useReadLatestVersionLineageV01VersionAmbitiesObjectUuidGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadLatestVersionLineageV01VersionAmbitiesObjectUuidGetQueryKey(
-            objectUuid
-        )
+        queryOptions?.queryKey ?? getReadAmbitieVersionQueryKey(objectUuid)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionAmbitiesObjectUuidGet
-            >
-        >
-    > = ({ signal }) =>
-        readLatestVersionLineageV01VersionAmbitiesObjectUuidGet(
-            objectUuid,
-            signal
-        )
+        Awaited<ReturnType<typeof readAmbitieVersion>>
+    > = ({ signal }) => readAmbitieVersion(objectUuid, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionAmbitiesObjectUuidGet
-            >
-        >,
+        Awaited<ReturnType<typeof readAmbitieVersion>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -850,8 +799,8 @@ export const useReadLatestVersionLineageV01VersionAmbitiesObjectUuidGet = <
  * Gets all the belangen lineages and shows the latests object for each
  * @summary Read Belangen
  */
-export const readBelangenV01BelangenGet = (
-    params?: ReadBelangenV01BelangenGetParams,
+export const readBelangen = (
+    params?: ReadBelangenParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Belang[]>({
@@ -862,23 +811,24 @@ export const readBelangenV01BelangenGet = (
     })
 }
 
-export const getReadBelangenV01BelangenGetQueryKey = (
-    params?: ReadBelangenV01BelangenGetParams
-) => [`/v0.1/belangen`, ...(params ? [params] : [])]
+export const getReadBelangenQueryKey = (params?: ReadBelangenParams) => [
+    `/v0.1/belangen`,
+    ...(params ? [params] : []),
+]
 
-export type ReadBelangenV01BelangenGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof readBelangenV01BelangenGet>>
+export type ReadBelangenQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBelangen>>
 >
-export type ReadBelangenV01BelangenGetQueryError = HTTPValidationError
+export type ReadBelangenQueryError = HTTPValidationError
 
-export const useReadBelangenV01BelangenGet = <
-    TData = Awaited<ReturnType<typeof readBelangenV01BelangenGet>>,
+export const useReadBelangen = <
+    TData = Awaited<ReturnType<typeof readBelangen>>,
     TError = HTTPValidationError
 >(
-    params?: ReadBelangenV01BelangenGetParams,
+    params?: ReadBelangenParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<ReturnType<typeof readBelangenV01BelangenGet>>,
+            Awaited<ReturnType<typeof readBelangen>>,
             TError,
             TData
         >
@@ -886,15 +836,14 @@ export const useReadBelangenV01BelangenGet = <
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const { query: queryOptions } = options ?? {}
 
-    const queryKey =
-        queryOptions?.queryKey ?? getReadBelangenV01BelangenGetQueryKey(params)
+    const queryKey = queryOptions?.queryKey ?? getReadBelangenQueryKey(params)
 
-    const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readBelangenV01BelangenGet>>
-    > = ({ signal }) => readBelangenV01BelangenGet(params, signal)
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof readBelangen>>> = ({
+        signal,
+    }) => readBelangen(params, signal)
 
     const query = useQuery<
-        Awaited<ReturnType<typeof readBelangenV01BelangenGet>>,
+        Awaited<ReturnType<typeof readBelangen>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -910,7 +859,7 @@ export const useReadBelangenV01BelangenGet = <
  * Creates a new belangen lineage
  * @summary Create Belang
  */
-export const createBelangV01BelangenPost = (belangCreate: BelangCreate) => {
+export const createBelang = (belangCreate: BelangCreate) => {
     return customInstance<Belang>({
         url: `/v0.1/belangen`,
         method: 'post',
@@ -919,18 +868,18 @@ export const createBelangV01BelangenPost = (belangCreate: BelangCreate) => {
     })
 }
 
-export type CreateBelangV01BelangenPostMutationResult = NonNullable<
-    Awaited<ReturnType<typeof createBelangV01BelangenPost>>
+export type CreateBelangMutationResult = NonNullable<
+    Awaited<ReturnType<typeof createBelang>>
 >
-export type CreateBelangV01BelangenPostMutationBody = BelangCreate
-export type CreateBelangV01BelangenPostMutationError = HTTPValidationError
+export type CreateBelangMutationBody = BelangCreate
+export type CreateBelangMutationError = HTTPValidationError
 
-export const useCreateBelangV01BelangenPost = <
+export const useCreateBelang = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof createBelangV01BelangenPost>>,
+        Awaited<ReturnType<typeof createBelang>>,
         TError,
         { data: BelangCreate },
         TContext
@@ -939,16 +888,16 @@ export const useCreateBelangV01BelangenPost = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof createBelangV01BelangenPost>>,
+        Awaited<ReturnType<typeof createBelang>>,
         { data: BelangCreate }
     > = props => {
         const { data } = props ?? {}
 
-        return createBelangV01BelangenPost(data)
+        return createBelang(data)
     }
 
     return useMutation<
-        Awaited<ReturnType<typeof createBelangV01BelangenPost>>,
+        Awaited<ReturnType<typeof createBelang>>,
         TError,
         { data: BelangCreate },
         TContext
@@ -959,10 +908,7 @@ export const useCreateBelangV01BelangenPost = <
  * Gets all the belangen versions by lineage
  * @summary Read Belang Lineage
  */
-export const readBelangLineageV01BelangenLineageIdGet = (
-    lineageId: number,
-    signal?: AbortSignal
-) => {
+export const readBelangLineage = (lineageId: number, signal?: AbortSignal) => {
     return customInstance<Belang[]>({
         url: `/v0.1/belangen/${lineageId}`,
         method: 'get',
@@ -970,28 +916,23 @@ export const readBelangLineageV01BelangenLineageIdGet = (
     })
 }
 
-export const getReadBelangLineageV01BelangenLineageIdGetQueryKey = (
-    lineageId: number
-) => [`/v0.1/belangen/${lineageId}`]
+export const getReadBelangLineageQueryKey = (lineageId: number) => [
+    `/v0.1/belangen/${lineageId}`,
+]
 
-export type ReadBelangLineageV01BelangenLineageIdGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof readBelangLineageV01BelangenLineageIdGet>>
+export type ReadBelangLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBelangLineage>>
 >
-export type ReadBelangLineageV01BelangenLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadBelangLineageQueryError = HTTPValidationError
 
-export const useReadBelangLineageV01BelangenLineageIdGet = <
-    TData = Awaited<
-        ReturnType<typeof readBelangLineageV01BelangenLineageIdGet>
-    >,
+export const useReadBelangLineage = <
+    TData = Awaited<ReturnType<typeof readBelangLineage>>,
     TError = HTTPValidationError
 >(
     lineageId: number,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<typeof readBelangLineageV01BelangenLineageIdGet>
-            >,
+            Awaited<ReturnType<typeof readBelangLineage>>,
             TError,
             TData
         >
@@ -1000,16 +941,14 @@ export const useReadBelangLineageV01BelangenLineageIdGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadBelangLineageV01BelangenLineageIdGetQueryKey(lineageId)
+        queryOptions?.queryKey ?? getReadBelangLineageQueryKey(lineageId)
 
     const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readBelangLineageV01BelangenLineageIdGet>>
-    > = ({ signal }) =>
-        readBelangLineageV01BelangenLineageIdGet(lineageId, signal)
+        Awaited<ReturnType<typeof readBelangLineage>>
+    > = ({ signal }) => readBelangLineage(lineageId, signal)
 
     const query = useQuery<
-        Awaited<ReturnType<typeof readBelangLineageV01BelangenLineageIdGet>>,
+        Awaited<ReturnType<typeof readBelangLineage>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -1026,10 +965,7 @@ export const useReadBelangLineageV01BelangenLineageIdGet = <
  * Adds a new belangen to a lineage
  * @summary Update Belang
  */
-export const updateBelangV01BelangenLineageIdPatch = (
-    lineageId: number,
-    belangUpdate: BelangUpdate
-) => {
+export const updateBelang = (lineageId: number, belangUpdate: BelangUpdate) => {
     return customInstance<Belang>({
         url: `/v0.1/belangen/${lineageId}`,
         method: 'patch',
@@ -1038,19 +974,18 @@ export const updateBelangV01BelangenLineageIdPatch = (
     })
 }
 
-export type UpdateBelangV01BelangenLineageIdPatchMutationResult = NonNullable<
-    Awaited<ReturnType<typeof updateBelangV01BelangenLineageIdPatch>>
+export type UpdateBelangMutationResult = NonNullable<
+    Awaited<ReturnType<typeof updateBelang>>
 >
-export type UpdateBelangV01BelangenLineageIdPatchMutationBody = BelangUpdate
-export type UpdateBelangV01BelangenLineageIdPatchMutationError =
-    HTTPValidationError
+export type UpdateBelangMutationBody = BelangUpdate
+export type UpdateBelangMutationError = HTTPValidationError
 
-export const useUpdateBelangV01BelangenLineageIdPatch = <
+export const useUpdateBelang = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof updateBelangV01BelangenLineageIdPatch>>,
+        Awaited<ReturnType<typeof updateBelang>>,
         TError,
         { lineageId: number; data: BelangUpdate },
         TContext
@@ -1059,16 +994,16 @@ export const useUpdateBelangV01BelangenLineageIdPatch = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof updateBelangV01BelangenLineageIdPatch>>,
+        Awaited<ReturnType<typeof updateBelang>>,
         { lineageId: number; data: BelangUpdate }
     > = props => {
         const { lineageId, data } = props ?? {}
 
-        return updateBelangV01BelangenLineageIdPatch(lineageId, data)
+        return updateBelang(lineageId, data)
     }
 
     return useMutation<
-        Awaited<ReturnType<typeof updateBelangV01BelangenLineageIdPatch>>,
+        Awaited<ReturnType<typeof updateBelang>>,
         TError,
         { lineageId: number; data: BelangUpdate },
         TContext
@@ -1079,7 +1014,7 @@ export const useUpdateBelangV01BelangenLineageIdPatch = <
  * Shows the changes between two versions of belangen.
  * @summary Changes Belangen
  */
-export const changesBelangenV01ChangesBelangenOldUuidNewUuidGet = (
+export const changesBelangen = (
     oldUuid: string,
     newUuid: string,
     signal?: AbortSignal
@@ -1091,37 +1026,25 @@ export const changesBelangenV01ChangesBelangenOldUuidNewUuidGet = (
     })
 }
 
-export const getChangesBelangenV01ChangesBelangenOldUuidNewUuidGetQueryKey = (
+export const getChangesBelangenQueryKey = (
     oldUuid: string,
     newUuid: string
 ) => [`/v0.1/changes/belangen/${oldUuid}/${newUuid}`]
 
-export type ChangesBelangenV01ChangesBelangenOldUuidNewUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof changesBelangenV01ChangesBelangenOldUuidNewUuidGet
-            >
-        >
-    >
-export type ChangesBelangenV01ChangesBelangenOldUuidNewUuidGetQueryError =
-    HTTPValidationError
+export type ChangesBelangenQueryResult = NonNullable<
+    Awaited<ReturnType<typeof changesBelangen>>
+>
+export type ChangesBelangenQueryError = HTTPValidationError
 
-export const useChangesBelangenV01ChangesBelangenOldUuidNewUuidGet = <
-    TData = Awaited<
-        ReturnType<typeof changesBelangenV01ChangesBelangenOldUuidNewUuidGet>
-    >,
+export const useChangesBelangen = <
+    TData = Awaited<ReturnType<typeof changesBelangen>>,
     TError = HTTPValidationError
 >(
     oldUuid: string,
     newUuid: string,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof changesBelangenV01ChangesBelangenOldUuidNewUuidGet
-                >
-            >,
+            Awaited<ReturnType<typeof changesBelangen>>,
             TError,
             TData
         >
@@ -1130,31 +1053,14 @@ export const useChangesBelangenV01ChangesBelangenOldUuidNewUuidGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getChangesBelangenV01ChangesBelangenOldUuidNewUuidGetQueryKey(
-            oldUuid,
-            newUuid
-        )
+        queryOptions?.queryKey ?? getChangesBelangenQueryKey(oldUuid, newUuid)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof changesBelangenV01ChangesBelangenOldUuidNewUuidGet
-            >
-        >
-    > = ({ signal }) =>
-        changesBelangenV01ChangesBelangenOldUuidNewUuidGet(
-            oldUuid,
-            newUuid,
-            signal
-        )
+        Awaited<ReturnType<typeof changesBelangen>>
+    > = ({ signal }) => changesBelangen(oldUuid, newUuid, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof changesBelangenV01ChangesBelangenOldUuidNewUuidGet
-            >
-        >,
+        Awaited<ReturnType<typeof changesBelangen>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -1171,8 +1077,8 @@ export const useChangesBelangenV01ChangesBelangenOldUuidNewUuidGet = <
  * Gets all the belangen lineages and shows the latests valid object for each.
  * @summary Read Valid Belangen
  */
-export const readValidBelangenV01ValidBelangenGet = (
-    params?: ReadValidBelangenV01ValidBelangenGetParams,
+export const readValidBelangen = (
+    params?: ReadValidBelangenParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Belang[]>({
@@ -1183,23 +1089,23 @@ export const readValidBelangenV01ValidBelangenGet = (
     })
 }
 
-export const getReadValidBelangenV01ValidBelangenGetQueryKey = (
-    params?: ReadValidBelangenV01ValidBelangenGetParams
+export const getReadValidBelangenQueryKey = (
+    params?: ReadValidBelangenParams
 ) => [`/v0.1/valid/belangen`, ...(params ? [params] : [])]
 
-export type ReadValidBelangenV01ValidBelangenGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof readValidBelangenV01ValidBelangenGet>>
+export type ReadValidBelangenQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidBelangen>>
 >
-export type ReadValidBelangenV01ValidBelangenGetQueryError = HTTPValidationError
+export type ReadValidBelangenQueryError = HTTPValidationError
 
-export const useReadValidBelangenV01ValidBelangenGet = <
-    TData = Awaited<ReturnType<typeof readValidBelangenV01ValidBelangenGet>>,
+export const useReadValidBelangen = <
+    TData = Awaited<ReturnType<typeof readValidBelangen>>,
     TError = HTTPValidationError
 >(
-    params?: ReadValidBelangenV01ValidBelangenGetParams,
+    params?: ReadValidBelangenParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<ReturnType<typeof readValidBelangenV01ValidBelangenGet>>,
+            Awaited<ReturnType<typeof readValidBelangen>>,
             TError,
             TData
         >
@@ -1208,15 +1114,14 @@ export const useReadValidBelangenV01ValidBelangenGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadValidBelangenV01ValidBelangenGetQueryKey(params)
+        queryOptions?.queryKey ?? getReadValidBelangenQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readValidBelangenV01ValidBelangenGet>>
-    > = ({ signal }) => readValidBelangenV01ValidBelangenGet(params, signal)
+        Awaited<ReturnType<typeof readValidBelangen>>
+    > = ({ signal }) => readValidBelangen(params, signal)
 
     const query = useQuery<
-        Awaited<ReturnType<typeof readValidBelangenV01ValidBelangenGet>>,
+        Awaited<ReturnType<typeof readValidBelangen>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -1232,9 +1137,9 @@ export const useReadValidBelangenV01ValidBelangenGet = <
  * Gets all the belangen in this lineage that are valid
  * @summary Read Valid Belang Lineage
  */
-export const readValidBelangLineageV01ValidBelangenLineageIdGet = (
+export const readValidBelangLineage = (
     lineageId: number,
-    params?: ReadValidBelangLineageV01ValidBelangenLineageIdGetParams,
+    params?: ReadValidBelangLineageParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Belang[]>({
@@ -1245,37 +1150,25 @@ export const readValidBelangLineageV01ValidBelangenLineageIdGet = (
     })
 }
 
-export const getReadValidBelangLineageV01ValidBelangenLineageIdGetQueryKey = (
+export const getReadValidBelangLineageQueryKey = (
     lineageId: number,
-    params?: ReadValidBelangLineageV01ValidBelangenLineageIdGetParams
+    params?: ReadValidBelangLineageParams
 ) => [`/v0.1/valid/belangen/${lineageId}`, ...(params ? [params] : [])]
 
-export type ReadValidBelangLineageV01ValidBelangenLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readValidBelangLineageV01ValidBelangenLineageIdGet
-            >
-        >
-    >
-export type ReadValidBelangLineageV01ValidBelangenLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadValidBelangLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidBelangLineage>>
+>
+export type ReadValidBelangLineageQueryError = HTTPValidationError
 
-export const useReadValidBelangLineageV01ValidBelangenLineageIdGet = <
-    TData = Awaited<
-        ReturnType<typeof readValidBelangLineageV01ValidBelangenLineageIdGet>
-    >,
+export const useReadValidBelangLineage = <
+    TData = Awaited<ReturnType<typeof readValidBelangLineage>>,
     TError = HTTPValidationError
 >(
     lineageId: number,
-    params?: ReadValidBelangLineageV01ValidBelangenLineageIdGetParams,
+    params?: ReadValidBelangLineageParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readValidBelangLineageV01ValidBelangenLineageIdGet
-                >
-            >,
+            Awaited<ReturnType<typeof readValidBelangLineage>>,
             TError,
             TData
         >
@@ -1285,30 +1178,14 @@ export const useReadValidBelangLineageV01ValidBelangenLineageIdGet = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getReadValidBelangLineageV01ValidBelangenLineageIdGetQueryKey(
-            lineageId,
-            params
-        )
+        getReadValidBelangLineageQueryKey(lineageId, params)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readValidBelangLineageV01ValidBelangenLineageIdGet
-            >
-        >
-    > = ({ signal }) =>
-        readValidBelangLineageV01ValidBelangenLineageIdGet(
-            lineageId,
-            params,
-            signal
-        )
+        Awaited<ReturnType<typeof readValidBelangLineage>>
+    > = ({ signal }) => readValidBelangLineage(lineageId, params, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readValidBelangLineageV01ValidBelangenLineageIdGet
-            >
-        >,
+        Awaited<ReturnType<typeof readValidBelangLineage>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -1326,10 +1203,7 @@ export const useReadValidBelangLineageV01ValidBelangenLineageIdGet = <
 available version.
  * @summary Read Latest Version Lineage
  */
-export const readLatestVersionLineageV01VersionBelangenObjectUuidGet = (
-    objectUuid: string,
-    signal?: AbortSignal
-) => {
+export const readBelangVersion = (objectUuid: string, signal?: AbortSignal) => {
     return customInstance<Belang>({
         url: `/v0.1/version/belangen/${objectUuid}`,
         method: 'get',
@@ -1337,36 +1211,23 @@ export const readLatestVersionLineageV01VersionBelangenObjectUuidGet = (
     })
 }
 
-export const getReadLatestVersionLineageV01VersionBelangenObjectUuidGetQueryKey =
-    (objectUuid: string) => [`/v0.1/version/belangen/${objectUuid}`]
+export const getReadBelangVersionQueryKey = (objectUuid: string) => [
+    `/v0.1/version/belangen/${objectUuid}`,
+]
 
-export type ReadLatestVersionLineageV01VersionBelangenObjectUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionBelangenObjectUuidGet
-            >
-        >
-    >
-export type ReadLatestVersionLineageV01VersionBelangenObjectUuidGetQueryError =
-    HTTPValidationError
+export type ReadBelangVersionQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBelangVersion>>
+>
+export type ReadBelangVersionQueryError = HTTPValidationError
 
-export const useReadLatestVersionLineageV01VersionBelangenObjectUuidGet = <
-    TData = Awaited<
-        ReturnType<
-            typeof readLatestVersionLineageV01VersionBelangenObjectUuidGet
-        >
-    >,
+export const useReadBelangVersion = <
+    TData = Awaited<ReturnType<typeof readBelangVersion>>,
     TError = HTTPValidationError
 >(
     objectUuid: string,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readLatestVersionLineageV01VersionBelangenObjectUuidGet
-                >
-            >,
+            Awaited<ReturnType<typeof readBelangVersion>>,
             TError,
             TData
         >
@@ -1375,29 +1236,14 @@ export const useReadLatestVersionLineageV01VersionBelangenObjectUuidGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadLatestVersionLineageV01VersionBelangenObjectUuidGetQueryKey(
-            objectUuid
-        )
+        queryOptions?.queryKey ?? getReadBelangVersionQueryKey(objectUuid)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionBelangenObjectUuidGet
-            >
-        >
-    > = ({ signal }) =>
-        readLatestVersionLineageV01VersionBelangenObjectUuidGet(
-            objectUuid,
-            signal
-        )
+        Awaited<ReturnType<typeof readBelangVersion>>
+    > = ({ signal }) => readBelangVersion(objectUuid, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionBelangenObjectUuidGet
-            >
-        >,
+        Awaited<ReturnType<typeof readBelangVersion>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -1414,8 +1260,8 @@ export const useReadLatestVersionLineageV01VersionBelangenObjectUuidGet = <
  * Gets all the beleidskeuzes lineages and shows the latests object for each
  * @summary Read Beleidskeuzes
  */
-export const readBeleidskeuzesV01BeleidskeuzesGet = (
-    params?: ReadBeleidskeuzesV01BeleidskeuzesGetParams,
+export const readBeleidskeuzes = (
+    params?: ReadBeleidskeuzesParams,
     signal?: AbortSignal
 ) => {
     return customInstance<BeleidskeuzeListable[]>({
@@ -1426,23 +1272,23 @@ export const readBeleidskeuzesV01BeleidskeuzesGet = (
     })
 }
 
-export const getReadBeleidskeuzesV01BeleidskeuzesGetQueryKey = (
-    params?: ReadBeleidskeuzesV01BeleidskeuzesGetParams
+export const getReadBeleidskeuzesQueryKey = (
+    params?: ReadBeleidskeuzesParams
 ) => [`/v0.1/beleidskeuzes`, ...(params ? [params] : [])]
 
-export type ReadBeleidskeuzesV01BeleidskeuzesGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof readBeleidskeuzesV01BeleidskeuzesGet>>
+export type ReadBeleidskeuzesQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBeleidskeuzes>>
 >
-export type ReadBeleidskeuzesV01BeleidskeuzesGetQueryError = HTTPValidationError
+export type ReadBeleidskeuzesQueryError = HTTPValidationError
 
-export const useReadBeleidskeuzesV01BeleidskeuzesGet = <
-    TData = Awaited<ReturnType<typeof readBeleidskeuzesV01BeleidskeuzesGet>>,
+export const useReadBeleidskeuzes = <
+    TData = Awaited<ReturnType<typeof readBeleidskeuzes>>,
     TError = HTTPValidationError
 >(
-    params?: ReadBeleidskeuzesV01BeleidskeuzesGetParams,
+    params?: ReadBeleidskeuzesParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<ReturnType<typeof readBeleidskeuzesV01BeleidskeuzesGet>>,
+            Awaited<ReturnType<typeof readBeleidskeuzes>>,
             TError,
             TData
         >
@@ -1451,15 +1297,14 @@ export const useReadBeleidskeuzesV01BeleidskeuzesGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadBeleidskeuzesV01BeleidskeuzesGetQueryKey(params)
+        queryOptions?.queryKey ?? getReadBeleidskeuzesQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readBeleidskeuzesV01BeleidskeuzesGet>>
-    > = ({ signal }) => readBeleidskeuzesV01BeleidskeuzesGet(params, signal)
+        Awaited<ReturnType<typeof readBeleidskeuzes>>
+    > = ({ signal }) => readBeleidskeuzes(params, signal)
 
     const query = useQuery<
-        Awaited<ReturnType<typeof readBeleidskeuzesV01BeleidskeuzesGet>>,
+        Awaited<ReturnType<typeof readBeleidskeuzes>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -1475,9 +1320,7 @@ export const useReadBeleidskeuzesV01BeleidskeuzesGet = <
  * Creates a new beleidskeuzes lineage
  * @summary Create Beleidskeuze
  */
-export const createBeleidskeuzeV01BeleidskeuzesPost = (
-    beleidskeuzeCreate: BeleidskeuzeCreate
-) => {
+export const createBeleidskeuze = (beleidskeuzeCreate: BeleidskeuzeCreate) => {
     return customInstance<Beleidskeuze>({
         url: `/v0.1/beleidskeuzes`,
         method: 'post',
@@ -1486,20 +1329,18 @@ export const createBeleidskeuzeV01BeleidskeuzesPost = (
     })
 }
 
-export type CreateBeleidskeuzeV01BeleidskeuzesPostMutationResult = NonNullable<
-    Awaited<ReturnType<typeof createBeleidskeuzeV01BeleidskeuzesPost>>
+export type CreateBeleidskeuzeMutationResult = NonNullable<
+    Awaited<ReturnType<typeof createBeleidskeuze>>
 >
-export type CreateBeleidskeuzeV01BeleidskeuzesPostMutationBody =
-    BeleidskeuzeCreate
-export type CreateBeleidskeuzeV01BeleidskeuzesPostMutationError =
-    HTTPValidationError
+export type CreateBeleidskeuzeMutationBody = BeleidskeuzeCreate
+export type CreateBeleidskeuzeMutationError = HTTPValidationError
 
-export const useCreateBeleidskeuzeV01BeleidskeuzesPost = <
+export const useCreateBeleidskeuze = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof createBeleidskeuzeV01BeleidskeuzesPost>>,
+        Awaited<ReturnType<typeof createBeleidskeuze>>,
         TError,
         { data: BeleidskeuzeCreate },
         TContext
@@ -1508,16 +1349,16 @@ export const useCreateBeleidskeuzeV01BeleidskeuzesPost = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof createBeleidskeuzeV01BeleidskeuzesPost>>,
+        Awaited<ReturnType<typeof createBeleidskeuze>>,
         { data: BeleidskeuzeCreate }
     > = props => {
         const { data } = props ?? {}
 
-        return createBeleidskeuzeV01BeleidskeuzesPost(data)
+        return createBeleidskeuze(data)
     }
 
     return useMutation<
-        Awaited<ReturnType<typeof createBeleidskeuzeV01BeleidskeuzesPost>>,
+        Awaited<ReturnType<typeof createBeleidskeuze>>,
         TError,
         { data: BeleidskeuzeCreate },
         TContext
@@ -1528,46 +1369,38 @@ export const useCreateBeleidskeuzeV01BeleidskeuzesPost = <
  * Gets all the beleidskeuzes versions by lineage
  * @summary Read Beleidskeuze Lineage
  */
-export const readBeleidskeuzeLineageV01BeleidskeuzesLineageIdGet = (
+export const readBeleidskeuzeLineage = (
     lineageId: number,
+    params?: ReadBeleidskeuzeLineageParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Beleidskeuze[]>({
         url: `/v0.1/beleidskeuzes/${lineageId}`,
         method: 'get',
+        params,
         signal,
     })
 }
 
-export const getReadBeleidskeuzeLineageV01BeleidskeuzesLineageIdGetQueryKey = (
-    lineageId: number
-) => [`/v0.1/beleidskeuzes/${lineageId}`]
+export const getReadBeleidskeuzeLineageQueryKey = (
+    lineageId: number,
+    params?: ReadBeleidskeuzeLineageParams
+) => [`/v0.1/beleidskeuzes/${lineageId}`, ...(params ? [params] : [])]
 
-export type ReadBeleidskeuzeLineageV01BeleidskeuzesLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readBeleidskeuzeLineageV01BeleidskeuzesLineageIdGet
-            >
-        >
-    >
-export type ReadBeleidskeuzeLineageV01BeleidskeuzesLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadBeleidskeuzeLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBeleidskeuzeLineage>>
+>
+export type ReadBeleidskeuzeLineageQueryError = HTTPValidationError
 
-export const useReadBeleidskeuzeLineageV01BeleidskeuzesLineageIdGet = <
-    TData = Awaited<
-        ReturnType<typeof readBeleidskeuzeLineageV01BeleidskeuzesLineageIdGet>
-    >,
+export const useReadBeleidskeuzeLineage = <
+    TData = Awaited<ReturnType<typeof readBeleidskeuzeLineage>>,
     TError = HTTPValidationError
 >(
     lineageId: number,
+    params?: ReadBeleidskeuzeLineageParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readBeleidskeuzeLineageV01BeleidskeuzesLineageIdGet
-                >
-            >,
+            Awaited<ReturnType<typeof readBeleidskeuzeLineage>>,
             TError,
             TData
         >
@@ -1577,25 +1410,14 @@ export const useReadBeleidskeuzeLineageV01BeleidskeuzesLineageIdGet = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getReadBeleidskeuzeLineageV01BeleidskeuzesLineageIdGetQueryKey(
-            lineageId
-        )
+        getReadBeleidskeuzeLineageQueryKey(lineageId, params)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readBeleidskeuzeLineageV01BeleidskeuzesLineageIdGet
-            >
-        >
-    > = ({ signal }) =>
-        readBeleidskeuzeLineageV01BeleidskeuzesLineageIdGet(lineageId, signal)
+        Awaited<ReturnType<typeof readBeleidskeuzeLineage>>
+    > = ({ signal }) => readBeleidskeuzeLineage(lineageId, params, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readBeleidskeuzeLineageV01BeleidskeuzesLineageIdGet
-            >
-        >,
+        Awaited<ReturnType<typeof readBeleidskeuzeLineage>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -1612,7 +1434,7 @@ export const useReadBeleidskeuzeLineageV01BeleidskeuzesLineageIdGet = <
  * Update latest beleidskeuze from a lineage
  * @summary Update Beleidskeuze
  */
-export const updateBeleidskeuzeV01BeleidskeuzesLineageIdPatch = (
+export const updateBeleidskeuze = (
     lineageId: number,
     beleidskeuzeUpdate: BeleidskeuzeUpdate
 ) => {
@@ -1624,25 +1446,18 @@ export const updateBeleidskeuzeV01BeleidskeuzesLineageIdPatch = (
     })
 }
 
-export type UpdateBeleidskeuzeV01BeleidskeuzesLineageIdPatchMutationResult =
-    NonNullable<
-        Awaited<
-            ReturnType<typeof updateBeleidskeuzeV01BeleidskeuzesLineageIdPatch>
-        >
-    >
-export type UpdateBeleidskeuzeV01BeleidskeuzesLineageIdPatchMutationBody =
-    BeleidskeuzeUpdate
-export type UpdateBeleidskeuzeV01BeleidskeuzesLineageIdPatchMutationError =
-    HTTPValidationError
+export type UpdateBeleidskeuzeMutationResult = NonNullable<
+    Awaited<ReturnType<typeof updateBeleidskeuze>>
+>
+export type UpdateBeleidskeuzeMutationBody = BeleidskeuzeUpdate
+export type UpdateBeleidskeuzeMutationError = HTTPValidationError
 
-export const useUpdateBeleidskeuzeV01BeleidskeuzesLineageIdPatch = <
+export const useUpdateBeleidskeuze = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<
-            ReturnType<typeof updateBeleidskeuzeV01BeleidskeuzesLineageIdPatch>
-        >,
+        Awaited<ReturnType<typeof updateBeleidskeuze>>,
         TError,
         { lineageId: number; data: BeleidskeuzeUpdate },
         TContext
@@ -1651,20 +1466,16 @@ export const useUpdateBeleidskeuzeV01BeleidskeuzesLineageIdPatch = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<
-            ReturnType<typeof updateBeleidskeuzeV01BeleidskeuzesLineageIdPatch>
-        >,
+        Awaited<ReturnType<typeof updateBeleidskeuze>>,
         { lineageId: number; data: BeleidskeuzeUpdate }
     > = props => {
         const { lineageId, data } = props ?? {}
 
-        return updateBeleidskeuzeV01BeleidskeuzesLineageIdPatch(lineageId, data)
+        return updateBeleidskeuze(lineageId, data)
     }
 
     return useMutation<
-        Awaited<
-            ReturnType<typeof updateBeleidskeuzeV01BeleidskeuzesLineageIdPatch>
-        >,
+        Awaited<ReturnType<typeof updateBeleidskeuze>>,
         TError,
         { lineageId: number; data: BeleidskeuzeUpdate },
         TContext
@@ -1675,7 +1486,7 @@ export const useUpdateBeleidskeuzeV01BeleidskeuzesLineageIdPatch = <
  * Shows the changes between two versions of beleidskeuzes.
  * @summary Changes Beleidskeuzes
  */
-export const changesBeleidskeuzesV01ChangesBeleidskeuzesOldUuidNewUuidGet = (
+export const changesBeleidskeuzes = (
     oldUuid: string,
     newUuid: string,
     signal?: AbortSignal
@@ -1687,39 +1498,25 @@ export const changesBeleidskeuzesV01ChangesBeleidskeuzesOldUuidNewUuidGet = (
     })
 }
 
-export const getChangesBeleidskeuzesV01ChangesBeleidskeuzesOldUuidNewUuidGetQueryKey =
-    (oldUuid: string, newUuid: string) => [
-        `/v0.1/changes/beleidskeuzes/${oldUuid}/${newUuid}`,
-    ]
+export const getChangesBeleidskeuzesQueryKey = (
+    oldUuid: string,
+    newUuid: string
+) => [`/v0.1/changes/beleidskeuzes/${oldUuid}/${newUuid}`]
 
-export type ChangesBeleidskeuzesV01ChangesBeleidskeuzesOldUuidNewUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof changesBeleidskeuzesV01ChangesBeleidskeuzesOldUuidNewUuidGet
-            >
-        >
-    >
-export type ChangesBeleidskeuzesV01ChangesBeleidskeuzesOldUuidNewUuidGetQueryError =
-    HTTPValidationError
+export type ChangesBeleidskeuzesQueryResult = NonNullable<
+    Awaited<ReturnType<typeof changesBeleidskeuzes>>
+>
+export type ChangesBeleidskeuzesQueryError = HTTPValidationError
 
-export const useChangesBeleidskeuzesV01ChangesBeleidskeuzesOldUuidNewUuidGet = <
-    TData = Awaited<
-        ReturnType<
-            typeof changesBeleidskeuzesV01ChangesBeleidskeuzesOldUuidNewUuidGet
-        >
-    >,
+export const useChangesBeleidskeuzes = <
+    TData = Awaited<ReturnType<typeof changesBeleidskeuzes>>,
     TError = HTTPValidationError
 >(
     oldUuid: string,
     newUuid: string,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof changesBeleidskeuzesV01ChangesBeleidskeuzesOldUuidNewUuidGet
-                >
-            >,
+            Awaited<ReturnType<typeof changesBeleidskeuzes>>,
             TError,
             TData
         >
@@ -1729,30 +1526,14 @@ export const useChangesBeleidskeuzesV01ChangesBeleidskeuzesOldUuidNewUuidGet = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getChangesBeleidskeuzesV01ChangesBeleidskeuzesOldUuidNewUuidGetQueryKey(
-            oldUuid,
-            newUuid
-        )
+        getChangesBeleidskeuzesQueryKey(oldUuid, newUuid)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof changesBeleidskeuzesV01ChangesBeleidskeuzesOldUuidNewUuidGet
-            >
-        >
-    > = ({ signal }) =>
-        changesBeleidskeuzesV01ChangesBeleidskeuzesOldUuidNewUuidGet(
-            oldUuid,
-            newUuid,
-            signal
-        )
+        Awaited<ReturnType<typeof changesBeleidskeuzes>>
+    > = ({ signal }) => changesBeleidskeuzes(oldUuid, newUuid, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof changesBeleidskeuzesV01ChangesBeleidskeuzesOldUuidNewUuidGet
-            >
-        >,
+        Awaited<ReturnType<typeof changesBeleidskeuzes>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -1769,8 +1550,8 @@ export const useChangesBeleidskeuzesV01ChangesBeleidskeuzesOldUuidNewUuidGet = <
  * Gets all the beleidskeuzes lineages and shows the latests valid object for each.
  * @summary Read Valid Beleidskeuzes
  */
-export const readValidBeleidskeuzesV01ValidBeleidskeuzesGet = (
-    params?: ReadValidBeleidskeuzesV01ValidBeleidskeuzesGetParams,
+export const readValidBeleidskeuzes = (
+    params?: ReadValidBeleidskeuzesParams,
     signal?: AbortSignal
 ) => {
     return customInstance<BeleidskeuzeListable[]>({
@@ -1781,33 +1562,23 @@ export const readValidBeleidskeuzesV01ValidBeleidskeuzesGet = (
     })
 }
 
-export const getReadValidBeleidskeuzesV01ValidBeleidskeuzesGetQueryKey = (
-    params?: ReadValidBeleidskeuzesV01ValidBeleidskeuzesGetParams
+export const getReadValidBeleidskeuzesQueryKey = (
+    params?: ReadValidBeleidskeuzesParams
 ) => [`/v0.1/valid/beleidskeuzes`, ...(params ? [params] : [])]
 
-export type ReadValidBeleidskeuzesV01ValidBeleidskeuzesGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<typeof readValidBeleidskeuzesV01ValidBeleidskeuzesGet>
-        >
-    >
-export type ReadValidBeleidskeuzesV01ValidBeleidskeuzesGetQueryError =
-    HTTPValidationError
+export type ReadValidBeleidskeuzesQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidBeleidskeuzes>>
+>
+export type ReadValidBeleidskeuzesQueryError = HTTPValidationError
 
-export const useReadValidBeleidskeuzesV01ValidBeleidskeuzesGet = <
-    TData = Awaited<
-        ReturnType<typeof readValidBeleidskeuzesV01ValidBeleidskeuzesGet>
-    >,
+export const useReadValidBeleidskeuzes = <
+    TData = Awaited<ReturnType<typeof readValidBeleidskeuzes>>,
     TError = HTTPValidationError
 >(
-    params?: ReadValidBeleidskeuzesV01ValidBeleidskeuzesGetParams,
+    params?: ReadValidBeleidskeuzesParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readValidBeleidskeuzesV01ValidBeleidskeuzesGet
-                >
-            >,
+            Awaited<ReturnType<typeof readValidBeleidskeuzes>>,
             TError,
             TData
         >
@@ -1816,20 +1587,14 @@ export const useReadValidBeleidskeuzesV01ValidBeleidskeuzesGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadValidBeleidskeuzesV01ValidBeleidskeuzesGetQueryKey(params)
+        queryOptions?.queryKey ?? getReadValidBeleidskeuzesQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<typeof readValidBeleidskeuzesV01ValidBeleidskeuzesGet>
-        >
-    > = ({ signal }) =>
-        readValidBeleidskeuzesV01ValidBeleidskeuzesGet(params, signal)
+        Awaited<ReturnType<typeof readValidBeleidskeuzes>>
+    > = ({ signal }) => readValidBeleidskeuzes(params, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<typeof readValidBeleidskeuzesV01ValidBeleidskeuzesGet>
-        >,
+        Awaited<ReturnType<typeof readValidBeleidskeuzes>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -1845,9 +1610,9 @@ export const useReadValidBeleidskeuzesV01ValidBeleidskeuzesGet = <
  * Gets all the beleidskeuzes in this lineage that are valid
  * @summary Read Valid Beleidskeuze Lineage
  */
-export const readValidBeleidskeuzeLineageV01ValidBeleidskeuzesLineageIdGet = (
+export const readValidBeleidskeuzeLineage = (
     lineageId: number,
-    params?: ReadValidBeleidskeuzeLineageV01ValidBeleidskeuzesLineageIdGetParams,
+    params?: ReadValidBeleidskeuzeLineageParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Beleidskeuze[]>({
@@ -1858,92 +1623,60 @@ export const readValidBeleidskeuzeLineageV01ValidBeleidskeuzesLineageIdGet = (
     })
 }
 
-export const getReadValidBeleidskeuzeLineageV01ValidBeleidskeuzesLineageIdGetQueryKey =
-    (
-        lineageId: number,
-        params?: ReadValidBeleidskeuzeLineageV01ValidBeleidskeuzesLineageIdGetParams
-    ) => [`/v0.1/valid/beleidskeuzes/${lineageId}`, ...(params ? [params] : [])]
+export const getReadValidBeleidskeuzeLineageQueryKey = (
+    lineageId: number,
+    params?: ReadValidBeleidskeuzeLineageParams
+) => [`/v0.1/valid/beleidskeuzes/${lineageId}`, ...(params ? [params] : [])]
 
-export type ReadValidBeleidskeuzeLineageV01ValidBeleidskeuzesLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readValidBeleidskeuzeLineageV01ValidBeleidskeuzesLineageIdGet
-            >
-        >
-    >
-export type ReadValidBeleidskeuzeLineageV01ValidBeleidskeuzesLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadValidBeleidskeuzeLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidBeleidskeuzeLineage>>
+>
+export type ReadValidBeleidskeuzeLineageQueryError = HTTPValidationError
 
-export const useReadValidBeleidskeuzeLineageV01ValidBeleidskeuzesLineageIdGet =
-    <
-        TData = Awaited<
-            ReturnType<
-                typeof readValidBeleidskeuzeLineageV01ValidBeleidskeuzesLineageIdGet
-            >
-        >,
-        TError = HTTPValidationError
-    >(
-        lineageId: number,
-        params?: ReadValidBeleidskeuzeLineageV01ValidBeleidskeuzesLineageIdGetParams,
-        options?: {
-            query?: UseQueryOptions<
-                Awaited<
-                    ReturnType<
-                        typeof readValidBeleidskeuzeLineageV01ValidBeleidskeuzesLineageIdGet
-                    >
-                >,
-                TError,
-                TData
-            >
-        }
-    ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-        const { query: queryOptions } = options ?? {}
-
-        const queryKey =
-            queryOptions?.queryKey ??
-            getReadValidBeleidskeuzeLineageV01ValidBeleidskeuzesLineageIdGetQueryKey(
-                lineageId,
-                params
-            )
-
-        const queryFn: QueryFunction<
-            Awaited<
-                ReturnType<
-                    typeof readValidBeleidskeuzeLineageV01ValidBeleidskeuzesLineageIdGet
-                >
-            >
-        > = ({ signal }) =>
-            readValidBeleidskeuzeLineageV01ValidBeleidskeuzesLineageIdGet(
-                lineageId,
-                params,
-                signal
-            )
-
-        const query = useQuery<
-            Awaited<
-                ReturnType<
-                    typeof readValidBeleidskeuzeLineageV01ValidBeleidskeuzesLineageIdGet
-                >
-            >,
+export const useReadValidBeleidskeuzeLineage = <
+    TData = Awaited<ReturnType<typeof readValidBeleidskeuzeLineage>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ReadValidBeleidskeuzeLineageParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof readValidBeleidskeuzeLineage>>,
             TError,
             TData
-        >(queryKey, queryFn, {
-            enabled: !!lineageId,
-            ...queryOptions,
-        }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-        query.queryKey = queryKey
-
-        return query
+        >
     }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getReadValidBeleidskeuzeLineageQueryKey(lineageId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof readValidBeleidskeuzeLineage>>
+    > = ({ signal }) => readValidBeleidskeuzeLineage(lineageId, params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof readValidBeleidskeuzeLineage>>,
+        TError,
+        TData
+    >(queryKey, queryFn, {
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
 
 /**
  * Finds the lineage of the resource and retrieves the latest
 available version.
  * @summary Read Latest Version Lineage
  */
-export const readLatestVersionLineageV01VersionBeleidskeuzesObjectUuidGet = (
+export const readBeleidskeuzeVersion = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
@@ -1954,36 +1687,23 @@ export const readLatestVersionLineageV01VersionBeleidskeuzesObjectUuidGet = (
     })
 }
 
-export const getReadLatestVersionLineageV01VersionBeleidskeuzesObjectUuidGetQueryKey =
-    (objectUuid: string) => [`/v0.1/version/beleidskeuzes/${objectUuid}`]
+export const getReadBeleidskeuzeVersionQueryKey = (objectUuid: string) => [
+    `/v0.1/version/beleidskeuzes/${objectUuid}`,
+]
 
-export type ReadLatestVersionLineageV01VersionBeleidskeuzesObjectUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionBeleidskeuzesObjectUuidGet
-            >
-        >
-    >
-export type ReadLatestVersionLineageV01VersionBeleidskeuzesObjectUuidGetQueryError =
-    HTTPValidationError
+export type ReadBeleidskeuzeVersionQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBeleidskeuzeVersion>>
+>
+export type ReadBeleidskeuzeVersionQueryError = HTTPValidationError
 
-export const useReadLatestVersionLineageV01VersionBeleidskeuzesObjectUuidGet = <
-    TData = Awaited<
-        ReturnType<
-            typeof readLatestVersionLineageV01VersionBeleidskeuzesObjectUuidGet
-        >
-    >,
+export const useReadBeleidskeuzeVersion = <
+    TData = Awaited<ReturnType<typeof readBeleidskeuzeVersion>>,
     TError = HTTPValidationError
 >(
     objectUuid: string,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readLatestVersionLineageV01VersionBeleidskeuzesObjectUuidGet
-                >
-            >,
+            Awaited<ReturnType<typeof readBeleidskeuzeVersion>>,
             TError,
             TData
         >
@@ -1992,29 +1712,14 @@ export const useReadLatestVersionLineageV01VersionBeleidskeuzesObjectUuidGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadLatestVersionLineageV01VersionBeleidskeuzesObjectUuidGetQueryKey(
-            objectUuid
-        )
+        queryOptions?.queryKey ?? getReadBeleidskeuzeVersionQueryKey(objectUuid)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionBeleidskeuzesObjectUuidGet
-            >
-        >
-    > = ({ signal }) =>
-        readLatestVersionLineageV01VersionBeleidskeuzesObjectUuidGet(
-            objectUuid,
-            signal
-        )
+        Awaited<ReturnType<typeof readBeleidskeuzeVersion>>
+    > = ({ signal }) => readBeleidskeuzeVersion(objectUuid, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionBeleidskeuzesObjectUuidGet
-            >
-        >,
+        Awaited<ReturnType<typeof readBeleidskeuzeVersion>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -2031,8 +1736,8 @@ export const useReadLatestVersionLineageV01VersionBeleidskeuzesObjectUuidGet = <
  * Gets all the beleidsdoelen lineages and shows the latests object for each
  * @summary Read Beleidsdoelen
  */
-export const readBeleidsdoelenV01BeleidsdoelenGet = (
-    params?: ReadBeleidsdoelenV01BeleidsdoelenGetParams,
+export const readBeleidsdoelen = (
+    params?: ReadBeleidsdoelenParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Beleidsdoel[]>({
@@ -2043,23 +1748,23 @@ export const readBeleidsdoelenV01BeleidsdoelenGet = (
     })
 }
 
-export const getReadBeleidsdoelenV01BeleidsdoelenGetQueryKey = (
-    params?: ReadBeleidsdoelenV01BeleidsdoelenGetParams
+export const getReadBeleidsdoelenQueryKey = (
+    params?: ReadBeleidsdoelenParams
 ) => [`/v0.1/beleidsdoelen`, ...(params ? [params] : [])]
 
-export type ReadBeleidsdoelenV01BeleidsdoelenGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof readBeleidsdoelenV01BeleidsdoelenGet>>
+export type ReadBeleidsdoelenQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBeleidsdoelen>>
 >
-export type ReadBeleidsdoelenV01BeleidsdoelenGetQueryError = HTTPValidationError
+export type ReadBeleidsdoelenQueryError = HTTPValidationError
 
-export const useReadBeleidsdoelenV01BeleidsdoelenGet = <
-    TData = Awaited<ReturnType<typeof readBeleidsdoelenV01BeleidsdoelenGet>>,
+export const useReadBeleidsdoelen = <
+    TData = Awaited<ReturnType<typeof readBeleidsdoelen>>,
     TError = HTTPValidationError
 >(
-    params?: ReadBeleidsdoelenV01BeleidsdoelenGetParams,
+    params?: ReadBeleidsdoelenParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<ReturnType<typeof readBeleidsdoelenV01BeleidsdoelenGet>>,
+            Awaited<ReturnType<typeof readBeleidsdoelen>>,
             TError,
             TData
         >
@@ -2068,15 +1773,14 @@ export const useReadBeleidsdoelenV01BeleidsdoelenGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadBeleidsdoelenV01BeleidsdoelenGetQueryKey(params)
+        queryOptions?.queryKey ?? getReadBeleidsdoelenQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readBeleidsdoelenV01BeleidsdoelenGet>>
-    > = ({ signal }) => readBeleidsdoelenV01BeleidsdoelenGet(params, signal)
+        Awaited<ReturnType<typeof readBeleidsdoelen>>
+    > = ({ signal }) => readBeleidsdoelen(params, signal)
 
     const query = useQuery<
-        Awaited<ReturnType<typeof readBeleidsdoelenV01BeleidsdoelenGet>>,
+        Awaited<ReturnType<typeof readBeleidsdoelen>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -2092,9 +1796,7 @@ export const useReadBeleidsdoelenV01BeleidsdoelenGet = <
  * Creates a new beleidsdoelen lineage
  * @summary Create Beleidsdoel
  */
-export const createBeleidsdoelV01BeleidsdoelenPost = (
-    beleidsdoelCreate: BeleidsdoelCreate
-) => {
+export const createBeleidsdoel = (beleidsdoelCreate: BeleidsdoelCreate) => {
     return customInstance<Beleidsdoel>({
         url: `/v0.1/beleidsdoelen`,
         method: 'post',
@@ -2103,20 +1805,18 @@ export const createBeleidsdoelV01BeleidsdoelenPost = (
     })
 }
 
-export type CreateBeleidsdoelV01BeleidsdoelenPostMutationResult = NonNullable<
-    Awaited<ReturnType<typeof createBeleidsdoelV01BeleidsdoelenPost>>
+export type CreateBeleidsdoelMutationResult = NonNullable<
+    Awaited<ReturnType<typeof createBeleidsdoel>>
 >
-export type CreateBeleidsdoelV01BeleidsdoelenPostMutationBody =
-    BeleidsdoelCreate
-export type CreateBeleidsdoelV01BeleidsdoelenPostMutationError =
-    HTTPValidationError
+export type CreateBeleidsdoelMutationBody = BeleidsdoelCreate
+export type CreateBeleidsdoelMutationError = HTTPValidationError
 
-export const useCreateBeleidsdoelV01BeleidsdoelenPost = <
+export const useCreateBeleidsdoel = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof createBeleidsdoelV01BeleidsdoelenPost>>,
+        Awaited<ReturnType<typeof createBeleidsdoel>>,
         TError,
         { data: BeleidsdoelCreate },
         TContext
@@ -2125,16 +1825,16 @@ export const useCreateBeleidsdoelV01BeleidsdoelenPost = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof createBeleidsdoelV01BeleidsdoelenPost>>,
+        Awaited<ReturnType<typeof createBeleidsdoel>>,
         { data: BeleidsdoelCreate }
     > = props => {
         const { data } = props ?? {}
 
-        return createBeleidsdoelV01BeleidsdoelenPost(data)
+        return createBeleidsdoel(data)
     }
 
     return useMutation<
-        Awaited<ReturnType<typeof createBeleidsdoelV01BeleidsdoelenPost>>,
+        Awaited<ReturnType<typeof createBeleidsdoel>>,
         TError,
         { data: BeleidsdoelCreate },
         TContext
@@ -2145,7 +1845,7 @@ export const useCreateBeleidsdoelV01BeleidsdoelenPost = <
  * Gets all the beleidsdoelen versions by lineage
  * @summary Read Beleidsdoel Lineage
  */
-export const readBeleidsdoelLineageV01BeleidsdoelenLineageIdGet = (
+export const readBeleidsdoelLineage = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
@@ -2156,35 +1856,23 @@ export const readBeleidsdoelLineageV01BeleidsdoelenLineageIdGet = (
     })
 }
 
-export const getReadBeleidsdoelLineageV01BeleidsdoelenLineageIdGetQueryKey = (
-    lineageId: number
-) => [`/v0.1/beleidsdoelen/${lineageId}`]
+export const getReadBeleidsdoelLineageQueryKey = (lineageId: number) => [
+    `/v0.1/beleidsdoelen/${lineageId}`,
+]
 
-export type ReadBeleidsdoelLineageV01BeleidsdoelenLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readBeleidsdoelLineageV01BeleidsdoelenLineageIdGet
-            >
-        >
-    >
-export type ReadBeleidsdoelLineageV01BeleidsdoelenLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadBeleidsdoelLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBeleidsdoelLineage>>
+>
+export type ReadBeleidsdoelLineageQueryError = HTTPValidationError
 
-export const useReadBeleidsdoelLineageV01BeleidsdoelenLineageIdGet = <
-    TData = Awaited<
-        ReturnType<typeof readBeleidsdoelLineageV01BeleidsdoelenLineageIdGet>
-    >,
+export const useReadBeleidsdoelLineage = <
+    TData = Awaited<ReturnType<typeof readBeleidsdoelLineage>>,
     TError = HTTPValidationError
 >(
     lineageId: number,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readBeleidsdoelLineageV01BeleidsdoelenLineageIdGet
-                >
-            >,
+            Awaited<ReturnType<typeof readBeleidsdoelLineage>>,
             TError,
             TData
         >
@@ -2193,24 +1881,14 @@ export const useReadBeleidsdoelLineageV01BeleidsdoelenLineageIdGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadBeleidsdoelLineageV01BeleidsdoelenLineageIdGetQueryKey(lineageId)
+        queryOptions?.queryKey ?? getReadBeleidsdoelLineageQueryKey(lineageId)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readBeleidsdoelLineageV01BeleidsdoelenLineageIdGet
-            >
-        >
-    > = ({ signal }) =>
-        readBeleidsdoelLineageV01BeleidsdoelenLineageIdGet(lineageId, signal)
+        Awaited<ReturnType<typeof readBeleidsdoelLineage>>
+    > = ({ signal }) => readBeleidsdoelLineage(lineageId, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readBeleidsdoelLineageV01BeleidsdoelenLineageIdGet
-            >
-        >,
+        Awaited<ReturnType<typeof readBeleidsdoelLineage>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -2227,7 +1905,7 @@ export const useReadBeleidsdoelLineageV01BeleidsdoelenLineageIdGet = <
  * Adds a new beleidsdoelen to a lineage
  * @summary Update Beleidsdoel
  */
-export const updateBeleidsdoelV01BeleidsdoelenLineageIdPatch = (
+export const updateBeleidsdoel = (
     lineageId: number,
     beleidsdoelUpdate: BeleidsdoelUpdate
 ) => {
@@ -2239,25 +1917,18 @@ export const updateBeleidsdoelV01BeleidsdoelenLineageIdPatch = (
     })
 }
 
-export type UpdateBeleidsdoelV01BeleidsdoelenLineageIdPatchMutationResult =
-    NonNullable<
-        Awaited<
-            ReturnType<typeof updateBeleidsdoelV01BeleidsdoelenLineageIdPatch>
-        >
-    >
-export type UpdateBeleidsdoelV01BeleidsdoelenLineageIdPatchMutationBody =
-    BeleidsdoelUpdate
-export type UpdateBeleidsdoelV01BeleidsdoelenLineageIdPatchMutationError =
-    HTTPValidationError
+export type UpdateBeleidsdoelMutationResult = NonNullable<
+    Awaited<ReturnType<typeof updateBeleidsdoel>>
+>
+export type UpdateBeleidsdoelMutationBody = BeleidsdoelUpdate
+export type UpdateBeleidsdoelMutationError = HTTPValidationError
 
-export const useUpdateBeleidsdoelV01BeleidsdoelenLineageIdPatch = <
+export const useUpdateBeleidsdoel = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<
-            ReturnType<typeof updateBeleidsdoelV01BeleidsdoelenLineageIdPatch>
-        >,
+        Awaited<ReturnType<typeof updateBeleidsdoel>>,
         TError,
         { lineageId: number; data: BeleidsdoelUpdate },
         TContext
@@ -2266,20 +1937,16 @@ export const useUpdateBeleidsdoelV01BeleidsdoelenLineageIdPatch = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<
-            ReturnType<typeof updateBeleidsdoelV01BeleidsdoelenLineageIdPatch>
-        >,
+        Awaited<ReturnType<typeof updateBeleidsdoel>>,
         { lineageId: number; data: BeleidsdoelUpdate }
     > = props => {
         const { lineageId, data } = props ?? {}
 
-        return updateBeleidsdoelV01BeleidsdoelenLineageIdPatch(lineageId, data)
+        return updateBeleidsdoel(lineageId, data)
     }
 
     return useMutation<
-        Awaited<
-            ReturnType<typeof updateBeleidsdoelV01BeleidsdoelenLineageIdPatch>
-        >,
+        Awaited<ReturnType<typeof updateBeleidsdoel>>,
         TError,
         { lineageId: number; data: BeleidsdoelUpdate },
         TContext
@@ -2290,7 +1957,7 @@ export const useUpdateBeleidsdoelV01BeleidsdoelenLineageIdPatch = <
  * Shows the changes between two versions of beleidsdoelen.
  * @summary Changes Beleidsdoelen
  */
-export const changesBeleidsdoelenV01ChangesBeleidsdoelenOldUuidNewUuidGet = (
+export const changesBeleidsdoelen = (
     oldUuid: string,
     newUuid: string,
     signal?: AbortSignal
@@ -2302,39 +1969,25 @@ export const changesBeleidsdoelenV01ChangesBeleidsdoelenOldUuidNewUuidGet = (
     })
 }
 
-export const getChangesBeleidsdoelenV01ChangesBeleidsdoelenOldUuidNewUuidGetQueryKey =
-    (oldUuid: string, newUuid: string) => [
-        `/v0.1/changes/beleidsdoelen/${oldUuid}/${newUuid}`,
-    ]
+export const getChangesBeleidsdoelenQueryKey = (
+    oldUuid: string,
+    newUuid: string
+) => [`/v0.1/changes/beleidsdoelen/${oldUuid}/${newUuid}`]
 
-export type ChangesBeleidsdoelenV01ChangesBeleidsdoelenOldUuidNewUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof changesBeleidsdoelenV01ChangesBeleidsdoelenOldUuidNewUuidGet
-            >
-        >
-    >
-export type ChangesBeleidsdoelenV01ChangesBeleidsdoelenOldUuidNewUuidGetQueryError =
-    HTTPValidationError
+export type ChangesBeleidsdoelenQueryResult = NonNullable<
+    Awaited<ReturnType<typeof changesBeleidsdoelen>>
+>
+export type ChangesBeleidsdoelenQueryError = HTTPValidationError
 
-export const useChangesBeleidsdoelenV01ChangesBeleidsdoelenOldUuidNewUuidGet = <
-    TData = Awaited<
-        ReturnType<
-            typeof changesBeleidsdoelenV01ChangesBeleidsdoelenOldUuidNewUuidGet
-        >
-    >,
+export const useChangesBeleidsdoelen = <
+    TData = Awaited<ReturnType<typeof changesBeleidsdoelen>>,
     TError = HTTPValidationError
 >(
     oldUuid: string,
     newUuid: string,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof changesBeleidsdoelenV01ChangesBeleidsdoelenOldUuidNewUuidGet
-                >
-            >,
+            Awaited<ReturnType<typeof changesBeleidsdoelen>>,
             TError,
             TData
         >
@@ -2344,30 +1997,14 @@ export const useChangesBeleidsdoelenV01ChangesBeleidsdoelenOldUuidNewUuidGet = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getChangesBeleidsdoelenV01ChangesBeleidsdoelenOldUuidNewUuidGetQueryKey(
-            oldUuid,
-            newUuid
-        )
+        getChangesBeleidsdoelenQueryKey(oldUuid, newUuid)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof changesBeleidsdoelenV01ChangesBeleidsdoelenOldUuidNewUuidGet
-            >
-        >
-    > = ({ signal }) =>
-        changesBeleidsdoelenV01ChangesBeleidsdoelenOldUuidNewUuidGet(
-            oldUuid,
-            newUuid,
-            signal
-        )
+        Awaited<ReturnType<typeof changesBeleidsdoelen>>
+    > = ({ signal }) => changesBeleidsdoelen(oldUuid, newUuid, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof changesBeleidsdoelenV01ChangesBeleidsdoelenOldUuidNewUuidGet
-            >
-        >,
+        Awaited<ReturnType<typeof changesBeleidsdoelen>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -2384,8 +2021,8 @@ export const useChangesBeleidsdoelenV01ChangesBeleidsdoelenOldUuidNewUuidGet = <
  * Gets all the beleidsdoelen lineages and shows the latests valid object for each.
  * @summary Read Valid Beleidsdoelen
  */
-export const readValidBeleidsdoelenV01ValidBeleidsdoelenGet = (
-    params?: ReadValidBeleidsdoelenV01ValidBeleidsdoelenGetParams,
+export const readValidBeleidsdoelen = (
+    params?: ReadValidBeleidsdoelenParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Beleidsdoel[]>({
@@ -2396,33 +2033,23 @@ export const readValidBeleidsdoelenV01ValidBeleidsdoelenGet = (
     })
 }
 
-export const getReadValidBeleidsdoelenV01ValidBeleidsdoelenGetQueryKey = (
-    params?: ReadValidBeleidsdoelenV01ValidBeleidsdoelenGetParams
+export const getReadValidBeleidsdoelenQueryKey = (
+    params?: ReadValidBeleidsdoelenParams
 ) => [`/v0.1/valid/beleidsdoelen`, ...(params ? [params] : [])]
 
-export type ReadValidBeleidsdoelenV01ValidBeleidsdoelenGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<typeof readValidBeleidsdoelenV01ValidBeleidsdoelenGet>
-        >
-    >
-export type ReadValidBeleidsdoelenV01ValidBeleidsdoelenGetQueryError =
-    HTTPValidationError
+export type ReadValidBeleidsdoelenQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidBeleidsdoelen>>
+>
+export type ReadValidBeleidsdoelenQueryError = HTTPValidationError
 
-export const useReadValidBeleidsdoelenV01ValidBeleidsdoelenGet = <
-    TData = Awaited<
-        ReturnType<typeof readValidBeleidsdoelenV01ValidBeleidsdoelenGet>
-    >,
+export const useReadValidBeleidsdoelen = <
+    TData = Awaited<ReturnType<typeof readValidBeleidsdoelen>>,
     TError = HTTPValidationError
 >(
-    params?: ReadValidBeleidsdoelenV01ValidBeleidsdoelenGetParams,
+    params?: ReadValidBeleidsdoelenParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readValidBeleidsdoelenV01ValidBeleidsdoelenGet
-                >
-            >,
+            Awaited<ReturnType<typeof readValidBeleidsdoelen>>,
             TError,
             TData
         >
@@ -2431,20 +2058,14 @@ export const useReadValidBeleidsdoelenV01ValidBeleidsdoelenGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadValidBeleidsdoelenV01ValidBeleidsdoelenGetQueryKey(params)
+        queryOptions?.queryKey ?? getReadValidBeleidsdoelenQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<typeof readValidBeleidsdoelenV01ValidBeleidsdoelenGet>
-        >
-    > = ({ signal }) =>
-        readValidBeleidsdoelenV01ValidBeleidsdoelenGet(params, signal)
+        Awaited<ReturnType<typeof readValidBeleidsdoelen>>
+    > = ({ signal }) => readValidBeleidsdoelen(params, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<typeof readValidBeleidsdoelenV01ValidBeleidsdoelenGet>
-        >,
+        Awaited<ReturnType<typeof readValidBeleidsdoelen>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -2460,9 +2081,9 @@ export const useReadValidBeleidsdoelenV01ValidBeleidsdoelenGet = <
  * Gets all the beleidsdoelen in this lineage that are valid
  * @summary Read Valid Beleidsdoel Lineage
  */
-export const readValidBeleidsdoelLineageV01ValidBeleidsdoelenLineageIdGet = (
+export const readValidBeleidsdoelLineage = (
     lineageId: number,
-    params?: ReadValidBeleidsdoelLineageV01ValidBeleidsdoelenLineageIdGetParams,
+    params?: ReadValidBeleidsdoelLineageParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Beleidsdoel[]>({
@@ -2473,40 +2094,25 @@ export const readValidBeleidsdoelLineageV01ValidBeleidsdoelenLineageIdGet = (
     })
 }
 
-export const getReadValidBeleidsdoelLineageV01ValidBeleidsdoelenLineageIdGetQueryKey =
-    (
-        lineageId: number,
-        params?: ReadValidBeleidsdoelLineageV01ValidBeleidsdoelenLineageIdGetParams
-    ) => [`/v0.1/valid/beleidsdoelen/${lineageId}`, ...(params ? [params] : [])]
+export const getReadValidBeleidsdoelLineageQueryKey = (
+    lineageId: number,
+    params?: ReadValidBeleidsdoelLineageParams
+) => [`/v0.1/valid/beleidsdoelen/${lineageId}`, ...(params ? [params] : [])]
 
-export type ReadValidBeleidsdoelLineageV01ValidBeleidsdoelenLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readValidBeleidsdoelLineageV01ValidBeleidsdoelenLineageIdGet
-            >
-        >
-    >
-export type ReadValidBeleidsdoelLineageV01ValidBeleidsdoelenLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadValidBeleidsdoelLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidBeleidsdoelLineage>>
+>
+export type ReadValidBeleidsdoelLineageQueryError = HTTPValidationError
 
-export const useReadValidBeleidsdoelLineageV01ValidBeleidsdoelenLineageIdGet = <
-    TData = Awaited<
-        ReturnType<
-            typeof readValidBeleidsdoelLineageV01ValidBeleidsdoelenLineageIdGet
-        >
-    >,
+export const useReadValidBeleidsdoelLineage = <
+    TData = Awaited<ReturnType<typeof readValidBeleidsdoelLineage>>,
     TError = HTTPValidationError
 >(
     lineageId: number,
-    params?: ReadValidBeleidsdoelLineageV01ValidBeleidsdoelenLineageIdGetParams,
+    params?: ReadValidBeleidsdoelLineageParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readValidBeleidsdoelLineageV01ValidBeleidsdoelenLineageIdGet
-                >
-            >,
+            Awaited<ReturnType<typeof readValidBeleidsdoelLineage>>,
             TError,
             TData
         >
@@ -2516,30 +2122,14 @@ export const useReadValidBeleidsdoelLineageV01ValidBeleidsdoelenLineageIdGet = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getReadValidBeleidsdoelLineageV01ValidBeleidsdoelenLineageIdGetQueryKey(
-            lineageId,
-            params
-        )
+        getReadValidBeleidsdoelLineageQueryKey(lineageId, params)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readValidBeleidsdoelLineageV01ValidBeleidsdoelenLineageIdGet
-            >
-        >
-    > = ({ signal }) =>
-        readValidBeleidsdoelLineageV01ValidBeleidsdoelenLineageIdGet(
-            lineageId,
-            params,
-            signal
-        )
+        Awaited<ReturnType<typeof readValidBeleidsdoelLineage>>
+    > = ({ signal }) => readValidBeleidsdoelLineage(lineageId, params, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readValidBeleidsdoelLineageV01ValidBeleidsdoelenLineageIdGet
-            >
-        >,
+        Awaited<ReturnType<typeof readValidBeleidsdoelLineage>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -2557,7 +2147,7 @@ export const useReadValidBeleidsdoelLineageV01ValidBeleidsdoelenLineageIdGet = <
 available version.
  * @summary Read Latest Version Lineage
  */
-export const readLatestVersionLineageV01VersionBeleidsdoelenObjectUuidGet = (
+export const readBeleidsdoelVersion = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
@@ -2568,36 +2158,23 @@ export const readLatestVersionLineageV01VersionBeleidsdoelenObjectUuidGet = (
     })
 }
 
-export const getReadLatestVersionLineageV01VersionBeleidsdoelenObjectUuidGetQueryKey =
-    (objectUuid: string) => [`/v0.1/version/beleidsdoelen/${objectUuid}`]
+export const getReadBeleidsdoelVersionQueryKey = (objectUuid: string) => [
+    `/v0.1/version/beleidsdoelen/${objectUuid}`,
+]
 
-export type ReadLatestVersionLineageV01VersionBeleidsdoelenObjectUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionBeleidsdoelenObjectUuidGet
-            >
-        >
-    >
-export type ReadLatestVersionLineageV01VersionBeleidsdoelenObjectUuidGetQueryError =
-    HTTPValidationError
+export type ReadBeleidsdoelVersionQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBeleidsdoelVersion>>
+>
+export type ReadBeleidsdoelVersionQueryError = HTTPValidationError
 
-export const useReadLatestVersionLineageV01VersionBeleidsdoelenObjectUuidGet = <
-    TData = Awaited<
-        ReturnType<
-            typeof readLatestVersionLineageV01VersionBeleidsdoelenObjectUuidGet
-        >
-    >,
+export const useReadBeleidsdoelVersion = <
+    TData = Awaited<ReturnType<typeof readBeleidsdoelVersion>>,
     TError = HTTPValidationError
 >(
     objectUuid: string,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readLatestVersionLineageV01VersionBeleidsdoelenObjectUuidGet
-                >
-            >,
+            Awaited<ReturnType<typeof readBeleidsdoelVersion>>,
             TError,
             TData
         >
@@ -2606,29 +2183,14 @@ export const useReadLatestVersionLineageV01VersionBeleidsdoelenObjectUuidGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadLatestVersionLineageV01VersionBeleidsdoelenObjectUuidGetQueryKey(
-            objectUuid
-        )
+        queryOptions?.queryKey ?? getReadBeleidsdoelVersionQueryKey(objectUuid)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionBeleidsdoelenObjectUuidGet
-            >
-        >
-    > = ({ signal }) =>
-        readLatestVersionLineageV01VersionBeleidsdoelenObjectUuidGet(
-            objectUuid,
-            signal
-        )
+        Awaited<ReturnType<typeof readBeleidsdoelVersion>>
+    > = ({ signal }) => readBeleidsdoelVersion(objectUuid, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionBeleidsdoelenObjectUuidGet
-            >
-        >,
+        Awaited<ReturnType<typeof readBeleidsdoelVersion>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -2645,8 +2207,8 @@ export const useReadLatestVersionLineageV01VersionBeleidsdoelenObjectUuidGet = <
  * Gets all the beleidsmodules lineages and shows the latests object for each
  * @summary Read Beleidsmodules
  */
-export const readBeleidsmodulesV01BeleidsmodulesGet = (
-    params?: ReadBeleidsmodulesV01BeleidsmodulesGetParams,
+export const readBeleidsmodules = (
+    params?: ReadBeleidsmodulesParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Beleidsmodule[]>({
@@ -2657,24 +2219,23 @@ export const readBeleidsmodulesV01BeleidsmodulesGet = (
     })
 }
 
-export const getReadBeleidsmodulesV01BeleidsmodulesGetQueryKey = (
-    params?: ReadBeleidsmodulesV01BeleidsmodulesGetParams
+export const getReadBeleidsmodulesQueryKey = (
+    params?: ReadBeleidsmodulesParams
 ) => [`/v0.1/beleidsmodules`, ...(params ? [params] : [])]
 
-export type ReadBeleidsmodulesV01BeleidsmodulesGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof readBeleidsmodulesV01BeleidsmodulesGet>>
+export type ReadBeleidsmodulesQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBeleidsmodules>>
 >
-export type ReadBeleidsmodulesV01BeleidsmodulesGetQueryError =
-    HTTPValidationError
+export type ReadBeleidsmodulesQueryError = HTTPValidationError
 
-export const useReadBeleidsmodulesV01BeleidsmodulesGet = <
-    TData = Awaited<ReturnType<typeof readBeleidsmodulesV01BeleidsmodulesGet>>,
+export const useReadBeleidsmodules = <
+    TData = Awaited<ReturnType<typeof readBeleidsmodules>>,
     TError = HTTPValidationError
 >(
-    params?: ReadBeleidsmodulesV01BeleidsmodulesGetParams,
+    params?: ReadBeleidsmodulesParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<ReturnType<typeof readBeleidsmodulesV01BeleidsmodulesGet>>,
+            Awaited<ReturnType<typeof readBeleidsmodules>>,
             TError,
             TData
         >
@@ -2683,15 +2244,14 @@ export const useReadBeleidsmodulesV01BeleidsmodulesGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadBeleidsmodulesV01BeleidsmodulesGetQueryKey(params)
+        queryOptions?.queryKey ?? getReadBeleidsmodulesQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readBeleidsmodulesV01BeleidsmodulesGet>>
-    > = ({ signal }) => readBeleidsmodulesV01BeleidsmodulesGet(params, signal)
+        Awaited<ReturnType<typeof readBeleidsmodules>>
+    > = ({ signal }) => readBeleidsmodules(params, signal)
 
     const query = useQuery<
-        Awaited<ReturnType<typeof readBeleidsmodulesV01BeleidsmodulesGet>>,
+        Awaited<ReturnType<typeof readBeleidsmodules>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -2707,7 +2267,7 @@ export const useReadBeleidsmodulesV01BeleidsmodulesGet = <
  * Creates a new beleidsmodules lineage
  * @summary Create Beleidsmodule
  */
-export const createBeleidsmoduleV01BeleidsmodulesPost = (
+export const createBeleidsmodule = (
     beleidsmoduleCreate: BeleidsmoduleCreate
 ) => {
     return customInstance<Beleidsmodule>({
@@ -2718,21 +2278,18 @@ export const createBeleidsmoduleV01BeleidsmodulesPost = (
     })
 }
 
-export type CreateBeleidsmoduleV01BeleidsmodulesPostMutationResult =
-    NonNullable<
-        Awaited<ReturnType<typeof createBeleidsmoduleV01BeleidsmodulesPost>>
-    >
-export type CreateBeleidsmoduleV01BeleidsmodulesPostMutationBody =
-    BeleidsmoduleCreate
-export type CreateBeleidsmoduleV01BeleidsmodulesPostMutationError =
-    HTTPValidationError
+export type CreateBeleidsmoduleMutationResult = NonNullable<
+    Awaited<ReturnType<typeof createBeleidsmodule>>
+>
+export type CreateBeleidsmoduleMutationBody = BeleidsmoduleCreate
+export type CreateBeleidsmoduleMutationError = HTTPValidationError
 
-export const useCreateBeleidsmoduleV01BeleidsmodulesPost = <
+export const useCreateBeleidsmodule = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof createBeleidsmoduleV01BeleidsmodulesPost>>,
+        Awaited<ReturnType<typeof createBeleidsmodule>>,
         TError,
         { data: BeleidsmoduleCreate },
         TContext
@@ -2741,16 +2298,16 @@ export const useCreateBeleidsmoduleV01BeleidsmodulesPost = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof createBeleidsmoduleV01BeleidsmodulesPost>>,
+        Awaited<ReturnType<typeof createBeleidsmodule>>,
         { data: BeleidsmoduleCreate }
     > = props => {
         const { data } = props ?? {}
 
-        return createBeleidsmoduleV01BeleidsmodulesPost(data)
+        return createBeleidsmodule(data)
     }
 
     return useMutation<
-        Awaited<ReturnType<typeof createBeleidsmoduleV01BeleidsmodulesPost>>,
+        Awaited<ReturnType<typeof createBeleidsmodule>>,
         TError,
         { data: BeleidsmoduleCreate },
         TContext
@@ -2761,7 +2318,7 @@ export const useCreateBeleidsmoduleV01BeleidsmodulesPost = <
  * Gets all the beleidsmodules versions by lineage
  * @summary Read Beleidsmodule Lineage
  */
-export const readBeleidsmoduleLineageV01BeleidsmodulesLineageIdGet = (
+export const readBeleidsmoduleLineage = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
@@ -2772,34 +2329,23 @@ export const readBeleidsmoduleLineageV01BeleidsmodulesLineageIdGet = (
     })
 }
 
-export const getReadBeleidsmoduleLineageV01BeleidsmodulesLineageIdGetQueryKey =
-    (lineageId: number) => [`/v0.1/beleidsmodules/${lineageId}`]
+export const getReadBeleidsmoduleLineageQueryKey = (lineageId: number) => [
+    `/v0.1/beleidsmodules/${lineageId}`,
+]
 
-export type ReadBeleidsmoduleLineageV01BeleidsmodulesLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readBeleidsmoduleLineageV01BeleidsmodulesLineageIdGet
-            >
-        >
-    >
-export type ReadBeleidsmoduleLineageV01BeleidsmodulesLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadBeleidsmoduleLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBeleidsmoduleLineage>>
+>
+export type ReadBeleidsmoduleLineageQueryError = HTTPValidationError
 
-export const useReadBeleidsmoduleLineageV01BeleidsmodulesLineageIdGet = <
-    TData = Awaited<
-        ReturnType<typeof readBeleidsmoduleLineageV01BeleidsmodulesLineageIdGet>
-    >,
+export const useReadBeleidsmoduleLineage = <
+    TData = Awaited<ReturnType<typeof readBeleidsmoduleLineage>>,
     TError = HTTPValidationError
 >(
     lineageId: number,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readBeleidsmoduleLineageV01BeleidsmodulesLineageIdGet
-                >
-            >,
+            Awaited<ReturnType<typeof readBeleidsmoduleLineage>>,
             TError,
             TData
         >
@@ -2808,26 +2354,14 @@ export const useReadBeleidsmoduleLineageV01BeleidsmodulesLineageIdGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadBeleidsmoduleLineageV01BeleidsmodulesLineageIdGetQueryKey(
-            lineageId
-        )
+        queryOptions?.queryKey ?? getReadBeleidsmoduleLineageQueryKey(lineageId)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readBeleidsmoduleLineageV01BeleidsmodulesLineageIdGet
-            >
-        >
-    > = ({ signal }) =>
-        readBeleidsmoduleLineageV01BeleidsmodulesLineageIdGet(lineageId, signal)
+        Awaited<ReturnType<typeof readBeleidsmoduleLineage>>
+    > = ({ signal }) => readBeleidsmoduleLineage(lineageId, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readBeleidsmoduleLineageV01BeleidsmodulesLineageIdGet
-            >
-        >,
+        Awaited<ReturnType<typeof readBeleidsmoduleLineage>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -2844,7 +2378,7 @@ export const useReadBeleidsmoduleLineageV01BeleidsmodulesLineageIdGet = <
  * Adds a new beleidsmodules to a lineage
  * @summary Update Beleidsmodule
  */
-export const updateBeleidsmoduleV01BeleidsmodulesLineageIdPatch = (
+export const updateBeleidsmodule = (
     lineageId: number,
     beleidsmoduleUpdate: BeleidsmoduleUpdate
 ) => {
@@ -2856,29 +2390,18 @@ export const updateBeleidsmoduleV01BeleidsmodulesLineageIdPatch = (
     })
 }
 
-export type UpdateBeleidsmoduleV01BeleidsmodulesLineageIdPatchMutationResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof updateBeleidsmoduleV01BeleidsmodulesLineageIdPatch
-            >
-        >
-    >
-export type UpdateBeleidsmoduleV01BeleidsmodulesLineageIdPatchMutationBody =
-    BeleidsmoduleUpdate
-export type UpdateBeleidsmoduleV01BeleidsmodulesLineageIdPatchMutationError =
-    HTTPValidationError
+export type UpdateBeleidsmoduleMutationResult = NonNullable<
+    Awaited<ReturnType<typeof updateBeleidsmodule>>
+>
+export type UpdateBeleidsmoduleMutationBody = BeleidsmoduleUpdate
+export type UpdateBeleidsmoduleMutationError = HTTPValidationError
 
-export const useUpdateBeleidsmoduleV01BeleidsmodulesLineageIdPatch = <
+export const useUpdateBeleidsmodule = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<
-            ReturnType<
-                typeof updateBeleidsmoduleV01BeleidsmodulesLineageIdPatch
-            >
-        >,
+        Awaited<ReturnType<typeof updateBeleidsmodule>>,
         TError,
         { lineageId: number; data: BeleidsmoduleUpdate },
         TContext
@@ -2887,27 +2410,16 @@ export const useUpdateBeleidsmoduleV01BeleidsmodulesLineageIdPatch = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<
-            ReturnType<
-                typeof updateBeleidsmoduleV01BeleidsmodulesLineageIdPatch
-            >
-        >,
+        Awaited<ReturnType<typeof updateBeleidsmodule>>,
         { lineageId: number; data: BeleidsmoduleUpdate }
     > = props => {
         const { lineageId, data } = props ?? {}
 
-        return updateBeleidsmoduleV01BeleidsmodulesLineageIdPatch(
-            lineageId,
-            data
-        )
+        return updateBeleidsmodule(lineageId, data)
     }
 
     return useMutation<
-        Awaited<
-            ReturnType<
-                typeof updateBeleidsmoduleV01BeleidsmodulesLineageIdPatch
-            >
-        >,
+        Awaited<ReturnType<typeof updateBeleidsmodule>>,
         TError,
         { lineageId: number; data: BeleidsmoduleUpdate },
         TContext
@@ -2918,7 +2430,7 @@ export const useUpdateBeleidsmoduleV01BeleidsmodulesLineageIdPatch = <
  * Shows the changes between two versions of beleidsmodules.
  * @summary Changes Beleidsmodules
  */
-export const changesBeleidsmodulesV01ChangesBeleidsmodulesOldUuidNewUuidGet = (
+export const changesBeleidsmodules = (
     oldUuid: string,
     newUuid: string,
     signal?: AbortSignal
@@ -2930,91 +2442,60 @@ export const changesBeleidsmodulesV01ChangesBeleidsmodulesOldUuidNewUuidGet = (
     })
 }
 
-export const getChangesBeleidsmodulesV01ChangesBeleidsmodulesOldUuidNewUuidGetQueryKey =
-    (oldUuid: string, newUuid: string) => [
-        `/v0.1/changes/beleidsmodules/${oldUuid}/${newUuid}`,
-    ]
+export const getChangesBeleidsmodulesQueryKey = (
+    oldUuid: string,
+    newUuid: string
+) => [`/v0.1/changes/beleidsmodules/${oldUuid}/${newUuid}`]
 
-export type ChangesBeleidsmodulesV01ChangesBeleidsmodulesOldUuidNewUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof changesBeleidsmodulesV01ChangesBeleidsmodulesOldUuidNewUuidGet
-            >
-        >
-    >
-export type ChangesBeleidsmodulesV01ChangesBeleidsmodulesOldUuidNewUuidGetQueryError =
-    HTTPValidationError
+export type ChangesBeleidsmodulesQueryResult = NonNullable<
+    Awaited<ReturnType<typeof changesBeleidsmodules>>
+>
+export type ChangesBeleidsmodulesQueryError = HTTPValidationError
 
-export const useChangesBeleidsmodulesV01ChangesBeleidsmodulesOldUuidNewUuidGet =
-    <
-        TData = Awaited<
-            ReturnType<
-                typeof changesBeleidsmodulesV01ChangesBeleidsmodulesOldUuidNewUuidGet
-            >
-        >,
-        TError = HTTPValidationError
-    >(
-        oldUuid: string,
-        newUuid: string,
-        options?: {
-            query?: UseQueryOptions<
-                Awaited<
-                    ReturnType<
-                        typeof changesBeleidsmodulesV01ChangesBeleidsmodulesOldUuidNewUuidGet
-                    >
-                >,
-                TError,
-                TData
-            >
-        }
-    ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-        const { query: queryOptions } = options ?? {}
-
-        const queryKey =
-            queryOptions?.queryKey ??
-            getChangesBeleidsmodulesV01ChangesBeleidsmodulesOldUuidNewUuidGetQueryKey(
-                oldUuid,
-                newUuid
-            )
-
-        const queryFn: QueryFunction<
-            Awaited<
-                ReturnType<
-                    typeof changesBeleidsmodulesV01ChangesBeleidsmodulesOldUuidNewUuidGet
-                >
-            >
-        > = ({ signal }) =>
-            changesBeleidsmodulesV01ChangesBeleidsmodulesOldUuidNewUuidGet(
-                oldUuid,
-                newUuid,
-                signal
-            )
-
-        const query = useQuery<
-            Awaited<
-                ReturnType<
-                    typeof changesBeleidsmodulesV01ChangesBeleidsmodulesOldUuidNewUuidGet
-                >
-            >,
+export const useChangesBeleidsmodules = <
+    TData = Awaited<ReturnType<typeof changesBeleidsmodules>>,
+    TError = HTTPValidationError
+>(
+    oldUuid: string,
+    newUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof changesBeleidsmodules>>,
             TError,
             TData
-        >(queryKey, queryFn, {
-            enabled: !!(oldUuid && newUuid),
-            ...queryOptions,
-        }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-        query.queryKey = queryKey
-
-        return query
+        >
     }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getChangesBeleidsmodulesQueryKey(oldUuid, newUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof changesBeleidsmodules>>
+    > = ({ signal }) => changesBeleidsmodules(oldUuid, newUuid, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof changesBeleidsmodules>>,
+        TError,
+        TData
+    >(queryKey, queryFn, {
+        enabled: !!(oldUuid && newUuid),
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
 
 /**
  * Gets all the beleidsmodules lineages and shows the latests valid object for each.
  * @summary Read Valid Beleidsmodules
  */
-export const readValidBeleidsmodulesV01ValidBeleidsmodulesGet = (
-    params?: ReadValidBeleidsmodulesV01ValidBeleidsmodulesGetParams,
+export const readValidBeleidsmodules = (
+    params?: ReadValidBeleidsmodulesParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Beleidsmodule[]>({
@@ -3025,33 +2506,23 @@ export const readValidBeleidsmodulesV01ValidBeleidsmodulesGet = (
     })
 }
 
-export const getReadValidBeleidsmodulesV01ValidBeleidsmodulesGetQueryKey = (
-    params?: ReadValidBeleidsmodulesV01ValidBeleidsmodulesGetParams
+export const getReadValidBeleidsmodulesQueryKey = (
+    params?: ReadValidBeleidsmodulesParams
 ) => [`/v0.1/valid/beleidsmodules`, ...(params ? [params] : [])]
 
-export type ReadValidBeleidsmodulesV01ValidBeleidsmodulesGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<typeof readValidBeleidsmodulesV01ValidBeleidsmodulesGet>
-        >
-    >
-export type ReadValidBeleidsmodulesV01ValidBeleidsmodulesGetQueryError =
-    HTTPValidationError
+export type ReadValidBeleidsmodulesQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidBeleidsmodules>>
+>
+export type ReadValidBeleidsmodulesQueryError = HTTPValidationError
 
-export const useReadValidBeleidsmodulesV01ValidBeleidsmodulesGet = <
-    TData = Awaited<
-        ReturnType<typeof readValidBeleidsmodulesV01ValidBeleidsmodulesGet>
-    >,
+export const useReadValidBeleidsmodules = <
+    TData = Awaited<ReturnType<typeof readValidBeleidsmodules>>,
     TError = HTTPValidationError
 >(
-    params?: ReadValidBeleidsmodulesV01ValidBeleidsmodulesGetParams,
+    params?: ReadValidBeleidsmodulesParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readValidBeleidsmodulesV01ValidBeleidsmodulesGet
-                >
-            >,
+            Awaited<ReturnType<typeof readValidBeleidsmodules>>,
             TError,
             TData
         >
@@ -3060,20 +2531,14 @@ export const useReadValidBeleidsmodulesV01ValidBeleidsmodulesGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadValidBeleidsmodulesV01ValidBeleidsmodulesGetQueryKey(params)
+        queryOptions?.queryKey ?? getReadValidBeleidsmodulesQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<typeof readValidBeleidsmodulesV01ValidBeleidsmodulesGet>
-        >
-    > = ({ signal }) =>
-        readValidBeleidsmodulesV01ValidBeleidsmodulesGet(params, signal)
+        Awaited<ReturnType<typeof readValidBeleidsmodules>>
+    > = ({ signal }) => readValidBeleidsmodules(params, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<typeof readValidBeleidsmodulesV01ValidBeleidsmodulesGet>
-        >,
+        Awaited<ReturnType<typeof readValidBeleidsmodules>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -3089,9 +2554,9 @@ export const useReadValidBeleidsmodulesV01ValidBeleidsmodulesGet = <
  * Gets all the beleidsmodules in this lineage that are valid
  * @summary Read Valid Beleidsmodule Lineage
  */
-export const readValidBeleidsmoduleLineageV01ValidBeleidsmodulesLineageIdGet = (
+export const readValidBeleidsmoduleLineage = (
     lineageId: number,
-    params?: ReadValidBeleidsmoduleLineageV01ValidBeleidsmodulesLineageIdGetParams,
+    params?: ReadValidBeleidsmoduleLineageParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Beleidsmodule[]>({
@@ -3102,95 +2567,60 @@ export const readValidBeleidsmoduleLineageV01ValidBeleidsmodulesLineageIdGet = (
     })
 }
 
-export const getReadValidBeleidsmoduleLineageV01ValidBeleidsmodulesLineageIdGetQueryKey =
-    (
-        lineageId: number,
-        params?: ReadValidBeleidsmoduleLineageV01ValidBeleidsmodulesLineageIdGetParams
-    ) => [
-        `/v0.1/valid/beleidsmodules/${lineageId}`,
-        ...(params ? [params] : []),
-    ]
+export const getReadValidBeleidsmoduleLineageQueryKey = (
+    lineageId: number,
+    params?: ReadValidBeleidsmoduleLineageParams
+) => [`/v0.1/valid/beleidsmodules/${lineageId}`, ...(params ? [params] : [])]
 
-export type ReadValidBeleidsmoduleLineageV01ValidBeleidsmodulesLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readValidBeleidsmoduleLineageV01ValidBeleidsmodulesLineageIdGet
-            >
-        >
-    >
-export type ReadValidBeleidsmoduleLineageV01ValidBeleidsmodulesLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadValidBeleidsmoduleLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidBeleidsmoduleLineage>>
+>
+export type ReadValidBeleidsmoduleLineageQueryError = HTTPValidationError
 
-export const useReadValidBeleidsmoduleLineageV01ValidBeleidsmodulesLineageIdGet =
-    <
-        TData = Awaited<
-            ReturnType<
-                typeof readValidBeleidsmoduleLineageV01ValidBeleidsmodulesLineageIdGet
-            >
-        >,
-        TError = HTTPValidationError
-    >(
-        lineageId: number,
-        params?: ReadValidBeleidsmoduleLineageV01ValidBeleidsmodulesLineageIdGetParams,
-        options?: {
-            query?: UseQueryOptions<
-                Awaited<
-                    ReturnType<
-                        typeof readValidBeleidsmoduleLineageV01ValidBeleidsmodulesLineageIdGet
-                    >
-                >,
-                TError,
-                TData
-            >
-        }
-    ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-        const { query: queryOptions } = options ?? {}
-
-        const queryKey =
-            queryOptions?.queryKey ??
-            getReadValidBeleidsmoduleLineageV01ValidBeleidsmodulesLineageIdGetQueryKey(
-                lineageId,
-                params
-            )
-
-        const queryFn: QueryFunction<
-            Awaited<
-                ReturnType<
-                    typeof readValidBeleidsmoduleLineageV01ValidBeleidsmodulesLineageIdGet
-                >
-            >
-        > = ({ signal }) =>
-            readValidBeleidsmoduleLineageV01ValidBeleidsmodulesLineageIdGet(
-                lineageId,
-                params,
-                signal
-            )
-
-        const query = useQuery<
-            Awaited<
-                ReturnType<
-                    typeof readValidBeleidsmoduleLineageV01ValidBeleidsmodulesLineageIdGet
-                >
-            >,
+export const useReadValidBeleidsmoduleLineage = <
+    TData = Awaited<ReturnType<typeof readValidBeleidsmoduleLineage>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ReadValidBeleidsmoduleLineageParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof readValidBeleidsmoduleLineage>>,
             TError,
             TData
-        >(queryKey, queryFn, {
-            enabled: !!lineageId,
-            ...queryOptions,
-        }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-        query.queryKey = queryKey
-
-        return query
+        >
     }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getReadValidBeleidsmoduleLineageQueryKey(lineageId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof readValidBeleidsmoduleLineage>>
+    > = ({ signal }) => readValidBeleidsmoduleLineage(lineageId, params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof readValidBeleidsmoduleLineage>>,
+        TError,
+        TData
+    >(queryKey, queryFn, {
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
 
 /**
  * Finds the lineage of the resource and retrieves the latest
 available version.
  * @summary Read Latest Version Lineage
  */
-export const readLatestVersionLineageV01VersionBeleidsmodulesObjectUuidGet = (
+export const readBeleidsmoduleVersion = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
@@ -3201,86 +2631,58 @@ export const readLatestVersionLineageV01VersionBeleidsmodulesObjectUuidGet = (
     })
 }
 
-export const getReadLatestVersionLineageV01VersionBeleidsmodulesObjectUuidGetQueryKey =
-    (objectUuid: string) => [`/v0.1/version/beleidsmodules/${objectUuid}`]
+export const getReadBeleidsmoduleVersionQueryKey = (objectUuid: string) => [
+    `/v0.1/version/beleidsmodules/${objectUuid}`,
+]
 
-export type ReadLatestVersionLineageV01VersionBeleidsmodulesObjectUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionBeleidsmodulesObjectUuidGet
-            >
-        >
-    >
-export type ReadLatestVersionLineageV01VersionBeleidsmodulesObjectUuidGetQueryError =
-    HTTPValidationError
+export type ReadBeleidsmoduleVersionQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBeleidsmoduleVersion>>
+>
+export type ReadBeleidsmoduleVersionQueryError = HTTPValidationError
 
-export const useReadLatestVersionLineageV01VersionBeleidsmodulesObjectUuidGet =
-    <
-        TData = Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionBeleidsmodulesObjectUuidGet
-            >
-        >,
-        TError = HTTPValidationError
-    >(
-        objectUuid: string,
-        options?: {
-            query?: UseQueryOptions<
-                Awaited<
-                    ReturnType<
-                        typeof readLatestVersionLineageV01VersionBeleidsmodulesObjectUuidGet
-                    >
-                >,
-                TError,
-                TData
-            >
-        }
-    ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-        const { query: queryOptions } = options ?? {}
-
-        const queryKey =
-            queryOptions?.queryKey ??
-            getReadLatestVersionLineageV01VersionBeleidsmodulesObjectUuidGetQueryKey(
-                objectUuid
-            )
-
-        const queryFn: QueryFunction<
-            Awaited<
-                ReturnType<
-                    typeof readLatestVersionLineageV01VersionBeleidsmodulesObjectUuidGet
-                >
-            >
-        > = ({ signal }) =>
-            readLatestVersionLineageV01VersionBeleidsmodulesObjectUuidGet(
-                objectUuid,
-                signal
-            )
-
-        const query = useQuery<
-            Awaited<
-                ReturnType<
-                    typeof readLatestVersionLineageV01VersionBeleidsmodulesObjectUuidGet
-                >
-            >,
+export const useReadBeleidsmoduleVersion = <
+    TData = Awaited<ReturnType<typeof readBeleidsmoduleVersion>>,
+    TError = HTTPValidationError
+>(
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof readBeleidsmoduleVersion>>,
             TError,
             TData
-        >(queryKey, queryFn, {
-            enabled: !!objectUuid,
-            ...queryOptions,
-        }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-        query.queryKey = queryKey
-
-        return query
+        >
     }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getReadBeleidsmoduleVersionQueryKey(objectUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof readBeleidsmoduleVersion>>
+    > = ({ signal }) => readBeleidsmoduleVersion(objectUuid, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof readBeleidsmoduleVersion>>,
+        TError,
+        TData
+    >(queryKey, queryFn, {
+        enabled: !!objectUuid,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
 
 /**
  * Gets all the beleidsprestaties lineages and shows the latests object for each
  * @summary Read Beleidsprestaties
  */
-export const readBeleidsprestatiesV01BeleidsprestatiesGet = (
-    params?: ReadBeleidsprestatiesV01BeleidsprestatiesGetParams,
+export const readBeleidsprestaties = (
+    params?: ReadBeleidsprestatiesParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Beleidsprestatie[]>({
@@ -3291,29 +2693,23 @@ export const readBeleidsprestatiesV01BeleidsprestatiesGet = (
     })
 }
 
-export const getReadBeleidsprestatiesV01BeleidsprestatiesGetQueryKey = (
-    params?: ReadBeleidsprestatiesV01BeleidsprestatiesGetParams
+export const getReadBeleidsprestatiesQueryKey = (
+    params?: ReadBeleidsprestatiesParams
 ) => [`/v0.1/beleidsprestaties`, ...(params ? [params] : [])]
 
-export type ReadBeleidsprestatiesV01BeleidsprestatiesGetQueryResult =
-    NonNullable<
-        Awaited<ReturnType<typeof readBeleidsprestatiesV01BeleidsprestatiesGet>>
-    >
-export type ReadBeleidsprestatiesV01BeleidsprestatiesGetQueryError =
-    HTTPValidationError
+export type ReadBeleidsprestatiesQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBeleidsprestaties>>
+>
+export type ReadBeleidsprestatiesQueryError = HTTPValidationError
 
-export const useReadBeleidsprestatiesV01BeleidsprestatiesGet = <
-    TData = Awaited<
-        ReturnType<typeof readBeleidsprestatiesV01BeleidsprestatiesGet>
-    >,
+export const useReadBeleidsprestaties = <
+    TData = Awaited<ReturnType<typeof readBeleidsprestaties>>,
     TError = HTTPValidationError
 >(
-    params?: ReadBeleidsprestatiesV01BeleidsprestatiesGetParams,
+    params?: ReadBeleidsprestatiesParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<typeof readBeleidsprestatiesV01BeleidsprestatiesGet>
-            >,
+            Awaited<ReturnType<typeof readBeleidsprestaties>>,
             TError,
             TData
         >
@@ -3322,18 +2718,14 @@ export const useReadBeleidsprestatiesV01BeleidsprestatiesGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadBeleidsprestatiesV01BeleidsprestatiesGetQueryKey(params)
+        queryOptions?.queryKey ?? getReadBeleidsprestatiesQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readBeleidsprestatiesV01BeleidsprestatiesGet>>
-    > = ({ signal }) =>
-        readBeleidsprestatiesV01BeleidsprestatiesGet(params, signal)
+        Awaited<ReturnType<typeof readBeleidsprestaties>>
+    > = ({ signal }) => readBeleidsprestaties(params, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<typeof readBeleidsprestatiesV01BeleidsprestatiesGet>
-        >,
+        Awaited<ReturnType<typeof readBeleidsprestaties>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -3349,7 +2741,7 @@ export const useReadBeleidsprestatiesV01BeleidsprestatiesGet = <
  * Creates a new beleidsprestaties lineage
  * @summary Create Beleidsprestatie
  */
-export const createBeleidsprestatieV01BeleidsprestatiesPost = (
+export const createBeleidsprestatie = (
     beleidsprestatieCreate: BeleidsprestatieCreate
 ) => {
     return customInstance<Beleidsprestatie>({
@@ -3360,25 +2752,18 @@ export const createBeleidsprestatieV01BeleidsprestatiesPost = (
     })
 }
 
-export type CreateBeleidsprestatieV01BeleidsprestatiesPostMutationResult =
-    NonNullable<
-        Awaited<
-            ReturnType<typeof createBeleidsprestatieV01BeleidsprestatiesPost>
-        >
-    >
-export type CreateBeleidsprestatieV01BeleidsprestatiesPostMutationBody =
-    BeleidsprestatieCreate
-export type CreateBeleidsprestatieV01BeleidsprestatiesPostMutationError =
-    HTTPValidationError
+export type CreateBeleidsprestatieMutationResult = NonNullable<
+    Awaited<ReturnType<typeof createBeleidsprestatie>>
+>
+export type CreateBeleidsprestatieMutationBody = BeleidsprestatieCreate
+export type CreateBeleidsprestatieMutationError = HTTPValidationError
 
-export const useCreateBeleidsprestatieV01BeleidsprestatiesPost = <
+export const useCreateBeleidsprestatie = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<
-            ReturnType<typeof createBeleidsprestatieV01BeleidsprestatiesPost>
-        >,
+        Awaited<ReturnType<typeof createBeleidsprestatie>>,
         TError,
         { data: BeleidsprestatieCreate },
         TContext
@@ -3387,20 +2772,16 @@ export const useCreateBeleidsprestatieV01BeleidsprestatiesPost = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<
-            ReturnType<typeof createBeleidsprestatieV01BeleidsprestatiesPost>
-        >,
+        Awaited<ReturnType<typeof createBeleidsprestatie>>,
         { data: BeleidsprestatieCreate }
     > = props => {
         const { data } = props ?? {}
 
-        return createBeleidsprestatieV01BeleidsprestatiesPost(data)
+        return createBeleidsprestatie(data)
     }
 
     return useMutation<
-        Awaited<
-            ReturnType<typeof createBeleidsprestatieV01BeleidsprestatiesPost>
-        >,
+        Awaited<ReturnType<typeof createBeleidsprestatie>>,
         TError,
         { data: BeleidsprestatieCreate },
         TContext
@@ -3411,7 +2792,7 @@ export const useCreateBeleidsprestatieV01BeleidsprestatiesPost = <
  * Gets all the beleidsprestaties versions by lineage
  * @summary Read Beleidsprestatie Lineage
  */
-export const readBeleidsprestatieLineageV01BeleidsprestatiesLineageIdGet = (
+export const readBeleidsprestatieLineage = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
@@ -3422,36 +2803,23 @@ export const readBeleidsprestatieLineageV01BeleidsprestatiesLineageIdGet = (
     })
 }
 
-export const getReadBeleidsprestatieLineageV01BeleidsprestatiesLineageIdGetQueryKey =
-    (lineageId: number) => [`/v0.1/beleidsprestaties/${lineageId}`]
+export const getReadBeleidsprestatieLineageQueryKey = (lineageId: number) => [
+    `/v0.1/beleidsprestaties/${lineageId}`,
+]
 
-export type ReadBeleidsprestatieLineageV01BeleidsprestatiesLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readBeleidsprestatieLineageV01BeleidsprestatiesLineageIdGet
-            >
-        >
-    >
-export type ReadBeleidsprestatieLineageV01BeleidsprestatiesLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadBeleidsprestatieLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBeleidsprestatieLineage>>
+>
+export type ReadBeleidsprestatieLineageQueryError = HTTPValidationError
 
-export const useReadBeleidsprestatieLineageV01BeleidsprestatiesLineageIdGet = <
-    TData = Awaited<
-        ReturnType<
-            typeof readBeleidsprestatieLineageV01BeleidsprestatiesLineageIdGet
-        >
-    >,
+export const useReadBeleidsprestatieLineage = <
+    TData = Awaited<ReturnType<typeof readBeleidsprestatieLineage>>,
     TError = HTTPValidationError
 >(
     lineageId: number,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readBeleidsprestatieLineageV01BeleidsprestatiesLineageIdGet
-                >
-            >,
+            Awaited<ReturnType<typeof readBeleidsprestatieLineage>>,
             TError,
             TData
         >
@@ -3461,28 +2829,14 @@ export const useReadBeleidsprestatieLineageV01BeleidsprestatiesLineageIdGet = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getReadBeleidsprestatieLineageV01BeleidsprestatiesLineageIdGetQueryKey(
-            lineageId
-        )
+        getReadBeleidsprestatieLineageQueryKey(lineageId)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readBeleidsprestatieLineageV01BeleidsprestatiesLineageIdGet
-            >
-        >
-    > = ({ signal }) =>
-        readBeleidsprestatieLineageV01BeleidsprestatiesLineageIdGet(
-            lineageId,
-            signal
-        )
+        Awaited<ReturnType<typeof readBeleidsprestatieLineage>>
+    > = ({ signal }) => readBeleidsprestatieLineage(lineageId, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readBeleidsprestatieLineageV01BeleidsprestatiesLineageIdGet
-            >
-        >,
+        Awaited<ReturnType<typeof readBeleidsprestatieLineage>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -3499,7 +2853,7 @@ export const useReadBeleidsprestatieLineageV01BeleidsprestatiesLineageIdGet = <
  * Adds a new beleidsprestaties to a lineage
  * @summary Update Beleidsprestatie
  */
-export const updateBeleidsprestatieV01BeleidsprestatiesLineageIdPatch = (
+export const updateBeleidsprestatie = (
     lineageId: number,
     beleidsprestatieUpdate: BeleidsprestatieUpdate
 ) => {
@@ -3511,29 +2865,18 @@ export const updateBeleidsprestatieV01BeleidsprestatiesLineageIdPatch = (
     })
 }
 
-export type UpdateBeleidsprestatieV01BeleidsprestatiesLineageIdPatchMutationResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof updateBeleidsprestatieV01BeleidsprestatiesLineageIdPatch
-            >
-        >
-    >
-export type UpdateBeleidsprestatieV01BeleidsprestatiesLineageIdPatchMutationBody =
-    BeleidsprestatieUpdate
-export type UpdateBeleidsprestatieV01BeleidsprestatiesLineageIdPatchMutationError =
-    HTTPValidationError
+export type UpdateBeleidsprestatieMutationResult = NonNullable<
+    Awaited<ReturnType<typeof updateBeleidsprestatie>>
+>
+export type UpdateBeleidsprestatieMutationBody = BeleidsprestatieUpdate
+export type UpdateBeleidsprestatieMutationError = HTTPValidationError
 
-export const useUpdateBeleidsprestatieV01BeleidsprestatiesLineageIdPatch = <
+export const useUpdateBeleidsprestatie = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<
-            ReturnType<
-                typeof updateBeleidsprestatieV01BeleidsprestatiesLineageIdPatch
-            >
-        >,
+        Awaited<ReturnType<typeof updateBeleidsprestatie>>,
         TError,
         { lineageId: number; data: BeleidsprestatieUpdate },
         TContext
@@ -3542,27 +2885,16 @@ export const useUpdateBeleidsprestatieV01BeleidsprestatiesLineageIdPatch = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<
-            ReturnType<
-                typeof updateBeleidsprestatieV01BeleidsprestatiesLineageIdPatch
-            >
-        >,
+        Awaited<ReturnType<typeof updateBeleidsprestatie>>,
         { lineageId: number; data: BeleidsprestatieUpdate }
     > = props => {
         const { lineageId, data } = props ?? {}
 
-        return updateBeleidsprestatieV01BeleidsprestatiesLineageIdPatch(
-            lineageId,
-            data
-        )
+        return updateBeleidsprestatie(lineageId, data)
     }
 
     return useMutation<
-        Awaited<
-            ReturnType<
-                typeof updateBeleidsprestatieV01BeleidsprestatiesLineageIdPatch
-            >
-        >,
+        Awaited<ReturnType<typeof updateBeleidsprestatie>>,
         TError,
         { lineageId: number; data: BeleidsprestatieUpdate },
         TContext
@@ -3573,100 +2905,72 @@ export const useUpdateBeleidsprestatieV01BeleidsprestatiesLineageIdPatch = <
  * Shows the changes between two versions of beleidsprestaties.
  * @summary Changes Beleidsprestaties
  */
-export const changesBeleidsprestatiesV01ChangesBeleidsprestatiesOldUuidNewUuidGet =
-    (oldUuid: string, newUuid: string, signal?: AbortSignal) => {
-        return customInstance<unknown>({
-            url: `/v0.1/changes/beleidsprestaties/${oldUuid}/${newUuid}`,
-            method: 'get',
-            signal,
-        })
-    }
+export const changesBeleidsprestaties = (
+    oldUuid: string,
+    newUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<unknown>({
+        url: `/v0.1/changes/beleidsprestaties/${oldUuid}/${newUuid}`,
+        method: 'get',
+        signal,
+    })
+}
 
-export const getChangesBeleidsprestatiesV01ChangesBeleidsprestatiesOldUuidNewUuidGetQueryKey =
-    (oldUuid: string, newUuid: string) => [
-        `/v0.1/changes/beleidsprestaties/${oldUuid}/${newUuid}`,
-    ]
+export const getChangesBeleidsprestatiesQueryKey = (
+    oldUuid: string,
+    newUuid: string
+) => [`/v0.1/changes/beleidsprestaties/${oldUuid}/${newUuid}`]
 
-export type ChangesBeleidsprestatiesV01ChangesBeleidsprestatiesOldUuidNewUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof changesBeleidsprestatiesV01ChangesBeleidsprestatiesOldUuidNewUuidGet
-            >
-        >
-    >
-export type ChangesBeleidsprestatiesV01ChangesBeleidsprestatiesOldUuidNewUuidGetQueryError =
-    HTTPValidationError
+export type ChangesBeleidsprestatiesQueryResult = NonNullable<
+    Awaited<ReturnType<typeof changesBeleidsprestaties>>
+>
+export type ChangesBeleidsprestatiesQueryError = HTTPValidationError
 
-export const useChangesBeleidsprestatiesV01ChangesBeleidsprestatiesOldUuidNewUuidGet =
-    <
-        TData = Awaited<
-            ReturnType<
-                typeof changesBeleidsprestatiesV01ChangesBeleidsprestatiesOldUuidNewUuidGet
-            >
-        >,
-        TError = HTTPValidationError
-    >(
-        oldUuid: string,
-        newUuid: string,
-        options?: {
-            query?: UseQueryOptions<
-                Awaited<
-                    ReturnType<
-                        typeof changesBeleidsprestatiesV01ChangesBeleidsprestatiesOldUuidNewUuidGet
-                    >
-                >,
-                TError,
-                TData
-            >
-        }
-    ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-        const { query: queryOptions } = options ?? {}
-
-        const queryKey =
-            queryOptions?.queryKey ??
-            getChangesBeleidsprestatiesV01ChangesBeleidsprestatiesOldUuidNewUuidGetQueryKey(
-                oldUuid,
-                newUuid
-            )
-
-        const queryFn: QueryFunction<
-            Awaited<
-                ReturnType<
-                    typeof changesBeleidsprestatiesV01ChangesBeleidsprestatiesOldUuidNewUuidGet
-                >
-            >
-        > = ({ signal }) =>
-            changesBeleidsprestatiesV01ChangesBeleidsprestatiesOldUuidNewUuidGet(
-                oldUuid,
-                newUuid,
-                signal
-            )
-
-        const query = useQuery<
-            Awaited<
-                ReturnType<
-                    typeof changesBeleidsprestatiesV01ChangesBeleidsprestatiesOldUuidNewUuidGet
-                >
-            >,
+export const useChangesBeleidsprestaties = <
+    TData = Awaited<ReturnType<typeof changesBeleidsprestaties>>,
+    TError = HTTPValidationError
+>(
+    oldUuid: string,
+    newUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof changesBeleidsprestaties>>,
             TError,
             TData
-        >(queryKey, queryFn, {
-            enabled: !!(oldUuid && newUuid),
-            ...queryOptions,
-        }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-        query.queryKey = queryKey
-
-        return query
+        >
     }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getChangesBeleidsprestatiesQueryKey(oldUuid, newUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof changesBeleidsprestaties>>
+    > = ({ signal }) => changesBeleidsprestaties(oldUuid, newUuid, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof changesBeleidsprestaties>>,
+        TError,
+        TData
+    >(queryKey, queryFn, {
+        enabled: !!(oldUuid && newUuid),
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
 
 /**
  * Gets all the beleidsprestaties lineages and shows the latests valid object for each.
  * @summary Read Valid Beleidsprestaties
  */
-export const readValidBeleidsprestatiesV01ValidBeleidsprestatiesGet = (
-    params?: ReadValidBeleidsprestatiesV01ValidBeleidsprestatiesGetParams,
+export const readValidBeleidsprestaties = (
+    params?: ReadValidBeleidsprestatiesParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Beleidsprestatie[]>({
@@ -3677,39 +2981,23 @@ export const readValidBeleidsprestatiesV01ValidBeleidsprestatiesGet = (
     })
 }
 
-export const getReadValidBeleidsprestatiesV01ValidBeleidsprestatiesGetQueryKey =
-    (params?: ReadValidBeleidsprestatiesV01ValidBeleidsprestatiesGetParams) => [
-        `/v0.1/valid/beleidsprestaties`,
-        ...(params ? [params] : []),
-    ]
+export const getReadValidBeleidsprestatiesQueryKey = (
+    params?: ReadValidBeleidsprestatiesParams
+) => [`/v0.1/valid/beleidsprestaties`, ...(params ? [params] : [])]
 
-export type ReadValidBeleidsprestatiesV01ValidBeleidsprestatiesGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readValidBeleidsprestatiesV01ValidBeleidsprestatiesGet
-            >
-        >
-    >
-export type ReadValidBeleidsprestatiesV01ValidBeleidsprestatiesGetQueryError =
-    HTTPValidationError
+export type ReadValidBeleidsprestatiesQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidBeleidsprestaties>>
+>
+export type ReadValidBeleidsprestatiesQueryError = HTTPValidationError
 
-export const useReadValidBeleidsprestatiesV01ValidBeleidsprestatiesGet = <
-    TData = Awaited<
-        ReturnType<
-            typeof readValidBeleidsprestatiesV01ValidBeleidsprestatiesGet
-        >
-    >,
+export const useReadValidBeleidsprestaties = <
+    TData = Awaited<ReturnType<typeof readValidBeleidsprestaties>>,
     TError = HTTPValidationError
 >(
-    params?: ReadValidBeleidsprestatiesV01ValidBeleidsprestatiesGetParams,
+    params?: ReadValidBeleidsprestatiesParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readValidBeleidsprestatiesV01ValidBeleidsprestatiesGet
-                >
-            >,
+            Awaited<ReturnType<typeof readValidBeleidsprestaties>>,
             TError,
             TData
         >
@@ -3718,26 +3006,14 @@ export const useReadValidBeleidsprestatiesV01ValidBeleidsprestatiesGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadValidBeleidsprestatiesV01ValidBeleidsprestatiesGetQueryKey(
-            params
-        )
+        queryOptions?.queryKey ?? getReadValidBeleidsprestatiesQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readValidBeleidsprestatiesV01ValidBeleidsprestatiesGet
-            >
-        >
-    > = ({ signal }) =>
-        readValidBeleidsprestatiesV01ValidBeleidsprestatiesGet(params, signal)
+        Awaited<ReturnType<typeof readValidBeleidsprestaties>>
+    > = ({ signal }) => readValidBeleidsprestaties(params, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readValidBeleidsprestatiesV01ValidBeleidsprestatiesGet
-            >
-        >,
+        Awaited<ReturnType<typeof readValidBeleidsprestaties>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -3753,197 +3029,136 @@ export const useReadValidBeleidsprestatiesV01ValidBeleidsprestatiesGet = <
  * Gets all the beleidsprestaties in this lineage that are valid
  * @summary Read Valid Beleidsprestatie Lineage
  */
-export const readValidBeleidsprestatieLineageV01ValidBeleidsprestatiesLineageIdGet =
-    (
-        lineageId: number,
-        params?: ReadValidBeleidsprestatieLineageV01ValidBeleidsprestatiesLineageIdGetParams,
-        signal?: AbortSignal
-    ) => {
-        return customInstance<Beleidsprestatie[]>({
-            url: `/v0.1/valid/beleidsprestaties/${lineageId}`,
-            method: 'get',
-            params,
-            signal,
-        })
-    }
+export const readValidBeleidsprestatieLineage = (
+    lineageId: number,
+    params?: ReadValidBeleidsprestatieLineageParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<Beleidsprestatie[]>({
+        url: `/v0.1/valid/beleidsprestaties/${lineageId}`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
 
-export const getReadValidBeleidsprestatieLineageV01ValidBeleidsprestatiesLineageIdGetQueryKey =
-    (
-        lineageId: number,
-        params?: ReadValidBeleidsprestatieLineageV01ValidBeleidsprestatiesLineageIdGetParams
-    ) => [
-        `/v0.1/valid/beleidsprestaties/${lineageId}`,
-        ...(params ? [params] : []),
-    ]
+export const getReadValidBeleidsprestatieLineageQueryKey = (
+    lineageId: number,
+    params?: ReadValidBeleidsprestatieLineageParams
+) => [`/v0.1/valid/beleidsprestaties/${lineageId}`, ...(params ? [params] : [])]
 
-export type ReadValidBeleidsprestatieLineageV01ValidBeleidsprestatiesLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readValidBeleidsprestatieLineageV01ValidBeleidsprestatiesLineageIdGet
-            >
-        >
-    >
-export type ReadValidBeleidsprestatieLineageV01ValidBeleidsprestatiesLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadValidBeleidsprestatieLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidBeleidsprestatieLineage>>
+>
+export type ReadValidBeleidsprestatieLineageQueryError = HTTPValidationError
 
-export const useReadValidBeleidsprestatieLineageV01ValidBeleidsprestatiesLineageIdGet =
-    <
-        TData = Awaited<
-            ReturnType<
-                typeof readValidBeleidsprestatieLineageV01ValidBeleidsprestatiesLineageIdGet
-            >
-        >,
-        TError = HTTPValidationError
-    >(
-        lineageId: number,
-        params?: ReadValidBeleidsprestatieLineageV01ValidBeleidsprestatiesLineageIdGetParams,
-        options?: {
-            query?: UseQueryOptions<
-                Awaited<
-                    ReturnType<
-                        typeof readValidBeleidsprestatieLineageV01ValidBeleidsprestatiesLineageIdGet
-                    >
-                >,
-                TError,
-                TData
-            >
-        }
-    ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-        const { query: queryOptions } = options ?? {}
-
-        const queryKey =
-            queryOptions?.queryKey ??
-            getReadValidBeleidsprestatieLineageV01ValidBeleidsprestatiesLineageIdGetQueryKey(
-                lineageId,
-                params
-            )
-
-        const queryFn: QueryFunction<
-            Awaited<
-                ReturnType<
-                    typeof readValidBeleidsprestatieLineageV01ValidBeleidsprestatiesLineageIdGet
-                >
-            >
-        > = ({ signal }) =>
-            readValidBeleidsprestatieLineageV01ValidBeleidsprestatiesLineageIdGet(
-                lineageId,
-                params,
-                signal
-            )
-
-        const query = useQuery<
-            Awaited<
-                ReturnType<
-                    typeof readValidBeleidsprestatieLineageV01ValidBeleidsprestatiesLineageIdGet
-                >
-            >,
+export const useReadValidBeleidsprestatieLineage = <
+    TData = Awaited<ReturnType<typeof readValidBeleidsprestatieLineage>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ReadValidBeleidsprestatieLineageParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof readValidBeleidsprestatieLineage>>,
             TError,
             TData
-        >(queryKey, queryFn, {
-            enabled: !!lineageId,
-            ...queryOptions,
-        }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-        query.queryKey = queryKey
-
-        return query
+        >
     }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getReadValidBeleidsprestatieLineageQueryKey(lineageId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof readValidBeleidsprestatieLineage>>
+    > = ({ signal }) =>
+        readValidBeleidsprestatieLineage(lineageId, params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof readValidBeleidsprestatieLineage>>,
+        TError,
+        TData
+    >(queryKey, queryFn, {
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
 
 /**
  * Finds the lineage of the resource and retrieves the latest
 available version.
  * @summary Read Latest Version Lineage
  */
-export const readLatestVersionLineageV01VersionBeleidsprestatiesObjectUuidGet =
-    (objectUuid: string, signal?: AbortSignal) => {
-        return customInstance<Beleidsprestatie>({
-            url: `/v0.1/version/beleidsprestaties/${objectUuid}`,
-            method: 'get',
-            signal,
-        })
-    }
+export const readBeleidsprestatieVersion = (
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<Beleidsprestatie>({
+        url: `/v0.1/version/beleidsprestaties/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
 
-export const getReadLatestVersionLineageV01VersionBeleidsprestatiesObjectUuidGetQueryKey =
-    (objectUuid: string) => [`/v0.1/version/beleidsprestaties/${objectUuid}`]
+export const getReadBeleidsprestatieVersionQueryKey = (objectUuid: string) => [
+    `/v0.1/version/beleidsprestaties/${objectUuid}`,
+]
 
-export type ReadLatestVersionLineageV01VersionBeleidsprestatiesObjectUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionBeleidsprestatiesObjectUuidGet
-            >
-        >
-    >
-export type ReadLatestVersionLineageV01VersionBeleidsprestatiesObjectUuidGetQueryError =
-    HTTPValidationError
+export type ReadBeleidsprestatieVersionQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBeleidsprestatieVersion>>
+>
+export type ReadBeleidsprestatieVersionQueryError = HTTPValidationError
 
-export const useReadLatestVersionLineageV01VersionBeleidsprestatiesObjectUuidGet =
-    <
-        TData = Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionBeleidsprestatiesObjectUuidGet
-            >
-        >,
-        TError = HTTPValidationError
-    >(
-        objectUuid: string,
-        options?: {
-            query?: UseQueryOptions<
-                Awaited<
-                    ReturnType<
-                        typeof readLatestVersionLineageV01VersionBeleidsprestatiesObjectUuidGet
-                    >
-                >,
-                TError,
-                TData
-            >
-        }
-    ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-        const { query: queryOptions } = options ?? {}
-
-        const queryKey =
-            queryOptions?.queryKey ??
-            getReadLatestVersionLineageV01VersionBeleidsprestatiesObjectUuidGetQueryKey(
-                objectUuid
-            )
-
-        const queryFn: QueryFunction<
-            Awaited<
-                ReturnType<
-                    typeof readLatestVersionLineageV01VersionBeleidsprestatiesObjectUuidGet
-                >
-            >
-        > = ({ signal }) =>
-            readLatestVersionLineageV01VersionBeleidsprestatiesObjectUuidGet(
-                objectUuid,
-                signal
-            )
-
-        const query = useQuery<
-            Awaited<
-                ReturnType<
-                    typeof readLatestVersionLineageV01VersionBeleidsprestatiesObjectUuidGet
-                >
-            >,
+export const useReadBeleidsprestatieVersion = <
+    TData = Awaited<ReturnType<typeof readBeleidsprestatieVersion>>,
+    TError = HTTPValidationError
+>(
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof readBeleidsprestatieVersion>>,
             TError,
             TData
-        >(queryKey, queryFn, {
-            enabled: !!objectUuid,
-            ...queryOptions,
-        }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-        query.queryKey = queryKey
-
-        return query
+        >
     }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getReadBeleidsprestatieVersionQueryKey(objectUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof readBeleidsprestatieVersion>>
+    > = ({ signal }) => readBeleidsprestatieVersion(objectUuid, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof readBeleidsprestatieVersion>>,
+        TError,
+        TData
+    >(queryKey, queryFn, {
+        enabled: !!objectUuid,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
 
 /**
  * Gets all the beleidsrelaties lineages and shows the latests object for each
  * @summary Read Beleidsrelaties
  */
-export const readBeleidsrelatiesV01BeleidsrelatiesGet = (
-    params?: ReadBeleidsrelatiesV01BeleidsrelatiesGetParams,
+export const readBeleidsrelaties = (
+    params?: ReadBeleidsrelatiesParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Beleidsrelatie[]>({
@@ -3954,28 +3169,23 @@ export const readBeleidsrelatiesV01BeleidsrelatiesGet = (
     })
 }
 
-export const getReadBeleidsrelatiesV01BeleidsrelatiesGetQueryKey = (
-    params?: ReadBeleidsrelatiesV01BeleidsrelatiesGetParams
+export const getReadBeleidsrelatiesQueryKey = (
+    params?: ReadBeleidsrelatiesParams
 ) => [`/v0.1/beleidsrelaties`, ...(params ? [params] : [])]
 
-export type ReadBeleidsrelatiesV01BeleidsrelatiesGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof readBeleidsrelatiesV01BeleidsrelatiesGet>>
+export type ReadBeleidsrelatiesQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBeleidsrelaties>>
 >
-export type ReadBeleidsrelatiesV01BeleidsrelatiesGetQueryError =
-    HTTPValidationError
+export type ReadBeleidsrelatiesQueryError = HTTPValidationError
 
-export const useReadBeleidsrelatiesV01BeleidsrelatiesGet = <
-    TData = Awaited<
-        ReturnType<typeof readBeleidsrelatiesV01BeleidsrelatiesGet>
-    >,
+export const useReadBeleidsrelaties = <
+    TData = Awaited<ReturnType<typeof readBeleidsrelaties>>,
     TError = HTTPValidationError
 >(
-    params?: ReadBeleidsrelatiesV01BeleidsrelatiesGetParams,
+    params?: ReadBeleidsrelatiesParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<typeof readBeleidsrelatiesV01BeleidsrelatiesGet>
-            >,
+            Awaited<ReturnType<typeof readBeleidsrelaties>>,
             TError,
             TData
         >
@@ -3984,15 +3194,14 @@ export const useReadBeleidsrelatiesV01BeleidsrelatiesGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadBeleidsrelatiesV01BeleidsrelatiesGetQueryKey(params)
+        queryOptions?.queryKey ?? getReadBeleidsrelatiesQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readBeleidsrelatiesV01BeleidsrelatiesGet>>
-    > = ({ signal }) => readBeleidsrelatiesV01BeleidsrelatiesGet(params, signal)
+        Awaited<ReturnType<typeof readBeleidsrelaties>>
+    > = ({ signal }) => readBeleidsrelaties(params, signal)
 
     const query = useQuery<
-        Awaited<ReturnType<typeof readBeleidsrelatiesV01BeleidsrelatiesGet>>,
+        Awaited<ReturnType<typeof readBeleidsrelaties>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -4008,7 +3217,7 @@ export const useReadBeleidsrelatiesV01BeleidsrelatiesGet = <
  * Creates a new beleidsrelaties lineage
  * @summary Create Beleidsrelatie
  */
-export const createBeleidsrelatieV01BeleidsrelatiesPost = (
+export const createBeleidsrelatie = (
     beleidsrelatieCreate: BeleidsrelatieCreate
 ) => {
     return customInstance<Beleidsrelatie>({
@@ -4019,21 +3228,18 @@ export const createBeleidsrelatieV01BeleidsrelatiesPost = (
     })
 }
 
-export type CreateBeleidsrelatieV01BeleidsrelatiesPostMutationResult =
-    NonNullable<
-        Awaited<ReturnType<typeof createBeleidsrelatieV01BeleidsrelatiesPost>>
-    >
-export type CreateBeleidsrelatieV01BeleidsrelatiesPostMutationBody =
-    BeleidsrelatieCreate
-export type CreateBeleidsrelatieV01BeleidsrelatiesPostMutationError =
-    HTTPValidationError
+export type CreateBeleidsrelatieMutationResult = NonNullable<
+    Awaited<ReturnType<typeof createBeleidsrelatie>>
+>
+export type CreateBeleidsrelatieMutationBody = BeleidsrelatieCreate
+export type CreateBeleidsrelatieMutationError = HTTPValidationError
 
-export const useCreateBeleidsrelatieV01BeleidsrelatiesPost = <
+export const useCreateBeleidsrelatie = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof createBeleidsrelatieV01BeleidsrelatiesPost>>,
+        Awaited<ReturnType<typeof createBeleidsrelatie>>,
         TError,
         { data: BeleidsrelatieCreate },
         TContext
@@ -4042,16 +3248,16 @@ export const useCreateBeleidsrelatieV01BeleidsrelatiesPost = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof createBeleidsrelatieV01BeleidsrelatiesPost>>,
+        Awaited<ReturnType<typeof createBeleidsrelatie>>,
         { data: BeleidsrelatieCreate }
     > = props => {
         const { data } = props ?? {}
 
-        return createBeleidsrelatieV01BeleidsrelatiesPost(data)
+        return createBeleidsrelatie(data)
     }
 
     return useMutation<
-        Awaited<ReturnType<typeof createBeleidsrelatieV01BeleidsrelatiesPost>>,
+        Awaited<ReturnType<typeof createBeleidsrelatie>>,
         TError,
         { data: BeleidsrelatieCreate },
         TContext
@@ -4062,7 +3268,7 @@ export const useCreateBeleidsrelatieV01BeleidsrelatiesPost = <
  * Gets all the beleidsrelaties versions by lineage
  * @summary Read Beleidsrelatie Lineage
  */
-export const readBeleidsrelatieLineageV01BeleidsrelatiesLineageIdGet = (
+export const readBeleidsrelatieLineage = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
@@ -4073,36 +3279,23 @@ export const readBeleidsrelatieLineageV01BeleidsrelatiesLineageIdGet = (
     })
 }
 
-export const getReadBeleidsrelatieLineageV01BeleidsrelatiesLineageIdGetQueryKey =
-    (lineageId: number) => [`/v0.1/beleidsrelaties/${lineageId}`]
+export const getReadBeleidsrelatieLineageQueryKey = (lineageId: number) => [
+    `/v0.1/beleidsrelaties/${lineageId}`,
+]
 
-export type ReadBeleidsrelatieLineageV01BeleidsrelatiesLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readBeleidsrelatieLineageV01BeleidsrelatiesLineageIdGet
-            >
-        >
-    >
-export type ReadBeleidsrelatieLineageV01BeleidsrelatiesLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadBeleidsrelatieLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBeleidsrelatieLineage>>
+>
+export type ReadBeleidsrelatieLineageQueryError = HTTPValidationError
 
-export const useReadBeleidsrelatieLineageV01BeleidsrelatiesLineageIdGet = <
-    TData = Awaited<
-        ReturnType<
-            typeof readBeleidsrelatieLineageV01BeleidsrelatiesLineageIdGet
-        >
-    >,
+export const useReadBeleidsrelatieLineage = <
+    TData = Awaited<ReturnType<typeof readBeleidsrelatieLineage>>,
     TError = HTTPValidationError
 >(
     lineageId: number,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readBeleidsrelatieLineageV01BeleidsrelatiesLineageIdGet
-                >
-            >,
+            Awaited<ReturnType<typeof readBeleidsrelatieLineage>>,
             TError,
             TData
         >
@@ -4112,28 +3305,14 @@ export const useReadBeleidsrelatieLineageV01BeleidsrelatiesLineageIdGet = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getReadBeleidsrelatieLineageV01BeleidsrelatiesLineageIdGetQueryKey(
-            lineageId
-        )
+        getReadBeleidsrelatieLineageQueryKey(lineageId)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readBeleidsrelatieLineageV01BeleidsrelatiesLineageIdGet
-            >
-        >
-    > = ({ signal }) =>
-        readBeleidsrelatieLineageV01BeleidsrelatiesLineageIdGet(
-            lineageId,
-            signal
-        )
+        Awaited<ReturnType<typeof readBeleidsrelatieLineage>>
+    > = ({ signal }) => readBeleidsrelatieLineage(lineageId, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readBeleidsrelatieLineageV01BeleidsrelatiesLineageIdGet
-            >
-        >,
+        Awaited<ReturnType<typeof readBeleidsrelatieLineage>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -4150,7 +3329,7 @@ export const useReadBeleidsrelatieLineageV01BeleidsrelatiesLineageIdGet = <
  * Adds a new beleidsrelaties to a lineage
  * @summary Update Beleidsrelatie
  */
-export const updateBeleidsrelatieV01BeleidsrelatiesLineageIdPatch = (
+export const updateBeleidsrelatie = (
     lineageId: number,
     beleidsrelatieUpdate: BeleidsrelatieUpdate
 ) => {
@@ -4162,29 +3341,18 @@ export const updateBeleidsrelatieV01BeleidsrelatiesLineageIdPatch = (
     })
 }
 
-export type UpdateBeleidsrelatieV01BeleidsrelatiesLineageIdPatchMutationResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof updateBeleidsrelatieV01BeleidsrelatiesLineageIdPatch
-            >
-        >
-    >
-export type UpdateBeleidsrelatieV01BeleidsrelatiesLineageIdPatchMutationBody =
-    BeleidsrelatieUpdate
-export type UpdateBeleidsrelatieV01BeleidsrelatiesLineageIdPatchMutationError =
-    HTTPValidationError
+export type UpdateBeleidsrelatieMutationResult = NonNullable<
+    Awaited<ReturnType<typeof updateBeleidsrelatie>>
+>
+export type UpdateBeleidsrelatieMutationBody = BeleidsrelatieUpdate
+export type UpdateBeleidsrelatieMutationError = HTTPValidationError
 
-export const useUpdateBeleidsrelatieV01BeleidsrelatiesLineageIdPatch = <
+export const useUpdateBeleidsrelatie = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<
-            ReturnType<
-                typeof updateBeleidsrelatieV01BeleidsrelatiesLineageIdPatch
-            >
-        >,
+        Awaited<ReturnType<typeof updateBeleidsrelatie>>,
         TError,
         { lineageId: number; data: BeleidsrelatieUpdate },
         TContext
@@ -4193,27 +3361,16 @@ export const useUpdateBeleidsrelatieV01BeleidsrelatiesLineageIdPatch = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<
-            ReturnType<
-                typeof updateBeleidsrelatieV01BeleidsrelatiesLineageIdPatch
-            >
-        >,
+        Awaited<ReturnType<typeof updateBeleidsrelatie>>,
         { lineageId: number; data: BeleidsrelatieUpdate }
     > = props => {
         const { lineageId, data } = props ?? {}
 
-        return updateBeleidsrelatieV01BeleidsrelatiesLineageIdPatch(
-            lineageId,
-            data
-        )
+        return updateBeleidsrelatie(lineageId, data)
     }
 
     return useMutation<
-        Awaited<
-            ReturnType<
-                typeof updateBeleidsrelatieV01BeleidsrelatiesLineageIdPatch
-            >
-        >,
+        Awaited<ReturnType<typeof updateBeleidsrelatie>>,
         TError,
         { lineageId: number; data: BeleidsrelatieUpdate },
         TContext
@@ -4224,100 +3381,72 @@ export const useUpdateBeleidsrelatieV01BeleidsrelatiesLineageIdPatch = <
  * Shows the changes between two versions of beleidsrelaties.
  * @summary Changes Beleidsrelaties
  */
-export const changesBeleidsrelatiesV01ChangesBeleidsrelatiesOldUuidNewUuidGet =
-    (oldUuid: string, newUuid: string, signal?: AbortSignal) => {
-        return customInstance<unknown>({
-            url: `/v0.1/changes/beleidsrelaties/${oldUuid}/${newUuid}`,
-            method: 'get',
-            signal,
-        })
-    }
+export const changesBeleidsrelaties = (
+    oldUuid: string,
+    newUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<unknown>({
+        url: `/v0.1/changes/beleidsrelaties/${oldUuid}/${newUuid}`,
+        method: 'get',
+        signal,
+    })
+}
 
-export const getChangesBeleidsrelatiesV01ChangesBeleidsrelatiesOldUuidNewUuidGetQueryKey =
-    (oldUuid: string, newUuid: string) => [
-        `/v0.1/changes/beleidsrelaties/${oldUuid}/${newUuid}`,
-    ]
+export const getChangesBeleidsrelatiesQueryKey = (
+    oldUuid: string,
+    newUuid: string
+) => [`/v0.1/changes/beleidsrelaties/${oldUuid}/${newUuid}`]
 
-export type ChangesBeleidsrelatiesV01ChangesBeleidsrelatiesOldUuidNewUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof changesBeleidsrelatiesV01ChangesBeleidsrelatiesOldUuidNewUuidGet
-            >
-        >
-    >
-export type ChangesBeleidsrelatiesV01ChangesBeleidsrelatiesOldUuidNewUuidGetQueryError =
-    HTTPValidationError
+export type ChangesBeleidsrelatiesQueryResult = NonNullable<
+    Awaited<ReturnType<typeof changesBeleidsrelaties>>
+>
+export type ChangesBeleidsrelatiesQueryError = HTTPValidationError
 
-export const useChangesBeleidsrelatiesV01ChangesBeleidsrelatiesOldUuidNewUuidGet =
-    <
-        TData = Awaited<
-            ReturnType<
-                typeof changesBeleidsrelatiesV01ChangesBeleidsrelatiesOldUuidNewUuidGet
-            >
-        >,
-        TError = HTTPValidationError
-    >(
-        oldUuid: string,
-        newUuid: string,
-        options?: {
-            query?: UseQueryOptions<
-                Awaited<
-                    ReturnType<
-                        typeof changesBeleidsrelatiesV01ChangesBeleidsrelatiesOldUuidNewUuidGet
-                    >
-                >,
-                TError,
-                TData
-            >
-        }
-    ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-        const { query: queryOptions } = options ?? {}
-
-        const queryKey =
-            queryOptions?.queryKey ??
-            getChangesBeleidsrelatiesV01ChangesBeleidsrelatiesOldUuidNewUuidGetQueryKey(
-                oldUuid,
-                newUuid
-            )
-
-        const queryFn: QueryFunction<
-            Awaited<
-                ReturnType<
-                    typeof changesBeleidsrelatiesV01ChangesBeleidsrelatiesOldUuidNewUuidGet
-                >
-            >
-        > = ({ signal }) =>
-            changesBeleidsrelatiesV01ChangesBeleidsrelatiesOldUuidNewUuidGet(
-                oldUuid,
-                newUuid,
-                signal
-            )
-
-        const query = useQuery<
-            Awaited<
-                ReturnType<
-                    typeof changesBeleidsrelatiesV01ChangesBeleidsrelatiesOldUuidNewUuidGet
-                >
-            >,
+export const useChangesBeleidsrelaties = <
+    TData = Awaited<ReturnType<typeof changesBeleidsrelaties>>,
+    TError = HTTPValidationError
+>(
+    oldUuid: string,
+    newUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof changesBeleidsrelaties>>,
             TError,
             TData
-        >(queryKey, queryFn, {
-            enabled: !!(oldUuid && newUuid),
-            ...queryOptions,
-        }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-        query.queryKey = queryKey
-
-        return query
+        >
     }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getChangesBeleidsrelatiesQueryKey(oldUuid, newUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof changesBeleidsrelaties>>
+    > = ({ signal }) => changesBeleidsrelaties(oldUuid, newUuid, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof changesBeleidsrelaties>>,
+        TError,
+        TData
+    >(queryKey, queryFn, {
+        enabled: !!(oldUuid && newUuid),
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
 
 /**
  * Gets all the beleidsrelaties lineages and shows the latests valid object for each.
  * @summary Read Valid Beleidsrelaties
  */
-export const readValidBeleidsrelatiesV01ValidBeleidsrelatiesGet = (
-    params?: ReadValidBeleidsrelatiesV01ValidBeleidsrelatiesGetParams,
+export const readValidBeleidsrelaties = (
+    params?: ReadValidBeleidsrelatiesParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Beleidsrelatie[]>({
@@ -4328,35 +3457,23 @@ export const readValidBeleidsrelatiesV01ValidBeleidsrelatiesGet = (
     })
 }
 
-export const getReadValidBeleidsrelatiesV01ValidBeleidsrelatiesGetQueryKey = (
-    params?: ReadValidBeleidsrelatiesV01ValidBeleidsrelatiesGetParams
+export const getReadValidBeleidsrelatiesQueryKey = (
+    params?: ReadValidBeleidsrelatiesParams
 ) => [`/v0.1/valid/beleidsrelaties`, ...(params ? [params] : [])]
 
-export type ReadValidBeleidsrelatiesV01ValidBeleidsrelatiesGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readValidBeleidsrelatiesV01ValidBeleidsrelatiesGet
-            >
-        >
-    >
-export type ReadValidBeleidsrelatiesV01ValidBeleidsrelatiesGetQueryError =
-    HTTPValidationError
+export type ReadValidBeleidsrelatiesQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidBeleidsrelaties>>
+>
+export type ReadValidBeleidsrelatiesQueryError = HTTPValidationError
 
-export const useReadValidBeleidsrelatiesV01ValidBeleidsrelatiesGet = <
-    TData = Awaited<
-        ReturnType<typeof readValidBeleidsrelatiesV01ValidBeleidsrelatiesGet>
-    >,
+export const useReadValidBeleidsrelaties = <
+    TData = Awaited<ReturnType<typeof readValidBeleidsrelaties>>,
     TError = HTTPValidationError
 >(
-    params?: ReadValidBeleidsrelatiesV01ValidBeleidsrelatiesGetParams,
+    params?: ReadValidBeleidsrelatiesParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readValidBeleidsrelatiesV01ValidBeleidsrelatiesGet
-                >
-            >,
+            Awaited<ReturnType<typeof readValidBeleidsrelaties>>,
             TError,
             TData
         >
@@ -4365,24 +3482,14 @@ export const useReadValidBeleidsrelatiesV01ValidBeleidsrelatiesGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadValidBeleidsrelatiesV01ValidBeleidsrelatiesGetQueryKey(params)
+        queryOptions?.queryKey ?? getReadValidBeleidsrelatiesQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readValidBeleidsrelatiesV01ValidBeleidsrelatiesGet
-            >
-        >
-    > = ({ signal }) =>
-        readValidBeleidsrelatiesV01ValidBeleidsrelatiesGet(params, signal)
+        Awaited<ReturnType<typeof readValidBeleidsrelaties>>
+    > = ({ signal }) => readValidBeleidsrelaties(params, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readValidBeleidsrelatiesV01ValidBeleidsrelatiesGet
-            >
-        >,
+        Awaited<ReturnType<typeof readValidBeleidsrelaties>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -4398,109 +3505,74 @@ export const useReadValidBeleidsrelatiesV01ValidBeleidsrelatiesGet = <
  * Gets all the beleidsrelaties in this lineage that are valid
  * @summary Read Valid Beleidsrelatie Lineage
  */
-export const readValidBeleidsrelatieLineageV01ValidBeleidsrelatiesLineageIdGet =
-    (
-        lineageId: number,
-        params?: ReadValidBeleidsrelatieLineageV01ValidBeleidsrelatiesLineageIdGetParams,
-        signal?: AbortSignal
-    ) => {
-        return customInstance<Beleidsrelatie[]>({
-            url: `/v0.1/valid/beleidsrelaties/${lineageId}`,
-            method: 'get',
-            params,
-            signal,
-        })
-    }
+export const readValidBeleidsrelatieLineage = (
+    lineageId: number,
+    params?: ReadValidBeleidsrelatieLineageParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<Beleidsrelatie[]>({
+        url: `/v0.1/valid/beleidsrelaties/${lineageId}`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
 
-export const getReadValidBeleidsrelatieLineageV01ValidBeleidsrelatiesLineageIdGetQueryKey =
-    (
-        lineageId: number,
-        params?: ReadValidBeleidsrelatieLineageV01ValidBeleidsrelatiesLineageIdGetParams
-    ) => [
-        `/v0.1/valid/beleidsrelaties/${lineageId}`,
-        ...(params ? [params] : []),
-    ]
+export const getReadValidBeleidsrelatieLineageQueryKey = (
+    lineageId: number,
+    params?: ReadValidBeleidsrelatieLineageParams
+) => [`/v0.1/valid/beleidsrelaties/${lineageId}`, ...(params ? [params] : [])]
 
-export type ReadValidBeleidsrelatieLineageV01ValidBeleidsrelatiesLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readValidBeleidsrelatieLineageV01ValidBeleidsrelatiesLineageIdGet
-            >
-        >
-    >
-export type ReadValidBeleidsrelatieLineageV01ValidBeleidsrelatiesLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadValidBeleidsrelatieLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidBeleidsrelatieLineage>>
+>
+export type ReadValidBeleidsrelatieLineageQueryError = HTTPValidationError
 
-export const useReadValidBeleidsrelatieLineageV01ValidBeleidsrelatiesLineageIdGet =
-    <
-        TData = Awaited<
-            ReturnType<
-                typeof readValidBeleidsrelatieLineageV01ValidBeleidsrelatiesLineageIdGet
-            >
-        >,
-        TError = HTTPValidationError
-    >(
-        lineageId: number,
-        params?: ReadValidBeleidsrelatieLineageV01ValidBeleidsrelatiesLineageIdGetParams,
-        options?: {
-            query?: UseQueryOptions<
-                Awaited<
-                    ReturnType<
-                        typeof readValidBeleidsrelatieLineageV01ValidBeleidsrelatiesLineageIdGet
-                    >
-                >,
-                TError,
-                TData
-            >
-        }
-    ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-        const { query: queryOptions } = options ?? {}
-
-        const queryKey =
-            queryOptions?.queryKey ??
-            getReadValidBeleidsrelatieLineageV01ValidBeleidsrelatiesLineageIdGetQueryKey(
-                lineageId,
-                params
-            )
-
-        const queryFn: QueryFunction<
-            Awaited<
-                ReturnType<
-                    typeof readValidBeleidsrelatieLineageV01ValidBeleidsrelatiesLineageIdGet
-                >
-            >
-        > = ({ signal }) =>
-            readValidBeleidsrelatieLineageV01ValidBeleidsrelatiesLineageIdGet(
-                lineageId,
-                params,
-                signal
-            )
-
-        const query = useQuery<
-            Awaited<
-                ReturnType<
-                    typeof readValidBeleidsrelatieLineageV01ValidBeleidsrelatiesLineageIdGet
-                >
-            >,
+export const useReadValidBeleidsrelatieLineage = <
+    TData = Awaited<ReturnType<typeof readValidBeleidsrelatieLineage>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ReadValidBeleidsrelatieLineageParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof readValidBeleidsrelatieLineage>>,
             TError,
             TData
-        >(queryKey, queryFn, {
-            enabled: !!lineageId,
-            ...queryOptions,
-        }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-        query.queryKey = queryKey
-
-        return query
+        >
     }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getReadValidBeleidsrelatieLineageQueryKey(lineageId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof readValidBeleidsrelatieLineage>>
+    > = ({ signal }) =>
+        readValidBeleidsrelatieLineage(lineageId, params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof readValidBeleidsrelatieLineage>>,
+        TError,
+        TData
+    >(queryKey, queryFn, {
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
 
 /**
  * Finds the lineage of the resource and retrieves the latest
 available version.
  * @summary Read Latest Version Lineage
  */
-export const readLatestVersionLineageV01VersionBeleidsrelatiesObjectUuidGet = (
+export const readBeleidsrelatieVersion = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
@@ -4511,86 +3583,58 @@ export const readLatestVersionLineageV01VersionBeleidsrelatiesObjectUuidGet = (
     })
 }
 
-export const getReadLatestVersionLineageV01VersionBeleidsrelatiesObjectUuidGetQueryKey =
-    (objectUuid: string) => [`/v0.1/version/beleidsrelaties/${objectUuid}`]
+export const getReadBeleidsrelatieVersionQueryKey = (objectUuid: string) => [
+    `/v0.1/version/beleidsrelaties/${objectUuid}`,
+]
 
-export type ReadLatestVersionLineageV01VersionBeleidsrelatiesObjectUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionBeleidsrelatiesObjectUuidGet
-            >
-        >
-    >
-export type ReadLatestVersionLineageV01VersionBeleidsrelatiesObjectUuidGetQueryError =
-    HTTPValidationError
+export type ReadBeleidsrelatieVersionQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBeleidsrelatieVersion>>
+>
+export type ReadBeleidsrelatieVersionQueryError = HTTPValidationError
 
-export const useReadLatestVersionLineageV01VersionBeleidsrelatiesObjectUuidGet =
-    <
-        TData = Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionBeleidsrelatiesObjectUuidGet
-            >
-        >,
-        TError = HTTPValidationError
-    >(
-        objectUuid: string,
-        options?: {
-            query?: UseQueryOptions<
-                Awaited<
-                    ReturnType<
-                        typeof readLatestVersionLineageV01VersionBeleidsrelatiesObjectUuidGet
-                    >
-                >,
-                TError,
-                TData
-            >
-        }
-    ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-        const { query: queryOptions } = options ?? {}
-
-        const queryKey =
-            queryOptions?.queryKey ??
-            getReadLatestVersionLineageV01VersionBeleidsrelatiesObjectUuidGetQueryKey(
-                objectUuid
-            )
-
-        const queryFn: QueryFunction<
-            Awaited<
-                ReturnType<
-                    typeof readLatestVersionLineageV01VersionBeleidsrelatiesObjectUuidGet
-                >
-            >
-        > = ({ signal }) =>
-            readLatestVersionLineageV01VersionBeleidsrelatiesObjectUuidGet(
-                objectUuid,
-                signal
-            )
-
-        const query = useQuery<
-            Awaited<
-                ReturnType<
-                    typeof readLatestVersionLineageV01VersionBeleidsrelatiesObjectUuidGet
-                >
-            >,
+export const useReadBeleidsrelatieVersion = <
+    TData = Awaited<ReturnType<typeof readBeleidsrelatieVersion>>,
+    TError = HTTPValidationError
+>(
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof readBeleidsrelatieVersion>>,
             TError,
             TData
-        >(queryKey, queryFn, {
-            enabled: !!objectUuid,
-            ...queryOptions,
-        }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-        query.queryKey = queryKey
-
-        return query
+        >
     }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getReadBeleidsrelatieVersionQueryKey(objectUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof readBeleidsrelatieVersion>>
+    > = ({ signal }) => readBeleidsrelatieVersion(objectUuid, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof readBeleidsrelatieVersion>>,
+        TError,
+        TData
+    >(queryKey, queryFn, {
+        enabled: !!objectUuid,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
 
 /**
  * Gets all the beleidsregels lineages and shows the latests object for each
  * @summary Read Beleidsregels
  */
-export const readBeleidsregelsV01BeleidsregelsGet = (
-    params?: ReadBeleidsregelsV01BeleidsregelsGetParams,
+export const readBeleidsregels = (
+    params?: ReadBeleidsregelsParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Beleidsregel[]>({
@@ -4601,23 +3645,23 @@ export const readBeleidsregelsV01BeleidsregelsGet = (
     })
 }
 
-export const getReadBeleidsregelsV01BeleidsregelsGetQueryKey = (
-    params?: ReadBeleidsregelsV01BeleidsregelsGetParams
+export const getReadBeleidsregelsQueryKey = (
+    params?: ReadBeleidsregelsParams
 ) => [`/v0.1/beleidsregels`, ...(params ? [params] : [])]
 
-export type ReadBeleidsregelsV01BeleidsregelsGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof readBeleidsregelsV01BeleidsregelsGet>>
+export type ReadBeleidsregelsQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBeleidsregels>>
 >
-export type ReadBeleidsregelsV01BeleidsregelsGetQueryError = HTTPValidationError
+export type ReadBeleidsregelsQueryError = HTTPValidationError
 
-export const useReadBeleidsregelsV01BeleidsregelsGet = <
-    TData = Awaited<ReturnType<typeof readBeleidsregelsV01BeleidsregelsGet>>,
+export const useReadBeleidsregels = <
+    TData = Awaited<ReturnType<typeof readBeleidsregels>>,
     TError = HTTPValidationError
 >(
-    params?: ReadBeleidsregelsV01BeleidsregelsGetParams,
+    params?: ReadBeleidsregelsParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<ReturnType<typeof readBeleidsregelsV01BeleidsregelsGet>>,
+            Awaited<ReturnType<typeof readBeleidsregels>>,
             TError,
             TData
         >
@@ -4626,15 +3670,14 @@ export const useReadBeleidsregelsV01BeleidsregelsGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadBeleidsregelsV01BeleidsregelsGetQueryKey(params)
+        queryOptions?.queryKey ?? getReadBeleidsregelsQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readBeleidsregelsV01BeleidsregelsGet>>
-    > = ({ signal }) => readBeleidsregelsV01BeleidsregelsGet(params, signal)
+        Awaited<ReturnType<typeof readBeleidsregels>>
+    > = ({ signal }) => readBeleidsregels(params, signal)
 
     const query = useQuery<
-        Awaited<ReturnType<typeof readBeleidsregelsV01BeleidsregelsGet>>,
+        Awaited<ReturnType<typeof readBeleidsregels>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -4650,9 +3693,7 @@ export const useReadBeleidsregelsV01BeleidsregelsGet = <
  * Creates a new beleidsregels lineage
  * @summary Create Beleidsregel
  */
-export const createBeleidsregelV01BeleidsregelsPost = (
-    beleidsregelCreate: BeleidsregelCreate
-) => {
+export const createBeleidsregel = (beleidsregelCreate: BeleidsregelCreate) => {
     return customInstance<Beleidsregel>({
         url: `/v0.1/beleidsregels`,
         method: 'post',
@@ -4661,20 +3702,18 @@ export const createBeleidsregelV01BeleidsregelsPost = (
     })
 }
 
-export type CreateBeleidsregelV01BeleidsregelsPostMutationResult = NonNullable<
-    Awaited<ReturnType<typeof createBeleidsregelV01BeleidsregelsPost>>
+export type CreateBeleidsregelMutationResult = NonNullable<
+    Awaited<ReturnType<typeof createBeleidsregel>>
 >
-export type CreateBeleidsregelV01BeleidsregelsPostMutationBody =
-    BeleidsregelCreate
-export type CreateBeleidsregelV01BeleidsregelsPostMutationError =
-    HTTPValidationError
+export type CreateBeleidsregelMutationBody = BeleidsregelCreate
+export type CreateBeleidsregelMutationError = HTTPValidationError
 
-export const useCreateBeleidsregelV01BeleidsregelsPost = <
+export const useCreateBeleidsregel = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof createBeleidsregelV01BeleidsregelsPost>>,
+        Awaited<ReturnType<typeof createBeleidsregel>>,
         TError,
         { data: BeleidsregelCreate },
         TContext
@@ -4683,16 +3722,16 @@ export const useCreateBeleidsregelV01BeleidsregelsPost = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof createBeleidsregelV01BeleidsregelsPost>>,
+        Awaited<ReturnType<typeof createBeleidsregel>>,
         { data: BeleidsregelCreate }
     > = props => {
         const { data } = props ?? {}
 
-        return createBeleidsregelV01BeleidsregelsPost(data)
+        return createBeleidsregel(data)
     }
 
     return useMutation<
-        Awaited<ReturnType<typeof createBeleidsregelV01BeleidsregelsPost>>,
+        Awaited<ReturnType<typeof createBeleidsregel>>,
         TError,
         { data: BeleidsregelCreate },
         TContext
@@ -4703,7 +3742,7 @@ export const useCreateBeleidsregelV01BeleidsregelsPost = <
  * Gets all the beleidsregels versions by lineage
  * @summary Read Beleidsregel Lineage
  */
-export const readBeleidsregelLineageV01BeleidsregelsLineageIdGet = (
+export const readBeleidsregelLineage = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
@@ -4714,35 +3753,23 @@ export const readBeleidsregelLineageV01BeleidsregelsLineageIdGet = (
     })
 }
 
-export const getReadBeleidsregelLineageV01BeleidsregelsLineageIdGetQueryKey = (
-    lineageId: number
-) => [`/v0.1/beleidsregels/${lineageId}`]
+export const getReadBeleidsregelLineageQueryKey = (lineageId: number) => [
+    `/v0.1/beleidsregels/${lineageId}`,
+]
 
-export type ReadBeleidsregelLineageV01BeleidsregelsLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readBeleidsregelLineageV01BeleidsregelsLineageIdGet
-            >
-        >
-    >
-export type ReadBeleidsregelLineageV01BeleidsregelsLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadBeleidsregelLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBeleidsregelLineage>>
+>
+export type ReadBeleidsregelLineageQueryError = HTTPValidationError
 
-export const useReadBeleidsregelLineageV01BeleidsregelsLineageIdGet = <
-    TData = Awaited<
-        ReturnType<typeof readBeleidsregelLineageV01BeleidsregelsLineageIdGet>
-    >,
+export const useReadBeleidsregelLineage = <
+    TData = Awaited<ReturnType<typeof readBeleidsregelLineage>>,
     TError = HTTPValidationError
 >(
     lineageId: number,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readBeleidsregelLineageV01BeleidsregelsLineageIdGet
-                >
-            >,
+            Awaited<ReturnType<typeof readBeleidsregelLineage>>,
             TError,
             TData
         >
@@ -4751,26 +3778,14 @@ export const useReadBeleidsregelLineageV01BeleidsregelsLineageIdGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadBeleidsregelLineageV01BeleidsregelsLineageIdGetQueryKey(
-            lineageId
-        )
+        queryOptions?.queryKey ?? getReadBeleidsregelLineageQueryKey(lineageId)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readBeleidsregelLineageV01BeleidsregelsLineageIdGet
-            >
-        >
-    > = ({ signal }) =>
-        readBeleidsregelLineageV01BeleidsregelsLineageIdGet(lineageId, signal)
+        Awaited<ReturnType<typeof readBeleidsregelLineage>>
+    > = ({ signal }) => readBeleidsregelLineage(lineageId, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readBeleidsregelLineageV01BeleidsregelsLineageIdGet
-            >
-        >,
+        Awaited<ReturnType<typeof readBeleidsregelLineage>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -4787,7 +3802,7 @@ export const useReadBeleidsregelLineageV01BeleidsregelsLineageIdGet = <
  * Adds a new beleidsregels to a lineage
  * @summary Update Beleidsregel
  */
-export const updateBeleidsregelV01BeleidsregelsLineageIdPatch = (
+export const updateBeleidsregel = (
     lineageId: number,
     beleidsregelUpdate: BeleidsregelUpdate
 ) => {
@@ -4799,25 +3814,18 @@ export const updateBeleidsregelV01BeleidsregelsLineageIdPatch = (
     })
 }
 
-export type UpdateBeleidsregelV01BeleidsregelsLineageIdPatchMutationResult =
-    NonNullable<
-        Awaited<
-            ReturnType<typeof updateBeleidsregelV01BeleidsregelsLineageIdPatch>
-        >
-    >
-export type UpdateBeleidsregelV01BeleidsregelsLineageIdPatchMutationBody =
-    BeleidsregelUpdate
-export type UpdateBeleidsregelV01BeleidsregelsLineageIdPatchMutationError =
-    HTTPValidationError
+export type UpdateBeleidsregelMutationResult = NonNullable<
+    Awaited<ReturnType<typeof updateBeleidsregel>>
+>
+export type UpdateBeleidsregelMutationBody = BeleidsregelUpdate
+export type UpdateBeleidsregelMutationError = HTTPValidationError
 
-export const useUpdateBeleidsregelV01BeleidsregelsLineageIdPatch = <
+export const useUpdateBeleidsregel = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<
-            ReturnType<typeof updateBeleidsregelV01BeleidsregelsLineageIdPatch>
-        >,
+        Awaited<ReturnType<typeof updateBeleidsregel>>,
         TError,
         { lineageId: number; data: BeleidsregelUpdate },
         TContext
@@ -4826,20 +3834,16 @@ export const useUpdateBeleidsregelV01BeleidsregelsLineageIdPatch = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<
-            ReturnType<typeof updateBeleidsregelV01BeleidsregelsLineageIdPatch>
-        >,
+        Awaited<ReturnType<typeof updateBeleidsregel>>,
         { lineageId: number; data: BeleidsregelUpdate }
     > = props => {
         const { lineageId, data } = props ?? {}
 
-        return updateBeleidsregelV01BeleidsregelsLineageIdPatch(lineageId, data)
+        return updateBeleidsregel(lineageId, data)
     }
 
     return useMutation<
-        Awaited<
-            ReturnType<typeof updateBeleidsregelV01BeleidsregelsLineageIdPatch>
-        >,
+        Awaited<ReturnType<typeof updateBeleidsregel>>,
         TError,
         { lineageId: number; data: BeleidsregelUpdate },
         TContext
@@ -4850,7 +3854,7 @@ export const useUpdateBeleidsregelV01BeleidsregelsLineageIdPatch = <
  * Shows the changes between two versions of beleidsregels.
  * @summary Changes Beleidsregels
  */
-export const changesBeleidsregelsV01ChangesBeleidsregelsOldUuidNewUuidGet = (
+export const changesBeleidsregels = (
     oldUuid: string,
     newUuid: string,
     signal?: AbortSignal
@@ -4862,39 +3866,25 @@ export const changesBeleidsregelsV01ChangesBeleidsregelsOldUuidNewUuidGet = (
     })
 }
 
-export const getChangesBeleidsregelsV01ChangesBeleidsregelsOldUuidNewUuidGetQueryKey =
-    (oldUuid: string, newUuid: string) => [
-        `/v0.1/changes/beleidsregels/${oldUuid}/${newUuid}`,
-    ]
+export const getChangesBeleidsregelsQueryKey = (
+    oldUuid: string,
+    newUuid: string
+) => [`/v0.1/changes/beleidsregels/${oldUuid}/${newUuid}`]
 
-export type ChangesBeleidsregelsV01ChangesBeleidsregelsOldUuidNewUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof changesBeleidsregelsV01ChangesBeleidsregelsOldUuidNewUuidGet
-            >
-        >
-    >
-export type ChangesBeleidsregelsV01ChangesBeleidsregelsOldUuidNewUuidGetQueryError =
-    HTTPValidationError
+export type ChangesBeleidsregelsQueryResult = NonNullable<
+    Awaited<ReturnType<typeof changesBeleidsregels>>
+>
+export type ChangesBeleidsregelsQueryError = HTTPValidationError
 
-export const useChangesBeleidsregelsV01ChangesBeleidsregelsOldUuidNewUuidGet = <
-    TData = Awaited<
-        ReturnType<
-            typeof changesBeleidsregelsV01ChangesBeleidsregelsOldUuidNewUuidGet
-        >
-    >,
+export const useChangesBeleidsregels = <
+    TData = Awaited<ReturnType<typeof changesBeleidsregels>>,
     TError = HTTPValidationError
 >(
     oldUuid: string,
     newUuid: string,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof changesBeleidsregelsV01ChangesBeleidsregelsOldUuidNewUuidGet
-                >
-            >,
+            Awaited<ReturnType<typeof changesBeleidsregels>>,
             TError,
             TData
         >
@@ -4904,30 +3894,14 @@ export const useChangesBeleidsregelsV01ChangesBeleidsregelsOldUuidNewUuidGet = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getChangesBeleidsregelsV01ChangesBeleidsregelsOldUuidNewUuidGetQueryKey(
-            oldUuid,
-            newUuid
-        )
+        getChangesBeleidsregelsQueryKey(oldUuid, newUuid)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof changesBeleidsregelsV01ChangesBeleidsregelsOldUuidNewUuidGet
-            >
-        >
-    > = ({ signal }) =>
-        changesBeleidsregelsV01ChangesBeleidsregelsOldUuidNewUuidGet(
-            oldUuid,
-            newUuid,
-            signal
-        )
+        Awaited<ReturnType<typeof changesBeleidsregels>>
+    > = ({ signal }) => changesBeleidsregels(oldUuid, newUuid, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof changesBeleidsregelsV01ChangesBeleidsregelsOldUuidNewUuidGet
-            >
-        >,
+        Awaited<ReturnType<typeof changesBeleidsregels>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -4944,8 +3918,8 @@ export const useChangesBeleidsregelsV01ChangesBeleidsregelsOldUuidNewUuidGet = <
  * Gets all the beleidsregels lineages and shows the latests valid object for each.
  * @summary Read Valid Beleidsregels
  */
-export const readValidBeleidsregelsV01ValidBeleidsregelsGet = (
-    params?: ReadValidBeleidsregelsV01ValidBeleidsregelsGetParams,
+export const readValidBeleidsregels = (
+    params?: ReadValidBeleidsregelsParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Beleidsregel[]>({
@@ -4956,33 +3930,23 @@ export const readValidBeleidsregelsV01ValidBeleidsregelsGet = (
     })
 }
 
-export const getReadValidBeleidsregelsV01ValidBeleidsregelsGetQueryKey = (
-    params?: ReadValidBeleidsregelsV01ValidBeleidsregelsGetParams
+export const getReadValidBeleidsregelsQueryKey = (
+    params?: ReadValidBeleidsregelsParams
 ) => [`/v0.1/valid/beleidsregels`, ...(params ? [params] : [])]
 
-export type ReadValidBeleidsregelsV01ValidBeleidsregelsGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<typeof readValidBeleidsregelsV01ValidBeleidsregelsGet>
-        >
-    >
-export type ReadValidBeleidsregelsV01ValidBeleidsregelsGetQueryError =
-    HTTPValidationError
+export type ReadValidBeleidsregelsQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidBeleidsregels>>
+>
+export type ReadValidBeleidsregelsQueryError = HTTPValidationError
 
-export const useReadValidBeleidsregelsV01ValidBeleidsregelsGet = <
-    TData = Awaited<
-        ReturnType<typeof readValidBeleidsregelsV01ValidBeleidsregelsGet>
-    >,
+export const useReadValidBeleidsregels = <
+    TData = Awaited<ReturnType<typeof readValidBeleidsregels>>,
     TError = HTTPValidationError
 >(
-    params?: ReadValidBeleidsregelsV01ValidBeleidsregelsGetParams,
+    params?: ReadValidBeleidsregelsParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readValidBeleidsregelsV01ValidBeleidsregelsGet
-                >
-            >,
+            Awaited<ReturnType<typeof readValidBeleidsregels>>,
             TError,
             TData
         >
@@ -4991,20 +3955,14 @@ export const useReadValidBeleidsregelsV01ValidBeleidsregelsGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadValidBeleidsregelsV01ValidBeleidsregelsGetQueryKey(params)
+        queryOptions?.queryKey ?? getReadValidBeleidsregelsQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<typeof readValidBeleidsregelsV01ValidBeleidsregelsGet>
-        >
-    > = ({ signal }) =>
-        readValidBeleidsregelsV01ValidBeleidsregelsGet(params, signal)
+        Awaited<ReturnType<typeof readValidBeleidsregels>>
+    > = ({ signal }) => readValidBeleidsregels(params, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<typeof readValidBeleidsregelsV01ValidBeleidsregelsGet>
-        >,
+        Awaited<ReturnType<typeof readValidBeleidsregels>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -5020,9 +3978,9 @@ export const useReadValidBeleidsregelsV01ValidBeleidsregelsGet = <
  * Gets all the beleidsregels in this lineage that are valid
  * @summary Read Valid Beleidsregel Lineage
  */
-export const readValidBeleidsregelLineageV01ValidBeleidsregelsLineageIdGet = (
+export const readValidBeleidsregelLineage = (
     lineageId: number,
-    params?: ReadValidBeleidsregelLineageV01ValidBeleidsregelsLineageIdGetParams,
+    params?: ReadValidBeleidsregelLineageParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Beleidsregel[]>({
@@ -5033,92 +3991,60 @@ export const readValidBeleidsregelLineageV01ValidBeleidsregelsLineageIdGet = (
     })
 }
 
-export const getReadValidBeleidsregelLineageV01ValidBeleidsregelsLineageIdGetQueryKey =
-    (
-        lineageId: number,
-        params?: ReadValidBeleidsregelLineageV01ValidBeleidsregelsLineageIdGetParams
-    ) => [`/v0.1/valid/beleidsregels/${lineageId}`, ...(params ? [params] : [])]
+export const getReadValidBeleidsregelLineageQueryKey = (
+    lineageId: number,
+    params?: ReadValidBeleidsregelLineageParams
+) => [`/v0.1/valid/beleidsregels/${lineageId}`, ...(params ? [params] : [])]
 
-export type ReadValidBeleidsregelLineageV01ValidBeleidsregelsLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readValidBeleidsregelLineageV01ValidBeleidsregelsLineageIdGet
-            >
-        >
-    >
-export type ReadValidBeleidsregelLineageV01ValidBeleidsregelsLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadValidBeleidsregelLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidBeleidsregelLineage>>
+>
+export type ReadValidBeleidsregelLineageQueryError = HTTPValidationError
 
-export const useReadValidBeleidsregelLineageV01ValidBeleidsregelsLineageIdGet =
-    <
-        TData = Awaited<
-            ReturnType<
-                typeof readValidBeleidsregelLineageV01ValidBeleidsregelsLineageIdGet
-            >
-        >,
-        TError = HTTPValidationError
-    >(
-        lineageId: number,
-        params?: ReadValidBeleidsregelLineageV01ValidBeleidsregelsLineageIdGetParams,
-        options?: {
-            query?: UseQueryOptions<
-                Awaited<
-                    ReturnType<
-                        typeof readValidBeleidsregelLineageV01ValidBeleidsregelsLineageIdGet
-                    >
-                >,
-                TError,
-                TData
-            >
-        }
-    ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-        const { query: queryOptions } = options ?? {}
-
-        const queryKey =
-            queryOptions?.queryKey ??
-            getReadValidBeleidsregelLineageV01ValidBeleidsregelsLineageIdGetQueryKey(
-                lineageId,
-                params
-            )
-
-        const queryFn: QueryFunction<
-            Awaited<
-                ReturnType<
-                    typeof readValidBeleidsregelLineageV01ValidBeleidsregelsLineageIdGet
-                >
-            >
-        > = ({ signal }) =>
-            readValidBeleidsregelLineageV01ValidBeleidsregelsLineageIdGet(
-                lineageId,
-                params,
-                signal
-            )
-
-        const query = useQuery<
-            Awaited<
-                ReturnType<
-                    typeof readValidBeleidsregelLineageV01ValidBeleidsregelsLineageIdGet
-                >
-            >,
+export const useReadValidBeleidsregelLineage = <
+    TData = Awaited<ReturnType<typeof readValidBeleidsregelLineage>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ReadValidBeleidsregelLineageParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof readValidBeleidsregelLineage>>,
             TError,
             TData
-        >(queryKey, queryFn, {
-            enabled: !!lineageId,
-            ...queryOptions,
-        }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-        query.queryKey = queryKey
-
-        return query
+        >
     }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getReadValidBeleidsregelLineageQueryKey(lineageId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof readValidBeleidsregelLineage>>
+    > = ({ signal }) => readValidBeleidsregelLineage(lineageId, params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof readValidBeleidsregelLineage>>,
+        TError,
+        TData
+    >(queryKey, queryFn, {
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
 
 /**
  * Finds the lineage of the resource and retrieves the latest
 available version.
  * @summary Read Latest Version Lineage
  */
-export const readLatestVersionLineageV01VersionBeleidsregelsObjectUuidGet = (
+export const readBeleidsregelVersion = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
@@ -5129,36 +4055,23 @@ export const readLatestVersionLineageV01VersionBeleidsregelsObjectUuidGet = (
     })
 }
 
-export const getReadLatestVersionLineageV01VersionBeleidsregelsObjectUuidGetQueryKey =
-    (objectUuid: string) => [`/v0.1/version/beleidsregels/${objectUuid}`]
+export const getReadBeleidsregelVersionQueryKey = (objectUuid: string) => [
+    `/v0.1/version/beleidsregels/${objectUuid}`,
+]
 
-export type ReadLatestVersionLineageV01VersionBeleidsregelsObjectUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionBeleidsregelsObjectUuidGet
-            >
-        >
-    >
-export type ReadLatestVersionLineageV01VersionBeleidsregelsObjectUuidGetQueryError =
-    HTTPValidationError
+export type ReadBeleidsregelVersionQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readBeleidsregelVersion>>
+>
+export type ReadBeleidsregelVersionQueryError = HTTPValidationError
 
-export const useReadLatestVersionLineageV01VersionBeleidsregelsObjectUuidGet = <
-    TData = Awaited<
-        ReturnType<
-            typeof readLatestVersionLineageV01VersionBeleidsregelsObjectUuidGet
-        >
-    >,
+export const useReadBeleidsregelVersion = <
+    TData = Awaited<ReturnType<typeof readBeleidsregelVersion>>,
     TError = HTTPValidationError
 >(
     objectUuid: string,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readLatestVersionLineageV01VersionBeleidsregelsObjectUuidGet
-                >
-            >,
+            Awaited<ReturnType<typeof readBeleidsregelVersion>>,
             TError,
             TData
         >
@@ -5167,29 +4080,14 @@ export const useReadLatestVersionLineageV01VersionBeleidsregelsObjectUuidGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadLatestVersionLineageV01VersionBeleidsregelsObjectUuidGetQueryKey(
-            objectUuid
-        )
+        queryOptions?.queryKey ?? getReadBeleidsregelVersionQueryKey(objectUuid)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionBeleidsregelsObjectUuidGet
-            >
-        >
-    > = ({ signal }) =>
-        readLatestVersionLineageV01VersionBeleidsregelsObjectUuidGet(
-            objectUuid,
-            signal
-        )
+        Awaited<ReturnType<typeof readBeleidsregelVersion>>
+    > = ({ signal }) => readBeleidsregelVersion(objectUuid, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionBeleidsregelsObjectUuidGet
-            >
-        >,
+        Awaited<ReturnType<typeof readBeleidsregelVersion>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -5207,7 +4105,7 @@ export const useReadLatestVersionLineageV01VersionBeleidsregelsObjectUuidGet = <
 active for 'Beleidskeuzes' & 'Maatregelen'
  * @summary Edits
  */
-export const editsV01EditsGet = (signal?: AbortSignal) => {
+export const edits = (signal?: AbortSignal) => {
     return customInstance<LatestVersionInline[]>({
         url: `/v0.1/edits`,
         method: 'get',
@@ -5215,38 +4113,30 @@ export const editsV01EditsGet = (signal?: AbortSignal) => {
     })
 }
 
-export const getEditsV01EditsGetQueryKey = () => [`/v0.1/edits`]
+export const getEditsQueryKey = () => [`/v0.1/edits`]
 
-export type EditsV01EditsGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof editsV01EditsGet>>
->
-export type EditsV01EditsGetQueryError = unknown
+export type EditsQueryResult = NonNullable<Awaited<ReturnType<typeof edits>>>
+export type EditsQueryError = unknown
 
-export const useEditsV01EditsGet = <
-    TData = Awaited<ReturnType<typeof editsV01EditsGet>>,
+export const useEdits = <
+    TData = Awaited<ReturnType<typeof edits>>,
     TError = unknown
 >(options?: {
-    query?: UseQueryOptions<
-        Awaited<ReturnType<typeof editsV01EditsGet>>,
-        TError,
-        TData
-    >
+    query?: UseQueryOptions<Awaited<ReturnType<typeof edits>>, TError, TData>
 }): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const { query: queryOptions } = options ?? {}
 
-    const queryKey = queryOptions?.queryKey ?? getEditsV01EditsGetQueryKey()
+    const queryKey = queryOptions?.queryKey ?? getEditsQueryKey()
 
-    const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof editsV01EditsGet>>
-    > = ({ signal }) => editsV01EditsGet(signal)
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof edits>>> = ({
+        signal,
+    }) => edits(signal)
 
-    const query = useQuery<
-        Awaited<ReturnType<typeof editsV01EditsGet>>,
-        TError,
-        TData
-    >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
-        queryKey: QueryKey
-    }
+    const query = useQuery<Awaited<ReturnType<typeof edits>>, TError, TData>(
+        queryKey,
+        queryFn,
+        queryOptions
+    ) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
     query.queryKey = queryKey
 
@@ -5257,7 +4147,7 @@ export const useEditsV01EditsGet = <
  * Fetch graph representations on relationships of generic models
  * @summary Graph
  */
-export const graphV01GraphGet = (signal?: AbortSignal) => {
+export const graph = (signal?: AbortSignal) => {
     return customInstance<GraphView>({
         url: `/v0.1/graph`,
         method: 'get',
@@ -5265,38 +4155,30 @@ export const graphV01GraphGet = (signal?: AbortSignal) => {
     })
 }
 
-export const getGraphV01GraphGetQueryKey = () => [`/v0.1/graph`]
+export const getGraphQueryKey = () => [`/v0.1/graph`]
 
-export type GraphV01GraphGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof graphV01GraphGet>>
->
-export type GraphV01GraphGetQueryError = unknown
+export type GraphQueryResult = NonNullable<Awaited<ReturnType<typeof graph>>>
+export type GraphQueryError = unknown
 
-export const useGraphV01GraphGet = <
-    TData = Awaited<ReturnType<typeof graphV01GraphGet>>,
+export const useGraph = <
+    TData = Awaited<ReturnType<typeof graph>>,
     TError = unknown
 >(options?: {
-    query?: UseQueryOptions<
-        Awaited<ReturnType<typeof graphV01GraphGet>>,
-        TError,
-        TData
-    >
+    query?: UseQueryOptions<Awaited<ReturnType<typeof graph>>, TError, TData>
 }): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const { query: queryOptions } = options ?? {}
 
-    const queryKey = queryOptions?.queryKey ?? getGraphV01GraphGetQueryKey()
+    const queryKey = queryOptions?.queryKey ?? getGraphQueryKey()
 
-    const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof graphV01GraphGet>>
-    > = ({ signal }) => graphV01GraphGet(signal)
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof graph>>> = ({
+        signal,
+    }) => graph(signal)
 
-    const query = useQuery<
-        Awaited<ReturnType<typeof graphV01GraphGet>>,
-        TError,
-        TData
-    >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
-        queryKey: QueryKey
-    }
+    const query = useQuery<Awaited<ReturnType<typeof graph>>, TError, TData>(
+        queryKey,
+        queryFn,
+        queryOptions
+    ) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
     query.queryKey = queryKey
 
@@ -5307,7 +4189,7 @@ export const useGraphV01GraphGet = <
  * List the users of this application
  * @summary Gebruikers
  */
-export const gebruikersV01GebruikersGet = (signal?: AbortSignal) => {
+export const gebruikers = (signal?: AbortSignal) => {
     return customInstance<Gebruiker[]>({
         url: `/v0.1/gebruikers`,
         method: 'get',
@@ -5315,39 +4197,514 @@ export const gebruikersV01GebruikersGet = (signal?: AbortSignal) => {
     })
 }
 
-export const getGebruikersV01GebruikersGetQueryKey = () => [`/v0.1/gebruikers`]
+export const getGebruikersQueryKey = () => [`/v0.1/gebruikers`]
 
-export type GebruikersV01GebruikersGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof gebruikersV01GebruikersGet>>
+export type GebruikersQueryResult = NonNullable<
+    Awaited<ReturnType<typeof gebruikers>>
 >
-export type GebruikersV01GebruikersGetQueryError = unknown
+export type GebruikersQueryError = unknown
 
-export const useGebruikersV01GebruikersGet = <
-    TData = Awaited<ReturnType<typeof gebruikersV01GebruikersGet>>,
+export const useGebruikers = <
+    TData = Awaited<ReturnType<typeof gebruikers>>,
     TError = unknown
 >(options?: {
     query?: UseQueryOptions<
-        Awaited<ReturnType<typeof gebruikersV01GebruikersGet>>,
+        Awaited<ReturnType<typeof gebruikers>>,
         TError,
         TData
     >
 }): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const { query: queryOptions } = options ?? {}
 
-    const queryKey =
-        queryOptions?.queryKey ?? getGebruikersV01GebruikersGetQueryKey()
+    const queryKey = queryOptions?.queryKey ?? getGebruikersQueryKey()
 
-    const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof gebruikersV01GebruikersGet>>
-    > = ({ signal }) => gebruikersV01GebruikersGet(signal)
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof gebruikers>>> = ({
+        signal,
+    }) => gebruikers(signal)
 
     const query = useQuery<
-        Awaited<ReturnType<typeof gebruikersV01GebruikersGet>>,
+        Awaited<ReturnType<typeof gebruikers>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
         queryKey: QueryKey
     }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * Gets all the gebiedsprogrammas lineages and shows the latests object for each
+ * @summary Read Gebiedsprogrammas
+ */
+export const readGebiedsprogrammas = (
+    params?: ReadGebiedsprogrammasParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<Gebiedsprogramma[]>({
+        url: `/v0.1/gebiedsprogrammas`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getReadGebiedsprogrammasQueryKey = (
+    params?: ReadGebiedsprogrammasParams
+) => [`/v0.1/gebiedsprogrammas`, ...(params ? [params] : [])]
+
+export type ReadGebiedsprogrammasQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readGebiedsprogrammas>>
+>
+export type ReadGebiedsprogrammasQueryError = HTTPValidationError
+
+export const useReadGebiedsprogrammas = <
+    TData = Awaited<ReturnType<typeof readGebiedsprogrammas>>,
+    TError = HTTPValidationError
+>(
+    params?: ReadGebiedsprogrammasParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof readGebiedsprogrammas>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getReadGebiedsprogrammasQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof readGebiedsprogrammas>>
+    > = ({ signal }) => readGebiedsprogrammas(params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof readGebiedsprogrammas>>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * Creates a new gebiedsprogrammas lineage
+ * @summary Create Gebiedsprogramma
+ */
+export const createGebiedsprogramma = (
+    gebiedsprogrammaCreate: GebiedsprogrammaCreate
+) => {
+    return customInstance<Gebiedsprogramma>({
+        url: `/v0.1/gebiedsprogrammas`,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: gebiedsprogrammaCreate,
+    })
+}
+
+export type CreateGebiedsprogrammaMutationResult = NonNullable<
+    Awaited<ReturnType<typeof createGebiedsprogramma>>
+>
+export type CreateGebiedsprogrammaMutationBody = GebiedsprogrammaCreate
+export type CreateGebiedsprogrammaMutationError = HTTPValidationError
+
+export const useCreateGebiedsprogramma = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof createGebiedsprogramma>>,
+        TError,
+        { data: GebiedsprogrammaCreate },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof createGebiedsprogramma>>,
+        { data: GebiedsprogrammaCreate }
+    > = props => {
+        const { data } = props ?? {}
+
+        return createGebiedsprogramma(data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof createGebiedsprogramma>>,
+        TError,
+        { data: GebiedsprogrammaCreate },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * Gets all the gebiedsprogrammas versions by lineage
+ * @summary Read Gebiedsprogramma Lineage
+ */
+export const readGebiedsprogrammaLineage = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<Gebiedsprogramma[]>({
+        url: `/v0.1/gebiedsprogrammas/${lineageId}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getReadGebiedsprogrammaLineageQueryKey = (lineageId: number) => [
+    `/v0.1/gebiedsprogrammas/${lineageId}`,
+]
+
+export type ReadGebiedsprogrammaLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readGebiedsprogrammaLineage>>
+>
+export type ReadGebiedsprogrammaLineageQueryError = HTTPValidationError
+
+export const useReadGebiedsprogrammaLineage = <
+    TData = Awaited<ReturnType<typeof readGebiedsprogrammaLineage>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof readGebiedsprogrammaLineage>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getReadGebiedsprogrammaLineageQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof readGebiedsprogrammaLineage>>
+    > = ({ signal }) => readGebiedsprogrammaLineage(lineageId, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof readGebiedsprogrammaLineage>>,
+        TError,
+        TData
+    >(queryKey, queryFn, {
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * Adds a new gebiedsprogrammas to a lineage
+ * @summary Update Gebiedsprogramma
+ */
+export const updateGebiedsprogramma = (
+    lineageId: number,
+    gebiedsprogrammaUpdate: GebiedsprogrammaUpdate
+) => {
+    return customInstance<Gebiedsprogramma>({
+        url: `/v0.1/gebiedsprogrammas/${lineageId}`,
+        method: 'patch',
+        headers: { 'Content-Type': 'application/json' },
+        data: gebiedsprogrammaUpdate,
+    })
+}
+
+export type UpdateGebiedsprogrammaMutationResult = NonNullable<
+    Awaited<ReturnType<typeof updateGebiedsprogramma>>
+>
+export type UpdateGebiedsprogrammaMutationBody = GebiedsprogrammaUpdate
+export type UpdateGebiedsprogrammaMutationError = HTTPValidationError
+
+export const useUpdateGebiedsprogramma = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof updateGebiedsprogramma>>,
+        TError,
+        { lineageId: number; data: GebiedsprogrammaUpdate },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof updateGebiedsprogramma>>,
+        { lineageId: number; data: GebiedsprogrammaUpdate }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return updateGebiedsprogramma(lineageId, data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof updateGebiedsprogramma>>,
+        TError,
+        { lineageId: number; data: GebiedsprogrammaUpdate },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * Shows the changes between two versions of gebiedsprogrammas.
+ * @summary Changes Gebiedsprogrammas
+ */
+export const changesGebiedsprogrammas = (
+    oldUuid: string,
+    newUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<unknown>({
+        url: `/v0.1/changes/gebiedsprogrammas/${oldUuid}/${newUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getChangesGebiedsprogrammasQueryKey = (
+    oldUuid: string,
+    newUuid: string
+) => [`/v0.1/changes/gebiedsprogrammas/${oldUuid}/${newUuid}`]
+
+export type ChangesGebiedsprogrammasQueryResult = NonNullable<
+    Awaited<ReturnType<typeof changesGebiedsprogrammas>>
+>
+export type ChangesGebiedsprogrammasQueryError = HTTPValidationError
+
+export const useChangesGebiedsprogrammas = <
+    TData = Awaited<ReturnType<typeof changesGebiedsprogrammas>>,
+    TError = HTTPValidationError
+>(
+    oldUuid: string,
+    newUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof changesGebiedsprogrammas>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getChangesGebiedsprogrammasQueryKey(oldUuid, newUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof changesGebiedsprogrammas>>
+    > = ({ signal }) => changesGebiedsprogrammas(oldUuid, newUuid, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof changesGebiedsprogrammas>>,
+        TError,
+        TData
+    >(queryKey, queryFn, {
+        enabled: !!(oldUuid && newUuid),
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * Gets all the gebiedsprogrammas lineages and shows the latests valid object for each.
+ * @summary Read Valid Gebiedsprogrammas
+ */
+export const readValidGebiedsprogrammas = (
+    params?: ReadValidGebiedsprogrammasParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<Gebiedsprogramma[]>({
+        url: `/v0.1/valid/gebiedsprogrammas`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getReadValidGebiedsprogrammasQueryKey = (
+    params?: ReadValidGebiedsprogrammasParams
+) => [`/v0.1/valid/gebiedsprogrammas`, ...(params ? [params] : [])]
+
+export type ReadValidGebiedsprogrammasQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidGebiedsprogrammas>>
+>
+export type ReadValidGebiedsprogrammasQueryError = HTTPValidationError
+
+export const useReadValidGebiedsprogrammas = <
+    TData = Awaited<ReturnType<typeof readValidGebiedsprogrammas>>,
+    TError = HTTPValidationError
+>(
+    params?: ReadValidGebiedsprogrammasParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof readValidGebiedsprogrammas>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getReadValidGebiedsprogrammasQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof readValidGebiedsprogrammas>>
+    > = ({ signal }) => readValidGebiedsprogrammas(params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof readValidGebiedsprogrammas>>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * Gets all the gebiedsprogrammas in this lineage that are valid
+ * @summary Read Valid Gebiedsprogramma Lineage
+ */
+export const readValidGebiedsprogrammaLineage = (
+    lineageId: number,
+    params?: ReadValidGebiedsprogrammaLineageParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<Gebiedsprogramma[]>({
+        url: `/v0.1/valid/gebiedsprogrammas/${lineageId}`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getReadValidGebiedsprogrammaLineageQueryKey = (
+    lineageId: number,
+    params?: ReadValidGebiedsprogrammaLineageParams
+) => [`/v0.1/valid/gebiedsprogrammas/${lineageId}`, ...(params ? [params] : [])]
+
+export type ReadValidGebiedsprogrammaLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidGebiedsprogrammaLineage>>
+>
+export type ReadValidGebiedsprogrammaLineageQueryError = HTTPValidationError
+
+export const useReadValidGebiedsprogrammaLineage = <
+    TData = Awaited<ReturnType<typeof readValidGebiedsprogrammaLineage>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ReadValidGebiedsprogrammaLineageParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof readValidGebiedsprogrammaLineage>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getReadValidGebiedsprogrammaLineageQueryKey(lineageId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof readValidGebiedsprogrammaLineage>>
+    > = ({ signal }) =>
+        readValidGebiedsprogrammaLineage(lineageId, params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof readValidGebiedsprogrammaLineage>>,
+        TError,
+        TData
+    >(queryKey, queryFn, {
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * Finds the lineage of the resource and retrieves the latest
+available version.
+ * @summary Read Latest Version Lineage
+ */
+export const readGebiedsprogrammaVersion = (
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<Gebiedsprogramma>({
+        url: `/v0.1/version/gebiedsprogrammas/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getReadGebiedsprogrammaVersionQueryKey = (objectUuid: string) => [
+    `/v0.1/version/gebiedsprogrammas/${objectUuid}`,
+]
+
+export type ReadGebiedsprogrammaVersionQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readGebiedsprogrammaVersion>>
+>
+export type ReadGebiedsprogrammaVersionQueryError = HTTPValidationError
+
+export const useReadGebiedsprogrammaVersion = <
+    TData = Awaited<ReturnType<typeof readGebiedsprogrammaVersion>>,
+    TError = HTTPValidationError
+>(
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof readGebiedsprogrammaVersion>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getReadGebiedsprogrammaVersionQueryKey(objectUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof readGebiedsprogrammaVersion>>
+    > = ({ signal }) => readGebiedsprogrammaVersion(objectUuid, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof readGebiedsprogrammaVersion>>,
+        TError,
+        TData
+    >(queryKey, queryFn, {
+        enabled: !!objectUuid,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
     query.queryKey = queryKey
 
@@ -5358,10 +4715,7 @@ export const useGebruikersV01GebruikersGet = <
  * Fetches items matching the search query parameters
  * @summary Search
  */
-export const searchV01SearchGet = (
-    params: SearchV01SearchGetParams,
-    signal?: AbortSignal
-) => {
+export const search = (params: SearchParams, signal?: AbortSignal) => {
     return customInstance<SearchResultWrapper>({
         url: `/v0.1/search`,
         method: 'get',
@@ -5370,23 +4724,22 @@ export const searchV01SearchGet = (
     })
 }
 
-export const getSearchV01SearchGetQueryKey = (
-    params: SearchV01SearchGetParams
-) => [`/v0.1/search`, ...(params ? [params] : [])]
+export const getSearchQueryKey = (params: SearchParams) => [
+    `/v0.1/search`,
+    ...(params ? [params] : []),
+]
 
-export type SearchV01SearchGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof searchV01SearchGet>>
->
-export type SearchV01SearchGetQueryError = HTTPValidationError
+export type SearchQueryResult = NonNullable<Awaited<ReturnType<typeof search>>>
+export type SearchQueryError = HTTPValidationError
 
-export const useSearchV01SearchGet = <
-    TData = Awaited<ReturnType<typeof searchV01SearchGet>>,
+export const useSearch = <
+    TData = Awaited<ReturnType<typeof search>>,
     TError = HTTPValidationError
 >(
-    params: SearchV01SearchGetParams,
+    params: SearchParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<ReturnType<typeof searchV01SearchGet>>,
+            Awaited<ReturnType<typeof search>>,
             TError,
             TData
         >
@@ -5394,20 +4747,17 @@ export const useSearchV01SearchGet = <
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const { query: queryOptions } = options ?? {}
 
-    const queryKey =
-        queryOptions?.queryKey ?? getSearchV01SearchGetQueryKey(params)
+    const queryKey = queryOptions?.queryKey ?? getSearchQueryKey(params)
 
-    const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof searchV01SearchGet>>
-    > = ({ signal }) => searchV01SearchGet(params, signal)
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof search>>> = ({
+        signal,
+    }) => search(params, signal)
 
-    const query = useQuery<
-        Awaited<ReturnType<typeof searchV01SearchGet>>,
-        TError,
-        TData
-    >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
-        queryKey: QueryKey
-    }
+    const query = useQuery<Awaited<ReturnType<typeof search>>, TError, TData>(
+        queryKey,
+        queryFn,
+        queryOptions
+    ) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
     query.queryKey = queryKey
 
@@ -5418,10 +4768,7 @@ export const useSearchV01SearchGet = <
  * Lookup geo-searchable entities related to a 'Werkingsgebied'
  * @summary Geo Search
  */
-export const geoSearchV01GeoSearchGet = (
-    params: GeoSearchV01GeoSearchGetParams,
-    signal?: AbortSignal
-) => {
+export const geoSearch = (params: GeoSearchParams, signal?: AbortSignal) => {
     return customInstance<SearchResultWrapper>({
         url: `/v0.1/geo-search`,
         method: 'get',
@@ -5430,23 +4777,24 @@ export const geoSearchV01GeoSearchGet = (
     })
 }
 
-export const getGeoSearchV01GeoSearchGetQueryKey = (
-    params: GeoSearchV01GeoSearchGetParams
-) => [`/v0.1/geo-search`, ...(params ? [params] : [])]
+export const getGeoSearchQueryKey = (params: GeoSearchParams) => [
+    `/v0.1/geo-search`,
+    ...(params ? [params] : []),
+]
 
-export type GeoSearchV01GeoSearchGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof geoSearchV01GeoSearchGet>>
+export type GeoSearchQueryResult = NonNullable<
+    Awaited<ReturnType<typeof geoSearch>>
 >
-export type GeoSearchV01GeoSearchGetQueryError = HTTPValidationError
+export type GeoSearchQueryError = HTTPValidationError
 
-export const useGeoSearchV01GeoSearchGet = <
-    TData = Awaited<ReturnType<typeof geoSearchV01GeoSearchGet>>,
+export const useGeoSearch = <
+    TData = Awaited<ReturnType<typeof geoSearch>>,
     TError = HTTPValidationError
 >(
-    params: GeoSearchV01GeoSearchGetParams,
+    params: GeoSearchParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<ReturnType<typeof geoSearchV01GeoSearchGet>>,
+            Awaited<ReturnType<typeof geoSearch>>,
             TError,
             TData
         >
@@ -5454,15 +4802,14 @@ export const useGeoSearchV01GeoSearchGet = <
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const { query: queryOptions } = options ?? {}
 
-    const queryKey =
-        queryOptions?.queryKey ?? getGeoSearchV01GeoSearchGetQueryKey(params)
+    const queryKey = queryOptions?.queryKey ?? getGeoSearchQueryKey(params)
 
-    const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof geoSearchV01GeoSearchGet>>
-    > = ({ signal }) => geoSearchV01GeoSearchGet(params, signal)
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof geoSearch>>> = ({
+        signal,
+    }) => geoSearch(params, signal)
 
     const query = useQuery<
-        Awaited<ReturnType<typeof geoSearchV01GeoSearchGet>>,
+        Awaited<ReturnType<typeof geoSearch>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -5478,10 +4825,7 @@ export const useGeoSearchV01GeoSearchGet = <
  * Gets all the themas lineages and shows the latests object for each
  * @summary Read Themas
  */
-export const readThemasV01ThemasGet = (
-    params?: ReadThemasV01ThemasGetParams,
-    signal?: AbortSignal
-) => {
+export const readThemas = (params?: ReadThemasParams, signal?: AbortSignal) => {
     return customInstance<Thema[]>({
         url: `/v0.1/themas`,
         method: 'get',
@@ -5490,23 +4834,24 @@ export const readThemasV01ThemasGet = (
     })
 }
 
-export const getReadThemasV01ThemasGetQueryKey = (
-    params?: ReadThemasV01ThemasGetParams
-) => [`/v0.1/themas`, ...(params ? [params] : [])]
+export const getReadThemasQueryKey = (params?: ReadThemasParams) => [
+    `/v0.1/themas`,
+    ...(params ? [params] : []),
+]
 
-export type ReadThemasV01ThemasGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof readThemasV01ThemasGet>>
+export type ReadThemasQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readThemas>>
 >
-export type ReadThemasV01ThemasGetQueryError = HTTPValidationError
+export type ReadThemasQueryError = HTTPValidationError
 
-export const useReadThemasV01ThemasGet = <
-    TData = Awaited<ReturnType<typeof readThemasV01ThemasGet>>,
+export const useReadThemas = <
+    TData = Awaited<ReturnType<typeof readThemas>>,
     TError = HTTPValidationError
 >(
-    params?: ReadThemasV01ThemasGetParams,
+    params?: ReadThemasParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<ReturnType<typeof readThemasV01ThemasGet>>,
+            Awaited<ReturnType<typeof readThemas>>,
             TError,
             TData
         >
@@ -5514,15 +4859,14 @@ export const useReadThemasV01ThemasGet = <
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const { query: queryOptions } = options ?? {}
 
-    const queryKey =
-        queryOptions?.queryKey ?? getReadThemasV01ThemasGetQueryKey(params)
+    const queryKey = queryOptions?.queryKey ?? getReadThemasQueryKey(params)
 
-    const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readThemasV01ThemasGet>>
-    > = ({ signal }) => readThemasV01ThemasGet(params, signal)
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof readThemas>>> = ({
+        signal,
+    }) => readThemas(params, signal)
 
     const query = useQuery<
-        Awaited<ReturnType<typeof readThemasV01ThemasGet>>,
+        Awaited<ReturnType<typeof readThemas>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -5538,7 +4882,7 @@ export const useReadThemasV01ThemasGet = <
  * Creates a new themas lineage
  * @summary Create Thema
  */
-export const createThemaV01ThemasPost = (themaCreate: ThemaCreate) => {
+export const createThema = (themaCreate: ThemaCreate) => {
     return customInstance<Thema>({
         url: `/v0.1/themas`,
         method: 'post',
@@ -5547,18 +4891,18 @@ export const createThemaV01ThemasPost = (themaCreate: ThemaCreate) => {
     })
 }
 
-export type CreateThemaV01ThemasPostMutationResult = NonNullable<
-    Awaited<ReturnType<typeof createThemaV01ThemasPost>>
+export type CreateThemaMutationResult = NonNullable<
+    Awaited<ReturnType<typeof createThema>>
 >
-export type CreateThemaV01ThemasPostMutationBody = ThemaCreate
-export type CreateThemaV01ThemasPostMutationError = HTTPValidationError
+export type CreateThemaMutationBody = ThemaCreate
+export type CreateThemaMutationError = HTTPValidationError
 
-export const useCreateThemaV01ThemasPost = <
+export const useCreateThema = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof createThemaV01ThemasPost>>,
+        Awaited<ReturnType<typeof createThema>>,
         TError,
         { data: ThemaCreate },
         TContext
@@ -5567,16 +4911,16 @@ export const useCreateThemaV01ThemasPost = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof createThemaV01ThemasPost>>,
+        Awaited<ReturnType<typeof createThema>>,
         { data: ThemaCreate }
     > = props => {
         const { data } = props ?? {}
 
-        return createThemaV01ThemasPost(data)
+        return createThema(data)
     }
 
     return useMutation<
-        Awaited<ReturnType<typeof createThemaV01ThemasPost>>,
+        Awaited<ReturnType<typeof createThema>>,
         TError,
         { data: ThemaCreate },
         TContext
@@ -5587,10 +4931,7 @@ export const useCreateThemaV01ThemasPost = <
  * Gets all the themas versions by lineage
  * @summary Read Thema Lineage
  */
-export const readThemaLineageV01ThemasLineageIdGet = (
-    lineageId: number,
-    signal?: AbortSignal
-) => {
+export const readThemaLineage = (lineageId: number, signal?: AbortSignal) => {
     return customInstance<Thema[]>({
         url: `/v0.1/themas/${lineageId}`,
         method: 'get',
@@ -5598,24 +4939,23 @@ export const readThemaLineageV01ThemasLineageIdGet = (
     })
 }
 
-export const getReadThemaLineageV01ThemasLineageIdGetQueryKey = (
-    lineageId: number
-) => [`/v0.1/themas/${lineageId}`]
+export const getReadThemaLineageQueryKey = (lineageId: number) => [
+    `/v0.1/themas/${lineageId}`,
+]
 
-export type ReadThemaLineageV01ThemasLineageIdGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof readThemaLineageV01ThemasLineageIdGet>>
+export type ReadThemaLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readThemaLineage>>
 >
-export type ReadThemaLineageV01ThemasLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadThemaLineageQueryError = HTTPValidationError
 
-export const useReadThemaLineageV01ThemasLineageIdGet = <
-    TData = Awaited<ReturnType<typeof readThemaLineageV01ThemasLineageIdGet>>,
+export const useReadThemaLineage = <
+    TData = Awaited<ReturnType<typeof readThemaLineage>>,
     TError = HTTPValidationError
 >(
     lineageId: number,
     options?: {
         query?: UseQueryOptions<
-            Awaited<ReturnType<typeof readThemaLineageV01ThemasLineageIdGet>>,
+            Awaited<ReturnType<typeof readThemaLineage>>,
             TError,
             TData
         >
@@ -5624,15 +4964,14 @@ export const useReadThemaLineageV01ThemasLineageIdGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadThemaLineageV01ThemasLineageIdGetQueryKey(lineageId)
+        queryOptions?.queryKey ?? getReadThemaLineageQueryKey(lineageId)
 
     const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readThemaLineageV01ThemasLineageIdGet>>
-    > = ({ signal }) => readThemaLineageV01ThemasLineageIdGet(lineageId, signal)
+        Awaited<ReturnType<typeof readThemaLineage>>
+    > = ({ signal }) => readThemaLineage(lineageId, signal)
 
     const query = useQuery<
-        Awaited<ReturnType<typeof readThemaLineageV01ThemasLineageIdGet>>,
+        Awaited<ReturnType<typeof readThemaLineage>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -5649,10 +4988,7 @@ export const useReadThemaLineageV01ThemasLineageIdGet = <
  * Adds a new themas to a lineage
  * @summary Update Thema
  */
-export const updateThemaV01ThemasLineageIdPatch = (
-    lineageId: number,
-    themaUpdate: ThemaUpdate
-) => {
+export const updateThema = (lineageId: number, themaUpdate: ThemaUpdate) => {
     return customInstance<Thema>({
         url: `/v0.1/themas/${lineageId}`,
         method: 'patch',
@@ -5661,19 +4997,18 @@ export const updateThemaV01ThemasLineageIdPatch = (
     })
 }
 
-export type UpdateThemaV01ThemasLineageIdPatchMutationResult = NonNullable<
-    Awaited<ReturnType<typeof updateThemaV01ThemasLineageIdPatch>>
+export type UpdateThemaMutationResult = NonNullable<
+    Awaited<ReturnType<typeof updateThema>>
 >
-export type UpdateThemaV01ThemasLineageIdPatchMutationBody = ThemaUpdate
-export type UpdateThemaV01ThemasLineageIdPatchMutationError =
-    HTTPValidationError
+export type UpdateThemaMutationBody = ThemaUpdate
+export type UpdateThemaMutationError = HTTPValidationError
 
-export const useUpdateThemaV01ThemasLineageIdPatch = <
+export const useUpdateThema = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof updateThemaV01ThemasLineageIdPatch>>,
+        Awaited<ReturnType<typeof updateThema>>,
         TError,
         { lineageId: number; data: ThemaUpdate },
         TContext
@@ -5682,16 +5017,16 @@ export const useUpdateThemaV01ThemasLineageIdPatch = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof updateThemaV01ThemasLineageIdPatch>>,
+        Awaited<ReturnType<typeof updateThema>>,
         { lineageId: number; data: ThemaUpdate }
     > = props => {
         const { lineageId, data } = props ?? {}
 
-        return updateThemaV01ThemasLineageIdPatch(lineageId, data)
+        return updateThema(lineageId, data)
     }
 
     return useMutation<
-        Awaited<ReturnType<typeof updateThemaV01ThemasLineageIdPatch>>,
+        Awaited<ReturnType<typeof updateThema>>,
         TError,
         { lineageId: number; data: ThemaUpdate },
         TContext
@@ -5702,7 +5037,7 @@ export const useUpdateThemaV01ThemasLineageIdPatch = <
  * Shows the changes between two versions of themas.
  * @summary Changes Themas
  */
-export const changesThemasV01ChangesThemasOldUuidNewUuidGet = (
+export const changesThemas = (
     oldUuid: string,
     newUuid: string,
     signal?: AbortSignal
@@ -5714,35 +5049,24 @@ export const changesThemasV01ChangesThemasOldUuidNewUuidGet = (
     })
 }
 
-export const getChangesThemasV01ChangesThemasOldUuidNewUuidGetQueryKey = (
-    oldUuid: string,
-    newUuid: string
-) => [`/v0.1/changes/themas/${oldUuid}/${newUuid}`]
+export const getChangesThemasQueryKey = (oldUuid: string, newUuid: string) => [
+    `/v0.1/changes/themas/${oldUuid}/${newUuid}`,
+]
 
-export type ChangesThemasV01ChangesThemasOldUuidNewUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<typeof changesThemasV01ChangesThemasOldUuidNewUuidGet>
-        >
-    >
-export type ChangesThemasV01ChangesThemasOldUuidNewUuidGetQueryError =
-    HTTPValidationError
+export type ChangesThemasQueryResult = NonNullable<
+    Awaited<ReturnType<typeof changesThemas>>
+>
+export type ChangesThemasQueryError = HTTPValidationError
 
-export const useChangesThemasV01ChangesThemasOldUuidNewUuidGet = <
-    TData = Awaited<
-        ReturnType<typeof changesThemasV01ChangesThemasOldUuidNewUuidGet>
-    >,
+export const useChangesThemas = <
+    TData = Awaited<ReturnType<typeof changesThemas>>,
     TError = HTTPValidationError
 >(
     oldUuid: string,
     newUuid: string,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof changesThemasV01ChangesThemasOldUuidNewUuidGet
-                >
-            >,
+            Awaited<ReturnType<typeof changesThemas>>,
             TError,
             TData
         >
@@ -5751,23 +5075,14 @@ export const useChangesThemasV01ChangesThemasOldUuidNewUuidGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getChangesThemasV01ChangesThemasOldUuidNewUuidGetQueryKey(
-            oldUuid,
-            newUuid
-        )
+        queryOptions?.queryKey ?? getChangesThemasQueryKey(oldUuid, newUuid)
 
-    const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<typeof changesThemasV01ChangesThemasOldUuidNewUuidGet>
-        >
-    > = ({ signal }) =>
-        changesThemasV01ChangesThemasOldUuidNewUuidGet(oldUuid, newUuid, signal)
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof changesThemas>>> = ({
+        signal,
+    }) => changesThemas(oldUuid, newUuid, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<typeof changesThemasV01ChangesThemasOldUuidNewUuidGet>
-        >,
+        Awaited<ReturnType<typeof changesThemas>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -5784,8 +5099,8 @@ export const useChangesThemasV01ChangesThemasOldUuidNewUuidGet = <
  * Gets all the themas lineages and shows the latests valid object for each.
  * @summary Read Valid Themas
  */
-export const readValidThemasV01ValidThemasGet = (
-    params?: ReadValidThemasV01ValidThemasGetParams,
+export const readValidThemas = (
+    params?: ReadValidThemasParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Thema[]>({
@@ -5796,23 +5111,24 @@ export const readValidThemasV01ValidThemasGet = (
     })
 }
 
-export const getReadValidThemasV01ValidThemasGetQueryKey = (
-    params?: ReadValidThemasV01ValidThemasGetParams
-) => [`/v0.1/valid/themas`, ...(params ? [params] : [])]
+export const getReadValidThemasQueryKey = (params?: ReadValidThemasParams) => [
+    `/v0.1/valid/themas`,
+    ...(params ? [params] : []),
+]
 
-export type ReadValidThemasV01ValidThemasGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof readValidThemasV01ValidThemasGet>>
+export type ReadValidThemasQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidThemas>>
 >
-export type ReadValidThemasV01ValidThemasGetQueryError = HTTPValidationError
+export type ReadValidThemasQueryError = HTTPValidationError
 
-export const useReadValidThemasV01ValidThemasGet = <
-    TData = Awaited<ReturnType<typeof readValidThemasV01ValidThemasGet>>,
+export const useReadValidThemas = <
+    TData = Awaited<ReturnType<typeof readValidThemas>>,
     TError = HTTPValidationError
 >(
-    params?: ReadValidThemasV01ValidThemasGetParams,
+    params?: ReadValidThemasParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<ReturnType<typeof readValidThemasV01ValidThemasGet>>,
+            Awaited<ReturnType<typeof readValidThemas>>,
             TError,
             TData
         >
@@ -5821,15 +5137,14 @@ export const useReadValidThemasV01ValidThemasGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadValidThemasV01ValidThemasGetQueryKey(params)
+        queryOptions?.queryKey ?? getReadValidThemasQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readValidThemasV01ValidThemasGet>>
-    > = ({ signal }) => readValidThemasV01ValidThemasGet(params, signal)
+        Awaited<ReturnType<typeof readValidThemas>>
+    > = ({ signal }) => readValidThemas(params, signal)
 
     const query = useQuery<
-        Awaited<ReturnType<typeof readValidThemasV01ValidThemasGet>>,
+        Awaited<ReturnType<typeof readValidThemas>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -5845,9 +5160,9 @@ export const useReadValidThemasV01ValidThemasGet = <
  * Gets all the themas in this lineage that are valid
  * @summary Read Valid Thema Lineage
  */
-export const readValidThemaLineageV01ValidThemasLineageIdGet = (
+export const readValidThemaLineage = (
     lineageId: number,
-    params?: ReadValidThemaLineageV01ValidThemasLineageIdGetParams,
+    params?: ReadValidThemaLineageParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Thema[]>({
@@ -5858,35 +5173,25 @@ export const readValidThemaLineageV01ValidThemasLineageIdGet = (
     })
 }
 
-export const getReadValidThemaLineageV01ValidThemasLineageIdGetQueryKey = (
+export const getReadValidThemaLineageQueryKey = (
     lineageId: number,
-    params?: ReadValidThemaLineageV01ValidThemasLineageIdGetParams
+    params?: ReadValidThemaLineageParams
 ) => [`/v0.1/valid/themas/${lineageId}`, ...(params ? [params] : [])]
 
-export type ReadValidThemaLineageV01ValidThemasLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<typeof readValidThemaLineageV01ValidThemasLineageIdGet>
-        >
-    >
-export type ReadValidThemaLineageV01ValidThemasLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadValidThemaLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidThemaLineage>>
+>
+export type ReadValidThemaLineageQueryError = HTTPValidationError
 
-export const useReadValidThemaLineageV01ValidThemasLineageIdGet = <
-    TData = Awaited<
-        ReturnType<typeof readValidThemaLineageV01ValidThemasLineageIdGet>
-    >,
+export const useReadValidThemaLineage = <
+    TData = Awaited<ReturnType<typeof readValidThemaLineage>>,
     TError = HTTPValidationError
 >(
     lineageId: number,
-    params?: ReadValidThemaLineageV01ValidThemasLineageIdGetParams,
+    params?: ReadValidThemaLineageParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readValidThemaLineageV01ValidThemasLineageIdGet
-                >
-            >,
+            Awaited<ReturnType<typeof readValidThemaLineage>>,
             TError,
             TData
         >
@@ -5896,26 +5201,14 @@ export const useReadValidThemaLineageV01ValidThemasLineageIdGet = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getReadValidThemaLineageV01ValidThemasLineageIdGetQueryKey(
-            lineageId,
-            params
-        )
+        getReadValidThemaLineageQueryKey(lineageId, params)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<typeof readValidThemaLineageV01ValidThemasLineageIdGet>
-        >
-    > = ({ signal }) =>
-        readValidThemaLineageV01ValidThemasLineageIdGet(
-            lineageId,
-            params,
-            signal
-        )
+        Awaited<ReturnType<typeof readValidThemaLineage>>
+    > = ({ signal }) => readValidThemaLineage(lineageId, params, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<typeof readValidThemaLineageV01ValidThemasLineageIdGet>
-        >,
+        Awaited<ReturnType<typeof readValidThemaLineage>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -5933,10 +5226,7 @@ export const useReadValidThemaLineageV01ValidThemasLineageIdGet = <
 available version.
  * @summary Read Latest Version Lineage
  */
-export const readLatestVersionLineageV01VersionThemasObjectUuidGet = (
-    objectUuid: string,
-    signal?: AbortSignal
-) => {
+export const readThemaVersion = (objectUuid: string, signal?: AbortSignal) => {
     return customInstance<Thema>({
         url: `/v0.1/version/themas/${objectUuid}`,
         method: 'get',
@@ -5944,34 +5234,23 @@ export const readLatestVersionLineageV01VersionThemasObjectUuidGet = (
     })
 }
 
-export const getReadLatestVersionLineageV01VersionThemasObjectUuidGetQueryKey =
-    (objectUuid: string) => [`/v0.1/version/themas/${objectUuid}`]
+export const getReadThemaVersionQueryKey = (objectUuid: string) => [
+    `/v0.1/version/themas/${objectUuid}`,
+]
 
-export type ReadLatestVersionLineageV01VersionThemasObjectUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionThemasObjectUuidGet
-            >
-        >
-    >
-export type ReadLatestVersionLineageV01VersionThemasObjectUuidGetQueryError =
-    HTTPValidationError
+export type ReadThemaVersionQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readThemaVersion>>
+>
+export type ReadThemaVersionQueryError = HTTPValidationError
 
-export const useReadLatestVersionLineageV01VersionThemasObjectUuidGet = <
-    TData = Awaited<
-        ReturnType<typeof readLatestVersionLineageV01VersionThemasObjectUuidGet>
-    >,
+export const useReadThemaVersion = <
+    TData = Awaited<ReturnType<typeof readThemaVersion>>,
     TError = HTTPValidationError
 >(
     objectUuid: string,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readLatestVersionLineageV01VersionThemasObjectUuidGet
-                >
-            >,
+            Awaited<ReturnType<typeof readThemaVersion>>,
             TError,
             TData
         >
@@ -5980,29 +5259,14 @@ export const useReadLatestVersionLineageV01VersionThemasObjectUuidGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadLatestVersionLineageV01VersionThemasObjectUuidGetQueryKey(
-            objectUuid
-        )
+        queryOptions?.queryKey ?? getReadThemaVersionQueryKey(objectUuid)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionThemasObjectUuidGet
-            >
-        >
-    > = ({ signal }) =>
-        readLatestVersionLineageV01VersionThemasObjectUuidGet(
-            objectUuid,
-            signal
-        )
+        Awaited<ReturnType<typeof readThemaVersion>>
+    > = ({ signal }) => readThemaVersion(objectUuid, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionThemasObjectUuidGet
-            >
-        >,
+        Awaited<ReturnType<typeof readThemaVersion>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -6019,8 +5283,8 @@ export const useReadLatestVersionLineageV01VersionThemasObjectUuidGet = <
  * Gets all the verordening lineages and shows the latests object for each
  * @summary Read Verordening
  */
-export const readVerordeningV01VerordeningenGet = (
-    params?: ReadVerordeningV01VerordeningenGetParams,
+export const readVerordening = (
+    params?: ReadVerordeningParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Verordening[]>({
@@ -6031,23 +5295,24 @@ export const readVerordeningV01VerordeningenGet = (
     })
 }
 
-export const getReadVerordeningV01VerordeningenGetQueryKey = (
-    params?: ReadVerordeningV01VerordeningenGetParams
-) => [`/v0.1/verordeningen`, ...(params ? [params] : [])]
+export const getReadVerordeningQueryKey = (params?: ReadVerordeningParams) => [
+    `/v0.1/verordeningen`,
+    ...(params ? [params] : []),
+]
 
-export type ReadVerordeningV01VerordeningenGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof readVerordeningV01VerordeningenGet>>
+export type ReadVerordeningQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readVerordening>>
 >
-export type ReadVerordeningV01VerordeningenGetQueryError = HTTPValidationError
+export type ReadVerordeningQueryError = HTTPValidationError
 
-export const useReadVerordeningV01VerordeningenGet = <
-    TData = Awaited<ReturnType<typeof readVerordeningV01VerordeningenGet>>,
+export const useReadVerordening = <
+    TData = Awaited<ReturnType<typeof readVerordening>>,
     TError = HTTPValidationError
 >(
-    params?: ReadVerordeningV01VerordeningenGetParams,
+    params?: ReadVerordeningParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<ReturnType<typeof readVerordeningV01VerordeningenGet>>,
+            Awaited<ReturnType<typeof readVerordening>>,
             TError,
             TData
         >
@@ -6056,15 +5321,14 @@ export const useReadVerordeningV01VerordeningenGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadVerordeningV01VerordeningenGetQueryKey(params)
+        queryOptions?.queryKey ?? getReadVerordeningQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readVerordeningV01VerordeningenGet>>
-    > = ({ signal }) => readVerordeningV01VerordeningenGet(params, signal)
+        Awaited<ReturnType<typeof readVerordening>>
+    > = ({ signal }) => readVerordening(params, signal)
 
     const query = useQuery<
-        Awaited<ReturnType<typeof readVerordeningV01VerordeningenGet>>,
+        Awaited<ReturnType<typeof readVerordening>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -6080,9 +5344,7 @@ export const useReadVerordeningV01VerordeningenGet = <
  * Creates a new verordening lineage
  * @summary Create Verordening
  */
-export const createVerordeningV01VerordeningenPost = (
-    verordeningCreate: VerordeningCreate
-) => {
+export const createVerordening = (verordeningCreate: VerordeningCreate) => {
     return customInstance<Verordening>({
         url: `/v0.1/verordeningen`,
         method: 'post',
@@ -6091,20 +5353,18 @@ export const createVerordeningV01VerordeningenPost = (
     })
 }
 
-export type CreateVerordeningV01VerordeningenPostMutationResult = NonNullable<
-    Awaited<ReturnType<typeof createVerordeningV01VerordeningenPost>>
+export type CreateVerordeningMutationResult = NonNullable<
+    Awaited<ReturnType<typeof createVerordening>>
 >
-export type CreateVerordeningV01VerordeningenPostMutationBody =
-    VerordeningCreate
-export type CreateVerordeningV01VerordeningenPostMutationError =
-    HTTPValidationError
+export type CreateVerordeningMutationBody = VerordeningCreate
+export type CreateVerordeningMutationError = HTTPValidationError
 
-export const useCreateVerordeningV01VerordeningenPost = <
+export const useCreateVerordening = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof createVerordeningV01VerordeningenPost>>,
+        Awaited<ReturnType<typeof createVerordening>>,
         TError,
         { data: VerordeningCreate },
         TContext
@@ -6113,16 +5373,16 @@ export const useCreateVerordeningV01VerordeningenPost = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof createVerordeningV01VerordeningenPost>>,
+        Awaited<ReturnType<typeof createVerordening>>,
         { data: VerordeningCreate }
     > = props => {
         const { data } = props ?? {}
 
-        return createVerordeningV01VerordeningenPost(data)
+        return createVerordening(data)
     }
 
     return useMutation<
-        Awaited<ReturnType<typeof createVerordeningV01VerordeningenPost>>,
+        Awaited<ReturnType<typeof createVerordening>>,
         TError,
         { data: VerordeningCreate },
         TContext
@@ -6133,7 +5393,7 @@ export const useCreateVerordeningV01VerordeningenPost = <
  * Gets all the verordening versions by lineage
  * @summary Read Verordening Lineage
  */
-export const readVerordeningLineageV01VerordeningenLineageIdGet = (
+export const readVerordeningLineage = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
@@ -6144,35 +5404,23 @@ export const readVerordeningLineageV01VerordeningenLineageIdGet = (
     })
 }
 
-export const getReadVerordeningLineageV01VerordeningenLineageIdGetQueryKey = (
-    lineageId: number
-) => [`/v0.1/verordeningen/${lineageId}`]
+export const getReadVerordeningLineageQueryKey = (lineageId: number) => [
+    `/v0.1/verordeningen/${lineageId}`,
+]
 
-export type ReadVerordeningLineageV01VerordeningenLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readVerordeningLineageV01VerordeningenLineageIdGet
-            >
-        >
-    >
-export type ReadVerordeningLineageV01VerordeningenLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadVerordeningLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readVerordeningLineage>>
+>
+export type ReadVerordeningLineageQueryError = HTTPValidationError
 
-export const useReadVerordeningLineageV01VerordeningenLineageIdGet = <
-    TData = Awaited<
-        ReturnType<typeof readVerordeningLineageV01VerordeningenLineageIdGet>
-    >,
+export const useReadVerordeningLineage = <
+    TData = Awaited<ReturnType<typeof readVerordeningLineage>>,
     TError = HTTPValidationError
 >(
     lineageId: number,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readVerordeningLineageV01VerordeningenLineageIdGet
-                >
-            >,
+            Awaited<ReturnType<typeof readVerordeningLineage>>,
             TError,
             TData
         >
@@ -6181,24 +5429,14 @@ export const useReadVerordeningLineageV01VerordeningenLineageIdGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadVerordeningLineageV01VerordeningenLineageIdGetQueryKey(lineageId)
+        queryOptions?.queryKey ?? getReadVerordeningLineageQueryKey(lineageId)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readVerordeningLineageV01VerordeningenLineageIdGet
-            >
-        >
-    > = ({ signal }) =>
-        readVerordeningLineageV01VerordeningenLineageIdGet(lineageId, signal)
+        Awaited<ReturnType<typeof readVerordeningLineage>>
+    > = ({ signal }) => readVerordeningLineage(lineageId, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readVerordeningLineageV01VerordeningenLineageIdGet
-            >
-        >,
+        Awaited<ReturnType<typeof readVerordeningLineage>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -6215,7 +5453,7 @@ export const useReadVerordeningLineageV01VerordeningenLineageIdGet = <
  * Adds a new verordening to a lineage
  * @summary Update Verordening
  */
-export const updateVerordeningV01VerordeningenLineageIdPatch = (
+export const updateVerordening = (
     lineageId: number,
     verordeningUpdate: VerordeningUpdate
 ) => {
@@ -6227,25 +5465,18 @@ export const updateVerordeningV01VerordeningenLineageIdPatch = (
     })
 }
 
-export type UpdateVerordeningV01VerordeningenLineageIdPatchMutationResult =
-    NonNullable<
-        Awaited<
-            ReturnType<typeof updateVerordeningV01VerordeningenLineageIdPatch>
-        >
-    >
-export type UpdateVerordeningV01VerordeningenLineageIdPatchMutationBody =
-    VerordeningUpdate
-export type UpdateVerordeningV01VerordeningenLineageIdPatchMutationError =
-    HTTPValidationError
+export type UpdateVerordeningMutationResult = NonNullable<
+    Awaited<ReturnType<typeof updateVerordening>>
+>
+export type UpdateVerordeningMutationBody = VerordeningUpdate
+export type UpdateVerordeningMutationError = HTTPValidationError
 
-export const useUpdateVerordeningV01VerordeningenLineageIdPatch = <
+export const useUpdateVerordening = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<
-            ReturnType<typeof updateVerordeningV01VerordeningenLineageIdPatch>
-        >,
+        Awaited<ReturnType<typeof updateVerordening>>,
         TError,
         { lineageId: number; data: VerordeningUpdate },
         TContext
@@ -6254,20 +5485,16 @@ export const useUpdateVerordeningV01VerordeningenLineageIdPatch = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<
-            ReturnType<typeof updateVerordeningV01VerordeningenLineageIdPatch>
-        >,
+        Awaited<ReturnType<typeof updateVerordening>>,
         { lineageId: number; data: VerordeningUpdate }
     > = props => {
         const { lineageId, data } = props ?? {}
 
-        return updateVerordeningV01VerordeningenLineageIdPatch(lineageId, data)
+        return updateVerordening(lineageId, data)
     }
 
     return useMutation<
-        Awaited<
-            ReturnType<typeof updateVerordeningV01VerordeningenLineageIdPatch>
-        >,
+        Awaited<ReturnType<typeof updateVerordening>>,
         TError,
         { lineageId: number; data: VerordeningUpdate },
         TContext
@@ -6278,7 +5505,7 @@ export const useUpdateVerordeningV01VerordeningenLineageIdPatch = <
  * Shows the changes between two versions of verordening.
  * @summary Changes Verordening
  */
-export const changesVerordeningV01ChangesVerordeningenOldUuidNewUuidGet = (
+export const changesVerordening = (
     oldUuid: string,
     newUuid: string,
     signal?: AbortSignal
@@ -6290,39 +5517,25 @@ export const changesVerordeningV01ChangesVerordeningenOldUuidNewUuidGet = (
     })
 }
 
-export const getChangesVerordeningV01ChangesVerordeningenOldUuidNewUuidGetQueryKey =
-    (oldUuid: string, newUuid: string) => [
-        `/v0.1/changes/verordeningen/${oldUuid}/${newUuid}`,
-    ]
+export const getChangesVerordeningQueryKey = (
+    oldUuid: string,
+    newUuid: string
+) => [`/v0.1/changes/verordeningen/${oldUuid}/${newUuid}`]
 
-export type ChangesVerordeningV01ChangesVerordeningenOldUuidNewUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof changesVerordeningV01ChangesVerordeningenOldUuidNewUuidGet
-            >
-        >
-    >
-export type ChangesVerordeningV01ChangesVerordeningenOldUuidNewUuidGetQueryError =
-    HTTPValidationError
+export type ChangesVerordeningQueryResult = NonNullable<
+    Awaited<ReturnType<typeof changesVerordening>>
+>
+export type ChangesVerordeningQueryError = HTTPValidationError
 
-export const useChangesVerordeningV01ChangesVerordeningenOldUuidNewUuidGet = <
-    TData = Awaited<
-        ReturnType<
-            typeof changesVerordeningV01ChangesVerordeningenOldUuidNewUuidGet
-        >
-    >,
+export const useChangesVerordening = <
+    TData = Awaited<ReturnType<typeof changesVerordening>>,
     TError = HTTPValidationError
 >(
     oldUuid: string,
     newUuid: string,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof changesVerordeningV01ChangesVerordeningenOldUuidNewUuidGet
-                >
-            >,
+            Awaited<ReturnType<typeof changesVerordening>>,
             TError,
             TData
         >
@@ -6332,30 +5545,14 @@ export const useChangesVerordeningV01ChangesVerordeningenOldUuidNewUuidGet = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getChangesVerordeningV01ChangesVerordeningenOldUuidNewUuidGetQueryKey(
-            oldUuid,
-            newUuid
-        )
+        getChangesVerordeningQueryKey(oldUuid, newUuid)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof changesVerordeningV01ChangesVerordeningenOldUuidNewUuidGet
-            >
-        >
-    > = ({ signal }) =>
-        changesVerordeningV01ChangesVerordeningenOldUuidNewUuidGet(
-            oldUuid,
-            newUuid,
-            signal
-        )
+        Awaited<ReturnType<typeof changesVerordening>>
+    > = ({ signal }) => changesVerordening(oldUuid, newUuid, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof changesVerordeningV01ChangesVerordeningenOldUuidNewUuidGet
-            >
-        >,
+        Awaited<ReturnType<typeof changesVerordening>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -6372,8 +5569,8 @@ export const useChangesVerordeningV01ChangesVerordeningenOldUuidNewUuidGet = <
  * Gets all the verordening lineages and shows the latests valid object for each.
  * @summary Read Valid Verordening
  */
-export const readValidVerordeningV01ValidVerordeningenGet = (
-    params?: ReadValidVerordeningV01ValidVerordeningenGetParams,
+export const readValidVerordening = (
+    params?: ReadValidVerordeningParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Verordening[]>({
@@ -6384,29 +5581,23 @@ export const readValidVerordeningV01ValidVerordeningenGet = (
     })
 }
 
-export const getReadValidVerordeningV01ValidVerordeningenGetQueryKey = (
-    params?: ReadValidVerordeningV01ValidVerordeningenGetParams
+export const getReadValidVerordeningQueryKey = (
+    params?: ReadValidVerordeningParams
 ) => [`/v0.1/valid/verordeningen`, ...(params ? [params] : [])]
 
-export type ReadValidVerordeningV01ValidVerordeningenGetQueryResult =
-    NonNullable<
-        Awaited<ReturnType<typeof readValidVerordeningV01ValidVerordeningenGet>>
-    >
-export type ReadValidVerordeningV01ValidVerordeningenGetQueryError =
-    HTTPValidationError
+export type ReadValidVerordeningQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidVerordening>>
+>
+export type ReadValidVerordeningQueryError = HTTPValidationError
 
-export const useReadValidVerordeningV01ValidVerordeningenGet = <
-    TData = Awaited<
-        ReturnType<typeof readValidVerordeningV01ValidVerordeningenGet>
-    >,
+export const useReadValidVerordening = <
+    TData = Awaited<ReturnType<typeof readValidVerordening>>,
     TError = HTTPValidationError
 >(
-    params?: ReadValidVerordeningV01ValidVerordeningenGetParams,
+    params?: ReadValidVerordeningParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<typeof readValidVerordeningV01ValidVerordeningenGet>
-            >,
+            Awaited<ReturnType<typeof readValidVerordening>>,
             TError,
             TData
         >
@@ -6415,18 +5606,14 @@ export const useReadValidVerordeningV01ValidVerordeningenGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadValidVerordeningV01ValidVerordeningenGetQueryKey(params)
+        queryOptions?.queryKey ?? getReadValidVerordeningQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readValidVerordeningV01ValidVerordeningenGet>>
-    > = ({ signal }) =>
-        readValidVerordeningV01ValidVerordeningenGet(params, signal)
+        Awaited<ReturnType<typeof readValidVerordening>>
+    > = ({ signal }) => readValidVerordening(params, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<typeof readValidVerordeningV01ValidVerordeningenGet>
-        >,
+        Awaited<ReturnType<typeof readValidVerordening>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -6442,9 +5629,9 @@ export const useReadValidVerordeningV01ValidVerordeningenGet = <
  * Gets all the verordeningen in this lineage that are valid
  * @summary Read Valid Verordening Lineage
  */
-export const readValidVerordeningLineageV01ValidVerordeningenLineageIdGet = (
+export const readValidVerordeningLineage = (
     lineageId: number,
-    params?: ReadValidVerordeningLineageV01ValidVerordeningenLineageIdGetParams,
+    params?: ReadValidVerordeningLineageParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Verordening[]>({
@@ -6455,40 +5642,25 @@ export const readValidVerordeningLineageV01ValidVerordeningenLineageIdGet = (
     })
 }
 
-export const getReadValidVerordeningLineageV01ValidVerordeningenLineageIdGetQueryKey =
-    (
-        lineageId: number,
-        params?: ReadValidVerordeningLineageV01ValidVerordeningenLineageIdGetParams
-    ) => [`/v0.1/valid/verordeningen/${lineageId}`, ...(params ? [params] : [])]
+export const getReadValidVerordeningLineageQueryKey = (
+    lineageId: number,
+    params?: ReadValidVerordeningLineageParams
+) => [`/v0.1/valid/verordeningen/${lineageId}`, ...(params ? [params] : [])]
 
-export type ReadValidVerordeningLineageV01ValidVerordeningenLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readValidVerordeningLineageV01ValidVerordeningenLineageIdGet
-            >
-        >
-    >
-export type ReadValidVerordeningLineageV01ValidVerordeningenLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadValidVerordeningLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidVerordeningLineage>>
+>
+export type ReadValidVerordeningLineageQueryError = HTTPValidationError
 
-export const useReadValidVerordeningLineageV01ValidVerordeningenLineageIdGet = <
-    TData = Awaited<
-        ReturnType<
-            typeof readValidVerordeningLineageV01ValidVerordeningenLineageIdGet
-        >
-    >,
+export const useReadValidVerordeningLineage = <
+    TData = Awaited<ReturnType<typeof readValidVerordeningLineage>>,
     TError = HTTPValidationError
 >(
     lineageId: number,
-    params?: ReadValidVerordeningLineageV01ValidVerordeningenLineageIdGetParams,
+    params?: ReadValidVerordeningLineageParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readValidVerordeningLineageV01ValidVerordeningenLineageIdGet
-                >
-            >,
+            Awaited<ReturnType<typeof readValidVerordeningLineage>>,
             TError,
             TData
         >
@@ -6498,30 +5670,14 @@ export const useReadValidVerordeningLineageV01ValidVerordeningenLineageIdGet = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getReadValidVerordeningLineageV01ValidVerordeningenLineageIdGetQueryKey(
-            lineageId,
-            params
-        )
+        getReadValidVerordeningLineageQueryKey(lineageId, params)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readValidVerordeningLineageV01ValidVerordeningenLineageIdGet
-            >
-        >
-    > = ({ signal }) =>
-        readValidVerordeningLineageV01ValidVerordeningenLineageIdGet(
-            lineageId,
-            params,
-            signal
-        )
+        Awaited<ReturnType<typeof readValidVerordeningLineage>>
+    > = ({ signal }) => readValidVerordeningLineage(lineageId, params, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readValidVerordeningLineageV01ValidVerordeningenLineageIdGet
-            >
-        >,
+        Awaited<ReturnType<typeof readValidVerordeningLineage>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -6539,7 +5695,7 @@ export const useReadValidVerordeningLineageV01ValidVerordeningenLineageIdGet = <
 available version.
  * @summary Read Latest Version Lineage
  */
-export const readLatestVersionLineageV01VersionVerordeningenObjectUuidGet = (
+export const readVerordeningVersion = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
@@ -6550,36 +5706,23 @@ export const readLatestVersionLineageV01VersionVerordeningenObjectUuidGet = (
     })
 }
 
-export const getReadLatestVersionLineageV01VersionVerordeningenObjectUuidGetQueryKey =
-    (objectUuid: string) => [`/v0.1/version/verordeningen/${objectUuid}`]
+export const getReadVerordeningVersionQueryKey = (objectUuid: string) => [
+    `/v0.1/version/verordeningen/${objectUuid}`,
+]
 
-export type ReadLatestVersionLineageV01VersionVerordeningenObjectUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionVerordeningenObjectUuidGet
-            >
-        >
-    >
-export type ReadLatestVersionLineageV01VersionVerordeningenObjectUuidGetQueryError =
-    HTTPValidationError
+export type ReadVerordeningVersionQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readVerordeningVersion>>
+>
+export type ReadVerordeningVersionQueryError = HTTPValidationError
 
-export const useReadLatestVersionLineageV01VersionVerordeningenObjectUuidGet = <
-    TData = Awaited<
-        ReturnType<
-            typeof readLatestVersionLineageV01VersionVerordeningenObjectUuidGet
-        >
-    >,
+export const useReadVerordeningVersion = <
+    TData = Awaited<ReturnType<typeof readVerordeningVersion>>,
     TError = HTTPValidationError
 >(
     objectUuid: string,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readLatestVersionLineageV01VersionVerordeningenObjectUuidGet
-                >
-            >,
+            Awaited<ReturnType<typeof readVerordeningVersion>>,
             TError,
             TData
         >
@@ -6588,29 +5731,14 @@ export const useReadLatestVersionLineageV01VersionVerordeningenObjectUuidGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadLatestVersionLineageV01VersionVerordeningenObjectUuidGetQueryKey(
-            objectUuid
-        )
+        queryOptions?.queryKey ?? getReadVerordeningVersionQueryKey(objectUuid)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionVerordeningenObjectUuidGet
-            >
-        >
-    > = ({ signal }) =>
-        readLatestVersionLineageV01VersionVerordeningenObjectUuidGet(
-            objectUuid,
-            signal
-        )
+        Awaited<ReturnType<typeof readVerordeningVersion>>
+    > = ({ signal }) => readVerordeningVersion(objectUuid, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionVerordeningenObjectUuidGet
-            >
-        >,
+        Awaited<ReturnType<typeof readVerordeningVersion>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -6627,8 +5755,8 @@ export const useReadLatestVersionLineageV01VersionVerordeningenObjectUuidGet = <
  * Gets all the maatregelen lineages and shows the latests object for each
  * @summary Read Maatregelen
  */
-export const readMaatregelenV01MaatregelenGet = (
-    params?: ReadMaatregelenV01MaatregelenGetParams,
+export const readMaatregelen = (
+    params?: ReadMaatregelenParams,
     signal?: AbortSignal
 ) => {
     return customInstance<MaatregelListable[]>({
@@ -6639,23 +5767,24 @@ export const readMaatregelenV01MaatregelenGet = (
     })
 }
 
-export const getReadMaatregelenV01MaatregelenGetQueryKey = (
-    params?: ReadMaatregelenV01MaatregelenGetParams
-) => [`/v0.1/maatregelen`, ...(params ? [params] : [])]
+export const getReadMaatregelenQueryKey = (params?: ReadMaatregelenParams) => [
+    `/v0.1/maatregelen`,
+    ...(params ? [params] : []),
+]
 
-export type ReadMaatregelenV01MaatregelenGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof readMaatregelenV01MaatregelenGet>>
+export type ReadMaatregelenQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readMaatregelen>>
 >
-export type ReadMaatregelenV01MaatregelenGetQueryError = HTTPValidationError
+export type ReadMaatregelenQueryError = HTTPValidationError
 
-export const useReadMaatregelenV01MaatregelenGet = <
-    TData = Awaited<ReturnType<typeof readMaatregelenV01MaatregelenGet>>,
+export const useReadMaatregelen = <
+    TData = Awaited<ReturnType<typeof readMaatregelen>>,
     TError = HTTPValidationError
 >(
-    params?: ReadMaatregelenV01MaatregelenGetParams,
+    params?: ReadMaatregelenParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<ReturnType<typeof readMaatregelenV01MaatregelenGet>>,
+            Awaited<ReturnType<typeof readMaatregelen>>,
             TError,
             TData
         >
@@ -6664,15 +5793,14 @@ export const useReadMaatregelenV01MaatregelenGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadMaatregelenV01MaatregelenGetQueryKey(params)
+        queryOptions?.queryKey ?? getReadMaatregelenQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readMaatregelenV01MaatregelenGet>>
-    > = ({ signal }) => readMaatregelenV01MaatregelenGet(params, signal)
+        Awaited<ReturnType<typeof readMaatregelen>>
+    > = ({ signal }) => readMaatregelen(params, signal)
 
     const query = useQuery<
-        Awaited<ReturnType<typeof readMaatregelenV01MaatregelenGet>>,
+        Awaited<ReturnType<typeof readMaatregelen>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -6688,9 +5816,7 @@ export const useReadMaatregelenV01MaatregelenGet = <
  * Creates a new maatregelen lineage
  * @summary Create Maatregel
  */
-export const createMaatregelV01MaatregelenPost = (
-    maatregelCreate: MaatregelCreate
-) => {
+export const createMaatregel = (maatregelCreate: MaatregelCreate) => {
     return customInstance<Maatregel>({
         url: `/v0.1/maatregelen`,
         method: 'post',
@@ -6699,18 +5825,18 @@ export const createMaatregelV01MaatregelenPost = (
     })
 }
 
-export type CreateMaatregelV01MaatregelenPostMutationResult = NonNullable<
-    Awaited<ReturnType<typeof createMaatregelV01MaatregelenPost>>
+export type CreateMaatregelMutationResult = NonNullable<
+    Awaited<ReturnType<typeof createMaatregel>>
 >
-export type CreateMaatregelV01MaatregelenPostMutationBody = MaatregelCreate
-export type CreateMaatregelV01MaatregelenPostMutationError = HTTPValidationError
+export type CreateMaatregelMutationBody = MaatregelCreate
+export type CreateMaatregelMutationError = HTTPValidationError
 
-export const useCreateMaatregelV01MaatregelenPost = <
+export const useCreateMaatregel = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof createMaatregelV01MaatregelenPost>>,
+        Awaited<ReturnType<typeof createMaatregel>>,
         TError,
         { data: MaatregelCreate },
         TContext
@@ -6719,16 +5845,16 @@ export const useCreateMaatregelV01MaatregelenPost = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof createMaatregelV01MaatregelenPost>>,
+        Awaited<ReturnType<typeof createMaatregel>>,
         { data: MaatregelCreate }
     > = props => {
         const { data } = props ?? {}
 
-        return createMaatregelV01MaatregelenPost(data)
+        return createMaatregel(data)
     }
 
     return useMutation<
-        Awaited<ReturnType<typeof createMaatregelV01MaatregelenPost>>,
+        Awaited<ReturnType<typeof createMaatregel>>,
         TError,
         { data: MaatregelCreate },
         TContext
@@ -6739,7 +5865,7 @@ export const useCreateMaatregelV01MaatregelenPost = <
  * Gets all the maatregel versions by lineage
  * @summary Read Maatregel Lineage
  */
-export const readMaatregelLineageV01MaatregelenLineageIdGet = (
+export const readMaatregelLineage = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
@@ -6750,33 +5876,23 @@ export const readMaatregelLineageV01MaatregelenLineageIdGet = (
     })
 }
 
-export const getReadMaatregelLineageV01MaatregelenLineageIdGetQueryKey = (
-    lineageId: number
-) => [`/v0.1/maatregelen/${lineageId}`]
+export const getReadMaatregelLineageQueryKey = (lineageId: number) => [
+    `/v0.1/maatregelen/${lineageId}`,
+]
 
-export type ReadMaatregelLineageV01MaatregelenLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<typeof readMaatregelLineageV01MaatregelenLineageIdGet>
-        >
-    >
-export type ReadMaatregelLineageV01MaatregelenLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadMaatregelLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readMaatregelLineage>>
+>
+export type ReadMaatregelLineageQueryError = HTTPValidationError
 
-export const useReadMaatregelLineageV01MaatregelenLineageIdGet = <
-    TData = Awaited<
-        ReturnType<typeof readMaatregelLineageV01MaatregelenLineageIdGet>
-    >,
+export const useReadMaatregelLineage = <
+    TData = Awaited<ReturnType<typeof readMaatregelLineage>>,
     TError = HTTPValidationError
 >(
     lineageId: number,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readMaatregelLineageV01MaatregelenLineageIdGet
-                >
-            >,
+            Awaited<ReturnType<typeof readMaatregelLineage>>,
             TError,
             TData
         >
@@ -6785,20 +5901,14 @@ export const useReadMaatregelLineageV01MaatregelenLineageIdGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadMaatregelLineageV01MaatregelenLineageIdGetQueryKey(lineageId)
+        queryOptions?.queryKey ?? getReadMaatregelLineageQueryKey(lineageId)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<typeof readMaatregelLineageV01MaatregelenLineageIdGet>
-        >
-    > = ({ signal }) =>
-        readMaatregelLineageV01MaatregelenLineageIdGet(lineageId, signal)
+        Awaited<ReturnType<typeof readMaatregelLineage>>
+    > = ({ signal }) => readMaatregelLineage(lineageId, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<typeof readMaatregelLineageV01MaatregelenLineageIdGet>
-        >,
+        Awaited<ReturnType<typeof readMaatregelLineage>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -6815,7 +5925,7 @@ export const useReadMaatregelLineageV01MaatregelenLineageIdGet = <
  * Adds a new maatregelen to a lineage
  * @summary Update Maatregel
  */
-export const updateMaatregelV01MaatregelenLineageIdPatch = (
+export const updateMaatregel = (
     lineageId: number,
     maatregelUpdate: MaatregelUpdate
 ) => {
@@ -6827,21 +5937,18 @@ export const updateMaatregelV01MaatregelenLineageIdPatch = (
     })
 }
 
-export type UpdateMaatregelV01MaatregelenLineageIdPatchMutationResult =
-    NonNullable<
-        Awaited<ReturnType<typeof updateMaatregelV01MaatregelenLineageIdPatch>>
-    >
-export type UpdateMaatregelV01MaatregelenLineageIdPatchMutationBody =
-    MaatregelUpdate
-export type UpdateMaatregelV01MaatregelenLineageIdPatchMutationError =
-    HTTPValidationError
+export type UpdateMaatregelMutationResult = NonNullable<
+    Awaited<ReturnType<typeof updateMaatregel>>
+>
+export type UpdateMaatregelMutationBody = MaatregelUpdate
+export type UpdateMaatregelMutationError = HTTPValidationError
 
-export const useUpdateMaatregelV01MaatregelenLineageIdPatch = <
+export const useUpdateMaatregel = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof updateMaatregelV01MaatregelenLineageIdPatch>>,
+        Awaited<ReturnType<typeof updateMaatregel>>,
         TError,
         { lineageId: number; data: MaatregelUpdate },
         TContext
@@ -6850,16 +5957,16 @@ export const useUpdateMaatregelV01MaatregelenLineageIdPatch = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof updateMaatregelV01MaatregelenLineageIdPatch>>,
+        Awaited<ReturnType<typeof updateMaatregel>>,
         { lineageId: number; data: MaatregelUpdate }
     > = props => {
         const { lineageId, data } = props ?? {}
 
-        return updateMaatregelV01MaatregelenLineageIdPatch(lineageId, data)
+        return updateMaatregel(lineageId, data)
     }
 
     return useMutation<
-        Awaited<ReturnType<typeof updateMaatregelV01MaatregelenLineageIdPatch>>,
+        Awaited<ReturnType<typeof updateMaatregel>>,
         TError,
         { lineageId: number; data: MaatregelUpdate },
         TContext
@@ -6870,7 +5977,7 @@ export const useUpdateMaatregelV01MaatregelenLineageIdPatch = <
  * Shows the changes between two versions of maatregelen.
  * @summary Changes Maatregelen
  */
-export const changesMaatregelenV01ChangesMaatregelenOldUuidNewUuidGet = (
+export const changesMaatregelen = (
     oldUuid: string,
     newUuid: string,
     signal?: AbortSignal
@@ -6882,39 +5989,25 @@ export const changesMaatregelenV01ChangesMaatregelenOldUuidNewUuidGet = (
     })
 }
 
-export const getChangesMaatregelenV01ChangesMaatregelenOldUuidNewUuidGetQueryKey =
-    (oldUuid: string, newUuid: string) => [
-        `/v0.1/changes/maatregelen/${oldUuid}/${newUuid}`,
-    ]
+export const getChangesMaatregelenQueryKey = (
+    oldUuid: string,
+    newUuid: string
+) => [`/v0.1/changes/maatregelen/${oldUuid}/${newUuid}`]
 
-export type ChangesMaatregelenV01ChangesMaatregelenOldUuidNewUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof changesMaatregelenV01ChangesMaatregelenOldUuidNewUuidGet
-            >
-        >
-    >
-export type ChangesMaatregelenV01ChangesMaatregelenOldUuidNewUuidGetQueryError =
-    HTTPValidationError
+export type ChangesMaatregelenQueryResult = NonNullable<
+    Awaited<ReturnType<typeof changesMaatregelen>>
+>
+export type ChangesMaatregelenQueryError = HTTPValidationError
 
-export const useChangesMaatregelenV01ChangesMaatregelenOldUuidNewUuidGet = <
-    TData = Awaited<
-        ReturnType<
-            typeof changesMaatregelenV01ChangesMaatregelenOldUuidNewUuidGet
-        >
-    >,
+export const useChangesMaatregelen = <
+    TData = Awaited<ReturnType<typeof changesMaatregelen>>,
     TError = HTTPValidationError
 >(
     oldUuid: string,
     newUuid: string,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof changesMaatregelenV01ChangesMaatregelenOldUuidNewUuidGet
-                >
-            >,
+            Awaited<ReturnType<typeof changesMaatregelen>>,
             TError,
             TData
         >
@@ -6924,30 +6017,14 @@ export const useChangesMaatregelenV01ChangesMaatregelenOldUuidNewUuidGet = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getChangesMaatregelenV01ChangesMaatregelenOldUuidNewUuidGetQueryKey(
-            oldUuid,
-            newUuid
-        )
+        getChangesMaatregelenQueryKey(oldUuid, newUuid)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof changesMaatregelenV01ChangesMaatregelenOldUuidNewUuidGet
-            >
-        >
-    > = ({ signal }) =>
-        changesMaatregelenV01ChangesMaatregelenOldUuidNewUuidGet(
-            oldUuid,
-            newUuid,
-            signal
-        )
+        Awaited<ReturnType<typeof changesMaatregelen>>
+    > = ({ signal }) => changesMaatregelen(oldUuid, newUuid, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof changesMaatregelenV01ChangesMaatregelenOldUuidNewUuidGet
-            >
-        >,
+        Awaited<ReturnType<typeof changesMaatregelen>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -6964,8 +6041,8 @@ export const useChangesMaatregelenV01ChangesMaatregelenOldUuidNewUuidGet = <
  * Gets all the maatregelen lineages and shows the latests valid object for each.
  * @summary Read Valid Maatregelen
  */
-export const readValidMaatregelenV01ValidMaatregelenGet = (
-    params?: ReadValidMaatregelenV01ValidMaatregelenGetParams,
+export const readValidMaatregelen = (
+    params?: ReadValidMaatregelenParams,
     signal?: AbortSignal
 ) => {
     return customInstance<MaatregelListable[]>({
@@ -6976,28 +6053,23 @@ export const readValidMaatregelenV01ValidMaatregelenGet = (
     })
 }
 
-export const getReadValidMaatregelenV01ValidMaatregelenGetQueryKey = (
-    params?: ReadValidMaatregelenV01ValidMaatregelenGetParams
+export const getReadValidMaatregelenQueryKey = (
+    params?: ReadValidMaatregelenParams
 ) => [`/v0.1/valid/maatregelen`, ...(params ? [params] : [])]
 
-export type ReadValidMaatregelenV01ValidMaatregelenGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof readValidMaatregelenV01ValidMaatregelenGet>>
+export type ReadValidMaatregelenQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidMaatregelen>>
 >
-export type ReadValidMaatregelenV01ValidMaatregelenGetQueryError =
-    HTTPValidationError
+export type ReadValidMaatregelenQueryError = HTTPValidationError
 
-export const useReadValidMaatregelenV01ValidMaatregelenGet = <
-    TData = Awaited<
-        ReturnType<typeof readValidMaatregelenV01ValidMaatregelenGet>
-    >,
+export const useReadValidMaatregelen = <
+    TData = Awaited<ReturnType<typeof readValidMaatregelen>>,
     TError = HTTPValidationError
 >(
-    params?: ReadValidMaatregelenV01ValidMaatregelenGetParams,
+    params?: ReadValidMaatregelenParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<typeof readValidMaatregelenV01ValidMaatregelenGet>
-            >,
+            Awaited<ReturnType<typeof readValidMaatregelen>>,
             TError,
             TData
         >
@@ -7006,16 +6078,14 @@ export const useReadValidMaatregelenV01ValidMaatregelenGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadValidMaatregelenV01ValidMaatregelenGetQueryKey(params)
+        queryOptions?.queryKey ?? getReadValidMaatregelenQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readValidMaatregelenV01ValidMaatregelenGet>>
-    > = ({ signal }) =>
-        readValidMaatregelenV01ValidMaatregelenGet(params, signal)
+        Awaited<ReturnType<typeof readValidMaatregelen>>
+    > = ({ signal }) => readValidMaatregelen(params, signal)
 
     const query = useQuery<
-        Awaited<ReturnType<typeof readValidMaatregelenV01ValidMaatregelenGet>>,
+        Awaited<ReturnType<typeof readValidMaatregelen>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -7031,9 +6101,9 @@ export const useReadValidMaatregelenV01ValidMaatregelenGet = <
  * Gets all the maatregelen in this lineage that are valid
  * @summary Read Valid Maatregel Lineage
  */
-export const readValidMaatregelLineageV01ValidMaatregelenLineageIdGet = (
+export const readValidMaatregelLineage = (
     lineageId: number,
-    params?: ReadValidMaatregelLineageV01ValidMaatregelenLineageIdGetParams,
+    params?: ReadValidMaatregelLineageParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Maatregel[]>({
@@ -7044,40 +6114,25 @@ export const readValidMaatregelLineageV01ValidMaatregelenLineageIdGet = (
     })
 }
 
-export const getReadValidMaatregelLineageV01ValidMaatregelenLineageIdGetQueryKey =
-    (
-        lineageId: number,
-        params?: ReadValidMaatregelLineageV01ValidMaatregelenLineageIdGetParams
-    ) => [`/v0.1/valid/maatregelen/${lineageId}`, ...(params ? [params] : [])]
+export const getReadValidMaatregelLineageQueryKey = (
+    lineageId: number,
+    params?: ReadValidMaatregelLineageParams
+) => [`/v0.1/valid/maatregelen/${lineageId}`, ...(params ? [params] : [])]
 
-export type ReadValidMaatregelLineageV01ValidMaatregelenLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readValidMaatregelLineageV01ValidMaatregelenLineageIdGet
-            >
-        >
-    >
-export type ReadValidMaatregelLineageV01ValidMaatregelenLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadValidMaatregelLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidMaatregelLineage>>
+>
+export type ReadValidMaatregelLineageQueryError = HTTPValidationError
 
-export const useReadValidMaatregelLineageV01ValidMaatregelenLineageIdGet = <
-    TData = Awaited<
-        ReturnType<
-            typeof readValidMaatregelLineageV01ValidMaatregelenLineageIdGet
-        >
-    >,
+export const useReadValidMaatregelLineage = <
+    TData = Awaited<ReturnType<typeof readValidMaatregelLineage>>,
     TError = HTTPValidationError
 >(
     lineageId: number,
-    params?: ReadValidMaatregelLineageV01ValidMaatregelenLineageIdGetParams,
+    params?: ReadValidMaatregelLineageParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readValidMaatregelLineageV01ValidMaatregelenLineageIdGet
-                >
-            >,
+            Awaited<ReturnType<typeof readValidMaatregelLineage>>,
             TError,
             TData
         >
@@ -7087,30 +6142,14 @@ export const useReadValidMaatregelLineageV01ValidMaatregelenLineageIdGet = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getReadValidMaatregelLineageV01ValidMaatregelenLineageIdGetQueryKey(
-            lineageId,
-            params
-        )
+        getReadValidMaatregelLineageQueryKey(lineageId, params)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readValidMaatregelLineageV01ValidMaatregelenLineageIdGet
-            >
-        >
-    > = ({ signal }) =>
-        readValidMaatregelLineageV01ValidMaatregelenLineageIdGet(
-            lineageId,
-            params,
-            signal
-        )
+        Awaited<ReturnType<typeof readValidMaatregelLineage>>
+    > = ({ signal }) => readValidMaatregelLineage(lineageId, params, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readValidMaatregelLineageV01ValidMaatregelenLineageIdGet
-            >
-        >,
+        Awaited<ReturnType<typeof readValidMaatregelLineage>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -7128,7 +6167,7 @@ export const useReadValidMaatregelLineageV01ValidMaatregelenLineageIdGet = <
 available version.
  * @summary Read Latest Version Lineage
  */
-export const readLatestVersionLineageV01VersionMaatregelenObjectUuidGet = (
+export const readMaatregelVersion = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
@@ -7139,36 +6178,23 @@ export const readLatestVersionLineageV01VersionMaatregelenObjectUuidGet = (
     })
 }
 
-export const getReadLatestVersionLineageV01VersionMaatregelenObjectUuidGetQueryKey =
-    (objectUuid: string) => [`/v0.1/version/maatregelen/${objectUuid}`]
+export const getReadMaatregelVersionQueryKey = (objectUuid: string) => [
+    `/v0.1/version/maatregelen/${objectUuid}`,
+]
 
-export type ReadLatestVersionLineageV01VersionMaatregelenObjectUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionMaatregelenObjectUuidGet
-            >
-        >
-    >
-export type ReadLatestVersionLineageV01VersionMaatregelenObjectUuidGetQueryError =
-    HTTPValidationError
+export type ReadMaatregelVersionQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readMaatregelVersion>>
+>
+export type ReadMaatregelVersionQueryError = HTTPValidationError
 
-export const useReadLatestVersionLineageV01VersionMaatregelenObjectUuidGet = <
-    TData = Awaited<
-        ReturnType<
-            typeof readLatestVersionLineageV01VersionMaatregelenObjectUuidGet
-        >
-    >,
+export const useReadMaatregelVersion = <
+    TData = Awaited<ReturnType<typeof readMaatregelVersion>>,
     TError = HTTPValidationError
 >(
     objectUuid: string,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readLatestVersionLineageV01VersionMaatregelenObjectUuidGet
-                >
-            >,
+            Awaited<ReturnType<typeof readMaatregelVersion>>,
             TError,
             TData
         >
@@ -7177,29 +6203,14 @@ export const useReadLatestVersionLineageV01VersionMaatregelenObjectUuidGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadLatestVersionLineageV01VersionMaatregelenObjectUuidGetQueryKey(
-            objectUuid
-        )
+        queryOptions?.queryKey ?? getReadMaatregelVersionQueryKey(objectUuid)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionMaatregelenObjectUuidGet
-            >
-        >
-    > = ({ signal }) =>
-        readLatestVersionLineageV01VersionMaatregelenObjectUuidGet(
-            objectUuid,
-            signal
-        )
+        Awaited<ReturnType<typeof readMaatregelVersion>>
+    > = ({ signal }) => readMaatregelVersion(objectUuid, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionMaatregelenObjectUuidGet
-            >
-        >,
+        Awaited<ReturnType<typeof readMaatregelVersion>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -7216,8 +6227,8 @@ export const useReadLatestVersionLineageV01VersionMaatregelenObjectUuidGet = <
  * Gets all the werkingsgebied lineages and shows the latests object for each
  * @summary Read Werkingsgebied
  */
-export const readWerkingsgebiedV01WerkingsgebiedenGet = (
-    params?: ReadWerkingsgebiedV01WerkingsgebiedenGetParams,
+export const readWerkingsgebied = (
+    params?: ReadWerkingsgebiedParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Werkingsgebied[]>({
@@ -7228,28 +6239,23 @@ export const readWerkingsgebiedV01WerkingsgebiedenGet = (
     })
 }
 
-export const getReadWerkingsgebiedV01WerkingsgebiedenGetQueryKey = (
-    params?: ReadWerkingsgebiedV01WerkingsgebiedenGetParams
+export const getReadWerkingsgebiedQueryKey = (
+    params?: ReadWerkingsgebiedParams
 ) => [`/v0.1/werkingsgebieden`, ...(params ? [params] : [])]
 
-export type ReadWerkingsgebiedV01WerkingsgebiedenGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof readWerkingsgebiedV01WerkingsgebiedenGet>>
+export type ReadWerkingsgebiedQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readWerkingsgebied>>
 >
-export type ReadWerkingsgebiedV01WerkingsgebiedenGetQueryError =
-    HTTPValidationError
+export type ReadWerkingsgebiedQueryError = HTTPValidationError
 
-export const useReadWerkingsgebiedV01WerkingsgebiedenGet = <
-    TData = Awaited<
-        ReturnType<typeof readWerkingsgebiedV01WerkingsgebiedenGet>
-    >,
+export const useReadWerkingsgebied = <
+    TData = Awaited<ReturnType<typeof readWerkingsgebied>>,
     TError = HTTPValidationError
 >(
-    params?: ReadWerkingsgebiedV01WerkingsgebiedenGetParams,
+    params?: ReadWerkingsgebiedParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<typeof readWerkingsgebiedV01WerkingsgebiedenGet>
-            >,
+            Awaited<ReturnType<typeof readWerkingsgebied>>,
             TError,
             TData
         >
@@ -7258,15 +6264,14 @@ export const useReadWerkingsgebiedV01WerkingsgebiedenGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadWerkingsgebiedV01WerkingsgebiedenGetQueryKey(params)
+        queryOptions?.queryKey ?? getReadWerkingsgebiedQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readWerkingsgebiedV01WerkingsgebiedenGet>>
-    > = ({ signal }) => readWerkingsgebiedV01WerkingsgebiedenGet(params, signal)
+        Awaited<ReturnType<typeof readWerkingsgebied>>
+    > = ({ signal }) => readWerkingsgebied(params, signal)
 
     const query = useQuery<
-        Awaited<ReturnType<typeof readWerkingsgebiedV01WerkingsgebiedenGet>>,
+        Awaited<ReturnType<typeof readWerkingsgebied>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -7282,7 +6287,7 @@ export const useReadWerkingsgebiedV01WerkingsgebiedenGet = <
  * Creates a new werkingsgebied lineage
  * @summary Create Werkingsgebied
  */
-export const createWerkingsgebiedV01WerkingsgebiedenPost = (
+export const createWerkingsgebied = (
     werkingsgebiedCreate: WerkingsgebiedCreate
 ) => {
     return customInstance<Werkingsgebied>({
@@ -7293,21 +6298,18 @@ export const createWerkingsgebiedV01WerkingsgebiedenPost = (
     })
 }
 
-export type CreateWerkingsgebiedV01WerkingsgebiedenPostMutationResult =
-    NonNullable<
-        Awaited<ReturnType<typeof createWerkingsgebiedV01WerkingsgebiedenPost>>
-    >
-export type CreateWerkingsgebiedV01WerkingsgebiedenPostMutationBody =
-    WerkingsgebiedCreate
-export type CreateWerkingsgebiedV01WerkingsgebiedenPostMutationError =
-    HTTPValidationError
+export type CreateWerkingsgebiedMutationResult = NonNullable<
+    Awaited<ReturnType<typeof createWerkingsgebied>>
+>
+export type CreateWerkingsgebiedMutationBody = WerkingsgebiedCreate
+export type CreateWerkingsgebiedMutationError = HTTPValidationError
 
-export const useCreateWerkingsgebiedV01WerkingsgebiedenPost = <
+export const useCreateWerkingsgebied = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof createWerkingsgebiedV01WerkingsgebiedenPost>>,
+        Awaited<ReturnType<typeof createWerkingsgebied>>,
         TError,
         { data: WerkingsgebiedCreate },
         TContext
@@ -7316,16 +6318,16 @@ export const useCreateWerkingsgebiedV01WerkingsgebiedenPost = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof createWerkingsgebiedV01WerkingsgebiedenPost>>,
+        Awaited<ReturnType<typeof createWerkingsgebied>>,
         { data: WerkingsgebiedCreate }
     > = props => {
         const { data } = props ?? {}
 
-        return createWerkingsgebiedV01WerkingsgebiedenPost(data)
+        return createWerkingsgebied(data)
     }
 
     return useMutation<
-        Awaited<ReturnType<typeof createWerkingsgebiedV01WerkingsgebiedenPost>>,
+        Awaited<ReturnType<typeof createWerkingsgebied>>,
         TError,
         { data: WerkingsgebiedCreate },
         TContext
@@ -7336,7 +6338,7 @@ export const useCreateWerkingsgebiedV01WerkingsgebiedenPost = <
  * Gets all the werkingsgebied versions by lineage
  * @summary Read Werkingsgebied Lineage
  */
-export const readWerkingsgebiedLineageV01WerkingsgebiedenLineageIdGet = (
+export const readWerkingsgebiedLineage = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
@@ -7347,36 +6349,23 @@ export const readWerkingsgebiedLineageV01WerkingsgebiedenLineageIdGet = (
     })
 }
 
-export const getReadWerkingsgebiedLineageV01WerkingsgebiedenLineageIdGetQueryKey =
-    (lineageId: number) => [`/v0.1/werkingsgebieden/${lineageId}`]
+export const getReadWerkingsgebiedLineageQueryKey = (lineageId: number) => [
+    `/v0.1/werkingsgebieden/${lineageId}`,
+]
 
-export type ReadWerkingsgebiedLineageV01WerkingsgebiedenLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readWerkingsgebiedLineageV01WerkingsgebiedenLineageIdGet
-            >
-        >
-    >
-export type ReadWerkingsgebiedLineageV01WerkingsgebiedenLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadWerkingsgebiedLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readWerkingsgebiedLineage>>
+>
+export type ReadWerkingsgebiedLineageQueryError = HTTPValidationError
 
-export const useReadWerkingsgebiedLineageV01WerkingsgebiedenLineageIdGet = <
-    TData = Awaited<
-        ReturnType<
-            typeof readWerkingsgebiedLineageV01WerkingsgebiedenLineageIdGet
-        >
-    >,
+export const useReadWerkingsgebiedLineage = <
+    TData = Awaited<ReturnType<typeof readWerkingsgebiedLineage>>,
     TError = HTTPValidationError
 >(
     lineageId: number,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readWerkingsgebiedLineageV01WerkingsgebiedenLineageIdGet
-                >
-            >,
+            Awaited<ReturnType<typeof readWerkingsgebiedLineage>>,
             TError,
             TData
         >
@@ -7386,28 +6375,14 @@ export const useReadWerkingsgebiedLineageV01WerkingsgebiedenLineageIdGet = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getReadWerkingsgebiedLineageV01WerkingsgebiedenLineageIdGetQueryKey(
-            lineageId
-        )
+        getReadWerkingsgebiedLineageQueryKey(lineageId)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readWerkingsgebiedLineageV01WerkingsgebiedenLineageIdGet
-            >
-        >
-    > = ({ signal }) =>
-        readWerkingsgebiedLineageV01WerkingsgebiedenLineageIdGet(
-            lineageId,
-            signal
-        )
+        Awaited<ReturnType<typeof readWerkingsgebiedLineage>>
+    > = ({ signal }) => readWerkingsgebiedLineage(lineageId, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readWerkingsgebiedLineageV01WerkingsgebiedenLineageIdGet
-            >
-        >,
+        Awaited<ReturnType<typeof readWerkingsgebiedLineage>>,
         TError,
         TData
     >(queryKey, queryFn, {
@@ -7424,7 +6399,7 @@ export const useReadWerkingsgebiedLineageV01WerkingsgebiedenLineageIdGet = <
  * Adds a new werkingsgebied to a lineage
  * @summary Update Werkingsgebied
  */
-export const updateWerkingsgebiedV01WerkingsgebiedenLineageIdPatch = (
+export const updateWerkingsgebied = (
     lineageId: number,
     werkingsgebiedUpdate: WerkingsgebiedUpdate
 ) => {
@@ -7436,29 +6411,18 @@ export const updateWerkingsgebiedV01WerkingsgebiedenLineageIdPatch = (
     })
 }
 
-export type UpdateWerkingsgebiedV01WerkingsgebiedenLineageIdPatchMutationResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof updateWerkingsgebiedV01WerkingsgebiedenLineageIdPatch
-            >
-        >
-    >
-export type UpdateWerkingsgebiedV01WerkingsgebiedenLineageIdPatchMutationBody =
-    WerkingsgebiedUpdate
-export type UpdateWerkingsgebiedV01WerkingsgebiedenLineageIdPatchMutationError =
-    HTTPValidationError
+export type UpdateWerkingsgebiedMutationResult = NonNullable<
+    Awaited<ReturnType<typeof updateWerkingsgebied>>
+>
+export type UpdateWerkingsgebiedMutationBody = WerkingsgebiedUpdate
+export type UpdateWerkingsgebiedMutationError = HTTPValidationError
 
-export const useUpdateWerkingsgebiedV01WerkingsgebiedenLineageIdPatch = <
+export const useUpdateWerkingsgebied = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<
-            ReturnType<
-                typeof updateWerkingsgebiedV01WerkingsgebiedenLineageIdPatch
-            >
-        >,
+        Awaited<ReturnType<typeof updateWerkingsgebied>>,
         TError,
         { lineageId: number; data: WerkingsgebiedUpdate },
         TContext
@@ -7467,27 +6431,16 @@ export const useUpdateWerkingsgebiedV01WerkingsgebiedenLineageIdPatch = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<
-            ReturnType<
-                typeof updateWerkingsgebiedV01WerkingsgebiedenLineageIdPatch
-            >
-        >,
+        Awaited<ReturnType<typeof updateWerkingsgebied>>,
         { lineageId: number; data: WerkingsgebiedUpdate }
     > = props => {
         const { lineageId, data } = props ?? {}
 
-        return updateWerkingsgebiedV01WerkingsgebiedenLineageIdPatch(
-            lineageId,
-            data
-        )
+        return updateWerkingsgebied(lineageId, data)
     }
 
     return useMutation<
-        Awaited<
-            ReturnType<
-                typeof updateWerkingsgebiedV01WerkingsgebiedenLineageIdPatch
-            >
-        >,
+        Awaited<ReturnType<typeof updateWerkingsgebied>>,
         TError,
         { lineageId: number; data: WerkingsgebiedUpdate },
         TContext
@@ -7498,100 +6451,72 @@ export const useUpdateWerkingsgebiedV01WerkingsgebiedenLineageIdPatch = <
  * Shows the changes between two versions of werkingsgebied.
  * @summary Changes Werkingsgebied
  */
-export const changesWerkingsgebiedV01ChangesWerkingsgebiedenOldUuidNewUuidGet =
-    (oldUuid: string, newUuid: string, signal?: AbortSignal) => {
-        return customInstance<unknown>({
-            url: `/v0.1/changes/werkingsgebieden/${oldUuid}/${newUuid}`,
-            method: 'get',
-            signal,
-        })
-    }
+export const changesWerkingsgebied = (
+    oldUuid: string,
+    newUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<unknown>({
+        url: `/v0.1/changes/werkingsgebieden/${oldUuid}/${newUuid}`,
+        method: 'get',
+        signal,
+    })
+}
 
-export const getChangesWerkingsgebiedV01ChangesWerkingsgebiedenOldUuidNewUuidGetQueryKey =
-    (oldUuid: string, newUuid: string) => [
-        `/v0.1/changes/werkingsgebieden/${oldUuid}/${newUuid}`,
-    ]
+export const getChangesWerkingsgebiedQueryKey = (
+    oldUuid: string,
+    newUuid: string
+) => [`/v0.1/changes/werkingsgebieden/${oldUuid}/${newUuid}`]
 
-export type ChangesWerkingsgebiedV01ChangesWerkingsgebiedenOldUuidNewUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof changesWerkingsgebiedV01ChangesWerkingsgebiedenOldUuidNewUuidGet
-            >
-        >
-    >
-export type ChangesWerkingsgebiedV01ChangesWerkingsgebiedenOldUuidNewUuidGetQueryError =
-    HTTPValidationError
+export type ChangesWerkingsgebiedQueryResult = NonNullable<
+    Awaited<ReturnType<typeof changesWerkingsgebied>>
+>
+export type ChangesWerkingsgebiedQueryError = HTTPValidationError
 
-export const useChangesWerkingsgebiedV01ChangesWerkingsgebiedenOldUuidNewUuidGet =
-    <
-        TData = Awaited<
-            ReturnType<
-                typeof changesWerkingsgebiedV01ChangesWerkingsgebiedenOldUuidNewUuidGet
-            >
-        >,
-        TError = HTTPValidationError
-    >(
-        oldUuid: string,
-        newUuid: string,
-        options?: {
-            query?: UseQueryOptions<
-                Awaited<
-                    ReturnType<
-                        typeof changesWerkingsgebiedV01ChangesWerkingsgebiedenOldUuidNewUuidGet
-                    >
-                >,
-                TError,
-                TData
-            >
-        }
-    ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-        const { query: queryOptions } = options ?? {}
-
-        const queryKey =
-            queryOptions?.queryKey ??
-            getChangesWerkingsgebiedV01ChangesWerkingsgebiedenOldUuidNewUuidGetQueryKey(
-                oldUuid,
-                newUuid
-            )
-
-        const queryFn: QueryFunction<
-            Awaited<
-                ReturnType<
-                    typeof changesWerkingsgebiedV01ChangesWerkingsgebiedenOldUuidNewUuidGet
-                >
-            >
-        > = ({ signal }) =>
-            changesWerkingsgebiedV01ChangesWerkingsgebiedenOldUuidNewUuidGet(
-                oldUuid,
-                newUuid,
-                signal
-            )
-
-        const query = useQuery<
-            Awaited<
-                ReturnType<
-                    typeof changesWerkingsgebiedV01ChangesWerkingsgebiedenOldUuidNewUuidGet
-                >
-            >,
+export const useChangesWerkingsgebied = <
+    TData = Awaited<ReturnType<typeof changesWerkingsgebied>>,
+    TError = HTTPValidationError
+>(
+    oldUuid: string,
+    newUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof changesWerkingsgebied>>,
             TError,
             TData
-        >(queryKey, queryFn, {
-            enabled: !!(oldUuid && newUuid),
-            ...queryOptions,
-        }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-        query.queryKey = queryKey
-
-        return query
+        >
     }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getChangesWerkingsgebiedQueryKey(oldUuid, newUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof changesWerkingsgebied>>
+    > = ({ signal }) => changesWerkingsgebied(oldUuid, newUuid, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof changesWerkingsgebied>>,
+        TError,
+        TData
+    >(queryKey, queryFn, {
+        enabled: !!(oldUuid && newUuid),
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
 
 /**
  * Gets all the werkingsgebied lineages and shows the latests valid object for each.
  * @summary Read Valid Werkingsgebied
  */
-export const readValidWerkingsgebiedV01ValidWerkingsgebiedenGet = (
-    params?: ReadValidWerkingsgebiedV01ValidWerkingsgebiedenGetParams,
+export const readValidWerkingsgebied = (
+    params?: ReadValidWerkingsgebiedParams,
     signal?: AbortSignal
 ) => {
     return customInstance<Werkingsgebied[]>({
@@ -7602,35 +6527,23 @@ export const readValidWerkingsgebiedV01ValidWerkingsgebiedenGet = (
     })
 }
 
-export const getReadValidWerkingsgebiedV01ValidWerkingsgebiedenGetQueryKey = (
-    params?: ReadValidWerkingsgebiedV01ValidWerkingsgebiedenGetParams
+export const getReadValidWerkingsgebiedQueryKey = (
+    params?: ReadValidWerkingsgebiedParams
 ) => [`/v0.1/valid/werkingsgebieden`, ...(params ? [params] : [])]
 
-export type ReadValidWerkingsgebiedV01ValidWerkingsgebiedenGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readValidWerkingsgebiedV01ValidWerkingsgebiedenGet
-            >
-        >
-    >
-export type ReadValidWerkingsgebiedV01ValidWerkingsgebiedenGetQueryError =
-    HTTPValidationError
+export type ReadValidWerkingsgebiedQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidWerkingsgebied>>
+>
+export type ReadValidWerkingsgebiedQueryError = HTTPValidationError
 
-export const useReadValidWerkingsgebiedV01ValidWerkingsgebiedenGet = <
-    TData = Awaited<
-        ReturnType<typeof readValidWerkingsgebiedV01ValidWerkingsgebiedenGet>
-    >,
+export const useReadValidWerkingsgebied = <
+    TData = Awaited<ReturnType<typeof readValidWerkingsgebied>>,
     TError = HTTPValidationError
 >(
-    params?: ReadValidWerkingsgebiedV01ValidWerkingsgebiedenGetParams,
+    params?: ReadValidWerkingsgebiedParams,
     options?: {
         query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof readValidWerkingsgebiedV01ValidWerkingsgebiedenGet
-                >
-            >,
+            Awaited<ReturnType<typeof readValidWerkingsgebied>>,
             TError,
             TData
         >
@@ -7639,24 +6552,14 @@ export const useReadValidWerkingsgebiedV01ValidWerkingsgebiedenGet = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getReadValidWerkingsgebiedV01ValidWerkingsgebiedenGetQueryKey(params)
+        queryOptions?.queryKey ?? getReadValidWerkingsgebiedQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<
-                typeof readValidWerkingsgebiedV01ValidWerkingsgebiedenGet
-            >
-        >
-    > = ({ signal }) =>
-        readValidWerkingsgebiedV01ValidWerkingsgebiedenGet(params, signal)
+        Awaited<ReturnType<typeof readValidWerkingsgebied>>
+    > = ({ signal }) => readValidWerkingsgebied(params, signal)
 
     const query = useQuery<
-        Awaited<
-            ReturnType<
-                typeof readValidWerkingsgebiedV01ValidWerkingsgebiedenGet
-            >
-        >,
+        Awaited<ReturnType<typeof readValidWerkingsgebied>>,
         TError,
         TData
     >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
@@ -7672,109 +6575,74 @@ export const useReadValidWerkingsgebiedV01ValidWerkingsgebiedenGet = <
  * Gets all the werkingsgebied in this lineage that are valid
  * @summary Read Valid Werkingsgebied Lineage
  */
-export const readValidWerkingsgebiedLineageV01ValidWerkingsgebiedenLineageIdGet =
-    (
-        lineageId: number,
-        params?: ReadValidWerkingsgebiedLineageV01ValidWerkingsgebiedenLineageIdGetParams,
-        signal?: AbortSignal
-    ) => {
-        return customInstance<Werkingsgebied[]>({
-            url: `/v0.1/valid/werkingsgebieden/${lineageId}`,
-            method: 'get',
-            params,
-            signal,
-        })
-    }
+export const readValidWerkingsgebiedLineage = (
+    lineageId: number,
+    params?: ReadValidWerkingsgebiedLineageParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<Werkingsgebied[]>({
+        url: `/v0.1/valid/werkingsgebieden/${lineageId}`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
 
-export const getReadValidWerkingsgebiedLineageV01ValidWerkingsgebiedenLineageIdGetQueryKey =
-    (
-        lineageId: number,
-        params?: ReadValidWerkingsgebiedLineageV01ValidWerkingsgebiedenLineageIdGetParams
-    ) => [
-        `/v0.1/valid/werkingsgebieden/${lineageId}`,
-        ...(params ? [params] : []),
-    ]
+export const getReadValidWerkingsgebiedLineageQueryKey = (
+    lineageId: number,
+    params?: ReadValidWerkingsgebiedLineageParams
+) => [`/v0.1/valid/werkingsgebieden/${lineageId}`, ...(params ? [params] : [])]
 
-export type ReadValidWerkingsgebiedLineageV01ValidWerkingsgebiedenLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readValidWerkingsgebiedLineageV01ValidWerkingsgebiedenLineageIdGet
-            >
-        >
-    >
-export type ReadValidWerkingsgebiedLineageV01ValidWerkingsgebiedenLineageIdGetQueryError =
-    HTTPValidationError
+export type ReadValidWerkingsgebiedLineageQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readValidWerkingsgebiedLineage>>
+>
+export type ReadValidWerkingsgebiedLineageQueryError = HTTPValidationError
 
-export const useReadValidWerkingsgebiedLineageV01ValidWerkingsgebiedenLineageIdGet =
-    <
-        TData = Awaited<
-            ReturnType<
-                typeof readValidWerkingsgebiedLineageV01ValidWerkingsgebiedenLineageIdGet
-            >
-        >,
-        TError = HTTPValidationError
-    >(
-        lineageId: number,
-        params?: ReadValidWerkingsgebiedLineageV01ValidWerkingsgebiedenLineageIdGetParams,
-        options?: {
-            query?: UseQueryOptions<
-                Awaited<
-                    ReturnType<
-                        typeof readValidWerkingsgebiedLineageV01ValidWerkingsgebiedenLineageIdGet
-                    >
-                >,
-                TError,
-                TData
-            >
-        }
-    ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-        const { query: queryOptions } = options ?? {}
-
-        const queryKey =
-            queryOptions?.queryKey ??
-            getReadValidWerkingsgebiedLineageV01ValidWerkingsgebiedenLineageIdGetQueryKey(
-                lineageId,
-                params
-            )
-
-        const queryFn: QueryFunction<
-            Awaited<
-                ReturnType<
-                    typeof readValidWerkingsgebiedLineageV01ValidWerkingsgebiedenLineageIdGet
-                >
-            >
-        > = ({ signal }) =>
-            readValidWerkingsgebiedLineageV01ValidWerkingsgebiedenLineageIdGet(
-                lineageId,
-                params,
-                signal
-            )
-
-        const query = useQuery<
-            Awaited<
-                ReturnType<
-                    typeof readValidWerkingsgebiedLineageV01ValidWerkingsgebiedenLineageIdGet
-                >
-            >,
+export const useReadValidWerkingsgebiedLineage = <
+    TData = Awaited<ReturnType<typeof readValidWerkingsgebiedLineage>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ReadValidWerkingsgebiedLineageParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof readValidWerkingsgebiedLineage>>,
             TError,
             TData
-        >(queryKey, queryFn, {
-            enabled: !!lineageId,
-            ...queryOptions,
-        }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-        query.queryKey = queryKey
-
-        return query
+        >
     }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getReadValidWerkingsgebiedLineageQueryKey(lineageId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof readValidWerkingsgebiedLineage>>
+    > = ({ signal }) =>
+        readValidWerkingsgebiedLineage(lineageId, params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof readValidWerkingsgebiedLineage>>,
+        TError,
+        TData
+    >(queryKey, queryFn, {
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
 
 /**
  * Finds the lineage of the resource and retrieves the latest
 available version.
  * @summary Read Latest Version Lineage
  */
-export const readLatestVersionLineageV01VersionWerkingsgebiedenObjectUuidGet = (
+export const readWerkingsgebiedVersion = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
@@ -7785,76 +6653,48 @@ export const readLatestVersionLineageV01VersionWerkingsgebiedenObjectUuidGet = (
     })
 }
 
-export const getReadLatestVersionLineageV01VersionWerkingsgebiedenObjectUuidGetQueryKey =
-    (objectUuid: string) => [`/v0.1/version/werkingsgebieden/${objectUuid}`]
+export const getReadWerkingsgebiedVersionQueryKey = (objectUuid: string) => [
+    `/v0.1/version/werkingsgebieden/${objectUuid}`,
+]
 
-export type ReadLatestVersionLineageV01VersionWerkingsgebiedenObjectUuidGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionWerkingsgebiedenObjectUuidGet
-            >
-        >
-    >
-export type ReadLatestVersionLineageV01VersionWerkingsgebiedenObjectUuidGetQueryError =
-    HTTPValidationError
+export type ReadWerkingsgebiedVersionQueryResult = NonNullable<
+    Awaited<ReturnType<typeof readWerkingsgebiedVersion>>
+>
+export type ReadWerkingsgebiedVersionQueryError = HTTPValidationError
 
-export const useReadLatestVersionLineageV01VersionWerkingsgebiedenObjectUuidGet =
-    <
-        TData = Awaited<
-            ReturnType<
-                typeof readLatestVersionLineageV01VersionWerkingsgebiedenObjectUuidGet
-            >
-        >,
-        TError = HTTPValidationError
-    >(
-        objectUuid: string,
-        options?: {
-            query?: UseQueryOptions<
-                Awaited<
-                    ReturnType<
-                        typeof readLatestVersionLineageV01VersionWerkingsgebiedenObjectUuidGet
-                    >
-                >,
-                TError,
-                TData
-            >
-        }
-    ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-        const { query: queryOptions } = options ?? {}
-
-        const queryKey =
-            queryOptions?.queryKey ??
-            getReadLatestVersionLineageV01VersionWerkingsgebiedenObjectUuidGetQueryKey(
-                objectUuid
-            )
-
-        const queryFn: QueryFunction<
-            Awaited<
-                ReturnType<
-                    typeof readLatestVersionLineageV01VersionWerkingsgebiedenObjectUuidGet
-                >
-            >
-        > = ({ signal }) =>
-            readLatestVersionLineageV01VersionWerkingsgebiedenObjectUuidGet(
-                objectUuid,
-                signal
-            )
-
-        const query = useQuery<
-            Awaited<
-                ReturnType<
-                    typeof readLatestVersionLineageV01VersionWerkingsgebiedenObjectUuidGet
-                >
-            >,
+export const useReadWerkingsgebiedVersion = <
+    TData = Awaited<ReturnType<typeof readWerkingsgebiedVersion>>,
+    TError = HTTPValidationError
+>(
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof readWerkingsgebiedVersion>>,
             TError,
             TData
-        >(queryKey, queryFn, {
-            enabled: !!objectUuid,
-            ...queryOptions,
-        }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-        query.queryKey = queryKey
-
-        return query
+        >
     }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getReadWerkingsgebiedVersionQueryKey(objectUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof readWerkingsgebiedVersion>>
+    > = ({ signal }) => readWerkingsgebiedVersion(objectUuid, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof readWerkingsgebiedVersion>>,
+        TError,
+        TData
+    >(queryKey, queryFn, {
+        enabled: !!objectUuid,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}

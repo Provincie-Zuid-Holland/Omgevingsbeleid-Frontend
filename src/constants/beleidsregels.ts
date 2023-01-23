@@ -1,9 +1,9 @@
-import { getBeleidsregels, getValidBeleidsregels } from '@/api/fetchers'
+import { readBeleidsregels, readValidBeleidsregels } from '@/api/fetchers'
 
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
-export const apiCall = getBeleidsregels
-export const validApiCall = getValidBeleidsregels
+export const apiCall = readBeleidsregels
+export const validApiCall = readValidBeleidsregels
 
 export const TITLE_SINGULAR = 'Beleidsregel'
 export const TITLE_SINGULAR_PREFIX = 'de'

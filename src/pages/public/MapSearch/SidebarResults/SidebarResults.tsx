@@ -4,7 +4,7 @@ import { Filter as FilterIcon } from '@pzh-ui/icons'
 import Tippy from '@tippyjs/react'
 import { useState } from 'react'
 
-import { GetSearchGeo200ResultsItem } from '@/api/fetchers.schemas'
+import { SearchResultWrapperResultsItem } from '@/api/fetchers.schemas'
 import { LoaderCard } from '@/components/Loader'
 import Pagination from '@/components/Pagination'
 import SearchFilterSection from '@/components/SearchFilterSection'
@@ -14,8 +14,8 @@ import useSearchFilterStore from '@/hooks/useSearchFilterStore'
 interface SidebarResultsProps {
     searchOpen: boolean
     searchResultsTotal: number
-    searchResults: GetSearchGeo200ResultsItem[]
-    setSearchResults: (results: GetSearchGeo200ResultsItem[]) => void
+    searchResults: SearchResultWrapperResultsItem[]
+    setSearchResults: (results: SearchResultWrapperResultsItem[]) => void
     isLoading: boolean
     drawType?: string
     UUIDs: string[]

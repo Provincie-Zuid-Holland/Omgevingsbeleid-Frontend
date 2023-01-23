@@ -82,11 +82,11 @@ const LoginForm = () => {
                         </div>
                         <div className="flex items-center justify-between mt-7">
                             <Button
-                                label="Inloggen"
                                 type="submit"
-                                disabled={!isValid || !dirty}
-                                isLoading={loading}
-                            />
+                                isDisabled={!isValid || !dirty}
+                                isLoading={loading}>
+                                Inloggen
+                            </Button>
                             <button
                                 className="mt-4 text-sm underline cursor-pointer sm:mt-0 sm:ml-4 text-pzh-green hover:text-pzh-green-dark"
                                 onClick={e => {
@@ -152,16 +152,16 @@ const PopupPasswordForgot = ({
                 Annuleren
             </button>
             <Button
-                label="Mail versturen"
                 variant="cta"
                 id="wachtwoord-reset-button-mailto"
                 data-testid="wachtwoord-reset-button-mailto"
-                onClick={() => {
+                onPress={() => {
                     window.location.href =
                         'mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten'
                     togglePopup()
-                }}
-            />
+                }}>
+                Mail versturen
+            </Button>
         </div>
     </Modal>
 )

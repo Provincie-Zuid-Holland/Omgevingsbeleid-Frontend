@@ -1,12 +1,12 @@
 import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 
-import { useGetValidGebiedsprogrammas } from '@/api/fetchers'
+import { useReadValidGebiedsprogrammas } from '@/api/fetchers'
 import AreaCard from '@/components/AreaCard'
 import { Container } from '@/components/Container'
 import { LoaderContent, LoaderSpinner } from '@/components/Loader'
 
 function AreaOverview() {
-    const { data, isLoading } = useGetValidGebiedsprogrammas()
+    const { data, isLoading } = useReadValidGebiedsprogrammas()
 
     const breadcrumbPaths = [
         { name: 'Home', path: '/' },

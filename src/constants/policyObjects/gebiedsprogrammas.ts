@@ -1,27 +1,27 @@
 import { object, ObjectSchema } from 'yup'
 
 import {
-    useGetGebiedsprogrammas,
-    useGetGebiedsprogrammasLineageId,
-    useGetValidGebiedsprogrammas,
-    useGetValidGebiedsprogrammasLineageId,
-    useGetVersionGebiedsprogrammasObjectUuid,
-    usePatchGebiedsprogrammasLineageId,
-    usePostGebiedsprogrammas,
+    useCreateGebiedsprogramma,
+    useReadGebiedsprogrammaLineage,
+    useUpdateGebiedsprogramma,
+    useReadValidGebiedsprogrammaLineage,
+    useReadGebiedsprogrammas,
+    useReadGebiedsprogrammaVersion,
+    useReadValidGebiedsprogrammas,
 } from '@/api/fetchers'
-import { GebiedsprogrammasWrite } from '@/api/fetchers.schemas'
+import { GebiedsprogrammaUpdate } from '@/api/fetchers.schemas'
 import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
 import { generateSchemaTitles, schemaDefaults } from '@/utils/yupSchema'
 
 const queryGebiedsprogrammas: SchemaMetaQueries = {
-    usePost: usePostGebiedsprogrammas,
-    useGet: useGetGebiedsprogrammas,
-    useGetVersion: useGetVersionGebiedsprogrammasObjectUuid,
-    useGetLineage: useGetGebiedsprogrammasLineageId,
-    useGetValidLineage: useGetValidGebiedsprogrammasLineageId,
-    usePatchLineage: usePatchGebiedsprogrammasLineageId,
-    useGetValid: useGetValidGebiedsprogrammas,
+    usePost: useCreateGebiedsprogramma,
+    useGet: useReadGebiedsprogrammas,
+    useGetVersion: useReadGebiedsprogrammaVersion,
+    useGetLineage: useReadGebiedsprogrammaLineage,
+    useGetValidLineage: useReadValidGebiedsprogrammaLineage,
+    usePatchLineage: useUpdateGebiedsprogramma,
+    useGetValid: useReadValidGebiedsprogrammas,
 }
 
 const ambitiesTitles = generateSchemaTitles({
@@ -39,7 +39,7 @@ const gebiedsprogrammasMeta: SchemaMeta<typeof queryGebiedsprogrammas> = {
     query: queryGebiedsprogrammas,
 }
 
-export const SCHEMA: ObjectSchema<MutatedPolicySchema<GebiedsprogrammasWrite>> =
+export const SCHEMA: ObjectSchema<MutatedPolicySchema<GebiedsprogrammaUpdate>> =
     object({
         Titel: schemaDefaults.Titel,
         Afbeelding: schemaDefaults.requiredString(
@@ -64,4 +64,4 @@ export const SCHEMA: ObjectSchema<MutatedPolicySchema<GebiedsprogrammasWrite>> =
 export const META = SCHEMA.describe().meta as SchemaMeta<
     typeof queryGebiedsprogrammas
 >
-export const EMPTY_WRITE_OBJECT: GebiedsprogrammasWrite = SCHEMA.getDefault()
+export const EMPTY_WRITE_OBJECT: GebiedsprogrammaUpdate = SCHEMA.getDefault()

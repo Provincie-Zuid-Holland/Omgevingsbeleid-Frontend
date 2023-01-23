@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import { getVersionBeleidskeuzesObjectUuid } from '@/api/fetchers'
+import { readBeleidskeuzeVersion } from '@/api/fetchers'
 import axios from '@/api/instance'
 import ButtonBackToPage from '@/components/ButtonBackToPage'
 import allDimensies from '@/constants/dimensies'
@@ -35,7 +35,7 @@ const BeleidsrelatiesCRUD = ({ dataModel }: BeleidsrelatiesCRUDProps) => {
     const [vanBeleidskeuzeTitel, SetVanBeleidskeuzeTitel] = useState('...')
 
     useEffect(() => {
-        getVersionBeleidskeuzesObjectUuid(UUID!)
+        readBeleidskeuzeVersion(UUID!)
             .then(data => SetVanBeleidskeuzeTitel(data.Titel || ''))
             .catch(err => {
                 console.log(err)

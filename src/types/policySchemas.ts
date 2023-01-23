@@ -1,75 +1,82 @@
 import {
-    usePostAmbities,
-    usePostBelangen,
-    usePostBeleidsdoelen,
-    usePostBeleidskeuzes,
-    usePostBeleidsmodules,
-    usePostBeleidsprestaties,
-    usePostBeleidsregels,
-    usePostMaatregelen,
-    usePostThemas,
-    usePostVerordeningen,
-    usePatchAmbitiesLineageId,
-    usePatchBelangenLineageId,
-    usePatchBeleidsdoelenLineageId,
-    usePatchBeleidskeuzesLineageId,
-    usePatchBeleidsmodulesLineageId,
-    usePatchBeleidsprestatiesLineageId,
-    usePatchBeleidsregelsLineageId,
-    usePatchMaatregelenLineageId,
-    usePatchThemasLineageId,
-    usePatchVerordeningenLineageId,
-    useGetValidAmbities,
-    useGetValidBelangen,
-    useGetValidBeleidsdoelen,
-    useGetValidBeleidskeuzes,
-    useGetValidBeleidsmodules,
-    useGetValidBeleidsprestaties,
-    useGetValidBeleidsregels,
-    useGetValidMaatregelen,
-    useGetValidThemas,
-    useGetValidVerordeningen,
-    useGetValidAmbitiesLineageId,
-    useGetValidBelangenLineageId,
-    useGetValidBeleidsdoelenLineageId,
-    useGetValidBeleidskeuzesLineageId,
-    useGetValidBeleidsmodulesLineageId,
-    useGetValidBeleidsprestatiesLineageId,
-    useGetValidBeleidsregelsLineageId,
-    useGetValidMaatregelenLineageId,
-    useGetValidThemasLineageId,
-    useGetValidVerordeningenLineageId,
-    useGetVersionAmbitiesObjectUuid,
-    useGetVersionBelangenObjectUuid,
-    useGetVersionBeleidsdoelenObjectUuid,
-    useGetVersionBeleidskeuzesObjectUuid,
-    useGetVersionBeleidsmodulesObjectUuid,
-    useGetVersionBeleidsprestatiesObjectUuid,
-    useGetVersionBeleidsregelsObjectUuid,
-    useGetVersionMaatregelenObjectUuid,
-    useGetVersionThemasObjectUuid,
-    useGetVersionVerordeningenObjectUuid,
-    useGetVersionWerkingsgebiedenObjectUuid,
-    useGetAmbitiesLineageId,
-    useGetBelangenLineageId,
-    useGetBeleidsdoelenLineageId,
-    useGetBeleidskeuzesLineageId,
-    useGetBeleidsmodulesLineageId,
-    useGetBeleidsprestatiesLineageId,
-    useGetBeleidsregelsLineageId,
-    useGetMaatregelenLineageId,
-    useGetThemasLineageId,
-    useGetVerordeningenLineageId,
-    useGetAmbities,
-    useGetBelangen,
-    useGetBeleidsdoelen,
-    useGetBeleidskeuzes,
-    useGetBeleidsmodules,
-    useGetBeleidsprestaties,
-    useGetBeleidsregels,
-    useGetMaatregelen,
-    useGetThemas,
-    useGetVerordeningen,
+    useCreateAmbitie,
+    useCreateBelang,
+    useCreateBeleidsdoel,
+    useCreateBeleidskeuze,
+    useCreateBeleidsmodule,
+    useCreateBeleidsprestatie,
+    useCreateBeleidsregel,
+    useCreateMaatregel,
+    useCreateThema,
+    useCreateVerordening,
+    useUpdateAmbitie,
+    useUpdateBelang,
+    useUpdateBeleidsdoel,
+    useUpdateBeleidskeuze,
+    useUpdateBeleidsmodule,
+    useUpdateBeleidsprestatie,
+    useUpdateBeleidsregel,
+    useUpdateMaatregel,
+    useUpdateThema,
+    useUpdateVerordening,
+    useReadValidAmbities,
+    useReadValidBelangen,
+    useReadValidBeleidsdoelen,
+    useReadValidBeleidskeuzes,
+    useReadValidBeleidsmodules,
+    useReadValidBeleidsprestaties,
+    useReadValidBeleidsregels,
+    useReadValidMaatregelen,
+    useReadValidThemas,
+    useReadValidVerordening,
+    useReadValidAmbitieLineage,
+    useReadValidBelangLineage,
+    useReadValidBeleidsdoelLineage,
+    useReadValidBeleidskeuzeLineage,
+    useReadValidBeleidsmoduleLineage,
+    useReadValidBeleidsprestatieLineage,
+    useReadValidBeleidsregelLineage,
+    useReadValidMaatregelLineage,
+    useReadValidThemaLineage,
+    useReadValidVerordeningLineage,
+    useReadAmbitieVersion,
+    useReadBelangVersion,
+    useReadBeleidsdoelVersion,
+    useReadBeleidskeuzeVersion,
+    useReadBeleidsmoduleVersion,
+    useReadBeleidsprestatieVersion,
+    useReadBeleidsregelVersion,
+    useReadMaatregelVersion,
+    useReadThemaVersion,
+    useReadVerordeningVersion,
+    useReadWerkingsgebiedVersion,
+    useReadAmbitieLineage,
+    useReadBelangLineage,
+    useReadBeleidsdoelLineage,
+    useReadBeleidskeuzeLineage,
+    useReadBeleidsmoduleLineage,
+    useReadBeleidsprestatieLineage,
+    useReadBeleidsregelLineage,
+    useReadMaatregelLineage,
+    useReadThemaLineage,
+    useReadVerordeningLineage,
+    useReadAmbities,
+    useReadBelangen,
+    useReadBeleidsdoelen,
+    useReadBeleidskeuzes,
+    useReadBeleidsmodules,
+    useReadBeleidsprestaties,
+    useReadBeleidsregels,
+    useReadMaatregelen,
+    useReadThemas,
+    useReadVerordening,
+    useReadGebiedsprogrammas,
+    useCreateGebiedsprogramma,
+    useUpdateGebiedsprogramma,
+    useReadValidGebiedsprogrammas,
+    useReadValidGebiedsprogrammaLineage,
+    useReadGebiedsprogrammaLineage,
+    useReadGebiedsprogrammaVersion,
 } from '@/api/fetchers'
 import {
     PolicyTitlesPlural,
@@ -94,89 +101,96 @@ export type SchemaMeta<T> = {
 }
 
 type QueryUseGet =
-    | typeof useGetAmbities
-    | typeof useGetBelangen
-    | typeof useGetBeleidsdoelen
-    | typeof useGetBeleidskeuzes
-    | typeof useGetBeleidsmodules
-    | typeof useGetBeleidsprestaties
-    | typeof useGetBeleidsregels
-    | typeof useGetMaatregelen
-    | typeof useGetThemas
-    | typeof useGetVerordeningen
+    | typeof useReadAmbities
+    | typeof useReadBelangen
+    | typeof useReadBeleidsdoelen
+    | typeof useReadBeleidskeuzes
+    | typeof useReadBeleidsmodules
+    | typeof useReadBeleidsprestaties
+    | typeof useReadBeleidsregels
+    | typeof useReadMaatregelen
+    | typeof useReadThemas
+    | typeof useReadVerordening
+    | typeof useReadGebiedsprogrammas
 
 type QueryUsePost =
-    | typeof usePostAmbities
-    | typeof usePostBelangen
-    | typeof usePostBeleidsdoelen
-    | typeof usePostBeleidskeuzes
-    | typeof usePostBeleidsmodules
-    | typeof usePostBeleidsprestaties
-    | typeof usePostBeleidsregels
-    | typeof usePostMaatregelen
-    | typeof usePostThemas
-    | typeof usePostVerordeningen
+    | typeof useCreateAmbitie
+    | typeof useCreateBelang
+    | typeof useCreateBeleidsdoel
+    | typeof useCreateBeleidskeuze
+    | typeof useCreateBeleidsmodule
+    | typeof useCreateBeleidsprestatie
+    | typeof useCreateBeleidsregel
+    | typeof useCreateMaatregel
+    | typeof useCreateThema
+    | typeof useCreateVerordening
+    | typeof useCreateGebiedsprogramma
 
 type QueryUsePatchLineage =
-    | typeof usePatchAmbitiesLineageId
-    | typeof usePatchBelangenLineageId
-    | typeof usePatchBeleidsdoelenLineageId
-    | typeof usePatchBeleidskeuzesLineageId
-    | typeof usePatchBeleidsmodulesLineageId
-    | typeof usePatchBeleidsprestatiesLineageId
-    | typeof usePatchBeleidsregelsLineageId
-    | typeof usePatchMaatregelenLineageId
-    | typeof usePatchThemasLineageId
-    | typeof usePatchVerordeningenLineageId
+    | typeof useUpdateAmbitie
+    | typeof useUpdateBelang
+    | typeof useUpdateBeleidsdoel
+    | typeof useUpdateBeleidskeuze
+    | typeof useUpdateBeleidsmodule
+    | typeof useUpdateBeleidsprestatie
+    | typeof useUpdateBeleidsregel
+    | typeof useUpdateMaatregel
+    | typeof useUpdateThema
+    | typeof useUpdateVerordening
+    | typeof useUpdateGebiedsprogramma
 
 type QueryUseGetValid =
-    | typeof useGetValidAmbities
-    | typeof useGetValidBelangen
-    | typeof useGetValidBeleidsdoelen
-    | typeof useGetValidBeleidskeuzes
-    | typeof useGetValidBeleidsmodules
-    | typeof useGetValidBeleidsprestaties
-    | typeof useGetValidBeleidsregels
-    | typeof useGetValidMaatregelen
-    | typeof useGetValidThemas
-    | typeof useGetValidVerordeningen
+    | typeof useReadValidAmbities
+    | typeof useReadValidBelangen
+    | typeof useReadValidBeleidsdoelen
+    | typeof useReadValidBeleidskeuzes
+    | typeof useReadValidBeleidsmodules
+    | typeof useReadValidBeleidsprestaties
+    | typeof useReadValidBeleidsregels
+    | typeof useReadValidMaatregelen
+    | typeof useReadValidThemas
+    | typeof useReadValidVerordening
+    | typeof useReadValidGebiedsprogrammas
 
 type QueryUseGetValidLineage =
-    | typeof useGetValidAmbitiesLineageId
-    | typeof useGetValidBelangenLineageId
-    | typeof useGetValidBeleidsdoelenLineageId
-    | typeof useGetValidBeleidskeuzesLineageId
-    | typeof useGetValidBeleidsmodulesLineageId
-    | typeof useGetValidBeleidsprestatiesLineageId
-    | typeof useGetValidBeleidsregelsLineageId
-    | typeof useGetValidMaatregelenLineageId
-    | typeof useGetValidThemasLineageId
-    | typeof useGetValidVerordeningenLineageId
+    | typeof useReadValidAmbitieLineage
+    | typeof useReadValidBelangLineage
+    | typeof useReadValidBeleidsdoelLineage
+    | typeof useReadValidBeleidskeuzeLineage
+    | typeof useReadValidBeleidsmoduleLineage
+    | typeof useReadValidBeleidsprestatieLineage
+    | typeof useReadValidBeleidsregelLineage
+    | typeof useReadValidMaatregelLineage
+    | typeof useReadValidThemaLineage
+    | typeof useReadValidVerordeningLineage
+    | typeof useReadValidGebiedsprogrammaLineage
 
 type QueryUseGetLineage =
-    | typeof useGetAmbitiesLineageId
-    | typeof useGetBelangenLineageId
-    | typeof useGetBeleidsdoelenLineageId
-    | typeof useGetBeleidskeuzesLineageId
-    | typeof useGetBeleidsmodulesLineageId
-    | typeof useGetBeleidsprestatiesLineageId
-    | typeof useGetBeleidsregelsLineageId
-    | typeof useGetMaatregelenLineageId
-    | typeof useGetThemasLineageId
-    | typeof useGetVerordeningenLineageId
+    | typeof useReadAmbitieLineage
+    | typeof useReadBelangLineage
+    | typeof useReadBeleidsdoelLineage
+    | typeof useReadBeleidskeuzeLineage
+    | typeof useReadBeleidsmoduleLineage
+    | typeof useReadBeleidsprestatieLineage
+    | typeof useReadBeleidsregelLineage
+    | typeof useReadMaatregelLineage
+    | typeof useReadThemaLineage
+    | typeof useReadVerordeningLineage
+    | typeof useReadGebiedsprogrammaLineage
 
 export type QueryUseGetVersion =
-    | typeof useGetVersionAmbitiesObjectUuid
-    | typeof useGetVersionBelangenObjectUuid
-    | typeof useGetVersionBeleidsdoelenObjectUuid
-    | typeof useGetVersionBeleidskeuzesObjectUuid
-    | typeof useGetVersionBeleidsmodulesObjectUuid
-    | typeof useGetVersionBeleidsprestatiesObjectUuid
-    | typeof useGetVersionBeleidsregelsObjectUuid
-    | typeof useGetVersionMaatregelenObjectUuid
-    | typeof useGetVersionThemasObjectUuid
-    | typeof useGetVersionVerordeningenObjectUuid
-    | typeof useGetVersionWerkingsgebiedenObjectUuid
+    | typeof useReadAmbitieVersion
+    | typeof useReadBelangVersion
+    | typeof useReadBeleidsdoelVersion
+    | typeof useReadBeleidskeuzeVersion
+    | typeof useReadBeleidsmoduleVersion
+    | typeof useReadBeleidsprestatieVersion
+    | typeof useReadBeleidsregelVersion
+    | typeof useReadMaatregelVersion
+    | typeof useReadThemaVersion
+    | typeof useReadVerordeningVersion
+    | typeof useReadWerkingsgebiedVersion
+    | typeof useReadGebiedsprogrammaVersion
 
 export type SchemaMetaQueries = {
     usePost: QueryUsePost

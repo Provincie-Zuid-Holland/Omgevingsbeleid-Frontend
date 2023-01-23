@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
-import { gebruikersV01GebruikersGet } from '@/api/fetchers'
+import { gebruikers } from '@/api/fetchers'
 import { Gebruiker } from '@/api/fetchers.schemas'
 import { LoaderSelect } from '@/components/Loader'
 
@@ -46,7 +46,7 @@ const FormFieldSelectUserGroup = ({
     const [error, setError] = useState(false)
 
     useEffect(() => {
-        gebruikersV01GebruikersGet()
+        gebruikers()
             .then(data => {
                 setGebruikersLijst(data)
                 setDataLoaded(true)

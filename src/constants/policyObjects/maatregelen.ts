@@ -1,27 +1,27 @@
 import { object, ObjectSchema } from 'yup'
 
 import {
-    usePostMaatregelen,
-    useGetMaatregelenLineageId,
-    usePatchMaatregelenLineageId,
-    useGetValidMaatregelenLineageId,
-    useGetMaatregelen,
-    useGetVersionMaatregelenObjectUuid,
-    useGetValidMaatregelen,
+    useCreateMaatregel,
+    useReadMaatregelLineage,
+    useUpdateMaatregel,
+    useReadValidMaatregelLineage,
+    useReadMaatregelen,
+    useReadMaatregelVersion,
+    useReadValidMaatregelen,
 } from '@/api/fetchers'
-import { MaatregelenWrite, MaatregelenRead } from '@/api/fetchers.schemas'
+import { MaatregelUpdate, Maatregel } from '@/api/fetchers.schemas'
 import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
 import { schemaDefaults, generateSchemaTitles } from '@/utils/yupSchema'
 
 const queryMaatregelen: SchemaMetaQueries = {
-    useGet: useGetMaatregelen,
-    useGetVersion: useGetVersionMaatregelenObjectUuid,
-    useGetLineage: useGetMaatregelenLineageId,
-    useGetValidLineage: useGetValidMaatregelenLineageId,
-    usePost: usePostMaatregelen,
-    usePatchLineage: usePatchMaatregelenLineageId,
-    useGetValid: useGetValidMaatregelen,
+    useGet: useReadMaatregelen,
+    useGetVersion: useReadMaatregelVersion,
+    useGetLineage: useReadMaatregelLineage,
+    useGetValidLineage: useReadValidMaatregelLineage,
+    usePost: useCreateMaatregel,
+    usePatchLineage: useUpdateMaatregel,
+    useGetValid: useReadValidMaatregelen,
 }
 
 const maatregelenTitles = generateSchemaTitles({
@@ -40,7 +40,7 @@ const maatregelenMeta: SchemaMeta<typeof queryMaatregelen> = {
 }
 
 export const SCHEMA: ObjectSchema<
-    MutatedPolicySchema<MaatregelenWrite | MaatregelenRead>
+    MutatedPolicySchema<MaatregelUpdate | Maatregel>
 > = object({
     Titel: schemaDefaults.Titel,
     Aanpassing_Op: schemaDefaults.optionalString,
@@ -65,4 +65,4 @@ export const META = SCHEMA.describe().meta as SchemaMeta<
     typeof queryMaatregelen
 >
 
-export const EMPTY_WRITE_OBJECT: MaatregelenWrite = SCHEMA.getDefault()
+export const EMPTY_WRITE_OBJECT: MaatregelUpdate = SCHEMA.getDefault()

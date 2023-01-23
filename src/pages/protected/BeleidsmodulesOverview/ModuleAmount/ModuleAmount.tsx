@@ -1,15 +1,12 @@
 import {
-    BeleidsmodulesRead,
-    BeleidsmodulesReadBeleidskeuzesItem,
-    BeleidsmodulesReadMaatregelenItem,
+    Beleidsmodule,
+    RelatedBeleidskeuze,
+    RelatedMaatregel,
 } from '@/api/fetchers.schemas'
 
 interface ModuleAmountProps {
-    currentBeleidsmodule?: BeleidsmodulesRead
-    policies?: (
-        | BeleidsmodulesReadBeleidskeuzesItem
-        | BeleidsmodulesReadMaatregelenItem
-    )[]
+    currentBeleidsmodule?: Beleidsmodule
+    policies?: (RelatedBeleidskeuze | RelatedMaatregel)[]
 }
 
 /**

@@ -1,27 +1,27 @@
 import { object, ObjectSchema } from 'yup'
 
 import {
-    usePostBeleidsprestaties,
-    useGetBeleidsprestatiesLineageId,
-    usePatchBeleidsprestatiesLineageId,
-    useGetValidBeleidsprestatiesLineageId,
-    useGetBeleidsprestaties,
-    useGetVersionBeleidsprestatiesObjectUuid,
-    useGetValidBeleidsprestaties,
+    useCreateBeleidsmodule,
+    useReadBeleidsmoduleLineage,
+    useUpdateBeleidsmodule,
+    useReadValidBeleidsmoduleLineage,
+    useReadBeleidsmodules,
+    useReadBeleidsmoduleVersion,
+    useReadValidBeleidsmodules,
 } from '@/api/fetchers'
-import { BeleidsprestatiesWrite } from '@/api/fetchers.schemas'
+import { BeleidsprestatieUpdate } from '@/api/fetchers.schemas'
 import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
 import { schemaDefaults, generateSchemaTitles } from '@/utils/yupSchema'
 
 const queryBeleidsprestaties: SchemaMetaQueries = {
-    usePost: usePostBeleidsprestaties,
-    useGet: useGetBeleidsprestaties,
-    useGetVersion: useGetVersionBeleidsprestatiesObjectUuid,
-    useGetLineage: useGetBeleidsprestatiesLineageId,
-    useGetValidLineage: useGetValidBeleidsprestatiesLineageId,
-    usePatchLineage: usePatchBeleidsprestatiesLineageId,
-    useGetValid: useGetValidBeleidsprestaties,
+    usePost: useCreateBeleidsmodule,
+    useGet: useReadBeleidsmodules,
+    useGetVersion: useReadBeleidsmoduleVersion,
+    useGetLineage: useReadBeleidsmoduleLineage,
+    useGetValidLineage: useReadValidBeleidsmoduleLineage,
+    usePatchLineage: useUpdateBeleidsmodule,
+    useGetValid: useReadValidBeleidsmodules,
 }
 
 const beleidsprestatiesTitles = generateSchemaTitles({
@@ -39,7 +39,7 @@ const beleidsprestatiesMeta: SchemaMeta<typeof queryBeleidsprestaties> = {
     query: queryBeleidsprestaties,
 }
 
-export const SCHEMA: ObjectSchema<MutatedPolicySchema<BeleidsprestatiesWrite>> =
+export const SCHEMA: ObjectSchema<MutatedPolicySchema<BeleidsprestatieUpdate>> =
     object({
         Titel: schemaDefaults.Titel,
         Omschrijving: schemaDefaults.optionalString,
@@ -52,4 +52,4 @@ export const META = SCHEMA.describe().meta as SchemaMeta<
     typeof queryBeleidsprestaties
 >
 
-export const EMPTY_WRITE_OBJECT: BeleidsprestatiesWrite = SCHEMA.getDefault()
+export const EMPTY_WRITE_OBJECT: BeleidsprestatieUpdate = SCHEMA.getDefault()

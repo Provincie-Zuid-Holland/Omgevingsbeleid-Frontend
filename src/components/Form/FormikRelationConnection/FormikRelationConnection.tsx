@@ -3,7 +3,7 @@ import { AngleDown, Eye } from '@pzh-ui/icons'
 import { useFormikContext } from 'formik'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { BeleidskeuzesWrite, MaatregelenWrite } from '@/api/fetchers.schemas'
+import { BeleidskeuzeUpdate, MaatregelUpdate } from '@/api/fetchers.schemas'
 import objecten, {
     connectionPropertiesType,
     propertyNamesType,
@@ -21,7 +21,7 @@ import PopupNieuweKoppeling from './PopupNieuweKoppeling'
  */
 function getPropertiesWithConnectionsFromCrudObject(
     connectionProperties: connectionPropertiesType[],
-    crudObject: BeleidskeuzesWrite
+    crudObject: BeleidskeuzeUpdate
 ) {
     const propertiesWithExistingConnections: propertyNamesType[] = []
 
@@ -42,7 +42,7 @@ function getPropertiesWithConnectionsFromCrudObject(
 }
 
 export interface FormikRelationConnectionProps {
-    crudObject: BeleidskeuzesWrite
+    crudObject: BeleidskeuzeUpdate
     connectionProperties: connectionPropertiesType[]
     disabled?: boolean
     label: string
@@ -67,7 +67,7 @@ const FormikRelationConnection = ({
     titelMainObject,
 }: FormikRelationConnectionProps) => {
     const { values, setFieldValue } = useFormikContext<
-        BeleidskeuzesWrite | MaatregelenWrite
+        BeleidskeuzeUpdate | MaatregelUpdate
     >()
 
     const [dropdownOpen, setDropdownOpen] = useState(false)

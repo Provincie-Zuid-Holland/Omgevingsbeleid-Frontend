@@ -1,27 +1,27 @@
 import { object, ObjectSchema } from 'yup'
 
 import {
-    useGetBeleidskeuzes,
-    useGetBeleidskeuzesLineageId,
-    useGetValidBeleidskeuzes,
-    useGetValidBeleidskeuzesLineageId,
-    useGetVersionBeleidskeuzesObjectUuid,
-    usePatchBeleidskeuzesLineageId,
-    usePostBeleidskeuzes,
+    useCreateBeleidskeuze,
+    useReadBeleidskeuzeLineage,
+    useUpdateBeleidskeuze,
+    useReadValidBeleidskeuzeLineage,
+    useReadBeleidskeuzes,
+    useReadBeleidskeuzeVersion,
+    useReadValidBeleidskeuzes,
 } from '@/api/fetchers'
-import { BeleidskeuzesWrite } from '@/api/fetchers.schemas'
+import { BeleidskeuzeUpdate } from '@/api/fetchers.schemas'
 import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
 import { generateSchemaTitles, schemaDefaults } from '@/utils/yupSchema'
 
 const queryBeleidskeuzes: SchemaMetaQueries = {
-    usePost: usePostBeleidskeuzes,
-    useGet: useGetBeleidskeuzes,
-    useGetVersion: useGetVersionBeleidskeuzesObjectUuid,
-    useGetLineage: useGetBeleidskeuzesLineageId,
-    useGetValidLineage: useGetValidBeleidskeuzesLineageId,
-    usePatchLineage: usePatchBeleidskeuzesLineageId,
-    useGetValid: useGetValidBeleidskeuzes,
+    usePost: useCreateBeleidskeuze,
+    useGet: useReadBeleidskeuzes,
+    useGetVersion: useReadBeleidskeuzeVersion,
+    useGetLineage: useReadBeleidskeuzeLineage,
+    useGetValidLineage: useReadValidBeleidskeuzeLineage,
+    usePatchLineage: useUpdateBeleidskeuze,
+    useGetValid: useReadValidBeleidskeuzes,
 }
 
 const beleidskeuzesTitles = generateSchemaTitles({
@@ -39,7 +39,7 @@ const beleidskeuzesMeta: SchemaMeta<typeof queryBeleidskeuzes> = {
     query: queryBeleidskeuzes,
 }
 
-type BeleidskeuzeSchema = ObjectSchema<MutatedPolicySchema<BeleidskeuzesWrite>>
+type BeleidskeuzeSchema = ObjectSchema<MutatedPolicySchema<BeleidskeuzeUpdate>>
 
 export const beleidskeuzeStatussesWithStartValidity = ['Ontwerp GS Concept']
 
@@ -80,5 +80,5 @@ export const META = SCHEMA.describe().meta as SchemaMeta<
     typeof queryBeleidskeuzes
 >
 
-export const EMPTY_WRITE_OBJECT: MutatedPolicySchema<BeleidskeuzesWrite> =
+export const EMPTY_WRITE_OBJECT: MutatedPolicySchema<BeleidskeuzeUpdate> =
     SCHEMA.getDefault()

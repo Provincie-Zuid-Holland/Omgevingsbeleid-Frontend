@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import { useEffectOnce, useMedia, useUpdateEffect } from 'react-use'
 
 import { getWerkingsGebieden } from '@/api/axiosGeoJSON'
-import { postSearchGeo } from '@/api/fetchers'
-import { GetSearchGeo200ResultsItem } from '@/api/fetchers.schemas'
+import { geoSearch } from '@/api/fetchers'
+import { SearchResultWrapperResultsItem } from '@/api/fetchers.schemas'
 import { ContainerMapSearch } from '@/components/Container'
 import { LeafletMap } from '@/components/Leaflet'
 import { mapPanTo } from '@/components/Leaflet/utils'
@@ -41,7 +41,7 @@ const MapSearch = () => {
     const [UUIDs, setUUIDs] = useState<string[]>([])
     const [searchResultsTotal, setSearchResultsTotal] = useState(0)
     const [searchResults, setSearchResults] = useState<
-        GetSearchGeo200ResultsItem[]
+        SearchResultWrapperResultsItem[]
     >([])
     const [searchResultsLoading, setSearchResultsLoading] = useState(true)
     const [searchOpen, setSearchOpen] = useState(paramSearchOpen === 'true')
@@ -96,7 +96,7 @@ const MapSearch = () => {
     const getSearchResults = async (UUIDs: string[]) => {
         setSearchResultsLoading(true)
 
-        return postSearchGeo({ query: UUIDs.join(',') }).then(data => {
+        return geoSearch({ query: UUIDs.join(',') }).then(data => {
             setSearchResults(data.results || [])
             setSearchResultsTotal(data.total || 0)
             initializeFilters(data.results || [])

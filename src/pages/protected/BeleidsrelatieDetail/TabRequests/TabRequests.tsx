@@ -1,9 +1,6 @@
 import { useParams } from 'react-router-dom'
 
-import {
-    BeleidskeuzesInline,
-    BeleidsrelatiesRead,
-} from '@/api/fetchers.schemas'
+import { Beleidskeuze, Beleidsrelatie } from '@/api/fetchers.schemas'
 import { LoaderBeleidsrelatieRegel } from '@/components/Loader'
 import formatDate from '@/utils/formatDate'
 
@@ -20,11 +17,11 @@ import PopupMotivation from '../PopupMotivation'
 
 interface TabRequestsProps {
     loaded?: boolean
-    requests: BeleidsrelatiesRead[]
+    requests: Beleidsrelatie[]
     motivationPopUp?: string | null
     setMotivationPopUp: (UUID?: string | null) => void
-    relationshipAccept: (relation: BeleidsrelatiesRead) => void
-    relationshipReject: (relation: BeleidsrelatiesRead) => void
+    relationshipAccept: (relation: Beleidsrelatie) => void
+    relationshipReject: (relation: Beleidsrelatie) => void
 }
 
 function TabRequests({
@@ -38,8 +35,8 @@ function TabRequests({
     const { UUID } = useParams<{ UUID: string }>()
 
     const getPropertyFromRelation = (
-        relation: BeleidsrelatiesRead,
-        property: keyof BeleidskeuzesInline
+        relation: Beleidsrelatie,
+        property: keyof Beleidskeuze
     ) => {
         if (relation.Van_Beleidskeuze?.UUID === UUID) {
             return relation.Naar_Beleidskeuze?.[property]

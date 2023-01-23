@@ -1,24 +1,24 @@
 import {
-    AmbitiesRead,
-    BelangenRead,
-    BeleidskeuzesRead,
-    BeleidsregelsRead,
-    BeleidsprestatiesRead,
-    BeleidsmodulesRead,
-    BeleidsdoelenRead,
-    MaatregelenRead,
-    ThemasRead,
-    VerordeningenRead,
+    Ambitie,
+    Belang,
+    Beleidskeuze,
+    Beleidsregel,
+    Beleidsprestatie,
+    Beleidsmodule,
+    Beleidsdoel,
+    Maatregel,
+    Thema,
+    Verordening,
 } from '@/api/fetchers.schemas'
 
 export type PossiblePolicyRead =
-    | AmbitiesRead
-    | BelangenRead
-    | BeleidskeuzesRead
-    | BeleidsregelsRead
-    | BeleidsprestatiesRead
-    | BeleidsmodulesRead
-    | BeleidsdoelenRead
-    | MaatregelenRead
-    | ThemasRead
-    | VerordeningenRead
+    | Ambitie
+    | Belang
+    | Beleidskeuze
+    | Beleidsregel
+    | Beleidsprestatie
+    | Beleidsmodule
+    | Beleidsdoel
+    | Maatregel
+    | Thema
+    | Verordening

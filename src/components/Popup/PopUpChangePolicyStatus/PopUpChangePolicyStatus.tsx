@@ -3,16 +3,16 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 
 import {
-    getGetBeleidskeuzesLineageIdQueryKey,
-    getGetBeleidskeuzesQueryKey,
-    getGetGebiedsprogrammasQueryKey,
-    getGetMaatregelenLineageIdQueryKey,
-    getGetMaatregelenQueryKey,
-    getGetGebiedsprogrammasLineageIdQueryKey,
+    getReadBeleidskeuzeLineageQueryKey,
+    getReadBeleidskeuzesQueryKey,
+    getReadGebiedsprogrammasQueryKey,
+    getReadMaatregelLineageQueryKey,
+    getReadMaatregelenQueryKey,
+    getReadGebiedsprogrammaLineageQueryKey,
 } from '@/api/fetchers'
 import {
-    BeleidskeuzesRead,
-    MaatregelenRead,
+    Beleidskeuze,
+    Maatregel,
     MaatregelenReadStatus,
     BeleidskeuzesReadStatus,
 } from '@/api/fetchers.schemas'
@@ -28,7 +28,7 @@ type OptionType = {
 export interface PopUpChangePolicyStatusProps {
     isOpen: boolean
     setIsOpen: (isOpen: boolean) => void
-    policy: MaatregelenRead | BeleidskeuzesRead
+    policy: Maatregel | Beleidskeuze
     titleSingular: 'Beleidskeuze' | 'Maatregel' | 'Gebiedsprogramma'
 }
 
@@ -50,20 +50,20 @@ function PopUpChangePolicyStatus({
             onSuccess: () => {
                 const queryKeyLineage =
                     titleSingular === 'Beleidskeuze'
-                        ? getGetBeleidskeuzesLineageIdQueryKey(policy.ID!)
+                        ? getReadBeleidskeuzeLineageQueryKey(policy.ID!)
                         : titleSingular === 'Maatregel'
-                        ? getGetMaatregelenLineageIdQueryKey(policy.ID!)
+                        ? getReadMaatregelLineageQueryKey(policy.ID!)
                         : titleSingular === 'Gebiedsprogramma'
-                        ? getGetGebiedsprogrammasLineageIdQueryKey(policy.ID!)
+                        ? getReadGebiedsprogrammaLineageQueryKey(policy.ID!)
                         : ['']
 
                 const queryKeyAllLineages =
                     titleSingular === 'Beleidskeuze'
-                        ? getGetBeleidskeuzesQueryKey()
+                        ? getReadBeleidskeuzesQueryKey()
                         : titleSingular === 'Maatregel'
-                        ? getGetMaatregelenQueryKey()
+                        ? getReadMaatregelenQueryKey()
                         : titleSingular === 'Gebiedsprogramma'
-                        ? getGetGebiedsprogrammasQueryKey()
+                        ? getReadGebiedsprogrammasQueryKey()
                         : ['']
 
                 queryClient.invalidateQueries(queryKeyLineage)
@@ -147,8 +147,8 @@ function PopUpChangePolicyStatus({
                     <Text className="underline">Annuleren</Text>
                 </button>
                 <Button
-                    disabled={selectedStatus === null}
-                    onClick={() => updatePolicyStatus()}
+                    isDisabled={selectedStatus === null}
+                    onPress={() => updatePolicyStatus()}
                     variant="cta">
                     Aanpassen
                 </Button>

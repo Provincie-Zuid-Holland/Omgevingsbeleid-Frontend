@@ -3,8 +3,8 @@ import { Xmark } from '@pzh-ui/icons'
 import { useParams } from 'react-router-dom'
 
 import {
-    BeleidskeuzesInline,
-    BeleidsrelatiesRead,
+    Beleidskeuze,
+    Beleidsrelatie,
     BeleidsrelatiesReadStatus,
 } from '@/api/fetchers.schemas'
 import { LoaderBeleidsrelatieRegel } from '@/components/Loader'
@@ -27,13 +27,13 @@ import PopupMotivation from '../PopupMotivation'
 
 interface TabRelationsProps {
     loaded?: boolean
-    relations: BeleidsrelatiesRead[]
+    relations: Beleidsrelatie[]
     motivationPopUp?: string | null
     setMotivationPopUp: (UUID?: string | null) => void
     setDisconnectPopup: (UUID?: string | null) => void
     disconnectPopUp?: string | null
     beleidskeuzeTitle?: string
-    relationshipDisconnect: (relation: BeleidsrelatiesRead) => void
+    relationshipDisconnect: (relation: Beleidsrelatie) => void
     updateStatus: (
         uuid?: string,
         nieuweStatus?: BeleidsrelatiesReadStatus,
@@ -55,8 +55,8 @@ function TabRelations({
     const { UUID } = useParams<{ UUID: string }>()
 
     const getPropertyFromRelation = (
-        relation: BeleidsrelatiesRead,
-        property: keyof BeleidskeuzesInline
+        relation: Beleidsrelatie,
+        property: keyof Beleidskeuze
     ) => {
         if (relation.Van_Beleidskeuze?.UUID === UUID) {
             return relation.Naar_Beleidskeuze?.[property]
@@ -173,7 +173,7 @@ interface PopUpConfirmProps
         | 'relationshipDisconnect'
         | 'updateStatus'
     > {
-    relation: BeleidsrelatiesRead
+    relation: Beleidsrelatie
     title?: string | number
 }
 
@@ -225,12 +225,7 @@ const PopUpConfirm = ({
                     Annuleren
                 </span>
                 <Button
-                    label={
-                        relation.Status === 'Akkoord'
-                            ? 'Verbreken'
-                            : 'Intrekken'
-                    }
-                    onClick={() => {
+                    onPress={() => {
                         relationshipDisconnect(relation)
                         setDisconnectPopup(null)
                         updateStatus(
@@ -240,8 +235,9 @@ const PopUpConfirm = ({
                                 : 'NietAkkoord',
                             true
                         )
-                    }}
-                />
+                    }}>
+                    {relation.Status === 'Akkoord' ? 'Verbreken' : 'Intrekken'}
+                </Button>
             </div>
         </PopUpAnimatedContainer>
     )

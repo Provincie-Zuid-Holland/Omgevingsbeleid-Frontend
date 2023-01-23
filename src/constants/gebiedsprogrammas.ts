@@ -1,9 +1,12 @@
-import { getGebiedsprogrammas, getValidGebiedsprogrammas } from '@/api/fetchers'
+import {
+    readGebiedsprogrammas,
+    readValidGebiedsprogrammas,
+} from '@/api/fetchers'
 
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
-export const apiCall = getGebiedsprogrammas
-export const validApiCall = getValidGebiedsprogrammas
+export const apiCall = readGebiedsprogrammas
+export const validApiCall = readValidGebiedsprogrammas
 
 export const TITLE_SINGULAR = 'Gebiedsprogramma'
 export const TITLE_SINGULAR_PREFIX = 'het'

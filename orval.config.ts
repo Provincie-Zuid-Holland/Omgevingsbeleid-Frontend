@@ -3,7 +3,7 @@ require('dotenv').config()
 export default {
     api: {
         input: {
-            target: `${process.env.REACT_APP_API_URL}/openapi.json`,
+            target: `${process.env.REACT_APP_API_URL}/spec`,
         },
         output: {
             mode: 'split',

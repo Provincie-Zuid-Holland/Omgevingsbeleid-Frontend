@@ -6,7 +6,12 @@ describe('EigenaarsDriehoekItem', () => {
     it('should render', () => {
         render(
             <EigenaarsDriehoekItem
-                owner={{ Gebruikersnaam: 'Opdrachtgever_test' }}
+                owner={{
+                    Gebruikersnaam: 'Opdrachtgever_test',
+                    Rol: '',
+                    Status: '',
+                    UUID: '',
+                }}
             />
         )
 

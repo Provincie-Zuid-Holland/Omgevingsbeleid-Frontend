@@ -2,18 +2,14 @@ import { QueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 
 import {
-    getBeleidsmodules,
-    patchBeleidsmodulesLineageId,
-    getGetBeleidskeuzesLineageIdQueryKey,
-    getGetMaatregelenLineageIdQueryKey,
-    getGetMaatregelenQueryKey,
-    getGetBeleidskeuzesQueryKey,
+    readBeleidsmodules,
+    updateBeleidsmodule,
+    getReadBeleidskeuzeLineageQueryKey,
+    getReadMaatregelLineageQueryKey,
+    getReadMaatregelenQueryKey,
+    getReadBeleidskeuzesQueryKey,
 } from '@/api/fetchers'
-import {
-    MaatregelenRead,
-    BeleidskeuzesRead,
-    BeleidsmodulesRead,
-} from '@/api/fetchers.schemas'
+import { Maatregel, Beleidskeuze, Beleidsmodule } from '@/api/fetchers.schemas'
 import handleError from '@/utils/handleError'
 
 /**
@@ -21,7 +17,7 @@ import handleError from '@/utils/handleError'
  */
 
 export const removePolicyFromModule = async (
-    policy: MaatregelenRead | BeleidskeuzesRead,
+    policy: Maatregel | Beleidskeuze,
     titleSingular: 'Maatregel' | 'Beleidskeuze' | 'Gebiedsprogramma',
     queryClient: QueryClient,
     type: 'detail' | 'overview'
@@ -31,7 +27,7 @@ export const removePolicyFromModule = async (
     )
     if (!confirm) return
 
-    const allBeleidsmodules = await getBeleidsmodules().catch(err => {
+    const allBeleidsmodules = await readBeleidsmodules().catch(err => {
         console.error(err)
         toast(process.env.REACT_APP_ERROR_MSG)
         return null
@@ -49,7 +45,7 @@ export const removePolicyFromModule = async (
             ).length > 0
     )
 
-    const generatePatchObject = (module: BeleidsmodulesRead) => ({
+    const generatePatchObject = (module: Beleidsmodule) => ({
         [connectionProperty]: (module[connectionProperty] as any[])
             // Filter out the object we want to remove
             ?.filter(connection => connection.Object.ID !== policy.ID)
@@ -61,24 +57,21 @@ export const removePolicyFromModule = async (
     })
 
     Promise.all(
-        modulesWithExistingConnection.map((module: BeleidsmodulesRead) =>
-            patchBeleidsmodulesLineageId(
-                module.ID!,
-                generatePatchObject(module)
-            )
+        modulesWithExistingConnection.map((module: Beleidsmodule) =>
+            updateBeleidsmodule(module.ID!, generatePatchObject(module))
         )
     )
         .then(res => {
             const isDetailPage = type === 'detail'
             const queryKey =
                 titleSingular.toLowerCase() === 'Beleidskeuze' && isDetailPage
-                    ? getGetBeleidskeuzesLineageIdQueryKey(policy.ID!)
+                    ? getReadBeleidskeuzeLineageQueryKey(policy.ID!)
                     : titleSingular === 'Maatregel' && isDetailPage
-                    ? getGetMaatregelenLineageIdQueryKey(policy.ID!)
+                    ? getReadMaatregelLineageQueryKey(policy.ID!)
                     : titleSingular === 'Maatregel' && !isDetailPage
-                    ? getGetMaatregelenQueryKey()
+                    ? getReadMaatregelenQueryKey()
                     : titleSingular === 'Beleidskeuze' && !isDetailPage
-                    ? getGetBeleidskeuzesQueryKey()
+                    ? getReadBeleidskeuzesQueryKey()
                     : ['']
 
             queryClient.invalidateQueries(queryKey)

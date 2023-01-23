@@ -35,15 +35,15 @@ function ButtonSubmitFixed({
                 <Button
                     id="form-submit"
                     type="button"
-                    onClick={e => {
-                        submit(e)
+                    onPress={e => {
+                        submit(e as any)
                     }}
-                    onKeyPress={e => {
+                    onKeyDown={e => {
                         if (e.key === 'Enter') {
                             submit(e)
                         }
                     }}
-                    disabled={disabled}>
+                    isDisabled={disabled}>
                     Opslaan
                 </Button>
             </div>

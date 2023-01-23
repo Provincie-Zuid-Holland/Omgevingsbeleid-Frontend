@@ -11,9 +11,9 @@ import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
 import {
-    BeleidskeuzesRead,
-    GebiedsprogrammasRead,
-    MaatregelenRead,
+    Beleidskeuze,
+    Gebiedsprogramma,
+    Maatregel,
 } from '@/api/fetchers.schemas'
 import { ContainerMain } from '@/components/Container'
 import Dropdown from '@/components/Dropdown'
@@ -225,9 +225,7 @@ const OverviewDropdown = ({
                       callback: policyIsInAModule
                           ? () =>
                                 removePolicyFromModule(
-                                    policy as
-                                        | BeleidskeuzesRead
-                                        | MaatregelenRead,
+                                    policy as Beleidskeuze | Maatregel,
                                     titleSingular,
                                     queryClient,
                                     'overview'
@@ -258,7 +256,7 @@ const OverviewDropdown = ({
             <PopUpAddPolicyToModule
                 isOpen={modulesPopup}
                 setIsOpen={setModulesPopup}
-                policy={policy as BeleidskeuzesRead | MaatregelenRead}
+                policy={policy as Beleidskeuze | Maatregel}
                 titleSingular={titleSingular as 'Beleidskeuze' | 'Maatregel'}
             />
         </>
@@ -305,9 +303,9 @@ const OverviewTableRow: FC<OverviewTableRowProps> = ({
                     {
                         (
                             policyObject as
-                                | MaatregelenRead
-                                | BeleidskeuzesRead
-                                | GebiedsprogrammasRead
+                                | Maatregel
+                                | Beleidskeuze
+                                | Gebiedsprogramma
                         )['Status']
                     }
                 </Link>

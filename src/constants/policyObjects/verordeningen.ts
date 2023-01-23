@@ -1,9 +1,9 @@
 import { array, lazy, mixed, object, ObjectSchema, string } from 'yup'
 
 import {
-    useGetValidVerordeningen,
-    useGetValidVerordeningenLineageId,
-    useGetVersionVerordeningenObjectUuid,
+    useReadValidVerordeningLineage,
+    useReadVerordeningVersion,
+    useReadValidVerordening,
 } from '@/api/fetchers'
 import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
@@ -22,11 +22,11 @@ import { generateSchemaTitles, schemaDefaults } from '@/utils/yupSchema'
 const queryVerordeningen: SchemaMetaQueries = {
     usePost: usePostVerordeningenStructure as any,
     useGet: useGetVerordeningenStructuren as any,
-    useGetVersion: useGetVersionVerordeningenObjectUuid,
+    useGetVersion: useReadVerordeningVersion,
     useGetLineage: useGetVerordeningenStructurenLineageId as any,
-    useGetValidLineage: useGetValidVerordeningenLineageId,
+    useGetValidLineage: useReadValidVerordeningLineage,
     usePatchLineage: usePatchVerordeningenStructureLineageid as any,
-    useGetValid: useGetValidVerordeningen,
+    useGetValid: useReadValidVerordening,
 }
 
 const verordeningenTitles = generateSchemaTitles({

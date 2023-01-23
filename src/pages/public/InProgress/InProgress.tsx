@@ -4,7 +4,7 @@ import { Plus } from '@pzh-ui/icons'
 import { useQuery } from '@tanstack/react-query'
 import { Helmet } from 'react-helmet'
 
-import { getEdits } from '@/api/fetchers'
+import { edits } from '@/api/fetchers'
 import { Container } from '@/components/Container'
 import imageInBewerking from '@/images/in-bewerking.png'
 import { scrollToElementByID } from '@/utils/scrollToElementByID'
@@ -12,8 +12,8 @@ import { scrollToElementByID } from '@/utils/scrollToElementByID'
 import TableLatestEdits from './TableLatestEdits'
 
 function InProgress() {
-    const { isLoading, data: edits } = useQuery(['/edits'], () =>
-        getEdits().then(data => {
+    const { isLoading, data: editsData } = useQuery(['/edits'], () =>
+        edits().then(data => {
             const filteredData = data.filter(
                 item =>
                     item.Status !== 'Ontwerp GS Concept' &&
@@ -42,12 +42,12 @@ function InProgress() {
                         laten zien die in ontwerp zijn.
                     </Text>
                     <Button
-                        label="Bekijk overzicht"
-                        onClick={() =>
+                        onPress={() =>
                             scrollToElementByID('laatste-bewerkingen')
                         }
-                        className="mt-4"
-                    />
+                        className="mt-4">
+                        Bekijk overzicht
+                    </Button>
                 </div>
                 <div
                     className="relative col-span-3"
@@ -83,7 +83,7 @@ function InProgress() {
                     kan eenvoudig worden gesorteerd door op het kopje van de
                     kolom te drukken.
                 </Text>
-                <TableLatestEdits edits={edits} isLoading={isLoading} />
+                <TableLatestEdits edits={editsData} isLoading={isLoading} />
             </Container>
             <Divider />
             <Container className="py-12">

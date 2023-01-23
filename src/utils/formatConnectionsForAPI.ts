@@ -1,11 +1,11 @@
 import cloneDeep from 'lodash.clonedeep'
 
 import {
-    BeleidskeuzesRead,
-    GebiedsprogrammasRead,
-    ListReference,
-    MaatregelenRead,
-    MaatregelenWrite,
+    Beleidskeuze,
+    Gebiedsprogramma,
+    GenericReferenceUpdate,
+    Maatregel,
+    MaatregelUpdate,
 } from '@/api/fetchers.schemas'
 import { PolicyTitlesSingular } from '@/constants/policyObjects'
 import { MutateReadObjects, MutateWriteObjects } from '@/types/dimensions'
@@ -19,8 +19,8 @@ const formatConnectionsForAPI = (
     titleSingular: PolicyTitlesSingular
 ) => {
     if (titleSingular === 'beleidskeuze') {
-        const formattedBeleidskeuze: BeleidskeuzesRead = cloneDeep(
-            crudObject as BeleidskeuzesRead
+        const formattedBeleidskeuze: Beleidskeuze = cloneDeep(
+            crudObject as Beleidskeuze
         )
 
         const beleidskeuzeConnectionProperties = [
@@ -36,11 +36,11 @@ const formatConnectionsForAPI = (
         beleidskeuzeConnectionProperties.forEach(property => {
             const originalConnection = formattedBeleidskeuze[property]
             if (originalConnection) {
-                const formattedConnections: ListReference[] =
+                const formattedConnections: GenericReferenceUpdate[] =
                     originalConnection.map(connection => ({
                         Koppeling_Omschrijving:
-                            connection.Koppeling_Omschrijving,
-                        UUID: connection?.Object?.UUID,
+                            connection.Koppeling_Omschrijving || '',
+                        UUID: connection?.Object?.UUID || '',
                     }))
                 formattedBeleidskeuze[property] = formattedConnections
             }
@@ -48,8 +48,8 @@ const formatConnectionsForAPI = (
 
         return formattedBeleidskeuze as MutateWriteObjects
     } else if (titleSingular === 'gebiedsprogramma') {
-        const formattedGebiedsprogramma: GebiedsprogrammasRead = cloneDeep(
-            crudObject as GebiedsprogrammasRead
+        const formattedGebiedsprogramma: Gebiedsprogramma = cloneDeep(
+            crudObject as Gebiedsprogramma
         )
 
         const gebiedsprogrammaConnectionProperties = ['Maatregelen'] as const
@@ -57,7 +57,7 @@ const formatConnectionsForAPI = (
         gebiedsprogrammaConnectionProperties.forEach(property => {
             const originalConnection = formattedGebiedsprogramma[property]
             if (originalConnection) {
-                const formattedConnections: ListReference[] =
+                const formattedConnections: GenericReferenceUpdate[] =
                     originalConnection.map(connection => ({
                         Koppeling_Omschrijving:
                             connection.Koppeling_Omschrijving,
@@ -69,13 +69,13 @@ const formatConnectionsForAPI = (
 
         return formattedGebiedsprogramma as MutateWriteObjects
     } else if (titleSingular === 'maatregel') {
-        const formattedMaatregel: MaatregelenWrite = cloneDeep(
-            crudObject as MaatregelenWrite
+        const formattedMaatregel: MaatregelUpdate = cloneDeep(
+            crudObject as MaatregelUpdate
         )
 
         if ('Gebied' in crudObject && crudObject.Gebied !== undefined) {
-            formattedMaatregel.Gebied = (
-                crudObject as MaatregelenRead
+            formattedMaatregel.Gebied_UUID = (
+                crudObject as Maatregel
             ).Gebied!.UUID!
         }
 

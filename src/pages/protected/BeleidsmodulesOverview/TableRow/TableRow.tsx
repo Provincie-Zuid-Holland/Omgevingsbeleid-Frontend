@@ -1,9 +1,6 @@
 import { Link } from 'react-router-dom'
 
-import {
-    BeleidsmodulesReadMaatregelenItem,
-    BeleidsmodulesReadBeleidskeuzesItem,
-} from '@/api/fetchers.schemas'
+import { RelatedMaatregel, RelatedBeleidskeuze } from '@/api/fetchers.schemas'
 import * as BELEIDSKEUZES from '@/constants/beleidskeuzes'
 import * as MAATREGELEN from '@/constants/maatregelen'
 
@@ -14,9 +11,9 @@ type PolicyType = {
 }
 interface TableRowProps {
     policy:
-        | (BeleidsmodulesReadMaatregelenItem & PolicyType)
-        | (BeleidsmodulesReadBeleidskeuzesItem & PolicyType)
-        | (BeleidsmodulesReadMaatregelenItem & PolicyType)
+        | (RelatedMaatregel & PolicyType)
+        | (RelatedBeleidskeuze & PolicyType)
+        | (RelatedMaatregel & PolicyType)
 }
 
 /**

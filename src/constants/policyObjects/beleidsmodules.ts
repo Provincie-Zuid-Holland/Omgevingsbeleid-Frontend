@@ -1,27 +1,27 @@
 import { object, ObjectSchema } from 'yup'
 
 import {
-    usePostBeleidsmodules,
-    useGetBeleidsmodulesLineageId,
-    usePatchBeleidsmodulesLineageId,
-    useGetValidBeleidsmodulesLineageId,
-    useGetBeleidsmodules,
-    useGetVersionBeleidsmodulesObjectUuid,
-    useGetValidBeleidsmodules,
+    useCreateBeleidsmodule,
+    useReadBeleidsmoduleLineage,
+    useUpdateBeleidsmodule,
+    useReadValidBeleidsmoduleLineage,
+    useReadBeleidsmodules,
+    useReadBeleidsmoduleVersion,
+    useReadValidBeleidsmodules,
 } from '@/api/fetchers'
-import { BeleidsmodulesWrite } from '@/api/fetchers.schemas'
+import { BeleidsmoduleUpdate } from '@/api/fetchers.schemas'
 import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
 import { schemaDefaults, generateSchemaTitles } from '@/utils/yupSchema'
 
 const queryBeleidsmodules: SchemaMetaQueries = {
-    usePost: usePostBeleidsmodules,
-    useGet: useGetBeleidsmodules,
-    useGetVersion: useGetVersionBeleidsmodulesObjectUuid,
-    useGetLineage: useGetBeleidsmodulesLineageId,
-    useGetValidLineage: useGetValidBeleidsmodulesLineageId,
-    usePatchLineage: usePatchBeleidsmodulesLineageId,
-    useGetValid: useGetValidBeleidsmodules,
+    usePost: useCreateBeleidsmodule,
+    useGet: useReadBeleidsmodules,
+    useGetVersion: useReadBeleidsmoduleVersion,
+    useGetLineage: useReadBeleidsmoduleLineage,
+    useGetValidLineage: useReadValidBeleidsmoduleLineage,
+    usePatchLineage: useUpdateBeleidsmodule,
+    useGetValid: useReadValidBeleidsmodules,
 }
 
 const beleidsmodulesTitles = generateSchemaTitles({
@@ -39,7 +39,7 @@ const beleidsmodulesMeta: SchemaMeta<typeof queryBeleidsmodules> = {
     query: queryBeleidsmodules,
 }
 
-export const SCHEMA: ObjectSchema<MutatedPolicySchema<BeleidsmodulesWrite>> =
+export const SCHEMA: ObjectSchema<MutatedPolicySchema<BeleidsmoduleUpdate>> =
     object({
         Titel: schemaDefaults.Titel,
         Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.notRequired,
@@ -54,4 +54,4 @@ export const META = SCHEMA.describe().meta as SchemaMeta<
     typeof queryBeleidsmodules
 >
 
-export const EMPTY_WRITE_OBJECT: BeleidsmodulesWrite = SCHEMA.getDefault()
+export const EMPTY_WRITE_OBJECT: BeleidsmoduleUpdate = SCHEMA.getDefault()

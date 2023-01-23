@@ -3,13 +3,13 @@ import classNames from 'classnames'
 import { motion } from 'framer-motion'
 import { FC, useMemo } from 'react'
 
-import { MaatregelenRead, BeleidskeuzesRead } from '@/api/fetchers.schemas'
+import { Maatregel, Beleidskeuze } from '@/api/fetchers.schemas'
 import ColoredBall from '@/components/ColoredBall'
 import LineIndicatorLeftToRight from '@/components/LineIndicatorLeftToRight'
 
 export type CheckedOutPolicyContainerProps = {
-    originalLineage: null | (MaatregelenRead | BeleidskeuzesRead)[]
-    checkedOutPolicy: MaatregelenRead | BeleidskeuzesRead
+    originalLineage: null | (Maatregel | Beleidskeuze)[]
+    checkedOutPolicy: Maatregel | Beleidskeuze
 }
 
 /**

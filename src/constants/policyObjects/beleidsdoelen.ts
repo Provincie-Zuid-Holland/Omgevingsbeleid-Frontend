@@ -1,27 +1,27 @@
 import { object, ObjectSchema } from 'yup'
 
 import {
-    usePostBeleidsdoelen,
-    useGetBeleidsdoelenLineageId,
-    usePatchBeleidsdoelenLineageId,
-    useGetValidBeleidsdoelenLineageId,
-    useGetBeleidsdoelen,
-    useGetVersionBeleidsdoelenObjectUuid,
-    useGetValidBeleidsdoelen,
+    useCreateBeleidsdoel,
+    useReadBeleidsdoelLineage,
+    useUpdateBeleidsdoel,
+    useReadValidBeleidsdoelLineage,
+    useReadBeleidsdoelen,
+    useReadBeleidsdoelVersion,
+    useReadValidBeleidsdoelen,
 } from '@/api/fetchers'
-import { BeleidsdoelenWrite } from '@/api/fetchers.schemas'
+import { BeleidsdoelUpdate } from '@/api/fetchers.schemas'
 import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
 import { schemaDefaults, generateSchemaTitles } from '@/utils/yupSchema'
 
 const queryBeleidsdoelen: SchemaMetaQueries = {
-    usePost: usePostBeleidsdoelen,
-    useGet: useGetBeleidsdoelen,
-    useGetVersion: useGetVersionBeleidsdoelenObjectUuid,
-    useGetLineage: useGetBeleidsdoelenLineageId,
-    useGetValidLineage: useGetValidBeleidsdoelenLineageId,
-    usePatchLineage: usePatchBeleidsdoelenLineageId,
-    useGetValid: useGetValidBeleidsdoelen,
+    usePost: useCreateBeleidsdoel,
+    useGet: useReadBeleidsdoelen,
+    useGetVersion: useReadBeleidsdoelVersion,
+    useGetLineage: useReadBeleidsdoelLineage,
+    useGetValidLineage: useReadValidBeleidsdoelLineage,
+    usePatchLineage: useUpdateBeleidsdoel,
+    useGetValid: useReadValidBeleidsdoelen,
 }
 
 const beleidsdoelenTitles = generateSchemaTitles({
@@ -39,7 +39,7 @@ const beleidsdoelenMeta: SchemaMeta<typeof queryBeleidsdoelen> = {
     query: queryBeleidsdoelen,
 }
 
-export const SCHEMA: ObjectSchema<MutatedPolicySchema<BeleidsdoelenWrite>> =
+export const SCHEMA: ObjectSchema<MutatedPolicySchema<BeleidsdoelUpdate>> =
     object({
         Titel: schemaDefaults.Titel,
         Omschrijving: schemaDefaults.optionalString,
@@ -54,4 +54,4 @@ export const META = SCHEMA.describe().meta as SchemaMeta<
     typeof queryBeleidsdoelen
 >
 
-export const EMPTY_WRITE_OBJECT: BeleidsdoelenWrite = SCHEMA.getDefault()
+export const EMPTY_WRITE_OBJECT: BeleidsdoelUpdate = SCHEMA.getDefault()

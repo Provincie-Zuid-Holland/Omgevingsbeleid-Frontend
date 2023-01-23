@@ -4,264 +4,297 @@
  * Omgevingsbeleid API
  * OpenAPI spec version: 0.1.0
  */
-export type ReadValidWerkingsgebiedLineageV01ValidWerkingsgebiedenLineageIdGetParams =
-    {
-        offset?: number
-        limit?: number
-        all_filters?: string
-        any_filters?: string
-    }
-
-export type ReadValidWerkingsgebiedV01ValidWerkingsgebiedenGetParams = {
+export type ReadValidWerkingsgebiedLineageParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadWerkingsgebiedV01WerkingsgebiedenGetParams = {
+export type ReadValidWerkingsgebiedParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadValidMaatregelLineageV01ValidMaatregelenLineageIdGetParams = {
+export type ReadWerkingsgebiedParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadValidMaatregelenV01ValidMaatregelenGetParams = {
+export type ReadValidMaatregelLineageParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadMaatregelenV01MaatregelenGetParams = {
+export type ReadValidMaatregelenParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadValidVerordeningLineageV01ValidVerordeningenLineageIdGetParams =
-    {
-        offset?: number
-        limit?: number
-        all_filters?: string
-        any_filters?: string
-    }
-
-export type ReadValidVerordeningV01ValidVerordeningenGetParams = {
+export type ReadMaatregelenParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadVerordeningV01VerordeningenGetParams = {
+export type ReadValidVerordeningLineageParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadValidThemaLineageV01ValidThemasLineageIdGetParams = {
+export type ReadValidVerordeningParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadValidThemasV01ValidThemasGetParams = {
+export type ReadVerordeningParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadThemasV01ThemasGetParams = {
+export type ReadValidThemaLineageParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type GeoSearchV01GeoSearchGetParams = { query: string }
-
-export type SearchV01SearchGetParams = { query: string }
-
-export type ReadValidBeleidsregelLineageV01ValidBeleidsregelsLineageIdGetParams =
-    {
-        offset?: number
-        limit?: number
-        all_filters?: string
-        any_filters?: string
-    }
-
-export type ReadValidBeleidsregelsV01ValidBeleidsregelsGetParams = {
+export type ReadValidThemasParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadBeleidsregelsV01BeleidsregelsGetParams = {
+export type ReadThemasParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadValidBeleidsrelatieLineageV01ValidBeleidsrelatiesLineageIdGetParams =
-    {
-        offset?: number
-        limit?: number
-        all_filters?: string
-        any_filters?: string
-    }
+export type GeoSearchParams = { query: string }
 
-export type ReadValidBeleidsrelatiesV01ValidBeleidsrelatiesGetParams = {
+export type SearchParams = {
+    query: string
+    only?: string
+    exclude?: string
+    offset?: number
+    limit?: number
+}
+
+export type ReadValidGebiedsprogrammaLineageParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadBeleidsrelatiesV01BeleidsrelatiesGetParams = {
+export type ReadValidGebiedsprogrammasParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadValidBeleidsprestatieLineageV01ValidBeleidsprestatiesLineageIdGetParams =
-    {
-        offset?: number
-        limit?: number
-        all_filters?: string
-        any_filters?: string
-    }
-
-export type ReadValidBeleidsprestatiesV01ValidBeleidsprestatiesGetParams = {
+export type ReadGebiedsprogrammasParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadBeleidsprestatiesV01BeleidsprestatiesGetParams = {
+export type ReadValidBeleidsregelLineageParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadValidBeleidsmoduleLineageV01ValidBeleidsmodulesLineageIdGetParams =
-    {
-        offset?: number
-        limit?: number
-        all_filters?: string
-        any_filters?: string
-    }
-
-export type ReadValidBeleidsmodulesV01ValidBeleidsmodulesGetParams = {
+export type ReadValidBeleidsregelsParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadBeleidsmodulesV01BeleidsmodulesGetParams = {
+export type ReadBeleidsregelsParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadValidBeleidsdoelLineageV01ValidBeleidsdoelenLineageIdGetParams =
-    {
-        offset?: number
-        limit?: number
-        all_filters?: string
-        any_filters?: string
-    }
-
-export type ReadValidBeleidsdoelenV01ValidBeleidsdoelenGetParams = {
+export type ReadValidBeleidsrelatieLineageParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadBeleidsdoelenV01BeleidsdoelenGetParams = {
+export type ReadValidBeleidsrelatiesParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadValidBeleidskeuzeLineageV01ValidBeleidskeuzesLineageIdGetParams =
-    {
-        offset?: number
-        limit?: number
-        all_filters?: string
-        any_filters?: string
-    }
-
-export type ReadValidBeleidskeuzesV01ValidBeleidskeuzesGetParams = {
+export type ReadBeleidsrelatiesParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadBeleidskeuzesV01BeleidskeuzesGetParams = {
+export type ReadValidBeleidsprestatieLineageParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadValidBelangLineageV01ValidBelangenLineageIdGetParams = {
+export type ReadValidBeleidsprestatiesParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadValidBelangenV01ValidBelangenGetParams = {
+export type ReadBeleidsprestatiesParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadBelangenV01BelangenGetParams = {
+export type ReadValidBeleidsmoduleLineageParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadValidAmbitieLineageV01ValidAmbitiesLineageIdGetParams = {
+export type ReadValidBeleidsmodulesParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadValidAmbitiesV01ValidAmbitiesGetParams = {
+export type ReadBeleidsmodulesParams = {
     offset?: number
     limit?: number
     all_filters?: string
     any_filters?: string
 }
 
-export type ReadAmbitiesV01AmbitiesGetParams = {
+export type ReadValidBeleidsdoelLineageParams = {
+    offset?: number
+    limit?: number
+    all_filters?: string
+    any_filters?: string
+}
+
+export type ReadValidBeleidsdoelenParams = {
+    offset?: number
+    limit?: number
+    all_filters?: string
+    any_filters?: string
+}
+
+export type ReadBeleidsdoelenParams = {
+    offset?: number
+    limit?: number
+    all_filters?: string
+    any_filters?: string
+}
+
+export type ReadValidBeleidskeuzeLineageParams = {
+    offset?: number
+    limit?: number
+    all_filters?: string
+    any_filters?: string
+}
+
+export type ReadValidBeleidskeuzesParams = {
+    offset?: number
+    limit?: number
+    all_filters?: string
+    any_filters?: string
+}
+
+export type ReadBeleidskeuzeLineageParams = {
+    offset?: number
+    limit?: number
+    all_filters?: string
+    any_filters?: string
+}
+
+export type ReadBeleidskeuzesParams = {
+    offset?: number
+    limit?: number
+    all_filters?: string
+    any_filters?: string
+}
+
+export type ReadValidBelangLineageParams = {
+    offset?: number
+    limit?: number
+    all_filters?: string
+    any_filters?: string
+}
+
+export type ReadValidBelangenParams = {
+    offset?: number
+    limit?: number
+    all_filters?: string
+    any_filters?: string
+}
+
+export type ReadBelangenParams = {
+    offset?: number
+    limit?: number
+    all_filters?: string
+    any_filters?: string
+}
+
+export type ReadValidAmbitieLineageParams = {
+    offset?: number
+    limit?: number
+    all_filters?: string
+    any_filters?: string
+}
+
+export type ReadValidAmbitiesParams = {
+    offset?: number
+    limit?: number
+    all_filters?: string
+    any_filters?: string
+}
+
+export type ReadAmbitieLineageParams = {
+    offset?: number
+    limit?: number
+    all_filters?: string
+    any_filters?: string
+}
+
+export type ReadAmbitiesParams = {
     offset?: number
     limit?: number
     all_filters?: string
@@ -473,6 +506,11 @@ export interface RelatedAmbitie {
     Object?: unknown
 }
 
+export interface PasswordUpdate {
+    password: string
+    new_password: string
+}
+
 export interface NodeItem {
     Titel: string
     Type: string
@@ -496,6 +534,7 @@ export interface MaatregelUpdate {
     Portefeuillehouder_2_UUID?: string
     Opdrachtgever_UUID?: string
     Gebied_UUID?: string
+    Aanpassing_Op?: string
 }
 
 /**
@@ -555,6 +594,7 @@ export interface Maatregel {
     Modified_Date: string
     Begin_Geldigheid: string
     Eind_Geldigheid: string
+    Aanpassing_Op?: string
     Ref_Beleidskeuzes: BeleidskeuzeReference[]
     Ref_Beleidsmodules: BeleidskeuzeReference[]
     Eigenaar_1: GebruikerInline
@@ -625,7 +665,52 @@ export interface Gebruiker {
     ID?: number
 }
 
-export interface BodyLoginAccessTokenV01LoginAccessTokenPost {
+export interface GebiedsprogrammaUpdate {
+    Status?: string
+    Titel?: string
+    Omschrijving?: string
+    Weblink?: string
+    Besluitnummer?: string
+    Afbeelding?: string
+    Begin_Geldigheid?: string
+    Eind_Geldigheid?: string
+}
+
+export interface GebiedsprogrammaCreate {
+    Status?: string
+    Titel?: string
+    Omschrijving?: string
+    Weblink?: string
+    Besluitnummer?: string
+    Afbeelding?: string
+    Begin_Geldigheid: string
+    Eind_Geldigheid: string
+}
+
+/**
+ * Full Gebiedsprogramma object schema with serialized
+many to many relationships.
+ */
+export interface Gebiedsprogramma {
+    Status?: string
+    Titel?: string
+    Omschrijving?: string
+    Weblink?: string
+    Besluitnummer?: string
+    Afbeelding?: string
+    ID: number
+    UUID: string
+    Created_By: GebruikerInline
+    Created_Date: string
+    Modified_By: GebruikerInline
+    Modified_Date: string
+    Begin_Geldigheid: string
+    Eind_Geldigheid: string
+    Ref_Maatregelen: RelatedMaatregel[]
+    Ref_Beleidsmodules: BeleidsmoduleReference[]
+}
+
+export interface BodyLoginAccessToken {
     grant_type?: string
     username: string
     password: string
@@ -799,7 +884,6 @@ export interface BeleidskeuzeUpdate {
     Weblink?: string
     Begin_Geldigheid?: string
     Eind_Geldigheid?: string
-    Ambities?: GenericReferenceUpdate[]
     Belangen?: GenericReferenceUpdate[]
     Beleidsprestaties?: GenericReferenceUpdate[]
     Beleidsregels?: GenericReferenceUpdate[]
@@ -847,7 +931,6 @@ export interface BeleidskeuzeCreate {
     Weblink?: string
     Begin_Geldigheid: string
     Eind_Geldigheid: string
-    Ambities?: GenericReferenceUpdate[]
     Belangen?: GenericReferenceUpdate[]
     Beleidsprestaties?: GenericReferenceUpdate[]
     Beleidsregels?: GenericReferenceUpdate[]
@@ -887,8 +970,7 @@ export interface Beleidskeuze {
     Portefeuillehouder_1?: GebruikerInline
     Portefeuillehouder_2?: GebruikerInline
     Opdrachtgever?: string
-    Aanpassing_Op?: unknown
-    Ambities: RelatedAmbitie[]
+    Aanpassing_Op?: string
     Belangen: RelatedBelang[]
     Beleidsprestaties: RelatedBeleidsprestatie[]
     Beleidsregels: RelatedBeleidsregel[]
@@ -906,6 +988,12 @@ export interface BeleidsdoelUpdate {
     Weblink?: string
     Begin_Geldigheid?: string
     Eind_Geldigheid?: string
+}
+
+export interface BeleidsdoelReference {
+    ID: number
+    UUID: string
+    Titel?: string
 }
 
 export interface BeleidsdoelCreate {
@@ -928,6 +1016,7 @@ export interface Beleidsdoel {
     Modified_Date: string
     Begin_Geldigheid: string
     Eind_Geldigheid: string
+    Ambities: RelatedAmbitie[]
     Ref_Beleidskeuzes: BeleidskeuzeReference[]
 }
 
@@ -997,5 +1086,5 @@ export interface Ambitie {
     Modified_Date: string
     Begin_Geldigheid: string
     Eind_Geldigheid: string
-    Ref_Beleidskeuzes: BeleidskeuzeReference[]
+    Ref_Beleidsdoelen: BeleidsdoelReference[]
 }

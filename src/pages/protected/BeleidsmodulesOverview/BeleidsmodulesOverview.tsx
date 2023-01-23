@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import { getBeleidsmodules } from '@/api/fetchers'
+import { readBeleidsmodules } from '@/api/fetchers'
 import {
-    BeleidsmodulesRead,
-    BeleidsmodulesReadBeleidskeuzesItem,
-    BeleidsmodulesReadGebiedsprogrammasItem,
-    BeleidsmodulesReadMaatregelenItem,
+    Beleidsmodule,
+    RelatedBeleidskeuze,
+    RelatedGebiedsprogramma,
+    RelatedMaatregel,
 } from '@/api/fetchers.schemas'
 import ButtonBackToPage from '@/components/ButtonBackToPage'
 import { LoaderSpinner } from '@/components/Loader'
@@ -35,12 +35,12 @@ type PolicyType = {
  */
 function BeleidsmodulesOverview() {
     const [currentBeleidsmodule, setCurrentBeleidsmodule] =
-        useState<BeleidsmodulesRead>()
+        useState<Beleidsmodule>()
     const [policies, setPolicies] = useState<
         (
-            | (BeleidsmodulesReadBeleidskeuzesItem & PolicyType)
-            | (BeleidsmodulesReadMaatregelenItem & PolicyType)
-            | (BeleidsmodulesReadGebiedsprogrammasItem & PolicyType)
+            | (RelatedBeleidskeuze & PolicyType)
+            | (RelatedMaatregel & PolicyType)
+            | (RelatedGebiedsprogramma & PolicyType)
         )[]
     >([])
     const [dataLoaded, setDataLoaded] = useState(false)
@@ -61,7 +61,7 @@ function BeleidsmodulesOverview() {
          * Function to find the corresponding active beleidsmodule based on the single parameter from the URL and set it in state
          */
         const findAndSetCurrentBeleidsmodule = (
-            beleidsmodules: BeleidsmodulesRead[]
+            beleidsmodules: Beleidsmodule[]
         ) => {
             const currentBeleidsmodule = beleidsmodules.find(
                 module => module.ID === parseInt(params.single!)
@@ -84,7 +84,7 @@ function BeleidsmodulesOverview() {
          */
         const getAndSetBeleidsmodules = async () => {
             try {
-                const beleidsmodules = await getBeleidsmodules()
+                const beleidsmodules = await readBeleidsmodules()
                 const currentBeleidsmodule =
                     findAndSetCurrentBeleidsmodule(beleidsmodules)
                 if (!currentBeleidsmodule) {

@@ -1,6 +1,6 @@
 import { isBefore } from 'date-fns'
 
-import { BeleidskeuzesRead } from '@/api/fetchers.schemas'
+import { Beleidskeuze } from '@/api/fetchers.schemas'
 
 /**
  * This function filters out revisions that we do not want to diplay in the revision timeline.
@@ -13,7 +13,7 @@ import { BeleidskeuzesRead } from '@/api/fetchers.schemas'
  * @returns {array} - Returns an array containing the revision objects
  */
 
-export type Revisions = (BeleidskeuzesRead & { uiStatus?: string })[]
+export type Revisions = (Beleidskeuze & { uiStatus?: string })[]
 
 const prepareRevisions = (revisions: Revisions) => {
     let vigerendSet = false

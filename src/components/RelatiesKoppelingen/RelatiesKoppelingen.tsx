@@ -1,14 +1,14 @@
 import { MouseEventHandler, useEffect, useState } from 'react'
 import { useUpdateEffect } from 'react-use'
 
-import { getValidBeleidsrelaties } from '@/api/fetchers'
+import { readValidBeleidsrelaties } from '@/api/fetchers'
 import {
-    BeleidsdoelenRead,
-    BeleidskeuzeShortRead,
-    BeleidskeuzesRead,
-    BeleidsrelatiesRead,
-    MaatregelenRead,
-    VerordeningenRead,
+    Beleidsdoel,
+    BeleidskeuzeReference,
+    Beleidskeuze,
+    Beleidsrelatie,
+    Maatregel,
+    Verordening,
 } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
 
@@ -74,12 +74,7 @@ export const connectionPropertiesColors = {
  */
 
 interface RelatiesKoppelingenProps {
-    dataObject:
-        | (MaatregelenRead &
-              BeleidskeuzesRead &
-              BeleidsdoelenRead &
-              VerordeningenRead)
-        | null
+    dataObject: (Maatregel & Beleidskeuze & Beleidsdoel & Verordening) | null
     titleSingular: string
     titleSingularPrefix: string
 }
@@ -90,7 +85,7 @@ const RelatiesKoppelingen = ({
     titleSingularPrefix,
 }: RelatiesKoppelingenProps) => {
     const [beleidsRelaties, setBeleidsRelaties] = useState<
-        BeleidskeuzeShortRead[]
+        BeleidskeuzeReference[]
     >([])
     const [isLoading, setIsLoading] = useState(true)
     const [activeTab, setActiveTab] = useState('Visueel')
@@ -128,13 +123,10 @@ const RelatiesKoppelingen = ({
          * @param {string} type - Contains "To" or "From" indicating if the direction of the relationship
          */
         const filterOutUnvalidRelations = (
-            relations: BeleidsrelatiesRead[],
+            relations: Beleidsrelatie[],
             type: 'From' | 'To'
         ) => {
-            const getObject = (
-                relation: BeleidsrelatiesRead,
-                type: 'From' | 'To'
-            ) =>
+            const getObject = (relation: Beleidsrelatie, type: 'From' | 'To') =>
                 type === 'From'
                     ? relation.Naar_Beleidskeuze
                     : type === 'To'
@@ -166,13 +158,13 @@ const RelatiesKoppelingen = ({
          * @param {string} uuidFrom - Parameter containing a UUID.
          */
         const getBeleidsrelatiesFrom = (uuidFrom: string) =>
-            getValidBeleidsrelaties({
+            readValidBeleidsrelaties({
                 all_filters: `Status:Akkoord,Van_Beleidskeuze:${uuidFrom}`,
             }).then(data => {
                 const filteredRelations = filterOutUnvalidRelations(
                     data,
                     'From'
-                ) as BeleidskeuzeShortRead[]
+                ) as BeleidskeuzeReference[]
 
                 return filteredRelations
             })
@@ -185,13 +177,13 @@ const RelatiesKoppelingen = ({
          *
          */
         const getBeleidsrelatiesTo = (uuidTo: string) =>
-            getValidBeleidsrelaties({
+            readValidBeleidsrelaties({
                 all_filters: `Status:Akkoord,Naar_Beleidskeuze:${uuidTo}`,
             }).then(data => {
                 const filteredRelations = filterOutUnvalidRelations(
                     data,
                     'To'
-                ) as BeleidskeuzeShortRead[]
+                ) as BeleidskeuzeReference[]
 
                 return filteredRelations
             })

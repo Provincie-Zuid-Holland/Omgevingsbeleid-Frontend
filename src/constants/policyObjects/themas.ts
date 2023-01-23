@@ -1,27 +1,27 @@
 import { object, ObjectSchema } from 'yup'
 
 import {
-    useGetThemas,
-    useGetThemasLineageId,
-    useGetValidThemas,
-    useGetValidThemasLineageId,
-    useGetVersionThemasObjectUuid,
-    usePatchThemasLineageId,
-    usePostThemas,
+    useCreateThema,
+    useReadThemaLineage,
+    useUpdateThema,
+    useReadValidThemaLineage,
+    useReadThemas,
+    useReadThemaVersion,
+    useReadValidThemas,
 } from '@/api/fetchers'
-import { ThemasWrite } from '@/api/fetchers.schemas'
+import { ThemaUpdate } from '@/api/fetchers.schemas'
 import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
 import { generateSchemaTitles, schemaDefaults } from '@/utils/yupSchema'
 
 const queryThemas: SchemaMetaQueries = {
-    usePost: usePostThemas,
-    useGet: useGetThemas,
-    useGetVersion: useGetVersionThemasObjectUuid,
-    useGetLineage: useGetThemasLineageId,
-    useGetValidLineage: useGetValidThemasLineageId,
-    usePatchLineage: usePatchThemasLineageId,
-    useGetValid: useGetValidThemas,
+    usePost: useCreateThema,
+    useGet: useReadThemas,
+    useGetVersion: useReadThemaVersion,
+    useGetLineage: useReadThemaLineage,
+    useGetValidLineage: useReadValidThemaLineage,
+    usePatchLineage: useUpdateThema,
+    useGetValid: useReadValidThemas,
 }
 
 const themasTitles = generateSchemaTitles({
@@ -39,7 +39,7 @@ const themasMeta: SchemaMeta<typeof queryThemas> = {
     query: queryThemas,
 }
 
-export const SCHEMA: ObjectSchema<MutatedPolicySchema<ThemasWrite>> = object({
+export const SCHEMA: ObjectSchema<MutatedPolicySchema<ThemaUpdate>> = object({
     Titel: schemaDefaults.Titel,
     Omschrijving: schemaDefaults.optionalString,
     Weblink: schemaDefaults.optionalString,
@@ -48,4 +48,4 @@ export const SCHEMA: ObjectSchema<MutatedPolicySchema<ThemasWrite>> = object({
 }).meta(themasMeta)
 
 export const META = SCHEMA.describe().meta as SchemaMeta<typeof queryThemas>
-export const EMPTY_WRITE_OBJECT: ThemasWrite = SCHEMA.getDefault()
+export const EMPTY_WRITE_OBJECT: ThemaUpdate = SCHEMA.getDefault()

@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer } from 'react'
 
-import { VerordeningenRead, VerordeningenWrite } from '@/api/fetchers.schemas'
+import { Verordening, VerordeningUpdate } from '@/api/fetchers.schemas'
 import {
     VerordeningLineageRead,
     VerordeningStructureChild,
@@ -8,11 +8,11 @@ import {
 import { replaceReorderedSections } from '@/utils/verordening'
 
 export type ActiveSectionData =
-    | (VerordeningenRead & { Children?: VerordeningenRead[] })
+    | (Verordening & { Children?: Verordening[] })
     | null
 export type FormikValues =
-    | (VerordeningenWrite & { Children?: FormikValues[] })
-    | (VerordeningenRead & { Children?: FormikValues[] })
+    | (VerordeningUpdate & { Children?: FormikValues[] })
+    | (Verordening & { Children?: FormikValues[] })
     | null
 export type Dispatch = (action: Action) => void
 export type VerordeningProviderProps = { children: React.ReactNode }
@@ -28,9 +28,9 @@ export type State = {
      **/
     activeSectionData: ActiveSectionData
     /** Object of the new section the user is adding */
-    newSection: VerordeningenWrite | null
+    newSection: VerordeningUpdate | null
     /** Holds the leden if an article (which would be populated in the activeSectionData property) contains them */
-    activeLedenFromArticle: VerordeningenRead[] | null
+    activeLedenFromArticle: Verordening[] | null
     /** UUID of current chapter the user is viewing */
     activeChapterUUID: string | null
     /** IndexPath to navigate to the object the user is editing in the lineage */

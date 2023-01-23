@@ -1,11 +1,7 @@
 import { Heading } from '@pzh-ui/components'
 import { FC, useState } from 'react'
 
-import {
-    BeleidskeuzesRead,
-    MaatregelenRead,
-    VerordeningenRead,
-} from '@/api/fetchers.schemas'
+import { Beleidskeuze, Maatregel, Verordening } from '@/api/fetchers.schemas'
 import ViewFieldIngelogdExtraInfo from '@/components/ViewFieldIngelogdExtraInfo'
 import useAuth from '@/hooks/useAuth'
 
@@ -17,7 +13,7 @@ import Werkingsgebied from '../Werkingsgebied'
 
 interface RaadpleegObjectDetailMainProps {
     dataLoaded: boolean
-    dataObject: (MaatregelenRead & BeleidskeuzesRead & VerordeningenRead) | null
+    dataObject: (Maatregel & Beleidskeuze & Verordening) | null
     titleSingular: string
 }
 

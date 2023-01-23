@@ -1,9 +1,9 @@
-import { getBeleidskeuzes, getValidBeleidskeuzes } from '@/api/fetchers'
+import { readBeleidskeuzes, readValidBeleidskeuzes } from '@/api/fetchers'
 
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
-export const apiCall = getBeleidskeuzes
-export const validApiCall = getValidBeleidskeuzes
+export const apiCall = readBeleidskeuzes
+export const validApiCall = readValidBeleidskeuzes
 
 export const TITLE_SINGULAR = 'Beleidskeuze'
 export const TITLE_SINGULAR_PREFIX = 'de'

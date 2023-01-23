@@ -5,18 +5,18 @@ import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import {
-    useGetBeleidsmodules,
-    patchBeleidsmodulesLineageId,
-    getGetBeleidskeuzesLineageIdQueryKey,
-    getGetMaatregelenLineageIdQueryKey,
-    getGetMaatregelenQueryKey,
-    getGetBeleidskeuzesQueryKey,
+    useReadBeleidsmodules,
+    updateBeleidsmodule,
+    getReadBeleidskeuzeLineageQueryKey,
+    getReadMaatregelLineageQueryKey,
+    getReadMaatregelenQueryKey,
+    getReadBeleidskeuzesQueryKey,
 } from '@/api/fetchers'
 import {
-    BeleidskeuzesRead,
-    BeleidsmodulesRead,
-    ListReference,
-    MaatregelenRead,
+    Beleidskeuze,
+    Beleidsmodule,
+    GenericReferenceUpdate,
+    Maatregel,
 } from '@/api/fetchers.schemas'
 import { LoaderSelect } from '@/components/Loader'
 import handleError from '@/utils/handleError'
@@ -24,7 +24,7 @@ import handleError from '@/utils/handleError'
 export interface PopUpAddPolicyToModuleProps {
     isOpen: boolean
     setIsOpen: (isOpen: boolean) => void
-    policy: MaatregelenRead | BeleidskeuzesRead
+    policy: Maatregel | Beleidskeuze
     titleSingular: 'Beleidskeuze' | 'Maatregel' | 'Gebiedsprogramma'
 }
 
@@ -38,7 +38,7 @@ function PopUpAddPolicyToModule({
     const { single: idUrlParam } = useParams<{ single: string }>()
 
     const { isLoading: modulesAreLoading, data: policyModules } =
-        useGetBeleidsmodules()
+        useReadBeleidsmodules()
     const [selectedModuleUUID, setSelectedModuleUUID] = useState<string | null>(
         null
     )
@@ -64,13 +64,13 @@ function PopUpAddPolicyToModule({
             UUID: policy.UUID,
         }
 
-        const formattedExistingConnections: ListReference[] =
+        const formattedExistingConnections: GenericReferenceUpdate[] =
             selectedModule[connectionProperty]?.map(connection => ({
                 UUID: connection.Object?.UUID || '',
                 Koppeling_Omschrijving: '',
             })) || []
 
-        patchBeleidsmodulesLineageId(selectedModule.ID, {
+        updateBeleidsmodule(selectedModule.ID, {
             [connectionProperty]: [
                 ...(formattedExistingConnections || []),
                 newConnection,
@@ -81,13 +81,13 @@ function PopUpAddPolicyToModule({
                 const queryKey =
                     titleSingular.toLowerCase() === 'Beleidskeuze' &&
                     isDetailPage
-                        ? getGetBeleidskeuzesLineageIdQueryKey(policy.ID!)
+                        ? getReadBeleidskeuzeLineageQueryKey(policy.ID!)
                         : titleSingular === 'Maatregel' && isDetailPage
-                        ? getGetMaatregelenLineageIdQueryKey(policy.ID!)
+                        ? getReadMaatregelLineageQueryKey(policy.ID!)
                         : titleSingular === 'Maatregel' && !isDetailPage
-                        ? getGetMaatregelenQueryKey()
+                        ? getReadMaatregelenQueryKey()
                         : titleSingular === 'Beleidskeuze' && !isDetailPage
-                        ? getGetBeleidskeuzesQueryKey()
+                        ? getReadBeleidskeuzesQueryKey()
                         : ['']
 
                 queryClient.invalidateQueries(queryKey)
@@ -129,12 +129,10 @@ function PopUpAddPolicyToModule({
                         setSelectedModuleUUID(e.value)
                     }}
                     name="selected-module"
-                    options={policyModules?.map(
-                        (module: BeleidsmodulesRead) => ({
-                            value: module.UUID,
-                            label: module.Titel,
-                        })
-                    )}
+                    options={policyModules?.map((module: Beleidsmodule) => ({
+                        value: module.UUID,
+                        label: module.Titel,
+                    }))}
                 />
             )}
             <div className="flex justify-between mt-4">
@@ -144,7 +142,7 @@ function PopUpAddPolicyToModule({
                     }}>
                     <Text className="underline">Annuleren</Text>
                 </button>
-                <Button onClick={() => addPolicyToModule()} variant="cta">
+                <Button onPress={() => addPolicyToModule()} variant="cta">
                     Aanpassen
                 </Button>
             </div>

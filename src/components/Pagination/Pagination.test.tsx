@@ -21,7 +21,10 @@ describe('Pagination', () => {
 
     const defaultProps = {
         type: 'text',
-        searchResults: [{}, {}],
+        searchResults: [
+            { Type: '', RANK: 0, UUID: '' },
+            { Type: '', RANK: 1, UUID: '' },
+        ],
         setSearchResults: setSearchResultsMock,
         setOnPageFilters: setOnPageFiltersMock,
         limit: 1,

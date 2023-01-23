@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 import { useKey, useLockBodyScroll } from 'react-use'
 import * as Yup from 'yup'
 
-import { postPasswordReset } from '@/api/fetchers'
+import { passwordReset } from '@/api/fetchers'
 
 import { PopUpAnimatedContainer } from '../Popup'
 
@@ -73,7 +73,7 @@ export default function PasswordChangeModal({
         newPassword: string
     }) => {
         setLoading(true)
-        postPasswordReset({
+        passwordReset({
             password: currentPassword,
             new_password: newPassword,
         })
@@ -191,12 +191,12 @@ export default function PasswordChangeModal({
                                 Annuleren
                             </button>
                             <Button
-                                disabled={!isValid && !isSubmitting}
+                                isDisabled={!isValid && !isSubmitting}
                                 type="submit"
                                 variant="cta"
-                                label="Wijzig"
-                                isLoading={loading}
-                            />
+                                isLoading={loading}>
+                                Wijzig
+                            </Button>
                         </div>
                     </Form>
                 )}

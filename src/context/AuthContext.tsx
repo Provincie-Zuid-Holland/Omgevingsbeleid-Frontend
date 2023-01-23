@@ -1,44 +1,46 @@
-import { createContext, ReactNode, useState } from 'react'
-import { useLocalStorage, useUpdateEffect } from 'react-use'
+import decode from 'jwt-decode'
+import { createContext, ReactNode, useEffect } from 'react'
+import { useLocalStorage } from 'react-use'
 
-import { postLogin, useGetTokeninfo } from '@/api/fetchers'
-import { GetTokeninfo200Identifier, PostLogin200 } from '@/api/fetchers.schemas'
+import { loginAccessToken } from '@/api/fetchers'
+import { GebruikerInline, Token } from '@/api/fetchers.schemas'
 
 interface AuthContextType {
-    user?: GetTokeninfo200Identifier
-    signin: (email: string, password: string) => Promise<PostLogin200>
+    user?: GebruikerInline
+    signin: (username: string, password: string) => Promise<Token>
     signout: (callback?: VoidFunction) => void
-    isLoading: boolean
+}
+
+interface JWTToken {
+    exp: number
+    sub: string
 }
 
 export const AuthContext = createContext<AuthContextType>(null!)
 
 function AuthProvider({ children }: { children: ReactNode }) {
-    const [, setAccessToken, removeAccessToken] = useLocalStorage<string>(
-        process.env.REACT_APP_KEY_API_ACCESS_TOKEN || '',
-        undefined,
-        { raw: true }
-    )
+    const [accessToken, setAccessToken, removeAccessToken] =
+        useLocalStorage<string>(
+            process.env.REACT_APP_KEY_API_ACCESS_TOKEN || '',
+            undefined,
+            { raw: true }
+        )
     const [identifier, setIdentifier, removeIdentifier] =
-        useLocalStorage<GetTokeninfo200Identifier>(
+        useLocalStorage<GebruikerInline>(
             process.env.REACT_APP_KEY_IDENTIFIER || ''
         )
 
-    const [user, setUser] = useState<GetTokeninfo200Identifier | undefined>(
-        identifier
-    )
-
-    const signin = async (email: string, password: string) => {
-        return postLogin({ identifier: email, password })
+    const signin = async (username: string, password: string) => {
+        return loginAccessToken({ username, password })
             .then(response => {
-                setUser(response.identifier)
                 setIdentifier(response.identifier)
                 setAccessToken(response.access_token)
 
                 return response
             })
             .catch(err => {
-                setUser(undefined)
+                removeAccessToken()
+                removeIdentifier()
 
                 throw err
             })
@@ -48,22 +50,23 @@ function AuthProvider({ children }: { children: ReactNode }) {
         removeAccessToken()
         removeIdentifier()
 
-        setUser(undefined)
-
         callback?.()
     }
 
-    const { data, isLoading } = useGetTokeninfo()
+    useEffect(() => {
+        console.log('test')
+        if (accessToken) {
+            const { exp } = decode(accessToken) as JWTToken
 
-    useUpdateEffect(() => {
-        if (data?.identifier) {
-            setUser(data.identifier)
+            if (Date.now() >= exp * 1000) {
+                removeIdentifier()
+            }
         } else {
-            setUser(undefined)
+            removeIdentifier()
         }
-    }, [isLoading])
+    })
 
-    const value = { user, signin, signout, isLoading }
+    const value = { user: identifier, signin, signout }
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

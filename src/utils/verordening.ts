@@ -1,11 +1,11 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import cloneDeep from 'lodash.clonedeep'
 
-import { getVersionVerordeningenObjectUuid } from '@/api/fetchers'
+import { readVerordeningVersion } from '@/api/fetchers'
 import {
-    VerordeningenRead,
-    VerordeningenWrite,
-    WerkingsgebiedenInline,
+    Verordening,
+    VerordeningUpdate,
+    RelatedWerkingsgebied,
 } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
 import { FormikValues } from '@/pages/protected/VerordeningEdit/verordeningEditContext'
@@ -16,7 +16,7 @@ import {
 } from '@/types/verordening'
 
 export const getGeoValueFromFormikValues = (values: FormikValues) => {
-    const geoValue: string | undefined | WerkingsgebiedenInline = values?.Gebied
+    const geoValue: string | undefined | RelatedWerkingsgebied = values?.Gebied
 
     if (!geoValue) return null
 
@@ -34,9 +34,7 @@ export const getGeoValueFromFormikValues = (values: FormikValues) => {
  * @returns A promise that resolves to a VerordeningenRead with type Lid
  */
 export const createVerordeningLid = async (
-    lid: Partial<
-        Omit<VerordeningenWrite, 'Gebied'> & { Gebied?: string | null }
-    >
+    lid: Partial<Omit<VerordeningUpdate, 'Gebied'> & { Gebied?: string | null }>
 ) => {
     return await postVerordeningSection({
         Type: 'Lid' as const,
@@ -87,9 +85,9 @@ export const replaceReorderedSections = (
 }
 
 export const mutateVerordeningenReadToVerordeningenWrite = (
-    readObject: VerordeningenRead
+    readObject: Verordening
 ) => {
-    const writeObject: ExtendTypesWithNull<VerordeningenWrite> = {}
+    const writeObject: ExtendTypesWithNull<VerordeningUpdate> = {}
 
     const verordeningenWriteProperties = [
         'Begin_Geldigheid',
@@ -124,12 +122,12 @@ export const mutateVerordeningenReadToVerordeningenWrite = (
 }
 
 export const patchVerordeningSection = (
-    values: ExtendTypesWithNull<VerordeningenWrite>,
+    values: ExtendTypesWithNull<VerordeningUpdate>,
     lineageID: number
 ) =>
     axios
         .patch(`/verordeningen/${lineageID}`, values)
-        .then(res => res.data as VerordeningenRead)
+        .then(res => res.data as Verordening)
 
 export const useGetVerordeningenStructuren = () =>
     useQuery(['/verordeningstructuur'], () =>
@@ -149,18 +147,12 @@ export const useGetVerordeningenStructurenLineageId = (lineageID: string) =>
     )
 
 export const postVerordeningSection = (
-    values: Omit<VerordeningenWrite, 'Gebied'> & { Gebied?: string | null }
-) =>
-    axios
-        .post(`/verordeningen`, values)
-        .then(res => res.data as VerordeningenRead)
+    values: Omit<VerordeningUpdate, 'Gebied'> & { Gebied?: string | null }
+) => axios.post(`/verordeningen`, values).then(res => res.data as Verordening)
 
 export const getChildrenOfSectionFromAPI = (
     children: VerordeningStructureChild[]
-) =>
-    Promise.all([
-        children.map(child => getVersionVerordeningenObjectUuid(child.UUID)),
-    ])
+) => Promise.all([children.map(child => readVerordeningVersion(child.UUID))])
 
 export const getChildrenOfSectionFromLineage = (
     sectionIndexPath: number[],
@@ -203,7 +195,7 @@ export const getChildrenOfSectionFromLineage = (
  * @returns an verordening section that can be placed into the verordening lineage
  */
 export const transformVerordeningenReadToVerordeningChildRead = (
-    verordeningenRead: VerordeningenRead
+    verordeningenRead: Verordening
 ) => ({
     Children: [],
     Gebied: verordeningenRead.Gebied?.UUID || null,
@@ -223,7 +215,7 @@ export const transformVerordeningenReadToVerordeningChildRead = (
  * @returns an verordening section that can be placed into the verordening lineage
  */
 export const transformVerordeningenReadToVerordeningenWrite = (
-    verordeningenRead: VerordeningenRead
+    verordeningenRead: Verordening
 ) => {
     const verordeningChildRead: VerordeningStructureChild = {
         Children: [],

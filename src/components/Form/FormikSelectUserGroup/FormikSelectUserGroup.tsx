@@ -3,16 +3,12 @@ import classNames from 'classnames'
 import { useFormikContext } from 'formik'
 import { useCallback, useEffect, useState } from 'react'
 
-import { useGetGebruikers } from '@/api/fetchers'
-import {
-    BeleidskeuzesWrite,
-    GebruikersRead,
-    MaatregelenWrite,
-} from '@/api/fetchers.schemas'
+import { useGebruikers } from '@/api/fetchers'
+import { Beleidskeuze, Gebruiker, Maatregel } from '@/api/fetchers.schemas'
 import { LoaderCard } from '@/components/Loader'
 
 interface OptionType {
-    value: string
+    value: number | string
     label: string
 }
 
@@ -52,14 +48,14 @@ const FormikSelectUserGroup = ({
     disabled,
     className = '',
 }: FormikSelectUserGroupProps) => {
-    const { values } = useFormikContext<BeleidskeuzesWrite | MaatregelenWrite>()
-    const { data: userList } = useGetGebruikers()
+    const { values } = useFormikContext<Beleidskeuze | Maatregel>()
+    const { data: userList } = useGebruikers()
     const [formattedUserList, setFormattedUserList] =
         useState<FormattedUserList>(initialState)
     const [dataLoaded, setDataLoaded] = useState(false)
 
     const filterAndFormatUserList = useCallback(
-        (data: GebruikersRead[]) => {
+        (data: Gebruiker[]) => {
             const meta = {
                 Opdrachtgever: {
                     type: 'Ambtelijk opdrachtgever',
@@ -103,13 +99,13 @@ const FormikSelectUserGroup = ({
                     // We want to filter out already selected types
                     .filter(user =>
                         filterOutProperty !== null
-                            ? user.UUID !== filterOutValue
+                            ? user.ID !== filterOutValue
                             : true
                     )
                     // Format for the select options property
                     .map(user => ({
                         label: user.Gebruikersnaam || '',
-                        value: user.UUID || '',
+                        value: user.ID || '',
                     }))
                     // Sort alphabetically
                     .sort((a, b) => a.label.localeCompare(b.label))

@@ -3,8 +3,8 @@ import { CircleXmark } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-import { getVersionVerordeningenObjectUuid } from '@/api/fetchers'
-import { BeleidskeuzeShortInline } from '@/api/fetchers.schemas'
+import { readVerordeningVersion } from '@/api/fetchers'
+import { BeleidskeuzeReference } from '@/api/fetchers.schemas'
 import { LeafletTinyViewer } from '@/components/Leaflet'
 import handleError from '@/utils/handleError'
 
@@ -28,9 +28,7 @@ const VerordeningPopupDetail = ({
     activeArticle,
 }: VerordeningPopupDetailProps) => {
     const location = useLocation()
-    const [connections, setConnections] = useState<BeleidskeuzeShortInline[]>(
-        []
-    )
+    const [connections, setConnections] = useState<BeleidskeuzeReference[]>([])
     const [open, setOpen] = useState(false)
     const [articleHasChildren, setArticleHasChildren] = useState<
         boolean | null
@@ -49,7 +47,7 @@ const VerordeningPopupDetail = ({
 
         if (!activeArticle) return
 
-        getVersionVerordeningenObjectUuid(activeArticle.UUID)
+        readVerordeningVersion(activeArticle.UUID)
             .then(res => {
                 setConnections(res.Ref_Beleidskeuzes || [])
             })
@@ -199,7 +197,7 @@ const VerordeningPopupDetail = ({
                                 <ul className="mt-2">
                                     {connections.map(
                                         (
-                                            beleidskeuze: BeleidskeuzeShortInline
+                                            beleidskeuze: BeleidskeuzeReference
                                         ) => (
                                             <li
                                                 key={beleidskeuze.UUID}

@@ -1,27 +1,27 @@
 import { object, ObjectSchema } from 'yup'
 
 import {
-    usePostBelangen,
-    useGetBelangenLineageId,
-    usePatchBelangenLineageId,
-    useGetValidBelangenLineageId,
-    useGetBelangen,
-    useGetVersionBelangenObjectUuid,
-    useGetValidBelangen,
+    useCreateBelang,
+    useReadBelangLineage,
+    useUpdateBelang,
+    useReadValidBelangLineage,
+    useReadBelangen,
+    useReadBelangVersion,
+    useReadValidBelangen,
 } from '@/api/fetchers'
-import { BelangenWrite } from '@/api/fetchers.schemas'
+import { BelangUpdate } from '@/api/fetchers.schemas'
 import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
 import { schemaDefaults, generateSchemaTitles } from '@/utils/yupSchema'
 
 const queryBelangen: SchemaMetaQueries = {
-    usePost: usePostBelangen,
-    useGet: useGetBelangen,
-    useGetVersion: useGetVersionBelangenObjectUuid,
-    useGetLineage: useGetBelangenLineageId,
-    useGetValidLineage: useGetValidBelangenLineageId,
-    usePatchLineage: usePatchBelangenLineageId,
-    useGetValid: useGetValidBelangen,
+    usePost: useCreateBelang,
+    useGet: useReadBelangen,
+    useGetVersion: useReadBelangVersion,
+    useGetLineage: useReadBelangLineage,
+    useGetValidLineage: useReadValidBelangLineage,
+    usePatchLineage: useUpdateBelang,
+    useGetValid: useReadValidBelangen,
 }
 
 const belangenTitles = generateSchemaTitles({
@@ -39,7 +39,7 @@ const belangenMeta: SchemaMeta<typeof queryBelangen> = {
     query: queryBelangen,
 }
 
-export const SCHEMA: ObjectSchema<MutatedPolicySchema<BelangenWrite>> = object({
+export const SCHEMA: ObjectSchema<MutatedPolicySchema<BelangUpdate>> = object({
     Titel: schemaDefaults.Titel,
     Omschrijving: schemaDefaults.optionalString,
     Type: schemaDefaults.optionalString,
@@ -50,4 +50,4 @@ export const SCHEMA: ObjectSchema<MutatedPolicySchema<BelangenWrite>> = object({
 
 export const META = SCHEMA.describe().meta as SchemaMeta<typeof queryBelangen>
 
-export const EMPTY_WRITE_OBJECT: BelangenWrite = SCHEMA.getDefault()
+export const EMPTY_WRITE_OBJECT: BelangUpdate = SCHEMA.getDefault()

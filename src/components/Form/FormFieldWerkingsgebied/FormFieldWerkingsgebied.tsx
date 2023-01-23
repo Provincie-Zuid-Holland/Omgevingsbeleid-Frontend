@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
-import { readWerkingsgebiedV01WerkingsgebiedenGet } from '@/api/fetchers'
+import { readWerkingsgebied } from '@/api/fetchers'
 import { Werkingsgebied } from '@/api/fetchers.schemas'
 import formatDate from '@/utils/formatDate'
 import handleError from '@/utils/handleError'
@@ -241,7 +241,7 @@ const WerkingsgebiedPopup = ({
     )
 
     useEffect(() => {
-        readWerkingsgebiedV01WerkingsgebiedenGet()
+        readWerkingsgebied()
             .then(data => {
                 setWerkingsgebieden(data)
             })

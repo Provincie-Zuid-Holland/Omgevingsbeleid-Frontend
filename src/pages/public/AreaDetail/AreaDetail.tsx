@@ -1,24 +1,24 @@
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
+import { Breadcrumbs, Heading } from '@pzh-ui/components'
 import DOMPurify from 'dompurify'
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { useGetVersionGebiedsprogrammasObjectUuid } from '@/api/fetchers'
+import { useReadGebiedsprogrammaVersion } from '@/api/fetchers'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import ObjectList from '@/components/ObjectList'
 
 function AreaDetail() {
     const { id } = useParams<{ id: string }>()
-    const { data, isLoading } = useGetVersionGebiedsprogrammasObjectUuid(id!)
+    const { data, isLoading } = useReadGebiedsprogrammaVersion(id!)
 
     const transformedMaatregelen = useMemo(
         () =>
-            data?.Maatregelen?.map(({ Object }) => ({
+            data?.Ref_Maatregelen?.map(({ Object }) => ({
                 Titel: Object?.Titel,
                 UUID: Object?.UUID,
             })),
-        [data?.Maatregelen]
+        [data?.Ref_Maatregelen]
     )
 
     const breadcrumbPaths = [

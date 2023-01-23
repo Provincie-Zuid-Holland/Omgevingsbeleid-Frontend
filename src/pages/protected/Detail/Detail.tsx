@@ -6,14 +6,14 @@ import { Helmet } from 'react-helmet'
 import { useParams, Link } from 'react-router-dom'
 
 import {
-    useGetBeleidskeuzesLineageId,
-    useGetGebiedsprogrammasLineageId,
-    useGetMaatregelenLineageId,
+    useReadBeleidskeuzeLineage,
+    useReadGebiedsprogrammaLineage,
+    useReadMaatregelLineage,
 } from '@/api/fetchers'
 import {
-    BeleidskeuzesRead,
-    GebiedsprogrammasRead,
-    MaatregelenRead,
+    Beleidskeuze,
+    Gebiedsprogramma,
+    Maatregel,
 } from '@/api/fetchers.schemas'
 import CheckedOutPolicyContainer from '@/components/CheckedOutPolicyContainer'
 import { ContainerMain } from '@/components/Container'
@@ -28,11 +28,11 @@ const getFetcher = (
 ) => {
     switch (titleSingular) {
         case 'Beleidskeuze':
-            return useGetBeleidskeuzesLineageId
+            return useReadBeleidskeuzeLineage
         case 'Maatregel':
-            return useGetMaatregelenLineageId
+            return useReadMaatregelLineage
         case 'Gebiedsprogramma':
-            return useGetGebiedsprogrammasLineageId
+            return useReadGebiedsprogrammaLineage
     }
 }
 
@@ -57,24 +57,10 @@ function Detail({ dimensieConstants }: DetailProps) {
     const { single: objectID } = useParams<{ single: string | undefined }>()
 
     const [state, setState] = useState<{
-        checkedOutPolicy:
-            | null
-            | BeleidskeuzesRead
-            | MaatregelenRead
-            | GebiedsprogrammasRead
-        currentValidPolicy:
-            | null
-            | BeleidskeuzesRead
-            | MaatregelenRead
-            | GebiedsprogrammasRead
-        archivedPolicies:
-            | BeleidskeuzesRead[]
-            | MaatregelenRead[]
-            | GebiedsprogrammasRead[]
-        originalLineage:
-            | BeleidskeuzesRead[]
-            | MaatregelenRead[]
-            | GebiedsprogrammasRead[]
+        checkedOutPolicy: null | Beleidskeuze | Maatregel | Gebiedsprogramma
+        currentValidPolicy: null | Beleidskeuze | Maatregel | Gebiedsprogramma
+        archivedPolicies: Beleidskeuze[] | Maatregel[] | Gebiedsprogramma[]
+        originalLineage: Beleidskeuze[] | Maatregel[] | Gebiedsprogramma[]
     }>(initialState)
 
     const overviewSlug = dimensieConstants.SLUG_OVERVIEW
