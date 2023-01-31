@@ -22,8 +22,12 @@ function FormArticleSidebar({}: FormArticleSidebarProps) {
 
     useEffect(() => {
         const geoAreas = values?.Children?.map(child => {
-            if (typeof child?.Gebied !== 'string') {
-                return child?.Gebied?.UUID
+            if (
+                child &&
+                'Gebied' in child &&
+                typeof child.Gebied !== 'string'
+            ) {
+                return child.Gebied.UUID
             } else {
                 return undefined
             }
@@ -141,8 +145,9 @@ function FormArticleSidebar({}: FormArticleSidebarProps) {
                                 allSubSectionsHaveSameGeoArea &&
                                 values.Children &&
                                 values.Children[0]
-                                    ? values.Children[0]?.Gebied
-                                    : values.Gebied
+                                    ? 'Gebied' in values.Children[0] &&
+                                      values.Children[0]?.Gebied
+                                    : 'Gebied' in values && values.Gebied
                             }
                             dataObjectProperty="Gebied"
                             titleSingular="Artikel"
@@ -190,7 +195,7 @@ function FormArticleSidebar({}: FormArticleSidebarProps) {
             </SidebarContainer>
             {values?.Children !== undefined &&
                 allSubSectionsHaveSameGeoArea === false &&
-                values.Children.map((child, index) => (
+                values.Children.map((_, index) => (
                     <SidebarContainer
                         mt
                         key={index}
@@ -199,16 +204,20 @@ function FormArticleSidebar({}: FormArticleSidebarProps) {
                         <FormFieldWerkingsgebied
                             setWerkingsgebiedInParentState={event =>
                                 setFieldValue(
-                                    `Children[${index}].Gebied`,
+                                    `Children[${index}].Gebied_UUID`,
                                     event.target.value
                                 )
                             }
                             werkingsgebiedInParentState={
                                 values.Children
-                                    ? values.Children[index]?.Gebied
+                                    ? values.Children?.[index] &&
+                                      'Gebied_UUID' in
+                                          values.Children[index]! &&
+                                      // @ts-ignore
+                                      values.Children[index].Gebied
                                     : null
                             }
-                            dataObjectProperty="Gebied"
+                            dataObjectProperty="Gebied_UUID"
                             titleSingular="Artikel"
                             hideLabel={true}
                         />

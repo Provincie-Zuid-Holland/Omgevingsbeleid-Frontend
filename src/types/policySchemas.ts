@@ -49,7 +49,6 @@ import {
     useReadMaatregelVersion,
     useReadThemaVersion,
     useReadVerordeningVersion,
-    useReadWerkingsgebiedVersion,
     useReadAmbitieLineage,
     useReadBelangLineage,
     useReadBeleidsdoelLineage,
@@ -189,7 +188,6 @@ export type QueryUseGetVersion =
     | typeof useReadMaatregelVersion
     | typeof useReadThemaVersion
     | typeof useReadVerordeningVersion
-    | typeof useReadWerkingsgebiedVersion
     | typeof useReadGebiedsprogrammaVersion
 
 export type SchemaMetaQueries = {

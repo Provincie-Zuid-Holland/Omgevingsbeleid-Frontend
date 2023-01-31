@@ -12,23 +12,23 @@ import {
 } from '@/api/fetchers'
 import {
     Beleidskeuze,
+    Gebiedsprogramma,
     Maatregel,
-    MaatregelenReadStatus,
-    BeleidskeuzesReadStatus,
+    Status,
 } from '@/api/fetchers.schemas'
 import VOLGENDE_STATUS from '@/constants/beleidskeuzeStatusAanpassen'
 import { getMutationForPolicyLineage } from '@/utils/getFetchers'
 import { toastNotification } from '@/utils/toastNotification'
 
 type OptionType = {
-    value: MaatregelenReadStatus | BeleidskeuzesReadStatus
-    label: MaatregelenReadStatus | BeleidskeuzesReadStatus
+    value: Status
+    label: Status
 }
 
 export interface PopUpChangePolicyStatusProps {
     isOpen: boolean
     setIsOpen: (isOpen: boolean) => void
-    policy: Maatregel | Beleidskeuze
+    policy: Maatregel | Beleidskeuze | Gebiedsprogramma
     titleSingular: 'Beleidskeuze' | 'Maatregel' | 'Gebiedsprogramma'
 }
 
@@ -85,7 +85,7 @@ function PopUpChangePolicyStatus({
             const currentStatus = policy.Status
             if (!currentStatus) return []
 
-            return VOLGENDE_STATUS[currentStatus].map(status => ({
+            return VOLGENDE_STATUS[currentStatus as Status].map(status => ({
                 value: status,
                 label: status,
             }))

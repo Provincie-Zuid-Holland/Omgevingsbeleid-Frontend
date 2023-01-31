@@ -5,7 +5,11 @@ import classNames from 'classnames'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 
-import { Maatregel, Beleidskeuze } from '@/api/fetchers.schemas'
+import {
+    Maatregel,
+    Beleidskeuze,
+    Gebiedsprogramma,
+} from '@/api/fetchers.schemas'
 import ColoredBall from '@/components/ColoredBall'
 import Dropdown from '@/components/Dropdown'
 import {
@@ -22,7 +26,7 @@ export type PolicyDetailCardProps = {
         | typeof allDimensies.BELEIDSKEUZES
         | typeof allDimensies.MAATREGELEN
         | typeof allDimensies.GEBIEDSPROGRAMMAS
-    policy: Maatregel | Beleidskeuze
+    policy: Maatregel | Beleidskeuze | Gebiedsprogramma
     type: PossibleCardTypes
     lastItem?: boolean
 }

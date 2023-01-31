@@ -6,11 +6,11 @@
  * @returns {boolean} - Indicating if the user is authenticated
  */
 
-import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
+import { GebruikerInline } from '@/api/fetchers.schemas'
 
 interface checkIfUserIsAllowedOnPageProps {
     object: any
-    user?: GetTokeninfo200Identifier
+    user?: GebruikerInline
 }
 
 const checkIfUserIsAllowedOnPage = ({

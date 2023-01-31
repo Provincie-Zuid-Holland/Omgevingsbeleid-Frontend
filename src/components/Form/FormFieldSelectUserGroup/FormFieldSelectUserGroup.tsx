@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 import { gebruikers } from '@/api/fetchers'
-import { Gebruiker } from '@/api/fetchers.schemas'
+import { GebruikerInline } from '@/api/fetchers.schemas'
 import { LoaderSelect } from '@/components/Loader'
 
 import FormFieldSelectUser from '../FormFieldSelectUser'
@@ -41,7 +41,9 @@ const FormFieldSelectUserGroup = ({
     disabled,
     className = '',
 }: FormFieldSelectUserGroupProps) => {
-    const [gebruikersLijst, setGebruikersLijst] = useState<Gebruiker[]>([])
+    const [gebruikersLijst, setGebruikersLijst] = useState<GebruikerInline[]>(
+        []
+    )
     const [dataLoaded, setDataLoaded] = useState(false)
     const [error, setError] = useState(false)
 

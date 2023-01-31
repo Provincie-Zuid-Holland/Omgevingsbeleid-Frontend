@@ -11,7 +11,11 @@ import {
     readVerordeningVersion,
     useReadVerordeningVersion,
 } from '@/api/fetchers'
-import { Verordening, VerordeningUpdate } from '@/api/fetchers.schemas'
+import {
+    Verordening,
+    VerordeningCreate,
+    VerordeningUpdate,
+} from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
 import { Container } from '@/components/Container'
 import { ExtendTypesWithNull } from '@/types/dimensions'
@@ -345,7 +349,7 @@ function VerordeningEdit() {
                 const createdSectionFromAPI = await postVerordeningSection({
                     ...postObject,
                     ...newSection,
-                } as VerordeningUpdate)
+                } as VerordeningCreate)
 
                 const createdSectionForStructurePatch =
                     transformVerordeningenReadToVerordeningChildRead(

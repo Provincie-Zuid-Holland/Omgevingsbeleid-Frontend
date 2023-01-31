@@ -1,5 +1,4 @@
 import {
-    GenericReferenceUpdate,
     Ambitie,
     AmbitieUpdate,
     Belang,
@@ -18,6 +17,26 @@ import {
     MaatregelUpdate,
     Thema,
     ThemaUpdate,
+    RelatedVerordeningen,
+    RelatedThema,
+    RelatedMaatregel,
+    RelatedBeleidsregel,
+    RelatedBeleidsprestatie,
+    RelatedBeleidsdoel,
+    RelatedBelang,
+    ThemaCreate,
+    MaatregelCreate,
+    BeleidsregelCreate,
+    BeleidsprestatieCreate,
+    BeleidsmoduleCreate,
+    BeleidskeuzeCreate,
+    BeleidsdoelCreate,
+    BelangCreate,
+    AmbitieCreate,
+    Gebiedsprogramma,
+    GebiedsprogrammaCreate,
+    GebiedsprogrammaUpdate,
+    RelatedGebiedsprogramma,
 } from '@/api/fetchers.schemas'
 
 /**
@@ -43,6 +62,7 @@ export type DimensionType =
     | 'themas'
     | 'verordeningen'
     | 'artikel'
+    | 'gebiedsprogramma'
 
 export type MutateReadObjects =
     | Thema
@@ -54,17 +74,19 @@ export type MutateReadObjects =
     | Beleidsdoel
     | Belang
     | Ambitie
+    | Gebiedsprogramma
 
 export type MutateWriteObjects =
-    | ThemaUpdate
-    | MaatregelUpdate
-    | BeleidsregelUpdate
-    | BeleidsprestatieUpdate
-    | BeleidsmoduleUpdate
-    | BeleidskeuzeUpdate
-    | BeleidsdoelUpdate
-    | BelangUpdate
-    | AmbitieUpdate
+    | ThemaCreate
+    | MaatregelCreate
+    | BeleidsregelCreate
+    | BeleidsprestatieCreate
+    | BeleidsmoduleCreate
+    | BeleidskeuzeCreate
+    | BeleidsdoelCreate
+    | BelangCreate
+    | AmbitieCreate
+    | GebiedsprogrammaCreate
 
 export type TransformedMutateWriteObjects =
     | MutatedPolicySchema<ThemaUpdate>
@@ -76,5 +98,14 @@ export type TransformedMutateWriteObjects =
     | MutatedPolicySchema<BeleidsdoelUpdate>
     | MutatedPolicySchema<BelangUpdate>
     | MutatedPolicySchema<AmbitieUpdate>
+    | MutatedPolicySchema<GebiedsprogrammaUpdate>
 
-export type BeleidskeuzeConnections = GenericReferenceUpdate
+export type BeleidskeuzeConnections =
+    | RelatedVerordeningen
+    | RelatedThema
+    | RelatedMaatregel
+    | RelatedBeleidsregel
+    | RelatedBeleidsprestatie
+    | RelatedBeleidsdoel
+    | RelatedBelang
+    | RelatedGebiedsprogramma

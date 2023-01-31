@@ -4,8 +4,8 @@ import { useUpdateEffect } from 'react-use'
 import { readValidBeleidsrelaties } from '@/api/fetchers'
 import {
     Beleidsdoel,
-    BeleidskeuzeReference,
     Beleidskeuze,
+    BeleidskeuzeReference,
     Beleidsrelatie,
     Maatregel,
     Verordening,
@@ -74,7 +74,7 @@ export const connectionPropertiesColors = {
  */
 
 interface RelatiesKoppelingenProps {
-    dataObject: (Maatregel & Beleidskeuze & Beleidsdoel & Verordening) | null
+    dataObject: (Maatregel | Beleidskeuze | Beleidsdoel | Verordening) | null
     titleSingular: string
     titleSingularPrefix: string
 }
@@ -164,7 +164,7 @@ const RelatiesKoppelingen = ({
                 const filteredRelations = filterOutUnvalidRelations(
                     data,
                     'From'
-                ) as BeleidskeuzeReference[]
+                ) as Beleidskeuze[]
 
                 return filteredRelations
             })
@@ -183,7 +183,7 @@ const RelatiesKoppelingen = ({
                 const filteredRelations = filterOutUnvalidRelations(
                     data,
                     'To'
-                ) as BeleidskeuzeReference[]
+                ) as Beleidskeuze[]
 
                 return filteredRelations
             })
@@ -222,7 +222,12 @@ const RelatiesKoppelingen = ({
          * Function to set the intitialized data for a Beleidsobject.
          */
         const initBeleidsobject = () => {
-            setBeleidsRelaties(dataObject?.Ref_Beleidskeuzes || [])
+            setBeleidsRelaties(
+                (dataObject &&
+                    'Ref_Beleidskeuzes' in dataObject &&
+                    dataObject.Ref_Beleidskeuzes) ||
+                    []
+            )
             getVigerendeVerordening().then(vigerendeVerordening => {
                 setVerordeningStructure(vigerendeVerordening)
                 setIsLoading(false)
@@ -275,7 +280,7 @@ const RelatiesKoppelingen = ({
                                 verordeningsStructure={verordeningsStructure}
                                 titleSingular={titleSingular}
                                 titleSingularPrefix={titleSingularPrefix}
-                                beleidsObject={dataObject}
+                                beleidsObject={dataObject as Beleidskeuze}
                                 beleidsRelaties={beleidsRelaties}
                                 connectionProperties={connectionProperties}
                                 connectionPropertiesColors={
@@ -287,7 +292,7 @@ const RelatiesKoppelingen = ({
                           dataObject ? (
                             <RelatiesKoppelingenTekstueel
                                 verordeningsStructure={verordeningsStructure}
-                                beleidsObject={dataObject}
+                                beleidsObject={dataObject as Beleidskeuze}
                                 beleidsRelaties={beleidsRelaties}
                                 connectionProperties={connectionProperties}
                                 connectionPropertiesColors={

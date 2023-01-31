@@ -34,7 +34,7 @@ const ButtonBackToPage = ({
                 onClick={onClick}
                 className={`${color} text-l mb-4 inline-block`}>
                 <AngleLeft
-                    aria-hidden="true"
+                    aria-hidden
                     className="mr-2 -mt-[2px] inline-block"
                 />
                 <span>Terug naar {terugNaar}</span>
@@ -44,7 +44,7 @@ const ButtonBackToPage = ({
         return (
             <Link to={url} className={`${color} text-l mb-4 inline-block`}>
                 <AngleLeft
-                    aria-hidden="true"
+                    aria-hidden
                     className="mr-2 -mt-[2px] inline-block"
                 />
                 <span>Terug naar {terugNaar}</span>

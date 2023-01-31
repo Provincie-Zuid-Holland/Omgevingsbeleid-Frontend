@@ -6,7 +6,7 @@ describe('ModuleAmount', () => {
     const defaultProps = {
         currentBeleidsmodule: { Titel: 'Titel' },
         policies: [{}, {}],
-    }
+    } as any
 
     it('should render', () => {
         render(<ModuleAmount {...defaultProps} />)

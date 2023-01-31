@@ -6,7 +6,6 @@ import {
 import '@testing-library/jest-dom'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 
-import { AmbitiesRead } from '@/api/fetchers.schemas'
 import allDimensies from '@/constants/dimensies'
 import { AuthContext } from '@/context/AuthContext'
 import { ambities } from '@/mocks/data/ambities'
@@ -35,14 +34,10 @@ describe('ObjectDetail', () => {
                             element={
                                 <ObjectDetail
                                     dataEndpoint={jest.fn(() =>
-                                        Promise.resolve(
-                                            ambities as AmbitiesRead[]
-                                        )
+                                        Promise.resolve(ambities as any[])
                                     )}
                                     dataVersionEndpoint={jest.fn(() =>
-                                        Promise.resolve(
-                                            ambities[0] as AmbitiesRead
-                                        )
+                                        Promise.resolve(ambities[0] as any)
                                     )}
                                     {...props}
                                 />

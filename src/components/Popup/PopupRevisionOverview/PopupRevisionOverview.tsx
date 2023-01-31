@@ -4,7 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import Select from 'react-select'
 import { useClickAway, useKey } from 'react-use'
 
-import axios from '@/api/instance'
+import { changesBeleidskeuzes } from '@/api/fetchers'
 import { LoaderSpinner } from '@/components/Loader'
 import RevisionOverviewChangeContainer from '@/components/RevisionOverview/RevisionOverviewChangeContainer'
 import { getOptions } from '@/utils/revisionOverview'
@@ -154,12 +154,10 @@ const PopupRevisionOverview = ({
 
         setIsLoading(true)
 
-        axios
-            .get(`changes/beleidskeuzes/${leftSelect}/${rightSelect}`)
-            .then(res => {
-                setChangesFromApi(res.data)
-                setIsLoading(false)
-            })
+        changesBeleidskeuzes(leftSelect, rightSelect).then(res => {
+            setChangesFromApi(res)
+            setIsLoading(false)
+        })
     }, [leftSelect, rightSelect, revisionObjects])
 
     // Disables html vertical scroll when revisieOverzicht is open

@@ -15,6 +15,7 @@ import {
 import {
     Beleidskeuze,
     Beleidsmodule,
+    Gebiedsprogramma,
     GenericReferenceUpdate,
     Maatregel,
 } from '@/api/fetchers.schemas'
@@ -24,7 +25,7 @@ import handleError from '@/utils/handleError'
 export interface PopUpAddPolicyToModuleProps {
     isOpen: boolean
     setIsOpen: (isOpen: boolean) => void
-    policy: Maatregel | Beleidskeuze
+    policy: Maatregel | Beleidskeuze | Gebiedsprogramma
     titleSingular: 'Beleidskeuze' | 'Maatregel' | 'Gebiedsprogramma'
 }
 

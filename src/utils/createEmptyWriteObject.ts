@@ -1,19 +1,19 @@
 import {
-    VerordeningenWrite,
-    ThemasWrite,
-    MaatregelenWrite,
-    BeleidsregelsWrite,
-    BeleidsprestatiesWrite,
-    BeleidsmodulesWrite,
-    BeleidskeuzesWrite,
-    BeleidsdoelenWrite,
-    BelangenWrite,
-    AmbitiesWrite,
-    GebiedsprogrammasWrite,
+    VerordeningUpdate,
+    ThemaUpdate,
+    MaatregelUpdate,
+    BeleidsregelUpdate,
+    BeleidsprestatieUpdate,
+    BeleidsmoduleUpdate,
+    BeleidskeuzeUpdate,
+    BeleidsdoelUpdate,
+    BelangUpdate,
+    AmbitieUpdate,
+    GebiedsprogrammaUpdate,
 } from '@/api/fetchers.schemas'
 import { VerordeningLineageWrite } from '@/types/verordening'
 
-const ambitieEmptyWrite: AmbitiesWrite = {
+const ambitieEmptyWrite: AmbitieUpdate = {
     Begin_Geldigheid: undefined,
     Eind_Geldigheid: undefined,
     Omschrijving: undefined,
@@ -21,12 +21,12 @@ const ambitieEmptyWrite: AmbitiesWrite = {
     Weblink: undefined,
 }
 
-const beleidsmoduleEmptyWrite: BeleidsmodulesWrite = {
+const beleidsmoduleEmptyWrite: BeleidsmoduleUpdate = {
     Besluit_Datum: undefined,
     Titel: undefined,
 }
 
-const belangEmptyWrite: BelangenWrite = {
+const belangEmptyWrite: BelangUpdate = {
     Begin_Geldigheid: undefined,
     Eind_Geldigheid: undefined,
     Omschrijving: undefined,
@@ -35,7 +35,7 @@ const belangEmptyWrite: BelangenWrite = {
     Weblink: undefined,
 }
 
-const beleidsregelEmptyWrite: BeleidsregelsWrite = {
+const beleidsregelEmptyWrite: BeleidsregelUpdate = {
     Begin_Geldigheid: undefined,
     Eind_Geldigheid: undefined,
     Externe_URL: undefined,
@@ -44,7 +44,7 @@ const beleidsregelEmptyWrite: BeleidsregelsWrite = {
     Weblink: undefined,
 }
 
-const beleidskeuzeEmptyWrite: BeleidskeuzesWrite = {
+const beleidskeuzeEmptyWrite: BeleidskeuzeUpdate = {
     Aanleiding: undefined,
     Afweging: undefined,
     Begin_Geldigheid: undefined,
@@ -53,15 +53,15 @@ const beleidskeuzeEmptyWrite: BeleidskeuzesWrite = {
     Beleidsprestaties: undefined,
     Beleidsregels: undefined,
     Besluitnummer: undefined,
-    Eigenaar_1: undefined,
-    Eigenaar_2: undefined,
+    Eigenaar_1_UUID: undefined,
+    Eigenaar_2_UUID: undefined,
     Eind_Geldigheid: undefined,
     Maatregelen: undefined,
     Omschrijving_Keuze: undefined,
     Omschrijving_Werking: undefined,
-    Opdrachtgever: undefined,
-    Portefeuillehouder_1: undefined,
-    Portefeuillehouder_2: undefined,
+    Opdrachtgever_UUID: undefined,
+    Portefeuillehouder_1_UUID: undefined,
+    Portefeuillehouder_2_UUID: undefined,
     Provinciaal_Belang: undefined,
     Status: 'Ontwerp GS Concept',
     Tags: undefined,
@@ -72,17 +72,17 @@ const beleidskeuzeEmptyWrite: BeleidskeuzesWrite = {
     Werkingsgebieden: undefined,
 }
 
-const maatregelEmptyWrite: MaatregelenWrite = {
+const maatregelEmptyWrite: MaatregelUpdate = {
     Begin_Geldigheid: undefined,
-    Eigenaar_1: undefined,
-    Eigenaar_2: undefined,
+    Eigenaar_1_UUID: undefined,
+    Eigenaar_2_UUID: undefined,
     Eind_Geldigheid: undefined,
-    Gebied: undefined,
+    Gebied_UUID: undefined,
     Gebied_Duiding: undefined,
     Omschrijving: undefined,
-    Opdrachtgever: undefined,
-    Portefeuillehouder_1: undefined,
-    Portefeuillehouder_2: undefined,
+    Opdrachtgever_UUID: undefined,
+    Portefeuillehouder_1_UUID: undefined,
+    Portefeuillehouder_2_UUID: undefined,
     Status: undefined,
     Tags: undefined,
     Titel: undefined,
@@ -90,7 +90,7 @@ const maatregelEmptyWrite: MaatregelenWrite = {
     Weblink: undefined,
 }
 
-const beleidsdoelEmptyWrite: BeleidsdoelenWrite = {
+const beleidsdoelEmptyWrite: BeleidsdoelUpdate = {
     Begin_Geldigheid: undefined,
     Eind_Geldigheid: undefined,
     Omschrijving: undefined,
@@ -98,7 +98,7 @@ const beleidsdoelEmptyWrite: BeleidsdoelenWrite = {
     Weblink: undefined,
 }
 
-const beleidsprestatieEmptyWrite: BeleidsprestatiesWrite = {
+const beleidsprestatieEmptyWrite: BeleidsprestatieUpdate = {
     Begin_Geldigheid: undefined,
     Eind_Geldigheid: undefined,
     Omschrijving: undefined,
@@ -106,7 +106,7 @@ const beleidsprestatieEmptyWrite: BeleidsprestatiesWrite = {
     Weblink: undefined,
 }
 
-const themaEmptyWrite: ThemasWrite = {
+const themaEmptyWrite: ThemaUpdate = {
     Begin_Geldigheid: undefined,
     Eind_Geldigheid: undefined,
     Omschrijving: undefined,
@@ -122,16 +122,16 @@ const verordeningStructureEmptyWrite: VerordeningLineageWrite = {
     Titel: undefined,
 }
 
-const verordeningEmptyWrite: VerordeningenWrite = {
+const verordeningEmptyWrite: VerordeningUpdate = {
     Begin_Geldigheid: undefined,
-    Eigenaar_1: undefined,
-    Eigenaar_2: undefined,
+    Eigenaar_1_UUID: undefined,
+    Eigenaar_2_UUID: undefined,
     Eind_Geldigheid: undefined,
-    Gebied: undefined,
+    Gebied_UUID: undefined,
     Inhoud: undefined,
-    Opdrachtgever: undefined,
-    Portefeuillehouder_1: undefined,
-    Portefeuillehouder_2: undefined,
+    Opdrachtgever_UUID: undefined,
+    Portefeuillehouder_1_UUID: undefined,
+    Portefeuillehouder_2_UUID: undefined,
     Status: undefined,
     Titel: undefined,
     Type: undefined,
@@ -139,7 +139,7 @@ const verordeningEmptyWrite: VerordeningenWrite = {
     Weblink: undefined,
 }
 
-const gebiedsprogrammaEmptyWrite: GebiedsprogrammasWrite = {
+const gebiedsprogrammaEmptyWrite: GebiedsprogrammaUpdate = {
     Afbeelding: undefined,
     Maatregelen: undefined,
     Titel: undefined,

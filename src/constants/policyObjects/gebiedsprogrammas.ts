@@ -53,11 +53,11 @@ export const SCHEMA: ObjectSchema<MutatedPolicySchema<GebiedsprogrammaUpdate>> =
         Eind_Geldigheid: schemaDefaults.Eind_Geldigheid,
         Status: schemaDefaults.Status,
         Besluitnummer: schemaDefaults.optionalString,
-        Opdrachtgever: schemaDefaults.optionalString,
-        Portefeuillehouder_1: schemaDefaults.optionalString,
-        Portefeuillehouder_2: schemaDefaults.optionalString,
-        Eigenaar_1: schemaDefaults.optionalString,
-        Eigenaar_2: schemaDefaults.optionalString,
+        Opdrachtgever_UUID: schemaDefaults.optionalString,
+        Portefeuillehouder_1_UUID: schemaDefaults.optionalString,
+        Portefeuillehouder_2_UUID: schemaDefaults.optionalString,
+        Eigenaar_1_UUID: schemaDefaults.optionalString,
+        Eigenaar_2_UUID: schemaDefaults.optionalString,
         Weblink: schemaDefaults.optionalString,
     }).meta(gebiedsprogrammasMeta)
 

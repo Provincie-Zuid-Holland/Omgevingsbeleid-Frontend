@@ -9,7 +9,12 @@ import {
     getReadMaatregelenQueryKey,
     getReadBeleidskeuzesQueryKey,
 } from '@/api/fetchers'
-import { Maatregel, Beleidskeuze, Beleidsmodule } from '@/api/fetchers.schemas'
+import {
+    Maatregel,
+    Beleidskeuze,
+    Beleidsmodule,
+    Gebiedsprogramma,
+} from '@/api/fetchers.schemas'
 import handleError from '@/utils/handleError'
 
 /**
@@ -17,7 +22,7 @@ import handleError from '@/utils/handleError'
  */
 
 export const removePolicyFromModule = async (
-    policy: Maatregel | Beleidskeuze,
+    policy: Maatregel | Beleidskeuze | Gebiedsprogramma,
     titleSingular: 'Maatregel' | 'Beleidskeuze' | 'Gebiedsprogramma',
     queryClient: QueryClient,
     type: 'detail' | 'overview'

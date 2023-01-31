@@ -1,10 +1,12 @@
+import { PossiblePolicyRead } from '@/types/PossiblePolicyRead'
+
 import filterSortPolicies from './filterSortPolicies'
 
 const policies = [
     { Titel: '#2 test title wow!', Eind_Geldigheid: '2010-01-01' },
     { Titel: '#1 test title wow!', Eind_Geldigheid: '2020-01-01' },
     { Titel: '#0 test title', Eind_Geldigheid: '2030-01-01' },
-]
+] as PossiblePolicyRead[]
 
 describe('filterSortPolicy', () => {
     it('should filter with a filter query', () => {

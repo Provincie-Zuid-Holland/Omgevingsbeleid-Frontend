@@ -2,7 +2,7 @@ import { FormikDate, FormikInput, FormikRte } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
 import { useContext } from 'react'
 
-import { GebiedsprogrammaUpdate } from '@/api/fetchers.schemas'
+import { BeleidskeuzeUpdate } from '@/api/fetchers.schemas'
 import { ContainerFormSection } from '@/components/Container'
 import FormikRelationConnection from '@/components/Form/FormikRelationConnection'
 import FormikSelectUserGroup from '@/components/Form/FormikSelectUserGroup'
@@ -14,7 +14,7 @@ import MutateContext from '../../MutateContext'
 export interface FieldsGebiedsprogrammaProps {}
 
 function FieldsGebiedsprogramma({}: FieldsGebiedsprogrammaProps) {
-    const { values } = useFormikContext<GebiedsprogrammaUpdate>()
+    const { values } = useFormikContext<BeleidskeuzeUpdate>()
     const {
         userHasFullMutateRights,
         isVigerend,

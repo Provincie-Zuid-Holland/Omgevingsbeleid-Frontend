@@ -4,8 +4,8 @@ import { Helmet } from 'react-helmet'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import { readBeleidskeuzeVersion } from '@/api/fetchers'
-import axios from '@/api/instance'
+import { createBeleidsrelatie, readBeleidskeuzeVersion } from '@/api/fetchers'
+import { BeleidsrelatieCreate } from '@/api/fetchers.schemas'
 import ButtonBackToPage from '@/components/ButtonBackToPage'
 import allDimensies from '@/constants/dimensies'
 import isEndDateBeforeStartDate from '@/utils/isEndDateBeforeStartDate'
@@ -22,21 +22,20 @@ interface BeleidsrelatiesCRUDProps {
 const BeleidsrelatiesCRUD = ({ dataModel }: BeleidsrelatiesCRUDProps) => {
     const navigate = useNavigate()
     const { UUID } = useParams<{ UUID: string }>()
-    const [crudObject, setCrudObject] = useState({
+    const [crudObject, setCrudObject] = useState<BeleidsrelatieCreate>({
         Begin_Geldigheid: '',
         Eind_Geldigheid: '',
-        Naar_Beleidskeuze: '',
+        Naar_Beleidskeuze_UUID: '',
         Omschrijving: '',
-        // Titel: '',
-        Van_Beleidskeuze: UUID,
+        Van_Beleidskeuze_UUID: UUID || '',
         Status: 'Open',
-        Aanvraag_Datum: new Date(),
+        Aanvraag_Datum: new Date().toString(),
     })
-    const [vanBeleidskeuzeTitel, SetVanBeleidskeuzeTitel] = useState('...')
+    const [vanBeleidskeuzeTitel, setVanBeleidskeuzeTitel] = useState('...')
 
     useEffect(() => {
         readBeleidskeuzeVersion(UUID!)
-            .then(data => SetVanBeleidskeuzeTitel(data.Titel || ''))
+            .then(data => setVanBeleidskeuzeTitel(data.Titel || ''))
             .catch(err => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
@@ -58,8 +57,8 @@ const BeleidsrelatiesCRUD = ({ dataModel }: BeleidsrelatiesCRUDProps) => {
         event.preventDefault()
 
         if (
-            crudObject.Naar_Beleidskeuze === '' ||
-            !crudObject.Naar_Beleidskeuze
+            crudObject.Naar_Beleidskeuze_UUID === '' ||
+            !crudObject.Naar_Beleidskeuze_UUID
         ) {
             toast('Selecteer een beleidskeuze')
             return
@@ -87,8 +86,7 @@ const BeleidsrelatiesCRUD = ({ dataModel }: BeleidsrelatiesCRUDProps) => {
             crudObject.Eind_Geldigheid
         ).toISOString()
 
-        axios
-            .post(`/beleidsrelaties`, JSON.stringify(crudObject))
+        createBeleidsrelatie(crudObject)
             .then(() => {
                 navigate(`/muteer/beleidsrelaties/${UUID}`, { replace: true })
                 toast('Opgeslagen')

@@ -1,12 +1,12 @@
 import { string, object, array, mixed, lazy, number } from 'yup'
 
-import { BeleidskeuzesWriteStatus } from '@/api/fetchers.schemas'
+import { Status } from '@/api/fetchers.schemas'
 import {
     PolicyTitlesPlural,
     PolicyTitlesSingular,
 } from '@/constants/policyObjects'
 
-const possibleStatusses = Object.values(BeleidskeuzesWriteStatus)
+const possibleStatusses = Object.values(Status)
 
 /**
  * Contains the yup validation schema for shared properties
@@ -31,25 +31,14 @@ export const schemaDefaults = {
             : string()
     ),
     // listReference can be of type read or write
-    listReference: lazy(value =>
-        value?.UUID !== undefined
-            ? array()
-                  .of(
-                      object({
-                          Koppeling_Omschrijving: string(),
-                          UUID: string(),
-                      })
-                  )
-                  .nullable()
-            : array()
-                  .of(
-                      object({
-                          Koppeling_Omschrijving: string(),
-                          Object: object(),
-                      })
-                  )
-                  .nullable()
-    ),
+    listReference: array()
+        .of(
+            object({
+                Koppeling_Omschrijving: string().required(),
+                UUID: string().required(),
+            })
+        )
+        .nullable(),
     Titel: string()
         .required('Vul een titel in')
         .min(4, 'Vul een titel in van minimaal 4 karakters')

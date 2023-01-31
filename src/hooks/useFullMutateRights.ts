@@ -21,10 +21,10 @@ const useFullMutateRights = (
                 userRol === 'Functioneel beheerder' ||
                 userRol === 'Behandelend Ambtenaar' ||
                 userRol === 'Technisch beheerder' ||
-                ('Eigenaar_1' in initialValues &&
-                    userUUID === initialValues.Eigenaar_1) ||
-                ('Eigenaar_2' in initialValues &&
-                    userUUID === initialValues.Eigenaar_2)
+                ('Eigenaar_1_UUID' in initialValues &&
+                    userUUID === initialValues.Eigenaar_1_UUID) ||
+                ('Eigenaar_2_UUID' in initialValues &&
+                    userUUID === initialValues.Eigenaar_2_UUID)
         )
     }, [user, initialValues])
 

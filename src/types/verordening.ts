@@ -16,7 +16,7 @@ export interface VerordeningLineageRead {
 
 export interface VerordeningStructureChild {
     Children: VerordeningStructureChild[]
-    Gebied_UUID: null | string
+    Gebied: null | string
     Inhoud: string
     Titel: string
     Type: 'Hoofdstuk' | 'Afdeling' | 'Paragraaf' | 'Artikel' | 'Lid'

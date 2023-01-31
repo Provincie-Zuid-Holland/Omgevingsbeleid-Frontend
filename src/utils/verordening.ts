@@ -1,22 +1,26 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import cloneDeep from 'lodash.clonedeep'
 
-import { readVerordeningVersion } from '@/api/fetchers'
+import {
+    createVerordening,
+    readVerordeningVersion,
+    updateVerordening,
+} from '@/api/fetchers'
 import {
     Verordening,
+    VerordeningCreate,
     VerordeningUpdate,
-    RelatedWerkingsgebied,
+    WerkingsgebiedInline,
 } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
-import { FormikValues } from '@/pages/protected/VerordeningEdit/verordeningEditContext'
-import { ExtendTypesWithNull } from '@/types/dimensions'
 import {
     VerordeningLineageRead,
     VerordeningStructureChild,
 } from '@/types/verordening'
 
-export const getGeoValueFromFormikValues = (values: FormikValues) => {
-    const geoValue: string | undefined | RelatedWerkingsgebied = values?.Gebied
+export const getGeoValueFromFormikValues = (values: any) => {
+    const geoValue: string | undefined | WerkingsgebiedInline =
+        values?.Gebied || values?.Gebied_UUID
 
     if (!geoValue) return null
 
@@ -33,14 +37,12 @@ export const getGeoValueFromFormikValues = (values: FormikValues) => {
 /**
  * @returns A promise that resolves to a VerordeningenRead with type Lid
  */
-export const createVerordeningLid = async (
-    lid: Partial<Omit<VerordeningUpdate, 'Gebied'> & { Gebied?: string | null }>
-) => {
+export const createVerordeningLid = async (lid: VerordeningCreate) => {
     return await postVerordeningSection({
-        Type: 'Lid' as const,
-        Status: 'Vigerend' as const,
-        Volgnummer: '',
         ...lid,
+        Type: 'Lid',
+        Status: 'Vigerend',
+        Volgnummer: '',
     })
 }
 
@@ -87,7 +89,7 @@ export const replaceReorderedSections = (
 export const mutateVerordeningenReadToVerordeningenWrite = (
     readObject: Verordening
 ) => {
-    const writeObject: ExtendTypesWithNull<VerordeningUpdate> = {}
+    const writeObject: VerordeningUpdate = {}
 
     const verordeningenWriteProperties = [
         'Begin_Geldigheid',
@@ -100,34 +102,47 @@ export const mutateVerordeningenReadToVerordeningenWrite = (
         'Weblink',
     ] as const
 
-    const inlinedProperties = [
-        'Eigenaar_1',
-        'Eigenaar_2',
-        'Portefeuillehouder_1',
-        'Portefeuillehouder_2',
-        'Opdrachtgever',
-        'Gebied',
+    const inlinedUpdateProperties = [
+        'Eigenaar_1_UUID',
+        'Eigenaar_2_UUID',
+        'Portefeuillehouder_1_UUID',
+        'Portefeuillehouder_2_UUID',
+        'Opdrachtgever_UUID',
+        'Gebied_UUID',
     ] as const
 
+    type inlinedReadProperties =
+        | 'Eigenaar_1'
+        | 'Eigenaar_2'
+        | 'Portefeuillehouder_1'
+        | 'Portefeuillehouder_2'
+        | 'Opdrachtgever'
+        | 'Gebied'
+
     verordeningenWriteProperties.forEach(property => {
+        // @ts-ignore
         writeObject[property] = readObject[property]
     })
 
-    inlinedProperties.forEach(property => {
+    inlinedUpdateProperties.forEach(property => {
+        const readProperty = property.replace(
+            '_UUID',
+            ''
+        ) as inlinedReadProperties
+
         writeObject[property] =
-            readObject[property] === null ? null : readObject[property]?.UUID
+            readObject[readProperty] === null
+                ? undefined
+                : readObject[readProperty]?.UUID
     })
 
     return writeObject
 }
 
 export const patchVerordeningSection = (
-    values: ExtendTypesWithNull<VerordeningUpdate>,
+    values: VerordeningUpdate,
     lineageID: number
-) =>
-    axios
-        .patch(`/verordeningen/${lineageID}`, values)
-        .then(res => res.data as Verordening)
+) => updateVerordening(lineageID, values).then(res => res)
 
 export const useGetVerordeningenStructuren = () =>
     useQuery(['/verordeningstructuur'], () =>
@@ -146,9 +161,8 @@ export const useGetVerordeningenStructurenLineageId = (lineageID: string) =>
         }
     )
 
-export const postVerordeningSection = (
-    values: Omit<VerordeningUpdate, 'Gebied'> & { Gebied?: string | null }
-) => axios.post(`/verordeningen`, values).then(res => res.data as Verordening)
+export const postVerordeningSection = (values: VerordeningCreate) =>
+    createVerordening(values).then(res => res)
 
 export const getChildrenOfSectionFromAPI = (
     children: VerordeningStructureChild[]
@@ -159,8 +173,6 @@ export const getChildrenOfSectionFromLineage = (
     verordening: VerordeningLineageRead
 ) => {
     if (sectionIndexPath.length === 1) {
-        console.log(verordening.Structuur)
-
         const children =
             verordening.Structuur.Children[sectionIndexPath[0]]?.Children
 

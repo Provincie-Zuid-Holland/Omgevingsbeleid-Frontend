@@ -4,13 +4,16 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import { readBeleidsrelaties, readBeleidskeuzeVersion } from '@/api/fetchers'
+import {
+    readBeleidsrelaties,
+    readBeleidskeuzeVersion,
+    updateBeleidsrelatie,
+} from '@/api/fetchers'
 import {
     Beleidskeuze,
     Beleidsrelatie,
     BeleidsrelatiesReadStatus,
 } from '@/api/fetchers.schemas'
-import axios from '@/api/instance'
 import { LoaderIndicator, LoaderMainTitle } from '@/components/Loader'
 
 import SwitchToTabbladButton from './SwitchToTabbladButton'
@@ -53,7 +56,9 @@ const BeleidsrelatiesDetail = ({
     >([])
 
     /** State for the beleidsObject that the user is viewing the detail page of */
-    const [beleidsObject, setBeleidsObject] = useState<Beleidskeuze>({})
+    const [beleidsObject, setBeleidsObject] = useState<Beleidskeuze | null>(
+        null
+    )
 
     /** Popup State */
     const [motivationPopUp, setMotivationPopUp] = useState<
@@ -115,11 +120,10 @@ const BeleidsrelatiesDetail = ({
 
         setSavingInProgress(true)
 
-        axios
-            .patch(
-                `/beleidsrelaties/${beleidsrelatieObject.ID}`,
-                patchedBeleidsrelatieObject
-            )
+        updateBeleidsrelatie(
+            beleidsrelatieObject.ID,
+            patchedBeleidsrelatieObject
+        )
             .then(() => {
                 toast('Beleidsrelatie geaccepteerd')
                 if (
@@ -173,11 +177,10 @@ const BeleidsrelatiesDetail = ({
 
         setSavingInProgress(true)
 
-        axios
-            .patch(
-                `/beleidsrelaties/${beleidsrelatieObject.ID}`,
-                patchedBeleidsrelatieObject
-            )
+        updateBeleidsrelatie(
+            beleidsrelatieObject.ID,
+            patchedBeleidsrelatieObject
+        )
             .then(() => {
                 toast('Beleidsrelatie afgewezen')
                 setSavingInProgress(false)
@@ -205,11 +208,10 @@ const BeleidsrelatiesDetail = ({
 
         setSavingInProgress(true)
 
-        axios
-            .patch(
-                `/beleidsrelaties/${beleidsrelatieObject.ID}`,
-                patchedBeleidsrelatieObject
-            )
+        updateBeleidsrelatie(
+            beleidsrelatieObject.ID,
+            patchedBeleidsrelatieObject
+        )
             .then(() => {
                 toast('Beleidsrelatie verbroken')
                 setSavingInProgress(false)
@@ -331,17 +333,17 @@ const BeleidsrelatiesDetail = ({
                             {isLoading ? (
                                 <LoaderMainTitle />
                             ) : (
-                                beleidsObject.Titel
+                                beleidsObject?.Titel
                             )}
 
                             {!isLoading ? (
                                 <span
                                     className={`absolute inline-block px-1 ml-4 pt-1 text-xs font-bold border rounded ${
-                                        beleidsObject.Status === 'Vigerend'
+                                        beleidsObject?.Status === 'Vigerend'
                                             ? 'text-pzh-blue border-pzh-blue'
                                             : 'text-pzh-yellow-dark border-pzh-yellow-dark'
                                     }`}>
-                                    {beleidsObject.Status}
+                                    {beleidsObject?.Status}
                                 </span>
                             ) : null}
                         </h1>
@@ -392,7 +394,7 @@ const BeleidsrelatiesDetail = ({
                         motivationPopUp={motivationPopUp}
                         setDisconnectPopup={setDisconnectPopup}
                         disconnectPopUp={disconnectPopup}
-                        beleidskeuzeTitle={beleidsObject.Titel}
+                        beleidskeuzeTitle={beleidsObject?.Titel}
                     />
                 ) : null}
 

@@ -6,7 +6,7 @@ import { useFormikContext } from 'formik'
 import { FC, Fragment } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
-import { VerordeningenRead } from '@/api/fetchers.schemas'
+import { Verordening } from '@/api/fetchers.schemas'
 import ButtonBackToPage from '@/components/ButtonBackToPage'
 import { VerordeningLineageRead } from '@/types/verordening'
 import { patchVerordeningStructureChildren } from '@/utils/verordening'
@@ -26,7 +26,7 @@ const VerordeningSectionContainer: FC<VerordeningSectionContainerProps> = ({
     children,
     verordening,
 }) => {
-    const { values } = useFormikContext<VerordeningenRead>()
+    const { values } = useFormikContext<Verordening>()
     const { dispatch, state } = useVerordening()
 
     const {

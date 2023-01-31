@@ -3,7 +3,14 @@ import { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import { Ambitie, Beleidskeuze, Verordening } from '@/api/fetchers.schemas'
+import {
+    Ambitie,
+    Beleidskeuze,
+    Beleidsprestatie,
+    Gebiedsprogramma,
+    Thema,
+    Verordening,
+} from '@/api/fetchers.schemas'
 import BackButton from '@/components/BackButton'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
@@ -44,7 +51,13 @@ const ObjectDetail = ({
     const { id } = useParams<{ id: string }>()
 
     const [dataObject, setDataObject] = useState<
-        Ambitie | Beleidskeuze | Verordening | null
+        | Ambitie
+        | Beleidskeuze
+        | Verordening
+        | Gebiedsprogramma
+        | Beleidsprestatie
+        | Thema
+        | null
     >(null) // The object we want to display
     const [lineageID, setLineageID] = useState<number | null>(null) // Used to get the whole history of the object
 

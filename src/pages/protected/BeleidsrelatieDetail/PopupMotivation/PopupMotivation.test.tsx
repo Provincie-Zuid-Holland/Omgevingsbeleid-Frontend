@@ -1,5 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 
+import { Beleidsrelatie } from '@/api/fetchers.schemas'
+
 import PopupMotivation from './PopupMotivation'
 
 describe('PopupMotivation', () => {
@@ -11,7 +13,7 @@ describe('PopupMotivation', () => {
         relatie: {
             UUID: 'eb80e5bf-048c-4bc0-8dc4-2fb92c7e3533',
             Omschrijving: 'Test omschrijving',
-        },
+        } as Beleidsrelatie,
     }
 
     const setup = (customProps?: { [key: string]: any }) => {

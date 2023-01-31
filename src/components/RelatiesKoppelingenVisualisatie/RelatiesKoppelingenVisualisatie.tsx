@@ -2,7 +2,7 @@ import * as d3 from 'd3'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-import { Beleidsrelatie, Beleidskeuze } from '@/api/fetchers.schemas'
+import { Beleidskeuze, BeleidskeuzeReference } from '@/api/fetchers.schemas'
 import { generateHrefVerordeningsartikel } from '@/utils/generateHrefVerordeningsartikel'
 
 import {
@@ -31,7 +31,7 @@ interface RelatiesKoppelingenVisualisatieProps {
     beleidsObject: Beleidskeuze
     connectionProperties: ConnectionProperties[]
     connectionPropertiesColors: typeof connectionPropertiesColors
-    beleidsRelaties: Beleidsrelatie[]
+    beleidsRelaties: BeleidskeuzeReference[]
     titleSingular: string
     titleSingularPrefix: string
     verordeningsStructure: any

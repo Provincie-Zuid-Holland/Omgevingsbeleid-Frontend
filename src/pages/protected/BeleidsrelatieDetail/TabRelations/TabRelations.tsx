@@ -3,7 +3,6 @@ import { Xmark } from '@pzh-ui/icons'
 import { useParams } from 'react-router-dom'
 
 import {
-    Beleidskeuze,
     Beleidsrelatie,
     BeleidsrelatiesReadStatus,
 } from '@/api/fetchers.schemas'
@@ -54,14 +53,11 @@ function TabRelations({
 }: TabRelationsProps) {
     const { UUID } = useParams<{ UUID: string }>()
 
-    const getPropertyFromRelation = (
-        relation: Beleidsrelatie,
-        property: keyof Beleidskeuze
-    ) => {
+    const getTitleFromRelation = (relation: Beleidsrelatie) => {
         if (relation.Van_Beleidskeuze?.UUID === UUID) {
-            return relation.Naar_Beleidskeuze?.[property]
+            return relation.Naar_Beleidskeuze?.Titel
         } else if (relation.Naar_Beleidskeuze?.UUID === UUID) {
-            return relation.Van_Beleidskeuze?.[property]
+            return relation.Van_Beleidskeuze?.Titel
         }
     }
 
@@ -77,7 +73,7 @@ function TabRelations({
             {loaded ? (
                 relations.length > 0 ? (
                     relations.map(relatie => {
-                        const title = getPropertyFromRelation(relatie, 'Titel')
+                        const title = getTitleFromRelation(relatie)
 
                         return (
                             <li

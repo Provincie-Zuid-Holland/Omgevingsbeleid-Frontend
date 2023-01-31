@@ -3,7 +3,11 @@ import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
-import { Beleidskeuze, Beleidsrelatie } from '@/api/fetchers.schemas'
+import {
+    Beleidskeuze,
+    BeleidskeuzeListable,
+    Beleidsrelatie,
+} from '@/api/fetchers.schemas'
 import { LoaderBeleidsrelatieRegel } from '@/components/Loader'
 import SidebarMain from '@/components/SidebarMain'
 
@@ -21,7 +25,7 @@ type BeleidsKeuzeObject = {
 
 interface BeleidsrelatiesOverzichtProps {
     beleidsrelaties: Beleidsrelatie[]
-    beleidskeuzes: Beleidskeuze[]
+    beleidskeuzes: BeleidskeuzeListable[]
     parentDataLoaded?: boolean
     currentView?: string
     setCurrentView: (view: string) => void

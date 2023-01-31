@@ -4,11 +4,15 @@ import { useFormikContext } from 'formik'
 import { useCallback, useEffect, useState } from 'react'
 
 import { useGebruikers } from '@/api/fetchers'
-import { Beleidskeuze, Gebruiker, Maatregel } from '@/api/fetchers.schemas'
+import {
+    Beleidskeuze,
+    GebruikerInline,
+    Maatregel,
+} from '@/api/fetchers.schemas'
 import { LoaderCard } from '@/components/Loader'
 
 interface OptionType {
-    value: number | string
+    value: string
     label: string
 }
 
@@ -55,7 +59,7 @@ const FormikSelectUserGroup = ({
     const [dataLoaded, setDataLoaded] = useState(false)
 
     const filterAndFormatUserList = useCallback(
-        (data: Gebruiker[]) => {
+        (data: GebruikerInline[]) => {
             const meta = {
                 Opdrachtgever: {
                     type: 'Ambtelijk opdrachtgever',
@@ -99,13 +103,13 @@ const FormikSelectUserGroup = ({
                     // We want to filter out already selected types
                     .filter(user =>
                         filterOutProperty !== null
-                            ? user.ID !== filterOutValue
+                            ? user.UUID !== filterOutValue?.UUID
                             : true
                     )
                     // Format for the select options property
                     .map(user => ({
                         label: user.Gebruikersnaam || '',
-                        value: user.ID || '',
+                        value: user.UUID || '',
                     }))
                     // Sort alphabetically
                     .sort((a, b) => a.label.localeCompare(b.label))
