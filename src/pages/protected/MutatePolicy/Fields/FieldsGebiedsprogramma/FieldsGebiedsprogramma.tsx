@@ -4,10 +4,10 @@ import { useContext } from 'react'
 
 import { BeleidskeuzeUpdate } from '@/api/fetchers.schemas'
 import { ContainerFormSection } from '@/components/Container'
+import FormikImage from '@/components/Form/FormikImage'
 import FormikRelationConnection from '@/components/Form/FormikRelationConnection'
 import FormikSelectUserGroup from '@/components/Form/FormikSelectUserGroup'
 import FormSpacer from '@/components/Form/FormSpacer'
-import FormikImage from '@/components/FormikImage'
 
 import MutateContext from '../../MutateContext'
 

@@ -11,12 +11,14 @@ export const createWriteObjectFromReadObject = (
 
     if (!writeProperties) return null
 
-    const writeObject: { [key: string]: any } = {}
+    const writeObject: Partial<MutateWriteObjects> = {}
     writeProperties.forEach(property => {
         writeObject[property as keyof typeof writeObject] =
             readObject[property as keyof MutateWriteObjects]
     })
-    const formattedWriteObject = formatUsersForUI(writeObject)
+    const formattedWriteObject = formatUsersForUI(
+        writeObject as MutateWriteObjects
+    )
 
     return formattedWriteObject as MutateWriteObjects
 }

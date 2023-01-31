@@ -94,7 +94,6 @@ const RelatiesKoppelingen = ({
 
     // As the height of the containers will vary by the content, we make sure the user can immediately see the whole container by scrolling down
     useUpdateEffect(() => {
-        console.log(activeTab)
         window.scrollTo(0, document.body.scrollHeight)
     }, [activeTab])
 

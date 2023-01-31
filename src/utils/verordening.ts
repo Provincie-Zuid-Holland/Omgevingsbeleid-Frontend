@@ -37,13 +37,13 @@ export const getGeoValueFromFormikValues = (values: any) => {
 /**
  * @returns A promise that resolves to a VerordeningenRead with type Lid
  */
-export const createVerordeningLid = async (lid: VerordeningCreate) => {
+export const createVerordeningLid = async (lid: Partial<VerordeningCreate>) => {
     return await postVerordeningSection({
         ...lid,
         Type: 'Lid',
         Status: 'Vigerend',
         Volgnummer: '',
-    })
+    } as VerordeningCreate)
 }
 
 export const replaceReorderedSections = (

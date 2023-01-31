@@ -1,2 +1,1 @@
-export { default } from './FormikSelectUserGroup';
-export * from './FormikSelectUserGroup';
+export { default } from './FormikSelectUserGroup'

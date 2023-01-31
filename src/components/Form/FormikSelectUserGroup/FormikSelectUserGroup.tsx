@@ -111,8 +111,6 @@ const FormikSelectUserGroup = ({
                         label: user.Gebruikersnaam || '',
                         value: user.UUID || '',
                     }))
-                    // Sort alphabetically
-                    .sort((a, b) => a.label.localeCompare(b.label))
             })
 
             return formattedUserList
@@ -143,7 +141,7 @@ const FormikSelectUserGroup = ({
                             <FormikSelect
                                 isClearable
                                 testId="formik-select-opdrachtgever"
-                                name="Opdrachtgever"
+                                name="Opdrachtgever_UUID"
                                 options={formattedUserList.Opdrachtgever}
                             />
                         </div>
@@ -156,7 +154,7 @@ const FormikSelectUserGroup = ({
                             <FormikSelect
                                 isClearable
                                 testId="formik-select-eigenaar-1"
-                                name="Eigenaar_1"
+                                name="Eigenaar_1_UUID"
                                 options={formattedUserList.Eigenaar_1}
                             />
                         </div>
@@ -167,7 +165,7 @@ const FormikSelectUserGroup = ({
                             <FormikSelect
                                 isClearable
                                 testId="formik-select-eigenaar-2"
-                                name="Eigenaar_2"
+                                name="Eigenaar_2_UUID"
                                 options={formattedUserList.Eigenaar_2}
                             />
                         </div>
@@ -180,7 +178,7 @@ const FormikSelectUserGroup = ({
                             <FormikSelect
                                 isClearable
                                 testId="formik-select-portefeuillehouder-1"
-                                name="Portefeuillehouder_1"
+                                name="Portefeuillehouder_1_UUID"
                                 options={formattedUserList.Portefeuillehouder_1}
                             />
                         </div>
@@ -191,7 +189,7 @@ const FormikSelectUserGroup = ({
                             <FormikSelect
                                 isClearable
                                 testId="formik-select-portefeuillehouder-2"
-                                name="Portefeuillehouder_2"
+                                name="Portefeuillehouder_2_UUID"
                                 options={formattedUserList.Portefeuillehouder_2}
                             />
                         </div>

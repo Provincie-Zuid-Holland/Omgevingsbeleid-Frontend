@@ -1,7 +1,7 @@
 import { FormikFileUpload } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
 
-import FormikImageDisplay from '../Form/FormikImageDisplay'
+import FormikImageDisplay from '../FormikImageDisplay'
 
 export interface FormikImageProps {
     name: string

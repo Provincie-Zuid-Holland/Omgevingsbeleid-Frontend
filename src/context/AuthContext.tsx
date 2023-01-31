@@ -54,7 +54,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     useEffect(() => {
-        console.log('test')
         if (accessToken) {
             const { exp } = decode(accessToken) as JWTToken
 
