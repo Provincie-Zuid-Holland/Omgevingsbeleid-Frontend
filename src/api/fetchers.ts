@@ -6,7 +6,7 @@
         This API serves all the object that make up the policies 
         of a provincial government. 
         
- * OpenAPI spec version: 1.1.9
+ * OpenAPI spec version: 1.1.11
  */
 import { useQuery, useMutation } from '@tanstack/react-query'
 import type {

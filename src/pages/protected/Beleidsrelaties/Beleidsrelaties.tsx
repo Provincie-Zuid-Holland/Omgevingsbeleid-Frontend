@@ -6,7 +6,7 @@ import { readBeleidskeuzes, readBeleidsrelaties } from '@/api/fetchers'
 import {
     BeleidskeuzeListable,
     Beleidsrelatie,
-    BeleidsrelatiesReadStatus,
+    RelatieStatus,
 } from '@/api/fetchers.schemas'
 import { ContainerMain } from '@/components/Container'
 import useAuth from '@/hooks/useAuth'
@@ -29,8 +29,8 @@ function Beleidsrelaties() {
     const { UUID } = useParams<{ UUID: string }>()
 
     const updateBeleidsrelaties = (
-        beleidsrelatieUUID?: string,
-        status?: BeleidsrelatiesReadStatus
+        beleidsrelatieUUID: string,
+        status: RelatieStatus
     ) => {
         const index = beleidsrelaties.findIndex(
             x => x.UUID === beleidsrelatieUUID

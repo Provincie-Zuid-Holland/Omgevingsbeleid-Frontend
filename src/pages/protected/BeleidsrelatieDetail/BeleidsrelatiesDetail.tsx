@@ -12,7 +12,7 @@ import {
 import {
     Beleidskeuze,
     Beleidsrelatie,
-    BeleidsrelatiesReadStatus,
+    RelatieStatus,
 } from '@/api/fetchers.schemas'
 import { LoaderIndicator, LoaderMainTitle } from '@/components/Loader'
 
@@ -31,10 +31,7 @@ import TabRequests from './TabRequests'
  */
 
 interface BeleidsrelatiesDetailProps {
-    updateBeleidsrelaties: (
-        UUID?: string,
-        status?: BeleidsrelatiesReadStatus
-    ) => void
+    updateBeleidsrelaties: (UUID: string, status: RelatieStatus) => void
     backToOverzicht: () => void
 }
 
@@ -112,10 +109,10 @@ const BeleidsrelatiesDetail = ({
      */
     const relationshipAccept = (beleidsrelatieObject: Beleidsrelatie) => {
         const patchedBeleidsrelatieObject = {
-            Status: 'Akkoord',
+            Status: 'Akkoord' as RelatieStatus,
             Begin_Geldigheid: beleidsrelatieObject.Begin_Geldigheid,
             Eind_Geldigheid: beleidsrelatieObject.Eind_Geldigheid,
-            Datum_Akkoord: new Date(),
+            Datum_Akkoord: new Date().toString(),
         }
 
         setSavingInProgress(true)
@@ -171,8 +168,8 @@ const BeleidsrelatiesDetail = ({
         const patchedBeleidsrelatieObject = {
             Begin_Geldigheid: beleidsrelatieObject.Begin_Geldigheid,
             Eind_Geldigheid: beleidsrelatieObject.Eind_Geldigheid,
-            Datum_Akkoord: new Date(),
-            Status: 'NietAkkoord',
+            Datum_Akkoord: new Date().toString(),
+            Status: 'NietAkkoord' as RelatieStatus,
         }
 
         setSavingInProgress(true)
@@ -202,8 +199,8 @@ const BeleidsrelatiesDetail = ({
         const patchedBeleidsrelatieObject = {
             Begin_Geldigheid: beleidsrelatieObject.Begin_Geldigheid,
             Eind_Geldigheid: beleidsrelatieObject.Eind_Geldigheid,
-            Datum_Akkoord: new Date(),
-            Status: 'Verbroken',
+            Datum_Akkoord: new Date().toString(),
+            Status: 'Verbroken' as RelatieStatus,
         }
 
         setSavingInProgress(true)
@@ -229,8 +226,8 @@ const BeleidsrelatiesDetail = ({
      * E.g. is when the user declines an incoming relation request.
      */
     const updateStatus = (
-        uuid?: string,
-        nieuweStatus?: BeleidsrelatiesReadStatus,
+        uuid: string,
+        nieuweStatus: RelatieStatus,
         updateDatumAkkoord?: boolean
     ) => {
         const fromIndex = outgoing_Beleidskeuzes.findIndex(x => x.UUID === uuid)

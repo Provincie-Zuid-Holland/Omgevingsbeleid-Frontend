@@ -2,10 +2,7 @@ import { Button } from '@pzh-ui/components'
 import { Xmark } from '@pzh-ui/icons'
 import { useParams } from 'react-router-dom'
 
-import {
-    Beleidsrelatie,
-    BeleidsrelatiesReadStatus,
-} from '@/api/fetchers.schemas'
+import { Beleidsrelatie, RelatieStatus } from '@/api/fetchers.schemas'
 import { LoaderBeleidsrelatieRegel } from '@/components/Loader'
 import { PopUpAnimatedContainer } from '@/components/Popup'
 import formatDate from '@/utils/formatDate'
@@ -34,8 +31,8 @@ interface TabRelationsProps {
     beleidskeuzeTitle?: string
     relationshipDisconnect: (relation: Beleidsrelatie) => void
     updateStatus: (
-        uuid?: string,
-        nieuweStatus?: BeleidsrelatiesReadStatus,
+        uuid: string,
+        nieuweStatus: RelatieStatus,
         updateDatumAkkoord?: boolean
     ) => void
 }

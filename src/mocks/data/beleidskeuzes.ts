@@ -44,7 +44,7 @@ const beleidskeuzesLineage: Beleidskeuze[] = [
             Rol: 'Portefeuillehouder',
             Status: '',
         },
-        Opdrachtgever: '',
+        Opdrachtgever: undefined,
         Status: 'Ontwerp GS Concept',
         Titel: 'Beleidskeuze FNC-FB (BEWERKT)',
         Omschrijving_Keuze:
@@ -143,7 +143,7 @@ const beleidskeuzesLineage: Beleidskeuze[] = [
             Rol: 'Portefeuillehouder',
             Status: '',
         },
-        Opdrachtgever: '',
+        Opdrachtgever: undefined,
         Status: 'Vigerend',
         Titel: 'Beleidskeuze FNC-FB (BEWERKT)',
         Omschrijving_Keuze:
@@ -228,7 +228,7 @@ const beleidskeuzesLineage: Beleidskeuze[] = [
             Rol: 'Portefeuillehouder',
             Status: '',
         },
-        Opdrachtgever: '',
+        Opdrachtgever: undefined,
         Status: 'Vastgesteld',
         Titel: 'Beleidskeuze FNC-FB (BEWERKT)',
         Omschrijving_Keuze:
@@ -313,7 +313,7 @@ const beleidskeuzesLineage: Beleidskeuze[] = [
             Rol: 'Portefeuillehouder',
             Status: '',
         },
-        Opdrachtgever: '',
+        Opdrachtgever: undefined,
         Status: 'Definitief ontwerp GS',
         Titel: 'Beleidskeuze FNC-FB (BEWERKT)',
         Omschrijving_Keuze:
@@ -398,7 +398,7 @@ const beleidskeuzesLineage: Beleidskeuze[] = [
             Rol: 'Portefeuillehouder',
             Status: '',
         },
-        Opdrachtgever: '',
+        Opdrachtgever: undefined,
         Status: 'Definitief ontwerp GS concept',
         Titel: 'Beleidskeuze FNC-FB (BEWERKT)',
         Omschrijving_Keuze:
@@ -483,7 +483,7 @@ const beleidskeuzesLineage: Beleidskeuze[] = [
             Rol: 'Portefeuillehouder',
             Status: '',
         },
-        Opdrachtgever: '',
+        Opdrachtgever: undefined,
         Status: 'Ontwerp in inspraak',
         Titel: 'Beleidskeuze FNC-FB (BEWERKT)',
         Omschrijving_Keuze:
@@ -568,7 +568,7 @@ const beleidskeuzesLineage: Beleidskeuze[] = [
             Rol: 'Portefeuillehouder',
             Status: '',
         },
-        Opdrachtgever: '',
+        Opdrachtgever: undefined,
         Status: 'Ontwerp GS',
         Titel: 'Beleidskeuze FNC-FB (BEWERKT)',
         Omschrijving_Keuze:
@@ -653,7 +653,7 @@ const beleidskeuzesLineage: Beleidskeuze[] = [
             Rol: 'Portefeuillehouder',
             Status: '',
         },
-        Opdrachtgever: '',
+        Opdrachtgever: undefined,
         Status: 'Ontwerp GS Concept',
         Titel: 'Beleidskeuze FNC-FB (BEWERKT)',
         Omschrijving_Keuze:
@@ -738,7 +738,7 @@ const beleidskeuzesLineage: Beleidskeuze[] = [
             Rol: 'Portefeuillehouder',
             Status: '',
         },
-        Opdrachtgever: '',
+        Opdrachtgever: undefined,
         Status: 'Vigerend',
         Titel: 'Beleidskeuze FNC-FB',
         Omschrijving_Keuze:
@@ -823,7 +823,7 @@ const beleidskeuzesLineage: Beleidskeuze[] = [
             Rol: 'Portefeuillehouder',
             Status: '',
         },
-        Opdrachtgever: '',
+        Opdrachtgever: undefined,
         Status: 'Vastgesteld',
         Titel: 'Beleidskeuze FNC-FB',
         Omschrijving_Keuze:
@@ -908,7 +908,7 @@ const beleidskeuzesLineage: Beleidskeuze[] = [
             Rol: 'Portefeuillehouder',
             Status: '',
         },
-        Opdrachtgever: '',
+        Opdrachtgever: undefined,
         Status: 'Definitief ontwerp GS',
         Titel: 'Beleidskeuze FNC-FB',
         Omschrijving_Keuze:
@@ -993,7 +993,7 @@ const beleidskeuzesLineage: Beleidskeuze[] = [
             Rol: 'Portefeuillehouder',
             Status: '',
         },
-        Opdrachtgever: '',
+        Opdrachtgever: undefined,
         Status: 'Definitief ontwerp GS concept',
         Titel: 'Beleidskeuze FNC-FB',
         Omschrijving_Keuze:
@@ -1078,7 +1078,7 @@ const beleidskeuzesLineage: Beleidskeuze[] = [
             Rol: 'Portefeuillehouder',
             Status: '',
         },
-        Opdrachtgever: '',
+        Opdrachtgever: undefined,
         Status: 'Ontwerp in inspraak',
         Titel: 'Beleidskeuze FNC-FB',
         Omschrijving_Keuze:
@@ -1163,7 +1163,7 @@ const beleidskeuzesLineage: Beleidskeuze[] = [
             Rol: 'Portefeuillehouder',
             Status: '',
         },
-        Opdrachtgever: '',
+        Opdrachtgever: undefined,
         Status: 'Ontwerp GS',
         Titel: 'Beleidskeuze FNC-FB',
         Omschrijving_Keuze:
@@ -1248,7 +1248,7 @@ const beleidskeuzesLineage: Beleidskeuze[] = [
             Rol: 'Portefeuillehouder',
             Status: '',
         },
-        Opdrachtgever: '',
+        Opdrachtgever: undefined,
         Status: 'Ontwerp GS Concept',
         Titel: 'Beleidskeuze FNC-FB',
         Omschrijving_Keuze:
@@ -1333,7 +1333,7 @@ const beleidskeuzesLineage: Beleidskeuze[] = [
             Rol: 'Portefeuillehouder',
             Status: '',
         },
-        Opdrachtgever: '',
+        Opdrachtgever: undefined,
         Status: 'Ontwerp GS Concept',
         Titel: 'Beleidskeuze FNC-FB',
         Omschrijving_Keuze: '',
@@ -1415,7 +1415,7 @@ const beleidskeuzesLineage: Beleidskeuze[] = [
             Rol: 'Portefeuillehouder',
             Status: '',
         },
-        Opdrachtgever: '',
+        Opdrachtgever: undefined,
         Status: 'Ontwerp GS Concept',
         Titel: 'Beleidskeuze FNC-FB',
         Omschrijving_Keuze: '',
@@ -1489,7 +1489,7 @@ const beleidskeuzes: Beleidskeuze[] = [
             Status: 'Actief',
         },
         Portefeuillehouder_2: undefined,
-        Opdrachtgever: '',
+        Opdrachtgever: undefined,
         Status: 'Ontwerp GS',
         Titel: 'Bovenregionaal warmtenetwerk',
         Omschrijving_Keuze:
@@ -1562,7 +1562,7 @@ const beleidskeuzes: Beleidskeuze[] = [
             Status: 'Actief',
         },
         Portefeuillehouder_2: undefined,
-        Opdrachtgever: '',
+        Opdrachtgever: undefined,
         Status: 'Ontwerp PS',
         Titel: 'Beleid over planten',
         Omschrijving_Keuze: '<p>Er moeten meer planten komen</p>',
@@ -1627,7 +1627,7 @@ const beleidskeuzes: Beleidskeuze[] = [
             Rol: 'Portefeuillehouder',
             Status: 'Actief',
         },
-        Opdrachtgever: '',
+        Opdrachtgever: undefined,
         Status: 'Ontwerp GS',
         Titel: '#1 Revisieoverzicht (Bewerkt, nogmaals)',
         Omschrijving_Keuze:

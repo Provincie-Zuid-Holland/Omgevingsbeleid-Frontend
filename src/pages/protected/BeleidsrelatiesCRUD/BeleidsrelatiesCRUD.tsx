@@ -30,6 +30,7 @@ const BeleidsrelatiesCRUD = ({ dataModel }: BeleidsrelatiesCRUDProps) => {
         Van_Beleidskeuze_UUID: UUID || '',
         Status: 'Open',
         Aanvraag_Datum: new Date().toString(),
+        Titel: '',
     })
     const [vanBeleidskeuzeTitel, setVanBeleidskeuzeTitel] = useState('...')
 

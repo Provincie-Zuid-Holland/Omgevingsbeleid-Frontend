@@ -36,12 +36,14 @@ const formatConnectionsForAPI = (
         beleidskeuzeConnectionProperties.forEach(property => {
             const originalConnection = formattedBeleidskeuze[property]
             if (originalConnection) {
-                const formattedConnections: GenericReferenceUpdate[] =
-                    originalConnection.map(connection => ({
+                const formattedConnections: any[] = originalConnection.map(
+                    connection => ({
                         Koppeling_Omschrijving:
                             connection.Koppeling_Omschrijving || '',
                         UUID: connection?.Object?.UUID || '',
-                    }))
+                    })
+                )
+
                 formattedBeleidskeuze[property] = formattedConnections
             }
         })
@@ -63,6 +65,7 @@ const formatConnectionsForAPI = (
                             connection.Koppeling_Omschrijving,
                         UUID: connection?.Object?.UUID,
                     }))
+
                 formattedGebiedsprogramma[property] = formattedConnections
             }
         })

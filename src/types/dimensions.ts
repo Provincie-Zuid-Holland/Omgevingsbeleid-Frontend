@@ -62,7 +62,7 @@ export type DimensionType =
     | 'themas'
     | 'verordeningen'
     | 'artikel'
-    | 'gebiedsprogramma'
+    | 'gebiedsprogrammas'
 
 export type MutateReadObjects =
     | Thema

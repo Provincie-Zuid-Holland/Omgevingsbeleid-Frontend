@@ -6,7 +6,7 @@
         This API serves all the object that make up the policies 
         of a provincial government. 
         
- * OpenAPI spec version: 1.1.9
+ * OpenAPI spec version: 1.1.11
  */
 export type ReadValidWerkingsgebiedLineageParams = {
     offset?: number
@@ -545,6 +545,20 @@ export interface SearchResult {
     UUID: string
 }
 
+/**
+ * Enum interface of acceptable Beleidsrelatie Status values which are stored
+as strings in the DB and not validated outside of the api.
+ */
+export type RelatieStatus = typeof RelatieStatus[keyof typeof RelatieStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RelatieStatus = {
+    Open: 'Open',
+    Akkoord: 'Akkoord',
+    NietAkkoord: 'NietAkkoord',
+    Verbroken: 'Verbroken',
+} as const
+
 export interface RelatedWerkingsgebied {
     Koppeling_Omschrijving?: string
     Object: WerkingsgebiedInline
@@ -744,7 +758,7 @@ export interface LatestVersionInline {
     Status: Status
     Titel: string
     Effective_Version?: string
-    Type: string
+    Type: BeleidsrelatieType
 }
 
 export interface HTTPValidationError {
@@ -867,7 +881,7 @@ export interface BodyLoginAccessToken {
 
 export interface BeleidsrelatieUpdate {
     Titel?: string
-    Status?: Status
+    Status?: RelatieStatus
     Omschrijving?: string
     Aanvraag_Datum?: string
     Datum_Akkoord?: string
@@ -877,9 +891,32 @@ export interface BeleidsrelatieUpdate {
     Naar_Beleidskeuze_UUID?: string
 }
 
+/**
+ * Enum interface of acceptable Beleidsrelatie Status values which are stored
+as strings in the DB and not validated outside of the api.
+ */
+export type BeleidsrelatieType =
+    typeof BeleidsrelatieType[keyof typeof BeleidsrelatieType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BeleidsrelatieType = {
+    beleidskeuzes: 'beleidskeuzes',
+    beleidsrelaties: 'beleidsrelaties',
+    beleidsmodules: 'beleidsmodules',
+    ambities: 'ambities',
+    belangen: 'belangen',
+    beleidsdoelen: 'beleidsdoelen',
+    beleidsprestaties: 'beleidsprestaties',
+    maatregelen: 'maatregelen',
+    themas: 'themas',
+    werkingsgebieden: 'werkingsgebieden',
+    verordeningen: 'verordeningen',
+    gebiedsprogrammas: 'gebiedsprogrammas',
+} as const
+
 export interface BeleidsrelatieCreate {
     Titel: string
-    Status: Status
+    Status: RelatieStatus
     Omschrijving?: string
     Aanvraag_Datum?: string
     Datum_Akkoord?: string
@@ -891,7 +928,7 @@ export interface BeleidsrelatieCreate {
 
 export interface Beleidsrelatie {
     Titel: string
-    Status: Status
+    Status: RelatieStatus
     Omschrijving?: string
     Aanvraag_Datum?: string
     Datum_Akkoord?: string
@@ -1190,7 +1227,7 @@ export interface Beleidskeuze {
     Eigenaar_2?: GebruikerInline
     Portefeuillehouder_1?: GebruikerInline
     Portefeuillehouder_2?: GebruikerInline
-    Opdrachtgever?: string
+    Opdrachtgever?: GebruikerInline
     Aanpassing_Op?: string
     Belangen: RelatedBelang[]
     Beleidsprestaties: RelatedBeleidsprestatie[]

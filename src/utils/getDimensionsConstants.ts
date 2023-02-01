@@ -1,7 +1,9 @@
-import { GetEdits200ItemType } from '@/api/fetchers.schemas'
+import { BeleidsrelatieType } from '@/api/fetchers.schemas'
 import allDimensieConstants from '@/constants/dimensies'
 
-function getDimensionsConstants(type: GetEdits200ItemType | 'artikel') {
+function getDimensionsConstants(
+    type: BeleidsrelatieType | 'artikel' | 'beleidsregels'
+) {
     switch (type) {
         case 'ambities':
             return allDimensieConstants.AMBITIES
