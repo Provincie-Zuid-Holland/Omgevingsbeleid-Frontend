@@ -146,7 +146,7 @@ export const patchVerordeningSection = (
 
 export const useGetVerordeningenStructuren = () =>
     useQuery(['/verordeningstructuur'], () =>
-        axios.get('/verordeningstructuur').then(res => res.data)
+        axios.get('/v0.1/verordeningstructuur').then(res => res.data)
     )
 
 export const useGetVerordeningenStructurenLineageId = (lineageID: string) =>
@@ -154,7 +154,7 @@ export const useGetVerordeningenStructurenLineageId = (lineageID: string) =>
         [`/verordeningstructuur/${lineageID}`],
         () =>
             axios
-                .get(`/verordeningstructuur/${lineageID}`)
+                .get(`/v0.1/verordeningstructuur/${lineageID}`)
                 .then(res => res.data),
         {
             enabled: !!lineageID,
@@ -380,7 +380,7 @@ export const patchVerordeningStructureChildren = (
     Chapters: VerordeningStructureChild[]
 ) => {
     return axios
-        .patch(`/verordeningstructuur/${lineageID}`, {
+        .patch(`/v0.1/verordeningstructuur/${lineageID}`, {
             Structuur: {
                 Children: Chapters,
             },
@@ -396,7 +396,7 @@ export const usePatchVerordeningenStructureLineageid = (props: any) => {
         const { data, lineageid } = props || {}
 
         return axios
-            .patch(`/verordeningstructuur/${lineageid || ''}`, {
+            .patch(`/v0.1/verordeningstructuur/${lineageid || ''}`, {
                 ...data,
             })
             .then(res => res.data)
@@ -412,7 +412,7 @@ export const usePostVerordeningenStructure = (props: any) => {
         const { data } = props || {}
 
         return axios
-            .post(`/verordeningstructuur`, {
+            .post(`/v0.1/verordeningstructuur`, {
                 ...data,
             })
             .then(res => res.data)
@@ -428,7 +428,7 @@ export const usePatchVerordeningStructureLineage = (
     Chapters: VerordeningStructureChild[]
 ) => {
     return axios
-        .patch(`/verordeningstructuur/${lineageID}`, {
+        .patch(`/v0.1/verordeningstructuur/${lineageID}`, {
             Structuur: {
                 Children: Chapters,
             },

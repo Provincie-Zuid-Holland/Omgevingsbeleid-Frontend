@@ -111,6 +111,7 @@ const RaadpleegObjectDetailMain: FC<RaadpleegObjectDetailMainProps> = ({
                     if (html && typeof html === 'string')
                         return (
                             <ViewFieldInnerHTML
+                                key={value}
                                 html={html}
                                 fieldTitel={title}
                             />

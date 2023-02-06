@@ -1,7 +1,6 @@
+import { GebruikerInline } from '@/api/fetchers.schemas'
 import { MutateWriteObjects, MutateReadObjects } from '@/types/dimensions'
 import { getWriteObjectProperties } from '@/utils/createEmptyWriteObject'
-
-import formatUsersForUI from './formatUsersForUI'
 
 export const createWriteObjectFromReadObject = (
     readObject: MutateReadObjects,
@@ -13,12 +12,19 @@ export const createWriteObjectFromReadObject = (
 
     const writeObject: Partial<MutateWriteObjects> = {}
     writeProperties.forEach(property => {
-        writeObject[property as keyof typeof writeObject] =
-            readObject[property as keyof MutateWriteObjects]
-    })
-    const formattedWriteObject = formatUsersForUI(
-        writeObject as MutateWriteObjects
-    )
+        if (property.includes('_UUID')) {
+            const readProperty = property.replace('_UUID', '')
 
-    return formattedWriteObject as MutateWriteObjects
+            return (writeObject[property as keyof typeof writeObject] = (
+                readObject[
+                    readProperty as keyof MutateReadObjects
+                ] as GebruikerInline
+            )?.UUID)
+        }
+
+        return (writeObject[property as keyof typeof writeObject] =
+            readObject[property as keyof MutateWriteObjects])
+    })
+
+    return writeObject as MutateWriteObjects
 }

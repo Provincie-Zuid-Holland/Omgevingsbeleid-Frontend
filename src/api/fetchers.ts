@@ -122,7 +122,7 @@ type Awaited<O> = O extends AwaitedInput<infer T> ? T : never
  * @summary Health Request
  */
 export const healthRequestHealthGet = (signal?: AbortSignal) => {
-    return customInstance<unknown>({ url: `/health/`, method: 'get', signal })
+    return customInstance<boolean>({ url: `/health/`, method: 'get', signal })
 }
 
 export const getHealthRequestHealthGetQueryKey = () => [`/health/`]
@@ -168,7 +168,7 @@ export const useHealthRequestHealthGet = <
  * @summary Health Request
  */
 export const healthRequestHealthHead = (signal?: AbortSignal) => {
-    return customInstance<unknown>({ url: `/health/`, method: 'head', signal })
+    return customInstance<boolean>({ url: `/health/`, method: 'head', signal })
 }
 
 export type HealthRequestHealthHeadMutationResult = NonNullable<

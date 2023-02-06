@@ -3,7 +3,12 @@ import cloneDeep from 'lodash.clonedeep'
 import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'react-toastify'
 
-import { Ambitie, Verordening } from '@/api/fetchers.schemas'
+import {
+    Beleidsprestatie,
+    MaatregelListable,
+    Thema,
+    Verordening,
+} from '@/api/fetchers.schemas'
 import { PopUpAnimatedContainer } from '@/components/Popup'
 import objecten from '@/constants/koppelingen'
 
@@ -53,8 +58,12 @@ const PopupNieuweKoppeling = ({
     titelMainObject,
     voegKoppelingRelatieToe,
 }: PopupNieuweKoppelingProps) => {
-    const [objects, setObjects] = useState<(Ambitie | Verordening)[]>([])
-    const [selected, setSelected] = useState<Ambitie | Verordening | null>(null)
+    const [objects, setObjects] = useState<
+        (Thema | Beleidsprestatie | MaatregelListable | Verordening)[]
+    >([])
+    const [selected, setSelected] = useState<
+        Thema | Beleidsprestatie | MaatregelListable | Verordening | null
+    >(null)
     const [description, setDescription] = useState('')
     const [searchFilter, setSearchFilter] = useState('')
     const [activePage, setActivePage] = useState(1)
@@ -77,8 +86,8 @@ const PopupNieuweKoppeling = ({
          * @returns {array} containing the (filtered) data from the API
          */
         const getResponseData = (
-            data: (Ambitie | Verordening)[]
-        ): (Ambitie | Verordening)[] => {
+            data: (Thema | Beleidsprestatie | MaatregelListable | Verordening)[]
+        ): (Thema | Beleidsprestatie | MaatregelListable | Verordening)[] => {
             if (objecten[type].filterAPI) {
                 return data.filter(
                     item =>
@@ -150,7 +159,9 @@ const PopupNieuweKoppeling = ({
     /**
      * Function to setState of the selected state within the function.
      */
-    const selectObject = (object: Ambitie | Verordening) => {
+    const selectObject = (
+        object: Thema | Beleidsprestatie | MaatregelListable | Verordening
+    ) => {
         if (selected === object) {
             setSelected(null)
         } else {

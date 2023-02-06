@@ -104,7 +104,7 @@ const ObjectDetail = ({
                     setLineageID(newLineageID)
                 }
             })
-    }, [dataVersionEndpoint, id, lineageID, dataObject])
+    }, [id, lineageID])
 
     const getAndSetRevisionObjects = useCallback(() => {
         if (!lineageID) return

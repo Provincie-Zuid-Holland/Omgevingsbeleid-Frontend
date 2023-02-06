@@ -74,7 +74,7 @@ const NetworkGraph = () => {
         ['/verordeningstructuur'],
         () =>
             axios
-                .get('/verordeningstructuur')
+                .get('/v0.1/verordeningstructuur')
                 .then(res =>
                     res.data.find(
                         (item: { Status: string }) => item.Status === 'Vigerend'

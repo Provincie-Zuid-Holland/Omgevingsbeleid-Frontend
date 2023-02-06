@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer } from 'react'
 
-import { Verordening, VerordeningUpdate } from '@/api/fetchers.schemas'
+import { Verordening, VerordeningCreate } from '@/api/fetchers.schemas'
 import {
     VerordeningLineageRead,
     VerordeningStructureChild,
@@ -11,7 +11,7 @@ export type ActiveSectionData =
     | (Verordening & { Children?: Verordening[] })
     | null
 export type FormikValues =
-    | (VerordeningUpdate & { Children?: FormikValues[] })
+    | (VerordeningCreate & { Children?: FormikValues[] })
     | (Verordening & { Children?: FormikValues[] })
     | null
 export type Dispatch = (action: Action) => void
@@ -28,7 +28,7 @@ export type State = {
      **/
     activeSectionData: ActiveSectionData
     /** Object of the new section the user is adding */
-    newSection: VerordeningUpdate | null
+    newSection: Partial<VerordeningCreate> | null
     /** Holds the leden if an article (which would be populated in the activeSectionData property) contains them */
     activeLedenFromArticle: Verordening[] | null
     /** UUID of current chapter the user is viewing */
@@ -91,7 +91,7 @@ const VerordeningContext = createContext<
     { state: State; dispatch: Dispatch } | undefined
 >(undefined)
 
-function verordeningReducer(state: State, action: Action) {
+function verordeningReducer(state: State, action: Action): State {
     switch (action.type) {
         case 'reorderSections':
             const { indexPath, reorderedSections } = action.payload
@@ -132,7 +132,7 @@ function verordeningReducer(state: State, action: Action) {
                 activeSectionData: null,
                 editingSectionIndexPath: null,
                 newSection: null,
-                setIsLoadingOrSaving: false,
+                isLoadingOrSaving: false,
             }
 
         case 'setEditingSectionIndexPath':

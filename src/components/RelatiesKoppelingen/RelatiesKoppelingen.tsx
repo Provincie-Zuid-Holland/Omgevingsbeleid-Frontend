@@ -106,7 +106,7 @@ const RelatiesKoppelingen = ({
          */
         const getVigerendeVerordening = () =>
             axios
-                .get('/verordeningstructuur')
+                .get('/v0.1/verordeningstructuur')
                 .then(res =>
                     res.data.find((item: any) => item.Status === 'Vigerend')
                 )

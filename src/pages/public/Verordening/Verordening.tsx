@@ -22,7 +22,7 @@ function Verordening() {
 
     const { isLoading, data: verordening } = useQuery(['verordening'], () =>
         axios
-            .get('/verordeningstructuur')
+            .get('/v0.1/verordeningstructuur')
             .then(res =>
                 res.data.find(
                     (verordening: any) => verordening.Status === 'Vigerend'

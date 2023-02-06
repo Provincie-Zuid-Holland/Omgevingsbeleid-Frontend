@@ -729,14 +729,15 @@ export interface Maatregel {
     Aanpassing_Op?: string
     Created_By: GebruikerInline
     Modified_By: GebruikerInline
-    Ref_Beleidskeuzes: BeleidskeuzeReference[]
-    Ref_Beleidsmodules: BeleidskeuzeReference[]
     Eigenaar_1: GebruikerInline
     Eigenaar_2: GebruikerInline
     Portefeuillehouder_1: GebruikerInline
     Portefeuillehouder_2: GebruikerInline
     Opdrachtgever: GebruikerInline
     Gebied: WerkingsgebiedShortInline
+    Ref_Beleidskeuzes: BeleidskeuzeReference[]
+    Ref_Beleidsmodules: BeleidskeuzeReference[]
+    Ref_Gebiedsprogrammas: GebiedsprogrammaReference[]
 }
 
 export interface LinkItem {
@@ -792,7 +793,7 @@ export interface GebruikerInline {
 }
 
 export interface GebiedsprogrammaUpdate {
-    Status?: string
+    Status?: Status
     Titel?: string
     Omschrijving?: string
     Weblink?: string
@@ -806,6 +807,12 @@ export interface GebiedsprogrammaUpdate {
     Portefeuillehouder_2_UUID?: string
     Opdrachtgever_UUID?: string
     Maatregelen?: GenericReferenceUpdate[]
+}
+
+export interface GebiedsprogrammaReference {
+    ID: number
+    UUID: string
+    Titel?: string
 }
 
 export interface GebiedsprogrammaInline {
@@ -831,7 +838,7 @@ export interface GebiedsprogrammaInline {
 }
 
 export interface GebiedsprogrammaCreate {
-    Status?: string
+    Status?: Status
     Titel?: string
     Omschrijving?: string
     Weblink?: string
@@ -852,7 +859,7 @@ export interface GebiedsprogrammaCreate {
 many to many relationships.
  */
 export interface Gebiedsprogramma {
-    Status?: string
+    Status?: Status
     Titel?: string
     Omschrijving?: string
     Weblink?: string

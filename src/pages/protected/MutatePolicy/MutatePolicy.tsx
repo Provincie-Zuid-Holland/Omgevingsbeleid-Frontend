@@ -162,6 +162,7 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
                 data: formattedFormState,
             })
         } else {
+            // @ts-ignore
             postPolicy.mutate({ data: formattedFormState })
         }
     }

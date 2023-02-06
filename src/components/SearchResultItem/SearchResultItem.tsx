@@ -59,7 +59,9 @@ const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
     const type = item.Type
     if (!type) return null
 
-    const dimensieContants = getDimensionsConstants(type as DimensionType)
+    const dimensieContants = getDimensionsConstants(
+        type.toLowerCase() as DimensionType
+    )
     const overzichtURL = dimensieContants.SLUG_OVERVIEW
     const titleSingular = dimensieContants.TITLE_SINGULAR
 

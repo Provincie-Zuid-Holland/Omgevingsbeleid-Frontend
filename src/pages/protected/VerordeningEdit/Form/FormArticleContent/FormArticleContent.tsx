@@ -21,7 +21,7 @@ const FormArticleContent = () => {
             const geoValue = getGeoValueFromFormikValues(values)
             const newCreatedLid = await createVerordeningLid({
                 Inhoud: values?.Inhoud || '',
-                Gebied: geoValue,
+                Gebied_UUID: geoValue || '',
             })
             if (!newCreatedLid) return
             setFieldValue('Inhoud', '')

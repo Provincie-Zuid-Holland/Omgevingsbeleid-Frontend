@@ -47,17 +47,17 @@ const FormikSelectUser = ({
     return (
         <Select
             className="border border-gray-400 rounded hover:border-gray-500 focus:border-gray-500"
-            name={property}
+            name={`${property}_UUID`}
             value={value}
             onChange={(e, metaInfo) => {
                 if (e && metaInfo.action === 'select-option') {
-                    setFieldValue(property, {
+                    setFieldValue(`${property}_UUID`, {
                         UUID: e.value,
                         Gebruikersnaam: e.label,
                         Rol: e.role,
                     })
                 } else if (metaInfo.action === 'clear') {
-                    setFieldValue(property, null)
+                    setFieldValue(`${property}_UUID`, null)
                 }
             }}
             isClearable={true}

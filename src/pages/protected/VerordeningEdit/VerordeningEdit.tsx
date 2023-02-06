@@ -77,7 +77,7 @@ function VerordeningEdit() {
         [`getVerordeningStructuur/${id}`],
         () =>
             axios
-                .get(`/verordeningstructuur/${id}`)
+                .get(`/v0.1/verordeningstructuur/${id}`)
                 .then(res => res.data[0] as VerordeningLineageRead),
         {
             staleTime: 0,

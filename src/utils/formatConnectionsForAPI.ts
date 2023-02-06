@@ -3,7 +3,6 @@ import cloneDeep from 'lodash.clonedeep'
 import {
     Beleidskeuze,
     Gebiedsprogramma,
-    GenericReferenceUpdate,
     Maatregel,
     MaatregelUpdate,
 } from '@/api/fetchers.schemas'
@@ -54,17 +53,20 @@ const formatConnectionsForAPI = (
             crudObject as Gebiedsprogramma
         )
 
-        const gebiedsprogrammaConnectionProperties = ['Maatregelen'] as const
+        const gebiedsprogrammaConnectionProperties = [
+            'Ref_Maatregelen',
+        ] as const
 
         gebiedsprogrammaConnectionProperties.forEach(property => {
             const originalConnection = formattedGebiedsprogramma[property]
             if (originalConnection) {
-                const formattedConnections: GenericReferenceUpdate[] =
-                    originalConnection.map(connection => ({
+                const formattedConnections: any[] = originalConnection.map(
+                    connection => ({
                         Koppeling_Omschrijving:
-                            connection.Koppeling_Omschrijving,
-                        UUID: connection?.Object?.UUID,
-                    }))
+                            connection.Koppeling_Omschrijving || '',
+                        UUID: connection?.Object?.UUID || '',
+                    })
+                )
 
                 formattedGebiedsprogramma[property] = formattedConnections
             }

@@ -3,11 +3,7 @@ import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
-import {
-    Beleidskeuze,
-    BeleidskeuzeListable,
-    Beleidsrelatie,
-} from '@/api/fetchers.schemas'
+import { BeleidskeuzeListable, Beleidsrelatie } from '@/api/fetchers.schemas'
 import { LoaderBeleidsrelatieRegel } from '@/components/Loader'
 import SidebarMain from '@/components/SidebarMain'
 
@@ -95,7 +91,7 @@ const BeleidsrelatiesOverzicht = ({
     }
 
     // For each beleidskeuze we create an object containing meta info
-    const initializeBeleidskeuzes = (beleidskeuzes: Beleidskeuze[]) => {
+    const initializeBeleidskeuzes = (beleidskeuzes: BeleidskeuzeListable[]) => {
         return beleidskeuzes.map(item => ({
             Titel: item.Titel,
             Status: item.Status,
