@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
 import { Selection } from 'd3'
 import { KeyboardEvent, useEffect, useRef, useState } from 'react'
-import { useClickAway, useWindowSize } from 'react-use'
+import { useClickAway, useMedia } from 'react-use'
 
 import networkGraphConnectionProperties from '@/constants/networkGraphConnectionProperties'
 import { getFilteredData } from '@/utils/networkGraph'
@@ -49,8 +49,7 @@ const NetworkGraphSearchBar = ({
     const [links, setLinks] = useState<any>(null)
     const [searchResultsOpen, setSearchResultsOpen] = useState(true)
     const innerContainer = useRef(null)
-    const { width } = useWindowSize()
-    const isMobile = width <= 768
+    const isMobile = useMedia('(max-width: 768)')
 
     useClickAway(innerContainer, () => {
         setSearchResultsOpen(false)
