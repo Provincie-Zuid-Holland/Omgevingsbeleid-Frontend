@@ -1,4 +1,5 @@
 import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
+import { useMemo } from 'react'
 
 import { useReadValidGebiedsprogrammas } from '@/api/fetchers'
 import AreaCard from '@/components/AreaCard'
@@ -7,6 +8,22 @@ import { LoaderContent, LoaderSpinner } from '@/components/Loader'
 
 function AreaOverview() {
     const { data, isLoading } = useReadValidGebiedsprogrammas()
+
+    const sortedData = useMemo(
+        () =>
+            data?.sort((a, b) => {
+                if (!a.Titel || !b.Titel) {
+                    return 0
+                } else if (a.Titel < b.Titel) {
+                    return -1
+                } else if (a.Titel > b.Titel) {
+                    return 1
+                } else {
+                    return 0
+                }
+            }),
+        [data]
+    )
 
     const breadcrumbPaths = [
         { name: 'Home', path: '/' },
@@ -36,29 +53,17 @@ function AreaOverview() {
                 </div>
 
                 <div className="col-span-6 mt-8">
-                    {data ? (
+                    {sortedData ? (
                         <ul className="grid grid-cols-1 gap-9 lg:grid-cols-3 md:grid-cols-2">
-                            {data
-                                .sort((a, b) => {
-                                    if (!a.Titel || !b.Titel) {
-                                        return 0
-                                    } else if (a.Titel < b.Titel) {
-                                        return -1
-                                    } else if (a.Titel > b.Titel) {
-                                        return 1
-                                    } else {
-                                        return 0
-                                    }
-                                })
-                                .map(item => (
-                                    <li key={item.UUID}>
-                                        <AreaCard
-                                            image={item?.Afbeelding}
-                                            title={item?.Titel || ''}
-                                            link={`/omgevingsprogramma/gebiedsprogrammas/${item.UUID}`}
-                                        />
-                                    </li>
-                                ))}
+                            {sortedData.map(item => (
+                                <li key={item.UUID}>
+                                    <AreaCard
+                                        image={item?.Afbeelding}
+                                        title={item?.Titel || ''}
+                                        link={`/omgevingsprogramma/gebiedsprogrammas/${item.UUID}`}
+                                    />
+                                </li>
+                            ))}
                         </ul>
                     ) : (
                         <div className="flex items-center justify-center w-full">

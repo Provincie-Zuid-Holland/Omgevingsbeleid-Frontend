@@ -14,7 +14,7 @@ import { LoaderCard, LoaderSpinner } from '@/components/Loader'
 interface ObjectListProps {
     objectType: string
     objectSlug: string
-    data: {
+    data?: {
         Titel?: string
         UUID?: string
     }[]
@@ -49,7 +49,7 @@ const ObjectList = ({
     }, [data, filterQuery])
 
     const sortedData = useMemo(
-        () => data.sort((a, b) => a.Titel!.localeCompare(b.Titel!)),
+        () => data?.sort((a, b) => a.Titel!.localeCompare(b.Titel!)),
         [data]
     )
 

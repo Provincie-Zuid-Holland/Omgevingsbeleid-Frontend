@@ -59,11 +59,11 @@ const FieldsMaatregel = () => {
                 beschrijving="Het werkingsgebied geeft het gebied weer waar de maatregel betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld,  toegestaan of juist verboden.">
                 <FormikWerkingsgebied
                     disabled={isVigerend}
-                    required={isRequired('Gebied')}
+                    required={isRequired('Gebied_UUID')}
                     titleSingular={'Maatregel'}
                     label="Selecteer werkingsgebied"
                     description="Selecteer het werkingsgebied wat bij deze maatregel van toepassing is. Heeft jouw maatregel nog geen geschikt werkingsgebied, of moet het huidige gebied aangepast worden? Neem dan contact op via omgevingsbeleid@pzh.nl."
-                    dataObjectProperty="Gebied"
+                    dataObjectProperty="Gebied_UUID"
                 />
                 <FieldLabel
                     name="Gebied_Duiding"

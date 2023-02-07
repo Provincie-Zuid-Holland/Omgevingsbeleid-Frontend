@@ -4,7 +4,7 @@ import allDimensieConstants from '@/constants/dimensies'
 function getDimensionsConstants(
     type: BeleidsrelatieType | 'artikel' | 'beleidsregels'
 ) {
-    switch (type) {
+    switch (type.toLowerCase()) {
         case 'ambities':
             return allDimensieConstants.AMBITIES
         case 'belangen':

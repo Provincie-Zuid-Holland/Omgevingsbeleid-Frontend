@@ -1,38 +1,13 @@
 import { Text } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
 import { useEffect, useRef, useState } from 'react'
-import { useWindowSize } from 'react-use'
 
 const TableOfContents = ({ display }: { display: 'block' | 'fixed' }) => {
-    const windowSize = useWindowSize()
-
-    const [style, setStyle] = useState({})
     const [h2Elements, setH2Elements] = useState<
         { title: string | null; id: string; y: number }[]
     >([])
 
     const container = useRef<HTMLDivElement>(null)
-
-    /** Get x and y of sidebar container */
-    useEffect(() => {
-        if (!container.current) return
-
-        const rect = container.current.getBoundingClientRect()
-        if (display === 'block') {
-            setStyle({
-                display: 'block',
-            })
-        } else if (display === 'fixed') {
-            setStyle({
-                x: rect.x,
-                y: rect.y,
-                width: rect.width,
-                display: 'fixed',
-            })
-        } else {
-            throw new Error('No correct display value')
-        }
-    }, [container, windowSize, display])
 
     /** Get all H2 elements on the page and set in state */
     useEffect(() => {
@@ -58,7 +33,7 @@ const TableOfContents = ({ display }: { display: 'block' | 'fixed' }) => {
                     : 'relative hidden col-span-1 mt-12 xl:block'
             }
             ref={container}>
-            <div className="z-10" style={style}>
+            <div className="sticky top-[120px]">
                 <Text
                     type="span"
                     className="block font-bold"
@@ -88,7 +63,7 @@ const TableOfContents = ({ display }: { display: 'block' | 'fixed' }) => {
                                             behavior: 'smooth',
                                         })
                                     }}
-                                    className="block pl-5 underline decoration-1">
+                                    className="block pl-5 underline decoration-1 text-left">
                                     {el.title}
                                 </button>
                             </li>

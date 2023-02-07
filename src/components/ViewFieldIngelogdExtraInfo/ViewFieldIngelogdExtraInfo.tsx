@@ -1,7 +1,9 @@
+import { Button } from '@pzh-ui/components'
 import { Link as LinkIcon } from '@pzh-ui/icons'
 import { useCallback, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
+import { GebruikerInline } from '@/api/fetchers.schemas'
 import * as BELEIDSKEUZES from '@/constants/beleidskeuzes'
 import * as MAATREGELEN from '@/constants/maatregelen'
 import useAuth from '@/hooks/useAuth'
@@ -36,6 +38,7 @@ const ViewFieldIngelogdExtraInfo = ({
     const [canUserEdit, setCanUserEdit] = useState(false)
     const [eigenaren, setEigenaren] = useState<{ [key: string]: any }>({})
 
+    const navigate = useNavigate()
     const { user } = useAuth()
 
     useEffect(() => {
@@ -52,8 +55,8 @@ const ViewFieldIngelogdExtraInfo = ({
     }, [crudObject])
 
     const getCanUserEdit = useCallback(
-        user => {
-            const userExists = user && user !== null && user.UUID
+        (user?: GebruikerInline) => {
+            const userExists = !!user?.UUID
             if (!userExists) return false
 
             const userCreatedObjectOrIsOwner =
@@ -61,8 +64,8 @@ const ViewFieldIngelogdExtraInfo = ({
                 (user && eigenaren.Eigenaar_1?.UUID === user.UUID) ||
                 (user && eigenaren.Eigenaar_2?.UUID === user.UUID) ||
                 (user && eigenaren.Opdrachtgever?.UUID === user.UUID)
-            const userCanEdit = userExists && userCreatedObjectOrIsOwner
-            return userCanEdit
+
+            return userExists && userCreatedObjectOrIsOwner
         },
         [crudObject, eigenaren]
     )
@@ -97,15 +100,23 @@ const ViewFieldIngelogdExtraInfo = ({
                     ) : null}
                 </div>
                 {canUserEdit && !hideEdit ? (
-                    <Link
-                        to={`/muteer/${
-                            crudObject.hasOwnProperty('Ref_Beleidskeuzes')
-                                ? MAATREGELEN.SLUG_OVERVIEW
-                                : BELEIDSKEUZES.SLUG_OVERVIEW
-                        }/${crudObject.ID}`}
-                        className="px-3 py-2 text-xs font-bold tracking-wide border rounded cursor-pointer text-pzh-blue border-pzh-blue">
+                    <Button
+                        onPress={() =>
+                            navigate(
+                                `/muteer/${
+                                    crudObject.hasOwnProperty(
+                                        'Ref_Beleidskeuzes'
+                                    )
+                                        ? MAATREGELEN.SLUG_OVERVIEW
+                                        : BELEIDSKEUZES.SLUG_OVERVIEW
+                                }/${crudObject.ID}`,
+                                { replace: true }
+                            )
+                        }
+                        variant="secondary"
+                        size="small">
                         Openen in beheeromgeving
-                    </Link>
+                    </Button>
                 ) : null}
             </div>
         </div>
@@ -165,7 +176,7 @@ const EigenarenList = ({ eigenaren }: { eigenaren: any }) => {
                         key={item}
                         className={`relative ${index === 0 ? '' : '-ml-2'}`}>
                         <div className="flex items-center justify-center w-8 h-8 mr-1 text-xs text-white border border-white rounded-full bg-pzh-blue circle-gebruiker font-lg">
-                            <span className="font-bold">
+                            <span className="font-bold leading-none">
                                 {getAbbrevationFromUsername(eigenaren[item])}
                             </span>
 

@@ -54,16 +54,14 @@ function UniversalObjectOverview({
                         {dataModel?.DESCRIPTION}
                     </Text>
                     <div className="mt-8">
-                        {allObjects && (
-                            <ObjectList
-                                data={allObjects}
-                                isLoading={isLoading}
-                                objectSlug={dataModel?.SLUG_OVERVIEW || ''}
-                                objectType={
-                                    dataModel?.TITLE_PLURAL.toLowerCase() || ''
-                                }
-                            />
-                        )}
+                        <ObjectList
+                            data={allObjects}
+                            isLoading={isLoading}
+                            objectSlug={dataModel?.SLUG_OVERVIEW || ''}
+                            objectType={
+                                dataModel?.TITLE_PLURAL.toLowerCase() || ''
+                            }
+                        />
                     </div>
                 </div>
             </Container>
