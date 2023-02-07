@@ -8,7 +8,9 @@ import networkGraphConnectionProperties from '@/constants/networkGraphConnection
 import networkGraphFilterMenu from '@/constants/networkGraphFilterMenu'
 
 interface NetworkGraphSidebarProps {
-    filters?: any
+    filters?: {
+        [key: string]: boolean
+    }
     setFilters: (e: any) => void
     isLoading?: boolean
 }
@@ -19,10 +21,6 @@ const NetworkGraphSelectFilters = ({
     isLoading,
 }: NetworkGraphSidebarProps) => {
     const [isOpen, setIsOpen] = useState(false)
-
-    const activeFiltersAmount = Object.keys(filters).filter(
-        filter => filters[filter]
-    ).length
 
     const buttonRef = useRef<HTMLButtonElement>(null)
     const popupRef = useRef<HTMLDivElement>(null)
@@ -36,6 +34,12 @@ const NetworkGraphSelectFilters = ({
         if (e.target !== buttonRef.current) close()
     })
     useKey('Escape', close)
+
+    if (!filters) return null
+
+    const activeFiltersAmount = Object.keys(filters).filter(
+        filter => filters[filter]
+    ).length
 
     return (
         <fieldset className="relative">
@@ -106,9 +110,11 @@ const NetworkGraphSelectFilters = ({
  */
 
 interface ListItemProps {
+    filters: {
+        [key: string]: boolean
+    }
     setFilters: (e: any) => void
     filterKey: keyof typeof networkGraphConnectionProperties
-    filters: any
 }
 
 const ListItem = ({ setFilters, filterKey, filters }: ListItemProps) => (
