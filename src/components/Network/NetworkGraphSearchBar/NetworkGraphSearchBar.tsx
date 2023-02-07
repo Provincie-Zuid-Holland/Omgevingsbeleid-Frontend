@@ -57,7 +57,6 @@ const NetworkGraphSearchBar = ({
     })
 
     const handleKeyDown = (e: KeyboardEvent) => {
-        console.log(e.key)
         if (e.key === 'ArrowDown' && searchQuery.length > 0) {
             // Arrow Down key
             e.preventDefault()
