@@ -1,7 +1,7 @@
 import { faChevronRight } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Heading, Hyperlink, Modal, Text } from '@pzh-ui/components'
-import { Fragment, useEffect, useState } from 'react'
+import { Heading, Hyperlink, Modal, Table, Text } from '@pzh-ui/components'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useWindowSize } from 'react-use'
 
@@ -80,6 +80,35 @@ function NetworkTextual({ graphData, filters, children }: NetworkTextualProps) {
         setSelectedRelations(objectsWithRelation)
     }, [selectedObject, graphData])
 
+    const columns = useMemo(
+        () => [
+            {
+                Header: 'Titel',
+                accessor: 'title',
+            },
+            {
+                Header: 'Type',
+                accessor: 'type',
+            },
+            {
+                Header: '',
+                accessor: 'icon',
+            },
+        ],
+        []
+    )
+
+    const data = useMemo(
+        () =>
+            filteredObjects?.map(obj => ({
+                title: obj?.Titel || '',
+                type: obj?.Type || '',
+                icon: <FontAwesomeIcon icon={faChevronRight} />,
+                onClick: () => setSelectedObject(obj),
+            })),
+        [filteredObjects]
+    )
+
     if (!graphData) return null
 
     return (
@@ -104,41 +133,21 @@ function NetworkTextual({ graphData, filters, children }: NetworkTextualProps) {
                 />
                 {children}
             </div>
+
             <Text type="body-small">
                 {filteredObjectsLength === 1
                     ? `Er is 1 resultaat gevonden`
                     : `Er zijn ${filteredObjectsLength} resultaten gevonden`}
             </Text>
 
-            <div className="grid grid-cols-6 px-4 mt-6">
-                <div className="col-span-4">
-                    <Text type="body" className="bold">
-                        Titel
-                    </Text>
-                </div>
-                <div className="col-span-2">
-                    <Text type="body" className="bold">
-                        Type
-                    </Text>
-                </div>
-            </div>
-
-            {filteredObjects?.map(node => (
-                <button
-                    type="button"
-                    className="grid block w-full grid-cols-6 px-4 py-2 text-left border-t border-gray-300 hover:bg-gray-200 focus:bg-gray-200"
-                    key={node.UUID as string}
-                    tabIndex={0}
-                    onClick={() => setSelectedObject(node)}>
-                    <div className="col-span-4">
-                        <Text>{node.Titel as string}</Text>
-                    </div>
-                    <div className="flex items-center justify-between col-span-2">
-                        <Text>{node.Type as string}</Text>
-                        <FontAwesomeIcon icon={faChevronRight} />
-                    </div>
-                </button>
-            ))}
+            <Table
+                className="mt-6"
+                columns={columns}
+                data={data || []}
+                // @ts-ignore
+                disableSortRemove
+                disableMultiSort
+            />
         </div>
     )
 }
@@ -186,7 +195,7 @@ const SelectedObjModal = ({
 
                     return (
                         <Link
-                            className="grid block w-full grid-cols-6 px-4 py-2 border-t border-gray-300 hover:bg-gray-200 focus:bg-gray-200"
+                            className="grid w-full grid-cols-6 px-4 py-2 border-t border-gray-300 hover:bg-gray-200 focus:bg-gray-200"
                             to={hrefURL}
                             key={node.UUID as string}>
                             <Text className="col-span-4 underline" type="body">
