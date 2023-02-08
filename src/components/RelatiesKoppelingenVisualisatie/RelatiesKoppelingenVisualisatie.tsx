@@ -14,7 +14,7 @@ import {
 } from '../RelatiesKoppelingen/RelatiesKoppelingen'
 
 /**
- * Displays a Netwerkvisualisatie map which shows the beleids objecten connections.
+ * Displays a Beleidsnetwerk map which shows the beleids objecten connections.
  *
  * @param {object} beleidsObject -  Contains the information of a beleid
  * @param {Array} connectionProperties - Contains a collection of connection properties.
@@ -338,12 +338,10 @@ const RelatiesKoppelingenVisualisatie = ({
         <div className="flex flex-col md:flex-row">
             <div className="flex flex-col justify-between w-full">
                 <div>
-                    <h3 className="font-bold text-gray-800">
-                        Netwerkvisualisatie
-                    </h3>
+                    <h3 className="font-bold text-gray-800">Beleidsnetwerk</h3>
                     <p className="mt-2 leading-7 text-gray-800 break-words">
-                        Deze netwerkvisualisatie laat zien waar{' '}
-                        {titleSingularPrefix} {titleSingular.toLowerCase()}{' '}
+                        Dit Beleidsnetwerk laat zien waar {titleSingularPrefix}{' '}
+                        {titleSingular.toLowerCase()}{' '}
                         <span className="italic">“{beleidsObject.Titel}”</span>{' '}
                         aan verbonden is.
                     </p>
@@ -389,12 +387,12 @@ const RelatiesKoppelingenVisualisatie = ({
                     />
                 </div>
                 <Link
-                    to="/netwerkvisualisatie"
+                    to="/beleidsnetwerk"
                     state={{
                         from: location.pathname + location.search,
                     }}
                     className="absolute bottom-0 right-0 px-3 py-1 font-bold transition-colors duration-100 ease-in border rounded-md cursor-pointer hover:text-white text-pzh-blue border-pzh-blue hover:bg-pzh-blue">
-                    Bekijk grote netwerkvisualisatie
+                    Bekijk grote Beleidsnetwerk
                 </Link>
             </div>
             <Link

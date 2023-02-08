@@ -183,7 +183,7 @@ const RaadpleegVerordeningPopupDetail = ({
                                             location.pathname + location.search,
                                     }}
                                     className="text-sm underline text-pzh-green hover:text-pzh-green-dark">
-                                    Bekijk grote netwerkvisualisatie
+                                    Bekijk grote Beleidsnetwerk
                                 </Link>
                             </div>
                             <div>
