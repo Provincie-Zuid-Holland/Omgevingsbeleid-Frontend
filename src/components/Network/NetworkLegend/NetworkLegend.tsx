@@ -45,7 +45,7 @@ function NetworkLegend({ isLoading, filters, setFilters }: NetworkLegendProps) {
             {(isMobile && isOpen) || !isMobile
                 ? Object.keys(networkGraphFilterMenu).map(filterSection => (
                       <div key={filterSection}>
-                          <span className="inline-block mb-1 font-bold text-pzh-blue-dark">
+                          <span className="inline-block mt-2 mb-1 font-bold text-pzh-blue-dark">
                               {filterSection}
                           </span>
                           <ul>
