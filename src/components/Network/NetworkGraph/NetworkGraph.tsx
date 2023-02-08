@@ -68,6 +68,12 @@ const NetworkGraph = () => {
         firstInitDoneRef.current = firstInitDone
     }, [firstInitDone])
 
+    /** Reset clicked node on tab switch */
+    useEffect(() => {
+        setClickedNode(null)
+        setFirstInitDone(false)
+    }, [activeTab])
+
     /**
      * Used to get the UUID paramater for detail pages
      */
