@@ -34,19 +34,17 @@ const SearchBar = ({
     })
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.keyCode === 13) {
+        if (e.key === 'Enter') {
             // Enter key
             if (searchQuery.length === 0) return
             setSearchBarPopupOpen(false)
             if (callBack) {
                 callBack()
             }
-            navigate(`/zoekresultaten?query=${searchQuery}`, { replace: true })
+            navigate(`/zoekresultaten?query=${searchQuery}`)
         } else if (e.key === 'Escape') {
-            // Escape key
             setSearchBarPopupOpen(false)
-        } else if (e.keyCode === 40 && searchQuery.length > 0) {
-            // Arrow Down key
+        } else if (e.key === 'ArrowDown' && searchQuery.length > 0) {
             e.preventDefault()
 
             const firstEl = document.querySelectorAll(

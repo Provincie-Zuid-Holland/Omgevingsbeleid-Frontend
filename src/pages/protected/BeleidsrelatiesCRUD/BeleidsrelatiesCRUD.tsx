@@ -1,10 +1,13 @@
 import { isValid } from 'date-fns'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import { createBeleidsrelatie, readBeleidskeuzeVersion } from '@/api/fetchers'
+import {
+    createBeleidsrelatie,
+    useReadBeleidskeuzeVersion,
+} from '@/api/fetchers'
 import { BeleidsrelatieCreate } from '@/api/fetchers.schemas'
 import ButtonBackToPage from '@/components/ButtonBackToPage'
 import allDimensies from '@/constants/dimensies'
@@ -32,16 +35,8 @@ const BeleidsrelatiesCRUD = ({ dataModel }: BeleidsrelatiesCRUDProps) => {
         Aanvraag_Datum: new Date().toString(),
         Titel: '',
     })
-    const [vanBeleidskeuzeTitel, setVanBeleidskeuzeTitel] = useState('...')
 
-    useEffect(() => {
-        readBeleidskeuzeVersion(UUID!)
-            .then(data => setVanBeleidskeuzeTitel(data.Titel || ''))
-            .catch(err => {
-                console.log(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
-            })
-    }, [UUID])
+    const { data } = useReadBeleidskeuzeVersion(UUID!)
 
     const handleChange = (event: any) => {
         const name = event.target.name
@@ -89,7 +84,7 @@ const BeleidsrelatiesCRUD = ({ dataModel }: BeleidsrelatiesCRUDProps) => {
 
         createBeleidsrelatie(crudObject)
             .then(() => {
-                navigate(`/muteer/beleidsrelaties/${UUID}`, { replace: true })
+                navigate(`/muteer/beleidsrelaties/${UUID}`)
                 toast('Opgeslagen')
             })
             .catch(err => {
@@ -104,7 +99,7 @@ const BeleidsrelatiesCRUD = ({ dataModel }: BeleidsrelatiesCRUDProps) => {
         handleSubmit,
         handleChange,
         crudObject,
-        Van_Beleidskeuze_Titel: vanBeleidskeuzeTitel,
+        Van_Beleidskeuze_Titel: data?.Titel,
         Van_Beleidskeuze_UUID: UUID,
     }
 

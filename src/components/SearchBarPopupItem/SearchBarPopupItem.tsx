@@ -45,12 +45,10 @@ function SearchBarPopupItem({
     }
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.keyCode === 40) {
-            // Arrow down
+        if (e.key === 'ArrowDown') {
             e.preventDefault()
             focusItem('next')
-        } else if (e.keyCode === 38) {
-            // Arrow up
+        } else if (e.key === 'ArrowUp') {
             e.preventDefault()
             focusItem('previous')
         }

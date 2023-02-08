@@ -222,7 +222,7 @@ const Logout = () => {
     const { signout } = useAuth()
 
     const cleanup = useCallback(
-        () => signout(() => navigate('/', { replace: true })),
+        () => signout(() => navigate('/')),
         [signout, navigate]
     )
 

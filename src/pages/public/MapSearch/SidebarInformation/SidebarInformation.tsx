@@ -41,7 +41,7 @@ const SidebarInformation = ({
     )
 
     const goBack = () => {
-        navigate(MAP_SEARCH_PAGE, { replace: true })
+        navigate(MAP_SEARCH_PAGE)
 
         mapInstance?.fireEvent('draw:deletestart')
 

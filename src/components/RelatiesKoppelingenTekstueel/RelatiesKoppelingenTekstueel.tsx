@@ -203,7 +203,7 @@ const ListItem = ({
     return (
         <li className="relative block mt-1 text-sm text-gray-800">
             <div className="inline-flex items-center group">
-                <Link to={href || ''} className={'hover:underline'}>
+                <Link to={href || ''} className="hover:underline">
                     <span
                         className={`inline-block w-3 h-3 mr-2 rounded-full`}
                         style={{

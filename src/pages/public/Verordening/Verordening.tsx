@@ -191,9 +191,7 @@ const VerordeningsSection = ({
         )
     } else if (section.Type === 'Artikel') {
         const setActive = () => {
-            navigate(`${location.pathname}?actief=${section.UUID}`, {
-                replace: true,
-            })
+            navigate(`${location.pathname}?actief=${section.UUID}`)
             setActiveArticle(section)
         }
 

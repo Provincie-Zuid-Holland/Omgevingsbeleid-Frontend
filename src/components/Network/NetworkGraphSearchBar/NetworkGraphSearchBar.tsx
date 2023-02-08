@@ -53,16 +53,14 @@ const NetworkGraphSearchBar = ({
     })
 
     const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.keyCode === 40 && searchQuery.length > 0) {
-            // Arrow Down key
+        if (e.key === 'ArrowDown' && searchQuery.length > 0) {
             e.preventDefault()
 
             const el = document.querySelectorAll(
                 `[data-index='1']`
             )[0] as HTMLLIElement
             el.focus()
-        } else if (e.keyCode === 27) {
-            // Escape key
+        } else if (e.key === 'Escape') {
             setSearchResultsOpen(false)
         }
     }
@@ -276,16 +274,13 @@ const NetworkGraphSearchBarResultItem = ({
      * @param {object} e - Event
      */
     const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.keyCode === 40) {
-            // Arrow down
+        if (e.key === 'ArrowDown') {
             e.preventDefault()
             focusItem('next')
-        } else if (e.keyCode === 38) {
-            // Arrow up
+        } else if (e.key === 'ArrowUp') {
             e.preventDefault()
             focusItem('previous')
-        } else if (e.keyCode === 13) {
-            // Enter key
+        } else if (e.key === 'Enter') {
             handleClick()
         }
     }

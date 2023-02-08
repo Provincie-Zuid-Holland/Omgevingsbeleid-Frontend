@@ -21,9 +21,7 @@ const AreaCard = ({ image, title, link }: AreaCardProps) => {
                 <Heading level="3" className="mb-4">
                     {title}
                 </Heading>
-                <Button
-                    onPress={() => navigate(link, { replace: true })}
-                    className="mt-auto">
+                <Button onPress={() => navigate(link)} className="mt-auto">
                     Bekijk gebiedsprogramma
                 </Button>
             </div>

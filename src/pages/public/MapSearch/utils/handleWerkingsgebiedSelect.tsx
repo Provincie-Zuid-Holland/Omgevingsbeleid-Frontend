@@ -87,7 +87,7 @@ const handleWerkingsgebiedSelect = async (
             }
 
             searchParams.set('werkingsgebied', selected.value)
-            navigate(`${MAP_SEARCH_PAGE}?${searchParams}`, { replace: true })
+            navigate(`${MAP_SEARCH_PAGE}?${searchParams}`)
         })
         .catch(err => {
             if (axios.isCancel(err)) {
@@ -120,14 +120,14 @@ const handlePopupEvents = (
             )
             map?.setView(coordinates, MAP_OPTIONS.zoom)
 
-            navigate(MAP_SEARCH_PAGE, { replace: true })
+            navigate(MAP_SEARCH_PAGE)
         })
 
     popupContainer
         .querySelector('.advanced-search-button')
         ?.addEventListener('click', () => {
             searchParams.append('searchOpen', 'true')
-            navigate(`${path}?${searchParams}`, { replace: true })
+            navigate(`${path}?${searchParams}`)
         })
 }
 

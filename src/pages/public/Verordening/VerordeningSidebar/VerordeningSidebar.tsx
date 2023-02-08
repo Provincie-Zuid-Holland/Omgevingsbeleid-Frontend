@@ -137,7 +137,7 @@ const VerordeningSidebarItem = ({
     }
 
     const setActive = () => {
-        navigate(`${location.pathname}?actief=${item.UUID}`, { replace: true })
+        navigate(`${location.pathname}?actief=${item.UUID}`)
         if (windowSize.width < 1028) {
             setNavMenuOpen(false)
         }

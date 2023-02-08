@@ -69,8 +69,8 @@ const ContainerCrudFields = () => {
                                 {/* Eind Geldigheid */}
                                 {crudObject['Eind_Geldigheid'] !== undefined ? (
                                     <FormFieldGeldigheid
-                                        openUitwerkingstrede={true}
-                                        hideToggleUitwerkingstrede={true}
+                                        openUitwerkingstrede
+                                        hideToggleUitwerkingstrede
                                         handleChange={handleChange}
                                         fieldValue={
                                             crudObject['Eind_Geldigheid']

@@ -20,6 +20,10 @@ export interface FormikWerkingsgebiedProps {
 
 type parentStateHandlerTypes = 'ADD_CONNECTION' | 'REMOVE_CONNECTION'
 
+const getImageUrl = (UUID: string) => {
+    return `https://geo-omgevingsbeleid-test.azurewebsites.net/wms/reflect?format=image/png&version=1.3.0&layers=OMGEVINGSBELEID:Werkingsgebieden_brt&srs=EPSG:28992&width=450&bbox=43662.62,406692,140586.08,483120&cql_filter=UUID IN ('${UUID}')`
+}
+
 const FormikWerkingsgebied = ({
     dataObjectProperty,
     titleSingular,
@@ -149,7 +153,7 @@ const CardSelectedWerkingsgebied = ({
                     className="relative w-1/2 p-5 bg-white"
                     id="selected-werkingsgebied">
                     <h3 className="pb-1 text-sm font-bold text-gray-700">
-                        {werkingsgebied ? werkingsgebied.Werkingsgebied : null}
+                        {werkingsgebied?.Werkingsgebied}
                     </h3>
                     <span className="text-xs text-gray-600">
                         Laatst gewijzigd op{' '}
@@ -177,14 +181,9 @@ const CardSelectedWerkingsgebied = ({
                             className={`cursor-pointer absolute top-0 left-0 w-full h-full border border-gray-100`}>
                             <div
                                 style={{
-                                    backgroundImage:
-                                        'url("' +
-                                        `https://geo-omgevingsbeleid-test.azurewebsites.net/wms/reflect?format=image/png&layers=OMGEVINGSBELEID:Werkingsgebieden_brt&srs=EPSG:28992&width=450&bbox=43662.62,406692,140586.08,483120&cql_filter=UUID IN ('${
-                                            werkingsgebied
-                                                ? werkingsgebied.UUID
-                                                : ''
-                                        }')` +
-                                        '")',
+                                    backgroundImage: `url("${getImageUrl(
+                                        werkingsgebied?.UUID || ''
+                                    )}")`,
                                 }}
                                 className="block w-full h-full bg-center bg-cover"></div>
                         </div>
@@ -236,10 +235,6 @@ const WerkingsgebiedPopup = ({
         getAndSetWerkingsgebieden()
     }, [])
 
-    const getImageUrl = (UUID: string) => {
-        return `https://geo-omgevingsbeleid-test.azurewebsites.net/wms/reflect?format=image/png&layers=OMGEVINGSBELEID:Werkingsgebieden_brt&srs=EPSG:28992&width=450&bbox=43662.62,406692,140586.08,483120&cql_filter=UUID IN ('${UUID}')`
-    }
-
     const setInParent = (gebied: Werkingsgebied) => {
         if (dataObjectProperty === 'Gebied') {
             parentStateHandler('ADD_CONNECTION', gebied)
@@ -289,6 +284,7 @@ const WerkingsgebiedPopup = ({
                               )
                               .map((gebied, index) => {
                                   const url = getImageUrl(gebied.UUID || '')
+
                                   return (
                                       <div
                                           key={gebied.UUID}
@@ -305,8 +301,7 @@ const WerkingsgebiedPopup = ({
                                               className={`cursor-pointer z-0 absolute top-0 left-0 w-full h-full border border-gray-100 rounded-md shadow`}>
                                               <div
                                                   style={{
-                                                      backgroundImage:
-                                                          'url("' + url + '")',
+                                                      backgroundImage: `url("${url}")`,
                                                   }}
                                                   className="block w-full h-full bg-center bg-cover rounded-md-t"></div>
                                               <span className="absolute bottom-0 z-10 block w-full p-4 text-sm text-gray-700 bg-white">

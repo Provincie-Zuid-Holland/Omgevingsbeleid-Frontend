@@ -109,8 +109,7 @@ const ViewFieldIngelogdExtraInfo = ({
                                     )
                                         ? MAATREGELEN.SLUG_OVERVIEW
                                         : BELEIDSKEUZES.SLUG_OVERVIEW
-                                }/${crudObject.ID}`,
-                                { replace: true }
+                                }/${crudObject.ID}`
                             )
                         }
                         variant="secondary"
