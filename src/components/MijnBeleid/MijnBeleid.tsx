@@ -64,8 +64,8 @@ const MijnBeleid = ({ hideAddNew }: MijnBeleidProps) => {
                         any_filters:
                             dimensie.type === 'BELEIDSKEUZES' ||
                             dimensie.type === 'MAATREGELEN'
-                                ? `Created_By:${user.UUID},Eigenaar_1:${user.UUID},Eigenaar_2:${user.UUID},Opdrachtgever:${user.UUID}`
-                                : `Created_By:${user.UUID}`,
+                                ? `Created_By_UUID:${user.UUID},Eigenaar_1:${user.UUID},Eigenaar_2:${user.UUID},Opdrachtgever:${user.UUID}`
+                                : `Created_By_UUID:${user.UUID}`,
                     })
                     .then(data => {
                         if (data.length === 0) return

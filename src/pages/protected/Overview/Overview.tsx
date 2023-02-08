@@ -8,7 +8,7 @@ import {
 import { useQueryClient, useIsFetching } from '@tanstack/react-query'
 import { FC, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import {
     Beleidskeuze,
@@ -38,6 +38,7 @@ interface OverviewProps {
 
 const Overview = ({ dimensieConstants }: OverviewProps) => {
     const { user } = useAuth()
+    const navigate = useNavigate()
 
     const [filterQuery, setFilterQuery] = useState('')
     const [isLoading, setIsLoading] = useState(true)
@@ -127,11 +128,16 @@ const Overview = ({ dimensieConstants }: OverviewProps) => {
                                 icon={MagnifyingGlass}
                             />
                             {hideAddButton ? null : (
-                                <Link to={`/muteer/${overviewSlug}/nieuw`}>
-                                    <Button variant="cta" className="ml-2">
-                                        {addNewPolicyObjectText}
-                                    </Button>
-                                </Link>
+                                <Button
+                                    variant="cta"
+                                    className="ml-2"
+                                    onPress={() =>
+                                        navigate(
+                                            `/muteer/${overviewSlug}/nieuw`
+                                        )
+                                    }>
+                                    {addNewPolicyObjectText}
+                                </Button>
                             )}
                         </div>
                     </div>

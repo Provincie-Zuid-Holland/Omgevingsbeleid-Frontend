@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import classNames from 'classnames'
 import { useFormikContext } from 'formik'
 import { FC, Fragment } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { Verordening } from '@/api/fetchers.schemas'
 import ButtonBackToPage from '@/components/ButtonBackToPage'
@@ -26,6 +26,8 @@ const VerordeningSectionContainer: FC<VerordeningSectionContainerProps> = ({
     children,
     verordening,
 }) => {
+    const navigate = useNavigate()
+
     const { values } = useFormikContext<Verordening>()
     const { dispatch, state } = useVerordening()
 
@@ -114,14 +116,17 @@ const VerordeningSectionContainer: FC<VerordeningSectionContainerProps> = ({
                     {isCreatingOrEditingArticle && <FormArticleSidebar />}
 
                     {!activeChapter && !isEditingOrder && !isAddingSection && (
-                        <Link to={`/muteer/verordeningen/${single}/bewerk`}>
-                            <Button
-                                type="button"
-                                variant="secondary"
-                                className="w-full mb-2">
-                                Bewerk de verordening
-                            </Button>
-                        </Link>
+                        <Button
+                            onPress={() =>
+                                navigate(
+                                    `/muteer/verordeningen/${single}/bewerk`
+                                )
+                            }
+                            type="button"
+                            variant="secondary"
+                            className="w-full mb-2">
+                            Bewerk de verordening
+                        </Button>
                     )}
 
                     {!isEditingOrder && !isAddingSection && !values?.Type && (

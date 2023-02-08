@@ -1,7 +1,7 @@
 import { Button } from '@pzh-ui/components'
 import { AngleLeft, Plus } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import {
@@ -39,6 +39,8 @@ const BeleidsrelatiesDetail = ({
     updateBeleidsrelaties,
     backToOverzicht,
 }: BeleidsrelatiesDetailProps) => {
+    const navigate = useNavigate()
+
     const [isLoading, setIsLoading] = useState(true)
     const [savingInProgress, setSavingInProgress] = useState(false)
 
@@ -346,11 +348,16 @@ const BeleidsrelatiesDetail = ({
                         </h1>
                     </div>
                     <div className="flex-shrink-0">
-                        <Link to={`/muteer/beleidsrelaties/${UUID}/nieuw`}>
-                            <Button variant="cta" icon={Plus}>
-                                Nieuwe relatie
-                            </Button>
-                        </Link>
+                        <Button
+                            variant="cta"
+                            icon={Plus}
+                            onPress={() =>
+                                navigate(
+                                    `/muteer/beleidsrelaties/${UUID}/nieuw`
+                                )
+                            }>
+                            Nieuwe relatie
+                        </Button>
                     </div>
                 </div>
 
