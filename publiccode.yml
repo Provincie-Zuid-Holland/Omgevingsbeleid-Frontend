@@ -33,7 +33,7 @@ description:
             - Enables citizens to get insight into what policies are active on a geographical point
 
 legal:
-    license: UPL-1.2 License
+    license: EUPL-1.2 License
 
 maintenance:
     type: 'contract'
