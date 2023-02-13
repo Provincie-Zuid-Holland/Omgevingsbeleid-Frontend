@@ -187,6 +187,7 @@ const RelatiesKoppelingenVisualisatie = ({
         setConnectedProperties(activeConnectionProperties)
         setData(d3Data)
     }, [
+        objType,
         beleidsObject,
         beleidsRelaties,
         connectionProperties,
@@ -351,7 +352,6 @@ const RelatiesKoppelingenVisualisatie = ({
             objType as keyof typeof networkGraphConnectionProperties
         ].symbol
     const symbol = d3.symbol().type(typeSymbol)
-    console.log(objType)
     return (
         <div className="flex flex-col md:flex-row">
             <div className="flex flex-col justify-between w-full">
