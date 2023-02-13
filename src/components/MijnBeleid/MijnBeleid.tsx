@@ -1,6 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import { useUpdateEffect } from 'react-use'
 
 import allDimensies from '@/constants/dimensies'
 import useAuth from '@/hooks/useAuth'
@@ -35,7 +34,7 @@ const MijnBeleid = ({ hideAddNew }: MijnBeleidProps) => {
         { type: FilteredDimensies; object: any }[][]
     >([])
 
-    useUpdateEffect(() => {
+    useEffect(() => {
         if (!user) return
 
         const getAndSetBeleidVanGebruiker = () => {
@@ -64,7 +63,7 @@ const MijnBeleid = ({ hideAddNew }: MijnBeleidProps) => {
                         any_filters:
                             dimensie.type === 'BELEIDSKEUZES' ||
                             dimensie.type === 'MAATREGELEN'
-                                ? `Created_By_UUID:${user.UUID},Eigenaar_1:${user.UUID},Eigenaar_2:${user.UUID},Opdrachtgever:${user.UUID}`
+                                ? `Created_By_UUID:${user.UUID},Eigenaar_1_UUID:${user.UUID},Eigenaar_2_UUID:${user.UUID},Opdrachtgever_UUID:${user.UUID}`
                                 : `Created_By_UUID:${user.UUID}`,
                     })
                     .then(data => {

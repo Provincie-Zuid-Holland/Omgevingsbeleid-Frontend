@@ -9,7 +9,7 @@ describe('EigenaarsDriehoekItem', () => {
                 owner={{
                     Gebruikersnaam: 'Opdrachtgever_test',
                     Rol: '',
-                    Status: '',
+                    Status: undefined,
                     UUID: '',
                 }}
             />

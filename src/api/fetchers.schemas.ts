@@ -6,7 +6,7 @@
         This API serves all the object that make up the policies 
         of a provincial government. 
         
- * OpenAPI spec version: 1.1.11
+ * OpenAPI spec version: 1.1.17
  */
 export type ReadValidWerkingsgebiedLineageParams = {
     offset?: number
@@ -44,6 +44,27 @@ export type ReadValidMaatregelenParams = {
 }
 
 export type ReadMaatregelenParams = {
+    offset?: number
+    limit?: number
+    all_filters?: string
+    any_filters?: string
+}
+
+export type ReadValidVerordeningstructuurLineageParams = {
+    offset?: number
+    limit?: number
+    all_filters?: string
+    any_filters?: string
+}
+
+export type ReadValidVerordeningstructurenParams = {
+    offset?: number
+    limit?: number
+    all_filters?: string
+    any_filters?: string
+}
+
+export type ReadVerordeningstructurenParams = {
     offset?: number
     limit?: number
     all_filters?: string
@@ -368,6 +389,36 @@ export interface Werkingsgebied {
     Ref_Beleidskeuzes: BeleidskeuzeReference[]
 }
 
+export interface VerordeningstructuurUpdate {
+    Titel?: string
+    Structuur?: string
+    Status?: Status
+    Begin_Geldigheid?: string
+    Eind_Geldigheid?: string
+}
+
+export interface VerordeningstructuurCreate {
+    Titel: string
+    Structuur: string
+    Status?: Status
+    Begin_Geldigheid: string
+    Eind_Geldigheid: string
+}
+
+export interface Verordeningstructuur {
+    Titel: string
+    Structuur: string
+    Status?: Status
+    ID: number
+    UUID: string
+    Created_By: GebruikerInline
+    Created_Date: string
+    Modified_By: GebruikerInline
+    Modified_Date: string
+    Begin_Geldigheid: string
+    Eind_Geldigheid: string
+}
+
 export interface VerordeningUpdate {
     Type?: string
     Status?: Status
@@ -456,6 +507,17 @@ export interface ValidationError {
     msg: string
     type: string
 }
+
+/**
+ * An enumeration.
+ */
+export type UserStatus = typeof UserStatus[keyof typeof UserStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UserStatus = {
+    Actief: 'Actief',
+    Inactief: 'Inactief',
+} as const
 
 export interface Token {
     access_token: string
@@ -658,7 +720,7 @@ export interface MaatregelListable {
     Modified_Date: string
     Begin_Geldigheid: string
     Eind_Geldigheid: string
-    Status: Status
+    Status?: Status
     Titel: string
 }
 
@@ -756,7 +818,7 @@ export interface LatestVersionInline {
     ID: number
     UUID: string
     Modified_Date: string
-    Status: Status
+    Status?: Status
     Titel: string
     Effective_Version?: string
     Type: BeleidsrelatieType
@@ -788,7 +850,7 @@ export interface GenericReferenceUpdate {
 export interface GebruikerInline {
     Gebruikersnaam: string
     Rol: string
-    Status: string
+    Status?: UserStatus
     UUID: string
 }
 
@@ -887,7 +949,6 @@ export interface BodyLoginAccessToken {
 }
 
 export interface BeleidsrelatieUpdate {
-    Titel?: string
     Status?: RelatieStatus
     Omschrijving?: string
     Aanvraag_Datum?: string
@@ -922,20 +983,18 @@ export const BeleidsrelatieType = {
 } as const
 
 export interface BeleidsrelatieCreate {
-    Titel: string
-    Status: RelatieStatus
+    Status?: RelatieStatus
     Omschrijving?: string
     Aanvraag_Datum?: string
     Datum_Akkoord?: string
-    Begin_Geldigheid: string
-    Eind_Geldigheid: string
+    Begin_Geldigheid?: string
+    Eind_Geldigheid?: string
     Van_Beleidskeuze_UUID: string
     Naar_Beleidskeuze_UUID: string
 }
 
 export interface Beleidsrelatie {
-    Titel: string
-    Status: RelatieStatus
+    Status?: RelatieStatus
     Omschrijving?: string
     Aanvraag_Datum?: string
     Datum_Akkoord?: string
@@ -945,8 +1004,8 @@ export interface Beleidsrelatie {
     Created_Date: string
     Modified_By: GebruikerInline
     Modified_Date: string
-    Begin_Geldigheid: string
-    Eind_Geldigheid: string
+    Begin_Geldigheid?: string
+    Eind_Geldigheid?: string
     Van_Beleidskeuze: Beleidskeuze
     Naar_Beleidskeuze: Beleidskeuze
 }

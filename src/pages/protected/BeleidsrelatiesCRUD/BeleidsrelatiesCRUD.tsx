@@ -33,7 +33,6 @@ const BeleidsrelatiesCRUD = ({ dataModel }: BeleidsrelatiesCRUDProps) => {
         Van_Beleidskeuze_UUID: UUID || '',
         Status: 'Open',
         Aanvraag_Datum: new Date().toString(),
-        Titel: '',
     })
 
     const { data } = useReadBeleidskeuzeVersion(UUID!)
@@ -59,12 +58,12 @@ const BeleidsrelatiesCRUD = ({ dataModel }: BeleidsrelatiesCRUDProps) => {
             toast('Selecteer een beleidskeuze')
             return
         }
-        if (!isValid(new Date(crudObject.Begin_Geldigheid))) {
+        if (!isValid(new Date(crudObject.Begin_Geldigheid || ''))) {
             toast('Vul een inwerkingtreding datum in')
             return
         }
 
-        if (!isValid(new Date(crudObject.Eind_Geldigheid))) {
+        if (!isValid(new Date(crudObject.Eind_Geldigheid || ''))) {
             toast('Vul een uitwerkingtreding datum in')
             return
         }
@@ -76,10 +75,10 @@ const BeleidsrelatiesCRUD = ({ dataModel }: BeleidsrelatiesCRUDProps) => {
         }
 
         crudObject.Begin_Geldigheid = new Date(
-            crudObject.Begin_Geldigheid
+            crudObject.Begin_Geldigheid || ''
         ).toISOString()
         crudObject.Eind_Geldigheid = new Date(
-            crudObject.Eind_Geldigheid
+            crudObject.Eind_Geldigheid || ''
         ).toISOString()
 
         createBeleidsrelatie(crudObject)

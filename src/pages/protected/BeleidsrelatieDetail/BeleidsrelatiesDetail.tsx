@@ -88,22 +88,22 @@ const BeleidsrelatiesDetail = ({
      * @param {string} UUID - UUID of the beleidskeuze
      */
     const getBeleidsrelatiesVanBeleidskeuze = (UUID: string) =>
-        readBeleidsrelaties({ all_filters: `Van_Beleidskeuze:${UUID}` }).then(
-            data => {
-                if (data.length !== 0) setOutgoing_Beleidskeuzes(data)
-            }
-        )
+        readBeleidsrelaties({
+            all_filters: `Van_Beleidskeuze_UUID:${UUID}`,
+        }).then(data => {
+            if (data.length !== 0) setOutgoing_Beleidskeuzes(data)
+        })
 
     /**
      * Function that gets all outgoing relations to a specific beleidskeuze
      * @param {string} UUID - UUID of the beleidskeuze
      */
     const getBeleidsrelatiesNaarBeleidskeuze = (UUID: string) =>
-        readBeleidsrelaties({ all_filters: `Naar_Beleidskeuze:${UUID}` }).then(
-            data => {
-                if (data.length !== 0) setIncoming_Beleidskeuzes(data)
-            }
-        )
+        readBeleidsrelaties({
+            all_filters: `Naar_Beleidskeuze_UUID:${UUID}`,
+        }).then(data => {
+            if (data.length !== 0) setIncoming_Beleidskeuzes(data)
+        })
 
     /**
      * Function to accept an incoming relation

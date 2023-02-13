@@ -1,7 +1,10 @@
 import { MouseEventHandler, useEffect, useState } from 'react'
 import { useUpdateEffect } from 'react-use'
 
-import { readValidBeleidsrelaties } from '@/api/fetchers'
+import {
+    readValidBeleidsrelaties,
+    readVerordeningstructuren,
+} from '@/api/fetchers'
 import {
     Beleidsdoel,
     Beleidskeuze,
@@ -9,8 +12,8 @@ import {
     Beleidsrelatie,
     Maatregel,
     Verordening,
+    Verordeningstructuur,
 } from '@/api/fetchers.schemas'
-import axios from '@/api/instance'
 
 import { LoaderSpinner } from '../Loader'
 import RelatiesKoppelingenTekstueel from '../RelatiesKoppelingenTekstueel'
@@ -90,7 +93,9 @@ const RelatiesKoppelingen = ({
     const [isLoading, setIsLoading] = useState(true)
     const [activeTab, setActiveTab] = useState('Visueel')
 
-    const [verordeningsStructure, setVerordeningStructure] = useState(null)
+    const [verordeningsStructure, setVerordeningStructure] = useState<
+        Verordeningstructuur | undefined
+    >(undefined)
 
     // As the height of the containers will vary by the content, we make sure the user can immediately see the whole container by scrolling down
     useUpdateEffect(() => {
@@ -105,11 +110,9 @@ const RelatiesKoppelingen = ({
          * @returns {Promise} Promise object contains the vigerende verordening or undefined
          */
         const getVigerendeVerordening = () =>
-            axios
-                .get('/v0.1/verordeningstructuur')
-                .then(res =>
-                    res.data.find((item: any) => item.Status === 'Vigerend')
-                )
+            readVerordeningstructuren().then(res =>
+                res.find(item => item.Status === 'Vigerend')
+            )
 
         /**
          * A function to filter out relations. Filter out relations that
@@ -158,7 +161,7 @@ const RelatiesKoppelingen = ({
          */
         const getBeleidsrelatiesFrom = (uuidFrom: string) =>
             readValidBeleidsrelaties({
-                all_filters: `Status:Akkoord,Van_Beleidskeuze:${uuidFrom}`,
+                all_filters: `Status:Akkoord,Van_Beleidskeuze_UUID:${uuidFrom}`,
             }).then(data => {
                 const filteredRelations = filterOutUnvalidRelations(
                     data,
@@ -177,7 +180,7 @@ const RelatiesKoppelingen = ({
          */
         const getBeleidsrelatiesTo = (uuidTo: string) =>
             readValidBeleidsrelaties({
-                all_filters: `Status:Akkoord,Naar_Beleidskeuze:${uuidTo}`,
+                all_filters: `Status:Akkoord,Naar_Beleidskeuze_UUID:${uuidTo}`,
             }).then(data => {
                 const filteredRelations = filterOutUnvalidRelations(
                     data,
