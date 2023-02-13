@@ -20,8 +20,10 @@ import {
     getUUIDFromPreviousUrl,
     removeCircleActiveNode,
     updateGraphSearch,
+    updateNodeStyles,
+    updateTooltipContent,
+    updateTooltipCoordinates,
 } from '@/utils/networkGraph'
-import networkGraphGenerateHref from '@/utils/networkGraphGenerateHref'
 
 import NetworkGraphClickedElementPopup from '../NetworkGraphClickedElementPopup'
 import NetworkGraphResetClickedElement from '../NetworkGraphResetClickedElement'
@@ -235,7 +237,7 @@ const NetworkGraph = () => {
             svgElement.selectAll('path').attr('fill', (d: any) => d.color)
             svgElement.selectAll('line').attr('stroke-opacity', 0)
 
-            const selectNodes = () => {
+            const selectConnectedNodesFromClickedNode = () => {
                 svgElement
                     .selectAll('path')
                     .attr('fill', (d: any) => d.color)
@@ -262,7 +264,7 @@ const NetworkGraph = () => {
                     .attr('fill', (d: any) => d.color)
             }
 
-            const selectLinks = () => {
+            const selectConnectedLinksFromClickedNode = () => {
                 svgElement
                     .selectAll('line')
                     .attr('stroke-opacity', 0.2)
@@ -288,8 +290,8 @@ const NetworkGraph = () => {
                  * and update the styles of this and all the connecting nodes
                  */
                 addClickedNodeCircle(uuidClickedNode)
-                selectNodes()
-                selectLinks()
+                selectConnectedNodesFromClickedNode()
+                selectConnectedLinksFromClickedNode()
                 setClickedNode(clickedEl)
             }
         },
@@ -313,7 +315,6 @@ const NetworkGraph = () => {
              * Function to handle the mouseOver event on nodes
              * We update the data (title, subtitle and href) of the tooltip
              * @param {object} d - Contains the node data from the mouseOver event
-             * @param {number} i - Contains the index of the node
              */
             const handleMouseOver = (
                 _: any,
@@ -328,81 +329,10 @@ const NetworkGraph = () => {
                 const nodeElement = document.getElementById(nodeUUID)
 
                 if (!nodeElement) return
-                /**
-                 * Updates the tooltips Title, Subtitle and Href
-                 */
-                const updateTooltipContent = () => {
-                    const tooltip = d3.select('#d3-tooltip-network-graph')
 
-                    // Activate display on the tooltip
-                    tooltip.style('display', 'block')
-
-                    // Set title and type in the element
-                    const tooltipTitleEl = document.getElementById(
-                        'd3-tooltip-network-graph-title'
-                    )
-
-                    const tooltipTypeEl = document.getElementById(
-                        'd3-tooltip-network-graph-type'
-                    )
-
-                    const singularType =
-                        networkGraphConnectionProperties[d.Type]?.singular
-
-                    tooltipTypeEl!.innerHTML = singularType
-                        ? singularType
-                        : d.Type
-
-                    tooltipTitleEl!.innerHTML = d.Titel
-
-                    const hrefURL = networkGraphGenerateHref({
-                        property: d.Type,
-                        UUID: d.UUID,
-                    })
-
-                    setHref(hrefURL)
-                }
-
-                /**
-                 * Update tooltip X and Y coordinates based on the hovered node element.
-                 */
-                // TODO: Move the generator of coordinates to a separate function
-                const updateTooltipCoordinates = () => {
-                    setVariables({
-                        left: 0,
-                        top: 0,
-                    })
-
-                    const tooltipEl = document.getElementById(
-                        'd3-tooltip-network-graph'
-                    )
-                    const { x, bottom, width } =
-                        nodeElement?.getBoundingClientRect()
-                    const tooltipWidth = tooltipEl?.offsetWidth || 0
-                    const leftPosition = x - tooltipWidth / 2 + width / 2
-                    const tooltipTriangleHeight = 10
-                    const bottomPosition = bottom + tooltipTriangleHeight
-                    const newVariables = {
-                        left: leftPosition,
-                        top: bottomPosition,
-                    }
-                    setVariables(newVariables)
-                }
-
-                // TODO: Move this to a separate function
-                const updateNodeStyles = () => {
-                    const transformValue = nodeElement.getAttribute('transform')
-                    if (transformValue?.includes('scale')) return
-                    // Add a scale transform to the node
-                    nodeElement.setAttribute(
-                        'transform',
-                        `${transformValue} scale(1.5)`
-                    )
-                }
-
-                updateTooltipContent()
-                updateTooltipCoordinates()
-                updateNodeStyles()
+                updateTooltipContent(d, setHref)
+                updateTooltipCoordinates(setVariables, nodeElement)
+                updateNodeStyles(nodeElement)
             }
 
             /**
@@ -585,7 +515,7 @@ const NetworkGraph = () => {
 
             persistOrInitActiveNode(links, nodes)
 
-            // // Handle updates
+            // Handle updates
             simulation.on('tick', () => {
                 generatedLinks
                     .attr('x1', (d: any) => d.source.x + 100)

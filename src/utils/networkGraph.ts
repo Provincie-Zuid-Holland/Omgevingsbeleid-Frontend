@@ -4,6 +4,81 @@ import { matchPath } from 'react-router-dom'
 import { GetGraph200 } from '@/api/fetchers.schemas'
 import networkGraphConnectionProperties from '@/constants/networkGraphConnectionProperties'
 
+import networkGraphGenerateHref from './networkGraphGenerateHref'
+
+/**
+ * Updates the tooltips Title, Subtitle and Href
+ */
+const updateTooltipContent = (
+    hoveredElement: {
+        Type: keyof typeof networkGraphConnectionProperties
+        Titel: string
+        index: number
+        UUID: string
+    },
+    setHref: (href: string | null) => void
+) => {
+    const tooltip = d3.select('#d3-tooltip-network-graph')
+
+    // Activate display on the tooltip
+    tooltip.style('display', 'block')
+
+    // Set title and type in the element
+    const tooltipTitleEl = document.getElementById(
+        'd3-tooltip-network-graph-title'
+    )
+
+    const tooltipTypeEl = document.getElementById(
+        'd3-tooltip-network-graph-type'
+    )
+
+    const singularType =
+        networkGraphConnectionProperties[hoveredElement.Type]?.singular
+
+    tooltipTypeEl!.innerHTML = singularType ? singularType : hoveredElement.Type
+
+    tooltipTitleEl!.innerHTML = hoveredElement.Titel
+
+    const hrefURL = networkGraphGenerateHref({
+        property: hoveredElement.Type,
+        UUID: hoveredElement.UUID,
+    })
+
+    setHref(hrefURL)
+}
+
+/**
+ * Update tooltip X and Y coordinates based on the hovered node element.
+ */
+const updateTooltipCoordinates = (
+    setVariables: (val: { [key: string]: any }) => void,
+    nodeElement: HTMLElement
+) => {
+    setVariables({
+        left: 0,
+        top: 0,
+    })
+
+    const tooltipEl = document.getElementById('d3-tooltip-network-graph')
+    const { x, bottom, width } = nodeElement?.getBoundingClientRect()
+    const tooltipWidth = tooltipEl?.offsetWidth || 0
+    const leftPosition = x - tooltipWidth / 2 + width / 2
+    const tooltipTriangleHeight = 10
+    const bottomPosition = bottom + tooltipTriangleHeight
+    const newVariables = {
+        left: leftPosition,
+        top: bottomPosition,
+    }
+    setVariables(newVariables)
+}
+
+const updateNodeStyles = (nodeElement: HTMLElement) => {
+    const transformValue = nodeElement.getAttribute('transform')
+    if (transformValue?.includes('scale')) return
+    // Add a scale transform to the node
+    nodeElement.setAttribute('transform', `${transformValue} scale(1.5)`)
+}
+
 /**
  * Function to filter out the inactive types from the links and the nodes
  * @param {object} data - Contains two properties, links and nodes
@@ -157,10 +232,13 @@ const generateNodes = (
         })
 
 export {
+    updateNodeStyles,
     getFilteredData,
     removeCircleActiveNode,
     getUUIDFromPreviousUrl,
     updateGraphSearch,
     addClickedNodeCircle,
     generateNodes,
+    updateTooltipCoordinates,
+    updateTooltipContent,
 }
