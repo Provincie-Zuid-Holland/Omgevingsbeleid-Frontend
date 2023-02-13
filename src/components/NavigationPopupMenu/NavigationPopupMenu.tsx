@@ -211,9 +211,9 @@ const NavigationPopupMenu = ({
                                         isMobile ? {} : { marginTop: '32px' }
                                     }>
                                     <ListItem
-                                        text="Netwerkvisualisatie"
+                                        text="Beleidsnetwerk"
                                         setIsOpen={setIsOpen}
-                                        to="/netwerkvisualisatie"
+                                        to="/beleidsnetwerk"
                                         state={{
                                             from:
                                                 location.pathname +
@@ -258,9 +258,7 @@ const ToggleMenuButton = ({
         onKeyDown={e => {
             if (e.key === 'Tab' && e.shiftKey) {
                 e.preventDefault()
-                document
-                    .getElementById('menu-item-netwerkvisualisatie')
-                    ?.focus()
+                document.getElementById('menu-item-beleidsnetwerk')?.focus()
             }
         }}
         id="popup-menu-toggle"

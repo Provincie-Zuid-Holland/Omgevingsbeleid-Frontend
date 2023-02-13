@@ -77,6 +77,7 @@ const TableOfContents = ({ display }: { display: 'block' | 'fixed' }) => {
                         {h2Elements.map(el => (
                             <li
                                 key={el.id}
+                                tabIndex={0}
                                 onClick={() => {
                                     window.scrollTo({
                                         left: 0,

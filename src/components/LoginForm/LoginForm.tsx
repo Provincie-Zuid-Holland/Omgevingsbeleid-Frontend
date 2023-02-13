@@ -69,12 +69,12 @@ const LoginForm = () => {
                                 value={values.password}
                             />
                         </div>
-                        <div className="mt-7 flex justify-between items-center">
+                        <div className="flex items-center justify-between mt-7">
                             <Button
-                                label="Inloggen"
                                 type="submit"
-                                disabled={!isValid || !dirty}
-                            />
+                                isDisabled={!isValid || !dirty}>
+                                Inloggen
+                            </Button>
                             <button
                                 className="mt-4 text-sm underline cursor-pointer sm:mt-0 sm:ml-4 text-pzh-green hover:text-pzh-green-dark"
                                 onClick={e => {
@@ -120,7 +120,7 @@ const PopupPasswordForgot = ({
         ariaLabel="Wachtwoord vergeten">
         <Heading level="3">Wachtwoord vergeten</Heading>
 
-        <div className="relative p-4 mb-4 mt-2 border-l-4 bg-pzh-blue-super-light border-pzh-blue">
+        <div className="relative p-4 mt-2 mb-4 border-l-4 bg-pzh-blue-super-light border-pzh-blue">
             <p className="mt-1 text-sm text-pzh-blue-dark">
                 Binnenkort willen wij het mogelijk maken dat medewerkers van
                 provincie Zuid-Holland automatisch kunnen inloggen. Tot die tijd
@@ -142,16 +142,16 @@ const PopupPasswordForgot = ({
                 Annuleren
             </button>
             <Button
-                label="Mail versturen"
                 variant="cta"
                 id="wachtwoord-reset-button-mailto"
                 data-testid="wachtwoord-reset-button-mailto"
-                onClick={() => {
+                onPress={() => {
                     window.location.href =
                         'mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten'
                     togglePopup()
-                }}
-            />
+                }}>
+                Mail versturen
+            </Button>
         </div>
     </Modal>
 )

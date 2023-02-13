@@ -86,7 +86,7 @@ const AppRoutes = () => {
                 element={<RaadpleegDigiToegankelijkheid />}
             />
             <Route path="/in-bewerking" element={<RaadpleegInProgress />} />
-            <Route path="/netwerkvisualisatie" element={<NetworkGraph />} />
+            <Route path="/beleidsnetwerk" element={<NetworkGraph />} />
 
             <Route path="/muteer" element={<ProtectedRoute />}>
                 <Route path="dashboard" element={<MuteerDashboard />} />

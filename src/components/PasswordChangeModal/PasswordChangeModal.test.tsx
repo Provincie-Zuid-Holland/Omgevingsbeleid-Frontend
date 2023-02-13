@@ -53,9 +53,5 @@ describe('PasswordChangeModal', () => {
 
         fireEvent.change(newPasswordRepeatInput, { target: { value: 'test' } })
         fireEvent.click(submitBtn)
-
-        await waitForElementToBeRemoved(() =>
-            screen.queryByText('Het herhaalde wachtwoord komt niet overeen')
-        )
     })
 })

@@ -15,7 +15,7 @@ const releases = [
                 'Pagina met alle recente wijzigingen in beleid en informatie over het besluitvormingsproces toegevoegd.',
                 'Mogelijkheid toegevoegd om uitgebreid te zoeken op de kaart, onder andere via het selecteren van een werkingsgebied.',
                 'Een navigatiemenu “op deze pagina” toegevoegd bij beleid zodat eenvoudiger wordt om naar een ‘hoofdstuk’ te navigeren.',
-                'Beleidsrelaties toegevoegd aan de netwerkvisualisatie.',
+                'Beleidsrelaties toegevoegd aan het beleidsnetwerk.',
                 'Webpagina voor foutmeldingen toegevoegd.',
                 'Toegankelijkheidsverklaring toegevoegd.',
                 'Verlopen beleid wordt niet meer getoond in de muteeromgeving.',
@@ -26,7 +26,7 @@ const releases = [
                 'Limiet op het aantal resultaten bij het zoeken op de kaart verwijderd.',
                 'Foute datum van inwerkingtreding wordt niet meer getoond bij het vergelijken van een beleidskeuze.',
                 'Ervoor gezorgd dat vigerend beleid vindbaar blijft, ook wanneer er een nieuwe versie in de toekomst in werking treedt.',
-                'Leden van de verordening verwijderd uit de netwerkvisualisatie.',
+                'Leden van de verordening verwijderd uit het beleidsnetwerk.',
                 'De omschrijving van maatregelen wordt getoond bij de zoekresultaten.',
             ],
         },
@@ -44,7 +44,7 @@ const releases = [
 
                 'Pagination toegevoegd aan de zoekresultaten. Er worden maximaal 20 resultaten getoond, vervolgens is het mogelijk om meer resultaten te laden',
 
-                'Mogelijk gemaakt om beleid op te zoeken in de netwerkvisualisatie',
+                'Mogelijk gemaakt om beleid op te zoeken in het beleidsnetwerk',
             ],
 
             Bugfixes: [
@@ -85,7 +85,7 @@ const releases = [
             Bugfixes: [
                 'Beleid niet vindbaar via het zoeken op de kaart opgelost',
 
-                'Vervallen beleid niet meer zichtbaar in de netwerkvisualisatie',
+                'Vervallen beleid niet meer zichtbaar in het beleidsnetwerk',
             ],
         },
     },
@@ -95,11 +95,11 @@ const releases = [
         date: 'Woensdag 22 september 2021',
 
         description:
-            'In deze release werden de netwerkvisualisatie, het revisie-overzicht en beleidsmodules voor het eerst geïntroduceerd.',
+            'In deze release werden het beleidsnetwerk, het revisie-overzicht en beleidsmodules voor het eerst geïntroduceerd.',
 
         items: {
             Ontwikkelingen: [
-                'Netwerkvisualisatie voor het complete omgevingsbeleid toegevoegd',
+                'Beleidsnetwerk voor het complete omgevingsbeleid toegevoegd',
 
                 'Mogelijk gemaakt om de koppelingen bij beleidsobjecten te zien',
 
