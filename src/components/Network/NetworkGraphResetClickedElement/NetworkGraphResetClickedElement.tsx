@@ -28,23 +28,25 @@ const NetworkGraphResetClickedElement = ({
     }, [clickedNode])
 
     return (
-        <Transition
-            show={localOpenState}
-            enter="transition ease-out duration-150 transform"
-            enterFrom="opacity-0 scale-95"
-            enterTo="opacity-100 scale-100"
-            leave="transition ease-in duration-0 transform"
-            leaveFrom="opacity-100 scale-100"
-            leaveTo="opacity-0 scale-95">
-            <button
-                type="button"
-                tabIndex={0}
-                onClick={() => resetNodes && resetNodes()}
-                className="p-2 mt-2 bg-white border rounded-md pointer-events-auto text-pzh-blue-dark hover:bg-gray-50"
-                data-testid="button-reset-nodes">
-                <RotateLeft />
-            </button>
-        </Transition>
+        <div className="container relative flex h-full mx-auto">
+            <Transition
+                show={localOpenState}
+                enter="transition ease-out duration-150 transform"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="transition ease-in duration-0 transform"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95">
+                <div
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => resetNodes && resetNodes()}
+                    className="p-3 mt-2 text-white border-b rounded-md bg-pzh-red hover:bg-pzh-red-dark"
+                    data-testid="button-reset-nodes">
+                    <RotateLeft />
+                </div>
+            </Transition>
+        </div>
     )
 }
 

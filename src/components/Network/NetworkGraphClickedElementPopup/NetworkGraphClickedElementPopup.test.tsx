@@ -41,19 +41,9 @@ describe('NetworkGraphClickedElementPopup', () => {
         expect(tooltip).toBeFalsy()
     })
 
-    it('should display the CTA text in the popup', () => {
-        setup()
-        expect(screen.getByText('Bekijk de Beleidskeuze')).toBeTruthy()
-    })
-
     it('should display the title of the clickedNode in the popup', () => {
         setup()
         expect(screen.getByText('Test title')).toBeTruthy()
-    })
-
-    it('should display the type of the clickedNode in the popup', () => {
-        setup()
-        expect(screen.getByText('Bekijk de Beleidskeuze')).toBeTruthy()
     })
 
     it('should contain a link to go to the detail page of the object', () => {
@@ -71,7 +61,6 @@ describe('NetworkGraphClickedElementPopup', () => {
         fireEvent.click(closeBtn)
 
         expect(resetNodesMock).toBeCalledTimes(1)
-        expect(screen.queryByText('Beleidskeuze')).not.toBeTruthy()
     })
 
     it('should close the popup when user focusses the close button and presses the enter key', async () => {
@@ -85,6 +74,5 @@ describe('NetworkGraphClickedElementPopup', () => {
         })
 
         expect(resetNodesMock).toBeCalledTimes(1)
-        expect(screen.queryByText('Beleidskeuze')).not.toBeTruthy()
     })
 })

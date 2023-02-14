@@ -57,7 +57,7 @@ const AppRoutes = () => {
             element: <InProgress />,
         },
         {
-            path: 'netwerkvisualisatie',
+            path: 'beleidsnetwerk',
             element: <NetworkGraph />,
         },
         {
