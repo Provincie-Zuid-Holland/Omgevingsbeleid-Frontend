@@ -149,18 +149,6 @@ export const useGetVerordeningenStructuren = () =>
         axios.get('/v0.1/verordeningstructuur').then(res => res.data)
     )
 
-export const useGetVerordeningenStructurenLineageId = (lineageID: string) =>
-    useQuery(
-        [`/verordeningstructuur/${lineageID}`],
-        () =>
-            axios
-                .get(`/v0.1/verordeningstructuur/${lineageID}`)
-                .then(res => res.data),
-        {
-            enabled: !!lineageID,
-        }
-    )
-
 export const postVerordeningSection = (values: VerordeningCreate) =>
     createVerordening(values).then(res => res)
 
@@ -376,54 +364,6 @@ export const patchOrPostSectionInVerordening = (
 }
 
 export const patchVerordeningStructureChildren = (
-    lineageID: number,
-    Chapters: VerordeningStructureChild[]
-) => {
-    return axios
-        .patch(`/v0.1/verordeningstructuur/${lineageID}`, {
-            Structuur: {
-                Children: Chapters,
-            },
-        })
-        .then(res => res.data)
-        .catch(err => console.log(err))
-}
-
-export const usePatchVerordeningenStructureLineageid = (props: any) => {
-    const mutationFn = (
-        props: undefined | { data: any; lineageid: number }
-    ) => {
-        const { data, lineageid } = props || {}
-
-        return axios
-            .patch(`/v0.1/verordeningstructuur/${lineageid || ''}`, {
-                ...data,
-            })
-            .then(res => res.data)
-            .catch(err => console.log(err))
-    }
-
-    const options = props.mutation
-    return useMutation(mutationFn, options)
-}
-
-export const usePostVerordeningenStructure = (props: any) => {
-    const mutationFn = (props: undefined | { data: any }) => {
-        const { data } = props || {}
-
-        return axios
-            .post(`/v0.1/verordeningstructuur`, {
-                ...data,
-            })
-            .then(res => res.data)
-            .catch(err => console.log(err))
-    }
-
-    const options = props.mutation
-    return useMutation(mutationFn, options)
-}
-
-export const usePatchVerordeningStructureLineage = (
     lineageID: number,
     Chapters: VerordeningStructureChild[]
 ) => {
