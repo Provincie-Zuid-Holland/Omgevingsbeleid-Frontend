@@ -1,4 +1,4 @@
-import { readVerordening } from '@/api/fetchers'
+import { getReadVerordeningQueryKey, readVerordening } from '@/api/fetchers'
 
 import * as AFDELING from './verordeningsafdeling'
 import * as ARTIKEL from './verordeningsartikel'
@@ -7,6 +7,7 @@ import * as LID from './verordeningslid'
 import * as PARAGRAAF from './verordeningsparagraaf'
 
 export const apiCall = readVerordening
+export const queryKey = getReadVerordeningQueryKey
 
 const TITLE_SINGULAR = 'Verordening'
 const TITLE_PLURAL = 'Verordeningen'

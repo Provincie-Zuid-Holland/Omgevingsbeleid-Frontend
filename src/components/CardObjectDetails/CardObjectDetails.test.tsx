@@ -42,7 +42,6 @@ describe('CardObjectDetails', () => {
                     object={{ Titel: 'Test title', ID: 1 }}
                     titleSingular={'ambitie'}
                     hoofdOnderdeelSlug={'ambities'}
-                    mijnBeleid={true}
                 />
             </MemoryRouter>
         )
@@ -63,8 +62,6 @@ describe('CardObjectDetails', () => {
                         object={{ Titel: 'Test title', ID: 1 }}
                         titleSingular={'ambitie'}
                         hoofdOnderdeelSlug={'ambities'}
-                        mijnBeleid={true}
-                        index={idx}
                     />
                 ))}
             </MemoryRouter>

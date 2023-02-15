@@ -1,6 +1,13 @@
-import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import { useQueries } from '@tanstack/react-query'
+import { useMemo } from 'react'
 
+import {
+    Ambitie,
+    Beleidsprestatie,
+    Gebiedsprogramma,
+    MaatregelListable,
+    Thema,
+} from '@/api/fetchers.schemas'
 import allDimensies from '@/constants/dimensies'
 import useAuth from '@/hooks/useAuth'
 import filterOutArchivedObjects from '@/utils/filterOutArchivedObjects'
@@ -22,6 +29,24 @@ type FilteredDimensies = Exclude<
     | 'BELEIDSMODULES'
 >
 
+const skipDimensies: Dimensie[] = [
+    'BELEIDSRELATIES',
+    'VERORDENINGSTRUCTUUR',
+    'VERORDENINGSARTIKEL',
+    'BELEIDSMODULES',
+]
+
+const filteredDimensies = Object.keys(allDimensies).filter(
+    dimensie => !skipDimensies.includes(dimensie as Dimensie)
+)
+
+type DataItem =
+    | Ambitie
+    | Beleidsprestatie
+    | MaatregelListable
+    | Thema
+    | Gebiedsprogramma
+
 interface MijnBeleidProps {
     hideAddNew?: boolean
 }
@@ -29,114 +54,94 @@ interface MijnBeleidProps {
 const MijnBeleid = ({ hideAddNew }: MijnBeleidProps) => {
     const { user } = useAuth()
 
-    const [dataReceived, setDataReceived] = useState(false)
-    const [policies, setPolicies] = useState<
-        { type: FilteredDimensies; object: any }[][]
-    >([])
-
-    useEffect(() => {
-        if (!user) return
-
-        const getAndSetBeleidVanGebruiker = () => {
-            const skipDimensies: Dimensie[] = [
-                'BELEIDSRELATIES',
-                'VERORDENINGSTRUCTUUR',
-                'VERORDENINGSARTIKEL',
-                'BELEIDSMODULES',
-            ]
-
-            const policyEndpointsAndTypes = Object.keys(allDimensies)
-                .filter(
-                    dimensie => !skipDimensies.includes(dimensie as Dimensie)
-                )
-                .map(dimensie => {
-                    return {
-                        endpoint:
-                            allDimensies[dimensie as FilteredDimensies].apiCall,
-                        type: dimensie,
-                    }
-                })
-
-            const axiosRequests = policyEndpointsAndTypes.map(dimensie =>
-                dimensie
-                    .endpoint({
+    /**
+     * Fetch data based on allDimensies
+     */
+    const queries = useQueries({
+        queries: filteredDimensies.map(dimensie => {
+            return {
+                queryFn: () =>
+                    allDimensies[dimensie as FilteredDimensies].apiCall({
                         any_filters:
-                            dimensie.type === 'BELEIDSKEUZES' ||
-                            dimensie.type === 'MAATREGELEN'
-                                ? `Created_By_UUID:${user.UUID},Eigenaar_1_UUID:${user.UUID},Eigenaar_2_UUID:${user.UUID},Opdrachtgever_UUID:${user.UUID}`
-                                : `Created_By_UUID:${user.UUID}`,
-                    })
-                    .then(data => {
-                        if (data.length === 0) return
+                            dimensie === 'BELEIDSKEUZES' ||
+                            dimensie === 'MAATREGELEN'
+                                ? `Created_By_UUID:${user?.UUID},Eigenaar_1_UUID:${user?.UUID},Eigenaar_2_UUID:${user?.UUID},Opdrachtgever_UUID:${user?.UUID}`
+                                : `Created_By_UUID:${user?.UUID}`,
+                    }),
+                queryKey:
+                    allDimensies[dimensie as FilteredDimensies].queryKey(),
+            }
+        }),
+    })
 
-                        const filteredResponse = filterOutArchivedObjects(data)
+    /**
+     * Transform fetched data
+     */
+    const transformedData = useMemo(() => {
+        if (!queries?.length) return
 
-                        // Assign type of dimensie to the object
-                        const newArray = filteredResponse.map((array: any) => {
-                            return {
-                                type: dimensie.type,
-                                object: array,
-                            }
-                        })
+        const items: { type: string; object: DataItem }[] = []
 
-                        return newArray
-                    })
-            )
+        queries.forEach((query, index) => {
+            if (!query.data) return
 
-            Promise.all(axiosRequests)
-                .then(res => {
-                    setPolicies(res)
-                    setDataReceived(true)
+            const filteredResponse = filterOutArchivedObjects(query.data)
+
+            return filteredResponse.forEach(item => {
+                items.push({
+                    type: filteredDimensies[index],
+                    object: item,
                 })
-                .catch(err => {
-                    console.log(err)
-                    toast(process.env.REACT_APP_ERROR_MSG)
-                })
-        }
+            })
+        })
 
-        return getAndSetBeleidVanGebruiker()
-    }, [user])
+        return items
+    }, [queries])
+
+    const isLoading = useMemo(
+        () => !!queries.find(query => query.isLoading),
+        [queries]
+    )
 
     return (
         <div className="MijnBeleid">
-            {dataReceived ? (
+            {!isLoading ? (
                 <>
                     {!hideAddNew ? <AddNewSection /> : null}
                     <ul className="grid grid-cols-2 gap-4">
-                        {policies.map(dimensie => {
+                        {transformedData?.map(dimensie => {
                             if (!dimensie) return null
 
-                            return dimensie.map((policy, index) => {
-                                const overzichtSlug =
-                                    allDimensies[policy.type].SLUG_OVERVIEW
-                                const titleSingular =
-                                    allDimensies[policy.type].TITLE_SINGULAR
+                            const overzichtSlug =
+                                allDimensies[
+                                    dimensie.type as keyof typeof allDimensies
+                                ]?.SLUG_OVERVIEW
+                            const titleSingular =
+                                allDimensies[
+                                    dimensie.type as keyof typeof allDimensies
+                                ]?.TITLE_SINGULAR
 
-                                return (
-                                    <li
-                                        key={policy.object.UUID}
-                                        className={`w-full h-28 display-inline`}>
-                                        {
-                                            <CardObjectDetails
-                                                index={index}
-                                                showTippy
-                                                mijnBeleid
-                                                object={policy.object}
-                                                titleSingular={titleSingular}
-                                                hoofdOnderdeelSlug={
-                                                    overzichtSlug
-                                                }
-                                            />
-                                        }
-                                    </li>
-                                )
-                            })
+                            return (
+                                <li
+                                    key={dimensie.object.UUID}
+                                    className={`w-full h-28 display-inline`}>
+                                    {
+                                        <CardObjectDetails
+                                            object={dimensie.object}
+                                            titleSingular={titleSingular}
+                                            hoofdOnderdeelSlug={
+                                                overzichtSlug || ''
+                                            }
+                                        />
+                                    }
+                                </li>
+                            )
                         })}
-                        {policies.length === 0 ? (
+                        {transformedData?.length === 0 && (
                             <span className="mb-4 text-gray-600 font-italic">
                                 Je hebt nog geen beleid
                             </span>
-                        ) : null}
+                        )}
                     </ul>
                 </>
             ) : (

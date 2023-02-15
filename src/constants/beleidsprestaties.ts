@@ -1,12 +1,14 @@
 import {
     readBeleidsprestaties,
     readValidBeleidsprestaties,
+    getReadBeleidsprestatiesQueryKey,
 } from '@/api/fetchers'
 
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
 export const apiCall = readBeleidsprestaties
 export const validApiCall = readValidBeleidsprestaties
+export const queryKey = getReadBeleidsprestatiesQueryKey
 
 export const TITLE_SINGULAR = 'Beleidsprestatie'
 export const TITLE_SINGULAR_PREFIX = 'de'

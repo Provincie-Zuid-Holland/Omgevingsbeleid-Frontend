@@ -1,9 +1,14 @@
-import { readMaatregelen, readValidMaatregelen } from '@/api/fetchers'
+import {
+    readMaatregelen,
+    readValidMaatregelen,
+    getReadMaatregelenQueryKey,
+} from '@/api/fetchers'
 
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
 export const apiCall = readMaatregelen
 export const validApiCall = readValidMaatregelen
+export const queryKey = getReadMaatregelenQueryKey
 
 export const TITLE_SINGULAR = 'Maatregel'
 export const TITLE_SINGULAR_PREFIX = 'de'

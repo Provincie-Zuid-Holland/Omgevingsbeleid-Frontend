@@ -1,12 +1,14 @@
 import {
     readGebiedsprogrammas,
     readValidGebiedsprogrammas,
+    getReadGebiedsprogrammasQueryKey,
 } from '@/api/fetchers'
 
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
 export const apiCall = readGebiedsprogrammas
 export const validApiCall = readValidGebiedsprogrammas
+export const queryKey = getReadGebiedsprogrammasQueryKey
 
 export const TITLE_SINGULAR = 'Gebiedsprogramma'
 export const TITLE_SINGULAR_PREFIX = 'het'

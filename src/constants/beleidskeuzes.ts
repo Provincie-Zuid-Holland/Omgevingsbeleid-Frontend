@@ -1,9 +1,14 @@
-import { readBeleidskeuzes, readValidBeleidskeuzes } from '@/api/fetchers'
+import {
+    getReadBeleidskeuzesQueryKey,
+    readBeleidskeuzes,
+    readValidBeleidskeuzes,
+} from '@/api/fetchers'
 
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
 export const apiCall = readBeleidskeuzes
 export const validApiCall = readValidBeleidskeuzes
+export const queryKey = getReadBeleidskeuzesQueryKey
 
 export const TITLE_SINGULAR = 'Beleidskeuze'
 export const TITLE_SINGULAR_PREFIX = 'de'

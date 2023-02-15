@@ -1,4 +1,7 @@
-import { customInstance } from '@/api/instance'
+import {
+    getReadVerordeningQueryKey,
+    readVerordeningstructuren,
+} from '@/api/fetchers'
 
 export const TITLE_SINGULAR = 'Verordening'
 export const TITLE_SINGULAR_PREFIX = 'de'
@@ -8,13 +11,8 @@ export const API_ENDPOINT = 'verordeningstructuur'
 
 export const SLUG_OVERVIEW = 'verordeningen'
 
-export const apiCall = (params?: any) => {
-    return customInstance<any[]>({
-        url: `/verordeningstructuur`,
-        method: 'get',
-        params,
-    })
-}
+export const apiCall = readVerordeningstructuren
+export const queryKey = getReadVerordeningQueryKey
 
 export const CRUD_PROPERTIES = {
     Titel: {

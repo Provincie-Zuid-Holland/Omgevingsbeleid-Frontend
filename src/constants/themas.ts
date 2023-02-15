@@ -1,9 +1,14 @@
-import { readThemas, readValidThemas } from '@/api/fetchers'
+import {
+    readThemas,
+    readValidThemas,
+    getReadThemasQueryKey,
+} from '@/api/fetchers'
 
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
 export const apiCall = readThemas
 export const validApiCall = readValidThemas
+export const queryKey = getReadThemasQueryKey
 
 export const TITLE_SINGULAR = 'Thema'
 export const TITLE_SINGULAR_PREFIX = 'het'
