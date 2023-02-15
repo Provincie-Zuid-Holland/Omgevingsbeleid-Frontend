@@ -69,10 +69,10 @@ const SearchResults = () => {
 
     const filteredSearchResults = useMemo(() => {
         const acceptedTypes = [
-            'ambities',
-            'beleidsdoelen',
-            'beleidskeuzes',
-            'maatregelen',
+            'Ambities',
+            'Beleidsdoelen',
+            'Beleidskeuzes',
+            'Maatregelen',
             'Beleidsregels',
         ]
         /**
