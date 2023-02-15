@@ -7,8 +7,10 @@ import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
 
 import {
+    createVerordening,
     getReadVerordeningVersionQueryKey,
     readVerordeningVersion,
+    updateVerordening,
     useReadVerordeningVersion,
 } from '@/api/fetchers'
 import {
@@ -28,8 +30,6 @@ import {
     getChildrenOfSectionFromLineage,
     mutateVerordeningenReadToVerordeningenWrite,
     patchOrPostSectionInVerordening,
-    patchVerordeningSection,
-    postVerordeningSection,
     transformVerordeningenReadToVerordeningChildRead,
 } from '@/utils/verordening'
 
@@ -77,7 +77,7 @@ function VerordeningEdit() {
         [`getVerordeningStructuur/${id}`],
         () =>
             axios
-                .get(`/v0.1/verordeningstructuur/${id}`)
+                .get(`/v0.1/verordeningstructuren/${id}`)
                 .then(res => res.data[0] as VerordeningLineageRead),
         {
             staleTime: 0,
@@ -244,9 +244,9 @@ function VerordeningEdit() {
                                     child as Verordening
                                 )
 
-                            const patchedChild = await patchVerordeningSection(
-                                childInWriteFormat,
-                                child.ID!
+                            const patchedChild = await updateVerordening(
+                                child.ID!,
+                                childInWriteFormat
                             )
 
                             return patchedChild
@@ -261,9 +261,9 @@ function VerordeningEdit() {
                     )
 
                 /** Patch the section */
-                const patchedSection = await patchVerordeningSection(
-                    valuesInWriteFormat,
-                    activeSectionDataFromAPI.ID!
+                const patchedSection = await updateVerordening(
+                    activeSectionDataFromAPI.ID!,
+                    valuesInWriteFormat
                 )
 
                 /** Mutate patched section for verordening structure */
@@ -329,9 +329,9 @@ function VerordeningEdit() {
                                     child as Verordening
                                 )
 
-                            const patchedChild = await patchVerordeningSection(
-                                childInWriteFormat,
-                                child.ID!
+                            const patchedChild = await updateVerordening(
+                                child.ID!,
+                                childInWriteFormat
                             )
 
                             return patchedChild
@@ -346,7 +346,7 @@ function VerordeningEdit() {
                 )
 
                 /** Create Verordening Object from newSection and postObject */
-                const createdSectionFromAPI = await postVerordeningSection({
+                const createdSectionFromAPI = await createVerordening({
                     ...postObject,
                     ...newSection,
                 } as VerordeningCreate)

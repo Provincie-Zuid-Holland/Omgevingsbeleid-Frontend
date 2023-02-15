@@ -1,11 +1,10 @@
 import { Heading, Text } from '@pzh-ui/components'
-import { useQuery } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useWindowSize } from 'react-use'
 
-import axios from '@/api/instance'
+import { useReadValidVerordeningstructuren } from '@/api/fetchers'
 import { Container } from '@/components/Container'
 import { LoaderCard } from '@/components/Loader'
 import VERORDENING from '@/constants/verordeningen'
@@ -20,14 +19,15 @@ function Verordening() {
     const UUIDFromUrl = query.get('actief')
     const [activeArticle, setActiveArticle] = useState(null)
 
-    const { isLoading, data: verordening } = useQuery(['verordening'], () =>
-        axios
-            .get('/v0.1/verordeningstructuur')
-            .then(res =>
-                res.data.find(
-                    (verordening: any) => verordening.Status === 'Vigerend'
-                )
-            )
+    const { isLoading, data: verordeningen } =
+        useReadValidVerordeningstructuren()
+
+    const validVerordening = useMemo(
+        () =>
+            verordeningen?.find(
+                verordening => verordening.Status === 'Vigerend'
+            ),
+        [verordeningen]
     )
 
     useEffect(() => {
@@ -51,7 +51,7 @@ function Verordening() {
             <Helmet>
                 <title>Omgevingsbeleid - Verordening</title>
             </Helmet>
-            <RaadpleegVerordeningSidebar verordening={verordening} />
+            <RaadpleegVerordeningSidebar verordening={validVerordening} />
             <div className="min-h-screen col-span-6 lg:col-span-4">
                 <Heading
                     level="3"
@@ -62,13 +62,14 @@ function Verordening() {
 
                 {!isLoading ? (
                     <Heading level="1" color="text-pzh-blue" className="mt-4">
-                        {verordening.Titel}
+                        {validVerordening?.Titel}
                     </Heading>
                 ) : (
                     <LoaderCard className="mt-6" />
                 )}
 
-                {verordening?.Structuur?.Children.map((chapter: any) => (
+                {/* @ts-ignore */}
+                {validVerordening?.Structuur?.Children.map((chapter: any) => (
                     <VerordeningsSection
                         setActiveArticle={setActiveArticle}
                         key={chapter.UUID}

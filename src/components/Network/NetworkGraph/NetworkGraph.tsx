@@ -6,9 +6,8 @@ import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { matchPath, useLocation } from 'react-router-dom'
 
-import { graph } from '@/api/fetchers'
+import { graph, useReadValidVerordeningstructuren } from '@/api/fetchers'
 import { GraphView, NodeItem } from '@/api/fetchers.schemas'
-import axios from '@/api/instance'
 import networkGraphConnectionProperties from '@/constants/networkGraphConnectionProperties'
 import networkGraphFilterMenu from '@/constants/networkGraphFilterMenu'
 import usePage from '@/hooks/usePage'
@@ -70,18 +69,7 @@ const NetworkGraph = () => {
     const userIsInMuteerEnvironment = usePage('/muteer/')
     const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
 
-    const { data: verordeningsStructure } = useQuery(
-        ['/verordeningstructuur'],
-        () =>
-            axios
-                .get('/v0.1/verordeningstructuur')
-                .then(res =>
-                    res.data.find(
-                        (item: { Status: string }) => item.Status === 'Vigerend'
-                    )
-                ),
-        { refetchOnMount: true, staleTime: 0 }
-    )
+    const { data: verordeningsStructure } = useReadValidVerordeningstructuren()
 
     const {
         isInitialLoading: isLoading,

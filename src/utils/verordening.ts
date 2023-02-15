@@ -1,11 +1,7 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import cloneDeep from 'lodash.clonedeep'
 
-import {
-    createVerordening,
-    readVerordeningVersion,
-    updateVerordening,
-} from '@/api/fetchers'
+import { createVerordening } from '@/api/fetchers'
 import {
     Verordening,
     VerordeningCreate,
@@ -38,7 +34,7 @@ export const getGeoValueFromFormikValues = (values: any) => {
  * @returns A promise that resolves to a VerordeningenRead with type Lid
  */
 export const createVerordeningLid = async (lid: Partial<VerordeningCreate>) => {
-    return await postVerordeningSection({
+    return await createVerordening({
         ...lid,
         Type: 'Lid',
         Status: 'Vigerend',
@@ -138,35 +134,6 @@ export const mutateVerordeningenReadToVerordeningenWrite = (
 
     return writeObject
 }
-
-export const patchVerordeningSection = (
-    values: VerordeningUpdate,
-    lineageID: number
-) => updateVerordening(lineageID, values).then(res => res)
-
-export const useGetVerordeningenStructuren = () =>
-    useQuery(['/verordeningstructuur'], () =>
-        axios.get('/v0.1/verordeningstructuur').then(res => res.data)
-    )
-
-export const useGetVerordeningenStructurenLineageId = (lineageID: string) =>
-    useQuery(
-        [`/verordeningstructuur/${lineageID}`],
-        () =>
-            axios
-                .get(`/v0.1/verordeningstructuur/${lineageID}`)
-                .then(res => res.data),
-        {
-            enabled: !!lineageID,
-        }
-    )
-
-export const postVerordeningSection = (values: VerordeningCreate) =>
-    createVerordening(values).then(res => res)
-
-export const getChildrenOfSectionFromAPI = (
-    children: VerordeningStructureChild[]
-) => Promise.all([children.map(child => readVerordeningVersion(child.UUID))])
 
 export const getChildrenOfSectionFromLineage = (
     sectionIndexPath: number[],

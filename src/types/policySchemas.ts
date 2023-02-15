@@ -76,6 +76,13 @@ import {
     useReadValidGebiedsprogrammaLineage,
     useReadGebiedsprogrammaLineage,
     useReadGebiedsprogrammaVersion,
+    useReadVerordeningstructuren,
+    useCreateVerordeningstructuur,
+    useUpdateVerordeningstructuur,
+    useReadValidVerordeningstructuren,
+    useReadVerordeningstructuurLineage,
+    useReadVerordeningstructuurVersion,
+    useReadValidVerordeningstructuurLineage,
 } from '@/api/fetchers'
 import {
     PolicyTitlesPlural,
@@ -111,6 +118,7 @@ type QueryUseGet =
     | typeof useReadThemas
     | typeof useReadVerordening
     | typeof useReadGebiedsprogrammas
+    | typeof useReadVerordeningstructuren
 
 type QueryUsePost =
     | typeof useCreateAmbitie
@@ -124,6 +132,7 @@ type QueryUsePost =
     | typeof useCreateThema
     | typeof useCreateVerordening
     | typeof useCreateGebiedsprogramma
+    | typeof useCreateVerordeningstructuur
 
 type QueryUsePatchLineage =
     | typeof useUpdateAmbitie
@@ -137,6 +146,7 @@ type QueryUsePatchLineage =
     | typeof useUpdateThema
     | typeof useUpdateVerordening
     | typeof useUpdateGebiedsprogramma
+    | typeof useUpdateVerordeningstructuur
 
 type QueryUseGetValid =
     | typeof useReadValidAmbities
@@ -150,6 +160,7 @@ type QueryUseGetValid =
     | typeof useReadValidThemas
     | typeof useReadValidVerordening
     | typeof useReadValidGebiedsprogrammas
+    | typeof useReadValidVerordeningstructuren
 
 type QueryUseGetValidLineage =
     | typeof useReadValidAmbitieLineage
@@ -163,6 +174,7 @@ type QueryUseGetValidLineage =
     | typeof useReadValidThemaLineage
     | typeof useReadValidVerordeningLineage
     | typeof useReadValidGebiedsprogrammaLineage
+    | typeof useReadValidVerordeningstructuurLineage
 
 type QueryUseGetLineage =
     | typeof useReadAmbitieLineage
@@ -176,6 +188,7 @@ type QueryUseGetLineage =
     | typeof useReadThemaLineage
     | typeof useReadVerordeningLineage
     | typeof useReadGebiedsprogrammaLineage
+    | typeof useReadVerordeningstructuurLineage
 
 export type QueryUseGetVersion =
     | typeof useReadAmbitieVersion
@@ -189,6 +202,7 @@ export type QueryUseGetVersion =
     | typeof useReadThemaVersion
     | typeof useReadVerordeningVersion
     | typeof useReadGebiedsprogrammaVersion
+    | typeof useReadVerordeningstructuurVersion
 
 export type SchemaMetaQueries = {
     usePost: QueryUsePost
