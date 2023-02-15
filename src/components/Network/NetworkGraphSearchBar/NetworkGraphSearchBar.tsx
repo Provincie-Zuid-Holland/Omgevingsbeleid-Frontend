@@ -1,8 +1,8 @@
 import { Transition } from '@headlessui/react'
-import { MagnifyingGlass } from '@pzh-ui/icons'
+import { MagnifyingGlass, Xmark } from '@pzh-ui/icons'
 import { Selection } from 'd3'
 import { KeyboardEvent, useEffect, useRef, useState } from 'react'
-import { useClickAway } from 'react-use'
+import { useClickAway, useMedia } from 'react-use'
 
 import networkGraphConnectionProperties from '@/constants/networkGraphConnectionProperties'
 import { getFilteredData } from '@/utils/networkGraph'
@@ -47,13 +47,14 @@ const NetworkGraphSearchBar = ({
     const [links, setLinks] = useState<any>(null)
     const [searchResultsOpen, setSearchResultsOpen] = useState(true)
     const innerContainer = useRef(null)
+    const isMobile = useMedia('(max-width: 768)')
 
     useClickAway(innerContainer, () => {
         setSearchResultsOpen(false)
     })
 
     const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.keyCode === 40 && searchQuery.length > 0) {
+        if (e.key === 'ArrowDown' && searchQuery.length > 0) {
             // Arrow Down key
             e.preventDefault()
 
@@ -61,7 +62,7 @@ const NetworkGraphSearchBar = ({
                 `[data-index='1']`
             )[0] as HTMLLIElement
             el.focus()
-        } else if (e.keyCode === 27) {
+        } else if (e.key === 'Escape') {
             // Escape key
             setSearchResultsOpen(false)
         }
@@ -82,19 +83,21 @@ const NetworkGraphSearchBar = ({
     }, [clickedNode])
 
     return (
-        <div className="w-full" ref={innerContainer}>
-            <div className="relative z-20 pointer-events-auto">
+        <div ref={innerContainer} className="w-full">
+            <div className="relative z-10">
                 <input
                     autoComplete="off"
                     onKeyDown={handleKeyDown}
                     disabled={clickedNode}
-                    className={`block w-full pl-10 pr-24 md:pr-4 pt-2 pb-1 leading-tight text-gray-700 border border-gray-200 rounded appearance-none focus:outline-none hover:border-gray-300 focus:border-gray-400 ${
+                    className={`block w-full pl-4 pr-24 md:pr-4 pt-2 pb-1 text-gray-700 border border-pzh-gray-400 rounded appearance-none focus:outline-none ${
                         searchQuery !== '' && searchResultsOpen
                             ? 'rounded-b-none'
                             : ''
                     }`}
                     id="network-graph-search-query"
-                    placeholder="Zoek op beleid"
+                    placeholder={
+                        isMobile ? 'Zoeken' : 'Zoek op titel van beleid'
+                    }
                     type="text"
                     value={searchQuery}
                     onChange={event => setSearchQuery(event.target.value)}
@@ -102,26 +105,24 @@ const NetworkGraphSearchBar = ({
                     onClick={() => setSearchResultsOpen(true)}
                 />
                 <div
-                    className={`absolute top-0 left-0 flex items-center justify-between w-full h-full px-4 pointer-events-none`}>
-                    <MagnifyingGlass className="mr-2 text-gray-800" />
-                    <div
-                        className={`pt-1 text-sm text-gray-700 underline select-none ${
-                            clickedNode
-                                ? ''
-                                : 'cursor-pointer pointer-events-auto'
-                        }`}
-                        onClick={() =>
-                            setSearchResultsOpen(!searchResultsOpen)
-                        }>
-                        {searchResultsOpen && searchQuery.length > 0 ? (
-                            <span>Verberg resultaten</span>
-                        ) : searchQuery.length > 0 ? (
-                            <span>Toon resultaten</span>
-                        ) : null}
-                    </div>
+                    className={`absolute top-0 left-0 flex items-center justify-end w-full h-full px-4 pointer-events-none`}>
+                    <button
+                        type="button"
+                        className="flex items-center justify-center p-2 pointer-events-auto"
+                        onClick={() => {
+                            if (searchQuery !== '') {
+                                setSearchQuery('')
+                            }
+                        }}>
+                        {searchQuery === '' ? (
+                            <MagnifyingGlass className="text-gray-800" />
+                        ) : (
+                            <Xmark className="text-gray-800" />
+                        )}
+                    </button>
                 </div>
             </div>
-            <div className="relative pointer-events-auto">
+            <div className="relative z-10">
                 <NetworkGraphSearchBarResults
                     show={searchQuery !== '' && searchResultsOpen}
                     handleNodeClick={handleNodeClick}
@@ -183,7 +184,7 @@ const NetworkGraphSearchBarResults = ({
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 -translate-y-3">
             <ul
-                className="w-full overflow-hidden overflow-y-auto bg-white border border-t-0 border-gray-200 rounded-b-md"
+                className="absolute top-0 left-0 w-full overflow-hidden overflow-y-auto bg-white border border-t-0 border-pzh-gray-400 rounded-b-md"
                 style={{ maxHeight: '400px' }}>
                 {filteredData
                     .filter(filterBasedOnSearchQuery)

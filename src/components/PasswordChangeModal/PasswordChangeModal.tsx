@@ -191,12 +191,12 @@ export default function PasswordChangeModal({
                                 Annuleren
                             </button>
                             <Button
-                                disabled={!isValid && !isSubmitting}
+                                isDisabled={!isValid && !isSubmitting}
                                 type="submit"
                                 variant="cta"
-                                label="Wijzig"
-                                isLoading={loading}
-                            />
+                                isLoading={loading}>
+                                Wijzig
+                            </Button>
                         </div>
                     </Form>
                 )}

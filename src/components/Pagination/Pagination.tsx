@@ -85,10 +85,9 @@ function Pagination({
                     <span>Resultaten worden geladen</span>
                 </div>
             ) : (
-                <Button
-                    label="Meer resultaten laden"
-                    onClick={getNewSearchResults}
-                />
+                <Button onPress={getNewSearchResults}>
+                    Meer resultaten laden
+                </Button>
             )}
         </div>
     )

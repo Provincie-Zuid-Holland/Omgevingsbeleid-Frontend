@@ -238,7 +238,7 @@ describe('RelatiesKoppelingenVisualisatie', () => {
 
     it('Component renders', () => {
         setup()
-        const element = screen.getByText('Netwerkvisualisatie')
+        const element = screen.getByText('Beleidsnetwerk')
         expect(element).toBeTruthy()
     })
 })

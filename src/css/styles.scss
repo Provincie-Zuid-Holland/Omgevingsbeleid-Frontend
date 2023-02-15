@@ -564,3 +564,7 @@ ol li .revision-removal {
         right: 10px;
     }
 }
+
+#active-circle-node {
+    filter: drop-shadow(rgba(149, 157, 165, 0.5) 0px 1px 4px);
+}

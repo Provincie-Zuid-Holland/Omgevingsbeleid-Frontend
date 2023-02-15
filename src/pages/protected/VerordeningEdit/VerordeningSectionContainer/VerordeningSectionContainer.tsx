@@ -132,7 +132,7 @@ const VerordeningSectionContainer: FC<VerordeningSectionContainerProps> = ({
                                         type="button"
                                         variant="secondary"
                                         className="w-full"
-                                        onClick={() => {
+                                        onPress={() => {
                                             dispatch({
                                                 type: 'setIsEditingOrder',
                                                 payload: !isEditingOrder,
@@ -146,7 +146,7 @@ const VerordeningSectionContainer: FC<VerordeningSectionContainerProps> = ({
                                 type="button"
                                 variant="secondary"
                                 className="w-full mt-2"
-                                onClick={() => {
+                                onPress={() => {
                                     dispatch({
                                         type: 'setIsAddingSection',
                                         payload: !isAddingSection,
@@ -171,7 +171,7 @@ const VerordeningSectionContainer: FC<VerordeningSectionContainerProps> = ({
                                     className="mt-2 mr-2"
                                     variant="secondary"
                                     type="button"
-                                    onClick={() =>
+                                    onPress={() =>
                                         dispatch({
                                             type: 'setIsEditingOrder',
                                             payload: false,
@@ -181,11 +181,11 @@ const VerordeningSectionContainer: FC<VerordeningSectionContainerProps> = ({
                                 </Button>
                                 <Button
                                     icon={FloppyDisk}
-                                    disabled={isLoadingOrSaving}
+                                    isDisabled={isLoadingOrSaving}
                                     className="mt-2"
                                     variant="cta"
                                     type="button"
-                                    onClick={async () => {
+                                    onPress={async () => {
                                         dispatch({
                                             type: 'setIsLoadingOrSaving',
                                             payload: true,
@@ -257,7 +257,7 @@ const VerordeningSectionContainer: FC<VerordeningSectionContainerProps> = ({
                                     className="mt-2"
                                     variant="secondary"
                                     type="button"
-                                    onClick={() =>
+                                    onPress={() =>
                                         dispatch({
                                             type: 'setIsAddingSection',
                                             payload: false,

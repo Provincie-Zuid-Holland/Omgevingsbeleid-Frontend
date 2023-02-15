@@ -19,12 +19,7 @@ const FormSubmitOrCancel = ({ reset }: FormSubmitOrCancelProps) => {
             <Button
                 variant="cta"
                 type="submit"
-                onClick={e => {
-                    if (isLoadingOrSaving) {
-                        e.preventDefault()
-                    }
-                }}
-                disabled={isLoadingOrSaving}
+                isDisabled={isLoadingOrSaving}
                 className="ml-1">
                 {isLoadingOrSaving ? (
                     <Spinner className="rotate-icon" />
@@ -35,12 +30,12 @@ const FormSubmitOrCancel = ({ reset }: FormSubmitOrCancelProps) => {
             <Button
                 type="button"
                 variant="primary"
-                onClick={() => {
+                onPress={() => {
                     if (reset) reset()
                     resetForm({ values: {} })
                     dispatch({ type: 'resetEditingSection' })
                 }}
-                disabled={isLoadingOrSaving}
+                isDisabled={isLoadingOrSaving}
                 className="ml-1">
                 <Xmark size={18} />
             </Button>
