@@ -6,7 +6,7 @@
         This API serves all the object that make up the policies 
         of a provincial government. 
         
- * OpenAPI spec version: 1.1.17
+ * OpenAPI spec version: 1.1.19
  */
 export type ReadValidWerkingsgebiedLineageParams = {
     offset?: number
@@ -392,7 +392,7 @@ export interface Werkingsgebied {
 export interface VerordeningstructuurUpdate {
     Titel?: string
     Structuur?: string
-    Status?: Status
+    Status?: string
     Begin_Geldigheid?: string
     Eind_Geldigheid?: string
 }
@@ -400,7 +400,7 @@ export interface VerordeningstructuurUpdate {
 export interface VerordeningstructuurCreate {
     Titel: string
     Structuur: string
-    Status?: Status
+    Status?: string
     Begin_Geldigheid: string
     Eind_Geldigheid: string
 }
@@ -408,7 +408,7 @@ export interface VerordeningstructuurCreate {
 export interface Verordeningstructuur {
     Titel: string
     Structuur: string
-    Status?: Status
+    Status?: string
     ID: number
     UUID: string
     Created_By: GebruikerInline
@@ -791,12 +791,12 @@ export interface Maatregel {
     Aanpassing_Op?: string
     Created_By: GebruikerInline
     Modified_By: GebruikerInline
-    Eigenaar_1: GebruikerInline
-    Eigenaar_2: GebruikerInline
-    Portefeuillehouder_1: GebruikerInline
-    Portefeuillehouder_2: GebruikerInline
-    Opdrachtgever: GebruikerInline
-    Gebied: WerkingsgebiedShortInline
+    Eigenaar_1?: GebruikerInline
+    Eigenaar_2?: GebruikerInline
+    Portefeuillehouder_1?: GebruikerInline
+    Portefeuillehouder_2?: GebruikerInline
+    Opdrachtgever?: GebruikerInline
+    Gebied?: WerkingsgebiedShortInline
     Ref_Beleidskeuzes: BeleidskeuzeReference[]
     Ref_Beleidsmodules: BeleidskeuzeReference[]
     Ref_Gebiedsprogrammas: GebiedsprogrammaReference[]
@@ -1000,10 +1000,10 @@ export interface Beleidsrelatie {
     Datum_Akkoord?: string
     ID: number
     UUID: string
-    Created_By: GebruikerInline
-    Created_Date: string
-    Modified_By: GebruikerInline
-    Modified_Date: string
+    Created_By?: GebruikerInline
+    Created_Date?: string
+    Modified_By?: GebruikerInline
+    Modified_Date?: string
     Begin_Geldigheid?: string
     Eind_Geldigheid?: string
     Van_Beleidskeuze: Beleidskeuze
