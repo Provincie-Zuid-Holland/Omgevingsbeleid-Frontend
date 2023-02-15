@@ -23,8 +23,8 @@ const SearchFilterSection = ({ loaded, hideLabels }: SearchFilterSection) => {
 
     const searchFilterCategories: { [key: string]: string[] } = useMemo(
         () => ({
-            Omgevingsvisie: ['ambities', 'beleidsdoelen', 'beleidskeuzes'],
-            Omgevingsprogramma: ['maatregelen'],
+            Omgevingsvisie: ['Ambities', 'Beleidsdoelen', 'Beleidskeuzes'],
+            Omgevingsprogramma: ['Maatregelen'],
             Uitvoering: ['Beleidsregels'],
         }),
         []
