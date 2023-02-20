@@ -259,12 +259,26 @@ const OverviewDropdown = ({
                 />
                 <EllipsisVertical />
             </button>
-            <PopUpAddPolicyToModule
-                isOpen={modulesPopup}
-                setIsOpen={setModulesPopup}
-                policy={policy as Beleidskeuze | Maatregel}
-                titleSingular={titleSingular as 'Beleidskeuze' | 'Maatregel'}
-            />
+            {titleSingular === 'Maatregel' ||
+                titleSingular === 'Beleidskeuze' ||
+                (titleSingular === 'Gebiedsprogramma' && (
+                    <PopUpAddPolicyToModule
+                        isOpen={modulesPopup}
+                        setIsOpen={setModulesPopup}
+                        policy={
+                            policy as
+                                | Beleidskeuze
+                                | Maatregel
+                                | Gebiedsprogramma
+                        }
+                        titleSingular={
+                            titleSingular as
+                                | 'Beleidskeuze'
+                                | 'Maatregel'
+                                | 'Gebiedsprogramma'
+                        }
+                    />
+                ))}
         </>
     )
 }
