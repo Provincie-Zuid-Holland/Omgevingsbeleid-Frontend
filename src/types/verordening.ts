@@ -1,10 +1,11 @@
+export interface VerordeningStructuur {
+    Children: VerordeningStructureChild[]
+}
 export interface VerordeningLineageRead {
     ID: number
     UUID: string
     Titel: string
-    Structuur: {
-        Children: VerordeningStructureChild[]
-    }
+    Structuur: VerordeningStructuur
     Begin_Geldigheid: Date
     Eind_Geldigheid: Date
     Created_By: string

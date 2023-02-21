@@ -76,6 +76,10 @@ import {
     useReadValidGebiedsprogrammaLineage,
     useReadGebiedsprogrammaLineage,
     useReadGebiedsprogrammaVersion,
+    useReadVerordeningstructuren,
+    useCreateVerordeningstructuur,
+    useReadVerordeningstructuurLineage,
+    useUpdateVerordeningstructuur,
 } from '@/api/fetchers'
 import {
     PolicyTitlesPlural,
@@ -110,6 +114,7 @@ type QueryUseGet =
     | typeof useReadMaatregelen
     | typeof useReadThemas
     | typeof useReadVerordening
+    | typeof useReadVerordeningstructuren
     | typeof useReadGebiedsprogrammas
 
 type QueryUsePost =
@@ -123,6 +128,7 @@ type QueryUsePost =
     | typeof useCreateMaatregel
     | typeof useCreateThema
     | typeof useCreateVerordening
+    | typeof useCreateVerordeningstructuur
     | typeof useCreateGebiedsprogramma
 
 type QueryUsePatchLineage =
@@ -136,6 +142,7 @@ type QueryUsePatchLineage =
     | typeof useUpdateMaatregel
     | typeof useUpdateThema
     | typeof useUpdateVerordening
+    | typeof useUpdateVerordeningstructuur
     | typeof useUpdateGebiedsprogramma
 
 type QueryUseGetValid =
@@ -175,6 +182,7 @@ type QueryUseGetLineage =
     | typeof useReadMaatregelLineage
     | typeof useReadThemaLineage
     | typeof useReadVerordeningLineage
+    | typeof useReadVerordeningstructuurLineage
     | typeof useReadGebiedsprogrammaLineage
 
 export type QueryUseGetVersion =

@@ -9,19 +9,21 @@ import { useParams } from 'react-router-dom'
 import {
     getReadVerordeningVersionQueryKey,
     readVerordeningVersion,
+    useReadVerordeningstructuurLineage,
     useReadVerordeningVersion,
 } from '@/api/fetchers'
 import {
     Verordening,
     VerordeningCreate,
+    Verordeningstructuur,
     VerordeningUpdate,
 } from '@/api/fetchers.schemas'
-import axios from '@/api/instance'
 import { Container } from '@/components/Container'
 import { ExtendTypesWithNull } from '@/types/dimensions'
 import {
     VerordeningLineageRead,
     VerordeningStructureChild,
+    VerordeningStructuur,
 } from '@/types/verordening'
 import handleError from '@/utils/handleError'
 import {
@@ -73,17 +75,55 @@ function VerordeningEdit() {
         dispatch({ type: 'setIsLoadingOrSaving', payload: isLoadingVersion })
     }, [isLoadingVersion, dispatch])
 
-    const { data: verordening } = useQuery(
-        [`getVerordeningStructuur/${id}`],
-        () =>
-            axios
-                .get(`/v0.1/verordeningstructuur/${id}`)
-                .then(res => res.data[0] as VerordeningLineageRead),
-        {
+    const { data } = useReadVerordeningstructuurLineage(parseInt(id!), {
+        query: {
+            enabled: typeof id === 'string',
             staleTime: 0,
             refetchOnMount: true,
-        }
-    )
+        },
+    })
+
+    // const parseVerordeningStructure = (
+    //     verordening: Verordeningstructuur | undefined
+    // ) => {
+    //     if (!verordening) return null
+    //     const structure = verordening.Structuur
+    //     // Deep clone the structure
+    //     const verordeningMutated = {
+    //         ...verordening,
+    //         Structuur: JSON.parse(structure),
+    //     } as VerordeningLineageRead
+    //     const parsedStructure: VerordeningStructuur = JSON.parse(structure)
+
+    //     verordeningMutated.Structuur = parsedStructure
+
+    //     return verordeningMutated
+    // }
+
+    // const stringifyVerordeningStructure = (
+    //     verordening: Verordeningstructuur
+    // ) => {
+    //     const structure = verordening.Structuur
+    //     // Deep clone the structure
+    //     const verordeningMutated = cloneDeep(verordening)
+    //     verordeningMutated.Structuur = JSON.stringify(structure)
+    //     return verordeningMutated
+    // }
+
+    // TODO: FIX API IMPLEMENTATION
+    const verordening = data?.[0] as unknown as VerordeningLineageRead
+
+    // const { data: verordening } = useQuery(
+    //     [`getVerordeningStructuur/${id}`],
+    //     () =>
+    //         axios
+    //             .get(`/v0.1/verordeningstructuur/${id}`)
+    //             .then(res => res.data[0] as VerordeningLineageRead),
+    //     {
+    //         staleTime: 0,
+    //         refetchOnMount: true,
+    //     }
+    // )
 
     /**
      * Set activeSectionDataFromAPI in state as activeSectionData.

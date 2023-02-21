@@ -81,7 +81,7 @@ const formatConnectionsForAPI = (
         if ('Gebied' in crudObject && crudObject.Gebied !== undefined) {
             formattedMaatregel.Gebied_UUID = (
                 crudObject as Maatregel
-            ).Gebied.UUID
+            )?.Gebied?.UUID
         }
 
         return formattedMaatregel as MutateWriteObjects

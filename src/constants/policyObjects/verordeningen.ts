@@ -53,11 +53,7 @@ export const SCHEMA: ObjectSchema<
         .default(undefined)
         .nullable(),
     Status: mixed().oneOf(['Vigerend', 'Concept', 'Vervallen']).required(),
-    Structuur: object<VerordeningStructureChild>({
-        Children: array()
-            .of(lazy(() => object()))
-            .default([]),
-    }),
+    Structuur: string().default(''),
     Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.required,
     Eind_Geldigheid: schemaDefaults.Eind_Geldigheid.required(),
 }).meta(verordeningenMeta)

@@ -159,7 +159,7 @@ const MutatePolicy = ({ policyConstants }: MutatePolicyPageProps) => {
         if (objectID) {
             mutatePolicyLineage.mutate({
                 lineageId: parseInt(objectID),
-                data: formattedFormState,
+                data: formattedFormState as any,
             })
         } else {
             // @ts-ignore

@@ -8,6 +8,7 @@ import {
     Beleidsregel,
     Maatregel,
     Thema,
+    Verordeningstructuur,
 } from '@/api/fetchers.schemas'
 import { PolicyTitlesSingular } from '@/constants/policyObjects'
 
@@ -22,6 +23,7 @@ export const getLatestObjectFromLineage = (
         | Beleidsregel
         | Maatregel
         | Thema
+        | Verordeningstructuur
     >,
     titleSingular: PolicyTitlesSingular,
     modus: string | null

@@ -37,6 +37,9 @@ import {
     GebiedsprogrammaCreate,
     GebiedsprogrammaUpdate,
     RelatedGebiedsprogramma,
+    Verordeningstructuur,
+    VerordeningstructuurCreate,
+    VerordeningstructuurUpdate,
 } from '@/api/fetchers.schemas'
 
 /**
@@ -75,6 +78,7 @@ export type MutateReadObjects =
     | Belang
     | Ambitie
     | Gebiedsprogramma
+    | Verordeningstructuur
 
 export type MutateWriteObjects =
     | ThemaCreate
@@ -87,6 +91,20 @@ export type MutateWriteObjects =
     | BelangCreate
     | AmbitieCreate
     | GebiedsprogrammaCreate
+    | VerordeningstructuurCreate
+
+export type MutatePatchObjects =
+    | ThemaUpdate
+    | MaatregelUpdate
+    | BeleidsregelUpdate
+    | BeleidsprestatieUpdate
+    | BeleidsmoduleUpdate
+    | BeleidskeuzeUpdate
+    | BeleidsdoelUpdate
+    | BelangUpdate
+    | AmbitieUpdate
+    | GebiedsprogrammaUpdate
+    | VerordeningstructuurUpdate
 
 export type TransformedMutateWriteObjects =
     | MutatedPolicySchema<ThemaUpdate>
@@ -99,6 +117,7 @@ export type TransformedMutateWriteObjects =
     | MutatedPolicySchema<BelangUpdate>
     | MutatedPolicySchema<AmbitieUpdate>
     | MutatedPolicySchema<GebiedsprogrammaUpdate>
+    | MutatedPolicySchema<VerordeningstructuurUpdate>
 
 export type BeleidskeuzeConnections =
     | RelatedVerordeningen

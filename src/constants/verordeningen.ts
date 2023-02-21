@@ -11,7 +11,7 @@ export const queryKey = getReadVerordeningQueryKey
 
 const TITLE_SINGULAR = 'Verordening'
 const TITLE_PLURAL = 'Verordeningen'
-const API_ENDPOINT = 'verordeningen'
+const API_ENDPOINT = 'verordeningstructuren'
 const SLUG_OVERVIEW = 'verordeningen'
 
 const VERORDENING = {
