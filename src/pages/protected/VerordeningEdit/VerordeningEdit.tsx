@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikState } from 'formik'
 import { MotionConfig } from 'framer-motion'
 import cloneDeep from 'lodash.clonedeep'
@@ -17,7 +17,6 @@ import {
 import {
     Verordening,
     VerordeningCreate,
-    Verordeningstructuur,
     VerordeningUpdate,
 } from '@/api/fetchers.schemas'
 import { Container } from '@/components/Container'
@@ -25,7 +24,6 @@ import { ExtendTypesWithNull } from '@/types/dimensions'
 import {
     VerordeningLineageRead,
     VerordeningStructureChild,
-    VerordeningStructuur,
 } from '@/types/verordening'
 import handleError from '@/utils/handleError'
 import {
