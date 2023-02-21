@@ -1,11 +1,14 @@
 import { Heading, Text } from '@pzh-ui/components'
-import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useWindowSize } from 'react-use'
 
-import axios from '@/api/instance'
+import {
+    useReadValidVerordeningstructuren,
+    // useReadVerordeningstructuren,
+} from '@/api/fetchers'
+import { Verordeningstructuur } from '@/api/fetchers.schemas'
 import { Container } from '@/components/Container'
 import { LoaderCard } from '@/components/Loader'
 import VERORDENING from '@/constants/verordeningen'
@@ -19,16 +22,11 @@ function Verordening() {
     const query = useURLQuery()
     const UUIDFromUrl = query.get('actief')
     const [activeArticle, setActiveArticle] = useState(null)
-
-    const { isLoading, data: verordening } = useQuery(['verordening'], () =>
-        axios
-            .get('/v0.1/verordeningstructuur')
-            .then(res =>
-                res.data.find(
-                    (verordening: any) => verordening.Status === 'Vigerend'
-                )
-            )
+    const [verordening, setVerordening] = useState<null | Verordeningstructuur>(
+        null
     )
+
+    const { isLoading, data } = useReadValidVerordeningstructuren()
 
     useEffect(() => {
         const scrollIntoView = (UUIDFromUrl: string) => {
@@ -45,6 +43,17 @@ function Verordening() {
 
         scrollIntoView(UUIDFromUrl || '')
     }, [UUIDFromUrl, windowSize, isLoading])
+
+    useEffect(() => {
+        const activeVerordening = data?.find(
+            (verordening: any) => verordening.Status === 'Vigerend'
+        )
+        if (activeVerordening) {
+            setVerordening(activeVerordening)
+        }
+    }, [data])
+
+    if (!verordening) return null
 
     return (
         <Container className="pt-16 lg:pt-8">
@@ -68,13 +77,14 @@ function Verordening() {
                     <LoaderCard className="mt-6" />
                 )}
 
-                {verordening?.Structuur?.Children.map((chapter: any) => (
+                {/* TODO: FIX API IMPLEMENTATION  */}
+                {/* {verordening?.Structuur?.Children.map((chapter: any) => (
                     <VerordeningsSection
                         setActiveArticle={setActiveArticle}
                         key={chapter.UUID}
                         section={chapter}
                     />
-                ))}
+                ))} */}
 
                 {activeArticle ? (
                     <RaadpleegVerordeningPopupDetail

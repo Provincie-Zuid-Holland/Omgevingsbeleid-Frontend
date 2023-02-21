@@ -182,11 +182,11 @@ const NavigationPopupMenu = ({
                                         to="/beleidsregels"
                                     />
 
-                                    <ListItem
+                                    {/* <ListItem
                                         text="Verordening"
                                         setIsOpen={setIsOpen}
                                         to="/verordening"
-                                    />
+                                    /> */}
                                 </ul>
                             </div>
                             <div className="col-span-6 mt-6 md:col-span-2">

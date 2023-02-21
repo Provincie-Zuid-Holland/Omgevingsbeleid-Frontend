@@ -83,33 +83,6 @@ function VerordeningEdit() {
         },
     })
 
-    // const parseVerordeningStructure = (
-    //     verordening: Verordeningstructuur | undefined
-    // ) => {
-    //     if (!verordening) return null
-    //     const structure = verordening.Structuur
-    //     // Deep clone the structure
-    //     const verordeningMutated = {
-    //         ...verordening,
-    //         Structuur: JSON.parse(structure),
-    //     } as VerordeningLineageRead
-    //     const parsedStructure: VerordeningStructuur = JSON.parse(structure)
-
-    //     verordeningMutated.Structuur = parsedStructure
-
-    //     return verordeningMutated
-    // }
-
-    // const stringifyVerordeningStructure = (
-    //     verordening: Verordeningstructuur
-    // ) => {
-    //     const structure = verordening.Structuur
-    //     // Deep clone the structure
-    //     const verordeningMutated = cloneDeep(verordening)
-    //     verordeningMutated.Structuur = JSON.stringify(structure)
-    //     return verordeningMutated
-    // }
-
     // TODO: FIX API IMPLEMENTATION
     const verordening = data?.[0] as unknown as VerordeningLineageRead
 

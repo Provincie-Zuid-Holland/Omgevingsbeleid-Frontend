@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import cloneDeep from 'lodash.clonedeep'
 
 import {
@@ -376,3 +376,31 @@ export const patchVerordeningStructureChildren = (
         .then(res => res.data)
         .catch(err => console.log(err))
 }
+
+// TODO: FIX API IMPLEMENTATION
+// export const parseVerordeningStructure = (
+//     verordening: Verordeningstructuur | undefined
+// ) => {
+//     if (!verordening) return null
+//     const structure = verordening.Structuur
+//     // Deep clone the structure
+//     const verordeningMutated = {
+//         ...verordening,
+//         Structuur: JSON.parse(structure) as VerordeningStructuur,
+//         Begin_Geldigheid: new Date(verordening.Begin_Geldigheid),
+//         Eind_Geldigheid: new Date(verordening.Eind_Geldigheid),
+//     } as VerordeningLineageRead
+
+//     return verordeningMutated
+// }
+
+// TODO: FIX API IMPLEMENTATION
+// export const stringifyVerordeningStructure = (
+//     verordening: Verordeningstructuur
+// ) => {
+//     const structure = verordening.Structuur
+//     // Deep clone the structure
+//     const verordeningMutated = cloneDeep(verordening)
+//     verordeningMutated.Structuur = JSON.stringify(structure)
+//     return verordeningMutated
+// }
