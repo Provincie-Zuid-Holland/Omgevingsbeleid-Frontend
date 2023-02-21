@@ -147,6 +147,11 @@ const gebiedsprogrammaEmptyWrite: GebiedsprogrammasWrite = {
     Begin_Geldigheid: undefined,
     Eind_Geldigheid: undefined,
     Status: undefined,
+    Opdrachtgever: undefined,
+    Portefeuillehouder_1: undefined,
+    Portefeuillehouder_2: undefined,
+    Eigenaar_1: undefined,
+    Eigenaar_2: undefined,
 }
 
 export const getWriteObjectProperties = (titleSingular: string) => {
