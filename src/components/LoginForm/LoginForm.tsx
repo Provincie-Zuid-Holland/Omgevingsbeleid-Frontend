@@ -34,18 +34,13 @@ const LoginForm = () => {
 
     const [wachtwoordResetPopup, setWachtwoordResetPopup] = useState(false)
     const [error, setError] = useState(null)
-    const [loading, setLoading] = useState(false)
 
     const handleFormSubmit = ({ email, password }: FormProps) => {
-        setLoading(true)
-
         signin(email, password)
             .then(() => {
-                setLoading(false)
                 navigate('/muteer/dashboard', { replace: true })
             })
             .catch(err => {
-                setLoading(false)
                 setError(err?.data?.message || 'Er is iets mis gegaan.')
             })
     }
