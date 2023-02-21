@@ -35,6 +35,11 @@ function ButtonSubmitFixed({
                     id="form-submit"
                     type="button"
                     onPress={submit}
+                    onKeyDown={e => {
+                        if (e.key === 'Enter') {
+                            submit()
+                        }
+                    }}
                     isDisabled={disabled}>
                     Opslaan
                 </Button>
