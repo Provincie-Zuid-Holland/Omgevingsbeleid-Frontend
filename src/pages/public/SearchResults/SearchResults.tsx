@@ -69,10 +69,10 @@ const SearchResults = () => {
 
     const filteredSearchResults = useMemo(() => {
         const acceptedTypes = [
-            'ambities',
-            'beleidsdoelen',
-            'beleidskeuzes',
-            'maatregelen',
+            'Ambities',
+            'Beleidsdoelen',
+            'Beleidskeuzes',
+            'Maatregelen',
             'Beleidsregels',
         ]
         /**
@@ -141,7 +141,7 @@ const SearchResults = () => {
                 />
 
                 <div className={`col-span-6 md:col-span-4`}>
-                    {dataLoaded && searchResults.length > 0 ? (
+                    {dataLoaded && filteredSearchResults.length > 0 ? (
                         <>
                             <ul id="search-results" className="mb-4">
                                 {filteredSearchResults.map(item => (
@@ -161,7 +161,7 @@ const SearchResults = () => {
                                 />
                             )}
                         </>
-                    ) : dataLoaded && searchResults.length === 0 ? (
+                    ) : dataLoaded && filteredSearchResults.length === 0 ? (
                         <h2 className="block mt-8 text-pzh-gray-600">
                             Geen resultaten
                         </h2>

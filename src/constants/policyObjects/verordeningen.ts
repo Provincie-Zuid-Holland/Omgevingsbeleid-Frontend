@@ -1,20 +1,17 @@
-import { array, lazy, mixed, object, ObjectSchema, string } from 'yup'
+import { mixed, object, ObjectSchema, string } from 'yup'
 
 import {
-    useReadValidVerordeningLineage,
-    useReadVerordeningVersion,
-    useReadValidVerordening,
-    useReadVerordeningstructuren,
     useCreateVerordeningstructuur,
+    useReadValidVerordening,
+    useReadValidVerordeningstructuurLineage,
+    useReadVerordeningstructuren,
     useReadVerordeningstructuurLineage,
+    useReadVerordeningVersion,
     useUpdateVerordeningstructuur,
 } from '@/api/fetchers'
 import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
-import {
-    VerordeningLineageWrite,
-    VerordeningStructureChild,
-} from '@/types/verordening'
+import { VerordeningLineageWrite } from '@/types/verordening'
 import { generateSchemaTitles, schemaDefaults } from '@/utils/yupSchema'
 
 const queryVerordeningen: SchemaMetaQueries = {
@@ -22,7 +19,7 @@ const queryVerordeningen: SchemaMetaQueries = {
     useGet: useReadVerordeningstructuren,
     useGetVersion: useReadVerordeningVersion,
     useGetLineage: useReadVerordeningstructuurLineage,
-    useGetValidLineage: useReadValidVerordeningLineage,
+    useGetValidLineage: useReadValidVerordeningstructuurLineage,
     usePatchLineage: useUpdateVerordeningstructuur,
     useGetValid: useReadValidVerordening,
 }

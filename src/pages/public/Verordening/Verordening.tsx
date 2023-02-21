@@ -1,14 +1,10 @@
 import { Heading, Text } from '@pzh-ui/components'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useWindowSize } from 'react-use'
 
-import {
-    useReadValidVerordeningstructuren,
-    // useReadVerordeningstructuren,
-} from '@/api/fetchers'
-import { Verordeningstructuur } from '@/api/fetchers.schemas'
+import { useReadValidVerordeningstructuren } from '@/api/fetchers'
 import { Container } from '@/components/Container'
 import { LoaderCard } from '@/components/Loader'
 import VERORDENING from '@/constants/verordeningen'
@@ -22,11 +18,17 @@ function Verordening() {
     const query = useURLQuery()
     const UUIDFromUrl = query.get('actief')
     const [activeArticle, setActiveArticle] = useState(null)
-    const [verordening, setVerordening] = useState<null | Verordeningstructuur>(
-        null
-    )
 
-    const { isLoading, data } = useReadValidVerordeningstructuren()
+    const { isLoading, data: verordeningen } =
+        useReadValidVerordeningstructuren()
+
+    const validVerordening = useMemo(
+        () =>
+            verordeningen?.find(
+                verordening => verordening.Status === 'Vigerend'
+            ),
+        [verordeningen]
+    )
 
     useEffect(() => {
         const scrollIntoView = (UUIDFromUrl: string) => {
@@ -44,23 +46,12 @@ function Verordening() {
         scrollIntoView(UUIDFromUrl || '')
     }, [UUIDFromUrl, windowSize, isLoading])
 
-    useEffect(() => {
-        const activeVerordening = data?.find(
-            (verordening: any) => verordening.Status === 'Vigerend'
-        )
-        if (activeVerordening) {
-            setVerordening(activeVerordening)
-        }
-    }, [data])
-
-    if (!verordening) return null
-
     return (
         <Container className="pt-16 lg:pt-8">
             <Helmet>
                 <title>Omgevingsbeleid - Verordening</title>
             </Helmet>
-            <RaadpleegVerordeningSidebar verordening={verordening} />
+            <RaadpleegVerordeningSidebar verordening={validVerordening} />
             <div className="min-h-screen col-span-6 lg:col-span-4">
                 <Heading
                     level="3"
@@ -71,20 +62,20 @@ function Verordening() {
 
                 {!isLoading ? (
                     <Heading level="1" color="text-pzh-blue" className="mt-4">
-                        {verordening.Titel}
+                        {validVerordening?.Titel}
                     </Heading>
                 ) : (
                     <LoaderCard className="mt-6" />
                 )}
 
-                {/* TODO: FIX API IMPLEMENTATION  */}
-                {/* {verordening?.Structuur?.Children.map((chapter: any) => (
+                {/* @ts-ignore */}
+                {validVerordening?.Structuur?.Children.map((chapter: any) => (
                     <VerordeningsSection
                         setActiveArticle={setActiveArticle}
                         key={chapter.UUID}
                         section={chapter}
                     />
-                ))} */}
+                ))}
 
                 {activeArticle ? (
                     <RaadpleegVerordeningPopupDetail
