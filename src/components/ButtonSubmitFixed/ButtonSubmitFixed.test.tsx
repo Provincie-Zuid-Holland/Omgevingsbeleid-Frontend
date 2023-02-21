@@ -37,11 +37,7 @@ describe('ButtonSubmitFixed', () => {
         )
 
         const button = screen.getByText('Opslaan')
-        fireEvent.keyPress(button, {
-            key: 'Enter',
-            code: 'Enter',
-            charCode: 13,
-        })
+        fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' })
         expect(submitMock).toHaveBeenCalledTimes(1)
     })
 
