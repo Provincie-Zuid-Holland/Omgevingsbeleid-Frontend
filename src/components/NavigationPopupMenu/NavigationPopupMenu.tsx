@@ -182,11 +182,12 @@ const NavigationPopupMenu = ({
                                         to="/beleidsregels"
                                     />
 
-                                    {/* <ListItem
+                                    <ListItem
+                                        targetBlank={true}
                                         text="Verordening"
                                         setIsOpen={setIsOpen}
-                                        to="/verordening"
-                                    /> */}
+                                        to="https://www.ruimtelijkeplannen.nl/web-roo/transform/NL.IMRO.9928.OVerordening2019-GC09/pt_NL.IMRO.9928.OVerordening2019-GC09.xml#NL.IMRO.PT.sf2d75b3e-7108-49c2-a4bd-cc4b35699474"
+                                    />
                                 </ul>
                             </div>
                             <div className="col-span-6 mt-6 md:col-span-2">
