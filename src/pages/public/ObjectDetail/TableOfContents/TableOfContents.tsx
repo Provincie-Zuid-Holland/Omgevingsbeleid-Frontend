@@ -96,7 +96,7 @@ const TableOfContents = ({ display }: { display: 'block' | 'fixed' }) => {
                                             behavior: 'smooth',
                                         })
                                     }}
-                                    className="block pl-5 underline decoration-1">
+                                    className="block pl-5 underline decoration-1 text-left">
                                     {el.title}
                                 </button>
                             </li>
