@@ -40,6 +40,7 @@ const PolicyDetailCard = ({
     const [modulesPopup, setModulesPopup] = useState(false)
 
     const overviewSlug = dimensieConstants.SLUG_OVERVIEW
+    const publicOverviewSlug = dimensieConstants.SLUG_PUBLIC_OVERVIEW
     const titleSingular = dimensieConstants.TITLE_SINGULAR
     const linkToRaadpleegPage =
         titleSingular === 'Gebiedsprogramma'
@@ -178,7 +179,7 @@ const PolicyDetailCard = ({
                         )}
                         {type === 'valid' && (
                             <Hyperlink
-                                to={`/${overviewSlug}/${policy.UUID}`}
+                                to={`/${publicOverviewSlug}/${policy.UUID}`}
                                 text={`Bekijk ${titleSingular.toLowerCase()}`}
                                 icon={ArrowUpRightFromSquare}
                             />

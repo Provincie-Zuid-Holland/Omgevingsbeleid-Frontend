@@ -11,6 +11,7 @@ export const TITLE_PLURAL = 'Ambities'
 export const API_ENDPOINT = 'ambities'
 export const API_ENDPOINT_VIGEREND = 'valid/ambities'
 export const SLUG_OVERVIEW = 'ambities'
+export const SLUG_PUBLIC_OVERVIEW = 'ambities'
 export const DESCRIPTION =
     'De ambities geven aan waar de provincie naar wil streven. De ambities komen voort uit het coalitieakkoord en worden vastgesteld in de Omgevingsvisie.'
 

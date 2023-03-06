@@ -9,6 +9,7 @@ export const TITLE_SINGULAR_PREFIX = 'de'
 export const TITLE_PLURAL = 'Beleidsmodules'
 export const API_ENDPOINT = 'beleidsmodules'
 export const SLUG_OVERVIEW = 'beleidsmodules'
+export const SLUG_PUBLIC_OVERVIEW = 'beleidsmodules'
 
 export const CRUD_PROPERTIES = {
     Titel: {

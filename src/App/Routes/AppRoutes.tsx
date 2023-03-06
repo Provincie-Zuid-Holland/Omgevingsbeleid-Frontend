@@ -2,11 +2,8 @@ import { useCallback, useLayoutEffect } from 'react'
 import { useNavigate, useRoutes } from 'react-router-dom'
 
 import { NetworkGraph } from '@/components/Network'
-import policyObjects from '@/constants/policyObjects'
 import useAuth from '@/hooks/useAuth'
 import { Dashboard, MijnBeleid } from '@/pages/protected'
-import MutatePolicy from '@/pages/protected/MutatePolicy'
-import VerordeningEdit from '@/pages/protected/VerordeningEdit'
 import {
     Accessibility,
     Home,
@@ -17,7 +14,6 @@ import {
     PlanningAndReleases,
     SearchResults,
     UniversalObjectOverview,
-    Verordening,
 } from '@/pages/public'
 import AreaDetail from '@/pages/public/AreaDetail'
 import AreaOverview from '@/pages/public/AreaOverview'
@@ -60,10 +56,10 @@ const AppRoutes = () => {
             path: 'beleidsnetwerk',
             element: <NetworkGraph />,
         },
-        {
-            path: 'verordening',
-            element: <Verordening />,
-        },
+        // {
+        //     path: 'verordening',
+        //     element: <Verordening />,
+        // },
         {
             path: 'omgevingsprogramma',
             children: [
@@ -166,38 +162,38 @@ const AppRoutes = () => {
                     path: 'mijn-beleid',
                     element: <MijnBeleid />,
                 },
-                {
-                    path: 'verordeningen',
-                    children: [
-                        {
-                            path: 'nieuw',
-                            element: (
-                                <MutatePolicy
-                                    policyConstants={policyObjects.VERORDENING}
-                                />
-                            ),
-                        },
-                        {
-                            path: ':single',
-                            children: [
-                                {
-                                    index: true,
-                                    element: <VerordeningEdit />,
-                                },
-                                {
-                                    path: 'bewerk',
-                                    element: (
-                                        <MutatePolicy
-                                            policyConstants={
-                                                policyObjects.VERORDENING
-                                            }
-                                        />
-                                    ),
-                                },
-                            ],
-                        },
-                    ],
-                },
+                // {
+                //     path: 'verordeningen',
+                //     children: [
+                //         {
+                //             path: 'nieuw',
+                //             element: (
+                //                 <MutatePolicy
+                //                     policyConstants={policyObjects.VERORDENING}
+                //                 />
+                //             ),
+                //         },
+                //         {
+                //             path: ':single',
+                //             children: [
+                //                 {
+                //                     index: true,
+                //                     element: <VerordeningEdit />,
+                //                 },
+                //                 {
+                //                     path: 'bewerk',
+                //                     element: (
+                //                         <MutatePolicy
+                //                             policyConstants={
+                //                                 policyObjects.VERORDENING
+                //                             }
+                //                         />
+                //                     ),
+                //                 },
+                //             ],
+                //         },
+                //     ],
+                // },
                 ...detailPages
                     .filter(page => !!page.element)
                     .map(item => ({

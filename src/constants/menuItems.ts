@@ -14,7 +14,7 @@ const menuItemsBeheer = {
     Ambities: { url: '/muteer/ambities' },
     Belangen: { url: '/muteer/belangen' },
     Themas: { url: '/muteer/themas' },
-    Verordening: { url: '/muteer/verordeningen' },
+    // Verordening: { url: '/muteer/verordeningen' },
     Beleidsdoelen: { url: '/muteer/beleidsdoelen' },
     Beleidsprestaties: { url: '/muteer/beleidsprestaties' },
 }
