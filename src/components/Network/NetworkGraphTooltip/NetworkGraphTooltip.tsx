@@ -1,5 +1,6 @@
-import { Text } from '@pzh-ui/components'
 import { Link } from 'react-router-dom'
+
+import isTouchDevice from '@/utils/isTouchDevice'
 
 /**
  * Displays a tooltip for the NetworkGraph items.
@@ -13,30 +14,34 @@ interface Props {
     href: string
 }
 
-const NetworkGraphTooltip = ({ variables, href }: Props) => (
-    <div
-        id="d3-tooltip-network-graph"
-        style={{
-            left: variables.left,
-            top: variables.top,
-        }}
-        className="absolute z-50 hidden px-4 py-2 text-white bg-black rounded shadow-md bg-opacity-80 hover:block">
-        <Link to={href} className="select-none group" role="tooltip">
-            <Text
-                id="d3-tooltip-network-graph-type"
-                type="body-small"
-                children={undefined}
-                color="text-white"
-            />
-            <Text
-                id="d3-tooltip-network-graph-title"
-                type="body-small"
-                className="font-bold"
-                children={undefined}
-                color="text-white"
-            />
-        </Link>
-    </div>
-)
+const NetworkGraphTooltip = ({ variables, href }: Props) => {
+    const touchDevice = isTouchDevice()
+    if (touchDevice) return null
 
+    return (
+        <div
+            id="d3-tooltip-network-graph"
+            style={{
+                left: variables.left,
+                top: variables.top,
+                maxWidth: 'calc(100vw - 40px - 2rem)', // 40px is the width of the buttons, 2rem is the margin
+            }}
+            className="fixed z-50 hidden hover:block">
+            <span className="block w-full h-[10px] -mt-[10px]" />
+            <div className="px-4 pt-3 pb-2 bg-black rounded bg-opacity-80">
+                <Link to={href} className="select-none group" role="tooltip">
+                    <div
+                        id="d3-tooltip-network-graph-type"
+                        className={`text-white text-sm`}
+                    />
+                    <div
+                        id="d3-tooltip-network-graph-title"
+                        className={`text-white font-bold group-hover:underline truncate text-base`}
+                        style={{ maxWidth: '400px' }}
+                    />
+                </Link>
+            </div>
+        </div>
+    )
+}
 export default NetworkGraphTooltip

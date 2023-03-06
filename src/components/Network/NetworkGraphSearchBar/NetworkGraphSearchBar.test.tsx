@@ -79,7 +79,7 @@ describe('NetworkGraphSearchBar', () => {
 
     it('Component renders', () => {
         setup()
-        const inputEl = screen.getByPlaceholderText('Zoek op beleid')
+        const inputEl = screen.getByPlaceholderText('Zoek op titel van beleid')
         expect(inputEl).toBeTruthy()
     })
 
@@ -87,7 +87,7 @@ describe('NetworkGraphSearchBar', () => {
         setup()
 
         // Search for a beleidskeuze
-        const inputEl = screen.getByPlaceholderText('Zoek op beleid')
+        const inputEl = screen.getByPlaceholderText('Zoek op titel van beleid')
         fireEvent.change(inputEl, { target: { value: 'Adequaat' } })
         expect(inputEl).toHaveValue('Adequaat')
 

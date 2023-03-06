@@ -216,7 +216,7 @@ const PopUpConfirm = ({
                 nieuwe beleidsrelatie aangaan. Deze moet dan opnieuw worden
                 gemotiveerd.
             </p>
-            <div className="flex justify-between items-center mt-10">
+            <div className="flex items-center justify-between mt-10">
                 <span
                     className="text-sm text-gray-600 underline cursor-pointer"
                     onClick={() => {
@@ -225,12 +225,7 @@ const PopUpConfirm = ({
                     Annuleren
                 </span>
                 <Button
-                    label={
-                        relation.Status === 'Akkoord'
-                            ? 'Verbreken'
-                            : 'Intrekken'
-                    }
-                    onClick={() => {
+                    onPress={() => {
                         relationshipDisconnect(relation)
                         setDisconnectPopup(null)
                         updateStatus(
@@ -240,8 +235,9 @@ const PopUpConfirm = ({
                                 : 'NietAkkoord',
                             true
                         )
-                    }}
-                />
+                    }}>
+                    {relation.Status === 'Akkoord' ? 'Verbreken' : 'Intrekken'}
+                </Button>
             </div>
         </PopUpAnimatedContainer>
     )

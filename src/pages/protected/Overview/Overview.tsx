@@ -127,11 +127,11 @@ const Overview = ({ dimensieConstants }: OverviewProps) => {
                                 icon={MagnifyingGlass}
                             />
                             {hideAddButton ? null : (
-                                <Link to={`/muteer/${overviewSlug}/nieuw`}>
-                                    <Button variant="cta" className="ml-2">
+                                <Button variant="cta" className="ml-2">
+                                    <Link to={`/muteer/${overviewSlug}/nieuw`}>
                                         {addNewPolicyObjectText}
-                                    </Button>
-                                </Link>
+                                    </Link>
+                                </Button>
                             )}
                         </div>
                     </div>

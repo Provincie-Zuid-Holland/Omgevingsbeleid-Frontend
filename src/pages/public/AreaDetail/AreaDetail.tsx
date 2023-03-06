@@ -1,4 +1,4 @@
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
+import { Breadcrumbs, Heading } from '@pzh-ui/components'
 import DOMPurify from 'dompurify'
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'

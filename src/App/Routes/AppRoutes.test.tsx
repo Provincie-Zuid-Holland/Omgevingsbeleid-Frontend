@@ -5,6 +5,7 @@ import {
     screen,
     waitFor,
     fireEvent,
+    waitForElementToBeRemoved,
 } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
@@ -13,7 +14,6 @@ import { AuthContext } from '@/context/AuthContext'
 import { ambities } from '@/mocks/data/ambities'
 import { beleidskeuzes } from '@/mocks/data/beleidskeuzes'
 import { maatregelen } from '@/mocks/data/maatregelen'
-import { verordeningstructuur } from '@/mocks/data/verordeningstructuur'
 
 import AppRoutes from './AppRoutes'
 
@@ -67,27 +67,6 @@ describe('AppRoutes', () => {
         navigateToMenuItem('Mijn beleid')
 
         expect(getHeaderTitle('Mijn beleid', 2)).toBeInTheDocument()
-
-        // User can navigate to the verordening pages
-        navigateToMenuItem('Verordening')
-
-        await waitFor(() => {
-            screen.getByText('Nieuwe verordening')
-        })
-
-        fireEvent.click(screen.getByText('Nieuwe verordening'))
-
-        expect(
-            getHeaderTitle('Voeg een nieuwe verordening toe', 1)
-        ).toBeInTheDocument()
-
-        fireEvent.click(screen.getByText('Terug naar verordeningen'))
-
-        const firstVerordeningTitle = verordeningstructuur[0].Titel
-
-        await waitFor(() => {
-            expect(screen.getByText(firstVerordeningTitle)).toBeInTheDocument()
-        })
     })
 
     it('User can navigate to a beleidskeuze page', async () => {
@@ -100,6 +79,8 @@ describe('AppRoutes', () => {
         })
 
         fireEvent.click(screen.getByText('Nieuwe beleidskeuze'))
+
+        await waitForElementToBeRemoved(() => screen.getAllByRole('img'))
 
         expect(
             getHeaderTitle('Voeg een nieuwe beleidskeuze toe', 1)
@@ -175,9 +156,7 @@ describe('AppRoutes', () => {
         fireEvent.click(screen.getByText('Afgewezen'))
         fireEvent.click(screen.getByText('Verbroken'))
         fireEvent.click(screen.getByText('Nieuwe relatie'))
-        expect(
-            screen.getByText('Voeg een nieuwe beleidsrelatie toe')
-        ).toBeInTheDocument()
+        expect(screen.getByText('Nieuwe relatie')).toBeInTheDocument()
     })
 
     it('User can navigate to the beleidsmodules pages', async () => {

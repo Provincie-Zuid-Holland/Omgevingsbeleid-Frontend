@@ -75,6 +75,14 @@ const TableOfContents = ({ display }: { display: 'block' | 'fixed' }) => {
                         {h2Elements.map(el => (
                             <li
                                 key={el.id}
+                                tabIndex={0}
+                                onClick={() => {
+                                    window.scrollTo({
+                                        left: 0,
+                                        top: el.y,
+                                        behavior: 'smooth',
+                                    })
+                                }}
                                 className="pt-1 cursor-pointer text-pzh-blue hover:text-pzh-blue-dark">
                                 <AngleRight
                                     size={16}

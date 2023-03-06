@@ -33,7 +33,7 @@ const queryClient = new QueryClient({
 const App = () => {
     const userIsInMuteerEnvironment = usePage('/muteer/')
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
-    const isNetworkVisualization = usePage('/netwerkvisualisatie')
+    const isNetworkVisualization = usePage('/beleidsnetwerk')
 
     if (
         process.env.NODE_ENV !== 'production' &&
@@ -64,7 +64,7 @@ const App = () => {
             <AuthProvider>
                 <div
                     className={classNames(
-                        'min-h-screen text-pzh-blue-dark relative',
+                        'min-h-screen text-pzh-blue-dark relative overflow-x-hidden',
                         {
                             'advanced-search-page': isAdvancedSearchPage,
                         }

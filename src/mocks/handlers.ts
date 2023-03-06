@@ -254,6 +254,10 @@ export const handlers = [
         return res(ctx.status(200), ctx.json(beleidsprestaties))
     }),
 
+    rest.get(`${currentBaseURL}/gebiedsprogrammas`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(gebiedsprogrammas))
+    }),
+
     rest.get(`${currentBaseURL}/valid/gebiedsprogrammas`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(gebiedsprogrammas))
     }),

@@ -34,18 +34,13 @@ const LoginForm = () => {
 
     const [wachtwoordResetPopup, setWachtwoordResetPopup] = useState(false)
     const [error, setError] = useState(null)
-    const [loading, setLoading] = useState(false)
 
     const handleFormSubmit = ({ email, password }: FormProps) => {
-        setLoading(true)
-
         signin(email, password)
             .then(() => {
-                setLoading(false)
                 navigate('/muteer/dashboard', { replace: true })
             })
             .catch(err => {
-                setLoading(false)
                 setError(err?.data?.message || 'Er is iets mis gegaan.')
             })
     }
@@ -82,11 +77,10 @@ const LoginForm = () => {
                         </div>
                         <div className="flex items-center justify-between mt-7">
                             <Button
-                                label="Inloggen"
                                 type="submit"
-                                disabled={!isValid || !dirty}
-                                isLoading={loading}
-                            />
+                                isDisabled={!isValid || !dirty}>
+                                Inloggen
+                            </Button>
                             <button
                                 className="mt-4 text-sm underline cursor-pointer sm:mt-0 sm:ml-4 text-pzh-green hover:text-pzh-green-dark"
                                 onClick={e => {
@@ -152,16 +146,16 @@ const PopupPasswordForgot = ({
                 Annuleren
             </button>
             <Button
-                label="Mail versturen"
                 variant="cta"
                 id="wachtwoord-reset-button-mailto"
                 data-testid="wachtwoord-reset-button-mailto"
-                onClick={() => {
+                onPress={() => {
                     window.location.href =
                         'mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten'
                     togglePopup()
-                }}
-            />
+                }}>
+                Mail versturen
+            </Button>
         </div>
     </Modal>
 )

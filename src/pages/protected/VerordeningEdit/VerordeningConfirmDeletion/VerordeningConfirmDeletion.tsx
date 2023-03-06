@@ -51,18 +51,16 @@ const VerordeningConfirmDeletion = ({
                 Annuleren
             </button>
             <Button
-                label={`Verwijder ${section.Type}`}
                 variant="cta"
                 id="wachtwoord-reset-button-mailto"
                 data-testid="wachtwoord-reset-button-mailto"
-                disabled={section.Children.length > 0}
-                onClick={e => {
-                    e.preventDefault()
-                    e.stopPropagation()
+                isDisabled={section.Children.length > 0}
+                onPress={() => {
                     removeSection()
                     togglePopup()
-                }}
-            />
+                }}>
+                {`Verwijder ${section.Type}`}
+            </Button>
         </div>
     </Modal>
 )

@@ -1,3 +1,4 @@
+import * as d3 from 'd3'
 import { Link } from 'react-router-dom'
 
 import {
@@ -5,6 +6,7 @@ import {
     BeleidskeuzesRead,
     BeleidsrelatiesRead,
 } from '@/api/fetchers.schemas'
+import networkGraphConnectionProperties from '@/constants/networkGraphConnectionProperties'
 import { generateHrefVerordeningsartikel } from '@/utils/generateHrefVerordeningsartikel'
 
 import {
@@ -199,6 +201,13 @@ const ListItem = ({
         return path
     }
 
+    const objType = property.toLowerCase()
+    const objSymbol =
+        networkGraphConnectionProperties[
+            objType as keyof typeof networkGraphConnectionProperties
+        ].symbol
+    const symbolPath = d3.symbol().type(objSymbol)
+
     const href =
         property === 'Verordeningen'
             ? generateHrefVerordeningsartikel(UUID, verordeningsStructure)
@@ -207,18 +216,21 @@ const ListItem = ({
     return (
         <li className="relative block mt-1 text-sm text-gray-800">
             <div className="inline-flex items-center group">
-                <Link to={href || ''} className={'hover:underline'}>
-                    <span
-                        className={`inline-block w-3 h-3 mr-2 rounded-full`}
-                        style={{
-                            backgroundColor:
-                                connectionPropertiesColors[property].hex,
-                        }}
-                    />
-                    <span>{titel}</span>
+                <Link
+                    to={href || ''}
+                    className={'hover:underline flex items-center'}>
+                    <div className="inline-block w-4 h-4 mr-1">
+                        <svg viewBox="-6 -8 16 16">
+                            <path
+                                d={symbolPath() || ''}
+                                fill={connectionPropertiesColors[property].hex}
+                            />
+                        </svg>
+                    </div>
+                    <span className="mt-1">{titel}</span>
                 </Link>
-                {omschrijving ? (
-                    <div className="absolute z-20 hidden pb-0 -mt-4 cursor-default group-hover:block">
+                {omschrijving && omschrijving !== '' && omschrijving !== ' ' ? (
+                    <div className="absolute top-0 z-20 hidden mt-8 cursor-default group-hover:block d3-tooltip-text">
                         <div
                             id={UUID}
                             style={{ maxWidth: '50vw' }}
