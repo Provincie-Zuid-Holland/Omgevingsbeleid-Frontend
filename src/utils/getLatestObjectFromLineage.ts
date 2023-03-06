@@ -6,6 +6,7 @@ import {
     Beleidsmodule,
     Beleidsprestatie,
     Beleidsregel,
+    Gebiedsprogramma,
     Maatregel,
     Thema,
     Verordeningstructuur,
@@ -21,6 +22,7 @@ export const getLatestObjectFromLineage = (
         | Beleidsmodule
         | Beleidsprestatie
         | Beleidsregel
+        | Gebiedsprogramma
         | Maatregel
         | Thema
         | Verordeningstructuur

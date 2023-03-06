@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useWindowSize } from 'react-use'
 
-import { useReadValidVerordeningstructuren } from '@/api/fetchers'
+import { useReadValidVerordening } from '@/api/fetchers'
 import { Container } from '@/components/Container'
 import { LoaderCard } from '@/components/Loader'
 import VERORDENING from '@/constants/verordeningen'
@@ -19,8 +19,7 @@ function Verordening() {
     const UUIDFromUrl = query.get('actief')
     const [activeArticle, setActiveArticle] = useState(null)
 
-    const { isLoading, data: verordeningen } =
-        useReadValidVerordeningstructuren()
+    const { isLoading, data: verordeningen } = useReadValidVerordening()
 
     const validVerordening = useMemo(
         () =>

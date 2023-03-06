@@ -101,8 +101,8 @@ const ObjectList = ({
                     </li>
                 ) : (
                     sortedData
-                        ?.filter((item: any) =>
-                            item.Titel.toLowerCase().includes(
+                        ?.filter(item =>
+                            item.Titel?.toLowerCase().includes(
                                 filterQuery.toLowerCase()
                             )
                         )

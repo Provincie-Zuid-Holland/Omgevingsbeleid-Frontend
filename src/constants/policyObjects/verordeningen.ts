@@ -3,11 +3,11 @@ import { mixed, object, ObjectSchema, string } from 'yup'
 import {
     useCreateVerordeningstructuur,
     useReadValidVerordening,
-    useReadValidVerordeningstructuurLineage,
     useReadVerordeningstructuren,
     useReadVerordeningstructuurLineage,
     useReadVerordeningVersion,
     useUpdateVerordeningstructuur,
+    useReadValidVerordeningLineage,
 } from '@/api/fetchers'
 import { MutatedPolicySchema } from '@/types/dimensions'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/policySchemas'
@@ -19,7 +19,7 @@ const queryVerordeningen: SchemaMetaQueries = {
     useGet: useReadVerordeningstructuren,
     useGetVersion: useReadVerordeningVersion,
     useGetLineage: useReadVerordeningstructuurLineage,
-    useGetValidLineage: useReadValidVerordeningstructuurLineage,
+    useGetValidLineage: useReadValidVerordeningLineage,
     usePatchLineage: useUpdateVerordeningstructuur,
     useGetValid: useReadValidVerordening,
 }

@@ -16,6 +16,7 @@ export const TITLE_PLURAL = 'Beleidsregels'
 export const API_ENDPOINT = 'beleidsregels'
 export const API_ENDPOINT_VIGEREND = 'valid/beleidsregels'
 export const SLUG_OVERVIEW = 'beleidsregels'
+export const SLUG_PUBLIC_OVERVIEW = 'beleidsregels'
 export const DESCRIPTION =
     'De beleidsregels geven aan waar de provincie zich minimaal voor moet inspannen. De beleidsregels zijn individuele regels die de provincie zelf vaststelt. '
 

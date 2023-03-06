@@ -3,7 +3,7 @@ import { useUpdateEffect } from 'react-use'
 
 import {
     readValidBeleidsrelaties,
-    readValidVerordeningstructuren,
+    readVerordeningstructuren,
 } from '@/api/fetchers'
 import {
     Beleidsdoel,
@@ -110,7 +110,7 @@ const RelatiesKoppelingen = ({
          * @returns {Promise} Promise object contains the vigerende verordening or undefined
          */
         const getVigerendeVerordening = () =>
-            readValidVerordeningstructuren().then(res =>
+            readVerordeningstructuren().then(res =>
                 res.find(item => item.Status === 'Vigerend')
             )
 

@@ -6,7 +6,7 @@ import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { matchPath, useLocation } from 'react-router-dom'
 
-import { graph, useReadValidVerordeningstructuren } from '@/api/fetchers'
+import { graph, useReadVerordeningstructuren } from '@/api/fetchers'
 import { GraphView, NodeItem } from '@/api/fetchers.schemas'
 import networkGraphConnectionProperties from '@/constants/networkGraphConnectionProperties'
 import networkGraphFilterMenu from '@/constants/networkGraphFilterMenu'
@@ -69,7 +69,7 @@ const NetworkGraph = () => {
     const userIsInMuteerEnvironment = usePage('/muteer/')
     const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
 
-    const { data: verordeningsStructure } = useReadValidVerordeningstructuren()
+    const { data: verordeningsStructure } = useReadVerordeningstructuren()
 
     const {
         isInitialLoading: isLoading,

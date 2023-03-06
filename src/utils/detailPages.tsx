@@ -227,7 +227,7 @@ const detailPages = [
     },
     {
         slug: 'gebiedsprogrammas',
-        dataModel: allDimensies.BELEIDSDOELEN,
+        dataModel: allDimensies.GEBIEDSPROGRAMMAS,
         element: getOverview('GEBIEDSPROGRAMMAS'),
         children: getChildren('GEBIEDSPROGRAMMAS'),
         isPublic: true,

@@ -44,8 +44,9 @@ const PolicyDetailCard = ({
     const [modulesPopup, setModulesPopup] = useState(false)
 
     const overviewSlug = dimensieConstants.SLUG_OVERVIEW
+    const publicOverviewSlug = dimensieConstants.SLUG_PUBLIC_OVERVIEW
     const titleSingular = dimensieConstants.TITLE_SINGULAR
-    const linkToRaadpleegPage = `/${overviewSlug}/${policy.UUID}`
+    const linkToRaadpleegPage = `/${publicOverviewSlug}/${policy.UUID}`
     const linkToEditWithoutCheckingOutNewVersion = `/muteer/${overviewSlug}/${policy.ID}/bewerk?modus=wijzig_vigerend`
     const policyIsInAModule = policy?.Ref_Beleidsmodules?.length !== 0
 
@@ -179,7 +180,7 @@ const PolicyDetailCard = ({
                         )}
                         {type === 'valid' && (
                             <Hyperlink
-                                to={`/${overviewSlug}/${policy.UUID}`}
+                                to={`/${publicOverviewSlug}/${policy.UUID}`}
                                 text={`Bekijk ${titleSingular.toLowerCase()}`}
                                 icon={ArrowUpRightFromSquare}
                             />

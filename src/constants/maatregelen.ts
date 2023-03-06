@@ -16,6 +16,7 @@ export const TITLE_PLURAL = 'Maatregelen'
 export const API_ENDPOINT = 'maatregelen'
 export const API_ENDPOINT_VIGEREND = 'valid/maatregelen'
 export const SLUG_OVERVIEW = 'maatregelen'
+export const SLUG_PUBLIC_OVERVIEW = 'maatregelen'
 export const DESCRIPTION =
     'De maatregelen geven aan wat de provincie gaat doen om de keuzes uit te voeren. De maatregelen zijn een uitwerking van de beleidskeuzes en komen voort uit het Omgevingsprogramma.'
 

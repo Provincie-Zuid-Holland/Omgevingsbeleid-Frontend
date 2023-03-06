@@ -1,7 +1,7 @@
 import {
     Ambitie,
     Belang,
-    Beleidskeuze,
+    BeleidskeuzeListable,
     Beleidsregel,
     Beleidsprestatie,
     Beleidsmodule,
@@ -14,7 +14,7 @@ import {
 export type PossiblePolicyRead =
     | Ambitie
     | Belang
-    | Beleidskeuze
+    | BeleidskeuzeListable
     | Beleidsregel
     | Beleidsprestatie
     | Beleidsmodule

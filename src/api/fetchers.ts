@@ -6,7 +6,7 @@
         This API serves all the object that make up the policies 
         of a provincial government. 
         
- * OpenAPI spec version: 1.1.19
+ * OpenAPI spec version: 1.1.20
  */
 import { useQuery, useMutation } from '@tanstack/react-query'
 import type {
@@ -102,8 +102,6 @@ import type {
     ReadVerordeningstructurenParams,
     VerordeningstructuurCreate,
     VerordeningstructuurUpdate,
-    ReadValidVerordeningstructurenParams,
-    ReadValidVerordeningstructuurLineageParams,
     MaatregelListable,
     ReadMaatregelenParams,
     Maatregel,
@@ -5762,7 +5760,7 @@ export const useReadVerordeningVersion = <
 }
 
 /**
- * Gets all the verordeningstructuren lineages and shows the latests object for each
+ * Gets all the actual verordeningstructuren
  * @summary Read Verordeningstructuren
  */
 export const readVerordeningstructuren = (
@@ -5770,7 +5768,7 @@ export const readVerordeningstructuren = (
     signal?: AbortSignal
 ) => {
     return customInstance<Verordeningstructuur[]>({
-        url: `/v0.1/verordeningstructuren`,
+        url: `/v0.1/verordeningstructuur`,
         method: 'get',
         params,
         signal,
@@ -5779,7 +5777,7 @@ export const readVerordeningstructuren = (
 
 export const getReadVerordeningstructurenQueryKey = (
     params?: ReadVerordeningstructurenParams
-) => [`/v0.1/verordeningstructuren`, ...(params ? [params] : [])]
+) => [`/v0.1/verordeningstructuur`, ...(params ? [params] : [])]
 
 export type ReadVerordeningstructurenQueryResult = NonNullable<
     Awaited<ReturnType<typeof readVerordeningstructuren>>
@@ -5822,14 +5820,14 @@ export const useReadVerordeningstructuren = <
 }
 
 /**
- * Creates a new verordeningstructuren lineage
+ * Creates a new verordeningstructuur lineage
  * @summary Create Verordeningstructuur
  */
 export const createVerordeningstructuur = (
     verordeningstructuurCreate: VerordeningstructuurCreate
 ) => {
     return customInstance<Verordeningstructuur>({
-        url: `/v0.1/verordeningstructuren`,
+        url: `/v0.1/verordeningstructuur`,
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         data: verordeningstructuurCreate,
@@ -5881,7 +5879,7 @@ export const readVerordeningstructuurLineage = (
     signal?: AbortSignal
 ) => {
     return customInstance<Verordeningstructuur[]>({
-        url: `/v0.1/verordeningstructuren/${lineageId}`,
+        url: `/v0.1/verordeningstructuur/${lineageId}`,
         method: 'get',
         signal,
     })
@@ -5889,7 +5887,7 @@ export const readVerordeningstructuurLineage = (
 
 export const getReadVerordeningstructuurLineageQueryKey = (
     lineageId: number
-) => [`/v0.1/verordeningstructuren/${lineageId}`]
+) => [`/v0.1/verordeningstructuur/${lineageId}`]
 
 export type ReadVerordeningstructuurLineageQueryResult = NonNullable<
     Awaited<ReturnType<typeof readVerordeningstructuurLineage>>
@@ -5934,7 +5932,7 @@ export const useReadVerordeningstructuurLineage = <
 }
 
 /**
- * Adds a new verordeningstructuren to a lineage
+ * Adds a new verordeningstructuur to a lineage
  * @summary Update Verordeningstructuur
  */
 export const updateVerordeningstructuur = (
@@ -5942,7 +5940,7 @@ export const updateVerordeningstructuur = (
     verordeningstructuurUpdate: VerordeningstructuurUpdate
 ) => {
     return customInstance<Verordeningstructuur>({
-        url: `/v0.1/verordeningstructuren/${lineageId}`,
+        url: `/v0.1/verordeningstructuur/${lineageId}`,
         method: 'patch',
         headers: { 'Content-Type': 'application/json' },
         data: verordeningstructuurUpdate,
@@ -5986,200 +5984,6 @@ export const useUpdateVerordeningstructuur = <
 }
 
 /**
- * Shows the changes between two versions of verordeningstructuren.
- * @summary Changes Verordeningstructuren
- */
-export const changesVerordeningstructuren = (
-    oldUuid: string,
-    newUuid: string,
-    signal?: AbortSignal
-) => {
-    return customInstance<unknown>({
-        url: `/v0.1/changes/verordeningstructuren/${oldUuid}/${newUuid}`,
-        method: 'get',
-        signal,
-    })
-}
-
-export const getChangesVerordeningstructurenQueryKey = (
-    oldUuid: string,
-    newUuid: string
-) => [`/v0.1/changes/verordeningstructuren/${oldUuid}/${newUuid}`]
-
-export type ChangesVerordeningstructurenQueryResult = NonNullable<
-    Awaited<ReturnType<typeof changesVerordeningstructuren>>
->
-export type ChangesVerordeningstructurenQueryError = HTTPValidationError
-
-export const useChangesVerordeningstructuren = <
-    TData = Awaited<ReturnType<typeof changesVerordeningstructuren>>,
-    TError = HTTPValidationError
->(
-    oldUuid: string,
-    newUuid: string,
-    options?: {
-        query?: UseQueryOptions<
-            Awaited<ReturnType<typeof changesVerordeningstructuren>>,
-            TError,
-            TData
-        >
-    }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-    const { query: queryOptions } = options ?? {}
-
-    const queryKey =
-        queryOptions?.queryKey ??
-        getChangesVerordeningstructurenQueryKey(oldUuid, newUuid)
-
-    const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof changesVerordeningstructuren>>
-    > = ({ signal }) => changesVerordeningstructuren(oldUuid, newUuid, signal)
-
-    const query = useQuery<
-        Awaited<ReturnType<typeof changesVerordeningstructuren>>,
-        TError,
-        TData
-    >(queryKey, queryFn, {
-        enabled: !!(oldUuid && newUuid),
-        ...queryOptions,
-    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-    query.queryKey = queryKey
-
-    return query
-}
-
-/**
- * Gets all the verordeningstructuren lineages and shows the latests valid object for each.
- * @summary Read Valid Verordeningstructuren
- */
-export const readValidVerordeningstructuren = (
-    params?: ReadValidVerordeningstructurenParams,
-    signal?: AbortSignal
-) => {
-    return customInstance<Verordeningstructuur[]>({
-        url: `/v0.1/valid/verordeningstructuren`,
-        method: 'get',
-        params,
-        signal,
-    })
-}
-
-export const getReadValidVerordeningstructurenQueryKey = (
-    params?: ReadValidVerordeningstructurenParams
-) => [`/v0.1/valid/verordeningstructuren`, ...(params ? [params] : [])]
-
-export type ReadValidVerordeningstructurenQueryResult = NonNullable<
-    Awaited<ReturnType<typeof readValidVerordeningstructuren>>
->
-export type ReadValidVerordeningstructurenQueryError = HTTPValidationError
-
-export const useReadValidVerordeningstructuren = <
-    TData = Awaited<ReturnType<typeof readValidVerordeningstructuren>>,
-    TError = HTTPValidationError
->(
-    params?: ReadValidVerordeningstructurenParams,
-    options?: {
-        query?: UseQueryOptions<
-            Awaited<ReturnType<typeof readValidVerordeningstructuren>>,
-            TError,
-            TData
-        >
-    }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-    const { query: queryOptions } = options ?? {}
-
-    const queryKey =
-        queryOptions?.queryKey ??
-        getReadValidVerordeningstructurenQueryKey(params)
-
-    const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readValidVerordeningstructuren>>
-    > = ({ signal }) => readValidVerordeningstructuren(params, signal)
-
-    const query = useQuery<
-        Awaited<ReturnType<typeof readValidVerordeningstructuren>>,
-        TError,
-        TData
-    >(queryKey, queryFn, queryOptions) as UseQueryResult<TData, TError> & {
-        queryKey: QueryKey
-    }
-
-    query.queryKey = queryKey
-
-    return query
-}
-
-/**
- * Gets all the verordeningstructuren in this lineage that are valid
- * @summary Read Valid Verordeningstructuur Lineage
- */
-export const readValidVerordeningstructuurLineage = (
-    lineageId: number,
-    params?: ReadValidVerordeningstructuurLineageParams,
-    signal?: AbortSignal
-) => {
-    return customInstance<Verordeningstructuur[]>({
-        url: `/v0.1/valid/verordeningstructuren/${lineageId}`,
-        method: 'get',
-        params,
-        signal,
-    })
-}
-
-export const getReadValidVerordeningstructuurLineageQueryKey = (
-    lineageId: number,
-    params?: ReadValidVerordeningstructuurLineageParams
-) => [
-    `/v0.1/valid/verordeningstructuren/${lineageId}`,
-    ...(params ? [params] : []),
-]
-
-export type ReadValidVerordeningstructuurLineageQueryResult = NonNullable<
-    Awaited<ReturnType<typeof readValidVerordeningstructuurLineage>>
->
-export type ReadValidVerordeningstructuurLineageQueryError = HTTPValidationError
-
-export const useReadValidVerordeningstructuurLineage = <
-    TData = Awaited<ReturnType<typeof readValidVerordeningstructuurLineage>>,
-    TError = HTTPValidationError
->(
-    lineageId: number,
-    params?: ReadValidVerordeningstructuurLineageParams,
-    options?: {
-        query?: UseQueryOptions<
-            Awaited<ReturnType<typeof readValidVerordeningstructuurLineage>>,
-            TError,
-            TData
-        >
-    }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-    const { query: queryOptions } = options ?? {}
-
-    const queryKey =
-        queryOptions?.queryKey ??
-        getReadValidVerordeningstructuurLineageQueryKey(lineageId, params)
-
-    const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof readValidVerordeningstructuurLineage>>
-    > = ({ signal }) =>
-        readValidVerordeningstructuurLineage(lineageId, params, signal)
-
-    const query = useQuery<
-        Awaited<ReturnType<typeof readValidVerordeningstructuurLineage>>,
-        TError,
-        TData
-    >(queryKey, queryFn, {
-        enabled: !!lineageId,
-        ...queryOptions,
-    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-    query.queryKey = queryKey
-
-    return query
-}
-
-/**
  * Finds the lineage of the resource and retrieves the latest
 available version.
  * @summary Read Latest Version Lineage
@@ -6189,7 +5993,7 @@ export const readVerordeningstructuurVersion = (
     signal?: AbortSignal
 ) => {
     return customInstance<Verordeningstructuur>({
-        url: `/v0.1/version/verordeningstructuren/${objectUuid}`,
+        url: `/v0.1/version/verordeningstructuur/${objectUuid}`,
         method: 'get',
         signal,
     })
@@ -6197,7 +6001,7 @@ export const readVerordeningstructuurVersion = (
 
 export const getReadVerordeningstructuurVersionQueryKey = (
     objectUuid: string
-) => [`/v0.1/version/verordeningstructuren/${objectUuid}`]
+) => [`/v0.1/version/verordeningstructuur/${objectUuid}`]
 
 export type ReadVerordeningstructuurVersionQueryResult = NonNullable<
     Awaited<ReturnType<typeof readVerordeningstructuurVersion>>

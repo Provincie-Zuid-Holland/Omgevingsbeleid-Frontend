@@ -16,6 +16,7 @@ export const TITLE_PLURAL = 'Beleidskeuzes'
 export const API_ENDPOINT = 'beleidskeuzes'
 export const API_ENDPOINT_VIGEREND = 'valid/beleidskeuzes'
 export const SLUG_OVERVIEW = 'beleidskeuzes'
+export const SLUG_PUBLIC_OVERVIEW = 'beleidskeuzes'
 export const DESCRIPTION =
     'De beleidskeuzes geven aan hoe de provincie haar doelen wil bereiken. De beleidskeuzes zijn een uitwerking van de beleidsdoelen en komen voort uit de Omgevingsvisie.'
 

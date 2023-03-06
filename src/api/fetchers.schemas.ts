@@ -6,7 +6,7 @@
         This API serves all the object that make up the policies 
         of a provincial government. 
         
- * OpenAPI spec version: 1.1.19
+ * OpenAPI spec version: 1.1.20
  */
 export type ReadValidWerkingsgebiedLineageParams = {
     offset?: number
@@ -44,20 +44,6 @@ export type ReadValidMaatregelenParams = {
 }
 
 export type ReadMaatregelenParams = {
-    offset?: number
-    limit?: number
-    all_filters?: string
-    any_filters?: string
-}
-
-export type ReadValidVerordeningstructuurLineageParams = {
-    offset?: number
-    limit?: number
-    all_filters?: string
-    any_filters?: string
-}
-
-export type ReadValidVerordeningstructurenParams = {
     offset?: number
     limit?: number
     all_filters?: string
@@ -389,10 +375,23 @@ export interface Werkingsgebied {
     Ref_Beleidskeuzes: BeleidskeuzeReference[]
 }
 
+/**
+ * An enumeration.
+ */
+export type VerordeningstructuurStatus =
+    typeof VerordeningstructuurStatus[keyof typeof VerordeningstructuurStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const VerordeningstructuurStatus = {
+    Vigerend: 'Vigerend',
+    Concept: 'Concept',
+    Vervallen: 'Vervallen',
+} as const
+
 export interface VerordeningstructuurUpdate {
     Titel?: string
     Structuur?: string
-    Status?: string
+    Status?: VerordeningstructuurStatus
     Begin_Geldigheid?: string
     Eind_Geldigheid?: string
 }
@@ -400,7 +399,7 @@ export interface VerordeningstructuurUpdate {
 export interface VerordeningstructuurCreate {
     Titel: string
     Structuur: string
-    Status?: string
+    Status?: VerordeningstructuurStatus
     Begin_Geldigheid: string
     Eind_Geldigheid: string
 }
@@ -408,7 +407,7 @@ export interface VerordeningstructuurCreate {
 export interface Verordeningstructuur {
     Titel: string
     Structuur: string
-    Status?: string
+    Status?: VerordeningstructuurStatus
     ID: number
     UUID: string
     Created_By: GebruikerInline

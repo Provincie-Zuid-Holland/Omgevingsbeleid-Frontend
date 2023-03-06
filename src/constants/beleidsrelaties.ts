@@ -3,4 +3,5 @@ export const TITLE_SINGULAR_PREFIX = 'de'
 export const TITLE_PLURAL = 'Beleidsrelaties'
 export const API_ENDPOINT = null
 export const SLUG_OVERVIEW = null
+export const SLUG_PUBLIC_OVERVIEW = null
 export const CRUD_PROPERTIES = null
