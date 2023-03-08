@@ -1,14 +1,18 @@
 import {
     FormikInput,
-    FormikRte,
     FormikSelect,
+    FormikTextArea,
     getHeadingStyles,
     Text,
 } from '@pzh-ui/components'
 import { useMedia } from 'react-use'
 
+import { useUsersGet } from '@/api/fetchers'
+
 const FormBasicInfo = () => {
     const isMobile = useMedia('(max-width: 640px)')
+
+    const { data: users, isFetching, isLoading } = useUsersGet()
 
     return (
         <>
@@ -24,7 +28,7 @@ const FormBasicInfo = () => {
 
             <div className="col-span-4 pt-[48px]">
                 <FormikInput
-                    name="Titel"
+                    name="Title"
                     label="Titel"
                     placeholder="Titel van de module"
                     required
@@ -32,43 +36,35 @@ const FormBasicInfo = () => {
                 <div className="mt-6 grid grid-cols-2 gap-x-10">
                     <div>
                         <FormikSelect
-                            name="Moduletrekker1"
+                            name="Module_Manager_1_UUID"
                             label="Moduletrekker 1"
                             placeholder="Selecteer een moduletrekker"
-                            options={[
-                                {
-                                    label: 'Erik Verhaar',
-                                    value: 1,
-                                },
-                                {
-                                    label: 'Tom van Gelder',
-                                    value: 2,
-                                },
-                            ]}
+                            isLoading={isLoading && isFetching}
+                            optimized={false}
+                            options={users?.map(user => ({
+                                label: user.Gebruikersnaam,
+                                value: user.UUID,
+                            }))}
                             required
                         />
                     </div>
                     <div>
                         <FormikSelect
-                            name="Moduletrekker2"
+                            name="Module_Manager_2_UUID"
                             label="Moduletrekker 2"
                             placeholder="Selecteer een moduletrekker"
-                            options={[
-                                {
-                                    label: 'Erik Verhaar',
-                                    value: 1,
-                                },
-                                {
-                                    label: 'Tom van Gelder',
-                                    value: 2,
-                                },
-                            ]}
+                            isLoading={isLoading && isFetching}
+                            optimized={false}
+                            options={users?.map(user => ({
+                                label: user.Gebruikersnaam,
+                                value: user.UUID,
+                            }))}
                         />
                     </div>
                 </div>
                 <div className="mt-6">
-                    <FormikRte
-                        name="Omschrijving"
+                    <FormikTextArea
+                        name="Description"
                         label="Omschrijving"
                         description="Geef een omschrijving van de module. Denk hierbij aan de aanpassingen die worden gedaan."
                         required

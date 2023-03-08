@@ -41,7 +41,7 @@ const SearchBar = ({
             if (callBack) {
                 callBack()
             }
-            navigate(`/zoekresultaten?query=${searchQuery}`, { replace: true })
+            navigate(`/zoekresultaten?query=${searchQuery}`)
         } else if (e.key === 'Escape') {
             // Escape key
             setSearchBarPopupOpen(false)

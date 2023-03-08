@@ -6,10 +6,10 @@
     "dependencies": {
         "@craco/craco": "7.0.0-alpha.3",
         "@headlessui/react": "^1.5.0",
-        "@pzh-ui/components": "^0.0.209",
+        "@pzh-ui/components": "^0.0.222",
         "@pzh-ui/config": "^0.0.34",
         "@pzh-ui/css": "^0.0.51",
-        "@pzh-ui/icons": "^0.0.13",
+        "@pzh-ui/icons": "^0.0.16",
         "@sentry/browser": "^6.11.0",
         "@tanstack/react-query": "^4.13.0",
         "@tippyjs/react": "^4.2.5",
@@ -19,7 +19,9 @@
         "date-fns": "^2.23.0",
         "dompurify": "^2.3.1",
         "formik": "^2.2.9",
+        "formik-validator-zod": "^1.0.2",
         "framer-motion": "^6.3.3",
+        "jwt-decode": "^3.1.2",
         "leaflet": "^1.7.1",
         "leaflet-draw": "^1.0.4",
         "lodash.clonedeep": "^4.5.0",
@@ -45,6 +47,7 @@
         "typescript": "4.4.4",
         "url-search-params-polyfill": "^8.1.1",
         "yup": "v1.0.0-beta.7",
+        "zod": "^3.21.4",
         "zustand": "^4.1.1"
     },
     "scripts": {

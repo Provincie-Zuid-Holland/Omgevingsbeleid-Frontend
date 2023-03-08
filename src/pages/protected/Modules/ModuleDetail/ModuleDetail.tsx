@@ -6,15 +6,51 @@ import {
     Hyperlink,
     Text,
 } from '@pzh-ui/components'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
+import { useParams } from 'react-router-dom'
 
+import { useModulesModuleIdGet, useUsersGet } from '@/api/fetchers'
+import Avatar from '@/components/Avatar'
 import { Container } from '@/components/Container'
-import ModuleContentsModal from '@/components/Modules/ModuleContentsModal'
+import { LoaderContent } from '@/components/Loader'
 import ModuleItem from '@/components/Modules/ModuleItem'
+import ModuleLock from '@/components/Modules/ModuleLock'
+import {
+    ModuleActivateModal,
+    ModuleContentsModal,
+} from '@/components/Modules/ModuleModals'
+import ModuleLockModal from '@/components/Modules/ModuleModals/ModuleLockModal'
+import { ModuleModalActions } from '@/components/Modules/ModuleModals/types'
+import * as modules from '@/constants/zod/modules'
 
 const ModuleDetail = () => {
-    const [openModal, setOpenModal] = useState(false)
+    const { id } = useParams()
+
+    const [moduleModal, setModuleModal] = useState<ModuleModalActions>({
+        isOpen: false,
+    })
+
+    const { data: { Module: module, Objects: objects } = {}, isLoading } =
+        useModulesModuleIdGet(parseInt(id!), {
+            query: { enabled: !!id },
+        })
+    const { data: users } = useUsersGet()
+
+    const manager1 = useMemo(
+        () =>
+            module?.Module_Manager_1_UUID &&
+            users?.find(user => user.UUID === module.Module_Manager_1_UUID),
+        [module?.Module_Manager_1_UUID, users]
+    )
+    const manager2 = useMemo(
+        () =>
+            module?.Module_Manager_2_UUID &&
+            users?.find(user => user.UUID === module.Module_Manager_2_UUID),
+        [module?.Module_Manager_2_UUID, users]
+    )
+
+    if (isLoading || !module) return <LoaderContent />
 
     return (
         <>
@@ -27,16 +63,16 @@ const ModuleDetail = () => {
                     <div className="flex items-center justify-between mb-2">
                         <Text type="body">Module</Text>
                         <Hyperlink
-                            to="/muteer/modules/1/bewerk"
+                            to={`/muteer/modules/${module.Module_ID}/bewerk`}
                             text="Module bewerken"
                         />
                     </div>
                     <div className="flex items-center justify-between">
                         <div className="flex-1 w-[85%]">
                             <div className="flex items-center">
-                                <Heading level="1">Koers 2022</Heading>
+                                <Heading level="1">{module.Title}</Heading>
                                 <Badge
-                                    text="Inactief"
+                                    text={module.Status?.Status || ''}
                                     upperCase={false}
                                     className="-mt-2 ml-2"
                                     variant="gray"
@@ -44,82 +80,103 @@ const ModuleDetail = () => {
                             </div>
                             <div>
                                 <Text type="body" className="truncate">
-                                    De module Koers 2022 zorgt voor het
-                                    aanpassen van de leefomgeving rondom de
-                                    havens in Rotterdam. Als er meer tekst is
-                                    dan zal deze worden afgekapt
+                                    {module.Description}
                                 </Text>
                             </div>
                         </div>
                         <div className="flex">
-                            <img
-                                src="https://via.placeholder.com/46x46"
-                                alt=""
-                                className="rounded-full border border-pzh-gray-600 min-w-[46px]"
-                            />
-                            <img
-                                src="https://via.placeholder.com/46x46"
-                                alt=""
-                                className="rounded-full border border-pzh-gray-600 -ml-2 min-w-[46px]"
-                            />
+                            {manager1 && (
+                                <Avatar name={manager1.Gebruikersnaam} />
+                            )}
+                            {manager2 && (
+                                <Avatar
+                                    name={manager2.Gebruikersnaam}
+                                    className="-ml-2"
+                                />
+                            )}
                         </div>
                     </div>
-                    <Divider className="mt-3" />
+                    {module.Activated ? (
+                        <ModuleLock
+                            locked={module.Temporary_Locked}
+                            setModuleModal={setModuleModal}
+                        />
+                    ) : (
+                        <Divider className="mt-3" />
+                    )}
                 </div>
 
                 <div className="col-span-4">
                     <Text type="body" className="font-bold">
                         Alle onderdelen in deze module
                     </Text>
-                    <div className="mb-4">
-                        <ModuleItem
-                            type="beleidskeuze"
-                            status="Vervallen"
-                            title="De provincie Zuid-Holland draagt bij aan het behoud van de wereldpositie die de Rotterdamse haven bezit"
-                        />
-                        <ModuleItem
-                            type="maatregel"
-                            status="Wijzigen"
-                            title="Faciliteren van gemeenten bij besparen en overschakelen op schone energie"
-                        />
-                        <ModuleItem
-                            type="beleidskeuze"
-                            status="Wijzigen"
-                            title="Gezonde leefomgeving"
-                        />
-                        <ModuleItem
-                            type="gebiedsprogramma"
-                            status="Toevoegen"
-                            title="Zuid-Hollandse Eilanden"
-                        />
-                    </div>
+                    {!!objects?.length ? (
+                        <div className="mb-4">
+                            {objects.map(object => (
+                                <ModuleItem key={object.UUID} {...object} />
+                            ))}
+                        </div>
+                    ) : (
+                        <p className="italic mb-4">
+                            Er zijn nog geen onderdelen toegevoegd aan deze
+                            module
+                        </p>
+                    )}
                     <button
-                        onClick={() => setOpenModal(true)}
+                        onClick={() =>
+                            setModuleModal({
+                                isOpen: true,
+                                action: 'addContents',
+                            })
+                        }
                         className="underline text-pzh-green hover:text-pzh-green-dark">
                         Onderdeel toevoegen
                     </button>
                 </div>
 
                 <div className="col-span-2">
-                    <div className="py-4 px-6 bg-pzh-ui-light-blue">
-                        <Text type="body" className="mb-2 font-bold">
-                            Module inactief
-                        </Text>
-                        <Text type="body" className="mb-3">
-                            Deze module is nog niet actief. Andere gebruikers
-                            kunnen deze module nog niet zien en kunnen nog geen
-                            onderdelen uit deze module bewerken.
-                        </Text>
-                        <Button>Activeer module</Button>
-                    </div>
+                    {!module.Activated && (
+                        <div className="py-4 px-6 bg-pzh-ui-light-blue">
+                            <Text type="body" className="mb-2 font-bold">
+                                Module inactief
+                            </Text>
+                            <Text type="body" className="mb-3">
+                                Deze module is nog niet actief. Andere
+                                gebruikers kunnen deze module nog niet zien en
+                                kunnen nog geen onderdelen uit deze module
+                                bewerken.
+                            </Text>
+                            <Button
+                                onPress={() =>
+                                    setModuleModal({
+                                        isOpen: true,
+                                        action: 'activate',
+                                    })
+                                }>
+                                Activeer module
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </Container>
 
             <ModuleContentsModal
-                isOpen={openModal}
-                setIsOpen={setOpenModal}
+                isOpen={
+                    moduleModal.isOpen && moduleModal.action === 'addContents'
+                }
+                onClose={() => setModuleModal({ isOpen: false })}
                 initialStep={1}
-                initialValues={{ state: '', type: '' }}
+                initialValues={modules.EMPTY_MODULE_OBJECT}
+            />
+
+            <ModuleActivateModal
+                isOpen={moduleModal.isOpen && moduleModal.action === 'activate'}
+                onClose={() => setModuleModal({ isOpen: false })}
+            />
+
+            <ModuleLockModal
+                isOpen={moduleModal.isOpen && moduleModal.action === 'lock'}
+                onClose={() => setModuleModal({ isOpen: false })}
             />
         </>
     )

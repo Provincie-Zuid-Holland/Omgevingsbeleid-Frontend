@@ -1,15 +1,9 @@
 import { Divider, Text } from '@pzh-ui/components'
 import { CircleInfo, EllipsisVertical } from '@pzh-ui/icons'
 
-import { PolicyTitlesSingular } from '@/constants/policyObjects'
+import { ModuleObjectShort } from '@/api/fetchers.schemas'
 
-interface ModuleItemProps {
-    type: PolicyTitlesSingular
-    status: string
-    title: string
-}
-
-const ModuleItem = ({ type, status, title }: ModuleItemProps) => (
+const ModuleItem = ({ Object_Type, Action, Title }: ModuleObjectShort) => (
     <div>
         <Divider />
         <div className="flex justify-between items-center">
@@ -18,19 +12,19 @@ const ModuleItem = ({ type, status, title }: ModuleItemProps) => (
                     <Text
                         type="body-small"
                         className="text-pzh-gray-600 capitalize">
-                        {type}
+                        {Object_Type}
                     </Text>
                     <div className="flex items-center ">
                         <Text
                             type="body-small"
                             className="mr-1 text-pzh-gray-600">
-                            {status}
+                            {Action}
                         </Text>
                         <CircleInfo className="-mt-1 text-pzh-gray-600" />
                     </div>
                 </div>
                 <Text type="body" className="truncate">
-                    {title}
+                    {Title}
                 </Text>
             </div>
             <div>

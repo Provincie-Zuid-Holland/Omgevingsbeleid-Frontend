@@ -8,6 +8,7 @@ import {
     Button,
 } from '@pzh-ui/components'
 import { AngleDown } from '@pzh-ui/icons'
+import { useState } from 'react'
 import {
     Accordion,
     AccordionItem,
@@ -19,17 +20,31 @@ import { Helmet } from 'react-helmet'
 import { useNavigate } from 'react-router-dom'
 import { useMedia } from 'react-use'
 
+import { useModulesGet } from '@/api/fetchers'
 import { Container } from '@/components/Container'
+import { LoaderCard } from '@/components/Loader'
 import ModuleCard from '@/components/Modules/ModuleCard'
 import useAuth from '@/hooks/useAuth'
 
-/**
- * @returns the Dashboard of the logged in user
- */
 const Dashboard = () => {
     const { user } = useAuth()
     const navigate = useNavigate()
     const isMobile = useMedia('(max-width: 640px)')
+    const [activeTab, setActiveTab] = useState<string | number>('user')
+
+    const { data: userModules, isLoading: userModulesLoading } = useModulesGet(
+        {
+            only_active: true,
+            only_mine: true,
+        },
+        { query: { enabled: activeTab === 'user' } }
+    )
+    const { data: allModules, isLoading: allModulesLoading } = useModulesGet(
+        {
+            only_active: true,
+        },
+        { query: { enabled: activeTab !== 'user' } }
+    )
 
     return (
         <>
@@ -57,24 +72,36 @@ const Dashboard = () => {
                             Modules
                         </h2>
 
-                        <Tabs>
-                            <TabItem title="Mijn actieve modules">
-                                <ul className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
-                                    <ModuleCard
-                                        title="Koers 2022"
-                                        link="/muteer/modules/1"
-                                        description="Vivamus aliquam ligula rhoncus venenatis scelerisque. Etiam et ultricies nisl. Integer imperdiet quis ligula sed porttitor."
-                                        status="Inactief"
-                                    />
-                                    <ModuleCard
-                                        title="GP MOB"
-                                        link="/muteer/modules/2"
-                                        description="Vivamus aliquam ligula rhoncus venenatis scelerisque. Etiam et ultricies nisl. Integer imperdiet quis ligula sed porttitor."
-                                        status="Inspraak"
-                                    />
-                                </ul>
+                        <Tabs
+                            selectedKey={activeTab}
+                            onSelectionChange={setActiveTab}>
+                            <TabItem key="user" title="Mijn actieve modules">
+                                {userModulesLoading ? (
+                                    <ul className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
+                                        <LoaderCard height="180" />
+                                        <LoaderCard height="180" />
+                                        <LoaderCard height="180" />
+                                    </ul>
+                                ) : (
+                                    <>
+                                        {userModules?.length ? (
+                                            <ul className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
+                                                {userModules.map(module => (
+                                                    <ModuleCard
+                                                        key={module.Module_ID}
+                                                        {...module}
+                                                    />
+                                                ))}
+                                            </ul>
+                                        ) : (
+                                            <span className="mt-3 block italic">
+                                                Geen modules gevonden.
+                                            </span>
+                                        )}
+                                    </>
+                                )}
 
-                                {user?.Rol !== 'Beheer' ? (
+                                {user?.Rol !== 'Beheerder' ? (
                                     <div className="grid grid-cols-6 mt-8">
                                         <div className="col-span-3 mb-6">
                                             <Heading level="3" className="mb-4">
@@ -165,8 +192,7 @@ const Dashboard = () => {
                                                 size="small"
                                                 onPress={() =>
                                                     navigate(
-                                                        '/muteer/modules/nieuw',
-                                                        { replace: true }
+                                                        '/muteer/modules/nieuw'
                                                     )
                                                 }>
                                                 Module toevoegen
@@ -184,27 +210,31 @@ const Dashboard = () => {
                                     </div>
                                 )}
                             </TabItem>
-                            <TabItem title="Alle actieve modules">
-                                <ul className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
-                                    <ModuleCard
-                                        title="Koers 2022"
-                                        link="/muteer/modules/1"
-                                        description="Vivamus aliquam ligula rhoncus venenatis scelerisque. Etiam et ultricies nisl. Integer imperdiet quis ligula sed porttitor."
-                                        status="Inactief"
-                                    />
-                                    <ModuleCard
-                                        title="GP MOB"
-                                        link="/muteer/modules/2"
-                                        description="Vivamus aliquam ligula rhoncus venenatis scelerisque. Etiam et ultricies nisl. Integer imperdiet quis ligula sed porttitor."
-                                        status="Inspraak"
-                                    />
-                                    <ModuleCard
-                                        title="Energietransitie"
-                                        link="/muteer/modules/3"
-                                        description="Vivamus aliquam ligula rhoncus venenatis scelerisque. Etiam et ultricies nisl. Integer imperdiet quis ligula sed porttitor."
-                                        status="Concept Ontwerp GS"
-                                    />
-                                </ul>
+                            <TabItem key="all" title="Alle actieve modules">
+                                {allModulesLoading ? (
+                                    <ul className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
+                                        <LoaderCard height="180" />
+                                        <LoaderCard height="180" />
+                                        <LoaderCard height="180" />
+                                    </ul>
+                                ) : (
+                                    <>
+                                        {allModules?.length ? (
+                                            <ul className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
+                                                {allModules.map(module => (
+                                                    <ModuleCard
+                                                        key={module.Module_ID}
+                                                        {...module}
+                                                    />
+                                                ))}
+                                            </ul>
+                                        ) : (
+                                            <span className="mt-3 block italic">
+                                                Geen modules gevonden.
+                                            </span>
+                                        )}
+                                    </>
+                                )}
                             </TabItem>
                         </Tabs>
                     </div>

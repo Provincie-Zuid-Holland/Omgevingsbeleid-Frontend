@@ -8,32 +8,49 @@ import {
     Modal,
     Text,
 } from '@pzh-ui/components'
+import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, useFormikContext } from 'formik'
+import { withZodSchema } from 'formik-validator-zod'
 import { useState } from 'react'
-import * as Yup from 'yup'
+import { useParams } from 'react-router-dom'
 
-interface ContentsModalForm {
-    state: string
-    type: string
+import {
+    getModulesModuleIdGetQueryKey,
+    useModulesModuleIdAddExistingObjectPost,
+    useModulesModuleIdAddNewObjectPost,
+    useUsersGet,
+} from '@/api/fetchers'
+import {
+    ModuleAddExistingObject,
+    ModuleAddNewObject,
+} from '@/api/fetchers.schemas'
+import * as modules from '@/constants/zod/modules'
+import { toastNotification } from '@/utils/toastNotification'
+
+type ContentsModalForm = (ModuleAddNewObject | ModuleAddExistingObject) & {
+    state?: 'new' | 'existing'
 }
 
 interface ModuleContentsModalProps {
     isOpen: boolean
-    setIsOpen: (isOpen: boolean) => void
+    onClose: () => void
     initialStep: number
     initialValues: ContentsModalForm
 }
 
 const ModuleContentsModal = ({
     isOpen,
-    setIsOpen,
+    onClose,
     initialStep = 1,
     initialValues,
 }: ModuleContentsModalProps) => {
+    const queryClient = useQueryClient()
+    const { id } = useParams()
+
     const [step, setStep] = useState(initialStep)
 
     const handleClose = () => {
-        setIsOpen(false)
+        onClose()
 
         // Wait for modal animation to finish before resetting step
         setTimeout(() => setStep(initialStep), 300)
@@ -42,8 +59,11 @@ const ModuleContentsModal = ({
     /**
      * Handle steps logic of wizard
      */
-    const handleWizard = (state: string, type: string) => {
-        if (state === 'new' && !!type) {
+    const handleWizard = (
+        state: ContentsModalForm['state'],
+        Object_Type?: ModuleAddNewObject['Object_Type']
+    ) => {
+        if (state === 'new' && !!Object_Type) {
             return setStep(3)
         } else if (state === 'new') {
             return setStep(2)
@@ -54,7 +74,55 @@ const ModuleContentsModal = ({
         return
     }
 
-    const handleFormSubmit = () => {}
+    /**
+     * Add new object to module
+     */
+    const addNewObjectToModule = useModulesModuleIdAddNewObjectPost({
+        mutation: {
+            onError: () => {
+                toastNotification({ type: 'standard error' })
+            },
+            onSuccess: () => {
+                queryClient
+                    .invalidateQueries(
+                        getModulesModuleIdGetQueryKey(parseInt(id!))
+                    )
+                    .then(() => onClose())
+
+                toastNotification({ type: 'saved' })
+            },
+        },
+    })
+
+    /**
+     * Add existing object to module
+     */
+    const addExistingObjectToModule = useModulesModuleIdAddExistingObjectPost({
+        mutation: {
+            onError: () => {
+                toastNotification({ type: 'standard error' })
+            },
+            onSuccess: () => {
+                queryClient
+                    .invalidateQueries(
+                        getModulesModuleIdGetQueryKey(parseInt(id!))
+                    )
+                    .then(() => onClose())
+
+                toastNotification({ type: 'saved' })
+            },
+        },
+    })
+
+    const handleFormSubmit = (payload: ContentsModalForm) => {
+        const { state, ...data } = payload
+
+        if (state === 'new' && 'Object_Type' in data) {
+            addNewObjectToModule.mutate({ moduleId: parseInt(id!), data })
+        } else if (state === 'existing' && 'Action' in data) {
+            addExistingObjectToModule.mutate({ moduleId: parseInt(id!), data })
+        }
+    }
 
     const isFinalStep = step === 3
 
@@ -67,25 +135,38 @@ const ModuleContentsModal = ({
             <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
-                validationSchema={getValidationSchema(step)}>
-                {({ values, handleSubmit, isValid, isSubmitting, ...rest }) => (
+                validate={values =>
+                    'Action' in values
+                        ? withZodSchema(modules.SCHEMA_ADD_EXISTING_OBJECT)
+                        : withZodSchema(modules.SCHEMA_ADD_NEW_OBJECT)
+                }
+                enableReinitialize>
+                {({ values, handleSubmit, isValid, isSubmitting }) => (
                     <Form onSubmit={handleSubmit}>
-                        {console.log(rest)}
                         <Wizard step={step} />
                         <div className="mt-6 flex items-center justify-between">
-                            <button className="underline" onClick={handleClose}>
+                            <button
+                                type="button"
+                                className="underline"
+                                onClick={handleClose}>
                                 Annuleren
                             </button>
                             <Button
                                 variant={isFinalStep ? 'cta' : 'primary'}
                                 type={isFinalStep ? 'submit' : 'button'}
                                 onPress={() => {
-                                    handleWizard(values.state, values.type)
+                                    handleWizard(
+                                        values.state,
+                                        ('Object_Type' in values &&
+                                            values.Object_Type) ||
+                                            ''
+                                    )
                                 }}
                                 isDisabled={
                                     (isFinalStep && !isValid) ||
                                     (isFinalStep && isSubmitting)
-                                }>
+                                }
+                                isLoading={isSubmitting}>
                                 {isFinalStep ? 'Toevoegen' : 'Volgende'}
                             </Button>
                         </div>
@@ -98,6 +179,7 @@ const ModuleContentsModal = ({
 
 const Wizard = ({ step }: { step: number }) => {
     const { values } = useFormikContext<ContentsModalForm>()
+    const { data: users, isFetching, isLoading } = useUsersGet()
 
     switch (step) {
         case 1:
@@ -132,11 +214,13 @@ const Wizard = ({ step }: { step: number }) => {
                         toevoegen?
                     </Text>
                     <FormikRadioGroup
-                        name="type"
+                        name="Object_Type"
                         options={[
+                            { label: 'Ambitie', value: 'ambitie' },
                             { label: 'Beleidskeuze', value: 'beleidskeuze' },
                             { label: 'Maatregel', value: 'maatregel' },
                             { label: 'Beleidsregel', value: 'beleidsregel' },
+                            { label: 'Beleidsdoel', value: 'beleidsdoel' },
                         ]}
                     />
                 </div>
@@ -145,56 +229,48 @@ const Wizard = ({ step }: { step: number }) => {
             return (
                 <div>
                     <Heading level="2" className="mb-4">
-                        Nieuwe {values.type}
+                        Nieuwe {'Object_Type' in values && values.Object_Type}
                     </Heading>
                     <Text className="mb-4">
                         Geef alvast een titel, een eerste en een tweede eigenaar
                         op.
                     </Text>
                     <FormikInput
-                        name="Titel"
+                        name="Title"
                         label="Titel"
                         placeholder="Geef een titel op"
                         required
                     />
                     <div className="mt-3">
                         <FormikSelect
-                            name="Eigenaar1"
+                            name="Owner_1_UUID"
                             label="Eerste eigenaar"
                             placeholder="Kies een eigenaar"
-                            options={[
-                                {
-                                    label: 'Erik Verhaar',
-                                    value: 1,
-                                },
-                                {
-                                    label: 'Tom van Gelder',
-                                    value: 2,
-                                },
-                            ]}
+                            isLoading={isLoading && isFetching}
+                            optimized={false}
+                            options={users?.map(user => ({
+                                label: user.Gebruikersnaam,
+                                value: user.UUID,
+                            }))}
                             required
                         />
                     </div>
                     <div className="mt-3">
                         <FormikSelect
-                            name="Eigenaar2"
+                            name="Owner_2_UUID"
                             label="Tweede eigenaar"
                             placeholder="Kies een eigenaar"
-                            options={[
-                                {
-                                    label: 'Erik Verhaar',
-                                    value: 1,
-                                },
-                                {
-                                    label: 'Tom van Gelder',
-                                    value: 2,
-                                },
-                            ]}
+                            isLoading={isLoading && isFetching}
+                            optimized={false}
+                            options={users?.map(user => ({
+                                label: user.Gebruikersnaam,
+                                value: user.UUID,
+                            }))}
                         />
                     </div>
                     <div className="mt-3">
                         <FormikTextArea
-                            name="Toelichting"
+                            name="Explanation"
                             label="Toelichting"
                             placeholder="Vul de toelichting in (dit kan ook later)"
                             description="Geef aan waarom deze beleidskeuze gaat worden aangepast in deze module"
@@ -202,7 +278,7 @@ const Wizard = ({ step }: { step: number }) => {
                     </div>
                     <div className="mt-3">
                         <FormikTextArea
-                            name="Conclusie"
+                            name="Conclusion"
                             label="Conclusie"
                             placeholder="Vul de conclusie in (dit kan ook later)"
                             description="Geef aan welke wijzigingen doorgevoerd gaan worden aan deze beleidskeuze"
@@ -214,20 +290,6 @@ const Wizard = ({ step }: { step: number }) => {
             return <></>
         default:
             return <></>
-    }
-}
-
-const getValidationSchema = (step: number) => {
-    switch (step) {
-        case 1:
-        case 2:
-            return Yup.object().shape({})
-        case 3:
-            return Yup.object().shape({
-                Titel: Yup.string().required('Vul een titel in'),
-            })
-        default:
-            break
     }
 }
 

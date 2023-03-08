@@ -155,10 +155,7 @@ const VerordeningSidebarItem = ({
                     </button>
                     <span
                         onClick={() => {
-                            navigate(
-                                `${location.pathname}?actief=${item.UUID}`,
-                                { replace: true }
-                            )
+                            navigate(`${location.pathname}?actief=${item.UUID}`)
                             if (windowSize.width < 1028) {
                                 setNavMenuOpen(false)
                             }
@@ -186,9 +183,7 @@ const VerordeningSidebarItem = ({
                 <button
                     className="pl-5 my-1 text-left cursor-pointer"
                     onClick={() => {
-                        navigate(`${location.pathname}?actief=${item.UUID}`, {
-                            replace: true,
-                        })
+                        navigate(`${location.pathname}?actief=${item.UUID}`)
                         if (windowSize.width < 1028) {
                             setNavMenuOpen(false)
                         }

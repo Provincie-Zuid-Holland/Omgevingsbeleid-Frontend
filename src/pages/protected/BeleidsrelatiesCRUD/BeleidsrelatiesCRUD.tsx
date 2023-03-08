@@ -90,7 +90,7 @@ const BeleidsrelatiesCRUD = ({ dataModel }: BeleidsrelatiesCRUDProps) => {
         axios
             .post(`/beleidsrelaties`, JSON.stringify(crudObject))
             .then(() => {
-                navigate(`/muteer/beleidsrelaties/${UUID}`, { replace: true })
+                navigate(`/muteer/beleidsrelaties/${UUID}`)
                 toast('Opgeslagen')
             })
             .catch(err => {

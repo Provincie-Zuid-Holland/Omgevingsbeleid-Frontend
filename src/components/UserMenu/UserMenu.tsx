@@ -48,11 +48,7 @@ const UserMenu = () => {
                         <Divider className="mt-0" />
                         <div className="py-2 px-4">
                             <button
-                                onClick={() =>
-                                    signout(() =>
-                                        navigate('/', { replace: true })
-                                    )
-                                }
+                                onClick={() => signout(() => navigate('/'))}
                                 className="flex items-center">
                                 <AngleRight className="-mt-1 mr-1" />
                                 <Text type="body">Uitloggen</Text>

@@ -1,12 +1,12 @@
 import { string, object, array, mixed, lazy, number } from 'yup'
 
-import { BeleidskeuzesWriteStatus } from '@/api/fetchers.schemas'
+import { ModuleStatusCode } from '@/api/fetchers.schemas'
 import {
     PolicyTitlesPlural,
     PolicyTitlesSingular,
 } from '@/constants/policyObjects'
 
-const possibleStatusses = Object.values(BeleidskeuzesWriteStatus)
+const possibleStatusses = Object.values(ModuleStatusCode)
 
 /**
  * Contains the yup validation schema for shared properties

@@ -66,10 +66,7 @@ function BeleidsmodulesOverview() {
                 return currentBeleidsmodule
             } else {
                 toast('Deze beleidsmodule kon niet gevonden worden')
-                navigate(
-                    `/muteer/${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}`,
-                    { replace: true }
-                )
+                navigate(`/muteer/${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}`)
             }
         }
 

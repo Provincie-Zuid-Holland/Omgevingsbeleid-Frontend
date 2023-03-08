@@ -15,17 +15,15 @@ const instance = axios.create({
     },
 })
 
-instance.interceptors.request.use(function (config) {
+instance.interceptors.request.use(config => {
     config.headers &&
         (config.headers.Authorization = `Bearer ${getAccessToken()}`)
     return config
 })
 
 instance.interceptors.response.use(
-    function (response) {
-        return response
-    },
-    function (error) {
+    response => response,
+    error => {
         const allowedUrls = ['password-reset']
         if (
             error?.response?.status === 401 &&

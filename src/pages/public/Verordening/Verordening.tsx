@@ -160,10 +160,7 @@ const VerordeningsSection = ({
             <div className="mt-6 mb-4" id={section.UUID}>
                 <div
                     onClick={() => {
-                        navigate(
-                            `${location.pathname}?actief=${section.UUID}`,
-                            { replace: true }
-                        )
+                        navigate(`${location.pathname}?actief=${section.UUID}`)
                         setActiveArticle(section)
                     }}
                     style={{ width: 'calc(100% + 1rem)' }}
