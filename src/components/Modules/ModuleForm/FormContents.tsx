@@ -11,7 +11,8 @@ import { useParams } from 'react-router-dom'
 import { useDebounce, useMedia } from 'react-use'
 
 import { useModulesModuleIdGet, useSearchGet } from '@/api/fetchers'
-import * as modules from '@/constants/zod/modules'
+import useModules from '@/hooks/useModules'
+import * as modules from '@/validation/modules'
 
 import ModuleContentsModal from '../ModuleModals/ModuleContentsModal'
 import ModulePart from '../ModulePart'
@@ -29,8 +30,6 @@ const FormContents = () => {
         { query: { enabled: !!debouncedValue } }
     )
 
-    console.log(searchData)
-
     /**
      * Debounce object search
      */
@@ -46,14 +45,25 @@ const FormContents = () => {
     )
 
     const newObjects = useMemo(
-        () => objects?.filter(object => object.Action === 'Toevoegen'),
+        () =>
+            objects?.filter(
+                object =>
+                    object.Action === 'Toevoegen' || object.Action === 'Create'
+            ),
         [objects]
     )
 
     const existingObjects = useMemo(
-        () => objects?.filter(object => object.Action !== 'Toevoegen'),
+        () =>
+            objects?.filter(
+                object =>
+                    object.Action !== 'Toevoegen' && object.Action !== 'Create'
+            ),
         [objects]
     )
+
+    const { useRemoveObjectFromModule } = useModules()
+    const { mutate } = useRemoveObjectFromModule(parseInt(id!))
 
     return (
         <>
@@ -90,6 +100,13 @@ const FormContents = () => {
                             <ModulePart
                                 key={object.UUID}
                                 isLast={existingObjects.length === index + 1}
+                                handleRemove={() =>
+                                    mutate({
+                                        moduleId: object.Module_ID,
+                                        objectType: object.Object_Type,
+                                        lineageId: object.Object_ID,
+                                    })
+                                }
                                 {...object}
                             />
                         ))}
@@ -106,6 +123,13 @@ const FormContents = () => {
                                 <ModulePart
                                     key={object.UUID}
                                     isLast={newObjects.length === index + 1}
+                                    handleRemove={() =>
+                                        mutate({
+                                            moduleId: object.Module_ID,
+                                            objectType: object.Object_Type,
+                                            lineageId: object.Object_ID,
+                                        })
+                                    }
                                     {...object}
                                 />
                             ))}

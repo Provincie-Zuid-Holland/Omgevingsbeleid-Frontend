@@ -20,7 +20,7 @@ const ModuleActivateModal = ({ isOpen, onClose }: ModuleActivateModalProps) => {
     /**
      * Activate module
      */
-    const activateModule = useModulesModuleIdActivatePost({
+    const { mutate, isLoading } = useModulesModuleIdActivatePost({
         mutation: {
             onError: () => {
                 toastNotification({ type: 'standard error' })
@@ -66,9 +66,9 @@ const ModuleActivateModal = ({ isOpen, onClose }: ModuleActivateModalProps) => {
                 </button>
                 <Button
                     variant="cta"
-                    onPress={() =>
-                        activateModule.mutate({ moduleId: parseInt(id!) })
-                    }>
+                    onPress={() => mutate({ moduleId: parseInt(id!) })}
+                    isDisabled={isLoading}
+                    isLoading={isLoading}>
                     Activeren
                 </Button>
             </div>

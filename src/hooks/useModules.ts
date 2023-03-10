@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import {
     getModulesModuleIdGetQueryKey,
     useModulesModuleIdPost,
+    useModulesModuleIdRemoveObjectTypeLineageIdDelete,
 } from '@/api/fetchers'
 import { toastNotification } from '@/utils/toastNotification'
 
@@ -25,7 +26,23 @@ const useModules = () => {
             },
         })
 
-    return { useEditModule }
+    const useRemoveObjectFromModule = (id: number, onSucces?: () => void) =>
+        useModulesModuleIdRemoveObjectTypeLineageIdDelete({
+            mutation: {
+                onError: () => {
+                    toastNotification({ type: 'standard error' })
+                },
+                onSuccess: () => {
+                    queryClient
+                        .invalidateQueries(getModulesModuleIdGetQueryKey(id))
+                        .then(onSucces)
+
+                    toastNotification({ type: 'saved' })
+                },
+            },
+        })
+
+    return { useEditModule, useRemoveObjectFromModule }
 }
 
 export default useModules

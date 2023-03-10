@@ -3,9 +3,11 @@ import { TrashCan } from '@pzh-ui/icons'
 import classNames from 'classnames'
 
 import { ModuleObjectShort } from '@/api/fetchers.schemas'
+import getModuleActionText from '@/utils/getModuleActionText'
 
 interface ModulePartProps extends ModuleObjectShort {
     isLast?: boolean
+    handleRemove: () => void
 }
 
 const ModulePart = ({
@@ -13,6 +15,7 @@ const ModulePart = ({
     Title,
     Action,
     isLast,
+    handleRemove,
 }: ModulePartProps) => (
     <div
         className={classNames(
@@ -25,9 +28,12 @@ const ModulePart = ({
         <Text type="body" className="font-bold col-span-8 truncate">
             {Title}
         </Text>
-        <span className="col-span-1 italic">{Action}</span>
+        <span className="col-span-1 italic">{getModuleActionText(Action)}</span>
         <Tooltip label="Onderdeel niet (meer) meenemen in de module">
-            <button type="button" className="col-span-1 ml-auto">
+            <button
+                type="button"
+                onClick={handleRemove}
+                className="col-span-1 ml-auto">
                 <span className="sr-only">verwijderen</span>
                 <TrashCan size={20} className="text-pzh-red" />
             </button>

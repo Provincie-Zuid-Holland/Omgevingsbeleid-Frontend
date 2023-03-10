@@ -28,6 +28,7 @@ const ModuleLock = ({ locked, setModuleModal }: ModuleLockProps) => {
             </Text>
             <div className="ml-auto">
                 <ToggleSwitch
+                    title={locked ? 'Module unlocken' : 'Module locken'}
                     checked={!locked}
                     onClick={checked => {
                         if (!checked) {

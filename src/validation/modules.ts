@@ -29,6 +29,28 @@ export const SCHEMA_ADD_EXISTING_OBJECT = z.object({
     Conclusion: schemaDefaults.requiredString(),
 })
 
+const baseObjectShape = z.object({
+    Explanation: schemaDefaults.requiredString(),
+    Conclusion: schemaDefaults.requiredString(),
+})
+
+export const SCHEMA_ADD_OBJECT = z
+    .discriminatedUnion('state', [
+        z.object({
+            state: z.literal('new'),
+            Object_Type: schemaDefaults.requiredString(),
+            Title: schemaDefaults.Title,
+            Owner_1_UUID: schemaDefaults.requiredString(),
+            Owner_2_UUID: schemaDefaults.optionalString,
+        }),
+        z.object({
+            state: z.literal('existing'),
+            Object_UUID: schemaDefaults.requiredString(),
+            Action: schemaDefaults.requiredString(),
+        }),
+    ])
+    .and(baseObjectShape)
+
 export const EMPTY_MODULE_OBJECT: ModuleAddNewObject = createEmptyObject(
     SCHEMA_ADD_NEW_OBJECT
 )

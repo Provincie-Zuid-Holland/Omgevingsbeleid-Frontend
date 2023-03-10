@@ -2,9 +2,11 @@ import { useCallback, useLayoutEffect } from 'react'
 import { useNavigate, useRoutes } from 'react-router-dom'
 
 import { NetworkGraph } from '@/components/Network'
+import * as models from '@/config/objects'
 import policyObjects from '@/constants/policyObjects'
 import useAuth from '@/hooks/useAuth'
 import { Dashboard, MijnBeleid } from '@/pages/protected'
+import DynamicOverview from '@/pages/protected/DynamicOverview'
 import ModuleCreate from '@/pages/protected/Modules/ModuleCreate'
 import ModuleDetail from '@/pages/protected/Modules/ModuleDetail'
 import ModuleEdit from '@/pages/protected/Modules/ModuleEdit'
@@ -223,18 +225,26 @@ const AppRoutes = () => {
                         },
                     ],
                 },
-                ...detailPages
-                    .filter(page => !!page.element)
-                    .map(item => ({
-                        path: item.slug,
-                        children: [
-                            {
-                                index: true,
-                                element: item.element,
-                            },
-                            ...(item.children || []),
-                        ],
-                    })),
+                ...Object.keys(models).map(model => ({
+                    path: models[model as keyof typeof models].defaults.plural,
+                    element: (
+                        <DynamicOverview
+                            model={models[model as keyof typeof models]}
+                        />
+                    ),
+                })),
+                // ...detailPages
+                //     .filter(page => !!page.element)
+                //     .map(item => ({
+                //         path: item.slug,
+                //         children: [
+                //             {
+                //                 index: true,
+                //                 element: item.element,
+                //             },
+                //             ...(item.children || []),
+                //         ],
+                //     })),
             ],
         },
     ])

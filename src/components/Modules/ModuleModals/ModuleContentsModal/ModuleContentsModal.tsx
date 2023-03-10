@@ -10,9 +10,9 @@ import {
 } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, useFormikContext } from 'formik'
-import { withZodSchema } from 'formik-validator-zod'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import {
     getModulesModuleIdGetQueryKey,
@@ -24,8 +24,8 @@ import {
     ModuleAddExistingObject,
     ModuleAddNewObject,
 } from '@/api/fetchers.schemas'
-import * as modules from '@/constants/zod/modules'
 import { toastNotification } from '@/utils/toastNotification'
+import * as modules from '@/validation/modules'
 
 type ContentsModalForm = (ModuleAddNewObject | ModuleAddExistingObject) & {
     state?: 'new' | 'existing'
@@ -61,12 +61,15 @@ const ModuleContentsModal = ({
      */
     const handleWizard = (
         state: ContentsModalForm['state'],
-        Object_Type?: ModuleAddNewObject['Object_Type']
+        Object_Type?: ModuleAddNewObject['Object_Type'],
+        ExistingObject?: ModuleAddExistingObject['Object_UUID']
     ) => {
         if (state === 'new' && !!Object_Type) {
             return setStep(3)
         } else if (state === 'new') {
             return setStep(2)
+        } else if (state === 'existing' && !!ExistingObject) {
+            return setStep(5)
         } else if (state === 'existing') {
             return setStep(4)
         }
@@ -124,7 +127,7 @@ const ModuleContentsModal = ({
         }
     }
 
-    const isFinalStep = step === 3
+    const isFinalStep = step === 3 || step === 5
 
     return (
         <Modal
@@ -135,11 +138,9 @@ const ModuleContentsModal = ({
             <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
-                validate={values =>
-                    'Action' in values
-                        ? withZodSchema(modules.SCHEMA_ADD_EXISTING_OBJECT)
-                        : withZodSchema(modules.SCHEMA_ADD_NEW_OBJECT)
-                }
+                validationSchema={toFormikValidationSchema(
+                    modules.SCHEMA_ADD_OBJECT
+                )}
                 enableReinitialize>
                 {({ values, handleSubmit, isValid, isSubmitting }) => (
                     <Form onSubmit={handleSubmit}>
@@ -159,6 +160,9 @@ const ModuleContentsModal = ({
                                         values.state,
                                         ('Object_Type' in values &&
                                             values.Object_Type) ||
+                                            '',
+                                        ('Object_UUID' in values &&
+                                            values.Object_UUID) ||
                                             ''
                                     )
                                 }}
@@ -287,7 +291,77 @@ const Wizard = ({ step }: { step: number }) => {
                 </div>
             )
         case 4:
-            return <></>
+            return (
+                <div>
+                    <Heading level="2" className="mb-4">
+                        Wat wil je toevoegen?
+                    </Heading>
+                    <Text className="mb-4">
+                        Je wilt een bestaand onderdeel toevoegen aan deze
+                        module. Welk object wil je toevoegen?
+                    </Text>
+                    <FormikSelect
+                        key="Object_UUID"
+                        name="Object_UUID"
+                        placeholder="Zoek op titel van beleidskeuze, maatregel, etc."
+                        options={[
+                            {
+                                label: 'Test beleidskeuze',
+                                value: '123',
+                            },
+                        ]}
+                        noOptionsMessage={() =>
+                            'Zoek op titel van beleidskeuze, maatregel, etc.'
+                        }
+                    />
+                </div>
+            )
+        case 5:
+            return (
+                <div>
+                    <Heading level="2" className="mb-4">
+                        Bestaande beleidskeuze
+                    </Heading>
+                    <Text className="mb-4">
+                        “Waterveiligheid en waterkwaliteit” toevoegen aan de
+                        module “Koers 2022”
+                    </Text>
+                    <FormikSelect
+                        key="Action"
+                        name="Action"
+                        placeholder="Selecteer de actie"
+                        label="Actie"
+                        description="Gaat deze beleidskeuze wijzigen in deze module, of komt hij te vervallen?"
+                        options={[
+                            {
+                                label: 'Wijzigen',
+                                value: 'Edit',
+                            },
+                            {
+                                label: 'Verwijderen',
+                                value: 'Terminate',
+                            },
+                        ]}
+                        required
+                    />
+                    <div className="mt-3">
+                        <FormikTextArea
+                            name="Explanation"
+                            label="Toelichting"
+                            placeholder="Vul de toelichting in (dit kan ook later)"
+                            description="Geef aan waarom deze beleidskeuze gaat worden aangepast in deze module"
+                        />
+                    </div>
+                    <div className="mt-3">
+                        <FormikTextArea
+                            name="Conclusion"
+                            label="Conclusie"
+                            placeholder="Vul de conclusie in (dit kan ook later)"
+                            description="Geef aan welke wijzigingen doorgevoerd gaan worden aan deze beleidskeuze"
+                        />
+                    </div>
+                </div>
+            )
         default:
             return <></>
     }

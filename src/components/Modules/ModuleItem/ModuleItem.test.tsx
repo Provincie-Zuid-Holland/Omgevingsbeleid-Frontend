@@ -6,7 +6,11 @@ import ModuleItem from './ModuleItem'
 describe('ModuleItem', () => {
     it('renders the type, status, and title', () => {
         render(
-            <ModuleItem type="beleidskeuze" status="active" title="My Policy" />
+            <ModuleItem
+                Object_Type="beleidskeuze"
+                Action="Create"
+                Title="My Policy"
+            />
         )
 
         expect(screen.getByText('beleidskeuze')).toBeInTheDocument()

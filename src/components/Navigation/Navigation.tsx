@@ -40,7 +40,7 @@ const Navigation = () => {
                     sticky: !isAdvancedSearchPage,
                     relative: isAdvancedSearchPage,
                     'bg-pzh-blue': isOpen || userIsInMuteerEnvironment,
-                    'bg-white': !isOpen || !userIsInMuteerEnvironment,
+                    'bg-white': !isOpen && !userIsInMuteerEnvironment,
                 }
             )}
             id="top-navigation">

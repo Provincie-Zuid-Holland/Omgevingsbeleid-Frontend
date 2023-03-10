@@ -1,23 +1,23 @@
 import { BackLink, Button, Heading } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik } from 'formik'
-import { withZodSchema } from 'formik-validator-zod'
 import { Helmet } from 'react-helmet'
 import { useNavigate } from 'react-router-dom'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { getModulesGetQueryKey, useModulesPost } from '@/api/fetchers'
 import { ModuleCreate as ModuleCreateSchema } from '@/api/fetchers.schemas'
 import { Container } from '@/components/Container'
 import { FormBasicInfo } from '@/components/Modules/ModuleForm'
-import * as modules from '@/constants/zod/modules'
 import { toastNotification } from '@/utils/toastNotification'
+import * as modules from '@/validation/modules'
 
 const ModuleCreate = () => {
     const queryClient = useQueryClient()
 
     const navigate = useNavigate()
 
-    const createModule = useModulesPost({
+    const { mutate, isLoading } = useModulesPost({
         mutation: {
             onError: () => {
                 toastNotification({ type: 'standard error' })
@@ -43,7 +43,7 @@ const ModuleCreate = () => {
     })
 
     const handleSubmit = (payload: ModuleCreateSchema) => {
-        createModule.mutate({ data: payload })
+        mutate({ data: payload })
     }
 
     return (
@@ -55,7 +55,7 @@ const ModuleCreate = () => {
             <Formik
                 onSubmit={handleSubmit}
                 initialValues={modules.EMPTY_CREATE_MODULE}
-                validate={withZodSchema(modules.SCHEMA)}>
+                validationSchema={toFormikValidationSchema(modules.SCHEMA)}>
                 <Form>
                     <div className="py-2 bg-pzh-gray-100 sticky z-20 top-[97px]">
                         <div className="pzh-container flex justify-between items-center">
@@ -63,7 +63,11 @@ const ModuleCreate = () => {
                                 to="/muteer/dashboard"
                                 label="Terug naar modules"
                             />
-                            <Button variant="cta" type="submit">
+                            <Button
+                                variant="cta"
+                                type="submit"
+                                isDisabled={isLoading}
+                                isLoading={isLoading}>
                                 Opslaan
                             </Button>
                         </div>

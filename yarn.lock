@@ -2105,6 +2105,13 @@
   dependencies:
     react "^18.0.0"
 
+"@pzh-ui/icons@^0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/icons/-/icons-0.0.17.tgz#44545670e81419083f60a7303c82822db6b1fd30"
+  integrity sha512-/5CFYbKj2NdSyXG/OAXHUlq4MYFJ2wyYfSWMv5vjZUOdQ05jXI3aU1iF7bj54WjL/yX+f1y8qhcL4eYOZ3JD9w==
+  dependencies:
+    react "^18.0.0"
+
 "@react-aria/breadcrumbs@^3.3.2":
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/@react-aria/breadcrumbs/-/breadcrumbs-3.3.2.tgz#428e39bfb63c7bd3a085118facbb251c933b4e9b"
@@ -8064,11 +8071,6 @@ format-util@^1.0.3:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/format-util/-/format-util-1.0.5.tgz#1ffb450c8a03e7bccffe40643180918cc297d271"
   integrity sha512-varLbTj0e0yVyRpqQhuWV+8hlePAgaoFRhNFj50BNjEIrw1/DphHSObtqwskVCPWNgzwPoQrZAbfa/SBiicNeg==
-
-formik-validator-zod@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/formik-validator-zod/-/formik-validator-zod-1.0.2.tgz#e95b1b076420c3ea39a083328a4730f10feaa9b7"
-  integrity sha512-1348tUpeHUCHf6HcNT/XLf2odSddbPgbUR1WAPFUM8vbXA+d6cj6sC1oV7aoo0dr9oFQm46gbz7pSdQiydFEuQ==
 
 formik@^2.2.9:
   version "2.2.9"
@@ -15063,6 +15065,11 @@ yup@v1.0.0-beta.7:
     property-expr "^2.0.5"
     tiny-case "^1.0.3"
     toposort "^2.0.2"
+
+zod-formik-adapter@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/zod-formik-adapter/-/zod-formik-adapter-1.2.0.tgz#b2b76f9388bee0fa72fceda2af0f15152d5fa3df"
+  integrity sha512-62U+Mf8U05pvLsIMUTC1H6d4K5SmsrXM+YgiZhCpPin5GNhnVuXCGySmJCs0FHuTJCBy7Et5Z1i8KF5ffuLttg==
 
 zod@^3.21.4:
   version "3.21.4"

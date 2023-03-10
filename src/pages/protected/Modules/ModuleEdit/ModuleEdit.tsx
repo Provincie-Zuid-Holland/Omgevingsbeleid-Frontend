@@ -1,17 +1,17 @@
 import { BackLink, Button, Divider, Heading } from '@pzh-ui/components'
 import { Form, Formik } from 'formik'
-import { withZodSchema } from 'formik-validator-zod'
 import { Helmet } from 'react-helmet'
 import { useNavigate, useParams } from 'react-router-dom'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { useModulesModuleIdGet } from '@/api/fetchers'
 import { Module } from '@/api/fetchers.schemas'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import { FormBasicInfo, FormContents } from '@/components/Modules/ModuleForm'
-import * as modules from '@/constants/zod/modules'
 import useModules from '@/hooks/useModules'
 import { formatEditModuleData } from '@/utils/formatModuleData'
+import * as modules from '@/validation/modules'
 
 const ModuleEdit = () => {
     const { id } = useParams()
@@ -25,8 +25,9 @@ const ModuleEdit = () => {
     )
 
     const { useEditModule } = useModules()
-    const { mutate } = useEditModule(parseInt(id!), () =>
-        navigate(`/muteer/modules/${id}`)
+    const { mutate, isLoading: mutateLoading } = useEditModule(
+        parseInt(id!),
+        () => navigate(`/muteer/modules/${id}`)
     )
 
     const handleSubmit = (payload: Module) => {
@@ -46,7 +47,7 @@ const ModuleEdit = () => {
             <Formik
                 onSubmit={handleSubmit}
                 initialValues={module || {}}
-                validate={withZodSchema(modules.SCHEMA)}>
+                validationSchema={toFormikValidationSchema(modules.SCHEMA)}>
                 <Form>
                     <div className="py-2 bg-pzh-gray-100 sticky z-20 top-[97px]">
                         <div className="pzh-container flex justify-between items-center">
@@ -54,7 +55,11 @@ const ModuleEdit = () => {
                                 to={`/muteer/modules/${id}`}
                                 label="Terug naar de module"
                             />
-                            <Button variant="cta" type="submit">
+                            <Button
+                                variant="cta"
+                                type="submit"
+                                isDisabled={mutateLoading}
+                                isLoading={mutateLoading}>
                                 Opslaan
                             </Button>
                         </div>
