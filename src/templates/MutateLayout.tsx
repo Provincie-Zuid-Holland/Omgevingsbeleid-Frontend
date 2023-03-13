@@ -1,10 +1,11 @@
+import { ReactNode } from 'react'
 import { Helmet } from 'react-helmet'
 
 import { Container } from '@/components/Container'
 
 interface MutateLayoutProps {
     title?: string
-    children: JSX.Element | JSX.Element[]
+    children: ReactNode | ReactNode[]
     breadcrumbs?: {
         name: string
         path?: string

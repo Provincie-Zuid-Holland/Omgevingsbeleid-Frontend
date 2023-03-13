@@ -29,6 +29,12 @@ export const SCHEMA_ADD_EXISTING_OBJECT = z.object({
     Conclusion: schemaDefaults.requiredString(),
 })
 
+export const SCHEMA_EDIT_EXISTING_OBJECT = z.object({
+    Action: schemaDefaults.optionalString,
+    Explanation: schemaDefaults.optionalString,
+    Conclusion: schemaDefaults.optionalString,
+})
+
 const baseObjectShape = z.object({
     Explanation: schemaDefaults.requiredString(),
     Conclusion: schemaDefaults.requiredString(),

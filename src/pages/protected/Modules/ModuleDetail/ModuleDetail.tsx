@@ -10,6 +10,7 @@ import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { useModulesModuleIdGet, useUsersGet } from '@/api/fetchers'
+import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import Avatar from '@/components/Avatar'
 import { LoaderContent } from '@/components/Loader'
 import ModuleInactiveCard from '@/components/Modules/ModuleInactiveCard'
@@ -19,6 +20,7 @@ import {
     ModuleActivateModal,
     ModuleContentsModal,
 } from '@/components/Modules/ModuleModals'
+import ModuleEditObjectModal from '@/components/Modules/ModuleModals/ModuleEditObjectModal'
 import ModuleLockModal from '@/components/Modules/ModuleModals/ModuleLockModal'
 import { ModuleModalActions } from '@/components/Modules/ModuleModals/types'
 import ModuleTimeline from '@/components/Modules/ModuleTimeline'
@@ -124,7 +126,17 @@ const ModuleDetail = () => {
                 {!!objects?.length ? (
                     <div className="mb-4">
                         {objects.map(object => (
-                            <ModuleItem key={object.UUID} {...object} />
+                            <ModuleItem
+                                key={object.UUID}
+                                setModuleModal={() =>
+                                    setModuleModal({
+                                        object,
+                                        action: 'editObject',
+                                        isOpen: true,
+                                    })
+                                }
+                                {...object}
+                            />
                         ))}
                     </div>
                 ) : (
@@ -178,6 +190,14 @@ const ModuleDetail = () => {
             <ModuleLockModal
                 isOpen={moduleModal.isOpen && moduleModal.action === 'lock'}
                 onClose={() => setModuleModal({ isOpen: false })}
+            />
+
+            <ModuleEditObjectModal
+                isOpen={
+                    moduleModal.isOpen && moduleModal.action === 'editObject'
+                }
+                onClose={() => setModuleModal({ isOpen: false })}
+                object={moduleModal.object || ({} as ModuleObjectShort)}
             />
         </MutateLayout>
     )

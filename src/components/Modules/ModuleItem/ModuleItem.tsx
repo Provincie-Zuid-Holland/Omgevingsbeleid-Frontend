@@ -3,24 +3,46 @@ import { CircleInfo, EllipsisVertical } from '@pzh-ui/icons'
 import { useState } from 'react'
 
 import { ModuleObjectShort } from '@/api/fetchers.schemas'
-import Dropdown from '@/components/Dropdown'
+import Dropdown, { DropdownItem } from '@/components/Dropdown'
+import useModules from '@/hooks/useModules'
 import getModuleActionText from '@/utils/getModuleActionText'
 
+interface ModuleItemProps extends ModuleObjectShort {
+    setModuleModal: () => void
+}
+
 const ModuleItem = ({
+    Object_ID,
     Object_Type,
+    Module_ID,
     Action,
     Title,
-}: Partial<ModuleObjectShort>) => {
+    setModuleModal,
+}: ModuleItemProps) => {
     const [isOpen, setIsOpen] = useState(false)
 
-    const dropdownItems = [
+    const { useRemoveObjectFromModule } = useModules()
+    const removeObject = useRemoveObjectFromModule(Object_ID)
+
+    const dropdownItems: DropdownItem[] = [
         {
             text: 'Bewerken',
             link: '/',
         },
         {
+            text: `Bewerk ${
+                Action !== 'Create' && Action !== 'Toevoegen' ? 'actie, ' : ' '
+            }toelichting en conclusie`,
+            callback: setModuleModal,
+        },
+        {
             text: 'Verwijderen uit module',
-            link: '/',
+            callback: () =>
+                removeObject.mutate({
+                    moduleId: Module_ID,
+                    objectType: Object_Type,
+                    lineageId: Object_ID,
+                }),
         },
     ]
 

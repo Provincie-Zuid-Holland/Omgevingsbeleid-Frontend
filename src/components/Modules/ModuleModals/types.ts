@@ -1,7 +1,7 @@
-import { Module } from '@/api/fetchers.schemas'
+import { ModuleObjectShort } from '@/api/fetchers.schemas'
 
 export interface ModuleModalActions {
-    action?: 'activate' | 'lock' | 'addContents'
+    action?: 'activate' | 'lock' | 'addContents' | 'editObject'
     isOpen: boolean
-    module?: Module
+    object?: ModuleObjectShort
 }

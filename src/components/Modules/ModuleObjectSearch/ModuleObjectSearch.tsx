@@ -50,7 +50,10 @@ const ModuleObjectSearch = () => {
             components={{
                 DropdownIndicator: () => (
                     <div className="mr-4">
-                        <MagnifyingGlass className="text-pzh-blue-dark" />
+                        <MagnifyingGlass
+                            size={18}
+                            className="text-pzh-blue-dark"
+                        />
                     </div>
                 ),
             }}

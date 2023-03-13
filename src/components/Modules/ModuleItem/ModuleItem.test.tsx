@@ -8,8 +8,14 @@ describe('ModuleItem', () => {
         render(
             <ModuleItem
                 Object_Type="beleidskeuze"
+                Object_ID={1}
+                Module_ID={1}
                 Action="Create"
                 Title="My Policy"
+                Code=""
+                UUID="123"
+                Modified_Date=""
+                setModuleModal={() => {}}
             />
         )
 
