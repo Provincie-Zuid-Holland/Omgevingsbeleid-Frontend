@@ -3,10 +3,10 @@ import { createContext, ReactNode, useEffect } from 'react'
 import { useLocalStorage } from 'react-use'
 
 import { loginAccessTokenPost } from '@/api/fetchers'
-import { GebruikersShort, AuthToken } from '@/api/fetchers.schemas'
+import { UserShort, AuthToken } from '@/api/fetchers.schemas'
 
 interface AuthContextType {
-    user?: GebruikersShort
+    user?: UserShort
     signin: (username: string, password: string) => Promise<AuthToken>
     signout: (callback?: VoidFunction) => void
 }
@@ -26,9 +26,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
             { raw: true }
         )
     const [identifier, setIdentifier, removeIdentifier] =
-        useLocalStorage<GebruikersShort>(
-            process.env.REACT_APP_KEY_IDENTIFIER || ''
-        )
+        useLocalStorage<UserShort>(process.env.REACT_APP_KEY_IDENTIFIER || '')
 
     const signin = async (username: string, password: string) => {
         return loginAccessTokenPost({ username, password })

@@ -27,6 +27,8 @@ import {
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
 
+import ModuleObjectSearch from '../../ModuleObjectSearch'
+
 type ContentsModalForm = (ModuleAddNewObject | ModuleAddExistingObject) & {
     state?: 'new' | 'existing'
 }
@@ -300,20 +302,7 @@ const Wizard = ({ step }: { step: number }) => {
                         Je wilt een bestaand onderdeel toevoegen aan deze
                         module. Welk object wil je toevoegen?
                     </Text>
-                    <FormikSelect
-                        key="Object_UUID"
-                        name="Object_UUID"
-                        placeholder="Zoek op titel van beleidskeuze, maatregel, etc."
-                        options={[
-                            {
-                                label: 'Test beleidskeuze',
-                                value: '123',
-                            },
-                        ]}
-                        noOptionsMessage={() =>
-                            'Zoek op titel van beleidskeuze, maatregel, etc.'
-                        }
-                    />
+                    <ModuleObjectSearch />
                 </div>
             )
         case 5:

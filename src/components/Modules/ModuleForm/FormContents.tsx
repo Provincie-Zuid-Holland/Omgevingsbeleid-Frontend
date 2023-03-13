@@ -1,20 +1,14 @@
-import {
-    Button,
-    FormikInput,
-    FormikSelect,
-    getHeadingStyles,
-    Text,
-} from '@pzh-ui/components'
-import { MagnifyingGlass } from '@pzh-ui/icons'
+import { Button, getHeadingStyles, Text } from '@pzh-ui/components'
 import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useDebounce, useMedia } from 'react-use'
+import { useMedia } from 'react-use'
 
-import { useModulesModuleIdGet, useSearchGet } from '@/api/fetchers'
+import { useModulesModuleIdGet } from '@/api/fetchers'
 import useModules from '@/hooks/useModules'
 import * as modules from '@/validation/modules'
 
 import ModuleContentsModal from '../ModuleModals/ModuleContentsModal'
+import ModuleObjectSearch from '../ModuleObjectSearch'
 import ModulePart from '../ModulePart'
 
 const FormContents = () => {
@@ -22,20 +16,6 @@ const FormContents = () => {
 
     const isMobile = useMedia('(max-width: 640px)')
     const [openModal, setOpenModal] = useState(false)
-    const [searchObjectQuery, setSearchObjectQuery] = useState('')
-    const [debouncedValue, setDebouncedValue] = useState('')
-
-    const { data: searchData } = useSearchGet(
-        { query: debouncedValue },
-        { query: { enabled: !!debouncedValue } }
-    )
-
-    /**
-     * Debounce object search
-     */
-    useDebounce(() => setDebouncedValue(searchObjectQuery), 300, [
-        searchObjectQuery,
-    ])
 
     const { data: { Objects: objects } = {} } = useModulesModuleIdGet(
         parseInt(id!),
@@ -78,21 +58,7 @@ const FormContents = () => {
             </div>
 
             <div className="col-span-4 pt-[48px]">
-                <FormikSelect
-                    name="Onderdelen"
-                    label="Onderdelen die wijzigen of worden verwijderd"
-                    placeholder="Zoek op titel van beleidskeuze, maatregel, etc."
-                    noOptionsMessage={() =>
-                        'Zoek op titel van beleidskeuze, maatregel, etc.'
-                    }
-                    onInputChange={val => setSearchObjectQuery(val)}
-                />
-                <FormikInput
-                    name="Onderdelen"
-                    label="Onderdelen die wijzigen of worden verwijderd"
-                    placeholder="Zoek op titel van beleidskeuze, maatregel, etc."
-                    icon={MagnifyingGlass}
-                />
+                <ModuleObjectSearch />
 
                 {!!existingObjects?.length && (
                     <div className="mt-4">
