@@ -15,7 +15,7 @@ interface ModuleActivateModalProps {
 
 const ModuleActivateModal = ({ isOpen, onClose }: ModuleActivateModalProps) => {
     const queryClient = useQueryClient()
-    const { id } = useParams()
+    const { moduleId } = useParams()
 
     /**
      * Activate module
@@ -28,7 +28,7 @@ const ModuleActivateModal = ({ isOpen, onClose }: ModuleActivateModalProps) => {
             onSuccess: () => {
                 queryClient
                     .invalidateQueries(
-                        getModulesModuleIdGetQueryKey(parseInt(id!))
+                        getModulesModuleIdGetQueryKey(parseInt(moduleId!))
                     )
                     .then(() => onClose())
 
@@ -66,7 +66,7 @@ const ModuleActivateModal = ({ isOpen, onClose }: ModuleActivateModalProps) => {
                 </button>
                 <Button
                     variant="cta"
-                    onPress={() => mutate({ moduleId: parseInt(id!) })}
+                    onPress={() => mutate({ moduleId: parseInt(moduleId!) })}
                     isDisabled={isLoading}
                     isLoading={isLoading}>
                     Activeren

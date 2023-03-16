@@ -14,26 +14,26 @@ import { formatEditModuleData } from '@/utils/formatModuleData'
 import * as modules from '@/validation/modules'
 
 const ModuleEdit = () => {
-    const { id } = useParams()
+    const { moduleId } = useParams()
     const navigate = useNavigate()
 
     const { data: { Module: module } = {}, isLoading } = useModulesModuleIdGet(
-        parseInt(id!),
+        parseInt(moduleId!),
         {
-            query: { enabled: !!id },
+            query: { enabled: !!moduleId },
         }
     )
 
     const { useEditModule } = useModules()
     const { mutate, isLoading: mutateLoading } = useEditModule(
-        parseInt(id!),
-        () => navigate(`/muteer/modules/${id}`)
+        parseInt(moduleId!),
+        () => navigate(`/muteer/modules/${moduleId}`)
     )
 
     const handleSubmit = (payload: Module) => {
         const data = formatEditModuleData(payload)
 
-        mutate({ moduleId: parseInt(id!), data })
+        mutate({ moduleId: parseInt(moduleId!), data })
     }
 
     if (isLoading || !module) return <LoaderContent />
@@ -52,7 +52,7 @@ const ModuleEdit = () => {
                     <div className="py-2 bg-pzh-gray-100 sticky z-20 top-[97px]">
                         <div className="pzh-container flex justify-between items-center">
                             <BackLink
-                                to={`/muteer/modules/${id}`}
+                                to={`/muteer/modules/${moduleId}`}
                                 label="Terug naar de module"
                             />
                             <Button

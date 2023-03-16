@@ -18,7 +18,7 @@ interface ModuleVersionCardProps {
 const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
     const queryClient = useQueryClient()
 
-    const { id } = useParams()
+    const { moduleId } = useParams()
 
     /**
      * Patch module status version
@@ -29,11 +29,18 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
                 toastNotification({ type: 'standard error' })
             },
             onSuccess: () => {
+                queryClient.invalidateQueries(
+                    getModulesModuleIdGetQueryKey(parseInt(moduleId!))
+                )
+
                 toastNotification({ type: 'saved' })
             },
         },
     })
 
+    /**
+     * Handle form submit, reset form on submit
+     */
     const handleSubmit = (
         payload: { Status?: ModuleStatusCode },
         { resetForm }: FormikHelpers<{ Status: undefined }>
@@ -41,16 +48,10 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
         if (payload.Status) {
             createVersion
                 .mutateAsync({
-                    moduleId: parseInt(id!),
+                    moduleId: parseInt(moduleId!),
                     data: { Status: payload.Status },
                 })
-                .then(() =>
-                    queryClient
-                        .invalidateQueries(
-                            getModulesModuleIdGetQueryKey(parseInt(id!))
-                        )
-                        .then(() => resetForm())
-                )
+                .then(() => resetForm())
         }
     }
 

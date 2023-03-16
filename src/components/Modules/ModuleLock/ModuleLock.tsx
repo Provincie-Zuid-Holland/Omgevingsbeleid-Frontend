@@ -13,10 +13,10 @@ interface ModuleLockProps {
 }
 
 const ModuleLock = ({ locked, setModuleModal }: ModuleLockProps) => {
-    const { id } = useParams()
+    const { moduleId } = useParams()
 
     const { useEditModule } = useModules()
-    const { mutate } = useEditModule(parseInt(id!))
+    const { mutate } = useEditModule(parseInt(moduleId!))
 
     return (
         <div className="flex mt-3 pt-4 pb-3 px-3 bg-pzh-gray-100">
@@ -38,7 +38,7 @@ const ModuleLock = ({ locked, setModuleModal }: ModuleLockProps) => {
                             })
                         } else {
                             mutate({
-                                moduleId: parseInt(id!),
+                                moduleId: parseInt(moduleId!),
                                 data: {
                                     Temporary_Locked: false,
                                 },

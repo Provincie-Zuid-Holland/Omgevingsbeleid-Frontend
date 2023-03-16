@@ -10,7 +10,12 @@
  */
 export type PasswordResetPostParams = { password: string; new_password: string }
 
-export type ModulesGetParams = { only_mine?: boolean; only_active?: boolean }
+export type ModulesGetParams = {
+    only_mine?: boolean
+    only_active?: boolean
+    object_type?: string
+    lineage_id?: number
+}
 
 export type SearchGetParams = { query: string; offset?: number; limit?: number }
 
@@ -126,11 +131,11 @@ export interface UserShort {
 }
 
 export interface SearchObject {
-    Object_Type?: string
-    Object_ID?: number
+    Object_Type: string
+    Object_ID: number
     UUID: string
-    Title?: string
-    Description?: string
+    Title: string
+    Description: string
 }
 
 export interface SearchResponse {
@@ -182,7 +187,6 @@ export const ModuleStatusCode = {
     Ontwerp_PS_Concept: 'Ontwerp PS Concept',
     Ontwerp_PS: 'Ontwerp PS',
     Definitief_ontwerp_PS: 'Definitief ontwerp PS',
-    Vigerend: 'Vigerend',
 } as const
 
 export interface ModuleStatus {

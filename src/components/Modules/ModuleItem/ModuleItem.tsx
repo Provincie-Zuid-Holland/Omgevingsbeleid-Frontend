@@ -4,11 +4,11 @@ import { useState } from 'react'
 
 import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import Dropdown, { DropdownItem } from '@/components/Dropdown'
-import useModules from '@/hooks/useModules'
 import getModuleActionText from '@/utils/getModuleActionText'
 
 interface ModuleItemProps extends ModuleObjectShort {
-    setModuleModal: () => void
+    editCallback: () => void
+    deleteCallback: () => void
 }
 
 const ModuleItem = ({
@@ -17,32 +17,28 @@ const ModuleItem = ({
     Module_ID,
     Action,
     Title,
-    setModuleModal,
+    editCallback,
+    deleteCallback,
 }: ModuleItemProps) => {
     const [isOpen, setIsOpen] = useState(false)
 
-    const { useRemoveObjectFromModule } = useModules()
-    const removeObject = useRemoveObjectFromModule(Object_ID)
-
     const dropdownItems: DropdownItem[] = [
-        {
-            text: 'Bewerken',
-            link: '/',
-        },
+        ...((Action !== 'Terminate' && [
+            {
+                text: 'Bewerken',
+                link: `/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`,
+            },
+        ]) ||
+            []),
         {
             text: `Bewerk ${
                 Action !== 'Create' && Action !== 'Toevoegen' ? 'actie, ' : ' '
             }toelichting en conclusie`,
-            callback: setModuleModal,
+            callback: editCallback,
         },
         {
             text: 'Verwijderen uit module',
-            callback: () =>
-                removeObject.mutate({
-                    moduleId: Module_ID,
-                    objectType: Object_Type,
-                    lineageId: Object_ID,
-                }),
+            callback: deleteCallback,
         },
     ]
 
@@ -57,7 +53,7 @@ const ModuleItem = ({
                             className="text-pzh-gray-600 capitalize">
                             {Object_Type}
                         </Text>
-                        <div className="flex items-center ">
+                        <div className="flex items-center">
                             <Text
                                 type="body-small"
                                 className="mr-1 text-pzh-gray-600">

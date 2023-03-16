@@ -1,4 +1,5 @@
-import { default as BELEIDSDOELEN } from './beleidsdoelen'
-import { default as BELEIDSKEUZES } from './beleidskeuzes'
+import { default as beleidsdoel } from './beleidsdoel'
+import { default as beleidskeuze } from './beleidskeuze'
+import { default as maatregel } from './maatregel'
 
-export { BELEIDSDOELEN, BELEIDSKEUZES }
+export { beleidsdoel, beleidskeuze, maatregel }

@@ -6,10 +6,10 @@
     "dependencies": {
         "@craco/craco": "7.0.0-alpha.3",
         "@headlessui/react": "^1.5.0",
-        "@pzh-ui/components": "^0.0.225",
+        "@pzh-ui/components": "^0.0.240",
         "@pzh-ui/config": "^0.0.34",
-        "@pzh-ui/css": "^0.0.51",
-        "@pzh-ui/icons": "^0.0.17",
+        "@pzh-ui/css": "^0.0.54",
+        "@pzh-ui/icons": "^0.0.19",
         "@sentry/browser": "^6.11.0",
         "@tanstack/react-query": "^4.13.0",
         "@tippyjs/react": "^4.2.5",

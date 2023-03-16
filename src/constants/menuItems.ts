@@ -1,5 +1,5 @@
 const menuItemsOmgevingsbeleid = {
-    Dashboard: { url: '/muteer/dashboard' },
+    Dashboard: { url: '/muteer' },
     'Mijn beleid': { url: '/muteer/mijn-beleid' },
     Beleidsrelaties: { url: '/muteer/beleidsrelaties' },
     Beleidsmodules: { url: '/muteer/beleidsmodules' },

@@ -15,7 +15,7 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
     // const { useGetValid } = model.fetchers
 
     const breadcrumbPaths = [
-        { name: 'Muteeromgeving', path: '/muteer/dashboard' },
+        { name: 'Muteeromgeving', path: '/muteer' },
         { name: pluralCapitalize || '', path: pathName },
     ]
 

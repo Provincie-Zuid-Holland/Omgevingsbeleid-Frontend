@@ -9,10 +9,10 @@ interface ModuleLockModalProps {
 }
 
 const ModuleLockModal = ({ isOpen, onClose }: ModuleLockModalProps) => {
-    const { id } = useParams()
+    const { moduleId } = useParams()
 
     const { useEditModule } = useModules()
-    const { mutate } = useEditModule(parseInt(id!), () => onClose())
+    const { mutate } = useEditModule(parseInt(moduleId!), () => onClose())
 
     return (
         <Modal
@@ -44,7 +44,7 @@ const ModuleLockModal = ({ isOpen, onClose }: ModuleLockModalProps) => {
                     variant="cta"
                     onPress={() =>
                         mutate({
-                            moduleId: parseInt(id!),
+                            moduleId: parseInt(moduleId!),
                             data: { Temporary_Locked: true },
                         })
                     }>

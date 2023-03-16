@@ -6,6 +6,7 @@ import * as models from '@/config/objects'
 import policyObjects from '@/constants/policyObjects'
 import useAuth from '@/hooks/useAuth'
 import { Dashboard, MijnBeleid } from '@/pages/protected'
+import DynamicObject from '@/pages/protected/DynamicObject'
 import DynamicOverview from '@/pages/protected/DynamicOverview'
 import ModuleCreate from '@/pages/protected/Modules/ModuleCreate'
 import ModuleDetail from '@/pages/protected/Modules/ModuleDetail'
@@ -164,14 +165,14 @@ const AppRoutes = () => {
             element: <ProtectedRoute />,
             children: [
                 {
-                    path: 'dashboard',
+                    index: true,
                     element: <Dashboard />,
                 },
                 {
                     path: 'modules',
                     children: [
                         {
-                            path: ':id',
+                            path: ':moduleId',
                             children: [
                                 {
                                     index: true,
@@ -181,6 +182,24 @@ const AppRoutes = () => {
                                     path: 'bewerk',
                                     element: <ModuleEdit />,
                                 },
+                                ...Object.keys(models).map(model => ({
+                                    path: models[model as keyof typeof models]
+                                        .defaults.singular,
+                                    children: [
+                                        {
+                                            path: ':objectId',
+                                            element: (
+                                                <DynamicObject
+                                                    model={
+                                                        models[
+                                                            model as keyof typeof models
+                                                        ]
+                                                    }
+                                                />
+                                            ),
+                                        },
+                                    ],
+                                })),
                             ],
                         },
                         {

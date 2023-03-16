@@ -106,10 +106,7 @@ const Overview = ({ dimensieConstants }: OverviewProps) => {
                 <title>Omgevingsbeleid - {'Beheer ' + titlePlural}</title>
             </Helmet>
 
-            <PageSpecificNavBar
-                link="/muteer/dashboard"
-                text="Terug naar dashboard"
-            />
+            <PageSpecificNavBar link="/muteer" text="Terug naar dashboard" />
 
             <ContainerMain>
                 <div className="flex-grow inline-block pt-12 pb-12 rounded">

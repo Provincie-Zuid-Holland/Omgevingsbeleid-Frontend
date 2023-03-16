@@ -33,7 +33,7 @@ describe('AppRoutes', () => {
         const props = { ...defaultProps, ...customProps }
         render(
             <QueryClientProvider client={queryClient}>
-                <MemoryRouter initialEntries={['/muteer/dashboard']}>
+                <MemoryRouter initialEntries={['/muteer']}>
                     <AuthContext.Provider
                         value={
                             customUser !== undefined ? customUser : { user }

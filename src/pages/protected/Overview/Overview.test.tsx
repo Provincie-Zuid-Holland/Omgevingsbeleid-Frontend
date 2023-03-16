@@ -91,7 +91,7 @@ describe('Overview', () => {
 
         // ✅ User can go back to the dashboard
         const backButton = screen.getByText('Terug naar dashboard').closest('a')
-        expect(backButton).toHaveAttribute('href', '/muteer/dashboard')
+        expect(backButton).toHaveAttribute('href', '/muteer')
 
         // ✅ User can toggle the dropdown and see more actions
         const dropdownButton = screen.getByTestId('toggle-dropdown')

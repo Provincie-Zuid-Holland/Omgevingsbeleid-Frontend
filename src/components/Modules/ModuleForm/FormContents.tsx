@@ -4,25 +4,39 @@ import { useParams } from 'react-router-dom'
 import { useMedia } from 'react-use'
 
 import { useModulesModuleIdGet } from '@/api/fetchers'
+import { SearchObject } from '@/api/fetchers.schemas'
 import useModules from '@/hooks/useModules'
 import * as modules from '@/validation/modules'
 
 import ModuleContentsModal from '../ModuleModals/ModuleContentsModal'
+import { ContentsModalForm } from '../ModuleModals/ModuleContentsModal/ModuleContentsModal'
 import ModuleObjectSearch from '../ModuleObjectSearch'
 import ModulePart from '../ModulePart'
 
+interface ModalProps {
+    isOpen: boolean
+    initialStep: number
+    initialValues: ContentsModalForm
+    selectedObject?: SearchObject
+}
+
+const initialModalValues: ModalProps = {
+    isOpen: false,
+    initialStep: 2,
+    initialValues: { ...modules.EMPTY_MODULE_OBJECT, state: 'new' },
+}
+
 const FormContents = () => {
-    const { id } = useParams()
+    const { moduleId } = useParams()
 
     const isMobile = useMedia('(max-width: 640px)')
-    const [openModal, setOpenModal] = useState(false)
 
-    const { data: { Objects: objects } = {} } = useModulesModuleIdGet(
-        parseInt(id!),
-        {
-            query: { enabled: !!id },
-        }
-    )
+    const [modal, setModal] = useState<ModalProps>(initialModalValues)
+
+    const { data: { Objects: objects, Module: module } = {} } =
+        useModulesModuleIdGet(parseInt(moduleId!), {
+            query: { enabled: !!moduleId },
+        })
 
     const newObjects = useMemo(
         () =>
@@ -43,7 +57,7 @@ const FormContents = () => {
     )
 
     const { useRemoveObjectFromModule } = useModules()
-    const { mutate } = useRemoveObjectFromModule(parseInt(id!))
+    const { mutate } = useRemoveObjectFromModule(parseInt(moduleId!))
 
     return (
         <>
@@ -58,7 +72,21 @@ const FormContents = () => {
             </div>
 
             <div className="col-span-4 pt-[48px]">
-                <ModuleObjectSearch />
+                <ModuleObjectSearch
+                    onChange={object =>
+                        setModal({
+                            ...modal,
+                            initialStep: 5,
+                            isOpen: true,
+                            initialValues: {
+                                ...modules.EMPTY_MODULE_OBJECT,
+                                state: 'existing',
+                                Object_UUID: object?.UUID,
+                            },
+                            selectedObject: object,
+                        })
+                    }
+                />
 
                 {!!existingObjects?.length && (
                     <div className="mt-4">
@@ -108,17 +136,21 @@ const FormContents = () => {
                         </Text>
                     )}
 
-                    <Button className="mt-4" onPress={() => setOpenModal(true)}>
+                    <Button
+                        className="mt-4"
+                        onPress={() =>
+                            setModal({ ...initialModalValues, isOpen: true })
+                        }>
                         Nieuw onderdeel toevoegen
                     </Button>
                 </div>
             </div>
 
             <ModuleContentsModal
-                isOpen={openModal}
-                onClose={() => setOpenModal(false)}
-                initialStep={2}
-                initialValues={{ ...modules.EMPTY_MODULE_OBJECT, state: 'new' }}
+                key={modal.initialValues.state}
+                onClose={() => setModal({ ...modal, isOpen: false })}
+                module={module}
+                {...modal}
             />
         </>
     )

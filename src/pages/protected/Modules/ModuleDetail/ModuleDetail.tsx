@@ -22,6 +22,7 @@ import {
 } from '@/components/Modules/ModuleModals'
 import ModuleEditObjectModal from '@/components/Modules/ModuleModals/ModuleEditObjectModal'
 import ModuleLockModal from '@/components/Modules/ModuleModals/ModuleLockModal'
+import ModuleObjectDeleteConfirmationModal from '@/components/Modules/ModuleModals/ModuleObjectDeleteConfirmationModal'
 import { ModuleModalActions } from '@/components/Modules/ModuleModals/types'
 import ModuleTimeline from '@/components/Modules/ModuleTimeline'
 import ModuleVersionCard from '@/components/Modules/ModuleVersionCard'
@@ -30,7 +31,7 @@ import getModuleStatusColor from '@/utils/getModuleStatusColor'
 import * as modules from '@/validation/modules'
 
 const ModuleDetail = () => {
-    const { id } = useParams()
+    const { moduleId } = useParams()
     const pathName = location.pathname || ''
 
     const [moduleModal, setModuleModal] = useState<ModuleModalActions>({
@@ -44,8 +45,8 @@ const ModuleDetail = () => {
             StatusHistory: statusHistory,
         } = {},
         isLoading,
-    } = useModulesModuleIdGet(parseInt(id!), {
-        query: { enabled: !!id },
+    } = useModulesModuleIdGet(parseInt(moduleId!), {
+        query: { enabled: !!moduleId },
     })
     const { data: users } = useUsersGet()
 
@@ -63,8 +64,8 @@ const ModuleDetail = () => {
     )
 
     const breadcrumbPaths = [
-        { name: 'Muteeromgeving', path: '/muteer/dashboard' },
-        { name: 'Modules', path: '/muteer/dashboard' },
+        { name: 'Muteeromgeving', path: '/muteer' },
+        { name: 'Modules', path: '/muteer' },
         { name: module?.Title || '', path: pathName },
     ]
 
@@ -128,10 +129,18 @@ const ModuleDetail = () => {
                         {objects.map(object => (
                             <ModuleItem
                                 key={object.UUID}
-                                setModuleModal={() =>
+                                editCallback={() =>
                                     setModuleModal({
                                         object,
                                         action: 'editObject',
+                                        isOpen: true,
+                                    })
+                                }
+                                deleteCallback={() =>
+                                    setModuleModal({
+                                        object,
+                                        module,
+                                        action: 'deleteObject',
                                         isOpen: true,
                                     })
                                 }
@@ -180,6 +189,7 @@ const ModuleDetail = () => {
                     ...modules.EMPTY_MODULE_OBJECT,
                     state: 'new',
                 }}
+                module={module}
             />
 
             <ModuleActivateModal
@@ -198,6 +208,15 @@ const ModuleDetail = () => {
                 }
                 onClose={() => setModuleModal({ isOpen: false })}
                 object={moduleModal.object || ({} as ModuleObjectShort)}
+            />
+
+            <ModuleObjectDeleteConfirmationModal
+                isOpen={
+                    moduleModal.isOpen && moduleModal.action === 'deleteObject'
+                }
+                onClose={() => setModuleModal({ isOpen: false })}
+                object={moduleModal.object || ({} as ModuleObjectShort)}
+                module={module}
             />
         </MutateLayout>
     )

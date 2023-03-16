@@ -42,7 +42,7 @@ const LoginForm = () => {
         signin(email, password)
             .then(() => {
                 setLoading(false)
-                navigate('/muteer/dashboard')
+                navigate('/muteer')
             })
             .catch(err => {
                 setLoading(false)

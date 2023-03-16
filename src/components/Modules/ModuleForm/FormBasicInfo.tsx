@@ -5,6 +5,7 @@ import {
     getHeadingStyles,
     Text,
 } from '@pzh-ui/components'
+import { useMemo } from 'react'
 import { useMedia } from 'react-use'
 
 import { useUsersGet } from '@/api/fetchers'
@@ -13,6 +14,15 @@ const FormBasicInfo = () => {
     const isMobile = useMedia('(max-width: 640px)')
 
     const { data: users, isFetching, isLoading } = useUsersGet()
+
+    const userOptions = useMemo(
+        () =>
+            users?.map(user => ({
+                label: user.Gebruikersnaam,
+                value: user.UUID,
+            })),
+        [users]
+    )
 
     return (
         <>
@@ -41,10 +51,7 @@ const FormBasicInfo = () => {
                             placeholder="Selecteer een moduletrekker"
                             isLoading={isLoading && isFetching}
                             optimized={false}
-                            options={users?.map(user => ({
-                                label: user.Gebruikersnaam,
-                                value: user.UUID,
-                            }))}
+                            options={userOptions}
                             required
                         />
                     </div>
@@ -55,10 +62,7 @@ const FormBasicInfo = () => {
                             placeholder="Selecteer een moduletrekker"
                             isLoading={isLoading && isFetching}
                             optimized={false}
-                            options={users?.map(user => ({
-                                label: user.Gebruikersnaam,
-                                value: user.UUID,
-                            }))}
+                            options={userOptions}
                         />
                     </div>
                 </div>

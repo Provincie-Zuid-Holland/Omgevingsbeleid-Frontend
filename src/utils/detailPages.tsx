@@ -80,7 +80,7 @@ export type DetailPageValidEndpoint =
 
 const getOverview = (policyType: keyof typeof allDimensies) => (
     <ProtectedRoute
-        redirectTo="/muteer/dashboard"
+        redirectTo="/muteer"
         roles={
             policyType === 'BELEIDSMODULES'
                 ? [

@@ -21,15 +21,20 @@ import {
     useUsersGet,
 } from '@/api/fetchers'
 import {
+    Module,
     ModuleAddExistingObject,
     ModuleAddNewObject,
+    SearchObject,
 } from '@/api/fetchers.schemas'
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
 
 import ModuleObjectSearch from '../../ModuleObjectSearch'
 
-type ContentsModalForm = (ModuleAddNewObject | ModuleAddExistingObject) & {
+export type ContentsModalForm = (
+    | ModuleAddNewObject
+    | ModuleAddExistingObject
+) & {
     state?: 'new' | 'existing'
 }
 
@@ -38,6 +43,8 @@ interface ModuleContentsModalProps {
     onClose: () => void
     initialStep: number
     initialValues: ContentsModalForm
+    module?: Module
+    selectedObject?: SearchObject
 }
 
 const ModuleContentsModal = ({
@@ -45,9 +52,11 @@ const ModuleContentsModal = ({
     onClose,
     initialStep = 1,
     initialValues,
+    module,
+    selectedObject,
 }: ModuleContentsModalProps) => {
     const queryClient = useQueryClient()
-    const { id } = useParams()
+    const { moduleId } = useParams()
 
     const [step, setStep] = useState(initialStep)
 
@@ -90,7 +99,7 @@ const ModuleContentsModal = ({
             onSuccess: () => {
                 queryClient
                     .invalidateQueries(
-                        getModulesModuleIdGetQueryKey(parseInt(id!))
+                        getModulesModuleIdGetQueryKey(parseInt(moduleId!))
                     )
                     .then(() => onClose())
 
@@ -110,7 +119,7 @@ const ModuleContentsModal = ({
             onSuccess: () => {
                 queryClient
                     .invalidateQueries(
-                        getModulesModuleIdGetQueryKey(parseInt(id!))
+                        getModulesModuleIdGetQueryKey(parseInt(moduleId!))
                     )
                     .then(() => onClose())
 
@@ -123,9 +132,12 @@ const ModuleContentsModal = ({
         const { state, ...data } = payload
 
         if (state === 'new' && 'Object_Type' in data) {
-            addNewObjectToModule.mutate({ moduleId: parseInt(id!), data })
+            addNewObjectToModule.mutate({ moduleId: parseInt(moduleId!), data })
         } else if (state === 'existing' && 'Action' in data) {
-            addExistingObjectToModule.mutate({ moduleId: parseInt(id!), data })
+            addExistingObjectToModule.mutate({
+                moduleId: parseInt(moduleId!),
+                data,
+            })
         }
     }
 
@@ -146,7 +158,11 @@ const ModuleContentsModal = ({
                 enableReinitialize>
                 {({ values, handleSubmit, isValid, isSubmitting }) => (
                     <Form onSubmit={handleSubmit}>
-                        <Wizard step={step} />
+                        <Wizard
+                            step={step}
+                            module={module}
+                            selectedObject={selectedObject}
+                        />
                         <div className="mt-6 flex items-center justify-between">
                             <button
                                 type="button"
@@ -183,9 +199,19 @@ const ModuleContentsModal = ({
     )
 }
 
-const Wizard = ({ step }: { step: number }) => {
+const Wizard = ({
+    step,
+    module,
+    selectedObject,
+}: Pick<ModuleContentsModalProps, 'module' | 'selectedObject'> & {
+    step: number
+}) => {
     const { values } = useFormikContext<ContentsModalForm>()
     const { data: users, isFetching, isLoading } = useUsersGet()
+
+    const [existingObject, setExistingObject] = useState<
+        SearchObject | undefined
+    >(selectedObject)
 
     switch (step) {
         case 1:
@@ -302,18 +328,18 @@ const Wizard = ({ step }: { step: number }) => {
                         Je wilt een bestaand onderdeel toevoegen aan deze
                         module. Welk object wil je toevoegen?
                     </Text>
-                    <ModuleObjectSearch />
+                    <ModuleObjectSearch onChange={setExistingObject} />
                 </div>
             )
         case 5:
             return (
                 <div>
                     <Heading level="2" className="mb-4">
-                        Bestaande beleidskeuze
+                        Bestaande {existingObject?.Object_Type}
                     </Heading>
                     <Text className="mb-4">
-                        “Waterveiligheid en waterkwaliteit” toevoegen aan de
-                        module “Koers 2022”
+                        “{existingObject?.Title}” toevoegen aan de module “
+                        {module?.Title}”
                     </Text>
                     <FormikSelect
                         key="Action"

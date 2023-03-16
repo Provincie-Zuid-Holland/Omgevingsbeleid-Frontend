@@ -21,7 +21,7 @@ import UserMenu from '../UserMenu'
 
 const Navigation = () => {
     const { user } = useAuth()
-    const userIsInMuteerEnvironment = usePage('/muteer/')
+    const userIsInMuteerEnvironment = usePage('/muteer')
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
     const windowSize = useWindowSize()
     const [showBanner, setShowBanner] = useState(
@@ -56,7 +56,7 @@ const Navigation = () => {
                 <div className="col-span-4 my-auto sm:col-span-3">
                     <Link
                         id="href-naar-home"
-                        to={!!user ? '/muteer/dashboard' : '/'}
+                        to={!!user ? '/muteer' : '/'}
                         className="relative"
                         style={
                             isMobile
@@ -90,7 +90,7 @@ const Navigation = () => {
                     {!!user && !isOpen && !userIsInMuteerEnvironment ? (
                         <MenuIcon
                             setIsOpen={setIsOpen}
-                            to="/muteer/dashboard"
+                            to="/muteer"
                             icon={<Eye size={16} className="mr-2 -mt-1" />}
                             color="blue">
                             Bewerken

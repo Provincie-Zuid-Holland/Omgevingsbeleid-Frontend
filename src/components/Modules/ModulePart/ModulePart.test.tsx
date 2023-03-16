@@ -5,7 +5,7 @@ import { PolicyTitlesSingular } from '@/constants/policyObjects'
 import ModulePart from './ModulePart'
 
 describe('ModulePart', () => {
-    const props = {
+    const props: any = {
         type: 'beleidskeuze' as PolicyTitlesSingular,
         title: 'The Cat in the Hat',
         status: 'completed',
