@@ -1,25 +1,26 @@
-// src/setupTests.js
+/* eslint-disable */
+
 import { server } from './mocks/server'
 
 // https://stackoverflow.com/questions/54382414/fixing-react-leaflet-testing-error-cannot-read-property-layeradd-of-null/54384719#54384719
 const createElementNSOrig = global.document.createElementNS
-global.document.createElementNS = function (namespaceURI, qualifiedName) {
+//@ts-ignore
+global.document.createElementNS = function (
+    namespaceURI: string,
+    qualifiedName: string
+) {
     if (
         namespaceURI === 'http://www.w3.org/2000/svg' &&
         qualifiedName === 'svg'
     ) {
-        const element = createElementNSOrig.apply(this, arguments)
+        //@ts-ignore
+        const element = createElementNSOrig.apply(this, arguments) as any
         element.createSVGRect = function () {}
         return element
     }
+    //@ts-ignore
     return createElementNSOrig.apply(this, arguments)
 }
-
-const createMockMediaMatcher = matches => qs => ({
-    matches: matches[qs] ?? false,
-    addListener: () => {},
-    removeListener: () => {},
-})
 
 // Mock IntersectionObserver
 class IntersectionObserver {
@@ -44,9 +45,15 @@ Object.defineProperty(global, 'IntersectionObserver', {
 beforeAll(() => {
     server.listen()
 
-    window.matchMedia = createMockMediaMatcher({
-        '(min-width: 500px)': true,
-        '(min-width: 1000px)': false,
+    window.matchMedia = query => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(), // Deprecated
+        removeListener: jest.fn(), // Deprecated
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
     })
 })
 

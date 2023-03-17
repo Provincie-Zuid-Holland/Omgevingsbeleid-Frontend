@@ -81,6 +81,7 @@
     },
     "devDependencies": {
         "@axe-core/react": "4.4.1",
+        "@faker-js/faker": "^7.6.0",
         "@testing-library/dom": "^8.13.0",
         "@testing-library/jest-dom": "^5.16.4",
         "@testing-library/react": "^13.0.0",

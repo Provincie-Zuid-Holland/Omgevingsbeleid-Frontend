@@ -10,6 +10,7 @@ export default {
             target: './src/api/fetchers.ts',
             client: 'react-query',
             prettier: true,
+            mock: true,
             override: {
                 mutator: {
                     path: './src/api/instance.ts',
