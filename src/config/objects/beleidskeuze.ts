@@ -1,5 +1,4 @@
 import {
-    getModulesModuleIdObjectBeleidskeuzeLatestLineageIdGetQueryKey,
     useBeleidskeuzesLatestLineageIdGet,
     useBeleidskeuzesRelationsLineageIdGet,
     useBeleidskeuzesRelationsLineageIdPut,
@@ -24,12 +23,7 @@ const fetchers = {
     usePatchObjectInModule: useModulesModuleIdObjectBeleidskeuzeLineageIdPatch,
 }
 
-const queryKeys = {
-    getLatestObjectInModuleQueryKey:
-        getModulesModuleIdObjectBeleidskeuzeLatestLineageIdGetQueryKey,
-}
-
-const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
+const beleidskeuze: DynamicObject<typeof fetchers> = {
     defaults: {
         singular: 'beleidskeuze',
         singularCapitalize: 'Beleidskeuze',
@@ -40,7 +34,6 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
         prefixNewObject: 'Nieuwe',
     },
     fetchers,
-    queryKeys,
     dynamicSections: [
         {
             type: 'description',

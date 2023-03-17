@@ -68,7 +68,7 @@ const ModuleItem = ({
                 </div>
                 <div className="relative">
                     <button
-                        className="flex items-center justify-center w-4"
+                        className="flex items-center justify-center w-6 h-6 hover:bg-pzh-gray-100 rounded-full"
                         onClick={() => setIsOpen(!isOpen)}>
                         <EllipsisVertical />
                     </button>
@@ -76,7 +76,7 @@ const ModuleItem = ({
                         items={dropdownItems}
                         isOpen={isOpen}
                         setIsOpen={setIsOpen}
-                        className="-right-2 mt-7"
+                        className="-right-1 mt-8"
                     />
                 </div>
             </div>

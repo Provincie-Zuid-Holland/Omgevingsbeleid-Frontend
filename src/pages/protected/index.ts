@@ -1,21 +1,15 @@
-import BeleidsmodulesOverview from './BeleidsmodulesOverview'
-import BeleidsrelatieDetail from './BeleidsrelatieDetail'
-import Beleidsrelaties from './Beleidsrelaties'
-import BeleidsrelatiesCRUD from './BeleidsrelatiesCRUD'
-import BeleidsrelatiesOverzicht from './BeleidsrelatiesOverzicht'
-import Detail from './Detail'
-import MijnBeleid from './MijnBeleid'
-import Dashboard from './Modules/Dashboard'
-import Overview from './Overview'
+import Dashboard from './Dashboard'
+import DynamicObject from './DynamicObject'
+import DynamicOverview from './DynamicOverview'
+import ModuleCreate from './Modules/ModuleCreate'
+import ModuleDetail from './Modules/ModuleDetail'
+import ModuleEdit from './Modules/ModuleEdit'
 
 export {
-    BeleidsmodulesOverview,
-    BeleidsrelatieDetail,
-    Beleidsrelaties,
-    BeleidsrelatiesCRUD,
-    BeleidsrelatiesOverzicht,
     Dashboard,
-    Detail,
-    MijnBeleid,
-    Overview,
+    DynamicObject,
+    DynamicOverview,
+    ModuleCreate,
+    ModuleDetail,
+    ModuleEdit,
 }

@@ -1,5 +1,4 @@
 import {
-    getModulesModuleIdObjectMaatregelLatestLineageIdGetQueryKey,
     useMaatregelenLatestLineageIdGet,
     useMaatregelenRelationsLineageIdGet,
     useMaatregelenRelationsLineageIdPut,
@@ -24,12 +23,7 @@ const fetchers = {
     usePatchObjectInModule: useModulesModuleIdObjectMaatregelLineageIdPatch,
 }
 
-const queryKeys = {
-    getLatestObjectInModuleQueryKey:
-        getModulesModuleIdObjectMaatregelLatestLineageIdGetQueryKey,
-}
-
-const maatregel: DynamicObject<typeof fetchers, typeof queryKeys> = {
+const maatregel: DynamicObject<typeof fetchers> = {
     defaults: {
         singular: 'maatregel',
         singularCapitalize: 'Maatregel',
@@ -40,7 +34,6 @@ const maatregel: DynamicObject<typeof fetchers, typeof queryKeys> = {
         prefixNewObject: 'Nieuwe',
     },
     fetchers,
-    queryKeys,
     dynamicSections: [
         {
             type: 'description',

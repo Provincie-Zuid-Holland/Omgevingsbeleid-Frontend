@@ -4,44 +4,12 @@ import { Form, Formik } from 'formik'
 import { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useKey, useLockBodyScroll } from 'react-use'
-import * as Yup from 'yup'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { passwordResetPost } from '@/api/fetchers'
+import * as passwordReset from '@/validation/passwordReset'
 
 import { PopUpAnimatedContainer } from '../Popup'
-
-const schema = Yup.object().shape({
-    currentPassword: Yup.string().required('Vul je huidige wachtwoord in'),
-    newPassword: Yup.string()
-        .required('Vul een nieuw wachtwoord in')
-        .min(12, 'Gebruik minimaal 12 tekens')
-        .notOneOf(
-            [Yup.ref('currentPassword')],
-            'Het nieuwe wachtwoord mag niet gelijk zijn aan het oude wachtwoord'
-        )
-        .test(
-            'password',
-            'Gebruik minimaal 1 hoofdletter, 1 kleine letter, 1 cijfer en 1 speciaal teken',
-            value => {
-                if (value) {
-                    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{12,}$/.test(
-                        value
-                    )
-                }
-                return true
-            }
-        ),
-    newPasswordCopy: Yup.string()
-        .required('Herhaal hier je nieuwe wachtwoord')
-        .test(
-            'equal',
-            'Het herhaalde wachtwoord komt niet overeen',
-            function (v) {
-                const ref = Yup.ref('newPassword')
-                return v === this.resolve(ref)
-            }
-        ),
-})
 
 /**
  * A modal to change the users password
@@ -143,14 +111,16 @@ export default function PasswordChangeModal({
                     newPasswordCopy: '',
                 }}
                 onSubmit={handleFormSubmit}
-                validationSchema={schema}>
+                validationSchema={toFormikValidationSchema(
+                    passwordReset.SCHEMA
+                )}>
                 {({ values, handleSubmit, isValid, isSubmitting }) => (
                     <Form onSubmit={handleSubmit}>
                         <div className="">
                             <FormikInput
                                 label="Huidig wachtwoord"
                                 id="password-reset-current-password"
-                                required={true}
+                                required
                                 name="currentPassword"
                                 type="password"
                                 placeholder="Voer hier je huidig wachtwoord in"
@@ -165,7 +135,7 @@ export default function PasswordChangeModal({
                         <FormikInput
                             id="password-reset-new-password"
                             label="Nieuw wachtwoord"
-                            required={true}
+                            required
                             name="newPassword"
                             type="password"
                             placeholder="Geef hier het nieuwe wachtwoord op"

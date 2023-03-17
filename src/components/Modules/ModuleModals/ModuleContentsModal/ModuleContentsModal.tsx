@@ -164,12 +164,9 @@ const ModuleContentsModal = ({
                             selectedObject={selectedObject}
                         />
                         <div className="mt-6 flex items-center justify-between">
-                            <button
-                                type="button"
-                                className="underline"
-                                onClick={handleClose}>
+                            <Button variant="link" onPress={handleClose}>
                                 Annuleren
-                            </button>
+                            </Button>
                             <Button
                                 variant={isFinalStep ? 'cta' : 'primary'}
                                 type={isFinalStep ? 'submit' : 'button'}

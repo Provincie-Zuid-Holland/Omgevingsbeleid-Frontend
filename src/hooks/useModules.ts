@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 
 import {
+    getModulesGetQueryKey,
     getModulesModuleIdGetQueryKey,
     useModulesModuleIdPost,
     useModulesModuleIdRemoveObjectTypeLineageIdDelete,
@@ -17,9 +18,14 @@ const useModules = () => {
                     toastNotification({ type: 'standard error' })
                 },
                 onSuccess: () => {
-                    queryClient
-                        .invalidateQueries(getModulesModuleIdGetQueryKey(id))
-                        .then(onSucces)
+                    Promise.all([
+                        queryClient.invalidateQueries(
+                            getModulesModuleIdGetQueryKey(id)
+                        ),
+                        queryClient.invalidateQueries(getModulesGetQueryKey(), {
+                            refetchType: 'all',
+                        }),
+                    ]).then(onSucces)
 
                     toastNotification({ type: 'saved' })
                 },

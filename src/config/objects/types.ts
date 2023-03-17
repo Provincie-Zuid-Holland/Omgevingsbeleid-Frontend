@@ -5,9 +5,6 @@ import * as models from '.'
 export interface DynamicObject<
     Fetchers = {
         [key: string]: any
-    },
-    QueryKeys = {
-        [key: string]: any
     }
 > {
     defaults: {
@@ -20,7 +17,6 @@ export interface DynamicObject<
         prefixNewObject: string
     }
     fetchers: Fetchers
-    queryKeys: QueryKeys
     validationSchema?: Schema
     dynamicSections?: DynamicSection[]
 }

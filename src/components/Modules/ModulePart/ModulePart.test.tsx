@@ -1,12 +1,10 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 
-import { PolicyTitlesSingular } from '@/constants/policyObjects'
-
 import ModulePart from './ModulePart'
 
 describe('ModulePart', () => {
     const props: any = {
-        type: 'beleidskeuze' as PolicyTitlesSingular,
+        type: 'beleidskeuze',
         title: 'The Cat in the Hat',
         status: 'completed',
         isLast: true,

@@ -30,7 +30,7 @@ const queryClient = new QueryClient({
 })
 
 const App = () => {
-    const userIsInMuteerEnvironment = usePage('/muteer/')
+    const userIsInMuteerEnvironment = usePage('/muteer')
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
     const isNetworkVisualization = usePage('/netwerkvisualisatie')
 
@@ -71,9 +71,7 @@ const App = () => {
 
                     <BaseLayout
                         hideFooter={
-                            isAdvancedSearchPage ||
-                            userIsInMuteerEnvironment ||
-                            isNetworkVisualization
+                            isAdvancedSearchPage || isNetworkVisualization
                         }>
                         <ErrorBoundary FallbackComponent={ErrorPage}>
                             <Suspense fallback={<LoaderContent />}>

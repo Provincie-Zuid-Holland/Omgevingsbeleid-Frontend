@@ -1,5 +1,4 @@
 import {
-    getModulesModuleIdObjectBeleidsdoelLatestLineageIdGetQueryKey,
     useBeleidsdoelenLatestLineageIdGet,
     useBeleidsdoelenRelationsLineageIdGet,
     useBeleidsdoelenRelationsLineageIdPut,
@@ -9,6 +8,7 @@ import {
     useModulesModuleIdObjectBeleidsdoelLatestLineageIdGet,
     useModulesModuleIdObjectBeleidsdoelLineageIdPatch,
 } from '@/api/fetchers'
+import { SCHEMA } from '@/validation/beleidsdoel'
 
 import { DynamicObject } from './types'
 
@@ -24,12 +24,7 @@ const fetchers = {
     usePatchObjectInModule: useModulesModuleIdObjectBeleidsdoelLineageIdPatch,
 }
 
-const queryKeys = {
-    getLatestObjectInModuleQueryKey:
-        getModulesModuleIdObjectBeleidsdoelLatestLineageIdGetQueryKey,
-}
-
-const beleidsdoel: DynamicObject<typeof fetchers, typeof queryKeys> = {
+const beleidsdoel: DynamicObject<typeof fetchers> = {
     defaults: {
         singular: 'beleidsdoel',
         singularCapitalize: 'Beleidsdoel',
@@ -40,7 +35,6 @@ const beleidsdoel: DynamicObject<typeof fetchers, typeof queryKeys> = {
         prefixNewObject: 'Nieuw',
     },
     fetchers,
-    queryKeys,
     dynamicSections: [
         {
             type: 'description',
@@ -50,6 +44,7 @@ const beleidsdoel: DynamicObject<typeof fetchers, typeof queryKeys> = {
                 'Een maatregel beschrijft de wijze waarop uitvoering wordt gegeven aan beleid. Formuleer wat de provincie gaat realiseren, of de maatregel voor een specifiek gebied van toepassing is, aan welke beleidskeuzes de maatregel bijdraagt en in welke rol de provincie op zich neemt.',
         },
     ],
+    validationSchema: SCHEMA,
 }
 
 export default beleidsdoel

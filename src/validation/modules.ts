@@ -5,7 +5,7 @@ import createEmptyObject from '@/utils/createEmptyObject'
 import { schemaDefaults } from '@/utils/zodSchema'
 
 export const SCHEMA = z.object({
-    Title: schemaDefaults.Title,
+    Title: schemaDefaults.title,
     Description: schemaDefaults.requiredString(),
     Module_Manager_1_UUID: schemaDefaults.requiredString(),
     Module_Manager_2_UUID: schemaDefaults.optionalString,
@@ -15,7 +15,7 @@ export const EMPTY_CREATE_MODULE: ModuleCreate = createEmptyObject(SCHEMA)
 
 export const SCHEMA_ADD_NEW_OBJECT = z.object({
     Object_Type: schemaDefaults.requiredString(),
-    Title: schemaDefaults.Title,
+    Title: schemaDefaults.title,
     Owner_1_UUID: schemaDefaults.requiredString(),
     Owner_2_UUID: schemaDefaults.optionalString,
     Explanation: schemaDefaults.requiredString(),
@@ -45,7 +45,7 @@ export const SCHEMA_ADD_OBJECT = z
         z.object({
             state: z.literal('new'),
             Object_Type: schemaDefaults.requiredString(),
-            Title: schemaDefaults.Title,
+            Title: schemaDefaults.title,
             Owner_1_UUID: schemaDefaults.requiredString(),
             Owner_2_UUID: schemaDefaults.optionalString,
         }),

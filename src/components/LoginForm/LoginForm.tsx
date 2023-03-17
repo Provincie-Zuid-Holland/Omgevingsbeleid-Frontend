@@ -8,21 +8,15 @@ import {
 import { Form, Formik } from 'formik'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import * as Yup from 'yup'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import useAuth from '@/hooks/useAuth'
+import * as loginForm from '@/validation/loginForm'
 
 interface FormProps {
     email: string
     password: string
 }
-
-const schema = Yup.object().shape({
-    email: Yup.string()
-        .email('Onjuist e-mailadres')
-        .required('Dit veld is verplicht'),
-    password: Yup.string().required('Dit veld is verplicht'),
-})
 
 /**
  * Displays a login form in which the user can log into the application.
@@ -61,7 +55,7 @@ const LoginForm = () => {
             <Formik
                 initialValues={{ email: '', password: '' }}
                 onSubmit={handleFormSubmit}
-                validationSchema={schema}>
+                validationSchema={toFormikValidationSchema(loginForm.SCHEMA)}>
                 {({ values, handleSubmit, isValid, dirty }) => (
                     <Form onSubmit={handleSubmit}>
                         <FormikInput
@@ -144,13 +138,13 @@ const PopupPasswordForgot = ({
             één werkdag een nieuw wachtwoord.
         </p>
         <div className="flex items-center justify-between mt-5">
-            <button
-                className="text-sm underline transition-colors cursor-pointer text-pzh-blue hover:text-pzh-blue-dark"
-                onClick={togglePopup}
+            <Button
+                variant="link"
+                onPress={togglePopup}
                 id="close-password-forget-popup"
                 data-testid="close-password-forget-popup">
                 Annuleren
-            </button>
+            </Button>
             <Button
                 variant="cta"
                 id="wachtwoord-reset-button-mailto"

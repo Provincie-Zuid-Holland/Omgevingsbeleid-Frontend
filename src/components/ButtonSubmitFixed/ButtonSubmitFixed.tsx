@@ -1,47 +1,43 @@
 import { Button } from '@pzh-ui/components'
-import classNames from 'classnames'
+
+import { Container } from '../Container'
 
 /**
  * Displays a fixed placed submit button.
  */
 interface ButtonSubmitFixedProps {
-    submit?: (() => void) | null
     disabled?: boolean
-    scrollToError?: () => void
+    isLoading?: boolean
+    onCancel?: () => void
 }
 
 function ButtonSubmitFixed({
-    submit,
     disabled,
-    scrollToError,
+    isLoading,
+    onCancel,
 }: ButtonSubmitFixedProps) {
-    if (!submit) return null
-
     return (
-        <div className="fixed bottom-0 right-0 z-10 px-6">
-            <div className="relative z-10 inline-block px-4 py-4 bg-white rounded-t shadow">
-                <div
-                    className={classNames(
-                        'absolute top-0 left-0 z-10 w-full h-full',
-                        disabled ? '' : 'pointer-events-none'
-                    )}
-                    onClick={() => {
-                        if (disabled && scrollToError) {
-                            scrollToError()
-                        }
-                    }}
-                />
-                <Button
-                    id="form-submit"
-                    type="button"
-                    onPress={() => {
-                        submit()
-                    }}
-                    isDisabled={disabled}>
-                    Opslaan
-                </Button>
+        <Container className="fixed bottom-4 left-0 right-0 w-full z-50 pointer-events-none">
+            <div className="col-start-1 col-end-7">
+                <div className="flex justify-end">
+                    <div className="bg-pzh-white p-2 pl-4 shadow-card rounded flex align-middle pointer-events-auto">
+                        <Button
+                            variant="link"
+                            onPress={onCancel}
+                            className="mr-4">
+                            Annuleren
+                        </Button>
+                        <Button
+                            variant="cta"
+                            isDisabled={disabled}
+                            isLoading={isLoading}
+                            type="submit">
+                            Opslaan
+                        </Button>
+                    </div>
+                </div>
             </div>
-        </div>
+        </Container>
     )
 }
 

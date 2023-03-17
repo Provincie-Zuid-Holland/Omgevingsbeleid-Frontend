@@ -1,9 +1,12 @@
 import { Divider } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
-import { Form, Formik } from 'formik'
-import { useParams } from 'react-router-dom'
+import { Form, Formik, FormikProps } from 'formik'
+import { useNavigate, useParams } from 'react-router-dom'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
 
+import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
 import { LoaderContent } from '@/components/Loader'
+import ScrollToFieldError from '@/components/ScrollToFieldError'
 import { Model } from '@/config/objects/types'
 import { toastNotification } from '@/utils/toastNotification'
 
@@ -20,12 +23,10 @@ const DynamicObjectForm = ({ model }: DynamicObjectFormProps) => {
 
     const { moduleId, objectId } = useParams()
 
-    const sections = model.dynamicSections
     const { useGetLatestObjectInModule, usePatchObjectInModule } =
         model.fetchers
-    const { getLatestObjectInModuleQueryKey } = model.queryKeys
 
-    const { data, isLoading } = useGetLatestObjectInModule(
+    const { data, isLoading, queryKey } = useGetLatestObjectInModule(
         parseInt(moduleId!),
         parseInt(objectId!),
         {
@@ -41,70 +42,109 @@ const DynamicObjectForm = ({ model }: DynamicObjectFormProps) => {
                 toastNotification({ type: 'standard error' })
             },
             onSuccess: () => {
-                queryClient.invalidateQueries(
-                    getLatestObjectInModuleQueryKey(
-                        parseInt(moduleId!),
-                        parseInt(objectId!)
-                    )
-                )
+                queryClient.invalidateQueries(queryKey)
 
                 toastNotification({ type: 'saved' })
             },
         },
     })
 
-    const handleSubmit = () => {}
+    const handleSubmit = (payload: typeof data) => {
+        console.log(payload)
+        if (!payload) return
 
-    if (isLoading) return <LoaderContent />
+        patchObject.mutate({
+            moduleId: parseInt(moduleId!),
+            lineageId: parseInt(objectId!),
+            data: payload,
+        })
+    }
+
+    if (isLoading || !data) return <LoaderContent />
 
     return (
         <div>
             <Formik
                 initialValues={data || {}}
+                validationSchema={
+                    model.validationSchema &&
+                    toFormikValidationSchema(model.validationSchema)
+                }
+                validateOnMount
                 onSubmit={handleSubmit}
                 enableReinitialize>
-                <Form>
-                    <div className="grid grid-cols-6 gap-x-10 gap-y-0">
-                        <SectionBasicInfo model={model} />
-                        <div className="col-span-6">
-                            <Divider className="my-8" />
-                        </div>
-                        {sections?.map((section, index) => {
-                            switch (section.type) {
-                                case 'description':
-                                    return (
-                                        <SectionWrapper
-                                            key={`section-${index}`}
-                                            isLast={
-                                                index + 1 === sections.length
-                                            }>
-                                            <SectionDescription
-                                                model={model}
-                                                section={section}
-                                            />
-                                        </SectionWrapper>
-                                    )
-                                case 'connections':
-                                    return (
-                                        <SectionWrapper
-                                            key={`section-${index}`}
-                                            isLast={
-                                                index + 1 === sections.length
-                                            }>
-                                            <SectionConnections
-                                                model={model}
-                                                section={section}
-                                            />
-                                        </SectionWrapper>
-                                    )
-                                default:
-                                    break
-                            }
-                        })}
-                    </div>
-                </Form>
+                {({ ...props }) => (
+                    <ObjectForm<typeof data>
+                        model={model}
+                        isLoading={patchObject.isLoading}
+                        {...props}
+                    />
+                )}
             </Formik>
         </div>
+    )
+}
+
+interface ObjectFormProps<T> extends FormikProps<T> {
+    model: Model
+    isLoading?: boolean
+}
+
+const ObjectForm = <T,>({
+    model,
+    isSubmitting,
+    isLoading,
+}: ObjectFormProps<T>) => {
+    const navigate = useNavigate()
+    const { moduleId } = useParams()
+
+    const sections = model.dynamicSections
+
+    return (
+        <Form>
+            <div className="grid grid-cols-6 gap-x-10 gap-y-0">
+                <SectionBasicInfo model={model} />
+                <div className="col-span-6">
+                    <Divider className="my-8" />
+                </div>
+                {sections?.map((section, index) => {
+                    switch (section.type) {
+                        case 'description':
+                            return (
+                                <SectionWrapper
+                                    key={`section-${index}`}
+                                    isLast={index + 1 === sections.length}>
+                                    <SectionDescription
+                                        model={model}
+                                        section={section}
+                                    />
+                                </SectionWrapper>
+                            )
+                        case 'connections':
+                            return (
+                                <SectionWrapper
+                                    key={`section-${index}`}
+                                    isLast={index + 1 === sections.length}>
+                                    <SectionConnections
+                                        model={model}
+                                        section={section}
+                                    />
+                                </SectionWrapper>
+                            )
+                        default:
+                            break
+                    }
+                })}
+            </div>
+
+            <ButtonSubmitFixed
+                onCancel={() => navigate(`/muteer/modules/${moduleId}`)}
+                disabled={isSubmitting || isLoading}
+                isLoading={isLoading}
+            />
+
+            <ScrollToFieldError />
+        </Form>
     )
 }
 

@@ -61,9 +61,9 @@ const ModuleActivateModal = ({ isOpen, onClose }: ModuleActivateModalProps) => {
             </Text>
 
             <div className="mt-6 flex items-center justify-between">
-                <button type="button" className="underline" onClick={onClose}>
+                <Button variant="link" onPress={onClose}>
                     Annuleren
-                </button>
+                </Button>
                 <Button
                     variant="cta"
                     onPress={() => mutate({ moduleId: parseInt(moduleId!) })}

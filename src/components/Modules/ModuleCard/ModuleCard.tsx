@@ -9,7 +9,7 @@ const ModuleCard = ({ Module_ID, Title, Description, Status }: Module) => {
 
     return (
         <li className="p-5 border border-pzh-gray-200 rounded h-full flex flex-col">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-wrap items-center justify-between mb-4">
                 <Heading level="3">{Title}</Heading>
                 <Badge
                     text={Status?.Status || ''}

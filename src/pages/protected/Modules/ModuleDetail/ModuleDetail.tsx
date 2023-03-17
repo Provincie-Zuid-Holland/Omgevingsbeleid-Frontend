@@ -1,6 +1,7 @@
 import {
     Badge,
     Breadcrumbs,
+    Button,
     Divider,
     Heading,
     Hyperlink,
@@ -153,16 +154,17 @@ const ModuleDetail = () => {
                         Er zijn nog geen onderdelen toegevoegd aan deze module
                     </p>
                 )}
-                <button
-                    onClick={() =>
+                <Button
+                    variant="link"
+                    onPress={() =>
                         setModuleModal({
                             isOpen: true,
                             action: 'addContents',
                         })
                     }
-                    className="underline text-pzh-green hover:text-pzh-green-dark">
+                    className="block text-pzh-green hover:text-pzh-green-dark">
                     Onderdeel toevoegen
-                </button>
+                </Button>
             </div>
 
             <div className="col-span-2">

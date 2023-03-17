@@ -3,16 +3,15 @@ import { useNavigate, useRoutes } from 'react-router-dom'
 
 import { NetworkGraph } from '@/components/Network'
 import * as models from '@/config/objects'
-import policyObjects from '@/constants/policyObjects'
 import useAuth from '@/hooks/useAuth'
-import { Dashboard, MijnBeleid } from '@/pages/protected'
-import DynamicObject from '@/pages/protected/DynamicObject'
-import DynamicOverview from '@/pages/protected/DynamicOverview'
-import ModuleCreate from '@/pages/protected/Modules/ModuleCreate'
-import ModuleDetail from '@/pages/protected/Modules/ModuleDetail'
-import ModuleEdit from '@/pages/protected/Modules/ModuleEdit'
-import MutatePolicy from '@/pages/protected/MutatePolicy'
-import VerordeningEdit from '@/pages/protected/VerordeningEdit'
+import {
+    Dashboard,
+    DynamicObject,
+    DynamicOverview,
+    ModuleCreate,
+    ModuleDetail,
+    ModuleEdit,
+} from '@/pages/protected'
 import {
     Accessibility,
     Home,
@@ -205,42 +204,6 @@ const AppRoutes = () => {
                         {
                             path: 'nieuw',
                             element: <ModuleCreate />,
-                        },
-                    ],
-                },
-                {
-                    path: 'mijn-beleid',
-                    element: <MijnBeleid />,
-                },
-                {
-                    path: 'verordeningen',
-                    children: [
-                        {
-                            path: 'nieuw',
-                            element: (
-                                <MutatePolicy
-                                    policyConstants={policyObjects.VERORDENING}
-                                />
-                            ),
-                        },
-                        {
-                            path: ':single',
-                            children: [
-                                {
-                                    index: true,
-                                    element: <VerordeningEdit />,
-                                },
-                                {
-                                    path: 'bewerk',
-                                    element: (
-                                        <MutatePolicy
-                                            policyConstants={
-                                                policyObjects.VERORDENING
-                                            }
-                                        />
-                                    ),
-                                },
-                            ],
                         },
                     ],
                 },

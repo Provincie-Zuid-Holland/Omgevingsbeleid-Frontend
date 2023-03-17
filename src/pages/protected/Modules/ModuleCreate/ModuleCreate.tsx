@@ -23,19 +23,11 @@ const ModuleCreate = () => {
                 toastNotification({ type: 'standard error' })
             },
             onSuccess: res => {
-                Promise.all([
-                    queryClient.invalidateQueries(
-                        getModulesGetQueryKey({
-                            only_mine: true,
-                            only_active: true,
-                        })
-                    ),
-                    queryClient.invalidateQueries(
-                        getModulesGetQueryKey({
-                            only_active: true,
-                        })
-                    ),
-                ]).then(() => navigate(`/muteer/modules/${res.Module_ID}`))
+                queryClient
+                    .invalidateQueries(getModulesGetQueryKey(), {
+                        refetchType: 'all',
+                    })
+                    .then(() => navigate(`/muteer/modules/${res.Module_ID}`))
 
                 toastNotification({ type: 'saved' })
             },

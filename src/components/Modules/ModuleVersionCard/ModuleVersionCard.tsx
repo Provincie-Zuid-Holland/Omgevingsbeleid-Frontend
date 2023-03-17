@@ -5,6 +5,7 @@ import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import {
+    getModulesGetQueryKey,
     getModulesModuleIdGetQueryKey,
     useModulesModuleIdStatusPatch,
 } from '@/api/fetchers'
@@ -32,6 +33,9 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
                 queryClient.invalidateQueries(
                     getModulesModuleIdGetQueryKey(parseInt(moduleId!))
                 )
+                queryClient.invalidateQueries(getModulesGetQueryKey(), {
+                    refetchType: 'all',
+                })
 
                 toastNotification({ type: 'saved' })
             },
