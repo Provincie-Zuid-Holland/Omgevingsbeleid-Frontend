@@ -12,7 +12,7 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
     const { singularCapitalize } = model.defaults
 
     return (
-        <MutateLayout>
+        <MutateLayout title={`${singularCapitalize} bewerken`}>
             <div className="col-span-6">
                 <Heading level="1" className="mb-8">
                     {singularCapitalize} bewerken

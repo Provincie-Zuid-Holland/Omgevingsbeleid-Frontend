@@ -7,6 +7,7 @@ import formatDate from '@/utils/formatDate'
 import getModuleStatusColor from '@/utils/getModuleStatusColor'
 
 interface ModuleTimelineProps {
+    /** Array containing module history */
     statusHistory: ModuleStatus[]
 }
 

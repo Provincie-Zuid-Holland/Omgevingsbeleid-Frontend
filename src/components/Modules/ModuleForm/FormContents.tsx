@@ -5,7 +5,7 @@ import { useMedia } from 'react-use'
 
 import { useModulesModuleIdGet } from '@/api/fetchers'
 import { SearchObject } from '@/api/fetchers.schemas'
-import useModules from '@/hooks/useModules'
+import useModule from '@/hooks/useModule'
 import * as modules from '@/validation/modules'
 
 import ModuleContentsModal from '../ModuleModals/ModuleContentsModal'
@@ -14,9 +14,13 @@ import ModuleObjectSearch from '../ModuleObjectSearch'
 import ModulePart from '../ModulePart'
 
 interface ModalProps {
+    /** Is modal open */
     isOpen: boolean
+    /** Initial step of contents wizard */
     initialStep: number
+    /** Initial values of contents form */
     initialValues: ContentsModalForm
+    /** Object which gets selected after search */
     selectedObject?: SearchObject
 }
 
@@ -32,6 +36,8 @@ const FormContents = () => {
     const isMobile = useMedia('(max-width: 640px)')
 
     const [modal, setModal] = useState<ModalProps>(initialModalValues)
+
+    const {} = useModule()
 
     const { data: { Objects: objects, Module: module } = {} } =
         useModulesModuleIdGet(parseInt(moduleId!), {
@@ -56,8 +62,8 @@ const FormContents = () => {
         [objects]
     )
 
-    const { useRemoveObjectFromModule } = useModules()
-    const { mutate } = useRemoveObjectFromModule(parseInt(moduleId!))
+    const { useRemoveObjectFromModule } = useModule()
+    const { mutate } = useRemoveObjectFromModule()
 
     return (
         <>

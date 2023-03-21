@@ -13,15 +13,9 @@ interface MutateLayoutProps {
     }[]
 }
 
-const MutateLayout = ({
-    title = 'Provincie Zuid-Holland',
-    children,
-}: MutateLayoutProps) => (
+const MutateLayout = ({ title, children }: MutateLayoutProps) => (
     <>
-        <Helmet>
-            <meta charSet="utf-8" />
-            <title>{title} - Omgevingsbeleid</title>
-        </Helmet>
+        <Helmet title={title} />
 
         <Container className="pt-10 pb-20">{children}</Container>
     </>

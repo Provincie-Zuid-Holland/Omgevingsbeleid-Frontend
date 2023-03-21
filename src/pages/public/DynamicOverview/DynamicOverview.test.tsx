@@ -1,17 +1,16 @@
-import { render, screen } from '@testing-library/react'
-import '@testing-library/jest-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 
-import allDimensies from '@/constants/dimensies'
+import beleidskeuze from '@/config/objects/beleidskeuze'
 
-import UniversalObjectOverview from './UniversalObjectOverview'
+import DynamicOverview from './DynamicOverview'
 
 const queryClient = new QueryClient()
 
-describe('UniversalObjectOverview', () => {
+describe('DynamicOverview', () => {
     const defaultProps = {
-        dataModel: allDimensies.BELEIDSKEUZES,
+        model: beleidskeuze,
     }
 
     const setup = (customProps?: any) => {
@@ -19,7 +18,7 @@ describe('UniversalObjectOverview', () => {
         render(
             <MemoryRouter>
                 <QueryClientProvider client={queryClient}>
-                    <UniversalObjectOverview {...props} />
+                    <DynamicOverview {...props} />
                 </QueryClientProvider>
             </MemoryRouter>
         )

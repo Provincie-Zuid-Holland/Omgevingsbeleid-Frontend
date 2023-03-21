@@ -1,17 +1,8 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
+import { Role } from '@/context/AuthContext'
 import useAuth from '@/hooks/useAuth'
-
-type Role =
-    | 'Beheerder'
-    | 'Functioneel beheerder'
-    | 'Technisch beheerder'
-    | 'Test runner'
-    | 'Tester'
-    | 'Behandelend Ambtenaar'
-    | 'Portefeuillehouder'
-    | 'Ambtelijk opdrachtgever'
 
 interface ProtectedRouteProps {
     children?: JSX.Element | null

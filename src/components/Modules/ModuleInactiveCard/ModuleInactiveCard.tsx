@@ -3,6 +3,7 @@ import { Button, Text } from '@pzh-ui/components'
 import { ModuleModalActions } from '../ModuleModals/types'
 
 interface ModuleInactiveCardProps {
+    /** Set module modal state */
     setModuleModal: (e: ModuleModalActions) => void
 }
 

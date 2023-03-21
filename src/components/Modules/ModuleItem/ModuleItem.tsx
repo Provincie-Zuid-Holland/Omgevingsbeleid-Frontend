@@ -1,14 +1,22 @@
-import { Divider, Text } from '@pzh-ui/components'
+import { Divider, Hyperlink, Text } from '@pzh-ui/components'
 import { CircleInfo, EllipsisVertical } from '@pzh-ui/icons'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import Dropdown, { DropdownItem } from '@/components/Dropdown'
+import useAuth from '@/hooks/useAuth'
+import useRoles from '@/hooks/useRoles'
 import getModuleActionText from '@/utils/getModuleActionText'
 
 interface ModuleItemProps extends ModuleObjectShort {
+    /** Has edit button */
+    hasEditButton?: boolean
+    /** Function which gets called on edit click */
     editCallback: () => void
+    /** Function which gets called on delete click */
     deleteCallback: () => void
+    /** Function which gets called on view click */
+    viewCallback: () => void
 }
 
 const ModuleItem = ({
@@ -17,29 +25,59 @@ const ModuleItem = ({
     Module_ID,
     Action,
     Title,
+    Owner_1_UUID,
+    Owner_2_UUID,
+    hasEditButton,
     editCallback,
     deleteCallback,
+    viewCallback,
 }: ModuleItemProps) => {
+    const { user } = useAuth()
+    const isAdmin = useRoles(['Beheerder'])
     const [isOpen, setIsOpen] = useState(false)
 
+    const hasRights = useMemo(() => {
+        if (
+            isAdmin ||
+            Owner_1_UUID === user?.UUID ||
+            Owner_2_UUID === user?.UUID
+        )
+            return true
+
+        return false
+    }, [isAdmin, Owner_1_UUID, Owner_2_UUID, user?.UUID])
+
     const dropdownItems: DropdownItem[] = [
-        ...((Action !== 'Terminate' && [
+        ...((Action !== 'Terminate' &&
+            hasRights && [
+                {
+                    text: 'Bewerken',
+                    link: `/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`,
+                },
+            ]) ||
+            []),
+        ...((hasRights && [
             {
-                text: 'Bewerken',
-                link: `/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`,
+                text: `Bewerk ${
+                    Action !== 'Create' && Action !== 'Toevoegen'
+                        ? 'actie, '
+                        : ' '
+                }toelichting en conclusie`,
+                callback: editCallback,
             },
         ]) ||
             []),
         {
-            text: `Bewerk ${
-                Action !== 'Create' && Action !== 'Toevoegen' ? 'actie, ' : ' '
-            }toelichting en conclusie`,
-            callback: editCallback,
+            text: 'Bekijk in raadpleegomgeving',
+            callback: viewCallback,
         },
-        {
-            text: 'Verwijderen uit module',
-            callback: deleteCallback,
-        },
+        ...((hasRights && [
+            {
+                text: 'Verwijderen uit module',
+                callback: deleteCallback,
+            },
+        ]) ||
+            []),
     ]
 
     return (
@@ -65,20 +103,30 @@ const ModuleItem = ({
                     <Text type="body" className="truncate">
                         {Title}
                     </Text>
+                    {hasEditButton && Action !== 'Terminate' && (
+                        <Hyperlink
+                            to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`}
+                            text="Bewerken"
+                        />
+                    )}
                 </div>
-                <div className="relative">
-                    <button
-                        className="flex items-center justify-center w-6 h-6 hover:bg-pzh-gray-100 rounded-full"
-                        onClick={() => setIsOpen(!isOpen)}>
-                        <EllipsisVertical />
-                    </button>
-                    <Dropdown
-                        items={dropdownItems}
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                        className="-right-1 mt-8"
-                    />
-                </div>
+                {!!dropdownItems.length ? (
+                    <div className="relative">
+                        <button
+                            className="flex items-center justify-center w-6 h-6 hover:bg-pzh-gray-100 rounded-full"
+                            onClick={() => setIsOpen(!isOpen)}>
+                            <EllipsisVertical />
+                        </button>
+                        <Dropdown
+                            items={dropdownItems}
+                            isOpen={isOpen}
+                            setIsOpen={setIsOpen}
+                            className="-right-1 mt-8"
+                        />
+                    </div>
+                ) : (
+                    <div className="w-6" />
+                )}
             </div>
         </div>
     )

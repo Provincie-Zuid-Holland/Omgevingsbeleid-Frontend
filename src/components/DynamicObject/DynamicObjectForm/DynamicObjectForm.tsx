@@ -49,8 +49,11 @@ const DynamicObjectForm = ({ model }: DynamicObjectFormProps) => {
         },
     })
 
+    /**
+     * Handle submit of form
+     * @param {typeof data} payload - Contains payload of the form
+     */
     const handleSubmit = (payload: typeof data) => {
-        console.log(payload)
         if (!payload) return
 
         patchObject.mutate({

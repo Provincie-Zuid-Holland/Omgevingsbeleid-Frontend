@@ -15,6 +15,8 @@ export interface DynamicObject<
         prefixSingular: string
         prefixPlural: string
         prefixNewObject: string
+        description: string
+        slugOverview?: string
     }
     fetchers: Fetchers
     validationSchema?: Schema
@@ -31,7 +33,7 @@ export interface DynamicDescription {
 
 export interface DynamicConnections {
     type: 'connections'
-    allowedConnections: keyof typeof models
+    allowedConnections: (keyof typeof models)[]
     description: string
     fieldDescription: string
 }

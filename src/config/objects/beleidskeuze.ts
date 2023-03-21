@@ -32,6 +32,9 @@ const beleidskeuze: DynamicObject<typeof fetchers> = {
         prefixSingular: 'het',
         prefixPlural: 'de',
         prefixNewObject: 'Nieuwe',
+        slugOverview: 'beleidskeuzes',
+        description:
+            'De beleidskeuzes geven aan hoe de provincie haar doelen wil bereiken. De beleidskeuzes zijn een uitwerking van de beleidsdoelen en komen voort uit de Omgevingsvisie.',
     },
     fetchers,
     dynamicSections: [
@@ -44,7 +47,7 @@ const beleidskeuze: DynamicObject<typeof fetchers> = {
         },
         {
             type: 'connections',
-            allowedConnections: 'beleidskeuze',
+            allowedConnections: ['beleidskeuze'],
             description:
                 'De maatregel kan worden gekoppeld aan een beleidskeuze (waardoor de maatregel indirect is gekoppeld aan een thematisch programma) en aan een gebiedsprogramma.',
             fieldDescription:

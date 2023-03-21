@@ -62,9 +62,9 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
             <AuthProvider>
                 <div
-                    className="text-pzh-blue-dark relative flex flex-col"
+                    className="text-pzh-blue-dark relative flex flex-col min-h-screen"
                     id="main-container">
-                    <Helmet>
+                    <Helmet titleTemplate="%s - Omgevingsbeleid Provincie Zuid-Holland">
                         <meta charSet="utf-8" />
                         <title>Omgevingsbeleid - Provincie Zuid-Holland</title>
                     </Helmet>

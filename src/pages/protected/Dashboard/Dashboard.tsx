@@ -23,11 +23,14 @@ import { useModulesGet } from '@/api/fetchers'
 import { LoaderCard } from '@/components/Loader'
 import ModuleCard from '@/components/Modules/ModuleCard'
 import useAuth from '@/hooks/useAuth'
+import useRoles from '@/hooks/useRoles'
 import MutateLayout from '@/templates/MutateLayout'
 
 const Dashboard = () => {
-    const { user } = useAuth()
+    const { user, role } = useAuth()
+    const isAdmin = useRoles(['Beheerder'])
     const navigate = useNavigate()
+
     const isMobile = useMedia('(max-width: 640px)')
     const [activeTab, setActiveTab] = useState<string | number>('user')
 
@@ -54,7 +57,7 @@ const Dashboard = () => {
                 <Text type="body">
                     Het digitaal omgevingsbeleid van de provincie Zuid-Holland.
                     Hieronder een overzicht van onderdelen die voor jou relevant
-                    zijn als {user?.Rol?.toLowerCase()}.
+                    zijn als {role?.toLowerCase()}.
                 </Text>
             </div>
 
@@ -95,7 +98,7 @@ const Dashboard = () => {
                                 </>
                             )}
 
-                            {user?.Rol !== 'Beheerder' ? (
+                            {!isAdmin ? (
                                 <div className="grid grid-cols-6 mt-8">
                                     <div className="col-span-3 mb-6">
                                         <Heading level="3" className="mb-4">

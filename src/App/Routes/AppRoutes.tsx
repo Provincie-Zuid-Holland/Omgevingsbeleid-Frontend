@@ -3,6 +3,7 @@ import { useNavigate, useRoutes } from 'react-router-dom'
 
 import { NetworkGraph } from '@/components/Network'
 import * as models from '@/config/objects'
+import ModuleProvider from '@/context/ModuleContext'
 import useAuth from '@/hooks/useAuth'
 import {
     Dashboard,
@@ -21,8 +22,9 @@ import {
     ObjectDetail,
     PlanningAndReleases,
     SearchResults,
-    UniversalObjectOverview,
     Verordening,
+    DynamicOverview as DynamicOverviewPublic,
+    DynamicObject as DynamicObjectPublic,
 } from '@/pages/public'
 import AreaDetail from '@/pages/public/AreaDetail'
 import AreaOverview from '@/pages/public/AreaOverview'
@@ -136,23 +138,30 @@ const AppRoutes = () => {
                 },
             ],
         },
-        ...detailPages
-            .filter(page => page.isPublic)
-            .map(item => ({
-                path: item.slug,
+        ...Object.keys(models)
+            .filter(
+                model =>
+                    !!models[model as keyof typeof models].defaults.slugOverview
+            )
+            .map(model => ({
+                path: models[model as keyof typeof models].defaults
+                    .slugOverview,
                 children: [
                     {
                         index: true,
                         element: (
-                            <UniversalObjectOverview
-                                {...item}
-                                dataEndpoint={item.dataValidEndpoint}
+                            <DynamicOverviewPublic
+                                model={models[model as keyof typeof models]}
                             />
                         ),
                     },
                     {
-                        path: ':id',
-                        element: <ObjectDetail {...item} />,
+                        path: ':uuid',
+                        element: (
+                            <DynamicObjectPublic
+                                model={models[model as keyof typeof models]}
+                            />
+                        ),
                     },
                 ],
             })),
@@ -172,6 +181,7 @@ const AppRoutes = () => {
                     children: [
                         {
                             path: ':moduleId',
+                            element: <ModuleProvider />,
                             children: [
                                 {
                                     index: true,
@@ -179,7 +189,11 @@ const AppRoutes = () => {
                                 },
                                 {
                                     path: 'bewerk',
-                                    element: <ModuleEdit />,
+                                    element: (
+                                        <ProtectedRoute roles={['Beheerder']}>
+                                            <ModuleEdit />
+                                        </ProtectedRoute>
+                                    ),
                                 },
                                 ...Object.keys(models).map(model => ({
                                     path: models[model as keyof typeof models]
@@ -203,7 +217,11 @@ const AppRoutes = () => {
                         },
                         {
                             path: 'nieuw',
-                            element: <ModuleCreate />,
+                            element: (
+                                <ProtectedRoute roles={['Beheerder']}>
+                                    <ModuleCreate />
+                                </ProtectedRoute>
+                            ),
                         },
                     ],
                 },
@@ -215,18 +233,6 @@ const AppRoutes = () => {
                         />
                     ),
                 })),
-                // ...detailPages
-                //     .filter(page => !!page.element)
-                //     .map(item => ({
-                //         path: item.slug,
-                //         children: [
-                //             {
-                //                 index: true,
-                //                 element: item.element,
-                //             },
-                //             ...(item.children || []),
-                //         ],
-                //     })),
             ],
         },
     ])

@@ -1,4 +1,6 @@
 import Accessibility from './Accessibility'
+import DynamicObject from './DynamicObject'
+import DynamicOverview from './DynamicOverview'
 import ErrorPage from './ErrorPage'
 import Home from './Home'
 import InProgress from './InProgress'
@@ -7,7 +9,6 @@ import MapSearch from './MapSearch'
 import ObjectDetail from './ObjectDetail'
 import PlanningAndReleases from './PlanningAndReleases'
 import SearchResults from './SearchResults'
-import UniversalObjectOverview from './UniversalObjectOverview'
 import Verordening from './Verordening'
 
 export {
@@ -20,6 +21,7 @@ export {
     ObjectDetail,
     PlanningAndReleases,
     SearchResults,
-    UniversalObjectOverview,
     Verordening,
+    DynamicOverview,
+    DynamicObject,
 }

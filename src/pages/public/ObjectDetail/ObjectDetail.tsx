@@ -12,6 +12,7 @@ import BackButton from '@/components/BackButton'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import RelatiesKoppelingen from '@/components/RelatiesKoppelingen'
+import TableOfContents from '@/components/TableOfContents'
 import {
     DetailPageEndpoint,
     DetailPageVersionEndpoint,
@@ -23,7 +24,6 @@ import RaadpleegObjectDetailHead from './RaadpleegObjectDetailHead'
 import RaadpleegObjectDetailMain from './RaadpleegObjectDetailMain'
 import RaadpleegObjectDetailNewVersionNotification from './RaadpleegObjectDetailNewVersionNotification'
 import RaadpleegObjectDetailSidebar from './RaadpleegObjectDetailSidebar'
-import TableOfContents from './TableOfContents'
 
 /**
  * A detail page for policy objects.

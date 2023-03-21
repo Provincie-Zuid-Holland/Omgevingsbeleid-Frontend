@@ -1,22 +1,38 @@
-import { Text } from '@pzh-ui/components'
+import { Divider, Notification, Text } from '@pzh-ui/components'
 import { Lock, LockOpen } from '@pzh-ui/icons'
 import { useParams } from 'react-router-dom'
 
 import ToggleSwitch from '@/components/ToggleSwitch'
-import useModules from '@/hooks/useModules'
+import useModule from '@/hooks/useModule'
+import useRoles from '@/hooks/useRoles'
 
 import { ModuleModalActions } from '../ModuleModals/types'
 
 interface ModuleLockProps {
+    /** Is module locked */
     locked: boolean
+    /** Set module modal state */
     setModuleModal: (e: ModuleModalActions) => void
 }
 
 const ModuleLock = ({ locked, setModuleModal }: ModuleLockProps) => {
     const { moduleId } = useParams()
+    const isAdmin = useRoles(['Beheerder'])
 
-    const { useEditModule } = useModules()
-    const { mutate } = useEditModule(parseInt(moduleId!))
+    const { useEditModule, isModuleManager } = useModule()
+    const { mutate } = useEditModule()
+
+    if (!isAdmin && !isModuleManager && locked) {
+        return (
+            <>
+                <Divider className="mt-3" />
+                <Notification variant="alert" className="mt-6">
+                    De module is op dit moment gelockt, er kunnen geen
+                    wijzigingen worden aangebracht.
+                </Notification>
+            </>
+        )
+    }
 
     return (
         <div className="flex mt-3 pt-4 pb-3 px-3 bg-pzh-gray-100">

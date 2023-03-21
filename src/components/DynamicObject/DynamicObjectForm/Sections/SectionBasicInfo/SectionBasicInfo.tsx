@@ -21,6 +21,9 @@ const SectionBasicInfo = ({ model }: SectionBasicInfoProps) => {
 
     const { data: users, isFetching, isLoading } = useUsersGet()
 
+    /**
+     * Format user options
+     */
     const userOptions = useMemo(
         () =>
             users?.map(user => ({
@@ -33,7 +36,9 @@ const SectionBasicInfo = ({ model }: SectionBasicInfoProps) => {
     return (
         <>
             <div className="col-span-2">
-                <h2 style={getHeadingStyles('3', isMobile)} className="mb-3">
+                <h2
+                    style={getHeadingStyles('3', isMobile)}
+                    className="mb-3 text-pzh-blue">
                     Algemene informatie
                 </h2>
                 <Text type="body">

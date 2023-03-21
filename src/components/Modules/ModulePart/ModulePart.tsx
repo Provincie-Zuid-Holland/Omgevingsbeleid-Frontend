@@ -6,7 +6,9 @@ import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import getModuleActionText from '@/utils/getModuleActionText'
 
 interface ModulePartProps extends ModuleObjectShort {
+    /** Is last item */
     isLast?: boolean
+    /** Gets called on click trash icon */
     handleRemove: () => void
 }
 

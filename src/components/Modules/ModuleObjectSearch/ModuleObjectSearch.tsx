@@ -12,6 +12,7 @@ type Option = {
 }
 
 interface ModuleObjectSearchProps {
+    /** Gets called when selecting an option */
     onChange: (object?: SearchObject) => void
 }
 

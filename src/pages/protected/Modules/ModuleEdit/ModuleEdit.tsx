@@ -9,7 +9,7 @@ import { Module } from '@/api/fetchers.schemas'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import { FormBasicInfo, FormContents } from '@/components/Modules/ModuleForm'
-import useModules from '@/hooks/useModules'
+import useModule from '@/hooks/useModule'
 import { formatEditModuleData } from '@/utils/formatModuleData'
 import * as modules from '@/validation/modules'
 
@@ -24,10 +24,9 @@ const ModuleEdit = () => {
         }
     )
 
-    const { useEditModule } = useModules()
-    const { mutate, isLoading: mutateLoading } = useEditModule(
-        parseInt(moduleId!),
-        () => navigate(`/muteer/modules/${moduleId}`)
+    const { useEditModule } = useModule()
+    const { mutate, isLoading: mutateLoading } = useEditModule(() =>
+        navigate(`/muteer/modules/${moduleId}`)
     )
 
     const handleSubmit = (payload: Module) => {
@@ -40,9 +39,7 @@ const ModuleEdit = () => {
 
     return (
         <div className="pb-20">
-            <Helmet>
-                <title>Omgevingsbeleid - Module aanvullen</title>
-            </Helmet>
+            <Helmet title="Module aanvullen" />
 
             <Formik
                 onSubmit={handleSubmit}

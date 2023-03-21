@@ -11,11 +11,10 @@ import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { useModulesModuleIdGet, useUsersGet } from '@/api/fetchers'
-import { ModuleObjectShort } from '@/api/fetchers.schemas'
+import { ModuleObjectShort, UserShort } from '@/api/fetchers.schemas'
 import Avatar from '@/components/Avatar'
 import { LoaderContent } from '@/components/Loader'
 import ModuleInactiveCard from '@/components/Modules/ModuleInactiveCard'
-import ModuleItem from '@/components/Modules/ModuleItem'
 import ModuleLock from '@/components/Modules/ModuleLock'
 import {
     ModuleActivateModal,
@@ -25,13 +24,16 @@ import ModuleEditObjectModal from '@/components/Modules/ModuleModals/ModuleEditO
 import ModuleLockModal from '@/components/Modules/ModuleModals/ModuleLockModal'
 import ModuleObjectDeleteConfirmationModal from '@/components/Modules/ModuleModals/ModuleObjectDeleteConfirmationModal'
 import { ModuleModalActions } from '@/components/Modules/ModuleModals/types'
+import ModuleItemList from '@/components/Modules/ModulePartList'
 import ModuleTimeline from '@/components/Modules/ModuleTimeline'
 import ModuleVersionCard from '@/components/Modules/ModuleVersionCard'
+import useRoles from '@/hooks/useRoles'
 import MutateLayout from '@/templates/MutateLayout'
 import getModuleStatusColor from '@/utils/getModuleStatusColor'
 import * as modules from '@/validation/modules'
 
 const ModuleDetail = () => {
+    const isAdmin = useRoles(['Beheerder'])
     const { moduleId } = useParams()
     const pathName = location.pathname || ''
 
@@ -51,18 +53,27 @@ const ModuleDetail = () => {
     })
     const { data: users } = useUsersGet()
 
-    const manager1 = useMemo(
-        () =>
-            module?.Module_Manager_1_UUID &&
-            users?.find(user => user.UUID === module.Module_Manager_1_UUID),
-        [module?.Module_Manager_1_UUID, users]
-    )
-    const manager2 = useMemo(
-        () =>
-            module?.Module_Manager_2_UUID &&
-            users?.find(user => user.UUID === module.Module_Manager_2_UUID),
-        [module?.Module_Manager_2_UUID, users]
-    )
+    const managers = useMemo(() => {
+        const items: UserShort[] = []
+
+        if (module?.Module_Manager_1_UUID) {
+            const manager_1 = users?.find(
+                user => user.UUID === module.Module_Manager_1_UUID
+            )
+
+            if (manager_1) items.push(manager_1)
+        }
+
+        if (module?.Module_Manager_2_UUID) {
+            const manager_2 = users?.find(
+                user => user.UUID === module.Module_Manager_2_UUID
+            )
+
+            if (manager_2) items.push(manager_2)
+        }
+
+        return items
+    }, [module?.Module_Manager_1_UUID, module?.Module_Manager_2_UUID, users])
 
     const breadcrumbPaths = [
         { name: 'Muteeromgeving', path: '/muteer' },
@@ -77,10 +88,12 @@ const ModuleDetail = () => {
             <div className="col-span-6 mb-6">
                 <div className="flex items-center justify-between mb-4 whitespace-nowrap">
                     <Breadcrumbs items={breadcrumbPaths} />
-                    <Hyperlink
-                        to={`/muteer/modules/${module.Module_ID}/bewerk`}
-                        text="Module bewerken"
-                    />
+                    {isAdmin && (
+                        <Hyperlink
+                            to={`/muteer/modules/${module.Module_ID}/bewerk`}
+                            text="Module bewerken"
+                        />
+                    )}
                 </div>
                 <div className="flex items-center justify-between">
                     <div className="flex-1 w-[85%]">
@@ -102,10 +115,12 @@ const ModuleDetail = () => {
                         </div>
                     </div>
                     <div className="flex">
-                        {manager1 && <Avatar name={manager1.Gebruikersnaam} />}
-                        {manager2 && (
+                        {managers?.[0] && (
+                            <Avatar name={managers[0].Gebruikersnaam} />
+                        )}
+                        {managers?.[1] && (
                             <Avatar
-                                name={manager2.Gebruikersnaam}
+                                name={managers[1].Gebruikersnaam}
                                 className="-ml-2"
                             />
                         )}
@@ -122,38 +137,12 @@ const ModuleDetail = () => {
             </div>
 
             <div className="col-span-4">
-                <Text type="body" className="font-bold">
-                    Alle onderdelen in deze module
-                </Text>
-                {!!objects?.length ? (
-                    <div className="mb-4">
-                        {objects.map(object => (
-                            <ModuleItem
-                                key={object.UUID}
-                                editCallback={() =>
-                                    setModuleModal({
-                                        object,
-                                        action: 'editObject',
-                                        isOpen: true,
-                                    })
-                                }
-                                deleteCallback={() =>
-                                    setModuleModal({
-                                        object,
-                                        module,
-                                        action: 'deleteObject',
-                                        isOpen: true,
-                                    })
-                                }
-                                {...object}
-                            />
-                        ))}
-                    </div>
-                ) : (
-                    <p className="italic mb-4">
-                        Er zijn nog geen onderdelen toegevoegd aan deze module
-                    </p>
-                )}
+                <ModuleItemList
+                    objects={objects}
+                    module={module}
+                    setModuleModal={setModuleModal}
+                />
+
                 <Button
                     variant="link"
                     onPress={() =>
@@ -172,7 +161,7 @@ const ModuleDetail = () => {
                     <ModuleInactiveCard setModuleModal={setModuleModal} />
                 )}
 
-                {module.Activated && module.Temporary_Locked && (
+                {module.Activated && module.Temporary_Locked && isAdmin && (
                     <ModuleVersionCard currentStatus={module.Status} />
                 )}
 
@@ -208,7 +197,9 @@ const ModuleDetail = () => {
                 isOpen={
                     moduleModal.isOpen && moduleModal.action === 'editObject'
                 }
-                onClose={() => setModuleModal({ isOpen: false })}
+                onClose={() =>
+                    setModuleModal({ ...moduleModal, isOpen: false })
+                }
                 object={moduleModal.object || ({} as ModuleObjectShort)}
             />
 
@@ -216,7 +207,9 @@ const ModuleDetail = () => {
                 isOpen={
                     moduleModal.isOpen && moduleModal.action === 'deleteObject'
                 }
-                onClose={() => setModuleModal({ isOpen: false })}
+                onClose={() =>
+                    setModuleModal({ ...moduleModal, isOpen: false })
+                }
                 object={moduleModal.object || ({} as ModuleObjectShort)}
                 module={module}
             />

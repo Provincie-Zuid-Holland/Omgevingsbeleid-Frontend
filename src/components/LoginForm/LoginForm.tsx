@@ -95,7 +95,7 @@ const LoginForm = () => {
                         </div>
                         {error && (
                             <div className="mt-4">
-                                <span className=" text-pzh-red">{error}</span>
+                                <span className="text-pzh-red">{error}</span>
                             </div>
                         )}
                     </Form>

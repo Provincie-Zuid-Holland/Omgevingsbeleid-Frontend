@@ -40,9 +40,7 @@ const ModuleCreate = () => {
 
     return (
         <div className="pb-20">
-            <Helmet>
-                <title>Omgevingsbeleid - Module aanmaken</title>
-            </Helmet>
+            <Helmet title="Module aanmaken" />
 
             <Formik
                 onSubmit={handleSubmit}
@@ -51,10 +49,7 @@ const ModuleCreate = () => {
                 <Form>
                     <div className="py-2 bg-pzh-gray-100 sticky z-20 top-[97px]">
                         <div className="pzh-container flex justify-between items-center">
-                            <BackLink
-                                to="/muteer/dashboard"
-                                label="Terug naar modules"
-                            />
+                            <BackLink to="/muteer" label="Terug naar modules" />
                             <Button
                                 variant="cta"
                                 type="submit"
@@ -67,7 +62,7 @@ const ModuleCreate = () => {
 
                     <Container className="pt-10">
                         <div className="col-span-6 mb-8">
-                            <Heading level="1">Module aanvullen</Heading>
+                            <Heading level="1">Module aanmaken</Heading>
                         </div>
                     </Container>
 

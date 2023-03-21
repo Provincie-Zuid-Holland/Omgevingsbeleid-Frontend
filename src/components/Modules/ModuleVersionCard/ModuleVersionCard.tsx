@@ -13,6 +13,7 @@ import { ModuleStatus, ModuleStatusCode } from '@/api/fetchers.schemas'
 import { toastNotification } from '@/utils/toastNotification'
 
 interface ModuleVersionCardProps {
+    /** Current status of the module (optional) */
     currentStatus?: ModuleStatus
 }
 

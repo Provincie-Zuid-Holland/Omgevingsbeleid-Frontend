@@ -6,7 +6,7 @@
     "dependencies": {
         "@craco/craco": "7.0.0-alpha.3",
         "@headlessui/react": "^1.5.0",
-        "@pzh-ui/components": "^0.0.245",
+        "@pzh-ui/components": "^0.0.246",
         "@pzh-ui/config": "^0.0.34",
         "@pzh-ui/css": "^0.0.56",
         "@pzh-ui/icons": "^0.0.19",
@@ -32,7 +32,6 @@
         "react": "^18.0.0",
         "react-accessible-accordion": "^5.0.0",
         "react-app-polyfill": "^2.0.0",
-        "react-beautiful-dnd": "^13.1.0",
         "react-content-loader": "^6.0.3",
         "react-dom": "^18.0.0",
         "react-error-boundary": "^3.1.4",
@@ -63,7 +62,6 @@
         "test:local": "craco test --watchAll --maxWorkers=25 --coverage",
         "test:ci": "craco test --watchAll=false --maxWorkers=2 --coverage --ci --forceExit",
         "eject": "react-scripts eject",
-        "docs": "jsdoc -c jsdoc.json",
         "generate-types": "orval && eslint --fix './src/api/fetchers.ts'"
     },
     "browserslist": {

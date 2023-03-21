@@ -1,7 +1,7 @@
 import { Button, Heading, Modal, Text } from '@pzh-ui/components'
 import { useParams } from 'react-router-dom'
 
-import useModules from '@/hooks/useModules'
+import useModule from '@/hooks/useModule'
 
 interface ModuleLockModalProps {
     isOpen: boolean
@@ -11,8 +11,8 @@ interface ModuleLockModalProps {
 const ModuleLockModal = ({ isOpen, onClose }: ModuleLockModalProps) => {
     const { moduleId } = useParams()
 
-    const { useEditModule } = useModules()
-    const { mutate } = useEditModule(parseInt(moduleId!), () => onClose())
+    const { useEditModule } = useModule()
+    const { mutate } = useEditModule(() => onClose())
 
     return (
         <Modal

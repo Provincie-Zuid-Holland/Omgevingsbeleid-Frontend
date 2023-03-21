@@ -20,7 +20,9 @@ const Avatar = ({ name, className }: AvatarProps) => {
                     'flex items-center justify-center rounded-full border border-pzh-gray-600 bg-pzh-blue w-[46px] h-[46px] cursor-pointer',
                     className
                 )}>
-                <span className="-mb-1 font-bold text-white">{initials}</span>
+                <span className="-mb-[4px] font-bold text-white">
+                    {initials}
+                </span>
             </div>
         </Tooltip>
     )
