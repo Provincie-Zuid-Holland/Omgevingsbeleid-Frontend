@@ -8,13 +8,13 @@ import {
     Text,
 } from '@pzh-ui/components'
 import { useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
 
-import { useModulesModuleIdGet, useUsersGet } from '@/api/fetchers'
+import { useUsersGet } from '@/api/fetchers'
 import { ModuleObjectShort, UserShort } from '@/api/fetchers.schemas'
 import Avatar from '@/components/Avatar'
 import { LoaderContent } from '@/components/Loader'
 import ModuleInactiveCard from '@/components/Modules/ModuleInactiveCard'
+import ModuleItemList from '@/components/Modules/ModuleItemList'
 import ModuleLock from '@/components/Modules/ModuleLock'
 import {
     ModuleActivateModal,
@@ -24,9 +24,9 @@ import ModuleEditObjectModal from '@/components/Modules/ModuleModals/ModuleEditO
 import ModuleLockModal from '@/components/Modules/ModuleModals/ModuleLockModal'
 import ModuleObjectDeleteConfirmationModal from '@/components/Modules/ModuleModals/ModuleObjectDeleteConfirmationModal'
 import { ModuleModalActions } from '@/components/Modules/ModuleModals/types'
-import ModuleItemList from '@/components/Modules/ModulePartList'
 import ModuleTimeline from '@/components/Modules/ModuleTimeline'
 import ModuleVersionCard from '@/components/Modules/ModuleVersionCard'
+import useModule from '@/hooks/useModule'
 import useRoles from '@/hooks/useRoles'
 import MutateLayout from '@/templates/MutateLayout'
 import getModuleStatusColor from '@/utils/getModuleStatusColor'
@@ -34,7 +34,6 @@ import * as modules from '@/validation/modules'
 
 const ModuleDetail = () => {
     const isAdmin = useRoles(['Beheerder'])
-    const { moduleId } = useParams()
     const pathName = location.pathname || ''
 
     const [moduleModal, setModuleModal] = useState<ModuleModalActions>({
@@ -48,11 +47,13 @@ const ModuleDetail = () => {
             StatusHistory: statusHistory,
         } = {},
         isLoading,
-    } = useModulesModuleIdGet(parseInt(moduleId!), {
-        query: { enabled: !!moduleId },
-    })
+        isModuleManager,
+    } = useModule()
     const { data: users } = useUsersGet()
 
+    /**
+     * Array of selected managers of module
+     */
     const managers = useMemo(() => {
         const items: UserShort[] = []
 
@@ -161,9 +162,11 @@ const ModuleDetail = () => {
                     <ModuleInactiveCard setModuleModal={setModuleModal} />
                 )}
 
-                {module.Activated && module.Temporary_Locked && isAdmin && (
-                    <ModuleVersionCard currentStatus={module.Status} />
-                )}
+                {module.Activated &&
+                    module.Temporary_Locked &&
+                    (isAdmin || isModuleManager) && (
+                        <ModuleVersionCard currentStatus={module.Status} />
+                    )}
 
                 {module.Activated && statusHistory && (
                     <ModuleTimeline statusHistory={statusHistory} />

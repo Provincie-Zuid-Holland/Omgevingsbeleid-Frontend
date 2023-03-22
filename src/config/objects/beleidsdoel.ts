@@ -8,7 +8,7 @@ import {
     useModulesModuleIdObjectBeleidsdoelLatestLineageIdGet,
     useModulesModuleIdObjectBeleidsdoelLineageIdPatch,
 } from '@/api/fetchers'
-import { SCHEMA } from '@/validation/beleidsdoel'
+import { generateDynamicSchema } from '@/validation/dynamicObject'
 
 import { DynamicObject } from './types'
 
@@ -42,12 +42,23 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
         {
             type: 'description',
             description:
-                'In deze sectie kun je alle tekst met betrekking tot de maatregel kwijt. Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct wat de provincie gaat doen en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’. Maak indien nodig gebruik van tekstopmaak.',
+                'Een beleidsdoel bevindt zich op tactisch niveau, tussen het niveau van de ambities en de beleidskeuzes.',
             fieldDescription:
-                'Een maatregel beschrijft de wijze waarop uitvoering wordt gegeven aan beleid. Formuleer wat de provincie gaat realiseren, of de maatregel voor een specifiek gebied van toepassing is, aan welke beleidskeuzes de maatregel bijdraagt en in welke rol de provincie op zich neemt.',
+                'Geef een korte omschrijving van dit beleidsdoel.',
+        },
+        {
+            type: 'connections',
+            description:
+                'De belangrijkste onderdelen in een beleidsdoel zijn de ambities. In dit gedeelte kunnen de maatregelen worden gekoppeld aan dit gebiedsprogramma.',
+            fieldDescription:
+                'Geef aan welke ambities onderdeel zijn van dit beleidsdoel.',
+            allowedConnections: ['ambitie', 'beleidskeuze'],
         },
     ],
-    validationSchema: SCHEMA,
 }
+
+beleidsdoel.validationSchema = generateDynamicSchema(
+    beleidsdoel.dynamicSections!
+)
 
 export default beleidsdoel

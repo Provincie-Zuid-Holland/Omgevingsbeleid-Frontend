@@ -8,15 +8,23 @@ import { SearchObject } from '@/api/fetchers.schemas'
 
 type Option = {
     label: string
-    value: string
+    value: string | number
 }
 
-interface ModuleObjectSearchProps {
+interface DynamicObjectSearchProps {
     /** Gets called when selecting an option */
     onChange: (object?: SearchObject) => void
+    /** Key of model */
+    objectKey?: 'uuid' | 'id'
+    /** Placeholder of field (optional) */
+    placeholder?: string
 }
 
-const ModuleObjectSearch = ({ onChange }: ModuleObjectSearchProps) => {
+const DynamicObjectSearch = ({
+    onChange,
+    objectKey = 'uuid',
+    placeholder = 'Zoek op titel van beleidskeuze, maatregel, etc.',
+}: DynamicObjectSearchProps) => {
     const [suggestions, setSuggestions] = useState<SearchObject[]>([])
 
     const loadSuggestions = (
@@ -29,7 +37,10 @@ const ModuleObjectSearch = ({ onChange }: ModuleObjectSearchProps) => {
                 callback(
                     data.Objects.map(object => ({
                         label: object.Title || '',
-                        value: object.UUID,
+                        value:
+                            objectKey === 'uuid'
+                                ? object.UUID
+                                : object.Object_ID,
                     }))
                 )
             })
@@ -39,13 +50,21 @@ const ModuleObjectSearch = ({ onChange }: ModuleObjectSearchProps) => {
     const handleSuggestions = debounce(loadSuggestions, 500)
 
     const handleChange = (val: unknown) =>
-        onChange(suggestions.find(object => object.UUID === val))
+        onChange(
+            suggestions.find(object =>
+                objectKey === 'uuid'
+                    ? object.UUID === val
+                    : object.Object_ID === val
+            )
+        )
+
+    const key = objectKey === 'uuid' ? 'Object_UUID' : 'ID'
 
     return (
         <FormikSelect
-            key="Object_UUID"
-            name="Object_UUID"
-            placeholder="Zoek op titel van beleidskeuze, maatregel, etc."
+            key={key}
+            name={key}
+            placeholder={placeholder}
             loadOptions={handleSuggestions}
             onChange={handleChange}
             noOptionsMessage={({ inputValue }) =>
@@ -72,4 +91,4 @@ const ModuleObjectSearch = ({ onChange }: ModuleObjectSearchProps) => {
     )
 }
 
-export default ModuleObjectSearch
+export default DynamicObjectSearch

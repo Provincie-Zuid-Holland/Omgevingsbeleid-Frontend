@@ -1,8 +1,8 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { toast } from 'react-toastify'
 
 import { Role } from '@/context/AuthContext'
 import useAuth from '@/hooks/useAuth'
+import { toastNotification } from '@/utils/toastNotification'
 
 interface ProtectedRouteProps {
     children?: JSX.Element | null
@@ -20,7 +20,9 @@ function ProtectedRoute({ children, roles, redirectTo }: ProtectedRouteProps) {
         localStorage.removeItem(
             process.env.REACT_APP_KEY_API_ACCESS_TOKEN || ''
         )
-        toast('Voor deze actie moet je ingelogd zijn')
+        toastNotification({
+            type: 'notLoggedIn',
+        })
 
         // Redirect them to the /login page, but save the current location they were
         // trying to go to when they were redirected. This allows us to send them
@@ -30,7 +32,9 @@ function ProtectedRoute({ children, roles, redirectTo }: ProtectedRouteProps) {
     }
 
     if (!roles?.includes(userRole) && redirectTo) {
-        toast('Je hebt geen toegang tot deze pagina')
+        toastNotification({
+            type: 'notAllowed',
+        })
 
         return <Navigate to={redirectTo} state={{ from: location }} replace />
     }

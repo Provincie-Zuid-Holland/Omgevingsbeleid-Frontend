@@ -10,9 +10,11 @@ import ScrollToFieldError from '@/components/ScrollToFieldError'
 import { Model } from '@/config/objects/types'
 import { toastNotification } from '@/utils/toastNotification'
 
-import SectionBasicInfo from './Sections/SectionBasicInfo'
-import SectionConnections from './Sections/SectionConnections'
-import SectionDescription from './Sections/SectionDescription'
+import {
+    SectionBasicInfo,
+    SectionConnections,
+    SectionDescription,
+} from './ObjectSections'
 
 interface DynamicObjectFormProps {
     model: Model
@@ -51,7 +53,6 @@ const DynamicObjectForm = ({ model }: DynamicObjectFormProps) => {
 
     /**
      * Handle submit of form
-     * @param {typeof data} payload - Contains payload of the form
      */
     const handleSubmit = (payload: typeof data) => {
         if (!payload) return
@@ -128,10 +129,7 @@ const ObjectForm = <T,>({
                                 <SectionWrapper
                                     key={`section-${index}`}
                                     isLast={index + 1 === sections.length}>
-                                    <SectionConnections
-                                        model={model}
-                                        section={section}
-                                    />
+                                    <SectionConnections section={section} />
                                 </SectionWrapper>
                             )
                         default:

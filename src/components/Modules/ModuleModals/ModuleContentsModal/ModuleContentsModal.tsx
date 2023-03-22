@@ -26,10 +26,9 @@ import {
     ModuleAddNewObject,
     SearchObject,
 } from '@/api/fetchers.schemas'
+import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
-
-import ModuleObjectSearch from '../../ModuleObjectSearch'
 
 export type ContentsModalForm = (
     | ModuleAddNewObject
@@ -128,6 +127,9 @@ const ModuleContentsModal = ({
         },
     })
 
+    /**
+     * Handle submit of contents form
+     */
     const handleFormSubmit = (payload: ContentsModalForm) => {
         const { state, ...data } = payload
 
@@ -325,7 +327,7 @@ const Wizard = ({
                         Je wilt een bestaand onderdeel toevoegen aan deze
                         module. Welk object wil je toevoegen?
                     </Text>
-                    <ModuleObjectSearch onChange={setExistingObject} />
+                    <DynamicObjectSearch onChange={setExistingObject} />
                 </div>
             )
         case 5:

@@ -17,9 +17,13 @@ export type Role =
     | 'Ambtelijk opdrachtgever'
 
 interface AuthContextType {
+    /** Logged in user object */
     user?: UserShort
+    /** Role of logged in user */
     role?: Role
+    /** Function to signin */
     signin: (username: string, password: string) => Promise<AuthToken>
+    /** Function to signout */
     signout: (callback?: VoidFunction) => void
 }
 

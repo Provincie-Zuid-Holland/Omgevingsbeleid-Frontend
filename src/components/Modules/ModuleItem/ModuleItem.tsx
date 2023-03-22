@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react'
 import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import Dropdown, { DropdownItem } from '@/components/Dropdown'
 import useAuth from '@/hooks/useAuth'
+import useModule from '@/hooks/useModule'
 import useRoles from '@/hooks/useRoles'
 import getModuleActionText from '@/utils/getModuleActionText'
 
@@ -36,17 +37,26 @@ const ModuleItem = ({
     const isAdmin = useRoles(['Beheerder'])
     const [isOpen, setIsOpen] = useState(false)
 
+    const { isModuleManager } = useModule()
+
+    /**
+     * Check if user has owner rights in object
+     */
     const hasRights = useMemo(() => {
         if (
             isAdmin ||
+            isModuleManager ||
             Owner_1_UUID === user?.UUID ||
             Owner_2_UUID === user?.UUID
         )
             return true
 
         return false
-    }, [isAdmin, Owner_1_UUID, Owner_2_UUID, user?.UUID])
+    }, [isAdmin, isModuleManager, Owner_1_UUID, Owner_2_UUID, user?.UUID])
 
+    /**
+     * Array of dropdown items based on user rights
+     */
     const dropdownItems: DropdownItem[] = [
         ...((Action !== 'Terminate' &&
             hasRights && [
@@ -71,7 +81,7 @@ const ModuleItem = ({
             text: 'Bekijk in raadpleegomgeving',
             callback: viewCallback,
         },
-        ...((hasRights && [
+        ...(((isAdmin || isModuleManager) && [
             {
                 text: 'Verwijderen uit module',
                 callback: deleteCallback,
@@ -114,7 +124,8 @@ const ModuleItem = ({
                     <div className="relative">
                         <button
                             className="flex items-center justify-center w-6 h-6 hover:bg-pzh-gray-100 rounded-full"
-                            onClick={() => setIsOpen(!isOpen)}>
+                            onClick={() => setIsOpen(!isOpen)}
+                            aria-label="Object menu">
                             <EllipsisVertical />
                         </button>
                         <Dropdown

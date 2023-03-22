@@ -6,6 +6,10 @@ export const schemaDefaults = {
             required_error: msg,
         }),
     optionalString: z.string().optional().nullable(),
+    requiredNumber: (msg = 'Dit veld is verplicht.') =>
+        z.number({
+            required_error: msg,
+        }),
     email: (msg = 'Dit veld is verplicht.') =>
         z
             .string({

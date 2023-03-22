@@ -1,4 +1,4 @@
-import { FormikRte, Heading, Text } from '@pzh-ui/components'
+import { FormikTextArea, Heading, Text } from '@pzh-ui/components'
 
 import { Model, DynamicDescription } from '@/config/objects/types'
 
@@ -20,7 +20,7 @@ const SectionDescription = ({ model, section }: SectionDescriptionProps) => {
             </div>
 
             <div className="col-span-4 pt-[48px]">
-                <FormikRte
+                <FormikTextArea
                     name="Description"
                     label="Omschrijving"
                     placeholder={`Beschrijving van ${prefixSingular} ${singular}`}

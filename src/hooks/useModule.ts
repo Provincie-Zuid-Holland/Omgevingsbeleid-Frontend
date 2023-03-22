@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import { ModuleContext } from './../context/ModuleContext'
+import { ModuleContext } from '@/context/ModuleContext'
 
 const useModule = () => {
     return useContext(ModuleContext)

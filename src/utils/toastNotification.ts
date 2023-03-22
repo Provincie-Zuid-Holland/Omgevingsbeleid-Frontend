@@ -13,11 +13,11 @@ type Type =
     | 'connection modified'
     | 'connection deleted'
     | 'status changed'
-    | 'user is not authenticated for this page'
+    | 'notAllowed'
     | 'standard error'
     | 'start date valid range'
     | 'end date valid range'
-    | 'user is not logged in'
+    | 'notLoggedIn'
 
 const messages = {
     'end date before start date':
@@ -27,9 +27,8 @@ const messages = {
     'connection modified': 'Koppeling gewijzigd',
     'connection deleted': 'Koppeling verwijderd',
     'status changed': 'Status gewijzigd',
-    'user is not authenticated for this page':
-        'Je bent niet geauthenticeerd om deze pagina te bekijken',
-    'user is not logged in': 'Log in om deze pagina te bekijken',
+    notAllowed: 'Je hebt geen toegang tot deze pagina',
+    notLoggedIn: 'Voor deze actie moet je ingelogd zijn',
     'standard error': process.env.REACT_APP_ERROR_MSG,
     'start date valid range': 'Vul een inwerkingtreding in tussen 1990 en 2100',
     'end date valid range': 'Vul een uitwerkingtreding in tussen 1990 en 2100',

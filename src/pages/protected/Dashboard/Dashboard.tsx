@@ -72,7 +72,13 @@ const Dashboard = () => {
                     <Tabs
                         selectedKey={activeTab}
                         onSelectionChange={setActiveTab}>
-                        <TabItem key="user" title="Actieve modules">
+                        <TabItem
+                            key="user"
+                            title={
+                                isAdmin
+                                    ? 'Actieve modules'
+                                    : 'Mijn actieve modules'
+                            }>
                             {userModulesLoading ? (
                                 <ul className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
                                     <LoaderCard height="180" />
@@ -202,7 +208,13 @@ const Dashboard = () => {
                                 </div>
                             )}
                         </TabItem>
-                        <TabItem key="all" title="Alle modules">
+                        <TabItem
+                            key="all"
+                            title={
+                                isAdmin
+                                    ? 'Alle modules'
+                                    : 'Alle actieve modules'
+                            }>
                             {allModulesLoading ? (
                                 <ul className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
                                     <LoaderCard height="180" />

@@ -1,6 +1,6 @@
 import { UseMutationResult, useQueryClient } from '@tanstack/react-query'
 import { createContext, useMemo } from 'react'
-import { Outlet, useParams } from 'react-router-dom'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
 import {
     getModulesGetQueryKey,
@@ -19,7 +19,11 @@ import useAuth from '@/hooks/useAuth'
 import { toastNotification } from '@/utils/toastNotification'
 
 interface ModuleContextType {
+    /** Data of the module */
     data?: ModuleOverview
+    /** Is module data loading */
+    isLoading: boolean
+    /** Can be used to edit the module */
     useEditModule: (onSucces?: () => void) => UseMutationResult<
         ResponseOK,
         HTTPValidationError,
@@ -29,6 +33,7 @@ interface ModuleContextType {
         },
         unknown
     >
+    /** Can be used to remove an object from the module */
     useRemoveObjectFromModule: (onSucces?: () => void) => UseMutationResult<
         ResponseOK,
         HTTPValidationError,
@@ -39,6 +44,7 @@ interface ModuleContextType {
         },
         unknown
     >
+    /** Is logged in user a manager of the module */
     isModuleManager: boolean
 }
 
@@ -46,11 +52,20 @@ export const ModuleContext = createContext<ModuleContextType>(null!)
 
 function ModuleProvider() {
     const queryClient = useQueryClient()
+    const navigate = useNavigate()
     const { moduleId } = useParams()
     const { user } = useAuth()
 
     const module = useModulesModuleIdGet(parseInt(moduleId!), {
-        query: { enabled: !!moduleId },
+        query: {
+            enabled: !!moduleId,
+            onError: () => {
+                toastNotification({
+                    type: 'notAllowed',
+                })
+                navigate('/muteer')
+            },
+        },
     })
 
     const useEditModule = (onSucces?: () => void) =>
@@ -92,6 +107,9 @@ function ModuleProvider() {
             },
         })
 
+    /**
+     * Check if logged in user is a manager of the module
+     */
     const isModuleManager = useMemo(() => {
         if (!module.data?.Module) return false
 

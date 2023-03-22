@@ -8,9 +8,9 @@ import { SearchObject } from '@/api/fetchers.schemas'
 import useModule from '@/hooks/useModule'
 import * as modules from '@/validation/modules'
 
+import DynamicObjectSearch from '../../DynamicObject/DynamicObjectSearch'
 import ModuleContentsModal from '../ModuleModals/ModuleContentsModal'
 import { ContentsModalForm } from '../ModuleModals/ModuleContentsModal/ModuleContentsModal'
-import ModuleObjectSearch from '../ModuleObjectSearch'
 import ModulePart from '../ModulePart'
 
 interface ModalProps {
@@ -78,7 +78,7 @@ const FormContents = () => {
             </div>
 
             <div className="col-span-4 pt-[48px]">
-                <ModuleObjectSearch
+                <DynamicObjectSearch
                     onChange={object =>
                         setModal({
                             ...modal,
