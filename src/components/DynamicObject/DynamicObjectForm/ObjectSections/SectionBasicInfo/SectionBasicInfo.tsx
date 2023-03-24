@@ -5,17 +5,17 @@ import {
     Text,
 } from '@pzh-ui/components'
 import { useMemo } from 'react'
-import { useMedia } from 'react-use'
 
 import { useUsersGet } from '@/api/fetchers'
 import { Model } from '@/config/objects/types'
+import useBreakpoint from '@/hooks/useBreakpoint'
 
 interface SectionBasicInfoProps {
     model: Model
 }
 
 const SectionBasicInfo = ({ model }: SectionBasicInfoProps) => {
-    const isMobile = useMedia('(max-width: 640px)')
+    const { isMobile } = useBreakpoint()
 
     const { prefixSingular, singular } = model.defaults
 

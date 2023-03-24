@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useWindowSize } from 'react-use'
 
+import useBreakpoint from '@/hooks/useBreakpoint'
+
 import { Container } from '../Container'
 import SearchBar from '../SearchBar'
 
@@ -29,8 +31,9 @@ const NavigationPopupMenu = ({
     const location = useLocation()
     const windowSize = useWindowSize()
 
+    const { isMobile } = useBreakpoint()
+
     const [bannerAdjustedOffsetTop, setBannerAdjustedOffsetTop] = useState({})
-    const [isMobile, setIsMobile] = useState(false)
     const [containerHeightStyle, setContainerHeightStyle] = useState<
         { maxHeight: string } | undefined
     >(undefined)
@@ -49,7 +52,6 @@ const NavigationPopupMenu = ({
 
     /** State for responsiveness */
     useEffect(() => {
-        setIsMobile(windowSize.width <= 640)
         setContainerHeightStyle({
             maxHeight: `calc(100vh - ${
                 document.getElementById('top-navigation')?.offsetHeight + 'px'

@@ -2,11 +2,11 @@ import { Text } from '@pzh-ui/components'
 import { PenToSquare } from '@pzh-ui/icons'
 import classNames from 'classnames'
 
-import { RelationShort, SearchObject } from '@/api/fetchers.schemas'
+import { RelationShort } from '@/api/fetchers.schemas'
 
-type Object = RelationShort & SearchObject
-
-interface ObjectRelationPartProps extends Object {
+interface ObjectRelationPartProps extends RelationShort {
+    /** Title of item */
+    Title?: string
     /** Is last item */
     isLast?: boolean
     /** Gets called on click edit icon */

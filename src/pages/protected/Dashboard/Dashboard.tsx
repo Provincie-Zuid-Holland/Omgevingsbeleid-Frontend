@@ -17,12 +17,12 @@ import {
     AccordionItemPanel,
 } from 'react-accessible-accordion'
 import { useNavigate } from 'react-router-dom'
-import { useMedia } from 'react-use'
 
 import { useModulesGet } from '@/api/fetchers'
 import { LoaderCard } from '@/components/Loader'
 import ModuleCard from '@/components/Modules/ModuleCard'
 import useAuth from '@/hooks/useAuth'
+import useBreakpoint from '@/hooks/useBreakpoint'
 import useRoles from '@/hooks/useRoles'
 import MutateLayout from '@/templates/MutateLayout'
 
@@ -30,8 +30,8 @@ const Dashboard = () => {
     const { user, role } = useAuth()
     const isAdmin = useRoles(['Beheerder'])
     const navigate = useNavigate()
+    const { isMobile } = useBreakpoint()
 
-    const isMobile = useMedia('(max-width: 640px)')
     const [activeTab, setActiveTab] = useState<string | number>('user')
 
     const { data: userModules, isLoading: userModulesLoading } = useModulesGet(

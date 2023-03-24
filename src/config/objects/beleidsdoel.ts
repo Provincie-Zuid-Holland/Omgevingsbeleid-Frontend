@@ -38,6 +38,7 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
             'De beleidsdoelen geven aan wat de provincie wil bereiken. De beleidsdoelen zijn een uitwerking van de ambities en komen voort uit de begroting.',
     },
     fetchers,
+    allowedConnections: ['ambitie', 'beleidskeuze'],
     dynamicSections: [
         {
             type: 'description',
@@ -45,14 +46,6 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
                 'Een beleidsdoel bevindt zich op tactisch niveau, tussen het niveau van de ambities en de beleidskeuzes.',
             fieldDescription:
                 'Geef een korte omschrijving van dit beleidsdoel.',
-        },
-        {
-            type: 'connections',
-            description:
-                'De belangrijkste onderdelen in een beleidsdoel zijn de ambities. In dit gedeelte kunnen de maatregelen worden gekoppeld aan dit gebiedsprogramma.',
-            fieldDescription:
-                'Geef aan welke ambities onderdeel zijn van dit beleidsdoel.',
-            allowedConnections: ['ambitie', 'beleidskeuze'],
         },
     ],
 }

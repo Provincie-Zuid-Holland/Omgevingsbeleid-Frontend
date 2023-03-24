@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 
 import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import Dropdown, { DropdownItem } from '@/components/Dropdown'
+import * as models from '@/config/objects'
 import useAuth from '@/hooks/useAuth'
 import useModule from '@/hooks/useModule'
 import useRoles from '@/hooks/useRoles'
@@ -39,6 +40,8 @@ const ModuleItem = ({
 
     const { isModuleManager } = useModule()
 
+    const { defaults } = models[Object_Type as keyof typeof models]
+
     /**
      * Check if user has owner rights in object
      */
@@ -58,11 +61,18 @@ const ModuleItem = ({
      * Array of dropdown items based on user rights
      */
     const dropdownItems: DropdownItem[] = [
+        ...((hasRights && [
+            {
+                text: 'Bekijken',
+                link: `/muteer/${defaults.plural}/${Object_ID}`,
+            },
+        ]) ||
+            []),
         ...((Action !== 'Terminate' &&
             hasRights && [
                 {
                     text: 'Bewerken',
-                    link: `/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`,
+                    link: `/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}/bewerk`,
                 },
             ]) ||
             []),

@@ -7,9 +7,9 @@ import {
 import { MagnifyingGlass } from '@pzh-ui/icons'
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useMedia } from 'react-use'
 
 import { LoaderCard, LoaderSpinner } from '@/components/Loader'
+import useBreakpoint from '@/hooks/useBreakpoint'
 
 interface ObjectListProps {
     /** Type of the object */
@@ -40,7 +40,7 @@ const ObjectList = ({
     title,
     advancedSearch = true,
 }: ObjectListProps) => {
-    const isMobile = useMedia('(max-width: 640px)')
+    const { isMobile } = useBreakpoint()
     const [filterQuery, setFilterQuery] = useState('')
 
     const filteredLength = useMemo(() => {

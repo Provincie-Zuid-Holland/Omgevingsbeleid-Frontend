@@ -2,9 +2,9 @@ import { ArrowRightFromBracket, Eye } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { FC, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useWindowSize } from 'react-use'
 
 import useAuth from '@/hooks/useAuth'
+import useBreakpoint from '@/hooks/useBreakpoint'
 import usePage from '@/hooks/usePage'
 import logoSVG from '@/images/PZH_Basislogo.svg'
 import logoWhite from '@/images/PZH_Basislogo_white.svg'
@@ -23,14 +23,13 @@ const Navigation = () => {
     const { user } = useAuth()
     const userIsInMuteerEnvironment = usePage('/muteer')
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
-    const windowSize = useWindowSize()
     const [showBanner, setShowBanner] = useState(
         userIsInMuteerEnvironment && !hideBannerLocalStorage()
     )
 
     // State for popup menu
     const [isOpen, setIsOpen] = useState(false)
-    const isMobile = windowSize.width <= 640
+    const { isMobile } = useBreakpoint()
 
     return (
         <header

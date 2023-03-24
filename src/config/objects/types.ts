@@ -21,19 +21,13 @@ export interface DynamicObject<
     fetchers: Fetchers
     validationSchema?: Schema
     dynamicSections?: DynamicSection[]
+    allowedConnections?: (keyof typeof models)[]
 }
 
-export type DynamicSection = DynamicDescription | DynamicConnections
+export type DynamicSection = DynamicDescription
 
 export interface DynamicDescription {
     type: 'description'
-    description: string
-    fieldDescription: string
-}
-
-export interface DynamicConnections {
-    type: 'connections'
-    allowedConnections: (keyof typeof models)[]
     description: string
     fieldDescription: string
 }

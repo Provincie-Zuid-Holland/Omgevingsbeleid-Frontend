@@ -2084,14 +2084,14 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
   integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
 
-"@pzh-ui/components@^0.0.246":
-  version "0.0.246"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.246.tgz#9161e7e372da0fdad13d94fbf1303a009b5f09b7"
-  integrity sha512-xSfbsmrkCcSS1t73tP271FeSMQha1M5GdKk/p3BqKhtY18kH4EFuXFJeiGgvmduatGKifdXOg4Reh6SDw7tpTA==
+"@pzh-ui/components@^0.0.247":
+  version "0.0.247"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.247.tgz#11b009eef115996ce8fdad148e03948f195bf943"
+  integrity sha512-DyNXcvQ+bJqAss2y58pGO8i9lNYjryGrgCDj23pJCRB9JHj7AicN8uks/Rj3T1+GsI1/bUR949j/aYPVDznmMg==
   dependencies:
     "@floating-ui/react-dom-interactions" "^0.3.1"
     "@headlessui/react" "^1.5.0"
-    "@pzh-ui/icons" "^0.0.19"
+    "@pzh-ui/icons" "^0.0.20"
     "@tiptap/extension-image" "^2.0.0-beta.220"
     "@tiptap/extension-placeholder" "^2.0.0-beta.220"
     "@tiptap/extension-underline" "^2.0.0-beta.220"
@@ -2151,10 +2151,10 @@
     "@tailwindcss/typography" "^0.5.9"
     react-datepicker "^4.7.0"
 
-"@pzh-ui/icons@^0.0.19":
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/icons/-/icons-0.0.19.tgz#acfff6d804762acc23330f5a84bc246fe28cefed"
-  integrity sha512-jATD/y84zBkvjrsXsw7rTYx4V2qCb3sG89Er8UB3e3oXuH5j6vXWkKnBqgWQWspNGnUFaEMYadv0UJOrjQzm9A==
+"@pzh-ui/icons@^0.0.20":
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/icons/-/icons-0.0.20.tgz#d70a39b946a6b2e0ccb47fbbf9775a2842390fba"
+  integrity sha512-XrC2CZDNiwJy/jZHcgO4M4R+nEDnNkbdc2OcRTenbykOdkeyd3dQmwCsfOcsZeCDyrn6LsHMR4POmnyEFkL6zA==
   dependencies:
     react "^18.0.0"
 

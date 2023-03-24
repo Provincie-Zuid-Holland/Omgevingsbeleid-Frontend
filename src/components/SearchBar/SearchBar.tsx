@@ -3,9 +3,10 @@ import 'url-search-params-polyfill'
 import { MagnifyingGlass } from '@pzh-ui/icons'
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useClickAway, useWindowSize } from 'react-use'
+import { useClickAway } from 'react-use'
 
 import { searchBarFilters } from '@/constants/searchBarFilters'
+import useBreakpoint from '@/hooks/useBreakpoint'
 
 import SearchBarPopupItem from '../SearchBarPopupItem'
 
@@ -22,8 +23,7 @@ const SearchBar = ({
 }: SearchBarProps) => {
     const location = useLocation()
     const navigate = useNavigate()
-    const windowSize = useWindowSize()
-    const isMobile = windowSize.width <= 640
+    const { isMobile } = useBreakpoint()
 
     const [searchQuery, setSearchQuery] = useState('')
     const [searchBarPopupOpen, setSearchBarPopupOpen] = useState(false)

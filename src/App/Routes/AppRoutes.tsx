@@ -7,19 +7,19 @@ import ModuleProvider from '@/context/ModuleContext'
 import useAuth from '@/hooks/useAuth'
 import {
     Dashboard,
-    DynamicObject,
+    ObjectEdit,
     DynamicOverview,
     ModuleCreate,
     ModuleDetail,
     ModuleEdit,
 } from '@/pages/protected'
+import ObjectDetail from '@/pages/protected/DynamicObject/ObjectDetail'
 import {
     Accessibility,
     Home,
     InProgress,
     Login,
     MapSearch,
-    ObjectDetail,
     PlanningAndReleases,
     SearchResults,
     Verordening,
@@ -31,7 +31,6 @@ import AreaOverview from '@/pages/public/AreaOverview'
 import EnvironmentProgram from '@/pages/public/EnvironmentProgram'
 import ThemeDetail from '@/pages/public/ThemeDetail'
 import ThemeOverview from '@/pages/public/ThemeOverview'
-import detailPages from '@/utils/detailPages'
 
 import ProtectedRoute from './ProtectedRoute'
 
@@ -95,11 +94,8 @@ const AppRoutes = () => {
                                 {
                                     path: ':id',
                                     element: (
-                                        <ObjectDetail
-                                            {...detailPages.find(
-                                                page =>
-                                                    page.slug === 'maatregelen'
-                                            )}
+                                        <DynamicObjectPublic
+                                            model={models['maatregel']}
                                         />
                                     ),
                                 },
@@ -124,11 +120,8 @@ const AppRoutes = () => {
                                 {
                                     path: ':id',
                                     element: (
-                                        <ObjectDetail
-                                            {...detailPages.find(
-                                                page =>
-                                                    page.slug === 'maatregelen'
-                                            )}
+                                        <DynamicObjectPublic
+                                            model={models['maatregel']}
                                         />
                                     ),
                                 },
@@ -201,15 +194,20 @@ const AppRoutes = () => {
                                     children: [
                                         {
                                             path: ':objectId',
-                                            element: (
-                                                <DynamicObject
-                                                    model={
-                                                        models[
-                                                            model as keyof typeof models
-                                                        ]
-                                                    }
-                                                />
-                                            ),
+                                            children: [
+                                                {
+                                                    path: 'bewerk',
+                                                    element: (
+                                                        <ObjectEdit
+                                                            model={
+                                                                models[
+                                                                    model as keyof typeof models
+                                                                ]
+                                                            }
+                                                        />
+                                                    ),
+                                                },
+                                            ],
                                         },
                                     ],
                                 })),
@@ -227,11 +225,24 @@ const AppRoutes = () => {
                 },
                 ...Object.keys(models).map(model => ({
                     path: models[model as keyof typeof models].defaults.plural,
-                    element: (
-                        <DynamicOverview
-                            model={models[model as keyof typeof models]}
-                        />
-                    ),
+                    children: [
+                        {
+                            index: true,
+                            element: (
+                                <DynamicOverview
+                                    model={models[model as keyof typeof models]}
+                                />
+                            ),
+                        },
+                        {
+                            path: ':objectId',
+                            element: (
+                                <ObjectDetail
+                                    model={models[model as keyof typeof models]}
+                                />
+                            ),
+                        },
+                    ],
                 })),
             ],
         },

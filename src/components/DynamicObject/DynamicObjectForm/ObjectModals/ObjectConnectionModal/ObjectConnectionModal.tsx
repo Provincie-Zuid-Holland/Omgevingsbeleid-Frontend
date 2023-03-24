@@ -7,11 +7,13 @@ import {
     Text,
 } from '@pzh-ui/components'
 import { Formik, Form, useFormikContext } from 'formik'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { RelationShort } from '@/api/fetchers.schemas'
 import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
+import * as models from '@/config/objects'
+import { Model } from '@/config/objects/types'
 import * as objectRelation from '@/validation/objectRelation'
 
 interface ObjectConnectionModalProps {
@@ -20,6 +22,7 @@ interface ObjectConnectionModalProps {
     initialValues?: Partial<RelationShort>
     initialStep?: number
     isEdit?: boolean
+    allowedConnections?: Model['allowedConnections']
 }
 
 const ObjectConnectionModal = ({
@@ -28,11 +31,8 @@ const ObjectConnectionModal = ({
     initialValues = {},
     initialStep = 1,
     isEdit,
+    allowedConnections,
 }: ObjectConnectionModalProps) => {
-    const { values, setFieldValue } = useFormikContext<{
-        relations?: RelationShort[]
-    }>()
-
     const [step, setStep] = useState(initialStep)
 
     const handleClose = () => {
@@ -46,16 +46,8 @@ const ObjectConnectionModal = ({
         if (!payload) return
 
         if (isEdit) {
-            const index = values.relations?.findIndex(
-                relation =>
-                    relation.ID === payload.ID &&
-                    relation.Object_Type === payload.Object_Type
-            )
-
-            setFieldValue(`relations.${index}`, payload)
             handleClose()
         } else {
-            setFieldValue('relations', [...(values.relations || []), payload])
             handleClose()
         }
     }
@@ -77,7 +69,10 @@ const ObjectConnectionModal = ({
                 enableReinitialize>
                 {({ isValid, isSubmitting }) => (
                     <Form>
-                        <Wizard step={step} />
+                        <Wizard
+                            step={step}
+                            allowedConnections={allowedConnections}
+                        />
                         <div className="mt-6 flex items-center justify-between">
                             <Button variant="link" onPress={handleClose}>
                                 Annuleren
@@ -105,10 +100,25 @@ const ObjectConnectionModal = ({
     )
 }
 
-const Wizard = ({ step }: { step: number }) => {
+const Wizard = ({
+    allowedConnections,
+    step,
+}: Pick<ObjectConnectionModalProps, 'allowedConnections'> & {
+    step: number
+}) => {
     const { values, setFieldValue } = useFormikContext<
         RelationShort & { Title?: string }
     >()
+
+    const typeOptions = useMemo(
+        () =>
+            allowedConnections?.map(connection => ({
+                label: models[connection as keyof typeof models].defaults
+                    .pluralCapitalize,
+                value: connection,
+            })) || [],
+        [allowedConnections]
+    )
 
     switch (step) {
         case 1:
@@ -123,13 +133,7 @@ const Wizard = ({ step }: { step: number }) => {
                     </Text>
                     <FormikRadioGroup
                         name="Object_Type"
-                        options={[
-                            { label: 'Ambitie', value: 'ambitie' },
-                            { label: 'Beleidskeuze', value: 'beleidskeuze' },
-                            { label: 'Maatregel', value: 'maatregel' },
-                            { label: 'Beleidsregel', value: 'beleidsregel' },
-                            { label: 'Beleidsdoel', value: 'beleidsdoel' },
-                        ]}
+                        options={typeOptions}
                     />
                 </div>
             )

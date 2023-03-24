@@ -1,10 +1,10 @@
 import { Button, getHeadingStyles, Text } from '@pzh-ui/components'
 import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useMedia } from 'react-use'
 
 import { useModulesModuleIdGet } from '@/api/fetchers'
 import { SearchObject } from '@/api/fetchers.schemas'
+import useBreakpoint from '@/hooks/useBreakpoint'
 import useModule from '@/hooks/useModule'
 import * as modules from '@/validation/modules'
 
@@ -33,11 +33,9 @@ const initialModalValues: ModalProps = {
 const FormContents = () => {
     const { moduleId } = useParams()
 
-    const isMobile = useMedia('(max-width: 640px)')
+    const { isMobile } = useBreakpoint()
 
     const [modal, setModal] = useState<ModalProps>(initialModalValues)
-
-    const {} = useModule()
 
     const { data: { Objects: objects, Module: module } = {} } =
         useModulesModuleIdGet(parseInt(moduleId!), {

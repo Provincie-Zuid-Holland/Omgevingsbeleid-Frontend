@@ -5,6 +5,7 @@ import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import {
     getModulesGetQueryKey,
     getModulesModuleIdGetQueryKey,
+    useModulesModuleIdClosePost,
     useModulesModuleIdGet,
     useModulesModuleIdPost,
     useModulesModuleIdRemoveObjectTypeLineageIdDelete,
@@ -30,6 +31,15 @@ interface ModuleContextType {
         {
             moduleId: number
             data: ModuleEdit
+        },
+        unknown
+    >
+    /** Can be used to close the module (unsuccessful) */
+    useCloseModule: (onSucces?: () => void) => UseMutationResult<
+        ResponseOK,
+        HTTPValidationError,
+        {
+            moduleId: number
         },
         unknown
     >
@@ -89,6 +99,24 @@ function ModuleProvider() {
             },
         })
 
+    const useCloseModule = (onSucces?: () => void) =>
+        useModulesModuleIdClosePost({
+            mutation: {
+                onError: () => {
+                    toastNotification({ type: 'standard error' })
+                },
+                onSuccess: () => {
+                    queryClient
+                        .invalidateQueries(getModulesGetQueryKey(), {
+                            refetchType: 'all',
+                        })
+                        .then(onSucces)
+
+                    toastNotification({ type: 'saved' })
+                },
+            },
+        })
+
     const useRemoveObjectFromModule = (onSucces?: () => void) =>
         useModulesModuleIdRemoveObjectTypeLineageIdDelete({
             mutation: {
@@ -125,6 +153,7 @@ function ModuleProvider() {
     const value = {
         ...module,
         useEditModule,
+        useCloseModule,
         useRemoveObjectFromModule,
         isModuleManager,
     }

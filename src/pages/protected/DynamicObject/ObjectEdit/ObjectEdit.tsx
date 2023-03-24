@@ -4,11 +4,11 @@ import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import { Model } from '@/config/objects/types'
 import MutateLayout from '@/templates/MutateLayout'
 
-interface DynamicObjectProps {
+interface ObjectEditProps {
     model: Model
 }
 
-const DynamicObject = ({ model }: DynamicObjectProps) => {
+const ObjectEdit = ({ model }: ObjectEditProps) => {
     const { singularCapitalize } = model.defaults
 
     return (
@@ -24,4 +24,4 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
     )
 }
 
-export default DynamicObject
+export default ObjectEdit

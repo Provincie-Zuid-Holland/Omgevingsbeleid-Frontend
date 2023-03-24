@@ -7,7 +7,7 @@ import { searchGet } from '@/api/fetchers'
 import { SearchObject } from '@/api/fetchers.schemas'
 
 type Option = {
-    label: string
+    label: JSX.Element
     value: string | number
 }
 
@@ -36,7 +36,14 @@ const DynamicObjectSearch = ({
                 setSuggestions(data.Objects)
                 callback(
                     data.Objects.map(object => ({
-                        label: object.Title || '',
+                        label: (
+                            <div className="flex justify-between">
+                                <span>{object.Title}</span>
+                                <span className="capitalize text-pzh-gray-400">
+                                    {object.Object_Type}
+                                </span>
+                            </div>
+                        ),
                         value:
                             objectKey === 'uuid'
                                 ? object.UUID

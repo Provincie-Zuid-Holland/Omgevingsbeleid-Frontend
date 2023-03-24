@@ -1,9 +1,9 @@
 import { getHeadingStyles, Heading, Text } from '@pzh-ui/components'
 import { Link } from 'react-router-dom'
-import { useMedia } from 'react-use'
 
 import { Container } from '@/components/Container'
 import LoginForm from '@/components/LoginForm'
+import useBreakpoint from '@/hooks/useBreakpoint'
 
 /**
  * Component page that imports the component LoginForm, so the user is able to login the application and reset the password when needed.
@@ -11,7 +11,7 @@ import LoginForm from '@/components/LoginForm'
  */
 
 const Login = () => {
-    const isMobile = useMedia('(max-width: 640px)')
+    const { isMobile } = useBreakpoint()
 
     return (
         <>

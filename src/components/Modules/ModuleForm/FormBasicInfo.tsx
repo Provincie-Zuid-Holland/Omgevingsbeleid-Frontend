@@ -6,12 +6,12 @@ import {
     Text,
 } from '@pzh-ui/components'
 import { useMemo } from 'react'
-import { useMedia } from 'react-use'
 
 import { useUsersGet } from '@/api/fetchers'
+import useBreakpoint from '@/hooks/useBreakpoint'
 
 const FormBasicInfo = () => {
-    const isMobile = useMedia('(max-width: 640px)')
+    const { isMobile } = useBreakpoint()
 
     const { data: users, isFetching, isLoading } = useUsersGet()
 

@@ -8,7 +8,11 @@ import { useModulesModuleIdGet } from '@/api/fetchers'
 import { Module } from '@/api/fetchers.schemas'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
-import { FormBasicInfo, FormContents } from '@/components/Modules/ModuleForm'
+import {
+    FormBasicInfo,
+    FormContents,
+    FormDelete,
+} from '@/components/Modules/ModuleForm'
 import useModule from '@/hooks/useModule'
 import { formatEditModuleData } from '@/utils/formatModuleData'
 import * as modules from '@/validation/modules'
@@ -76,9 +80,17 @@ const ModuleEdit = () => {
                         </div>
 
                         <FormContents />
+
+                        <div className="col-span-6 my-10">
+                            <Divider />
+                        </div>
                     </Container>
                 </Form>
             </Formik>
+
+            <Container>
+                <FormDelete />
+            </Container>
         </div>
     )
 }
