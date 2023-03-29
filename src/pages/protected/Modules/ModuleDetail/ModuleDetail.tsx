@@ -27,13 +27,18 @@ import { ModuleModalActions } from '@/components/Modules/ModuleModals/types'
 import ModuleTimeline from '@/components/Modules/ModuleTimeline'
 import ModuleVersionCard from '@/components/Modules/ModuleVersionCard'
 import useModule from '@/hooks/useModule'
-import useRoles from '@/hooks/useRoles'
+import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 import getModuleStatusColor from '@/utils/getModuleStatusColor'
 import * as modules from '@/validation/modules'
 
 const ModuleDetail = () => {
-    const isAdmin = useRoles(['Beheerder'])
+    const {
+        canEditModule,
+        canPatchModuleStatus,
+        canAddExistingObjectToModule,
+        canAddNewObjectToModule,
+    } = usePermissions()
     const pathName = location.pathname || ''
 
     const [moduleModal, setModuleModal] = useState<ModuleModalActions>({
@@ -48,6 +53,7 @@ const ModuleDetail = () => {
         } = {},
         isLoading,
         isModuleManager,
+        isLocked,
     } = useModule()
     const { data: users } = useUsersGet()
 
@@ -89,7 +95,7 @@ const ModuleDetail = () => {
             <div className="col-span-6 mb-6">
                 <div className="flex items-center justify-between mb-4 whitespace-nowrap">
                     <Breadcrumbs items={breadcrumbPaths} />
-                    {isAdmin && (
+                    {canEditModule && (
                         <Hyperlink
                             to={`/muteer/modules/${module.Module_ID}/bewerk`}
                             text="Module bewerken"
@@ -128,10 +134,7 @@ const ModuleDetail = () => {
                     </div>
                 </div>
                 {module.Activated ? (
-                    <ModuleLock
-                        locked={module.Temporary_Locked}
-                        setModuleModal={setModuleModal}
-                    />
+                    <ModuleLock setModuleModal={setModuleModal} />
                 ) : (
                     <Divider className="mt-3" />
                 )}
@@ -144,17 +147,20 @@ const ModuleDetail = () => {
                     setModuleModal={setModuleModal}
                 />
 
-                <Button
-                    variant="link"
-                    onPress={() =>
-                        setModuleModal({
-                            isOpen: true,
-                            action: 'addContents',
-                        })
-                    }
-                    className="block text-pzh-green hover:text-pzh-green-dark">
-                    Onderdeel toevoegen
-                </Button>
+                {(canAddExistingObjectToModule || canAddNewObjectToModule) &&
+                    !isLocked && (
+                        <Button
+                            variant="link"
+                            onPress={() =>
+                                setModuleModal({
+                                    isOpen: true,
+                                    action: 'addContents',
+                                })
+                            }
+                            className="block text-pzh-green hover:text-pzh-green-dark">
+                            Onderdeel toevoegen
+                        </Button>
+                    )}
             </div>
 
             <div className="col-span-2">
@@ -163,8 +169,8 @@ const ModuleDetail = () => {
                 )}
 
                 {module.Activated &&
-                    module.Temporary_Locked &&
-                    (isAdmin || isModuleManager) && (
+                    isLocked &&
+                    (canPatchModuleStatus || isModuleManager) && (
                         <ModuleVersionCard currentStatus={module.Status} />
                     )}
 

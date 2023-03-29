@@ -18,7 +18,7 @@ const fetchers = {
     useGetLatestLineage: useAmbitiesLatestLineageIdGet,
     useGetRelations: useAmbitiesRelationsLineageIdGet,
     usePutRelations: useAmbitiesRelationsLineageIdPut,
-    useGetLatestObjectInModule:
+    useGetLatestLineageInModule:
         useModulesModuleIdObjectAmbitieLatestLineageIdGet,
     usePatchObjectInModule: useModulesModuleIdObjectAmbitieLineageIdPatch,
 }
@@ -28,7 +28,7 @@ const ambitie: DynamicObject<typeof fetchers> = {
         singular: 'ambitie',
         singularCapitalize: 'Ambitie',
         plural: 'ambities',
-        pluralCapitalize: 'Ambitie',
+        pluralCapitalize: 'Ambities',
         prefixSingular: 'de',
         prefixPlural: 'de',
         prefixNewObject: 'Nieuwe',

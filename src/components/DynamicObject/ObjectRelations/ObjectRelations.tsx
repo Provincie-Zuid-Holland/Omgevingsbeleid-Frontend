@@ -1,8 +1,11 @@
-import { Button, Heading } from '@pzh-ui/components'
-import { useState } from 'react'
+import { Heading } from '@pzh-ui/components'
+import { useCallback, useState } from 'react'
 
-import { RelationShort } from '@/api/fetchers.schemas'
-import { Model } from '@/config/objects/types'
+import * as models from '@/config/objects'
+import { Model, ModelReturnType } from '@/config/objects/types'
+import useObject from '@/hooks/useObject'
+import getPropertyByName from '@/utils/getPropertyByName'
+import * as objectRelation from '@/validation/objectRelation'
 
 import ObjectConnectionModal from '../DynamicObjectForm/ObjectModals/ObjectConnectionModal'
 import { ObjectModalActions } from '../DynamicObjectForm/ObjectModals/types'
@@ -10,68 +13,65 @@ import ObjectRelationPart from '../ObjectRelationPart'
 
 interface ObjectRelationsProps {
     model: Model
-    relations?: RelationShort[]
 }
 
-const ObjectRelations = ({ model, relations }: ObjectRelationsProps) => {
+export interface Relation {
+    Description?: string
+    Object_Type: string
+    Object_ID: number
+    UUID?: string
+    Title?: string
+}
+
+const ObjectRelations = ({ model }: ObjectRelationsProps) => {
+    const { data } = useObject(model)
+
     const [modal, setModal] = useState<ObjectModalActions>({
         isOpen: false,
         initialStep: 1,
+        initialValues: objectRelation.EMPTY_RELATION_OBJECT,
     })
+
+    /**
+     * Get relations of Object_Type
+     */
+    const getRelations = useCallback(
+        (type: keyof ModelReturnType) => {
+            if (data && type in data) {
+                const propertyType = getPropertyByName(data, type)
+
+                if (Array.isArray(propertyType)) {
+                    return propertyType.map(({ Object, Relation }) => ({
+                        ...Object,
+                        Object_ID: Object.Object_ID || 0,
+                        Object_Type: Object.Object_Type || '',
+                        Description: Relation.Description,
+                    }))
+                }
+            }
+        },
+        [data]
+    )
 
     return (
         <>
-            <div className="flex justify-between items-center mt-12">
-                <Heading level="3">Koppelingen</Heading>
-                <Button
-                    size="small"
-                    variant="secondary"
-                    onPress={() =>
-                        setModal({
-                            isOpen: true,
-                            isEdit: false,
-                            action: 'addConnection',
-                            relation: undefined,
-                        })
-                    }>
-                    Nieuwe koppeling
-                </Button>
+            <div className="mt-12 mb-4">
+                <Heading level="3">Koppelingen & relaties</Heading>
             </div>
 
-            {!!relations?.length ? (
-                <div>
-                    {relations.map(relation => (
-                        <ObjectRelationPart
-                            handleEdit={() =>
-                                setModal({
-                                    action: 'addConnection',
-                                    relation,
-                                    initialStep: 3,
-                                    isOpen: true,
-                                    isEdit: true,
-                                })
-                            }
-                            {...relation}
-                        />
-                    ))}
-                </div>
-            ) : (
-                <span className="italic">Er zijn nog geen koppelingen.</span>
-            )}
+            {model.allowedConnections?.map(connection => (
+                <ObjectRelationPart
+                    key={connection.type}
+                    connectionKey={connection.key}
+                    model={models[connection.type]}
+                    setModal={setModal}
+                    relations={getRelations(connection.key)}
+                />
+            ))}
 
             <ObjectConnectionModal
-                key={modal.initialStep}
                 onClose={() => setModal({ ...modal, isOpen: false })}
-                initialStep={model?.allowedConnections?.length === 1 ? 2 : 1}
-                initialValues={
-                    modal.relation ||
-                    (model?.allowedConnections?.length === 1 &&
-                        ({
-                            Object_Type: model.allowedConnections[0],
-                        } as RelationShort)) ||
-                    undefined
-                }
-                allowedConnections={model.allowedConnections}
+                model={model}
                 {...modal}
             />
         </>

@@ -1,4 +1,4 @@
-import { FormikSelect } from '@pzh-ui/components'
+import { FieldSelectProps, FormikSelect } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
 import debounce from 'lodash.debounce'
 import { useState } from 'react'
@@ -11,19 +11,24 @@ type Option = {
     value: string | number
 }
 
-interface DynamicObjectSearchProps {
+interface DynamicObjectSearchProps
+    extends Omit<FieldSelectProps, 'onChange' | 'name'> {
     /** Gets called when selecting an option */
     onChange: (object?: SearchObject) => void
     /** Key of model */
     objectKey?: 'uuid' | 'id'
     /** Placeholder of field (optional) */
     placeholder?: string
+    /** Label of field (optional) */
+    label?: string
 }
 
 const DynamicObjectSearch = ({
     onChange,
     objectKey = 'uuid',
     placeholder = 'Zoek op titel van beleidskeuze, maatregel, etc.',
+    label,
+    ...rest
 }: DynamicObjectSearchProps) => {
     const [suggestions, setSuggestions] = useState<SearchObject[]>([])
 
@@ -65,13 +70,14 @@ const DynamicObjectSearch = ({
             )
         )
 
-    const key = objectKey === 'uuid' ? 'Object_UUID' : 'ID'
+    const key = objectKey === 'uuid' ? 'Object_UUID' : 'Object_ID'
 
     return (
         <FormikSelect
             key={key}
             name={key}
             placeholder={placeholder}
+            label={label}
             loadOptions={handleSuggestions}
             onChange={handleChange}
             noOptionsMessage={({ inputValue }) =>
@@ -94,6 +100,7 @@ const DynamicObjectSearch = ({
                     </div>
                 ),
             }}
+            {...rest}
         />
     )
 }

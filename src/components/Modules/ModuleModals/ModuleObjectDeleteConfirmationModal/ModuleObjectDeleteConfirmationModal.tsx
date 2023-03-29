@@ -2,6 +2,7 @@ import { Button, Heading, Modal, Text } from '@pzh-ui/components'
 
 import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
+import { ModelType } from '@/config/objects/types'
 import useModule from '@/hooks/useModule'
 
 interface ModuleObjectDeleteConfirmationModalProps {
@@ -20,7 +21,7 @@ const ModuleObjectDeleteConfirmationModal = ({
     const { useRemoveObjectFromModule } = useModule()
     const { mutate } = useRemoveObjectFromModule(() => onClose())
 
-    const model = models[object.Object_Type as keyof typeof models]
+    const model = models[object.Object_Type as ModelType]
 
     return (
         <Modal

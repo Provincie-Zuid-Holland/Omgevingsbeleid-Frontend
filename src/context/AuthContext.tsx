@@ -7,14 +7,14 @@ import { loginAccessTokenPost } from '@/api/fetchers'
 import { UserShort, AuthToken } from '@/api/fetchers.schemas'
 
 export type Role =
+    | 'Ambtelijk opdrachtgever'
+    | 'Behandelend Ambtenaar'
     | 'Beheerder'
-    | 'Functioneel beheerder'
+    | 'Portefeuillehouder'
     | 'Technisch beheerder'
+    | 'Superuser'
     | 'Test runner'
     | 'Tester'
-    | 'Behandelend Ambtenaar'
-    | 'Portefeuillehouder'
-    | 'Ambtelijk opdrachtgever'
 
 interface AuthContextType {
     /** Logged in user object */

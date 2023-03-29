@@ -1,5 +1,5 @@
 import { getHeadingStyles, Text } from '@pzh-ui/components'
-import { PenToSquare } from '@pzh-ui/icons'
+import { PenToSquare, Plus } from '@pzh-ui/icons'
 
 import useBreakpoint from '@/hooks/useBreakpoint'
 
@@ -12,27 +12,40 @@ const ObjectDefaultInfo = () => {
                 Algemene informatie
             </h2>
 
-            <div className="mt-3 pb-2 border-b border-pzh-gray-400">
-                <Text type="body-bold">Ambtelijk opdrachtgever</Text>
-                <div className="flex items-center justify-between">
-                    <Text className="text-pzh-gray-600">Niet geselecteerd</Text>
-                    <button className="text-pzh-green hover:text-pzh-green-dark underline">
-                        Toevoegen
-                    </button>
-                </div>
-            </div>
-
-            <div className="mt-3 pb-2 border-b border-pzh-gray-400">
-                <Text type="body-bold">Eerste eigenaar</Text>
-                <div className="flex items-center justify-between">
-                    <Text>Maarten de Vries</Text>
-                    <button aria-label="Bewerken">
-                        <PenToSquare size={20} />
-                    </button>
-                </div>
-            </div>
+            <Item label="Ambtelijk opdrachtgever" />
+            <Item label="Eerste eigenaar" value="Maarten de Vries" />
+            <Item label="Tweede eigenaar" />
+            <Item label="Eerste portefeuillehouder" />
+            <Item label="Tweede portefeuillehouder" />
         </div>
     )
 }
+
+interface ItemProps {
+    label: string
+    value?: string
+}
+
+const Item = ({ label, value }: ItemProps) => (
+    <div className="mt-3 pb-2 border-b border-pzh-gray-400">
+        <Text type="body-bold">{label}</Text>
+        <div className="flex items-center justify-between">
+            <Text className={!value ? 'text-pzh-gray-600' : ''}>
+                {value || 'Niet geselecteerd'}
+            </Text>
+            {!value ? (
+                <button aria-label="Toevoegen">
+                    <div className="w-4 h-4 bg-pzh-green rounded-full flex items-center justify-center">
+                        <Plus size={14} className="text-pzh-white" />
+                    </div>
+                </button>
+            ) : (
+                <button aria-label="Wijzigen">
+                    <PenToSquare size={20} className="text-pzh-green" />
+                </button>
+            )}
+        </div>
+    </div>
+)
 
 export default ObjectDefaultInfo

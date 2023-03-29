@@ -18,7 +18,7 @@ const fetchers = {
     useGetLatestLineage: useMaatregelenLatestLineageIdGet,
     useGetRelations: useMaatregelenRelationsLineageIdGet,
     usePutRelations: useMaatregelenRelationsLineageIdPut,
-    useGetLatestObjectInModule:
+    useGetLatestLineageInModule:
         useModulesModuleIdObjectMaatregelLatestLineageIdGet,
     usePatchObjectInModule: useModulesModuleIdObjectMaatregelLineageIdPatch,
 }

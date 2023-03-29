@@ -19,7 +19,7 @@ const fetchers = {
     useGetLatestLineage: useBeleidsdoelenLatestLineageIdGet,
     useGetRelations: useBeleidsdoelenRelationsLineageIdGet,
     usePutRelations: useBeleidsdoelenRelationsLineageIdPut,
-    useGetLatestObjectInModule:
+    useGetLatestLineageInModule:
         useModulesModuleIdObjectBeleidsdoelLatestLineageIdGet,
     usePatchObjectInModule: useModulesModuleIdObjectBeleidsdoelLineageIdPatch,
 }
@@ -38,7 +38,10 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
             'De beleidsdoelen geven aan wat de provincie wil bereiken. De beleidsdoelen zijn een uitwerking van de ambities en komen voort uit de begroting.',
     },
     fetchers,
-    allowedConnections: ['ambitie', 'beleidskeuze'],
+    allowedConnections: [
+        { type: 'ambitie', key: 'Ambities' },
+        { type: 'beleidskeuze', key: 'Beleidskeuzes' },
+    ],
     dynamicSections: [
         {
             type: 'description',

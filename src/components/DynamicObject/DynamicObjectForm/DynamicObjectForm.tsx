@@ -21,10 +21,10 @@ const DynamicObjectForm = ({ model }: DynamicObjectFormProps) => {
 
     const { moduleId, objectId } = useParams()
 
-    const { useGetLatestObjectInModule, usePatchObjectInModule } =
+    const { useGetLatestLineageInModule, usePatchObjectInModule } =
         model.fetchers
 
-    const { data, isLoading, queryKey } = useGetLatestObjectInModule(
+    const { data, isLoading, queryKey } = useGetLatestLineageInModule(
         parseInt(moduleId!),
         parseInt(objectId!),
         {

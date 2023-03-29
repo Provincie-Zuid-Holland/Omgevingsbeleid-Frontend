@@ -56,6 +56,8 @@ interface ModuleContextType {
     >
     /** Is logged in user a manager of the module */
     isModuleManager: boolean
+    /** Is module locked */
+    isLocked: boolean
 }
 
 export const ModuleContext = createContext<ModuleContextType>(null!)
@@ -150,12 +152,18 @@ function ModuleProvider() {
         )
     }, [module.data?.Module, user?.UUID])
 
+    const isLocked = useMemo(
+        () => !!module.data?.Module.Temporary_Locked,
+        [module.data?.Module]
+    )
+
     const value = {
         ...module,
         useEditModule,
         useCloseModule,
         useRemoveObjectFromModule,
         isModuleManager,
+        isLocked,
     }
 
     return (

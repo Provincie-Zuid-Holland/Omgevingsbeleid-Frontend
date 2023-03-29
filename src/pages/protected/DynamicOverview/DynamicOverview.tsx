@@ -2,10 +2,11 @@ import { Breadcrumbs, Button, FieldInput, Heading } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
 
 import * as models from '@/config/objects'
+import { ModelType } from '@/config/objects/types'
 import MutateLayout from '@/templates/MutateLayout'
 
 interface DynamicOverviewProps {
-    model: typeof models[keyof typeof models]
+    model: typeof models[ModelType]
 }
 
 const DynamicOverview = ({ model }: DynamicOverviewProps) => {

@@ -23,12 +23,12 @@ import { LoaderCard } from '@/components/Loader'
 import ModuleCard from '@/components/Modules/ModuleCard'
 import useAuth from '@/hooks/useAuth'
 import useBreakpoint from '@/hooks/useBreakpoint'
-import useRoles from '@/hooks/useRoles'
+import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 
 const Dashboard = () => {
     const { user, role } = useAuth()
-    const isAdmin = useRoles(['Beheerder'])
+    const { canCreateModule } = usePermissions()
     const navigate = useNavigate()
     const { isMobile } = useBreakpoint()
 
@@ -75,7 +75,7 @@ const Dashboard = () => {
                         <TabItem
                             key="user"
                             title={
-                                isAdmin
+                                canCreateModule
                                     ? 'Actieve modules'
                                     : 'Mijn actieve modules'
                             }>
@@ -104,7 +104,7 @@ const Dashboard = () => {
                                 </>
                             )}
 
-                            {!isAdmin ? (
+                            {!canCreateModule ? (
                                 <div className="grid grid-cols-6 mt-8">
                                     <div className="col-span-3 mb-6">
                                         <Heading level="3" className="mb-4">
@@ -211,7 +211,7 @@ const Dashboard = () => {
                         <TabItem
                             key="all"
                             title={
-                                isAdmin
+                                canCreateModule
                                     ? 'Alle modules'
                                     : 'Alle actieve modules'
                             }>

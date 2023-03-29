@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom'
 
 import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
+import { ModelType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
-import useRoles from '@/hooks/useRoles'
+import usePermissions from '@/hooks/usePermissions'
 
 import ModuleItem from '../ModuleItem'
 import { ModuleModalActions } from '../ModuleModals/types'
@@ -21,7 +22,7 @@ interface ModuleItemListProps {
 
 const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
     const { user } = useAuth()
-    const isAdmin = useRoles(['Beheerder'])
+    const { canEditModule } = usePermissions()
 
     /**
      * If user role is not administrator
@@ -54,7 +55,7 @@ const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
     /**
      * If user is no administrator show different layout
      */
-    if (!isAdmin) {
+    if (!canEditModule) {
         return (
             <>
                 <ItemList
@@ -116,7 +117,7 @@ const ItemList = ({
                     {objects.map(object => {
                         const model =
                             models[
-                                object.Object_Type.toLowerCase() as keyof typeof models
+                                object.Object_Type.toLowerCase() as ModelType
                             ]
                         const { plural } = model?.defaults || {}
 

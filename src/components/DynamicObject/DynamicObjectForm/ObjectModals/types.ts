@@ -1,9 +1,11 @@
 import { RelationShort } from '@/api/fetchers.schemas'
+import { Model, ModelReturnType } from '@/config/objects/types'
 
 export interface ObjectModalActions {
     action?: 'addConnection'
+    connectionKey?: keyof ModelReturnType
     isOpen: boolean
-    relation?: RelationShort
+    relationModel?: Model
     initialStep?: number
-    isEdit?: boolean
+    initialValues: RelationShort
 }

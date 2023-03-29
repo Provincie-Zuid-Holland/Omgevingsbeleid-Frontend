@@ -1,5 +1,12 @@
 import { Schema } from 'zod'
 
+import {
+    AmbitieGet,
+    BeleidsdoelGet,
+    BeleidskeuzeGet,
+    MaatregelGet,
+} from '@/api/fetchers.schemas'
+
 import * as models from '.'
 
 export interface DynamicObject<
@@ -8,7 +15,7 @@ export interface DynamicObject<
     }
 > {
     defaults: {
-        singular: string
+        singular: ModelType
         singularCapitalize: string
         plural: string
         pluralCapitalize: string
@@ -21,8 +28,18 @@ export interface DynamicObject<
     fetchers: Fetchers
     validationSchema?: Schema
     dynamicSections?: DynamicSection[]
-    allowedConnections?: (keyof typeof models)[]
+    allowedConnections?: {
+        type: ModelType
+        key: keyof ModelReturnType
+    }[]
 }
+
+export type ModelType = keyof typeof models
+export type ModelName =
+    | 'Ambities'
+    | 'Beleidsdoelen'
+    | 'Beleidskeuzes'
+    | 'Maatregelen'
 
 export type DynamicSection = DynamicDescription
 
@@ -32,4 +49,9 @@ export interface DynamicDescription {
     fieldDescription: string
 }
 
-export type Model = typeof models[keyof typeof models]
+export type ModelReturnType = BeleidsdoelGet &
+    AmbitieGet &
+    BeleidskeuzeGet &
+    MaatregelGet
+
+export type Model = typeof models[ModelType]

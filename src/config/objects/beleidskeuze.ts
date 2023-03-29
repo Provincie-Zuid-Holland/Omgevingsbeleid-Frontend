@@ -18,7 +18,7 @@ const fetchers = {
     useGetLatestLineage: useBeleidskeuzesLatestLineageIdGet,
     useGetRelations: useBeleidskeuzesRelationsLineageIdGet,
     usePutRelations: useBeleidskeuzesRelationsLineageIdPut,
-    useGetLatestObjectInModule:
+    useGetLatestLineageInModule:
         useModulesModuleIdObjectBeleidskeuzeLatestLineageIdGet,
     usePatchObjectInModule: useModulesModuleIdObjectBeleidskeuzeLineageIdPatch,
 }
@@ -37,7 +37,7 @@ const beleidskeuze: DynamicObject<typeof fetchers> = {
             'De beleidskeuzes geven aan hoe de provincie haar doelen wil bereiken. De beleidskeuzes zijn een uitwerking van de beleidsdoelen en komen voort uit de Omgevingsvisie.',
     },
     fetchers,
-    allowedConnections: ['beleidskeuze'],
+    allowedConnections: [{ type: 'beleidskeuze', key: 'Beleidskeuzes' }],
     dynamicSections: [
         {
             type: 'description',

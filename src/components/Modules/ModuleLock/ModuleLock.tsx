@@ -4,25 +4,23 @@ import { useParams } from 'react-router-dom'
 
 import ToggleSwitch from '@/components/ToggleSwitch'
 import useModule from '@/hooks/useModule'
-import useRoles from '@/hooks/useRoles'
+import usePermissions from '@/hooks/usePermissions'
 
 import { ModuleModalActions } from '../ModuleModals/types'
 
 interface ModuleLockProps {
-    /** Is module locked */
-    locked: boolean
     /** Set module modal state */
     setModuleModal: (e: ModuleModalActions) => void
 }
 
-const ModuleLock = ({ locked, setModuleModal }: ModuleLockProps) => {
+const ModuleLock = ({ setModuleModal }: ModuleLockProps) => {
     const { moduleId } = useParams()
-    const isAdmin = useRoles(['Beheerder'])
+    const { canEditModule } = usePermissions()
 
-    const { useEditModule, isModuleManager } = useModule()
+    const { useEditModule, isModuleManager, isLocked } = useModule()
     const { mutate } = useEditModule()
 
-    if (!isAdmin && !isModuleManager && locked) {
+    if (!canEditModule && !isModuleManager && isLocked) {
         return (
             <>
                 <Divider className="mt-3" />
@@ -36,16 +34,16 @@ const ModuleLock = ({ locked, setModuleModal }: ModuleLockProps) => {
 
     return (
         <div className="flex mt-3 pt-4 pb-3 px-3 bg-pzh-gray-100">
-            {locked ? <Lock size={24} /> : <LockOpen size={24} />}
+            {isLocked ? <Lock size={24} /> : <LockOpen size={24} />}
             <Text className="ml-3">
-                {locked
+                {isLocked
                     ? 'Onderdelen in deze module kunnen tijdelijk niet bewerkt worden'
                     : 'Onderdelen in deze module mogen worden bewerkt door de behandelend ambtenaren'}
             </Text>
             <div className="ml-auto">
                 <ToggleSwitch
-                    title={locked ? 'Module unlocken' : 'Module locken'}
-                    checked={!locked}
+                    title={isLocked ? 'Module unlocken' : 'Module locken'}
+                    checked={!isLocked}
                     onClick={checked => {
                         if (!checked) {
                             setModuleModal({

@@ -3,6 +3,7 @@ import { useNavigate, useRoutes } from 'react-router-dom'
 
 import { NetworkGraph } from '@/components/Network'
 import * as models from '@/config/objects'
+import { ModelType } from '@/config/objects/types'
 import ModuleProvider from '@/context/ModuleContext'
 import useAuth from '@/hooks/useAuth'
 import {
@@ -132,19 +133,15 @@ const AppRoutes = () => {
             ],
         },
         ...Object.keys(models)
-            .filter(
-                model =>
-                    !!models[model as keyof typeof models].defaults.slugOverview
-            )
+            .filter(model => !!models[model as ModelType].defaults.slugOverview)
             .map(model => ({
-                path: models[model as keyof typeof models].defaults
-                    .slugOverview,
+                path: models[model as ModelType].defaults.slugOverview,
                 children: [
                     {
                         index: true,
                         element: (
                             <DynamicOverviewPublic
-                                model={models[model as keyof typeof models]}
+                                model={models[model as ModelType]}
                             />
                         ),
                     },
@@ -152,7 +149,7 @@ const AppRoutes = () => {
                         path: ':uuid',
                         element: (
                             <DynamicObjectPublic
-                                model={models[model as keyof typeof models]}
+                                model={models[model as ModelType]}
                             />
                         ),
                     },
@@ -183,25 +180,40 @@ const AppRoutes = () => {
                                 {
                                     path: 'bewerk',
                                     element: (
-                                        <ProtectedRoute roles={['Beheerder']}>
+                                        <ProtectedRoute
+                                            permissions={{
+                                                canEditModule: true,
+                                            }}>
                                             <ModuleEdit />
                                         </ProtectedRoute>
                                     ),
                                 },
                                 ...Object.keys(models).map(model => ({
-                                    path: models[model as keyof typeof models]
-                                        .defaults.singular,
+                                    path: models[model as ModelType].defaults
+                                        .singular,
                                     children: [
                                         {
                                             path: ':objectId',
                                             children: [
+                                                {
+                                                    index: true,
+                                                    element: (
+                                                        <ObjectDetail
+                                                            model={
+                                                                models[
+                                                                    model as ModelType
+                                                                ]
+                                                            }
+                                                        />
+                                                    ),
+                                                },
                                                 {
                                                     path: 'bewerk',
                                                     element: (
                                                         <ObjectEdit
                                                             model={
                                                                 models[
-                                                                    model as keyof typeof models
+                                                                    model as ModelType
                                                                 ]
                                                             }
                                                         />
@@ -216,7 +228,10 @@ const AppRoutes = () => {
                         {
                             path: 'nieuw',
                             element: (
-                                <ProtectedRoute roles={['Beheerder']}>
+                                <ProtectedRoute
+                                    permissions={{
+                                        canCreateModule: true,
+                                    }}>
                                     <ModuleCreate />
                                 </ProtectedRoute>
                             ),
@@ -224,13 +239,13 @@ const AppRoutes = () => {
                     ],
                 },
                 ...Object.keys(models).map(model => ({
-                    path: models[model as keyof typeof models].defaults.plural,
+                    path: models[model as ModelType].defaults.plural,
                     children: [
                         {
                             index: true,
                             element: (
                                 <DynamicOverview
-                                    model={models[model as keyof typeof models]}
+                                    model={models[model as ModelType]}
                                 />
                             ),
                         },
@@ -238,7 +253,7 @@ const AppRoutes = () => {
                             path: ':objectId',
                             element: (
                                 <ObjectDetail
-                                    model={models[model as keyof typeof models]}
+                                    model={models[model as ModelType]}
                                 />
                             ),
                         },

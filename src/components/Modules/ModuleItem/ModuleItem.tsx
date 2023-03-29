@@ -4,10 +4,9 @@ import { useMemo, useState } from 'react'
 
 import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import Dropdown, { DropdownItem } from '@/components/Dropdown'
-import * as models from '@/config/objects'
 import useAuth from '@/hooks/useAuth'
 import useModule from '@/hooks/useModule'
-import useRoles from '@/hooks/useRoles'
+import usePermissions from '@/hooks/usePermissions'
 import getModuleActionText from '@/utils/getModuleActionText'
 
 interface ModuleItemProps extends ModuleObjectShort {
@@ -35,19 +34,17 @@ const ModuleItem = ({
     viewCallback,
 }: ModuleItemProps) => {
     const { user } = useAuth()
-    const isAdmin = useRoles(['Beheerder'])
+    const { canEditModule } = usePermissions()
     const [isOpen, setIsOpen] = useState(false)
 
-    const { isModuleManager } = useModule()
-
-    const { defaults } = models[Object_Type as keyof typeof models]
+    const { isModuleManager, isLocked } = useModule()
 
     /**
      * Check if user has owner rights in object
      */
     const hasRights = useMemo(() => {
         if (
-            isAdmin ||
+            canEditModule ||
             isModuleManager ||
             Owner_1_UUID === user?.UUID ||
             Owner_2_UUID === user?.UUID
@@ -55,7 +52,7 @@ const ModuleItem = ({
             return true
 
         return false
-    }, [isAdmin, isModuleManager, Owner_1_UUID, Owner_2_UUID, user?.UUID])
+    }, [canEditModule, isModuleManager, Owner_1_UUID, Owner_2_UUID, user?.UUID])
 
     /**
      * Array of dropdown items based on user rights
@@ -64,39 +61,42 @@ const ModuleItem = ({
         ...((hasRights && [
             {
                 text: 'Bekijken',
-                link: `/muteer/${defaults.plural}/${Object_ID}`,
+                link: `/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`,
             },
         ]) ||
             []),
         ...((Action !== 'Terminate' &&
-            hasRights && [
+            hasRights &&
+            !isLocked && [
                 {
                     text: 'Bewerken',
                     link: `/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}/bewerk`,
                 },
             ]) ||
             []),
-        ...((hasRights && [
-            {
-                text: `Bewerk ${
-                    Action !== 'Create' && Action !== 'Toevoegen'
-                        ? 'actie, '
-                        : ' '
-                }toelichting en conclusie`,
-                callback: editCallback,
-            },
-        ]) ||
+        ...((hasRights &&
+            !isLocked && [
+                {
+                    text: `Bewerk ${
+                        Action !== 'Create' && Action !== 'Toevoegen'
+                            ? 'actie, '
+                            : ' '
+                    }toelichting en conclusie`,
+                    callback: editCallback,
+                },
+            ]) ||
             []),
         {
             text: 'Bekijk in raadpleegomgeving',
             callback: viewCallback,
         },
-        ...(((isAdmin || isModuleManager) && [
-            {
-                text: 'Verwijderen uit module',
-                callback: deleteCallback,
-            },
-        ]) ||
+        ...(((canEditModule || isModuleManager) &&
+            !isLocked && [
+                {
+                    text: 'Verwijderen uit module',
+                    callback: deleteCallback,
+                },
+            ]) ||
             []),
     ]
 

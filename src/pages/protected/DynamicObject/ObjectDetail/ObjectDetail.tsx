@@ -1,5 +1,4 @@
 import { getHeadingStyles, Heading } from '@pzh-ui/components'
-import { useParams } from 'react-router-dom'
 
 import ObjectDefaultInfo from '@/components/DynamicObject/ObjectDefaultInfo'
 import ObjectRelations from '@/components/DynamicObject/ObjectRelations'
@@ -12,18 +11,9 @@ interface ObjectDetailProps {
 }
 
 const ObjectDetail = ({ model }: ObjectDetailProps) => {
-    const { objectId } = useParams()
-
     const { isMobile } = useBreakpoint()
 
     const { singularCapitalize } = model.defaults
-    const { useGetRelations } = model.fetchers
-
-    const { data: relations } = useGetRelations(parseInt(objectId!), {
-        query: { enabled: !!objectId },
-    })
-
-    console.log(relations)
 
     return (
         <MutateLayout title={singularCapitalize}>
@@ -43,7 +33,7 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
                 <ObjectDefaultInfo />
 
                 {!!model.allowedConnections?.length && (
-                    <ObjectRelations relations={[]} model={model} />
+                    <ObjectRelations model={model} />
                 )}
             </div>
         </MutateLayout>
