@@ -1,0 +1,106 @@
+import { Button, FormikSelect, Heading, Modal } from '@pzh-ui/components'
+import { Form, Formik } from 'formik'
+import { useMemo } from 'react'
+import { useParams } from 'react-router-dom'
+
+import { useUsersGet } from '@/api/fetchers'
+import useObject from '@/hooks/useObject'
+
+import { ObjectPersonModalActions } from '../types'
+
+interface ObjectPersonModalProps extends ObjectPersonModalActions {
+    onClose: () => void
+}
+
+const ObjectPersonModal = ({
+    isOpen,
+    onClose,
+    person,
+    isEdit,
+}: ObjectPersonModalProps) => {
+    const { objectId } = useParams()
+
+    const {
+        data: users,
+        isFetching,
+        isLoading: loadingUsers,
+    } = useUsersGet({ query: { enabled: isOpen } })
+
+    /**
+     * Format user options
+     */
+    const userOptions = useMemo(
+        () =>
+            users?.map(user => ({
+                label: user.Gebruikersnaam,
+                value: user.UUID,
+            })),
+        [users]
+    )
+
+    const { usePostObjectStatic } = useObject()
+    const { mutate, isLoading } = usePostObjectStatic(() => onClose())
+
+    /**
+     * Update person
+     */
+    const handleFormSubmit = (payload: any) => {
+        mutate({ lineageId: parseInt(objectId!), data: payload })
+    }
+
+    return (
+        <Modal
+            open={isOpen}
+            onClose={onClose}
+            ariaLabel={`${person?.label} ${isEdit ? 'wijzigen' : 'toevoegen'}`}
+            maxWidth="sm:max-w-[812px]">
+            <Formik
+                onSubmit={handleFormSubmit}
+                initialValues={{}}
+                // validationSchema={toFormikValidationSchema(
+                //     modules.SCHEMA_EDIT_EXISTING_OBJECT
+                // )}
+                enableReinitialize>
+                <Form>
+                    <Heading level="2" className="mb-4 first-letter:uppercase">
+                        {person?.label} {isEdit ? 'wijzigen' : 'toevoegen'}
+                    </Heading>
+
+                    <FormikSelect
+                        name={person?.key || ''}
+                        label={person?.label}
+                        placeholder={`Kies een ${person?.label.toLowerCase()}`}
+                        isLoading={loadingUsers && isFetching}
+                        optimized={false}
+                        options={userOptions}
+                        required
+                        styles={{
+                            menu: base => ({
+                                ...base,
+                                position: 'relative',
+                                zIndex: 9999,
+                                marginTop: 0,
+                                boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                            }),
+                        }}
+                    />
+
+                    <div className="mt-6 flex items-center justify-between">
+                        <Button variant="link" onPress={onClose}>
+                            Annuleren
+                        </Button>
+                        <Button
+                            variant="cta"
+                            type="submit"
+                            isDisabled={isLoading}
+                            isLoading={isLoading}>
+                            Opslaan
+                        </Button>
+                    </div>
+                </Form>
+            </Formik>
+        </Modal>
+    )
+}
+
+export default ObjectPersonModal

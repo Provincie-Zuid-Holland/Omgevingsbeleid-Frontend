@@ -5,9 +5,11 @@ import {
     useBeleidsdoelenValidGet,
     useBeleidsdoelenValidLineageIdGet,
     useBeleidsdoelenVersionObjectUuidGet,
+    useBeleidsdoelStaticLineageIdPost,
     useModulesModuleIdObjectBeleidsdoelLatestLineageIdGet,
     useModulesModuleIdObjectBeleidsdoelLineageIdPatch,
 } from '@/api/fetchers'
+import { BeleidsdoelStaticPatch } from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 
 import { DynamicObject } from './types'
@@ -22,9 +24,13 @@ const fetchers = {
     useGetLatestLineageInModule:
         useModulesModuleIdObjectBeleidsdoelLatestLineageIdGet,
     usePatchObjectInModule: useModulesModuleIdObjectBeleidsdoelLineageIdPatch,
+    usePostStatic: useBeleidsdoelStaticLineageIdPost,
 }
 
-const beleidsdoel: DynamicObject<typeof fetchers> = {
+const beleidsdoel: DynamicObject<
+    typeof fetchers,
+    (keyof BeleidsdoelStaticPatch)[]
+> = {
     defaults: {
         singular: 'beleidsdoel',
         singularCapitalize: 'Beleidsdoel',
@@ -38,6 +44,7 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
             'De beleidsdoelen geven aan wat de provincie wil bereiken. De beleidsdoelen zijn een uitwerking van de ambities en komen voort uit de begroting.',
     },
     fetchers,
+    staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
     allowedConnections: [
         { type: 'ambitie', key: 'Ambities' },
         { type: 'beleidskeuze', key: 'Beleidskeuzes' },

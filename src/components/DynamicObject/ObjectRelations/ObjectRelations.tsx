@@ -1,14 +1,14 @@
 import { Heading } from '@pzh-ui/components'
 import { useCallback, useState } from 'react'
 
+import { RelationShort } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import getPropertyByName from '@/utils/getPropertyByName'
-import * as objectRelation from '@/validation/objectRelation'
 
-import ObjectConnectionModal from '../DynamicObjectForm/ObjectModals/ObjectConnectionModal'
-import { ObjectModalActions } from '../DynamicObjectForm/ObjectModals/types'
+import ObjectConnectionModal from '../ObjectModals/ObjectConnectionModal'
+import { ObjectConnectionModalActions } from '../ObjectModals/types'
 import ObjectRelationPart from '../ObjectRelationPart'
 
 interface ObjectRelationsProps {
@@ -24,12 +24,12 @@ export interface Relation {
 }
 
 const ObjectRelations = ({ model }: ObjectRelationsProps) => {
-    const { data } = useObject(model)
+    const { data } = useObject()
 
-    const [modal, setModal] = useState<ObjectModalActions>({
+    const [modal, setModal] = useState<ObjectConnectionModalActions>({
         isOpen: false,
         initialStep: 1,
-        initialValues: objectRelation.EMPTY_RELATION_OBJECT,
+        initialValues: {} as RelationShort,
     })
 
     /**

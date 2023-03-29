@@ -5,6 +5,7 @@ import { NetworkGraph } from '@/components/Network'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 import ModuleProvider from '@/context/ModuleContext'
+import ObjectProvider from '@/context/ObjectContext'
 import useAuth from '@/hooks/useAuth'
 import {
     Dashboard,
@@ -198,13 +199,20 @@ const AppRoutes = () => {
                                                 {
                                                     index: true,
                                                     element: (
-                                                        <ObjectDetail
+                                                        <ObjectProvider
                                                             model={
                                                                 models[
                                                                     model as ModelType
                                                                 ]
-                                                            }
-                                                        />
+                                                            }>
+                                                            <ObjectDetail
+                                                                model={
+                                                                    models[
+                                                                        model as ModelType
+                                                                    ]
+                                                                }
+                                                            />
+                                                        </ObjectProvider>
                                                     ),
                                                 },
                                                 {
@@ -252,9 +260,12 @@ const AppRoutes = () => {
                         {
                             path: ':objectId',
                             element: (
-                                <ObjectDetail
-                                    model={models[model as ModelType]}
-                                />
+                                <ObjectProvider
+                                    model={models[model as ModelType]}>
+                                    <ObjectDetail
+                                        model={models[model as ModelType]}
+                                    />
+                                </ObjectProvider>
                             ),
                         },
                     ],

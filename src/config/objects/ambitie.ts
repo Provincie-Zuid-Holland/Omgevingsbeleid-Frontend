@@ -2,12 +2,14 @@ import {
     useAmbitiesLatestLineageIdGet,
     useAmbitiesRelationsLineageIdGet,
     useAmbitiesRelationsLineageIdPut,
+    useAmbitieStaticLineageIdPost,
     useAmbitiesValidGet,
     useAmbitiesValidLineageIdGet,
     useAmbitiesVersionObjectUuidGet,
     useModulesModuleIdObjectAmbitieLatestLineageIdGet,
     useModulesModuleIdObjectAmbitieLineageIdPatch,
 } from '@/api/fetchers'
+import { AmbitieStaticPost } from '@/api/fetchers.schemas'
 
 import { DynamicObject } from './types'
 
@@ -21,9 +23,10 @@ const fetchers = {
     useGetLatestLineageInModule:
         useModulesModuleIdObjectAmbitieLatestLineageIdGet,
     usePatchObjectInModule: useModulesModuleIdObjectAmbitieLineageIdPatch,
+    usePostStatic: useAmbitieStaticLineageIdPost,
 }
 
-const ambitie: DynamicObject<typeof fetchers> = {
+const ambitie: DynamicObject<typeof fetchers, (keyof AmbitieStaticPost)[]> = {
     defaults: {
         singular: 'ambitie',
         singularCapitalize: 'Ambitie',
@@ -36,6 +39,8 @@ const ambitie: DynamicObject<typeof fetchers> = {
         description:
             'De ambities geven aan waar de provincie naar wil streven. De ambities komen voort uit het coalitieakkoord en worden vastgesteld in de Omgevingsvisie.',
     },
+    staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
+    allowedConnections: [{ type: 'beleidsdoel', key: 'Beleidsdoelen' }],
     fetchers,
     dynamicSections: [
         {

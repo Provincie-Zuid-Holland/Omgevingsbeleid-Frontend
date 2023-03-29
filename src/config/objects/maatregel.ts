@@ -5,9 +5,11 @@ import {
     useMaatregelenValidGet,
     useMaatregelenValidLineageIdGet,
     useMaatregelenVersionObjectUuidGet,
+    useMaatregelStaticLineageIdPost,
     useModulesModuleIdObjectMaatregelLatestLineageIdGet,
     useModulesModuleIdObjectMaatregelLineageIdPatch,
 } from '@/api/fetchers'
+import { MaatregelStaticPatch } from '@/api/fetchers.schemas'
 
 import { DynamicObject } from './types'
 
@@ -21,9 +23,13 @@ const fetchers = {
     useGetLatestLineageInModule:
         useModulesModuleIdObjectMaatregelLatestLineageIdGet,
     usePatchObjectInModule: useModulesModuleIdObjectMaatregelLineageIdPatch,
+    usePostStatic: useMaatregelStaticLineageIdPost,
 }
 
-const maatregel: DynamicObject<typeof fetchers> = {
+const maatregel: DynamicObject<
+    typeof fetchers,
+    (keyof MaatregelStaticPatch)[]
+> = {
     defaults: {
         singular: 'maatregel',
         singularCapitalize: 'Maatregel',
@@ -36,6 +42,14 @@ const maatregel: DynamicObject<typeof fetchers> = {
         description:
             'De maatregelen geven aan wat de provincie gaat doen om de keuzes uit te voeren. De maatregelen zijn een uitwerking van de beleidskeuzes en komen voort uit het Omgevingsprogramma.',
     },
+    staticData: [
+        'Client_1_UUID',
+        'Owner_1_UUID',
+        'Owner_2_UUID',
+        'Portfolio_Holder_1_UUID',
+        'Portfolio_Holder_2_UUID',
+    ],
+    allowedConnections: [{ type: 'beleidsdoel', key: 'Beleidsdoelen' }],
     fetchers,
     dynamicSections: [
         {

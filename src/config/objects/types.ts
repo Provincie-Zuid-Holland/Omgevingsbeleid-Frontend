@@ -2,9 +2,13 @@ import { Schema } from 'zod'
 
 import {
     AmbitieGet,
+    AmbitieStaticPost,
     BeleidsdoelGet,
+    BeleidsdoelStaticPatch,
     BeleidskeuzeGet,
+    BeleidskeuzeStaticPatch,
     MaatregelGet,
+    MaatregelStaticPatch,
 } from '@/api/fetchers.schemas'
 
 import * as models from '.'
@@ -12,7 +16,8 @@ import * as models from '.'
 export interface DynamicObject<
     Fetchers = {
         [key: string]: any
-    }
+    },
+    StaticData = any
 > {
     defaults: {
         singular: ModelType
@@ -25,6 +30,7 @@ export interface DynamicObject<
         description: string
         slugOverview?: string
     }
+    staticData?: StaticData
     fetchers: Fetchers
     validationSchema?: Schema
     dynamicSections?: DynamicSection[]
@@ -53,5 +59,10 @@ export type ModelReturnType = BeleidsdoelGet &
     AmbitieGet &
     BeleidskeuzeGet &
     MaatregelGet
+
+export type ModelPatchStaticType = BeleidsdoelStaticPatch &
+    AmbitieStaticPost &
+    BeleidskeuzeStaticPatch &
+    MaatregelStaticPatch
 
 export type Model = typeof models[ModelType]

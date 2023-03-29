@@ -2,12 +2,14 @@ import {
     useBeleidskeuzesLatestLineageIdGet,
     useBeleidskeuzesRelationsLineageIdGet,
     useBeleidskeuzesRelationsLineageIdPut,
+    useBeleidskeuzeStaticLineageIdPost,
     useBeleidskeuzesValidGet,
     useBeleidskeuzesValidLineageIdGet,
     useBeleidskeuzesVersionObjectUuidGet,
     useModulesModuleIdObjectBeleidskeuzeLatestLineageIdGet,
     useModulesModuleIdObjectBeleidskeuzeLineageIdPatch,
 } from '@/api/fetchers'
+import { BeleidskeuzeStaticPatch } from '@/api/fetchers.schemas'
 
 import { DynamicObject } from './types'
 
@@ -21,9 +23,13 @@ const fetchers = {
     useGetLatestLineageInModule:
         useModulesModuleIdObjectBeleidskeuzeLatestLineageIdGet,
     usePatchObjectInModule: useModulesModuleIdObjectBeleidskeuzeLineageIdPatch,
+    usePostStatic: useBeleidskeuzeStaticLineageIdPost,
 }
 
-const beleidskeuze: DynamicObject<typeof fetchers> = {
+const beleidskeuze: DynamicObject<
+    typeof fetchers,
+    (keyof BeleidskeuzeStaticPatch)[]
+> = {
     defaults: {
         singular: 'beleidskeuze',
         singularCapitalize: 'Beleidskeuze',
@@ -37,7 +43,17 @@ const beleidskeuze: DynamicObject<typeof fetchers> = {
             'De beleidskeuzes geven aan hoe de provincie haar doelen wil bereiken. De beleidskeuzes zijn een uitwerking van de beleidsdoelen en komen voort uit de Omgevingsvisie.',
     },
     fetchers,
-    allowedConnections: [{ type: 'beleidskeuze', key: 'Beleidskeuzes' }],
+    staticData: [
+        'Client_1_UUID',
+        'Owner_1_UUID',
+        'Owner_2_UUID',
+        'Portfolio_Holder_1_UUID',
+        'Portfolio_Holder_2_UUID',
+    ],
+    allowedConnections: [
+        { type: 'beleidskeuze', key: 'Beleidskeuzes' },
+        { type: 'beleidsdoel', key: 'Beleidsdoelen' },
+    ],
     dynamicSections: [
         {
             type: 'description',

@@ -30,7 +30,7 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
             </div>
 
             <div className="col-span-2">
-                <ObjectDefaultInfo />
+                <ObjectDefaultInfo model={model} />
 
                 {!!model.allowedConnections?.length && (
                     <ObjectRelations model={model} />

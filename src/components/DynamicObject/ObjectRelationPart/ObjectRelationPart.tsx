@@ -5,7 +5,7 @@ import { RelationShort } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
 import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
 
-import { ObjectModalActions } from '../DynamicObjectForm/ObjectModals/types'
+import { ObjectConnectionModalActions } from '../ObjectModals/types'
 import { Relation } from '../ObjectRelations/ObjectRelations'
 
 interface ObjectRelationPartProps {
@@ -16,7 +16,7 @@ interface ObjectRelationPartProps {
     /** Key of object */
     relations?: Relation[]
     /** Set state of modal */
-    setModal: (state: ObjectModalActions) => void
+    setModal: (state: ObjectConnectionModalActions) => void
 }
 
 const ObjectRelationPart = ({
@@ -27,7 +27,6 @@ const ObjectRelationPart = ({
 }: ObjectRelationPartProps) => {
     const handleButtonClick = (amount?: number) => {
         setModal({
-            action: 'addConnection',
             connectionKey,
             initialStep: amount === 0 ? 2 : 1,
             initialValues: {

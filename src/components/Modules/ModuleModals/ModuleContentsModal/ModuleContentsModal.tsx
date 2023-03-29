@@ -1,15 +1,6 @@
-import {
-    Button,
-    FormikInput,
-    FormikRadioGroup,
-    FormikSelect,
-    FormikTextArea,
-    Heading,
-    Modal,
-    Text,
-} from '@pzh-ui/components'
+import { Button, Modal } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
-import { Form, Formik, useFormikContext } from 'formik'
+import { Form, Formik } from 'formik'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
@@ -18,7 +9,6 @@ import {
     getModulesModuleIdGetQueryKey,
     useModulesModuleIdAddExistingObjectPost,
     useModulesModuleIdAddNewObjectPost,
-    useUsersGet,
 } from '@/api/fetchers'
 import {
     Module,
@@ -26,9 +16,12 @@ import {
     ModuleAddNewObject,
     SearchObject,
 } from '@/api/fetchers.schemas'
-import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
+
+import { StepFive, StepFour, StepOne, StepThree, StepTwo } from './steps'
+
+const steps = [StepOne, StepTwo, StepThree, StepFour, StepFive]
 
 export type ContentsModalForm = (
     | ModuleAddNewObject
@@ -58,12 +51,18 @@ const ModuleContentsModal = ({
     const { moduleId } = useParams()
 
     const [step, setStep] = useState(initialStep)
+    const [existingObject, setExistingObject] = useState<
+        SearchObject | undefined
+    >(selectedObject)
 
     const handleClose = () => {
         onClose()
 
         // Wait for modal animation to finish before resetting step
-        setTimeout(() => setStep(initialStep), 300)
+        setTimeout(() => {
+            setExistingObject(undefined)
+            setStep(initialStep)
+        }, 300)
     }
 
     /**
@@ -71,17 +70,19 @@ const ModuleContentsModal = ({
      */
     const handleWizard = (
         state: ContentsModalForm['state'],
-        Object_Type?: ModuleAddNewObject['Object_Type'],
-        ExistingObject?: ModuleAddExistingObject['Object_UUID']
+        prev?: boolean
     ) => {
-        if (state === 'new' && !!Object_Type) {
-            return setStep(3)
-        } else if (state === 'new') {
-            return setStep(2)
-        } else if (state === 'existing' && !!ExistingObject) {
-            return setStep(5)
-        } else if (state === 'existing') {
-            return setStep(4)
+        switch (step) {
+            case 1:
+                return state === 'new' ? setStep(2) : setStep(4)
+            case 2:
+                return prev ? setStep(1) : setStep(3)
+            case 3:
+                return setStep(2)
+            case 4:
+                return prev ? setStep(1) : setStep(5)
+            case 5:
+                return prev ? setStep(4) : setStep(5)
         }
 
         return
@@ -100,7 +101,7 @@ const ModuleContentsModal = ({
                     .invalidateQueries(
                         getModulesModuleIdGetQueryKey(parseInt(moduleId!))
                     )
-                    .then(() => onClose())
+                    .then(handleClose)
 
                 toastNotification({ type: 'saved' })
             },
@@ -120,7 +121,7 @@ const ModuleContentsModal = ({
                     .invalidateQueries(
                         getModulesModuleIdGetQueryKey(parseInt(moduleId!))
                     )
-                    .then(() => onClose())
+                    .then(handleClose)
 
                 toastNotification({ type: 'saved' })
             },
@@ -143,6 +144,7 @@ const ModuleContentsModal = ({
         }
     }
 
+    const CurrentStep = steps[step - 1]
     const isFinalStep = step === 3 || step === 5
 
     return (
@@ -158,227 +160,61 @@ const ModuleContentsModal = ({
                     modules.SCHEMA_ADD_OBJECT
                 )}
                 enableReinitialize>
-                {({ values, handleSubmit, isValid, isSubmitting }) => (
+                {({
+                    values,
+                    handleSubmit,
+                    isValid,
+                    isSubmitting,
+                    submitForm,
+                }) => (
                     <Form onSubmit={handleSubmit}>
-                        <Wizard
-                            step={step}
-                            module={module}
-                            selectedObject={selectedObject}
+                        <CurrentStep
+                            title={module?.Title}
+                            existingObject={existingObject}
+                            setExistingObject={setExistingObject}
                         />
                         <div className="mt-6 flex items-center justify-between">
                             <Button variant="link" onPress={handleClose}>
                                 Annuleren
                             </Button>
-                            <Button
-                                variant={isFinalStep ? 'cta' : 'primary'}
-                                type={isFinalStep ? 'submit' : 'button'}
-                                onPress={() => {
-                                    handleWizard(
-                                        values.state,
-                                        ('Object_Type' in values &&
-                                            values.Object_Type) ||
-                                            '',
-                                        ('Object_UUID' in values &&
-                                            values.Object_UUID) ||
-                                            ''
-                                    )
-                                }}
-                                isDisabled={
-                                    (isFinalStep && !isValid) ||
-                                    (isFinalStep && isSubmitting)
-                                }
-                                isLoading={isSubmitting}>
-                                {isFinalStep ? 'Toevoegen' : 'Volgende'}
-                            </Button>
+                            <div>
+                                {step !== 1 && (
+                                    <Button
+                                        variant="secondary"
+                                        type="button"
+                                        size="small"
+                                        onPress={() =>
+                                            handleWizard(values.state, true)
+                                        }
+                                        className="mr-3">
+                                        Vorige stap
+                                    </Button>
+                                )}
+                                <Button
+                                    variant={isFinalStep ? 'cta' : 'primary'}
+                                    type="button"
+                                    size="small"
+                                    onPress={() => {
+                                        !isFinalStep
+                                            ? handleWizard(values.state)
+                                            : submitForm()
+                                    }}
+                                    isDisabled={
+                                        (isFinalStep && !isValid) ||
+                                        (isFinalStep && isSubmitting)
+                                    }
+                                    isLoading={isSubmitting}>
+                                    {isFinalStep
+                                        ? 'Toevoegen'
+                                        : 'Volgende stap'}
+                                </Button>
+                            </div>
                         </div>
                     </Form>
                 )}
             </Formik>
         </Modal>
     )
-}
-
-const Wizard = ({
-    step,
-    module,
-    selectedObject,
-}: Pick<ModuleContentsModalProps, 'module' | 'selectedObject'> & {
-    step: number
-}) => {
-    const { values } = useFormikContext<ContentsModalForm>()
-    const { data: users, isFetching, isLoading } = useUsersGet()
-
-    const [existingObject, setExistingObject] = useState<
-        SearchObject | undefined
-    >(selectedObject)
-
-    switch (step) {
-        case 1:
-            return (
-                <div>
-                    <Heading level="2" className="mb-4">
-                        Wat wil je toevoegen?
-                    </Heading>
-                    <Text className="mb-4">
-                        Wil je een nieuw object toevoegen, of een bestaand
-                        object?
-                    </Text>
-                    <FormikRadioGroup
-                        name="state"
-                        options={[
-                            { label: 'Nieuw', value: 'new' },
-                            { label: 'Bestaand', value: 'existing' },
-                        ]}
-                        required
-                    />
-                </div>
-            )
-        case 2:
-            return (
-                <div>
-                    <Heading level="2" className="mb-4">
-                        Wat wil je toevoegen?
-                    </Heading>
-                    <Text className="mb-4">
-                        Je wilt een nieuw onderdeel toevoegen aan deze module.
-                        Wil je een maatregel, beleidskeuze of beleidsregel
-                        toevoegen?
-                    </Text>
-                    <FormikRadioGroup
-                        name="Object_Type"
-                        options={[
-                            { label: 'Ambitie', value: 'ambitie' },
-                            { label: 'Beleidskeuze', value: 'beleidskeuze' },
-                            { label: 'Maatregel', value: 'maatregel' },
-                            { label: 'Beleidsregel', value: 'beleidsregel' },
-                            { label: 'Beleidsdoel', value: 'beleidsdoel' },
-                        ]}
-                    />
-                </div>
-            )
-        case 3:
-            return (
-                <div>
-                    <Heading level="2" className="mb-4">
-                        Nieuwe {'Object_Type' in values && values.Object_Type}
-                    </Heading>
-                    <Text className="mb-4">
-                        Geef alvast een titel, een eerste en een tweede eigenaar
-                        op.
-                    </Text>
-                    <FormikInput
-                        name="Title"
-                        label="Titel"
-                        placeholder="Geef een titel op"
-                        required
-                    />
-                    <div className="mt-3">
-                        <FormikSelect
-                            name="Owner_1_UUID"
-                            label="Eerste eigenaar"
-                            placeholder="Kies een eigenaar"
-                            isLoading={isLoading && isFetching}
-                            optimized={false}
-                            options={users?.map(user => ({
-                                label: user.Gebruikersnaam,
-                                value: user.UUID,
-                            }))}
-                            required
-                        />
-                    </div>
-                    <div className="mt-3">
-                        <FormikSelect
-                            name="Owner_2_UUID"
-                            label="Tweede eigenaar"
-                            placeholder="Kies een eigenaar"
-                            isLoading={isLoading && isFetching}
-                            optimized={false}
-                            options={users?.map(user => ({
-                                label: user.Gebruikersnaam,
-                                value: user.UUID,
-                            }))}
-                        />
-                    </div>
-                    <div className="mt-3">
-                        <FormikTextArea
-                            name="Explanation"
-                            label="Toelichting"
-                            placeholder="Vul de toelichting in (dit kan ook later)"
-                            description="Geef aan waarom deze beleidskeuze gaat worden aangepast in deze module"
-                        />
-                    </div>
-                    <div className="mt-3">
-                        <FormikTextArea
-                            name="Conclusion"
-                            label="Conclusie"
-                            placeholder="Vul de conclusie in (dit kan ook later)"
-                            description="Geef aan welke wijzigingen doorgevoerd gaan worden aan deze beleidskeuze"
-                        />
-                    </div>
-                </div>
-            )
-        case 4:
-            return (
-                <div>
-                    <Heading level="2" className="mb-4">
-                        Wat wil je toevoegen?
-                    </Heading>
-                    <Text className="mb-4">
-                        Je wilt een bestaand onderdeel toevoegen aan deze
-                        module. Welk object wil je toevoegen?
-                    </Text>
-                    <DynamicObjectSearch onChange={setExistingObject} />
-                </div>
-            )
-        case 5:
-            return (
-                <div>
-                    <Heading level="2" className="mb-4">
-                        Bestaande {existingObject?.Object_Type}
-                    </Heading>
-                    <Text className="mb-4">
-                        “{existingObject?.Title}” toevoegen aan de module “
-                        {module?.Title}”
-                    </Text>
-                    <FormikSelect
-                        key="Action"
-                        name="Action"
-                        placeholder="Selecteer de actie"
-                        label="Actie"
-                        description="Gaat deze beleidskeuze wijzigen in deze module, of komt hij te vervallen?"
-                        options={[
-                            {
-                                label: 'Wijzigen',
-                                value: 'Edit',
-                            },
-                            {
-                                label: 'Verwijderen',
-                                value: 'Terminate',
-                            },
-                        ]}
-                        required
-                    />
-                    <div className="mt-3">
-                        <FormikTextArea
-                            name="Explanation"
-                            label="Toelichting"
-                            placeholder="Vul de toelichting in (dit kan ook later)"
-                            description="Geef aan waarom deze beleidskeuze gaat worden aangepast in deze module"
-                        />
-                    </div>
-                    <div className="mt-3">
-                        <FormikTextArea
-                            name="Conclusion"
-                            label="Conclusie"
-                            placeholder="Vul de conclusie in (dit kan ook later)"
-                            description="Geef aan welke wijzigingen doorgevoerd gaan worden aan deze beleidskeuze"
-                        />
-                    </div>
-                </div>
-            )
-        default:
-            return <></>
-    }
 }
 
 export default ModuleContentsModal
