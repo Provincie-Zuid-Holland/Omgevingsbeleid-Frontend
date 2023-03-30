@@ -9,7 +9,8 @@ import {
     useModulesModuleIdObjectAmbitieLatestLineageIdGet,
     useModulesModuleIdObjectAmbitieLineageIdPatch,
 } from '@/api/fetchers'
-import { AmbitieStaticPost } from '@/api/fetchers.schemas'
+import { AmbitiePatch, AmbitieStaticPost } from '@/api/fetchers.schemas'
+import { generateDynamicSchema } from '@/validation/dynamicObject'
 
 import { DynamicObject } from './types'
 
@@ -26,7 +27,11 @@ const fetchers = {
     usePostStatic: useAmbitieStaticLineageIdPost,
 }
 
-const ambitie: DynamicObject<typeof fetchers, (keyof AmbitieStaticPost)[]> = {
+const ambitie: DynamicObject<
+    typeof fetchers,
+    keyof AmbitiePatch,
+    (keyof AmbitieStaticPost)[]
+> = {
     defaults: {
         singular: 'ambitie',
         singularCapitalize: 'Ambitie',
@@ -44,12 +49,31 @@ const ambitie: DynamicObject<typeof fetchers, (keyof AmbitieStaticPost)[]> = {
     fetchers,
     dynamicSections: [
         {
-            type: 'description',
+            title: 'Algemene informatie',
             description:
-                'In deze sectie kun je alle tekst met betrekking tot de ambitie kwijt. Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct wat de provincie gaat doen en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',
-            fieldDescription: 'Geef een korte omschrijving van deze ambitie.',
+                'In deze sectie kun je alle tekst met betrekking tot de ambitie kwijt. Een goede omschrijving is kort, krachtig en actief opgeschreven.',
+            fields: [
+                {
+                    name: 'Title',
+                    label: 'Titel',
+                    description:
+                        'Formuleer in enkele woorden de titel van de ambitie.',
+                    type: 'text',
+                    required: true,
+                },
+                {
+                    name: 'Description',
+                    label: 'Omschrijving',
+                    description:
+                        'Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct wat de provincie gaat doen en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',
+                    type: 'textarea',
+                    required: true,
+                },
+            ],
         },
     ],
 }
+
+ambitie.validationSchema = generateDynamicSchema(ambitie.dynamicSections!)
 
 export default ambitie

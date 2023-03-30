@@ -57,9 +57,6 @@ const ObjectPersonModal = ({
             <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={{}}
-                // validationSchema={toFormikValidationSchema(
-                //     modules.SCHEMA_EDIT_EXISTING_OBJECT
-                // )}
                 enableReinitialize>
                 <Form>
                     <Heading level="2" className="mb-4 first-letter:uppercase">
@@ -73,7 +70,6 @@ const ObjectPersonModal = ({
                         isLoading={loadingUsers && isFetching}
                         optimized={false}
                         options={userOptions}
-                        required
                         styles={{
                             menu: base => ({
                                 ...base,

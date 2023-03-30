@@ -9,7 +9,10 @@ import {
     useModulesModuleIdObjectBeleidsdoelLatestLineageIdGet,
     useModulesModuleIdObjectBeleidsdoelLineageIdPatch,
 } from '@/api/fetchers'
-import { BeleidsdoelStaticPatch } from '@/api/fetchers.schemas'
+import {
+    BeleidsdoelPatch,
+    BeleidsdoelStaticPatch,
+} from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 
 import { DynamicObject } from './types'
@@ -29,6 +32,7 @@ const fetchers = {
 
 const beleidsdoel: DynamicObject<
     typeof fetchers,
+    keyof BeleidsdoelPatch,
     (keyof BeleidsdoelStaticPatch)[]
 > = {
     defaults: {
@@ -51,11 +55,27 @@ const beleidsdoel: DynamicObject<
     ],
     dynamicSections: [
         {
-            type: 'description',
+            title: 'Algemene informatie',
             description:
-                'Een beleidsdoel bevindt zich op tactisch niveau, tussen het niveau van de ambities en de beleidskeuzes.',
-            fieldDescription:
-                'Geef een korte omschrijving van dit beleidsdoel.',
+                'In deze sectie kun je alle tekst met betrekking tot het beleidsdoel kwijt. Een goede omschrijving is kort, krachtig en actief opgeschreven.',
+            fields: [
+                {
+                    name: 'Title',
+                    label: 'Titel',
+                    description:
+                        'Formuleer in enkele woorden de titel van de beleidskeuze.',
+                    type: 'text',
+                    required: true,
+                },
+                {
+                    name: 'Description',
+                    label: 'Omschrijving',
+                    description:
+                        'Geef een korte omschrijving van dit beleidsdoel.',
+                    type: 'textarea',
+                    required: true,
+                },
+            ],
         },
     ],
 }

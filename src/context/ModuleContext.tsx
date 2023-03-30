@@ -80,7 +80,7 @@ function ModuleProvider() {
         },
     })
 
-    const useEditModule = (onSucces?: () => void) =>
+    const useEditModule = (onSuccess?: () => void) =>
         useModulesModuleIdPost({
             mutation: {
                 onError: () => {
@@ -94,14 +94,14 @@ function ModuleProvider() {
                         queryClient.invalidateQueries(getModulesGetQueryKey(), {
                             refetchType: 'all',
                         }),
-                    ]).then(onSucces)
+                    ]).then(onSuccess)
 
                     toastNotification({ type: 'saved' })
                 },
             },
         })
 
-    const useCloseModule = (onSucces?: () => void) =>
+    const useCloseModule = (onSuccess?: () => void) =>
         useModulesModuleIdClosePost({
             mutation: {
                 onError: () => {
@@ -112,14 +112,14 @@ function ModuleProvider() {
                         .invalidateQueries(getModulesGetQueryKey(), {
                             refetchType: 'all',
                         })
-                        .then(onSucces)
+                        .then(onSuccess)
 
                     toastNotification({ type: 'saved' })
                 },
             },
         })
 
-    const useRemoveObjectFromModule = (onSucces?: () => void) =>
+    const useRemoveObjectFromModule = (onSuccess?: () => void) =>
         useModulesModuleIdRemoveObjectTypeLineageIdDelete({
             mutation: {
                 onError: () => {
@@ -130,7 +130,7 @@ function ModuleProvider() {
                         .invalidateQueries(
                             getModulesModuleIdGetQueryKey(parseInt(moduleId!))
                         )
-                        .then(onSucces)
+                        .then(onSuccess)
 
                     toastNotification({ type: 'saved' })
                 },

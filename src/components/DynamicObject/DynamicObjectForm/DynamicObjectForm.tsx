@@ -1,6 +1,6 @@
-import { Divider } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikProps } from 'formik'
+import { useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
@@ -10,7 +10,7 @@ import ScrollToFieldError from '@/components/ScrollToFieldError'
 import { Model } from '@/config/objects/types'
 import { toastNotification } from '@/utils/toastNotification'
 
-import { SectionBasicInfo, SectionDescription } from './ObjectSections'
+import DynamicSection from './DynamicSection'
 
 interface DynamicObjectFormProps {
     model: Model
@@ -48,6 +48,23 @@ const DynamicObjectForm = ({ model }: DynamicObjectFormProps) => {
     })
 
     /**
+     * Format initialData based on object fields
+     */
+    const initialData = useMemo(() => {
+        const fields = model.dynamicSections.flatMap(section =>
+            section.fields.map(field => field.name)
+        )
+
+        const objectData = {} as { [key in typeof fields[number]]: unknown }
+
+        fields?.forEach(field => {
+            objectData[field] = data?.[field as keyof typeof data]
+        })
+
+        return objectData
+    }, [data, model.dynamicSections])
+
+    /**
      * Handle submit of form
      */
     const handleSubmit = (payload: typeof data) => {
@@ -65,7 +82,7 @@ const DynamicObjectForm = ({ model }: DynamicObjectFormProps) => {
     return (
         <div>
             <Formik
-                initialValues={data || {}}
+                initialValues={initialData}
                 validationSchema={
                     model.validationSchema &&
                     toFormikValidationSchema(model.validationSchema)
@@ -103,27 +120,13 @@ const ObjectForm = <T,>({
     return (
         <Form>
             <div className="grid grid-cols-6 gap-x-10 gap-y-0">
-                <SectionBasicInfo model={model} />
-                <div className="col-span-6">
-                    <Divider className="my-8" />
-                </div>
-                {sections?.map((section, index) => {
-                    switch (section.type) {
-                        case 'description':
-                            return (
-                                <SectionWrapper
-                                    key={`section-${index}`}
-                                    isLast={index + 1 === sections.length}>
-                                    <SectionDescription
-                                        model={model}
-                                        section={section}
-                                    />
-                                </SectionWrapper>
-                            )
-                        default:
-                            break
-                    }
-                })}
+                {sections?.map((section, index) => (
+                    <DynamicSection
+                        key={`section-${index}`}
+                        isLast={index + 1 === sections.length}
+                        {...section}
+                    />
+                ))}
             </div>
 
             <ButtonSubmitFixed
@@ -136,21 +139,5 @@ const ObjectForm = <T,>({
         </Form>
     )
 }
-
-interface SectionWrapperProps {
-    isLast: boolean
-    children: JSX.Element
-}
-
-const SectionWrapper = ({ children, isLast }: SectionWrapperProps) => (
-    <>
-        {children}
-        {!isLast && (
-            <div className="col-span-6">
-                <Divider className="my-8" />
-            </div>
-        )}
-    </>
-)
 
 export default DynamicObjectForm

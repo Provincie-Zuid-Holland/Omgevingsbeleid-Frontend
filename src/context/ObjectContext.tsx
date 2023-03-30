@@ -67,14 +67,14 @@ function ObjectProvider({
         return latest
     }, [moduleId, objectId, latestInModule, latest])
 
-    const usePostObjectStatic = (onSucces?: () => void) =>
+    const usePostObjectStatic = (onSuccess?: () => void) =>
         usePostStatic({
             mutation: {
                 onError: () => {
                     toastNotification({ type: 'standard error' })
                 },
                 onSuccess: () => {
-                    queryClient.invalidateQueries(data.queryKey).then(onSucces)
+                    queryClient.invalidateQueries(data.queryKey).then(onSuccess)
 
                     toastNotification({ type: 'saved' })
                 },
