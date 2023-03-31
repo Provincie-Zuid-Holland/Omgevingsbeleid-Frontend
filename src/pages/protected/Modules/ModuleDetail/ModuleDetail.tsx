@@ -19,11 +19,11 @@ import ModuleLock from '@/components/Modules/ModuleLock'
 import {
     ModuleActivateModal,
     ModuleContentsModal,
-} from '@/components/Modules/ModuleModals'
-import ModuleEditObjectModal from '@/components/Modules/ModuleModals/ModuleEditObjectModal'
-import ModuleLockModal from '@/components/Modules/ModuleModals/ModuleLockModal'
-import ModuleObjectDeleteConfirmationModal from '@/components/Modules/ModuleModals/ModuleObjectDeleteConfirmationModal'
-import { ModuleModalActions } from '@/components/Modules/ModuleModals/types'
+} from '@/components/Modals/ModuleModals'
+import ModuleEditObjectModal from '@/components/Modals/ModuleModals/ModuleEditObjectModal'
+import ModuleLockModal from '@/components/Modals/ModuleModals/ModuleLockModal'
+import ModuleObjectDeleteConfirmationModal from '@/components/Modals/ModuleModals/ModuleObjectDeleteConfirmationModal'
+import { ModuleModalActions } from '@/components/Modals/ModuleModals/types'
 import ModuleTimeline from '@/components/Modules/ModuleTimeline'
 import ModuleVersionCard from '@/components/Modules/ModuleVersionCard'
 import useModule from '@/hooks/useModule'

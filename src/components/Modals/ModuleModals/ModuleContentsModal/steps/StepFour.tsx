@@ -21,6 +21,15 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => (
                     value: existingObject?.UUID,
                 }
             }
+            styles={{
+                menu: base => ({
+                    ...base,
+                    position: 'relative',
+                    zIndex: 9999,
+                    marginTop: 0,
+                    boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                }),
+            }}
         />
     </div>
 )

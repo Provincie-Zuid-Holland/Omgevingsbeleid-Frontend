@@ -81,7 +81,7 @@ const beleidsdoel: DynamicObject<
 }
 
 beleidsdoel.validationSchema = generateDynamicSchema(
-    beleidsdoel.dynamicSections!
+    beleidsdoel.dynamicSections
 )
 
 export default beleidsdoel

@@ -37,9 +37,7 @@ function ProtectedRoute({
         localStorage.removeItem(
             process.env.REACT_APP_KEY_API_ACCESS_TOKEN || ''
         )
-        toastNotification({
-            type: 'notLoggedIn',
-        })
+        toastNotification('unauthorized')
 
         // Redirect them to the /login page, but save the current location they were
         // trying to go to when they were redirected. This allows us to send them
@@ -49,9 +47,7 @@ function ProtectedRoute({
     }
 
     if (!hasAccess && redirectTo) {
-        toastNotification({
-            type: 'notAllowed',
-        })
+        toastNotification('notAllowed')
 
         return <Navigate to={redirectTo} state={{ from: location }} replace />
     }

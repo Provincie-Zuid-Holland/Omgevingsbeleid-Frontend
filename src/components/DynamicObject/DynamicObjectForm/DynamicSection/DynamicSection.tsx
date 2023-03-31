@@ -10,7 +10,8 @@ const DynamicSection = ({
     description,
     fields,
     isLast,
-}: DynamicSectionProps & { isLast?: boolean }) => {
+    isLocked,
+}: DynamicSectionProps & { isLast?: boolean; isLocked?: boolean }) => {
     const { isMobile } = useBreakpoint()
 
     return (
@@ -29,6 +30,7 @@ const DynamicSection = ({
                     <DynamicField
                         key={`field-${field.type}-${index}`}
                         isFirst={index === 0}
+                        isLocked={isLocked}
                         {...field}
                     />
                 ))}

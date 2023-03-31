@@ -16,6 +16,7 @@ import {
     ModuleOverview,
     ResponseOK,
 } from '@/api/fetchers.schemas'
+import { ToastType } from '@/config/notifications'
 import useAuth from '@/hooks/useAuth'
 import { toastNotification } from '@/utils/toastNotification'
 
@@ -25,7 +26,10 @@ interface ModuleContextType {
     /** Is module data loading */
     isLoading: boolean
     /** Can be used to edit the module */
-    useEditModule: (onSucces?: () => void) => UseMutationResult<
+    useEditModule: (
+        toastType?: ToastType,
+        onSucces?: () => void
+    ) => UseMutationResult<
         ResponseOK,
         HTTPValidationError,
         {
@@ -72,19 +76,20 @@ function ModuleProvider() {
         query: {
             enabled: !!moduleId,
             onError: () => {
-                toastNotification({
-                    type: 'notAllowed',
-                })
+                toastNotification('notAllowed')
                 navigate('/muteer')
             },
         },
     })
 
-    const useEditModule = (onSuccess?: () => void) =>
+    const useEditModule = (
+        toastType = 'moduleEdit' as ToastType,
+        onSuccess?: () => void
+    ) =>
         useModulesModuleIdPost({
             mutation: {
                 onError: () => {
-                    toastNotification({ type: 'standard error' })
+                    toastNotification('error')
                 },
                 onSuccess: () => {
                     Promise.all([
@@ -96,7 +101,7 @@ function ModuleProvider() {
                         }),
                     ]).then(onSuccess)
 
-                    toastNotification({ type: 'saved' })
+                    toastNotification(toastType)
                 },
             },
         })
@@ -105,7 +110,7 @@ function ModuleProvider() {
         useModulesModuleIdClosePost({
             mutation: {
                 onError: () => {
-                    toastNotification({ type: 'standard error' })
+                    toastNotification('error')
                 },
                 onSuccess: () => {
                     queryClient
@@ -114,7 +119,7 @@ function ModuleProvider() {
                         })
                         .then(onSuccess)
 
-                    toastNotification({ type: 'saved' })
+                    toastNotification('moduleClosed')
                 },
             },
         })
@@ -123,7 +128,7 @@ function ModuleProvider() {
         useModulesModuleIdRemoveObjectTypeLineageIdDelete({
             mutation: {
                 onError: () => {
-                    toastNotification({ type: 'standard error' })
+                    toastNotification('error')
                 },
                 onSuccess: () => {
                     queryClient
@@ -132,7 +137,7 @@ function ModuleProvider() {
                         )
                         .then(onSuccess)
 
-                    toastNotification({ type: 'saved' })
+                    toastNotification('objectRemoved')
                 },
             },
         })

@@ -2158,14 +2158,14 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
   integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
 
-"@pzh-ui/components@^0.0.255":
-  version "0.0.255"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.255.tgz#fc770c8f97fc8ee2f84e7bca3dd9080aa1c4cfae"
-  integrity sha512-SPntDk+bNM8O5i95B4ZtY4Cy3gZGnz+AUAhlq992nyAOq647/Gjeji8s6j3rVKPM1c5Bv3wo5gE2RFDQUv8pmw==
+"@pzh-ui/components@^0.0.262":
+  version "0.0.262"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.262.tgz#2e83c28abf3b6cf4c2f142a9eda92923d52de123"
+  integrity sha512-+J53nhGocUnYJw+zziGrCXuAIkG6ocx/iRFSSfgYOUTS0u7Hij9DlEQ6qiISNgghcLGKkFj5vDGUl1MfX4kfqw==
   dependencies:
     "@floating-ui/react-dom-interactions" "^0.3.1"
     "@headlessui/react" "^1.5.0"
-    "@pzh-ui/icons" "^0.0.20"
+    "@pzh-ui/icons" "^0.0.21"
     "@tiptap/extension-image" "^2.0.0-beta.220"
     "@tiptap/extension-placeholder" "^2.0.0-beta.220"
     "@tiptap/extension-underline" "^2.0.0-beta.220"
@@ -2188,6 +2188,7 @@
     react-select "^5.2.2"
     react-stately "^3.18.0"
     react-table "^7.7.0"
+    react-toastify "^9.1.2"
     react-use "^17.3.2"
 
 "@pzh-ui/config@^0.0.34":
@@ -2213,10 +2214,10 @@
     eslint-plugin-react-hooks "^4.3.0"
     prettier "^2.5.1"
 
-"@pzh-ui/css@^0.0.57":
-  version "0.0.57"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/css/-/css-0.0.57.tgz#49c9e422ccd56817342dde90b36045ee611d8f84"
-  integrity sha512-Mxre+QPRSvQJi6jb1WcmKkh+JA9EhhdxpogNg28R1BqZfO1tOLGqdO2hxL5/wJb/66JJuQXkRsXE2RV6HcyZxA==
+"@pzh-ui/css@^0.0.58":
+  version "0.0.58"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/css/-/css-0.0.58.tgz#f35f4cac92eaf218adbc5ffec6256d7781bee36f"
+  integrity sha512-h4Cg8xylrtWFFIdlhKHVdYBLpIm+dShfncP54NpnuWiZkjdN7LW9XRCPxX+69No142Ni7OMjHLzpA7KCyQURpg==
   dependencies:
     "@rollup/plugin-typescript" "^8.3.1"
     "@tailwindcss/custom-forms" "^0.2.1"
@@ -2224,13 +2225,15 @@
     "@tailwindcss/line-clamp" "^0.3.1"
     "@tailwindcss/typography" "^0.5.9"
     react-datepicker "^4.7.0"
+    react-toastify "^9.1.2"
 
-"@pzh-ui/icons@^0.0.20":
-  version "0.0.20"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/icons/-/icons-0.0.20.tgz#d70a39b946a6b2e0ccb47fbbf9775a2842390fba"
-  integrity sha512-XrC2CZDNiwJy/jZHcgO4M4R+nEDnNkbdc2OcRTenbykOdkeyd3dQmwCsfOcsZeCDyrn6LsHMR4POmnyEFkL6zA==
+"@pzh-ui/icons@^0.0.21":
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/icons/-/icons-0.0.21.tgz#2892dd8ec7798abe3991f361f5de262d3395615e"
+  integrity sha512-jIRxNnRsg0y/T6zD2b3bxFI5gNlo8dGODOvRUqas62bMHYD9pdYOb3hZSPL4ZNMx6KWSC3MY39HdxfuHd1izRA==
   dependencies:
     react "^18.0.0"
+    react-toastify "^9.1.2"
 
 "@react-aria/breadcrumbs@^3.5.0":
   version "3.5.0"
@@ -13457,10 +13460,10 @@ react-table@^7.7.0:
   resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.8.0.tgz#07858c01c1718c09f7f1aed7034fcfd7bda907d2"
   integrity sha512-hNaz4ygkZO4bESeFfnfOft73iBUj8K5oKi1EcSHPAibEydfsX2MyU6Z8KCr3mv3C9Kqqh71U+DhZkFvibbnPbA==
 
-react-toastify@^7.0.4:
-  version "7.0.4"
-  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-7.0.4.tgz#7d0b743f2b96f65754264ca6eae31911a82378db"
-  integrity sha512-Rol7+Cn39hZp5hQ/k6CbMNE2CKYV9E5OQdC/hBLtIQU2xz7DdAm7xil4NITQTHR6zEbE5RVFbpgSwTD7xRGLeQ==
+react-toastify@^9.1.2:
+  version "9.1.2"
+  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-9.1.2.tgz#293aa1f952240129fe485ae5cb2f8d09c652cf3f"
+  integrity sha512-PBfzXO5jMGEtdYR5jxrORlNZZe/EuOkwvwKijMatsZZm8IZwLj01YvobeJYNjFcA6uy6CVrx2fzL9GWbhWPTDA==
   dependencies:
     clsx "^1.1.1"
 

@@ -44,7 +44,7 @@ const DynamicObjectSearch = ({
                         label: (
                             <div className="flex justify-between">
                                 <span>{object.Title}</span>
-                                <span className="capitalize text-pzh-gray-400">
+                                <span className="capitalize opacity-50">
                                     {object.Object_Type}
                                 </span>
                             </div>

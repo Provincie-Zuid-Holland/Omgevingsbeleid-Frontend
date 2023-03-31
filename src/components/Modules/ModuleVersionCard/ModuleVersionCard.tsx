@@ -28,7 +28,7 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
     const createVersion = useModulesModuleIdStatusPatch({
         mutation: {
             onError: () => {
-                toastNotification({ type: 'standard error' })
+                toastNotification('error')
             },
             onSuccess: () => {
                 queryClient.invalidateQueries(
@@ -38,7 +38,7 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
                     refetchType: 'all',
                 })
 
-                toastNotification({ type: 'saved' })
+                toastNotification('saved')
             },
         },
     })

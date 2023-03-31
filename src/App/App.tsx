@@ -1,11 +1,10 @@
 import './appConfig'
 
-import { DNABar, Feedback } from '@pzh-ui/components'
+import { DNABar, Feedback, ToastContainer } from '@pzh-ui/components'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet'
-import { ToastContainer } from 'react-toastify'
 import { useEffectOnce } from 'react-use'
 
 import axe from '@/a11y'
@@ -78,7 +77,7 @@ const App = () => {
                                 <AppRoutes />
                             </Suspense>
                         </ErrorBoundary>
-                        <ToastContainer limit={1} position="bottom-left" />
+                        <ToastContainer position="bottom-left" />
                         {!isAdvancedSearchPage && !userIsInMuteerEnvironment && (
                             <>
                                 <DNABar blocks={6} />

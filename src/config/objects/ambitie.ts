@@ -74,6 +74,6 @@ const ambitie: DynamicObject<
     ],
 }
 
-ambitie.validationSchema = generateDynamicSchema(ambitie.dynamicSections!)
+ambitie.validationSchema = generateDynamicSchema(ambitie.dynamicSections)
 
 export default ambitie

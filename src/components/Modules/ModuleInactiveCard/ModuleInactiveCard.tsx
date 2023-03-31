@@ -1,6 +1,6 @@
 import { Button, Text } from '@pzh-ui/components'
 
-import { ModuleModalActions } from '../ModuleModals/types'
+import { ModuleModalActions } from '../../Modals/ModuleModals/types'
 
 interface ModuleInactiveCardProps {
     /** Set module modal state */

@@ -192,6 +192,11 @@ const AppRoutes = () => {
                                 ...Object.keys(models).map(model => ({
                                     path: models[model as ModelType].defaults
                                         .singular,
+                                    element: (
+                                        <ObjectProvider
+                                            model={models[model as ModelType]}
+                                        />
+                                    ),
                                     children: [
                                         {
                                             path: ':objectId',
@@ -199,20 +204,13 @@ const AppRoutes = () => {
                                                 {
                                                     index: true,
                                                     element: (
-                                                        <ObjectProvider
+                                                        <ObjectDetail
                                                             model={
                                                                 models[
                                                                     model as ModelType
                                                                 ]
-                                                            }>
-                                                            <ObjectDetail
-                                                                model={
-                                                                    models[
-                                                                        model as ModelType
-                                                                    ]
-                                                                }
-                                                            />
-                                                        </ObjectProvider>
+                                                            }
+                                                        />
                                                     ),
                                                 },
                                                 {

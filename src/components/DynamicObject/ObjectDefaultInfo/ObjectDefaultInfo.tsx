@@ -6,8 +6,8 @@ import { Model, ModelPatchStaticType } from '@/config/objects/types'
 import useBreakpoint from '@/hooks/useBreakpoint'
 import getStaticDataLabel from '@/utils/getStaticDataLabel'
 
-import ObjectPersonModal from '../ObjectModals/ObjectPersonModal'
-import { ObjectPersonModalActions } from '../ObjectModals/types'
+import ObjectPersonModal from '../../Modals/ObjectModals/ObjectPersonModal'
+import { ObjectPersonModalActions } from '../../Modals/ObjectModals/types'
 
 interface ObjectDefaultInfoProps {
     model: Model

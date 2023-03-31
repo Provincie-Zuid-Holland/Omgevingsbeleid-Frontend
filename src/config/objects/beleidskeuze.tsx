@@ -113,11 +113,38 @@ const beleidskeuze: DynamicObject<
                 },
             ],
         },
+        {
+            title: 'Werkingsgebied',
+            description:
+                'Het werkingsgebied geeft het gebied weer waar de beleidskeuze betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld, toegestaan of juist verboden.',
+            fields: [
+                {
+                    name: 'Gebied_UUID',
+                    label: 'Selecteer werkingsgebied',
+                    description: (
+                        <>
+                            Selecteer het werkingsgebied wat bij deze
+                            beleidskeuze van toepassing is. Heeft jouw
+                            beleidskeuze nog geen geschikt werkingsgebied, of
+                            moet het huidige gebied aangepast worden? Neem dan
+                            contact op via{' '}
+                            <a
+                                href="mailto:omgevingsbeleid@pzh.nl"
+                                className="underline">
+                                omgevingsbeleid@pzh.nl
+                            </a>
+                            .
+                        </>
+                    ),
+                    type: 'area',
+                },
+            ],
+        },
     ],
 }
 
 beleidskeuze.validationSchema = generateDynamicSchema(
-    beleidskeuze.dynamicSections!
+    beleidskeuze.dynamicSections
 )
 
 export default beleidskeuze

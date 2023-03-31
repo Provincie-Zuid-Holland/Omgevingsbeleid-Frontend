@@ -94,7 +94,7 @@ const ModuleContentsModal = ({
     const addNewObjectToModule = useModulesModuleIdAddNewObjectPost({
         mutation: {
             onError: () => {
-                toastNotification({ type: 'standard error' })
+                toastNotification('error')
             },
             onSuccess: () => {
                 queryClient
@@ -103,7 +103,7 @@ const ModuleContentsModal = ({
                     )
                     .then(handleClose)
 
-                toastNotification({ type: 'saved' })
+                toastNotification('saved')
             },
         },
     })
@@ -114,7 +114,7 @@ const ModuleContentsModal = ({
     const addExistingObjectToModule = useModulesModuleIdAddExistingObjectPost({
         mutation: {
             onError: () => {
-                toastNotification({ type: 'standard error' })
+                toastNotification('error')
             },
             onSuccess: () => {
                 queryClient
@@ -123,7 +123,7 @@ const ModuleContentsModal = ({
                     )
                     .then(handleClose)
 
-                toastNotification({ type: 'saved' })
+                toastNotification('saved')
             },
         },
     })

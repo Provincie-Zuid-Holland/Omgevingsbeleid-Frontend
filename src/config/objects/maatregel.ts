@@ -108,6 +108,6 @@ const maatregel: DynamicObject<
     ],
 }
 
-maatregel.validationSchema = generateDynamicSchema(maatregel.dynamicSections!)
+maatregel.validationSchema = generateDynamicSchema(maatregel.dynamicSections)
 
 export default maatregel

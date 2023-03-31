@@ -23,7 +23,7 @@ const ModuleActivateModal = ({ isOpen, onClose }: ModuleActivateModalProps) => {
     const { mutate, isLoading } = useModulesModuleIdActivatePost({
         mutation: {
             onError: () => {
-                toastNotification({ type: 'standard error' })
+                toastNotification('moduleActivate')
             },
             onSuccess: () => {
                 queryClient
@@ -32,7 +32,7 @@ const ModuleActivateModal = ({ isOpen, onClose }: ModuleActivateModalProps) => {
                     )
                     .then(() => onClose())
 
-                toastNotification({ type: 'saved' })
+                toastNotification('saved')
             },
         },
     })

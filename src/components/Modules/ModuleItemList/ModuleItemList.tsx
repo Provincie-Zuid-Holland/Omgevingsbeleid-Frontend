@@ -9,7 +9,7 @@ import useAuth from '@/hooks/useAuth'
 import usePermissions from '@/hooks/usePermissions'
 
 import ModuleItem from '../ModuleItem'
-import { ModuleModalActions } from '../ModuleModals/types'
+import { ModuleModalActions } from '../../Modals/ModuleModals/types'
 
 interface ModuleItemListProps {
     /** Array of objects */

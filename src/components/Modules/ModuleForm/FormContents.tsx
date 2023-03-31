@@ -9,8 +9,8 @@ import useModule from '@/hooks/useModule'
 import * as modules from '@/validation/modules'
 
 import DynamicObjectSearch from '../../DynamicObject/DynamicObjectSearch'
-import ModuleContentsModal from '../ModuleModals/ModuleContentsModal'
-import { ContentsModalForm } from '../ModuleModals/ModuleContentsModal/ModuleContentsModal'
+import ModuleContentsModal from '../../Modals/ModuleModals/ModuleContentsModal'
+import { ContentsModalForm } from '../../Modals/ModuleModals/ModuleContentsModal/ModuleContentsModal'
 import ModulePart from '../ModulePart'
 
 interface ModalProps {

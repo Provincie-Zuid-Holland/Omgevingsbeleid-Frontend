@@ -5,18 +5,32 @@ import {
     useQueryClient,
 } from '@tanstack/react-query'
 import { createContext, ReactNode, useMemo } from 'react'
-import { useParams } from 'react-router-dom'
+import { Outlet, useParams } from 'react-router-dom'
 
 import { HTTPValidationError, ResponseOK } from '@/api/fetchers.schemas'
 import {
     Model,
     ModelPatchStaticType,
+    ModelPatchType,
     ModelReturnType,
 } from '@/config/objects/types'
 import { toastNotification } from '@/utils/toastNotification'
 
 interface ObjectContextType extends QueryObserverBaseResult<ModelReturnType> {
     queryKey: QueryKey
+    usePatchObject: (onSuccess?: () => void) => UseMutationResult<
+        {
+            Object_ID?: number
+            UUID?: string
+        },
+        HTTPValidationError,
+        {
+            moduleId: number
+            lineageId: number
+            data: ModelPatchType
+        },
+        unknown
+    >
     usePostObjectStatic: (onSucces?: () => void) => UseMutationResult<
         ResponseOK,
         HTTPValidationError,
@@ -35,14 +49,18 @@ function ObjectProvider({
     children,
 }: {
     model: Model
-    children: ReactNode
+    children?: ReactNode
 }) {
     const queryClient = useQueryClient()
 
     const { moduleId, objectId } = useParams()
 
-    const { useGetLatestLineage, useGetLatestLineageInModule, usePostStatic } =
-        model.fetchers
+    const {
+        useGetLatestLineage,
+        useGetLatestLineageInModule,
+        usePatchObjectInModule,
+        usePostStatic,
+    } = model.fetchers
 
     const latestInModule = useGetLatestLineageInModule<ModelReturnType>(
         parseInt(moduleId!),
@@ -67,28 +85,43 @@ function ObjectProvider({
         return latest
     }, [moduleId, objectId, latestInModule, latest])
 
-    const usePostObjectStatic = (onSuccess?: () => void) =>
-        usePostStatic({
+    const usePatchObject = (onSuccess?: () => void) =>
+        usePatchObjectInModule({
             mutation: {
                 onError: () => {
-                    toastNotification({ type: 'standard error' })
+                    toastNotification('error')
                 },
                 onSuccess: () => {
                     queryClient.invalidateQueries(data.queryKey).then(onSuccess)
 
-                    toastNotification({ type: 'saved' })
+                    toastNotification('saved')
+                },
+            },
+        })
+
+    const usePostObjectStatic = (onSuccess?: () => void) =>
+        usePostStatic({
+            mutation: {
+                onError: () => {
+                    toastNotification('error')
+                },
+                onSuccess: () => {
+                    queryClient.invalidateQueries(data.queryKey).then(onSuccess)
+
+                    toastNotification('saved')
                 },
             },
         })
 
     const value = {
         ...data,
+        usePatchObject,
         usePostObjectStatic,
     }
 
     return (
         <ObjectContext.Provider value={value}>
-            {children}
+            {children || <Outlet />}
         </ObjectContext.Provider>
     )
 }

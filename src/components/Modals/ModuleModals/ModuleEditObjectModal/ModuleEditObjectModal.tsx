@@ -60,7 +60,7 @@ const ModuleEditObjectModal = ({
         useModulesModuleIdObjectContextObjectTypeLineageIdPost({
             mutation: {
                 onError: () => {
-                    toastNotification({ type: 'standard error' })
+                    toastNotification('error')
                 },
                 onSuccess: () => {
                     queryClient
@@ -72,7 +72,7 @@ const ModuleEditObjectModal = ({
                             )
                         )
                         .then(() => onClose()),
-                        toastNotification({ type: 'saved' })
+                        toastNotification('saved')
                 },
             },
         })

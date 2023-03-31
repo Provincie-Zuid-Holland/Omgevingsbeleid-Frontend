@@ -2,12 +2,16 @@ import { Schema } from 'zod'
 
 import {
     AmbitieGet,
+    AmbitiePatch,
     AmbitieStaticPost,
     BeleidsdoelGet,
+    BeleidsdoelPatch,
     BeleidsdoelStaticPatch,
     BeleidskeuzeGet,
+    BeleidskeuzePatch,
     BeleidskeuzeStaticPatch,
     MaatregelGet,
+    MaatregelPatch,
     MaatregelStaticPatch,
 } from '@/api/fetchers.schemas'
 
@@ -80,22 +84,27 @@ export type DynamicField<FieldType = any> = {
     /** Label of field */
     label: string
     /** Description of field (optional) */
-    description?: string
+    description?: string | JSX.Element
     /** Placeholder of field (optional) */
     placeholder?: string
     /** Type of field */
-    type: 'text' | 'textarea' | 'wysiwyg' | 'select'
+    type: 'text' | 'textarea' | 'wysiwyg' | 'select' | 'area'
     /** Is field required (optional) */
     required?: boolean
 } & (
     | { type: 'select'; options: { label: string; value: string }[] }
-    | { type: Exclude<'text' | 'textarea' | 'wysiwyg', 'select'> }
+    | { type: Exclude<'text' | 'textarea' | 'wysiwyg' | 'area', 'select'> }
 )
 
 export type ModelReturnType = BeleidsdoelGet &
     AmbitieGet &
     BeleidskeuzeGet &
     MaatregelGet
+
+export type ModelPatchType = BeleidsdoelPatch &
+    AmbitiePatch &
+    BeleidskeuzePatch &
+    MaatregelPatch
 
 export type ModelPatchStaticType = BeleidsdoelStaticPatch &
     AmbitieStaticPost &

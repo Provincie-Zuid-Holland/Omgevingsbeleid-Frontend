@@ -117,10 +117,10 @@ export type AmbitiesValidGetParams = {
 
 export interface Werkingsgebied {
     ID: number
-    Werkingsgebied_UUID: string
+    UUID: string
     Created_Date: string
     Modified_Date: string
-    Werkingsgebied: string
+    Title: string
 }
 
 export type ValidationErrorLocItem = string | number
@@ -337,6 +337,10 @@ export interface Module {
     Start_Validity?: string | null
     End_Validity?: string | null
     Status?: ModuleStatus
+    Created_By?: UserShort
+    Modified_By?: UserShort
+    Module_Manager_1?: UserShort
+    Module_Manager_2?: UserShort
 }
 
 export interface MaatregelUUID {
@@ -523,6 +527,10 @@ export interface BeleidskeuzePatch {
     Tags?: string | null
     /** description is not yet inherited */
     Weblink?: string | null
+    /** description is not yet inherited */
+    Gebied_Duiding?: string | null
+    /** description is not yet inherited */
+    Gebied_UUID?: string | null
 }
 
 export interface BeleidskeuzeGet {
@@ -556,14 +564,12 @@ export interface BeleidskeuzeGet {
     Tags?: string
     /** description is not yet inherited */
     Weblink?: string
+    /** description is not yet inherited */
+    Gebied_Duiding?: string
     Created_By?: UserShort
     Modified_By?: UserShort
-    Owner_1?: UserShort
-    Owner_2?: UserShort
-    Portfolio_Holder_1?: UserShort
-    Portfolio_Holder_2?: UserShort
-    Client_1?: UserShort
     Beleidsdoelen?: RelationShortBeleidsdoelShort[]
+    Gebied?: Werkingsgebied
 }
 
 export interface BeleidskeuzeBasic {
@@ -597,6 +603,8 @@ export interface BeleidskeuzeBasic {
     Tags?: string
     /** description is not yet inherited */
     Weblink?: string
+    /** description is not yet inherited */
+    Gebied_Duiding?: string
     Created_By?: UserShort
     Modified_By?: UserShort
 }

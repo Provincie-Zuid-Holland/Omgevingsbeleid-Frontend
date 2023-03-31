@@ -7,8 +7,8 @@ import { Model, ModelReturnType } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import getPropertyByName from '@/utils/getPropertyByName'
 
-import ObjectConnectionModal from '../ObjectModals/ObjectConnectionModal'
-import { ObjectConnectionModalActions } from '../ObjectModals/types'
+import ObjectConnectionModal from '../../Modals/ObjectModals/ObjectConnectionModal'
+import { ObjectConnectionModalActions } from '../../Modals/ObjectModals/types'
 import ObjectRelationPart from '../ObjectRelationPart'
 
 interface ObjectRelationsProps {

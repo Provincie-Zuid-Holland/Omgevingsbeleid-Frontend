@@ -66,7 +66,7 @@ const ObjectConnectionModal = ({
     const putRelations = usePutRelations({
         mutation: {
             onError: () => {
-                toastNotification({ type: 'standard error' })
+                toastNotification('error')
             },
             onSuccess: () => {
                 Promise.all([
@@ -74,7 +74,7 @@ const ObjectConnectionModal = ({
                     queryClient.invalidateQueries(objectQueryKey),
                 ])
 
-                toastNotification({ type: 'saved' })
+                toastNotification('saved')
             },
         },
     })

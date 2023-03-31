@@ -59,6 +59,7 @@ import type {
     MaatregelUUID,
     MaatregelPatch,
     UserShort,
+    Werkingsgebied,
     SearchResponse,
     SearchGetParams,
     Module,
@@ -3340,6 +3341,56 @@ export const useUsersGet = <
     const query = useQuery<Awaited<ReturnType<typeof usersGet>>, TError, TData>(
         { queryKey, queryFn, ...queryOptions }
     ) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary List the werkingsgebieden
+ */
+export const werkingsgebiedenGet = (signal?: AbortSignal) => {
+    return customInstance<Werkingsgebied[]>({
+        url: `/werkingsgebieden`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getWerkingsgebiedenGetQueryKey = () => [`/werkingsgebieden`]
+
+export type WerkingsgebiedenGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof werkingsgebiedenGet>>
+>
+export type WerkingsgebiedenGetQueryError = unknown
+
+export const useWerkingsgebiedenGet = <
+    TData = Awaited<ReturnType<typeof werkingsgebiedenGet>>,
+    TError = unknown
+>(options?: {
+    query?: UseQueryOptions<
+        Awaited<ReturnType<typeof werkingsgebiedenGet>>,
+        TError,
+        TData
+    >
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey = queryOptions?.queryKey ?? getWerkingsgebiedenGetQueryKey()
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof werkingsgebiedenGet>>
+    > = ({ signal }) => werkingsgebiedenGet(signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof werkingsgebiedenGet>>,
+        TError,
+        TData
+    >({ queryKey, queryFn, ...queryOptions }) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: QueryKey }
 
     query.queryKey = queryKey
 

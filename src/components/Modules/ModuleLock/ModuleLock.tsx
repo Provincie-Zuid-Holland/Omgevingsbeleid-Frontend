@@ -6,7 +6,7 @@ import ToggleSwitch from '@/components/ToggleSwitch'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
 
-import { ModuleModalActions } from '../ModuleModals/types'
+import { ModuleModalActions } from '../../Modals/ModuleModals/types'
 
 interface ModuleLockProps {
     /** Set module modal state */
@@ -18,18 +18,10 @@ const ModuleLock = ({ setModuleModal }: ModuleLockProps) => {
     const { canEditModule } = usePermissions()
 
     const { useEditModule, isModuleManager, isLocked } = useModule()
-    const { mutate } = useEditModule()
+    const { mutate } = useEditModule('moduleUnlocked')
 
     if (!canEditModule && !isModuleManager && isLocked) {
-        return (
-            <>
-                <Divider className="mt-3" />
-                <Notification variant="alert" className="mt-6">
-                    De module is op dit moment gelockt, er kunnen geen
-                    wijzigingen worden aangebracht.
-                </Notification>
-            </>
-        )
+        return <LockedNotification />
     }
 
     return (
@@ -64,5 +56,19 @@ const ModuleLock = ({ setModuleModal }: ModuleLockProps) => {
         </div>
     )
 }
+
+interface LockedNotificationProps {
+    isDetail?: boolean
+}
+
+export const LockedNotification = ({ isDetail }: LockedNotificationProps) => (
+    <>
+        {!isDetail && <Divider className="mt-3" />}
+        <Notification variant="alert" className={!isDetail ? 'mt-6' : ''}>
+            De module is op dit moment gelockt, er kunnen geen wijzigingen
+            worden aangebracht.
+        </Notification>
+    </>
+)
 
 export default ModuleLock

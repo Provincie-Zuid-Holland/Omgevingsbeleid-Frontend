@@ -20,7 +20,7 @@ const ModuleCreate = () => {
     const { mutate, isLoading } = useModulesPost({
         mutation: {
             onError: () => {
-                toastNotification({ type: 'standard error' })
+                toastNotification('error')
             },
             onSuccess: res => {
                 queryClient
@@ -29,7 +29,7 @@ const ModuleCreate = () => {
                     })
                     .then(() => navigate(`/muteer/modules/${res.Module_ID}`))
 
-                toastNotification({ type: 'saved' })
+                toastNotification('moduleCreated')
             },
         },
     })

@@ -29,8 +29,9 @@ const ModuleEdit = () => {
     )
 
     const { useEditModule } = useModule()
-    const { mutate, isLoading: mutateLoading } = useEditModule(() =>
-        navigate(`/muteer/modules/${moduleId}`)
+    const { mutate, isLoading: mutateLoading } = useEditModule(
+        'moduleEdit',
+        () => navigate(`/muteer/modules/${moduleId}`)
     )
 
     const handleSubmit = (payload: Module) => {

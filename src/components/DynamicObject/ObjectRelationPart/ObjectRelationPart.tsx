@@ -5,7 +5,7 @@ import { RelationShort } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
 import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
 
-import { ObjectConnectionModalActions } from '../ObjectModals/types'
+import { ObjectConnectionModalActions } from '../../Modals/ObjectModals/types'
 import { Relation } from '../ObjectRelations/ObjectRelations'
 
 interface ObjectRelationPartProps {

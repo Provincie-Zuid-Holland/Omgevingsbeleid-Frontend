@@ -12,7 +12,7 @@ const ModuleLockModal = ({ isOpen, onClose }: ModuleLockModalProps) => {
     const { moduleId } = useParams()
 
     const { useEditModule } = useModule()
-    const { mutate } = useEditModule(() => onClose())
+    const { mutate } = useEditModule('moduleLocked', () => onClose())
 
     return (
         <Modal
