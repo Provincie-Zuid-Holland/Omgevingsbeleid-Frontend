@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 import { ModuleCreate, ModuleAddNewObject } from '@/api/fetchers.schemas'
 import createEmptyObject from '@/utils/createEmptyObject'
-import { schemaDefaults } from '@/utils/zodSchema'
+import { schemaDefaults } from '@/validation/zodSchema'
 
 export const SCHEMA = z.object({
     Title: schemaDefaults.title,

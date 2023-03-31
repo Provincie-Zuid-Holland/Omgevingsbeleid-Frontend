@@ -11,6 +11,7 @@ import {
 } from '@/api/fetchers'
 import { AmbitiePatch, AmbitieStaticPost } from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
+import { schemaDefaults } from '@/validation/zodSchema'
 
 import { DynamicObject } from './types'
 
@@ -60,6 +61,7 @@ const ambitie: DynamicObject<
                         'Formuleer in enkele woorden de titel van de ambitie.',
                     type: 'text',
                     required: true,
+                    validation: schemaDefaults.title,
                 },
                 {
                     name: 'Description',

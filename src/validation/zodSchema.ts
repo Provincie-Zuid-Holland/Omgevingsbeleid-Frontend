@@ -21,3 +21,7 @@ export const schemaDefaults = {
         .min(4, 'Vul een titel in van minimaal 4 karakters')
         .max(100, 'Vul een titel in van maximaal 100 karakters'),
 }
+
+export type Validation = {
+    [K in keyof typeof schemaDefaults]?: typeof schemaDefaults[K]
+}

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 import { DynamicSection } from '@/config/objects/types'
-import { schemaDefaults } from '@/utils/zodSchema'
+import { schemaDefaults } from '@/validation/zodSchema'
 
 /**
  * Create SCHEMA based on provided dynamic sections
@@ -17,9 +17,11 @@ const generateDynamicSchema = (sections: DynamicSection[]) => {
                 case 'wysiwyg':
                 case 'select':
                     return (dynamicSchema = dynamicSchema.extend({
-                        [field.name]: field.required
-                            ? schemaDefaults.requiredString()
-                            : schemaDefaults.optionalString,
+                        [field.name]:
+                            field.validation ||
+                            ((field.required
+                                ? schemaDefaults.requiredString()
+                                : schemaDefaults.optionalString) as any),
                     }))
                 default:
                     return dynamicSchema

@@ -14,6 +14,7 @@ import {
     MaatregelPatch,
     MaatregelStaticPatch,
 } from '@/api/fetchers.schemas'
+import { Validation } from '@/validation/zodSchema'
 
 import * as models from '.'
 
@@ -91,6 +92,8 @@ export type DynamicField<FieldType = any> = {
     type: 'text' | 'textarea' | 'wysiwyg' | 'select' | 'area'
     /** Is field required (optional) */
     required?: boolean
+    /** Field validation (optional) */
+    validation?: Validation
 } & (
     | { type: 'select'; options: { label: string; value: string }[] }
     | { type: Exclude<'text' | 'textarea' | 'wysiwyg' | 'area', 'select'> }

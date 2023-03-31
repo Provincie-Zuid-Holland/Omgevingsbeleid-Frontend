@@ -11,6 +11,7 @@ import {
 } from '@/api/fetchers'
 import { MaatregelPatch, MaatregelStaticPatch } from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
+import { schemaDefaults } from '@/validation/zodSchema'
 
 import { DynamicObject } from './types'
 
@@ -66,6 +67,7 @@ const maatregel: DynamicObject<
                         'Formuleer in enkele woorden de titel van de maatregel.',
                     type: 'text',
                     required: true,
+                    validation: schemaDefaults.title,
                 },
             ],
         },
