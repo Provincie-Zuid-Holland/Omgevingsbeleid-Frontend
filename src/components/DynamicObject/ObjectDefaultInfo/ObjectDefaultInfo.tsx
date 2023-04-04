@@ -39,7 +39,9 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
     return (
         <>
             <div>
-                <h2 style={getHeadingStyles('3', isMobile)} className="mb-4">
+                <h2
+                    style={getHeadingStyles('3', isMobile)}
+                    className="mb-4 text-pzh-blue">
                     Algemene informatie
                 </h2>
 

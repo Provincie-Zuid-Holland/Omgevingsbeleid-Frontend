@@ -19,7 +19,7 @@ const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
 
     return (
         <div>
-            <Text className="font-bold">Tijdlijn</Text>
+            <Text className="font-bold text-pzh-blue">Tijdlijn</Text>
 
             <div className="mt-3">
                 {filteredHistory.map((status, index) => {
@@ -35,7 +35,7 @@ const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
                             })}>
                             <span className="w-[84px] -mb-[4px] text-[16px]">
                                 {formatDate(
-                                    new Date(status.Created_Date),
+                                    new Date(status.Created_Date + 'Z'),
                                     'dd-MM-yyyy'
                                 )}
                             </span>

@@ -1,8 +1,8 @@
 import { getHeadingStyles, Heading } from '@pzh-ui/components'
 import { useParams } from 'react-router-dom'
 
-import ObjectDefaultInfo from '@/components/DynamicObject/ObjectDefaultInfo'
 import ObjectRelations from '@/components/DynamicObject/ObjectConnections'
+import ObjectDefaultInfo from '@/components/DynamicObject/ObjectDefaultInfo'
 import { Model } from '@/config/objects/types'
 import useBreakpoint from '@/hooks/useBreakpoint'
 import useModule from '@/hooks/useModule'
@@ -43,7 +43,9 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
             </div>
 
             <div className="col-span-4">
-                <h2 style={getHeadingStyles('3', isMobile)} className="mb-4">
+                <h2
+                    style={getHeadingStyles('3', isMobile)}
+                    className="mb-4 text-pzh-blue">
                     Status
                 </h2>
             </div>

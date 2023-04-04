@@ -27,7 +27,7 @@ const SelectArea = ({
     const modifiedDate = useMemo(
         () =>
             area?.Modified_Date &&
-            formatDate(new Date(area.Modified_Date), 'd MMMM yyyy'),
+            formatDate(new Date(area.Modified_Date + 'Z'), 'd MMMM yyyy'),
         [area?.Modified_Date]
     )
 

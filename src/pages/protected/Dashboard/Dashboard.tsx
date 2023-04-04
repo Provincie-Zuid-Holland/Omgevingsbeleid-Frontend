@@ -6,6 +6,7 @@ import {
     getHeadingStyles,
     Hyperlink,
     Button,
+    ListLink,
 } from '@pzh-ui/components'
 import { AngleDown } from '@pzh-ui/icons'
 import { useState } from 'react'
@@ -19,8 +20,10 @@ import {
 import { useNavigate } from 'react-router-dom'
 
 import { useModulesGet } from '@/api/fetchers'
+import { Module } from '@/api/fetchers.schemas'
 import { LoaderCard } from '@/components/Loader'
 import ModuleCard from '@/components/Modules/ModuleCard'
+import * as models from '@/config/objects'
 import useAuth from '@/hooks/useAuth'
 import useBreakpoint from '@/hooks/useBreakpoint'
 import usePermissions from '@/hooks/usePermissions'
@@ -79,30 +82,10 @@ const Dashboard = () => {
                                     ? 'Actieve modules'
                                     : 'Mijn actieve modules'
                             }>
-                            {userModulesLoading ? (
-                                <ul className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
-                                    <LoaderCard height="180" />
-                                    <LoaderCard height="180" />
-                                    <LoaderCard height="180" />
-                                </ul>
-                            ) : (
-                                <>
-                                    {userModules?.length ? (
-                                        <ul className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
-                                            {userModules.map(module => (
-                                                <ModuleCard
-                                                    key={module.Module_ID}
-                                                    {...module}
-                                                />
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <span className="mt-3 block italic">
-                                            Geen modules gevonden.
-                                        </span>
-                                    )}
-                                </>
-                            )}
+                            <Items
+                                items={userModules}
+                                isLoading={userModulesLoading}
+                            />
 
                             {!canCreateModule ? (
                                 <div className="grid grid-cols-6 mt-8">
@@ -204,6 +187,26 @@ const Dashboard = () => {
                                             Hieronder vind je een overzicht van
                                             alle onderdelen.
                                         </Text>
+
+                                        <div className="grid grid-cols-2 mt-4">
+                                            {Object.keys(models).map(key => {
+                                                const model =
+                                                    models[
+                                                        key as keyof typeof models
+                                                    ]
+
+                                                return (
+                                                    <ListLink
+                                                        key={`link-${key}`}
+                                                        text={
+                                                            model.defaults
+                                                                .pluralCapitalize
+                                                        }
+                                                        to={`/muteer/${model.defaults.plural}`}
+                                                    />
+                                                )
+                                            })}
+                                        </div>
                                     </div>
                                 </div>
                             )}
@@ -215,30 +218,10 @@ const Dashboard = () => {
                                     ? 'Alle modules'
                                     : 'Alle actieve modules'
                             }>
-                            {allModulesLoading ? (
-                                <ul className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
-                                    <LoaderCard height="180" />
-                                    <LoaderCard height="180" />
-                                    <LoaderCard height="180" />
-                                </ul>
-                            ) : (
-                                <>
-                                    {allModules?.length ? (
-                                        <ul className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
-                                            {allModules.map(module => (
-                                                <ModuleCard
-                                                    key={module.Module_ID}
-                                                    {...module}
-                                                />
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <span className="mt-3 block italic">
-                                            Geen modules gevonden.
-                                        </span>
-                                    )}
-                                </>
-                            )}
+                            <Items
+                                items={allModules}
+                                isLoading={allModulesLoading}
+                            />
                         </TabItem>
                     </Tabs>
                 </div>
@@ -246,5 +229,36 @@ const Dashboard = () => {
         </MutateLayout>
     )
 }
+
+interface ItemsProps {
+    isLoading: boolean
+    items?: Module[]
+}
+
+const Items = ({ isLoading, items }: ItemsProps) => (
+    <>
+        {isLoading ? (
+            <div className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
+                <LoaderCard height="180" />
+                <LoaderCard height="180" />
+                <LoaderCard height="180" />
+            </div>
+        ) : (
+            <>
+                {items?.length ? (
+                    <ul className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
+                        {items.map(item => (
+                            <ModuleCard key={item.Module_ID} {...item} />
+                        ))}
+                    </ul>
+                ) : (
+                    <span className="mt-3 block italic">
+                        Geen modules gevonden.
+                    </span>
+                )}
+            </>
+        )}
+    </>
+)
 
 export default Dashboard
