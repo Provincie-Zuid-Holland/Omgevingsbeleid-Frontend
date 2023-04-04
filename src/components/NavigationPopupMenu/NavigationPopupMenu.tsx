@@ -2,7 +2,7 @@ import { Heading, Text } from '@pzh-ui/components'
 import { AngleRight, Bars, Xmark } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useWindowSize } from 'react-use'
+import { useKey, useWindowSize } from 'react-use'
 
 import useBreakpoint from '@/hooks/useBreakpoint'
 
@@ -12,19 +12,16 @@ import SearchBar from '../SearchBar'
 /**
  * A popup menu that can be used to navigate the application.
  *
- * @param {boolean} showBanner - Parameter that if set to true, will show the banner.
  * @param {boolean} isOpen - Parameter that if set to true, will show the menu.
  * @param {boolean} setIsOpen - Open/close the menu.
  */
 
 interface NavigationPopupMenuProps {
-    showBanner: boolean
     isOpen: boolean
     setIsOpen: (e: boolean) => void
 }
 
 const NavigationPopupMenu = ({
-    showBanner,
     isOpen,
     setIsOpen,
 }: NavigationPopupMenuProps) => {
@@ -33,22 +30,9 @@ const NavigationPopupMenu = ({
 
     const { isMobile } = useBreakpoint()
 
-    const [bannerAdjustedOffsetTop, setBannerAdjustedOffsetTop] = useState({})
     const [containerHeightStyle, setContainerHeightStyle] = useState<
         { maxHeight: string } | undefined
     >(undefined)
-
-    useEffect(() => {
-        if (showBanner) {
-            setBannerAdjustedOffsetTop({
-                top: '146px',
-            })
-        } else {
-            setBannerAdjustedOffsetTop({
-                top: '96px',
-            })
-        }
-    }, [showBanner])
 
     /** State for responsiveness */
     useEffect(() => {
@@ -60,15 +44,7 @@ const NavigationPopupMenu = ({
     }, [windowSize])
 
     /** Handle close on Escape key event */
-    useEffect(() => {
-        function closeOnEscape(e: KeyboardEvent) {
-            if (e.key === 'Escape') {
-                setIsOpen(false)
-            }
-        }
-        window.addEventListener('keydown', closeOnEscape)
-        return () => window.removeEventListener('keydown', closeOnEscape)
-    }, [setIsOpen])
+    useKey('Escape', () => setIsOpen(false))
 
     return (
         <>
@@ -92,14 +68,10 @@ const NavigationPopupMenu = ({
             ) : null}
             {isOpen ? (
                 <>
-                    <div
-                        style={bannerAdjustedOffsetTop}
-                        className="fixed top-0 left-0 z-0 block w-screen h-screen bg-gray-900 pointer-events-none opacity-40"
-                    />
+                    <div className="fixed top-[96px] left-0 z-0 block w-screen h-screen bg-gray-900 pointer-events-none opacity-40" />
                     <nav
                         id="popup-menu"
-                        className="fixed top-0 left-0 z-10 w-full pb-8 bg-white"
-                        style={bannerAdjustedOffsetTop}
+                        className="fixed top-[96px] left-0 z-10 w-full pb-8 bg-white"
                         aria-label="primary">
                         <Container
                             className="h-full overflow-y-auto"

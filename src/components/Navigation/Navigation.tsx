@@ -1,16 +1,17 @@
+import { Badge } from '@pzh-ui/components'
 import { ArrowRightFromBracket, Eye } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { FC, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { environment } from '@/api/instance'
 import useAuth from '@/hooks/useAuth'
 import useBreakpoint from '@/hooks/useBreakpoint'
 import usePage from '@/hooks/usePage'
 import logoSVG from '@/images/PZH_Basislogo.svg'
 import logoWhite from '@/images/PZH_Basislogo_white.svg'
-import hideBannerLocalStorage from '@/utils/hideBannerLocalStorage'
+import getEnvironmentText from '@/utils/getEnvironmentName'
 
-import BannerEnvironment from '../BannerEnvironment'
 import { Container } from '../Container'
 import NavigationPopupMenu from '../NavigationPopupMenu'
 import UserMenu from '../UserMenu'
@@ -23,9 +24,6 @@ const Navigation = () => {
     const { user } = useAuth()
     const userIsInMuteerEnvironment = usePage('/muteer')
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
-    const [showBanner, setShowBanner] = useState(
-        userIsInMuteerEnvironment && !hideBannerLocalStorage()
-    )
 
     // State for popup menu
     const [isOpen, setIsOpen] = useState(false)
@@ -43,13 +41,6 @@ const Navigation = () => {
                 }
             )}
             id="top-navigation">
-            <BannerEnvironment
-                hideBannerLocalStorage={hideBannerLocalStorage}
-                userIsInMuteerEnvironment={userIsInMuteerEnvironment}
-                showBanner={showBanner}
-                setShowBanner={setShowBanner}
-            />
-
             <Container>
                 {/* Logo */}
                 <div className="col-span-4 my-auto sm:col-span-3">
@@ -73,6 +64,13 @@ const Navigation = () => {
                             }
                         />
                     </Link>
+
+                    {userIsInMuteerEnvironment && (
+                        <Badge
+                            text={getEnvironmentText(environment)}
+                            variant="white"
+                        />
+                    )}
                 </div>
 
                 {/* Buttons to toggle popup menu */}
@@ -113,7 +111,6 @@ const Navigation = () => {
 
                     {!userIsInMuteerEnvironment && (
                         <NavigationPopupMenu
-                            showBanner={showBanner}
                             isOpen={isOpen}
                             setIsOpen={setIsOpen}
                         />

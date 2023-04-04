@@ -13,10 +13,22 @@ interface ObjectEditProps {
 const ObjectEdit = ({ model }: ObjectEditProps) => {
     const { singularCapitalize } = model.defaults
 
-    const { isLocked } = useModule()
+    const { isLocked, data } = useModule()
+
+    const breadcrumbPaths = [
+        { name: 'Muteeromgeving', path: '/muteer' },
+        { name: 'Modules', path: '/muteer' },
+        {
+            name: data?.Module.Title || '',
+            path: `/muteer/modules/${data?.Module.Module_ID}`,
+        },
+        { name: `${singularCapitalize} bewerken`, isCurrent: true },
+    ]
 
     return (
-        <MutateLayout title={`${singularCapitalize} bewerken`}>
+        <MutateLayout
+            title={`${singularCapitalize} bewerken`}
+            breadcrumbs={breadcrumbPaths}>
             <div className="col-span-6">
                 {isLocked && (
                     <div className="mb-8">

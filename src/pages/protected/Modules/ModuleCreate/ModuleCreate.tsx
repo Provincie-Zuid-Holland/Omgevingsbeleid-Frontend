@@ -1,14 +1,14 @@
-import { BackLink, Button, Heading } from '@pzh-ui/components'
+import { Heading } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik } from 'formik'
-import { Helmet } from 'react-helmet'
 import { useNavigate } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { getModulesGetQueryKey, useModulesPost } from '@/api/fetchers'
 import { ModuleCreate as ModuleCreateSchema } from '@/api/fetchers.schemas'
-import { Container } from '@/components/Container'
+import ButtonSubmitFixed from '@/components/ButtonSubmitFixed/ButtonSubmitFixed'
 import { FormBasicInfo } from '@/components/Modules/ModuleForm'
+import MutateLayout from '@/templates/MutateLayout'
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
 
@@ -38,40 +38,41 @@ const ModuleCreate = () => {
         mutate({ data: payload })
     }
 
+    const breadcrumbPaths = [
+        { name: 'Muteeromgeving', path: '/muteer' },
+        { name: 'Modules', path: '/muteer' },
+        { name: 'Module aanmaken' || '', isCurrent: true },
+    ]
+
     return (
-        <div className="pb-20">
-            <Helmet title="Module aanmaken" />
+        <MutateLayout title="Module aanmaken" breadcrumbs={breadcrumbPaths}>
+            <div className="col-span-6">
+                <Formik
+                    onSubmit={handleSubmit}
+                    initialValues={modules.EMPTY_CREATE_MODULE}
+                    validationSchema={toFormikValidationSchema(modules.SCHEMA)}>
+                    {({ isSubmitting }) => (
+                        <Form>
+                            <div className="grid grid-cols-6 gap-x-10 gap-y-0">
+                                <div className="col-span-6 mb-8">
+                                    <Heading level="1">Module aanmaken</Heading>
+                                </div>
+                            </div>
 
-            <Formik
-                onSubmit={handleSubmit}
-                initialValues={modules.EMPTY_CREATE_MODULE}
-                validationSchema={toFormikValidationSchema(modules.SCHEMA)}>
-                <Form>
-                    <div className="py-2 bg-pzh-gray-100 sticky z-20 top-[97px]">
-                        <div className="pzh-container flex justify-between items-center">
-                            <BackLink to="/muteer" label="Terug naar modules" />
-                            <Button
-                                variant="cta"
-                                type="submit"
-                                isDisabled={isLoading}
-                                isLoading={isLoading}>
-                                Opslaan
-                            </Button>
-                        </div>
-                    </div>
+                            <div className="grid grid-cols-6 gap-x-10 gap-y-0">
+                                <FormBasicInfo />
+                            </div>
 
-                    <Container className="pt-10">
-                        <div className="col-span-6 mb-8">
-                            <Heading level="1">Module aanmaken</Heading>
-                        </div>
-                    </Container>
-
-                    <Container>
-                        <FormBasicInfo />
-                    </Container>
-                </Form>
-            </Formik>
-        </div>
+                            <ButtonSubmitFixed
+                                onCancel={() => navigate('/muteer')}
+                                disabled={isSubmitting || isLoading}
+                                isLoading={isLoading}
+                            />
+                        </Form>
+                    )}
+                </Formik>
+            </div>
+        </MutateLayout>
     )
 }
 

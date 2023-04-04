@@ -1,9 +1,12 @@
 import { getHeadingStyles, Heading } from '@pzh-ui/components'
+import { useParams } from 'react-router-dom'
 
 import ObjectDefaultInfo from '@/components/DynamicObject/ObjectDefaultInfo'
 import ObjectRelations from '@/components/DynamicObject/ObjectRelations'
 import { Model } from '@/config/objects/types'
 import useBreakpoint from '@/hooks/useBreakpoint'
+import useModule from '@/hooks/useModule'
+import useObject from '@/hooks/useObject'
 import MutateLayout from '@/templates/MutateLayout'
 
 interface ObjectDetailProps {
@@ -11,12 +14,28 @@ interface ObjectDetailProps {
 }
 
 const ObjectDetail = ({ model }: ObjectDetailProps) => {
+    const { moduleId } = useParams()
     const { isMobile } = useBreakpoint()
 
-    const { singularCapitalize } = model.defaults
+    const { singularCapitalize, plural, pluralCapitalize } = model.defaults
+
+    const { data: module } = useModule() || {}
+    const { data: object } = useObject()
+
+    const breadcrumbPaths = [
+        { name: 'Muteeromgeving', path: '/muteer' },
+        ...((!!moduleId && [
+            { name: 'Modules', path: '/muteer' },
+            {
+                name: module?.Module.Title || '',
+                path: `/muteer/modules/${module?.Module.Module_ID}`,
+            },
+        ]) || [{ name: pluralCapitalize, path: `/muteer/${plural}` }]),
+        { name: object?.Title || '', isCurrent: true },
+    ]
 
     return (
-        <MutateLayout title={singularCapitalize}>
+        <MutateLayout title={singularCapitalize} breadcrumbs={breadcrumbPaths}>
             <div className="col-span-6">
                 <Heading level="1" className="mb-8">
                     {singularCapitalize}

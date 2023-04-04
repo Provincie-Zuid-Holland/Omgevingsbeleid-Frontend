@@ -1,9 +1,12 @@
-import { FieldLabel } from '@pzh-ui/components'
+import { FieldLabel, Text, formatDate } from '@pzh-ui/components'
+import { TrashCan } from '@pzh-ui/icons'
 import { useFormikContext } from 'formik'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
-import { DynamicField } from '@/config/objects/types'
+import { DynamicField, ModelReturnType } from '@/config/objects/types'
+import useObject from '@/hooks/useObject'
 
+import AreaPreview from '../AreaPreview'
 import AreaModal from '../Modals/AreaModal'
 import { AreaProps } from '../Modals/AreaModal/AreaModal'
 
@@ -13,10 +16,29 @@ const SelectArea = ({
     required,
     description,
 }: Omit<DynamicField, 'type'>) => {
-    const { setFieldValue } = useFormikContext()
+    const { values, setFieldValue } = useFormikContext<ModelReturnType>()
+    const value = values[name as keyof typeof values]
 
     const [isOpen, setOpen] = useState(false)
 
+    const { data } = useObject()
+
+    const area = data?.Gebied
+    const modifiedDate = useMemo(
+        () =>
+            area?.Modified_Date &&
+            formatDate(new Date(area.Modified_Date), 'd MMMM yyyy'),
+        [area?.Modified_Date]
+    )
+
+    /**
+     * On delete clear Formik value
+     */
+    const handleDeleteArea = () => setFieldValue(name, null)
+
+    /**
+     * Handle form submit, set Formik value
+     */
     const handleFormSubmit = (payload: AreaProps) =>
         setFieldValue(name, payload.version)
 
@@ -31,16 +53,45 @@ const SelectArea = ({
                 />
             )}
 
-            <button
-                onClick={() => setOpen(true)}
-                type="button"
-                className="w-full py-4 px-2 mt-4 border border-pzh-gray-600 rounded-[4px] text-pzh-green underline">
-                Werkingsgebied koppelen
-            </button>
+            {!value ? (
+                <button
+                    onClick={() => setOpen(true)}
+                    type="button"
+                    className="w-full py-4 px-2 mt-4 border border-pzh-gray-600 rounded-[4px] text-pzh-green underline">
+                    Werkingsgebied koppelen
+                </button>
+            ) : (
+                <div className="w-full p-2 mt-4 border border-pzh-gray-600 rounded-[4px]">
+                    <div className="grid grid-cols-9 gap-4">
+                        <div className="col-span-3 p-2">
+                            <Text type="body-bold">
+                                Gekoppeld werkingsgebied
+                            </Text>
 
-            <div className="relative">
-                <input name={name} type="hidden" />
-            </div>
+                            <div className="mt-5 p-2 border border-pzh-gray-200 rounded-[4px]">
+                                <div className="flex justify-between items-start">
+                                    <p className="font-bold leading-5">
+                                        {area?.Title}
+                                    </p>
+                                    <button
+                                        onClick={handleDeleteArea}
+                                        area-label="Werkingsgebied verwijderen">
+                                        <TrashCan className="mt-[4px] text-pzh-red" />
+                                    </button>
+                                </div>
+                                <span className="block text-[16px]">
+                                    Laatste update van {modifiedDate}
+                                </span>
+                            </div>
+                        </div>
+                        <div className="col-span-6 flex flex-1 h-[500px]">
+                            <AreaPreview area={area} />
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <input name={name} type="hidden" />
 
             <AreaModal
                 isOpen={isOpen}

@@ -2,10 +2,16 @@ import { Badge, Button, Heading, Text } from '@pzh-ui/components'
 import { useNavigate } from 'react-router-dom'
 
 import { Module } from '@/api/fetchers.schemas'
+import Avatar from '@/components/Avatar'
+import useModuleManagers from '@/hooks/useModuleManagers'
 import getModuleStatusColor from '@/utils/getModuleStatusColor'
 
-const ModuleCard = ({ Module_ID, Title, Description, Status }: Module) => {
+const ModuleCard = (props: Module) => {
     const navigate = useNavigate()
+
+    const managers = useModuleManagers(props)
+
+    const { Module_ID, Title, Description, Status } = props
 
     return (
         <li className="p-5 border border-pzh-gray-200 rounded h-full flex flex-col">
@@ -15,17 +21,28 @@ const ModuleCard = ({ Module_ID, Title, Description, Status }: Module) => {
                     text={Status?.Status || ''}
                     variant={getModuleStatusColor(Status?.Status)}
                     upperCase={false}
+                    className="-mt-1"
                 />
             </div>
-            <Text type="body-small" className="mb-4">
-                {Description}
-            </Text>
-            <div className="mt-auto">
+            <Text className="mb-4 text-[16px]">{Description}</Text>
+            <div className="mt-auto flex items-center justify-between">
                 <Button
                     size="small"
                     onPress={() => navigate(`/muteer/modules/${Module_ID}`)}>
                     Bekijk module
                 </Button>
+                <div className="flex">
+                    {managers?.[0] && (
+                        <Avatar name={managers[0].Gebruikersnaam} isSmall />
+                    )}
+                    {managers?.[1] && (
+                        <Avatar
+                            name={managers[1].Gebruikersnaam}
+                            className="-ml-1.5"
+                            isSmall
+                        />
+                    )}
+                </div>
             </div>
         </li>
     )

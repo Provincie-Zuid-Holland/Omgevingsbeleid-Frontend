@@ -1,7 +1,5 @@
 import { Button } from '@pzh-ui/components'
 
-import { Container } from '../Container'
-
 /**
  * Displays a fixed placed submit button.
  */
@@ -17,8 +15,8 @@ function ButtonSubmitFixed({
     onCancel,
 }: ButtonSubmitFixedProps) {
     return (
-        <Container className="fixed bottom-4 left-0 right-0 w-full z-50 pointer-events-none">
-            <div className="col-start-1 col-end-7">
+        <div className="grid sticky bottom-4 z-50 mt-10 pointer-events-none">
+            <div className="col-span-6">
                 <div className="flex justify-end">
                     <div className="bg-pzh-white p-2 pl-4 shadow-card rounded flex align-middle pointer-events-auto">
                         <Button
@@ -37,7 +35,7 @@ function ButtonSubmitFixed({
                     </div>
                 </div>
             </div>
-        </Container>
+        </div>
     )
 }
 

@@ -1,4 +1,4 @@
-import { Breadcrumbs, Button, FieldInput, Heading } from '@pzh-ui/components'
+import { Button, FieldInput, Heading } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
 
 import * as models from '@/config/objects'
@@ -10,23 +10,17 @@ interface DynamicOverviewProps {
 }
 
 const DynamicOverview = ({ model }: DynamicOverviewProps) => {
-    const pathName = location.pathname
-
     const { pluralCapitalize, prefixNewObject, singular } = model.defaults
     // const { useGetValid } = model.fetchers
 
     const breadcrumbPaths = [
         { name: 'Muteeromgeving', path: '/muteer' },
-        { name: pluralCapitalize || '', path: pathName },
+        { name: pluralCapitalize || '', isCurrent: true },
     ]
 
     return (
-        <MutateLayout title={pluralCapitalize}>
+        <MutateLayout title={pluralCapitalize} breadcrumbs={breadcrumbPaths}>
             <div className="col-span-6">
-                <div className="mb-10">
-                    <Breadcrumbs items={breadcrumbPaths} />
-                </div>
-
                 <div className="flex items-center justify-between whitespace-nowrap">
                     <Heading>{pluralCapitalize}</Heading>
                     <div className="flex">

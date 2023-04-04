@@ -107,6 +107,32 @@ const maatregel: DynamicObject<
                 },
             ],
         },
+        {
+            title: 'Werkingsgebied',
+            description:
+                'Het werkingsgebied geeft het gebied weer waar de maatregel betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld, toegestaan of juist verboden.',
+            fields: [
+                {
+                    name: 'Gebied_UUID',
+                    label: 'Selecteer werkingsgebied',
+                    description: (
+                        <>
+                            Selecteer het werkingsgebied wat bij deze maatregel
+                            van toepassing is. Heeft jouw maatregel nog geen
+                            geschikt werkingsgebied, of moet het huidige gebied
+                            aangepast worden? Neem dan contact op via{' '}
+                            <a
+                                href="mailto:omgevingsbeleid@pzh.nl"
+                                className="underline">
+                                omgevingsbeleid@pzh.nl
+                            </a>
+                            .
+                        </>
+                    ),
+                    type: 'area',
+                },
+            ],
+        },
     ],
 }
 

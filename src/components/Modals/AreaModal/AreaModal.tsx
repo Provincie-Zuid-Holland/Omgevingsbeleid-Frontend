@@ -69,7 +69,7 @@ const AreaModal = ({
     return (
         <Modal
             open={isOpen}
-            onClose={onClose}
+            onClose={handleClose}
             ariaLabel="Werkingsgebied koppelen"
             maxWidth="sm:max-w-[1200px]">
             <Formik

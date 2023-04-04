@@ -7,15 +7,11 @@ import {
     Hyperlink,
     Text,
 } from '@pzh-ui/components'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
-import { useUsersGet } from '@/api/fetchers'
-import { ModuleObjectShort, UserShort } from '@/api/fetchers.schemas'
+import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import Avatar from '@/components/Avatar'
 import { LoaderContent } from '@/components/Loader'
-import ModuleInactiveCard from '@/components/Modules/ModuleInactiveCard'
-import ModuleItemList from '@/components/Modules/ModuleItemList'
-import ModuleLock from '@/components/Modules/ModuleLock'
 import {
     ModuleActivateModal,
     ModuleContentsModal,
@@ -24,9 +20,13 @@ import ModuleEditObjectModal from '@/components/Modals/ModuleModals/ModuleEditOb
 import ModuleLockModal from '@/components/Modals/ModuleModals/ModuleLockModal'
 import ModuleObjectDeleteConfirmationModal from '@/components/Modals/ModuleModals/ModuleObjectDeleteConfirmationModal'
 import { ModuleModalActions } from '@/components/Modals/ModuleModals/types'
+import ModuleInactiveCard from '@/components/Modules/ModuleInactiveCard'
+import ModuleItemList from '@/components/Modules/ModuleItemList'
+import ModuleLock from '@/components/Modules/ModuleLock'
 import ModuleTimeline from '@/components/Modules/ModuleTimeline'
 import ModuleVersionCard from '@/components/Modules/ModuleVersionCard'
 import useModule from '@/hooks/useModule'
+import useModuleManagers from '@/hooks/useModuleManagers'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 import getModuleStatusColor from '@/utils/getModuleStatusColor'
@@ -55,32 +55,8 @@ const ModuleDetail = () => {
         isModuleManager,
         isLocked,
     } = useModule()
-    const { data: users } = useUsersGet()
 
-    /**
-     * Array of selected managers of module
-     */
-    const managers = useMemo(() => {
-        const items: UserShort[] = []
-
-        if (module?.Module_Manager_1_UUID) {
-            const manager_1 = users?.find(
-                user => user.UUID === module.Module_Manager_1_UUID
-            )
-
-            if (manager_1) items.push(manager_1)
-        }
-
-        if (module?.Module_Manager_2_UUID) {
-            const manager_2 = users?.find(
-                user => user.UUID === module.Module_Manager_2_UUID
-            )
-
-            if (manager_2) items.push(manager_2)
-        }
-
-        return items
-    }, [module?.Module_Manager_1_UUID, module?.Module_Manager_2_UUID, users])
+    const managers = useModuleManagers(module)
 
     const breadcrumbPaths = [
         { name: 'Muteeromgeving', path: '/muteer' },
