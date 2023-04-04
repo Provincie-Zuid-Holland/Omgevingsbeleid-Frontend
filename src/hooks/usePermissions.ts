@@ -47,6 +47,7 @@ const usePermissions = (): Permissions => {
                 canAddNewObjectToModule: true,
                 canAddExistingObjectToModule: true,
                 canEditModuleObjectContext: true,
+                canPatchObjectInModule: true,
             }
         default:
             return { ...initialPermissions }

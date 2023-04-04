@@ -10,21 +10,21 @@ import { StepProps } from './types'
 export const StepOne = ({
     title,
     model,
-    relationModel,
-    relations,
+    connectionModel,
+    connections,
     setStep,
-    handleDeleteRelation,
+    handleDeleteConnection,
 }: StepProps) => {
-    const { defaults } = relationModel || {}
+    const { defaults } = connectionModel || {}
     const { pluralCapitalize, plural, prefixNewObject, singular } =
         defaults || {}
 
     /**
-     * Get amount of relations
+     * Get amount of connections
      */
     const amount = useMemo(
-        () => Object.values(relations || {}).length,
-        [relations]
+        () => Object.values(connections || {}).length,
+        [connections]
     )
 
     return (
@@ -49,13 +49,13 @@ export const StepOne = ({
 
             {amount > 0 && (
                 <>
-                    {Array.isArray(relations) &&
-                        relations.map(relation => (
+                    {Array.isArray(connections) &&
+                        connections.map(connection => (
                             <Connection
-                                key={relation.UUID}
+                                key={connection.UUID}
                                 setStep={setStep!}
-                                handleDeleteRelation={handleDeleteRelation!}
-                                {...relation}
+                                handleDeleteConnection={handleDeleteConnection!}
+                                {...connection}
                             />
                         ))}
                 </>
@@ -67,7 +67,7 @@ export const StepOne = ({
 interface ConnectionProps extends RelationShort {
     Title?: string
     setStep: (step: number) => void
-    handleDeleteRelation: (relation: RelationShort) => void
+    handleDeleteConnection: (connection: RelationShort) => void
 }
 
 const Connection = ({
@@ -76,7 +76,7 @@ const Connection = ({
     Title,
     Description,
     setStep,
-    handleDeleteRelation,
+    handleDeleteConnection,
 }: ConnectionProps) => {
     const { setFieldValue } = useFormikContext<RelationShort>()
 
@@ -98,7 +98,7 @@ const Connection = ({
                     </button>
                     <button
                         onClick={() =>
-                            handleDeleteRelation({ Object_ID, Object_Type })
+                            handleDeleteConnection({ Object_ID, Object_Type })
                         }
                         aria-label="Verwijderen">
                         <TrashCan size={16} className="text-pzh-red" />

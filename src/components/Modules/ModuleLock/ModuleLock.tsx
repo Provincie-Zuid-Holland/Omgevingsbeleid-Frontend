@@ -2,11 +2,10 @@ import { Divider, Notification, Text } from '@pzh-ui/components'
 import { Lock, LockOpen } from '@pzh-ui/icons'
 import { useParams } from 'react-router-dom'
 
+import { ModuleModalActions } from '@/components/Modals/ModuleModals/types'
 import ToggleSwitch from '@/components/ToggleSwitch'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
-
-import { ModuleModalActions } from '../../Modals/ModuleModals/types'
 
 interface ModuleLockProps {
     /** Set module modal state */
@@ -22,6 +21,8 @@ const ModuleLock = ({ setModuleModal }: ModuleLockProps) => {
 
     if (!canEditModule && !isModuleManager && isLocked) {
         return <LockedNotification />
+    } else if (!canEditModule && !isModuleManager && !isLocked) {
+        return <Divider className="mt-3" />
     }
 
     return (

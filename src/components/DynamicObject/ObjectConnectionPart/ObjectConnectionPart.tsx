@@ -6,25 +6,25 @@ import * as models from '@/config/objects'
 import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
 
 import { ObjectConnectionModalActions } from '../../Modals/ObjectModals/types'
-import { Relation } from '../ObjectRelations/ObjectRelations'
+import { Connection } from '../ObjectConnections/ObjectConnections'
 
-interface ObjectRelationPartProps {
+interface ObjectConnectionPartProps {
     /** Key of connection */
     connectionKey?: keyof ModelReturnType
     /** Model of relation */
     model: Model
     /** Key of object */
-    relations?: Relation[]
+    connections?: Connection[]
     /** Set state of modal */
     setModal: (state: ObjectConnectionModalActions) => void
 }
 
-const ObjectRelationPart = ({
+const ObjectConnectionPart = ({
     connectionKey,
     model,
-    relations,
+    connections,
     setModal,
-}: ObjectRelationPartProps) => {
+}: ObjectConnectionPartProps) => {
     const handleButtonClick = (amount?: number) => {
         setModal({
             connectionKey,
@@ -33,16 +33,16 @@ const ObjectRelationPart = ({
                 Object_Type: model.defaults.singular,
             } as RelationShort,
             isOpen: true,
-            relationModel: models[model.defaults.singular as ModelType],
+            connectionModel: models[model.defaults.singular as ModelType],
         })
     }
 
     /**
-     * Get amount of relations
+     * Get amount of connections
      */
     const amount = useMemo(
-        () => Object.values(relations || {}).length,
-        [relations]
+        () => Object.values(connections || {}).length,
+        [connections]
     )
 
     return (
@@ -74,4 +74,4 @@ const ObjectRelationPart = ({
     )
 }
 
-export default ObjectRelationPart
+export default ObjectConnectionPart

@@ -1,12 +1,12 @@
 import { RelationShort } from '@/api/fetchers.schemas'
-import { Relation } from '@/components/DynamicObject/ObjectRelations/ObjectRelations'
+import { Connection } from '@/components/DynamicObject/ObjectConnections/ObjectConnections'
 import { Model } from '@/config/objects/types'
 
 export interface StepProps {
     title?: string
     model: Model
-    relationModel?: Model
-    relations?: Relation[]
+    connectionModel?: Model
+    connections?: Connection[]
     setStep?: (step: number) => void
-    handleDeleteRelation?: (relation: RelationShort) => void
+    handleDeleteConnection?: (connection: RelationShort) => void
 }

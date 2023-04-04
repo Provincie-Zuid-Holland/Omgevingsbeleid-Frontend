@@ -15,7 +15,9 @@ describe('ModuleItem', () => {
                 Code=""
                 UUID="123"
                 Modified_Date=""
-                setModuleModal={() => {}}
+                editCallback={() => {}}
+                deleteCallback={() => {}}
+                viewCallback={() => {}}
             />
         )
 

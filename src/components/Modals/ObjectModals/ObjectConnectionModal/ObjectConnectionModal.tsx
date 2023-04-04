@@ -30,7 +30,7 @@ const ObjectConnectionModal = ({
     initialValues,
     initialStep = 1,
     model,
-    relationModel,
+    connectionModel,
     connectionKey,
 }: ObjectConnectionModalProps) => {
     const queryClient = useQueryClient()
@@ -84,7 +84,7 @@ const ObjectConnectionModal = ({
      */
     const handleFormSubmit = (payload: RelationShort) => {
         refetchRelations().then(({ data, isSuccess }) => {
-            if (isSuccess) {
+            if (isSuccess && !!data) {
                 const isExisting = data.find(
                     item =>
                         item.Object_ID === payload?.Object_ID &&
@@ -111,16 +111,16 @@ const ObjectConnectionModal = ({
     }
 
     /**
-     * Handle delete relation
+     * Handle delete connection
      */
-    const handleDeleteRelation = (relation: RelationShort) => {
+    const handleDeleteConnection = (connection: RelationShort) => {
         refetchRelations().then(({ data, isSuccess }) => {
-            if (isSuccess) {
+            if (isSuccess && !!data) {
                 data.splice(
                     data.findIndex(
                         item =>
-                            item.Object_ID === relation.Object_ID &&
-                            item.Object_Type === relation.Object_Type
+                            item.Object_ID === connection.Object_ID &&
+                            item.Object_Type === connection.Object_Type
                     ),
                     1
                 )
@@ -134,9 +134,9 @@ const ObjectConnectionModal = ({
     }
 
     /**
-     * Format relations array
+     * Format connections array
      */
-    const relations = useMemo(() => {
+    const connections = useMemo(() => {
         if (data && connectionKey && connectionKey in data) {
             const propertyType = getPropertyByName(data, connectionKey)
 
@@ -175,16 +175,16 @@ const ObjectConnectionModal = ({
                 {({ isValid, isSubmitting, submitForm }) => (
                     <Form>
                         <Heading level="2" className="mb-2">
-                            {relationModel?.defaults.singularCapitalize}{' '}
+                            {connectionModel?.defaults.singularCapitalize}{' '}
                             koppelen
                         </Heading>
                         <CurrentStep
                             title={data?.Title}
-                            relationModel={relationModel}
+                            connectionModel={connectionModel}
                             model={model}
-                            relations={relations}
+                            connections={connections}
                             setStep={setStep}
-                            handleDeleteRelation={handleDeleteRelation}
+                            handleDeleteConnection={handleDeleteConnection}
                         />
                         <div className="mt-6 flex items-center justify-between">
                             <Button variant="link" onPress={handleClose}>

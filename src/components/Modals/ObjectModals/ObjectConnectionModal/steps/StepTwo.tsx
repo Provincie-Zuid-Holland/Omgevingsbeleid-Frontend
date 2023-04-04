@@ -6,12 +6,12 @@ import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
 
 import { StepProps } from './types'
 
-export const StepTwo = ({ title, relationModel, model }: StepProps) => {
+export const StepTwo = ({ title, connectionModel, model }: StepProps) => {
     const { values, setFieldValue } = useFormikContext<
         RelationShort & { Title?: string }
     >()
 
-    const { defaults } = relationModel || {}
+    const { defaults } = connectionModel || {}
     const { pluralCapitalize, plural, prefixSingular, singular } =
         defaults || {}
 

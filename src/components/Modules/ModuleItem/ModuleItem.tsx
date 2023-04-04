@@ -34,7 +34,12 @@ const ModuleItem = ({
     viewCallback,
 }: ModuleItemProps) => {
     const { user } = useAuth()
-    const { canEditModule } = usePermissions()
+    const {
+        canEditModule,
+        canPatchObjectInModule,
+        canEditModuleObjectContext,
+        canRemoveObjectFromModule,
+    } = usePermissions()
     const [isOpen, setIsOpen] = useState(false)
 
     const { isModuleManager, isLocked } = useModule()
@@ -67,6 +72,7 @@ const ModuleItem = ({
             []),
         ...((Action !== 'Terminate' &&
             hasRights &&
+            canPatchObjectInModule &&
             !isLocked && [
                 {
                     text: 'Bewerken',
@@ -75,6 +81,7 @@ const ModuleItem = ({
             ]) ||
             []),
         ...((hasRights &&
+            canEditModuleObjectContext &&
             !isLocked && [
                 {
                     text: `Bewerk ${
@@ -90,7 +97,7 @@ const ModuleItem = ({
             text: 'Bekijk in raadpleegomgeving',
             callback: viewCallback,
         },
-        ...(((canEditModule || isModuleManager) &&
+        ...(((canRemoveObjectFromModule || isModuleManager) &&
             !isLocked && [
                 {
                     text: 'Verwijderen uit module',

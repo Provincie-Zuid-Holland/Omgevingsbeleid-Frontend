@@ -4,8 +4,6 @@ import { MemoryRouter } from 'react-router-dom'
 
 import Navigation from './Navigation'
 
-jest.mock('./../Network/NetworkGraph', () => () => null)
-
 describe('Navigation', () => {
     const setLoginStateMock = jest.fn()
     const defaultProps = {

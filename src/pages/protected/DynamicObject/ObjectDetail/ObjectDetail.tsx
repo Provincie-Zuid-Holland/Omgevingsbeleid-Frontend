@@ -2,7 +2,7 @@ import { getHeadingStyles, Heading } from '@pzh-ui/components'
 import { useParams } from 'react-router-dom'
 
 import ObjectDefaultInfo from '@/components/DynamicObject/ObjectDefaultInfo'
-import ObjectRelations from '@/components/DynamicObject/ObjectRelations'
+import ObjectRelations from '@/components/DynamicObject/ObjectConnections'
 import { Model } from '@/config/objects/types'
 import useBreakpoint from '@/hooks/useBreakpoint'
 import useModule from '@/hooks/useModule'

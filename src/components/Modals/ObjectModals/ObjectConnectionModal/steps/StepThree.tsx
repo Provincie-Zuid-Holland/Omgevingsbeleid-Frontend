@@ -5,10 +5,10 @@ import { RelationShort } from '@/api/fetchers.schemas'
 
 import { StepProps } from './types'
 
-export const StepThree = ({ title, relationModel, model }: StepProps) => {
+export const StepThree = ({ title, connectionModel, model }: StepProps) => {
     const { values } = useFormikContext<RelationShort & { Title?: string }>()
 
-    const { defaults } = relationModel || {}
+    const { defaults } = connectionModel || {}
     const { singular } = defaults || {}
 
     return (

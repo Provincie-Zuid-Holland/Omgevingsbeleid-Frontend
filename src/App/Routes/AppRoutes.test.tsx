@@ -10,10 +10,10 @@ import '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 
 import { AuthContext } from '@/context/AuthContext'
-import { ambities } from '@/mocks/data/ambities'
-import { beleidskeuzes } from '@/mocks/data/beleidskeuzes'
-import { maatregelen } from '@/mocks/data/maatregelen'
-import { verordeningstructuur } from '@/mocks/data/verordeningstructuur'
+// import { ambities } from '@/mocks/data/ambities'
+// import { beleidskeuzes } from '@/mocks/data/beleidskeuzes'
+// import { maatregelen } from '@/mocks/data/maatregelen'
+// import { verordeningstructuur } from '@/mocks/data/verordeningstructuur'
 
 import AppRoutes from './AppRoutes'
 
@@ -57,128 +57,128 @@ describe('AppRoutes', () => {
             level: level,
         })
 
-    it('User can navigate the authenticated routes', async () => {
-        setup({})
+    // it('User can navigate the authenticated routes', async () => {
+    //     setup({})
 
-        await waitFor(() => {
-            getHeaderTitle('Mijn beleid', 2)
-        })
+    //     await waitFor(() => {
+    //         getHeaderTitle('Mijn beleid', 2)
+    //     })
 
-        navigateToMenuItem('Mijn beleid')
+    //     navigateToMenuItem('Mijn beleid')
 
-        expect(getHeaderTitle('Mijn beleid', 2)).toBeInTheDocument()
+    //     expect(getHeaderTitle('Mijn beleid', 2)).toBeInTheDocument()
 
-        // User can navigate to the verordening pages
-        navigateToMenuItem('Verordening')
+    //     // User can navigate to the verordening pages
+    //     navigateToMenuItem('Verordening')
 
-        await waitFor(() => {
-            screen.getByText('Nieuwe verordening')
-        })
+    //     await waitFor(() => {
+    //         screen.getByText('Nieuwe verordening')
+    //     })
 
-        fireEvent.click(screen.getByText('Nieuwe verordening'))
+    //     fireEvent.click(screen.getByText('Nieuwe verordening'))
 
-        expect(
-            getHeaderTitle('Voeg een nieuwe verordening toe', 1)
-        ).toBeInTheDocument()
+    //     expect(
+    //         getHeaderTitle('Voeg een nieuwe verordening toe', 1)
+    //     ).toBeInTheDocument()
 
-        fireEvent.click(screen.getByText('Terug naar verordeningen'))
+    //     fireEvent.click(screen.getByText('Terug naar verordeningen'))
 
-        const firstVerordeningTitle = verordeningstructuur[0].Titel
+    //     const firstVerordeningTitle = verordeningstructuur[0].Titel
 
-        await waitFor(() => {
-            expect(screen.getByText(firstVerordeningTitle)).toBeInTheDocument()
-        })
-    })
+    //     await waitFor(() => {
+    //         expect(screen.getByText(firstVerordeningTitle)).toBeInTheDocument()
+    //     })
+    // })
 
-    it('User can navigate to a beleidskeuze page', async () => {
-        setup({})
+    // it('User can navigate to a beleidskeuze page', async () => {
+    //     setup({})
 
-        navigateToMenuItem('Beleidskeuzes')
+    //     navigateToMenuItem('Beleidskeuzes')
 
-        await waitFor(() => {
-            screen.getByText('Nieuwe beleidskeuze')
-        })
+    //     await waitFor(() => {
+    //         screen.getByText('Nieuwe beleidskeuze')
+    //     })
 
-        fireEvent.click(screen.getByText('Nieuwe beleidskeuze'))
+    //     fireEvent.click(screen.getByText('Nieuwe beleidskeuze'))
 
-        expect(
-            getHeaderTitle('Voeg een nieuwe beleidskeuze toe', 1)
-        ).toBeInTheDocument()
+    //     expect(
+    //         getHeaderTitle('Voeg een nieuwe beleidskeuze toe', 1)
+    //     ).toBeInTheDocument()
 
-        fireEvent.click(screen.getByText('Terug naar beleidskeuzes'))
+    //     fireEvent.click(screen.getByText('Terug naar beleidskeuzes'))
 
-        const firstBeleidskeuzeTitle = beleidskeuzes[0].Titel || ''
+    //     const firstBeleidskeuzeTitle = beleidskeuzes[0].Titel || ''
 
-        await waitFor(() => {
-            screen.getByText(firstBeleidskeuzeTitle)
-        })
-    })
+    //     await waitFor(() => {
+    //         screen.getByText(firstBeleidskeuzeTitle)
+    //     })
+    // })
 
-    it('User can navigate to the maatregel pages', async () => {
-        setup({})
+    // it('User can navigate to the maatregel pages', async () => {
+    //     setup({})
 
-        navigateToMenuItem('Maatregelen')
+    //     navigateToMenuItem('Maatregelen')
 
-        await waitFor(() => {
-            screen.getByText('Nieuwe maatregel')
-        })
+    //     await waitFor(() => {
+    //         screen.getByText('Nieuwe maatregel')
+    //     })
 
-        fireEvent.click(screen.getByText('Nieuwe maatregel'))
+    //     fireEvent.click(screen.getByText('Nieuwe maatregel'))
 
-        expect(
-            getHeaderTitle('Voeg een nieuwe maatregel toe', 1)
-        ).toBeInTheDocument()
+    //     expect(
+    //         getHeaderTitle('Voeg een nieuwe maatregel toe', 1)
+    //     ).toBeInTheDocument()
 
-        fireEvent.click(screen.getByText('Terug naar maatregelen'))
+    //     fireEvent.click(screen.getByText('Terug naar maatregelen'))
 
-        const firstMaatregelTitle = maatregelen[0].Titel
+    //     const firstMaatregelTitle = maatregelen[0].Titel
 
-        await screen.findByText(firstMaatregelTitle)
-    })
+    //     await screen.findByText(firstMaatregelTitle)
+    // })
 
-    it('User can navigate to the other object pages', async () => {
-        setup({})
+    // it('User can navigate to the other object pages', async () => {
+    //     setup({})
 
-        navigateToMenuItem('Ambities')
+    //     navigateToMenuItem('Ambities')
 
-        await waitFor(() => {
-            screen.getByText('Nieuwe ambitie')
-        })
+    //     await waitFor(() => {
+    //         screen.getByText('Nieuwe ambitie')
+    //     })
 
-        fireEvent.click(screen.getByText('Nieuwe ambitie'))
+    //     fireEvent.click(screen.getByText('Nieuwe ambitie'))
 
-        expect(
-            getHeaderTitle('Voeg een nieuwe ambitie toe', 1)
-        ).toBeInTheDocument()
+    //     expect(
+    //         getHeaderTitle('Voeg een nieuwe ambitie toe', 1)
+    //     ).toBeInTheDocument()
 
-        fireEvent.click(screen.getByText('Terug naar ambities'))
+    //     fireEvent.click(screen.getByText('Terug naar ambities'))
 
-        const firstAmbitieTitle = ambities[0].Titel
+    //     const firstAmbitieTitle = ambities[0].Titel
 
-        await waitFor(() => {
-            screen.getByText(firstAmbitieTitle)
-        })
-    })
+    //     await waitFor(() => {
+    //         screen.getByText(firstAmbitieTitle)
+    //     })
+    // })
 
-    it('User can navigate to the beleidsrelatie pages', async () => {
-        setup({})
+    // it('User can navigate to the beleidsrelatie pages', async () => {
+    //     setup({})
 
-        navigateToMenuItem('Beleidsrelaties')
+    //     navigateToMenuItem('Beleidsrelaties')
 
-        await waitFor(() => {
-            screen.getByText(beleidskeuzes[0].Titel || '')
-        })
+    //     await waitFor(() => {
+    //         screen.getByText(beleidskeuzes[0].Titel || '')
+    //     })
 
-        fireEvent.click(screen.getByText(beleidskeuzes[0].Titel || ''))
+    //     fireEvent.click(screen.getByText(beleidskeuzes[0].Titel || ''))
 
-        fireEvent.click(screen.getByText('Verzoeken'))
-        fireEvent.click(screen.getByText('Afgewezen'))
-        fireEvent.click(screen.getByText('Verbroken'))
-        fireEvent.click(screen.getByText('Nieuwe relatie'))
-        expect(
-            screen.getByText('Voeg een nieuwe beleidsrelatie toe')
-        ).toBeInTheDocument()
-    })
+    //     fireEvent.click(screen.getByText('Verzoeken'))
+    //     fireEvent.click(screen.getByText('Afgewezen'))
+    //     fireEvent.click(screen.getByText('Verbroken'))
+    //     fireEvent.click(screen.getByText('Nieuwe relatie'))
+    //     expect(
+    //         screen.getByText('Voeg een nieuwe beleidsrelatie toe')
+    //     ).toBeInTheDocument()
+    // })
 
     it('User can navigate to the beleidsmodules pages', async () => {
         setup({})

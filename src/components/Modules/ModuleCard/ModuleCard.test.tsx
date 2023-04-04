@@ -2,18 +2,14 @@ import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import '@testing-library/jest-dom'
 
+import { getModulesModuleIdGetMock } from '@/api/fetchers.msw'
+
 import ModuleCard from './ModuleCard'
 
 describe('ModuleCard', () => {
-    const defaultProps = {
-        title: 'Test',
-        link: '/',
-        description: '',
-        status: '',
-    }
+    const setup = () => {
+        const props = getModulesModuleIdGetMock().Module
 
-    const setup = (customProps?: { [key: string]: any }) => {
-        const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
                 <ModuleCard {...props} />

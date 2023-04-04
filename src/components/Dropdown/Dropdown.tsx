@@ -104,7 +104,6 @@ const DropdownLinkElement = ({
                         'border-t border-gray-300': index !== 0,
                     }
                 )}
-                id="navbar-popup-href-raadpleeg-omgeving"
                 to={item.link || ''}
                 onClick={() => {
                     item.callback?.()

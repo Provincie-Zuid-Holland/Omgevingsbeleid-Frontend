@@ -90,7 +90,7 @@ const DynamicObjectForm = ({ model, isLocked }: DynamicObjectFormProps) => {
                                 navigate(`/muteer/modules/${moduleId}`)
                             }
                             disabled={isSubmitting || isLoading || isLocked}
-                            isLoading={isLoading}
+                            isLoading={isSubmitting}
                         />
 
                         <ScrollToFieldError />

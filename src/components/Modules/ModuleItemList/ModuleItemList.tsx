@@ -3,13 +3,14 @@ import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
+import { ModuleModalActions } from '@/components/Modals/ModuleModals/types'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
+import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
 
 import ModuleItem from '../ModuleItem'
-import { ModuleModalActions } from '../../Modals/ModuleModals/types'
 
 interface ModuleItemListProps {
     /** Array of objects */
@@ -22,10 +23,11 @@ interface ModuleItemListProps {
 
 const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
     const { user } = useAuth()
-    const { canEditModule } = usePermissions()
+    const { canEditModule, canPatchObjectInModule } = usePermissions()
+    const { isModuleManager } = useModule()
 
     /**
-     * If user role is not administrator
+     * If user has no edit rights
      * show objects of the user
      */
     const userObjects = useMemo(
@@ -39,7 +41,7 @@ const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
     )
 
     /**
-     * If user role is not administrator
+     * If user has no edit rights
      * show objects of the user
      */
     const otherObjects = useMemo(
@@ -53,16 +55,16 @@ const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
     )
 
     /**
-     * If user is no administrator show different layout
+     * If user has no edit rights show different layout
      */
-    if (!canEditModule) {
+    if (!canEditModule && !isModuleManager) {
         return (
             <>
                 <ItemList
                     objects={userObjects}
                     title="Jouw onderdelen in deze module"
                     noResultsText="Je hebt nog geen onderdelen in deze module"
-                    hasEditButton
+                    hasEditButton={canPatchObjectInModule}
                     {...rest}
                 />
 
@@ -109,7 +111,7 @@ const ItemList = ({
 
     return (
         <>
-            <Text type="body" className="font-bold">
+            <Text type="body" className="font-bold text-pzh-blue">
                 {title}
             </Text>
             {!!objects?.length ? (

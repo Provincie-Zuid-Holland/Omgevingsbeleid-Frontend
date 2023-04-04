@@ -2,20 +2,20 @@ import { Heading } from '@pzh-ui/components'
 import { useCallback, useState } from 'react'
 
 import { RelationShort } from '@/api/fetchers.schemas'
+import ObjectConnectionModal from '@/components/Modals/ObjectModals/ObjectConnectionModal'
+import { ObjectConnectionModalActions } from '@/components/Modals/ObjectModals/types'
 import * as models from '@/config/objects'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import getPropertyByName from '@/utils/getPropertyByName'
 
-import ObjectConnectionModal from '../../Modals/ObjectModals/ObjectConnectionModal'
-import { ObjectConnectionModalActions } from '../../Modals/ObjectModals/types'
-import ObjectRelationPart from '../ObjectRelationPart'
+import ObjectConnectionPart from '../ObjectConnectionPart'
 
-interface ObjectRelationsProps {
+interface ObjectConnectionsProps {
     model: Model
 }
 
-export interface Relation {
+export interface Connection {
     Description?: string
     Object_Type: string
     Object_ID: number
@@ -23,7 +23,7 @@ export interface Relation {
     Title?: string
 }
 
-const ObjectRelations = ({ model }: ObjectRelationsProps) => {
+const ObjectConnections = ({ model }: ObjectConnectionsProps) => {
     const { data } = useObject()
 
     const [modal, setModal] = useState<ObjectConnectionModalActions>({
@@ -33,9 +33,9 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
     })
 
     /**
-     * Get relations of Object_Type
+     * Get connections of Object_Type
      */
-    const getRelations = useCallback(
+    const getConnections = useCallback(
         (type: keyof ModelReturnType) => {
             if (data && type in data) {
                 const propertyType = getPropertyByName(data, type)
@@ -56,16 +56,16 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
     return (
         <>
             <div className="mt-12 mb-4">
-                <Heading level="3">Koppelingen & relaties</Heading>
+                <Heading level="3">Koppelingen</Heading>
             </div>
 
             {model.allowedConnections?.map(connection => (
-                <ObjectRelationPart
+                <ObjectConnectionPart
                     key={connection.type}
                     connectionKey={connection.key}
                     model={models[connection.type]}
                     setModal={setModal}
-                    relations={getRelations(connection.key)}
+                    connections={getConnections(connection.key)}
                 />
             ))}
 
@@ -78,4 +78,4 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
     )
 }
 
-export default ObjectRelations
+export default ObjectConnections

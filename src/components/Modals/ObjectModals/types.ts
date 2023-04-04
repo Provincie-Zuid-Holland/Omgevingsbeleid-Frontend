@@ -8,7 +8,7 @@ import {
 export interface ObjectConnectionModalActions {
     connectionKey?: keyof ModelReturnType
     isOpen: boolean
-    relationModel?: Model
+    connectionModel?: Model
     initialStep?: number
     initialValues: RelationShort
 }

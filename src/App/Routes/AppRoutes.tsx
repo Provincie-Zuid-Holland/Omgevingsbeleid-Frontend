@@ -1,7 +1,7 @@
 import { useCallback, useLayoutEffect } from 'react'
 import { useNavigate, useRoutes } from 'react-router-dom'
 
-import { NetworkGraph } from '@/components/Network'
+// import { NetworkGraph } from '@/components/Network'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 import ModuleProvider from '@/context/ModuleContext'
@@ -19,20 +19,20 @@ import ObjectDetail from '@/pages/protected/DynamicObject/ObjectDetail'
 import {
     Accessibility,
     Home,
-    InProgress,
+    // InProgress,
     Login,
-    MapSearch,
+    // MapSearch,
     PlanningAndReleases,
-    SearchResults,
-    Verordening,
+    // SearchResults,
+    // Verordening,
     DynamicOverview as DynamicOverviewPublic,
     DynamicObject as DynamicObjectPublic,
 } from '@/pages/public'
-import AreaDetail from '@/pages/public/AreaDetail'
-import AreaOverview from '@/pages/public/AreaOverview'
-import EnvironmentProgram from '@/pages/public/EnvironmentProgram'
-import ThemeDetail from '@/pages/public/ThemeDetail'
-import ThemeOverview from '@/pages/public/ThemeOverview'
+// import AreaDetail from '@/pages/public/AreaDetail'
+// import AreaOverview from '@/pages/public/AreaOverview'
+// import EnvironmentProgram from '@/pages/public/EnvironmentProgram'
+// import ThemeDetail from '@/pages/public/ThemeDetail'
+// import ThemeOverview from '@/pages/public/ThemeOverview'
 
 import ProtectedRoute from './ProtectedRoute'
 
@@ -47,11 +47,11 @@ const AppRoutes = () => {
         },
         { path: 'login', element: <Login /> },
         { path: 'logout', element: <Logout /> },
-        {
-            path: 'zoekresultaten',
-            element: <SearchResults />,
-        },
-        { path: 'zoeken-op-kaart', element: <MapSearch /> },
+        // {
+        //     path: 'zoekresultaten',
+        //     element: <SearchResults />,
+        // },
+        // { path: 'zoeken-op-kaart', element: <MapSearch /> },
         {
             path: 'planning-en-releases',
             element: <PlanningAndReleases />,
@@ -60,79 +60,79 @@ const AppRoutes = () => {
             path: 'digi-toegankelijkheid',
             element: <Accessibility />,
         },
-        {
-            path: 'in-bewerking',
-            element: <InProgress />,
-        },
-        {
-            path: 'netwerkvisualisatie',
-            element: <NetworkGraph />,
-        },
-        {
-            path: 'verordening',
-            element: <Verordening />,
-        },
-        {
-            path: 'omgevingsprogramma',
-            children: [
-                {
-                    index: true,
-                    element: <EnvironmentProgram />,
-                },
-                {
-                    path: 'gebiedsprogrammas',
-                    children: [
-                        {
-                            index: true,
-                            element: <AreaOverview />,
-                        },
-                        {
-                            path: ':id',
-                            children: [
-                                {
-                                    index: true,
-                                    element: <AreaDetail />,
-                                },
-                                {
-                                    path: ':id',
-                                    element: (
-                                        <DynamicObjectPublic
-                                            model={models['maatregel']}
-                                        />
-                                    ),
-                                },
-                            ],
-                        },
-                    ],
-                },
-                {
-                    path: 'thematische-programmas',
-                    children: [
-                        {
-                            index: true,
-                            element: <ThemeOverview />,
-                        },
-                        {
-                            path: ':id',
-                            children: [
-                                {
-                                    index: true,
-                                    element: <ThemeDetail />,
-                                },
-                                {
-                                    path: ':id',
-                                    element: (
-                                        <DynamicObjectPublic
-                                            model={models['maatregel']}
-                                        />
-                                    ),
-                                },
-                            ],
-                        },
-                    ],
-                },
-            ],
-        },
+        // {
+        //     path: 'in-bewerking',
+        //     element: <InProgress />,
+        // },
+        // {
+        //     path: 'netwerkvisualisatie',
+        //     element: <NetworkGraph />,
+        // },
+        // {
+        //     path: 'verordening',
+        //     element: <Verordening />,
+        // },
+        // {
+        //     path: 'omgevingsprogramma',
+        //     children: [
+        //         {
+        //             index: true,
+        //             element: <EnvironmentProgram />,
+        //         },
+        //         {
+        //             path: 'gebiedsprogrammas',
+        //             children: [
+        //                 {
+        //                     index: true,
+        //                     element: <AreaOverview />,
+        //                 },
+        //                 {
+        //                     path: ':id',
+        //                     children: [
+        //                         {
+        //                             index: true,
+        //                             element: <AreaDetail />,
+        //                         },
+        //                         {
+        //                             path: ':id',
+        //                             element: (
+        //                                 <DynamicObjectPublic
+        //                                     model={models['maatregel']}
+        //                                 />
+        //                             ),
+        //                         },
+        //                     ],
+        //                 },
+        //             ],
+        //         },
+        //         {
+        //             path: 'thematische-programmas',
+        //             children: [
+        //                 {
+        //                     index: true,
+        //                     element: <ThemeOverview />,
+        //                 },
+        //                 {
+        //                     path: ':id',
+        //                     children: [
+        //                         {
+        //                             index: true,
+        //                             element: <ThemeDetail />,
+        //                         },
+        //                         {
+        //                             path: ':id',
+        //                             element: (
+        //                                 <DynamicObjectPublic
+        //                                     model={models['maatregel']}
+        //                                 />
+        //                             ),
+        //                         },
+        //                     ],
+        //                 },
+        //             ],
+        //         },
+        //     ],
+        // },
         ...Object.keys(models)
             .filter(model => !!models[model as ModelType].defaults.slugOverview)
             .map(model => ({

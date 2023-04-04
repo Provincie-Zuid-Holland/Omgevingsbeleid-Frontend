@@ -76,7 +76,7 @@ export const StepTwo = ({ data }: StepProps) => {
                 </div>
                 <div className="col-span-4 flex flex-col">
                     <Text type="body-bold" className="mb-2">
-                        Preview
+                        Voorbeeld
                     </Text>
 
                     <div className="flex flex-1">
