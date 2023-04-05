@@ -9,7 +9,7 @@ import {
     useModulesModuleIdObjectAmbitieLatestLineageIdGet,
     useModulesModuleIdObjectAmbitieLineageIdPatch,
 } from '@/api/fetchers'
-import { AmbitiePatch, AmbitieStaticPost } from '@/api/fetchers.schemas'
+import { AmbitiePatch, AmbitieStaticPostStatics } from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
@@ -31,7 +31,7 @@ const fetchers = {
 const ambitie: DynamicObject<
     typeof fetchers,
     keyof AmbitiePatch,
-    (keyof AmbitieStaticPost)[]
+    (keyof AmbitieStaticPostStatics)[]
 > = {
     defaults: {
         singular: 'ambitie',

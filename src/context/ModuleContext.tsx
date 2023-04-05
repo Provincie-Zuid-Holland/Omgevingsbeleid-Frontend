@@ -62,6 +62,8 @@ interface ModuleContextType {
     isModuleManager: boolean
     /** Is module locked */
     isLocked: boolean
+    /** Can module be completed */
+    canComplete: boolean
 }
 
 export const ModuleContext = createContext<ModuleContextType>(null!)
@@ -159,7 +161,12 @@ function ModuleProvider() {
 
     const isLocked = useMemo(
         () => !!module.data?.Module.Temporary_Locked,
-        [module.data?.Module]
+        [module.data?.Module.Temporary_Locked]
+    )
+
+    const canComplete = useMemo(
+        () => module.data?.Module.Status?.Status === 'Vastgesteld',
+        [module.data?.Module.Status?.Status]
     )
 
     const value = {
@@ -169,6 +176,7 @@ function ModuleProvider() {
         useRemoveObjectFromModule,
         isModuleManager,
         isLocked,
+        canComplete,
     }
 
     return (

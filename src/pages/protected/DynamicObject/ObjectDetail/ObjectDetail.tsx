@@ -1,7 +1,7 @@
 import { getHeadingStyles, Heading } from '@pzh-ui/components'
 import { useParams } from 'react-router-dom'
 
-import ObjectRelations from '@/components/DynamicObject/ObjectConnections'
+import ObjectConnections from '@/components/DynamicObject/ObjectConnections'
 import ObjectDefaultInfo from '@/components/DynamicObject/ObjectDefaultInfo'
 import { Model } from '@/config/objects/types'
 import useBreakpoint from '@/hooks/useBreakpoint'
@@ -54,7 +54,7 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
                 <ObjectDefaultInfo model={model} />
 
                 {!!model.allowedConnections?.length && (
-                    <ObjectRelations model={model} />
+                    <ObjectConnections model={model} />
                 )}
             </div>
         </MutateLayout>

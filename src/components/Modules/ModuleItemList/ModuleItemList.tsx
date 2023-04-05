@@ -34,8 +34,8 @@ const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
         () =>
             objects?.filter(
                 object =>
-                    object.Owner_1_UUID === user?.UUID ||
-                    object.Owner_2_UUID === user?.UUID
+                    object.ObjectStatics?.Owner_1_UUID === user?.UUID ||
+                    object.ObjectStatics?.Owner_2_UUID === user?.UUID
             ),
         [objects, user?.UUID]
     )
@@ -48,8 +48,8 @@ const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
         () =>
             objects?.filter(
                 object =>
-                    object.Owner_1_UUID !== user?.UUID &&
-                    object.Owner_2_UUID !== user?.UUID
+                    object.ObjectStatics?.Owner_1_UUID !== user?.UUID &&
+                    object.ObjectStatics?.Owner_2_UUID !== user?.UUID
             ),
         [objects, user?.UUID]
     )

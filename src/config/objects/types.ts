@@ -3,16 +3,16 @@ import { Schema } from 'zod'
 import {
     AmbitieGet,
     AmbitiePatch,
-    AmbitieStaticPost,
+    AmbitieStaticPostStatics,
     BeleidsdoelGet,
     BeleidsdoelPatch,
-    BeleidsdoelStaticPatch,
+    BeleidsdoelStaticPatchStatics,
     BeleidskeuzeGet,
     BeleidskeuzePatch,
-    BeleidskeuzeStaticPatch,
+    BeleidskeuzeStaticPatchStatics,
     MaatregelGet,
     MaatregelPatch,
-    MaatregelStaticPatch,
+    MaatregelStaticPatchStatics,
 } from '@/api/fetchers.schemas'
 import { Validation } from '@/validation/zodSchema'
 
@@ -109,9 +109,9 @@ export type ModelPatchType = BeleidsdoelPatch &
     BeleidskeuzePatch &
     MaatregelPatch
 
-export type ModelPatchStaticType = BeleidsdoelStaticPatch &
-    AmbitieStaticPost &
-    BeleidskeuzeStaticPatch &
-    MaatregelStaticPatch
+export type ModelPatchStaticType = BeleidsdoelStaticPatchStatics &
+    AmbitieStaticPostStatics &
+    BeleidskeuzeStaticPatchStatics &
+    MaatregelStaticPatchStatics
 
 export type Model = typeof models[ModelType]

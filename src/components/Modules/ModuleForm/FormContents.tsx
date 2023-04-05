@@ -46,7 +46,8 @@ const FormContents = () => {
         () =>
             objects?.filter(
                 object =>
-                    object.Action === 'Toevoegen' || object.Action === 'Create'
+                    object.ModuleObjectContext?.Action === 'Toevoegen' ||
+                    object.ModuleObjectContext?.Action === 'Create'
             ),
         [objects]
     )
@@ -55,7 +56,8 @@ const FormContents = () => {
         () =>
             objects?.filter(
                 object =>
-                    object.Action !== 'Toevoegen' && object.Action !== 'Create'
+                    object.ModuleObjectContext?.Action !== 'Toevoegen' &&
+                    object.ModuleObjectContext?.Action !== 'Create'
             ),
         [objects]
     )

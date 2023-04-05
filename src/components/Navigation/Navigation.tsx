@@ -46,7 +46,11 @@ const Navigation = () => {
                 <div className="col-span-4 my-auto sm:col-span-3">
                     <Link
                         id="href-naar-home"
-                        to={!!user ? '/muteer' : '/'}
+                        to={
+                            !!user && userIsInMuteerEnvironment
+                                ? '/muteer'
+                                : '/'
+                        }
                         className="relative"
                         style={
                             isMobile
@@ -167,10 +171,10 @@ interface LogoProps {
 const Logo = ({ type }: LogoProps) => (
     <img
         className="inline-block object-contain"
-        title="Provincie Zuid-Holland Logo"
+        title="Provincie Zuid-Holland, naar de homepage"
         style={{ height: '96px' }}
         src={type === 'white' ? logoWhite : logoSVG}
-        alt="Provincie Zuid-Holland Logo"
+        alt="Provincie Zuid-Holland, naar de homepage"
     />
 )
 

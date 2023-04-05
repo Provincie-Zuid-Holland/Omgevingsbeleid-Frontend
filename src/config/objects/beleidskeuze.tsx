@@ -11,7 +11,7 @@ import {
 } from '@/api/fetchers'
 import {
     BeleidskeuzePatch,
-    BeleidskeuzeStaticPatch,
+    BeleidskeuzeStaticPatchStatics,
 } from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
@@ -34,7 +34,7 @@ const fetchers = {
 const beleidskeuze: DynamicObject<
     typeof fetchers,
     keyof BeleidskeuzePatch,
-    (keyof BeleidskeuzeStaticPatch)[]
+    (keyof BeleidskeuzeStaticPatchStatics)[]
 > = {
     defaults: {
         singular: 'beleidskeuze',

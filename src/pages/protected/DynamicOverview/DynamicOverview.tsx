@@ -72,7 +72,7 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
                     <div className="flex justify-end">
                         <button
                             className="flex items-center justify-center w-6 h-6 hover:bg-pzh-gray-100 rounded-full"
-                            aria-label="Object menu">
+                            aria-label="Onderdeel menu">
                             <EllipsisVertical />
                         </button>
                     </div>

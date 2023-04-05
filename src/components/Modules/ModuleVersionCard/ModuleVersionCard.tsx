@@ -86,7 +86,7 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
 
     return (
         <div className="mb-5 py-4 px-6 bg-pzh-gray-100">
-            <Text type="body" className="mb-2 font-bold">
+            <Text type="body" className="mb-2 font-bold text-pzh-blue">
                 Versie aanmaken
             </Text>
             <Text type="body" className="mb-3">

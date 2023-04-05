@@ -7,7 +7,7 @@ import Dropdown, { DropdownItem } from '@/components/Dropdown'
 import useAuth from '@/hooks/useAuth'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
-import getModuleActionText from '@/utils/getModuleActionText'
+import getObjectActionText from '@/utils/getObjectActionText'
 
 interface ModuleItemProps extends ModuleObjectShort {
     /** Has edit button */
@@ -24,10 +24,9 @@ const ModuleItem = ({
     Object_ID,
     Object_Type,
     Module_ID,
-    Action,
+    ModuleObjectContext,
     Title,
-    Owner_1_UUID,
-    Owner_2_UUID,
+    ObjectStatics,
     hasEditButton,
     editCallback,
     deleteCallback,
@@ -51,13 +50,19 @@ const ModuleItem = ({
         if (
             canEditModule ||
             isModuleManager ||
-            Owner_1_UUID === user?.UUID ||
-            Owner_2_UUID === user?.UUID
+            ObjectStatics?.Owner_1_UUID === user?.UUID ||
+            ObjectStatics?.Owner_2_UUID === user?.UUID
         )
             return true
 
         return false
-    }, [canEditModule, isModuleManager, Owner_1_UUID, Owner_2_UUID, user?.UUID])
+    }, [
+        canEditModule,
+        isModuleManager,
+        ObjectStatics?.Owner_1_UUID,
+        ObjectStatics?.Owner_2_UUID,
+        user?.UUID,
+    ])
 
     /**
      * Array of dropdown items based on user rights
@@ -70,7 +75,7 @@ const ModuleItem = ({
             },
         ]) ||
             []),
-        ...((Action !== 'Terminate' &&
+        ...((ModuleObjectContext?.Action !== 'Terminate' &&
             hasRights &&
             canPatchObjectInModule &&
             !isLocked && [
@@ -85,7 +90,8 @@ const ModuleItem = ({
             !isLocked && [
                 {
                     text: `Bewerk ${
-                        Action !== 'Create' && Action !== 'Toevoegen'
+                        ModuleObjectContext?.Action !== 'Create' &&
+                        ModuleObjectContext?.Action !== 'Toevoegen'
                             ? 'actie, '
                             : ' '
                     }toelichting en conclusie`,
@@ -122,7 +128,9 @@ const ModuleItem = ({
                             <Text
                                 type="body-small"
                                 className="mr-1 text-pzh-gray-600">
-                                {getModuleActionText(Action)}
+                                {getObjectActionText(
+                                    ModuleObjectContext?.Action
+                                )}
                             </Text>
                             <CircleInfo className="-mt-1 text-pzh-gray-600" />
                         </div>
@@ -130,19 +138,20 @@ const ModuleItem = ({
                     <Text type="body" className="truncate">
                         {Title}
                     </Text>
-                    {hasEditButton && Action !== 'Terminate' && (
-                        <Hyperlink
-                            to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`}
-                            text="Bewerken"
-                        />
-                    )}
+                    {hasEditButton &&
+                        ModuleObjectContext?.Action !== 'Terminate' && (
+                            <Hyperlink
+                                to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`}
+                                text="Bewerken"
+                            />
+                        )}
                 </div>
                 {!!dropdownItems.length ? (
                     <div className="relative">
                         <button
                             className="flex items-center justify-center w-6 h-6 hover:bg-pzh-gray-100 rounded-full"
                             onClick={() => setIsOpen(!isOpen)}
-                            aria-label="Object menu">
+                            aria-label="Onderdeel menu">
                             <EllipsisVertical />
                         </button>
                         <Dropdown

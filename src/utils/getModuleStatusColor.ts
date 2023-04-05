@@ -9,6 +9,7 @@ const getModuleStatusColor = (status?: string) => {
         case 'Definitief ontwerp PS':
             return 'purple'
         case 'Vigerend':
+        case 'Vastgesteld':
             return 'green'
         default:
             return 'gray'

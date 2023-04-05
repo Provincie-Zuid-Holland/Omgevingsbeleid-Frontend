@@ -9,7 +9,10 @@ import {
     useModulesModuleIdObjectMaatregelLatestLineageIdGet,
     useModulesModuleIdObjectMaatregelLineageIdPatch,
 } from '@/api/fetchers'
-import { MaatregelPatch, MaatregelStaticPatch } from '@/api/fetchers.schemas'
+import {
+    MaatregelPatch,
+    MaatregelStaticPatchStatics,
+} from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
@@ -31,7 +34,7 @@ const fetchers = {
 const maatregel: DynamicObject<
     typeof fetchers,
     keyof MaatregelPatch,
-    (keyof MaatregelStaticPatch)[]
+    (keyof MaatregelStaticPatchStatics)[]
 > = {
     defaults: {
         singular: 'maatregel',

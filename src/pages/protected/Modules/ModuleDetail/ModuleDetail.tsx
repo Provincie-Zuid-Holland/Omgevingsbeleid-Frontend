@@ -14,12 +14,14 @@ import Avatar from '@/components/Avatar'
 import { LoaderContent } from '@/components/Loader'
 import {
     ModuleActivateModal,
+    ModuleCompleteModal,
     ModuleContentsModal,
+    ModuleEditObjectModal,
+    ModuleLockModal,
+    ModuleObjectDeleteConfirmationModal,
 } from '@/components/Modals/ModuleModals'
-import ModuleEditObjectModal from '@/components/Modals/ModuleModals/ModuleEditObjectModal'
-import ModuleLockModal from '@/components/Modals/ModuleModals/ModuleLockModal'
-import ModuleObjectDeleteConfirmationModal from '@/components/Modals/ModuleModals/ModuleObjectDeleteConfirmationModal'
 import { ModuleModalActions } from '@/components/Modals/ModuleModals/types'
+import ModuleCompleteCard from '@/components/Modules/ModuleCompleteCard/ModuleCompleteCard'
 import ModuleInactiveCard from '@/components/Modules/ModuleInactiveCard'
 import ModuleItemList from '@/components/Modules/ModuleItemList'
 import ModuleLock from '@/components/Modules/ModuleLock'
@@ -54,6 +56,7 @@ const ModuleDetail = () => {
         isLoading,
         isModuleManager,
         isLocked,
+        canComplete,
     } = useModule()
 
     const managers = useModuleManagers(module)
@@ -146,9 +149,14 @@ const ModuleDetail = () => {
 
                 {module.Activated &&
                     isLocked &&
+                    !canComplete &&
                     (canPatchModuleStatus || isModuleManager) && (
                         <ModuleVersionCard currentStatus={module.Status} />
                     )}
+
+                {canComplete && isLocked && (
+                    <ModuleCompleteCard setModuleModal={setModuleModal} />
+                )}
 
                 {module.Activated && statusHistory && (
                     <ModuleTimeline statusHistory={statusHistory} />
@@ -197,6 +205,16 @@ const ModuleDetail = () => {
                 }
                 object={moduleModal.object || ({} as ModuleObjectShort)}
                 module={module}
+            />
+
+            <ModuleCompleteModal
+                isOpen={
+                    moduleModal.isOpen &&
+                    moduleModal.action === 'completeModule'
+                }
+                onClose={() =>
+                    setModuleModal({ ...moduleModal, isOpen: false })
+                }
             />
         </MutateLayout>
     )

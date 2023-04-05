@@ -36,7 +36,9 @@ const ModuleEditObjectModal = ({
 }: ModuleEditObjectModalProps) => {
     const queryClient = useQueryClient()
 
-    const isAdded = object.Action === 'Create' || object.Action === 'Toevoegen'
+    const isAdded =
+        object.ModuleObjectContext?.Action === 'Create' ||
+        object.ModuleObjectContext?.Action === 'Toevoegen'
 
     const {
         data: objectData,

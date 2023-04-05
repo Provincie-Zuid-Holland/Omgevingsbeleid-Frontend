@@ -7,7 +7,6 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet'
 import { useEffectOnce } from 'react-use'
 
-import axe from '@/a11y'
 import { LoaderContent } from '@/components/Loader'
 import AuthProvider from '@/context/AuthContext'
 import usePage from '@/hooks/usePage'
@@ -38,6 +37,8 @@ const App = () => {
         !process.env.JEST_WORKER_ID &&
         process.env.REACT_APP_ENABLE_AXE === 'true'
     ) {
+        const axe = require('@/a11y').default
+
         axe()
     }
 

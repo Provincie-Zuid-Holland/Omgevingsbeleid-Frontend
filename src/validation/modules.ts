@@ -1,6 +1,10 @@
 import { z } from 'zod'
 
-import { ModuleCreate, ModuleAddNewObject } from '@/api/fetchers.schemas'
+import {
+    ModuleCreate,
+    ModuleAddNewObject,
+    CompleteModule,
+} from '@/api/fetchers.schemas'
 import createEmptyObject from '@/utils/createEmptyObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
@@ -56,6 +60,28 @@ export const SCHEMA_ADD_OBJECT = z
         }),
     ])
     .and(baseObjectShape)
+
+export const SCHEMA_COMPLETE_MODULE = z.object({
+    IDMS_Link: schemaDefaults.url(),
+    Decision_Number: schemaDefaults.requiredString(),
+    ObjectSpecifiekeGeldigheden: z.array(
+        z
+            .object({
+                Object_Type: schemaDefaults.requiredString(),
+                Object_ID: schemaDefaults.requiredNumber(),
+                Start_Validity: schemaDefaults.date,
+                End_Validity: schemaDefaults.date,
+            })
+            .partial({
+                Start_Validity: true,
+                End_Validity: true,
+            })
+    ),
+})
+
+export const EMPTY_SCHEMA_COMPLETE_MODULE: CompleteModule = createEmptyObject(
+    SCHEMA_COMPLETE_MODULE
+)
 
 export const EMPTY_MODULE_OBJECT: ModuleAddNewObject = createEmptyObject(
     SCHEMA_ADD_NEW_OBJECT

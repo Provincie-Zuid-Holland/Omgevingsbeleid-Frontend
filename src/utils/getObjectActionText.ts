@@ -1,4 +1,4 @@
-const getModuleActionText = (action?: string) => {
+const getObjectActionText = (action?: string) => {
     switch (action) {
         case 'Toevoegen':
         case 'Create':
@@ -12,4 +12,4 @@ const getModuleActionText = (action?: string) => {
     }
 }
 
-export default getModuleActionText
+export default getObjectActionText
