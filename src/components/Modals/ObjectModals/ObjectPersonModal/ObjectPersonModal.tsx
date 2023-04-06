@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { useUsersGet } from '@/api/fetchers'
+import { ModelPatchStaticType } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 
 import { ObjectPersonModalActions } from '../types'
@@ -44,7 +45,7 @@ const ObjectPersonModal = ({
     /**
      * Update person
      */
-    const handleFormSubmit = (payload: any) => {
+    const handleFormSubmit = (payload: ModelPatchStaticType) => {
         mutate({ lineageId: parseInt(objectId!), data: payload })
     }
 
@@ -70,6 +71,12 @@ const ObjectPersonModal = ({
                         isLoading={loadingUsers && isFetching}
                         optimized={false}
                         options={userOptions}
+                        defaultValue={
+                            person?.value && {
+                                label: person?.value?.Gebruikersnaam,
+                                value: person?.value?.UUID,
+                            }
+                        }
                         styles={{
                             menu: base => ({
                                 ...base,

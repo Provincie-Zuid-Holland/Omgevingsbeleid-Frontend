@@ -1,13 +1,17 @@
 import { getHeadingStyles, Text } from '@pzh-ui/components'
 import { PenToSquare, Plus } from '@pzh-ui/icons'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
+import { UserShort } from '@/api/fetchers.schemas'
+import ObjectPersonModal from '@/components/Modals/ObjectModals/ObjectPersonModal'
+import { ObjectPersonModalActions } from '@/components/Modals/ObjectModals/types'
 import { Model, ModelPatchStaticType } from '@/config/objects/types'
 import useBreakpoint from '@/hooks/useBreakpoint'
-import getStaticDataLabel from '@/utils/getStaticDataLabel'
-
-import ObjectPersonModal from '../../Modals/ObjectModals/ObjectPersonModal'
-import { ObjectPersonModalActions } from '../../Modals/ObjectModals/types'
+import useObject from '@/hooks/useObject'
+import {
+    getStaticDataLabel,
+    getStaticDataPropertyKey,
+} from '@/utils/staticData'
 
 interface ObjectDefaultInfoProps {
     model: Model
@@ -23,6 +27,9 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
 
     const { staticData } = model
 
+    const { data: object } = useObject()
+    const data = useMemo(() => object?.ObjectStatics, [object?.ObjectStatics])
+
     /**
      * Handle item click
      */
@@ -34,7 +41,7 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
         })
     }
 
-    if (!!!staticData?.length) return null
+    if (!!!staticData?.length || !!!data) return null
 
     return (
         <>
@@ -47,13 +54,16 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
 
                 {staticData.map(item => {
                     const label = getStaticDataLabel(item)
+                    const key = getStaticDataPropertyKey(item)
+                    const user = data[key]
 
                     return (
                         <Item
                             key={item}
                             label={label}
+                            user={user}
                             handleClick={() =>
-                                handleClick({ key: item, label })
+                                handleClick({ key: item, label, value: user })
                             }
                         />
                     )
@@ -70,18 +80,18 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
 
 interface ItemProps {
     label: string
-    value?: string
+    user?: UserShort
     handleClick: () => void
 }
 
-const Item = ({ label, value, handleClick }: ItemProps) => (
+const Item = ({ label, user, handleClick }: ItemProps) => (
     <div className="mt-3 pb-2 border-b border-pzh-gray-400">
         <Text type="body-bold">{label}</Text>
         <div className="flex items-center justify-between">
-            <Text className={!value ? 'text-pzh-gray-600' : ''}>
-                {value || 'Niet geselecteerd'}
+            <Text className={!user ? 'text-pzh-gray-600' : ''}>
+                {user?.Gebruikersnaam || 'Niet geselecteerd'}
             </Text>
-            {!value ? (
+            {!user ? (
                 <button aria-label="Toevoegen" onClick={handleClick}>
                     <div className="w-4 h-4 bg-pzh-green rounded-full flex items-center justify-center">
                         <Plus size={14} className="text-pzh-white" />

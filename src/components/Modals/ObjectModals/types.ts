@@ -1,4 +1,4 @@
-import { RelationShort } from '@/api/fetchers.schemas'
+import { RelationShort, UserShort } from '@/api/fetchers.schemas'
 import {
     Model,
     ModelPatchStaticType,
@@ -17,6 +17,7 @@ export interface ObjectPersonModalActions {
     person?: {
         key: string
         label: string
+        value?: UserShort
     }
     isOpen: boolean
     isEdit?: boolean
