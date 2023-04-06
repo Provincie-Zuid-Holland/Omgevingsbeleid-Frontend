@@ -1,5 +1,6 @@
 import { FieldLabel, Text, formatDate } from '@pzh-ui/components'
 import { TrashCan } from '@pzh-ui/icons'
+import classNames from 'classnames'
 import { useFormikContext } from 'formik'
 import { useMemo, useState } from 'react'
 
@@ -15,7 +16,8 @@ const SelectArea = ({
     label,
     required,
     description,
-}: Omit<DynamicField, 'type'>) => {
+    disabled,
+}: Omit<DynamicField, 'type'> & { disabled?: boolean }) => {
     const { values, setFieldValue } = useFormikContext<ModelReturnType>()
     const value = values[name as keyof typeof values]
 
@@ -53,11 +55,18 @@ const SelectArea = ({
                 />
             )}
 
-            {!value ? (
+            {!value && !area ? (
                 <button
                     onClick={() => setOpen(true)}
                     type="button"
-                    className="w-full py-4 px-2 mt-4 border border-pzh-gray-600 rounded-[4px] text-pzh-green underline">
+                    className={classNames(
+                        'w-full py-4 px-2 mt-4 border border-pzh-gray-600 rounded-[4px] underline',
+                        {
+                            'text-pzh-green': !disabled,
+                            'bg-pzh-gray-100 text-pzh-gray-600': disabled,
+                        }
+                    )}
+                    disabled={disabled}>
                     Werkingsgebied koppelen
                 </button>
             ) : (
@@ -75,8 +84,14 @@ const SelectArea = ({
                                     </p>
                                     <button
                                         onClick={handleDeleteArea}
-                                        area-label="Werkingsgebied verwijderen">
-                                        <TrashCan className="mt-[4px] text-pzh-red" />
+                                        area-label="Werkingsgebied verwijderen"
+                                        disabled={disabled}>
+                                        <TrashCan
+                                            className={classNames('mt-[4px]', {
+                                                'text-pzh-red': !disabled,
+                                                'text-pzh-gray-600': disabled,
+                                            })}
+                                        />
                                     </button>
                                 </div>
                                 <span className="block text-[16px]">

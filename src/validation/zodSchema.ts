@@ -4,22 +4,26 @@ export const schemaDefaults = {
     requiredString: (msg = 'Dit veld is verplicht.') =>
         z.string({
             required_error: msg,
+            invalid_type_error: msg,
         }),
     optionalString: z.string().optional().nullable(),
     requiredNumber: (msg = 'Dit veld is verplicht.') =>
         z.number({
             required_error: msg,
+            invalid_type_error: msg,
         }),
     email: (msg = 'Dit veld is verplicht.') =>
         z
             .string({
                 required_error: msg,
+                invalid_type_error: msg,
             })
             .email('Onjuist e-mailadres'),
     url: (msg = 'Dit veld is verplicht.') =>
         z
             .string({
                 required_error: msg,
+                invalid_type_error: msg,
             })
             .url('Onjuiste link'),
     title: z

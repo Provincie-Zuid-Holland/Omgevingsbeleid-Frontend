@@ -37,10 +37,14 @@ const DynamicObjectForm = ({ model, isLocked }: DynamicObjectFormProps) => {
             section.fields.map(field => field.name)
         )
 
-        const objectData = {} as { [key in typeof fields[number]]: unknown }
+        const objectData = {} as { [key in typeof fields[number]]: any }
 
         fields?.forEach(field => {
-            objectData[field] = data?.[field as keyof typeof data]
+            if (field === 'Gebied_UUID') {
+                return (objectData[field] = data?.['Gebied']?.UUID)
+            }
+
+            return (objectData[field] = data?.[field as keyof typeof data])
         })
 
         return objectData
@@ -49,7 +53,7 @@ const DynamicObjectForm = ({ model, isLocked }: DynamicObjectFormProps) => {
     /**
      * Handle submit of form
      */
-    const handleSubmit = (payload: typeof data) => {
+    const handleSubmit = (payload: typeof initialData) => {
         if (!payload) return
 
         patchObject.mutate({
