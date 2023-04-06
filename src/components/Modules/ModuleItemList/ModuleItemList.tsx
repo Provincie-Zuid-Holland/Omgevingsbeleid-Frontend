@@ -24,7 +24,7 @@ interface ModuleItemListProps {
 const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
     const { user } = useAuth()
     const { canEditModule, canPatchObjectInModule } = usePermissions()
-    const { isModuleManager } = useModule()
+    const { isModuleManager, isLocked } = useModule()
 
     /**
      * If user has no edit rights
@@ -64,7 +64,7 @@ const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
                     objects={userObjects}
                     title="Jouw onderdelen in deze module"
                     noResultsText="Je hebt nog geen onderdelen in deze module"
-                    hasEditButton={canPatchObjectInModule}
+                    hasEditButton={canPatchObjectInModule && !isLocked}
                     {...rest}
                 />
 

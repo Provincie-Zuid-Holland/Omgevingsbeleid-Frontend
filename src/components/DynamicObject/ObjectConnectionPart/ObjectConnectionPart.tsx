@@ -17,6 +17,8 @@ interface ObjectConnectionPartProps {
     connections?: Connection[]
     /** Set state of modal */
     setModal: (state: ObjectConnectionModalActions) => void
+    /** User can edit connection */
+    canEdit?: boolean
 }
 
 const ObjectConnectionPart = ({
@@ -24,6 +26,7 @@ const ObjectConnectionPart = ({
     model,
     connections,
     setModal,
+    canEdit,
 }: ObjectConnectionPartProps) => {
     const handleButtonClick = (amount?: number) => {
         setModal({
@@ -62,13 +65,14 @@ const ObjectConnectionPart = ({
                 type="button"
                 onClick={() => handleButtonClick(amount)}
                 aria-label={amount === 0 ? 'Toevoegen' : 'Wijzigen'}>
-                {amount === 0 ? (
-                    <div className="w-4 h-4 bg-pzh-green rounded-full flex items-center justify-center">
-                        <Plus size={14} className="text-pzh-white" />
-                    </div>
-                ) : (
-                    <PenToSquare size={20} className="text-pzh-green" />
-                )}
+                {canEdit &&
+                    (amount === 0 ? (
+                        <div className="w-4 h-4 bg-pzh-green rounded-full flex items-center justify-center">
+                            <Plus size={14} className="text-pzh-white" />
+                        </div>
+                    ) : (
+                        <PenToSquare size={20} className="text-pzh-green" />
+                    ))}
             </button>
         </div>
     )

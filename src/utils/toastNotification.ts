@@ -7,7 +7,10 @@ import { notifications, ToastType } from '@/config/notifications'
  */
 
 const toastNotification = (type: ToastType) => {
-    toast(notifications[type].message, { type: notifications[type].type })
+    toast(notifications[type].message, {
+        type: notifications[type].type,
+        toastId: type,
+    })
 }
 
 export { toastNotification }

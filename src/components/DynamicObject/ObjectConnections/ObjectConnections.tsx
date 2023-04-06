@@ -7,6 +7,7 @@ import { ObjectConnectionModalActions } from '@/components/Modals/ObjectModals/t
 import * as models from '@/config/objects'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
+import usePermissions from '@/hooks/usePermissions'
 import getPropertyByName from '@/utils/getPropertyByName'
 
 import ObjectConnectionPart from '../ObjectConnectionPart'
@@ -24,7 +25,9 @@ export interface Connection {
 }
 
 const ObjectConnections = ({ model }: ObjectConnectionsProps) => {
-    const { data } = useObject()
+    const { canCreateModule, canPatchObjectInModule } = usePermissions()
+
+    const { data, isOwner } = useObject()
 
     const [modal, setModal] = useState<ObjectConnectionModalActions>({
         isOpen: false,
@@ -53,6 +56,8 @@ const ObjectConnections = ({ model }: ObjectConnectionsProps) => {
         [data]
     )
 
+    if (!!!model.allowedConnections?.length) return null
+
     return (
         <>
             <div className="mt-12 mb-4">
@@ -66,6 +71,9 @@ const ObjectConnections = ({ model }: ObjectConnectionsProps) => {
                     model={models[connection.type]}
                     setModal={setModal}
                     connections={getConnections(connection.key)}
+                    canEdit={
+                        (canPatchObjectInModule && isOwner) || canCreateModule
+                    }
                 />
             ))}
 

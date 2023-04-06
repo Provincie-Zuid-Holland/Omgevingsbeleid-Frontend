@@ -14,10 +14,13 @@ import {
     ModelPatchType,
     ModelReturnType,
 } from '@/config/objects/types'
+import useAuth from '@/hooks/useAuth'
 import { toastNotification } from '@/utils/toastNotification'
 
 interface ObjectContextType extends QueryObserverBaseResult<ModelReturnType> {
+    /** Querykey */
     queryKey: QueryKey
+    /** Can be used to patch the object */
     usePatchObject: (onSuccess?: () => void) => UseMutationResult<
         {
             Object_ID?: number
@@ -31,6 +34,7 @@ interface ObjectContextType extends QueryObserverBaseResult<ModelReturnType> {
         },
         unknown
     >
+    /** Can be used to patch the static data of object */
     usePostObjectStatic: (onSucces?: () => void) => UseMutationResult<
         ResponseOK,
         HTTPValidationError,
@@ -40,6 +44,8 @@ interface ObjectContextType extends QueryObserverBaseResult<ModelReturnType> {
         },
         unknown
     >
+    /** Is user owner of object */
+    isOwner?: boolean
 }
 
 export const ObjectContext = createContext<ObjectContextType>(null!)
@@ -52,6 +58,7 @@ function ObjectProvider({
     children?: ReactNode
 }) {
     const queryClient = useQueryClient()
+    const { user } = useAuth()
 
     const { moduleId, objectId } = useParams()
 
@@ -113,10 +120,25 @@ function ObjectProvider({
             },
         })
 
+    /**
+     * Check if logged in user is owner of object
+     */
+    const isOwner = useMemo(
+        () =>
+            data.data?.ObjectStatics?.Owner_1?.UUID === user?.UUID ||
+            data.data?.ObjectStatics?.Owner_2?.UUID === user?.UUID,
+        [
+            user?.UUID,
+            data.data?.ObjectStatics?.Owner_1?.UUID,
+            data.data?.ObjectStatics?.Owner_2?.UUID,
+        ]
+    )
+
     const value = {
         ...data,
         usePatchObject,
         usePostObjectStatic,
+        isOwner,
     }
 
     return (

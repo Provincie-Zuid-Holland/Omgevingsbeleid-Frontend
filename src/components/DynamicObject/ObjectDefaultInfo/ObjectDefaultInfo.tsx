@@ -8,6 +8,7 @@ import { ObjectPersonModalActions } from '@/components/Modals/ObjectModals/types
 import { Model, ModelPatchStaticType } from '@/config/objects/types'
 import useBreakpoint from '@/hooks/useBreakpoint'
 import useObject from '@/hooks/useObject'
+import usePermissions from '@/hooks/usePermissions'
 import {
     getStaticDataLabel,
     getStaticDataPropertyKey,
@@ -18,6 +19,8 @@ interface ObjectDefaultInfoProps {
 }
 
 const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
+    const { canCreateModule, canPatchObjectInModule } = usePermissions()
+
     const { isMobile } = useBreakpoint()
 
     const [modal, setModal] = useState<ObjectPersonModalActions>({
@@ -27,7 +30,7 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
 
     const { staticData } = model
 
-    const { data: object } = useObject()
+    const { data: object, isOwner } = useObject()
     const data = useMemo(() => object?.ObjectStatics, [object?.ObjectStatics])
 
     /**
@@ -65,6 +68,10 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
                             handleClick={() =>
                                 handleClick({ key: item, label, value: user })
                             }
+                            canEdit={
+                                (canPatchObjectInModule && isOwner) ||
+                                canCreateModule
+                            }
                         />
                     )
                 })}
@@ -82,26 +89,28 @@ interface ItemProps {
     label: string
     user?: UserShort
     handleClick: () => void
+    canEdit?: boolean
 }
 
-const Item = ({ label, user, handleClick }: ItemProps) => (
+const Item = ({ label, user, handleClick, canEdit }: ItemProps) => (
     <div className="mt-3 pb-2 border-b border-pzh-gray-400">
         <Text type="body-bold">{label}</Text>
         <div className="flex items-center justify-between">
             <Text className={!user ? 'text-pzh-gray-600' : ''}>
                 {user?.Gebruikersnaam || 'Niet geselecteerd'}
             </Text>
-            {!user ? (
-                <button aria-label="Toevoegen" onClick={handleClick}>
-                    <div className="w-4 h-4 bg-pzh-green rounded-full flex items-center justify-center">
-                        <Plus size={14} className="text-pzh-white" />
-                    </div>
-                </button>
-            ) : (
-                <button aria-label="Wijzigen" onClick={handleClick}>
-                    <PenToSquare size={20} className="text-pzh-green" />
-                </button>
-            )}
+            {canEdit &&
+                (!user ? (
+                    <button aria-label="Toevoegen" onClick={handleClick}>
+                        <div className="w-4 h-4 bg-pzh-green rounded-full flex items-center justify-center">
+                            <Plus size={14} className="text-pzh-white" />
+                        </div>
+                    </button>
+                ) : (
+                    <button aria-label="Wijzigen" onClick={handleClick}>
+                        <PenToSquare size={20} className="text-pzh-green" />
+                    </button>
+                ))}
         </div>
     </div>
 )

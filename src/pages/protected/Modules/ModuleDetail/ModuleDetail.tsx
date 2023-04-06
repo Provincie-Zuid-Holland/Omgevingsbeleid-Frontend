@@ -154,7 +154,7 @@ const ModuleDetail = () => {
                         <ModuleVersionCard currentStatus={module.Status} />
                     )}
 
-                {canComplete && isLocked && (
+                {canComplete && isLocked && canPatchModuleStatus && (
                     <ModuleCompleteCard setModuleModal={setModuleModal} />
                 )}
 
