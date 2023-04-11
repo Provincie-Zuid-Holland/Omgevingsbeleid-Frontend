@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { useFormikContext } from 'formik'
 import { useMemo, useState } from 'react'
 
+import { Werkingsgebied } from '@/api/fetchers.schemas'
 import { DynamicField, ModelReturnType } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 
@@ -21,11 +22,13 @@ const SelectArea = ({
     const { values, setFieldValue } = useFormikContext<ModelReturnType>()
     const value = values[name as keyof typeof values]
 
-    const [isOpen, setOpen] = useState(false)
-
     const { data } = useObject()
 
-    const area = data?.Gebied
+    const [area, setArea] = useState<Partial<Werkingsgebied | undefined>>(
+        data?.Gebied
+    )
+    const [isOpen, setOpen] = useState(false)
+
     const modifiedDate = useMemo(
         () =>
             area?.Modified_Date &&
@@ -41,8 +44,13 @@ const SelectArea = ({
     /**
      * Handle form submit, set Formik value
      */
-    const handleFormSubmit = (payload: AreaProps) =>
+    const handleFormSubmit = (payload: AreaProps) => {
+        setArea({
+            Title: payload.Title || '',
+            Modified_Date: payload.Modified_Date || '',
+        })
         setFieldValue(name, payload.version)
+    }
 
     return (
         <>
@@ -55,7 +63,7 @@ const SelectArea = ({
                 />
             )}
 
-            {!value && !area ? (
+            {!value ? (
                 <button
                     onClick={() => setOpen(true)}
                     type="button"
@@ -83,6 +91,7 @@ const SelectArea = ({
                                         {area?.Title}
                                     </p>
                                     <button
+                                        type="button"
                                         onClick={handleDeleteArea}
                                         area-label="Werkingsgebied verwijderen"
                                         disabled={disabled}>

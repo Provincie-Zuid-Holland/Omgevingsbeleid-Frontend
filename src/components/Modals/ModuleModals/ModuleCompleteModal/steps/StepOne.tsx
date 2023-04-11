@@ -27,7 +27,7 @@ export const StepOne = () => (
         <div className="mt-3">
             <FormikInput
                 type="url"
-                name="Decision_Link"
+                name="Link_To_Decision_Document"
                 label="Link naar besluitdocument"
                 placeholder="Voer een URL in"
                 description="Voer hieronder de link in naar het besluit op Notubiz."

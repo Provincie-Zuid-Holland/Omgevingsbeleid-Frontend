@@ -27,7 +27,7 @@ export interface Connection {
 const ObjectConnections = ({ model }: ObjectConnectionsProps) => {
     const { canCreateModule, canPatchObjectInModule } = usePermissions()
 
-    const { data, isOwner } = useObject()
+    const { data, isLoading, isOwner } = useObject()
 
     const [modal, setModal] = useState<ObjectConnectionModalActions>({
         isOpen: false,
@@ -71,6 +71,7 @@ const ObjectConnections = ({ model }: ObjectConnectionsProps) => {
                     model={models[connection.type]}
                     setModal={setModal}
                     connections={getConnections(connection.key)}
+                    isLoading={isLoading}
                     canEdit={
                         (canPatchObjectInModule && isOwner) || canCreateModule
                     }

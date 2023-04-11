@@ -3,14 +3,14 @@ import { Text } from '@pzh-ui/components'
 import BackButton from '@/components/BackButton'
 import formatDate from '@/utils/formatDate'
 
-interface SidebarProps {
+interface ObjectSidebarProps {
     /** Type of object */
     type: string
     /** Start date of validity */
     date?: Date
 }
 
-const Sidebar = ({ type, date }: SidebarProps) => (
+const ObjectSidebar = ({ type, date }: ObjectSidebarProps) => (
     <aside>
         <BackButton />
 
@@ -27,11 +27,11 @@ const Sidebar = ({ type, date }: SidebarProps) => (
                 <Text type="span" className="block">
                     Vigerend
                     <br />
-                    sinds {formatDate(date, 'i MMMM yyyy')}
+                    sinds {formatDate(date, 'd MMMM yyyy')}
                 </Text>
             </div>
         )}
     </aside>
 )
 
-export default Sidebar
+export default ObjectSidebar

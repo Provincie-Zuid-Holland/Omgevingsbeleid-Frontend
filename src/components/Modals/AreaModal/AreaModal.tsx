@@ -12,6 +12,8 @@ const steps = [StepOne, StepTwo]
 export interface AreaProps {
     area?: string
     version?: string
+    Title?: string
+    Modified_Date?: string
 }
 
 interface AreaModalProps {

@@ -50,7 +50,6 @@ const Werkingsgebied = ({
                 <LeafletTinyViewer
                     gebiedType="Werkingsgebieden"
                     gebiedUUID={werkingsGebiedUUID || ''}
-                    fullscreen={fullscreenLeafletViewer}
                 />
             </div>
         </div>

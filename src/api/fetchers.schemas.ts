@@ -372,17 +372,6 @@ export interface MaatregelStaticPatchStatics {
     Client_1_UUID?: string | null
 }
 
-/**
- * description is not yet inherited
- */
-export type MaatregelStaticPatchObjectStatics =
-    MaatregelStaticPatchStatics | null
-
-export interface MaatregelStaticPatch {
-    /** description is not yet inherited */
-    ObjectStatics?: MaatregelStaticPatchObjectStatics
-}
-
 export interface MaatregelPatch {
     /** description is not yet inherited */
     Title?: string | null
@@ -503,6 +492,7 @@ export interface EditAcknowledgedRelation {
 export interface CompleteModule {
     IDMS_Link: string
     Decision_Number: string
+    Link_To_Decision_Document: string
     ObjectSpecifiekeGeldigheden?: ObjectSpecifiekeGeldigheid[]
 }
 
@@ -533,17 +523,6 @@ export interface BeleidskeuzeStaticPatchStatics {
     Portfolio_Holder_2_UUID?: string | null
     /** description is not yet inherited */
     Client_1_UUID?: string | null
-}
-
-/**
- * description is not yet inherited
- */
-export type BeleidskeuzeStaticPatchObjectStatics =
-    BeleidskeuzeStaticPatchStatics | null
-
-export interface BeleidskeuzeStaticPatch {
-    /** description is not yet inherited */
-    ObjectStatics?: BeleidskeuzeStaticPatchObjectStatics
 }
 
 export interface BeleidskeuzeShort {
@@ -686,17 +665,6 @@ export interface BeleidsdoelStaticPatchStatics {
     Owner_2_UUID?: string | null
 }
 
-/**
- * description is not yet inherited
- */
-export type BeleidsdoelStaticPatchObjectStatics =
-    BeleidsdoelStaticPatchStatics | null
-
-export interface BeleidsdoelStaticPatch {
-    /** description is not yet inherited */
-    ObjectStatics?: BeleidsdoelStaticPatchObjectStatics
-}
-
 export interface BeleidsdoelShort {
     /** description is not yet inherited */
     Object_Type?: string
@@ -797,16 +765,6 @@ export interface AmbitieStaticPostStatics {
     Owner_1_UUID?: string | null
     /** description is not yet inherited */
     Owner_2_UUID?: string | null
-}
-
-/**
- * description is not yet inherited
- */
-export type AmbitieStaticPostObjectStatics = AmbitieStaticPostStatics | null
-
-export interface AmbitieStaticPost {
-    /** description is not yet inherited */
-    ObjectStatics?: AmbitieStaticPostObjectStatics
 }
 
 export interface AmbitieShort {

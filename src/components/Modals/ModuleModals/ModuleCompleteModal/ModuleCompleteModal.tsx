@@ -1,8 +1,10 @@
 import { Button, Heading, Modal } from '@pzh-ui/components'
 import { Form, Formik } from 'formik'
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
+import { useModulesModuleIdCompletePost } from '@/api/fetchers'
 import { CompleteModule } from '@/api/fetchers.schemas'
 import * as modules from '@/validation/modules'
 
@@ -16,7 +18,11 @@ interface ModuleCompleteModalProps {
 }
 
 const ModuleCompleteModal = ({ isOpen, onClose }: ModuleCompleteModalProps) => {
+    const { moduleId } = useParams()
+
     const [step, setStep] = useState(1)
+
+    const completeModule = useModulesModuleIdCompletePost()
 
     const handleClose = () => {
         onClose()
@@ -28,7 +34,10 @@ const ModuleCompleteModal = ({ isOpen, onClose }: ModuleCompleteModalProps) => {
     }
 
     const handleFormSubmit = (payload: CompleteModule) => {
-        console.log(payload)
+        completeModule.mutate({
+            moduleId: parseInt(moduleId!),
+            data: payload,
+        })
     }
 
     const CurrentStep = steps[step - 1]

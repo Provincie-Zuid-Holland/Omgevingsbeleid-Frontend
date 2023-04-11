@@ -64,6 +64,7 @@ export const SCHEMA_ADD_OBJECT = z
 export const SCHEMA_COMPLETE_MODULE = z.object({
     IDMS_Link: schemaDefaults.url(),
     Decision_Number: schemaDefaults.requiredString(),
+    Link_To_Decision_Document: schemaDefaults.url(),
     ObjectSpecifiekeGeldigheden: z.array(
         z
             .object({

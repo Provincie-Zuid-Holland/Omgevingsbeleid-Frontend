@@ -3,10 +3,12 @@ import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
 
 import { Container } from '@/components/Container'
-import Sidebar from '@/components/DynamicObject/Sidebar'
+import ObjectArea from '@/components/DynamicObject/ObjectArea/ObjectArea'
+import ObjectContent from '@/components/DynamicObject/ObjectContent/ObjectContent'
+import Sidebar from '@/components/DynamicObject/ObjectSidebar'
 import { LoaderContent } from '@/components/Loader'
 import TableOfContents from '@/components/TableOfContents'
-import { Model } from '@/config/objects/types'
+import { Model, ModelReturnType } from '@/config/objects/types'
 
 interface DynamicObjectProps {
     model: Model
@@ -18,7 +20,7 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
     const { singularCapitalize } = model.defaults
     const { useGetVersion } = model.fetchers
 
-    const { data = {}, isLoading } = useGetVersion(uuid!, {
+    const { data = {}, isLoading } = useGetVersion<ModelReturnType>(uuid!, {
         query: { enabled: !!uuid },
     })
 
@@ -46,9 +48,20 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
                         color="text-pzh-blue-dark">
                         {singularCapitalize}
                     </Heading>
-                    <Heading level="1" color="text-pzh-blue" className="mt-4">
+
+                    <Heading level="1" color="text-pzh-blue" className="my-4">
                         {data.Title}
                     </Heading>
+
+                    <ObjectContent data={data} />
+
+                    {data.Gebied && (
+                        <ObjectArea
+                            model={model}
+                            objectTitle={data.Title}
+                            {...data.Gebied}
+                        />
+                    )}
                 </div>
                 <div className="col-span-1">
                     <TableOfContents display="fixed" />

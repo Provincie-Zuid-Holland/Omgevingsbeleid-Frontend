@@ -2158,14 +2158,14 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
   integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
 
-"@pzh-ui/components@^0.0.271":
-  version "0.0.271"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.271.tgz#217b721d4b1fdf80794879f9a9dc46e210a58b4f"
-  integrity sha512-/Z1iwMmkaQAYDqardyxoo1MVpyTxHkM2qSdcb32PXK0cc4VuWyIwH2juSLjz0CCerWxqsK39a6Mfwqx3mex58g==
+"@pzh-ui/components@^0.0.277":
+  version "0.0.277"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.277.tgz#03ec66f5f17759a89bf0d441483e3fd39dc9d75d"
+  integrity sha512-U3MeiteGjsgcikiC1AMbaAaag5lyl/YyEKvmkpg0uVbsl3MQOgT4Y/LAT35l4E9WKpOua51wuYtSju1uHPv8/g==
   dependencies:
     "@floating-ui/react-dom-interactions" "^0.3.1"
     "@headlessui/react" "^1.5.0"
-    "@pzh-ui/icons" "^0.0.21"
+    "@pzh-ui/icons" "^0.0.22"
     "@tiptap/extension-image" "^2.0.0-beta.220"
     "@tiptap/extension-placeholder" "^2.0.0-beta.220"
     "@tiptap/extension-underline" "^2.0.0-beta.220"
@@ -2175,6 +2175,7 @@
     "@types/react-table" "^7.7.10"
     classnames "^2.3.1"
     date-fns "^2.28.0"
+    focus-trap-react "^10.1.1"
     formik "^2.2.9"
     framer-motion "^6.3.0"
     mime "^3.0.0"
@@ -2226,10 +2227,10 @@
     react-datepicker "^4.7.0"
     react-toastify "^9.1.2"
 
-"@pzh-ui/icons@^0.0.21":
-  version "0.0.21"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/icons/-/icons-0.0.21.tgz#2892dd8ec7798abe3991f361f5de262d3395615e"
-  integrity sha512-jIRxNnRsg0y/T6zD2b3bxFI5gNlo8dGODOvRUqas62bMHYD9pdYOb3hZSPL4ZNMx6KWSC3MY39HdxfuHd1izRA==
+"@pzh-ui/icons@^0.0.22":
+  version "0.0.22"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/icons/-/icons-0.0.22.tgz#c951f4a7c14cda51168b76c570486c3dee0358d1"
+  integrity sha512-8JiylNJIn8o7p31ZZRxKvkZXOhFTe9uIxyt84SFd0l1yyLaaqpFM5pTXCEj5gWWCjWNkbMKeSuZDyXPCEKj3Yw==
   dependencies:
     react "^18.0.0"
     react-toastify "^9.1.2"
@@ -8787,6 +8788,21 @@ flatted@^3.1.0:
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-3.2.7.tgz#609f39207cb614b89d0765b477cb2d437fbf9787"
   integrity sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==
 
+focus-trap-react@^10.1.1:
+  version "10.1.1"
+  resolved "https://registry.yarnpkg.com/focus-trap-react/-/focus-trap-react-10.1.1.tgz#c14e150076827905b7b32b9d02d6d97534dfaa99"
+  integrity sha512-OtLeSIQPKFzMzbLHkGtfZYwGLMhTRHd3CDhfyd0DDx8tvXzlgpseClDiuiKoiIHZtdjsbXTfTmUuuLKaxrwSyQ==
+  dependencies:
+    focus-trap "^7.4.0"
+    tabbable "^6.1.1"
+
+focus-trap@^7.4.0:
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/focus-trap/-/focus-trap-7.4.0.tgz#20f760a497f593b01d2e446168009c1f12ab0385"
+  integrity sha512-yI7FwUqU4TVb+7t6PaQ3spT/42r/KLEi8mtdGoQo2li/kFzmu9URmalTvw7xCCJtSOyhBxscvEAmvjeN9iHARg==
+  dependencies:
+    tabbable "^6.1.1"
+
 follow-redirects@^1.0.0, follow-redirects@^1.14.4:
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
@@ -14690,6 +14706,11 @@ symbol-tree@^3.2.4:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
+
+tabbable@^6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/tabbable/-/tabbable-6.1.1.tgz#40cfead5ed11be49043f04436ef924c8890186a0"
+  integrity sha512-4kl5w+nCB44EVRdO0g/UGoOp3vlwgycUVtkk/7DPyeLZUCuNFFKCFG6/t/DgHLrUPHjrZg6s5tNm+56Q2B0xyg==
 
 table@^6.0.9:
   version "6.8.0"

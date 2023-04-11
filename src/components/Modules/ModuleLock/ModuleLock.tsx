@@ -16,7 +16,8 @@ const ModuleLock = ({ setModuleModal }: ModuleLockProps) => {
     const { moduleId } = useParams()
     const { canEditModule } = usePermissions()
 
-    const { useEditModule, isModuleManager, isLocked } = useModule()
+    const { useEditModule, isModuleManager, isLocked, canComplete } =
+        useModule()
     const { mutate } = useEditModule('moduleUnlocked')
 
     if (!canEditModule && !isModuleManager && isLocked) {
@@ -30,30 +31,34 @@ const ModuleLock = ({ setModuleModal }: ModuleLockProps) => {
             {isLocked ? <Lock size={24} /> : <LockOpen size={24} />}
             <Text className="ml-3">
                 {isLocked
-                    ? 'Onderdelen in deze module kunnen tijdelijk niet bewerkt worden'
+                    ? canComplete
+                        ? 'Onderdelen in deze module kun niet meer worden bewerkt'
+                        : 'Onderdelen in deze module kunnen tijdelijk niet bewerkt worden'
                     : 'Onderdelen in deze module mogen worden bewerkt door de behandelend ambtenaren'}
             </Text>
-            <div className="ml-auto">
-                <ToggleSwitch
-                    title={isLocked ? 'Module unlocken' : 'Module locken'}
-                    checked={!isLocked}
-                    onClick={checked => {
-                        if (!checked) {
-                            setModuleModal({
-                                isOpen: true,
-                                action: 'lock',
-                            })
-                        } else {
-                            mutate({
-                                moduleId: parseInt(moduleId!),
-                                data: {
-                                    Temporary_Locked: false,
-                                },
-                            })
-                        }
-                    }}
-                />
-            </div>
+            {!canComplete && (
+                <div className="ml-auto">
+                    <ToggleSwitch
+                        title={isLocked ? 'Module unlocken' : 'Module locken'}
+                        checked={!isLocked}
+                        onClick={checked => {
+                            if (!checked) {
+                                setModuleModal({
+                                    isOpen: true,
+                                    action: 'lock',
+                                })
+                            } else {
+                                mutate({
+                                    moduleId: parseInt(moduleId!),
+                                    data: {
+                                        Temporary_Locked: false,
+                                    },
+                                })
+                            }
+                        }}
+                    />
+                </div>
+            )}
         </div>
     )
 }

@@ -8,7 +8,7 @@ import { Werkingsgebied } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '../Loader'
 
 interface AreaPreviewProps {
-    area?: Werkingsgebied
+    area?: Partial<Werkingsgebied>
 }
 
 const getAreaImage = (uuid: string) =>
@@ -30,7 +30,7 @@ const AreaPreview = ({ area }: AreaPreviewProps) => {
             ) : (
                 <>
                     <img
-                        src={getAreaImage(area.UUID)}
+                        src={getAreaImage(area.UUID || '')}
                         alt={area.Title}
                         className={classNames('w-full h-full object-cover', {
                             hidden: !areaLoaded,

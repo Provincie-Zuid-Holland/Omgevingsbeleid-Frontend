@@ -16,13 +16,11 @@ import LeafletMap from '../LeafletMap'
  */
 
 interface LeafletTinyViewerProps {
-    fullscreen?: boolean
     gebiedUUID: string
     gebiedType: string
 }
 
 const LeafletTinyViewer = ({
-    fullscreen,
     gebiedUUID,
     gebiedType,
 }: LeafletTinyViewerProps) => (
@@ -35,24 +33,16 @@ const LeafletTinyViewer = ({
         controllers={{ showLayers: false }}
         id="leaflet-tiny-viewer">
         <LeafletTinyViewerInner
-            fullscreen={fullscreen}
             gebiedUUID={gebiedUUID}
             gebiedType={gebiedType}
         />
     </LeafletMap>
 )
 
-interface LeafletTinyViewerInnerProps {
-    fullscreen?: boolean
-    gebiedUUID: string
-    gebiedType: string
-}
-
 const LeafletTinyViewerInner = ({
-    fullscreen,
     gebiedType,
     gebiedUUID,
-}: LeafletTinyViewerInnerProps) => {
+}: LeafletTinyViewerProps) => {
     const controller = useMemo(() => new AbortController(), [])
     const signal = controller.signal
 
@@ -162,7 +152,7 @@ const LeafletTinyViewerInner = ({
 
     useEffect(() => {
         map.invalidateSize()
-    }, [fullscreen, map])
+    }, [map])
 
     useEffect(() => {
         return () => {
@@ -171,7 +161,7 @@ const LeafletTinyViewerInner = ({
     }, [controller])
 
     return (
-        <LeafletControlLayer fullscreen={fullscreen}>
+        <LeafletControlLayer>
             <ToggleableSection title="Legenda" positionTop>
                 <ul className="p-2">
                     {werkingsgebied?.map(layer => (

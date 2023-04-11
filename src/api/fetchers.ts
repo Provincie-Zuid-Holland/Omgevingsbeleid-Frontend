@@ -26,7 +26,7 @@ import type {
     AmbitiesValidLineageIdGetParams,
     RelationShort,
     ResponseOK,
-    AmbitieStaticPost,
+    AmbitieStaticPostStatics,
     ModulesModuleIdObjectAmbitieLineageIdGetParams,
     AmbitieUUID,
     AmbitiePatch,
@@ -34,7 +34,7 @@ import type {
     BeleidsdoelenValidGetParams,
     BeleidsdoelBasic,
     BeleidsdoelenValidLineageIdGetParams,
-    BeleidsdoelStaticPatch,
+    BeleidsdoelStaticPatchStatics,
     ModulesModuleIdObjectBeleidsdoelLineageIdGetParams,
     BeleidsdoelUUID,
     BeleidsdoelPatch,
@@ -42,7 +42,7 @@ import type {
     BeleidskeuzesValidGetParams,
     BeleidskeuzeBasic,
     BeleidskeuzesValidLineageIdGetParams,
-    BeleidskeuzeStaticPatch,
+    BeleidskeuzeStaticPatchStatics,
     AcknowledgedRelation,
     BeleidskeuzeAcknowledgedRelationsLineageIdGetParams,
     RequestAcknowledgedRelation,
@@ -54,7 +54,7 @@ import type {
     MaatregelenValidGetParams,
     MaatregelBasic,
     MaatregelenValidLineageIdGetParams,
-    MaatregelStaticPatch,
+    MaatregelStaticPatchStatics,
     ModulesModuleIdObjectMaatregelLineageIdGetParams,
     MaatregelUUID,
     MaatregelPatch,
@@ -455,20 +455,20 @@ export const useAmbitiesRelationsLineageIdPut = <
  */
 export const ambitieStaticLineageIdPost = (
     lineageId: number,
-    ambitieStaticPost: AmbitieStaticPost
+    ambitieStaticPostStatics: AmbitieStaticPostStatics
 ) => {
     return customInstance<ResponseOK>({
         url: `/ambitie/static/${lineageId}`,
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
-        data: ambitieStaticPost,
+        data: ambitieStaticPostStatics,
     })
 }
 
 export type AmbitieStaticLineageIdPostMutationResult = NonNullable<
     Awaited<ReturnType<typeof ambitieStaticLineageIdPost>>
 >
-export type AmbitieStaticLineageIdPostMutationBody = AmbitieStaticPost
+export type AmbitieStaticLineageIdPostMutationBody = AmbitieStaticPostStatics
 export type AmbitieStaticLineageIdPostMutationError = HTTPValidationError
 
 export const useAmbitieStaticLineageIdPost = <
@@ -478,7 +478,7 @@ export const useAmbitieStaticLineageIdPost = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof ambitieStaticLineageIdPost>>,
         TError,
-        { lineageId: number; data: AmbitieStaticPost },
+        { lineageId: number; data: AmbitieStaticPostStatics },
         TContext
     >
 }) => {
@@ -486,7 +486,7 @@ export const useAmbitieStaticLineageIdPost = <
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof ambitieStaticLineageIdPost>>,
-        { lineageId: number; data: AmbitieStaticPost }
+        { lineageId: number; data: AmbitieStaticPostStatics }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -496,7 +496,7 @@ export const useAmbitieStaticLineageIdPost = <
     return useMutation<
         Awaited<ReturnType<typeof ambitieStaticLineageIdPost>>,
         TError,
-        { lineageId: number; data: AmbitieStaticPost },
+        { lineageId: number; data: AmbitieStaticPostStatics },
         TContext
     >(mutationFn, mutationOptions)
 }
@@ -1191,20 +1191,21 @@ export const useBeleidsdoelenRelationsLineageIdPut = <
  */
 export const beleidsdoelStaticLineageIdPost = (
     lineageId: number,
-    beleidsdoelStaticPatch: BeleidsdoelStaticPatch
+    beleidsdoelStaticPatchStatics: BeleidsdoelStaticPatchStatics
 ) => {
     return customInstance<ResponseOK>({
         url: `/beleidsdoel/static/${lineageId}`,
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
-        data: beleidsdoelStaticPatch,
+        data: beleidsdoelStaticPatchStatics,
     })
 }
 
 export type BeleidsdoelStaticLineageIdPostMutationResult = NonNullable<
     Awaited<ReturnType<typeof beleidsdoelStaticLineageIdPost>>
 >
-export type BeleidsdoelStaticLineageIdPostMutationBody = BeleidsdoelStaticPatch
+export type BeleidsdoelStaticLineageIdPostMutationBody =
+    BeleidsdoelStaticPatchStatics
 export type BeleidsdoelStaticLineageIdPostMutationError = HTTPValidationError
 
 export const useBeleidsdoelStaticLineageIdPost = <
@@ -1214,7 +1215,7 @@ export const useBeleidsdoelStaticLineageIdPost = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsdoelStaticLineageIdPost>>,
         TError,
-        { lineageId: number; data: BeleidsdoelStaticPatch },
+        { lineageId: number; data: BeleidsdoelStaticPatchStatics },
         TContext
     >
 }) => {
@@ -1222,7 +1223,7 @@ export const useBeleidsdoelStaticLineageIdPost = <
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof beleidsdoelStaticLineageIdPost>>,
-        { lineageId: number; data: BeleidsdoelStaticPatch }
+        { lineageId: number; data: BeleidsdoelStaticPatchStatics }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -1232,7 +1233,7 @@ export const useBeleidsdoelStaticLineageIdPost = <
     return useMutation<
         Awaited<ReturnType<typeof beleidsdoelStaticLineageIdPost>>,
         TError,
-        { lineageId: number; data: BeleidsdoelStaticPatch },
+        { lineageId: number; data: BeleidsdoelStaticPatchStatics },
         TContext
     >(mutationFn, mutationOptions)
 }
@@ -1950,13 +1951,13 @@ export const useBeleidskeuzesRelationsLineageIdPut = <
  */
 export const beleidskeuzeStaticLineageIdPost = (
     lineageId: number,
-    beleidskeuzeStaticPatch: BeleidskeuzeStaticPatch
+    beleidskeuzeStaticPatchStatics: BeleidskeuzeStaticPatchStatics
 ) => {
     return customInstance<ResponseOK>({
         url: `/beleidskeuze/static/${lineageId}`,
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
-        data: beleidskeuzeStaticPatch,
+        data: beleidskeuzeStaticPatchStatics,
     })
 }
 
@@ -1964,7 +1965,7 @@ export type BeleidskeuzeStaticLineageIdPostMutationResult = NonNullable<
     Awaited<ReturnType<typeof beleidskeuzeStaticLineageIdPost>>
 >
 export type BeleidskeuzeStaticLineageIdPostMutationBody =
-    BeleidskeuzeStaticPatch
+    BeleidskeuzeStaticPatchStatics
 export type BeleidskeuzeStaticLineageIdPostMutationError = HTTPValidationError
 
 export const useBeleidskeuzeStaticLineageIdPost = <
@@ -1974,7 +1975,7 @@ export const useBeleidskeuzeStaticLineageIdPost = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidskeuzeStaticLineageIdPost>>,
         TError,
-        { lineageId: number; data: BeleidskeuzeStaticPatch },
+        { lineageId: number; data: BeleidskeuzeStaticPatchStatics },
         TContext
     >
 }) => {
@@ -1982,7 +1983,7 @@ export const useBeleidskeuzeStaticLineageIdPost = <
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof beleidskeuzeStaticLineageIdPost>>,
-        { lineageId: number; data: BeleidskeuzeStaticPatch }
+        { lineageId: number; data: BeleidskeuzeStaticPatchStatics }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -1992,7 +1993,7 @@ export const useBeleidskeuzeStaticLineageIdPost = <
     return useMutation<
         Awaited<ReturnType<typeof beleidskeuzeStaticLineageIdPost>>,
         TError,
-        { lineageId: number; data: BeleidskeuzeStaticPatch },
+        { lineageId: number; data: BeleidskeuzeStaticPatchStatics },
         TContext
     >(mutationFn, mutationOptions)
 }
@@ -2932,20 +2933,21 @@ export const useMaatregelenRelationsLineageIdPut = <
  */
 export const maatregelStaticLineageIdPost = (
     lineageId: number,
-    maatregelStaticPatch: MaatregelStaticPatch
+    maatregelStaticPatchStatics: MaatregelStaticPatchStatics
 ) => {
     return customInstance<ResponseOK>({
         url: `/maatregel/static/${lineageId}`,
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
-        data: maatregelStaticPatch,
+        data: maatregelStaticPatchStatics,
     })
 }
 
 export type MaatregelStaticLineageIdPostMutationResult = NonNullable<
     Awaited<ReturnType<typeof maatregelStaticLineageIdPost>>
 >
-export type MaatregelStaticLineageIdPostMutationBody = MaatregelStaticPatch
+export type MaatregelStaticLineageIdPostMutationBody =
+    MaatregelStaticPatchStatics
 export type MaatregelStaticLineageIdPostMutationError = HTTPValidationError
 
 export const useMaatregelStaticLineageIdPost = <
@@ -2955,7 +2957,7 @@ export const useMaatregelStaticLineageIdPost = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof maatregelStaticLineageIdPost>>,
         TError,
-        { lineageId: number; data: MaatregelStaticPatch },
+        { lineageId: number; data: MaatregelStaticPatchStatics },
         TContext
     >
 }) => {
@@ -2963,7 +2965,7 @@ export const useMaatregelStaticLineageIdPost = <
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof maatregelStaticLineageIdPost>>,
-        { lineageId: number; data: MaatregelStaticPatch }
+        { lineageId: number; data: MaatregelStaticPatchStatics }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -2973,7 +2975,7 @@ export const useMaatregelStaticLineageIdPost = <
     return useMutation<
         Awaited<ReturnType<typeof maatregelStaticLineageIdPost>>,
         TError,
-        { lineageId: number; data: MaatregelStaticPatch },
+        { lineageId: number; data: MaatregelStaticPatchStatics },
         TContext
     >(mutationFn, mutationOptions)
 }

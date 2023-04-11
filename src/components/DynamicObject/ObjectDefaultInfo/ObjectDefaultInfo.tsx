@@ -1,8 +1,9 @@
 import { getHeadingStyles, Text } from '@pzh-ui/components'
-import { PenToSquare, Plus } from '@pzh-ui/icons'
+import { PenToSquare, Plus, Spinner } from '@pzh-ui/icons'
 import { useMemo, useState } from 'react'
 
 import { UserShort } from '@/api/fetchers.schemas'
+import { LoaderCard } from '@/components/Loader'
 import ObjectPersonModal from '@/components/Modals/ObjectModals/ObjectPersonModal'
 import { ObjectPersonModalActions } from '@/components/Modals/ObjectModals/types'
 import { Model, ModelPatchStaticType } from '@/config/objects/types'
@@ -30,7 +31,7 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
 
     const { staticData } = model
 
-    const { data: object, isOwner } = useObject()
+    const { data: object, isLoading, isOwner } = useObject()
     const data = useMemo(() => object?.ObjectStatics, [object?.ObjectStatics])
 
     /**
@@ -44,7 +45,7 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
         })
     }
 
-    if (!!!staticData?.length || !!!data) return null
+    if (!!!staticData?.length) return null
 
     return (
         <>
@@ -58,7 +59,7 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
                 {staticData.map(item => {
                     const label = getStaticDataLabel(item)
                     const key = getStaticDataPropertyKey(item)
-                    const user = data[key]
+                    const user = data?.[key]
 
                     return (
                         <Item
@@ -68,6 +69,7 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
                             handleClick={() =>
                                 handleClick({ key: item, label, value: user })
                             }
+                            isLoading={isLoading}
                             canEdit={
                                 (canPatchObjectInModule && isOwner) ||
                                 canCreateModule
@@ -89,18 +91,30 @@ interface ItemProps {
     label: string
     user?: UserShort
     handleClick: () => void
+    isLoading?: boolean
     canEdit?: boolean
 }
 
-const Item = ({ label, user, handleClick, canEdit }: ItemProps) => (
+const Item = ({ label, user, handleClick, isLoading, canEdit }: ItemProps) => (
     <div className="mt-3 pb-2 border-b border-pzh-gray-400">
         <Text type="body-bold">{label}</Text>
         <div className="flex items-center justify-between">
-            <Text className={!user ? 'text-pzh-gray-600' : ''}>
-                {user?.Gebruikersnaam || 'Niet geselecteerd'}
-            </Text>
+            {!isLoading ? (
+                <Text className={!user ? 'text-pzh-gray-600' : ''}>
+                    {user?.Gebruikersnaam || 'Niet geselecteerd'}
+                </Text>
+            ) : (
+                <div className="w-[50%]">
+                    <LoaderCard height="30" mb="0" />
+                </div>
+            )}
             {canEdit &&
-                (!user ? (
+                (isLoading ? (
+                    <Spinner
+                        size={14}
+                        className="animate-spin text-pzh-gray-600"
+                    />
+                ) : !user ? (
                     <button aria-label="Toevoegen" onClick={handleClick}>
                         <div className="w-4 h-4 bg-pzh-green rounded-full flex items-center justify-center">
                             <Plus size={14} className="text-pzh-white" />

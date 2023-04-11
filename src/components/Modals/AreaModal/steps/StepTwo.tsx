@@ -8,7 +8,7 @@ import { AreaProps } from '../AreaModal'
 import { StepProps } from './types'
 
 export const StepTwo = ({ data }: StepProps) => {
-    const { values } = useFormikContext<AreaProps>()
+    const { values, setFieldValue } = useFormikContext<AreaProps>()
 
     /**
      * Find selected area by ID
@@ -37,8 +37,11 @@ export const StepTwo = ({ data }: StepProps) => {
             item => values.version && item.UUID === values.version
         )
 
+        setFieldValue('Title', selected?.Title)
+        setFieldValue('Modified_Date', selected?.Modified_Date)
+
         return selected
-    }, [options, values.version])
+    }, [options, values.version, setFieldValue])
 
     return (
         <div>
@@ -74,6 +77,7 @@ export const StepTwo = ({ data }: StepProps) => {
                         ))}
                     </div>
                 </div>
+
                 <div className="col-span-4 flex flex-col">
                     <Text type="body-bold" className="mb-2">
                         Voorbeeld

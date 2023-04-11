@@ -1,4 +1,4 @@
-import { PenToSquare, Plus } from '@pzh-ui/icons'
+import { PenToSquare, Plus, Spinner } from '@pzh-ui/icons'
 import { useMemo } from 'react'
 
 import { RelationShort } from '@/api/fetchers.schemas'
@@ -17,6 +17,8 @@ interface ObjectConnectionPartProps {
     connections?: Connection[]
     /** Set state of modal */
     setModal: (state: ObjectConnectionModalActions) => void
+    /** Is data loading */
+    isLoading?: boolean
     /** User can edit connection */
     canEdit?: boolean
 }
@@ -26,6 +28,7 @@ const ObjectConnectionPart = ({
     model,
     connections,
     setModal,
+    isLoading,
     canEdit,
 }: ObjectConnectionPartProps) => {
     const handleButtonClick = (amount?: number) => {
@@ -66,7 +69,12 @@ const ObjectConnectionPart = ({
                 onClick={() => handleButtonClick(amount)}
                 aria-label={amount === 0 ? 'Toevoegen' : 'Wijzigen'}>
                 {canEdit &&
-                    (amount === 0 ? (
+                    (isLoading ? (
+                        <Spinner
+                            size={14}
+                            className="text-pzh-gray-600 animate-spin"
+                        />
+                    ) : amount === 0 ? (
                         <div className="w-4 h-4 bg-pzh-green rounded-full flex items-center justify-center">
                             <Plus size={14} className="text-pzh-white" />
                         </div>

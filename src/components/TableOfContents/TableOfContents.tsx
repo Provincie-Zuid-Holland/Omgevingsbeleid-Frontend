@@ -1,14 +1,12 @@
 import { Text } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
 import classNames from 'classnames'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const TableOfContents = ({ display }: { display: 'block' | 'fixed' }) => {
     const [elements, setElements] = useState<
         { title: string | null; id: string; y: number }[]
     >([])
-
-    const container = useRef<HTMLDivElement>(null)
 
     /** Get all H2 elements on the page and set in state */
     useEffect(() => {
@@ -31,10 +29,9 @@ const TableOfContents = ({ display }: { display: 'block' | 'fixed' }) => {
             className={
                 display === 'block'
                     ? 'col-span-6 p-6 mt-6 bg-pzh-cool-gray-light bg-opacity-30 block xl:hidden'
-                    : 'relative hidden col-span-1 mt-12 xl:block'
-            }
-            ref={container}>
-            <div className="sticky top-[120px]">
+                    : 'hidden col-span-1 mt-12 xl:block sticky top-[120px]'
+            }>
+            <div>
                 <Text type="body-bold">Op deze pagina</Text>
                 <nav id={`table-of-contents-${display}`}>
                     <ul

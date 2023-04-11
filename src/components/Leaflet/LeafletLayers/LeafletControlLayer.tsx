@@ -10,11 +10,10 @@ import { tileURL, tileURLSattelite } from '@/constants/leaflet'
 import LeafletController from '../LeafletController'
 
 interface LeafletLayerProps {
-    fullscreen?: boolean
     children?: ReactNode
 }
 
-const LeafletControlLayer = ({ fullscreen, children }: LeafletLayerProps) => {
+const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
     const map = useMap()
 
     const [layerControlOpen, setLayerControlOpen] = useState(false)
@@ -74,7 +73,7 @@ const LeafletControlLayer = ({ fullscreen, children }: LeafletLayerProps) => {
                                 style={{
                                     width: '375px',
                                     maxWidth: '100%',
-                                    height: fullscreen ? '1000px' : '500px',
+                                    height: '500px',
                                 }}
                                 data-testid="leaflet-layers-control-pane">
                                 <div className="w-full">

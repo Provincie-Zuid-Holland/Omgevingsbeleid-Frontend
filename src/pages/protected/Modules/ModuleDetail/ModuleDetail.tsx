@@ -9,7 +9,7 @@ import {
 } from '@pzh-ui/components'
 import { useState } from 'react'
 
-import { ModuleObjectShort } from '@/api/fetchers.schemas'
+import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
 import Avatar from '@/components/Avatar'
 import { LoaderContent } from '@/components/Loader'
 import {
@@ -163,61 +163,64 @@ const ModuleDetail = () => {
                 )}
             </div>
 
-            <ModuleContentsModal
-                isOpen={
-                    moduleModal.isOpen && moduleModal.action === 'addContents'
-                }
-                onClose={() => setModuleModal({ isOpen: false })}
-                initialStep={1}
-                initialValues={{
-                    ...modules.EMPTY_MODULE_OBJECT,
-                    state: 'new',
-                }}
+            <Modals
+                moduleModal={moduleModal}
+                setModuleModal={setModuleModal}
                 module={module}
-            />
-
-            <ModuleActivateModal
-                isOpen={moduleModal.isOpen && moduleModal.action === 'activate'}
-                onClose={() => setModuleModal({ isOpen: false })}
-            />
-
-            <ModuleLockModal
-                isOpen={moduleModal.isOpen && moduleModal.action === 'lock'}
-                onClose={() => setModuleModal({ isOpen: false })}
-            />
-
-            <ModuleEditObjectModal
-                isOpen={
-                    moduleModal.isOpen && moduleModal.action === 'editObject'
-                }
-                onClose={() =>
-                    setModuleModal({ ...moduleModal, isOpen: false })
-                }
-                object={moduleModal.object || ({} as ModuleObjectShort)}
-            />
-
-            <ModuleObjectDeleteConfirmationModal
-                isOpen={
-                    moduleModal.isOpen && moduleModal.action === 'deleteObject'
-                }
-                onClose={() =>
-                    setModuleModal({ ...moduleModal, isOpen: false })
-                }
-                object={moduleModal.object || ({} as ModuleObjectShort)}
-                module={module}
-            />
-
-            <ModuleCompleteModal
-                isOpen={
-                    moduleModal.isOpen &&
-                    moduleModal.action === 'completeModule'
-                }
-                onClose={() =>
-                    setModuleModal({ ...moduleModal, isOpen: false })
-                }
             />
         </MutateLayout>
     )
 }
+
+interface ModalsProps {
+    module: Module
+    moduleModal: ModuleModalActions
+    setModuleModal: (e: ModuleModalActions) => void
+}
+
+const Modals = ({ moduleModal, setModuleModal, module }: ModalsProps) => (
+    <>
+        <ModuleContentsModal
+            isOpen={moduleModal.isOpen && moduleModal.action === 'addContents'}
+            onClose={() => setModuleModal({ isOpen: false })}
+            initialStep={1}
+            initialValues={{
+                ...modules.EMPTY_MODULE_OBJECT,
+                state: 'new',
+            }}
+            module={module}
+        />
+
+        <ModuleActivateModal
+            isOpen={moduleModal.isOpen && moduleModal.action === 'activate'}
+            onClose={() => setModuleModal({ isOpen: false })}
+        />
+
+        <ModuleLockModal
+            isOpen={moduleModal.isOpen && moduleModal.action === 'lock'}
+            onClose={() => setModuleModal({ isOpen: false })}
+        />
+
+        <ModuleEditObjectModal
+            isOpen={moduleModal.isOpen && moduleModal.action === 'editObject'}
+            onClose={() => setModuleModal({ ...moduleModal, isOpen: false })}
+            object={moduleModal.object || ({} as ModuleObjectShort)}
+        />
+
+        <ModuleObjectDeleteConfirmationModal
+            isOpen={moduleModal.isOpen && moduleModal.action === 'deleteObject'}
+            onClose={() => setModuleModal({ ...moduleModal, isOpen: false })}
+            object={moduleModal.object || ({} as ModuleObjectShort)}
+            module={module}
+        />
+
+        <ModuleCompleteModal
+            isOpen={
+                moduleModal.isOpen && moduleModal.action === 'completeModule'
+            }
+            onClose={() => setModuleModal({ ...moduleModal, isOpen: false })}
+        />
+    </>
+)
 
 export default ModuleDetail
