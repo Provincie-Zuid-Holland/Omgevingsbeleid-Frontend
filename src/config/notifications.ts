@@ -9,7 +9,9 @@ export type ToastType =
     | 'moduleLocked'
     | 'moduleUnlocked'
     | 'moduleClosed'
+    | 'moduleCompleted'
     | 'objectRemoved'
+    | 'acknowledgedRelationSaved'
 
 type MessageType = 'default' | 'success' | 'error' | 'warning' | 'info'
 
@@ -54,8 +56,16 @@ export const notifications: Record<
         message: 'De module is verwijderd',
         type: 'success',
     },
+    moduleCompleted: {
+        message: 'De module is afgesloten',
+        type: 'success',
+    },
     objectRemoved: {
         message: 'Het object is verwijderd',
+        type: 'success',
+    },
+    acknowledgedRelationSaved: {
+        message: 'Verzoek tot beleidsrelatie is verzonden',
         type: 'success',
     },
 }

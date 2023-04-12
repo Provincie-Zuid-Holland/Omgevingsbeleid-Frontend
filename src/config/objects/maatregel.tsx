@@ -29,6 +29,8 @@ const fetchers = {
         useModulesModuleIdObjectMaatregelLatestLineageIdGet,
     usePatchObjectInModule: useModulesModuleIdObjectMaatregelLineageIdPatch,
     usePostStatic: useMaatregelStaticLineageIdPost,
+    useGetAcknowledgedRelations: null,
+    usePostAcknowledgedRelations: null,
 }
 
 const maatregel: DynamicObject<

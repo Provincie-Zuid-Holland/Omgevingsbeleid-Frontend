@@ -82,7 +82,7 @@ const ObjectPersonModal = ({
                                 ...base,
                                 position: 'relative',
                                 zIndex: 9999,
-                                marginTop: 0,
+                                marginTop: 2,
                                 boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
                             }),
                         }}

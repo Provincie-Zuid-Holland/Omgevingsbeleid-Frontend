@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
-import { LoaderContent } from '@/components/Loader'
+import { LoaderSpinner } from '@/components/Loader'
 import ScrollToFieldError from '@/components/ScrollToFieldError'
 import { Model } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
@@ -63,45 +63,49 @@ const DynamicObjectForm = ({ model, isLocked }: DynamicObjectFormProps) => {
         })
     }
 
-    if (isLoading || !data) return <LoaderContent />
-
     return (
-        <div>
-            <Formik
-                initialValues={initialData}
-                validationSchema={
-                    model.validationSchema &&
-                    toFormikValidationSchema(model.validationSchema)
-                }
-                validateOnMount
-                onSubmit={handleSubmit}
-                enableReinitialize>
-                {({ isSubmitting }) => (
-                    <Form>
-                        <div className="grid grid-cols-6 gap-x-10 gap-y-0">
-                            {sections?.map((section, index) => (
-                                <DynamicSection
-                                    key={`section-${index}`}
-                                    isLast={index + 1 === sections.length}
-                                    isLocked={isLocked}
-                                    {...section}
-                                />
-                            ))}
-                        </div>
+        <>
+            {!isLoading ? (
+                <Formik
+                    initialValues={initialData}
+                    validationSchema={
+                        model.validationSchema &&
+                        toFormikValidationSchema(model.validationSchema)
+                    }
+                    validateOnMount
+                    onSubmit={handleSubmit}
+                    enableReinitialize>
+                    {({ isSubmitting }) => (
+                        <Form>
+                            <div className="grid grid-cols-6 gap-x-10 gap-y-0">
+                                {sections?.map((section, index) => (
+                                    <DynamicSection
+                                        key={`section-${index}`}
+                                        isLast={index + 1 === sections.length}
+                                        isLocked={isLocked}
+                                        {...section}
+                                    />
+                                ))}
+                            </div>
 
-                        <ButtonSubmitFixed
-                            onCancel={() =>
-                                navigate(`/muteer/modules/${moduleId}`)
-                            }
-                            disabled={isSubmitting || isLoading || isLocked}
-                            isLoading={isSubmitting}
-                        />
+                            <ButtonSubmitFixed
+                                onCancel={() =>
+                                    navigate(`/muteer/modules/${moduleId}`)
+                                }
+                                disabled={isSubmitting || isLoading || isLocked}
+                                isLoading={isSubmitting}
+                            />
 
-                        <ScrollToFieldError />
-                    </Form>
-                )}
-            </Formik>
-        </div>
+                            <ScrollToFieldError />
+                        </Form>
+                    )}
+                </Formik>
+            ) : (
+                <div className="flex justify-center">
+                    <LoaderSpinner />
+                </div>
+            )}
+        </>
     )
 }
 

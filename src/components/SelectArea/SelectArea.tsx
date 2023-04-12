@@ -93,8 +93,10 @@ const SelectArea = ({
                                     <button
                                         type="button"
                                         onClick={handleDeleteArea}
-                                        area-label="Werkingsgebied verwijderen"
                                         disabled={disabled}>
+                                        <span className="sr-only">
+                                            Werkingsgebied verwijderen
+                                        </span>
                                         <TrashCan
                                             className={classNames('mt-[4px]', {
                                                 'text-pzh-red': !disabled,

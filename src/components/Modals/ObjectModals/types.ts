@@ -1,4 +1,8 @@
-import { RelationShort, UserShort } from '@/api/fetchers.schemas'
+import {
+    RelationShort,
+    RequestAcknowledgedRelation,
+    UserShort,
+} from '@/api/fetchers.schemas'
 import {
     Model,
     ModelPatchStaticType,
@@ -22,4 +26,9 @@ export interface ObjectPersonModalActions {
     isOpen: boolean
     isEdit?: boolean
     initialValues: ModelPatchStaticType
+}
+
+export interface ObjectRelationNewModalActions {
+    isOpen: boolean
+    initialValues: RequestAcknowledgedRelation
 }

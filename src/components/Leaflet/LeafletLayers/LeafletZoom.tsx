@@ -13,16 +13,18 @@ const LeafletZoom = ({ position = 'bottomleft' }: LeafletZoomProps) => {
 
     return (
         <LeafletController position={position}>
-            <div
+            <button
                 className="leaflet-zoom relative z-10 flex items-center justify-center h-8 w-8 bg-white cursor-pointer"
                 onClick={() => map.zoomIn()}>
+                <span className="sr-only">Inzoomen</span>
                 <Plus size={16} className="inline-block cursor-pointer" />
-            </div>
-            <div
+            </button>
+            <button
                 className="leaflet-zoom relative z-10 flex items-center justify-center h-8 w-8 bg-white cursor-pointer"
                 onClick={() => map.zoomOut()}>
+                <span className="sr-only">Uitzoomen</span>
                 <Minus size={16} className="inline-block cursor-pointer" />
-            </div>
+            </button>
         </LeafletController>
     )
 }

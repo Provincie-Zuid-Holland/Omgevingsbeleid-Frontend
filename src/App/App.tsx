@@ -1,6 +1,6 @@
 import './appConfig'
 
-import { DNABar, Feedback, ToastContainer } from '@pzh-ui/components'
+import { DNABar, ToastContainer } from '@pzh-ui/components'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -79,15 +79,10 @@ const App = () => {
                             </Suspense>
                         </ErrorBoundary>
                         <ToastContainer position="bottom-left" />
-                        {!isAdvancedSearchPage && !userIsInMuteerEnvironment && (
-                            <>
-                                <DNABar blocks={6} />
-                                <Feedback
-                                    email="omgevingsbeleid@pzh.nl"
-                                    website="obzh.nl"
-                                />
-                            </>
-                        )}
+                        {!isAdvancedSearchPage &&
+                            !userIsInMuteerEnvironment && (
+                                <DNABar blocks={6} className="top-[96px]" />
+                            )}
                     </BaseLayout>
                 </div>
             </AuthProvider>

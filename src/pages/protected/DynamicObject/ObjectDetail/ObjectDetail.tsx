@@ -1,8 +1,9 @@
-import { getHeadingStyles, Heading } from '@pzh-ui/components'
+import { Divider, getHeadingStyles, Heading } from '@pzh-ui/components'
 import { useParams } from 'react-router-dom'
 
 import ObjectConnections from '@/components/DynamicObject/ObjectConnections'
 import ObjectDefaultInfo from '@/components/DynamicObject/ObjectDefaultInfo'
+import ObjectRelations from '@/components/DynamicObject/ObjectRelations'
 import { Model } from '@/config/objects/types'
 import useBreakpoint from '@/hooks/useBreakpoint'
 import useModule from '@/hooks/useModule'
@@ -37,9 +38,9 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
     return (
         <MutateLayout title={singularCapitalize} breadcrumbs={breadcrumbPaths}>
             <div className="col-span-6">
-                <Heading level="1" className="mb-8">
-                    {singularCapitalize}
-                </Heading>
+                <Heading level="1">{singularCapitalize}</Heading>
+
+                <Divider className="mb-8 mt-6" />
             </div>
 
             <div className="col-span-4">
@@ -55,6 +56,10 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
 
                 {!!model.allowedConnections?.length && (
                     <ObjectConnections model={model} />
+                )}
+
+                {!!model.acknowledgedRelation && (
+                    <ObjectRelations model={model} />
                 )}
             </div>
         </MutateLayout>

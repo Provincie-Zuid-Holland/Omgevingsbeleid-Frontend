@@ -1,4 +1,6 @@
 import {
+    useBeleidskeuzeAcknowledgedRelationsLineageIdGet,
+    useBeleidskeuzeAcknowledgedRelationsLineageIdPost,
     useBeleidskeuzesLatestLineageIdGet,
     useBeleidskeuzesRelationsLineageIdGet,
     useBeleidskeuzesRelationsLineageIdPut,
@@ -29,6 +31,10 @@ const fetchers = {
         useModulesModuleIdObjectBeleidskeuzeLatestLineageIdGet,
     usePatchObjectInModule: useModulesModuleIdObjectBeleidskeuzeLineageIdPatch,
     usePostStatic: useBeleidskeuzeStaticLineageIdPost,
+    useGetAcknowledgedRelations:
+        useBeleidskeuzeAcknowledgedRelationsLineageIdGet,
+    usePostAcknowledgedRelations:
+        useBeleidskeuzeAcknowledgedRelationsLineageIdPost,
 }
 
 const beleidskeuze: DynamicObject<
@@ -56,10 +62,8 @@ const beleidskeuze: DynamicObject<
         'Portfolio_Holder_1_UUID',
         'Portfolio_Holder_2_UUID',
     ],
-    allowedConnections: [
-        { type: 'beleidskeuze', key: 'Beleidskeuzes' },
-        { type: 'beleidsdoel', key: 'Beleidsdoelen' },
-    ],
+    allowedConnections: [{ type: 'beleidsdoel', key: 'Beleidsdoelen' }],
+    acknowledgedRelation: 'beleidskeuze',
     dynamicSections: [
         {
             title: 'Algemene informatie',

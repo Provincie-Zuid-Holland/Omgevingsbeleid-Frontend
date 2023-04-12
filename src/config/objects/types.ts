@@ -54,13 +54,15 @@ export interface DynamicObject<
     validationSchema?: Schema
     /** Dynamic section containing form fields */
     dynamicSections: DynamicSection<FieldType>[]
-    /** Allowed connection types which object can get a relation with */
+    /** Allowed connection types which object can get a connection with */
     allowedConnections?: {
         /** Type of connection */
         type: ModelType
         /** Key of connection, this corresponds with the API field */
         key: keyof ModelReturnType
     }[]
+    /** Acknowledged relation type */
+    acknowledgedRelation?: ModelType
 }
 
 export type ModelType = keyof typeof models
@@ -96,7 +98,9 @@ export type DynamicField<FieldType = any> = {
     validation?: Validation
 } & (
     | { type: 'select'; options: { label: string; value: string }[] }
-    | { type: Exclude<'text' | 'textarea' | 'wysiwyg' | 'area', 'select'> }
+    | {
+          type: Exclude<'text' | 'textarea' | 'wysiwyg' | 'area', 'select'>
+      }
 )
 
 export type ModelReturnType = BeleidsdoelGet &

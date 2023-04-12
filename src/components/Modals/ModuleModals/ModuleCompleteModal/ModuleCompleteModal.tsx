@@ -1,11 +1,16 @@
 import { Button, Heading, Modal } from '@pzh-ui/components'
+import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik } from 'formik'
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
-import { useModulesModuleIdCompletePost } from '@/api/fetchers'
+import {
+    getModulesGetQueryKey,
+    useModulesModuleIdCompletePost,
+} from '@/api/fetchers'
 import { CompleteModule } from '@/api/fetchers.schemas'
+import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
 
 import { StepOne, StepTwo } from './steps'
@@ -18,11 +23,31 @@ interface ModuleCompleteModalProps {
 }
 
 const ModuleCompleteModal = ({ isOpen, onClose }: ModuleCompleteModalProps) => {
+    const queryClient = useQueryClient()
+    const navigate = useNavigate()
     const { moduleId } = useParams()
 
     const [step, setStep] = useState(1)
 
-    const completeModule = useModulesModuleIdCompletePost()
+    const completeModule = useModulesModuleIdCompletePost({
+        mutation: {
+            onError: () => {
+                toastNotification('error')
+            },
+            onSuccess: () => {
+                queryClient
+                    .invalidateQueries(getModulesGetQueryKey(), {
+                        refetchType: 'all',
+                    })
+                    .then(() => {
+                        handleClose()
+                        navigate('/muteer/modules')
+                    })
+
+                toastNotification('moduleCompleted')
+            },
+        },
+    })
 
     const handleClose = () => {
         onClose()

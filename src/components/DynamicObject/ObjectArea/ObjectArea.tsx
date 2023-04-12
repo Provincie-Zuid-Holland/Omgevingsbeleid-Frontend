@@ -17,7 +17,7 @@ const ObjectArea = ({ objectTitle, model, UUID, Title }: ObjectAreaProps) => {
     const { singular, prefixSingular } = model.defaults
 
     return (
-        <div className="mt-8">
+        <div>
             <h2
                 className="mb-4"
                 id="object-section-werkingsgebied"
@@ -25,7 +25,7 @@ const ObjectArea = ({ objectTitle, model, UUID, Title }: ObjectAreaProps) => {
                 Werkingsgebied
             </h2>
             <Text className="mb-4 first-letter:capitalize">
-                {prefixSingular} {singular} ‘{objectTitle}’ heeft als indicatief
+                {prefixSingular} {singular} ‘{objectTitle}’ heeft als
                 werkingsgebied ‘{Title}’.
             </Text>
 

@@ -8,7 +8,7 @@
         "@headlessui/react": "^1.5.0",
         "@pzh-ui/components": "^0.0.277",
         "@pzh-ui/config": "^0.0.34",
-        "@pzh-ui/css": "^0.0.59",
+        "@pzh-ui/css": "^0.0.60",
         "@pzh-ui/icons": "^0.0.22",
         "@sentry/browser": "^6.11.0",
         "@tanstack/react-query": "^4.28.0",

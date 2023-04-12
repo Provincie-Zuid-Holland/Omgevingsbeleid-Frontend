@@ -21,6 +21,8 @@ interface DynamicObjectSearchProps
     placeholder?: string
     /** Label of field (optional) */
     label?: string
+    /** Filter item by UUID or Object_ID */
+    filter?: number | string
 }
 
 const DynamicObjectSearch = ({
@@ -28,6 +30,7 @@ const DynamicObjectSearch = ({
     objectKey = 'uuid',
     placeholder = 'Zoek op titel van beleidskeuze, maatregel, etc.',
     label,
+    filter,
     ...rest
 }: DynamicObjectSearchProps) => {
     const [suggestions, setSuggestions] = useState<SearchObject[]>([])
@@ -38,9 +41,17 @@ const DynamicObjectSearch = ({
     ) => {
         searchGet({ query })
             .then(data => {
-                setSuggestions(data.Objects)
+                const filteredObject = !!filter
+                    ? data.Objects.filter(object =>
+                          objectKey === 'uuid'
+                              ? object.UUID !== filter
+                              : object.Object_ID !== filter
+                      )
+                    : data.Objects
+
+                setSuggestions(filteredObject)
                 callback(
-                    data.Objects.map(object => ({
+                    filteredObject.map(object => ({
                         label: (
                             <div className="flex justify-between">
                                 <span>{object.Title}</span>

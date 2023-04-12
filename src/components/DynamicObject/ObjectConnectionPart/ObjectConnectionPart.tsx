@@ -52,14 +52,14 @@ const ObjectConnectionPart = ({
     )
 
     return (
-        <div className="flex justify-between items-center py-2 border-b border-pzh-gray-400">
+        <div className="relative flex justify-between items-center mt-3 pb-4 border-b border-pzh-gray-300">
             <div className="flex items-center">
-                <div className="flex justify-center items-center h-[24px] w-[24px] rounded-full bg-pzh-blue-light text-pzh-white">
+                <div className="flex justify-center items-center h-[24px] w-[24px] rounded-full bg-pzh-blue-light/50 text-pzh-blue">
                     <span className="-mb-[4px] text-[16px] font-bold">
                         {amount}
                     </span>
                 </div>
-                <span className="-mb-[4px] ml-3 truncate">
+                <span className="-mb-[4px] ml-3">
                     {model.defaults.pluralCapitalize}
                 </span>
             </div>
@@ -67,7 +67,8 @@ const ObjectConnectionPart = ({
             <button
                 type="button"
                 onClick={() => handleButtonClick(amount)}
-                aria-label={amount === 0 ? 'Toevoegen' : 'Wijzigen'}>
+                aria-label={amount === 0 ? 'Toevoegen' : 'Wijzigen'}
+                className="after:content-[' '] after:absolute after:left-0 after:top-0 after:w-full after:h-full">
                 {canEdit &&
                     (isLoading ? (
                         <Spinner
@@ -75,11 +76,11 @@ const ObjectConnectionPart = ({
                             className="text-pzh-gray-600 animate-spin"
                         />
                     ) : amount === 0 ? (
-                        <div className="w-4 h-4 bg-pzh-green rounded-full flex items-center justify-center">
+                        <div className="w-[18px] h-[18px] bg-pzh-green rounded-full flex items-center justify-center">
                             <Plus size={14} className="text-pzh-white" />
                         </div>
                     ) : (
-                        <PenToSquare size={20} className="text-pzh-green" />
+                        <PenToSquare size={18} className="text-pzh-green" />
                     ))}
             </button>
         </div>

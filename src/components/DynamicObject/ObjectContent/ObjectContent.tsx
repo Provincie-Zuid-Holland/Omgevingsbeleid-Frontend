@@ -1,4 +1,5 @@
 import { getHeadingStyles } from '@pzh-ui/components'
+import classNames from 'classnames'
 import DOMPurify from 'dompurify'
 
 import { ModelReturnType } from '@/config/objects/types'
@@ -11,48 +12,61 @@ interface ObjectContentProps {
 
 const ObjectContent = ({ data }: ObjectContentProps) => (
     <div>
-        {htmlFields.map(field => {
+        {htmlFields.map((field, index) => {
             const html = data[field.value]
             if (typeof html !== 'string') return null
 
-            return <Content key={field.value} title={field.title} html={html} />
+            return (
+                <Content
+                    key={field.value}
+                    index={index}
+                    html={html}
+                    {...field}
+                />
+            )
         })}
     </div>
 )
 
 interface ContentProps {
+    index: number
     title?: string
+    value: keyof ModelReturnType
+    hidden?: boolean
     html: string
 }
 
-const Content = ({ title, html }: ContentProps) => {
+const Content = ({ index, title, value, hidden, html }: ContentProps) => {
     const cleanHtml = DOMPurify.sanitize(html)
     const { isMobile } = useBreakpoint()
 
+    const Wrapper = value === 'Description' ? 'p' : 'div'
+
     return (
         <>
-            {title && (
-                <h2
-                    id={`object-section-${title
-                        .toLowerCase()
-                        .replace(/ /g, '-')}`}
-                    style={getHeadingStyles('3', isMobile)}
-                    className="mb-4">
-                    {title}
-                </h2>
-            )}
-            <div
-                className="prose prose-neutral prose-li:my-0 mb-8 max-w-full text-pzh-blue-dark marker:text-pzh-blue-dark leading-6"
+            <h2
+                id={`object-section-${index}`}
+                style={getHeadingStyles('3', isMobile)}
+                className={classNames('mb-4', { 'sr-only': hidden })}>
+                {title}
+            </h2>
+            <Wrapper
+                className="prose prose-neutral prose-li:my-0 mb-4 md:mb-8 max-w-full text-pzh-blue-dark marker:text-pzh-blue-dark leading-6"
                 dangerouslySetInnerHTML={{ __html: cleanHtml }}
             />
         </>
     )
 }
 
-const htmlFields: { title?: string; value: keyof ModelReturnType }[] = [
+const htmlFields: {
+    title?: string
+    value: keyof ModelReturnType
+    hidden?: boolean
+}[] = [
     {
-        title: undefined,
+        title: 'Omschrijving',
         value: 'Description',
+        hidden: true,
     },
     {
         title: 'Wat wil de provincie bereiken?',

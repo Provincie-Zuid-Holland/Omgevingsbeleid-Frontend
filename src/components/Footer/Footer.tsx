@@ -1,4 +1,4 @@
-import { Heading, Text } from '@pzh-ui/components'
+import { Feedback, Heading, Text } from '@pzh-ui/components'
 import classNames from 'classnames'
 import { Link } from 'react-router-dom'
 
@@ -8,6 +8,7 @@ import { Container } from '../Container'
 
 function Footer() {
     const userIsInMuteerEnvironment = usePage('/muteer')
+    const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
 
     return (
         <footer className="w-full mt-auto bg-pzh-cool-gray-light/30">
@@ -65,6 +66,10 @@ function Footer() {
                     </div>
                 )}
             </Container>
+
+            {!userIsInMuteerEnvironment && !isAdvancedSearchPage && (
+                <Feedback email="omgevingsbeleid@pzh.nl" website="obzh.nl" />
+            )}
         </footer>
     )
 }

@@ -60,7 +60,7 @@ const ObjectConnections = ({ model }: ObjectConnectionsProps) => {
 
     return (
         <>
-            <div className="mt-12 mb-4">
+            <div className="mt-8 mb-5">
                 <Heading level="3">Koppelingen</Heading>
             </div>
 

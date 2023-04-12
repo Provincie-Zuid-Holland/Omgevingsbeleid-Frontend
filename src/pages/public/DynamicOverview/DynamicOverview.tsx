@@ -36,15 +36,15 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
             <Helmet title={pluralCapitalize} />
 
             <Container className="pb-16 sm:pt-8 pt-4">
-                <div className="col-span-6 sm:col-span-1">
+                <div className="col-span-6 xl:col-span-1 mb-4">
                     <Link
                         to="/"
-                        className="inline-block duration-100 ease-in opacity-75 cursor-pointer focus-within:transition text-pzh-blue hover:opacity-100">
+                        className="inline-block focus-within:transition text-pzh-blue-dark">
                         <ArrowLeft className="mr-2 -mt-0.5 inline-block" />
                         <span>Start</span>
                     </Link>
                 </div>
-                <div className="col-span-6 sm:col-span-4">
+                <div className="col-span-6 xl:col-span-4">
                     <Heading level="1">{pluralCapitalize}</Heading>
                     <Text className="mt-3 md:mt-4">{description}</Text>
                     <div className="mt-8">

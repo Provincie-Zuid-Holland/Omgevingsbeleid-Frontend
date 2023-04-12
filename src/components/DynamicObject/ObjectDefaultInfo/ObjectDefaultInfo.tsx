@@ -96,9 +96,9 @@ interface ItemProps {
 }
 
 const Item = ({ label, user, handleClick, isLoading, canEdit }: ItemProps) => (
-    <div className="mt-3 pb-2 border-b border-pzh-gray-400">
+    <div className="mt-3 pb-2 border-b border-pzh-gray-300">
         <Text type="body-bold">{label}</Text>
-        <div className="flex items-center justify-between">
+        <div className="relative flex items-center justify-between">
             {!isLoading ? (
                 <Text className={!user ? 'text-pzh-gray-600' : ''}>
                     {user?.Gebruikersnaam || 'Niet geselecteerd'}
@@ -115,14 +115,20 @@ const Item = ({ label, user, handleClick, isLoading, canEdit }: ItemProps) => (
                         className="animate-spin text-pzh-gray-600"
                     />
                 ) : !user ? (
-                    <button aria-label="Toevoegen" onClick={handleClick}>
-                        <div className="w-4 h-4 bg-pzh-green rounded-full flex items-center justify-center">
+                    <button
+                        aria-label={`${label} toevoegen`}
+                        onClick={handleClick}
+                        className="after:content-[' '] after:absolute after:left-0 after:top-0 after:w-full after:h-full">
+                        <div className="w-[18px] h-[18px] bg-pzh-green rounded-full flex items-center justify-center">
                             <Plus size={14} className="text-pzh-white" />
                         </div>
                     </button>
                 ) : (
-                    <button aria-label="Wijzigen" onClick={handleClick}>
-                        <PenToSquare size={20} className="text-pzh-green" />
+                    <button
+                        aria-label={`${label} wijzigen`}
+                        onClick={handleClick}
+                        className="after:content-[' '] after:absolute after:left-0 after:top-0 after:w-full after:h-full">
+                        <PenToSquare size={18} className="text-pzh-green" />
                     </button>
                 ))}
         </div>

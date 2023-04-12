@@ -12,7 +12,7 @@ import { Model } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import getPropertyByName from '@/utils/getPropertyByName'
 import { toastNotification } from '@/utils/toastNotification'
-import * as objectRelation from '@/validation/objectRelation'
+import * as objectConnection from '@/validation/objectConnection'
 
 import { ObjectConnectionModalActions } from '../types'
 import { StepOne, StepTwo, StepThree } from './steps'
@@ -159,7 +159,7 @@ const ObjectConnectionModal = ({
             open={isOpen}
             onClose={handleClose}
             ariaLabel="Nieuwe koppeling"
-            maxWidth="sm:max-w-[812px]">
+            maxWidth="sm:max-w-[1200px]">
             {isFetching && (
                 <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black/20">
                     <LoaderSpinner />
@@ -169,7 +169,7 @@ const ObjectConnectionModal = ({
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
                 validationSchema={toFormikValidationSchema(
-                    objectRelation.SCHEMA
+                    objectConnection.SCHEMA
                 )}
                 enableReinitialize>
                 {({ isValid, isSubmitting, submitForm }) => (
@@ -180,6 +180,7 @@ const ObjectConnectionModal = ({
                         </Heading>
                         <CurrentStep
                             title={data?.Title}
+                            id={data?.Object_ID}
                             connectionModel={connectionModel}
                             model={model}
                             connections={connections}
@@ -195,7 +196,6 @@ const ObjectConnectionModal = ({
                                     <Button
                                         variant="secondary"
                                         type="button"
-                                        size="small"
                                         onPress={() => setStep(step - 1)}
                                         className="mr-3">
                                         Vorige stap
@@ -205,7 +205,6 @@ const ObjectConnectionModal = ({
                                             isFinalStep ? 'cta' : 'primary'
                                         }
                                         type="button"
-                                        size="small"
                                         isDisabled={
                                             (isFinalStep && !isValid) ||
                                             (isFinalStep && isSubmitting)

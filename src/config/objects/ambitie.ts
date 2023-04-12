@@ -26,6 +26,8 @@ const fetchers = {
         useModulesModuleIdObjectAmbitieLatestLineageIdGet,
     usePatchObjectInModule: useModulesModuleIdObjectAmbitieLineageIdPatch,
     usePostStatic: useAmbitieStaticLineageIdPost,
+    useGetAcknowledgedRelations: null,
+    usePostAcknowledgedRelations: null,
 }
 
 const ambitie: DynamicObject<

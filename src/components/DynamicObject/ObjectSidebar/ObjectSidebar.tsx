@@ -1,36 +1,32 @@
 import { Text } from '@pzh-ui/components'
 
 import BackButton from '@/components/BackButton'
-import formatDate from '@/utils/formatDate'
+
+import ObjectDetails from '../ObjectDetails/ObjectDetails'
 
 interface ObjectSidebarProps {
     /** Type of object */
     type: string
     /** Start date of validity */
     date?: Date
+    /** Amount of revisions */
+    revisions?: number
 }
 
-const ObjectSidebar = ({ type, date }: ObjectSidebarProps) => (
+const ObjectSidebar = ({ type, date, revisions }: ObjectSidebarProps) => (
     <aside>
         <BackButton />
 
-        <div>
-            <Text type="body-bold">Type</Text>
-            <Text type="span" className="block">
-                {type}
-            </Text>
-        </div>
-
-        {date && (
-            <div className="mt-4">
-                <Text type="body-bold">Status</Text>
+        <div className="hidden xl:block">
+            <div>
+                <Text type="body-bold">Type</Text>
                 <Text type="span" className="block">
-                    Vigerend
-                    <br />
-                    sinds {formatDate(date, 'd MMMM yyyy')}
+                    {type}
                 </Text>
             </div>
-        )}
+
+            <ObjectDetails date={date} revisions={revisions} />
+        </div>
     </aside>
 )
 

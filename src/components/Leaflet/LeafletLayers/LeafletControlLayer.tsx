@@ -32,7 +32,7 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
             <LeafletController position="topright">
                 <div className="leaflet-layers-control">
                     <div className="flex">
-                        <div
+                        <button
                             className={`leaflet-layers absolute top-0 right-0 p-2 w-8 h-8 flex justify-center items-center bg-white ${
                                 layerControlOpen ? 'hidden' : ''
                             }`}
@@ -40,6 +40,7 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                                 setLayerControlOpen(!layerControlOpen)
                             }
                             data-testid="leaflet-layers-control-toggle">
+                            <span className="sr-only">Kaartlagen</span>
                             {layerControlOpen ? (
                                 <AngleRight
                                     size={16}
@@ -51,7 +52,7 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                                     className="text-gray-700"
                                 />
                             )}
-                        </div>
+                        </button>
                         <Transition
                             show={layerControlOpen}
                             enter="ease-out duration-300"

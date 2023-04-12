@@ -6,20 +6,19 @@ import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
 
 import { StepProps } from './types'
 
-export const StepTwo = ({ title, id, connectionModel, model }: StepProps) => {
+export const StepOne = ({ title, id, model }: StepProps) => {
     const { values, setFieldValue } = useFormikContext<
         RelationShort & { Title?: string }
     >()
 
-    const { defaults } = connectionModel || {}
     const { pluralCapitalize, plural, prefixSingular, singular } =
-        defaults || {}
+        model.defaults
 
     return (
         <>
             <Text className="mb-4">
-                Selecteer {prefixSingular} {singular} waarmee je een koppeling
-                wilt maken vanuit {model.defaults.singular}:{' '}
+                Selecteer {prefixSingular} {singular} waarmee je een relatie
+                wilt aangaan vanuit {model.defaults.singular}:{' '}
                 <span className="font-bold">{title}</span>
             </Text>
             <DynamicObjectSearch
