@@ -1,8 +1,6 @@
-import { Heading, Text } from '@pzh-ui/components'
-import { ArrowLeft } from '@pzh-ui/icons'
+import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import { useMemo } from 'react'
 import { Helmet } from 'react-helmet'
-import { Link } from 'react-router-dom'
 
 import { Container } from '@/components/Container'
 import ObjectList from '@/components/ObjectList'
@@ -13,6 +11,8 @@ interface DynamicOverviewProps {
 }
 
 function DynamicOverview({ model }: DynamicOverviewProps) {
+    const pathName = location.pathname || ''
+
     const { useGetValid } = model.fetchers
     const { plural, pluralCapitalize, description, slugOverview } =
         model.defaults
@@ -31,27 +31,32 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
         [data]
     )
 
+    const breadcrumbPaths = [
+        { name: 'Omgevingsbeleid', path: '/' },
+        { name: 'Omgevingsvisie', path: '/' },
+        { name: pluralCapitalize || '', path: pathName },
+    ]
+
     return (
         <>
             <Helmet title={pluralCapitalize} />
 
-            <Container className="pb-16 sm:pt-8 pt-4">
-                <div className="col-span-6 xl:col-span-1 mb-4">
-                    <Link
-                        to="/"
-                        className="inline-block focus-within:transition text-pzh-blue-dark">
-                        <ArrowLeft className="mr-2 -mt-0.5 inline-block" />
-                        <span>Start</span>
-                    </Link>
+            <Container className="pb-16 pt-4">
+                <div className="col-span-6 mb-8">
+                    <Breadcrumbs items={breadcrumbPaths} />
                 </div>
-                <div className="col-span-6 xl:col-span-4">
+                <div className="col-span-6 xl:col-span-4 xl:col-start-2">
                     <Heading level="1">{pluralCapitalize}</Heading>
                     <Text className="mt-3 md:mt-4">{description}</Text>
                     <div className="mt-8">
                         <ObjectList
                             data={allObjects || []}
                             isLoading={isLoading}
-                            objectSlug={slugOverview || ''}
+                            objectSlug={
+                                slugOverview
+                                    ? `omgevingsvisie/${slugOverview}`
+                                    : ''
+                            }
                             objectType={plural}
                         />
                     </div>

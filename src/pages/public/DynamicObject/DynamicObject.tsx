@@ -1,15 +1,14 @@
-import { Heading } from '@pzh-ui/components'
+import { Breadcrumbs, Heading } from '@pzh-ui/components'
 import { useMemo } from 'react'
 import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
 
 import { Container } from '@/components/Container'
 import ObjectArea from '@/components/DynamicObject/ObjectArea/ObjectArea'
+import ObjectConnectionsPublic from '@/components/DynamicObject/ObjectConnectionsPublic/ObjectConnectionsPublic'
 import ObjectContent from '@/components/DynamicObject/ObjectContent/ObjectContent'
-import ObjectDetails from '@/components/DynamicObject/ObjectDetails/ObjectDetails'
 import Sidebar from '@/components/DynamicObject/ObjectSidebar'
 import { LoaderContent } from '@/components/Loader'
-import TableOfContents from '@/components/TableOfContents'
 import { Model, ModelReturnType } from '@/config/objects/types'
 
 interface DynamicObjectProps {
@@ -18,8 +17,9 @@ interface DynamicObjectProps {
 
 const DynamicObject = ({ model }: DynamicObjectProps) => {
     const { uuid } = useParams()
+    const pathName = location.pathname || ''
 
-    const { singularCapitalize } = model.defaults
+    const { singularCapitalize, pluralCapitalize, plural } = model.defaults
     const { useGetVersion, useGetValidLineage } = model.fetchers
 
     const { data = {}, isLoading } = useGetVersion<ModelReturnType>(uuid!, {
@@ -36,47 +36,36 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
         [revisions]
     )
 
+    const breadcrumbPaths = [
+        { name: 'Omgevingsbeleid', path: '/' },
+        { name: 'Omgevingsvisie', path: '/' },
+        { name: pluralCapitalize, path: `/omgevingsvisie/${plural}` },
+        { name: data.Title || '', path: pathName },
+    ]
+
     if (isLoading) return <LoaderContent />
 
     return (
         <>
             <Helmet title={singularCapitalize} />
 
-            <Container className="pb-16 sm:pt-8 pt-4">
-                <div className="col-span-6 xl:col-span-1 order-1">
+            <Container className="pb-16 pt-4">
+                <div className="col-span-6 mb-8">
+                    <Breadcrumbs items={breadcrumbPaths} />
+                </div>
+
+                <div className="col-span-6 xl:col-span-2 order-1">
                     <Sidebar
-                        type={singularCapitalize}
-                        date={
-                            (data.Start_Validity &&
-                                new Date(data.Start_Validity)) ||
-                            undefined
-                        }
                         revisions={amountOfRevisions}
+                        plural={plural}
+                        {...data}
                     />
                 </div>
 
-                <div className="col-span-6 xl:col-span-1 order-3">
-                    <TableOfContents display="fixed" />
-                </div>
-
                 <div className="col-span-6 xl:col-span-4 order-2 flex flex-col">
-                    <Heading
-                        level="3"
-                        className="font-bold"
-                        color="text-pzh-blue-dark order-1">
+                    <Heading level="3" color="order-1">
                         {singularCapitalize}
                     </Heading>
-
-                    <div className="block xl:hidden order-3 md:order-2">
-                        <ObjectDetails
-                            date={
-                                (data.Start_Validity &&
-                                    new Date(data.Start_Validity)) ||
-                                undefined
-                            }
-                            revisions={amountOfRevisions}
-                        />
-                    </div>
 
                     <Heading
                         level="1"
@@ -95,6 +84,15 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
                                 model={model}
                                 objectTitle={data.Title}
                                 {...data.Gebied}
+                            />
+                        </div>
+                    )}
+
+                    {model.allowedConnections && (
+                        <div className="order-6">
+                            <ObjectConnectionsPublic
+                                model={model}
+                                data={data}
                             />
                         </div>
                     )}

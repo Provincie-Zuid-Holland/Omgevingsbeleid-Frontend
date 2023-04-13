@@ -11,32 +11,24 @@ interface ObjectContentProps {
 }
 
 const ObjectContent = ({ data }: ObjectContentProps) => (
-    <div>
-        {htmlFields.map((field, index) => {
+    <div data-section="Inhoud">
+        {htmlFields.map(field => {
             const html = data[field.value]
             if (typeof html !== 'string') return null
 
-            return (
-                <Content
-                    key={field.value}
-                    index={index}
-                    html={html}
-                    {...field}
-                />
-            )
+            return <Content key={field.value} html={html} {...field} />
         })}
     </div>
 )
 
 interface ContentProps {
-    index: number
     title?: string
     value: keyof ModelReturnType
     hidden?: boolean
     html: string
 }
 
-const Content = ({ index, title, value, hidden, html }: ContentProps) => {
+const Content = ({ title, value, hidden, html }: ContentProps) => {
     const cleanHtml = DOMPurify.sanitize(html)
     const { isMobile } = useBreakpoint()
 
@@ -45,7 +37,6 @@ const Content = ({ index, title, value, hidden, html }: ContentProps) => {
     return (
         <>
             <h2
-                id={`object-section-${index}`}
                 style={getHeadingStyles('3', isMobile)}
                 className={classNames('mb-4', { 'sr-only': hidden })}>
                 {title}

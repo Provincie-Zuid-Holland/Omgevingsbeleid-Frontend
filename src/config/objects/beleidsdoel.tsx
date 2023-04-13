@@ -1,3 +1,5 @@
+import { Hyperlink } from '@pzh-ui/components'
+
 import {
     useBeleidsdoelenLatestLineageIdGet,
     useBeleidsdoelenRelationsLineageIdGet,
@@ -56,6 +58,15 @@ const beleidsdoel: DynamicObject<
         { type: 'ambitie', key: 'Ambities' },
         { type: 'beleidskeuze', key: 'Beleidskeuzes' },
     ],
+    connectionsDescription: (
+        <>
+            Binnen het omgevingsbeleid bestaan koppelingen en relaties. Een
+            beleidsdoel komt voort uit een ambitie, en wordt uitgewerkt in één
+            of meerdere beleidskeuzes. Hieronder een overzicht van de ambitie(s)
+            en beleidskeuze(s). Bekijk voor het volledige overzicht het{' '}
+            <Hyperlink text="beleidsnetwerk" to="/beleidsnetwerk" />.
+        </>
+    ),
     dynamicSections: [
         {
             title: 'Algemene informatie',

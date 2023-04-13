@@ -102,19 +102,19 @@ const NavigationPopupMenu = ({
                                     <ListItem
                                         text="Ambities"
                                         setIsOpen={setIsOpen}
-                                        to="/ambities"
+                                        to="/omgevingsvisie/ambities"
                                     />
 
                                     <ListItem
                                         text="Beleidsdoelen"
                                         setIsOpen={setIsOpen}
-                                        to="/beleidsdoelen"
+                                        to="/omgevingsvisie/beleidsdoelen"
                                     />
 
                                     <ListItem
                                         text="Beleidskeuzes"
                                         setIsOpen={setIsOpen}
-                                        to="/beleidskeuzes"
+                                        to="/omgevingsvisie/beleidskeuzes"
                                     />
                                 </ul>
                             </div>

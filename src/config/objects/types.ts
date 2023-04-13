@@ -61,6 +61,8 @@ export interface DynamicObject<
         /** Key of connection, this corresponds with the API field */
         key: keyof ModelReturnType
     }[]
+    /** Description which is shown in the connections section on a detail page */
+    connectionsDescription?: string | JSX.Element
     /** Acknowledged relation type */
     acknowledgedRelation?: ModelType
 }

@@ -17,11 +17,8 @@ const ObjectArea = ({ objectTitle, model, UUID, Title }: ObjectAreaProps) => {
     const { singular, prefixSingular } = model.defaults
 
     return (
-        <div>
-            <h2
-                className="mb-4"
-                id="object-section-werkingsgebied"
-                style={getHeadingStyles('3', isMobile)}>
+        <div data-section="Werkingsgebied">
+            <h2 className="mb-4" style={getHeadingStyles('3', isMobile)}>
                 Werkingsgebied
             </h2>
             <Text className="mb-4 first-letter:capitalize">

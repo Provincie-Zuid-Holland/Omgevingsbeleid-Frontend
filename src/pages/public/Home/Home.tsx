@@ -1,4 +1,4 @@
-import { Heading, Text } from '@pzh-ui/components'
+import { Heading, Hyperlink, Text } from '@pzh-ui/components'
 import { ArrowUpRightFromSquare, FilePdf } from '@pzh-ui/icons'
 import { Link } from 'react-router-dom'
 
@@ -155,23 +155,20 @@ const Home = () => {
                         provincie voor staat. Het beschrijft hoe de provincie de
                         toekomst van Zuid-Holland voor zich ziet. De
                         Omgevingsvisie bevat verschillende onderdelen: in de{' '}
-                        <Link
-                            className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/ambities">
-                            ambities
-                        </Link>{' '}
+                        <Hyperlink
+                            text="ambities"
+                            to="/omgevingsvisie/ambities"
+                        />{' '}
                         wordt omschreven waar we als provincie heen willen, de{' '}
-                        <Link
-                            className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/beleidsdoelen">
-                            beleidsdoelen
-                        </Link>{' '}
+                        <Hyperlink
+                            text="beleidsdoelen"
+                            to="/omgevingsvisie/beleidsdoelen"
+                        />{' '}
                         geven hier richting aan en de{' '}
-                        <Link
-                            className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/beleidskeuzes">
-                            beleidskeuzes
-                        </Link>{' '}
+                        <Hyperlink
+                            text="beleidskeuzes"
+                            to="/omgevingsvisie/beleidskeuzes"
+                        />{' '}
                         bepalen hoe de ambities bereikt dienen te worden.
                     </Text>
                 </div>

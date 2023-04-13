@@ -2,10 +2,10 @@ import { PenToSquare, Plus, Spinner } from '@pzh-ui/icons'
 import { useMemo } from 'react'
 
 import { RelationShort } from '@/api/fetchers.schemas'
+import { ObjectConnectionModalActions } from '@/components/Modals/ObjectModals/types'
 import * as models from '@/config/objects'
 import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
 
-import { ObjectConnectionModalActions } from '../../Modals/ObjectModals/types'
 import { Connection } from '../ObjectConnections/ObjectConnections'
 
 interface ObjectConnectionPartProps {
