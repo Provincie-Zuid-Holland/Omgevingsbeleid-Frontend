@@ -22,6 +22,9 @@ import {
 import AreaDetail from '@/pages/public/AreaDetail'
 import AreaOverview from '@/pages/public/AreaOverview'
 import EnvironmentProgram from '@/pages/public/EnvironmentProgram'
+import LTA from '@/pages/public/LTA'
+import LTADetail from '@/pages/public/LTA/LTADetail'
+import LTAIndex from '@/pages/public/LTA/LTAIndex'
 import ThemeDetail from '@/pages/public/ThemeDetail'
 import ThemeOverview from '@/pages/public/ThemeOverview'
 import detailPages from '@/utils/detailPages'
@@ -151,6 +154,24 @@ const AppRoutes = () => {
                     },
                 ],
             })),
+        {
+            path: 'lta',
+            element: <LTA />,
+            children: [
+                {
+                    index: true,
+                    element: <LTAIndex />,
+                },
+                {
+                    path: 'categorie/:category',
+                    element: <LTADetail />,
+                },
+                {
+                    path: 'kwartaaloverzicht/:year/:quarter',
+                    element: <LTADetail />,
+                },
+            ],
+        },
         /**
          * Protected pages
          */
