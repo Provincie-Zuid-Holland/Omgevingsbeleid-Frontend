@@ -1,4 +1,5 @@
 import { Breadcrumbs, Heading } from '@pzh-ui/components'
+import classNames from 'classnames'
 import { useMemo } from 'react'
 import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
@@ -7,6 +8,7 @@ import { Container } from '@/components/Container'
 import ObjectArea from '@/components/DynamicObject/ObjectArea/ObjectArea'
 import ObjectConnectionsPublic from '@/components/DynamicObject/ObjectConnectionsPublic/ObjectConnectionsPublic'
 import ObjectContent from '@/components/DynamicObject/ObjectContent/ObjectContent'
+import ObjectRelationsPublic from '@/components/DynamicObject/ObjectRelationsPublic/ObjectRelationsPublic'
 import Sidebar from '@/components/DynamicObject/ObjectSidebar'
 import { LoaderContent } from '@/components/Loader'
 import { Model, ModelReturnType } from '@/config/objects/types'
@@ -47,7 +49,7 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
 
     return (
         <>
-            <Helmet title={singularCapitalize} />
+            <Helmet title={data.Title} />
 
             <Container className="pb-16 pt-4">
                 <div className="col-span-6 mb-8">
@@ -88,12 +90,24 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
                         </div>
                     )}
 
-                    {model.allowedConnections && (
-                        <div className="order-6">
+                    {model.allowedConnections && !model.acknowledgedRelation && (
+                        <div
+                            className={classNames('order-6', {
+                                'mt-4 md:mt-8': !!data.Gebied,
+                            })}>
                             <ObjectConnectionsPublic
                                 model={model}
                                 data={data}
                             />
+                        </div>
+                    )}
+
+                    {model.allowedConnections && model.acknowledgedRelation && (
+                        <div
+                            className={classNames('order-6', {
+                                'mt-4 md:mt-8': !!data.Gebied,
+                            })}>
+                            <ObjectRelationsPublic model={model} data={data} />
                         </div>
                     )}
                 </div>

@@ -10,7 +10,7 @@ import { useMemo, useState } from 'react'
 
 import { CompleteModule, ModuleObjectShort } from '@/api/fetchers.schemas'
 import useModule from '@/hooks/useModule'
-import getObjectActionText from '@/utils/getObjectActionText'
+import { getObjectActionText } from '@/utils/dynamicObject'
 
 export const StepTwo = () => {
     const { data } = useModule()

@@ -5,7 +5,10 @@ import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
-import { RequestAcknowledgedRelation } from '@/api/fetchers.schemas'
+import {
+    AcknowledgedRelation,
+    EditAcknowledgedRelation,
+} from '@/api/fetchers.schemas'
 import { Model } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import { toastNotification } from '@/utils/toastNotification'
@@ -16,27 +19,29 @@ import { StepOne, StepTwo } from './steps'
 
 const steps = [StepOne, StepTwo]
 
-interface ObjectRelationNewModalProps extends ObjectRelationModalActions {
+interface ObjectRelationReceivedModalProps extends ObjectRelationModalActions {
     model: Model
     onClose: () => void
     queryKey?: QueryKey
-    initialValues: RequestAcknowledgedRelation
 }
 
-const ObjectRelationNewModal = ({
+const ObjectRelationReceivedModal = ({
     isOpen,
     onClose,
     model,
     queryKey,
-    initialValues,
-}: ObjectRelationNewModalProps) => {
+    relations,
+}: ObjectRelationReceivedModalProps) => {
     const queryClient = useQueryClient()
     const { objectId } = useParams()
 
+    const [initialValues, setInitialValues] = useState({
+        Object_Type: model.defaults.singular,
+    } as EditAcknowledgedRelation)
     const [step, setStep] = useState(1)
 
     const { data, queryKey: objectQueryKey } = useObject()
-    const { usePostAcknowledgedRelations } = model.fetchers
+    const { usePatchAcknowledgedRelations } = model.fetchers
 
     /**
      * Handle modal close
@@ -48,7 +53,23 @@ const ObjectRelationNewModal = ({
         setTimeout(() => setStep(1), 300)
     }
 
-    const postAcknowledgedRelations = usePostAcknowledgedRelations?.({
+    /**
+     * Handle relation action
+     */
+    const handleAction = (
+        action: 'accept' | 'deny',
+        relation: AcknowledgedRelation
+    ) => {
+        setInitialValues({
+            ...initialValues,
+            Object_ID: relation.Side_B.Object_ID,
+            Explanation: relation.Side_A.Explanation,
+            Title: relation.Side_B.Title,
+        })
+        setStep(2)
+    }
+
+    const postAcknowledgedRelations = usePatchAcknowledgedRelations?.({
         mutation: {
             onError: () => {
                 toastNotification('error')
@@ -59,7 +80,7 @@ const ObjectRelationNewModal = ({
                     queryClient.invalidateQueries(objectQueryKey),
                 ]).then(handleClose)
 
-                toastNotification('acknowledgedRelationSaved')
+                toastNotification('acknowledgedRelationPatched')
             },
         },
     })
@@ -67,7 +88,7 @@ const ObjectRelationNewModal = ({
     /**
      * Handle for submit
      */
-    const handleFormSubmit = (payload: RequestAcknowledgedRelation) => {
+    const handleFormSubmit = (payload: EditAcknowledgedRelation) => {
         postAcknowledgedRelations?.mutate({
             lineageId: parseInt(objectId!),
             data: {
@@ -85,37 +106,40 @@ const ObjectRelationNewModal = ({
         <Modal
             open={isOpen}
             onClose={handleClose}
-            ariaLabel="Verzoek tot beleidsrelatie"
+            ariaLabel="Gelegde beleidsrelaties"
             maxWidth="sm:max-w-[1200px]">
             <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
                 validationSchema={toFormikValidationSchema(
-                    objectRelation.SCHEMA_RELATION_ADD
+                    objectRelation.SCHEMA_RELATION_EDIT
                 )}
                 enableReinitialize>
                 {({ isValid, isSubmitting, submitForm }) => (
                     <Form>
                         <Heading level="2" className="mb-2">
-                            Verzoek tot beleidsrelatie
+                            Binnengekomen verzoeken
                         </Heading>
                         <CurrentStep
                             model={model}
                             title={data?.Title}
-                            id={data?.Object_ID}
+                            relations={relations}
+                            handleAction={handleAction}
                         />
                         <div className="mt-6 flex items-center justify-between">
-                            <Button variant="link" onPress={handleClose}>
-                                Annuleren
-                            </Button>
-                            <div>
+                            {step !== 1 && (
+                                <Button variant="link" onPress={handleClose}>
+                                    Annuleren
+                                </Button>
+                            )}
+
+                            <div className="ml-auto">
                                 {step !== 1 && (
                                     <Button
                                         variant="secondary"
                                         type="button"
-                                        onPress={() => setStep(step - 1)}
                                         className="mr-3">
-                                        Vorige stap
+                                        Verzoek verwijderen
                                     </Button>
                                 )}
                                 <Button
@@ -127,13 +151,13 @@ const ObjectRelationNewModal = ({
                                     }
                                     onPress={() => {
                                         !isFinalStep
-                                            ? setStep(step + 1)
+                                            ? handleClose()
                                             : submitForm()
                                     }}
                                     isLoading={isSubmitting}>
                                     {isFinalStep
-                                        ? 'Verzoek versturen'
-                                        : 'Volgende stap'}
+                                        ? 'Verzoek updaten'
+                                        : 'Sluiten'}
                                 </Button>
                             </div>
                         </div>
@@ -144,4 +168,4 @@ const ObjectRelationNewModal = ({
     )
 }
 
-export default ObjectRelationNewModal
+export default ObjectRelationReceivedModal

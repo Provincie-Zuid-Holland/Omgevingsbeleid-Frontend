@@ -12,6 +12,8 @@ export type ToastType =
     | 'moduleCompleted'
     | 'objectRemoved'
     | 'acknowledgedRelationSaved'
+    | 'acknowledgedRelationPatched'
+    | 'acknowledgedRelationDisconnected'
 
 type MessageType = 'default' | 'success' | 'error' | 'warning' | 'info'
 
@@ -66,6 +68,14 @@ export const notifications: Record<
     },
     acknowledgedRelationSaved: {
         message: 'Verzoek tot beleidsrelatie is verzonden',
+        type: 'success',
+    },
+    acknowledgedRelationPatched: {
+        message: 'De beleidsrelatie is gewijzigd',
+        type: 'success',
+    },
+    acknowledgedRelationDisconnected: {
+        message: 'De beleidsrelatie is verbroken',
         type: 'success',
     },
 }

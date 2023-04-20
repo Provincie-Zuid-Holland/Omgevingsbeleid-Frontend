@@ -2158,14 +2158,14 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
   integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
 
-"@pzh-ui/components@^0.0.282":
-  version "0.0.282"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.282.tgz#c066c2f066396f9119cde2d566f63a97d3634937"
-  integrity sha512-MZVtcSpyyp0QHN41z2ycST/OoRrzmL7NXmjbQB8F4M+dUxa/3Q2T/TuJNvtZuEvBGYUfbmwV8RET0t9lxqpPIw==
+"@pzh-ui/components@^0.0.288":
+  version "0.0.288"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.288.tgz#4c53625b3fbaa20dd40e0fa38b3a3066b8b70c80"
+  integrity sha512-ewep0QmfeS91Dqno4fKp3Sl2B1hBAAcxoUYloUXUwXXaOuVL1/A2xxsmNQMQADQY89quKRqYGaAP5HjcBKe9SQ==
   dependencies:
     "@floating-ui/react-dom-interactions" "^0.3.1"
     "@headlessui/react" "^1.5.0"
-    "@pzh-ui/icons" "^0.0.22"
+    "@pzh-ui/icons" "^0.0.28"
     "@tiptap/extension-image" "^2.0.0-beta.220"
     "@tiptap/extension-placeholder" "^2.0.0-beta.220"
     "@tiptap/extension-underline" "^2.0.0-beta.220"
@@ -2227,10 +2227,10 @@
     react-datepicker "^4.7.0"
     react-toastify "^9.1.2"
 
-"@pzh-ui/icons@^0.0.22":
-  version "0.0.22"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/icons/-/icons-0.0.22.tgz#c951f4a7c14cda51168b76c570486c3dee0358d1"
-  integrity sha512-8JiylNJIn8o7p31ZZRxKvkZXOhFTe9uIxyt84SFd0l1yyLaaqpFM5pTXCEj5gWWCjWNkbMKeSuZDyXPCEKj3Yw==
+"@pzh-ui/icons@^0.0.28":
+  version "0.0.28"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/icons/-/icons-0.0.28.tgz#3053c3d20f2355d094bf03e2c535e0457c93768e"
+  integrity sha512-t4UkVZR0rGR10+bwYBQCP9O7ztBbfmEpGT7+TZTU+IuWad3cH8TtRmr/kgT1ou5bxvi2lknjGfc5C5Tx1P8sBg==
   dependencies:
     react "^18.0.0"
     react-toastify "^9.1.2"
@@ -5009,6 +5009,13 @@
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/@types/lodash.debounce/-/lodash.debounce-4.0.7.tgz#0285879defb7cdb156ae633cecd62d5680eded9f"
   integrity sha512-X1T4wMZ+gT000M2/91SYj0d/7JfeNZ9PeeOldSNoE/lunLeQXKvkmIumI29IaKMotU/ln/McOIvgzZcQ/3TrSA==
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash.groupby@^4.6.7":
+  version "4.6.7"
+  resolved "https://registry.yarnpkg.com/@types/lodash.groupby/-/lodash.groupby-4.6.7.tgz#35fdb9647f100450d1004f65f74cbd964cdb567a"
+  integrity sha512-dFUR1pqdMgjIBbgPJ/8axJX6M1C7zsL+HF4qdYMQeJ7XOp0Qbf37I3zh9gpXr/ks6tgEYPDRqyZRAnFYvewYHQ==
   dependencies:
     "@types/lodash" "*"
 
@@ -10884,6 +10891,11 @@ lodash.get@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
   integrity sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==
+
+lodash.groupby@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.groupby/-/lodash.groupby-4.6.0.tgz#0b08a1dcf68397c397855c3239783832df7403d1"
+  integrity sha512-5dcWxm23+VAoz+awKmBaiBvzox8+RqMgFhi7UvX9DHZr2HdxHXM/Wrf8cfKpsW37RNrvtPn6hSwNqurSILbmJw==
 
 lodash.isempty@^4.4.0:
   version "4.4.0"

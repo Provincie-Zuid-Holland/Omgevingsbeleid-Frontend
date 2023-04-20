@@ -1,4 +1,7 @@
+import { Hyperlink } from '@pzh-ui/components'
+
 import {
+    useBeleidskeuzeAcknowledgedRelationsLineageIdEditPost,
     useBeleidskeuzeAcknowledgedRelationsLineageIdGet,
     useBeleidskeuzeAcknowledgedRelationsLineageIdPost,
     useBeleidskeuzesLatestLineageIdGet,
@@ -35,6 +38,8 @@ const fetchers = {
         useBeleidskeuzeAcknowledgedRelationsLineageIdGet,
     usePostAcknowledgedRelations:
         useBeleidskeuzeAcknowledgedRelationsLineageIdPost,
+    usePatchAcknowledgedRelations:
+        useBeleidskeuzeAcknowledgedRelationsLineageIdEditPost,
 }
 
 const beleidskeuze: DynamicObject<
@@ -63,6 +68,15 @@ const beleidskeuze: DynamicObject<
         'Portfolio_Holder_2_UUID',
     ],
     allowedConnections: [{ type: 'beleidsdoel', key: 'Beleidsdoelen' }],
+    connectionsDescription: (
+        <>
+            Binnen het omgevingsbeleid bestaan koppelingen en relaties. Een
+            relatie wordt aangegaan tussen beleidskeuzes inclusief een
+            duidelijke motivering en een koppeling kan met alle niveaus binnen
+            het omgevingsbeleid. Bekijk voor het volledige overzicht het{' '}
+            <Hyperlink text="beleidsnetwerk" to="/beleidsnetwerk" />.
+        </>
+    ),
     acknowledgedRelation: 'beleidskeuze',
     dynamicSections: [
         {

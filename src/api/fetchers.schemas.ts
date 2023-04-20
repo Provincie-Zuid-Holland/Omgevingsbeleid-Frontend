@@ -20,6 +20,10 @@ export type ModulesGetParams = {
     lineage_id?: number
 }
 
+export type ObjectGraphGetParams = {
+    uuid: string
+}
+
 export type SearchGetParams = {
     query: string
     offset?: number
@@ -154,7 +158,7 @@ export interface ResponseOK {
 }
 
 export interface RequestAcknowledgedRelation {
-    ID: number
+    Object_ID: number
     Object_Type: string
     Title: string
     Explanation: string
@@ -353,41 +357,26 @@ export interface Module {
 }
 
 export interface MaatregelUUID {
-    /** description is not yet inherited */
     Object_ID?: number
-    /** description is not yet inherited */
     UUID?: string
 }
 
 export interface MaatregelStaticPatchStatics {
-    /** description is not yet inherited */
     Owner_1_UUID?: string | null
-    /** description is not yet inherited */
     Owner_2_UUID?: string | null
-    /** description is not yet inherited */
     Portfolio_Holder_1_UUID?: string | null
-    /** description is not yet inherited */
     Portfolio_Holder_2_UUID?: string | null
-    /** description is not yet inherited */
     Client_1_UUID?: string | null
 }
 
 export interface MaatregelPatch {
-    /** description is not yet inherited */
     Title?: string | null
-    /** description is not yet inherited */
     Description?: string | null
-    /** description is not yet inherited */
     Explanation?: string | null
-    /** description is not yet inherited */
     Explanation_Raw?: string | null
-    /** description is not yet inherited */
     Weblink?: string | null
-    /** description is not yet inherited */
     Gebied_Duiding?: string | null
-    /** description is not yet inherited */
     Gebied_UUID?: string | null
-    /** description is not yet inherited */
     Tags?: string | null
 }
 
@@ -399,78 +388,45 @@ export interface MaatregelGetStatics {
     Client_1?: UserShort
 }
 
-/**
- * description is not yet inherited
- */
 export type MaatregelGetObjectStatics = MaatregelGetStatics | null
 
 export interface MaatregelGet {
-    /** description is not yet inherited */
     Object_ID?: number
-    /** description is not yet inherited */
     Code?: string
-    /** description is not yet inherited */
     UUID?: string
-    /** description is not yet inherited */
     Adjust_On?: string | null
-    /** description is not yet inherited */
     Created_Date?: string
-    /** description is not yet inherited */
     Modified_Date?: string
-    /** description is not yet inherited */
     Start_Validity?: string | null
-    /** description is not yet inherited */
     End_Validity?: string | null
-    /** description is not yet inherited */
     Title?: string
-    /** description is not yet inherited */
     Description?: string
-    /** description is not yet inherited */
     Explanation?: string
-    /** description is not yet inherited */
     Explanation_Raw?: string
-    /** description is not yet inherited */
     Weblink?: string
-    /** description is not yet inherited */
     Gebied_Duiding?: string
-    /** description is not yet inherited */
     Tags?: string
     Gebied?: Werkingsgebied
     Created_By?: UserShort
     Modified_By?: UserShort
     Beleidsdoelen?: RelationShortBeleidsdoelShort[]
-    /** description is not yet inherited */
     ObjectStatics?: MaatregelGetObjectStatics
 }
 
 export interface MaatregelBasic {
-    /** description is not yet inherited */
     Object_ID?: number
-    /** description is not yet inherited */
     UUID?: string
-    /** description is not yet inherited */
     Adjust_On?: string | null
-    /** description is not yet inherited */
     Created_Date?: string
-    /** description is not yet inherited */
     Modified_Date?: string
-    /** description is not yet inherited */
     Start_Validity?: string | null
-    /** description is not yet inherited */
     End_Validity?: string | null
-    /** description is not yet inherited */
     Title?: string
-    /** description is not yet inherited */
     Description?: string
-    /** description is not yet inherited */
     Explanation?: string
-    /** description is not yet inherited */
     Explanation_Raw?: string
-    /** description is not yet inherited */
     Weblink?: string
-    /** description is not yet inherited */
     Gebied_Duiding?: string
-    /** description is not yet inherited */
     Tags?: string
     Gebied?: Werkingsgebied
     Created_By?: UserShort
@@ -481,8 +437,38 @@ export interface HTTPValidationError {
     detail?: ValidationError[]
 }
 
+export interface GraphVertice {
+    UUID: string
+    Object_Type: string
+    Object_ID: number
+    Code: string
+    Title: string
+}
+
+/**
+ * An enumeration.
+ */
+export type GraphEdgeType = typeof GraphEdgeType[keyof typeof GraphEdgeType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GraphEdgeType = {
+    relation: 'relation',
+    acknowledged_relation: 'acknowledged_relation',
+} as const
+
+export interface GraphEdge {
+    Vertice_A_Code: string
+    Vertice_B_Code: string
+    Type: GraphEdgeType
+}
+
+export interface GraphResponse {
+    Vertices: GraphVertice[]
+    Edges: GraphEdge[]
+}
+
 export interface EditAcknowledgedRelation {
-    ID: number
+    Object_ID: number
     Object_Type: string
     Title?: string | null
     Explanation?: string | null
@@ -506,56 +492,35 @@ export interface BodyFastapiHandlerLoginAccessTokenPost {
 }
 
 export interface BeleidskeuzeUUID {
-    /** description is not yet inherited */
     Object_ID?: number
-    /** description is not yet inherited */
     UUID?: string
 }
 
 export interface BeleidskeuzeStaticPatchStatics {
-    /** description is not yet inherited */
     Owner_1_UUID?: string | null
-    /** description is not yet inherited */
     Owner_2_UUID?: string | null
-    /** description is not yet inherited */
     Portfolio_Holder_1_UUID?: string | null
-    /** description is not yet inherited */
     Portfolio_Holder_2_UUID?: string | null
-    /** description is not yet inherited */
     Client_1_UUID?: string | null
 }
 
 export interface BeleidskeuzeShort {
-    /** description is not yet inherited */
     Object_Type?: string
-    /** description is not yet inherited */
     Object_ID?: number
-    /** description is not yet inherited */
     UUID?: string
-    /** description is not yet inherited */
     Title?: string
 }
 
 export interface BeleidskeuzePatch {
-    /** description is not yet inherited */
     Title?: string | null
-    /** description is not yet inherited */
     Description_Choice?: string | null
-    /** description is not yet inherited */
     Description_Operation?: string | null
-    /** description is not yet inherited */
     Provincial_Interest?: string | null
-    /** description is not yet inherited */
     Cause?: string | null
-    /** description is not yet inherited */
     Decision_Number?: string | null
-    /** description is not yet inherited */
     Tags?: string | null
-    /** description is not yet inherited */
     Weblink?: string | null
-    /** description is not yet inherited */
     Gebied_Duiding?: string | null
-    /** description is not yet inherited */
     Gebied_UUID?: string | null
 }
 
@@ -567,84 +532,48 @@ export interface BeleidskeuzeGetStatics {
     Client_1?: UserShort
 }
 
-/**
- * description is not yet inherited
- */
 export type BeleidskeuzeGetObjectStatics = BeleidskeuzeGetStatics | null
 
 export interface BeleidskeuzeGet {
-    /** description is not yet inherited */
     Object_ID?: number
-    /** description is not yet inherited */
     Code?: string
-    /** description is not yet inherited */
     UUID?: string
-    /** description is not yet inherited */
     Adjust_On?: string | null
-    /** description is not yet inherited */
     Created_Date?: string
-    /** description is not yet inherited */
     Modified_Date?: string
-    /** description is not yet inherited */
     Start_Validity?: string | null
-    /** description is not yet inherited */
     End_Validity?: string | null
-    /** description is not yet inherited */
     Title?: string
-    /** description is not yet inherited */
     Description_Choice?: string
-    /** description is not yet inherited */
     Description_Operation?: string
-    /** description is not yet inherited */
     Provincial_Interest?: string
-    /** description is not yet inherited */
     Cause?: string
-    /** description is not yet inherited */
     Decision_Number?: string
-    /** description is not yet inherited */
     Tags?: string
-    /** description is not yet inherited */
     Weblink?: string
-    /** description is not yet inherited */
     Gebied_Duiding?: string
     Gebied?: Werkingsgebied
     Created_By?: UserShort
     Modified_By?: UserShort
     Beleidsdoelen?: RelationShortBeleidsdoelShort[]
-    /** description is not yet inherited */
     ObjectStatics?: BeleidskeuzeGetObjectStatics
 }
 
 export interface BeleidskeuzeBasic {
-    /** description is not yet inherited */
     Object_ID?: number
-    /** description is not yet inherited */
     UUID?: string
-    /** description is not yet inherited */
     Adjust_On?: string | null
-    /** description is not yet inherited */
     Created_Date?: string
-    /** description is not yet inherited */
     Modified_Date?: string
-    /** description is not yet inherited */
     Start_Validity?: string | null
-    /** description is not yet inherited */
     End_Validity?: string | null
-    /** description is not yet inherited */
     Title?: string
-    /** description is not yet inherited */
     Provincial_Interest?: string
-    /** description is not yet inherited */
     Cause?: string
-    /** description is not yet inherited */
     Decision_Number?: string
-    /** description is not yet inherited */
     Tags?: string
-    /** description is not yet inherited */
     Weblink?: string
-    /** description is not yet inherited */
     Gebied_Duiding?: string
-    /** description is not yet inherited */
     Gebied_UUID?: string
     Gebied?: Werkingsgebied
     Created_By?: UserShort
@@ -652,36 +581,25 @@ export interface BeleidskeuzeBasic {
 }
 
 export interface BeleidsdoelUUID {
-    /** description is not yet inherited */
     Object_ID?: number
-    /** description is not yet inherited */
     UUID?: string
 }
 
 export interface BeleidsdoelStaticPatchStatics {
-    /** description is not yet inherited */
     Owner_1_UUID?: string | null
-    /** description is not yet inherited */
     Owner_2_UUID?: string | null
 }
 
 export interface BeleidsdoelShort {
-    /** description is not yet inherited */
     Object_Type?: string
-    /** description is not yet inherited */
     Object_ID?: number
-    /** description is not yet inherited */
     UUID?: string
-    /** description is not yet inherited */
     Title?: string
 }
 
 export interface BeleidsdoelPatch {
-    /** description is not yet inherited */
     Title?: string | null
-    /** description is not yet inherited */
     Description?: string | null
-    /** description is not yet inherited */
     Weblink?: string | null
 }
 
@@ -690,58 +608,35 @@ export interface BeleidsdoelGetStatics {
     Owner_2?: UserShort
 }
 
-/**
- * description is not yet inherited
- */
 export type BeleidsdoelGetObjectStatics = BeleidsdoelGetStatics | null
 
 export interface BeleidsdoelGet {
-    /** description is not yet inherited */
     Object_ID?: number
-    /** description is not yet inherited */
     Code?: string
-    /** description is not yet inherited */
     UUID?: string
-    /** description is not yet inherited */
     Adjust_On?: string | null
-    /** description is not yet inherited */
     Created_Date?: string
-    /** description is not yet inherited */
     Modified_Date?: string
-    /** description is not yet inherited */
     Title?: string
-    /** description is not yet inherited */
     Description?: string
-    /** description is not yet inherited */
     Weblink?: string
-    /** description is not yet inherited */
     Start_Validity?: string | null
-    /** description is not yet inherited */
     End_Validity?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
     Ambities?: RelationShortAmbitieShort[]
     Beleidskeuzes?: RelationShortBeleidskeuzeShort[]
-    /** description is not yet inherited */
     ObjectStatics?: BeleidsdoelGetObjectStatics
 }
 
 export interface BeleidsdoelBasic {
-    /** description is not yet inherited */
     Object_ID?: number
-    /** description is not yet inherited */
     UUID?: string
-    /** description is not yet inherited */
     Adjust_On?: string | null
-    /** description is not yet inherited */
     Created_Date?: string
-    /** description is not yet inherited */
     Modified_Date?: string
-    /** description is not yet inherited */
     Title?: string
-    /** description is not yet inherited */
     Description?: string
-    /** description is not yet inherited */
     Weblink?: string
     Created_By?: UserShort
     Modified_By?: UserShort
@@ -754,36 +649,25 @@ export interface AuthToken {
 }
 
 export interface AmbitieUUID {
-    /** description is not yet inherited */
     Object_ID?: number
-    /** description is not yet inherited */
     UUID?: string
 }
 
 export interface AmbitieStaticPostStatics {
-    /** description is not yet inherited */
     Owner_1_UUID?: string | null
-    /** description is not yet inherited */
     Owner_2_UUID?: string | null
 }
 
 export interface AmbitieShort {
-    /** description is not yet inherited */
     Object_Type?: string
-    /** description is not yet inherited */
     Object_ID?: number
-    /** description is not yet inherited */
     UUID?: string
-    /** description is not yet inherited */
     Title?: string
 }
 
 export interface AmbitiePatch {
-    /** description is not yet inherited */
     Title?: string | null
-    /** description is not yet inherited */
     Description?: string | null
-    /** description is not yet inherited */
     Weblink?: string | null
 }
 
@@ -792,62 +676,40 @@ export interface AmbitieGetStatics {
     Owner_2?: UserShort
 }
 
-/**
- * description is not yet inherited
- */
 export type AmbitieGetObjectStatics = AmbitieGetStatics | null
 
 export interface AmbitieGet {
-    /** description is not yet inherited */
     Object_ID?: number
-    /** description is not yet inherited */
     Code?: string
-    /** description is not yet inherited */
     UUID?: string
-    /** description is not yet inherited */
     Adjust_On?: string | null
-    /** description is not yet inherited */
     Created_Date?: string
-    /** description is not yet inherited */
     Modified_Date?: string
-    /** description is not yet inherited */
     Title?: string
-    /** description is not yet inherited */
     Description?: string
-    /** description is not yet inherited */
     Weblink?: string
-    /** description is not yet inherited */
     Start_Validity?: string | null
-    /** description is not yet inherited */
     End_Validity?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
     Beleidsdoelen?: RelationShortBeleidsdoelShort[]
-    /** description is not yet inherited */
     ObjectStatics?: AmbitieGetObjectStatics
 }
 
 export interface AmbitieBasic {
-    /** description is not yet inherited */
     Object_ID?: number
-    /** description is not yet inherited */
     UUID?: string
-    /** description is not yet inherited */
     Adjust_On?: string | null
-    /** description is not yet inherited */
     Created_Date?: string
-    /** description is not yet inherited */
     Modified_Date?: string
-    /** description is not yet inherited */
     Title?: string
-    /** description is not yet inherited */
     Weblink?: string
     Created_By?: UserShort
     Modified_By?: UserShort
 }
 
 export interface AcknowledgedRelationSide {
-    ID: number
+    Object_ID: number
     Object_Type: string
     Acknowledged?: boolean
     Acknowledged_Date?: string

@@ -31,6 +31,7 @@ const fetchers = {
     usePostStatic: useMaatregelStaticLineageIdPost,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
+    usePatchAcknowledgedRelations: null,
 }
 
 const maatregel: DynamicObject<

@@ -12,6 +12,8 @@ interface ObjectRelationPartProps {
     amount?: number
     /** Has notification */
     hasNotification?: boolean
+    /** Handle click event */
+    onClick: () => void
 }
 
 const ObjectRelationPart = ({
@@ -20,6 +22,7 @@ const ObjectRelationPart = ({
     canEdit,
     amount = 0,
     hasNotification,
+    onClick,
 }: ObjectRelationPartProps) => (
     <div className="relative flex justify-between items-center mt-3 pb-4 border-b border-pzh-gray-300">
         <div className="flex items-center">
@@ -39,20 +42,23 @@ const ObjectRelationPart = ({
             <span className="-mb-[4px] ml-3">{title}</span>
         </div>
 
-        <button
-            type="button"
-            className="after:content-[' '] after:absolute after:left-0 after:top-0 after:w-full after:h-full">
-            {canEdit &&
-                (isLoading ? (
-                    <Spinner
-                        size={14}
-                        className="text-pzh-gray-600 animate-spin"
-                    />
-                ) : (
-                    <Eye size={18} className="text-pzh-green" />
-                ))}
-            <span className="sr-only">Bekijken</span>
-        </button>
+        {amount !== 0 && (
+            <button
+                type="button"
+                className="after:content-[' '] after:absolute after:left-0 after:top-0 after:w-full after:h-full"
+                onClick={onClick}>
+                {canEdit &&
+                    (isLoading ? (
+                        <Spinner
+                            size={14}
+                            className="text-pzh-gray-600 animate-spin"
+                        />
+                    ) : (
+                        <Eye size={18} className="text-pzh-green" />
+                    ))}
+                <span className="sr-only">Bekijken</span>
+            </button>
+        )}
     </div>
 )
 

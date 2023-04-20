@@ -33,6 +33,7 @@ const fetchers = {
     usePostStatic: useBeleidsdoelStaticLineageIdPost,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
+    usePatchAcknowledgedRelations: null,
 }
 
 const beleidsdoel: DynamicObject<

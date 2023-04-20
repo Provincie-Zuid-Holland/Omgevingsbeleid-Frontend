@@ -13,7 +13,7 @@ import usePermissions from '@/hooks/usePermissions'
 import {
     getStaticDataLabel,
     getStaticDataPropertyKey,
-} from '@/utils/staticData'
+} from '@/utils/dynamicObject'
 
 interface ObjectDefaultInfoProps {
     model: Model

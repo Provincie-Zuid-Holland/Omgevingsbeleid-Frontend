@@ -5,7 +5,7 @@ import Avatar from '@/components/Avatar/Avatar'
 import TableOfContents from '@/components/TableOfContents/TableOfContents'
 import { ModelReturnType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
-import { getStaticDataLabel } from '@/utils/staticData'
+import { getStaticDataLabel } from '@/utils/dynamicObject'
 
 interface ObjectSidebarProps extends ModelReturnType {
     /** Plural of object */

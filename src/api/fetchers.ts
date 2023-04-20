@@ -62,6 +62,8 @@ import type {
     Werkingsgebied,
     SearchResponse,
     SearchGetParams,
+    GraphResponse,
+    ObjectGraphGetParams,
     Module,
     ModulesGetParams,
     ModuleCreatedResponse,
@@ -3444,6 +3446,116 @@ export const useSearchGet = <
 
     const query = useQuery<
         Awaited<ReturnType<typeof searchGet>>,
+        TError,
+        TData
+    >({ queryKey, queryFn, ...queryOptions }) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary A graph representation
+ */
+export const fullGraphGet = (signal?: AbortSignal) => {
+    return customInstance<GraphResponse>({
+        url: `/full-graph`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getFullGraphGetQueryKey = () => [`/full-graph`]
+
+export type FullGraphGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof fullGraphGet>>
+>
+export type FullGraphGetQueryError = unknown
+
+export const useFullGraphGet = <
+    TData = Awaited<ReturnType<typeof fullGraphGet>>,
+    TError = unknown
+>(options?: {
+    query?: UseQueryOptions<
+        Awaited<ReturnType<typeof fullGraphGet>>,
+        TError,
+        TData
+    >
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey = queryOptions?.queryKey ?? getFullGraphGetQueryKey()
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof fullGraphGet>>> = ({
+        signal,
+    }) => fullGraphGet(signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof fullGraphGet>>,
+        TError,
+        TData
+    >({ queryKey, queryFn, ...queryOptions }) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary A graph representation of an object
+ */
+export const objectGraphGet = (
+    params: ObjectGraphGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<GraphResponse>({
+        url: `/object-graph`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getObjectGraphGetQueryKey = (params: ObjectGraphGetParams) => [
+    `/object-graph`,
+    ...(params ? [params] : []),
+]
+
+export type ObjectGraphGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof objectGraphGet>>
+>
+export type ObjectGraphGetQueryError = HTTPValidationError
+
+export const useObjectGraphGet = <
+    TData = Awaited<ReturnType<typeof objectGraphGet>>,
+    TError = HTTPValidationError
+>(
+    params: ObjectGraphGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof objectGraphGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey = queryOptions?.queryKey ?? getObjectGraphGetQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof objectGraphGet>>
+    > = ({ signal }) => objectGraphGet(params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof objectGraphGet>>,
         TError,
         TData
     >({ queryKey, queryFn, ...queryOptions }) as UseQueryResult<

@@ -1,16 +1,17 @@
 import { AngleRight } from '@pzh-ui/icons'
 import classNames from 'classnames'
-import { useState } from 'react'
-import { useEffectOnce } from 'react-use'
+import { useEffect, useState } from 'react'
 
 const TableOfContents = () => {
+    const path = location.pathname
+
     const [elements, setElements] = useState<{ title?: string; y: number }[]>(
         []
     )
     const [activeItem, setActiveItem] = useState<string | undefined>('')
 
     /** Get all sections on the page and set in state */
-    useEffectOnce(() => {
+    useEffect(() => {
         const navHeight =
             document.getElementById('top-navigation')?.offsetHeight
 
@@ -23,7 +24,7 @@ const TableOfContents = () => {
         setElements(
             sections.map(el => ({
                 title: (el as HTMLDivElement).dataset.section,
-                y: el.getBoundingClientRect().y - navHeight - 20, // 20 Pixels extra offset
+                y: el.getBoundingClientRect().y - navHeight,
             }))
         )
 
@@ -43,7 +44,8 @@ const TableOfContents = () => {
 
             if (activeItem !== id) setActiveItem(id)
         })
-    })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [path])
 
     if (!elements.length) return null
 
@@ -54,7 +56,7 @@ const TableOfContents = () => {
                     <li
                         key={el.title}
                         id={el.title}
-                        className={classNames('pt-1 cursor-pointer ', {
+                        className={classNames('pt-1 cursor-pointer', {
                             'text-pzh-green hover:text-pzh-green-dark':
                                 activeItem !== el.title,
                             'text-pzh-blue hover:text-pzh-blue-dark font-bold':
@@ -69,7 +71,7 @@ const TableOfContents = () => {
                                     behavior: 'smooth',
                                 })
                             }}
-                            className={classNames('block pl-5 text-left', {
+                            className={classNames('pl-5 text-left', {
                                 underline: activeItem !== el.title,
                             })}>
                             {el.title}

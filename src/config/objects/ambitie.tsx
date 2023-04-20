@@ -1,3 +1,5 @@
+import { Hyperlink } from '@pzh-ui/components'
+
 import {
     useAmbitiesLatestLineageIdGet,
     useAmbitiesRelationsLineageIdGet,
@@ -28,6 +30,7 @@ const fetchers = {
     usePostStatic: useAmbitieStaticLineageIdPost,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
+    usePatchAcknowledgedRelations: null,
 }
 
 const ambitie: DynamicObject<
@@ -49,6 +52,15 @@ const ambitie: DynamicObject<
     },
     staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
     allowedConnections: [{ type: 'beleidsdoel', key: 'Beleidsdoelen' }],
+    connectionsDescription: (
+        <>
+            Binnen het omgevingsbeleid bestaan koppelingen en relaties. Een
+            ambitie is veelal gekoppeld met beleidsdoelen. Hieronder een
+            overzicht van de beleidsdoelen van deze ambitie. Bekijk voor het
+            volledige overzicht het{' '}
+            <Hyperlink text="beleidsnetwerk" to="/beleidsnetwerk" />.
+        </>
+    ),
     fetchers,
     dynamicSections: [
         {

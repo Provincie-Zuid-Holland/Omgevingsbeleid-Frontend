@@ -10,6 +10,7 @@
  */
 import { rest } from 'msw'
 import { faker } from '@faker-js/faker'
+import { GraphEdgeType } from './fetchers.schemas'
 
 export const getAmbitiesValidGetMock = () =>
     Array.from(
@@ -2220,7 +2221,10 @@ export const getBeleidskeuzeAcknowledgedRelationsLineageIdGetMock = () =>
         (_, i) => i + 1
     ).map(() => ({
         Side_A: {
-            ID: faker.datatype.number({ min: undefined, max: undefined }),
+            Object_ID: faker.datatype.number({
+                min: undefined,
+                max: undefined,
+            }),
             Object_Type: faker.random.word(),
             Acknowledged: faker.helpers.arrayElement([
                 faker.datatype.boolean(),
@@ -2241,7 +2245,10 @@ export const getBeleidskeuzeAcknowledgedRelationsLineageIdGetMock = () =>
             ]),
         },
         Side_B: {
-            ID: faker.datatype.number({ min: undefined, max: undefined }),
+            Object_ID: faker.datatype.number({
+                min: undefined,
+                max: undefined,
+            }),
             Object_Type: faker.random.word(),
             Acknowledged: faker.helpers.arrayElement([
                 faker.datatype.boolean(),
@@ -3770,6 +3777,48 @@ export const getSearchGetMock = () => ({
     })),
 })
 
+export const getFullGraphGetMock = () => ({
+    Vertices: Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        UUID: faker.datatype.uuid(),
+        Object_Type: faker.random.word(),
+        Object_ID: faker.datatype.number({ min: undefined, max: undefined }),
+        Code: faker.random.word(),
+        Title: faker.random.word(),
+    })),
+    Edges: Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Vertice_A_Code: faker.random.word(),
+        Vertice_B_Code: faker.random.word(),
+        Type: faker.helpers.arrayElement(Object.values(GraphEdgeType)),
+    })),
+})
+
+export const getObjectGraphGetMock = () => ({
+    Vertices: Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        UUID: faker.datatype.uuid(),
+        Object_Type: faker.random.word(),
+        Object_ID: faker.datatype.number({ min: undefined, max: undefined }),
+        Code: faker.random.word(),
+        Title: faker.random.word(),
+    })),
+    Edges: Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Vertice_A_Code: faker.random.word(),
+        Vertice_B_Code: faker.random.word(),
+        Type: faker.helpers.arrayElement(Object.values(GraphEdgeType)),
+    })),
+})
+
 export const getModulesGetMock = () =>
     Array.from(
         { length: faker.datatype.number({ min: 1, max: 10 }) },
@@ -4516,6 +4565,20 @@ export const getOmgevingsbeleidAPIMSW = () => [
             ctx.delay(1000),
             ctx.status(200, 'Mocked status'),
             ctx.json(getSearchGetMock())
+        )
+    }),
+    rest.get('*/full-graph', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getFullGraphGetMock())
+        )
+    }),
+    rest.get('*/object-graph', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getObjectGraphGetMock())
         )
     }),
     rest.get('*/modules', (_req, res, ctx) => {

@@ -1,6 +1,6 @@
 import {
+    AcknowledgedRelation,
     RelationShort,
-    RequestAcknowledgedRelation,
     UserShort,
 } from '@/api/fetchers.schemas'
 import {
@@ -28,7 +28,8 @@ export interface ObjectPersonModalActions {
     initialValues: ModelPatchStaticType
 }
 
-export interface ObjectRelationNewModalActions {
+export interface ObjectRelationModalActions {
+    action?: 'add' | 'approved' | 'sent' | 'received'
     isOpen: boolean
-    initialValues: RequestAcknowledgedRelation
+    relations?: AcknowledgedRelation[]
 }

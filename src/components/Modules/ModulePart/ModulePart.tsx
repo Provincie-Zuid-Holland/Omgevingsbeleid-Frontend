@@ -3,7 +3,7 @@ import { TrashCan } from '@pzh-ui/icons'
 import classNames from 'classnames'
 
 import { ModuleObjectShort } from '@/api/fetchers.schemas'
-import getObjectActionText from '@/utils/getObjectActionText'
+import { getObjectActionText } from '@/utils/dynamicObject'
 
 interface ModulePartProps extends ModuleObjectShort {
     /** Is last item */

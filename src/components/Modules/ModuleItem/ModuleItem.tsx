@@ -7,7 +7,7 @@ import Dropdown, { DropdownItem } from '@/components/Dropdown'
 import useAuth from '@/hooks/useAuth'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
-import getObjectActionText from '@/utils/getObjectActionText'
+import { getObjectActionText } from '@/utils/dynamicObject'
 
 interface ModuleItemProps extends ModuleObjectShort {
     /** Has edit button */

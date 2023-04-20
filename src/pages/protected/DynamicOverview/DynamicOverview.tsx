@@ -1,6 +1,6 @@
 import { Heading, Table, formatDate } from '@pzh-ui/components'
-import { EllipsisVertical } from '@pzh-ui/icons'
 import { useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { LoaderSpinner } from '@/components/Loader'
 import * as models from '@/config/objects'
@@ -12,7 +12,9 @@ interface DynamicOverviewProps {
 }
 
 const DynamicOverview = ({ model }: DynamicOverviewProps) => {
-    const { pluralCapitalize } = model.defaults
+    const navigate = useNavigate()
+
+    const { plural, pluralCapitalize } = model.defaults
     const { useGetValid } = model.fetchers
 
     const { data, isLoading } = useGetValid()
@@ -44,18 +46,13 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
                 accessor: 'Modified_Date',
                 sortType: customSortType,
             },
-            {
-                Header: '',
-                accessor: 'actions',
-                disableSortBy: true,
-            },
         ],
         []
     )
 
     const formattedData = useMemo(
         () =>
-            data?.map(({ Title, Modified_Date }) => ({
+            data?.map(({ Title, Modified_Date, Object_ID }) => ({
                 Title,
                 Status: 'TODO: Status implementeren',
                 Modified_Date: (
@@ -68,17 +65,9 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
                             : 'nooit'}
                     </span>
                 ),
-                actions: (
-                    <div className="flex justify-end">
-                        <button
-                            className="flex items-center justify-center w-6 h-6 hover:bg-pzh-gray-100 rounded-full"
-                            aria-label="Onderdeel menu">
-                            <EllipsisVertical />
-                        </button>
-                    </div>
-                ),
+                onClick: () => navigate(`/muteer/${plural}/${Object_ID}`),
             })) || [],
-        [data]
+        [data, plural, navigate]
     )
 
     const breadcrumbPaths = [
