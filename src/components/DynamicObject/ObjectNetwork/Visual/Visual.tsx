@@ -1,11 +1,12 @@
 import {
     forceSimulation,
     forceY,
-    scaleBand,
     select,
     SimulationNodeDatum,
-    forceCollide,
     forceLink,
+    SimulationLinkDatum,
+    forceManyBody,
+    forceX,
 } from 'd3'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -18,9 +19,14 @@ interface VisualProps {
     graph: GraphResponse
 }
 
+type D3Link = SimulationLinkDatum<SimulationNodeDatum> & {
+    source: SimulationNodeDatum
+    target: SimulationNodeDatum
+}
+
 const Visual = ({ graph }: VisualProps) => {
     const navigate = useNavigate()
-    const containerRef = useRef(null)
+    const containerRef = useRef<SVGSVGElement>(null)
 
     /**
      * Format connections for D3
@@ -49,28 +55,23 @@ const Visual = ({ graph }: VisualProps) => {
     )
 
     useEffect(() => {
+        if (!containerRef.current) return
+
         const svg = select(containerRef.current).attr(
             'viewBox',
-            [50, 50, 100, 200]
+            [50, 100, 100, 250]
         )
 
         svg.selectAll('*').remove()
 
-        const yMap = scaleBand()
-            .domain(nodes.map(d => d.Object_Type))
-            .range([0, -100])
-
-        // Generate the simulation with d3-force https://github.com/d3/d3-force
         const simulation = forceSimulation(nodes as SimulationNodeDatum[])
             .force(
                 'link',
                 forceLink(links).id((d: any) => d.id)
             )
-            .force(
-                'y',
-                forceY((d: any) => yMap(d.Object_Type) || 0).strength(0.7)
-            )
-            .force('collide', forceCollide(15))
+            .force('charge', forceManyBody().strength(-50))
+            .force('x', forceX())
+            .force('y', forceY())
 
         // Generate Links
         const link = svg
@@ -88,10 +89,10 @@ const Visual = ({ graph }: VisualProps) => {
 
         // Update
         simulation.on('tick', () => {
-            link.attr('x1', (d: any) => d.source.x + 100)
-                .attr('y1', (d: any) => d.source.y + 200)
-                .attr('x2', (d: any) => d.target.x + 100)
-                .attr('y2', (d: any) => d.target.y + 200)
+            link.attr('x1', (d: D3Link) => (d.source.x || 0) + 100)
+                .attr('y1', (d: D3Link) => (d.source.y || 0) + 200)
+                .attr('x2', (d: D3Link) => (d.target.x || 0) + 100)
+                .attr('y2', (d: D3Link) => (d.target.y || 0) + 200)
 
             node.attr('transform', (d: any) => {
                 const x = d.x + 100

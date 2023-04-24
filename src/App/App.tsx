@@ -30,7 +30,7 @@ const queryClient = new QueryClient({
 const App = () => {
     const userIsInMuteerEnvironment = usePage('/muteer')
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
-    const isNetworkVisualization = usePage('/netwerkvisualisatie')
+    const isNetworkPage = usePage('/beleidsnetwerk')
 
     if (
         process.env.NODE_ENV !== 'production' &&
@@ -69,10 +69,7 @@ const App = () => {
                         <title>Omgevingsbeleid - Provincie Zuid-Holland</title>
                     </Helmet>
 
-                    <BaseLayout
-                        hideFooter={
-                            isAdvancedSearchPage || isNetworkVisualization
-                        }>
+                    <BaseLayout hideFooter={isAdvancedSearchPage}>
                         <ErrorBoundary FallbackComponent={ErrorPage}>
                             <Suspense fallback={<LoaderContent />}>
                                 <AppRoutes />
@@ -80,7 +77,8 @@ const App = () => {
                         </ErrorBoundary>
                         <ToastContainer position="bottom-left" />
                         {!isAdvancedSearchPage &&
-                            !userIsInMuteerEnvironment && (
+                            !userIsInMuteerEnvironment &&
+                            !isNetworkPage && (
                                 <DNABar blocks={6} className="top-[96px]" />
                             )}
                     </BaseLayout>

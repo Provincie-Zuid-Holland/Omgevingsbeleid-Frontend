@@ -179,9 +179,9 @@ const NavigationPopupMenu = ({
                                         isMobile ? {} : { marginTop: '32px' }
                                     }>
                                     <ListItem
-                                        text="Netwerkvisualisatie"
+                                        text="Beleidsnetwerk"
                                         setIsOpen={setIsOpen}
-                                        to="/netwerkvisualisatie"
+                                        to="/beleidsnetwerk"
                                         state={{
                                             from:
                                                 location.pathname +

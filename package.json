@@ -6,7 +6,7 @@
     "dependencies": {
         "@craco/craco": "7.0.0-alpha.3",
         "@headlessui/react": "^1.5.0",
-        "@pzh-ui/components": "^0.0.288",
+        "@pzh-ui/components": "^0.0.290",
         "@pzh-ui/config": "^0.0.34",
         "@pzh-ui/css": "^0.0.60",
         "@pzh-ui/icons": "^0.0.28",
@@ -46,7 +46,7 @@
         "url-search-params-polyfill": "^8.1.1",
         "zod": "^3.21.4",
         "zod-formik-adapter": "^1.2.0",
-        "zustand": "^4.1.1"
+        "zustand": "^4.3.7"
     },
     "scripts": {
         "analyze": "source-map-explorer 'build/static/js/*.js'",

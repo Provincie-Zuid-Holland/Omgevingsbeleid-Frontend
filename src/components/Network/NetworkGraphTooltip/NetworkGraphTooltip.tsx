@@ -1,42 +1,50 @@
-import { Text } from '@pzh-ui/components'
-import { Link } from 'react-router-dom'
+import classNames from 'classnames'
+import { forwardRef } from 'react'
 
 /**
  * Displays a tooltip for the NetworkGraph items.
- *
- * @param {object} variables - Contains a collection of style items for the toolip in object form.
- * @param {string} href - Contains the target URL for the Link component.
  */
 
-interface Props {
-    variables: { left?: string | number; top?: string | number }
-    href: string
+export type TooltipVariables = {
+    active: boolean
+    left?: number
+    top?: number
 }
 
-const NetworkGraphTooltip = ({ variables, href }: Props) => (
+export type TooltipContent = {
+    title?: string
+    type?: string
+}
+
+interface NetworkGraphTooltipProps {
+    variables: TooltipVariables
+    content?: TooltipContent
+}
+
+const NetworkGraphTooltip = forwardRef<
+    HTMLDivElement,
+    NetworkGraphTooltipProps
+>(({ variables, content }, ref) => (
     <div
+        ref={ref}
         id="d3-tooltip-network-graph"
         style={{
             left: variables.left,
             top: variables.top,
         }}
-        className="absolute z-50 hidden px-4 py-2 text-white bg-black rounded shadow-md bg-opacity-80 hover:block">
-        <Link to={href} className="select-none group" role="tooltip">
-            <Text
-                id="d3-tooltip-network-graph-type"
-                type="body-small"
-                children={undefined}
-                color="text-white"
-            />
-            <Text
-                id="d3-tooltip-network-graph-title"
-                type="body-small"
-                className="font-bold"
-                children={undefined}
-                color="text-white"
-            />
-        </Link>
+        className={classNames('fixed z-50 max-w-[calc(100vw - 40px - 2rem)]', {
+            'left-[-100%]': !variables.active,
+        })}>
+        <span className="block w-full h-[10px] -mt-[10px]" />
+        <div className="px-3 pt-3 pb-2 bg-black/80 rounded-[4px]">
+            <span className="block text-pzh-white text-sm capitalize">
+                {content?.type}
+            </span>
+            <span className="block max-w-[400px] text-pzh-white font-bold group-hover:underline truncate">
+                {content?.title}
+            </span>
+        </div>
     </div>
-)
+))
 
 export default NetworkGraphTooltip

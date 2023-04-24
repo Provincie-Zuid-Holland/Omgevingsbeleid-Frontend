@@ -7,6 +7,7 @@ import Home from './Home'
 import Login from './Login'
 // import MapSearch from './MapSearch'
 // import ObjectDetail from './ObjectDetail'
+import Network from './Network'
 import PlanningAndReleases from './PlanningAndReleases'
 // import SearchResults from './SearchResults'
 // import Verordening from './Verordening'
@@ -24,4 +25,5 @@ export {
     // Verordening,
     DynamicOverview,
     DynamicObject,
+    Network,
 }

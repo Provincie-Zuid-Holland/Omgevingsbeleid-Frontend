@@ -68,11 +68,6 @@ export interface DynamicObject<
 }
 
 export type ModelType = keyof typeof models
-export type ModelName =
-    | 'Ambities'
-    | 'Beleidsdoelen'
-    | 'Beleidskeuzes'
-    | 'Maatregelen'
 
 export type DynamicSection<FieldType = any> = {
     /** Title of section */

@@ -174,13 +174,13 @@ const VerordeningPopupDetail = ({
                                     Koppelingen
                                 </Heading>
                                 <Link
-                                    to="/netwerkvisualisatie"
+                                    to="/beleidsnetwerk"
                                     state={{
                                         from:
                                             location.pathname + location.search,
                                     }}
                                     className="text-sm underline text-pzh-green hover:text-pzh-green-dark">
-                                    Bekijk grote netwerkvisualisatie
+                                    Bekijk grote beleidsnetwerk
                                 </Link>
                             </div>
                             <div>

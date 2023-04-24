@@ -27,6 +27,7 @@ import {
     // Verordening,
     DynamicOverview as DynamicOverviewPublic,
     DynamicObject as DynamicObjectPublic,
+    Network,
 } from '@/pages/public'
 // import AreaDetail from '@/pages/public/AreaDetail'
 // import AreaOverview from '@/pages/public/AreaOverview'
@@ -64,10 +65,10 @@ const AppRoutes = () => {
         //     path: 'in-bewerking',
         //     element: <InProgress />,
         // },
-        // {
-        //     path: 'netwerkvisualisatie',
-        //     element: <NetworkGraph />,
-        // },
+        {
+            path: 'beleidsnetwerk',
+            element: <Network />,
+        },
         // {
         //     path: 'verordening',
         //     element: <Verordening />,
