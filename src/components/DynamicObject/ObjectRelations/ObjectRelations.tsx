@@ -149,11 +149,6 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
                 queryKey={queryKey}
                 relations={approved}
                 {...modal}
-                initialValues={
-                    {
-                        Object_Type: model.defaults.singular,
-                    } as RequestAcknowledgedRelation
-                }
                 isOpen={modal.isOpen && modal.action === 'approved'}
             />
 
