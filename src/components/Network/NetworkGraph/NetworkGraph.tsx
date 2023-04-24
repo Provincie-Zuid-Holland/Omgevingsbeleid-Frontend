@@ -13,6 +13,7 @@ const NetworkGraph = () => {
     const selectedFilters = useNetworkStore(state => state.selectedFilters)
 
     const { data } = useFullGraphGet()
+    console.log(data)
 
     const containerRef = useRef<SVGSVGElement>(null)
 

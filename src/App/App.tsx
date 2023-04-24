@@ -42,9 +42,7 @@ const App = () => {
         axe()
     }
 
-    useEffectOnce(() => {
-        checkForInternetExplorer()
-    })
+    useEffectOnce(() => checkForInternetExplorer())
 
     // Used to check for Internet Explorer on mount and display an alert that we only support modern browsers. We do polyfill functionalities where needed for Internet Explorer.
     const checkForInternetExplorer = () => {

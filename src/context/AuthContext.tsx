@@ -91,11 +91,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
                 removeIdentifier()
             }
         } else {
-            /**
-             * Remove cache for queries
-             */
-            queryClient.removeQueries()
-
             removeIdentifier()
         }
     })

@@ -70,6 +70,7 @@ const ObjectRelationNewModal = ({
     const handleFormSubmit = (payload: RequestAcknowledgedRelation) => {
         postAcknowledgedRelations?.mutate({
             lineageId: parseInt(objectId!),
+            // @ts-ignore TO-DO: Remove this line when Title isn't required in API anymore
             data: {
                 Object_ID: payload.Object_ID,
                 Object_Type: payload.Object_Type,
