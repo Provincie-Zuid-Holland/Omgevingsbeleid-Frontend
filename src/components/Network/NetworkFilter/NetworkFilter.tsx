@@ -3,7 +3,6 @@ import { MagnifyingGlass, Xmark } from '@pzh-ui/icons'
 import { useMemo } from 'react'
 import { ClearIndicatorProps, GroupBase } from 'react-select'
 
-import { GraphVertice } from '@/api/fetchers.schemas'
 import { ModelType } from '@/config/objects/types'
 import useNetworkStore from '@/store/networkStore'
 import {
@@ -14,16 +13,10 @@ import {
 } from '@/utils/d3'
 
 interface NetworkFilterProps {
-    containerRef: SVGSVGElement | null
     graph: ReturnType<typeof formatGraphData>
-    setActiveNode: (node?: GraphVertice) => void
 }
 
-const NetworkFilter = ({
-    containerRef,
-    graph,
-    setActiveNode,
-}: NetworkFilterProps) => {
+const NetworkFilter = ({ graph }: NetworkFilterProps) => {
     const filters = useNetworkStore(state => state.filters)
     const selectedFilters = useNetworkStore(state => state.selectedFilters)
     const setSelectedFilters = useNetworkStore(
@@ -32,6 +25,7 @@ const NetworkFilter = ({
     const amountOfFilters = useNetworkStore(
         state => state.selectedFilters?.length || 0
     )
+    const setActiveNode = useNetworkStore(state => state.setActiveNode)
 
     /**
      * Format options for search field
@@ -72,11 +66,11 @@ const NetworkFilter = ({
         if (!!e) {
             const node = graph.nodes.find(node => node.Code === e.value)
 
-            if (!node || !containerRef) return
+            if (!node) return
 
             const connectedLinks = filterConnections(graph.links, node)
 
-            highlightConnections(containerRef, connectedLinks, node)
+            highlightConnections(connectedLinks, node)
             setActiveNode(node)
         }
     }
@@ -91,7 +85,7 @@ const NetworkFilter = ({
     ) => {
         e.clearValue()
         setActiveNode(undefined)
-        containerRef && resetHighlightConnections(containerRef)
+        resetHighlightConnections()
     }
 
     return (

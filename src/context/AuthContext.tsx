@@ -89,6 +89,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
                 queryClient.removeQueries()
 
                 removeIdentifier()
+                removeAccessToken()
             }
         } else {
             removeIdentifier()

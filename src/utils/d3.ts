@@ -169,12 +169,8 @@ export const filterConnections = (links: any[], d: GraphVertice) => {
 /**
  * Highlight connections on click
  */
-export const highlightConnections = (
-    container: SVGSVGElement,
-    links: any[],
-    node: GraphVertice
-) => {
-    const svgElement = select(container)
+export const highlightConnections = (links: any[], node: GraphVertice) => {
+    const svgElement = select('[data-d3="container"]')
 
     svgElement
         .selectAll('path')
@@ -209,8 +205,8 @@ export const highlightConnections = (
 /**
  * Highlight connections on click
  */
-export const resetHighlightConnections = (container: SVGSVGElement) => {
-    const svgElement = select(container)
+export const resetHighlightConnections = () => {
+    const svgElement = select('[data-d3="container"]')
 
     svgElement
         .selectAll('path')

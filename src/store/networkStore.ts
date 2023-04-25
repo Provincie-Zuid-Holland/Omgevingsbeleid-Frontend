@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 
+import { GraphVertice } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 
@@ -12,6 +13,8 @@ interface NetworkState {
     filters: Filter
     selectedFilters?: ModelType[]
     setSelectedFilters: (filters?: ModelType[]) => void
+    activeNode?: GraphVertice
+    setActiveNode: (node?: GraphVertice) => void
 }
 
 const useNetworkStore = create<NetworkState>(set => ({
@@ -53,6 +56,7 @@ const useNetworkStore = create<NetworkState>(set => ({
             ...state,
             selectedFilters,
         })),
+    setActiveNode: activeNode => set(state => ({ ...state, activeNode })),
 }))
 
 export default useNetworkStore
