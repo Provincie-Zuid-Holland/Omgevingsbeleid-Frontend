@@ -1,10 +1,15 @@
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
+import { Breadcrumbs, Heading, TabItem, Tabs, Text } from '@pzh-ui/components'
+import classNames from 'classnames'
 import { Helmet } from 'react-helmet'
 
 import { Container } from '@/components/Container'
 import NetworkGraph from '@/components/Network/NetworkGraph'
+import useNetworkStore from '@/store/networkStore'
 
 const Network = () => {
+    const activeTab = useNetworkStore(state => state.activeTab)
+    const setActiveTab = useNetworkStore(state => state.setActiveTab)
+
     const pathName = location.pathname || ''
 
     const breadcrumbPaths = [
@@ -29,9 +34,25 @@ const Network = () => {
                 </div>
             </Container>
 
-            <Container className="mb-16 bg-pzh-gray-100">
+            <Container
+                className={classNames('relative mb-16', {
+                    'overflow-hidden': activeTab === 'visual',
+                })}>
                 <div className="col-span-6">
-                    <NetworkGraph />
+                    <Tabs
+                        selectedKey={activeTab}
+                        onSelectionChange={key =>
+                            setActiveTab(key as typeof activeTab)
+                        }>
+                        <TabItem title="Visueel" key="visual">
+                            <div className="after:content-[' '] after:absolute after:top-[33px] after:left-0 after:-z-1 after:w-full after:h-full after:bg-pzh-gray-100">
+                                <NetworkGraph />
+                            </div>
+                        </TabItem>
+                        <TabItem title="Tekstueel" key="textual">
+                            <NetworkGraph />
+                        </TabItem>
+                    </Tabs>
                 </div>
             </Container>
         </>

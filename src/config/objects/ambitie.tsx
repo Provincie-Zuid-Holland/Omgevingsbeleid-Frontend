@@ -46,6 +46,7 @@ const ambitie: DynamicObject<
         prefixSingular: 'de',
         prefixPlural: 'de',
         prefixNewObject: 'Nieuwe',
+        demonstrative: 'deze',
         slugOverview: 'ambities',
         description:
             'De ambities geven aan waar de provincie naar wil streven. De ambities komen voort uit het coalitieakkoord en worden vastgesteld in de Omgevingsvisie.',

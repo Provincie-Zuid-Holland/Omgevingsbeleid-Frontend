@@ -47,6 +47,7 @@ const maatregel: DynamicObject<
         prefixSingular: 'de',
         prefixPlural: 'de',
         prefixNewObject: 'Nieuwe',
+        demonstrative: 'deze',
         slugOverview: 'maatregelen',
         description:
             'De maatregelen geven aan wat de provincie gaat doen om de keuzes uit te voeren. De maatregelen zijn een uitwerking van de beleidskeuzes en komen voort uit het Omgevingsprogramma.',

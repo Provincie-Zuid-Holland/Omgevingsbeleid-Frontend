@@ -6,7 +6,7 @@
     "dependencies": {
         "@craco/craco": "7.0.0-alpha.3",
         "@headlessui/react": "^1.5.0",
-        "@pzh-ui/components": "^0.0.290",
+        "@pzh-ui/components": "^0.0.292",
         "@pzh-ui/config": "^0.0.34",
         "@pzh-ui/css": "^0.0.60",
         "@pzh-ui/icons": "^0.0.28",

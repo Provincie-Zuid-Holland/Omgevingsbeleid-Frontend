@@ -6,7 +6,6 @@ import Home from './Home'
 // import InProgress from './InProgress'
 import Login from './Login'
 // import MapSearch from './MapSearch'
-// import ObjectDetail from './ObjectDetail'
 import Network from './Network'
 import PlanningAndReleases from './PlanningAndReleases'
 // import SearchResults from './SearchResults'
@@ -19,7 +18,6 @@ export {
     // InProgress,
     Login,
     // MapSearch,
-    // ObjectDetail,
     PlanningAndReleases,
     // SearchResults,
     // Verordening,

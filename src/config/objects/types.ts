@@ -45,6 +45,8 @@ export interface DynamicObject<
         description: string
         /** Slug overview */
         slugOverview?: string
+        /** Demonstrative pronoun of object type */
+        demonstrative?: string
     }
     /** Array containing static data fields of object */
     staticData?: StaticData

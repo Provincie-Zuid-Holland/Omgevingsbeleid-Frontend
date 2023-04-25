@@ -72,6 +72,7 @@ const NetworkVisual = ({ graph }: NetworkVisualProps) => {
                 if (!svg) return
 
                 const connectedLinks = filterConnections(links, d)
+
                 highlightConnections(connectedLinks, d)
                 setActiveNode(d)
             }

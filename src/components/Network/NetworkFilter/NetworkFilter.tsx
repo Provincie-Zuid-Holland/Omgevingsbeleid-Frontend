@@ -14,9 +14,10 @@ import {
 
 interface NetworkFilterProps {
     graph: ReturnType<typeof formatGraphData>
+    results?: number
 }
 
-const NetworkFilter = ({ graph }: NetworkFilterProps) => {
+const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
     const filters = useNetworkStore(state => state.filters)
     const selectedFilters = useNetworkStore(state => state.selectedFilters)
     const setSelectedFilters = useNetworkStore(
@@ -26,6 +27,9 @@ const NetworkFilter = ({ graph }: NetworkFilterProps) => {
         state => state.selectedFilters?.length || 0
     )
     const setActiveNode = useNetworkStore(state => state.setActiveNode)
+    const setActiveConnections = useNetworkStore(
+        state => state.setActiveConnections
+    )
 
     /**
      * Format options for search field
@@ -69,6 +73,14 @@ const NetworkFilter = ({ graph }: NetworkFilterProps) => {
             if (!node) return
 
             const connectedLinks = filterConnections(graph.links, node)
+            setActiveConnections(
+                connectedLinks
+                    .flatMap(connection => [
+                        connection.source,
+                        connection.target,
+                    ])
+                    .filter(connection => connection.Code !== node.Code)
+            )
 
             highlightConnections(connectedLinks, node)
             setActiveNode(node)
@@ -89,54 +101,63 @@ const NetworkFilter = ({ graph }: NetworkFilterProps) => {
     }
 
     return (
-        <div className="flex">
-            <div className="w-full">
-                <FieldSelect
-                    name="Search"
-                    placeholder="Zoek op titel van beleid"
-                    options={options}
-                    isClearable
-                    components={{
-                        DropdownIndicator: () => (
-                            <div className="mr-4">
-                                <MagnifyingGlass
-                                    size={18}
-                                    className="text-pzh-blue-dark"
-                                />
-                            </div>
-                        ),
-                        ClearIndicator: e => (
-                            <button onClick={() => handleClear(e)}>
-                                <Xmark className="m-2 text-pzh-gray-600" />
-                            </button>
-                        ),
-                    }}
-                    onChange={e => handleChange(e as typeof options[0])}
-                />
-            </div>
-            <div className="relative ml-3 w-1/5 min-w-[250px]">
-                <span className="absolute flex items-center justify-center z-1 pt-[4px] w-[24px] h-[24px] top-[-12px] right-[-12px] bg-pzh-blue-dark text-pzh-white rounded-full text-sm font-bold">
-                    {amountOfFilters}
-                </span>
-                <FieldSelect
-                    name="Filter"
-                    placeholder="Filter op type"
-                    options={filters}
-                    value={defaultValue}
-                    onChange={val =>
-                        setSelectedFilters(
-                            (val as { label: string; value: ModelType }[])?.map(
-                                e => e.value
+        <>
+            <div className="flex sm:flex-nowrap flex-wrap">
+                <div className="w-full">
+                    <FieldSelect
+                        name="Search"
+                        placeholder="Zoek op titel van beleid"
+                        options={options}
+                        isClearable
+                        components={{
+                            DropdownIndicator: () => (
+                                <div className="mr-4">
+                                    <MagnifyingGlass
+                                        size={18}
+                                        className="text-pzh-blue-dark"
+                                    />
+                                </div>
+                            ),
+                            ClearIndicator: e => (
+                                <button onClick={() => handleClear(e)}>
+                                    <Xmark className="m-2 text-pzh-gray-600" />
+                                </button>
+                            ),
+                        }}
+                        onChange={e => handleChange(e as typeof options[0])}
+                    />
+                </div>
+                <div className="relative sm:ml-3 mt-2 sm:mt-0 sm:w-1/5 w-full min-w-[250px]">
+                    <span className="absolute flex items-center justify-center z-1 pt-[4px] w-[24px] h-[24px] top-[-12px] right-[-12px] bg-pzh-blue-dark text-pzh-white rounded-full text-sm font-bold">
+                        {amountOfFilters}
+                    </span>
+                    <FieldSelect
+                        name="Filter"
+                        placeholder="Filter op type"
+                        options={filters}
+                        value={defaultValue}
+                        onChange={val =>
+                            setSelectedFilters(
+                                (
+                                    val as { label: string; value: ModelType }[]
+                                )?.map(e => e.value)
                             )
-                        )
-                    }
-                    isMulti
-                    isClearable={false}
-                    closeMenuOnSelect={false}
-                    hideSelectedOptions={false}
-                />
+                        }
+                        isMulti
+                        isClearable={false}
+                        closeMenuOnSelect={false}
+                        hideSelectedOptions={false}
+                        isSearchable={false}
+                    />
+                </div>
             </div>
-        </div>
+            {typeof results === 'number' && (
+                <span className="block mt-2 text-sm">
+                    Er {results === 1 ? 'is' : 'zijn'} {results}{' '}
+                    {results === 1 ? 'resultaat' : 'resultaten'} gevonden
+                </span>
+            )}
+        </>
     )
 }
 

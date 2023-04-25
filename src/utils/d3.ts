@@ -134,8 +134,11 @@ export const updateTooltipCoordinates = (
 /**
  * Filter connections based on clicked node
  */
-export const filterConnections = (links: any[], d: GraphVertice) => {
-    return links
+export const filterConnections = (
+    links: { target: any; source: any }[],
+    d: GraphVertice
+) =>
+    links
         .filter(link => {
             if (typeof link.target === 'string') {
                 return link.target === d.Code || link.source === d.Code
@@ -148,12 +151,14 @@ export const filterConnections = (links: any[], d: GraphVertice) => {
         .flatMap(link => {
             if (
                 d.Object_Type === 'beleidskeuze' &&
-                link.source.Object_Type === 'beleidsdoel'
+                (link.source.Object_Type === 'beleidsdoel' ||
+                    (typeof link.source === 'string' &&
+                        link.source.includes('beleidsdoel')))
             ) {
                 return [
                     ...links.filter(e => {
                         if (typeof e.target === 'string') {
-                            return e.target === link.source.Code
+                            return e.target === link.source
                         } else {
                             return e.target.Code === link.source.Code
                         }
@@ -164,12 +169,14 @@ export const filterConnections = (links: any[], d: GraphVertice) => {
 
             return link
         })
-}
 
 /**
  * Highlight connections on click
  */
-export const highlightConnections = (links: any[], node: GraphVertice) => {
+export const highlightConnections = (
+    links: { target: GraphVertice; source: GraphVertice }[],
+    node: GraphVertice
+) => {
     const svgElement = select('[data-d3="container"]')
 
     svgElement
