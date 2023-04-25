@@ -131,6 +131,10 @@ const NetworkTextual = ({ graph }: NetworkTextualProps) => {
                 // @ts-ignore
                 disableSortRemove
                 disableMultiSort
+                initialState={{
+                    // @ts-ignore
+                    sortBy: [{ id: 'Title' }],
+                }}
             />
 
             <NetworkModal isOpen={open} onClose={() => setOpen(false)} />
