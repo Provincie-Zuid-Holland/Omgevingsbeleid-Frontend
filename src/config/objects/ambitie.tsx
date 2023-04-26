@@ -31,6 +31,8 @@ const fetchers = {
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
+    useGetRegulations: null,
+    usePutRegulations: null,
 }
 
 const ambitie: DynamicObject<

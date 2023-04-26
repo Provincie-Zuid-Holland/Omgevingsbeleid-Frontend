@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { DynamicSection } from '@/config/objects/types'
+import { DynamicSection } from '@/config/types'
 import { schemaDefaults } from '@/validation/zodSchema'
 
 /**
@@ -22,6 +22,14 @@ const generateDynamicSchema = (sections: DynamicSection[]) => {
                             ((field.required
                                 ? schemaDefaults.requiredString()
                                 : schemaDefaults.optionalString) as any),
+                    }))
+                case 'url':
+                    return (dynamicSchema = dynamicSchema.extend({
+                        [field.name]:
+                            field.validation ||
+                            ((field.required
+                                ? schemaDefaults.url()
+                                : schemaDefaults.optionalUrl) as any),
                     }))
                 default:
                     return dynamicSchema

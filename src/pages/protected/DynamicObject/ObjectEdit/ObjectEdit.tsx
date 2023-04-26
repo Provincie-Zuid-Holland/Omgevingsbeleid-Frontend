@@ -1,5 +1,6 @@
 import { Heading } from '@pzh-ui/components'
-import { Navigate, useLocation, useParams } from 'react-router-dom'
+import { useMemo } from 'react'
+import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import { LockedNotification } from '@/components/Modules/ModuleLock/ModuleLock'
@@ -14,14 +15,54 @@ interface ObjectEditProps {
 }
 
 const ObjectEdit = ({ model }: ObjectEditProps) => {
-    const { moduleId } = useParams()
+    const navigate = useNavigate()
+
+    const { moduleId, objectId } = useParams()
     const location = useLocation()
     const { canEditModule } = usePermissions()
 
     const { singularCapitalize } = model.defaults
 
     const { isLocked, data, isModuleManager } = useModule()
-    const { isLoading, isOwner } = useObject()
+    const { data: object, isLoading, isOwner, usePatchObject } = useObject()
+
+    const patchObject = usePatchObject(() =>
+        navigate(`/muteer/modules/${moduleId}`)
+    )
+
+    /**
+     * Format initialData based on object fields
+     */
+    const initialData = useMemo(() => {
+        const fields = model.dynamicSections.flatMap(section =>
+            section.fields.map(field => field.name)
+        )
+
+        const objectData = {} as { [key in typeof fields[number]]: any }
+
+        fields?.forEach(field => {
+            if (field === 'Gebied_UUID') {
+                return (objectData[field] = object?.['Gebied']?.UUID)
+            }
+
+            return (objectData[field] = object?.[field as keyof typeof data])
+        })
+
+        return objectData
+    }, [object, model.dynamicSections])
+
+    /**
+     * Handle submit of form
+     */
+    const handleSubmit = (payload: typeof initialData) => {
+        if (!payload) return
+
+        patchObject.mutate({
+            moduleId: parseInt(moduleId!),
+            lineageId: parseInt(objectId!),
+            data: payload,
+        })
+    }
 
     const breadcrumbPaths = [
         { name: 'Muteeromgeving', path: '/muteer' },
@@ -58,7 +99,14 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                     {singularCapitalize} bewerken
                 </Heading>
 
-                <DynamicObjectForm model={model} isLocked={isLocked} />
+                <DynamicObjectForm
+                    model={model}
+                    initialData={initialData}
+                    handleSubmit={handleSubmit}
+                    onCancel={() => navigate(`/muteer/modules/${moduleId}`)}
+                    isLocked={isLocked}
+                    isLoading={isLoading}
+                />
             </div>
         </MutateLayout>
     )

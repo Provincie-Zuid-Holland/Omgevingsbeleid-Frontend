@@ -1,9 +1,10 @@
 import { useCallback, useLayoutEffect } from 'react'
 import { useNavigate, useRoutes } from 'react-router-dom'
 
-// import { NetworkGraph } from '@/components/Network'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
+import * as regulations from '@/config/regulations'
+import { ModelType as RegulationType } from '@/config/regulations/types'
 import ModuleProvider from '@/context/ModuleContext'
 import ObjectProvider from '@/context/ObjectContext'
 import useAuth from '@/hooks/useAuth'
@@ -14,26 +15,20 @@ import {
     ModuleCreate,
     ModuleDetail,
     ModuleEdit,
+    RegulationCreate,
+    RegulationEdit,
+    RegulationOverview,
 } from '@/pages/protected'
 import ObjectDetail from '@/pages/protected/DynamicObject/ObjectDetail'
 import {
     Accessibility,
     Home,
-    // InProgress,
     Login,
-    // MapSearch,
     PlanningAndReleases,
-    // SearchResults,
-    // Verordening,
     DynamicOverview as DynamicOverviewPublic,
     DynamicObject as DynamicObjectPublic,
     Network,
 } from '@/pages/public'
-// import AreaDetail from '@/pages/public/AreaDetail'
-// import AreaOverview from '@/pages/public/AreaOverview'
-// import EnvironmentProgram from '@/pages/public/EnvironmentProgram'
-// import ThemeDetail from '@/pages/public/ThemeDetail'
-// import ThemeOverview from '@/pages/public/ThemeOverview'
 
 import ProtectedRoute from './ProtectedRoute'
 
@@ -277,6 +272,72 @@ const AppRoutes = () => {
                         },
                     ],
                 })),
+                ...Object.keys(regulations)
+                    .filter(e => e !== 'default')
+                    .map(model => ({
+                        path: regulations[model as RegulationType].defaults
+                            .plural,
+                        children: [
+                            {
+                                index: true,
+                                element: (
+                                    <RegulationOverview
+                                        model={
+                                            regulations[model as RegulationType]
+                                        }
+                                    />
+                                ),
+                            },
+                            {
+                                path: ':objectUuid',
+                                children: [
+                                    {
+                                        path: 'bewerk',
+                                        element: (
+                                            <ProtectedRoute
+                                                permissions={{
+                                                    canCreateModule: true,
+                                                }}
+                                                redirectTo={`/muteer/${
+                                                    regulations[
+                                                        model as RegulationType
+                                                    ].defaults.plural
+                                                }`}>
+                                                <RegulationEdit
+                                                    model={
+                                                        regulations[
+                                                            model as RegulationType
+                                                        ]
+                                                    }
+                                                />
+                                            </ProtectedRoute>
+                                        ),
+                                    },
+                                ],
+                            },
+                            {
+                                path: 'nieuw',
+                                element: (
+                                    <ProtectedRoute
+                                        permissions={{
+                                            canCreateModule: true,
+                                        }}
+                                        redirectTo={`/muteer/${
+                                            regulations[model as RegulationType]
+                                                .defaults.plural
+                                        }`}>
+                                        <RegulationCreate
+                                            model={
+                                                regulations[
+                                                    model as RegulationType
+                                                ]
+                                            }
+                                        />
+                                    </ProtectedRoute>
+                                ),
+                            },
+                        ],
+                    })),
             ],
         },
     ])

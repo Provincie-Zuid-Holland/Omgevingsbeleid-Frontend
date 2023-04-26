@@ -14,7 +14,8 @@ import {
     MaatregelPatch,
     MaatregelStaticPatchStatics,
 } from '@/api/fetchers.schemas'
-import { Validation } from '@/validation/zodSchema'
+
+import { DynamicSection } from '../types'
 
 import * as models from '.'
 
@@ -42,7 +43,7 @@ export interface DynamicObject<
         /** Prefix when creating new object */
         prefixNewObject: string
         /** Description of object */
-        description: string
+        description?: string
         /** Slug overview */
         slugOverview?: string
         /** Demonstrative pronoun of object type */
@@ -59,7 +60,7 @@ export interface DynamicObject<
     /** Allowed connection types which object can get a connection with */
     allowedConnections?: {
         /** Type of connection */
-        type: ModelType
+        type: ModelType | 'regulations'
         /** Key of connection, this corresponds with the API field */
         key: keyof ModelReturnType
     }[]
@@ -70,37 +71,6 @@ export interface DynamicObject<
 }
 
 export type ModelType = keyof typeof models
-
-export type DynamicSection<FieldType = any> = {
-    /** Title of section */
-    title: string
-    /** Description of section */
-    description?: string
-    /** Fields in section */
-    fields: DynamicField<FieldType>[]
-}
-
-export type DynamicField<FieldType = any> = {
-    /** Name of field, this is also the API field */
-    name: FieldType
-    /** Label of field */
-    label: string
-    /** Description of field (optional) */
-    description?: string | JSX.Element
-    /** Placeholder of field (optional) */
-    placeholder?: string
-    /** Type of field */
-    type: 'text' | 'textarea' | 'wysiwyg' | 'select' | 'area'
-    /** Is field required (optional) */
-    required?: boolean
-    /** Field validation (optional) */
-    validation?: Validation
-} & (
-    | { type: 'select'; options: { label: string; value: string }[] }
-    | {
-          type: Exclude<'text' | 'textarea' | 'wysiwyg' | 'area', 'select'>
-      }
-)
 
 export type ModelReturnType = BeleidsdoelGet &
     AmbitieGet &

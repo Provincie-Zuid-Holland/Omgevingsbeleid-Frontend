@@ -26,8 +26,12 @@ export const schemaDefaults = {
                 invalid_type_error: msg,
             })
             .url('Onjuiste link'),
+    optionalUrl: z.string().url('Onjuiste link').optional().nullable(),
     title: z
-        .string({ required_error: 'Vul een titel in' })
+        .string({
+            required_error: 'Vul een titel in',
+            invalid_type_error: 'Vul een titel in',
+        })
         .min(4, 'Vul een titel in van minimaal 4 karakters')
         .max(100, 'Vul een titel in van maximaal 100 karakters'),
     date: z

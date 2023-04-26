@@ -24,6 +24,7 @@ import { Module } from '@/api/fetchers.schemas'
 import { LoaderCard } from '@/components/Loader'
 import ModuleCard from '@/components/Modules/ModuleCard'
 import * as models from '@/config/objects'
+import * as regulations from '@/config/regulations'
 import useAuth from '@/hooks/useAuth'
 import useBreakpoint from '@/hooks/useBreakpoint'
 import usePermissions from '@/hooks/usePermissions'
@@ -206,6 +207,25 @@ const Dashboard = () => {
                                                     />
                                                 )
                                             })}
+                                            {Object.keys(regulations).map(
+                                                key => {
+                                                    const model =
+                                                        regulations[
+                                                            key as keyof typeof regulations
+                                                        ]
+
+                                                    return (
+                                                        <ListLink
+                                                            key={`link-${key}`}
+                                                            text={
+                                                                model.defaults
+                                                                    .pluralCapitalize
+                                                            }
+                                                            to={`/muteer/${model.defaults.plural}`}
+                                                        />
+                                                    )
+                                                }
+                                            )}
                                         </div>
                                     </div>
                                 </div>

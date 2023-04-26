@@ -1,6 +1,6 @@
 import { Divider, getHeadingStyles, Text } from '@pzh-ui/components'
 
-import { DynamicSection as DynamicSectionProps } from '@/config/objects/types'
+import { DynamicSection as DynamicSectionProps } from '@/config/types'
 import useBreakpoint from '@/hooks/useBreakpoint'
 
 import DynamicField from '../DynamicField'

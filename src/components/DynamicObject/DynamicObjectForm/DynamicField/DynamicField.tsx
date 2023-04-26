@@ -6,7 +6,7 @@ import {
 } from '@pzh-ui/components'
 
 import SelectArea from '@/components/SelectArea'
-import { DynamicField as DynamicFieldProps } from '@/config/objects/types'
+import { DynamicField as DynamicFieldProps } from '@/config/types'
 
 const inputFieldMap = {
     text: FormikInput,
@@ -14,6 +14,7 @@ const inputFieldMap = {
     wysiwyg: FormikRte,
     select: FormikSelect,
     area: SelectArea,
+    url: FormikInput,
 }
 
 const DynamicField = ({
@@ -31,7 +32,11 @@ const DynamicField = ({
 
     return (
         <div className={marginTop}>
-            <InputField disabled={isLocked} {...field} />
+            <InputField
+                type={type === 'url' ? 'url' : undefined}
+                disabled={isLocked}
+                {...field}
+            />
         </div>
     )
 }

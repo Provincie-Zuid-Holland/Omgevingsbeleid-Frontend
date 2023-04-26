@@ -1725,6 +1725,23 @@ export const getBeleidskeuzesValidGetMock = () =>
             })),
             undefined,
         ]),
+        Regulations: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                UUID: faker.datatype.uuid(),
+                Created_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Modified_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Title: faker.random.word(),
+                Type: faker.random.word(),
+            })),
+            undefined,
+        ]),
         ObjectStatics: faker.helpers.arrayElement([
             {
                 Owner_1: faker.helpers.arrayElement([
@@ -1980,6 +1997,19 @@ export const getBeleidskeuzesVersionObjectUuidGetMock = () => ({
         })),
         undefined,
     ]),
+    Regulations: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            UUID: faker.datatype.uuid(),
+            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            Title: faker.random.word(),
+            Type: faker.random.word(),
+        })),
+        undefined,
+    ]),
     ObjectStatics: faker.helpers.arrayElement([
         {
             Owner_1: faker.helpers.arrayElement([
@@ -2147,6 +2177,19 @@ export const getBeleidskeuzesLatestLineageIdGetMock = () => ({
         })),
         undefined,
     ]),
+    Regulations: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            UUID: faker.datatype.uuid(),
+            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            Title: faker.random.word(),
+            Type: faker.random.word(),
+        })),
+        undefined,
+    ]),
     ObjectStatics: faker.helpers.arrayElement([
         {
             Owner_1: faker.helpers.arrayElement([
@@ -2281,6 +2324,38 @@ export const getBeleidskeuzeAcknowledgedRelationsLineageIdPostMock = () => ({
 
 export const getBeleidskeuzeAcknowledgedRelationsLineageIdEditPostMock =
     () => ({ message: faker.random.word() })
+
+export const getBeleidskeuzeRegulationsLineageIdGetMock = () =>
+    Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        UUID: faker.datatype.uuid(),
+        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Title: faker.random.word(),
+        Type: faker.random.word(),
+        Created_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+    }))
+
+export const getBeleidskeuzeRegulationsLineageIdPutMock = () => ({
+    message: faker.random.word(),
+})
 
 export const getModulesModuleIdObjectBeleidskeuzeLineageIdGetMock = () =>
     Array.from(
@@ -2506,6 +2581,23 @@ export const getModulesModuleIdObjectBeleidskeuzeLatestLineageIdGetMock =
             })),
             undefined,
         ]),
+        Regulations: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                UUID: faker.datatype.uuid(),
+                Created_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Modified_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Title: faker.random.word(),
+                Type: faker.random.word(),
+            })),
+            undefined,
+        ]),
         ObjectStatics: faker.helpers.arrayElement([
             {
                 Owner_1: faker.helpers.arrayElement([
@@ -2681,6 +2773,23 @@ export const getModulesModuleIdObjectBeleidskeuzeVersionObjectUuidGetMock =
             })),
             undefined,
         ]),
+        Regulations: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                UUID: faker.datatype.uuid(),
+                Created_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Modified_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Title: faker.random.word(),
+                Type: faker.random.word(),
+            })),
+            undefined,
+        ]),
         ObjectStatics: faker.helpers.arrayElement([
             {
                 Owner_1: faker.helpers.arrayElement([
@@ -2851,6 +2960,23 @@ export const getMaatregelenValidGetMock = () =>
                         undefined,
                     ]),
                 },
+            })),
+            undefined,
+        ]),
+        Regulations: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                UUID: faker.datatype.uuid(),
+                Created_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Modified_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Title: faker.random.word(),
+                Type: faker.random.word(),
             })),
             undefined,
         ]),
@@ -3097,6 +3223,19 @@ export const getMaatregelenVersionObjectUuidGetMock = () => ({
         })),
         undefined,
     ]),
+    Regulations: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            UUID: faker.datatype.uuid(),
+            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            Title: faker.random.word(),
+            Type: faker.random.word(),
+        })),
+        undefined,
+    ]),
     ObjectStatics: faker.helpers.arrayElement([
         {
             Owner_1: faker.helpers.arrayElement([
@@ -3253,6 +3392,19 @@ export const getMaatregelenLatestLineageIdGetMock = () => ({
         })),
         undefined,
     ]),
+    Regulations: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            UUID: faker.datatype.uuid(),
+            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            Title: faker.random.word(),
+            Type: faker.random.word(),
+        })),
+        undefined,
+    ]),
     ObjectStatics: faker.helpers.arrayElement([
         {
             Owner_1: faker.helpers.arrayElement([
@@ -3318,6 +3470,38 @@ export const getMaatregelenRelationsLineageIdPutMock = () => ({
 })
 
 export const getMaatregelStaticLineageIdPostMock = () => ({
+    message: faker.random.word(),
+})
+
+export const getMaatregelRegulationsLineageIdGetMock = () =>
+    Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        UUID: faker.datatype.uuid(),
+        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Title: faker.random.word(),
+        Type: faker.random.word(),
+        Created_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+    }))
+
+export const getMaatregelRegulationsLineageIdPutMock = () => ({
     message: faker.random.word(),
 })
 
@@ -3525,6 +3709,19 @@ export const getModulesModuleIdObjectMaatregelLatestLineageIdGetMock = () => ({
         })),
         undefined,
     ]),
+    Regulations: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            UUID: faker.datatype.uuid(),
+            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            Title: faker.random.word(),
+            Type: faker.random.word(),
+        })),
+        undefined,
+    ]),
     ObjectStatics: faker.helpers.arrayElement([
         {
             Owner_1: faker.helpers.arrayElement([
@@ -3695,6 +3892,23 @@ export const getModulesModuleIdObjectMaatregelVersionObjectUuidGetMock =
             })),
             undefined,
         ]),
+        Regulations: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                UUID: faker.datatype.uuid(),
+                Created_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Modified_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Title: faker.random.word(),
+                Type: faker.random.word(),
+            })),
+            undefined,
+        ]),
         ObjectStatics: faker.helpers.arrayElement([
             {
                 Owner_1: faker.helpers.arrayElement([
@@ -3796,6 +4010,40 @@ export const getFullGraphGetMock = () => ({
         Vertice_B_Code: faker.random.word(),
         Type: faker.helpers.arrayElement(Object.values(GraphEdgeType)),
     })),
+})
+
+export const getRegulationsGetMock = () =>
+    Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        UUID: faker.datatype.uuid(),
+        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Title: faker.random.word(),
+        Type: faker.random.word(),
+        Created_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+    }))
+
+export const getRegulationsPostMock = () => ({ UUID: faker.datatype.uuid() })
+
+export const getRegulationsRegulationUuidPostMock = () => ({
+    message: faker.random.word(),
 })
 
 export const getObjectGraphGetMock = () => ({
@@ -4407,6 +4655,20 @@ export const getOmgevingsbeleidAPIMSW = () => [
             )
         }
     ),
+    rest.get('*/beleidskeuze/regulations/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getBeleidskeuzeRegulationsLineageIdGetMock())
+        )
+    }),
+    rest.put('*/beleidskeuze/regulations/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getBeleidskeuzeRegulationsLineageIdPutMock())
+        )
+    }),
     rest.get(
         '*/modules/:moduleId/object/beleidskeuze/:lineageId',
         (_req, res, ctx) => {
@@ -4502,6 +4764,20 @@ export const getOmgevingsbeleidAPIMSW = () => [
             ctx.json(getMaatregelStaticLineageIdPostMock())
         )
     }),
+    rest.get('*/maatregel/regulations/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getMaatregelRegulationsLineageIdGetMock())
+        )
+    }),
+    rest.put('*/maatregel/regulations/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getMaatregelRegulationsLineageIdPutMock())
+        )
+    }),
     rest.get(
         '*/modules/:moduleId/object/maatregel/:lineageId',
         (_req, res, ctx) => {
@@ -4572,6 +4848,27 @@ export const getOmgevingsbeleidAPIMSW = () => [
             ctx.delay(1000),
             ctx.status(200, 'Mocked status'),
             ctx.json(getFullGraphGetMock())
+        )
+    }),
+    rest.get('*/regulations', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getRegulationsGetMock())
+        )
+    }),
+    rest.post('*/regulations', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getRegulationsPostMock())
+        )
+    }),
+    rest.post('*/regulations/:regulationUuid', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getRegulationsRegulationUuidPostMock())
         )
     }),
     rest.get('*/object-graph', (_req, res, ctx) => {

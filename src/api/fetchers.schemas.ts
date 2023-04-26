@@ -185,6 +185,54 @@ export interface RelationShortAmbitieShort {
     Object: AmbitieShort
 }
 
+/**
+ * An enumeration.
+ */
+export type RegulationTypes =
+    typeof RegulationTypes[keyof typeof RegulationTypes]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RegulationTypes = {
+    Nationaal_Belang: 'Nationaal Belang',
+    Wettelijke_taken_en_bevoegdheden: 'Wettelijke taken en bevoegdheden',
+} as const
+
+export interface RegulationShort {
+    UUID: string
+    Created_Date: string
+    Modified_Date: string
+    Title: string
+    Type: string
+}
+
+export interface RegulationObjectOverwrite {
+    UUID: string
+}
+
+export interface RegulationEdit {
+    Title: string
+    Type: RegulationTypes
+}
+
+export interface RegulationCreatedResponse {
+    UUID: string
+}
+
+export interface RegulationCreate {
+    Title: string
+    Type: RegulationTypes
+}
+
+export interface Regulation {
+    UUID: string
+    Created_Date: string
+    Modified_Date: string
+    Title: string
+    Type: string
+    Created_By?: UserShort
+    Modified_By?: UserShort
+}
+
 export interface ObjectStaticShort {
     Owner_1_UUID?: string
     Owner_2_UUID?: string
@@ -410,6 +458,7 @@ export interface MaatregelGet {
     Created_By?: UserShort
     Modified_By?: UserShort
     Beleidsdoelen?: RelationShortBeleidsdoelShort[]
+    Regulations?: RegulationShort[]
     ObjectStatics?: MaatregelGetObjectStatics
 }
 
@@ -556,6 +605,7 @@ export interface BeleidskeuzeGet {
     Created_By?: UserShort
     Modified_By?: UserShort
     Beleidsdoelen?: RelationShortBeleidsdoelShort[]
+    Regulations?: RegulationShort[]
     ObjectStatics?: BeleidskeuzeGetObjectStatics
 }
 

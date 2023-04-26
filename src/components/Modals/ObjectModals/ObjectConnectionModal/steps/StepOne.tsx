@@ -86,6 +86,7 @@ const Connection = ({
                 <span className="font-bold">{Title}</span>
                 <div className="flex items-center -mt-[4px]">
                     <button
+                        type="button"
                         className="mr-3"
                         onClick={() => {
                             setFieldValue('Title', Title)
@@ -97,6 +98,7 @@ const Connection = ({
                         <PenToSquare size={16} className="text-pzh-green" />
                     </button>
                     <button
+                        type="button"
                         onClick={() =>
                             handleDeleteConnection({ Object_ID, Object_Type })
                         }

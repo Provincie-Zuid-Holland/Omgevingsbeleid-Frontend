@@ -5,6 +5,8 @@ import {
     useMaatregelenValidGet,
     useMaatregelenValidLineageIdGet,
     useMaatregelenVersionObjectUuidGet,
+    useMaatregelRegulationsLineageIdGet,
+    useMaatregelRegulationsLineageIdPut,
     useMaatregelStaticLineageIdPost,
     useModulesModuleIdObjectMaatregelLatestLineageIdGet,
     useModulesModuleIdObjectMaatregelLineageIdPatch,
@@ -32,6 +34,8 @@ const fetchers = {
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
+    useGetRegulations: useMaatregelRegulationsLineageIdGet,
+    usePutRegulations: useMaatregelRegulationsLineageIdPut,
 }
 
 const maatregel: DynamicObject<

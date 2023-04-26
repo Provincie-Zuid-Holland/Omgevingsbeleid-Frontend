@@ -4,6 +4,8 @@ import {
     useBeleidskeuzeAcknowledgedRelationsLineageIdEditPost,
     useBeleidskeuzeAcknowledgedRelationsLineageIdGet,
     useBeleidskeuzeAcknowledgedRelationsLineageIdPost,
+    useBeleidskeuzeRegulationsLineageIdGet,
+    useBeleidskeuzeRegulationsLineageIdPut,
     useBeleidskeuzesLatestLineageIdGet,
     useBeleidskeuzesRelationsLineageIdGet,
     useBeleidskeuzesRelationsLineageIdPut,
@@ -40,6 +42,8 @@ const fetchers = {
         useBeleidskeuzeAcknowledgedRelationsLineageIdPost,
     usePatchAcknowledgedRelations:
         useBeleidskeuzeAcknowledgedRelationsLineageIdEditPost,
+    useGetRegulations: useBeleidskeuzeRegulationsLineageIdGet,
+    usePutRegulations: useBeleidskeuzeRegulationsLineageIdPut,
 }
 
 const beleidskeuze: DynamicObject<
@@ -68,7 +72,10 @@ const beleidskeuze: DynamicObject<
         'Portfolio_Holder_1_UUID',
         'Portfolio_Holder_2_UUID',
     ],
-    allowedConnections: [{ type: 'beleidsdoel', key: 'Beleidsdoelen' }],
+    allowedConnections: [
+        { type: 'regulations', key: 'Regulations' },
+        { type: 'beleidsdoel', key: 'Beleidsdoelen' },
+    ],
     connectionsDescription: (
         <>
             Binnen het omgevingsbeleid bestaan koppelingen en relaties. Een

@@ -76,7 +76,7 @@ function ObjectProvider({
             query: { enabled: !!objectId && !!moduleId },
         }
     )
-    const latest = useGetLatestLineage<ModelReturnType>(parseInt(objectId!), {
+    const latest = useGetLatestLineage!<ModelReturnType>(parseInt(objectId!), {
         query: { enabled: !!objectId && !moduleId },
     })
 
@@ -99,7 +99,9 @@ function ObjectProvider({
                     toastNotification('error')
                 },
                 onSuccess: () => {
-                    queryClient.invalidateQueries(data.queryKey).then(onSuccess)
+                    queryClient
+                        .invalidateQueries(data?.queryKey)
+                        .then(onSuccess)
 
                     toastNotification('saved')
                 },
@@ -113,7 +115,9 @@ function ObjectProvider({
                     toastNotification('error')
                 },
                 onSuccess: () => {
-                    queryClient.invalidateQueries(data.queryKey).then(onSuccess)
+                    queryClient
+                        .invalidateQueries(data?.queryKey)
+                        .then(onSuccess)
 
                     toastNotification('saved')
                 },
@@ -125,12 +129,12 @@ function ObjectProvider({
      */
     const isOwner = useMemo(
         () =>
-            data.data?.ObjectStatics?.Owner_1?.UUID === user?.UUID ||
-            data.data?.ObjectStatics?.Owner_2?.UUID === user?.UUID,
+            data?.data?.ObjectStatics?.Owner_1?.UUID === user?.UUID ||
+            data?.data?.ObjectStatics?.Owner_2?.UUID === user?.UUID,
         [
             user?.UUID,
-            data.data?.ObjectStatics?.Owner_1?.UUID,
-            data.data?.ObjectStatics?.Owner_2?.UUID,
+            data?.data?.ObjectStatics?.Owner_1?.UUID,
+            data?.data?.ObjectStatics?.Owner_2?.UUID,
         ]
     )
 

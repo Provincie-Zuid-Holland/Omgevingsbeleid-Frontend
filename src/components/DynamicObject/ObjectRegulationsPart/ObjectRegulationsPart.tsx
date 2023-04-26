@@ -1,23 +1,15 @@
 import { PenToSquare, Plus, Spinner } from '@pzh-ui/icons'
 import { useMemo } from 'react'
 
-import { RelationShort } from '@/api/fetchers.schemas'
-import { ObjectConnectionModalActions } from '@/components/Modals/ObjectModals/types'
-import * as models from '@/config/objects'
-import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
+import { RegulationShort } from '@/api/fetchers.schemas'
+import { RegulationModalActions } from '@/components/Modals/RegulationModal/types'
 
-import { Connection } from '../ObjectConnections/ObjectConnections'
-
-interface ObjectConnectionPartProps {
-    /** Key of connection */
-    connectionKey?: Exclude<keyof ModelReturnType, 'Regulations'>
-    /** Model of relation */
-    model: Model
+interface ObjectRegulationsPartProps {
     /** Connections */
-    connections?: Connection[]
+    connections?: RegulationShort[]
     /** Set state of modal */
     setModal: (
-        state: ObjectConnectionModalActions & { type: 'object' | 'regulation' }
+        state: RegulationModalActions & { type: 'object' | 'regulation' }
     ) => void
     /** Is data loading */
     isLoading?: boolean
@@ -25,24 +17,20 @@ interface ObjectConnectionPartProps {
     canEdit?: boolean
 }
 
-const ObjectConnectionPart = ({
-    connectionKey,
-    model,
+const ObjectRegulationsPart = ({
     connections,
     setModal,
     isLoading,
     canEdit,
-}: ObjectConnectionPartProps) => {
+}: ObjectRegulationsPartProps) => {
     const handleButtonClick = (amount?: number) => {
         setModal({
-            type: 'object',
-            connectionKey,
-            initialStep: amount === 0 ? 2 : 1,
+            type: 'regulation',
             initialValues: {
-                Object_Type: model.defaults.singular,
-            } as RelationShort,
+                items: connections?.map(({ UUID }) => UUID),
+            },
+            initialStep: amount === 0 ? 2 : 1,
             isOpen: true,
-            connectionModel: models[model.defaults.singular as ModelType],
         })
     }
 
@@ -63,7 +51,7 @@ const ObjectConnectionPart = ({
                     </span>
                 </div>
                 <span className="-mb-[4px] ml-3">
-                    {model.defaults.pluralCapitalize}
+                    Nationale belangen en Wettelijke taken
                 </span>
             </div>
 
@@ -90,4 +78,4 @@ const ObjectConnectionPart = ({
     )
 }
 
-export default ObjectConnectionPart
+export default ObjectRegulationsPart

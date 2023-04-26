@@ -1,67 +1,32 @@
-import { Form, Formik } from 'formik'
-import { useMemo } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Form, Formik, FormikValues } from 'formik'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
 import { LoaderSpinner } from '@/components/Loader'
 import ScrollToFieldError from '@/components/ScrollToFieldError'
 import { Model } from '@/config/objects/types'
-import useObject from '@/hooks/useObject'
+import { Model as RegulationModel } from '@/config/regulations/types'
 
 import DynamicSection from './DynamicSection'
 
-interface DynamicObjectFormProps {
-    model: Model
+interface DynamicObjectFormProps<TData> {
+    model: Model | RegulationModel
+    initialData: TData
+    handleSubmit: (payload: TData) => void
+    onCancel: () => void
     isLocked?: boolean
+    isLoading?: boolean
 }
 
-const DynamicObjectForm = ({ model, isLocked }: DynamicObjectFormProps) => {
-    const navigate = useNavigate()
-
-    const { moduleId, objectId } = useParams()
-
-    const { data, isLoading, usePatchObject } = useObject()
-
+const DynamicObjectForm = <TData extends FormikValues>({
+    model,
+    initialData,
+    handleSubmit,
+    onCancel,
+    isLoading,
+    isLocked,
+}: DynamicObjectFormProps<TData>) => {
     const sections = model.dynamicSections
-
-    const patchObject = usePatchObject(() =>
-        navigate(`/muteer/modules/${moduleId}`)
-    )
-
-    /**
-     * Format initialData based on object fields
-     */
-    const initialData = useMemo(() => {
-        const fields = model.dynamicSections.flatMap(section =>
-            section.fields.map(field => field.name)
-        )
-
-        const objectData = {} as { [key in typeof fields[number]]: any }
-
-        fields?.forEach(field => {
-            if (field === 'Gebied_UUID') {
-                return (objectData[field] = data?.['Gebied']?.UUID)
-            }
-
-            return (objectData[field] = data?.[field as keyof typeof data])
-        })
-
-        return objectData
-    }, [data, model.dynamicSections])
-
-    /**
-     * Handle submit of form
-     */
-    const handleSubmit = (payload: typeof initialData) => {
-        if (!payload) return
-
-        patchObject.mutate({
-            moduleId: parseInt(moduleId!),
-            lineageId: parseInt(objectId!),
-            data: payload,
-        })
-    }
 
     return (
         <>
@@ -89,9 +54,7 @@ const DynamicObjectForm = ({ model, isLocked }: DynamicObjectFormProps) => {
                             </div>
 
                             <ButtonSubmitFixed
-                                onCancel={() =>
-                                    navigate(`/muteer/modules/${moduleId}`)
-                                }
+                                onCancel={onCancel}
                                 disabled={isSubmitting || isLoading || isLocked}
                                 isLoading={isSubmitting}
                             />

@@ -148,6 +148,7 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
                         closeMenuOnSelect={false}
                         hideSelectedOptions={false}
                         isSearchable={false}
+                        controlShouldRenderValue={false}
                     />
                 </div>
             </div>

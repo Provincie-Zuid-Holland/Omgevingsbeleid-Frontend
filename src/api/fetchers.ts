@@ -47,6 +47,8 @@ import type {
     BeleidskeuzeAcknowledgedRelationsLineageIdGetParams,
     RequestAcknowledgedRelation,
     EditAcknowledgedRelation,
+    Regulation,
+    RegulationObjectOverwrite,
     ModulesModuleIdObjectBeleidskeuzeLineageIdGetParams,
     BeleidskeuzeUUID,
     BeleidskeuzePatch,
@@ -63,6 +65,9 @@ import type {
     SearchResponse,
     SearchGetParams,
     GraphResponse,
+    RegulationCreatedResponse,
+    RegulationCreate,
+    RegulationEdit,
     ObjectGraphGetParams,
     Module,
     ModulesGetParams,
@@ -2221,6 +2226,121 @@ export const useBeleidskeuzeAcknowledgedRelationsLineageIdEditPost = <
 }
 
 /**
+ * @summary Get all regulations attached to the given beleidskeuze lineage
+ */
+export const beleidskeuzeRegulationsLineageIdGet = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<Regulation[]>({
+        url: `/beleidskeuze/regulations/${lineageId}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getBeleidskeuzeRegulationsLineageIdGetQueryKey = (
+    lineageId: number
+) => [`/beleidskeuze/regulations/${lineageId}`]
+
+export type BeleidskeuzeRegulationsLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof beleidskeuzeRegulationsLineageIdGet>>
+>
+export type BeleidskeuzeRegulationsLineageIdGetQueryError = HTTPValidationError
+
+export const useBeleidskeuzeRegulationsLineageIdGet = <
+    TData = Awaited<ReturnType<typeof beleidskeuzeRegulationsLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof beleidskeuzeRegulationsLineageIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getBeleidskeuzeRegulationsLineageIdGetQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof beleidskeuzeRegulationsLineageIdGet>>
+    > = ({ signal }) => beleidskeuzeRegulationsLineageIdGet(lineageId, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof beleidskeuzeRegulationsLineageIdGet>>,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Overwrite all regulations of the given beleidskeuze lineage
+ */
+export const beleidskeuzeRegulationsLineageIdPut = (
+    lineageId: number,
+    regulationObjectOverwrite: RegulationObjectOverwrite[]
+) => {
+    return customInstance<ResponseOK>({
+        url: `/beleidskeuze/regulations/${lineageId}`,
+        method: 'put',
+        headers: { 'Content-Type': 'application/json' },
+        data: regulationObjectOverwrite,
+    })
+}
+
+export type BeleidskeuzeRegulationsLineageIdPutMutationResult = NonNullable<
+    Awaited<ReturnType<typeof beleidskeuzeRegulationsLineageIdPut>>
+>
+export type BeleidskeuzeRegulationsLineageIdPutMutationBody =
+    RegulationObjectOverwrite[]
+export type BeleidskeuzeRegulationsLineageIdPutMutationError =
+    HTTPValidationError
+
+export const useBeleidskeuzeRegulationsLineageIdPut = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof beleidskeuzeRegulationsLineageIdPut>>,
+        TError,
+        { lineageId: number; data: RegulationObjectOverwrite[] },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof beleidskeuzeRegulationsLineageIdPut>>,
+        { lineageId: number; data: RegulationObjectOverwrite[] }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return beleidskeuzeRegulationsLineageIdPut(lineageId, data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof beleidskeuzeRegulationsLineageIdPut>>,
+        TError,
+        { lineageId: number; data: RegulationObjectOverwrite[] },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
  * @summary Get all the beleidskeuze of a single lineage in a module
  */
 export const modulesModuleIdObjectBeleidskeuzeLineageIdGet = (
@@ -2983,6 +3103,120 @@ export const useMaatregelStaticLineageIdPost = <
 }
 
 /**
+ * @summary Get all regulations attached to the given maatregel lineage
+ */
+export const maatregelRegulationsLineageIdGet = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<Regulation[]>({
+        url: `/maatregel/regulations/${lineageId}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getMaatregelRegulationsLineageIdGetQueryKey = (
+    lineageId: number
+) => [`/maatregel/regulations/${lineageId}`]
+
+export type MaatregelRegulationsLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof maatregelRegulationsLineageIdGet>>
+>
+export type MaatregelRegulationsLineageIdGetQueryError = HTTPValidationError
+
+export const useMaatregelRegulationsLineageIdGet = <
+    TData = Awaited<ReturnType<typeof maatregelRegulationsLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof maatregelRegulationsLineageIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getMaatregelRegulationsLineageIdGetQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof maatregelRegulationsLineageIdGet>>
+    > = ({ signal }) => maatregelRegulationsLineageIdGet(lineageId, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof maatregelRegulationsLineageIdGet>>,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Overwrite all regulations of the given maatregel lineage
+ */
+export const maatregelRegulationsLineageIdPut = (
+    lineageId: number,
+    regulationObjectOverwrite: RegulationObjectOverwrite[]
+) => {
+    return customInstance<ResponseOK>({
+        url: `/maatregel/regulations/${lineageId}`,
+        method: 'put',
+        headers: { 'Content-Type': 'application/json' },
+        data: regulationObjectOverwrite,
+    })
+}
+
+export type MaatregelRegulationsLineageIdPutMutationResult = NonNullable<
+    Awaited<ReturnType<typeof maatregelRegulationsLineageIdPut>>
+>
+export type MaatregelRegulationsLineageIdPutMutationBody =
+    RegulationObjectOverwrite[]
+export type MaatregelRegulationsLineageIdPutMutationError = HTTPValidationError
+
+export const useMaatregelRegulationsLineageIdPut = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof maatregelRegulationsLineageIdPut>>,
+        TError,
+        { lineageId: number; data: RegulationObjectOverwrite[] },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof maatregelRegulationsLineageIdPut>>,
+        { lineageId: number; data: RegulationObjectOverwrite[] }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return maatregelRegulationsLineageIdPut(lineageId, data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof maatregelRegulationsLineageIdPut>>,
+        TError,
+        { lineageId: number; data: RegulationObjectOverwrite[] },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
  * @summary Get all the maatregel of a single lineage in a module
  */
 export const modulesModuleIdObjectMaatregelLineageIdGet = (
@@ -3506,6 +3740,155 @@ export const useFullGraphGet = <
     query.queryKey = queryKey
 
     return query
+}
+
+/**
+ * @summary Get all regulations
+ */
+export const regulationsGet = (signal?: AbortSignal) => {
+    return customInstance<Regulation[]>({
+        url: `/regulations`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getRegulationsGetQueryKey = () => [`/regulations`]
+
+export type RegulationsGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof regulationsGet>>
+>
+export type RegulationsGetQueryError = unknown
+
+export const useRegulationsGet = <
+    TData = Awaited<ReturnType<typeof regulationsGet>>,
+    TError = unknown
+>(options?: {
+    query?: UseQueryOptions<
+        Awaited<ReturnType<typeof regulationsGet>>,
+        TError,
+        TData
+    >
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey = queryOptions?.queryKey ?? getRegulationsGetQueryKey()
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof regulationsGet>>
+    > = ({ signal }) => regulationsGet(signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof regulationsGet>>,
+        TError,
+        TData
+    >({ queryKey, queryFn, ...queryOptions }) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Create new regulation
+ */
+export const regulationsPost = (regulationCreate: RegulationCreate) => {
+    return customInstance<RegulationCreatedResponse>({
+        url: `/regulations`,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: regulationCreate,
+    })
+}
+
+export type RegulationsPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof regulationsPost>>
+>
+export type RegulationsPostMutationBody = RegulationCreate
+export type RegulationsPostMutationError = HTTPValidationError
+
+export const useRegulationsPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof regulationsPost>>,
+        TError,
+        { data: RegulationCreate },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof regulationsPost>>,
+        { data: RegulationCreate }
+    > = props => {
+        const { data } = props ?? {}
+
+        return regulationsPost(data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof regulationsPost>>,
+        TError,
+        { data: RegulationCreate },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Edit regulation
+ */
+export const regulationsRegulationUuidPost = (
+    regulationUuid: string,
+    regulationEdit: RegulationEdit
+) => {
+    return customInstance<ResponseOK>({
+        url: `/regulations/${regulationUuid}`,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: regulationEdit,
+    })
+}
+
+export type RegulationsRegulationUuidPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof regulationsRegulationUuidPost>>
+>
+export type RegulationsRegulationUuidPostMutationBody = RegulationEdit
+export type RegulationsRegulationUuidPostMutationError = HTTPValidationError
+
+export const useRegulationsRegulationUuidPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof regulationsRegulationUuidPost>>,
+        TError,
+        { regulationUuid: string; data: RegulationEdit },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof regulationsRegulationUuidPost>>,
+        { regulationUuid: string; data: RegulationEdit }
+    > = props => {
+        const { regulationUuid, data } = props ?? {}
+
+        return regulationsRegulationUuidPost(regulationUuid, data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof regulationsRegulationUuidPost>>,
+        TError,
+        { regulationUuid: string; data: RegulationEdit },
+        TContext
+    >(mutationFn, mutationOptions)
 }
 
 /**

@@ -34,7 +34,7 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
     const columns = useMemo(
         () => [
             {
-                Header: 'Naam',
+                Header: 'Titel',
                 accessor: 'Title',
             },
             {
