@@ -3,8 +3,6 @@ import { useNavigate, useRoutes } from 'react-router-dom'
 
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
-import * as regulations from '@/config/regulations'
-import { ModelType as RegulationType } from '@/config/regulations/types'
 import ModuleProvider from '@/context/ModuleContext'
 import ObjectProvider from '@/context/ObjectContext'
 import useAuth from '@/hooks/useAuth'
@@ -15,9 +13,8 @@ import {
     ModuleCreate,
     ModuleDetail,
     ModuleEdit,
-    RegulationCreate,
-    RegulationEdit,
-    RegulationOverview,
+    ObjectCreate,
+    ObjectWrite,
 } from '@/pages/protected'
 import ObjectDetail from '@/pages/protected/DynamicObject/ObjectDetail'
 import {
@@ -193,46 +190,54 @@ const AppRoutes = () => {
                                         </ProtectedRoute>
                                     ),
                                 },
-                                ...Object.keys(models).map(model => ({
-                                    path: models[model as ModelType].defaults
-                                        .singular,
-                                    element: (
-                                        <ObjectProvider
-                                            model={models[model as ModelType]}
-                                        />
-                                    ),
-                                    children: [
-                                        {
-                                            path: ':objectId',
-                                            children: [
-                                                {
-                                                    index: true,
-                                                    element: (
-                                                        <ObjectDetail
-                                                            model={
-                                                                models[
-                                                                    model as ModelType
-                                                                ]
-                                                            }
-                                                        />
-                                                    ),
-                                                },
-                                                {
-                                                    path: 'bewerk',
-                                                    element: (
-                                                        <ObjectEdit
-                                                            model={
-                                                                models[
-                                                                    model as ModelType
-                                                                ]
-                                                            }
-                                                        />
-                                                    ),
-                                                },
-                                            ],
-                                        },
-                                    ],
-                                })),
+                                ...Object.keys(models)
+                                    .filter(
+                                        model =>
+                                            !models[model as ModelType].defaults
+                                                .atemporal
+                                    )
+                                    .map(model => ({
+                                        path: models[model as ModelType]
+                                            .defaults.singular,
+                                        element: (
+                                            <ObjectProvider
+                                                model={
+                                                    models[model as ModelType]
+                                                }
+                                            />
+                                        ),
+                                        children: [
+                                            {
+                                                path: ':objectId',
+                                                children: [
+                                                    {
+                                                        index: true,
+                                                        element: (
+                                                            <ObjectDetail
+                                                                model={
+                                                                    models[
+                                                                        model as ModelType
+                                                                    ]
+                                                                }
+                                                            />
+                                                        ),
+                                                    },
+                                                    {
+                                                        path: 'bewerk',
+                                                        element: (
+                                                            <ObjectEdit
+                                                                model={
+                                                                    models[
+                                                                        model as ModelType
+                                                                    ]
+                                                                }
+                                                            />
+                                                        ),
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    })),
                             ],
                         },
                         {
@@ -261,36 +266,22 @@ const AppRoutes = () => {
                         },
                         {
                             path: ':objectId',
-                            element: (
-                                <ObjectProvider
-                                    model={models[model as ModelType]}>
-                                    <ObjectDetail
-                                        model={models[model as ModelType]}
-                                    />
-                                </ObjectProvider>
-                            ),
-                        },
-                    ],
-                })),
-                ...Object.keys(regulations)
-                    .filter(e => e !== 'default')
-                    .map(model => ({
-                        path: regulations[model as RegulationType].defaults
-                            .plural,
-                        children: [
-                            {
-                                index: true,
-                                element: (
-                                    <RegulationOverview
-                                        model={
-                                            regulations[model as RegulationType]
-                                        }
-                                    />
-                                ),
-                            },
-                            {
-                                path: ':objectUuid',
-                                children: [
+                            children: [
+                                {
+                                    index: true,
+                                    element: (
+                                        <ObjectProvider
+                                            model={models[model as ModelType]}>
+                                            <ObjectDetail
+                                                model={
+                                                    models[model as ModelType]
+                                                }
+                                            />
+                                        </ObjectProvider>
+                                    ),
+                                },
+                                ...((models[model as ModelType].defaults
+                                    .atemporal && [
                                     {
                                         path: 'bewerk',
                                         element: (
@@ -299,22 +290,24 @@ const AppRoutes = () => {
                                                     canCreateModule: true,
                                                 }}
                                                 redirectTo={`/muteer/${
-                                                    regulations[
-                                                        model as RegulationType
-                                                    ].defaults.plural
+                                                    models[model as ModelType]
+                                                        .defaults.plural
                                                 }`}>
-                                                <RegulationEdit
+                                                <ObjectWrite
                                                     model={
-                                                        regulations[
-                                                            model as RegulationType
+                                                        models[
+                                                            model as ModelType
                                                         ]
                                                     }
                                                 />
                                             </ProtectedRoute>
                                         ),
                                     },
-                                ],
-                            },
+                                ]) ||
+                                    []),
+                            ],
+                        },
+                        ...((models[model as ModelType].defaults.atemporal && [
                             {
                                 path: 'nieuw',
                                 element: (
@@ -323,21 +316,19 @@ const AppRoutes = () => {
                                             canCreateModule: true,
                                         }}
                                         redirectTo={`/muteer/${
-                                            regulations[model as RegulationType]
-                                                .defaults.plural
+                                            models[model as ModelType].defaults
+                                                .plural
                                         }`}>
-                                        <RegulationCreate
-                                            model={
-                                                regulations[
-                                                    model as RegulationType
-                                                ]
-                                            }
+                                        <ObjectCreate
+                                            model={models[model as ModelType]}
                                         />
                                     </ProtectedRoute>
                                 ),
                             },
-                        ],
-                    })),
+                        ]) ||
+                            []),
+                    ],
+                })),
             ],
         },
     ])

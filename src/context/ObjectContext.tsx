@@ -69,7 +69,7 @@ function ObjectProvider({
         usePostStatic,
     } = model.fetchers
 
-    const latestInModule = useGetLatestLineageInModule<ModelReturnType>(
+    const latestInModule = useGetLatestLineageInModule?.<ModelReturnType>(
         parseInt(moduleId!),
         parseInt(objectId!),
         {
@@ -93,7 +93,7 @@ function ObjectProvider({
     }, [moduleId, objectId, latestInModule, latest])
 
     const usePatchObject = (onSuccess?: () => void) =>
-        usePatchObjectInModule({
+        usePatchObjectInModule?.({
             mutation: {
                 onError: () => {
                     toastNotification('error')
@@ -109,7 +109,7 @@ function ObjectProvider({
         })
 
     const usePostObjectStatic = (onSuccess?: () => void) =>
-        usePostStatic({
+        usePostStatic?.({
             mutation: {
                 onError: () => {
                     toastNotification('error')
@@ -146,6 +146,7 @@ function ObjectProvider({
     }
 
     return (
+        // @ts-ignore
         <ObjectContext.Provider value={value}>
             {children || <Outlet />}
         </ObjectContext.Provider>

@@ -40,7 +40,6 @@ export const getAmbitiesValidGetMock = () =>
             faker.random.word(),
             undefined,
         ]),
-        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
         Start_Validity: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -129,6 +128,30 @@ export const getAmbitiesValidGetMock = () =>
                     },
                     undefined,
                 ]),
+                Portfolio_Holder_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Portfolio_Holder_2: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Client_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
             },
             undefined,
         ]),
@@ -157,7 +180,6 @@ export const getAmbitiesValidLineageIdGetMock = () =>
             undefined,
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
         Created_By: faker.helpers.arrayElement([
             {
                 UUID: faker.datatype.uuid(),
@@ -197,7 +219,6 @@ export const getAmbitiesVersionObjectUuidGetMock = () => ({
     ]),
     Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Description: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Start_Validity: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -276,6 +297,30 @@ export const getAmbitiesVersionObjectUuidGetMock = () => ({
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Portfolio_Holder_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Portfolio_Holder_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Client_1: faker.helpers.arrayElement([
                 {
                     UUID: faker.datatype.uuid(),
                     Rol: faker.random.word(),
@@ -309,7 +354,6 @@ export const getAmbitiesLatestLineageIdGetMock = () => ({
     ]),
     Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Description: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Start_Validity: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -388,6 +432,30 @@ export const getAmbitiesLatestLineageIdGetMock = () => ({
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Portfolio_Holder_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Portfolio_Holder_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Client_1: faker.helpers.arrayElement([
                 {
                     UUID: faker.datatype.uuid(),
                     Rol: faker.random.word(),
@@ -444,7 +512,6 @@ export const getModulesModuleIdObjectAmbitieLineageIdGetMock = () =>
             undefined,
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
         Created_By: faker.helpers.arrayElement([
             {
                 UUID: faker.datatype.uuid(),
@@ -492,7 +559,6 @@ export const getModulesModuleIdObjectAmbitieLatestLineageIdGetMock = () => ({
     ]),
     Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Description: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Start_Validity: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -571,6 +637,30 @@ export const getModulesModuleIdObjectAmbitieLatestLineageIdGetMock = () => ({
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Portfolio_Holder_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Portfolio_Holder_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Client_1: faker.helpers.arrayElement([
                 {
                     UUID: faker.datatype.uuid(),
                     Rol: faker.random.word(),
@@ -604,7 +694,6 @@ export const getModulesModuleIdObjectAmbitieVersionObjectUuidGetMock = () => ({
     ]),
     Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Description: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Start_Validity: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -683,6 +772,30 @@ export const getModulesModuleIdObjectAmbitieVersionObjectUuidGetMock = () => ({
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Portfolio_Holder_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Portfolio_Holder_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Client_1: faker.helpers.arrayElement([
                 {
                     UUID: faker.datatype.uuid(),
                     Rol: faker.random.word(),
@@ -723,7 +836,6 @@ export const getBeleidsdoelenValidGetMock = () =>
             faker.random.word(),
             undefined,
         ]),
-        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
         Start_Validity: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -834,6 +946,46 @@ export const getBeleidsdoelenValidGetMock = () =>
             })),
             undefined,
         ]),
+        Maatregels: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+            })),
+            undefined,
+        ]),
         ObjectStatics: faker.helpers.arrayElement([
             {
                 Owner_1: faker.helpers.arrayElement([
@@ -845,6 +997,30 @@ export const getBeleidsdoelenValidGetMock = () =>
                     undefined,
                 ]),
                 Owner_2: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Portfolio_Holder_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Portfolio_Holder_2: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Client_1: faker.helpers.arrayElement([
                     {
                         UUID: faker.datatype.uuid(),
                         Rol: faker.random.word(),
@@ -884,7 +1060,6 @@ export const getBeleidsdoelenValidLineageIdGetMock = () =>
             faker.random.word(),
             undefined,
         ]),
-        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
         Created_By: faker.helpers.arrayElement([
             {
                 UUID: faker.datatype.uuid(),
@@ -924,7 +1099,6 @@ export const getBeleidsdoelenVersionObjectUuidGetMock = () => ({
     ]),
     Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Description: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Start_Validity: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -1029,6 +1203,43 @@ export const getBeleidsdoelenVersionObjectUuidGetMock = () => ({
         })),
         undefined,
     ]),
+    Maatregels: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+        })),
+        undefined,
+    ]),
     ObjectStatics: faker.helpers.arrayElement([
         {
             Owner_1: faker.helpers.arrayElement([
@@ -1040,6 +1251,30 @@ export const getBeleidsdoelenVersionObjectUuidGetMock = () => ({
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Portfolio_Holder_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Portfolio_Holder_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Client_1: faker.helpers.arrayElement([
                 {
                     UUID: faker.datatype.uuid(),
                     Rol: faker.random.word(),
@@ -1073,7 +1308,6 @@ export const getBeleidsdoelenLatestLineageIdGetMock = () => ({
     ]),
     Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Description: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Start_Validity: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -1178,6 +1412,43 @@ export const getBeleidsdoelenLatestLineageIdGetMock = () => ({
         })),
         undefined,
     ]),
+    Maatregels: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+        })),
+        undefined,
+    ]),
     ObjectStatics: faker.helpers.arrayElement([
         {
             Owner_1: faker.helpers.arrayElement([
@@ -1189,6 +1460,30 @@ export const getBeleidsdoelenLatestLineageIdGetMock = () => ({
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Portfolio_Holder_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Portfolio_Holder_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Client_1: faker.helpers.arrayElement([
                 {
                     UUID: faker.datatype.uuid(),
                     Rol: faker.random.word(),
@@ -1249,7 +1544,6 @@ export const getModulesModuleIdObjectBeleidsdoelLineageIdGetMock = () =>
             faker.random.word(),
             undefined,
         ]),
-        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
         Created_By: faker.helpers.arrayElement([
             {
                 UUID: faker.datatype.uuid(),
@@ -1301,7 +1595,6 @@ export const getModulesModuleIdObjectBeleidsdoelLatestLineageIdGetMock =
             faker.random.word(),
             undefined,
         ]),
-        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
         Start_Validity: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -1412,6 +1705,46 @@ export const getModulesModuleIdObjectBeleidsdoelLatestLineageIdGetMock =
             })),
             undefined,
         ]),
+        Maatregels: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+            })),
+            undefined,
+        ]),
         ObjectStatics: faker.helpers.arrayElement([
             {
                 Owner_1: faker.helpers.arrayElement([
@@ -1423,6 +1756,30 @@ export const getModulesModuleIdObjectBeleidsdoelLatestLineageIdGetMock =
                     undefined,
                 ]),
                 Owner_2: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Portfolio_Holder_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Portfolio_Holder_2: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Client_1: faker.helpers.arrayElement([
                     {
                         UUID: faker.datatype.uuid(),
                         Rol: faker.random.word(),
@@ -1460,7 +1817,6 @@ export const getModulesModuleIdObjectBeleidsdoelVersionObjectUuidGetMock =
             faker.random.word(),
             undefined,
         ]),
-        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
         Start_Validity: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -1571,6 +1927,46 @@ export const getModulesModuleIdObjectBeleidsdoelVersionObjectUuidGetMock =
             })),
             undefined,
         ]),
+        Maatregels: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+            })),
+            undefined,
+        ]),
         ObjectStatics: faker.helpers.arrayElement([
             {
                 Owner_1: faker.helpers.arrayElement([
@@ -1582,6 +1978,30 @@ export const getModulesModuleIdObjectBeleidsdoelVersionObjectUuidGetMock =
                     undefined,
                 ]),
                 Owner_2: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Portfolio_Holder_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Portfolio_Holder_2: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Client_1: faker.helpers.arrayElement([
                     {
                         UUID: faker.datatype.uuid(),
                         Rol: faker.random.word(),
@@ -1632,26 +2052,16 @@ export const getBeleidskeuzesValidGetMock = () =>
             undefined,
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Description_Choice: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Description_Operation: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Provincial_Interest: faker.helpers.arrayElement([
+        Accomplish: faker.helpers.arrayElement([
             faker.random.word(),
             undefined,
         ]),
         Cause: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Decision_Number: faker.helpers.arrayElement([
+        Provincial_Interest: faker.helpers.arrayElement([
             faker.random.word(),
             undefined,
         ]),
-        Tags: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Gebied_Duiding: faker.helpers.arrayElement([
+        Explanation: faker.helpers.arrayElement([
             faker.random.word(),
             undefined,
         ]),
@@ -1683,6 +2093,110 @@ export const getBeleidskeuzesValidGetMock = () =>
                 Rol: faker.random.word(),
                 Gebruikersnaam: faker.random.word(),
             },
+            undefined,
+        ]),
+        WettelijkeTaken: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Created_Date: faker.helpers.arrayElement([
+                        `${faker.date.past().toISOString().split('.')[0]}Z`,
+                        undefined,
+                    ]),
+                    Modified_Date: faker.helpers.arrayElement([
+                        `${faker.date.past().toISOString().split('.')[0]}Z`,
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Weblink: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+            })),
+            undefined,
+        ]),
+        NationaleBelangen: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Created_Date: faker.helpers.arrayElement([
+                        `${faker.date.past().toISOString().split('.')[0]}Z`,
+                        undefined,
+                    ]),
+                    Modified_Date: faker.helpers.arrayElement([
+                        `${faker.date.past().toISOString().split('.')[0]}Z`,
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Weblink: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+            })),
             undefined,
         ]),
         Beleidsdoelen: faker.helpers.arrayElement([
@@ -1725,20 +2239,83 @@ export const getBeleidskeuzesValidGetMock = () =>
             })),
             undefined,
         ]),
-        Regulations: faker.helpers.arrayElement([
+        Beleidsregels: faker.helpers.arrayElement([
             Array.from(
                 { length: faker.datatype.number({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
-                UUID: faker.datatype.uuid(),
-                Created_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                Modified_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                Title: faker.random.word(),
-                Type: faker.random.word(),
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+            })),
+            undefined,
+        ]),
+        Maatregelen: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
             })),
             undefined,
         ]),
@@ -1826,25 +2403,6 @@ export const getBeleidskeuzesValidLineageIdGetMock = () =>
             undefined,
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Provincial_Interest: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Cause: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Decision_Number: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Tags: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Gebied_Duiding: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Gebied_UUID: faker.helpers.arrayElement([
-            faker.datatype.uuid(),
-            undefined,
-        ]),
         Gebied: faker.helpers.arrayElement([
             {
                 ID: faker.datatype.number({ min: undefined, max: undefined }),
@@ -1911,29 +2469,13 @@ export const getBeleidskeuzesVersionObjectUuidGetMock = () => ({
         undefined,
     ]),
     Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Description_Choice: faker.helpers.arrayElement([
-        faker.random.word(),
-        undefined,
-    ]),
-    Description_Operation: faker.helpers.arrayElement([
-        faker.random.word(),
-        undefined,
-    ]),
+    Accomplish: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Cause: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Provincial_Interest: faker.helpers.arrayElement([
         faker.random.word(),
         undefined,
     ]),
-    Cause: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Decision_Number: faker.helpers.arrayElement([
-        faker.random.word(),
-        undefined,
-    ]),
-    Tags: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Gebied_Duiding: faker.helpers.arrayElement([
-        faker.random.word(),
-        undefined,
-    ]),
+    Explanation: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Gebied: faker.helpers.arrayElement([
         {
             ID: faker.datatype.number({ min: undefined, max: undefined }),
@@ -1958,6 +2500,104 @@ export const getBeleidskeuzesVersionObjectUuidGetMock = () => ({
             Rol: faker.random.word(),
             Gebruikersnaam: faker.random.word(),
         },
+        undefined,
+    ]),
+    WettelijkeTaken: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Created_Date: faker.helpers.arrayElement([
+                    `${faker.date.past().toISOString().split('.')[0]}Z`,
+                    undefined,
+                ]),
+                Modified_Date: faker.helpers.arrayElement([
+                    `${faker.date.past().toISOString().split('.')[0]}Z`,
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Weblink: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+        })),
+        undefined,
+    ]),
+    NationaleBelangen: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Created_Date: faker.helpers.arrayElement([
+                    `${faker.date.past().toISOString().split('.')[0]}Z`,
+                    undefined,
+                ]),
+                Modified_Date: faker.helpers.arrayElement([
+                    `${faker.date.past().toISOString().split('.')[0]}Z`,
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Weblink: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+        })),
         undefined,
     ]),
     Beleidsdoelen: faker.helpers.arrayElement([
@@ -1997,16 +2637,77 @@ export const getBeleidskeuzesVersionObjectUuidGetMock = () => ({
         })),
         undefined,
     ]),
-    Regulations: faker.helpers.arrayElement([
+    Beleidsregels: faker.helpers.arrayElement([
         Array.from(
             { length: faker.datatype.number({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
-            UUID: faker.datatype.uuid(),
-            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Title: faker.random.word(),
-            Type: faker.random.word(),
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+        })),
+        undefined,
+    ]),
+    Maatregelen: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
         })),
         undefined,
     ]),
@@ -2091,29 +2792,13 @@ export const getBeleidskeuzesLatestLineageIdGetMock = () => ({
         undefined,
     ]),
     Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Description_Choice: faker.helpers.arrayElement([
-        faker.random.word(),
-        undefined,
-    ]),
-    Description_Operation: faker.helpers.arrayElement([
-        faker.random.word(),
-        undefined,
-    ]),
+    Accomplish: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Cause: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Provincial_Interest: faker.helpers.arrayElement([
         faker.random.word(),
         undefined,
     ]),
-    Cause: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Decision_Number: faker.helpers.arrayElement([
-        faker.random.word(),
-        undefined,
-    ]),
-    Tags: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Gebied_Duiding: faker.helpers.arrayElement([
-        faker.random.word(),
-        undefined,
-    ]),
+    Explanation: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Gebied: faker.helpers.arrayElement([
         {
             ID: faker.datatype.number({ min: undefined, max: undefined }),
@@ -2138,6 +2823,104 @@ export const getBeleidskeuzesLatestLineageIdGetMock = () => ({
             Rol: faker.random.word(),
             Gebruikersnaam: faker.random.word(),
         },
+        undefined,
+    ]),
+    WettelijkeTaken: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Created_Date: faker.helpers.arrayElement([
+                    `${faker.date.past().toISOString().split('.')[0]}Z`,
+                    undefined,
+                ]),
+                Modified_Date: faker.helpers.arrayElement([
+                    `${faker.date.past().toISOString().split('.')[0]}Z`,
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Weblink: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+        })),
+        undefined,
+    ]),
+    NationaleBelangen: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Created_Date: faker.helpers.arrayElement([
+                    `${faker.date.past().toISOString().split('.')[0]}Z`,
+                    undefined,
+                ]),
+                Modified_Date: faker.helpers.arrayElement([
+                    `${faker.date.past().toISOString().split('.')[0]}Z`,
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Weblink: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+        })),
         undefined,
     ]),
     Beleidsdoelen: faker.helpers.arrayElement([
@@ -2177,16 +2960,77 @@ export const getBeleidskeuzesLatestLineageIdGetMock = () => ({
         })),
         undefined,
     ]),
-    Regulations: faker.helpers.arrayElement([
+    Beleidsregels: faker.helpers.arrayElement([
         Array.from(
             { length: faker.datatype.number({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
-            UUID: faker.datatype.uuid(),
-            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Title: faker.random.word(),
-            Type: faker.random.word(),
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+        })),
+        undefined,
+    ]),
+    Maatregelen: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
         })),
         undefined,
     ]),
@@ -2325,38 +3169,6 @@ export const getBeleidskeuzeAcknowledgedRelationsLineageIdPostMock = () => ({
 export const getBeleidskeuzeAcknowledgedRelationsLineageIdEditPostMock =
     () => ({ message: faker.random.word() })
 
-export const getBeleidskeuzeRegulationsLineageIdGetMock = () =>
-    Array.from(
-        { length: faker.datatype.number({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        UUID: faker.datatype.uuid(),
-        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Title: faker.random.word(),
-        Type: faker.random.word(),
-        Created_By: faker.helpers.arrayElement([
-            {
-                UUID: faker.datatype.uuid(),
-                Rol: faker.random.word(),
-                Gebruikersnaam: faker.random.word(),
-            },
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                UUID: faker.datatype.uuid(),
-                Rol: faker.random.word(),
-                Gebruikersnaam: faker.random.word(),
-            },
-            undefined,
-        ]),
-    }))
-
-export const getBeleidskeuzeRegulationsLineageIdPutMock = () => ({
-    message: faker.random.word(),
-})
-
 export const getModulesModuleIdObjectBeleidskeuzeLineageIdGetMock = () =>
     Array.from(
         { length: faker.datatype.number({ min: 1, max: 10 }) },
@@ -2394,25 +3206,6 @@ export const getModulesModuleIdObjectBeleidskeuzeLineageIdGetMock = () =>
             undefined,
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Provincial_Interest: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Cause: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Decision_Number: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Tags: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Gebied_Duiding: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Gebied_UUID: faker.helpers.arrayElement([
-            faker.datatype.uuid(),
-            undefined,
-        ]),
         Gebied: faker.helpers.arrayElement([
             {
                 ID: faker.datatype.number({ min: undefined, max: undefined }),
@@ -2488,26 +3281,16 @@ export const getModulesModuleIdObjectBeleidskeuzeLatestLineageIdGetMock =
             undefined,
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Description_Choice: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Description_Operation: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Provincial_Interest: faker.helpers.arrayElement([
+        Accomplish: faker.helpers.arrayElement([
             faker.random.word(),
             undefined,
         ]),
         Cause: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Decision_Number: faker.helpers.arrayElement([
+        Provincial_Interest: faker.helpers.arrayElement([
             faker.random.word(),
             undefined,
         ]),
-        Tags: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Gebied_Duiding: faker.helpers.arrayElement([
+        Explanation: faker.helpers.arrayElement([
             faker.random.word(),
             undefined,
         ]),
@@ -2539,6 +3322,110 @@ export const getModulesModuleIdObjectBeleidskeuzeLatestLineageIdGetMock =
                 Rol: faker.random.word(),
                 Gebruikersnaam: faker.random.word(),
             },
+            undefined,
+        ]),
+        WettelijkeTaken: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Created_Date: faker.helpers.arrayElement([
+                        `${faker.date.past().toISOString().split('.')[0]}Z`,
+                        undefined,
+                    ]),
+                    Modified_Date: faker.helpers.arrayElement([
+                        `${faker.date.past().toISOString().split('.')[0]}Z`,
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Weblink: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+            })),
+            undefined,
+        ]),
+        NationaleBelangen: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Created_Date: faker.helpers.arrayElement([
+                        `${faker.date.past().toISOString().split('.')[0]}Z`,
+                        undefined,
+                    ]),
+                    Modified_Date: faker.helpers.arrayElement([
+                        `${faker.date.past().toISOString().split('.')[0]}Z`,
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Weblink: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+            })),
             undefined,
         ]),
         Beleidsdoelen: faker.helpers.arrayElement([
@@ -2581,20 +3468,83 @@ export const getModulesModuleIdObjectBeleidskeuzeLatestLineageIdGetMock =
             })),
             undefined,
         ]),
-        Regulations: faker.helpers.arrayElement([
+        Beleidsregels: faker.helpers.arrayElement([
             Array.from(
                 { length: faker.datatype.number({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
-                UUID: faker.datatype.uuid(),
-                Created_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                Modified_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                Title: faker.random.word(),
-                Type: faker.random.word(),
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+            })),
+            undefined,
+        ]),
+        Maatregelen: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
             })),
             undefined,
         ]),
@@ -2680,26 +3630,16 @@ export const getModulesModuleIdObjectBeleidskeuzeVersionObjectUuidGetMock =
             undefined,
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Description_Choice: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Description_Operation: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Provincial_Interest: faker.helpers.arrayElement([
+        Accomplish: faker.helpers.arrayElement([
             faker.random.word(),
             undefined,
         ]),
         Cause: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Decision_Number: faker.helpers.arrayElement([
+        Provincial_Interest: faker.helpers.arrayElement([
             faker.random.word(),
             undefined,
         ]),
-        Tags: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Gebied_Duiding: faker.helpers.arrayElement([
+        Explanation: faker.helpers.arrayElement([
             faker.random.word(),
             undefined,
         ]),
@@ -2731,6 +3671,110 @@ export const getModulesModuleIdObjectBeleidskeuzeVersionObjectUuidGetMock =
                 Rol: faker.random.word(),
                 Gebruikersnaam: faker.random.word(),
             },
+            undefined,
+        ]),
+        WettelijkeTaken: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Created_Date: faker.helpers.arrayElement([
+                        `${faker.date.past().toISOString().split('.')[0]}Z`,
+                        undefined,
+                    ]),
+                    Modified_Date: faker.helpers.arrayElement([
+                        `${faker.date.past().toISOString().split('.')[0]}Z`,
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Weblink: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+            })),
+            undefined,
+        ]),
+        NationaleBelangen: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Created_Date: faker.helpers.arrayElement([
+                        `${faker.date.past().toISOString().split('.')[0]}Z`,
+                        undefined,
+                    ]),
+                    Modified_Date: faker.helpers.arrayElement([
+                        `${faker.date.past().toISOString().split('.')[0]}Z`,
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Weblink: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+            })),
             undefined,
         ]),
         Beleidsdoelen: faker.helpers.arrayElement([
@@ -2773,20 +3817,1731 @@ export const getModulesModuleIdObjectBeleidskeuzeVersionObjectUuidGetMock =
             })),
             undefined,
         ]),
-        Regulations: faker.helpers.arrayElement([
+        Beleidsregels: faker.helpers.arrayElement([
             Array.from(
                 { length: faker.datatype.number({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+            })),
+            undefined,
+        ]),
+        Maatregelen: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+            })),
+            undefined,
+        ]),
+        ObjectStatics: faker.helpers.arrayElement([
+            {
+                Owner_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Owner_2: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Portfolio_Holder_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Portfolio_Holder_2: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Client_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+            },
+            undefined,
+        ]),
+    })
+
+export const getBeleidsregelsValidGetMock = () =>
+    Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_ID: faker.helpers.arrayElement([
+            faker.datatype.number({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        Code: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.datatype.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Description: faker.helpers.arrayElement([
+            faker.random.word(),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        Created_By: faker.helpers.arrayElement([
+            {
                 UUID: faker.datatype.uuid(),
-                Created_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                Modified_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                Title: faker.random.word(),
-                Type: faker.random.word(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Beleidskeuzes: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+            })),
+            undefined,
+        ]),
+        ObjectStatics: faker.helpers.arrayElement([
+            {
+                Owner_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Owner_2: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Portfolio_Holder_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Portfolio_Holder_2: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Client_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+            },
+            undefined,
+        ]),
+    }))
+
+export const getBeleidsregelsValidLineageIdGetMock = () =>
+    Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_ID: faker.helpers.arrayElement([
+            faker.datatype.number({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.datatype.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Created_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+    }))
+
+export const getBeleidsregelsVersionObjectUuidGetMock = () => ({
+    Object_ID: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    Code: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+    Adjust_On: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.datatype.uuid(), null]),
+        undefined,
+    ]),
+    Created_Date: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split('.')[0]}Z`,
+        undefined,
+    ]),
+    Modified_Date: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split('.')[0]}Z`,
+        undefined,
+    ]),
+    Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Description: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Start_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            null,
+        ]),
+        undefined,
+    ]),
+    End_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            null,
+        ]),
+        undefined,
+    ]),
+    Created_By: faker.helpers.arrayElement([
+        {
+            UUID: faker.datatype.uuid(),
+            Rol: faker.random.word(),
+            Gebruikersnaam: faker.random.word(),
+        },
+        undefined,
+    ]),
+    Modified_By: faker.helpers.arrayElement([
+        {
+            UUID: faker.datatype.uuid(),
+            Rol: faker.random.word(),
+            Gebruikersnaam: faker.random.word(),
+        },
+        undefined,
+    ]),
+    Beleidskeuzes: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+        })),
+        undefined,
+    ]),
+    ObjectStatics: faker.helpers.arrayElement([
+        {
+            Owner_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Owner_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Portfolio_Holder_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Portfolio_Holder_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Client_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+        },
+        undefined,
+    ]),
+})
+
+export const getBeleidsregelsLatestLineageIdGetMock = () => ({
+    Object_ID: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    Code: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+    Adjust_On: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.datatype.uuid(), null]),
+        undefined,
+    ]),
+    Created_Date: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split('.')[0]}Z`,
+        undefined,
+    ]),
+    Modified_Date: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split('.')[0]}Z`,
+        undefined,
+    ]),
+    Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Description: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Start_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            null,
+        ]),
+        undefined,
+    ]),
+    End_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            null,
+        ]),
+        undefined,
+    ]),
+    Created_By: faker.helpers.arrayElement([
+        {
+            UUID: faker.datatype.uuid(),
+            Rol: faker.random.word(),
+            Gebruikersnaam: faker.random.word(),
+        },
+        undefined,
+    ]),
+    Modified_By: faker.helpers.arrayElement([
+        {
+            UUID: faker.datatype.uuid(),
+            Rol: faker.random.word(),
+            Gebruikersnaam: faker.random.word(),
+        },
+        undefined,
+    ]),
+    Beleidskeuzes: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+        })),
+        undefined,
+    ]),
+    ObjectStatics: faker.helpers.arrayElement([
+        {
+            Owner_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Owner_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Portfolio_Holder_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Portfolio_Holder_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Client_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+        },
+        undefined,
+    ]),
+})
+
+export const getBeleidsregelsRelationsLineageIdGetMock = () =>
+    Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_ID: faker.datatype.number({ min: undefined, max: undefined }),
+        Object_Type: faker.random.word(),
+        Description: faker.helpers.arrayElement([
+            faker.random.word(),
+            undefined,
+        ]),
+    }))
+
+export const getBeleidsregelsRelationsLineageIdPutMock = () => ({
+    message: faker.random.word(),
+})
+
+export const getBeleidsregelStaticLineageIdPostMock = () => ({
+    message: faker.random.word(),
+})
+
+export const getModulesModuleIdObjectBeleidsregelLineageIdGetMock = () =>
+    Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_ID: faker.helpers.arrayElement([
+            faker.datatype.number({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.datatype.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Created_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+    }))
+
+export const getModulesModuleIdObjectBeleidsregelLineageIdPatchMock = () => ({
+    Object_ID: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+})
+
+export const getModulesModuleIdObjectBeleidsregelLatestLineageIdGetMock =
+    () => ({
+        Object_ID: faker.helpers.arrayElement([
+            faker.datatype.number({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        Code: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.datatype.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Description: faker.helpers.arrayElement([
+            faker.random.word(),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        Created_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Beleidskeuzes: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+            })),
+            undefined,
+        ]),
+        ObjectStatics: faker.helpers.arrayElement([
+            {
+                Owner_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Owner_2: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Portfolio_Holder_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Portfolio_Holder_2: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Client_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+            },
+            undefined,
+        ]),
+    })
+
+export const getModulesModuleIdObjectBeleidsregelVersionObjectUuidGetMock =
+    () => ({
+        Object_ID: faker.helpers.arrayElement([
+            faker.datatype.number({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        Code: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.datatype.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Description: faker.helpers.arrayElement([
+            faker.random.word(),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        Created_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Beleidskeuzes: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+            })),
+            undefined,
+        ]),
+        ObjectStatics: faker.helpers.arrayElement([
+            {
+                Owner_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Owner_2: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Portfolio_Holder_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Portfolio_Holder_2: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Client_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+            },
+            undefined,
+        ]),
+    })
+
+export const getGebiedsprogrammasValidGetMock = () =>
+    Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_ID: faker.helpers.arrayElement([
+            faker.datatype.number({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        Code: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.datatype.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Description: faker.helpers.arrayElement([
+            faker.random.word(),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        Image: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.random.word(), null]),
+            undefined,
+        ]),
+        Created_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Maatregelen: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+            })),
+            undefined,
+        ]),
+        ObjectStatics: faker.helpers.arrayElement([
+            {
+                Owner_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Owner_2: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Portfolio_Holder_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Portfolio_Holder_2: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Client_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+            },
+            undefined,
+        ]),
+    }))
+
+export const getGebiedsprogrammasValidLineageIdGetMock = () =>
+    Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_ID: faker.helpers.arrayElement([
+            faker.datatype.number({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.datatype.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Created_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+    }))
+
+export const getGebiedsprogrammasVersionObjectUuidGetMock = () => ({
+    Object_ID: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    Code: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+    Adjust_On: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.datatype.uuid(), null]),
+        undefined,
+    ]),
+    Created_Date: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split('.')[0]}Z`,
+        undefined,
+    ]),
+    Modified_Date: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split('.')[0]}Z`,
+        undefined,
+    ]),
+    Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Description: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Start_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            null,
+        ]),
+        undefined,
+    ]),
+    End_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            null,
+        ]),
+        undefined,
+    ]),
+    Image: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.random.word(), null]),
+        undefined,
+    ]),
+    Created_By: faker.helpers.arrayElement([
+        {
+            UUID: faker.datatype.uuid(),
+            Rol: faker.random.word(),
+            Gebruikersnaam: faker.random.word(),
+        },
+        undefined,
+    ]),
+    Modified_By: faker.helpers.arrayElement([
+        {
+            UUID: faker.datatype.uuid(),
+            Rol: faker.random.word(),
+            Gebruikersnaam: faker.random.word(),
+        },
+        undefined,
+    ]),
+    Maatregelen: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+        })),
+        undefined,
+    ]),
+    ObjectStatics: faker.helpers.arrayElement([
+        {
+            Owner_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Owner_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Portfolio_Holder_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Portfolio_Holder_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Client_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+        },
+        undefined,
+    ]),
+})
+
+export const getGebiedsprogrammasLatestLineageIdGetMock = () => ({
+    Object_ID: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    Code: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+    Adjust_On: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.datatype.uuid(), null]),
+        undefined,
+    ]),
+    Created_Date: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split('.')[0]}Z`,
+        undefined,
+    ]),
+    Modified_Date: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split('.')[0]}Z`,
+        undefined,
+    ]),
+    Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Description: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Start_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            null,
+        ]),
+        undefined,
+    ]),
+    End_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            null,
+        ]),
+        undefined,
+    ]),
+    Image: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.random.word(), null]),
+        undefined,
+    ]),
+    Created_By: faker.helpers.arrayElement([
+        {
+            UUID: faker.datatype.uuid(),
+            Rol: faker.random.word(),
+            Gebruikersnaam: faker.random.word(),
+        },
+        undefined,
+    ]),
+    Modified_By: faker.helpers.arrayElement([
+        {
+            UUID: faker.datatype.uuid(),
+            Rol: faker.random.word(),
+            Gebruikersnaam: faker.random.word(),
+        },
+        undefined,
+    ]),
+    Maatregelen: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+        })),
+        undefined,
+    ]),
+    ObjectStatics: faker.helpers.arrayElement([
+        {
+            Owner_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Owner_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Portfolio_Holder_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Portfolio_Holder_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Client_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+        },
+        undefined,
+    ]),
+})
+
+export const getGebiedsprogrammasRelationsLineageIdGetMock = () =>
+    Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_ID: faker.datatype.number({ min: undefined, max: undefined }),
+        Object_Type: faker.random.word(),
+        Description: faker.helpers.arrayElement([
+            faker.random.word(),
+            undefined,
+        ]),
+    }))
+
+export const getGebiedsprogrammasRelationsLineageIdPutMock = () => ({
+    message: faker.random.word(),
+})
+
+export const getGebiedsprogrammasStaticLineageIdPostMock = () => ({
+    message: faker.random.word(),
+})
+
+export const getModulesModuleIdObjectGebiedsprogrammasLineageIdGetMock = () =>
+    Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_ID: faker.helpers.arrayElement([
+            faker.datatype.number({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.datatype.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Created_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+    }))
+
+export const getModulesModuleIdObjectGebiedsprogrammasLineageIdPatchMock =
+    () => ({
+        Object_ID: faker.helpers.arrayElement([
+            faker.datatype.number({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+    })
+
+export const getModulesModuleIdObjectGebiedsprogrammasLatestLineageIdGetMock =
+    () => ({
+        Object_ID: faker.helpers.arrayElement([
+            faker.datatype.number({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        Code: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.datatype.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Description: faker.helpers.arrayElement([
+            faker.random.word(),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        Image: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.random.word(), null]),
+            undefined,
+        ]),
+        Created_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Maatregelen: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+            })),
+            undefined,
+        ]),
+        ObjectStatics: faker.helpers.arrayElement([
+            {
+                Owner_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Owner_2: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Portfolio_Holder_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Portfolio_Holder_2: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+                Client_1: faker.helpers.arrayElement([
+                    {
+                        UUID: faker.datatype.uuid(),
+                        Rol: faker.random.word(),
+                        Gebruikersnaam: faker.random.word(),
+                    },
+                    undefined,
+                ]),
+            },
+            undefined,
+        ]),
+    })
+
+export const getModulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGetMock =
+    () => ({
+        Object_ID: faker.helpers.arrayElement([
+            faker.datatype.number({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        Code: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.datatype.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Description: faker.helpers.arrayElement([
+            faker.random.word(),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        Image: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.random.word(), null]),
+            undefined,
+        ]),
+        Created_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Maatregelen: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
             })),
             undefined,
         ]),
@@ -2875,24 +5630,12 @@ export const getMaatregelenValidGetMock = () =>
             undefined,
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Description: faker.helpers.arrayElement([
+        Accomplish: faker.helpers.arrayElement([
             faker.random.word(),
             undefined,
         ]),
-        Explanation: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Explanation_Raw: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Gebied_Duiding: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Tags: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Role: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Effect: faker.helpers.arrayElement([faker.random.word(), undefined]),
         Gebied: faker.helpers.arrayElement([
             {
                 ID: faker.datatype.number({ min: undefined, max: undefined }),
@@ -2923,7 +5666,7 @@ export const getMaatregelenValidGetMock = () =>
             },
             undefined,
         ]),
-        Beleidsdoelen: faker.helpers.arrayElement([
+        Beleidskeuzes: faker.helpers.arrayElement([
             Array.from(
                 { length: faker.datatype.number({ min: 1, max: 10 }) },
                 (_, i) => i + 1
@@ -2963,20 +5706,83 @@ export const getMaatregelenValidGetMock = () =>
             })),
             undefined,
         ]),
-        Regulations: faker.helpers.arrayElement([
+        Gebiedsprogrammas: faker.helpers.arrayElement([
             Array.from(
                 { length: faker.datatype.number({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
-                UUID: faker.datatype.uuid(),
-                Created_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                Modified_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                Title: faker.random.word(),
-                Type: faker.random.word(),
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+            })),
+            undefined,
+        ]),
+        Beleidsdoelen: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
             })),
             undefined,
         ]),
@@ -3064,24 +5870,7 @@ export const getMaatregelenValidLineageIdGetMock = () =>
             undefined,
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Description: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Explanation: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Explanation_Raw: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Gebied_Duiding: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Tags: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Role: faker.helpers.arrayElement([faker.random.word(), undefined]),
         Gebied: faker.helpers.arrayElement([
             {
                 ID: faker.datatype.number({ min: undefined, max: undefined }),
@@ -3148,18 +5937,9 @@ export const getMaatregelenVersionObjectUuidGetMock = () => ({
         undefined,
     ]),
     Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Description: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Explanation: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Explanation_Raw: faker.helpers.arrayElement([
-        faker.random.word(),
-        undefined,
-    ]),
-    Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Gebied_Duiding: faker.helpers.arrayElement([
-        faker.random.word(),
-        undefined,
-    ]),
-    Tags: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Accomplish: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Role: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Effect: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Gebied: faker.helpers.arrayElement([
         {
             ID: faker.datatype.number({ min: undefined, max: undefined }),
@@ -3186,7 +5966,7 @@ export const getMaatregelenVersionObjectUuidGetMock = () => ({
         },
         undefined,
     ]),
-    Beleidsdoelen: faker.helpers.arrayElement([
+    Beleidskeuzes: faker.helpers.arrayElement([
         Array.from(
             { length: faker.datatype.number({ min: 1, max: 10 }) },
             (_, i) => i + 1
@@ -3223,16 +6003,77 @@ export const getMaatregelenVersionObjectUuidGetMock = () => ({
         })),
         undefined,
     ]),
-    Regulations: faker.helpers.arrayElement([
+    Gebiedsprogrammas: faker.helpers.arrayElement([
         Array.from(
             { length: faker.datatype.number({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
-            UUID: faker.datatype.uuid(),
-            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Title: faker.random.word(),
-            Type: faker.random.word(),
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+        })),
+        undefined,
+    ]),
+    Beleidsdoelen: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
         })),
         undefined,
     ]),
@@ -3317,18 +6158,9 @@ export const getMaatregelenLatestLineageIdGetMock = () => ({
         undefined,
     ]),
     Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Description: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Explanation: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Explanation_Raw: faker.helpers.arrayElement([
-        faker.random.word(),
-        undefined,
-    ]),
-    Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Gebied_Duiding: faker.helpers.arrayElement([
-        faker.random.word(),
-        undefined,
-    ]),
-    Tags: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Accomplish: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Role: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Effect: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Gebied: faker.helpers.arrayElement([
         {
             ID: faker.datatype.number({ min: undefined, max: undefined }),
@@ -3355,7 +6187,7 @@ export const getMaatregelenLatestLineageIdGetMock = () => ({
         },
         undefined,
     ]),
-    Beleidsdoelen: faker.helpers.arrayElement([
+    Beleidskeuzes: faker.helpers.arrayElement([
         Array.from(
             { length: faker.datatype.number({ min: 1, max: 10 }) },
             (_, i) => i + 1
@@ -3392,16 +6224,77 @@ export const getMaatregelenLatestLineageIdGetMock = () => ({
         })),
         undefined,
     ]),
-    Regulations: faker.helpers.arrayElement([
+    Gebiedsprogrammas: faker.helpers.arrayElement([
         Array.from(
             { length: faker.datatype.number({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
-            UUID: faker.datatype.uuid(),
-            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Title: faker.random.word(),
-            Type: faker.random.word(),
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+        })),
+        undefined,
+    ]),
+    Beleidsdoelen: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
         })),
         undefined,
     ]),
@@ -3473,38 +6366,6 @@ export const getMaatregelStaticLineageIdPostMock = () => ({
     message: faker.random.word(),
 })
 
-export const getMaatregelRegulationsLineageIdGetMock = () =>
-    Array.from(
-        { length: faker.datatype.number({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        UUID: faker.datatype.uuid(),
-        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Title: faker.random.word(),
-        Type: faker.random.word(),
-        Created_By: faker.helpers.arrayElement([
-            {
-                UUID: faker.datatype.uuid(),
-                Rol: faker.random.word(),
-                Gebruikersnaam: faker.random.word(),
-            },
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                UUID: faker.datatype.uuid(),
-                Rol: faker.random.word(),
-                Gebruikersnaam: faker.random.word(),
-            },
-            undefined,
-        ]),
-    }))
-
-export const getMaatregelRegulationsLineageIdPutMock = () => ({
-    message: faker.random.word(),
-})
-
 export const getModulesModuleIdObjectMaatregelLineageIdGetMock = () =>
     Array.from(
         { length: faker.datatype.number({ min: 1, max: 10 }) },
@@ -3542,24 +6403,7 @@ export const getModulesModuleIdObjectMaatregelLineageIdGetMock = () =>
             undefined,
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Description: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Explanation: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Explanation_Raw: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Gebied_Duiding: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Tags: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Role: faker.helpers.arrayElement([faker.random.word(), undefined]),
         Gebied: faker.helpers.arrayElement([
             {
                 ID: faker.datatype.number({ min: undefined, max: undefined }),
@@ -3634,18 +6478,9 @@ export const getModulesModuleIdObjectMaatregelLatestLineageIdGetMock = () => ({
         undefined,
     ]),
     Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Description: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Explanation: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Explanation_Raw: faker.helpers.arrayElement([
-        faker.random.word(),
-        undefined,
-    ]),
-    Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Gebied_Duiding: faker.helpers.arrayElement([
-        faker.random.word(),
-        undefined,
-    ]),
-    Tags: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Accomplish: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Role: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Effect: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Gebied: faker.helpers.arrayElement([
         {
             ID: faker.datatype.number({ min: undefined, max: undefined }),
@@ -3672,7 +6507,7 @@ export const getModulesModuleIdObjectMaatregelLatestLineageIdGetMock = () => ({
         },
         undefined,
     ]),
-    Beleidsdoelen: faker.helpers.arrayElement([
+    Beleidskeuzes: faker.helpers.arrayElement([
         Array.from(
             { length: faker.datatype.number({ min: 1, max: 10 }) },
             (_, i) => i + 1
@@ -3709,16 +6544,77 @@ export const getModulesModuleIdObjectMaatregelLatestLineageIdGetMock = () => ({
         })),
         undefined,
     ]),
-    Regulations: faker.helpers.arrayElement([
+    Gebiedsprogrammas: faker.helpers.arrayElement([
         Array.from(
             { length: faker.datatype.number({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
-            UUID: faker.datatype.uuid(),
-            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Title: faker.random.word(),
-            Type: faker.random.word(),
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+        })),
+        undefined,
+    ]),
+    Beleidsdoelen: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
         })),
         undefined,
     ]),
@@ -3804,24 +6700,12 @@ export const getModulesModuleIdObjectMaatregelVersionObjectUuidGetMock =
             undefined,
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Description: faker.helpers.arrayElement([
+        Accomplish: faker.helpers.arrayElement([
             faker.random.word(),
             undefined,
         ]),
-        Explanation: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Explanation_Raw: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Gebied_Duiding: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
-        Tags: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Role: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Effect: faker.helpers.arrayElement([faker.random.word(), undefined]),
         Gebied: faker.helpers.arrayElement([
             {
                 ID: faker.datatype.number({ min: undefined, max: undefined }),
@@ -3852,7 +6736,7 @@ export const getModulesModuleIdObjectMaatregelVersionObjectUuidGetMock =
             },
             undefined,
         ]),
-        Beleidsdoelen: faker.helpers.arrayElement([
+        Beleidskeuzes: faker.helpers.arrayElement([
             Array.from(
                 { length: faker.datatype.number({ min: 1, max: 10 }) },
                 (_, i) => i + 1
@@ -3892,20 +6776,83 @@ export const getModulesModuleIdObjectMaatregelVersionObjectUuidGetMock =
             })),
             undefined,
         ]),
-        Regulations: faker.helpers.arrayElement([
+        Gebiedsprogrammas: faker.helpers.arrayElement([
             Array.from(
                 { length: faker.datatype.number({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
-                UUID: faker.datatype.uuid(),
-                Created_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                Modified_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                Title: faker.random.word(),
-                Type: faker.random.word(),
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+            })),
+            undefined,
+        ]),
+        Beleidsdoelen: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.datatype.number({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Relation: {
+                    Object_ID: faker.datatype.number({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Object_Type: faker.random.word(),
+                    Description: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
+                Object: {
+                    Object_Type: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                    Object_ID: faker.helpers.arrayElement([
+                        faker.datatype.number({
+                            min: undefined,
+                            max: undefined,
+                        }),
+                        undefined,
+                    ]),
+                    UUID: faker.helpers.arrayElement([
+                        faker.datatype.uuid(),
+                        undefined,
+                    ]),
+                    Title: faker.helpers.arrayElement([
+                        faker.random.word(),
+                        undefined,
+                    ]),
+                },
             })),
             undefined,
         ]),
@@ -3955,6 +6902,604 @@ export const getModulesModuleIdObjectMaatregelVersionObjectUuidGetMock =
             undefined,
         ]),
     })
+
+export const getNationaalBelangPostMock = () => ({
+    Object_ID: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+})
+
+export const getNationaalBelangLineageIdPostMock = () => ({
+    message: faker.random.word(),
+})
+
+export const getNationaalBelangValidGetMock = () =>
+    Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_Type: faker.helpers.arrayElement([
+            faker.random.word(),
+            undefined,
+        ]),
+        Object_ID: faker.helpers.arrayElement([
+            faker.datatype.number({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+        Created_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Created_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+    }))
+
+export const getNationaalBelangLatestLineageIdGetMock = () => ({
+    Object_Type: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Object_ID: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    Code: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+    Created_Date: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split('.')[0]}Z`,
+        undefined,
+    ]),
+    Modified_Date: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split('.')[0]}Z`,
+        undefined,
+    ]),
+    Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Start_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            null,
+        ]),
+        undefined,
+    ]),
+    End_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            null,
+        ]),
+        undefined,
+    ]),
+    Created_By: faker.helpers.arrayElement([
+        {
+            UUID: faker.datatype.uuid(),
+            Rol: faker.random.word(),
+            Gebruikersnaam: faker.random.word(),
+        },
+        undefined,
+    ]),
+    Modified_By: faker.helpers.arrayElement([
+        {
+            UUID: faker.datatype.uuid(),
+            Rol: faker.random.word(),
+            Gebruikersnaam: faker.random.word(),
+        },
+        undefined,
+    ]),
+    Beleidskeuzes: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Object_Type: faker.helpers.arrayElement([
+                faker.random.word(),
+                undefined,
+            ]),
+            Object_ID: faker.helpers.arrayElement([
+                faker.datatype.number({ min: undefined, max: undefined }),
+                undefined,
+            ]),
+            UUID: faker.helpers.arrayElement([
+                faker.datatype.uuid(),
+                undefined,
+            ]),
+            Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        })),
+        undefined,
+    ]),
+    ObjectStatics: faker.helpers.arrayElement([
+        {
+            Owner_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Owner_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+        },
+        undefined,
+    ]),
+})
+
+export const getNationaalBelangRelationsLineageIdGetMock = () =>
+    Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_ID: faker.datatype.number({ min: undefined, max: undefined }),
+        Object_Type: faker.random.word(),
+        Description: faker.helpers.arrayElement([
+            faker.random.word(),
+            undefined,
+        ]),
+    }))
+
+export const getNationaalBelangRelationsLineageIdPutMock = () => ({
+    message: faker.random.word(),
+})
+
+export const getNationaalBelangStaticLineageIdPostMock = () => ({
+    message: faker.random.word(),
+})
+
+export const getVerplichtProgrammaPostMock = () => ({
+    Object_ID: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+})
+
+export const getVerplichtProgrammaLineageIdPostMock = () => ({
+    message: faker.random.word(),
+})
+
+export const getVerplichtProgrammaValidGetMock = () =>
+    Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_Type: faker.helpers.arrayElement([
+            faker.random.word(),
+            undefined,
+        ]),
+        Object_ID: faker.helpers.arrayElement([
+            faker.datatype.number({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+        Created_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Created_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+    }))
+
+export const getVerplichtProgrammaLatestLineageIdGetMock = () => ({
+    Object_Type: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Object_ID: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    Code: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+    Created_Date: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split('.')[0]}Z`,
+        undefined,
+    ]),
+    Modified_Date: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split('.')[0]}Z`,
+        undefined,
+    ]),
+    Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Description: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Start_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            null,
+        ]),
+        undefined,
+    ]),
+    End_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            null,
+        ]),
+        undefined,
+    ]),
+    Created_By: faker.helpers.arrayElement([
+        {
+            UUID: faker.datatype.uuid(),
+            Rol: faker.random.word(),
+            Gebruikersnaam: faker.random.word(),
+        },
+        undefined,
+    ]),
+    Modified_By: faker.helpers.arrayElement([
+        {
+            UUID: faker.datatype.uuid(),
+            Rol: faker.random.word(),
+            Gebruikersnaam: faker.random.word(),
+        },
+        undefined,
+    ]),
+    WettelijkeTaken: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Object_Type: faker.helpers.arrayElement([
+                faker.random.word(),
+                undefined,
+            ]),
+            Object_ID: faker.helpers.arrayElement([
+                faker.datatype.number({ min: undefined, max: undefined }),
+                undefined,
+            ]),
+            UUID: faker.helpers.arrayElement([
+                faker.datatype.uuid(),
+                undefined,
+            ]),
+            Created_Date: faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                undefined,
+            ]),
+            Modified_Date: faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                undefined,
+            ]),
+            Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+            Weblink: faker.helpers.arrayElement([
+                faker.random.word(),
+                undefined,
+            ]),
+        })),
+        undefined,
+    ]),
+    Maatregelen: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+        })),
+        undefined,
+    ]),
+    ObjectStatics: faker.helpers.arrayElement([
+        {
+            Owner_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Owner_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+        },
+        undefined,
+    ]),
+})
+
+export const getVerplichtProgrammaRelationsLineageIdGetMock = () =>
+    Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_ID: faker.datatype.number({ min: undefined, max: undefined }),
+        Object_Type: faker.random.word(),
+        Description: faker.helpers.arrayElement([
+            faker.random.word(),
+            undefined,
+        ]),
+    }))
+
+export const getVerplichtProgrammaRelationsLineageIdPutMock = () => ({
+    message: faker.random.word(),
+})
+
+export const getVerplichtProgrammaStaticLineageIdPostMock = () => ({
+    message: faker.random.word(),
+})
+
+export const getWettelijkeTaakPostMock = () => ({
+    Object_ID: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+})
+
+export const getWettelijkeTaakLineageIdPostMock = () => ({
+    message: faker.random.word(),
+})
+
+export const getWettelijkeTaakValidGetMock = () =>
+    Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_Type: faker.helpers.arrayElement([
+            faker.random.word(),
+            undefined,
+        ]),
+        Object_ID: faker.helpers.arrayElement([
+            faker.datatype.number({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+        Created_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Created_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            {
+                UUID: faker.datatype.uuid(),
+                Rol: faker.random.word(),
+                Gebruikersnaam: faker.random.word(),
+            },
+            undefined,
+        ]),
+    }))
+
+export const getWettelijkeTaakLatestLineageIdGetMock = () => ({
+    Object_Type: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Object_ID: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    Code: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    UUID: faker.helpers.arrayElement([faker.datatype.uuid(), undefined]),
+    Created_Date: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split('.')[0]}Z`,
+        undefined,
+    ]),
+    Modified_Date: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split('.')[0]}Z`,
+        undefined,
+    ]),
+    Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Start_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            null,
+        ]),
+        undefined,
+    ]),
+    End_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            null,
+        ]),
+        undefined,
+    ]),
+    Created_By: faker.helpers.arrayElement([
+        {
+            UUID: faker.datatype.uuid(),
+            Rol: faker.random.word(),
+            Gebruikersnaam: faker.random.word(),
+        },
+        undefined,
+    ]),
+    Modified_By: faker.helpers.arrayElement([
+        {
+            UUID: faker.datatype.uuid(),
+            Rol: faker.random.word(),
+            Gebruikersnaam: faker.random.word(),
+        },
+        undefined,
+    ]),
+    WettelijkeTaken: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Object_Type: faker.helpers.arrayElement([
+                faker.random.word(),
+                undefined,
+            ]),
+            Object_ID: faker.helpers.arrayElement([
+                faker.datatype.number({ min: undefined, max: undefined }),
+                undefined,
+            ]),
+            UUID: faker.helpers.arrayElement([
+                faker.datatype.uuid(),
+                undefined,
+            ]),
+            Created_Date: faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                undefined,
+            ]),
+            Modified_Date: faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                undefined,
+            ]),
+            Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+            Weblink: faker.helpers.arrayElement([
+                faker.random.word(),
+                undefined,
+            ]),
+        })),
+        undefined,
+    ]),
+    Beleidskeuzes: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.datatype.number({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Relation: {
+                Object_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Object_Type: faker.random.word(),
+                Description: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+            Object: {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.datatype.number({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Title: faker.helpers.arrayElement([
+                    faker.random.word(),
+                    undefined,
+                ]),
+            },
+        })),
+        undefined,
+    ]),
+    ObjectStatics: faker.helpers.arrayElement([
+        {
+            Owner_1: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+            Owner_2: faker.helpers.arrayElement([
+                {
+                    UUID: faker.datatype.uuid(),
+                    Rol: faker.random.word(),
+                    Gebruikersnaam: faker.random.word(),
+                },
+                undefined,
+            ]),
+        },
+        undefined,
+    ]),
+})
+
+export const getWettelijkeTaakRelationsLineageIdGetMock = () =>
+    Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_ID: faker.datatype.number({ min: undefined, max: undefined }),
+        Object_Type: faker.random.word(),
+        Description: faker.helpers.arrayElement([
+            faker.random.word(),
+            undefined,
+        ]),
+    }))
+
+export const getWettelijkeTaakRelationsLineageIdPutMock = () => ({
+    message: faker.random.word(),
+})
+
+export const getWettelijkeTaakStaticLineageIdPostMock = () => ({
+    message: faker.random.word(),
+})
 
 export const getUsersGetMock = () =>
     Array.from(
@@ -4010,40 +7555,6 @@ export const getFullGraphGetMock = () => ({
         Vertice_B_Code: faker.random.word(),
         Type: faker.helpers.arrayElement(Object.values(GraphEdgeType)),
     })),
-})
-
-export const getRegulationsGetMock = () =>
-    Array.from(
-        { length: faker.datatype.number({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        UUID: faker.datatype.uuid(),
-        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Title: faker.random.word(),
-        Type: faker.random.word(),
-        Created_By: faker.helpers.arrayElement([
-            {
-                UUID: faker.datatype.uuid(),
-                Rol: faker.random.word(),
-                Gebruikersnaam: faker.random.word(),
-            },
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                UUID: faker.datatype.uuid(),
-                Rol: faker.random.word(),
-                Gebruikersnaam: faker.random.word(),
-            },
-            undefined,
-        ]),
-    }))
-
-export const getRegulationsPostMock = () => ({ UUID: faker.datatype.uuid() })
-
-export const getRegulationsRegulationUuidPostMock = () => ({
-    message: faker.random.word(),
 })
 
 export const getObjectGraphGetMock = () => ({
@@ -4655,20 +8166,6 @@ export const getOmgevingsbeleidAPIMSW = () => [
             )
         }
     ),
-    rest.get('*/beleidskeuze/regulations/:lineageId', (_req, res, ctx) => {
-        return res(
-            ctx.delay(1000),
-            ctx.status(200, 'Mocked status'),
-            ctx.json(getBeleidskeuzeRegulationsLineageIdGetMock())
-        )
-    }),
-    rest.put('*/beleidskeuze/regulations/:lineageId', (_req, res, ctx) => {
-        return res(
-            ctx.delay(1000),
-            ctx.status(200, 'Mocked status'),
-            ctx.json(getBeleidskeuzeRegulationsLineageIdPutMock())
-        )
-    }),
     rest.get(
         '*/modules/:moduleId/object/beleidskeuze/:lineageId',
         (_req, res, ctx) => {
@@ -4711,6 +8208,198 @@ export const getOmgevingsbeleidAPIMSW = () => [
                 ctx.status(200, 'Mocked status'),
                 ctx.json(
                     getModulesModuleIdObjectBeleidskeuzeVersionObjectUuidGetMock()
+                )
+            )
+        }
+    ),
+    rest.get('*/beleidsregels/valid', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getBeleidsregelsValidGetMock())
+        )
+    }),
+    rest.get('*/beleidsregels/valid/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getBeleidsregelsValidLineageIdGetMock())
+        )
+    }),
+    rest.get('*/beleidsregels/version/:objectUuid', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getBeleidsregelsVersionObjectUuidGetMock())
+        )
+    }),
+    rest.get('*/beleidsregels/latest/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getBeleidsregelsLatestLineageIdGetMock())
+        )
+    }),
+    rest.get('*/beleidsregels/relations/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getBeleidsregelsRelationsLineageIdGetMock())
+        )
+    }),
+    rest.put('*/beleidsregels/relations/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getBeleidsregelsRelationsLineageIdPutMock())
+        )
+    }),
+    rest.post('*/beleidsregel/static/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getBeleidsregelStaticLineageIdPostMock())
+        )
+    }),
+    rest.get(
+        '*/modules/:moduleId/object/beleidsregel/:lineageId',
+        (_req, res, ctx) => {
+            return res(
+                ctx.delay(1000),
+                ctx.status(200, 'Mocked status'),
+                ctx.json(getModulesModuleIdObjectBeleidsregelLineageIdGetMock())
+            )
+        }
+    ),
+    rest.patch(
+        '*/modules/:moduleId/object/beleidsregel/:lineageId',
+        (_req, res, ctx) => {
+            return res(
+                ctx.delay(1000),
+                ctx.status(200, 'Mocked status'),
+                ctx.json(
+                    getModulesModuleIdObjectBeleidsregelLineageIdPatchMock()
+                )
+            )
+        }
+    ),
+    rest.get(
+        '*/modules/:moduleId/object/beleidsregel/latest/:lineageId',
+        (_req, res, ctx) => {
+            return res(
+                ctx.delay(1000),
+                ctx.status(200, 'Mocked status'),
+                ctx.json(
+                    getModulesModuleIdObjectBeleidsregelLatestLineageIdGetMock()
+                )
+            )
+        }
+    ),
+    rest.get(
+        '*/modules/:moduleId/object/beleidsregel/version/:objectUuid',
+        (_req, res, ctx) => {
+            return res(
+                ctx.delay(1000),
+                ctx.status(200, 'Mocked status'),
+                ctx.json(
+                    getModulesModuleIdObjectBeleidsregelVersionObjectUuidGetMock()
+                )
+            )
+        }
+    ),
+    rest.get('*/gebiedsprogrammas/valid', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getGebiedsprogrammasValidGetMock())
+        )
+    }),
+    rest.get('*/gebiedsprogrammas/valid/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getGebiedsprogrammasValidLineageIdGetMock())
+        )
+    }),
+    rest.get('*/gebiedsprogrammas/version/:objectUuid', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getGebiedsprogrammasVersionObjectUuidGetMock())
+        )
+    }),
+    rest.get('*/gebiedsprogrammas/latest/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getGebiedsprogrammasLatestLineageIdGetMock())
+        )
+    }),
+    rest.get('*/gebiedsprogrammas/relations/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getGebiedsprogrammasRelationsLineageIdGetMock())
+        )
+    }),
+    rest.put('*/gebiedsprogrammas/relations/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getGebiedsprogrammasRelationsLineageIdPutMock())
+        )
+    }),
+    rest.post('*/gebiedsprogrammas/static/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getGebiedsprogrammasStaticLineageIdPostMock())
+        )
+    }),
+    rest.get(
+        '*/modules/:moduleId/object/gebiedsprogrammas/:lineageId',
+        (_req, res, ctx) => {
+            return res(
+                ctx.delay(1000),
+                ctx.status(200, 'Mocked status'),
+                ctx.json(
+                    getModulesModuleIdObjectGebiedsprogrammasLineageIdGetMock()
+                )
+            )
+        }
+    ),
+    rest.patch(
+        '*/modules/:moduleId/object/gebiedsprogrammas/:lineageId',
+        (_req, res, ctx) => {
+            return res(
+                ctx.delay(1000),
+                ctx.status(200, 'Mocked status'),
+                ctx.json(
+                    getModulesModuleIdObjectGebiedsprogrammasLineageIdPatchMock()
+                )
+            )
+        }
+    ),
+    rest.get(
+        '*/modules/:moduleId/object/gebiedsprogrammas/latest/:lineageId',
+        (_req, res, ctx) => {
+            return res(
+                ctx.delay(1000),
+                ctx.status(200, 'Mocked status'),
+                ctx.json(
+                    getModulesModuleIdObjectGebiedsprogrammasLatestLineageIdGetMock()
+                )
+            )
+        }
+    ),
+    rest.get(
+        '*/modules/:moduleId/object/gebiedsprogrammas/version/:objectUuid',
+        (_req, res, ctx) => {
+            return res(
+                ctx.delay(1000),
+                ctx.status(200, 'Mocked status'),
+                ctx.json(
+                    getModulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGetMock()
                 )
             )
         }
@@ -4764,20 +8453,6 @@ export const getOmgevingsbeleidAPIMSW = () => [
             ctx.json(getMaatregelStaticLineageIdPostMock())
         )
     }),
-    rest.get('*/maatregel/regulations/:lineageId', (_req, res, ctx) => {
-        return res(
-            ctx.delay(1000),
-            ctx.status(200, 'Mocked status'),
-            ctx.json(getMaatregelRegulationsLineageIdGetMock())
-        )
-    }),
-    rest.put('*/maatregel/regulations/:lineageId', (_req, res, ctx) => {
-        return res(
-            ctx.delay(1000),
-            ctx.status(200, 'Mocked status'),
-            ctx.json(getMaatregelRegulationsLineageIdPutMock())
-        )
-    }),
     rest.get(
         '*/modules/:moduleId/object/maatregel/:lineageId',
         (_req, res, ctx) => {
@@ -4822,6 +8497,153 @@ export const getOmgevingsbeleidAPIMSW = () => [
             )
         }
     ),
+    rest.post('*/nationaal-belang', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getNationaalBelangPostMock())
+        )
+    }),
+    rest.post('*/nationaal-belang/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getNationaalBelangLineageIdPostMock())
+        )
+    }),
+    rest.get('*/nationaal-belang/valid', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getNationaalBelangValidGetMock())
+        )
+    }),
+    rest.get('*/nationaal-belang/latest/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getNationaalBelangLatestLineageIdGetMock())
+        )
+    }),
+    rest.get('*/nationaal-belang/relations/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getNationaalBelangRelationsLineageIdGetMock())
+        )
+    }),
+    rest.put('*/nationaal-belang/relations/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getNationaalBelangRelationsLineageIdPutMock())
+        )
+    }),
+    rest.post('*/nationaal-belang/static/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getNationaalBelangStaticLineageIdPostMock())
+        )
+    }),
+    rest.post('*/verplicht-programma', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getVerplichtProgrammaPostMock())
+        )
+    }),
+    rest.post('*/verplicht-programma/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getVerplichtProgrammaLineageIdPostMock())
+        )
+    }),
+    rest.get('*/verplicht-programma/valid', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getVerplichtProgrammaValidGetMock())
+        )
+    }),
+    rest.get('*/verplicht-programma/latest/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getVerplichtProgrammaLatestLineageIdGetMock())
+        )
+    }),
+    rest.get('*/verplicht-programma/relations/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getVerplichtProgrammaRelationsLineageIdGetMock())
+        )
+    }),
+    rest.put('*/verplicht-programma/relations/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getVerplichtProgrammaRelationsLineageIdPutMock())
+        )
+    }),
+    rest.post('*/verplicht-programma/static/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getVerplichtProgrammaStaticLineageIdPostMock())
+        )
+    }),
+    rest.post('*/wettelijke-taak', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getWettelijkeTaakPostMock())
+        )
+    }),
+    rest.post('*/wettelijke-taak/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getWettelijkeTaakLineageIdPostMock())
+        )
+    }),
+    rest.get('*/wettelijke-taak/valid', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getWettelijkeTaakValidGetMock())
+        )
+    }),
+    rest.get('*/wettelijke-taak/latest/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getWettelijkeTaakLatestLineageIdGetMock())
+        )
+    }),
+    rest.get('*/wettelijke-taak/relations/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getWettelijkeTaakRelationsLineageIdGetMock())
+        )
+    }),
+    rest.put('*/wettelijke-taak/relations/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getWettelijkeTaakRelationsLineageIdPutMock())
+        )
+    }),
+    rest.post('*/wettelijke-taak/static/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getWettelijkeTaakStaticLineageIdPostMock())
+        )
+    }),
     rest.get('*/users', (_req, res, ctx) => {
         return res(
             ctx.delay(1000),
@@ -4848,27 +8670,6 @@ export const getOmgevingsbeleidAPIMSW = () => [
             ctx.delay(1000),
             ctx.status(200, 'Mocked status'),
             ctx.json(getFullGraphGetMock())
-        )
-    }),
-    rest.get('*/regulations', (_req, res, ctx) => {
-        return res(
-            ctx.delay(1000),
-            ctx.status(200, 'Mocked status'),
-            ctx.json(getRegulationsGetMock())
-        )
-    }),
-    rest.post('*/regulations', (_req, res, ctx) => {
-        return res(
-            ctx.delay(1000),
-            ctx.status(200, 'Mocked status'),
-            ctx.json(getRegulationsPostMock())
-        )
-    }),
-    rest.post('*/regulations/:regulationUuid', (_req, res, ctx) => {
-        return res(
-            ctx.delay(1000),
-            ctx.status(200, 'Mocked status'),
-            ctx.json(getRegulationsRegulationUuidPostMock())
         )
     }),
     rest.get('*/object-graph', (_req, res, ctx) => {

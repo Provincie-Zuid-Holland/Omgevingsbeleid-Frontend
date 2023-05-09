@@ -3,22 +3,19 @@ import { useMemo } from 'react'
 
 import { RelationShort } from '@/api/fetchers.schemas'
 import { ObjectConnectionModalActions } from '@/components/Modals/ObjectModals/types'
-import * as models from '@/config/objects'
-import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
+import { Model, ModelReturnType } from '@/config/objects/types'
 
 import { Connection } from '../ObjectConnections/ObjectConnections'
 
 interface ObjectConnectionPartProps {
     /** Key of connection */
-    connectionKey?: Exclude<keyof ModelReturnType, 'Regulations'>
+    connectionKey?: keyof ModelReturnType
     /** Model of relation */
     model: Model
     /** Connections */
     connections?: Connection[]
     /** Set state of modal */
-    setModal: (
-        state: ObjectConnectionModalActions & { type: 'object' | 'regulation' }
-    ) => void
+    setModal: (state: ObjectConnectionModalActions) => void
     /** Is data loading */
     isLoading?: boolean
     /** User can edit connection */
@@ -35,14 +32,17 @@ const ObjectConnectionPart = ({
 }: ObjectConnectionPartProps) => {
     const handleButtonClick = (amount?: number) => {
         setModal({
-            type: 'object',
             connectionKey,
             initialStep: amount === 0 ? 2 : 1,
-            initialValues: {
-                Object_Type: model.defaults.singular,
-            } as RelationShort,
+            initialValues: (model.defaults.atemporal
+                ? {
+                      items: connections?.map(({ Object_ID }) => Object_ID),
+                  }
+                : {
+                      Object_Type: model.defaults.singular,
+                  }) as RelationShort,
             isOpen: true,
-            connectionModel: models[model.defaults.singular as ModelType],
+            connectionModel: model,
         })
     }
 

@@ -4,8 +4,6 @@ import {
     useBeleidskeuzeAcknowledgedRelationsLineageIdEditPost,
     useBeleidskeuzeAcknowledgedRelationsLineageIdGet,
     useBeleidskeuzeAcknowledgedRelationsLineageIdPost,
-    useBeleidskeuzeRegulationsLineageIdGet,
-    useBeleidskeuzeRegulationsLineageIdPut,
     useBeleidskeuzesLatestLineageIdGet,
     useBeleidskeuzesRelationsLineageIdGet,
     useBeleidskeuzesRelationsLineageIdPut,
@@ -35,6 +33,7 @@ const fetchers = {
     useGetLatestLineageInModule:
         useModulesModuleIdObjectBeleidskeuzeLatestLineageIdGet,
     usePatchObjectInModule: useModulesModuleIdObjectBeleidskeuzeLineageIdPatch,
+    usePatchObject: null,
     usePostStatic: useBeleidskeuzeStaticLineageIdPost,
     useGetAcknowledgedRelations:
         useBeleidskeuzeAcknowledgedRelationsLineageIdGet,
@@ -42,8 +41,7 @@ const fetchers = {
         useBeleidskeuzeAcknowledgedRelationsLineageIdPost,
     usePatchAcknowledgedRelations:
         useBeleidskeuzeAcknowledgedRelationsLineageIdEditPost,
-    useGetRegulations: useBeleidskeuzeRegulationsLineageIdGet,
-    usePutRegulations: useBeleidskeuzeRegulationsLineageIdPut,
+    usePostObject: null,
 }
 
 const beleidskeuze: DynamicObject<
@@ -53,6 +51,7 @@ const beleidskeuze: DynamicObject<
 > = {
     defaults: {
         singular: 'beleidskeuze',
+        singularReadable: 'beleidskeuze',
         singularCapitalize: 'Beleidskeuze',
         plural: 'beleidskeuzes',
         pluralCapitalize: 'Beleidskeuzes',
@@ -73,7 +72,8 @@ const beleidskeuze: DynamicObject<
         'Portfolio_Holder_2_UUID',
     ],
     allowedConnections: [
-        { type: 'regulations', key: 'Regulations' },
+        { type: 'wettelijkeTaak', key: 'WettelijkeTaken' },
+        { type: 'nationaalBelang', key: 'NationaleBelangen' },
         { type: 'beleidsdoel', key: 'Beleidsdoelen' },
     ],
     connectionsDescription: (
@@ -108,7 +108,7 @@ const beleidskeuze: DynamicObject<
                 'In deze sectie kun je alle tekst met betrekking tot de beleidskeuze kwijt. Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct welke keuze de provincie maakt en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',
             fields: [
                 {
-                    name: 'Description_Choice',
+                    name: 'Accomplish',
                     label: 'Wat wil de provincie bereiken?',
                     description:
                         'Hier geef je aan welke keuze de provincie heeft genomen. Formuleer in één of enkele zinnen wat de provincie wil bereiken en welke rechtsgevolgen dit eventueel heeft voor derden.',
@@ -132,7 +132,7 @@ const beleidskeuze: DynamicObject<
                     required: true,
                 },
                 {
-                    name: 'Description_Operation',
+                    name: 'Explanation',
                     label: 'Toelichting',
                     description:
                         'Op welke thema’s, onderwerpen en gebieden gaat de beleidskeuze iets wijzigen, en waarom is dit gewenst? Beschrijf ook de relatie met andere beleidsterreinen.',

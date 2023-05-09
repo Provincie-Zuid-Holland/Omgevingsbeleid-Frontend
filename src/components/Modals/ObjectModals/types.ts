@@ -10,11 +10,11 @@ import {
 } from '@/config/objects/types'
 
 export interface ObjectConnectionModalActions {
-    connectionKey?: Exclude<keyof ModelReturnType, 'Regulations'>
+    connectionKey?: keyof ModelReturnType
     isOpen: boolean
-    connectionModel?: Model
+    connectionModel: Model
     initialStep?: number
-    initialValues: RelationShort
+    initialValues: RelationShort | { items?: number[] }
 }
 
 export interface ObjectPersonModalActions {

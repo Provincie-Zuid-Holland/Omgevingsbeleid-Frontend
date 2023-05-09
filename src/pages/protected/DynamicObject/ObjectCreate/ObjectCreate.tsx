@@ -1,36 +1,32 @@
 import { Heading } from '@pzh-ui/components'
-import { useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { getRegulationsGetQueryKey } from '@/api/fetchers'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
-import * as models from '@/config/regulations'
-import { ModelType } from '@/config/regulations/types'
+import * as models from '@/config/objects'
+import { ModelType } from '@/config/objects/types'
 import MutateLayout from '@/templates/MutateLayout'
 import { toastNotification } from '@/utils/toastNotification'
 
-interface RegulationCreateProps {
+interface ObjectCreateProps {
     model: typeof models[ModelType]
 }
 
-const RegulationCreate = ({ model }: RegulationCreateProps) => {
-    const queryClient = useQueryClient()
+const ObjectCreate = ({ model }: ObjectCreateProps) => {
     const navigate = useNavigate()
 
-    const { singularCapitalize, plural, pluralCapitalize, regulationType } =
-        model.defaults
-    const { usePost } = models.default.fetchers
+    const { singularCapitalize, plural, pluralCapitalize } = model.defaults
+    const { usePostObject, useGetValid } = model.fetchers
 
-    const createRegulation = usePost({
+    const { refetch } = useGetValid(undefined, { query: { enabled: false } })
+
+    const createObject = usePostObject?.({
         mutation: {
             onError: () => {
                 toastNotification('error')
             },
             onSuccess: () => {
-                queryClient
-                    .invalidateQueries(getRegulationsGetQueryKey())
-                    .then(() => navigate(`/muteer/${plural}`))
+                refetch().then(() => navigate(`/muteer/${plural}`))
 
                 toastNotification('saved')
             },
@@ -45,16 +41,14 @@ const RegulationCreate = ({ model }: RegulationCreateProps) => {
             section.fields.map(field => field.name)
         )
 
-        const objectData = {
-            Type: regulationType,
-        } as { [key in typeof fields[number]]: any }
+        const objectData = {} as { [key in typeof fields[number]]: any }
 
         fields?.forEach(field => {
             return (objectData[field] = null)
         })
 
         return objectData
-    }, [model.dynamicSections, regulationType])
+    }, [model.dynamicSections])
 
     /**
      * Handle submit of form
@@ -62,7 +56,7 @@ const RegulationCreate = ({ model }: RegulationCreateProps) => {
     const handleSubmit = (payload: typeof initialData) => {
         if (!payload) return
 
-        createRegulation.mutate({
+        createObject?.mutate({
             data: payload,
         })
     }
@@ -97,4 +91,4 @@ const RegulationCreate = ({ model }: RegulationCreateProps) => {
     )
 }
 
-export default RegulationCreate
+export default ObjectCreate

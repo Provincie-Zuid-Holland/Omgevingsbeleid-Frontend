@@ -82,25 +82,43 @@ const ObjectConnectionModal = ({
     /**
      * Handle for submit
      */
-    const handleFormSubmit = (payload: RelationShort) => {
+    const handleFormSubmit = (
+        payload: RelationShort | { items?: number[] }
+    ) => {
         refetchRelations().then(({ data, isSuccess }) => {
             if (isSuccess && !!data) {
-                const isExisting = data.find(
-                    item =>
-                        item.Object_ID === payload?.Object_ID &&
-                        item.Object_Type === payload?.Object_Type
-                )
+                if (!('items' in payload)) {
+                    if (!('Object_ID' in payload)) return
 
-                if (isExisting) {
-                    isExisting.Description = payload?.Description
-                } else {
-                    if (payload?.Object_ID && payload.Object_Type) {
-                        data.push({
-                            Object_ID: payload?.Object_ID,
-                            Object_Type: payload?.Object_Type,
-                            Description: payload?.Description,
-                        })
+                    const isExisting = data.find(
+                        item =>
+                            item.Object_ID === payload?.Object_ID &&
+                            item.Object_Type === payload?.Object_Type
+                    )
+
+                    if (isExisting) {
+                        isExisting.Description = payload?.Description
+                    } else {
+                        if (payload?.Object_ID && payload.Object_Type) {
+                            data.push({
+                                Object_ID: payload?.Object_ID,
+                                Object_Type: payload?.Object_Type,
+                                Description: payload?.Description,
+                            })
+                        }
                     }
+                } else {
+                    data = [
+                        ...data.filter(
+                            e =>
+                                e.Object_Type !==
+                                connectionModel?.defaults?.singular
+                        ),
+                        ...(payload.items?.map(item => ({
+                            Object_ID: item,
+                            Object_Type: connectionModel?.defaults?.singular,
+                        })) || []),
+                    ]
                 }
 
                 putRelations
@@ -125,10 +143,21 @@ const ObjectConnectionModal = ({
                     1
                 )
 
-                putRelations.mutate({
-                    lineageId: parseInt(objectId!),
-                    data,
-                })
+                putRelations
+                    .mutateAsync({
+                        lineageId: parseInt(objectId!),
+                        data,
+                    })
+                    .then(() => {
+                        if ('items' in initialValues) {
+                            initialValues.items?.splice(
+                                initialValues.items.findIndex(
+                                    item => item === connection.Object_ID
+                                ),
+                                1
+                            )
+                        }
+                    })
             }
         })
     }
@@ -141,6 +170,7 @@ const ObjectConnectionModal = ({
             const propertyType = getPropertyByName(data, connectionKey)
 
             if (Array.isArray(propertyType)) {
+                // @ts-ignore
                 return propertyType.map(({ Object, Relation }) => ({
                     ...Object,
                     Object_ID: Object.Object_ID || 0,
@@ -152,7 +182,7 @@ const ObjectConnectionModal = ({
     }, [data, connectionKey])
 
     const CurrentStep = steps[step - 1]
-    const isFinalStep = step === 3
+    const isFinalStep = step === (connectionModel?.defaults?.atemporal ? 2 : 3)
 
     return (
         <Modal

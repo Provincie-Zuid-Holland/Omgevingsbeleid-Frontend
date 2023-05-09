@@ -1,14 +1,17 @@
 import { FormikRadioGroup, Heading, Text } from '@pzh-ui/components'
 
 import * as models from '@/config/objects'
+import { ModelType } from '@/config/objects/types'
 
 import { StepProps } from './types'
 
 export const StepTwo = ({}: StepProps) => {
-    const options = Object.keys(models).map(model => ({
-        label: models[model as keyof typeof models].defaults.singularCapitalize,
-        value: model,
-    }))
+    const options = Object.keys(models)
+        .filter(model => !models[model as ModelType].defaults.atemporal)
+        .map(model => ({
+            label: models[model as ModelType].defaults.singularCapitalize,
+            value: model,
+        }))
 
     return (
         <div>

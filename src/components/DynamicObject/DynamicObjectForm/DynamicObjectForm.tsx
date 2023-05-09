@@ -5,12 +5,11 @@ import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
 import { LoaderSpinner } from '@/components/Loader'
 import ScrollToFieldError from '@/components/ScrollToFieldError'
 import { Model } from '@/config/objects/types'
-import { Model as RegulationModel } from '@/config/regulations/types'
 
 import DynamicSection from './DynamicSection'
 
 interface DynamicObjectFormProps<TData> {
-    model: Model | RegulationModel
+    model: Model
     initialData: TData
     handleSubmit: (payload: TData) => void
     onCancel: () => void

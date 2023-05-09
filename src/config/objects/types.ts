@@ -13,6 +13,9 @@ import {
     MaatregelGet,
     MaatregelPatch,
     MaatregelStaticPatchStatics,
+    NationaalBelangGet,
+    VerplichtProgrammaGet,
+    WettelijkeTaakGet,
 } from '@/api/fetchers.schemas'
 
 import { DynamicSection } from '../types'
@@ -29,7 +32,9 @@ export interface DynamicObject<
     /** Default information of object */
     defaults: {
         /** Singular of object type */
-        singular: ModelType
+        singular: string
+        /** Readable singular of object type */
+        singularReadable: string
         /** Singular of object type (capitalized) */
         singularCapitalize: string
         /** Plural of object type */
@@ -48,6 +53,8 @@ export interface DynamicObject<
         slugOverview?: string
         /** Demonstrative pronoun of object type */
         demonstrative?: string
+        /** Atemporal object */
+        atemporal?: boolean
     }
     /** Array containing static data fields of object */
     staticData?: StaticData
@@ -60,7 +67,7 @@ export interface DynamicObject<
     /** Allowed connection types which object can get a connection with */
     allowedConnections?: {
         /** Type of connection */
-        type: ModelType | 'regulations'
+        type: ModelType
         /** Key of connection, this corresponds with the API field */
         key: keyof ModelReturnType
     }[]
@@ -75,7 +82,10 @@ export type ModelType = keyof typeof models
 export type ModelReturnType = BeleidsdoelGet &
     AmbitieGet &
     BeleidskeuzeGet &
-    MaatregelGet
+    MaatregelGet &
+    NationaalBelangGet &
+    WettelijkeTaakGet &
+    VerplichtProgrammaGet
 
 export type ModelPatchType = BeleidsdoelPatch &
     AmbitiePatch &

@@ -24,14 +24,14 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
     const { singularCapitalize, pluralCapitalize, plural } = model.defaults
     const { useGetVersion, useGetValidLineage } = model.fetchers
 
-    const { data = {}, isLoading } = useGetVersion<ModelReturnType>(uuid!, {
-        query: { enabled: !!uuid },
-    })
-    const { data: revisions } = useGetValidLineage<ModelReturnType[]>(
-        data.Object_ID!,
-        undefined,
-        { query: { enabled: !!data.Object_ID } }
-    )
+    const { data = {}, isLoading } =
+        useGetVersion?.<ModelReturnType>(uuid!, {
+            query: { enabled: !!uuid },
+        }) || {}
+    const { data: revisions } =
+        useGetValidLineage?.<ModelReturnType[]>(data.Object_ID!, undefined, {
+            query: { enabled: !!data.Object_ID },
+        }) || {}
 
     const amountOfRevisions = useMemo(
         () => revisions && revisions.length - 1,
@@ -81,7 +81,7 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
                     </div>
 
                     {data.Gebied && (
-                        <div className="order-5">
+                        <div className="order-7">
                             <ObjectArea
                                 model={model}
                                 objectTitle={data.Title}
@@ -92,7 +92,7 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
 
                     {model.allowedConnections && !model.acknowledgedRelation && (
                         <div
-                            className={classNames('order-6', {
+                            className={classNames('order-8', {
                                 'mt-4 md:mt-8': !!data.Gebied,
                             })}>
                             <ObjectConnectionsPublic
@@ -104,7 +104,7 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
 
                     {model.allowedConnections && model.acknowledgedRelation && (
                         <div
-                            className={classNames('order-6', {
+                            className={classNames('order-9', {
                                 'mt-4 md:mt-8': !!data.Gebied,
                             })}>
                             <ObjectRelationsPublic model={model} data={data} />

@@ -93,7 +93,7 @@ const Home = () => {
                             voor iedereen is te begrijpen. Daarom zet de
                             provincie drie instrumenten in waar al het
                             Omgevingsbeleid in staat: de{' '}
-                            <span
+                            <button
                                 className="underline cursor-pointer"
                                 onClick={() =>
                                     document
@@ -103,9 +103,9 @@ const Home = () => {
                                         ?.scrollIntoView({ behavior: 'smooth' })
                                 }>
                                 Omgevingsvisie
-                            </span>
+                            </button>
                             , het{' '}
-                            <span
+                            <button
                                 className="underline cursor-pointer"
                                 onClick={() =>
                                     document
@@ -115,9 +115,9 @@ const Home = () => {
                                         ?.scrollIntoView({ behavior: 'smooth' })
                                 }>
                                 Omgevingsprogramma
-                            </span>{' '}
+                            </button>{' '}
                             en de{' '}
-                            <span
+                            <button
                                 className="underline cursor-pointer"
                                 onClick={() =>
                                     document
@@ -127,7 +127,7 @@ const Home = () => {
                                         ?.scrollIntoView({ behavior: 'smooth' })
                                 }>
                                 Omgevingsverordening
-                            </span>
+                            </button>
                             . Zo staat het beleid niet meer in tientallen
                             documenten, maar in één systeem bij elkaar. Dit
                             maakt het allemaal een stuk overzichtelijker.

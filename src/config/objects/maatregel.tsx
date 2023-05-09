@@ -5,8 +5,6 @@ import {
     useMaatregelenValidGet,
     useMaatregelenValidLineageIdGet,
     useMaatregelenVersionObjectUuidGet,
-    useMaatregelRegulationsLineageIdGet,
-    useMaatregelRegulationsLineageIdPut,
     useMaatregelStaticLineageIdPost,
     useModulesModuleIdObjectMaatregelLatestLineageIdGet,
     useModulesModuleIdObjectMaatregelLineageIdPatch,
@@ -30,12 +28,12 @@ const fetchers = {
     useGetLatestLineageInModule:
         useModulesModuleIdObjectMaatregelLatestLineageIdGet,
     usePatchObjectInModule: useModulesModuleIdObjectMaatregelLineageIdPatch,
+    usePatchObject: null,
     usePostStatic: useMaatregelStaticLineageIdPost,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
-    useGetRegulations: useMaatregelRegulationsLineageIdGet,
-    usePutRegulations: useMaatregelRegulationsLineageIdPut,
+    usePostObject: null,
 }
 
 const maatregel: DynamicObject<
@@ -45,6 +43,7 @@ const maatregel: DynamicObject<
 > = {
     defaults: {
         singular: 'maatregel',
+        singularReadable: 'maatregel',
         singularCapitalize: 'Maatregel',
         plural: 'maatregelen',
         pluralCapitalize: 'Maatregelen',
@@ -88,7 +87,7 @@ const maatregel: DynamicObject<
                 'In deze sectie kun je alle tekst met betrekking tot de maatregel kwijt. Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct welke keuze de provincie maakt en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',
             fields: [
                 {
-                    name: 'Description',
+                    name: 'Accomplish',
                     label: 'Wat wil de provincie bereiken?',
                     description:
                         'Formuleer bondig wat de provincie met deze maatregel wil bewerkstelligen.',
@@ -96,7 +95,7 @@ const maatregel: DynamicObject<
                     required: true,
                 },
                 {
-                    name: 'Explanation_Raw',
+                    name: 'Role',
                     label: 'Rol',
                     description: 'Welke rol...',
                     placeholder: 'Kies de rol',
@@ -110,7 +109,7 @@ const maatregel: DynamicObject<
                     required: true,
                 },
                 {
-                    name: 'Explanation',
+                    name: 'Effect',
                     label: 'Uitwerking',
                     description: 'Beschrijf de uitwerking van de maatregel.',
                     type: 'wysiwyg',

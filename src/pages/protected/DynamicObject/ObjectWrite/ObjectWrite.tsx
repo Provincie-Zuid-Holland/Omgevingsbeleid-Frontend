@@ -1,36 +1,44 @@
 import { Heading } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
-import { getRegulationsGetQueryKey } from '@/api/fetchers'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
-import * as models from '@/config/regulations'
-import { ModelType } from '@/config/regulations/types'
+import * as models from '@/config/objects'
+import { ModelType } from '@/config/objects/types'
 import MutateLayout from '@/templates/MutateLayout'
 import { toastNotification } from '@/utils/toastNotification'
 
-interface RegulationEditProps {
+interface ObjectWriteProps {
     model: typeof models[ModelType]
 }
 
-const RegulationEdit = ({ model }: RegulationEditProps) => {
+const ObjectWrite = ({ model }: ObjectWriteProps) => {
     const queryClient = useQueryClient()
     const navigate = useNavigate()
 
-    const { singularCapitalize, plural, pluralCapitalize, regulationType } =
-        model.defaults
-    const { usePost } = models.default.fetchers
+    const { objectId } = useParams()
 
-    const createRegulation = usePost({
+    const { singularCapitalize, plural, pluralCapitalize } = model.defaults
+    const { usePatchObject, useGetLatestLineage, useGetValid } = model.fetchers
+
+    const { data, isLoading, queryKey } = useGetLatestLineage?.(
+        parseInt(objectId!),
+        {
+            query: { enabled: !!objectId },
+        }
+    )
+
+    const { refetch } = useGetValid(undefined, { query: { enabled: false } })
+
+    const writeObject = usePatchObject?.({
         mutation: {
             onError: () => {
                 toastNotification('error')
             },
             onSuccess: () => {
-                queryClient
-                    .invalidateQueries(getRegulationsGetQueryKey())
-                    .then(() => navigate(`/muteer/${plural}`))
+                queryClient.invalidateQueries(queryKey)
+                refetch().then(() => navigate(`/muteer/${plural}`))
 
                 toastNotification('saved')
             },
@@ -45,16 +53,14 @@ const RegulationEdit = ({ model }: RegulationEditProps) => {
             section.fields.map(field => field.name)
         )
 
-        const objectData = {
-            Type: regulationType,
-        } as { [key in typeof fields[number]]: any }
+        const objectData = {} as { [key in typeof fields[number]]: any }
 
-        fields?.forEach(field => {
-            return (objectData[field] = null)
-        })
+        fields?.forEach(
+            field => (objectData[field] = data?.[field as keyof typeof data])
+        )
 
         return objectData
-    }, [model.dynamicSections, regulationType])
+    }, [data, model.dynamicSections])
 
     /**
      * Handle submit of form
@@ -62,7 +68,8 @@ const RegulationEdit = ({ model }: RegulationEditProps) => {
     const handleSubmit = (payload: typeof initialData) => {
         if (!payload) return
 
-        createRegulation.mutate({
+        writeObject?.mutate({
+            lineageId: parseInt(objectId!),
             data: payload,
         })
     }
@@ -90,11 +97,11 @@ const RegulationEdit = ({ model }: RegulationEditProps) => {
                     initialData={initialData}
                     handleSubmit={handleSubmit}
                     onCancel={() => navigate(`/muteer/${plural}`)}
-                    isLoading={false}
+                    isLoading={isLoading}
                 />
             </div>
         </MutateLayout>
     )
 }
 
-export default RegulationEdit
+export default ObjectWrite

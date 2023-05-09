@@ -57,7 +57,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
     const handleSubmit = (payload: typeof initialData) => {
         if (!payload) return
 
-        patchObject.mutate({
+        patchObject?.mutate({
             moduleId: parseInt(moduleId!),
             lineageId: parseInt(objectId!),
             data: payload,

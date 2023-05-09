@@ -24,8 +24,6 @@ import { Module } from '@/api/fetchers.schemas'
 import { LoaderCard } from '@/components/Loader'
 import ModuleCard from '@/components/Modules/ModuleCard'
 import * as models from '@/config/objects'
-import * as regulations from '@/config/regulations'
-import { ModelType as RegulationType } from '@/config/regulations/types'
 import useAuth from '@/hooks/useAuth'
 import useBreakpoint from '@/hooks/useBreakpoint'
 import usePermissions from '@/hooks/usePermissions'
@@ -208,25 +206,6 @@ const Dashboard = () => {
                                                     />
                                                 )
                                             })}
-                                            {Object.keys(regulations)
-                                                .filter(e => e !== 'default')
-                                                .map(key => {
-                                                    const model =
-                                                        regulations[
-                                                            key as RegulationType
-                                                        ]
-
-                                                    return (
-                                                        <ListLink
-                                                            key={`link-${key}`}
-                                                            text={
-                                                                model.defaults
-                                                                    .pluralCapitalize
-                                                            }
-                                                            to={`/muteer/${model.defaults.plural}`}
-                                                        />
-                                                    )
-                                                })}
                                         </div>
                                     </div>
                                 </div>

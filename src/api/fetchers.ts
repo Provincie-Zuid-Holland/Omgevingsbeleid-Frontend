@@ -47,11 +47,25 @@ import type {
     BeleidskeuzeAcknowledgedRelationsLineageIdGetParams,
     RequestAcknowledgedRelation,
     EditAcknowledgedRelation,
-    Regulation,
-    RegulationObjectOverwrite,
     ModulesModuleIdObjectBeleidskeuzeLineageIdGetParams,
     BeleidskeuzeUUID,
     BeleidskeuzePatch,
+    BeleidsregelGet,
+    BeleidsregelsValidGetParams,
+    BeleidsregelBasic,
+    BeleidsregelsValidLineageIdGetParams,
+    BeleidsregelStaticPostStatics,
+    ModulesModuleIdObjectBeleidsregelLineageIdGetParams,
+    BeleidsregelUUID,
+    BeleidsregelPatch,
+    GebiedsprogrammaGet,
+    GebiedsprogrammasValidGetParams,
+    GebiedsprogrammaBasic,
+    GebiedsprogrammasValidLineageIdGetParams,
+    GebiedsprogrammaStaticPostStatics,
+    ModulesModuleIdObjectGebiedsprogrammasLineageIdGetParams,
+    GebiedsprogrammaUUID,
+    GebiedsprogrammaPatch,
     MaatregelGet,
     MaatregelenValidGetParams,
     MaatregelBasic,
@@ -60,14 +74,32 @@ import type {
     ModulesModuleIdObjectMaatregelLineageIdGetParams,
     MaatregelUUID,
     MaatregelPatch,
+    NationaalBelangUUID,
+    NationaalBelangCreate,
+    NationaalBelangEdit,
+    NationaalBelangBasic,
+    NationaalBelangValidGetParams,
+    NationaalBelangGet,
+    NationaalBelangStaticEditStatics,
+    VerplichtProgrammaUUID,
+    VerplichtProgrammaCreate,
+    VerplichtProgrammaEdit,
+    VerplichtProgrammaBasic,
+    VerplichtProgrammaValidGetParams,
+    VerplichtProgrammaGet,
+    VerplichtProgrammaStaticEditStatics,
+    WettelijkeTaakUUID,
+    WettelijkeTaakCreate,
+    WettelijkeTaakEdit,
+    WettelijkeTaakBasic,
+    WettelijkeTaakValidGetParams,
+    WettelijkeTaakGet,
+    WettelijkeTaakStaticEditStatics,
     UserShort,
     Werkingsgebied,
     SearchResponse,
     SearchGetParams,
     GraphResponse,
-    RegulationCreatedResponse,
-    RegulationCreate,
-    RegulationEdit,
     ObjectGraphGetParams,
     Module,
     ModulesGetParams,
@@ -2226,121 +2258,6 @@ export const useBeleidskeuzeAcknowledgedRelationsLineageIdEditPost = <
 }
 
 /**
- * @summary Get all regulations attached to the given beleidskeuze lineage
- */
-export const beleidskeuzeRegulationsLineageIdGet = (
-    lineageId: number,
-    signal?: AbortSignal
-) => {
-    return customInstance<Regulation[]>({
-        url: `/beleidskeuze/regulations/${lineageId}`,
-        method: 'get',
-        signal,
-    })
-}
-
-export const getBeleidskeuzeRegulationsLineageIdGetQueryKey = (
-    lineageId: number
-) => [`/beleidskeuze/regulations/${lineageId}`]
-
-export type BeleidskeuzeRegulationsLineageIdGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof beleidskeuzeRegulationsLineageIdGet>>
->
-export type BeleidskeuzeRegulationsLineageIdGetQueryError = HTTPValidationError
-
-export const useBeleidskeuzeRegulationsLineageIdGet = <
-    TData = Awaited<ReturnType<typeof beleidskeuzeRegulationsLineageIdGet>>,
-    TError = HTTPValidationError
->(
-    lineageId: number,
-    options?: {
-        query?: UseQueryOptions<
-            Awaited<ReturnType<typeof beleidskeuzeRegulationsLineageIdGet>>,
-            TError,
-            TData
-        >
-    }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-    const { query: queryOptions } = options ?? {}
-
-    const queryKey =
-        queryOptions?.queryKey ??
-        getBeleidskeuzeRegulationsLineageIdGetQueryKey(lineageId)
-
-    const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof beleidskeuzeRegulationsLineageIdGet>>
-    > = ({ signal }) => beleidskeuzeRegulationsLineageIdGet(lineageId, signal)
-
-    const query = useQuery<
-        Awaited<ReturnType<typeof beleidskeuzeRegulationsLineageIdGet>>,
-        TError,
-        TData
-    >({
-        queryKey,
-        queryFn,
-        enabled: !!lineageId,
-        ...queryOptions,
-    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-    query.queryKey = queryKey
-
-    return query
-}
-
-/**
- * @summary Overwrite all regulations of the given beleidskeuze lineage
- */
-export const beleidskeuzeRegulationsLineageIdPut = (
-    lineageId: number,
-    regulationObjectOverwrite: RegulationObjectOverwrite[]
-) => {
-    return customInstance<ResponseOK>({
-        url: `/beleidskeuze/regulations/${lineageId}`,
-        method: 'put',
-        headers: { 'Content-Type': 'application/json' },
-        data: regulationObjectOverwrite,
-    })
-}
-
-export type BeleidskeuzeRegulationsLineageIdPutMutationResult = NonNullable<
-    Awaited<ReturnType<typeof beleidskeuzeRegulationsLineageIdPut>>
->
-export type BeleidskeuzeRegulationsLineageIdPutMutationBody =
-    RegulationObjectOverwrite[]
-export type BeleidskeuzeRegulationsLineageIdPutMutationError =
-    HTTPValidationError
-
-export const useBeleidskeuzeRegulationsLineageIdPut = <
-    TError = HTTPValidationError,
-    TContext = unknown
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof beleidskeuzeRegulationsLineageIdPut>>,
-        TError,
-        { lineageId: number; data: RegulationObjectOverwrite[] },
-        TContext
-    >
-}) => {
-    const { mutation: mutationOptions } = options ?? {}
-
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof beleidskeuzeRegulationsLineageIdPut>>,
-        { lineageId: number; data: RegulationObjectOverwrite[] }
-    > = props => {
-        const { lineageId, data } = props ?? {}
-
-        return beleidskeuzeRegulationsLineageIdPut(lineageId, data)
-    }
-
-    return useMutation<
-        Awaited<ReturnType<typeof beleidskeuzeRegulationsLineageIdPut>>,
-        TError,
-        { lineageId: number; data: RegulationObjectOverwrite[] },
-        TContext
-    >(mutationFn, mutationOptions)
-}
-
-/**
  * @summary Get all the beleidskeuze of a single lineage in a module
  */
 export const modulesModuleIdObjectBeleidskeuzeLineageIdGet = (
@@ -2671,6 +2588,1559 @@ export const useModulesModuleIdObjectBeleidskeuzeVersionObjectUuidGet = <
         Awaited<
             ReturnType<
                 typeof modulesModuleIdObjectBeleidskeuzeVersionObjectUuidGet
+            >
+        >,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && objectUuid),
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Get all the valid beleidsregel lineages and shows the latest object of each
+ */
+export const beleidsregelsValidGet = (
+    params?: BeleidsregelsValidGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<BeleidsregelGet[]>({
+        url: `/beleidsregels/valid`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getBeleidsregelsValidGetQueryKey = (
+    params?: BeleidsregelsValidGetParams
+) => [`/beleidsregels/valid`, ...(params ? [params] : [])]
+
+export type BeleidsregelsValidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof beleidsregelsValidGet>>
+>
+export type BeleidsregelsValidGetQueryError = HTTPValidationError
+
+export const useBeleidsregelsValidGet = <
+    TData = Awaited<ReturnType<typeof beleidsregelsValidGet>>,
+    TError = HTTPValidationError
+>(
+    params?: BeleidsregelsValidGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof beleidsregelsValidGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getBeleidsregelsValidGetQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof beleidsregelsValidGet>>
+    > = ({ signal }) => beleidsregelsValidGet(params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof beleidsregelsValidGet>>,
+        TError,
+        TData
+    >({ queryKey, queryFn, ...queryOptions }) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Get all the valid beleidsregel of a single lineage
+ */
+export const beleidsregelsValidLineageIdGet = (
+    lineageId: number,
+    params?: BeleidsregelsValidLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<BeleidsregelBasic[]>({
+        url: `/beleidsregels/valid/${lineageId}`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getBeleidsregelsValidLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: BeleidsregelsValidLineageIdGetParams
+) => [`/beleidsregels/valid/${lineageId}`, ...(params ? [params] : [])]
+
+export type BeleidsregelsValidLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof beleidsregelsValidLineageIdGet>>
+>
+export type BeleidsregelsValidLineageIdGetQueryError = HTTPValidationError
+
+export const useBeleidsregelsValidLineageIdGet = <
+    TData = Awaited<ReturnType<typeof beleidsregelsValidLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: BeleidsregelsValidLineageIdGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof beleidsregelsValidLineageIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getBeleidsregelsValidLineageIdGetQueryKey(lineageId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof beleidsregelsValidLineageIdGet>>
+    > = ({ signal }) =>
+        beleidsregelsValidLineageIdGet(lineageId, params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof beleidsregelsValidLineageIdGet>>,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific beleidsregel by uuid
+ */
+export const beleidsregelsVersionObjectUuidGet = (
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<BeleidsregelGet>({
+        url: `/beleidsregels/version/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getBeleidsregelsVersionObjectUuidGetQueryKey = (
+    objectUuid: string
+) => [`/beleidsregels/version/${objectUuid}`]
+
+export type BeleidsregelsVersionObjectUuidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof beleidsregelsVersionObjectUuidGet>>
+>
+export type BeleidsregelsVersionObjectUuidGetQueryError = HTTPValidationError
+
+export const useBeleidsregelsVersionObjectUuidGet = <
+    TData = Awaited<ReturnType<typeof beleidsregelsVersionObjectUuidGet>>,
+    TError = HTTPValidationError
+>(
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof beleidsregelsVersionObjectUuidGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getBeleidsregelsVersionObjectUuidGetQueryKey(objectUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof beleidsregelsVersionObjectUuidGet>>
+    > = ({ signal }) => beleidsregelsVersionObjectUuidGet(objectUuid, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof beleidsregelsVersionObjectUuidGet>>,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!objectUuid,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Get latest lineage record for beleidsregel by their lineage id
+ */
+export const beleidsregelsLatestLineageIdGet = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<BeleidsregelGet>({
+        url: `/beleidsregels/latest/${lineageId}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getBeleidsregelsLatestLineageIdGetQueryKey = (
+    lineageId: number
+) => [`/beleidsregels/latest/${lineageId}`]
+
+export type BeleidsregelsLatestLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof beleidsregelsLatestLineageIdGet>>
+>
+export type BeleidsregelsLatestLineageIdGetQueryError = HTTPValidationError
+
+export const useBeleidsregelsLatestLineageIdGet = <
+    TData = Awaited<ReturnType<typeof beleidsregelsLatestLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof beleidsregelsLatestLineageIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getBeleidsregelsLatestLineageIdGetQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof beleidsregelsLatestLineageIdGet>>
+    > = ({ signal }) => beleidsregelsLatestLineageIdGet(lineageId, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof beleidsregelsLatestLineageIdGet>>,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Get all relation codes of the given beleidsregel lineage
+ */
+export const beleidsregelsRelationsLineageIdGet = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<RelationShort[]>({
+        url: `/beleidsregels/relations/${lineageId}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getBeleidsregelsRelationsLineageIdGetQueryKey = (
+    lineageId: number
+) => [`/beleidsregels/relations/${lineageId}`]
+
+export type BeleidsregelsRelationsLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdGet>>
+>
+export type BeleidsregelsRelationsLineageIdGetQueryError = HTTPValidationError
+
+export const useBeleidsregelsRelationsLineageIdGet = <
+    TData = Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getBeleidsregelsRelationsLineageIdGetQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdGet>>
+    > = ({ signal }) => beleidsregelsRelationsLineageIdGet(lineageId, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdGet>>,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Overwrite all relations of the given beleidsregel lineage
+ */
+export const beleidsregelsRelationsLineageIdPut = (
+    lineageId: number,
+    relationShort: RelationShort[]
+) => {
+    return customInstance<ResponseOK>({
+        url: `/beleidsregels/relations/${lineageId}`,
+        method: 'put',
+        headers: { 'Content-Type': 'application/json' },
+        data: relationShort,
+    })
+}
+
+export type BeleidsregelsRelationsLineageIdPutMutationResult = NonNullable<
+    Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdPut>>
+>
+export type BeleidsregelsRelationsLineageIdPutMutationBody = RelationShort[]
+export type BeleidsregelsRelationsLineageIdPutMutationError =
+    HTTPValidationError
+
+export const useBeleidsregelsRelationsLineageIdPut = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdPut>>,
+        TError,
+        { lineageId: number; data: RelationShort[] },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdPut>>,
+        { lineageId: number; data: RelationShort[] }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return beleidsregelsRelationsLineageIdPut(lineageId, data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdPut>>,
+        TError,
+        { lineageId: number; data: RelationShort[] },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Edit static data of an object
+ */
+export const beleidsregelStaticLineageIdPost = (
+    lineageId: number,
+    beleidsregelStaticPostStatics: BeleidsregelStaticPostStatics
+) => {
+    return customInstance<ResponseOK>({
+        url: `/beleidsregel/static/${lineageId}`,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: beleidsregelStaticPostStatics,
+    })
+}
+
+export type BeleidsregelStaticLineageIdPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof beleidsregelStaticLineageIdPost>>
+>
+export type BeleidsregelStaticLineageIdPostMutationBody =
+    BeleidsregelStaticPostStatics
+export type BeleidsregelStaticLineageIdPostMutationError = HTTPValidationError
+
+export const useBeleidsregelStaticLineageIdPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof beleidsregelStaticLineageIdPost>>,
+        TError,
+        { lineageId: number; data: BeleidsregelStaticPostStatics },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof beleidsregelStaticLineageIdPost>>,
+        { lineageId: number; data: BeleidsregelStaticPostStatics }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return beleidsregelStaticLineageIdPost(lineageId, data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof beleidsregelStaticLineageIdPost>>,
+        TError,
+        { lineageId: number; data: BeleidsregelStaticPostStatics },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Get all the beleidsregel of a single lineage in a module
+ */
+export const modulesModuleIdObjectBeleidsregelLineageIdGet = (
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectBeleidsregelLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<BeleidsregelBasic[]>({
+        url: `/modules/${moduleId}/object/beleidsregel/${lineageId}`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectBeleidsregelLineageIdGetQueryKey = (
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectBeleidsregelLineageIdGetParams
+) => [
+    `/modules/${moduleId}/object/beleidsregel/${lineageId}`,
+    ...(params ? [params] : []),
+]
+
+export type ModulesModuleIdObjectBeleidsregelLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectBeleidsregelLineageIdGet>
+        >
+    >
+export type ModulesModuleIdObjectBeleidsregelLineageIdGetQueryError =
+    HTTPValidationError
+
+export const useModulesModuleIdObjectBeleidsregelLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesModuleIdObjectBeleidsregelLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectBeleidsregelLineageIdGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<typeof modulesModuleIdObjectBeleidsregelLineageIdGet>
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesModuleIdObjectBeleidsregelLineageIdGetQueryKey(
+            moduleId,
+            lineageId,
+            params
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectBeleidsregelLineageIdGet>
+        >
+    > = ({ signal }) =>
+        modulesModuleIdObjectBeleidsregelLineageIdGet(
+            moduleId,
+            lineageId,
+            params,
+            signal
+        )
+
+    const query = useQuery<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectBeleidsregelLineageIdGet>
+        >,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && lineageId),
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Add a new version to the beleidsregel lineage in a module
+ */
+export const modulesModuleIdObjectBeleidsregelLineageIdPatch = (
+    moduleId: number,
+    lineageId: number,
+    beleidsregelPatch: BeleidsregelPatch
+) => {
+    return customInstance<BeleidsregelUUID>({
+        url: `/modules/${moduleId}/object/beleidsregel/${lineageId}`,
+        method: 'patch',
+        headers: { 'Content-Type': 'application/json' },
+        data: beleidsregelPatch,
+    })
+}
+
+export type ModulesModuleIdObjectBeleidsregelLineageIdPatchMutationResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectBeleidsregelLineageIdPatch>
+        >
+    >
+export type ModulesModuleIdObjectBeleidsregelLineageIdPatchMutationBody =
+    BeleidsregelPatch
+export type ModulesModuleIdObjectBeleidsregelLineageIdPatchMutationError =
+    HTTPValidationError
+
+export const useModulesModuleIdObjectBeleidsregelLineageIdPatch = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectBeleidsregelLineageIdPatch>
+        >,
+        TError,
+        { moduleId: number; lineageId: number; data: BeleidsregelPatch },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectBeleidsregelLineageIdPatch>
+        >,
+        { moduleId: number; lineageId: number; data: BeleidsregelPatch }
+    > = props => {
+        const { moduleId, lineageId, data } = props ?? {}
+
+        return modulesModuleIdObjectBeleidsregelLineageIdPatch(
+            moduleId,
+            lineageId,
+            data
+        )
+    }
+
+    return useMutation<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectBeleidsregelLineageIdPatch>
+        >,
+        TError,
+        { moduleId: number; lineageId: number; data: BeleidsregelPatch },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Get latest lineage record for beleidsregel by their lineage id in a module
+ */
+export const modulesModuleIdObjectBeleidsregelLatestLineageIdGet = (
+    moduleId: number,
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<BeleidsregelGet>({
+        url: `/modules/${moduleId}/object/beleidsregel/latest/${lineageId}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectBeleidsregelLatestLineageIdGetQueryKey = (
+    moduleId: number,
+    lineageId: number
+) => [`/modules/${moduleId}/object/beleidsregel/latest/${lineageId}`]
+
+export type ModulesModuleIdObjectBeleidsregelLatestLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectBeleidsregelLatestLineageIdGet
+            >
+        >
+    >
+export type ModulesModuleIdObjectBeleidsregelLatestLineageIdGetQueryError =
+    HTTPValidationError
+
+export const useModulesModuleIdObjectBeleidsregelLatestLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesModuleIdObjectBeleidsregelLatestLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    lineageId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectBeleidsregelLatestLineageIdGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesModuleIdObjectBeleidsregelLatestLineageIdGetQueryKey(
+            moduleId,
+            lineageId
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectBeleidsregelLatestLineageIdGet
+            >
+        >
+    > = ({ signal }) =>
+        modulesModuleIdObjectBeleidsregelLatestLineageIdGet(
+            moduleId,
+            lineageId,
+            signal
+        )
+
+    const query = useQuery<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectBeleidsregelLatestLineageIdGet
+            >
+        >,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && lineageId),
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific beleidsregel by uuid in a module
+ */
+export const modulesModuleIdObjectBeleidsregelVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<BeleidsregelGet>({
+        url: `/modules/${moduleId}/object/beleidsregel/version/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectBeleidsregelVersionObjectUuidGetQueryKey =
+    (moduleId: number, objectUuid: string) => [
+        `/modules/${moduleId}/object/beleidsregel/version/${objectUuid}`,
+    ]
+
+export type ModulesModuleIdObjectBeleidsregelVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectBeleidsregelVersionObjectUuidGet
+            >
+        >
+    >
+export type ModulesModuleIdObjectBeleidsregelVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+export const useModulesModuleIdObjectBeleidsregelVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesModuleIdObjectBeleidsregelVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectBeleidsregelVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesModuleIdObjectBeleidsregelVersionObjectUuidGetQueryKey(
+            moduleId,
+            objectUuid
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectBeleidsregelVersionObjectUuidGet
+            >
+        >
+    > = ({ signal }) =>
+        modulesModuleIdObjectBeleidsregelVersionObjectUuidGet(
+            moduleId,
+            objectUuid,
+            signal
+        )
+
+    const query = useQuery<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectBeleidsregelVersionObjectUuidGet
+            >
+        >,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && objectUuid),
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Get all the valid gebiedsprogramma lineages and shows the latest object of each
+ */
+export const gebiedsprogrammasValidGet = (
+    params?: GebiedsprogrammasValidGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<GebiedsprogrammaGet[]>({
+        url: `/gebiedsprogrammas/valid`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getGebiedsprogrammasValidGetQueryKey = (
+    params?: GebiedsprogrammasValidGetParams
+) => [`/gebiedsprogrammas/valid`, ...(params ? [params] : [])]
+
+export type GebiedsprogrammasValidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof gebiedsprogrammasValidGet>>
+>
+export type GebiedsprogrammasValidGetQueryError = HTTPValidationError
+
+export const useGebiedsprogrammasValidGet = <
+    TData = Awaited<ReturnType<typeof gebiedsprogrammasValidGet>>,
+    TError = HTTPValidationError
+>(
+    params?: GebiedsprogrammasValidGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof gebiedsprogrammasValidGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGebiedsprogrammasValidGetQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof gebiedsprogrammasValidGet>>
+    > = ({ signal }) => gebiedsprogrammasValidGet(params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof gebiedsprogrammasValidGet>>,
+        TError,
+        TData
+    >({ queryKey, queryFn, ...queryOptions }) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Get all the valid gebiedsprogramma of a single lineage
+ */
+export const gebiedsprogrammasValidLineageIdGet = (
+    lineageId: number,
+    params?: GebiedsprogrammasValidLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<GebiedsprogrammaBasic[]>({
+        url: `/gebiedsprogrammas/valid/${lineageId}`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getGebiedsprogrammasValidLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: GebiedsprogrammasValidLineageIdGetParams
+) => [`/gebiedsprogrammas/valid/${lineageId}`, ...(params ? [params] : [])]
+
+export type GebiedsprogrammasValidLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof gebiedsprogrammasValidLineageIdGet>>
+>
+export type GebiedsprogrammasValidLineageIdGetQueryError = HTTPValidationError
+
+export const useGebiedsprogrammasValidLineageIdGet = <
+    TData = Awaited<ReturnType<typeof gebiedsprogrammasValidLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: GebiedsprogrammasValidLineageIdGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof gebiedsprogrammasValidLineageIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGebiedsprogrammasValidLineageIdGetQueryKey(lineageId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof gebiedsprogrammasValidLineageIdGet>>
+    > = ({ signal }) =>
+        gebiedsprogrammasValidLineageIdGet(lineageId, params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof gebiedsprogrammasValidLineageIdGet>>,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific gebiedsprogramma by uuid
+ */
+export const gebiedsprogrammasVersionObjectUuidGet = (
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<GebiedsprogrammaGet>({
+        url: `/gebiedsprogrammas/version/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getGebiedsprogrammasVersionObjectUuidGetQueryKey = (
+    objectUuid: string
+) => [`/gebiedsprogrammas/version/${objectUuid}`]
+
+export type GebiedsprogrammasVersionObjectUuidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof gebiedsprogrammasVersionObjectUuidGet>>
+>
+export type GebiedsprogrammasVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+export const useGebiedsprogrammasVersionObjectUuidGet = <
+    TData = Awaited<ReturnType<typeof gebiedsprogrammasVersionObjectUuidGet>>,
+    TError = HTTPValidationError
+>(
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof gebiedsprogrammasVersionObjectUuidGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGebiedsprogrammasVersionObjectUuidGetQueryKey(objectUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof gebiedsprogrammasVersionObjectUuidGet>>
+    > = ({ signal }) =>
+        gebiedsprogrammasVersionObjectUuidGet(objectUuid, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof gebiedsprogrammasVersionObjectUuidGet>>,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!objectUuid,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Get latest lineage record for gebiedsprogramma by their lineage id
+ */
+export const gebiedsprogrammasLatestLineageIdGet = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<GebiedsprogrammaGet>({
+        url: `/gebiedsprogrammas/latest/${lineageId}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getGebiedsprogrammasLatestLineageIdGetQueryKey = (
+    lineageId: number
+) => [`/gebiedsprogrammas/latest/${lineageId}`]
+
+export type GebiedsprogrammasLatestLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof gebiedsprogrammasLatestLineageIdGet>>
+>
+export type GebiedsprogrammasLatestLineageIdGetQueryError = HTTPValidationError
+
+export const useGebiedsprogrammasLatestLineageIdGet = <
+    TData = Awaited<ReturnType<typeof gebiedsprogrammasLatestLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof gebiedsprogrammasLatestLineageIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGebiedsprogrammasLatestLineageIdGetQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof gebiedsprogrammasLatestLineageIdGet>>
+    > = ({ signal }) => gebiedsprogrammasLatestLineageIdGet(lineageId, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof gebiedsprogrammasLatestLineageIdGet>>,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Get all relation codes of the given gebiedsprogramma lineage
+ */
+export const gebiedsprogrammasRelationsLineageIdGet = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<RelationShort[]>({
+        url: `/gebiedsprogrammas/relations/${lineageId}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getGebiedsprogrammasRelationsLineageIdGetQueryKey = (
+    lineageId: number
+) => [`/gebiedsprogrammas/relations/${lineageId}`]
+
+export type GebiedsprogrammasRelationsLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdGet>>
+>
+export type GebiedsprogrammasRelationsLineageIdGetQueryError =
+    HTTPValidationError
+
+export const useGebiedsprogrammasRelationsLineageIdGet = <
+    TData = Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGebiedsprogrammasRelationsLineageIdGetQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdGet>>
+    > = ({ signal }) =>
+        gebiedsprogrammasRelationsLineageIdGet(lineageId, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdGet>>,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Overwrite all relations of the given gebiedsprogramma lineage
+ */
+export const gebiedsprogrammasRelationsLineageIdPut = (
+    lineageId: number,
+    relationShort: RelationShort[]
+) => {
+    return customInstance<ResponseOK>({
+        url: `/gebiedsprogrammas/relations/${lineageId}`,
+        method: 'put',
+        headers: { 'Content-Type': 'application/json' },
+        data: relationShort,
+    })
+}
+
+export type GebiedsprogrammasRelationsLineageIdPutMutationResult = NonNullable<
+    Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdPut>>
+>
+export type GebiedsprogrammasRelationsLineageIdPutMutationBody = RelationShort[]
+export type GebiedsprogrammasRelationsLineageIdPutMutationError =
+    HTTPValidationError
+
+export const useGebiedsprogrammasRelationsLineageIdPut = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdPut>>,
+        TError,
+        { lineageId: number; data: RelationShort[] },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdPut>>,
+        { lineageId: number; data: RelationShort[] }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return gebiedsprogrammasRelationsLineageIdPut(lineageId, data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdPut>>,
+        TError,
+        { lineageId: number; data: RelationShort[] },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Edit static data of an object
+ */
+export const gebiedsprogrammasStaticLineageIdPost = (
+    lineageId: number,
+    gebiedsprogrammaStaticPostStatics: GebiedsprogrammaStaticPostStatics
+) => {
+    return customInstance<ResponseOK>({
+        url: `/gebiedsprogrammas/static/${lineageId}`,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: gebiedsprogrammaStaticPostStatics,
+    })
+}
+
+export type GebiedsprogrammasStaticLineageIdPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof gebiedsprogrammasStaticLineageIdPost>>
+>
+export type GebiedsprogrammasStaticLineageIdPostMutationBody =
+    GebiedsprogrammaStaticPostStatics
+export type GebiedsprogrammasStaticLineageIdPostMutationError =
+    HTTPValidationError
+
+export const useGebiedsprogrammasStaticLineageIdPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof gebiedsprogrammasStaticLineageIdPost>>,
+        TError,
+        { lineageId: number; data: GebiedsprogrammaStaticPostStatics },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof gebiedsprogrammasStaticLineageIdPost>>,
+        { lineageId: number; data: GebiedsprogrammaStaticPostStatics }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return gebiedsprogrammasStaticLineageIdPost(lineageId, data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof gebiedsprogrammasStaticLineageIdPost>>,
+        TError,
+        { lineageId: number; data: GebiedsprogrammaStaticPostStatics },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Get all the gebiedsprogramma of a single lineage in a module
+ */
+export const modulesModuleIdObjectGebiedsprogrammasLineageIdGet = (
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectGebiedsprogrammasLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<GebiedsprogrammaBasic[]>({
+        url: `/modules/${moduleId}/object/gebiedsprogrammas/${lineageId}`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectGebiedsprogrammasLineageIdGetQueryKey = (
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectGebiedsprogrammasLineageIdGetParams
+) => [
+    `/modules/${moduleId}/object/gebiedsprogrammas/${lineageId}`,
+    ...(params ? [params] : []),
+]
+
+export type ModulesModuleIdObjectGebiedsprogrammasLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectGebiedsprogrammasLineageIdGet
+            >
+        >
+    >
+export type ModulesModuleIdObjectGebiedsprogrammasLineageIdGetQueryError =
+    HTTPValidationError
+
+export const useModulesModuleIdObjectGebiedsprogrammasLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesModuleIdObjectGebiedsprogrammasLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectGebiedsprogrammasLineageIdGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectGebiedsprogrammasLineageIdGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesModuleIdObjectGebiedsprogrammasLineageIdGetQueryKey(
+            moduleId,
+            lineageId,
+            params
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectGebiedsprogrammasLineageIdGet
+            >
+        >
+    > = ({ signal }) =>
+        modulesModuleIdObjectGebiedsprogrammasLineageIdGet(
+            moduleId,
+            lineageId,
+            params,
+            signal
+        )
+
+    const query = useQuery<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectGebiedsprogrammasLineageIdGet
+            >
+        >,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && lineageId),
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Add a new version to the gebiedsprogramma lineage in a module
+ */
+export const modulesModuleIdObjectGebiedsprogrammasLineageIdPatch = (
+    moduleId: number,
+    lineageId: number,
+    gebiedsprogrammaPatch: GebiedsprogrammaPatch
+) => {
+    return customInstance<GebiedsprogrammaUUID>({
+        url: `/modules/${moduleId}/object/gebiedsprogrammas/${lineageId}`,
+        method: 'patch',
+        headers: { 'Content-Type': 'application/json' },
+        data: gebiedsprogrammaPatch,
+    })
+}
+
+export type ModulesModuleIdObjectGebiedsprogrammasLineageIdPatchMutationResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectGebiedsprogrammasLineageIdPatch
+            >
+        >
+    >
+export type ModulesModuleIdObjectGebiedsprogrammasLineageIdPatchMutationBody =
+    GebiedsprogrammaPatch
+export type ModulesModuleIdObjectGebiedsprogrammasLineageIdPatchMutationError =
+    HTTPValidationError
+
+export const useModulesModuleIdObjectGebiedsprogrammasLineageIdPatch = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectGebiedsprogrammasLineageIdPatch
+            >
+        >,
+        TError,
+        { moduleId: number; lineageId: number; data: GebiedsprogrammaPatch },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectGebiedsprogrammasLineageIdPatch
+            >
+        >,
+        { moduleId: number; lineageId: number; data: GebiedsprogrammaPatch }
+    > = props => {
+        const { moduleId, lineageId, data } = props ?? {}
+
+        return modulesModuleIdObjectGebiedsprogrammasLineageIdPatch(
+            moduleId,
+            lineageId,
+            data
+        )
+    }
+
+    return useMutation<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectGebiedsprogrammasLineageIdPatch
+            >
+        >,
+        TError,
+        { moduleId: number; lineageId: number; data: GebiedsprogrammaPatch },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Get latest lineage record for gebiedsprogramma by their lineage id in a module
+ */
+export const modulesModuleIdObjectGebiedsprogrammasLatestLineageIdGet = (
+    moduleId: number,
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<GebiedsprogrammaGet>({
+        url: `/modules/${moduleId}/object/gebiedsprogrammas/latest/${lineageId}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectGebiedsprogrammasLatestLineageIdGetQueryKey =
+    (moduleId: number, lineageId: number) => [
+        `/modules/${moduleId}/object/gebiedsprogrammas/latest/${lineageId}`,
+    ]
+
+export type ModulesModuleIdObjectGebiedsprogrammasLatestLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectGebiedsprogrammasLatestLineageIdGet
+            >
+        >
+    >
+export type ModulesModuleIdObjectGebiedsprogrammasLatestLineageIdGetQueryError =
+    HTTPValidationError
+
+export const useModulesModuleIdObjectGebiedsprogrammasLatestLineageIdGet = <
+    TData = Awaited<
+        ReturnType<
+            typeof modulesModuleIdObjectGebiedsprogrammasLatestLineageIdGet
+        >
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    lineageId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectGebiedsprogrammasLatestLineageIdGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesModuleIdObjectGebiedsprogrammasLatestLineageIdGetQueryKey(
+            moduleId,
+            lineageId
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectGebiedsprogrammasLatestLineageIdGet
+            >
+        >
+    > = ({ signal }) =>
+        modulesModuleIdObjectGebiedsprogrammasLatestLineageIdGet(
+            moduleId,
+            lineageId,
+            signal
+        )
+
+    const query = useQuery<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectGebiedsprogrammasLatestLineageIdGet
+            >
+        >,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && lineageId),
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific gebiedsprogramma by uuid in a module
+ */
+export const modulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<GebiedsprogrammaGet>({
+        url: `/modules/${moduleId}/object/gebiedsprogrammas/version/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGetQueryKey =
+    (moduleId: number, objectUuid: string) => [
+        `/modules/${moduleId}/object/gebiedsprogrammas/version/${objectUuid}`,
+    ]
+
+export type ModulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGet
+            >
+        >
+    >
+export type ModulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+export const useModulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<
+            typeof modulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGet
+        >
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGetQueryKey(
+            moduleId,
+            objectUuid
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGet
+            >
+        >
+    > = ({ signal }) =>
+        modulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGet(
+            moduleId,
+            objectUuid,
+            signal
+        )
+
+    const query = useQuery<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGet
             >
         >,
         TError,
@@ -3103,120 +4573,6 @@ export const useMaatregelStaticLineageIdPost = <
 }
 
 /**
- * @summary Get all regulations attached to the given maatregel lineage
- */
-export const maatregelRegulationsLineageIdGet = (
-    lineageId: number,
-    signal?: AbortSignal
-) => {
-    return customInstance<Regulation[]>({
-        url: `/maatregel/regulations/${lineageId}`,
-        method: 'get',
-        signal,
-    })
-}
-
-export const getMaatregelRegulationsLineageIdGetQueryKey = (
-    lineageId: number
-) => [`/maatregel/regulations/${lineageId}`]
-
-export type MaatregelRegulationsLineageIdGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof maatregelRegulationsLineageIdGet>>
->
-export type MaatregelRegulationsLineageIdGetQueryError = HTTPValidationError
-
-export const useMaatregelRegulationsLineageIdGet = <
-    TData = Awaited<ReturnType<typeof maatregelRegulationsLineageIdGet>>,
-    TError = HTTPValidationError
->(
-    lineageId: number,
-    options?: {
-        query?: UseQueryOptions<
-            Awaited<ReturnType<typeof maatregelRegulationsLineageIdGet>>,
-            TError,
-            TData
-        >
-    }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-    const { query: queryOptions } = options ?? {}
-
-    const queryKey =
-        queryOptions?.queryKey ??
-        getMaatregelRegulationsLineageIdGetQueryKey(lineageId)
-
-    const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof maatregelRegulationsLineageIdGet>>
-    > = ({ signal }) => maatregelRegulationsLineageIdGet(lineageId, signal)
-
-    const query = useQuery<
-        Awaited<ReturnType<typeof maatregelRegulationsLineageIdGet>>,
-        TError,
-        TData
-    >({
-        queryKey,
-        queryFn,
-        enabled: !!lineageId,
-        ...queryOptions,
-    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-    query.queryKey = queryKey
-
-    return query
-}
-
-/**
- * @summary Overwrite all regulations of the given maatregel lineage
- */
-export const maatregelRegulationsLineageIdPut = (
-    lineageId: number,
-    regulationObjectOverwrite: RegulationObjectOverwrite[]
-) => {
-    return customInstance<ResponseOK>({
-        url: `/maatregel/regulations/${lineageId}`,
-        method: 'put',
-        headers: { 'Content-Type': 'application/json' },
-        data: regulationObjectOverwrite,
-    })
-}
-
-export type MaatregelRegulationsLineageIdPutMutationResult = NonNullable<
-    Awaited<ReturnType<typeof maatregelRegulationsLineageIdPut>>
->
-export type MaatregelRegulationsLineageIdPutMutationBody =
-    RegulationObjectOverwrite[]
-export type MaatregelRegulationsLineageIdPutMutationError = HTTPValidationError
-
-export const useMaatregelRegulationsLineageIdPut = <
-    TError = HTTPValidationError,
-    TContext = unknown
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof maatregelRegulationsLineageIdPut>>,
-        TError,
-        { lineageId: number; data: RegulationObjectOverwrite[] },
-        TContext
-    >
-}) => {
-    const { mutation: mutationOptions } = options ?? {}
-
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof maatregelRegulationsLineageIdPut>>,
-        { lineageId: number; data: RegulationObjectOverwrite[] }
-    > = props => {
-        const { lineageId, data } = props ?? {}
-
-        return maatregelRegulationsLineageIdPut(lineageId, data)
-    }
-
-    return useMutation<
-        Awaited<ReturnType<typeof maatregelRegulationsLineageIdPut>>,
-        TError,
-        { lineageId: number; data: RegulationObjectOverwrite[] },
-        TContext
-    >(mutationFn, mutationOptions)
-}
-
-/**
  * @summary Get all the maatregel of a single lineage in a module
  */
 export const modulesModuleIdObjectMaatregelLineageIdGet = (
@@ -3549,6 +4905,1178 @@ export const useModulesModuleIdObjectMaatregelVersionObjectUuidGet = <
 }
 
 /**
+ * @summary Add new object
+ */
+export const nationaalBelangPost = (
+    nationaalBelangCreate: NationaalBelangCreate
+) => {
+    return customInstance<NationaalBelangUUID>({
+        url: `/nationaal-belang`,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: nationaalBelangCreate,
+    })
+}
+
+export type NationaalBelangPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof nationaalBelangPost>>
+>
+export type NationaalBelangPostMutationBody = NationaalBelangCreate
+export type NationaalBelangPostMutationError = HTTPValidationError
+
+export const useNationaalBelangPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof nationaalBelangPost>>,
+        TError,
+        { data: NationaalBelangCreate },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof nationaalBelangPost>>,
+        { data: NationaalBelangCreate }
+    > = props => {
+        const { data } = props ?? {}
+
+        return nationaalBelangPost(data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof nationaalBelangPost>>,
+        TError,
+        { data: NationaalBelangCreate },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Edit atemporal object
+ */
+export const nationaalBelangLineageIdPost = (
+    lineageId: number,
+    nationaalBelangEdit: NationaalBelangEdit
+) => {
+    return customInstance<ResponseOK>({
+        url: `/nationaal-belang/${lineageId}`,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: nationaalBelangEdit,
+    })
+}
+
+export type NationaalBelangLineageIdPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof nationaalBelangLineageIdPost>>
+>
+export type NationaalBelangLineageIdPostMutationBody = NationaalBelangEdit
+export type NationaalBelangLineageIdPostMutationError = HTTPValidationError
+
+export const useNationaalBelangLineageIdPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof nationaalBelangLineageIdPost>>,
+        TError,
+        { lineageId: number; data: NationaalBelangEdit },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof nationaalBelangLineageIdPost>>,
+        { lineageId: number; data: NationaalBelangEdit }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return nationaalBelangLineageIdPost(lineageId, data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof nationaalBelangLineageIdPost>>,
+        TError,
+        { lineageId: number; data: NationaalBelangEdit },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Get all the valid nationaal_belang lineages and shows the latest object of each
+ */
+export const nationaalBelangValidGet = (
+    params?: NationaalBelangValidGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<NationaalBelangBasic[]>({
+        url: `/nationaal-belang/valid`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getNationaalBelangValidGetQueryKey = (
+    params?: NationaalBelangValidGetParams
+) => [`/nationaal-belang/valid`, ...(params ? [params] : [])]
+
+export type NationaalBelangValidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof nationaalBelangValidGet>>
+>
+export type NationaalBelangValidGetQueryError = HTTPValidationError
+
+export const useNationaalBelangValidGet = <
+    TData = Awaited<ReturnType<typeof nationaalBelangValidGet>>,
+    TError = HTTPValidationError
+>(
+    params?: NationaalBelangValidGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof nationaalBelangValidGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getNationaalBelangValidGetQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof nationaalBelangValidGet>>
+    > = ({ signal }) => nationaalBelangValidGet(params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof nationaalBelangValidGet>>,
+        TError,
+        TData
+    >({ queryKey, queryFn, ...queryOptions }) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Get latest lineage record for nationaal_belang by their lineage id
+ */
+export const nationaalBelangLatestLineageIdGet = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<NationaalBelangGet>({
+        url: `/nationaal-belang/latest/${lineageId}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getNationaalBelangLatestLineageIdGetQueryKey = (
+    lineageId: number
+) => [`/nationaal-belang/latest/${lineageId}`]
+
+export type NationaalBelangLatestLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof nationaalBelangLatestLineageIdGet>>
+>
+export type NationaalBelangLatestLineageIdGetQueryError = HTTPValidationError
+
+export const useNationaalBelangLatestLineageIdGet = <
+    TData = Awaited<ReturnType<typeof nationaalBelangLatestLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof nationaalBelangLatestLineageIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getNationaalBelangLatestLineageIdGetQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof nationaalBelangLatestLineageIdGet>>
+    > = ({ signal }) => nationaalBelangLatestLineageIdGet(lineageId, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof nationaalBelangLatestLineageIdGet>>,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Get all relation codes of the given nationaal_belang lineage
+ */
+export const nationaalBelangRelationsLineageIdGet = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<RelationShort[]>({
+        url: `/nationaal-belang/relations/${lineageId}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getNationaalBelangRelationsLineageIdGetQueryKey = (
+    lineageId: number
+) => [`/nationaal-belang/relations/${lineageId}`]
+
+export type NationaalBelangRelationsLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdGet>>
+>
+export type NationaalBelangRelationsLineageIdGetQueryError = HTTPValidationError
+
+export const useNationaalBelangRelationsLineageIdGet = <
+    TData = Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getNationaalBelangRelationsLineageIdGetQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdGet>>
+    > = ({ signal }) => nationaalBelangRelationsLineageIdGet(lineageId, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdGet>>,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Overwrite all relations of the given nationaal_belang lineage
+ */
+export const nationaalBelangRelationsLineageIdPut = (
+    lineageId: number,
+    relationShort: RelationShort[]
+) => {
+    return customInstance<ResponseOK>({
+        url: `/nationaal-belang/relations/${lineageId}`,
+        method: 'put',
+        headers: { 'Content-Type': 'application/json' },
+        data: relationShort,
+    })
+}
+
+export type NationaalBelangRelationsLineageIdPutMutationResult = NonNullable<
+    Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdPut>>
+>
+export type NationaalBelangRelationsLineageIdPutMutationBody = RelationShort[]
+export type NationaalBelangRelationsLineageIdPutMutationError =
+    HTTPValidationError
+
+export const useNationaalBelangRelationsLineageIdPut = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdPut>>,
+        TError,
+        { lineageId: number; data: RelationShort[] },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdPut>>,
+        { lineageId: number; data: RelationShort[] }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return nationaalBelangRelationsLineageIdPut(lineageId, data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdPut>>,
+        TError,
+        { lineageId: number; data: RelationShort[] },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Edit static data of an object
+ */
+export const nationaalBelangStaticLineageIdPost = (
+    lineageId: number,
+    nationaalBelangStaticEditStatics: NationaalBelangStaticEditStatics
+) => {
+    return customInstance<ResponseOK>({
+        url: `/nationaal-belang/static/${lineageId}`,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: nationaalBelangStaticEditStatics,
+    })
+}
+
+export type NationaalBelangStaticLineageIdPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof nationaalBelangStaticLineageIdPost>>
+>
+export type NationaalBelangStaticLineageIdPostMutationBody =
+    NationaalBelangStaticEditStatics
+export type NationaalBelangStaticLineageIdPostMutationError =
+    HTTPValidationError
+
+export const useNationaalBelangStaticLineageIdPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof nationaalBelangStaticLineageIdPost>>,
+        TError,
+        { lineageId: number; data: NationaalBelangStaticEditStatics },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof nationaalBelangStaticLineageIdPost>>,
+        { lineageId: number; data: NationaalBelangStaticEditStatics }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return nationaalBelangStaticLineageIdPost(lineageId, data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof nationaalBelangStaticLineageIdPost>>,
+        TError,
+        { lineageId: number; data: NationaalBelangStaticEditStatics },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Add new object
+ */
+export const verplichtProgrammaPost = (
+    verplichtProgrammaCreate: VerplichtProgrammaCreate
+) => {
+    return customInstance<VerplichtProgrammaUUID>({
+        url: `/verplicht-programma`,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: verplichtProgrammaCreate,
+    })
+}
+
+export type VerplichtProgrammaPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof verplichtProgrammaPost>>
+>
+export type VerplichtProgrammaPostMutationBody = VerplichtProgrammaCreate
+export type VerplichtProgrammaPostMutationError = HTTPValidationError
+
+export const useVerplichtProgrammaPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof verplichtProgrammaPost>>,
+        TError,
+        { data: VerplichtProgrammaCreate },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof verplichtProgrammaPost>>,
+        { data: VerplichtProgrammaCreate }
+    > = props => {
+        const { data } = props ?? {}
+
+        return verplichtProgrammaPost(data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof verplichtProgrammaPost>>,
+        TError,
+        { data: VerplichtProgrammaCreate },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Edit atemporal object
+ */
+export const verplichtProgrammaLineageIdPost = (
+    lineageId: number,
+    verplichtProgrammaEdit: VerplichtProgrammaEdit
+) => {
+    return customInstance<ResponseOK>({
+        url: `/verplicht-programma/${lineageId}`,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: verplichtProgrammaEdit,
+    })
+}
+
+export type VerplichtProgrammaLineageIdPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof verplichtProgrammaLineageIdPost>>
+>
+export type VerplichtProgrammaLineageIdPostMutationBody = VerplichtProgrammaEdit
+export type VerplichtProgrammaLineageIdPostMutationError = HTTPValidationError
+
+export const useVerplichtProgrammaLineageIdPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof verplichtProgrammaLineageIdPost>>,
+        TError,
+        { lineageId: number; data: VerplichtProgrammaEdit },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof verplichtProgrammaLineageIdPost>>,
+        { lineageId: number; data: VerplichtProgrammaEdit }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return verplichtProgrammaLineageIdPost(lineageId, data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof verplichtProgrammaLineageIdPost>>,
+        TError,
+        { lineageId: number; data: VerplichtProgrammaEdit },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Get all the valid verplicht_programma lineages and shows the latest object of each
+ */
+export const verplichtProgrammaValidGet = (
+    params?: VerplichtProgrammaValidGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<VerplichtProgrammaBasic[]>({
+        url: `/verplicht-programma/valid`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getVerplichtProgrammaValidGetQueryKey = (
+    params?: VerplichtProgrammaValidGetParams
+) => [`/verplicht-programma/valid`, ...(params ? [params] : [])]
+
+export type VerplichtProgrammaValidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof verplichtProgrammaValidGet>>
+>
+export type VerplichtProgrammaValidGetQueryError = HTTPValidationError
+
+export const useVerplichtProgrammaValidGet = <
+    TData = Awaited<ReturnType<typeof verplichtProgrammaValidGet>>,
+    TError = HTTPValidationError
+>(
+    params?: VerplichtProgrammaValidGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof verplichtProgrammaValidGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getVerplichtProgrammaValidGetQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof verplichtProgrammaValidGet>>
+    > = ({ signal }) => verplichtProgrammaValidGet(params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof verplichtProgrammaValidGet>>,
+        TError,
+        TData
+    >({ queryKey, queryFn, ...queryOptions }) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Get latest lineage record for verplicht_programma by their lineage id
+ */
+export const verplichtProgrammaLatestLineageIdGet = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<VerplichtProgrammaGet>({
+        url: `/verplicht-programma/latest/${lineageId}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getVerplichtProgrammaLatestLineageIdGetQueryKey = (
+    lineageId: number
+) => [`/verplicht-programma/latest/${lineageId}`]
+
+export type VerplichtProgrammaLatestLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof verplichtProgrammaLatestLineageIdGet>>
+>
+export type VerplichtProgrammaLatestLineageIdGetQueryError = HTTPValidationError
+
+export const useVerplichtProgrammaLatestLineageIdGet = <
+    TData = Awaited<ReturnType<typeof verplichtProgrammaLatestLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof verplichtProgrammaLatestLineageIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getVerplichtProgrammaLatestLineageIdGetQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof verplichtProgrammaLatestLineageIdGet>>
+    > = ({ signal }) => verplichtProgrammaLatestLineageIdGet(lineageId, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof verplichtProgrammaLatestLineageIdGet>>,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Get all relation codes of the given verplicht_programma lineage
+ */
+export const verplichtProgrammaRelationsLineageIdGet = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<RelationShort[]>({
+        url: `/verplicht-programma/relations/${lineageId}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getVerplichtProgrammaRelationsLineageIdGetQueryKey = (
+    lineageId: number
+) => [`/verplicht-programma/relations/${lineageId}`]
+
+export type VerplichtProgrammaRelationsLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdGet>>
+>
+export type VerplichtProgrammaRelationsLineageIdGetQueryError =
+    HTTPValidationError
+
+export const useVerplichtProgrammaRelationsLineageIdGet = <
+    TData = Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getVerplichtProgrammaRelationsLineageIdGetQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdGet>>
+    > = ({ signal }) =>
+        verplichtProgrammaRelationsLineageIdGet(lineageId, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdGet>>,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Overwrite all relations of the given verplicht_programma lineage
+ */
+export const verplichtProgrammaRelationsLineageIdPut = (
+    lineageId: number,
+    relationShort: RelationShort[]
+) => {
+    return customInstance<ResponseOK>({
+        url: `/verplicht-programma/relations/${lineageId}`,
+        method: 'put',
+        headers: { 'Content-Type': 'application/json' },
+        data: relationShort,
+    })
+}
+
+export type VerplichtProgrammaRelationsLineageIdPutMutationResult = NonNullable<
+    Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdPut>>
+>
+export type VerplichtProgrammaRelationsLineageIdPutMutationBody =
+    RelationShort[]
+export type VerplichtProgrammaRelationsLineageIdPutMutationError =
+    HTTPValidationError
+
+export const useVerplichtProgrammaRelationsLineageIdPut = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdPut>>,
+        TError,
+        { lineageId: number; data: RelationShort[] },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdPut>>,
+        { lineageId: number; data: RelationShort[] }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return verplichtProgrammaRelationsLineageIdPut(lineageId, data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdPut>>,
+        TError,
+        { lineageId: number; data: RelationShort[] },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Edit static data of an object
+ */
+export const verplichtProgrammaStaticLineageIdPost = (
+    lineageId: number,
+    verplichtProgrammaStaticEditStatics: VerplichtProgrammaStaticEditStatics
+) => {
+    return customInstance<ResponseOK>({
+        url: `/verplicht-programma/static/${lineageId}`,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: verplichtProgrammaStaticEditStatics,
+    })
+}
+
+export type VerplichtProgrammaStaticLineageIdPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof verplichtProgrammaStaticLineageIdPost>>
+>
+export type VerplichtProgrammaStaticLineageIdPostMutationBody =
+    VerplichtProgrammaStaticEditStatics
+export type VerplichtProgrammaStaticLineageIdPostMutationError =
+    HTTPValidationError
+
+export const useVerplichtProgrammaStaticLineageIdPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof verplichtProgrammaStaticLineageIdPost>>,
+        TError,
+        { lineageId: number; data: VerplichtProgrammaStaticEditStatics },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof verplichtProgrammaStaticLineageIdPost>>,
+        { lineageId: number; data: VerplichtProgrammaStaticEditStatics }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return verplichtProgrammaStaticLineageIdPost(lineageId, data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof verplichtProgrammaStaticLineageIdPost>>,
+        TError,
+        { lineageId: number; data: VerplichtProgrammaStaticEditStatics },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Add new object
+ */
+export const wettelijkeTaakPost = (
+    wettelijkeTaakCreate: WettelijkeTaakCreate
+) => {
+    return customInstance<WettelijkeTaakUUID>({
+        url: `/wettelijke-taak`,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: wettelijkeTaakCreate,
+    })
+}
+
+export type WettelijkeTaakPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof wettelijkeTaakPost>>
+>
+export type WettelijkeTaakPostMutationBody = WettelijkeTaakCreate
+export type WettelijkeTaakPostMutationError = HTTPValidationError
+
+export const useWettelijkeTaakPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof wettelijkeTaakPost>>,
+        TError,
+        { data: WettelijkeTaakCreate },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof wettelijkeTaakPost>>,
+        { data: WettelijkeTaakCreate }
+    > = props => {
+        const { data } = props ?? {}
+
+        return wettelijkeTaakPost(data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof wettelijkeTaakPost>>,
+        TError,
+        { data: WettelijkeTaakCreate },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Edit atemporal object
+ */
+export const wettelijkeTaakLineageIdPost = (
+    lineageId: number,
+    wettelijkeTaakEdit: WettelijkeTaakEdit
+) => {
+    return customInstance<ResponseOK>({
+        url: `/wettelijke-taak/${lineageId}`,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: wettelijkeTaakEdit,
+    })
+}
+
+export type WettelijkeTaakLineageIdPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof wettelijkeTaakLineageIdPost>>
+>
+export type WettelijkeTaakLineageIdPostMutationBody = WettelijkeTaakEdit
+export type WettelijkeTaakLineageIdPostMutationError = HTTPValidationError
+
+export const useWettelijkeTaakLineageIdPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof wettelijkeTaakLineageIdPost>>,
+        TError,
+        { lineageId: number; data: WettelijkeTaakEdit },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof wettelijkeTaakLineageIdPost>>,
+        { lineageId: number; data: WettelijkeTaakEdit }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return wettelijkeTaakLineageIdPost(lineageId, data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof wettelijkeTaakLineageIdPost>>,
+        TError,
+        { lineageId: number; data: WettelijkeTaakEdit },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Get all the valid wettelijke_taak lineages and shows the latest object of each
+ */
+export const wettelijkeTaakValidGet = (
+    params?: WettelijkeTaakValidGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<WettelijkeTaakBasic[]>({
+        url: `/wettelijke-taak/valid`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getWettelijkeTaakValidGetQueryKey = (
+    params?: WettelijkeTaakValidGetParams
+) => [`/wettelijke-taak/valid`, ...(params ? [params] : [])]
+
+export type WettelijkeTaakValidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof wettelijkeTaakValidGet>>
+>
+export type WettelijkeTaakValidGetQueryError = HTTPValidationError
+
+export const useWettelijkeTaakValidGet = <
+    TData = Awaited<ReturnType<typeof wettelijkeTaakValidGet>>,
+    TError = HTTPValidationError
+>(
+    params?: WettelijkeTaakValidGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof wettelijkeTaakValidGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getWettelijkeTaakValidGetQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof wettelijkeTaakValidGet>>
+    > = ({ signal }) => wettelijkeTaakValidGet(params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof wettelijkeTaakValidGet>>,
+        TError,
+        TData
+    >({ queryKey, queryFn, ...queryOptions }) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Get latest lineage record for wettelijke_taak by their lineage id
+ */
+export const wettelijkeTaakLatestLineageIdGet = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<WettelijkeTaakGet>({
+        url: `/wettelijke-taak/latest/${lineageId}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getWettelijkeTaakLatestLineageIdGetQueryKey = (
+    lineageId: number
+) => [`/wettelijke-taak/latest/${lineageId}`]
+
+export type WettelijkeTaakLatestLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof wettelijkeTaakLatestLineageIdGet>>
+>
+export type WettelijkeTaakLatestLineageIdGetQueryError = HTTPValidationError
+
+export const useWettelijkeTaakLatestLineageIdGet = <
+    TData = Awaited<ReturnType<typeof wettelijkeTaakLatestLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof wettelijkeTaakLatestLineageIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getWettelijkeTaakLatestLineageIdGetQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof wettelijkeTaakLatestLineageIdGet>>
+    > = ({ signal }) => wettelijkeTaakLatestLineageIdGet(lineageId, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof wettelijkeTaakLatestLineageIdGet>>,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Get all relation codes of the given wettelijke_taak lineage
+ */
+export const wettelijkeTaakRelationsLineageIdGet = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<RelationShort[]>({
+        url: `/wettelijke-taak/relations/${lineageId}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getWettelijkeTaakRelationsLineageIdGetQueryKey = (
+    lineageId: number
+) => [`/wettelijke-taak/relations/${lineageId}`]
+
+export type WettelijkeTaakRelationsLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdGet>>
+>
+export type WettelijkeTaakRelationsLineageIdGetQueryError = HTTPValidationError
+
+export const useWettelijkeTaakRelationsLineageIdGet = <
+    TData = Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getWettelijkeTaakRelationsLineageIdGetQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdGet>>
+    > = ({ signal }) => wettelijkeTaakRelationsLineageIdGet(lineageId, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdGet>>,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary Overwrite all relations of the given wettelijke_taak lineage
+ */
+export const wettelijkeTaakRelationsLineageIdPut = (
+    lineageId: number,
+    relationShort: RelationShort[]
+) => {
+    return customInstance<ResponseOK>({
+        url: `/wettelijke-taak/relations/${lineageId}`,
+        method: 'put',
+        headers: { 'Content-Type': 'application/json' },
+        data: relationShort,
+    })
+}
+
+export type WettelijkeTaakRelationsLineageIdPutMutationResult = NonNullable<
+    Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdPut>>
+>
+export type WettelijkeTaakRelationsLineageIdPutMutationBody = RelationShort[]
+export type WettelijkeTaakRelationsLineageIdPutMutationError =
+    HTTPValidationError
+
+export const useWettelijkeTaakRelationsLineageIdPut = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdPut>>,
+        TError,
+        { lineageId: number; data: RelationShort[] },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdPut>>,
+        { lineageId: number; data: RelationShort[] }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return wettelijkeTaakRelationsLineageIdPut(lineageId, data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdPut>>,
+        TError,
+        { lineageId: number; data: RelationShort[] },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Edit static data of an object
+ */
+export const wettelijkeTaakStaticLineageIdPost = (
+    lineageId: number,
+    wettelijkeTaakStaticEditStatics: WettelijkeTaakStaticEditStatics
+) => {
+    return customInstance<ResponseOK>({
+        url: `/wettelijke-taak/static/${lineageId}`,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: wettelijkeTaakStaticEditStatics,
+    })
+}
+
+export type WettelijkeTaakStaticLineageIdPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof wettelijkeTaakStaticLineageIdPost>>
+>
+export type WettelijkeTaakStaticLineageIdPostMutationBody =
+    WettelijkeTaakStaticEditStatics
+export type WettelijkeTaakStaticLineageIdPostMutationError = HTTPValidationError
+
+export const useWettelijkeTaakStaticLineageIdPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof wettelijkeTaakStaticLineageIdPost>>,
+        TError,
+        { lineageId: number; data: WettelijkeTaakStaticEditStatics },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof wettelijkeTaakStaticLineageIdPost>>,
+        { lineageId: number; data: WettelijkeTaakStaticEditStatics }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return wettelijkeTaakStaticLineageIdPost(lineageId, data)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof wettelijkeTaakStaticLineageIdPost>>,
+        TError,
+        { lineageId: number; data: WettelijkeTaakStaticEditStatics },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
  * @summary List the users
  */
 export const usersGet = (signal?: AbortSignal) => {
@@ -3740,155 +6268,6 @@ export const useFullGraphGet = <
     query.queryKey = queryKey
 
     return query
-}
-
-/**
- * @summary Get all regulations
- */
-export const regulationsGet = (signal?: AbortSignal) => {
-    return customInstance<Regulation[]>({
-        url: `/regulations`,
-        method: 'get',
-        signal,
-    })
-}
-
-export const getRegulationsGetQueryKey = () => [`/regulations`]
-
-export type RegulationsGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof regulationsGet>>
->
-export type RegulationsGetQueryError = unknown
-
-export const useRegulationsGet = <
-    TData = Awaited<ReturnType<typeof regulationsGet>>,
-    TError = unknown
->(options?: {
-    query?: UseQueryOptions<
-        Awaited<ReturnType<typeof regulationsGet>>,
-        TError,
-        TData
-    >
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-    const { query: queryOptions } = options ?? {}
-
-    const queryKey = queryOptions?.queryKey ?? getRegulationsGetQueryKey()
-
-    const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof regulationsGet>>
-    > = ({ signal }) => regulationsGet(signal)
-
-    const query = useQuery<
-        Awaited<ReturnType<typeof regulationsGet>>,
-        TError,
-        TData
-    >({ queryKey, queryFn, ...queryOptions }) as UseQueryResult<
-        TData,
-        TError
-    > & { queryKey: QueryKey }
-
-    query.queryKey = queryKey
-
-    return query
-}
-
-/**
- * @summary Create new regulation
- */
-export const regulationsPost = (regulationCreate: RegulationCreate) => {
-    return customInstance<RegulationCreatedResponse>({
-        url: `/regulations`,
-        method: 'post',
-        headers: { 'Content-Type': 'application/json' },
-        data: regulationCreate,
-    })
-}
-
-export type RegulationsPostMutationResult = NonNullable<
-    Awaited<ReturnType<typeof regulationsPost>>
->
-export type RegulationsPostMutationBody = RegulationCreate
-export type RegulationsPostMutationError = HTTPValidationError
-
-export const useRegulationsPost = <
-    TError = HTTPValidationError,
-    TContext = unknown
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof regulationsPost>>,
-        TError,
-        { data: RegulationCreate },
-        TContext
-    >
-}) => {
-    const { mutation: mutationOptions } = options ?? {}
-
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof regulationsPost>>,
-        { data: RegulationCreate }
-    > = props => {
-        const { data } = props ?? {}
-
-        return regulationsPost(data)
-    }
-
-    return useMutation<
-        Awaited<ReturnType<typeof regulationsPost>>,
-        TError,
-        { data: RegulationCreate },
-        TContext
-    >(mutationFn, mutationOptions)
-}
-
-/**
- * @summary Edit regulation
- */
-export const regulationsRegulationUuidPost = (
-    regulationUuid: string,
-    regulationEdit: RegulationEdit
-) => {
-    return customInstance<ResponseOK>({
-        url: `/regulations/${regulationUuid}`,
-        method: 'post',
-        headers: { 'Content-Type': 'application/json' },
-        data: regulationEdit,
-    })
-}
-
-export type RegulationsRegulationUuidPostMutationResult = NonNullable<
-    Awaited<ReturnType<typeof regulationsRegulationUuidPost>>
->
-export type RegulationsRegulationUuidPostMutationBody = RegulationEdit
-export type RegulationsRegulationUuidPostMutationError = HTTPValidationError
-
-export const useRegulationsRegulationUuidPost = <
-    TError = HTTPValidationError,
-    TContext = unknown
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof regulationsRegulationUuidPost>>,
-        TError,
-        { regulationUuid: string; data: RegulationEdit },
-        TContext
-    >
-}) => {
-    const { mutation: mutationOptions } = options ?? {}
-
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof regulationsRegulationUuidPost>>,
-        { regulationUuid: string; data: RegulationEdit }
-    > = props => {
-        const { regulationUuid, data } = props ?? {}
-
-        return regulationsRegulationUuidPost(regulationUuid, data)
-    }
-
-    return useMutation<
-        Awaited<ReturnType<typeof regulationsRegulationUuidPost>>,
-        TError,
-        { regulationUuid: string; data: RegulationEdit },
-        TContext
-    >(mutationFn, mutationOptions)
 }
 
 /**

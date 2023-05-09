@@ -27,12 +27,12 @@ const fetchers = {
     useGetLatestLineageInModule:
         useModulesModuleIdObjectAmbitieLatestLineageIdGet,
     usePatchObjectInModule: useModulesModuleIdObjectAmbitieLineageIdPatch,
+    usePatchObject: null,
     usePostStatic: useAmbitieStaticLineageIdPost,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
-    useGetRegulations: null,
-    usePutRegulations: null,
+    usePostObject: null,
 }
 
 const ambitie: DynamicObject<
@@ -42,6 +42,7 @@ const ambitie: DynamicObject<
 > = {
     defaults: {
         singular: 'ambitie',
+        singularReadable: 'ambitie',
         singularCapitalize: 'Ambitie',
         plural: 'ambities',
         pluralCapitalize: 'Ambities',

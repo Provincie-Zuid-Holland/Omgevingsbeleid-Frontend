@@ -1,5 +1,6 @@
 import { Button, Divider, Text } from '@pzh-ui/components'
 import { PenToSquare, TrashCan } from '@pzh-ui/icons'
+import classNames from 'classnames'
 import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
 
@@ -16,7 +17,7 @@ export const StepOne = ({
     handleDeleteConnection,
 }: StepProps) => {
     const { defaults } = connectionModel || {}
-    const { pluralCapitalize, plural, prefixNewObject, singular } =
+    const { atemporal, pluralCapitalize, plural, prefixNewObject, singular } =
         defaults || {}
 
     /**
@@ -36,14 +37,17 @@ export const StepOne = ({
             <Divider />
             <div className="mt-4 flex justify-between items-center">
                 <span className="font-bold">
-                    {amount} Gekoppelde {amount === 1 ? singular : plural}
+                    {amount} Gekoppelde{' '}
+                    {amount === 1
+                        ? singular?.replaceAll('_', ' ')
+                        : plural?.replaceAll('_', ' ')}
                 </span>
                 <Button
                     size="small"
                     variant="cta"
                     type="button"
                     onPress={() => setStep?.(2)}>
-                    {prefixNewObject} {singular} koppelen
+                    {prefixNewObject} {singular?.replaceAll('_', ' ')} koppelen
                 </Button>
             </div>
 
@@ -53,6 +57,7 @@ export const StepOne = ({
                         connections.map(connection => (
                             <Connection
                                 key={connection.UUID}
+                                atemporal={atemporal}
                                 setStep={setStep!}
                                 handleDeleteConnection={handleDeleteConnection!}
                                 {...connection}
@@ -65,12 +70,14 @@ export const StepOne = ({
 }
 
 interface ConnectionProps extends RelationShort {
+    atemporal?: boolean
     Title?: string
     setStep: (step: number) => void
     handleDeleteConnection: (connection: RelationShort) => void
 }
 
 const Connection = ({
+    atemporal,
     Object_ID,
     Object_Type,
     Title,
@@ -82,21 +89,30 @@ const Connection = ({
 
     return (
         <div className="mt-3">
-            <div className="px-3 pt-2 pb-1 flex justify-between items-center bg-pzh-gray-100 border border-pzh-gray-300 rounded-tl-[4px] rounded-tr-[4px]">
+            <div
+                className={classNames(
+                    'px-3 pt-2 pb-1 flex justify-between items-center bg-pzh-gray-100 border border-pzh-gray-300',
+                    {
+                        'rounded-[4px]': atemporal,
+                        'rounded-tl-[4px] rounded-tr-[4px]': !atemporal,
+                    }
+                )}>
                 <span className="font-bold">{Title}</span>
                 <div className="flex items-center -mt-[4px]">
-                    <button
-                        type="button"
-                        className="mr-3"
-                        onClick={() => {
-                            setFieldValue('Title', Title)
-                            setFieldValue('Description', Description)
-                            setFieldValue('Object_ID', Object_ID)
-                            setStep(3)
-                        }}
-                        aria-label="Wijzigen">
-                        <PenToSquare size={16} className="text-pzh-green" />
-                    </button>
+                    {!atemporal && (
+                        <button
+                            type="button"
+                            className="mr-3"
+                            onClick={() => {
+                                setFieldValue('Title', Title)
+                                setFieldValue('Description', Description)
+                                setFieldValue('Object_ID', Object_ID)
+                                setStep(3)
+                            }}
+                            aria-label="Wijzigen">
+                            <PenToSquare size={16} className="text-pzh-green" />
+                        </button>
+                    )}
                     <button
                         type="button"
                         onClick={() =>
@@ -107,9 +123,11 @@ const Connection = ({
                     </button>
                 </div>
             </div>
-            <div className="px-3 py-2 border border-t-0 border-pzh-gray-300 rounded-bl-[4px] rounded-br-[4px]">
-                <Text>{Description}</Text>
-            </div>
+            {!atemporal && (
+                <div className="px-3 py-2 border border-t-0 border-pzh-gray-300 rounded-bl-[4px] rounded-br-[4px]">
+                    <Text>{Description}</Text>
+                </div>
+            )}
         </div>
     )
 }

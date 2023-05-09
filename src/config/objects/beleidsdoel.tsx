@@ -30,12 +30,12 @@ const fetchers = {
     useGetLatestLineageInModule:
         useModulesModuleIdObjectBeleidsdoelLatestLineageIdGet,
     usePatchObjectInModule: useModulesModuleIdObjectBeleidsdoelLineageIdPatch,
+    usePatchObject: null,
     usePostStatic: useBeleidsdoelStaticLineageIdPost,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
-    useGetRegulations: null,
-    usePutRegulations: null,
+    usePostObject: null,
 }
 
 const beleidsdoel: DynamicObject<
@@ -45,6 +45,7 @@ const beleidsdoel: DynamicObject<
 > = {
     defaults: {
         singular: 'beleidsdoel',
+        singularReadable: 'beleidsdoel',
         singularCapitalize: 'Beleidsdoel',
         plural: 'beleidsdoelen',
         pluralCapitalize: 'Beleidsdoelen',

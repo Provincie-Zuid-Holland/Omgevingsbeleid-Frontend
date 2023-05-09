@@ -1,4 +1,4 @@
-import { Heading, Table, formatDate } from '@pzh-ui/components'
+import { Button, Heading, Table, formatDate } from '@pzh-ui/components'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -14,7 +14,13 @@ interface DynamicOverviewProps {
 const DynamicOverview = ({ model }: DynamicOverviewProps) => {
     const navigate = useNavigate()
 
-    const { plural, pluralCapitalize } = model.defaults
+    const {
+        atemporal,
+        singularReadable,
+        plural,
+        pluralCapitalize,
+        prefixNewObject,
+    } = model.defaults
     const { useGetValid } = model.fetchers
 
     const { data, isLoading } = useGetValid()
@@ -37,24 +43,32 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
                 Header: 'Titel',
                 accessor: 'Title',
             },
-            {
-                Header: 'Status',
-                accessor: 'Status',
-            },
+            ...((!atemporal && [
+                {
+                    Header: 'Status',
+                    accessor: 'Status',
+                },
+            ]) ||
+                []),
             {
                 Header: 'Laatst gewijzigd',
                 accessor: 'Modified_Date',
                 sortType: customSortType,
             },
         ],
-        []
+        [atemporal]
     )
 
     const formattedData = useMemo(
         () =>
             data?.map(({ Title, Modified_Date, Object_ID }) => ({
                 Title,
-                Status: 'TODO: Status implementeren',
+                ...((!atemporal && [
+                    {
+                        Status: 'TODO: Status implementeren',
+                    },
+                ]) ||
+                    []),
                 Modified_Date: (
                     <span data-value={Modified_Date}>
                         {Modified_Date
@@ -65,9 +79,15 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
                             : 'nooit'}
                     </span>
                 ),
-                onClick: () => navigate(`/muteer/${plural}/${Object_ID}`),
+
+                onClick: () =>
+                    navigate(
+                        `/muteer/${plural}/${Object_ID}${
+                            atemporal ? '/bewerk' : ''
+                        }`
+                    ),
             })) || [],
-        [data, plural, navigate]
+        [data, atemporal, plural, navigate]
     )
 
     const breadcrumbPaths = [
@@ -78,7 +98,16 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
     return (
         <MutateLayout title={pluralCapitalize} breadcrumbs={breadcrumbPaths}>
             <div className="col-span-6">
-                <Heading className="mb-6">{pluralCapitalize}</Heading>
+                <div className="flex items-center justify-between mb-6">
+                    <Heading>{pluralCapitalize}</Heading>
+                    {atemporal && (
+                        <Button
+                            variant="cta"
+                            onPress={() => navigate(`/muteer/${plural}/nieuw`)}>
+                            {prefixNewObject} {singularReadable}
+                        </Button>
+                    )}
+                </div>
 
                 {isLoading ? (
                     <div className="flex justify-center">
