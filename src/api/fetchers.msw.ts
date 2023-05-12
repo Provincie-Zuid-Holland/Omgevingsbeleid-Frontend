@@ -3113,21 +3113,17 @@ export const getBeleidskeuzeAcknowledgedRelationsLineageIdGetMock = () =>
                 max: undefined,
             }),
             Object_Type: faker.random.word(),
-            Acknowledged: faker.helpers.arrayElement([
-                faker.datatype.boolean(),
+            Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+            Explanation: faker.helpers.arrayElement([
+                faker.random.word(),
                 undefined,
             ]),
-            Acknowledged_Date: faker.helpers.arrayElement([
+            Acknowledged: faker.helpers.arrayElement([
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
                 undefined,
             ]),
             Acknowledged_By_UUID: faker.helpers.arrayElement([
                 faker.datatype.uuid(),
-                undefined,
-            ]),
-            Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-            Explanation: faker.helpers.arrayElement([
-                faker.random.word(),
                 undefined,
             ]),
         },
@@ -3137,21 +3133,17 @@ export const getBeleidskeuzeAcknowledgedRelationsLineageIdGetMock = () =>
                 max: undefined,
             }),
             Object_Type: faker.random.word(),
-            Acknowledged: faker.helpers.arrayElement([
-                faker.datatype.boolean(),
+            Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+            Explanation: faker.helpers.arrayElement([
+                faker.random.word(),
                 undefined,
             ]),
-            Acknowledged_Date: faker.helpers.arrayElement([
+            Acknowledged: faker.helpers.arrayElement([
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
                 undefined,
             ]),
             Acknowledged_By_UUID: faker.helpers.arrayElement([
                 faker.datatype.uuid(),
-                undefined,
-            ]),
-            Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-            Explanation: faker.helpers.arrayElement([
-                faker.random.word(),
                 undefined,
             ]),
         },
@@ -3160,6 +3152,14 @@ export const getBeleidskeuzeAcknowledgedRelationsLineageIdGetMock = () =>
         Created_By_UUID: faker.datatype.uuid(),
         Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
         Modified_By_UUID: faker.datatype.uuid(),
+        Denied: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Deleted_At: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
     }))
 
 export const getBeleidskeuzeAcknowledgedRelationsLineageIdPostMock = () => ({

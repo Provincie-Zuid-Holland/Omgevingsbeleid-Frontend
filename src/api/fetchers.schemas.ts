@@ -841,6 +841,8 @@ export interface EditAcknowledgedRelation {
     Title?: string | null
     Explanation?: string | null
     Acknowledged?: boolean | null
+    Denied?: boolean | null
+    Deleted_At?: boolean | null
 }
 
 export interface CompleteModule {
@@ -1141,11 +1143,10 @@ export interface AmbitieBasic {
 export interface AcknowledgedRelationSide {
     Object_ID: number
     Object_Type: string
-    Acknowledged?: boolean
-    Acknowledged_Date?: string
-    Acknowledged_By_UUID?: string
     Title?: string
     Explanation?: string
+    Acknowledged?: string
+    Acknowledged_By_UUID?: string
 }
 
 export interface AcknowledgedRelation {
@@ -1156,4 +1157,6 @@ export interface AcknowledgedRelation {
     Created_By_UUID: string
     Modified_Date: string
     Modified_By_UUID: string
+    Denied?: string
+    Deleted_At?: string
 }

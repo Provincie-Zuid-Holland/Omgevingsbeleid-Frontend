@@ -1,10 +1,9 @@
-import { Notification, Text, getHeadingStyles } from '@pzh-ui/components'
+import { Heading, Notification, Text } from '@pzh-ui/components'
 import { LayerGroup, Lightbulb } from '@pzh-ui/icons'
 
 import { Werkingsgebied } from '@/api/fetchers.schemas'
 import { LeafletTinyViewer } from '@/components/Leaflet'
 import { Model } from '@/config/objects/types'
-import useBreakpoint from '@/hooks/useBreakpoint'
 
 interface ObjectAreaProps extends Werkingsgebied {
     objectTitle?: string
@@ -12,15 +11,13 @@ interface ObjectAreaProps extends Werkingsgebied {
 }
 
 const ObjectArea = ({ objectTitle, model, UUID, Title }: ObjectAreaProps) => {
-    const { isMobile } = useBreakpoint()
-
     const { singular, prefixSingular } = model.defaults
 
     return (
         <div data-section="Werkingsgebied">
-            <h2 className="mb-4" style={getHeadingStyles('3', isMobile)}>
+            <Heading level="2" className="mb-4">
                 Werkingsgebied
-            </h2>
+            </Heading>
             <Text className="mb-4 first-letter:capitalize">
                 {prefixSingular} {singular} ‘{objectTitle}’ heeft als
                 werkingsgebied ‘{Title}’.

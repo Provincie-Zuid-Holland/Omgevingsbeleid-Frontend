@@ -56,6 +56,8 @@ const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
         []
     )
 
+    if (Object.keys(relations).length === 0) return null
+
     return (
         <div className="grid grid-cols-4 py-4 px-6 border border-pzh-gray-500 rounded-[4px] ">
             <div className="col-span-6">

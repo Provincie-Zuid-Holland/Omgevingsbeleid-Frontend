@@ -4,10 +4,10 @@ import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { RequestAcknowledgedRelation } from '@/api/fetchers.schemas'
-import ObjectRelationApprovedModal from '@/components/Modals/ObjectModals/ObjectRelationApprovedModal/ObjectRelationApprovedModal'
-import ObjectRelationNewModal from '@/components/Modals/ObjectModals/ObjectRelationNewModal/ObjectRelationNewModal'
-import ObjectRelationReceivedModal from '@/components/Modals/ObjectModals/ObjectRelationReceivedModal/ObjectRelationReceivedModal'
-import ObjectRelationSentModal from '@/components/Modals/ObjectModals/ObjectRelationSentModal/ObjectRelationSentModal'
+import ObjectRelationApprovedModal from '@/components/Modals/ObjectModals/ObjectRelationApprovedModal'
+import ObjectRelationNewModal from '@/components/Modals/ObjectModals/ObjectRelationNewModal'
+import ObjectRelationReceivedModal from '@/components/Modals/ObjectModals/ObjectRelationReceivedModal'
+import ObjectRelationSentModal from '@/components/Modals/ObjectModals/ObjectRelationSentModal'
 import { ObjectRelationModalActions } from '@/components/Modals/ObjectModals/types'
 import { Model } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
@@ -36,20 +36,24 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
         }) || {}
 
     const { approved, sent, received } = useMemo(() => {
+        const filteredData = data?.filter(
+            relation => !relation.Denied || !relation.Deleted_At
+        )
+
         /** Approved relations */
-        const approved = data?.filter(
+        const approved = filteredData?.filter(
             relation =>
                 relation.Side_A.Acknowledged && relation.Side_B.Acknowledged
         )
 
         /** Sent requests */
-        const sent = data?.filter(
+        const sent = filteredData?.filter(
             relation =>
                 relation.Side_A.Acknowledged && !relation.Side_B.Acknowledged
         )
 
         /** Received requests */
-        const received = data?.filter(
+        const received = filteredData?.filter(
             relation =>
                 !relation.Side_A.Acknowledged && relation.Side_B.Acknowledged
         )

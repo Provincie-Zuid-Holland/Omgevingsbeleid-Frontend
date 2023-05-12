@@ -18,7 +18,6 @@ const ObjectSidebar = ({
     Start_Validity,
     End_Validity,
     revisions,
-    Decision_Number,
     Object_ID,
     ObjectStatics,
     plural,
@@ -94,7 +93,7 @@ const ObjectSidebar = ({
 
                     <People ObjectStatics={ObjectStatics} />
 
-                    <Text className="block mb-2">
+                    {/* <Text className="block mb-2">
                         Besluitnummer: {Decision_Number}
                     </Text>
                     {Decision_Number && (
@@ -104,7 +103,7 @@ const ObjectSidebar = ({
                                 to={`/`}
                             />
                         </div>
-                    )}
+                    )} */}
                     <Hyperlink
                         text="Open in beheeromgeving"
                         to={`/muteer/${plural}/${Object_ID}`}

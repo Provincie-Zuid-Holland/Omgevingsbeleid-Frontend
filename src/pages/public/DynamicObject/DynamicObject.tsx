@@ -65,7 +65,10 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
                 </div>
 
                 <div className="col-span-6 xl:col-span-4 order-2 flex flex-col">
-                    <Heading level="3" color="order-1">
+                    <Heading
+                        level="3"
+                        color="text-pzh-blue"
+                        className="order-1">
                         {singularCapitalize}
                     </Heading>
 

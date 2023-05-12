@@ -16,7 +16,7 @@ const ObjectContent = ({ data }: ObjectContentProps) => (
         {fields.map(field => {
             const content = data[field.value]
 
-            if (field.list && Array.isArray(content)) {
+            if (field.list && Array.isArray(content) && !!content.length) {
                 return <List key={field.value} items={content} {...field} />
             }
 
@@ -44,7 +44,9 @@ const Content = ({ title, value, hidden, html }: ContentProps) => {
         <>
             <h2
                 style={getHeadingStyles('3', isMobile)}
-                className={classNames('mb-4', { 'sr-only': hidden })}>
+                className={classNames('mb-4 text-pzh-blue', {
+                    'sr-only': hidden,
+                })}>
                 {title}
             </h2>
             <Wrapper
@@ -67,7 +69,9 @@ interface ListProps {
 
 const List = ({ title, description, items, hidden }: ListProps) => {
     return (
-        <div className="mb-4 md:mb-8 max-w-full whitespace-pre-line prose prose-neutral prose-li:my-0 text-pzh-blue-dark marker:text-pzh-blue-dark leading-6">
+        <div
+            data-section={title}
+            className="mb-4 md:mb-8 max-w-full whitespace-pre-line prose prose-neutral prose-li:my-0 text-pzh-blue-dark marker:text-pzh-blue-dark leading-6">
             <Heading
                 level="2"
                 className={classNames('mb-4', { 'sr-only': hidden })}>

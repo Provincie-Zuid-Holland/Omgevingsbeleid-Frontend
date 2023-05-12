@@ -63,12 +63,9 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
         () =>
             data?.map(({ Title, Modified_Date, Object_ID }) => ({
                 Title,
-                ...((!atemporal && [
-                    {
-                        Status: 'TODO: Status implementeren',
-                    },
-                ]) ||
-                    []),
+                ...(!atemporal && {
+                    Status: 'TODO: Status implementeren',
+                }),
                 Modified_Date: (
                     <span data-value={Modified_Date}>
                         {Modified_Date

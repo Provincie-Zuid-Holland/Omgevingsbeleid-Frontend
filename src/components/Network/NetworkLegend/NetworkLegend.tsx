@@ -13,7 +13,13 @@ const NetworkLegend = () => {
     )
 
     const handleClick = (val: ModelType) => {
-        if (selectedFilters?.includes(val)) {
+        if (selectedFilters?.filter(e => e !== val).length === 0) {
+            setSelectedFilters(
+                filters.flatMap(filter =>
+                    filter.options.map(option => option.value)
+                )
+            )
+        } else if (selectedFilters?.includes(val)) {
             setSelectedFilters(selectedFilters.filter(e => e !== val))
         } else {
             setSelectedFilters(

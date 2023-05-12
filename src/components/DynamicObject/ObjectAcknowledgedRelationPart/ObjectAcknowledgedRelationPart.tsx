@@ -39,13 +39,13 @@ const ObjectAcknowledgedRelationPart = ({
             case 'approved':
             case 'awaiting':
             case 'declined':
-                return { title: Side_A.Title, description: Side_A.Explanation }
+                return { title: Side_B.Title, description: Side_B.Explanation }
             case 'received':
                 return { title: Side_B.Title, description: Side_B.Explanation }
             default:
                 return { title: '', description: '' }
         }
-    }, [type, Side_A, Side_B])
+    }, [type, Side_B])
 
     return (
         <div className="w-full">
@@ -99,15 +99,17 @@ const ObjectAcknowledgedRelationPart = ({
             </div>
             {(open || type === 'received') && (
                 <>
-                    <div className="flex items-center pt-2 pb-3 px-3 rounded-b-[4px] border-l border-r border-b border-pzh-gray-300">
-                        {type === 'approved' ? (
-                            <MessageCheck size={20} className="mr-3" />
-                        ) : (
-                            type === 'declined' &&
-                            !Side_A.Acknowledged && (
-                                <MessageXmark size={20} className="mr-3" />
-                            )
-                        )}
+                    <div className="flex items-start pt-2 pb-3 px-3 rounded-b-[4px] border-l border-r border-b border-pzh-gray-300">
+                        <div className="w-4 mr-3 mt-1">
+                            {type === 'approved' ? (
+                                <MessageCheck size={20} />
+                            ) : (
+                                type === 'declined' &&
+                                !Side_B.Acknowledged && (
+                                    <MessageXmark size={20} />
+                                )
+                            )}
+                        </div>
                         <Text>{description}</Text>
                     </div>
                     {(type === 'approved' || type === 'declined') && (
@@ -117,16 +119,16 @@ const ObjectAcknowledgedRelationPart = ({
                                     <MessageCheck size={20} className="mr-3" />
                                 ) : (
                                     type === 'declined' &&
-                                    !Side_B.Acknowledged && (
+                                    !Side_A.Acknowledged && (
                                         <MessageXmark
                                             size={20}
                                             className="mr-3"
                                         />
                                     )
                                 )}
-                                <Text type="body-bold">{Side_B.Title}</Text>
+                                <Text type="body-bold">{Side_A.Title}</Text>
                             </div>
-                            <Text className="ml-7">{Side_B.Explanation}</Text>
+                            <Text className="ml-7">{Side_A.Explanation}</Text>
                         </div>
                     )}
                 </>
