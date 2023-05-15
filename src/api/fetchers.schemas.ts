@@ -365,8 +365,7 @@ export interface ResponseOK {
 export interface RequestAcknowledgedRelation {
     Object_ID: number
     Object_Type: string
-    Title: string
-    Explanation: string
+    Explanation?: string
 }
 
 export interface RelationShort {
@@ -838,7 +837,6 @@ export interface GebiedsprogrammaBasic {
 export interface EditAcknowledgedRelation {
     Object_ID: number
     Object_Type: string
-    Title?: string | null
     Explanation?: string | null
     Acknowledged?: boolean | null
     Denied?: boolean | null
@@ -1143,10 +1141,10 @@ export interface AmbitieBasic {
 export interface AcknowledgedRelationSide {
     Object_ID: number
     Object_Type: string
-    Title?: string
     Explanation?: string
     Acknowledged?: string
     Acknowledged_By_UUID?: string
+    Title?: string
 }
 
 export interface AcknowledgedRelation {

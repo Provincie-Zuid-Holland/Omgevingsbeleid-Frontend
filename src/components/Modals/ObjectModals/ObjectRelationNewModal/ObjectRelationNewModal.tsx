@@ -29,6 +29,7 @@ const ObjectRelationNewModal = ({
     model,
     queryKey,
     initialValues,
+    relations,
 }: ObjectRelationNewModalProps) => {
     const queryClient = useQueryClient()
     const { objectId } = useParams()
@@ -70,7 +71,6 @@ const ObjectRelationNewModal = ({
     const handleFormSubmit = (payload: RequestAcknowledgedRelation) => {
         postAcknowledgedRelations?.mutate({
             lineageId: parseInt(objectId!),
-            // @ts-ignore TO-DO: Remove this line when Title isn't required in API anymore
             data: {
                 Object_ID: payload.Object_ID,
                 Object_Type: payload.Object_Type,
@@ -104,6 +104,7 @@ const ObjectRelationNewModal = ({
                             model={model}
                             title={data?.Title}
                             id={data?.Object_ID}
+                            relations={relations}
                         />
                         <div className="mt-6 flex items-center justify-between">
                             <Button variant="link" onPress={handleClose}>

@@ -10,6 +10,9 @@ import {
     BeleidskeuzeGet,
     BeleidskeuzePatch,
     BeleidskeuzeStaticPatchStatics,
+    GebiedsprogrammaGet,
+    GebiedsprogrammaPatch,
+    GebiedsprogrammaStaticPostStatics,
     MaatregelGet,
     MaatregelPatch,
     MaatregelStaticPatchStatics,
@@ -27,7 +30,10 @@ export interface DynamicObject<
         [key: string]: any
     },
     FieldType = any,
-    StaticData = any
+    StaticData = any,
+    QueryKeys = {
+        [key: string]: any
+    }
 > {
     /** Default information of object */
     defaults: {
@@ -60,6 +66,8 @@ export interface DynamicObject<
     staticData?: StaticData
     /** Fetchers for fetching object data */
     fetchers: Fetchers
+    /** Query keys for requests */
+    queryKeys?: QueryKeys
     /** Validation schema of form */
     validationSchema?: Schema
     /** Dynamic section containing form fields */
@@ -83,6 +91,7 @@ export type ModelReturnType = BeleidsdoelGet &
     AmbitieGet &
     BeleidskeuzeGet &
     MaatregelGet &
+    GebiedsprogrammaGet &
     NationaalBelangGet &
     WettelijkeTaakGet &
     VerplichtProgrammaGet
@@ -90,11 +99,13 @@ export type ModelReturnType = BeleidsdoelGet &
 export type ModelPatchType = BeleidsdoelPatch &
     AmbitiePatch &
     BeleidskeuzePatch &
-    MaatregelPatch
+    MaatregelPatch &
+    GebiedsprogrammaPatch
 
 export type ModelPatchStaticType = BeleidsdoelStaticPatchStatics &
     AmbitieStaticPostStatics &
     BeleidskeuzeStaticPatchStatics &
-    MaatregelStaticPatchStatics
+    MaatregelStaticPatchStatics &
+    GebiedsprogrammaStaticPostStatics
 
 export type Model = typeof models[ModelType]

@@ -10,4 +10,5 @@ export interface StepProps {
         action: 'accept' | 'deny',
         relation: AcknowledgedRelation
     ) => void
+    actionType: 'accept' | 'deny' | null
 }

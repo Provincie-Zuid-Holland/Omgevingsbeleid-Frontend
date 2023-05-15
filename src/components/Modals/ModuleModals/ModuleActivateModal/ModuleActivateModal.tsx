@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 
 import {
+    getModulesGetQueryKey,
     getModulesModuleIdGetQueryKey,
     useModulesModuleIdActivatePost,
 } from '@/api/fetchers'
@@ -26,11 +27,14 @@ const ModuleActivateModal = ({ isOpen, onClose }: ModuleActivateModalProps) => {
                 toastNotification('moduleActivate')
             },
             onSuccess: () => {
-                queryClient
-                    .invalidateQueries(
+                Promise.all([
+                    queryClient.invalidateQueries(getModulesGetQueryKey(), {
+                        refetchType: 'all',
+                    }),
+                    queryClient.invalidateQueries(
                         getModulesModuleIdGetQueryKey(parseInt(moduleId!))
-                    )
-                    .then(() => onClose())
+                    ),
+                ]).then(() => onClose())
 
                 toastNotification('saved')
             },

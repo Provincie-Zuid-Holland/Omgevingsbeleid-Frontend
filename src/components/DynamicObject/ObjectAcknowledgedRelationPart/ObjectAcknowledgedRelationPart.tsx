@@ -16,12 +16,16 @@ import { AcknowledgedRelation } from '@/api/fetchers.schemas'
 interface ObjectAcknowledgedRelationPartProps extends AcknowledgedRelation {
     /** Type of relation */
     type: 'awaiting' | 'approved' | 'declined' | 'received'
+    /** Handle action function */
+    handleAction?: (type: 'accept' | 'deny', e: AcknowledgedRelation) => void
 }
 
 const ObjectAcknowledgedRelationPart = ({
     type,
     Side_A,
     Side_B,
+    handleAction,
+    ...rest
 }: ObjectAcknowledgedRelationPartProps) => {
     const [open, setOpen] = useState(false)
 
@@ -37,15 +41,15 @@ const ObjectAcknowledgedRelationPart = ({
     const { title, description } = useMemo(() => {
         switch (type) {
             case 'approved':
-            case 'awaiting':
             case 'declined':
-                return { title: Side_B.Title, description: Side_B.Explanation }
             case 'received':
                 return { title: Side_B.Title, description: Side_B.Explanation }
+            case 'awaiting':
+                return { title: Side_B.Title, description: Side_A.Explanation }
             default:
                 return { title: '', description: '' }
         }
-    }, [type, Side_B])
+    }, [type, Side_A, Side_B])
 
     return (
         <div className="w-full">
@@ -84,38 +88,58 @@ const ObjectAcknowledgedRelationPart = ({
                         </span>
                     </button>
                 ) : (
-                    <div className="flex">
-                        <Button
-                            variant="secondary"
-                            size="small"
-                            className="mr-3 bg-pzh-white">
-                            Afwijzen
-                        </Button>
-                        <Button variant="cta" size="small">
-                            Accepteren
-                        </Button>
-                    </div>
+                    handleAction && (
+                        <div className="flex">
+                            <Button
+                                variant="secondary"
+                                size="small"
+                                className="mr-3 bg-pzh-white"
+                                onPress={() =>
+                                    handleAction('deny', {
+                                        ...rest,
+                                        Side_A,
+                                        Side_B,
+                                    })
+                                }>
+                                Afwijzen
+                            </Button>
+                            <Button
+                                variant="cta"
+                                size="small"
+                                onPress={() =>
+                                    handleAction('accept', {
+                                        ...rest,
+                                        Side_A,
+                                        Side_B,
+                                    })
+                                }>
+                                Accepteren
+                            </Button>
+                        </div>
+                    )
                 )}
             </div>
             {(open || type === 'received') && (
                 <>
                     <div className="flex items-start pt-2 pb-3 px-3 rounded-b-[4px] border-l border-r border-b border-pzh-gray-300">
-                        <div className="w-4 mr-3 mt-1">
-                            {type === 'approved' ? (
-                                <MessageCheck size={20} />
-                            ) : (
-                                type === 'declined' &&
-                                !Side_B.Acknowledged && (
-                                    <MessageXmark size={20} />
-                                )
-                            )}
-                        </div>
+                        {type !== 'received' && type !== 'awaiting' && (
+                            <div className="w-4 mr-3 mt-1">
+                                {type === 'approved' || Side_B.Acknowledged ? (
+                                    <MessageCheck size={20} />
+                                ) : (
+                                    type === 'declined' &&
+                                    !Side_B.Acknowledged && (
+                                        <MessageXmark size={20} />
+                                    )
+                                )}
+                            </div>
+                        )}
                         <Text>{description}</Text>
                     </div>
                     {(type === 'approved' || type === 'declined') && (
                         <div className="mt-2 pt-2 pb-3 px-3 rounded-[4px] border border-pzh-gray-300">
                             <div className="flex items-center mb-2">
-                                {type === 'approved' ? (
+                                {type === 'approved' || Side_A.Acknowledged ? (
                                     <MessageCheck size={20} className="mr-3" />
                                 ) : (
                                     type === 'declined' &&

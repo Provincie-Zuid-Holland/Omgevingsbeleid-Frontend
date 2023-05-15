@@ -1,6 +1,7 @@
 import { Hyperlink } from '@pzh-ui/components'
 
 import {
+    getBeleidskeuzeAcknowledgedRelationsLineageIdGetQueryKey,
     useBeleidskeuzeAcknowledgedRelationsLineageIdEditPost,
     useBeleidskeuzeAcknowledgedRelationsLineageIdGet,
     useBeleidskeuzeAcknowledgedRelationsLineageIdPost,
@@ -44,10 +45,16 @@ const fetchers = {
     usePostObject: null,
 }
 
+const queryKeys = {
+    getAcknowledgedRelations:
+        getBeleidskeuzeAcknowledgedRelationsLineageIdGetQueryKey,
+}
+
 const beleidskeuze: DynamicObject<
     typeof fetchers,
     keyof BeleidskeuzePatch,
-    (keyof BeleidskeuzeStaticPatchStatics)[]
+    (keyof BeleidskeuzeStaticPatchStatics)[],
+    typeof queryKeys
 > = {
     defaults: {
         singular: 'beleidskeuze',
@@ -64,6 +71,7 @@ const beleidskeuze: DynamicObject<
             'De beleidskeuzes geven aan hoe de provincie haar doelen wil bereiken. De beleidskeuzes zijn een uitwerking van de beleidsdoelen en komen voort uit de Omgevingsvisie.',
     },
     fetchers,
+    queryKeys,
     staticData: [
         'Client_1_UUID',
         'Owner_1_UUID',

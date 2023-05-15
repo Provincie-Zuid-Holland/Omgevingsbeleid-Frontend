@@ -6,13 +6,21 @@ import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
 
 import { StepProps } from './types'
 
-export const StepOne = ({ title, id, model }: StepProps) => {
+export const StepOne = ({ title, id, model, relations }: StepProps) => {
     const { values, setFieldValue } = useFormikContext<
         RelationShort & { Title?: string }
     >()
 
     const { pluralCapitalize, plural, prefixSingular, singular } =
         model.defaults
+
+    /**
+     * Filter items which already have a relation with current object
+     */
+    const filter = [
+        ...(relations?.map(relation => relation.Side_B.Object_ID) || []),
+        ...(id ? [id] : []),
+    ]
 
     return (
         <>
@@ -24,7 +32,7 @@ export const StepOne = ({ title, id, model }: StepProps) => {
             <DynamicObjectSearch
                 onChange={object => setFieldValue('Title', object?.Title)}
                 objectKey="id"
-                filter={id}
+                filter={filter}
                 placeholder={`Zoek in de ${plural}`}
                 label={pluralCapitalize}
                 defaultValue={

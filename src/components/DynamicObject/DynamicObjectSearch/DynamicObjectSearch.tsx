@@ -22,7 +22,7 @@ interface DynamicObjectSearchProps
     /** Label of field (optional) */
     label?: string
     /** Filter item by UUID or Object_ID */
-    filter?: number | string
+    filter?: number | string | number[] | string[]
 }
 
 const DynamicObjectSearch = ({
@@ -42,11 +42,19 @@ const DynamicObjectSearch = ({
         searchGet({ query })
             .then(data => {
                 const filteredObject = !!filter
-                    ? data.Objects.filter(object =>
-                          objectKey === 'uuid'
-                              ? object.UUID !== filter
-                              : object.Object_ID !== filter
-                      )
+                    ? data.Objects.filter(object => {
+                          if (Array.isArray(filter)) {
+                              return objectKey === 'uuid'
+                                  ? !(filter as string[]).includes(object.UUID)
+                                  : !(filter as number[]).includes(
+                                        object.Object_ID
+                                    )
+                          } else {
+                              return objectKey === 'uuid'
+                                  ? object.UUID !== filter
+                                  : object.Object_ID !== filter
+                          }
+                      })
                     : data.Objects
 
                 setSuggestions(filteredObject)

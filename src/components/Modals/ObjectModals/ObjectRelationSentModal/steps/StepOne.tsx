@@ -2,7 +2,7 @@ import { Divider, Heading, Text } from '@pzh-ui/components'
 import { PenToSquare } from '@pzh-ui/icons'
 import { useMemo } from 'react'
 
-import ObjectAcknowledgedRelationPart from '@/components/DynamicObject/ObjectAcknowledgedRelationPart/ObjectAcknowledgedRelationPart'
+import ObjectAcknowledgedRelationPart from '@/components/DynamicObject/ObjectAcknowledgedRelationPart'
 
 import { StepProps } from './types'
 
@@ -32,8 +32,11 @@ export const StepOne = ({
             <Divider className="mb-5" />
 
             <Text type="body-bold">
-                {amount}{' '}
-                {amount > 1 ? 'Openstaande verzoeken' : 'Openstaand verzoek'}
+                {amount === 1
+                    ? `${amount} Openstaand verzoek`
+                    : amount > 1
+                    ? `${amount} Openstaande verzoeken`
+                    : 'Geen openstaande verzoeken'}
             </Text>
 
             {relations?.map((relation, index) => (
@@ -63,6 +66,17 @@ export const StepOne = ({
                     ? `${historyAmount} Afgeronde verzoeken`
                     : `${historyAmount} Afgerond verzoek`}
             </Text>
+
+            {history?.map((relation, index) => (
+                <div
+                    key={`received-relation-${index}`}
+                    className="flex items-center mt-3">
+                    <ObjectAcknowledgedRelationPart
+                        type={relation.Denied ? 'declined' : 'approved'}
+                        {...relation}
+                    />
+                </div>
+            ))}
 
             <Divider className="my-5" />
         </>

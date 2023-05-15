@@ -31,17 +31,19 @@ const ObjectRelationSentModal = ({
     model,
     queryKey,
     relations,
+    history,
 }: ObjectRelationSentModalProps) => {
     const queryClient = useQueryClient()
     const { objectId } = useParams()
 
     const [initialValues, setInitialValues] = useState({
         Object_Type: model.defaults.singular,
-    } as EditAcknowledgedRelation)
+    } as EditAcknowledgedRelation & { Title?: string })
     const [step, setStep] = useState(1)
 
     const { data, queryKey: objectQueryKey } = useObject()
     const { usePatchAcknowledgedRelations } = model.fetchers
+    const { getAcknowledgedRelations } = model.queryKeys || {}
 
     /**
      * Handle modal close
@@ -74,6 +76,12 @@ const ObjectRelationSentModal = ({
             onSuccess: () => {
                 Promise.all([
                     queryClient.invalidateQueries(queryKey),
+                    queryClient.invalidateQueries(
+                        getAcknowledgedRelations?.(initialValues.Object_ID),
+                        {
+                            refetchType: 'all',
+                        }
+                    ),
                     queryClient.invalidateQueries(objectQueryKey),
                 ]).then(handleClose)
 
@@ -118,6 +126,7 @@ const ObjectRelationSentModal = ({
                             model={model}
                             title={data?.Title}
                             relations={relations}
+                            history={history}
                             handleEdit={handleEdit}
                         />
                         <div className="mt-6 flex items-center justify-between">

@@ -36,7 +36,7 @@ const ObjectRelationApprovedModal = ({
         Object_Type: model.defaults.singular,
         Acknowledged: false,
         consent: false,
-    } as EditAcknowledgedRelation & { consent: boolean })
+    } as EditAcknowledgedRelation & { Title?: string; consent: boolean })
     const [step, setStep] = useState(1)
 
     const { data, queryKey: objectQueryKey } = useObject()
@@ -73,7 +73,7 @@ const ObjectRelationApprovedModal = ({
                 Promise.all([
                     queryClient.invalidateQueries(queryKey),
                     queryClient.invalidateQueries(objectQueryKey),
-                ])
+                ]).then(handleClose)
 
                 toastNotification('acknowledgedRelationDisconnected')
             },
@@ -90,6 +90,7 @@ const ObjectRelationApprovedModal = ({
                 Object_ID: payload.Object_ID,
                 Object_Type: payload.Object_Type,
                 Acknowledged: false,
+                Denied: true,
             },
         })
     }

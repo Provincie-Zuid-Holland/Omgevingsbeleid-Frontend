@@ -27,7 +27,7 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
     })
 
     const { canCreateModule, canPatchObjectInModule } = usePermissions()
-    const { isOwner } = useObject()
+    const { isOwner, data: objectData } = useObject()
 
     const { useGetAcknowledgedRelations } = model.fetchers
     const { data, isLoading, queryKey } =
@@ -37,7 +37,7 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
 
     const { approved, sent, received } = useMemo(() => {
         const filteredData = data?.filter(
-            relation => !relation.Denied || !relation.Deleted_At
+            relation => !relation.Denied && !relation.Deleted_At
         )
 
         /** Approved relations */
@@ -60,6 +60,26 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
 
         return { approved, sent, received }
     }, [data])
+
+    const history = useMemo(() => {
+        const filteredData = data?.filter(
+            relation =>
+                relation.Denied ||
+                (relation.Side_A.Acknowledged && relation.Side_B.Acknowledged)
+        )
+
+        /** Sent history */
+        const sent = filteredData?.filter(
+            relation => relation.Requested_By_Code === objectData?.Code
+        )
+
+        /** Received history */
+        const received = filteredData?.filter(
+            relation => relation.Requested_By_Code !== objectData?.Code
+        )
+
+        return { sent, received }
+    }, [data, objectData])
 
     /**
      * Check if user has edit rights
@@ -138,6 +158,7 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
                 model={model}
                 onClose={() => setModal({ ...modal, isOpen: false })}
                 queryKey={queryKey}
+                relations={approved}
                 {...modal}
                 initialValues={
                     {
@@ -161,6 +182,7 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
                 onClose={() => setModal({ ...modal, isOpen: false })}
                 queryKey={queryKey}
                 relations={sent}
+                history={history.sent}
                 {...modal}
                 isOpen={modal.isOpen && modal.action === 'sent'}
             />
@@ -170,6 +192,7 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
                 onClose={() => setModal({ ...modal, isOpen: false })}
                 queryKey={queryKey}
                 relations={received}
+                history={history.received}
                 {...modal}
                 isOpen={modal.isOpen && modal.action === 'received'}
             />

@@ -3113,7 +3113,6 @@ export const getBeleidskeuzeAcknowledgedRelationsLineageIdGetMock = () =>
                 max: undefined,
             }),
             Object_Type: faker.random.word(),
-            Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
             Explanation: faker.helpers.arrayElement([
                 faker.random.word(),
                 undefined,
@@ -3126,6 +3125,7 @@ export const getBeleidskeuzeAcknowledgedRelationsLineageIdGetMock = () =>
                 faker.datatype.uuid(),
                 undefined,
             ]),
+            Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
         },
         Side_B: {
             Object_ID: faker.datatype.number({
@@ -3133,7 +3133,6 @@ export const getBeleidskeuzeAcknowledgedRelationsLineageIdGetMock = () =>
                 max: undefined,
             }),
             Object_Type: faker.random.word(),
-            Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
             Explanation: faker.helpers.arrayElement([
                 faker.random.word(),
                 undefined,
@@ -3146,6 +3145,7 @@ export const getBeleidskeuzeAcknowledgedRelationsLineageIdGetMock = () =>
                 faker.datatype.uuid(),
                 undefined,
             ]),
+            Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
         },
         Requested_By_Code: faker.random.word(),
         Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,

@@ -31,7 +31,7 @@ export const StepOne = ({
             <Divider className="mb-5" />
 
             <Text type="body-bold">
-                {amount} {amount > 1 ? pluralCapitalize : singularCapitalize}
+                {amount} {amount !== 1 ? pluralCapitalize : singularCapitalize}
             </Text>
 
             {relations?.map((relation, index) => (

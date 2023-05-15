@@ -1,4 +1,4 @@
-import { Button, Heading, Modal } from '@pzh-ui/components'
+import { Button, Modal } from '@pzh-ui/components'
 import { QueryKey, useQueryClient } from '@tanstack/react-query'
 import { Formik, Form } from 'formik'
 import { useState } from 'react'
@@ -31,17 +31,20 @@ const ObjectRelationReceivedModal = ({
     model,
     queryKey,
     relations,
+    history,
 }: ObjectRelationReceivedModalProps) => {
     const queryClient = useQueryClient()
     const { objectId } = useParams()
 
     const [initialValues, setInitialValues] = useState({
         Object_Type: model.defaults.singular,
-    } as EditAcknowledgedRelation)
+    } as EditAcknowledgedRelation & { Title?: string })
+    const [actionType, setActionType] = useState<'accept' | 'deny' | null>(null)
     const [step, setStep] = useState(1)
 
     const { data, queryKey: objectQueryKey } = useObject()
     const { usePatchAcknowledgedRelations } = model.fetchers
+    const { getAcknowledgedRelations } = model.queryKeys || {}
 
     /**
      * Handle modal close
@@ -60,6 +63,7 @@ const ObjectRelationReceivedModal = ({
         action: 'accept' | 'deny',
         relation: AcknowledgedRelation
     ) => {
+        setActionType(action)
         setInitialValues({
             ...initialValues,
             Object_ID: relation.Side_B.Object_ID,
@@ -77,6 +81,12 @@ const ObjectRelationReceivedModal = ({
             onSuccess: () => {
                 Promise.all([
                     queryClient.invalidateQueries(queryKey),
+                    queryClient.invalidateQueries(
+                        getAcknowledgedRelations?.(initialValues.Object_ID),
+                        {
+                            refetchType: 'all',
+                        }
+                    ),
                     queryClient.invalidateQueries(objectQueryKey),
                 ]).then(handleClose)
 
@@ -95,6 +105,8 @@ const ObjectRelationReceivedModal = ({
                 Object_ID: payload.Object_ID,
                 Object_Type: payload.Object_Type,
                 Explanation: payload.Explanation,
+                Acknowledged: actionType === 'accept' ? true : false,
+                Denied: actionType === 'deny' ? true : false,
             },
         })
     }
@@ -117,14 +129,13 @@ const ObjectRelationReceivedModal = ({
                 enableReinitialize>
                 {({ isValid, isSubmitting, submitForm }) => (
                     <Form>
-                        <Heading level="2" className="mb-2">
-                            Binnengekomen verzoeken
-                        </Heading>
                         <CurrentStep
                             model={model}
                             title={data?.Title}
                             relations={relations}
+                            history={history}
                             handleAction={handleAction}
+                            actionType={actionType}
                         />
                         <div className="mt-6 flex items-center justify-between">
                             {step !== 1 && (
@@ -134,14 +145,6 @@ const ObjectRelationReceivedModal = ({
                             )}
 
                             <div className="ml-auto">
-                                {step !== 1 && (
-                                    <Button
-                                        variant="secondary"
-                                        type="button"
-                                        className="mr-3">
-                                        Verzoek verwijderen
-                                    </Button>
-                                )}
                                 <Button
                                     variant={isFinalStep ? 'cta' : 'primary'}
                                     type="button"
@@ -156,7 +159,11 @@ const ObjectRelationReceivedModal = ({
                                     }}
                                     isLoading={isSubmitting}>
                                     {isFinalStep
-                                        ? 'Verzoek updaten'
+                                        ? `Verzoek ${
+                                              actionType === 'accept'
+                                                  ? 'accepteren'
+                                                  : 'afwijzen'
+                                          }`
                                         : 'Sluiten'}
                                 </Button>
                             </div>

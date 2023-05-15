@@ -32,4 +32,5 @@ export interface ObjectRelationModalActions {
     action?: 'add' | 'approved' | 'sent' | 'received'
     isOpen: boolean
     relations?: AcknowledgedRelation[]
+    history?: AcknowledgedRelation[]
 }
