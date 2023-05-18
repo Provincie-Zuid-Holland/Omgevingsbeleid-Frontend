@@ -124,6 +124,7 @@ export type ModulesModuleIdObjectBeleidskeuzeLineageIdGetParams = {
 export type BeleidskeuzeAcknowledgedRelationsLineageIdGetParams = {
     requested_by_us?: boolean
     acknowledged?: boolean
+    show_inactive?: boolean
 }
 
 export type BeleidskeuzesValidLineageIdGetParams = {
@@ -423,7 +424,6 @@ export interface ObjectSpecifiekeGeldigheid {
     Object_Type: string
     Object_ID: number
     Start_Validity?: string | null
-    End_Validity?: string | null
 }
 
 export interface NewObjectStaticResponse {
@@ -651,8 +651,6 @@ export interface Module {
     Description: string
     Module_Manager_1_UUID: string
     Module_Manager_2_UUID?: string | null
-    Start_Validity?: string | null
-    End_Validity?: string | null
     Status?: ModuleStatus
     Created_By?: UserShort
     Modified_By?: UserShort
@@ -840,10 +838,11 @@ export interface EditAcknowledgedRelation {
     Explanation?: string | null
     Acknowledged?: boolean | null
     Denied?: boolean | null
-    Deleted_At?: boolean | null
+    Deleted?: boolean | null
 }
 
 export interface CompleteModule {
+    Default_Start_Validity?: string | null
     IDMS_Link: string
     Decision_Number: string
     Link_To_Decision_Document: string
@@ -1150,6 +1149,7 @@ export interface AcknowledgedRelationSide {
 export interface AcknowledgedRelation {
     Side_A: AcknowledgedRelationSide
     Side_B: AcknowledgedRelationSide
+    Version: number
     Requested_By_Code: string
     Created_Date: string
     Created_By_UUID: string

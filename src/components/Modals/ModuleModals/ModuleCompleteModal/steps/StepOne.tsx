@@ -48,7 +48,7 @@ export const StepOne = () => (
                 name="Date"
                 label="Datum van wijziging"
                 placeholder="dd-mm-jjjj"
-                description="Geef de datum van wijziging op. In de volgende stap kun je per object de in- en uitwerkingtredingsdatum aanpassen."
+                description="Geef de datum van wijziging op. In de volgende stap kun je per object de inwerkingtredingsdatum aanpassen."
                 required
             />
         </div>

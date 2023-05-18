@@ -11,19 +11,35 @@ import { useMemo, useState } from 'react'
 import { CompleteModule, ModuleObjectShort } from '@/api/fetchers.schemas'
 import useModule from '@/hooks/useModule'
 import { getObjectActionText } from '@/utils/dynamicObject'
+import formatDate from '@/utils/formatDate'
 
 export const StepTwo = () => {
+    const { values } = useFormikContext<CompleteModule>()
+
     const { data } = useModule()
+
+    const objects = useMemo(
+        () =>
+            data?.Objects.filter(object => object.Object_Type !== 'Terminate'),
+        [data]
+    )
+
+    const date = useMemo(
+        () =>
+            values.Default_Start_Validity &&
+            formatDate(new Date(values.Default_Start_Validity), 'dd-MM-yyyy'),
+        [values.Default_Start_Validity]
+    )
 
     return (
         <div>
             <Text className="mb-4">
-                Geef aan welke onderdelen de in- of uitwerkingtredingdatum
-                ‘01-09-2022’ hebben, mocht het onderdeel een andere in- of
-                uitwerkingtredingsdatum hebben, geef dit per object aan.
+                Geef aan welke onderdelen de inwerkingtredingdatum ‘{date}’
+                hebben, mocht het onderdeel een andere inwerkingtredingsdatum
+                hebben, geef dit per object aan.
             </Text>
 
-            {data?.Objects.map(object => (
+            {objects?.map(object => (
                 <Object key={object.UUID} {...object} />
             ))}
         </div>
@@ -52,17 +68,11 @@ const Object = ({
 
     const isDirty = useMemo(
         () =>
-            Object_Type !== 'Terminate'
-                ? !!values.ObjectSpecifiekeGeldigheden?.find(
-                      item =>
-                          item?.Object_ID === Object_ID &&
-                          item?.Object_Type === Object_Type
-                  )?.Start_Validity
-                : !!values.ObjectSpecifiekeGeldigheden?.find(
-                      item =>
-                          item?.Object_ID === Object_ID &&
-                          item?.Object_Type === Object_Type
-                  )?.End_Validity,
+            !!values.ObjectSpecifiekeGeldigheden?.find(
+                item =>
+                    item?.Object_ID === Object_ID &&
+                    item?.Object_Type === Object_Type
+            )?.Start_Validity,
         [values.ObjectSpecifiekeGeldigheden, Object_ID, Object_Type]
     )
 
@@ -88,11 +98,7 @@ const Object = ({
                                 Object_ID
                             )
                             setFieldValue(
-                                `ObjectSpecifiekeGeldigheden.${index}.${
-                                    Object_Type !== 'Terminate'
-                                        ? 'Start_Validity'
-                                        : 'End_Validity'
-                                }`,
+                                `ObjectSpecifiekeGeldigheden.${index}.Start_Validity`,
                                 new Date()
                             )
                         } else {
@@ -121,17 +127,9 @@ const Object = ({
                     {(!checked || isDirty) && (
                         <>
                             <FormikDate
-                                name={`ObjectSpecifiekeGeldigheden.${index}.${
-                                    Object_Type !== 'Terminate'
-                                        ? 'Start_Validity'
-                                        : 'End_Validity'
-                                }`}
+                                name={`ObjectSpecifiekeGeldigheden.${index}.Start_Validity`}
                                 layout="grid"
-                                label={
-                                    Object_Type !== 'Terminate'
-                                        ? 'Inwerkingtredingsdatum'
-                                        : 'Uitwerkingtredingsdatum'
-                                }
+                                label="Inwerkingtredingsdatum"
                                 required
                             />
                             <FormikInput

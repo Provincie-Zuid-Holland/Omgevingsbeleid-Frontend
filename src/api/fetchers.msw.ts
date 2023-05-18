@@ -3147,6 +3147,7 @@ export const getBeleidskeuzeAcknowledgedRelationsLineageIdGetMock = () =>
             ]),
             Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
         },
+        Version: faker.datatype.number({ min: undefined, max: undefined }),
         Requested_By_Code: faker.random.word(),
         Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
         Created_By_UUID: faker.datatype.uuid(),
@@ -7599,20 +7600,6 @@ export const getModulesGetMock = () =>
             faker.helpers.arrayElement([faker.datatype.uuid(), null]),
             undefined,
         ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
         Status: faker.helpers.arrayElement([
             {
                 ID: faker.datatype.number({ min: undefined, max: undefined }),
@@ -7682,20 +7669,6 @@ export const getModulesModuleIdGetMock = () => ({
         Module_Manager_1_UUID: faker.datatype.uuid(),
         Module_Manager_2_UUID: faker.helpers.arrayElement([
             faker.helpers.arrayElement([faker.datatype.uuid(), null]),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
             undefined,
         ]),
         Status: faker.helpers.arrayElement([

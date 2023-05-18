@@ -131,11 +131,6 @@ const NavigationPopupMenu = ({
                                         setIsOpen={setIsOpen}
                                         to="/omgevingsprogramma/gebiedsprogrammas"
                                     />
-                                    <ListItem
-                                        text="Beleidsprestaties"
-                                        setIsOpen={setIsOpen}
-                                        to="/beleidsprestaties"
-                                    />
                                 </ul>
                             </div>
                             <div className="col-span-6 mt-6 md:col-span-2">

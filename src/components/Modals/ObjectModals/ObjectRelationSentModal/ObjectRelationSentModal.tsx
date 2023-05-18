@@ -104,6 +104,17 @@ const ObjectRelationSentModal = ({
         })
     }
 
+    const handleDeleteRelation = () => {
+        postAcknowledgedRelations?.mutate({
+            lineageId: parseInt(objectId!),
+            data: {
+                Deleted: true,
+                Object_ID: initialValues.Object_ID,
+                Object_Type: initialValues.Object_Type,
+            },
+        })
+    }
+
     const CurrentStep = steps[step - 1]
     const isFinalStep = step === 2
 
@@ -141,7 +152,8 @@ const ObjectRelationSentModal = ({
                                     <Button
                                         variant="secondary"
                                         type="button"
-                                        className="mr-3">
+                                        className="mr-3"
+                                        onPress={handleDeleteRelation}>
                                         Verzoek verwijderen
                                     </Button>
                                 )}

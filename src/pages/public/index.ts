@@ -1,6 +1,9 @@
 import Accessibility from './Accessibility'
+import AreaDetail from './AreaDetail'
+import AreaOverview from './AreaOverview'
 import DynamicObject from './DynamicObject'
 import DynamicOverview from './DynamicOverview'
+import EnvironmentProgram from './EnvironmentProgram'
 import ErrorPage from './ErrorPage'
 import Home from './Home'
 // import InProgress from './InProgress'
@@ -10,9 +13,14 @@ import Network from './Network'
 import PlanningAndReleases from './PlanningAndReleases'
 // import SearchResults from './SearchResults'
 // import Verordening from './Verordening'
+import ThemeDetail from './ThemeDetail'
+import ThemeOverview from './ThemeOverview'
 
 export {
+    AreaDetail,
+    AreaOverview,
     Accessibility,
+    EnvironmentProgram,
     ErrorPage,
     Home,
     // InProgress,
@@ -24,4 +32,6 @@ export {
     DynamicOverview,
     DynamicObject,
     Network,
+    ThemeDetail,
+    ThemeOverview,
 }

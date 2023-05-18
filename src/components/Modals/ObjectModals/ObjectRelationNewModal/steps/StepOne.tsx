@@ -52,7 +52,6 @@ export const StepOne = ({ title, id, model, relations }: StepProps) => {
                     }),
                 }}
             />
-            <input name="Title" type="hidden" />
         </>
     )
 }

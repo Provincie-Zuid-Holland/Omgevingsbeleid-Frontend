@@ -1,12 +1,12 @@
 import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 
-import { useGetValidGebiedsprogrammas } from '@/api/fetchers'
+import { useGebiedsprogrammasValidGet } from '@/api/fetchers'
 import AreaCard from '@/components/AreaCard'
 import { Container } from '@/components/Container'
 import { LoaderContent, LoaderSpinner } from '@/components/Loader'
 
 function AreaOverview() {
-    const { data, isLoading } = useGetValidGebiedsprogrammas()
+    const { data, isLoading } = useGebiedsprogrammasValidGet()
 
     const breadcrumbPaths = [
         { name: 'Home', path: '/' },
@@ -41,8 +41,8 @@ function AreaOverview() {
                             {data.map(item => (
                                 <li key={item.UUID}>
                                     <AreaCard
-                                        image={item?.Afbeelding}
-                                        title={item?.Titel || ''}
+                                        image={item?.Image}
+                                        title={item?.Title || ''}
                                         link={`/omgevingsprogramma/gebiedsprogrammas/${item.UUID}`}
                                     />
                                 </li>

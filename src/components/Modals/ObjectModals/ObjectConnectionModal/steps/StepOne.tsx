@@ -17,8 +17,13 @@ export const StepOne = ({
     handleDeleteConnection,
 }: StepProps) => {
     const { defaults } = connectionModel || {}
-    const { atemporal, pluralCapitalize, plural, prefixNewObject, singular } =
-        defaults || {}
+    const {
+        atemporal,
+        pluralCapitalize,
+        plural,
+        prefixNewObject,
+        singularReadable,
+    } = defaults || {}
 
     /**
      * Get amount of connections
@@ -39,15 +44,15 @@ export const StepOne = ({
                 <span className="font-bold">
                     {amount} Gekoppelde{' '}
                     {amount === 1
-                        ? singular?.replaceAll('_', ' ')
-                        : plural?.replaceAll('_', ' ')}
+                        ? singularReadable
+                        : plural?.replaceAll('-', ' ')}
                 </span>
                 <Button
                     size="small"
                     variant="cta"
                     type="button"
                     onPress={() => setStep?.(2)}>
-                    {prefixNewObject} {singular?.replaceAll('_', ' ')} koppelen
+                    {prefixNewObject} {singularReadable} koppelen
                 </Button>
             </div>
 

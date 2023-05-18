@@ -49,7 +49,7 @@ export const StepTwo = ({ title, id, connectionModel, model }: StepProps) => {
                     optimized={false}
                     name="items"
                     options={options}
-                    placeholder={`Zoek in de ${plural?.replaceAll('_', ' ')}`}
+                    placeholder={`Zoek in de ${plural?.replaceAll('-', ' ')}`}
                     label={pluralCapitalize}
                     isMulti
                     menuIsOpen
@@ -59,7 +59,7 @@ export const StepTwo = ({ title, id, connectionModel, model }: StepProps) => {
                     hideSelectedOptions={false}
                     controlShouldRenderValue={false}
                     noOptionsMessage={() =>
-                        `Er zijn geen ${plural?.replaceAll('_', ' ')} gevonden`
+                        `Er zijn geen ${plural?.replaceAll('-', ' ')} gevonden`
                     }
                     isLoading={isLoading}
                     components={{
@@ -107,7 +107,6 @@ export const StepTwo = ({ title, id, connectionModel, model }: StepProps) => {
                     }}
                 />
             )}
-            <input name="Title" type="hidden" />
         </>
     )
 }

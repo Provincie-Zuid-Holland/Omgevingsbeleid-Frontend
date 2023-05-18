@@ -2,7 +2,7 @@ import { FieldFileUploadProps } from '@pzh-ui/components'
 
 import { Validation } from '@/validation/zodSchema'
 
-export type DynamicSection<FieldType = any> = {
+export type DynamicSection<FieldType = string> = {
     /** Title of section */
     title: string
     /** Description of section */
@@ -11,7 +11,7 @@ export type DynamicSection<FieldType = any> = {
     fields: DynamicField<FieldType>[]
 }
 
-export type DynamicField<FieldType = any> = {
+export type DynamicField<FieldType = string> = {
     /** Name of field, this is also the API field */
     name: FieldType
     /** Label of field */
@@ -26,6 +26,8 @@ export type DynamicField<FieldType = any> = {
     required?: boolean
     /** Field validation (optional) */
     validation?: Validation
+    /** Field is optimized */
+    optimized?: boolean
 } & (
     | { type: 'select'; options: { label: string; value: string }[] }
     | {

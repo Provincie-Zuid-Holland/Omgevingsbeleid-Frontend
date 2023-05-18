@@ -18,13 +18,18 @@ import {
 } from '@/pages/protected'
 import ObjectDetail from '@/pages/protected/DynamicObject/ObjectDetail'
 import {
+    AreaDetail,
+    AreaOverview,
     Accessibility,
+    EnvironmentProgram,
     Home,
     Login,
     PlanningAndReleases,
     DynamicOverview as DynamicOverviewPublic,
     DynamicObject as DynamicObjectPublic,
     Network,
+    ThemeDetail,
+    ThemeOverview,
 } from '@/pages/public'
 
 import ProtectedRoute from './ProtectedRoute'
@@ -65,67 +70,67 @@ const AppRoutes = () => {
         //     path: 'verordening',
         //     element: <Verordening />,
         // },
-        // {
-        //     path: 'omgevingsprogramma',
-        //     children: [
-        //         {
-        //             index: true,
-        //             element: <EnvironmentProgram />,
-        //         },
-        //         {
-        //             path: 'gebiedsprogrammas',
-        //             children: [
-        //                 {
-        //                     index: true,
-        //                     element: <AreaOverview />,
-        //                 },
-        //                 {
-        //                     path: ':id',
-        //                     children: [
-        //                         {
-        //                             index: true,
-        //                             element: <AreaDetail />,
-        //                         },
-        //                         {
-        //                             path: ':id',
-        //                             element: (
-        //                                 <DynamicObjectPublic
-        //                                     model={models['maatregel']}
-        //                                 />
-        //                             ),
-        //                         },
-        //                     ],
-        //                 },
-        //             ],
-        //         },
-        //         {
-        //             path: 'thematische-programmas',
-        //             children: [
-        //                 {
-        //                     index: true,
-        //                     element: <ThemeOverview />,
-        //                 },
-        //                 {
-        //                     path: ':id',
-        //                     children: [
-        //                         {
-        //                             index: true,
-        //                             element: <ThemeDetail />,
-        //                         },
-        //                         {
-        //                             path: ':id',
-        //                             element: (
-        //                                 <DynamicObjectPublic
-        //                                     model={models['maatregel']}
-        //                                 />
-        //                             ),
-        //                         },
-        //                     ],
-        //                 },
-        //             ],
-        //         },
-        //     ],
-        // },
+        {
+            path: 'omgevingsprogramma',
+            children: [
+                {
+                    index: true,
+                    element: <EnvironmentProgram />,
+                },
+                {
+                    path: 'gebiedsprogrammas',
+                    children: [
+                        {
+                            index: true,
+                            element: <AreaOverview />,
+                        },
+                        {
+                            path: ':uuid',
+                            children: [
+                                {
+                                    index: true,
+                                    element: <AreaDetail />,
+                                },
+                                {
+                                    path: ':uuid',
+                                    element: (
+                                        <DynamicObjectPublic
+                                            model={models['maatregel']}
+                                        />
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    path: 'thematische-programmas',
+                    children: [
+                        {
+                            index: true,
+                            element: <ThemeOverview />,
+                        },
+                        {
+                            path: ':uuid',
+                            children: [
+                                {
+                                    index: true,
+                                    element: <ThemeDetail />,
+                                },
+                                {
+                                    path: ':uuid',
+                                    element: (
+                                        <DynamicObjectPublic
+                                            model={models['maatregel']}
+                                        />
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        },
         {
             path: 'omgevingsvisie',
             children: [

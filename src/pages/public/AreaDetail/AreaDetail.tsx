@@ -2,19 +2,19 @@ import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { useGetVersionGebiedsprogrammasObjectUuid } from '@/api/fetchers'
+import { useGebiedsprogrammasVersionObjectUuidGet } from '@/api/fetchers'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import ObjectList from '@/components/ObjectList'
 
 function AreaDetail() {
-    const { id } = useParams<{ id: string }>()
-    const { data, isLoading } = useGetVersionGebiedsprogrammasObjectUuid(id!)
+    const { uuid } = useParams<{ uuid: string }>()
+    const { data, isLoading } = useGebiedsprogrammasVersionObjectUuidGet(uuid!)
 
     const transformedMaatregelen = useMemo(
         () =>
             data?.Maatregelen?.map(({ Object }) => ({
-                Titel: Object?.Titel,
+                Title: Object?.Title,
                 UUID: Object?.UUID,
             })),
         [data?.Maatregelen]
@@ -28,7 +28,7 @@ function AreaDetail() {
             path: '/omgevingsprogramma/gebiedsprogrammas',
         },
         {
-            name: data?.Titel || '',
+            name: data?.Title || '',
             path: `/omgevingsprogramma/gebiedsprogrammas/${data?.UUID}`,
         },
     ]
@@ -43,19 +43,16 @@ function AreaDetail() {
                 </div>
                 <div className="col-span-6 xl:col-span-4 xl:col-start-2">
                     <Heading level="1" className="mt-10 mb-3">
-                        {data?.Titel}
+                        {data?.Title}
                     </Heading>
                     <Text className="mb-8 break-words whitespace-pre-line">
-                        {data?.Omschrijving}
+                        {data?.Description}
                     </Text>
-                    {data?.Afbeelding && (
+                    {data?.Image && (
                         <figure>
-                            <img
-                                src={`data:image/jpeg;base64,${data.Afbeelding}`}
-                                alt={data?.Titel}
-                            />
+                            <img src={data.Image} alt={data?.Title} />
                             <figcaption className="mt-2 text-sm text-pzh-blue-dark">
-                                Indicatieve weergave gebied ‘{data?.Titel}’.
+                                Indicatieve weergave gebied ‘{data?.Title}’.
                             </figcaption>
                         </figure>
                     )}
@@ -65,7 +62,7 @@ function AreaDetail() {
                                 data={transformedMaatregelen}
                                 isLoading={isLoading}
                                 objectType="gebiedsprogramma’s"
-                                objectSlug={`omgevingsprogramma/gebiedsprogrammas/${id}`}
+                                objectSlug={`omgevingsprogramma/gebiedsprogrammas/${uuid}`}
                                 advancedSearch={false}
                                 hasFilter={false}
                                 title="Maatregelen in dit gebiedsprogramma"

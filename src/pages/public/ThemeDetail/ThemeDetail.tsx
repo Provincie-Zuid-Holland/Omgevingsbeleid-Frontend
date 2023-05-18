@@ -1,50 +1,25 @@
 import { Breadcrumbs, Heading, Hyperlink, Text } from '@pzh-ui/components'
-import { useQueries } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
-import {
-    getGetVersionBeleidskeuzesObjectUuidQueryKey,
-    getVersionBeleidskeuzesObjectUuid,
-    useGetVersionBeleidsdoelenObjectUuid,
-} from '@/api/fetchers'
+import { useBeleidsdoelenVersionObjectUuidGet } from '@/api/fetchers'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import ObjectList from '@/components/ObjectList'
-import RelatiesKoppelingen from '@/components/RelatiesKoppelingen'
 
 function ThemeDetail() {
-    const { id } = useParams<{ id: string }>()
-    const { data, isLoading } = useGetVersionBeleidsdoelenObjectUuid(id!)
-    const beleidskeuzes = useQueries({
-        queries: (data?.Ref_Beleidskeuzes || []).map(item => {
-            return {
-                queryKey: getGetVersionBeleidskeuzesObjectUuidQueryKey(
-                    item.UUID || ''
-                ),
-                queryFn: () =>
-                    getVersionBeleidskeuzesObjectUuid(item.UUID || ''),
-            }
-        }),
-    })
+    const { uuid } = useParams<{ uuid: string }>()
 
-    const transformedMaatregelen = useMemo(() => {
-        if (!beleidskeuzes?.length) return
+    const { data, isLoading } = useBeleidsdoelenVersionObjectUuidGet(uuid!)
 
-        const items: { Titel?: string; UUID?: string }[] = []
-
-        beleidskeuzes.forEach(beleidskeuze =>
-            beleidskeuze.data?.Maatregelen?.forEach(({ Object }) => {
-                if (!items.find(item => item.UUID === Object?.UUID))
-                    items.push({
-                        Titel: Object?.Titel,
-                        UUID: Object?.UUID,
-                    })
-            })
-        )
-
-        return items
-    }, [beleidskeuzes])
+    const transformedMaatregelen = useMemo(
+        () =>
+            data?.Maatregels?.map(item => ({
+                Title: item.Object.Title,
+                UUID: item.Object.UUID,
+            })),
+        [data?.Maatregels]
+    )
 
     const breadcrumbPaths = [
         { name: 'Home', path: '/' },
@@ -54,7 +29,7 @@ function ThemeDetail() {
             path: '/omgevingsprogramma/thematische-programmas',
         },
         {
-            name: data?.Titel || '',
+            name: data?.Title || '',
             path: `/omgevingsprogramma/thematische-programmas/${data?.UUID}`,
         },
     ]
@@ -69,13 +44,13 @@ function ThemeDetail() {
                 </div>
                 <div className="col-span-6 xl:col-span-4 xl:col-start-2">
                     <Heading level="1" className="mt-10 mb-3">
-                        {data?.Titel}
+                        {data?.Title}
                     </Heading>
                     <Text className="mb-4 break-words whitespace-pre-line">
-                        {data?.Omschrijving}
+                        {data?.Description}
                     </Text>
                     <Hyperlink
-                        to={`/beleidsdoelen/${data?.UUID}`}
+                        to={`/omgevingsvisie/beleidsdoelen/${data?.UUID}`}
                         text="Lees meer informatie over dit beleidsdoel"
                     />
 
@@ -85,7 +60,7 @@ function ThemeDetail() {
                                 data={transformedMaatregelen}
                                 isLoading={isLoading}
                                 objectType="thematische programma’s"
-                                objectSlug={`omgevingsprogramma/thematische-programmas/${id}`}
+                                objectSlug={`omgevingsprogramma/thematische-programmas/${uuid}`}
                                 advancedSearch={false}
                                 hasFilter={false}
                                 title="Maatregelen in dit thematische programma"
@@ -94,14 +69,6 @@ function ThemeDetail() {
                     )}
                 </div>
             </Container>
-
-            {data && (
-                <RelatiesKoppelingen
-                    titleSingular="beleidsdoel"
-                    titleSingularPrefix="het"
-                    dataObject={data}
-                />
-            )}
         </div>
     )
 }

@@ -26,8 +26,8 @@ const ModulePart = ({
                 'border-b': isLast,
             }
         )}>
-        <span className="col-span-2 capitalize truncate">{Object_Type}</span>
-        <Text type="body" className="font-bold col-span-8 truncate">
+        <span className="col-span-3 capitalize truncate">{Object_Type}</span>
+        <Text type="body" className="font-bold col-span-7 truncate">
             {Title}
         </Text>
         <span className="col-span-1 italic">

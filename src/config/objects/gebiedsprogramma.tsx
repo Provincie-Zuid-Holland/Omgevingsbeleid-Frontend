@@ -103,7 +103,7 @@ const gebiedsprogramma: DynamicObject<
                     name: 'Image',
                     label: 'Afbeelding van het gebied',
                     type: 'image',
-                    accept: ['image/jpeg', 'image/png'],
+                    accept: ['image/jpeg', 'image/png', 'image/webp'],
                     maxSize: 4194304,
                     maxFiles: 1,
                     preview: true,

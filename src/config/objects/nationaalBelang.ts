@@ -41,7 +41,7 @@ const nationaalBelang: DynamicObject<
         singular: 'nationaal_belang',
         singularReadable: 'nationaal belang',
         singularCapitalize: 'Nationaal belang',
-        plural: 'nationale_belangen',
+        plural: 'nationale-belangen',
         pluralCapitalize: 'Nationale belangen',
         prefixSingular: 'het',
         prefixPlural: 'de',

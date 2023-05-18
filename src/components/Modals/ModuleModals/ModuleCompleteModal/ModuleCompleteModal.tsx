@@ -41,7 +41,7 @@ const ModuleCompleteModal = ({ isOpen, onClose }: ModuleCompleteModalProps) => {
                     })
                     .then(() => {
                         handleClose()
-                        navigate('/muteer/modules')
+                        navigate('/muteer')
                     })
 
                 toastNotification('moduleCompleted')

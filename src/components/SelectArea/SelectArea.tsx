@@ -5,7 +5,8 @@ import { useFormikContext } from 'formik'
 import { useMemo, useState } from 'react'
 
 import { Werkingsgebied } from '@/api/fetchers.schemas'
-import { DynamicField, ModelReturnType } from '@/config/objects/types'
+import { ModelReturnType } from '@/config/objects/types'
+import { DynamicField } from '@/config/types'
 import useObject from '@/hooks/useObject'
 
 import AreaPreview from '../AreaPreview'
