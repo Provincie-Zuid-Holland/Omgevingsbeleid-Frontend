@@ -2,7 +2,7 @@ import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import { useRef } from 'react'
 
 import { Container } from '@/components/Container'
-import imgDigiToegankelijkheid from '@/images/digi-toegankelijkheid.png'
+import imgDigiToegankelijkheid from '@/images/digi-toegankelijkheid.webp'
 
 function Accessibility() {
     const breadcrumbPaths = [

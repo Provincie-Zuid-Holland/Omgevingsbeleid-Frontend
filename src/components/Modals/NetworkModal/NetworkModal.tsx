@@ -11,11 +11,12 @@ interface NetworkModalProps {
 }
 
 const NetworkModal = ({ isOpen, onClose }: NetworkModalProps) => {
-    const activeNode = useNetworkStore(state => state.activeNode)
-    const activeConnections = useNetworkStore(state => state.activeConnections)
+    const { activeNode, activeConnections } = useNetworkStore(state => ({
+        ...state,
+    }))
 
     const model = models[activeNode?.Object_Type as ModelType] || {}
-    const { prefixSingular, singular, plural, demonstrative } =
+    const { prefixSingular, singular, demonstrative, slugOverview } =
         model.defaults || {}
 
     return (
@@ -45,7 +46,7 @@ const NetworkModal = ({ isOpen, onClose }: NetworkModalProps) => {
                         return (
                             <li key={connection.UUID}>
                                 <Link
-                                    to={`/omgevingsvisie/${model?.defaults.plural}/${connection.UUID}`}
+                                    to={`/${model.defaults.slugOverview}/${connection.UUID}`}
                                     className="flex items-center justify-between pt-2 pb-1 px-2 border-b border-pzh-blue-dark/35">
                                     <p className="leading-none underline decoration-1">
                                         {connection.Title}
@@ -61,7 +62,7 @@ const NetworkModal = ({ isOpen, onClose }: NetworkModalProps) => {
             )}
 
             <Hyperlink
-                to={`/omgevingsvisie/${plural}/${activeNode?.UUID}`}
+                to={`/${slugOverview}/${activeNode?.UUID}`}
                 text={`Bekijk de detailpagina van ${demonstrative} ${singular} in het digitaal omgevingsbeleid`}
             />
         </Modal>

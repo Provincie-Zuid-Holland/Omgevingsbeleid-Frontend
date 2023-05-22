@@ -141,7 +141,7 @@ const NavigationPopupMenu = ({
                                     <ListItem
                                         text="Beleidsregels"
                                         setIsOpen={setIsOpen}
-                                        to="/beleidsregels"
+                                        to="/omgevingsverordening/beleidsregels"
                                     />
 
                                     <ListItem

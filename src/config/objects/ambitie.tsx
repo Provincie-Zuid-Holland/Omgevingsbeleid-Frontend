@@ -50,11 +50,17 @@ const ambitie: DynamicObject<
         prefixPlural: 'de',
         prefixNewObject: 'Nieuwe',
         demonstrative: 'deze',
-        slugOverview: 'ambities',
+        slugOverview: 'omgevingsvisie/ambities',
         description:
             'De ambities geven aan waar de provincie naar wil streven. De ambities komen voort uit het coalitieakkoord en worden vastgesteld in de Omgevingsvisie.',
     },
-    staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
+    staticData: [
+        'Client_1_UUID',
+        'Owner_1_UUID',
+        'Owner_2_UUID',
+        'Portfolio_Holder_1_UUID',
+        'Portfolio_Holder_2_UUID',
+    ],
     allowedConnections: [{ type: 'beleidsdoel', key: 'Beleidsdoelen' }],
     connectionsDescription: (
         <>

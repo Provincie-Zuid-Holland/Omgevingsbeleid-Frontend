@@ -96,3 +96,13 @@ mark {
 .text-md {
     font-size: 1.1rem;
 }
+
+ins {
+    background-color: rgba(0, 128, 77, 0.1);
+    text-decoration-line: none;
+}
+
+del {
+    background-color: rgba(209, 31, 61, 0.1);
+    text-decoration-thickness: 1px;
+}

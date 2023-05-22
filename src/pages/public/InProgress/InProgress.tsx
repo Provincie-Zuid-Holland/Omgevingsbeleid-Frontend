@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { getEdits } from '@/api/fetchers'
 import { Container } from '@/components/Container'
-import imageInBewerking from '@/images/in-bewerking.png'
+import imageInBewerking from '@/images/in-bewerking.webp'
 import { scrollToElementByID } from '@/utils/scrollToElementByID'
 
 import TableLatestEdits from './TableLatestEdits'

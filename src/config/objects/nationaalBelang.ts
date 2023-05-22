@@ -66,7 +66,6 @@ const nationaalBelang: DynamicObject<
                     name: 'Weblink',
                     label: 'Link naar wetten.nl',
                     type: 'url',
-                    required: true,
                     validation: schemaDefaults.url(),
                 },
             ],

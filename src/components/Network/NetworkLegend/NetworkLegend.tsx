@@ -6,10 +6,10 @@ import { ModelType } from '@/config/objects/types'
 import useNetworkStore from '@/store/networkStore'
 
 const NetworkLegend = () => {
-    const filters = useNetworkStore(state => state.filters)
-    const selectedFilters = useNetworkStore(state => state.selectedFilters)
-    const setSelectedFilters = useNetworkStore(
-        state => state.setSelectedFilters
+    const { filters, selectedFilters, setSelectedFilters } = useNetworkStore(
+        state => ({
+            ...state,
+        })
     )
 
     const handleClick = (val: ModelType) => {

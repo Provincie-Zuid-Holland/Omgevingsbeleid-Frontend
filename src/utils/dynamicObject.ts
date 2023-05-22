@@ -56,5 +56,5 @@ export const getObjectActionText = (action?: string) => {
 export const generateObjectPath = (type: ModelType, UUID?: string) => {
     const model = models[type]
 
-    return `/omgevingsvisie/${model.defaults.plural}/${UUID}`
+    return `/${model.defaults.slugOverview}/${UUID}`
 }

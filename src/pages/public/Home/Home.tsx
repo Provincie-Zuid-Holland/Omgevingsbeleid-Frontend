@@ -194,7 +194,7 @@ const Home = () => {
                         In het Omgevingsprogramma staat beschreven welke{' '}
                         <Link
                             className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/maatregelen">
+                            to="omgevingsprogramma/maatregelen">
                             maatregelen
                         </Link>{' '}
                         de provincie treft om de visie waar te maken. Het

@@ -33,7 +33,7 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
 
     const breadcrumbPaths = [
         { name: 'Omgevingsbeleid', path: '/' },
-        { name: 'Omgevingsvisie', path: '/' },
+        { name: slugOverview?.split('/')[0] || '', path: '/' },
         { name: pluralCapitalize || '', path: pathName },
     ]
 
@@ -42,7 +42,7 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
             <Helmet title={pluralCapitalize} />
 
             <Container className="pb-16 pt-4">
-                <div className="col-span-6 mb-8">
+                <div className="col-span-6 mb-8 capitalize">
                     <Breadcrumbs items={breadcrumbPaths} />
                 </div>
                 <div className="col-span-6 xl:col-span-4 xl:col-start-2">
@@ -52,11 +52,7 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
                         <ObjectList
                             data={allObjects || []}
                             isLoading={isLoading}
-                            objectSlug={
-                                slugOverview
-                                    ? `omgevingsvisie/${slugOverview}`
-                                    : ''
-                            }
+                            objectSlug={slugOverview ? slugOverview : ''}
                             objectType={plural}
                         />
                     </div>

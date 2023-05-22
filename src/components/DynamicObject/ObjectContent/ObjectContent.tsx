@@ -102,7 +102,7 @@ const List = ({ title, description, items, hidden }: ListProps) => {
     )
 }
 
-const fields: {
+export const fields: {
     title?: string
     description?: string
     value: keyof ModelReturnType

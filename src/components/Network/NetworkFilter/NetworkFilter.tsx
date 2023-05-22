@@ -18,18 +18,17 @@ interface NetworkFilterProps {
 }
 
 const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
-    const filters = useNetworkStore(state => state.filters)
-    const selectedFilters = useNetworkStore(state => state.selectedFilters)
-    const setSelectedFilters = useNetworkStore(
-        state => state.setSelectedFilters
-    )
-    const amountOfFilters = useNetworkStore(
-        state => state.selectedFilters?.length || 0
-    )
-    const setActiveNode = useNetworkStore(state => state.setActiveNode)
-    const setActiveConnections = useNetworkStore(
-        state => state.setActiveConnections
-    )
+    const {
+        amountOfFilters,
+        filters,
+        selectedFilters,
+        setSelectedFilters,
+        setActiveNode,
+        setActiveConnections,
+    } = useNetworkStore(state => ({
+        ...state,
+        amountOfFilters: state.selectedFilters?.length || 0,
+    }))
 
     /**
      * Format options for search field

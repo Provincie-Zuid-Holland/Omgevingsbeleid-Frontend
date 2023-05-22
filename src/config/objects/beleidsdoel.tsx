@@ -53,12 +53,18 @@ const beleidsdoel: DynamicObject<
         prefixPlural: 'de',
         prefixNewObject: 'Nieuw',
         demonstrative: 'dit',
-        slugOverview: 'beleidsdoelen',
+        slugOverview: 'omgevingsvisie/beleidsdoelen',
         description:
             'De beleidsdoelen geven aan wat de provincie wil bereiken. De beleidsdoelen zijn een uitwerking van de ambities en komen voort uit de begroting.',
     },
     fetchers,
-    staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
+    staticData: [
+        'Client_1_UUID',
+        'Owner_1_UUID',
+        'Owner_2_UUID',
+        'Portfolio_Holder_1_UUID',
+        'Portfolio_Holder_2_UUID',
+    ],
     allowedConnections: [
         { type: 'ambitie', key: 'Ambities' },
         { type: 'beleidskeuze', key: 'Beleidskeuzes' },

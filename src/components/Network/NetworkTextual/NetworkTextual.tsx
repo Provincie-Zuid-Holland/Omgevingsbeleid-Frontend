@@ -15,10 +15,10 @@ interface NetworkTextualProps {
 }
 
 const NetworkTextual = ({ graph }: NetworkTextualProps) => {
-    const activeNode = useNetworkStore(state => state.activeNode)
-    const setActiveNode = useNetworkStore(state => state.setActiveNode)
-    const setActiveConnections = useNetworkStore(
-        state => state.setActiveConnections
+    const { activeNode, setActiveNode, setActiveConnections } = useNetworkStore(
+        state => ({
+            ...state,
+        })
     )
 
     const [open, setOpen] = useState(false)

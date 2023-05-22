@@ -26,6 +26,7 @@
         "lodash.clonedeep": "^4.5.0",
         "lodash.debounce": "^4.0.8",
         "lodash.groupby": "^4.6.0",
+        "node-htmldiff": "^0.9.4",
         "node-sass": "^7.0.1",
         "proj4leaflet": "^1.0.2",
         "promise-polyfill": "^8.2.0",

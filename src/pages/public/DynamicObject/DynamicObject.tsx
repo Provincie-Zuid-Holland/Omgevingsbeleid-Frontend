@@ -1,17 +1,20 @@
 import { Breadcrumbs, Heading } from '@pzh-ui/components'
 import classNames from 'classnames'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
+import { useUpdateEffect } from 'react-use'
 
 import { Container } from '@/components/Container'
 import ObjectArea from '@/components/DynamicObject/ObjectArea/ObjectArea'
-import ObjectConnectionsPublic from '@/components/DynamicObject/ObjectConnectionsPublic/ObjectConnectionsPublic'
+import ObjectConnectionsPublic from '@/components/DynamicObject/ObjectConnectionsPublic'
 import ObjectContent from '@/components/DynamicObject/ObjectContent/ObjectContent'
-import ObjectRelationsPublic from '@/components/DynamicObject/ObjectRelationsPublic/ObjectRelationsPublic'
+import ObjectRelationsPublic from '@/components/DynamicObject/ObjectRelationsPublic'
 import Sidebar from '@/components/DynamicObject/ObjectSidebar'
 import { LoaderContent } from '@/components/Loader'
+import RevisionModal from '@/components/Modals/RevisionModal/RevisionModal'
 import { Model, ModelReturnType } from '@/config/objects/types'
+import useRevisionStore from '@/store/revisionStore'
 
 interface DynamicObjectProps {
     model: Model
@@ -21,13 +24,23 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
     const { uuid } = useParams()
     const pathName = location.pathname || ''
 
-    const { singularCapitalize, pluralCapitalize, plural } = model.defaults
-    const { useGetVersion, useGetValidLineage } = model.fetchers
+    const setInitialObject = useRevisionStore(state => state.setInitialObject)
+    const setRevisionFrom = useRevisionStore(state => state.setRevisionFrom)
+
+    const [revisionModalOpen, setRevisionModalOpen] = useState(false)
+
+    const { singularCapitalize, pluralCapitalize, plural, slugOverview } =
+        model.defaults
+    const { useGetVersion, useGetValidLineage, useGetLatestLineage } =
+        model.fetchers
 
     const { data = {}, isLoading } =
         useGetVersion?.<ModelReturnType>(uuid!, {
             query: { enabled: !!uuid },
         }) || {}
+    const { data: latest } = useGetLatestLineage(data.Object_ID!, {
+        query: { enabled: !!data.Object_ID },
+    })
     const { data: revisions } =
         useGetValidLineage?.<ModelReturnType[]>(data.Object_ID!, undefined, {
             query: { enabled: !!data.Object_ID },
@@ -40,10 +53,18 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
 
     const breadcrumbPaths = [
         { name: 'Omgevingsbeleid', path: '/' },
-        { name: 'Omgevingsvisie', path: '/' },
-        { name: pluralCapitalize, path: `/omgevingsvisie/${plural}` },
+        { name: slugOverview?.split('/')[0] || '', path: '/' },
+        { name: pluralCapitalize, path: `/${slugOverview}` || '' },
         { name: data.Title || '', path: pathName },
     ]
+
+    /**
+     * Set initial object which can be used in the revision modal
+     */
+    useUpdateEffect(() => {
+        setInitialObject(latest)
+        setRevisionFrom(latest)
+    }, [latest])
 
     if (isLoading) return <LoaderContent />
 
@@ -52,7 +73,7 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
             <Helmet title={data.Title} />
 
             <Container className="pb-16 pt-4">
-                <div className="col-span-6 mb-8">
+                <div className="col-span-6 mb-8 capitalize">
                     <Breadcrumbs items={breadcrumbPaths} />
                 </div>
 
@@ -60,6 +81,7 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
                     <Sidebar
                         revisions={amountOfRevisions}
                         plural={plural}
+                        handleModal={() => setRevisionModalOpen(true)}
                         {...data}
                     />
                 </div>
@@ -115,6 +137,15 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
                     )}
                 </div>
             </Container>
+
+            {!!amountOfRevisions && amountOfRevisions > 0 && (
+                <RevisionModal
+                    model={model}
+                    revisions={revisions}
+                    isOpen={revisionModalOpen}
+                    onClose={() => setRevisionModalOpen(false)}
+                />
+            )}
         </>
     )
 }

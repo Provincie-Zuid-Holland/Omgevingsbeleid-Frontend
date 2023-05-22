@@ -2,7 +2,7 @@ import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import { Link } from 'react-router-dom'
 
 import { Container } from '@/components/Container'
-import imgEnvironmentProgram from '@/images/environment-program.png'
+import imgEnvironmentProgram from '@/images/environment-program.webp'
 
 function EnvironmentProgram() {
     const breadcrumbPaths = [

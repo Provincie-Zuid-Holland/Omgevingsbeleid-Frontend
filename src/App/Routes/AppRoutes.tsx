@@ -131,37 +131,29 @@ const AppRoutes = () => {
                 },
             ],
         },
-        {
-            path: 'omgevingsvisie',
-            children: [
-                ...Object.keys(models)
-                    .filter(
-                        model =>
-                            !!models[model as ModelType].defaults.slugOverview
-                    )
-                    .map(model => ({
-                        path: models[model as ModelType].defaults.slugOverview,
-                        children: [
-                            {
-                                index: true,
-                                element: (
-                                    <DynamicOverviewPublic
-                                        model={models[model as ModelType]}
-                                    />
-                                ),
-                            },
-                            {
-                                path: ':uuid',
-                                element: (
-                                    <DynamicObjectPublic
-                                        model={models[model as ModelType]}
-                                    />
-                                ),
-                            },
-                        ],
-                    })),
-            ],
-        },
+        ...Object.keys(models)
+            .filter(model => !!models[model as ModelType].defaults.slugOverview)
+            .map(model => ({
+                path: models[model as ModelType].defaults.slugOverview,
+                children: [
+                    {
+                        index: true,
+                        element: (
+                            <DynamicOverviewPublic
+                                model={models[model as ModelType]}
+                            />
+                        ),
+                    },
+                    {
+                        path: ':uuid',
+                        element: (
+                            <DynamicObjectPublic
+                                model={models[model as ModelType]}
+                            />
+                        ),
+                    },
+                ],
+            })),
         /**
          * Protected pages
          */

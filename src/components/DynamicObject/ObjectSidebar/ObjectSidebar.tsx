@@ -12,6 +12,8 @@ interface ObjectSidebarProps extends ModelReturnType {
     plural: string
     /** Amount of revisions */
     revisions?: number
+    /** Handle revision modal state */
+    handleModal: () => void
 }
 
 const ObjectSidebar = ({
@@ -21,6 +23,7 @@ const ObjectSidebar = ({
     Object_ID,
     ObjectStatics,
     plural,
+    handleModal,
 }: ObjectSidebarProps) => {
     const { user } = useAuth()
 
@@ -62,7 +65,9 @@ const ObjectSidebar = ({
 
                 <div className="mt-2">
                     {!!revisions && revisions > 0 ? (
-                        <button className="text-pzh-green underline">
+                        <button
+                            className="text-pzh-green underline"
+                            onClick={handleModal}>
                             Bekijk {revisions}{' '}
                             {revisions === 1 ? 'revisie' : 'revisies'}
                         </button>
