@@ -1,5 +1,5 @@
 import { Divider, Heading } from '@pzh-ui/components'
-import { Form, Formik } from 'formik'
+import { Form, Formik, FormikHelpers } from 'formik'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
@@ -15,6 +15,7 @@ import {
 import useModule from '@/hooks/useModule'
 import MutateLayout from '@/templates/MutateLayout'
 import { formatEditModuleData } from '@/utils/formatModuleData'
+import handleError from '@/utils/handleError'
 import * as modules from '@/validation/modules'
 
 const ModuleEdit = () => {
@@ -29,14 +30,16 @@ const ModuleEdit = () => {
     )
 
     const { useEditModule } = useModule()
-    const { mutate } = useEditModule('moduleEdit', () =>
+    const { mutateAsync } = useEditModule('moduleEdit', () =>
         navigate(`/muteer/modules/${moduleId}`)
     )
 
-    const handleSubmit = (payload: Module) => {
+    const handleSubmit = (payload: Module, helpers: FormikHelpers<Module>) => {
         const data = formatEditModuleData(payload)
 
-        mutate({ moduleId: parseInt(moduleId!), data })
+        mutateAsync({ moduleId: parseInt(moduleId!), data }).catch(err =>
+            handleError<Module>(err, helpers)
+        )
     }
 
     const breadcrumbPaths = [
@@ -62,6 +65,7 @@ const ModuleEdit = () => {
                                     <Heading level="1">Module bewerken</Heading>
                                 </div>
                             </div>
+                            {console.log(isSubmitting)}
 
                             <div className="grid grid-cols-6 gap-x-10 gap-y-0">
                                 <FormBasicInfo />

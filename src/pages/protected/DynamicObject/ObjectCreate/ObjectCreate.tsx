@@ -1,4 +1,5 @@
 import { Heading } from '@pzh-ui/components'
+import { FormikHelpers } from 'formik'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -6,6 +7,7 @@ import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 import MutateLayout from '@/templates/MutateLayout'
+import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
 
 interface ObjectCreateProps {
@@ -53,12 +55,17 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
     /**
      * Handle submit of form
      */
-    const handleSubmit = (payload: typeof initialData) => {
+    const handleSubmit = (
+        payload: typeof initialData,
+        helpers: FormikHelpers<typeof initialData>
+    ) => {
         if (!payload) return
 
-        createObject?.mutate({
-            data: payload,
-        })
+        createObject
+            ?.mutateAsync({
+                data: payload,
+            })
+            .catch(err => handleError<typeof initialData>(err, helpers))
     }
 
     const breadcrumbPaths = [

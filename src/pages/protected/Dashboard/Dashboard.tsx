@@ -40,13 +40,14 @@ const Dashboard = () => {
     const { data: userModules, isLoading: userModulesLoading } = useModulesGet(
         {
             only_active: true,
-            only_mine: true,
+            only_mine: canCreateModule ? false : true,
         },
         { query: { enabled: activeTab === 'user' } }
     )
     const { data: allModules, isLoading: allModulesLoading } = useModulesGet(
         {
-            only_active: true,
+            only_active: false,
+            only_mine: canCreateModule ? false : true,
         },
         { query: { enabled: activeTab !== 'user' } }
     )
@@ -211,13 +212,7 @@ const Dashboard = () => {
                                 </div>
                             )}
                         </TabItem>
-                        <TabItem
-                            key="all"
-                            title={
-                                canCreateModule
-                                    ? 'Alle modules'
-                                    : 'Alle actieve modules'
-                            }>
+                        <TabItem key="all" title="Alle modules">
                             <Items
                                 items={allModules}
                                 isLoading={allModulesLoading}

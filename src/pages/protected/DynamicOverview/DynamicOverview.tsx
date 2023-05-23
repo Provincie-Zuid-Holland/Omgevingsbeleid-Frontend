@@ -47,6 +47,7 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
                 {
                     Header: 'Status',
                     accessor: 'Status',
+                    sortType: customSortType,
                 },
             ]) ||
                 []),
@@ -65,10 +66,17 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
                 ({ Title, Modified_Date, Object_ID, Start_Validity }) => ({
                     Title,
                     ...(!atemporal && {
-                        Status: `Vigerend (sinds ${
-                            Start_Validity &&
-                            formatDate(new Date(Start_Validity), 'd MMMM yyyy')
-                        })`,
+                        Status: (
+                            <span data-value={Start_Validity}>
+                                Vigerend (sinds{' '}
+                                {Start_Validity &&
+                                    formatDate(
+                                        new Date(Start_Validity),
+                                        'd MMMM yyyy'
+                                    )}
+                                )
+                            </span>
+                        ),
                     }),
                     Modified_Date: (
                         <span data-value={Modified_Date}>

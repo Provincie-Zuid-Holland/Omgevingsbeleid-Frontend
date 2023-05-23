@@ -1,5 +1,6 @@
 import { Heading } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
+import { FormikHelpers } from 'formik'
 import { useMemo } from 'react'
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 
@@ -10,6 +11,7 @@ import useModule from '@/hooks/useModule'
 import useObject from '@/hooks/useObject'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
+import handleError from '@/utils/handleError'
 
 interface ObjectEditProps {
     model: Model
@@ -55,7 +57,10 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
     /**
      * Handle submit of form
      */
-    const handleSubmit = (payload: typeof initialData) => {
+    const handleSubmit = (
+        payload: typeof initialData,
+        helpers: FormikHelpers<typeof initialData>
+    ) => {
         if (!payload) return
 
         patchObject
@@ -73,6 +78,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                     navigate(`/muteer/modules/${moduleId}`)
                 }
             })
+            .catch(err => handleError<typeof initialData>(err, helpers))
     }
 
     const breadcrumbPaths = [

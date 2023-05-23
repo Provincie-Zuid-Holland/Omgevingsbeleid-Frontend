@@ -1,5 +1,6 @@
 import { Heading } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
+import { FormikHelpers } from 'formik'
 import { useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
@@ -7,6 +8,7 @@ import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 import MutateLayout from '@/templates/MutateLayout'
+import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
 
 interface ObjectWriteProps {
@@ -65,13 +67,18 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
     /**
      * Handle submit of form
      */
-    const handleSubmit = (payload: typeof initialData) => {
+    const handleSubmit = (
+        payload: typeof initialData,
+        helpers: FormikHelpers<typeof initialData>
+    ) => {
         if (!payload) return
 
-        writeObject?.mutate({
-            lineageId: parseInt(objectId!),
-            data: payload,
-        })
+        writeObject
+            ?.mutateAsync({
+                lineageId: parseInt(objectId!),
+                data: payload,
+            })
+            .catch(err => handleError<typeof initialData>(err, helpers))
     }
 
     const breadcrumbPaths = [

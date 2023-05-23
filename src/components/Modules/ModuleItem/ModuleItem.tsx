@@ -88,8 +88,7 @@ const ModuleItem = ({
             []),
         ...((hasRights &&
             canEditModuleObjectContext &&
-            !isLocked &&
-            isActive && [
+            !isLocked && [
                 {
                     text: `Bewerk ${
                         ModuleObjectContext?.Action !== 'Create' &&
@@ -106,8 +105,7 @@ const ModuleItem = ({
             callback: viewCallback,
         },
         ...(((canRemoveObjectFromModule || isModuleManager) &&
-            !isLocked &&
-            isActive && [
+            !isLocked && [
                 {
                     text: 'Verwijderen uit module',
                     callback: deleteCallback,

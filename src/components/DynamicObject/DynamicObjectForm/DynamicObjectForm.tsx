@@ -1,4 +1,4 @@
-import { Form, Formik, FormikValues } from 'formik'
+import { Form, Formik, FormikHelpers, FormikValues } from 'formik'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
@@ -11,7 +11,7 @@ import DynamicSection from './DynamicSection'
 interface DynamicObjectFormProps<TData> {
     model: Model
     initialData: TData
-    handleSubmit: (payload: TData) => void
+    handleSubmit: (payload: TData, helpers: FormikHelpers<any>) => void
     onCancel: () => void
     isLocked?: boolean
     isLoading?: boolean

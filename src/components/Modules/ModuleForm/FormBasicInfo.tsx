@@ -63,6 +63,7 @@ const FormBasicInfo = () => {
                             isLoading={isLoading && isFetching}
                             optimized={false}
                             options={userOptions}
+                            isClearable
                         />
                     </div>
                 </div>
