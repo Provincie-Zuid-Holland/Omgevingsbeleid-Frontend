@@ -1,4 +1,8 @@
-import { UseMutationResult, useQueryClient } from '@tanstack/react-query'
+import {
+    QueryKey,
+    UseMutationResult,
+    useQueryClient,
+} from '@tanstack/react-query'
 import { createContext, useMemo } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
@@ -60,10 +64,14 @@ interface ModuleContextType {
     >
     /** Is logged in user a manager of the module */
     isModuleManager: boolean
+    /** Is module activated */
+    isActive: boolean
     /** Is module locked */
     isLocked: boolean
     /** Can module be completed */
     canComplete: boolean
+    /** Querykey */
+    queryKey: QueryKey
 }
 
 export const ModuleContext = createContext<ModuleContextType>(null!)
@@ -159,6 +167,11 @@ function ModuleProvider() {
         )
     }, [module.data?.Module, user?.UUID])
 
+    const isActive = useMemo(
+        () => !!module.data?.Module.Activated,
+        [module.data?.Module.Activated]
+    )
+
     const isLocked = useMemo(
         () => !!module.data?.Module.Temporary_Locked,
         [module.data?.Module.Temporary_Locked]
@@ -175,6 +188,7 @@ function ModuleProvider() {
         useCloseModule,
         useRemoveObjectFromModule,
         isModuleManager,
+        isActive,
         isLocked,
         canComplete,
     }

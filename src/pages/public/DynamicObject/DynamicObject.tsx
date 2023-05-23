@@ -1,9 +1,8 @@
 import { Breadcrumbs, Heading } from '@pzh-ui/components'
 import classNames from 'classnames'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
-import { useUpdateEffect } from 'react-use'
 
 import { Container } from '@/components/Container'
 import ObjectArea from '@/components/DynamicObject/ObjectArea/ObjectArea'
@@ -24,8 +23,8 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
     const { uuid } = useParams()
     const pathName = location.pathname || ''
 
-    const setInitialObject = useRevisionStore(state => state.setInitialObject)
-    const setRevisionFrom = useRevisionStore(state => state.setRevisionFrom)
+    const { setInitialObject, setRevisionFrom, setRevisionTo } =
+        useRevisionStore(state => ({ ...state }))
 
     const [revisionModalOpen, setRevisionModalOpen] = useState(false)
 
@@ -61,9 +60,11 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
     /**
      * Set initial object which can be used in the revision modal
      */
-    useUpdateEffect(() => {
+    useEffect(() => {
         setInitialObject(latest)
         setRevisionFrom(latest)
+        setRevisionTo(undefined)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [latest])
 
     if (isLoading) return <LoaderContent />

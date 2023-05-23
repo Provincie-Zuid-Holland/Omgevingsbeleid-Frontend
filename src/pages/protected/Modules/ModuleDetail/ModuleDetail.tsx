@@ -119,7 +119,7 @@ const ModuleDetail = () => {
                 )}
             </div>
 
-            <div className="col-span-4">
+            <div className="col-span-6 lg:col-span-4">
                 <ModuleItemList
                     objects={objects}
                     module={module}
@@ -142,7 +142,7 @@ const ModuleDetail = () => {
                     )}
             </div>
 
-            <div className="col-span-2">
+            <div className="col-span-6 lg:col-span-2">
                 {!module.Activated && (
                     <ModuleInactiveCard setModuleModal={setModuleModal} />
                 )}

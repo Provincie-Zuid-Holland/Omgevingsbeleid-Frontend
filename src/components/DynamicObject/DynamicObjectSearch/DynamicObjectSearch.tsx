@@ -1,4 +1,4 @@
-import { FieldSelectProps, FormikSelect } from '@pzh-ui/components'
+import { FieldSelect, FieldSelectProps, FormikSelect } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
 import debounce from 'lodash.debounce'
 import { useState } from 'react'
@@ -23,6 +23,8 @@ interface DynamicObjectSearchProps
     label?: string
     /** Filter item by UUID or Object_ID */
     filter?: number | string | number[] | string[]
+    /** If field is not inside Formik context */
+    plain?: boolean
 }
 
 const DynamicObjectSearch = ({
@@ -31,9 +33,12 @@ const DynamicObjectSearch = ({
     placeholder = 'Zoek op titel van beleidskeuze, maatregel, etc.',
     label,
     filter,
+    plain,
     ...rest
 }: DynamicObjectSearchProps) => {
     const [suggestions, setSuggestions] = useState<SearchObject[]>([])
+
+    const Field = plain ? FieldSelect : FormikSelect
 
     const loadSuggestions = (
         query: string,
@@ -64,7 +69,7 @@ const DynamicObjectSearch = ({
                             <div className="flex justify-between">
                                 <span>{object.Title}</span>
                                 <span className="capitalize opacity-50">
-                                    {object.Object_Type}
+                                    {object.Object_Type.replace('_', ' ')}
                                 </span>
                             </div>
                         ),
@@ -80,19 +85,22 @@ const DynamicObjectSearch = ({
 
     const handleSuggestions = debounce(loadSuggestions, 500)
 
-    const handleChange = (val: unknown) =>
-        onChange(
+    const handleChange = (val: unknown) => {
+        const selected = plain ? (val as Option).value : val
+
+        return onChange(
             suggestions.find(object =>
                 objectKey === 'uuid'
-                    ? object.UUID === val
-                    : object.Object_ID === val
+                    ? object.UUID === selected
+                    : object.Object_ID === selected
             )
         )
+    }
 
     const key = objectKey === 'uuid' ? 'Object_UUID' : 'Object_ID'
 
     return (
-        <FormikSelect
+        <Field
             key={key}
             name={key}
             placeholder={placeholder}

@@ -53,7 +53,7 @@ const Dashboard = () => {
 
     return (
         <MutateLayout title="Dashboard">
-            <div className="col-span-3 mb-8">
+            <div className="col-span-6 lg:col-span-3 mb-8">
                 <Heading level="1" className="mb-3">
                     Welkom {user?.Gebruikersnaam}!
                 </Heading>
@@ -89,7 +89,7 @@ const Dashboard = () => {
 
                             {!canCreateModule ? (
                                 <div className="grid grid-cols-6 mt-8">
-                                    <div className="col-span-3 mb-6">
+                                    <div className="col-span-6 lg:col-span-3 mb-6">
                                         <Heading level="3" className="mb-4">
                                             Mijn beleid
                                         </Heading>
@@ -179,7 +179,7 @@ const Dashboard = () => {
                                             Module toevoegen
                                         </Button>
                                     </div>
-                                    <div className="col-span-3 mb-6">
+                                    <div className="col-span-6 lg:col-span-3 mb-6">
                                         <Heading level="3" className="mb-4">
                                             Beleid
                                         </Heading>
@@ -188,7 +188,7 @@ const Dashboard = () => {
                                             alle onderdelen.
                                         </Text>
 
-                                        <div className="grid grid-cols-2 mt-4">
+                                        <div className="grid grid-cols-1 lg:grid-cols-2 mt-4">
                                             {Object.keys(models).map(key => {
                                                 const model =
                                                     models[
@@ -238,7 +238,7 @@ interface ItemsProps {
 const Items = ({ isLoading, items }: ItemsProps) => (
     <>
         {isLoading ? (
-            <div className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
+            <div className="mt-5 grid gap-9 lg:grid-cols-3 grid-cols-1">
                 <LoaderCard height="180" />
                 <LoaderCard height="180" />
                 <LoaderCard height="180" />
@@ -246,7 +246,7 @@ const Items = ({ isLoading, items }: ItemsProps) => (
         ) : (
             <>
                 {items?.length ? (
-                    <ul className="mt-5 grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
+                    <ul className="mt-5 grid gap-9 lg:grid-cols-3 grid-cols-1">
                         {items.map(item => (
                             <ModuleCard key={item.Module_ID} {...item} />
                         ))}

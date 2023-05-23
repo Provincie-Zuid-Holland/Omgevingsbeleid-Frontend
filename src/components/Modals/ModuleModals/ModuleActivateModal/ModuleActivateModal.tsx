@@ -24,7 +24,7 @@ const ModuleActivateModal = ({ isOpen, onClose }: ModuleActivateModalProps) => {
     const { mutate, isLoading } = useModulesModuleIdActivatePost({
         mutation: {
             onError: () => {
-                toastNotification('moduleActivate')
+                toastNotification('error')
             },
             onSuccess: () => {
                 Promise.all([
@@ -36,7 +36,7 @@ const ModuleActivateModal = ({ isOpen, onClose }: ModuleActivateModalProps) => {
                     ),
                 ]).then(() => onClose())
 
-                toastNotification('saved')
+                toastNotification('moduleActivate')
             },
         },
     })

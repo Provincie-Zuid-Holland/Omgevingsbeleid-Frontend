@@ -54,6 +54,7 @@ const gebiedsprogramma: DynamicObject<
         prefixPlural: 'de',
         prefixNewObject: 'Nieuw',
         demonstrative: 'dit',
+        slugOverview: 'omgevingsprogramma/gebiedsprogrammas',
         description:
             'De ambities geven aan waar de provincie naar wil streven. De ambities komen voort uit het coalitieakkoord en worden vastgesteld in de Omgevingsvisie.',
     },

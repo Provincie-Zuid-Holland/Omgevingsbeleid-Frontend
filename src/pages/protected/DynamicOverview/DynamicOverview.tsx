@@ -61,29 +61,34 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
 
     const formattedData = useMemo(
         () =>
-            data?.map(({ Title, Modified_Date, Object_ID }) => ({
-                Title,
-                ...(!atemporal && {
-                    Status: 'TODO: Status implementeren',
-                }),
-                Modified_Date: (
-                    <span data-value={Modified_Date}>
-                        {Modified_Date
-                            ? formatDate(
-                                  new Date(Modified_Date + 'Z'),
-                                  'cccccc d MMMM yyyy, p'
-                              )
-                            : 'nooit'}
-                    </span>
-                ),
-
-                onClick: () =>
-                    navigate(
-                        `/muteer/${plural}/${Object_ID}${
-                            atemporal ? '/bewerk' : ''
-                        }`
+            data?.map(
+                ({ Title, Modified_Date, Object_ID, Start_Validity }) => ({
+                    Title,
+                    ...(!atemporal && {
+                        Status: `Vigerend (sinds ${
+                            Start_Validity &&
+                            formatDate(new Date(Start_Validity), 'd MMMM yyyy')
+                        })`,
+                    }),
+                    Modified_Date: (
+                        <span data-value={Modified_Date}>
+                            {Modified_Date
+                                ? formatDate(
+                                      new Date(Modified_Date + 'Z'),
+                                      'cccccc d MMMM yyyy, p'
+                                  )
+                                : 'nooit'}
+                        </span>
                     ),
-            })) || [],
+
+                    onClick: () =>
+                        navigate(
+                            `/muteer/${plural}/${Object_ID}${
+                                atemporal ? '/bewerk' : ''
+                            }`
+                        ),
+                })
+            ) || [],
         [data, atemporal, plural, navigate]
     )
 

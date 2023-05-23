@@ -17,11 +17,13 @@ export const SCHEMA = z
         }),
     })
     .superRefine(({ currentPassword, newPassword, newPasswordCopy }, ctx) => {
+        console.log(currentPassword)
         if (currentPassword === newPassword) {
             ctx.addIssue({
                 code: 'custom',
                 message:
                     'Het nieuwe wachtwoord mag niet gelijk zijn aan het oude wachtwoord',
+                path: ['newPassword'],
             })
         }
 
@@ -29,6 +31,7 @@ export const SCHEMA = z
             ctx.addIssue({
                 code: 'custom',
                 message: 'Het herhaalde wachtwoord komt niet overeen',
+                path: ['newPasswordCopy'],
             })
         }
     })

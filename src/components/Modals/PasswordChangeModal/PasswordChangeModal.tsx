@@ -1,15 +1,17 @@
-import { Button, FormikInput, Notification } from '@pzh-ui/components'
-import { Xmark } from '@pzh-ui/icons'
+import {
+    Button,
+    FormikInput,
+    Heading,
+    Modal,
+    Notification,
+} from '@pzh-ui/components'
 import { Form, Formik } from 'formik'
-import { useEffect, useRef, useState } from 'react'
-import { toast } from 'react-toastify'
-import { useKey, useLockBodyScroll } from 'react-use'
+import { useEffect, useRef } from 'react'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
-import { passwordResetPost } from '@/api/fetchers'
+import { usePasswordResetPost } from '@/api/fetchers'
+import { toastNotification } from '@/utils/toastNotification'
 import * as passwordReset from '@/validation/passwordReset'
-
-import { PopUpAnimatedContainer } from '../Popup'
 
 /**
  * A modal to change the users password
@@ -18,20 +20,29 @@ import { PopUpAnimatedContainer } from '../Popup'
  */
 
 interface PasswordChangeModalProps {
+    isOpen: boolean
     setOpen: (state: boolean) => void
 }
 
 export default function PasswordChangeModal({
+    isOpen,
     setOpen,
 }: PasswordChangeModalProps) {
-    const [loading, setLoading] = useState(false)
     const mailToAnchor = useRef<HTMLAnchorElement>(null)
     const closeBtn = useRef<HTMLButtonElement>(null)
-    const container = useRef<HTMLDivElement>(null)
 
-    useKey('Escape', () => setOpen(false))
+    const { isLoading, mutate } = usePasswordResetPost({
+        mutation: {
+            onError: () => {
+                toastNotification('error')
+            },
+            onSuccess: () => {
+                setOpen(false)
 
-    useLockBodyScroll(true)
+                toastNotification('passwordReset')
+            },
+        },
+    })
 
     const handleFormSubmit = ({
         currentPassword,
@@ -40,19 +51,12 @@ export default function PasswordChangeModal({
         currentPassword: string
         newPassword: string
     }) => {
-        setLoading(true)
-        passwordResetPost({
-            password: currentPassword,
-            new_password: newPassword,
+        mutate({
+            params: {
+                password: currentPassword,
+                new_password: newPassword,
+            },
         })
-            .then(() => {
-                setLoading(false)
-                toast.success('Wachtwoord succesvol gewijzigd')
-                setOpen(false)
-            })
-            .catch(() => {
-                setLoading(false)
-            })
     }
 
     useEffect(() => {
@@ -82,27 +86,15 @@ export default function PasswordChangeModal({
     }, [])
 
     return (
-        <PopUpAnimatedContainer small reference={container}>
-            <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-gray-800">
-                    Wachtwoord wijzigen
-                </h3>
-                <button
-                    ref={closeBtn}
-                    onKeyDown={e => {
-                        if (e.code === 'Enter') {
-                            setOpen(false)
-                        }
-                    }}
-                    onClick={() => setOpen(false)}
-                    type="button"
-                    className="py-1 pl-3 pr-1 text-gray-600 cursor-pointer hover:text-gray-800 pzh-transition-colors"
-                    id={`password-reset-close`}
-                    aria-label="Sluiten"
-                    tabIndex={0}>
-                    <Xmark />
-                </button>
-            </div>
+        <Modal
+            open={isOpen}
+            onClose={() => setOpen(false)}
+            ariaLabel="Wachtwoord wijzigen"
+            maxWidth="sm:max-w-[600px]"
+            closeButton>
+            <Heading level="2" className="mb-4">
+                Wachtwoord wijzigen
+            </Heading>
 
             <Formik
                 initialValues={{
@@ -141,30 +133,30 @@ export default function PasswordChangeModal({
                             placeholder="Geef hier het nieuwe wachtwoord op"
                             value={values.newPassword}
                         />
-                        <FormikInput
-                            id="password-reset-copy-new-password"
-                            label="Herhaal nieuw wachtwoord"
-                            required={true}
-                            name="newPasswordCopy"
-                            type="password"
-                            placeholder="Herhaal het nieuwe wachtwoord"
-                            value={values.newPasswordCopy}
-                        />
+                        <div className="mt-4">
+                            <FormikInput
+                                id="password-reset-copy-new-password"
+                                label="Herhaal nieuw wachtwoord"
+                                required
+                                name="newPasswordCopy"
+                                type="password"
+                                placeholder="Herhaal het nieuwe wachtwoord"
+                                value={values.newPasswordCopy}
+                            />
+                        </div>
 
                         <div className="flex items-center justify-between mt-5">
-                            <button
-                                className="text-sm text-gray-700 underline cursor-pointer hover:text-gray-900 pzh-transition-colors"
-                                onClick={() => setOpen(false)}
+                            <Button
                                 type="button"
-                                id="close-password-forget-popup"
+                                variant="link"
                                 data-testid="close-password-forget-popup">
                                 Annuleren
-                            </button>
+                            </Button>
                             <Button
                                 isDisabled={!isValid && !isSubmitting}
                                 type="submit"
                                 variant="cta"
-                                isLoading={loading}>
+                                isLoading={isLoading}>
                                 Wijzig
                             </Button>
                         </div>
@@ -174,7 +166,7 @@ export default function PasswordChangeModal({
 
             <Notification className="mt-4" size="small">
                 <>
-                    Ben je je huidig wachtwoord vergeten? Neem dan contact op
+                    Ben je je huidige wachtwoord vergeten? Neem dan contact op
                     met
                     <a
                         ref={mailToAnchor}
@@ -185,6 +177,6 @@ export default function PasswordChangeModal({
                     </a>
                 </>
             </Notification>
-        </PopUpAnimatedContainer>
+        </Modal>
     )
 }

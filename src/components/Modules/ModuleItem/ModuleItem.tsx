@@ -41,7 +41,7 @@ const ModuleItem = ({
     } = usePermissions()
     const [isOpen, setIsOpen] = useState(false)
 
-    const { isModuleManager, isLocked } = useModule()
+    const { isModuleManager, isLocked, isActive } = useModule()
 
     /**
      * Check if user has owner rights in object
@@ -78,7 +78,8 @@ const ModuleItem = ({
         ...((ModuleObjectContext?.Action !== 'Terminate' &&
             hasRights &&
             canPatchObjectInModule &&
-            !isLocked && [
+            !isLocked &&
+            isActive && [
                 {
                     text: 'Bewerken',
                     link: `/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}/bewerk`,
@@ -87,7 +88,8 @@ const ModuleItem = ({
             []),
         ...((hasRights &&
             canEditModuleObjectContext &&
-            !isLocked && [
+            !isLocked &&
+            isActive && [
                 {
                     text: `Bewerk ${
                         ModuleObjectContext?.Action !== 'Create' &&
@@ -104,7 +106,8 @@ const ModuleItem = ({
             callback: viewCallback,
         },
         ...(((canRemoveObjectFromModule || isModuleManager) &&
-            !isLocked && [
+            !isLocked &&
+            isActive && [
                 {
                     text: 'Verwijderen uit module',
                     callback: deleteCallback,

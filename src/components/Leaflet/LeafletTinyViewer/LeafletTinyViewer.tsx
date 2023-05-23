@@ -31,7 +31,7 @@ const LeafletTinyViewer = ({
             boundsOptions: { padding: [100, 100] },
         }}
         controllers={{ showLayers: false }}
-        id="leaflet-tiny-viewer">
+        id={`leaflet-tiny-viewer-${gebiedUUID}`}>
         <LeafletTinyViewerInner
             gebiedUUID={gebiedUUID}
             gebiedType={gebiedType}

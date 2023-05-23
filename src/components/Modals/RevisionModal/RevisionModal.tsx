@@ -130,18 +130,20 @@ const RevisionModal = ({
             />
             <Divider className="my-4" />
 
-            {revisionFromFetching || revisionToFetching ? (
-                <LoaderSpinner />
-            ) : (
-                !!revisionFrom &&
-                !!revisionTo && (
-                    <ObjectRevision
-                        model={model}
-                        revisionFrom={revisionFrom}
-                        revisionTo={revisionTo}
-                    />
-                )
-            )}
+            <div className="min-h-[120px] inline-block">
+                {revisionFromFetching || revisionToFetching ? (
+                    <LoaderSpinner />
+                ) : (
+                    !!revisionFrom &&
+                    !!revisionTo && (
+                        <ObjectRevision
+                            model={model}
+                            revisionFrom={revisionFrom}
+                            revisionTo={revisionTo}
+                        />
+                    )
+                )}
+            </div>
         </Modal>
     )
 }

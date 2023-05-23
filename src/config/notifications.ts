@@ -2,6 +2,7 @@ export type ToastType =
     | 'saved'
     | 'error'
     | 'notAllowed'
+    | 'passwordReset'
     | 'unauthorized'
     | 'moduleCreated'
     | 'moduleActivate'
@@ -29,6 +30,10 @@ export const notifications: Record<
     notAllowed: {
         message: 'Je hebt geen toegang tot deze pagina',
         type: 'warning',
+    },
+    passwordReset: {
+        message: 'Wachtwoord succesvol gewijzigd',
+        type: 'success',
     },
     unauthorized: {
         message: 'Voor deze actie moet je ingelogd zijn',

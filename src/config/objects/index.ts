@@ -4,8 +4,8 @@ import { default as beleidskeuze } from './beleidskeuze'
 import { default as beleidsregel } from './beleidsregel'
 import { default as gebiedsprogramma } from './gebiedsprogramma'
 import { default as maatregel } from './maatregel'
-import { default as nationaalBelang } from './nationaalBelang'
-import { default as wettelijkeTaak } from './wettelijkeTaak'
+import { default as nationaal_belang } from './nationaalBelang'
+import { default as wettelijke_taak } from './wettelijkeTaak'
 
 export {
     ambitie,
@@ -13,7 +13,7 @@ export {
     beleidskeuze,
     beleidsregel,
     maatregel,
-    wettelijkeTaak,
-    nationaalBelang,
+    wettelijke_taak,
+    nationaal_belang,
     gebiedsprogramma,
 }

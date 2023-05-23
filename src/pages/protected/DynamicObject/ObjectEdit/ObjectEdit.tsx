@@ -1,4 +1,5 @@
 import { Heading } from '@pzh-ui/components'
+import { useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 
@@ -15,6 +16,8 @@ interface ObjectEditProps {
 }
 
 const ObjectEdit = ({ model }: ObjectEditProps) => {
+    const queryClient = useQueryClient()
+
     const navigate = useNavigate()
 
     const { moduleId, objectId } = useParams()
@@ -23,12 +26,10 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
 
     const { singularCapitalize } = model.defaults
 
-    const { isLocked, data, isModuleManager } = useModule()
+    const { isLocked, data, isModuleManager, queryKey } = useModule()
     const { data: object, isLoading, isOwner, usePatchObject } = useObject()
 
-    const patchObject = usePatchObject(() =>
-        navigate(`/muteer/modules/${moduleId}`)
-    )
+    const patchObject = usePatchObject()
 
     /**
      * Format initialData based on object fields
@@ -57,11 +58,21 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
     const handleSubmit = (payload: typeof initialData) => {
         if (!payload) return
 
-        patchObject?.mutate({
-            moduleId: parseInt(moduleId!),
-            lineageId: parseInt(objectId!),
-            data: payload,
-        })
+        patchObject
+            ?.mutateAsync({
+                moduleId: parseInt(moduleId!),
+                lineageId: parseInt(objectId!),
+                data: payload,
+            })
+            .then(() => {
+                if (initialData.Title !== payload.Title) {
+                    queryClient
+                        .invalidateQueries(queryKey)
+                        .then(() => navigate(`/muteer/modules/${moduleId}`))
+                } else {
+                    navigate(`/muteer/modules/${moduleId}`)
+                }
+            })
     }
 
     const breadcrumbPaths = [

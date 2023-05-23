@@ -80,8 +80,8 @@ const beleidskeuze: DynamicObject<
         'Portfolio_Holder_2_UUID',
     ],
     allowedConnections: [
-        { type: 'wettelijkeTaak', key: 'WettelijkeTaken' },
-        { type: 'nationaalBelang', key: 'NationaleBelangen' },
+        { type: 'wettelijke_taak', key: 'WettelijkeTaken' },
+        { type: 'nationaal_belang', key: 'NationaleBelangen' },
         { type: 'beleidsdoel', key: 'Beleidsdoelen' },
     ],
     connectionsDescription: (

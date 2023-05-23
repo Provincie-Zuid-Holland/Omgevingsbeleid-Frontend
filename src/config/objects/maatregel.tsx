@@ -1,3 +1,5 @@
+import { Hyperlink } from '@pzh-ui/components'
+
 import {
     useMaatregelenLatestLineageIdGet,
     useMaatregelenRelationsLineageIdGet,
@@ -63,6 +65,15 @@ const maatregel: DynamicObject<
         'Portfolio_Holder_2_UUID',
     ],
     allowedConnections: [{ type: 'beleidsdoel', key: 'Beleidsdoelen' }],
+    connectionsDescription: (
+        <>
+            Binnen het omgevingsbeleid bestaan koppelingen en relaties. Een
+            maatregel is veelal gekoppeld met beleidsdoelen. Hieronder een
+            overzicht van de beleidsdoelen van deze maatregel. Bekijk voor het
+            volledige overzicht het{' '}
+            <Hyperlink text="beleidsnetwerk" to="/beleidsnetwerk" />.
+        </>
+    ),
     fetchers,
     dynamicSections: [
         {
