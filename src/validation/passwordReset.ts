@@ -17,7 +17,6 @@ export const SCHEMA = z
         }),
     })
     .superRefine(({ currentPassword, newPassword, newPasswordCopy }, ctx) => {
-        console.log(currentPassword)
         if (currentPassword === newPassword) {
             ctx.addIssue({
                 code: 'custom',

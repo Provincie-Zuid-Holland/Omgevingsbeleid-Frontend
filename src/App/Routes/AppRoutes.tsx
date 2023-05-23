@@ -178,14 +178,7 @@ const AppRoutes = () => {
                                 },
                                 {
                                     path: 'bewerk',
-                                    element: (
-                                        <ProtectedRoute
-                                            permissions={{
-                                                canEditModule: true,
-                                            }}>
-                                            <ModuleEdit />
-                                        </ProtectedRoute>
-                                    ),
+                                    element: <ModuleEdit />,
                                 },
                                 ...Object.keys(models)
                                     .filter(

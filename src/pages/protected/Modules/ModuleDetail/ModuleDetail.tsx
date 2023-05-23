@@ -74,7 +74,7 @@ const ModuleDetail = () => {
             <div className="col-span-6 mb-6">
                 <div className="flex items-center justify-between mb-4 whitespace-nowrap">
                     <Breadcrumbs items={breadcrumbPaths} />
-                    {canEditModule && (
+                    {(canEditModule || isModuleManager) && (
                         <Hyperlink
                             to={`/muteer/modules/${module.Module_ID}/bewerk`}
                             text="Module bewerken"
@@ -86,7 +86,10 @@ const ModuleDetail = () => {
                         <div className="flex items-center">
                             <Heading level="1">{module.Title}</Heading>
                             <Badge
-                                text={module.Status?.Status || ''}
+                                text={
+                                    module.Status?.Status.replace('-', ' ') ||
+                                    ''
+                                }
                                 upperCase={false}
                                 className="-mt-2 ml-2"
                                 variant={getModuleStatusColor(

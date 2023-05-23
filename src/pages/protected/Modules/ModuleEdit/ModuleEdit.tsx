@@ -1,6 +1,6 @@
 import { Divider, Heading } from '@pzh-ui/components'
 import { Form, Formik, FormikHelpers } from 'formik'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { useModulesModuleIdGet } from '@/api/fetchers'
@@ -13,14 +13,18 @@ import {
     FormDelete,
 } from '@/components/Modules/ModuleForm'
 import useModule from '@/hooks/useModule'
+import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 import { formatEditModuleData } from '@/utils/formatModuleData'
 import handleError from '@/utils/handleError'
+import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
 
 const ModuleEdit = () => {
     const { moduleId } = useParams()
     const navigate = useNavigate()
+
+    const { canEditModule } = usePermissions()
 
     const { data: { Module: module } = {}, isLoading } = useModulesModuleIdGet(
         parseInt(moduleId!),
@@ -29,7 +33,7 @@ const ModuleEdit = () => {
         }
     )
 
-    const { useEditModule } = useModule()
+    const { useEditModule, isModuleManager } = useModule()
     const { mutateAsync } = useEditModule('moduleEdit', () =>
         navigate(`/muteer/modules/${moduleId}`)
     )
@@ -49,6 +53,12 @@ const ModuleEdit = () => {
         { name: 'Module bewerken' || '', isCurrent: true },
     ]
 
+    if (!canEditModule && !isModuleManager) {
+        toastNotification('notAllowed')
+
+        return <Navigate to="/muteer" />
+    }
+
     if (isLoading || !module) return <LoaderContent />
 
     return (
@@ -65,7 +75,6 @@ const ModuleEdit = () => {
                                     <Heading level="1">Module bewerken</Heading>
                                 </div>
                             </div>
-                            {console.log(isSubmitting)}
 
                             <div className="grid grid-cols-6 gap-x-10 gap-y-0">
                                 <FormBasicInfo />
