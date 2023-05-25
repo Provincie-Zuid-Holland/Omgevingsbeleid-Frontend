@@ -12,7 +12,6 @@ import Login from './Login'
 import Network from './Network'
 import PlanningAndReleases from './PlanningAndReleases'
 // import SearchResults from './SearchResults'
-// import Verordening from './Verordening'
 import ThemeDetail from './ThemeDetail'
 import ThemeOverview from './ThemeOverview'
 
@@ -28,7 +27,6 @@ export {
     // MapSearch,
     PlanningAndReleases,
     // SearchResults,
-    // Verordening,
     DynamicOverview,
     DynamicObject,
     Network,

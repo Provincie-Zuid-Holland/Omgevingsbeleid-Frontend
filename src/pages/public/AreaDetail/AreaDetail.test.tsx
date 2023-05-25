@@ -7,13 +7,14 @@ import {
 import '@testing-library/jest-dom'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 
-import { gebiedsprogrammas } from '@/mocks/data/gebiedsprogrammas'
+import { getGebiedsprogrammasValidGetMock } from '@/api/fetchers.msw'
 
 import AreaDetail from './AreaDetail'
 
 const queryClient = new QueryClient()
 
 describe('AreaDetail', () => {
+    const gebiedsprogrammas = getGebiedsprogrammasValidGetMock()
     const defaultProps = {}
 
     const setup = (customProps?: any) => {
@@ -43,7 +44,7 @@ describe('AreaDetail', () => {
         )
 
         const element = screen.getByRole('heading', {
-            name: gebiedsprogrammas[0].Titel,
+            name: gebiedsprogrammas[0].Title,
             level: 1,
         })
         expect(element).toBeTruthy()
