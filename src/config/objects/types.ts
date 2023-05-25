@@ -38,7 +38,7 @@ export interface DynamicObject<
     /** Default information of object */
     defaults: {
         /** Singular of object type */
-        singular: string
+        singular: ModelType
         /** Readable singular of object type */
         singularReadable: string
         /** Singular of object type (capitalized) */

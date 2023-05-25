@@ -8,7 +8,12 @@ import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
 
 import { StepProps } from './types'
 
-export const StepTwo = ({ title, id, connectionModel, model }: StepProps) => {
+export const StepTwo = ({
+    title,
+    connectionModel,
+    model,
+    connections,
+}: StepProps) => {
     const { values, setFieldValue } = useFormikContext<
         RelationShort & { Title?: string; items?: RelationShort[] }
     >()
@@ -19,6 +24,7 @@ export const StepTwo = ({ title, id, connectionModel, model }: StepProps) => {
         pluralCapitalize,
         plural,
         prefixSingular,
+        singular,
         singularReadable,
     } = defaults || {}
     const { useGetValid } = fetchers || {}
@@ -35,6 +41,11 @@ export const StepTwo = ({ title, id, connectionModel, model }: StepProps) => {
                 value: Object_ID,
             })),
         [items]
+    )
+
+    const selected = useMemo(
+        () => connections?.map(connection => connection.Object_ID),
+        [connections]
     )
 
     return (
@@ -86,7 +97,8 @@ export const StepTwo = ({ title, id, connectionModel, model }: StepProps) => {
                 <DynamicObjectSearch
                     onChange={object => setFieldValue('Title', object?.Title)}
                     objectKey="id"
-                    filter={id}
+                    filter={selected}
+                    filterType={singular}
                     placeholder={`Zoek in de ${plural}`}
                     label={pluralCapitalize}
                     defaultValue={

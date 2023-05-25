@@ -21,7 +21,7 @@ interface ObjectContextType extends QueryObserverBaseResult<ModelReturnType> {
     /** Querykey */
     queryKey: QueryKey
     /** Can be used to patch the object */
-    usePatchObject: (onSuccess?: () => void) => UseMutationResult<
+    usePatchObject: () => UseMutationResult<
         {
             Object_ID?: number
             UUID?: string
@@ -92,17 +92,13 @@ function ObjectProvider({
         return latest
     }, [moduleId, objectId, latestInModule, latest])
 
-    const usePatchObject = (onSuccess?: () => void) =>
+    const usePatchObject = () =>
         usePatchObjectInModule?.({
             mutation: {
                 onError: () => {
                     toastNotification('error')
                 },
                 onSuccess: () => {
-                    queryClient
-                        .invalidateQueries(data?.queryKey)
-                        .then(onSuccess)
-
                     toastNotification('saved')
                 },
             },

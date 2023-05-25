@@ -5,6 +5,7 @@ import { useState } from 'react'
 
 import { searchGet } from '@/api/fetchers'
 import { SearchObject } from '@/api/fetchers.schemas'
+import { ModelType } from '@/config/objects/types'
 
 type Option = {
     label: JSX.Element
@@ -21,8 +22,10 @@ interface DynamicObjectSearchProps
     placeholder?: string
     /** Label of field (optional) */
     label?: string
-    /** Filter item by UUID or Object_ID */
+    /** Filter items by UUID or Object_ID */
     filter?: number | string | number[] | string[]
+    /** Filter items by Object_Type */
+    filterType?: ModelType
     /** If field is not inside Formik context */
     plain?: boolean
 }
@@ -33,6 +36,7 @@ const DynamicObjectSearch = ({
     placeholder = 'Zoek op titel van beleidskeuze, maatregel, etc.',
     label,
     filter,
+    filterType,
     plain,
     ...rest
 }: DynamicObjectSearchProps) => {
@@ -50,13 +54,31 @@ const DynamicObjectSearch = ({
                     ? data.Objects.filter(object => {
                           if (Array.isArray(filter)) {
                               return objectKey === 'uuid'
-                                  ? !(filter as string[]).includes(object.UUID)
+                                  ? !!filterType
+                                      ? object.Object_Type === filterType &&
+                                        !(filter as string[]).includes(
+                                            object.UUID
+                                        )
+                                      : !(filter as string[]).includes(
+                                            object.UUID
+                                        )
+                                  : !!filterType
+                                  ? object.Object_Type === filterType &&
+                                    !(filter as number[]).includes(
+                                        object.Object_ID
+                                    )
                                   : !(filter as number[]).includes(
                                         object.Object_ID
                                     )
                           } else {
                               return objectKey === 'uuid'
-                                  ? object.UUID !== filter
+                                  ? !!filterType
+                                      ? object.Object_Type === filterType &&
+                                        object.UUID !== filter
+                                      : object.UUID !== filter
+                                  : !!filterType
+                                  ? object.Object_Type === filterType &&
+                                    object.Object_ID !== filter
                                   : object.Object_ID !== filter
                           }
                       })

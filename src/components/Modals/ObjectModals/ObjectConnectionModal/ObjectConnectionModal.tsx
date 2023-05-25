@@ -210,7 +210,6 @@ const ObjectConnectionModal = ({
                         </Heading>
                         <CurrentStep
                             title={data?.Title}
-                            id={data?.Object_ID}
                             connectionModel={connectionModel}
                             model={model}
                             connections={connections}

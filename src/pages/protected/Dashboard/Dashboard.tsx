@@ -40,14 +40,14 @@ const Dashboard = () => {
     const { data: userModules, isLoading: userModulesLoading } = useModulesGet(
         {
             only_active: true,
-            only_mine: canCreateModule ? false : true,
+            only_mine: !canCreateModule,
         },
         { query: { enabled: activeTab === 'user' } }
     )
     const { data: allModules, isLoading: allModulesLoading } = useModulesGet(
         {
             only_active: false,
-            only_mine: canCreateModule ? false : true,
+            only_mine: !canCreateModule,
         },
         { query: { enabled: activeTab !== 'user' } }
     )

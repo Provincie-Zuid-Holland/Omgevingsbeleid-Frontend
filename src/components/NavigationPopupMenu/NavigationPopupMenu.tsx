@@ -161,7 +161,7 @@ const NavigationPopupMenu = ({
                                     />
 
                                     <ListItem
-                                        targetBlank={true}
+                                        targetBlank
                                         text="Lange Termijn Agenda"
                                         setIsOpen={setIsOpen}
                                         to="https://lta.zuid-holland.nl/"
@@ -221,9 +221,7 @@ const ToggleMenuButton = ({
         onKeyDown={e => {
             if (e.key === 'Tab' && e.shiftKey) {
                 e.preventDefault()
-                document
-                    .getElementById('menu-item-netwerkvisualisatie')
-                    ?.focus()
+                document.getElementById('menu-item-beleidsnetwerk')?.focus()
             }
         }}
         id="popup-menu-toggle"

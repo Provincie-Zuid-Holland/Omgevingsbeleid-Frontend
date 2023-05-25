@@ -29,7 +29,13 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
     const { singularCapitalize } = model.defaults
 
     const { isLocked, data, isModuleManager, queryKey } = useModule()
-    const { data: object, isLoading, isOwner, usePatchObject } = useObject()
+    const {
+        data: object,
+        isLoading,
+        isOwner,
+        usePatchObject,
+        queryKey: objectQueryKey,
+    } = useObject()
 
     const patchObject = usePatchObject()
 
@@ -70,13 +76,12 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                 data: payload,
             })
             .then(() => {
-                if (initialData.Title !== payload.Title) {
-                    queryClient
-                        .invalidateQueries(queryKey)
-                        .then(() => navigate(`/muteer/modules/${moduleId}`))
-                } else {
-                    navigate(`/muteer/modules/${moduleId}`)
-                }
+                Promise.all([
+                    queryClient.invalidateQueries(objectQueryKey),
+                    ...(initialData.Title !== payload.Title
+                        ? [queryClient.invalidateQueries(queryKey)]
+                        : []),
+                ]).then(() => navigate(`/muteer/modules/${moduleId}`))
             })
             .catch(err => handleError<typeof initialData>(err, helpers))
     }

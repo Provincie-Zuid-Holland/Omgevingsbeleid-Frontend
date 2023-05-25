@@ -142,7 +142,7 @@ const ModuleItem = ({
                     {hasEditButton &&
                         ModuleObjectContext?.Action !== 'Terminate' && (
                             <Hyperlink
-                                to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`}
+                                to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}/bewerk`}
                                 text="Bewerken"
                             />
                         )}
