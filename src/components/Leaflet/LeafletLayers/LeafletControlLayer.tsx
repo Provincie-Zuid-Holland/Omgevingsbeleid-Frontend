@@ -10,11 +10,10 @@ import { tileURL, tileURLSattelite } from '@/constants/leaflet'
 import LeafletController from '../LeafletController'
 
 interface LeafletLayerProps {
-    fullscreen?: boolean
     children?: ReactNode
 }
 
-const LeafletControlLayer = ({ fullscreen, children }: LeafletLayerProps) => {
+const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
     const map = useMap()
 
     const [layerControlOpen, setLayerControlOpen] = useState(false)
@@ -33,7 +32,7 @@ const LeafletControlLayer = ({ fullscreen, children }: LeafletLayerProps) => {
             <LeafletController position="topright">
                 <div className="leaflet-layers-control">
                     <div className="flex">
-                        <div
+                        <button
                             className={`leaflet-layers absolute top-0 right-0 p-2 w-8 h-8 flex justify-center items-center bg-white ${
                                 layerControlOpen ? 'hidden' : ''
                             }`}
@@ -41,6 +40,7 @@ const LeafletControlLayer = ({ fullscreen, children }: LeafletLayerProps) => {
                                 setLayerControlOpen(!layerControlOpen)
                             }
                             data-testid="leaflet-layers-control-toggle">
+                            <span className="sr-only">Kaartlagen</span>
                             {layerControlOpen ? (
                                 <AngleRight
                                     size={16}
@@ -52,7 +52,7 @@ const LeafletControlLayer = ({ fullscreen, children }: LeafletLayerProps) => {
                                     className="text-gray-700"
                                 />
                             )}
-                        </div>
+                        </button>
                         <Transition
                             show={layerControlOpen}
                             enter="ease-out duration-300"
@@ -74,7 +74,7 @@ const LeafletControlLayer = ({ fullscreen, children }: LeafletLayerProps) => {
                                 style={{
                                     width: '375px',
                                     maxWidth: '100%',
-                                    height: fullscreen ? '1000px' : '500px',
+                                    height: '500px',
                                 }}
                                 data-testid="leaflet-layers-control-pane">
                                 <div className="w-full">

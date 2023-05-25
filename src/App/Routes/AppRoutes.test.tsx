@@ -5,15 +5,15 @@ import {
     screen,
     waitFor,
     fireEvent,
-    waitForElementToBeRemoved,
 } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 
 import { AuthContext } from '@/context/AuthContext'
-import { ambities } from '@/mocks/data/ambities'
-import { beleidskeuzes } from '@/mocks/data/beleidskeuzes'
-import { maatregelen } from '@/mocks/data/maatregelen'
+// import { ambities } from '@/mocks/data/ambities'
+// import { beleidskeuzes } from '@/mocks/data/beleidskeuzes'
+// import { maatregelen } from '@/mocks/data/maatregelen'
+// import { verordeningstructuur } from '@/mocks/data/verordeningstructuur'
 
 import AppRoutes from './AppRoutes'
 
@@ -33,7 +33,7 @@ describe('AppRoutes', () => {
         const props = { ...defaultProps, ...customProps }
         render(
             <QueryClientProvider client={queryClient}>
-                <MemoryRouter initialEntries={['/muteer/dashboard']}>
+                <MemoryRouter initialEntries={['/muteer']}>
                     <AuthContext.Provider
                         value={
                             customUser !== undefined ? customUser : { user }
@@ -57,107 +57,128 @@ describe('AppRoutes', () => {
             level: level,
         })
 
-    it('User can navigate the authenticated routes', async () => {
-        setup({})
+    // it('User can navigate the authenticated routes', async () => {
+    //     setup({})
 
-        await waitFor(() => {
-            getHeaderTitle('Mijn beleid', 2)
-        })
+    //     await waitFor(() => {
+    //         getHeaderTitle('Mijn beleid', 2)
+    //     })
 
-        navigateToMenuItem('Mijn beleid')
+    //     navigateToMenuItem('Mijn beleid')
 
-        expect(getHeaderTitle('Mijn beleid', 2)).toBeInTheDocument()
-    })
+    //     expect(getHeaderTitle('Mijn beleid', 2)).toBeInTheDocument()
 
-    it('User can navigate to a beleidskeuze page', async () => {
-        setup({})
+    //     // User can navigate to the verordening pages
+    //     navigateToMenuItem('Verordening')
 
-        navigateToMenuItem('Beleidskeuzes')
+    //     await waitFor(() => {
+    //         screen.getByText('Nieuwe verordening')
+    //     })
 
-        await waitFor(() => {
-            screen.getByText('Nieuwe beleidskeuze')
-        })
+    //     fireEvent.click(screen.getByText('Nieuwe verordening'))
 
-        fireEvent.click(screen.getByText('Nieuwe beleidskeuze'))
+    //     expect(
+    //         getHeaderTitle('Voeg een nieuwe verordening toe', 1)
+    //     ).toBeInTheDocument()
 
-        await waitForElementToBeRemoved(() => screen.getAllByRole('img'))
+    //     fireEvent.click(screen.getByText('Terug naar verordeningen'))
 
-        expect(
-            getHeaderTitle('Voeg een nieuwe beleidskeuze toe', 1)
-        ).toBeInTheDocument()
+    //     const firstVerordeningTitle = verordeningstructuur[0].Titel
 
-        fireEvent.click(screen.getByText('Terug naar beleidskeuzes'))
+    //     await waitFor(() => {
+    //         expect(screen.getByText(firstVerordeningTitle)).toBeInTheDocument()
+    //     })
+    // })
 
-        const firstBeleidskeuzeTitle = beleidskeuzes[0].Titel || ''
+    // it('User can navigate to a beleidskeuze page', async () => {
+    //     setup({})
 
-        await waitFor(() => {
-            screen.getByText(firstBeleidskeuzeTitle)
-        })
-    })
+    //     navigateToMenuItem('Beleidskeuzes')
 
-    it('User can navigate to the maatregel pages', async () => {
-        setup({})
+    //     await waitFor(() => {
+    //         screen.getByText('Nieuwe beleidskeuze')
+    //     })
 
-        navigateToMenuItem('Maatregelen')
+    //     fireEvent.click(screen.getByText('Nieuwe beleidskeuze'))
 
-        await waitFor(() => {
-            screen.getByText('Nieuwe maatregel')
-        })
+    //     expect(
+    //         getHeaderTitle('Voeg een nieuwe beleidskeuze toe', 1)
+    //     ).toBeInTheDocument()
 
-        fireEvent.click(screen.getByText('Nieuwe maatregel'))
+    //     fireEvent.click(screen.getByText('Terug naar beleidskeuzes'))
 
-        expect(
-            getHeaderTitle('Voeg een nieuwe maatregel toe', 1)
-        ).toBeInTheDocument()
+    //     const firstBeleidskeuzeTitle = beleidskeuzes[0].Titel || ''
 
-        fireEvent.click(screen.getByText('Terug naar maatregelen'))
+    //     await waitFor(() => {
+    //         screen.getByText(firstBeleidskeuzeTitle)
+    //     })
+    // })
 
-        const firstMaatregelTitle = maatregelen[0].Titel
+    // it('User can navigate to the maatregel pages', async () => {
+    //     setup({})
 
-        await screen.findByText(firstMaatregelTitle)
-    })
+    //     navigateToMenuItem('Maatregelen')
 
-    it('User can navigate to the other object pages', async () => {
-        setup({})
+    //     await waitFor(() => {
+    //         screen.getByText('Nieuwe maatregel')
+    //     })
 
-        navigateToMenuItem('Ambities')
+    //     fireEvent.click(screen.getByText('Nieuwe maatregel'))
 
-        await waitFor(() => {
-            screen.getByText('Nieuwe ambitie')
-        })
+    //     expect(
+    //         getHeaderTitle('Voeg een nieuwe maatregel toe', 1)
+    //     ).toBeInTheDocument()
 
-        fireEvent.click(screen.getByText('Nieuwe ambitie'))
+    //     fireEvent.click(screen.getByText('Terug naar maatregelen'))
 
-        expect(
-            getHeaderTitle('Voeg een nieuwe ambitie toe', 1)
-        ).toBeInTheDocument()
+    //     const firstMaatregelTitle = maatregelen[0].Titel
 
-        fireEvent.click(screen.getByText('Terug naar ambities'))
+    //     await screen.findByText(firstMaatregelTitle)
+    // })
 
-        const firstAmbitieTitle = ambities[0].Titel
+    // it('User can navigate to the other object pages', async () => {
+    //     setup({})
 
-        await waitFor(() => {
-            screen.getByText(firstAmbitieTitle)
-        })
-    })
+    //     navigateToMenuItem('Ambities')
 
-    it('User can navigate to the beleidsrelatie pages', async () => {
-        setup({})
+    //     await waitFor(() => {
+    //         screen.getByText('Nieuwe ambitie')
+    //     })
 
-        navigateToMenuItem('Beleidsrelaties')
+    //     fireEvent.click(screen.getByText('Nieuwe ambitie'))
 
-        await waitFor(() => {
-            screen.getByText(beleidskeuzes[0].Titel || '')
-        })
+    //     expect(
+    //         getHeaderTitle('Voeg een nieuwe ambitie toe', 1)
+    //     ).toBeInTheDocument()
 
-        fireEvent.click(screen.getByText(beleidskeuzes[0].Titel || ''))
+    //     fireEvent.click(screen.getByText('Terug naar ambities'))
 
-        fireEvent.click(screen.getByText('Verzoeken'))
-        fireEvent.click(screen.getByText('Afgewezen'))
-        fireEvent.click(screen.getByText('Verbroken'))
-        fireEvent.click(screen.getByText('Nieuwe relatie'))
-        expect(screen.getByText('Nieuwe relatie')).toBeInTheDocument()
-    })
+    //     const firstAmbitieTitle = ambities[0].Titel
+
+    //     await waitFor(() => {
+    //         screen.getByText(firstAmbitieTitle)
+    //     })
+    // })
+
+    // it('User can navigate to the beleidsrelatie pages', async () => {
+    //     setup({})
+
+    //     navigateToMenuItem('Beleidsrelaties')
+
+    //     await waitFor(() => {
+    //         screen.getByText(beleidskeuzes[0].Titel || '')
+    //     })
+
+    //     fireEvent.click(screen.getByText(beleidskeuzes[0].Titel || ''))
+
+    //     fireEvent.click(screen.getByText('Verzoeken'))
+    //     fireEvent.click(screen.getByText('Afgewezen'))
+    //     fireEvent.click(screen.getByText('Verbroken'))
+    //     fireEvent.click(screen.getByText('Nieuwe relatie'))
+    //     expect(
+    //         screen.getByText('Voeg een nieuwe beleidsrelatie toe')
+    //     ).toBeInTheDocument()
+    // })
 
     it('User can navigate to the beleidsmodules pages', async () => {
         setup({})

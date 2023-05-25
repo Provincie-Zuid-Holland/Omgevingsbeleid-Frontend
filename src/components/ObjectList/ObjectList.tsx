@@ -7,20 +7,27 @@ import {
 import { MagnifyingGlass } from '@pzh-ui/icons'
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useMedia } from 'react-use'
 
 import { LoaderCard, LoaderSpinner } from '@/components/Loader'
+import useBreakpoint from '@/hooks/useBreakpoint'
 
 interface ObjectListProps {
+    /** Type of the object */
     objectType: string
+    /** Slug of the object */
     objectSlug: string
+    /** Array of objects */
     data: {
-        Titel?: string
+        Title?: string
         UUID?: string
     }[]
+    /** Is data loading */
     isLoading?: boolean
+    /** Is data filterable */
     hasFilter?: boolean
+    /** Title of list */
     title?: string
+    /** Is advanced search button visible */
     advancedSearch?: boolean
 }
 
@@ -33,7 +40,7 @@ const ObjectList = ({
     title,
     advancedSearch = true,
 }: ObjectListProps) => {
-    const isMobile = useMedia('(max-width: 640px)')
+    const { isMobile } = useBreakpoint()
     const [filterQuery, setFilterQuery] = useState('')
 
     const filteredLength = useMemo(() => {
@@ -43,13 +50,13 @@ const ObjectList = ({
             return data.length
         } else {
             return data.filter(item =>
-                item.Titel?.toLowerCase().includes(filterQuery.toLowerCase())
+                item.Title?.toLowerCase().includes(filterQuery.toLowerCase())
             ).length
         }
     }, [data, filterQuery])
 
     const sortedData = useMemo(
-        () => data.sort((a, b) => a.Titel!.localeCompare(b.Titel!)),
+        () => data.sort((a, b) => a.Title!.localeCompare(b.Title!)),
         [data]
     )
 
@@ -101,15 +108,15 @@ const ObjectList = ({
                     </li>
                 ) : (
                     sortedData
-                        ?.filter((item: any) =>
-                            item.Titel.toLowerCase().includes(
+                        ?.filter(item =>
+                            item.Title?.toLowerCase().includes(
                                 filterQuery.toLowerCase()
                             )
                         )
                         ?.map((obj, index) => (
                             <li key={index} className="py-0.5">
                                 <ListLink
-                                    text={obj.Titel || ''}
+                                    text={obj.Title || ''}
                                     to={`/${objectSlug}/${obj.UUID}`}
                                 />
                             </li>

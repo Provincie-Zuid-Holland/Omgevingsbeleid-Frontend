@@ -1,4 +1,4 @@
-import { Heading, Text } from '@pzh-ui/components'
+import { Heading, Hyperlink, Text } from '@pzh-ui/components'
 import { ArrowUpRightFromSquare, FilePdf } from '@pzh-ui/icons'
 import { Link } from 'react-router-dom'
 
@@ -93,7 +93,7 @@ const Home = () => {
                             voor iedereen is te begrijpen. Daarom zet de
                             provincie drie instrumenten in waar al het
                             Omgevingsbeleid in staat: de{' '}
-                            <span
+                            <button
                                 className="underline cursor-pointer"
                                 onClick={() =>
                                     document
@@ -103,9 +103,9 @@ const Home = () => {
                                         ?.scrollIntoView({ behavior: 'smooth' })
                                 }>
                                 Omgevingsvisie
-                            </span>
+                            </button>
                             , het{' '}
-                            <span
+                            <button
                                 className="underline cursor-pointer"
                                 onClick={() =>
                                     document
@@ -115,9 +115,9 @@ const Home = () => {
                                         ?.scrollIntoView({ behavior: 'smooth' })
                                 }>
                                 Omgevingsprogramma
-                            </span>{' '}
+                            </button>{' '}
                             en de{' '}
-                            <span
+                            <button
                                 className="underline cursor-pointer"
                                 onClick={() =>
                                     document
@@ -127,7 +127,7 @@ const Home = () => {
                                         ?.scrollIntoView({ behavior: 'smooth' })
                                 }>
                                 Omgevingsverordening
-                            </span>
+                            </button>
                             . Zo staat het beleid niet meer in tientallen
                             documenten, maar in één systeem bij elkaar. Dit
                             maakt het allemaal een stuk overzichtelijker.
@@ -155,23 +155,20 @@ const Home = () => {
                         provincie voor staat. Het beschrijft hoe de provincie de
                         toekomst van Zuid-Holland voor zich ziet. De
                         Omgevingsvisie bevat verschillende onderdelen: in de{' '}
-                        <Link
-                            className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/ambities">
-                            ambities
-                        </Link>{' '}
+                        <Hyperlink
+                            text="ambities"
+                            to="/omgevingsvisie/ambities"
+                        />{' '}
                         wordt omschreven waar we als provincie heen willen, de{' '}
-                        <Link
-                            className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/beleidsdoelen">
-                            beleidsdoelen
-                        </Link>{' '}
+                        <Hyperlink
+                            text="beleidsdoelen"
+                            to="/omgevingsvisie/beleidsdoelen"
+                        />{' '}
                         geven hier richting aan en de{' '}
-                        <Link
-                            className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/beleidskeuzes">
-                            beleidskeuzes
-                        </Link>{' '}
+                        <Hyperlink
+                            text="beleidskeuzes"
+                            to="/omgevingsvisie/beleidskeuzes"
+                        />{' '}
                         bepalen hoe de ambities bereikt dienen te worden.
                     </Text>
                 </div>
@@ -197,7 +194,7 @@ const Home = () => {
                         In het Omgevingsprogramma staat beschreven welke{' '}
                         <Link
                             className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/maatregelen">
+                            to="omgevingsprogramma/maatregelen">
                             maatregelen
                         </Link>{' '}
                         de provincie treft om de visie waar te maken. Het

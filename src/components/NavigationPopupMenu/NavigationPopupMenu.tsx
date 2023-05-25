@@ -2,7 +2,9 @@ import { Heading, Text } from '@pzh-ui/components'
 import { AngleRight, Bars, Xmark } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useLockBodyScroll, useWindowSize } from 'react-use'
+import { useKey, useWindowSize } from 'react-use'
+
+import useBreakpoint from '@/hooks/useBreakpoint'
 
 import { Container } from '../Container'
 import SearchBar from '../SearchBar'
@@ -10,46 +12,30 @@ import SearchBar from '../SearchBar'
 /**
  * A popup menu that can be used to navigate the application.
  *
- * @param {boolean} showBanner - Parameter that if set to true, will show the banner.
  * @param {boolean} isOpen - Parameter that if set to true, will show the menu.
  * @param {boolean} setIsOpen - Open/close the menu.
  */
 
 interface NavigationPopupMenuProps {
-    showBanner: boolean
     isOpen: boolean
     setIsOpen: (e: boolean) => void
 }
 
 const NavigationPopupMenu = ({
-    showBanner,
     isOpen,
     setIsOpen,
 }: NavigationPopupMenuProps) => {
     const location = useLocation()
     const windowSize = useWindowSize()
-    useLockBodyScroll(isOpen)
-    const [bannerAdjustedOffsetTop, setBannerAdjustedOffsetTop] = useState({})
-    const [isMobile, setIsMobile] = useState(false)
+
+    const { isMobile } = useBreakpoint()
+
     const [containerHeightStyle, setContainerHeightStyle] = useState<
         { maxHeight: string } | undefined
     >(undefined)
 
-    useEffect(() => {
-        if (showBanner) {
-            setBannerAdjustedOffsetTop({
-                top: '146px',
-            })
-        } else {
-            setBannerAdjustedOffsetTop({
-                top: '96px',
-            })
-        }
-    }, [showBanner])
-
     /** State for responsiveness */
     useEffect(() => {
-        setIsMobile(windowSize.width <= 640)
         setContainerHeightStyle({
             maxHeight: `calc(100vh - ${
                 document.getElementById('top-navigation')?.offsetHeight + 'px'
@@ -58,15 +44,7 @@ const NavigationPopupMenu = ({
     }, [windowSize])
 
     /** Handle close on Escape key event */
-    useEffect(() => {
-        function closeOnEscape(e: KeyboardEvent) {
-            if (e.key === 'Escape') {
-                setIsOpen(false)
-            }
-        }
-        window.addEventListener('keydown', closeOnEscape)
-        return () => window.removeEventListener('keydown', closeOnEscape)
-    }, [setIsOpen])
+    useKey('Escape', () => setIsOpen(false))
 
     return (
         <>
@@ -98,13 +76,10 @@ const NavigationPopupMenu = ({
             ) : null}
             {isOpen ? (
                 <>
-                    <div
-                        style={bannerAdjustedOffsetTop}
-                        className="fixed top-0 left-0 z-0 block w-screen h-screen bg-gray-900 pointer-events-none opacity-40"></div>
+                    <div className="fixed top-[96px] left-0 z-0 block w-screen h-screen bg-gray-900 pointer-events-none opacity-40" />
                     <nav
                         id="popup-menu"
-                        className="fixed top-0 left-0 z-10 w-full pb-8 bg-white"
-                        style={bannerAdjustedOffsetTop}
+                        className="fixed top-[96px] left-0 z-10 w-full pb-8 bg-white"
                         aria-label="primary">
                         <Container
                             className="h-full overflow-y-auto"
@@ -135,19 +110,19 @@ const NavigationPopupMenu = ({
                                     <ListItem
                                         text="Ambities"
                                         setIsOpen={setIsOpen}
-                                        to="/ambities"
+                                        to="/omgevingsvisie/ambities"
                                     />
 
                                     <ListItem
                                         text="Beleidsdoelen"
                                         setIsOpen={setIsOpen}
-                                        to="/beleidsdoelen"
+                                        to="/omgevingsvisie/beleidsdoelen"
                                     />
 
                                     <ListItem
                                         text="Beleidskeuzes"
                                         setIsOpen={setIsOpen}
-                                        to="/beleidskeuzes"
+                                        to="/omgevingsvisie/beleidskeuzes"
                                     />
                                 </ul>
                             </div>
@@ -164,11 +139,6 @@ const NavigationPopupMenu = ({
                                         setIsOpen={setIsOpen}
                                         to="/omgevingsprogramma/gebiedsprogrammas"
                                     />
-                                    <ListItem
-                                        text="Beleidsprestaties"
-                                        setIsOpen={setIsOpen}
-                                        to="/beleidsprestaties"
-                                    />
                                 </ul>
                             </div>
                             <div className="col-span-6 mt-6 md:col-span-2">
@@ -179,7 +149,7 @@ const NavigationPopupMenu = ({
                                     <ListItem
                                         text="Beleidsregels"
                                         setIsOpen={setIsOpen}
-                                        to="/beleidsregels"
+                                        to="/omgevingsverordening/beleidsregels"
                                     />
 
                                     <ListItem
@@ -199,7 +169,7 @@ const NavigationPopupMenu = ({
                                     />
 
                                     <ListItem
-                                        targetBlank={true}
+                                        targetBlank
                                         text="Lange Termijn Agenda"
                                         setIsOpen={setIsOpen}
                                         to="https://lta.zuid-holland.nl/"

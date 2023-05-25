@@ -1,35 +1,43 @@
+import { useMemo } from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { toast } from 'react-toastify'
 
 import useAuth from '@/hooks/useAuth'
-
-type Role =
-    | 'Beheerder'
-    | 'Functioneel beheerder'
-    | 'Technisch beheerder'
-    | 'Test runner'
-    | 'Tester'
-    | 'Behandelend Ambtenaar'
-    | 'Portefeuillehouder'
-    | 'Ambtelijk opdrachtgever'
+import usePermissions, { Permissions } from '@/hooks/usePermissions'
+import { toastNotification } from '@/utils/toastNotification'
 
 interface ProtectedRouteProps {
     children?: JSX.Element | null
-    roles?: Role[]
     redirectTo?: string
+    permissions?: Partial<Permissions>
 }
 
-function ProtectedRoute({ children, roles, redirectTo }: ProtectedRouteProps) {
+function ProtectedRoute({
+    children,
+    redirectTo = '/muteer',
+    permissions: providedPermissions,
+}: ProtectedRouteProps) {
     const { user } = useAuth()
+    const userPermissions = usePermissions()
     const location = useLocation()
 
-    const userRole = user?.Rol as Role
+    /**
+     * Check if user has access to page
+     */
+    const hasAccess = useMemo(() => {
+        if (!providedPermissions) return true
+
+        return Object.keys(providedPermissions).every(
+            permission =>
+                userPermissions[permission as keyof Permissions] ===
+                providedPermissions[permission as keyof Permissions]
+        )
+    }, [providedPermissions, userPermissions])
 
     if (!user) {
         localStorage.removeItem(
             process.env.REACT_APP_KEY_API_ACCESS_TOKEN || ''
         )
-        toast('Voor deze actie moet je ingelogd zijn')
+        toastNotification('unauthorized')
 
         // Redirect them to the /login page, but save the current location they were
         // trying to go to when they were redirected. This allows us to send them
@@ -38,13 +46,13 @@ function ProtectedRoute({ children, roles, redirectTo }: ProtectedRouteProps) {
         return <Navigate to="/login" state={{ from: location }} replace />
     }
 
-    if (!roles?.includes(userRole) && redirectTo) {
-        toast('Je hebt geen toegang tot deze pagina')
+    if (!hasAccess && redirectTo) {
+        toastNotification('notAllowed')
 
         return <Navigate to={redirectTo} state={{ from: location }} replace />
     }
 
-    if (roles && children) return children
+    if (providedPermissions && children) return children
 
     return <Outlet />
 }

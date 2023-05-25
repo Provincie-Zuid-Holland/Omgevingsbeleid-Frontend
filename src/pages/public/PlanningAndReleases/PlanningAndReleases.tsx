@@ -12,7 +12,7 @@ import { FC, useState } from 'react'
 
 import { Container } from '@/components/Container'
 import { releases } from '@/constants/releases'
-import imagePlanningAndReleases from '@/images/planning-and-releases.png'
+import imagePlanningAndReleases from '@/images/planning-and-releases.webp'
 
 type Releases = typeof releases
 

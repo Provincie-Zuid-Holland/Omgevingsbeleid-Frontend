@@ -27,7 +27,7 @@ describe('Dashboard', () => {
 
     it('Component renders', () => {
         setup()
-        const element = screen.getAllByText('Mijn beleid')
+        const element = screen.getByText('Modules')
         expect(element).toBeTruthy()
     })
 })

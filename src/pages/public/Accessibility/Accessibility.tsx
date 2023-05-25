@@ -1,12 +1,11 @@
-import { Breadcrumbs, Heading, Text, useDnaBarWidth } from '@pzh-ui/components'
+import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import { useRef } from 'react'
 import { Helmet } from 'react-helmet'
 
 import { Container } from '@/components/Container'
-import imgDigiToegankelijkheid from '@/images/digi-toegankelijkheid.png'
+import imgDigiToegankelijkheid from '@/images/digi-toegankelijkheid.webp'
 
 function Accessibility() {
-    const dnaBarWidth = useDnaBarWidth()
     const breadcrumbPaths = [
         { name: 'Home', path: '/' },
         { name: 'Digitale toegankelijkheid', path: '/digi-toegankelijkheid' },
@@ -19,9 +18,8 @@ function Accessibility() {
                 <title>Omgevingsbeleid - Digitale toegankelijkheid</title>
             </Helmet>
             <div
-                className="hidden w-full bg-center bg-no-repeat bg-cover bg-pzh-blue md:block"
+                className="hidden w-full h-[288px] bg-center bg-no-repeat bg-cover bg-pzh-blue md:block"
                 style={{
-                    height: dnaBarWidth * 3 + 'px', // DNA Bar Width
                     backgroundImage: `url(${imgDigiToegankelijkheid})`,
                 }}
             />

@@ -1,2 +1,1 @@
-export { default } from './NetworkTextual';
-export * from './NetworkTextual';
+export { default } from './NetworkTextual'

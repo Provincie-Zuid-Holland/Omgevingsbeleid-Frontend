@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 
-import '@/mocks/matchMedia'
 import SearchResults from './SearchResults'
 
 describe('SearchResults', () => {

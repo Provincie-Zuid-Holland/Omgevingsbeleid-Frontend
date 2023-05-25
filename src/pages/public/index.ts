@@ -1,25 +1,37 @@
 import Accessibility from './Accessibility'
+import AreaDetail from './AreaDetail'
+import AreaOverview from './AreaOverview'
+import DynamicObject from './DynamicObject'
+import DynamicOverview from './DynamicOverview'
+import EnvironmentProgram from './EnvironmentProgram'
 import ErrorPage from './ErrorPage'
 import Home from './Home'
-import InProgress from './InProgress'
+// import InProgress from './InProgress'
 import Login from './Login'
-import MapSearch from './MapSearch'
-import ObjectDetail from './ObjectDetail'
+// import MapSearch from './MapSearch'
+import Network from './Network'
 import PlanningAndReleases from './PlanningAndReleases'
-import SearchResults from './SearchResults'
-import UniversalObjectOverview from './UniversalObjectOverview'
-import Verordening from './Verordening'
+// import SearchResults from './SearchResults'
+// import Verordening from './Verordening'
+import ThemeDetail from './ThemeDetail'
+import ThemeOverview from './ThemeOverview'
 
 export {
+    AreaDetail,
+    AreaOverview,
     Accessibility,
+    EnvironmentProgram,
     ErrorPage,
     Home,
-    InProgress,
+    // InProgress,
     Login,
-    MapSearch,
-    ObjectDetail,
+    // MapSearch,
     PlanningAndReleases,
-    SearchResults,
-    UniversalObjectOverview,
-    Verordening,
+    // SearchResults,
+    // Verordening,
+    DynamicOverview,
+    DynamicObject,
+    Network,
+    ThemeDetail,
+    ThemeOverview,
 }

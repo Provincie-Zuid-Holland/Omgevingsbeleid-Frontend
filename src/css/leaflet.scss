@@ -342,31 +342,6 @@
     border-top-right-radius: 4px;
 }
 
-#half-screen-leaflet-container {
-    padding-top: 70px;
-    position: fixed;
-    top: 0px;
-    right: 0px;
-    width: 50vw;
-}
-
-#half-screen-leaflet {
-    position: absolute;
-    top: 70px;
-    height: calc(100vh - 70px);
-    right: 0px;
-}
-#full-screen-leaflet-container-false {
-    height: 500px;
-}
-#full-screen-leaflet-container-true {
-    height: 1000px;
-    max-height: 80vh;
-}
-#full-screen-leaflet {
-    height: 100%;
-}
-
 #leaflet-homepage .leaflet-control-container .leaflet-control-zoom {
     position: absolute;
     left: 0px;
