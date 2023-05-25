@@ -7,13 +7,14 @@ import {
 import '@testing-library/jest-dom'
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
 
-import { beleidsdoelen } from '@/mocks/data/beleidsdoelen'
+import { getBeleidsdoelenValidGetMock } from '@/api/fetchers.msw'
 
 import ThemeDetail from './ThemeDetail'
 
 const queryClient = new QueryClient()
 
 describe('ThemeDetail', () => {
+    const beleidsdoelen = getBeleidsdoelenValidGetMock()
     const defaultProps = {}
 
     const setup = (customProps?: any) => {
@@ -43,7 +44,7 @@ describe('ThemeDetail', () => {
         )
 
         const element = screen.getByRole('heading', {
-            name: beleidsdoelen[0].Titel,
+            name: beleidsdoelen[0].Title,
             level: 1,
         })
         expect(element).toBeTruthy()

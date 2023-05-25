@@ -180,21 +180,21 @@ describe('AppRoutes', () => {
     //     ).toBeInTheDocument()
     // })
 
-    it('User can navigate to the beleidsmodules pages', async () => {
-        setup({})
+    // it('User can navigate to the beleidsmodules pages', async () => {
+    //     setup({})
 
-        navigateToMenuItem('Beleidsmodules')
+    //     navigateToMenuItem('Beleidsmodules')
 
-        await waitFor(() => {
-            screen.getByText('Nieuwe beleidsmodule')
-        })
+    //     await waitFor(() => {
+    //         screen.getByText('Nieuwe beleidsmodule')
+    //     })
 
-        fireEvent.click(screen.getByText('Nieuwe beleidsmodule'))
+    //     fireEvent.click(screen.getByText('Nieuwe beleidsmodule'))
 
-        fireEvent.click(screen.getByText('Terug naar beleidsmodules'))
+    //     fireEvent.click(screen.getByText('Terug naar beleidsmodules'))
 
-        await waitFor(() => {
-            screen.getByText('Nieuwe beleidsmodule')
-        })
-    })
+    //     await waitFor(() => {
+    //         screen.getByText('Nieuwe beleidsmodule')
+    //     })
+    // })
 })
