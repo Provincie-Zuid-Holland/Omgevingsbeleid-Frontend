@@ -1,8 +1,12 @@
 import { Breadcrumbs } from '@pzh-ui/components'
+import classNames from 'classnames'
 import { ReactNode, useMemo } from 'react'
 import { Helmet } from 'react-helmet'
 
 import { Container } from '@/components/Container'
+import Sidebar from '@/components/Sidebar'
+import useBreakpoint from '@/hooks/useBreakpoint'
+import usePage from '@/hooks/usePage'
 
 interface MutateLayoutProps {
     title?: string
@@ -15,6 +19,11 @@ interface MutateLayoutProps {
 }
 
 const MutateLayout = ({ title, children, breadcrumbs }: MutateLayoutProps) => {
+    const { isMobile } = useBreakpoint()
+
+    const editPage = usePage('/bewerk')
+    const newPage = usePage('/nieuw')
+
     const pathName = location.pathname || ''
 
     const breadcrumbPaths = useMemo(
@@ -27,22 +36,31 @@ const MutateLayout = ({ title, children, breadcrumbs }: MutateLayoutProps) => {
     )
 
     return (
-        <>
+        <div className="flex">
             <Helmet title={title} />
 
-            {!!breadcrumbPaths?.length && (
-                <Container>
-                    <div className="col-span-6 pt-8 pb-5">
-                        <Breadcrumbs items={breadcrumbPaths} />
-                    </div>
-                </Container>
-            )}
+            {!editPage && !newPage && !isMobile && <Sidebar />}
 
-            <Container
-                className={!!breadcrumbPaths?.length ? 'pb-20' : 'pt-8 pb-20'}>
-                {children}
-            </Container>
-        </>
+            <div
+                className={classNames('w-full', {
+                    '-ml-[56px]': !editPage && !newPage && !isMobile,
+                })}>
+                {!!breadcrumbPaths?.length && (
+                    <Container>
+                        <div className="col-span-6 pt-8 pb-5">
+                            <Breadcrumbs items={breadcrumbPaths} />
+                        </div>
+                    </Container>
+                )}
+
+                <Container
+                    className={
+                        !!breadcrumbPaths?.length ? 'pb-20' : 'pt-8 pb-20'
+                    }>
+                    {children}
+                </Container>
+            </div>
+        </div>
     )
 }
 

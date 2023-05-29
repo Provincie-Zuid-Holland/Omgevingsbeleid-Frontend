@@ -1,4 +1,5 @@
 import { Hyperlink } from '@pzh-ui/components'
+import { CalendarCheck } from '@pzh-ui/icons'
 
 import {
     useMaatregelenLatestLineageIdGet,
@@ -56,6 +57,7 @@ const maatregel: DynamicObject<
         slugOverview: 'omgevingsprogramma/maatregelen',
         description:
             'De maatregelen geven aan wat de provincie gaat doen om de keuzes uit te voeren. De maatregelen zijn een uitwerking van de beleidskeuzes en komen voort uit het Omgevingsprogramma.',
+        icon: CalendarCheck,
     },
     staticData: [
         'Client_1_UUID',

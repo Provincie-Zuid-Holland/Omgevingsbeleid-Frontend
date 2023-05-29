@@ -1,4 +1,5 @@
 import { Hyperlink } from '@pzh-ui/components'
+import { BullseyeArrow } from '@pzh-ui/icons'
 
 import {
     useBeleidsdoelenLatestLineageIdGet,
@@ -56,6 +57,7 @@ const beleidsdoel: DynamicObject<
         slugOverview: 'omgevingsvisie/beleidsdoelen',
         description:
             'De beleidsdoelen geven aan wat de provincie wil bereiken. De beleidsdoelen zijn een uitwerking van de ambities en komen voort uit de begroting.',
+        icon: BullseyeArrow,
     },
     fetchers,
     staticData: [

@@ -45,7 +45,8 @@ const ObjectRelationPart = ({
         <button
             type="button"
             className="after:content-[' '] after:absolute after:left-0 after:top-0 after:w-full after:h-full"
-            onClick={onClick}>
+            onClick={onClick}
+            disabled={!canEdit}>
             {canEdit &&
                 (isLoading ? (
                     <Spinner

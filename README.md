@@ -59,31 +59,31 @@ REACT_APP_RELEASE_VERSION = '' // Used to log version in Sentry bugs
 This runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000/) to view it in the browser. The page will reload if you make edits to the code. You will also see any lint errors in the console.
 
 ```
-npm start
+yarn start
 ```
 
 Launches the test runner in the interactive watch mode. See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ```
-npm test
+yarn test
 ```
 
 Runs the Cypress integration tests
 
 ```
-npm run cy:run
+yarn cy:run
 ```
 
 Builds the app for production to the **`\*build**`\*\* folder. It correctly bundles React in production mode and optimizes the build for the best performance.
 
 ```
-npm run build
+yarn build
 ```
 
 Builds the application just as `npm run build` would do, but also [purges](https://tailwindcss.com/docs/controlling-file-size) the generated Tailwind files. There are two commands to create a build. One for windows `prod:build-win` and one for OSX `prod:build-osx`.
 
 ```
-npm run prod:build
+yarn prod:build
 ```
 
 # Source File Structure

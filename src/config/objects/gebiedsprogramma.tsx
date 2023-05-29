@@ -1,4 +1,5 @@
 import { Hyperlink } from '@pzh-ui/components'
+import { LocationDot } from '@pzh-ui/icons'
 
 import {
     useGebiedsprogrammasLatestLineageIdGet,
@@ -57,6 +58,7 @@ const gebiedsprogramma: DynamicObject<
         slugOverview: 'omgevingsprogramma/gebiedsprogrammas',
         description:
             'De ambities geven aan waar de provincie naar wil streven. De ambities komen voort uit het coalitieakkoord en worden vastgesteld in de Omgevingsvisie.',
+        icon: LocationDot,
     },
     staticData: [
         'Client_1_UUID',

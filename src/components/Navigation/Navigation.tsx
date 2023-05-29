@@ -32,7 +32,7 @@ const Navigation = () => {
     return (
         <header
             className={classNames(
-                'top-0 z-20 w-full border-b border-b-pzh-cool-gray-light/30',
+                'top-0 z-20 w-full border-b border-b-pzh-gray-200',
                 {
                     sticky: !isAdvancedSearchPage,
                     relative: isAdvancedSearchPage,

@@ -70,6 +70,7 @@ const ObjectConnectionPart = ({
             <button
                 type="button"
                 onClick={() => handleButtonClick(amount)}
+                disabled={!canEdit}
                 aria-label={amount === 0 ? 'Toevoegen' : 'Wijzigen'}
                 className="after:content-[' '] after:absolute after:left-0 after:top-0 after:w-full after:h-full">
                 {canEdit &&

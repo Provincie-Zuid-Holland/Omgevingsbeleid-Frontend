@@ -1,4 +1,5 @@
 import { Hyperlink } from '@pzh-ui/components'
+import { Split } from '@pzh-ui/icons'
 
 import {
     getBeleidskeuzeAcknowledgedRelationsLineageIdGetQueryKey,
@@ -69,6 +70,7 @@ const beleidskeuze: DynamicObject<
         slugOverview: 'omgevingsvisie/beleidskeuzes',
         description:
             'De beleidskeuzes geven aan hoe de provincie haar doelen wil bereiken. De beleidskeuzes zijn een uitwerking van de beleidsdoelen en komen voort uit de Omgevingsvisie.',
+        icon: Split,
     },
     fetchers,
     queryKeys,

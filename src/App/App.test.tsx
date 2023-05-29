@@ -76,11 +76,5 @@ describe('App', () => {
             level: 1,
         })
         expect(a11yTitle).toBeInTheDocument()
-
-        window.dispatchEvent(
-            new CustomEvent('authEvent', {
-                detail: { message: 'Authenticated sessie is afgelopen' },
-            })
-        )
     })
 })
