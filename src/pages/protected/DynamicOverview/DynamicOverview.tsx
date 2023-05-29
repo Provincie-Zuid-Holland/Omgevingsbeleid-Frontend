@@ -90,7 +90,7 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
                                 : 'nooit'}
                         </span>
                     ),
-                    ...(canCreateModule && {
+                    ...((!atemporal || (atemporal && canCreateModule)) && {
                         onClick: () =>
                             navigate(
                                 `/muteer/${plural}/${Object_ID}${

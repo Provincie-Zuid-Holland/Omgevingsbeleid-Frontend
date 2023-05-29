@@ -31,7 +31,7 @@ const Sidebar = () => {
             }}>
             <div
                 className={classNames(
-                    'relative bg-pzh-gray-100 transition-[min-width] after:shadow-[0px_18px_60px_rgba(0,0,0,0.07),0px_4px_13px_rgba(0,0,0,0.04),0px_2px_6px_rgba(0,0,0,0.03)] after:content-[" "] after:-z-1 after:absolute after:top-0 after:left-0 after:w-full after:h-[calc(100vh-97px)] after:bg-pzh-gray-100',
+                    'relative bg-pzh-gray-100 transition-[min-width] ease-[cubic-bezier(.47,1.64,.41,.8)] duration-200 after:shadow-[0px_18px_60px_rgba(0,0,0,0.07),0px_4px_13px_rgba(0,0,0,0.04),0px_2px_6px_rgba(0,0,0,0.03)] after:content-[" "] after:-z-1 after:absolute after:top-0 after:left-0 after:w-full after:h-[calc(100vh-97px)] after:bg-pzh-gray-100',
                     {
                         'min-w-[56px]': !expanded,
                         'min-w-[260px]': expanded,
