@@ -11,7 +11,7 @@ function Footer() {
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
 
     return (
-        <footer className="w-full mt-auto bg-pzh-cool-gray-light/30">
+        <footer className="w-full z-1 mt-auto bg-pzh-gray-200">
             <Container
                 className={classNames({
                     'pt-8 pb-16 md:pb-12 md:py-8': !userIsInMuteerEnvironment,

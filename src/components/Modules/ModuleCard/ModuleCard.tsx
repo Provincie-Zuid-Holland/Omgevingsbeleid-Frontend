@@ -29,6 +29,7 @@ const ModuleCard = (props: Module) => {
                 {!Closed && (
                     <Button
                         size="small"
+                        variant="cta"
                         onPress={() =>
                             navigate(`/muteer/modules/${Module_ID}`)
                         }>

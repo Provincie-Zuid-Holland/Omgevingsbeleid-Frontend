@@ -1,4 +1,5 @@
 import { Hyperlink } from '@pzh-ui/components'
+import { ArrowTrendUp } from '@pzh-ui/icons'
 
 import {
     useAmbitiesLatestLineageIdGet,
@@ -53,6 +54,7 @@ const ambitie: DynamicObject<
         slugOverview: 'omgevingsvisie/ambities',
         description:
             'De ambities geven aan waar de provincie naar wil streven. De ambities komen voort uit het coalitieakkoord en worden vastgesteld in de Omgevingsvisie.',
+        icon: ArrowTrendUp,
     },
     staticData: [
         'Client_1_UUID',

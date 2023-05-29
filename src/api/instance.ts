@@ -1,5 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios'
 
+import { toastNotification } from '@/utils/toastNotification'
+
 export type Environment = 'dev' | 'test' | 'acc' | 'prod'
 
 const apiUrl = process.env.REACT_APP_API_URL
@@ -29,11 +31,7 @@ instance.interceptors.response.use(
             error?.response?.status === 401 &&
             !allowedUrls.includes(error?.response?.config?.url)
         ) {
-            window.dispatchEvent(
-                new CustomEvent('authEvent', {
-                    detail: { message: 'Authenticated sessie is afgelopen' },
-                })
-            )
+            toastNotification('unauthorized')
         }
 
         throw error?.response

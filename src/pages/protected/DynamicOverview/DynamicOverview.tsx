@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { LoaderSpinner } from '@/components/Loader'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
+import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 
 interface DynamicOverviewProps {
@@ -13,6 +14,7 @@ interface DynamicOverviewProps {
 
 const DynamicOverview = ({ model }: DynamicOverviewProps) => {
     const navigate = useNavigate()
+    const { canCreateModule } = usePermissions()
 
     const {
         atemporal,
@@ -88,16 +90,17 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
                                 : 'nooit'}
                         </span>
                     ),
-
-                    onClick: () =>
-                        navigate(
-                            `/muteer/${plural}/${Object_ID}${
-                                atemporal ? '/bewerk' : ''
-                            }`
-                        ),
+                    ...(canCreateModule && {
+                        onClick: () =>
+                            navigate(
+                                `/muteer/${plural}/${Object_ID}${
+                                    atemporal ? '/bewerk' : ''
+                                }`
+                            ),
+                    }),
                 })
             ) || [],
-        [data, atemporal, plural, navigate]
+        [data, atemporal, plural, canCreateModule, navigate]
     )
 
     const breadcrumbPaths = [
@@ -110,7 +113,7 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
             <div className="col-span-6">
                 <div className="flex items-center justify-between mb-6">
                     <Heading>{pluralCapitalize}</Heading>
-                    {atemporal && (
+                    {atemporal && canCreateModule && (
                         <Button
                             variant="cta"
                             onPress={() => navigate(`/muteer/${plural}/nieuw`)}>

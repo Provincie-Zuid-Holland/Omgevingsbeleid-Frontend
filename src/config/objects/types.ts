@@ -61,6 +61,8 @@ export interface DynamicObject<
         demonstrative?: string
         /** Atemporal object */
         atemporal?: boolean
+        /** Icon of object */
+        icon: any
     }
     /** Array containing static data fields of object */
     staticData?: StaticData

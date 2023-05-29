@@ -99,25 +99,6 @@
     margin-top: 2.4rem;
 }
 
-.popup-small {
-    max-height: 100%;
-    width: 100%;
-    max-width: 450px;
-    overflow-y: auto;
-}
-
-.popup-normal {
-    height: 540px;
-    max-height: 100%;
-    width: 80vw;
-    max-width: 100%;
-    overflow-y: auto;
-}
-
-.popup-results-list {
-    max-height: 217px;
-}
-
 #main-search-result-container {
     margin-top: 47px;
     li:first-child:hover,
@@ -128,29 +109,6 @@
     }
     .search-preview {
         max-width: calc(110% - 130px);
-    }
-}
-
-.circle-gebruiker {
-    .popup-gebruikersinfo {
-        background-color: rgba(51, 51, 51, 0.9);
-        &:before {
-            content: '';
-            position: absolute;
-            top: -8px;
-            left: 8px;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 0 8px 8px 8px;
-            border-color: transparent transparent rgba(51, 51, 51, 0.9)
-                transparent;
-        }
-    }
-    &:hover {
-        .popup-gebruikersinfo {
-            display: block;
-        }
     }
 }
 
@@ -169,88 +127,6 @@
 }
 .image-home-4 {
     background-image: url('../images/landing-4.webp');
-}
-
-.raadpleeg-innerhtml {
-    h2 {
-        font-size: 1.125rem;
-        letter-spacing: 0.025em;
-        margin-bottom: 0.25rem;
-    }
-    p,
-    ul {
-        margin-bottom: 20px;
-    }
-}
-.revision-innerhtml,
-.raadpleeg-innerhtml {
-    strong,
-    b {
-        font-family: 'Karbon Medium', sans-serif;
-        font-weight: 700;
-    }
-    ul {
-        list-style: disc;
-        padding-left: 20px;
-    }
-    ol {
-        padding-left: 20px;
-        list-style: decimal;
-        ol {
-            list-style: lower-alpha;
-            ol {
-                list-style: lower-roman;
-                ol {
-                    list-style: decimal;
-                    ol {
-                        list-style: lower-alpha;
-                        ol {
-                            list-style: lower-roman;
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-.revision-insert {
-    display: inline-block;
-    background-color: #e5f0ef;
-    padding: 4px 0.25rem;
-}
-
-ul li .revision-insert,
-ol li .revision-insert {
-    display: block;
-}
-
-.revision-removal {
-    display: inline-block;
-    background-color: #f4c9c6;
-    text-decoration: line-through;
-    padding: 4px 0.25rem;
-    opacity: 0.75;
-    transition-property: opacity;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
-    &:hover {
-        opacity: 1;
-        text-decoration: none !important;
-    }
-    p {
-        display: inline;
-    }
-}
-
-ul li .revision-removal,
-ol li .revision-removal {
-    display: block;
-}
-
-#revisie-from input,
-#revisie-to input {
-    box-shadow: none;
 }
 
 .tooltip-triangle {

@@ -1,4 +1,5 @@
 import { Hyperlink } from '@pzh-ui/components'
+import { FileLines } from '@pzh-ui/icons'
 
 import {
     useBeleidsregelsLatestLineageIdGet,
@@ -56,6 +57,7 @@ const beleidsregel: DynamicObject<
         slugOverview: 'omgevingsverordening/beleidsregels',
         description:
             'De beleidsregels geven aan waar de provincie zich minimaal voor moet inspannen. De beleidsregels zijn individuele regels die de provincie zelf vaststelt.',
+        icon: FileLines,
     },
     staticData: [
         'Client_1_UUID',

@@ -1,3 +1,5 @@
+import { BookBookmark } from '@pzh-ui/icons'
+
 import {
     useWettelijkeTaakLatestLineageIdGet,
     useWettelijkeTaakLineageIdPost,
@@ -47,6 +49,7 @@ const wettelijkeTaak: DynamicObject<
         prefixPlural: 'de',
         prefixNewObject: 'Nieuwe',
         atemporal: true,
+        icon: BookBookmark,
     },
     fetchers,
     dynamicSections: [

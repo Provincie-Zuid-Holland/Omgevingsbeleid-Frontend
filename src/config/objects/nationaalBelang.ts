@@ -1,3 +1,5 @@
+import { Flag } from '@pzh-ui/icons'
+
 import {
     useNationaalBelangLatestLineageIdGet,
     useNationaalBelangLineageIdPost,
@@ -47,6 +49,7 @@ const nationaalBelang: DynamicObject<
         prefixPlural: 'de',
         prefixNewObject: 'Nieuw',
         atemporal: true,
+        icon: Flag,
     },
     fetchers,
     dynamicSections: [

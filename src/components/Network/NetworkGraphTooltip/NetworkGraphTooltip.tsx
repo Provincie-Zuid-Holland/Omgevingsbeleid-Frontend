@@ -32,7 +32,7 @@ const NetworkGraphTooltip = forwardRef<
             left: variables.left,
             top: variables.top,
         }}
-        className={classNames('fixed z-50 max-w-[calc(100vw - 40px - 2rem)]', {
+        className={classNames('fixed z-50 max-w-[calc(100vw-40px-2rem)]', {
             'left-[-100%]': !variables.active,
         })}>
         <span className="block w-full h-[10px] -mt-[10px]" />

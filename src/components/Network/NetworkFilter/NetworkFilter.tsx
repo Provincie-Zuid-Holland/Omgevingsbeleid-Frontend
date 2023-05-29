@@ -63,6 +63,27 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
     )
 
     /**
+     * Handle change of dropdown field
+     */
+    const handleDropdownChange = (
+        val: { label: string; value: ModelType }[]
+    ) => {
+        if (val.length === 0) {
+            setSelectedFilters(
+                filters.flatMap(filter =>
+                    filter.options.map(option => option.value)
+                )
+            )
+        } else {
+            setSelectedFilters(
+                (val as { label: string; value: ModelType }[])?.map(
+                    e => e.value
+                )
+            )
+        }
+    }
+
+    /**
      * Handle change of select field
      */
     const handleChange = (e: typeof options[0]) => {
@@ -136,10 +157,8 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
                         options={filters}
                         value={defaultValue}
                         onChange={val =>
-                            setSelectedFilters(
-                                (
-                                    val as { label: string; value: ModelType }[]
-                                )?.map(e => e.value)
+                            handleDropdownChange(
+                                val as { label: string; value: ModelType }[]
                             )
                         }
                         isMulti
