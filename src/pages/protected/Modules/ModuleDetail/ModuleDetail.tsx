@@ -70,7 +70,7 @@ const ModuleDetail = () => {
     if (isLoading || !module) return <LoaderContent />
 
     return (
-        <MutateLayout title={module.Title}>
+        <MutateLayout title={module.Title} hasOwnBreadcrumbs>
             <div className="col-span-6 mb-6">
                 <div className="flex items-center justify-between mb-4 whitespace-nowrap">
                     <Breadcrumbs items={breadcrumbPaths} />

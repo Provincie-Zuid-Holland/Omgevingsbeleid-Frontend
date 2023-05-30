@@ -31,6 +31,7 @@ import {
     ThemeDetail,
     ThemeOverview,
 } from '@/pages/public'
+import NotFoundPage from '@/pages/public/NotFoundPage/NotFoundPage'
 
 import ProtectedRoute from './ProtectedRoute'
 
@@ -320,6 +321,10 @@ const AppRoutes = () => {
                     ],
                 })),
             ],
+        },
+        {
+            path: '*',
+            element: <NotFoundPage />,
         },
     ])
 

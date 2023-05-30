@@ -8,7 +8,9 @@ interface ModuleInactiveCardProps {
 }
 
 const ModuleInactiveCard = ({ setModuleModal }: ModuleInactiveCardProps) => (
-    <div className="py-4 px-6 bg-pzh-ui-light-blue">
+    <div
+        className="py-4 px-6 bg-pzh-ui-light-blue"
+        data-testid="module-inactive-card">
         <Text type="body" className="mb-2 font-bold">
             Module inactief
         </Text>

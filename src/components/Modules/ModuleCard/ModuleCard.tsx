@@ -14,7 +14,9 @@ const ModuleCard = (props: Module) => {
     const { Module_ID, Title, Description, Status, Closed } = props
 
     return (
-        <li className="p-5 border border-pzh-gray-200 rounded h-full flex flex-col">
+        <li
+            className="p-5 border border-pzh-gray-200 rounded h-full flex flex-col"
+            data-testid="module-card">
             <div className="flex flex-wrap items-center justify-between mb-4">
                 <Heading level="3">{Title}</Heading>
                 <Badge

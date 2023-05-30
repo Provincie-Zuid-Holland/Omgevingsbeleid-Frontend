@@ -25,7 +25,8 @@ const ModulePart = ({
             {
                 'border-b': isLast,
             }
-        )}>
+        )}
+        data-testid="module-part">
         <span className="col-span-3 capitalize truncate">{Object_Type}</span>
         <Text type="body" className="font-bold col-span-7 truncate">
             {Title}

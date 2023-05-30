@@ -15,6 +15,8 @@ import RevisionModal from '@/components/Modals/RevisionModal/RevisionModal'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useRevisionStore from '@/store/revisionStore'
 
+import NotFoundPage from '../NotFoundPage'
+
 interface DynamicObjectProps {
     model: Model
 }
@@ -33,10 +35,13 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
     const { useGetVersion, useGetValidLineage, useGetLatestLineage } =
         model.fetchers
 
-    const { data = {}, isLoading } =
-        useGetVersion?.<ModelReturnType>(uuid!, {
-            query: { enabled: !!uuid },
-        }) || {}
+    const {
+        data = {},
+        isLoading,
+        isError,
+    } = useGetVersion?.<ModelReturnType>(uuid!, {
+        query: { enabled: !!uuid },
+    }) || {}
     const { data: latest } = useGetLatestLineage(data.Object_ID!, {
         query: { enabled: !!data.Object_ID },
     })
@@ -68,6 +73,8 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
     }, [latest])
 
     if (isLoading) return <LoaderContent />
+
+    if (isError) return <NotFoundPage />
 
     return (
         <>

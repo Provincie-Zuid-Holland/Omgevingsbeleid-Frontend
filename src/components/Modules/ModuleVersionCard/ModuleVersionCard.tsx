@@ -85,7 +85,9 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
     )
 
     return (
-        <div className="mb-5 py-4 px-6 bg-pzh-gray-100">
+        <div
+            className="mb-5 py-4 px-6 bg-pzh-gray-100"
+            data-testid="module-version-card">
             <Text type="body" className="mb-2 font-bold text-pzh-blue">
                 Versie aanmaken
             </Text>

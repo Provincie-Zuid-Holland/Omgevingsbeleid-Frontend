@@ -27,7 +27,9 @@ const ModuleLock = ({ setModuleModal }: ModuleLockProps) => {
     }
 
     return (
-        <div className="flex mt-3 pt-4 pb-3 px-3 bg-pzh-gray-100">
+        <div
+            className="flex mt-3 pt-4 pb-3 px-3 bg-pzh-gray-100"
+            data-testid="module-lock">
             {isLocked ? <Lock size={24} /> : <LockOpen size={24} />}
             <Text className="ml-3">
                 {isLocked

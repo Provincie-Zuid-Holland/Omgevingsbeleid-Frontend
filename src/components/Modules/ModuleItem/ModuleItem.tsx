@@ -115,7 +115,7 @@ const ModuleItem = ({
     ]
 
     return (
-        <div>
+        <div data-test="module-item">
             <Divider />
             <div className="flex justify-between items-center">
                 <div className="flex-1 pr-2 w-[90%]">

@@ -1,10 +1,4 @@
-import {
-    Badge,
-    Button,
-    Heading,
-    Text,
-    getHeadingStyles,
-} from '@pzh-ui/components'
+import { Badge, Button, Text, getHeadingStyles } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -59,7 +53,8 @@ const DashboardAdmin = () => {
                         <Button
                             variant="cta"
                             size="small"
-                            onPress={() => navigate('/muteer/modules/nieuw')}>
+                            onPress={() => navigate('/muteer/modules/nieuw')}
+                            data-testid="dashboard-new-module">
                             Nieuwe module
                         </Button>
                     </div>
@@ -98,33 +93,45 @@ const DashboardAdmin = () => {
 }
 
 const ModelTile = ({ model }: { model: Model }) => {
+    const { isMobile } = useBreakpoint()
+
     const { icon: Icon, plural, pluralCapitalize } = model.defaults
 
     return (
-        <Link to={`/muteer/${plural}`}>
-            <div className="flex items-center justify-between p-5 border border-pzh-gray-200 rounded-[4px]">
+        <Link to={`/muteer/${plural}`} data-testid="dashboard-model-tile">
+            <div className="flex items-center justify-between px-5 py-4 border border-pzh-gray-200 rounded-[4px] group">
                 <div className="flex items-center">
                     <Icon size={20} className="mr-3 text-pzh-blue" />
-                    <Heading level="3" className="-mb-[6px]">
+                    <h3
+                        className="text-pzh-blue -mb-[6px]"
+                        style={getHeadingStyles('4', isMobile)}>
                         {pluralCapitalize}
-                    </Heading>
+                    </h3>
                 </div>
-                <AngleRight size={18} className="text-pzh-green" />
+                <div className="transition group-hover:translate-x-1">
+                    <AngleRight size={18} className="text-pzh-green" />
+                </div>
             </div>
         </Link>
     )
 }
 
 const ModuleTile = ({ Title, Status, Module_ID, Closed }: Module) => {
+    const { isMobile } = useBreakpoint()
+
     const Wrapper = Closed ? 'div' : Link
 
     return (
-        <Wrapper to={!Closed ? `/muteer/modules/${Module_ID}` : ''}>
-            <div className="grid grid-cols-8 p-3 border border-pzh-gray-200 rounded-[4px]">
+        <Wrapper
+            to={!Closed ? `/muteer/modules/${Module_ID}` : ''}
+            data-testid="dashboard-module-tile">
+            <div className="grid grid-cols-8 px-3 py-2 border border-pzh-gray-200 rounded-[4px] group">
                 <div className="col-span-5">
-                    <Heading level="3" className="-mb-[6px]">
+                    <h3
+                        className="text-pzh-blue -mb-[6px]"
+                        style={getHeadingStyles('4', isMobile)}>
                         {Title}
-                    </Heading>
+                    </h3>
                 </div>
                 <div className="col-span-2">
                     <Badge
@@ -136,7 +143,9 @@ const ModuleTile = ({ Title, Status, Module_ID, Closed }: Module) => {
                 </div>
                 {!Closed && (
                     <div className="col-span-1 flex items-center justify-end">
-                        <AngleRight size={20} className="text-pzh-green" />
+                        <div className="transition group-hover:translate-x-1">
+                            <AngleRight size={18} className="text-pzh-green" />
+                        </div>
                     </div>
                 )}
             </div>
