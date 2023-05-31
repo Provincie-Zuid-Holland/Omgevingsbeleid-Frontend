@@ -1,6 +1,6 @@
 import { Heading } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
-import { Form, Formik } from 'formik'
+import { Form, Formik, FormikHelpers } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
@@ -9,6 +9,7 @@ import { ModuleCreate as ModuleCreateSchema } from '@/api/fetchers.schemas'
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed/ButtonSubmitFixed'
 import { FormBasicInfo } from '@/components/Modules/ModuleForm'
 import MutateLayout from '@/templates/MutateLayout'
+import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
 
@@ -17,7 +18,7 @@ const ModuleCreate = () => {
 
     const navigate = useNavigate()
 
-    const { mutate, isLoading } = useModulesPost({
+    const { mutateAsync, isLoading } = useModulesPost({
         mutation: {
             onError: () => {
                 toastNotification('error')
@@ -34,8 +35,13 @@ const ModuleCreate = () => {
         },
     })
 
-    const handleSubmit = (payload: ModuleCreateSchema) => {
-        mutate({ data: payload })
+    const handleSubmit = (
+        payload: ModuleCreateSchema,
+        helpers: FormikHelpers<ModuleCreateSchema>
+    ) => {
+        mutateAsync({ data: payload }).catch(err =>
+            handleError<ModuleCreateSchema>(err, helpers)
+        )
     }
 
     const breadcrumbPaths = [

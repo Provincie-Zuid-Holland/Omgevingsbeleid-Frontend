@@ -10,6 +10,7 @@ import {
     useModulesModuleIdStatusPatch,
 } from '@/api/fetchers'
 import { ModuleStatus, ModuleStatusCode } from '@/api/fetchers.schemas'
+import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
 
 interface ModuleVersionCardProps {
@@ -48,7 +49,7 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
      */
     const handleSubmit = (
         payload: { Status?: ModuleStatusCode },
-        { resetForm }: FormikHelpers<{ Status: undefined }>
+        helpers: FormikHelpers<{ Status: undefined }>
     ) => {
         if (payload.Status) {
             createVersion
@@ -56,7 +57,8 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
                     moduleId: parseInt(moduleId!),
                     data: { Status: payload.Status },
                 })
-                .then(() => resetForm())
+                .then(() => helpers.resetForm())
+                .catch(err => handleError<{ Status: undefined }>(err, helpers))
         }
     }
 
