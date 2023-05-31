@@ -1,15 +1,9 @@
-import {
-    FieldInput,
-    getHeadingStyles,
-    ListLink,
-    Text,
-} from '@pzh-ui/components'
+import { FieldInput, Heading, ListLink, Text } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { LoaderCard, LoaderSpinner } from '@/components/Loader'
-import useBreakpoint from '@/hooks/useBreakpoint'
 
 interface ObjectListProps {
     /** Type of the object */
@@ -40,7 +34,6 @@ const ObjectList = ({
     title,
     advancedSearch = true,
 }: ObjectListProps) => {
-    const { isMobile } = useBreakpoint()
     const [filterQuery, setFilterQuery] = useState('')
 
     const filteredLength = useMemo(() => {
@@ -64,16 +57,14 @@ const ObjectList = ({
         <div>
             <div>
                 <div className="flex flex-col justify-between sm:flex-row">
-                    <h2
-                        style={getHeadingStyles('3', isMobile)}
-                        className="break-words text-pzh-blue">
+                    <Heading as="2" level="3" className="mb-3">
                         {title
                             ? title
                             : isLoading
                             ? `De ${objectType} worden geladen`
                             : `De ${filteredLength} ${objectType}`}
                         {isLoading && <LoaderSpinner className="ml-2" />}
-                    </h2>
+                    </Heading>
                     {advancedSearch && (
                         <Link
                             className="block mt-2 mb-1 sm:mb-0 sm:mt-0"

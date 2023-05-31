@@ -99,7 +99,8 @@ const ModuleEditObjectModal = ({
             open={isOpen}
             onClose={onClose}
             ariaLabel="Object bewerken"
-            maxWidth="sm:max-w-[812px]">
+            maxWidth="sm:max-w-[812px]"
+            closeButton>
             {isDataLoading && isDataFetching ? (
                 <div className="flex justify-center">
                     <LoaderSpinner />

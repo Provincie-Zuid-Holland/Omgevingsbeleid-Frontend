@@ -1,10 +1,9 @@
-import { Button, getHeadingStyles, Text } from '@pzh-ui/components'
+import { Button, Heading, Text } from '@pzh-ui/components'
 import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { useModulesModuleIdGet } from '@/api/fetchers'
 import { SearchObject } from '@/api/fetchers.schemas'
-import useBreakpoint from '@/hooks/useBreakpoint'
 import useModule from '@/hooks/useModule'
 import * as modules from '@/validation/modules'
 
@@ -32,8 +31,6 @@ const initialModalValues: ModalProps = {
 
 const FormContents = () => {
     const { moduleId } = useParams()
-
-    const { isMobile } = useBreakpoint()
 
     const [modal, setModal] = useState<ModalProps>(initialModalValues)
 
@@ -68,9 +65,9 @@ const FormContents = () => {
     return (
         <>
             <div className="col-span-2">
-                <h2 style={getHeadingStyles('3', isMobile)} className="mb-3">
+                <Heading as="2" level="3" className="mb-3">
                     Inhoud module
-                </h2>
+                </Heading>
                 <Text type="body">
                     Geef aan welke onderdelen van het omgevingsbeleid worden
                     aangepast, verwijderd of toegevoegd in deze module

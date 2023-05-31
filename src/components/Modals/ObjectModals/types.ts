@@ -22,6 +22,7 @@ export interface ObjectPersonModalActions {
         key: string
         label: string
         value?: UserShort
+        required?: boolean
     }
     isOpen: boolean
     isEdit?: boolean

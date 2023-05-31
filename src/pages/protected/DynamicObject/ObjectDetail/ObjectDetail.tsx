@@ -1,11 +1,10 @@
-import { Divider, getHeadingStyles, Heading } from '@pzh-ui/components'
+import { Divider, Heading } from '@pzh-ui/components'
 import { useParams } from 'react-router-dom'
 
 import ObjectConnections from '@/components/DynamicObject/ObjectConnections'
 import ObjectDefaultInfo from '@/components/DynamicObject/ObjectDefaultInfo'
 import ObjectRelations from '@/components/DynamicObject/ObjectRelations'
 import { Model } from '@/config/objects/types'
-import useBreakpoint from '@/hooks/useBreakpoint'
 import useModule from '@/hooks/useModule'
 import useObject from '@/hooks/useObject'
 import MutateLayout from '@/templates/MutateLayout'
@@ -16,7 +15,6 @@ interface ObjectDetailProps {
 
 const ObjectDetail = ({ model }: ObjectDetailProps) => {
     const { moduleId } = useParams()
-    const { isMobile } = useBreakpoint()
 
     const { singularCapitalize, plural, pluralCapitalize } = model.defaults
 
@@ -44,11 +42,9 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
             </div>
 
             <div className="col-span-4">
-                <h2
-                    style={getHeadingStyles('3', isMobile)}
-                    className="mb-4 text-pzh-blue">
+                <Heading as="2" level="3" className="mb-4">
                     Status
-                </h2>
+                </Heading>
             </div>
 
             <div className="col-span-2">

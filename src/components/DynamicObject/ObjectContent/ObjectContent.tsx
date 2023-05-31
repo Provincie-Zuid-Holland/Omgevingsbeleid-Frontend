@@ -1,10 +1,9 @@
-import { Heading, getHeadingStyles } from '@pzh-ui/components'
+import { Heading } from '@pzh-ui/components'
 import classNames from 'classnames'
 import DOMPurify from 'dompurify'
 
 import { RelationShortWettelijkeTaakShort } from '@/api/fetchers.schemas'
 import { ModelReturnType } from '@/config/objects/types'
-import useBreakpoint from '@/hooks/useBreakpoint'
 
 interface ObjectContentProps {
     /** Object data */
@@ -36,19 +35,19 @@ interface ContentProps {
 
 const Content = ({ title, value, hidden, html }: ContentProps) => {
     const cleanHtml = DOMPurify.sanitize(html)
-    const { isMobile } = useBreakpoint()
 
     const Wrapper = value === 'Description' ? 'p' : 'div'
 
     return (
         <>
-            <h2
-                style={getHeadingStyles('3', isMobile)}
-                className={classNames('mb-4 text-pzh-blue', {
+            <Heading
+                as="2"
+                level="3"
+                className={classNames('mb-4', {
                     'sr-only': hidden,
                 })}>
                 {title}
-            </h2>
+            </Heading>
             <Wrapper
                 className="prose prose-neutral prose-li:my-0 mb-4 md:mb-8 max-w-full text-pzh-blue-dark marker:text-pzh-blue-dark leading-6"
                 dangerouslySetInnerHTML={{ __html: cleanHtml }}
@@ -67,40 +66,38 @@ interface ListProps {
     )[]
 }
 
-const List = ({ title, description, items, hidden }: ListProps) => {
-    return (
-        <div
-            data-section={title}
-            className="mb-4 md:mb-8 max-w-full whitespace-pre-line prose prose-neutral prose-li:my-0 text-pzh-blue-dark marker:text-pzh-blue-dark leading-6">
-            <Heading
-                level="2"
-                className={classNames('mb-4', { 'sr-only': hidden })}>
-                {title}
-            </Heading>
-            {description && <p>{description}</p>}
-            <Heading level="3" className="my-4">
-                Gekoppelde ‘{title}’
-            </Heading>
-            <ul>
-                {items.map(item => (
-                    <li key={item.Object.UUID}>
-                        {item.Object.Weblink ? (
-                            <a
-                                href={item.Object.Weblink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-pzh-green hover:text-pzh-green-dark">
-                                {item.Object.Title}
-                            </a>
-                        ) : (
-                            <span>{item.Object.Title}</span>
-                        )}
-                    </li>
-                ))}
-            </ul>
-        </div>
-    )
-}
+const List = ({ title, description, items, hidden }: ListProps) => (
+    <div
+        data-section={title}
+        className="mb-4 md:mb-8 max-w-full whitespace-pre-line prose prose-neutral prose-li:my-0 text-pzh-blue-dark marker:text-pzh-blue-dark leading-6">
+        <Heading
+            level="2"
+            className={classNames('mb-4', { 'sr-only': hidden })}>
+            {title}
+        </Heading>
+        {description && <p>{description}</p>}
+        <Heading level="3" className="my-4">
+            Gekoppelde ‘{title}’
+        </Heading>
+        <ul>
+            {items.map(item => (
+                <li key={item.Object.UUID}>
+                    {item.Object.Weblink ? (
+                        <a
+                            href={item.Object.Weblink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-pzh-green hover:text-pzh-green-dark">
+                            {item.Object.Title}
+                        </a>
+                    ) : (
+                        <span>{item.Object.Title}</span>
+                    )}
+                </li>
+            ))}
+        </ul>
+    </div>
+)
 
 export const fields: {
     title?: string

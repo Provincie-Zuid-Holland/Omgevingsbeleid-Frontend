@@ -1,4 +1,4 @@
-import { getHeadingStyles, Text } from '@pzh-ui/components'
+import { Heading, Text } from '@pzh-ui/components'
 import { PenToSquare, Plus, Spinner } from '@pzh-ui/icons'
 import { useMemo, useState } from 'react'
 
@@ -7,12 +7,12 @@ import { LoaderCard } from '@/components/Loader'
 import ObjectPersonModal from '@/components/Modals/ObjectModals/ObjectPersonModal'
 import { ObjectPersonModalActions } from '@/components/Modals/ObjectModals/types'
 import { Model, ModelPatchStaticType } from '@/config/objects/types'
-import useBreakpoint from '@/hooks/useBreakpoint'
 import useObject from '@/hooks/useObject'
 import usePermissions from '@/hooks/usePermissions'
 import {
     getStaticDataLabel,
     getStaticDataPropertyKey,
+    getStaticDataPropertyRequired,
 } from '@/utils/dynamicObject'
 
 interface ObjectDefaultInfoProps {
@@ -21,8 +21,6 @@ interface ObjectDefaultInfoProps {
 
 const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
     const { canCreateModule, canPatchObjectInModule } = usePermissions()
-
-    const { isMobile } = useBreakpoint()
 
     const [modal, setModal] = useState<ObjectPersonModalActions>({
         isOpen: false,
@@ -50,15 +48,14 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
     return (
         <>
             <div>
-                <h2
-                    style={getHeadingStyles('3', isMobile)}
-                    className="mb-4 text-pzh-blue">
+                <Heading as="2" level="3" className="mb-4">
                     Algemene informatie
-                </h2>
+                </Heading>
 
                 {staticData.map(item => {
                     const label = getStaticDataLabel(item)
                     const key = getStaticDataPropertyKey(item)
+                    const required = getStaticDataPropertyRequired(item)
                     const user = data?.[key]
 
                     return (
@@ -67,7 +64,12 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
                             label={label}
                             user={user}
                             handleClick={() =>
-                                handleClick({ key: item, label, value: user })
+                                handleClick({
+                                    key: item,
+                                    label,
+                                    value: user,
+                                    required,
+                                })
                             }
                             isLoading={isLoading}
                             canEdit={

@@ -45,22 +45,22 @@ export const StepThree = ({}: StepProps) => {
             />
             <div className="mt-3">
                 <FormikSelect
+                    key={String(!!userOptions)}
                     name="Owner_1_UUID"
                     label="Eerste eigenaar"
                     placeholder="Kies een eigenaar"
                     isLoading={isLoading && isFetching}
-                    optimized={false}
                     options={userOptions}
                     required
                 />
             </div>
             <div className="mt-3">
                 <FormikSelect
+                    key={String(!!userOptions)}
                     name="Owner_2_UUID"
                     label="Tweede eigenaar"
                     placeholder="Kies een eigenaar"
                     isLoading={isLoading && isFetching}
-                    optimized={false}
                     options={userOptions}
                 />
             </div>

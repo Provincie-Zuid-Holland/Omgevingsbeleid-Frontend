@@ -87,7 +87,8 @@ const ObjectRelationNewModal = ({
             open={isOpen}
             onClose={handleClose}
             ariaLabel="Verzoek tot beleidsrelatie"
-            maxWidth="sm:max-w-[1200px]">
+            maxWidth="sm:max-w-[1200px]"
+            closeButton>
             <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}

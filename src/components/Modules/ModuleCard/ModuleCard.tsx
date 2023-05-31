@@ -26,7 +26,7 @@ const ModuleCard = (props: Module) => {
                     className="-mt-1"
                 />
             </div>
-            <Text className="mb-4 text-[16px]">{Description}</Text>
+            <Text className="mb-4 text-[16px] line-clamp-3">{Description}</Text>
             <div className="mt-auto flex items-center justify-between">
                 {!Closed && (
                     <Button

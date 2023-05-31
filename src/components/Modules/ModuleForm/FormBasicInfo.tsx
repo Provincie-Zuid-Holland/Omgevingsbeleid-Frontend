@@ -2,17 +2,14 @@ import {
     FormikInput,
     FormikSelect,
     FormikTextArea,
-    getHeadingStyles,
+    Heading,
     Text,
 } from '@pzh-ui/components'
 import { useMemo } from 'react'
 
 import { useUsersGet } from '@/api/fetchers'
-import useBreakpoint from '@/hooks/useBreakpoint'
 
 const FormBasicInfo = () => {
-    const { isMobile } = useBreakpoint()
-
     const { data: users, isFetching, isLoading } = useUsersGet()
 
     const userOptions = useMemo(
@@ -27,9 +24,9 @@ const FormBasicInfo = () => {
     return (
         <>
             <div className="col-span-2">
-                <h2 style={getHeadingStyles('3', isMobile)} className="mb-3">
+                <Heading as="2" level="3" className="mb-3">
                     Algemene informatie
-                </h2>
+                </Heading>
                 <Text type="body">
                     De algemene informatie bevat een duidelijke titel en
                     moduletrekkers.
@@ -46,22 +43,22 @@ const FormBasicInfo = () => {
                 <div className="mt-6 grid grid-cols-2 gap-x-10">
                     <div>
                         <FormikSelect
+                            key={String(!!userOptions)}
                             name="Module_Manager_1_UUID"
                             label="Moduletrekker 1"
                             placeholder="Selecteer een moduletrekker"
                             isLoading={isLoading && isFetching}
-                            optimized={false}
                             options={userOptions}
                             required
                         />
                     </div>
                     <div>
                         <FormikSelect
+                            key={String(!!userOptions)}
                             name="Module_Manager_2_UUID"
                             label="Moduletrekker 2"
                             placeholder="Selecteer een moduletrekker"
                             isLoading={isLoading && isFetching}
-                            optimized={false}
                             options={userOptions}
                             isClearable
                         />

@@ -152,7 +152,8 @@ const ModuleContentsModal = ({
             open={isOpen}
             onClose={handleClose}
             ariaLabel="Onderdeel toevoegen aan een module"
-            maxWidth="sm:max-w-[812px]">
+            maxWidth="sm:max-w-[812px]"
+            closeButton>
             <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}

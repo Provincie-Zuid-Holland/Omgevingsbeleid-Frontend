@@ -52,16 +52,9 @@ const ModuleActivateModal = ({ isOpen, onClose }: ModuleActivateModalProps) => {
             </Heading>
 
             <Text>
-                Wanneer je de module activeert, zullen de volgende acties worden
-                uitgevoerd:
-                <ul className="ml-4 mt-4 list-disc">
-                    <li>Module wordt in het systeem zichtbaar</li>
-                    <li>Nieuwe objecten worden aangemaakt</li>
-                    <li>
-                        Eigenaren van de objecten zullen op de hoogte worden
-                        gesteld
-                    </li>
-                </ul>
+                Wanneer je de module activeert, zal de module zichtbaar worden
+                voor alle behandelend ambtenaren die zijn aangewezen als
+                eigenaar van één of meerdere objecten in deze module.
             </Text>
 
             <div className="mt-6 flex items-center justify-between">
