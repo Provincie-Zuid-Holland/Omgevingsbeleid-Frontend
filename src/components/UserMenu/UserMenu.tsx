@@ -36,7 +36,7 @@ const UserMenu = () => {
                 </button>
                 {isOpen && (
                     <>
-                        <div className="fixed top-0 left-0 z-0 block w-screen h-screen bg-gray-900/40" />
+                        <div className="fixed top-0 left-0 z-1 block w-screen h-screen bg-gray-900/40" />
                         <DropdownContainer
                             isOpen={isOpen}
                             setIsOpen={setIsOpen}

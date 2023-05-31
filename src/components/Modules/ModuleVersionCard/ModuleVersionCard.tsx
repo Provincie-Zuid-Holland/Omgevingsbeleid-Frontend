@@ -10,7 +10,6 @@ import {
     useModulesModuleIdStatusPatch,
 } from '@/api/fetchers'
 import { ModuleStatus, ModuleStatusCode } from '@/api/fetchers.schemas'
-import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
 
 interface ModuleVersionCardProps {
@@ -58,7 +57,10 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
                     data: { Status: payload.Status },
                 })
                 .then(() => helpers.resetForm())
-                .catch(err => handleError<{ Status: undefined }>(err, helpers))
+                .catch(err => {
+                    helpers.setFieldError('Status', err.data.detail)
+                    helpers.setSubmitting(false)
+                })
         }
     }
 

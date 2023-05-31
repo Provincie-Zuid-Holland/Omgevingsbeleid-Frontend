@@ -28,7 +28,13 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
 
     const { singularCapitalize } = model.defaults
 
-    const { isLocked, data, isModuleManager, queryKey } = useModule()
+    const {
+        isLoading: moduleIsLoading,
+        isLocked,
+        data,
+        isModuleManager,
+        queryKey,
+    } = useModule()
     const {
         data: object,
         isLoading,
@@ -96,7 +102,13 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
         { name: `${singularCapitalize} bewerken`, isCurrent: true },
     ]
 
-    if (!isLoading && !isOwner && !canEditModule && !isModuleManager) {
+    if (
+        !isLoading &&
+        !moduleIsLoading &&
+        !isOwner &&
+        !canEditModule &&
+        !isModuleManager
+    ) {
         return (
             <Navigate
                 to={`/muteer/modules/${moduleId}`}
@@ -127,7 +139,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                     handleSubmit={handleSubmit}
                     onCancel={() => navigate(`/muteer/modules/${moduleId}`)}
                     isLocked={isLocked}
-                    isLoading={isLoading}
+                    isLoading={isLoading || moduleIsLoading}
                 />
             </div>
         </MutateLayout>

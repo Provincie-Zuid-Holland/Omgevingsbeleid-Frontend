@@ -2158,10 +2158,10 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
   integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
 
-"@pzh-ui/components@^0.0.321":
-  version "0.0.321"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.321.tgz#00352a2778a66c981fb31e4f3e66865c96714569"
-  integrity sha512-3OTLraqaQ20o/yrRrpr5PMDrcSYUOCkCHPyLPd2IlQjG1Cex6vMIpRAcH3/CCr+PhUsNzpPitzXlqoEjuVCyww==
+"@pzh-ui/components@^0.0.323":
+  version "0.0.323"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.323.tgz#dfd35b391b8a487350ab95cb8d6ed77079764a8d"
+  integrity sha512-AmBqHMoq+oh1F45Jg+sfGH0Rl6NfPXosoFOo+5lbTn1hqbuWWInsxvgnbEWctoCAYPfPuooN1sp0MdTvFz50Iw==
   dependencies:
     "@floating-ui/react-dom-interactions" "^0.3.1"
     "@headlessui/react" "^1.5.0"
