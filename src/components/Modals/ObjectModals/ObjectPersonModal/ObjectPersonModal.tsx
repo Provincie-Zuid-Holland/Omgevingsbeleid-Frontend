@@ -88,6 +88,7 @@ const ObjectPersonModal = ({
                         }}
                         isClearable={!person?.required}
                         required={person?.required}
+                        blurInputOnSelect
                     />
 
                     <div className="mt-6 flex items-center justify-between">

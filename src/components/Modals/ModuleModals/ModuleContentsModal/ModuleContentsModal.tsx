@@ -1,6 +1,6 @@
 import { Button, Modal } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
-import { Form, Formik } from 'formik'
+import { Form, Formik, FormikHelpers } from 'formik'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
@@ -54,6 +54,9 @@ const ModuleContentsModal = ({
     const [existingObject, setExistingObject] = useState<
         SearchObject | undefined
     >(selectedObject)
+
+    const CurrentStep = steps[step - 1]
+    const isFinalStep = step === 3 || step === 5
 
     const handleClose = () => {
         onClose()
@@ -131,21 +134,30 @@ const ModuleContentsModal = ({
     /**
      * Handle submit of contents form
      */
-    const handleFormSubmit = (payload: ContentsModalForm) => {
-        const { state, ...data } = payload
+    const handleFormSubmit = (
+        payload: ContentsModalForm,
+        helpers: FormikHelpers<ContentsModalForm>
+    ) => {
+        if (isFinalStep) {
+            const { state, ...data } = payload
 
-        if (state === 'new' && 'Object_Type' in data) {
-            addNewObjectToModule.mutate({ moduleId: parseInt(moduleId!), data })
-        } else if (state === 'existing' && 'Action' in data) {
-            addExistingObjectToModule.mutate({
-                moduleId: parseInt(moduleId!),
-                data,
-            })
+            if (state === 'new' && 'Object_Type' in data) {
+                addNewObjectToModule.mutate({
+                    moduleId: parseInt(moduleId!),
+                    data,
+                })
+            } else if (state === 'existing' && 'Action' in data) {
+                addExistingObjectToModule.mutate({
+                    moduleId: parseInt(moduleId!),
+                    data,
+                })
+            }
+        } else {
+            handleWizard(payload.state)
+            helpers.setTouched({})
+            helpers.setSubmitting(false)
         }
     }
-
-    const CurrentStep = steps[step - 1]
-    const isFinalStep = step === 3 || step === 5
 
     return (
         <Modal
@@ -158,17 +170,13 @@ const ModuleContentsModal = ({
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
                 validationSchema={toFormikValidationSchema(
-                    modules.SCHEMA_ADD_OBJECT
+                    // @ts-ignore
+                    modules.SCHEMA_ADD_OBJECT_STEPS[step - 1]
                 )}
-                enableReinitialize>
-                {({
-                    values,
-                    handleSubmit,
-                    isValid,
-                    isSubmitting,
-                    submitForm,
-                }) => (
-                    <Form onSubmit={handleSubmit}>
+                enableReinitialize
+                validateOnBlur={false}>
+                {({ values, isValid, isSubmitting }) => (
+                    <Form>
                         <CurrentStep
                             title={module?.Title}
                             existingObject={existingObject}
@@ -193,13 +201,8 @@ const ModuleContentsModal = ({
                                 )}
                                 <Button
                                     variant={isFinalStep ? 'cta' : 'primary'}
-                                    type="button"
                                     size="small"
-                                    onPress={() => {
-                                        !isFinalStep
-                                            ? handleWizard(values.state)
-                                            : submitForm()
-                                    }}
+                                    type="submit"
                                     isDisabled={
                                         (isFinalStep && !isValid) ||
                                         (isFinalStep && isSubmitting)

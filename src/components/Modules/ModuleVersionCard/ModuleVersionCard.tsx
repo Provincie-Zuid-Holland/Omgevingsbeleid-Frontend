@@ -109,6 +109,7 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
                             placeholder="Selecteer een versie"
                             options={options}
                             optimized={false}
+                            blurInputOnSelect
                         />
 
                         <Button

@@ -51,6 +51,7 @@ export const StepThree = ({}: StepProps) => {
                     placeholder="Kies een eigenaar"
                     isLoading={isLoading && isFetching}
                     options={userOptions}
+                    blurInputOnSelect
                     required
                 />
             </div>
@@ -62,6 +63,7 @@ export const StepThree = ({}: StepProps) => {
                     placeholder="Kies een eigenaar"
                     isLoading={isLoading && isFetching}
                     options={userOptions}
+                    blurInputOnSelect
                 />
             </div>
             <div className="mt-3">

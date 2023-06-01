@@ -140,7 +140,11 @@ const ModuleItem = ({
                         {Title}
                     </Text>
                     {hasEditButton &&
-                        ModuleObjectContext?.Action !== 'Terminate' && (
+                        ModuleObjectContext?.Action !== 'Terminate' &&
+                        hasRights &&
+                        canPatchObjectInModule &&
+                        !isLocked &&
+                        isActive && (
                             <Hyperlink
                                 to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}/bewerk`}
                                 text="Bewerken"

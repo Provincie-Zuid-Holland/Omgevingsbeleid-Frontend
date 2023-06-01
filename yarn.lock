@@ -2158,10 +2158,10 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
   integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
 
-"@pzh-ui/components@^0.0.323":
-  version "0.0.323"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.323.tgz#dfd35b391b8a487350ab95cb8d6ed77079764a8d"
-  integrity sha512-AmBqHMoq+oh1F45Jg+sfGH0Rl6NfPXosoFOo+5lbTn1hqbuWWInsxvgnbEWctoCAYPfPuooN1sp0MdTvFz50Iw==
+"@pzh-ui/components@^0.0.324":
+  version "0.0.324"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.324.tgz#0a28d274f487e82424d4c3f31f0b38451e49f4d2"
+  integrity sha512-mnxUQj33LnGhaauWrT3IPzoHWMz/98RVq0s6Tye4uAUOYye4cIS4Z7QdIpcpmILiNawNunpvoTnzj/6777WuMg==
   dependencies:
     "@floating-ui/react-dom-interactions" "^0.3.1"
     "@headlessui/react" "^1.5.0"
@@ -2185,7 +2185,7 @@
     react-dom "^18.0.0"
     react-dropzone "^12.0.4"
     react-router-dom "^6.9.0"
-    react-select "^5.2.2"
+    react-select "^5.7.3"
     react-stately "^3.18.0"
     react-table "^7.7.0"
     react-toastify "^9.1.2"
@@ -2214,10 +2214,10 @@
     eslint-plugin-react-hooks "^4.3.0"
     prettier "^2.5.1"
 
-"@pzh-ui/css@^0.0.61":
-  version "0.0.61"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/css/-/css-0.0.61.tgz#8dadc400ea043109961a0f6c071c1e5bcbab235d"
-  integrity sha512-PQik+da9dCj9mQ6vf6wBq98qbhDWMSq7Ix7c7mbZIpzG2Rv+g6f/3w2tH4lEIJOwWyu+YWMNIDLoULahyNFRoQ==
+"@pzh-ui/css@^0.0.62":
+  version "0.0.62"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/css/-/css-0.0.62.tgz#2240cc359a383153824f9e776a38de75636512cc"
+  integrity sha512-O7nGBXCCUolJPxntUtBEjZ6vGVH2kI+JhwNHni6pcPT6tKFPh7Qt399xHKYb3iNHEfOLxme5sU4kweN0WmDuSw==
   dependencies:
     "@rollup/plugin-typescript" "^8.3.1"
     "@tailwindcss/custom-forms" "^0.2.1"
@@ -11116,6 +11116,11 @@ memoize-one@^5.0.0:
   resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-5.2.1.tgz#8337aa3c4335581839ec01c3d594090cebe8f00e"
   integrity sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==
 
+memoize-one@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-6.0.0.tgz#b2591b871ed82948aee4727dc6abceeeac8c1045"
+  integrity sha512-rkpe71W0N0c0Xz6QD0eJETuWAJGnJ9afsl1srmwPrI+yBCkge5EycXXbYRyvL29zZVUWQCY7InPRCv3GDXuZNw==
+
 meow@^9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/meow/-/meow-9.0.0.tgz#cd9510bc5cac9dee7d03c73ee1f9ad959f4ea364"
@@ -13358,7 +13363,7 @@ react-scripts@^5.0.0:
   optionalDependencies:
     fsevents "^2.3.2"
 
-react-select@*, react-select@^5.2.2:
+react-select@*:
   version "5.5.2"
   resolved "https://registry.yarnpkg.com/react-select/-/react-select-5.5.2.tgz#40ac709338860b836feda5e43bdab56cb8ae5b57"
   integrity sha512-zbcxtiqXvFW2Wh+dd8zAqMY6QaqX9Ez0WlcjSXycXn1ASpKdc17LcGJj7gAJiUcHI/UVlo6wfg44hgBsUPyEBQ==
@@ -13369,6 +13374,21 @@ react-select@*, react-select@^5.2.2:
     "@floating-ui/dom" "^1.0.1"
     "@types/react-transition-group" "^4.4.0"
     memoize-one "^5.0.0"
+    prop-types "^15.6.0"
+    react-transition-group "^4.3.0"
+    use-isomorphic-layout-effect "^1.1.2"
+
+react-select@^5.7.3:
+  version "5.7.3"
+  resolved "https://registry.yarnpkg.com/react-select/-/react-select-5.7.3.tgz#fa0dc9a23cad6ff3871ad3829f6083a4b54961a2"
+  integrity sha512-z8i3NCuFFWL3w27xq92rBkVI2onT0jzIIPe480HlBjXJ3b5o6Q+Clp4ydyeKrj9DZZ3lrjawwLC5NGl0FSvUDg==
+  dependencies:
+    "@babel/runtime" "^7.12.0"
+    "@emotion/cache" "^11.4.0"
+    "@emotion/react" "^11.8.1"
+    "@floating-ui/dom" "^1.0.1"
+    "@types/react-transition-group" "^4.4.0"
+    memoize-one "^6.0.0"
     prop-types "^15.6.0"
     react-transition-group "^4.3.0"
     use-isomorphic-layout-effect "^1.1.2"

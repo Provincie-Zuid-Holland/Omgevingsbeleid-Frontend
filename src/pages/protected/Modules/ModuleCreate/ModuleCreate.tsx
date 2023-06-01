@@ -55,6 +55,7 @@ const ModuleCreate = () => {
             <div className="col-span-6">
                 <Formik
                     onSubmit={handleSubmit}
+                    validateOnBlur={false}
                     initialValues={modules.EMPTY_CREATE_MODULE}
                     validationSchema={toFormikValidationSchema(modules.SCHEMA)}>
                     {({ isSubmitting }) => (

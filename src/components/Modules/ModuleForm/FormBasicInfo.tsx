@@ -49,6 +49,7 @@ const FormBasicInfo = () => {
                             placeholder="Selecteer een moduletrekker"
                             isLoading={isLoading && isFetching}
                             options={userOptions}
+                            blurInputOnSelect
                             required
                         />
                     </div>
@@ -60,6 +61,7 @@ const FormBasicInfo = () => {
                             placeholder="Selecteer een moduletrekker"
                             isLoading={isLoading && isFetching}
                             options={userOptions}
+                            blurInputOnSelect
                             isClearable
                         />
                     </div>

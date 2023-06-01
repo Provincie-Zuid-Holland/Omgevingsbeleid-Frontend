@@ -62,6 +62,7 @@ const DynamicField = ({
             <InputField
                 type={type === 'url' ? 'url' : undefined}
                 disabled={isLocked}
+                blurInputOnSelect
                 {...field}
             />
         </div>

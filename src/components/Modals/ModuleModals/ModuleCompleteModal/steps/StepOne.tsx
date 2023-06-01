@@ -45,7 +45,7 @@ export const StepOne = () => (
         </div>
         <div className="mt-3">
             <FormikDate
-                name="Date"
+                name="Default_Start_Validity"
                 label="Datum van wijziging"
                 placeholder="dd-mm-jjjj"
                 description="Geef de datum van wijziging op. In de volgende stap kun je per object de inwerkingtredingsdatum aanpassen."

@@ -129,12 +129,14 @@ const DropdownTextElement = ({
                     'border-t border-gray-300': index !== 0,
                 },
                 item.className
-            )}
-            onClick={() => {
-                item.callback?.()
-                setIsOpen(false)
-            }}>
-            {item.text}
+            )}>
+            <button
+                onClick={() => {
+                    item.callback?.()
+                    setIsOpen(false)
+                }}>
+                {item.text}
+            </button>
         </li>
     )
 }

@@ -141,6 +141,7 @@ const ModuleEditObjectModal = ({
                                         value: 'Terminate',
                                     },
                                 ]}
+                                blurInputOnSelect
                                 required
                             />
                         )}
@@ -150,6 +151,7 @@ const ModuleEditObjectModal = ({
                                 label="Toelichting"
                                 placeholder="Vul de toelichting in"
                                 description="Geef aan waarom deze beleidskeuze gaat worden aangepast in deze module"
+                                optimized={false}
                             />
                         </div>
                         <div className="mt-3">
@@ -158,6 +160,7 @@ const ModuleEditObjectModal = ({
                                 label="Conclusie"
                                 placeholder="Vul de conclusie in"
                                 description="Geef aan welke wijzigingen doorgevoerd gaan worden aan deze beleidskeuze"
+                                optimized={false}
                             />
                         </div>
 

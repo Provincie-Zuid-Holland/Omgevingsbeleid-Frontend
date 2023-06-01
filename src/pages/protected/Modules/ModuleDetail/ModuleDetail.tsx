@@ -146,9 +146,10 @@ const ModuleDetail = () => {
             </div>
 
             <div className="col-span-6 lg:col-span-2">
-                {!module.Activated && (
-                    <ModuleInactiveCard setModuleModal={setModuleModal} />
-                )}
+                {!module.Activated &&
+                    (canPatchModuleStatus || isModuleManager) && (
+                        <ModuleInactiveCard setModuleModal={setModuleModal} />
+                    )}
 
                 {module.Activated &&
                     isLocked &&

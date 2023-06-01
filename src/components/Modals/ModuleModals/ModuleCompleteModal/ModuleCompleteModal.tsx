@@ -1,6 +1,6 @@
 import { Button, Heading, Modal } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
-import { Form, Formik } from 'formik'
+import { Form, Formik, FormikHelpers } from 'formik'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
@@ -28,6 +28,9 @@ const ModuleCompleteModal = ({ isOpen, onClose }: ModuleCompleteModalProps) => {
     const { moduleId } = useParams()
 
     const [step, setStep] = useState(1)
+
+    const CurrentStep = steps[step - 1]
+    const isFinalStep = step === 2
 
     const completeModule = useModulesModuleIdCompletePost({
         mutation: {
@@ -58,15 +61,21 @@ const ModuleCompleteModal = ({ isOpen, onClose }: ModuleCompleteModalProps) => {
         }, 300)
     }
 
-    const handleFormSubmit = (payload: CompleteModule) => {
-        completeModule.mutate({
-            moduleId: parseInt(moduleId!),
-            data: payload,
-        })
+    const handleFormSubmit = (
+        payload: CompleteModule,
+        helpers: FormikHelpers<CompleteModule>
+    ) => {
+        if (isFinalStep) {
+            completeModule.mutate({
+                moduleId: parseInt(moduleId!),
+                data: payload,
+            })
+        } else {
+            setStep(2)
+            helpers.setTouched({})
+            helpers.setSubmitting(false)
+        }
     }
-
-    const CurrentStep = steps[step - 1]
-    const isFinalStep = step === 2
 
     return (
         <Modal
@@ -78,10 +87,11 @@ const ModuleCompleteModal = ({ isOpen, onClose }: ModuleCompleteModalProps) => {
                 onSubmit={handleFormSubmit}
                 initialValues={modules.EMPTY_SCHEMA_COMPLETE_MODULE}
                 validationSchema={toFormikValidationSchema(
-                    modules.SCHEMA_COMPLETE_MODULE
+                    // @ts-ignore
+                    modules.SCHEMA_COMPLETE_MODULE_STEPS[step - 1]
                 )}
                 enableReinitialize>
-                {({ isValid, isSubmitting, submitForm }) => (
+                {({ isValid, isSubmitting }) => (
                     <Form>
                         <Heading
                             level="2"
@@ -107,10 +117,7 @@ const ModuleCompleteModal = ({ isOpen, onClose }: ModuleCompleteModalProps) => {
                                 )}
                                 <Button
                                     variant={isFinalStep ? 'cta' : 'primary'}
-                                    type="button"
-                                    onPress={() => {
-                                        !isFinalStep ? setStep(2) : submitForm()
-                                    }}
+                                    type="submit"
                                     isDisabled={
                                         (isFinalStep && !isValid) ||
                                         (isFinalStep && isSubmitting)
