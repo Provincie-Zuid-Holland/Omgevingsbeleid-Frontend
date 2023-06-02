@@ -120,10 +120,9 @@ export const updateTooltipCoordinates = (
 ) => {
     const { x, bottom, width, height } = nodeElement?.getBoundingClientRect()
     const tooltipWidth = container?.offsetWidth || 0
-    const tooltipHeight = container?.offsetHeight || 0
 
     const leftPosition = x - tooltipWidth / 2 + width / 2
-    const bottomPosition = bottom - height - tooltipHeight - 10
+    const bottomPosition = bottom + height + 5
 
     return {
         left: leftPosition,
