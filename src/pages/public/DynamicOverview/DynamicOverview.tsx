@@ -17,7 +17,7 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
     const { plural, pluralCapitalize, description, slugOverview } =
         model.defaults
 
-    const { data, isLoading } = useGetValid()
+    const { data, isLoading } = useGetValid({ limit: 200 })
 
     /**
      * Create array of returned data with correct format

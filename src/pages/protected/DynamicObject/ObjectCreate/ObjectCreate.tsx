@@ -20,7 +20,10 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
     const { singularCapitalize, plural, pluralCapitalize } = model.defaults
     const { usePostObject, useGetValid } = model.fetchers
 
-    const { refetch } = useGetValid(undefined, { query: { enabled: false } })
+    const { refetch } = useGetValid(
+        { limit: 200 },
+        { query: { enabled: false } }
+    )
 
     const createObject = usePostObject?.({
         mutation: {
