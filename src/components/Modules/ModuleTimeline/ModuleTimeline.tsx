@@ -18,7 +18,7 @@ const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
     )
 
     return (
-        <div>
+        <div data-testid="module-timeline">
             <Text className="font-bold text-pzh-blue">Tijdlijn</Text>
 
             <div className="mt-3">

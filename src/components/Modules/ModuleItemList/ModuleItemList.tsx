@@ -1,6 +1,5 @@
 import { Text } from '@pzh-ui/components'
 import { useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
 import { ModuleModalActions } from '@/components/Modals/ModuleModals/types'
@@ -24,7 +23,7 @@ interface ModuleItemListProps {
 const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
     const { user } = useAuth()
     const { canEditModule, canPatchObjectInModule } = usePermissions()
-    const { isModuleManager, isLocked } = useModule()
+    const { isLocked } = useModule()
 
     /**
      * If user has no edit rights
@@ -57,7 +56,7 @@ const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
     /**
      * If user has no edit rights show different layout
      */
-    if (!canEditModule && !isModuleManager) {
+    if (!canEditModule) {
         return (
             <>
                 <ItemList
@@ -106,55 +105,51 @@ const ItemList = ({
     title,
     noResultsText,
     hasEditButton,
-}: ItemListProps) => {
-    const navigate = useNavigate()
+}: ItemListProps) => (
+    <>
+        <Text type="body" className="font-bold text-pzh-blue">
+            {title}
+        </Text>
+        {!!objects?.length ? (
+            <div className="mb-4">
+                {objects.map(object => {
+                    const model =
+                        models[object.Object_Type.toLowerCase() as ModelType]
+                    const { plural } = model?.defaults || {}
 
-    return (
-        <>
-            <Text type="body" className="font-bold text-pzh-blue">
-                {title}
-            </Text>
-            {!!objects?.length ? (
-                <div className="mb-4">
-                    {objects.map(object => {
-                        const model =
-                            models[
-                                object.Object_Type.toLowerCase() as ModelType
-                            ]
-                        const { plural } = model?.defaults || {}
-
-                        return (
-                            <ModuleItem
-                                key={object.UUID}
-                                editCallback={() =>
-                                    setModuleModal({
-                                        object,
-                                        action: 'editObject',
-                                        isOpen: true,
-                                    })
-                                }
-                                deleteCallback={() =>
-                                    setModuleModal({
-                                        object,
-                                        module,
-                                        action: 'deleteObject',
-                                        isOpen: true,
-                                    })
-                                }
-                                viewCallback={() =>
-                                    navigate(`/${plural}/${object.UUID}`)
-                                }
-                                hasEditButton={hasEditButton}
-                                {...object}
-                            />
-                        )
-                    })}
-                </div>
-            ) : (
-                <p className="italic mb-4">{noResultsText}</p>
-            )}
-        </>
-    )
-}
+                    return (
+                        <ModuleItem
+                            key={object.UUID}
+                            editCallback={() =>
+                                setModuleModal({
+                                    object,
+                                    action: 'editObject',
+                                    isOpen: true,
+                                })
+                            }
+                            deleteCallback={() =>
+                                setModuleModal({
+                                    object,
+                                    module,
+                                    action: 'deleteObject',
+                                    isOpen: true,
+                                })
+                            }
+                            viewCallback={() =>
+                                window
+                                    .open(`/${plural}/${object.UUID}`, '_blank')
+                                    ?.focus()
+                            }
+                            hasEditButton={hasEditButton}
+                            {...object}
+                        />
+                    )
+                })}
+            </div>
+        ) : (
+            <p className="italic mb-4">{noResultsText}</p>
+        )}
+    </>
+)
 
 export default ModuleItemList

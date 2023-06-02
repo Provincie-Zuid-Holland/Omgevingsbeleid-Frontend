@@ -36,19 +36,22 @@ const DynamicField = ({
 
     if (type === 'image' && 'accept' in field) {
         // @ts-ignore
+        field.defaultValue = null
+
+        // @ts-ignore
         field.onChange = files => {
             if (!!!files.length) return setFieldValue(field.name, null)
         }
 
-        field.onDropAccepted = files => {
+        field.onDropAccepted = async files => {
             return setFieldValue(
                 field.name,
-                !!files.length ? fileToBase64(files[0]) : null
+                !!files.length ? await fileToBase64(files[0]) : null
             )
         }
 
         // @ts-ignore
-        field.defaultValue = [values[field.name]]
+        if (!!values[field.name]) field.defaultValue = [values[field.name]]
     }
 
     const marginTop = isFirst ? '' : 'mt-8'
@@ -59,6 +62,7 @@ const DynamicField = ({
             <InputField
                 type={type === 'url' ? 'url' : undefined}
                 disabled={isLocked}
+                blurInputOnSelect
                 {...field}
             />
         </div>

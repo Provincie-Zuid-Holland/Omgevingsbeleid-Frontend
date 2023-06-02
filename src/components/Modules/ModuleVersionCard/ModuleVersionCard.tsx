@@ -48,7 +48,7 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
      */
     const handleSubmit = (
         payload: { Status?: ModuleStatusCode },
-        { resetForm }: FormikHelpers<{ Status: undefined }>
+        helpers: FormikHelpers<{ Status: undefined }>
     ) => {
         if (payload.Status) {
             createVersion
@@ -56,7 +56,11 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
                     moduleId: parseInt(moduleId!),
                     data: { Status: payload.Status },
                 })
-                .then(() => resetForm())
+                .then(() => helpers.resetForm())
+                .catch(err => {
+                    helpers.setFieldError('Status', err.data.detail)
+                    helpers.setSubmitting(false)
+                })
         }
     }
 
@@ -85,7 +89,9 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
     )
 
     return (
-        <div className="mb-5 py-4 px-6 bg-pzh-gray-100">
+        <div
+            className="mb-5 py-4 px-6 bg-pzh-gray-100"
+            data-testid="module-version-card">
             <Text type="body" className="mb-2 font-bold text-pzh-blue">
                 Versie aanmaken
             </Text>
@@ -103,6 +109,7 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
                             placeholder="Selecteer een versie"
                             options={options}
                             optimized={false}
+                            blurInputOnSelect
                         />
 
                         <Button

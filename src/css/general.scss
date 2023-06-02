@@ -106,3 +106,7 @@ del {
     background-color: rgba(209, 31, 61, 0.1);
     text-decoration-thickness: 1px;
 }
+
+footer:not(.has-feedback) {
+    transform: translate3d(0, 0, 0);
+}

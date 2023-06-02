@@ -1,5 +1,5 @@
-import { getHeadingStyles, Heading, Text } from '@pzh-ui/components'
-import { Helmet } from 'react-helmet'
+import { Heading, Text } from '@pzh-ui/components'
+import classNames from 'classnames'
 import { Link } from 'react-router-dom'
 
 import { Container } from '@/components/Container'
@@ -16,18 +16,10 @@ const Login = () => {
 
     return (
         <>
-            <Helmet>
-                <title>Omgevingsbeleid - Inloggen</title>
-            </Helmet>
             <Container
-                style={
-                    !isMobile
-                        ? {
-                              minHeight: '576px',
-                          }
-                        : undefined
-                }
-                className="overflow-hidden">
+                className={classNames('overflow-hidden', {
+                    'min-h-[576px]': !isMobile,
+                })}>
                 <div className="col-span-6 lg:pb-12 lg:col-span-3">
                     <Heading level="1" className="mt-4 sm:mt-12 lg:mt-16">
                         Inloggen
@@ -40,7 +32,7 @@ const Login = () => {
                 </div>
                 <div className="relative hidden col-span-3 lg:inline-block">
                     <div
-                        className={`absolute bg-cover bg-no-repeat bg-center left-0 top-0 h-full image-login-1 text-white sm:inline-block`}
+                        className="absolute bg-cover bg-no-repeat bg-center left-0 top-0 h-full image-login-1 text-white sm:inline-block"
                         style={{
                             height: '480px',
                             width: 'calc(50vw)',
@@ -48,15 +40,13 @@ const Login = () => {
                     />
                 </div>
             </Container>
-            <div className="block w-full h-64 bg-center bg-no-repeat bg-cover bg-pzh-blue lg:hidden image-login-1"></div>
+            <div className="block w-full h-64 bg-center bg-no-repeat bg-cover bg-pzh-blue lg:hidden image-login-1" />
 
             <Container className="border-t border-gray-300">
                 <div className="col-span-6 py-4 mt-4 lg:mt-0 lg:py-12 lg:col-span-3">
-                    <h2
-                        style={getHeadingStyles('3', isMobile)}
-                        className="break-words text-pzh-blue">
+                    <Heading as="2" level="3">
                         Digitaal Omgevingsbeleid
-                    </h2>
+                    </Heading>
                     <Text type="body" className="mt-3">
                         Provincie Zuid-Holland heeft haar beleid eenvoudiger,
                         transparanter en toegankelijker gemaakt. Via deze
@@ -70,11 +60,9 @@ const Login = () => {
                     </Link>
                 </div>
                 <div className="col-span-6 py-4 mt-4 mb-4 lg:mt-0 lg:py-12 lg:col-span-3">
-                    <h2
-                        style={getHeadingStyles('3', isMobile)}
-                        className="break-words text-pzh-blue">
+                    <Heading as="2" level="3">
                         Hulp bij het inloggen
-                    </h2>
+                    </Heading>
                     <Text type="body" className="mt-3">
                         Lukt het niet om in te loggen? Neem contact op met de
                         afdeling omgevingsbeleid via{' '}

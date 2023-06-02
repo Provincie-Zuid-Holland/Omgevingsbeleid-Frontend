@@ -189,7 +189,8 @@ const ObjectConnectionModal = ({
             open={isOpen}
             onClose={handleClose}
             ariaLabel="Nieuwe koppeling"
-            maxWidth="sm:max-w-[1200px]">
+            maxWidth="sm:max-w-[1200px]"
+            closeButton>
             {isFetching && (
                 <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black/20">
                     <LoaderSpinner />

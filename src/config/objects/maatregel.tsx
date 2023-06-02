@@ -119,7 +119,6 @@ const maatregel: DynamicObject<
                         { label: 'Rechtmatig', value: 'Rechtmatig' },
                         { label: 'Responsief', value: 'Responsief' },
                     ],
-                    required: true,
                 },
                 {
                     name: 'Effect',

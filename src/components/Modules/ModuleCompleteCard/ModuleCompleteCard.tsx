@@ -8,7 +8,9 @@ interface ModuleCompleteCardProps {
 }
 
 const ModuleCompleteCard = ({ setModuleModal }: ModuleCompleteCardProps) => (
-    <div className="mb-5 py-4 px-6 bg-pzh-gray-100">
+    <div
+        className="mb-5 py-4 px-6 bg-pzh-gray-100"
+        data-testid="module-complete-card">
         <Text type="body" className="mb-2 font-bold text-pzh-blue">
             Module afsluiten
         </Text>

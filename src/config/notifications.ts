@@ -3,6 +3,7 @@ export type ToastType =
     | 'error'
     | 'notAllowed'
     | 'passwordReset'
+    | 'notLoggedIn'
     | 'unauthorized'
     | 'moduleCreated'
     | 'moduleActivate'
@@ -35,8 +36,12 @@ export const notifications: Record<
         message: 'Wachtwoord succesvol gewijzigd',
         type: 'success',
     },
-    unauthorized: {
+    notLoggedIn: {
         message: 'Voor deze actie moet je ingelogd zijn',
+        type: 'info',
+    },
+    unauthorized: {
+        message: 'Je hebt niet de juiste rechten voor deze actie',
         type: 'info',
     },
     moduleCreated: {

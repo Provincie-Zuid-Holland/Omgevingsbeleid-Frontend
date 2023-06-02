@@ -12,12 +12,15 @@ const Sidebar = () => {
 
     let timer: number
 
+    /**
+     * Function to setExpanded to true after 750ms second of hovering
+     */
     const endAndStartTimer = () => {
         window.clearTimeout(timer)
 
         timer = window.setTimeout(() => {
             setExpanded(true)
-        }, 1000)
+        }, 750)
     }
 
     return (
@@ -28,10 +31,11 @@ const Sidebar = () => {
             onMouseLeave={() => {
                 window.clearTimeout(timer)
                 expanded && setExpanded(false)
-            }}>
+            }}
+            data-testid="sidebar">
             <div
                 className={classNames(
-                    'relative bg-pzh-gray-100 transition-[min-width] after:shadow-[0px_18px_60px_rgba(0,0,0,0.07),0px_4px_13px_rgba(0,0,0,0.04),0px_2px_6px_rgba(0,0,0,0.03)] after:content-[" "] after:-z-1 after:absolute after:top-0 after:left-0 after:w-full after:h-[calc(100vh-97px)] after:bg-pzh-gray-100',
+                    'relative bg-pzh-gray-100 transition-[min-width] ease-[cubic-bezier(.47,1.64,.41,.8)] duration-200 after:shadow-[0px_18px_60px_rgba(0,0,0,0.07),0px_4px_13px_rgba(0,0,0,0.04),0px_2px_6px_rgba(0,0,0,0.03)] after:content-[" "] after:-z-1 after:absolute after:top-0 after:left-0 after:w-full after:h-[calc(100vh-97px)] after:bg-pzh-gray-100',
                     {
                         'min-w-[56px]': !expanded,
                         'min-w-[260px]': expanded,
@@ -39,7 +43,7 @@ const Sidebar = () => {
                 )}>
                 <div
                     className={classNames(
-                        'grid grid-cols-1 gap-2 py-[48px] px-[8px] overflow-hidden'
+                        'grid grid-cols-1 gap-2 py-10 px-[8px] overflow-hidden'
                     )}>
                     <MenuItem
                         name="Home"
@@ -106,8 +110,9 @@ const MenuItem = ({
                     'w-8': !expanded,
                 }
             )}
-            onMouseEnter={onHover}
-            onClick={onClick}>
+            onMouseEnter={!expanded ? onHover : undefined}
+            onClick={onClick}
+            data-testid="sidebar-item">
             <Icon size={20} className="min-w-[20px]" />
             <Text
                 className={classNames(

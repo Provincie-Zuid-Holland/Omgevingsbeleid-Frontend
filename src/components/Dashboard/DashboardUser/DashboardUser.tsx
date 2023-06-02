@@ -1,10 +1,4 @@
-import {
-    Heading,
-    TabItem,
-    Tabs,
-    Text,
-    getHeadingStyles,
-} from '@pzh-ui/components'
+import { Heading, TabItem, Tabs, Text } from '@pzh-ui/components'
 
 import { useBeleidskeuzesValidGet, useModulesGet } from '@/api/fetchers'
 import { Module } from '@/api/fetchers.schemas'
@@ -12,11 +6,8 @@ import ObjectCard from '@/components/DynamicObject/ObjectCard'
 import { LoaderCard } from '@/components/Loader'
 import ModuleCard from '@/components/Modules/ModuleCard'
 import { ModelReturnType } from '@/config/objects/types'
-import useBreakpoint from '@/hooks/useBreakpoint'
 
 const DashboardUser = () => {
-    const { isMobile } = useBreakpoint()
-
     const { data: modules, isLoading: modulesLoading } = useModulesGet({
         only_active: true,
         only_mine: true,
@@ -27,11 +18,9 @@ const DashboardUser = () => {
     return (
         <div className="col-span-6">
             <div>
-                <h2
-                    className="mb-3 text-pzh-blue"
-                    style={getHeadingStyles('3', isMobile)}>
+                <Heading as="2" level="3" className="mb-3">
                     Modules
-                </h2>
+                </Heading>
 
                 <ItemList items={modules} isLoading={modulesLoading} />
 

@@ -92,6 +92,7 @@ export const StepTwo = ({
                             boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
                         }),
                     }}
+                    blurInputOnSelect
                 />
             ) : (
                 <DynamicObjectSearch

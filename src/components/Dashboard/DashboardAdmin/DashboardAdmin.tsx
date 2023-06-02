@@ -1,11 +1,6 @@
-import {
-    Badge,
-    Button,
-    Heading,
-    Text,
-    getHeadingStyles,
-} from '@pzh-ui/components'
+import { Badge, Button, Heading, Text } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
+import { useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { useModulesGet } from '@/api/fetchers'
@@ -13,26 +8,27 @@ import { Module } from '@/api/fetchers.schemas'
 import { LoaderCard } from '@/components/Loader'
 import * as models from '@/config/objects'
 import { Model } from '@/config/objects/types'
-import useBreakpoint from '@/hooks/useBreakpoint'
 import getModuleStatusColor from '@/utils/getModuleStatusColor'
 
 const DashboardAdmin = () => {
     const navigate = useNavigate()
-    const { isMobile } = useBreakpoint()
 
     const { data: modules, isLoading: modulesLoading } = useModulesGet({
         only_active: false,
         only_mine: false,
     })
 
+    const sortedModules = useMemo(
+        () => modules?.sort((a, b) => Number(a.Closed) - Number(b.Closed)),
+        [modules]
+    )
+
     return (
         <div className="grid grid-cols-6">
             <div className="col-span-6 lg:col-span-3 mb-4">
-                <h2
-                    className="mb-3 text-pzh-blue"
-                    style={getHeadingStyles('3', isMobile)}>
+                <Heading as="2" level="3" className="mb-3">
                     Onderdelen
-                </h2>
+                </Heading>
                 <Text type="body">
                     Als beheerder kan je alle onderdelen van het digitaal
                     omgevingsbeleid inzien en waar nodig aanpassen. Hieronder
@@ -51,15 +47,14 @@ const DashboardAdmin = () => {
 
                 <div className="mt-10">
                     <div className="mb-4 flex items-center justify-between">
-                        <h2
-                            className="text-pzh-blue"
-                            style={getHeadingStyles('3', isMobile)}>
+                        <Heading as="2" level="3">
                             Modules
-                        </h2>
+                        </Heading>
                         <Button
                             variant="cta"
                             size="small"
-                            onPress={() => navigate('/muteer/modules/nieuw')}>
+                            onPress={() => navigate('/muteer/modules/nieuw')}
+                            data-testid="dashboard-new-module">
                             Nieuwe module
                         </Button>
                     </div>
@@ -83,7 +78,7 @@ const DashboardAdmin = () => {
                                 <LoaderCard height="62" mb="" />
                             </>
                         ) : (
-                            modules?.map(module => (
+                            sortedModules?.map(module => (
                                 <ModuleTile
                                     key={`module-${module.Module_ID}`}
                                     {...module}
@@ -101,15 +96,17 @@ const ModelTile = ({ model }: { model: Model }) => {
     const { icon: Icon, plural, pluralCapitalize } = model.defaults
 
     return (
-        <Link to={`/muteer/${plural}`}>
-            <div className="flex items-center justify-between p-5 border border-pzh-gray-200 rounded-[4px]">
+        <Link to={`/muteer/${plural}`} data-testid="dashboard-model-tile">
+            <div className="flex items-center justify-between px-5 py-4 border border-pzh-gray-200 rounded-[4px] group">
                 <div className="flex items-center">
                     <Icon size={20} className="mr-3 text-pzh-blue" />
-                    <Heading level="3" className="-mb-[6px]">
+                    <Heading as="3" level="4" className="-mb-[6px]">
                         {pluralCapitalize}
                     </Heading>
                 </div>
-                <AngleRight size={18} className="text-pzh-green" />
+                <div className="transition group-hover:translate-x-1">
+                    <AngleRight size={18} className="text-pzh-green" />
+                </div>
             </div>
         </Link>
     )
@@ -119,10 +116,12 @@ const ModuleTile = ({ Title, Status, Module_ID, Closed }: Module) => {
     const Wrapper = Closed ? 'div' : Link
 
     return (
-        <Wrapper to={!Closed ? `/muteer/modules/${Module_ID}` : ''}>
-            <div className="grid grid-cols-8 p-3 border border-pzh-gray-200 rounded-[4px]">
+        <Wrapper
+            to={!Closed ? `/muteer/modules/${Module_ID}` : ''}
+            data-testid="dashboard-module-tile">
+            <div className="grid grid-cols-8 px-3 py-2 border border-pzh-gray-200 rounded-[4px] group">
                 <div className="col-span-5">
-                    <Heading level="3" className="-mb-[6px]">
+                    <Heading as="3" level="4" className="-mb-[6px]">
                         {Title}
                     </Heading>
                 </div>
@@ -136,7 +135,9 @@ const ModuleTile = ({ Title, Status, Module_ID, Closed }: Module) => {
                 </div>
                 {!Closed && (
                     <div className="col-span-1 flex items-center justify-end">
-                        <AngleRight size={20} className="text-pzh-green" />
+                        <div className="transition group-hover:translate-x-1">
+                            <AngleRight size={18} className="text-pzh-green" />
+                        </div>
                     </div>
                 )}
             </div>

@@ -26,6 +26,7 @@ export const StepFive = ({ title, existingObject }: StepProps) => (
                     value: 'Terminate',
                 },
             ]}
+            blurInputOnSelect
             required
         />
         <div className="mt-3">

@@ -115,7 +115,7 @@ const ModuleItem = ({
     ]
 
     return (
-        <div>
+        <div data-test="module-item">
             <Divider />
             <div className="flex justify-between items-center">
                 <div className="flex-1 pr-2 w-[90%]">
@@ -140,7 +140,11 @@ const ModuleItem = ({
                         {Title}
                     </Text>
                     {hasEditButton &&
-                        ModuleObjectContext?.Action !== 'Terminate' && (
+                        ModuleObjectContext?.Action !== 'Terminate' &&
+                        hasRights &&
+                        canPatchObjectInModule &&
+                        !isLocked &&
+                        isActive && (
                             <Hyperlink
                                 to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}/bewerk`}
                                 text="Bewerken"

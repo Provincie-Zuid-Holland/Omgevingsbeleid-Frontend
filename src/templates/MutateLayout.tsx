@@ -16,9 +16,15 @@ interface MutateLayoutProps {
         path?: string
         isCurrent?: boolean
     }[]
+    hasOwnBreadcrumbs?: boolean
 }
 
-const MutateLayout = ({ title, children, breadcrumbs }: MutateLayoutProps) => {
+const MutateLayout = ({
+    title,
+    children,
+    breadcrumbs,
+    hasOwnBreadcrumbs,
+}: MutateLayoutProps) => {
     const { isMobile } = useBreakpoint()
 
     const editPage = usePage('/bewerk')
@@ -47,16 +53,18 @@ const MutateLayout = ({ title, children, breadcrumbs }: MutateLayoutProps) => {
                 })}>
                 {!!breadcrumbPaths?.length && (
                     <Container>
-                        <div className="col-span-6 pt-8 pb-5">
+                        <div className="col-span-6 pt-6 pb-5">
                             <Breadcrumbs items={breadcrumbPaths} />
                         </div>
                     </Container>
                 )}
 
                 <Container
-                    className={
-                        !!breadcrumbPaths?.length ? 'pb-20' : 'pt-8 pb-20'
-                    }>
+                    className={classNames('pb-20', {
+                        'pt-10':
+                            !!!breadcrumbPaths?.length && !hasOwnBreadcrumbs,
+                        'pt-6': hasOwnBreadcrumbs,
+                    })}>
                     {children}
                 </Container>
             </div>

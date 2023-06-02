@@ -99,7 +99,7 @@ const Object = ({
                             )
                             setFieldValue(
                                 `ObjectSpecifiekeGeldigheden.${index}.Start_Validity`,
-                                new Date()
+                                new Date().toISOString()
                             )
                         } else {
                             setFieldValue(
