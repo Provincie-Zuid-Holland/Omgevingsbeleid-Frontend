@@ -115,8 +115,9 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
                     <Heading>{pluralCapitalize}</Heading>
                     {atemporal && canCreateModule && (
                         <Button
-                            variant="cta"
-                            onPress={() => navigate(`/muteer/${plural}/nieuw`)}>
+                            as="a"
+                            href={`/muteer/${plural}/nieuw`}
+                            variant="cta">
                             {prefixNewObject} {singularReadable}
                         </Button>
                     )}

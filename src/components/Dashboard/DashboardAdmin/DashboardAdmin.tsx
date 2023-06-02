@@ -1,7 +1,7 @@
 import { Badge, Button, Heading, Text } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
 import { useMemo } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { useModulesGet } from '@/api/fetchers'
 import { Module } from '@/api/fetchers.schemas'
@@ -11,8 +11,6 @@ import { Model } from '@/config/objects/types'
 import getModuleStatusColor from '@/utils/getModuleStatusColor'
 
 const DashboardAdmin = () => {
-    const navigate = useNavigate()
-
     const { data: modules, isLoading: modulesLoading } = useModulesGet({
         only_active: false,
         only_mine: false,
@@ -51,9 +49,10 @@ const DashboardAdmin = () => {
                             Modules
                         </Heading>
                         <Button
+                            as="a"
+                            href="/muteer/modules/nieuw"
                             variant="cta"
                             size="small"
-                            onPress={() => navigate('/muteer/modules/nieuw')}
                             data-testid="dashboard-new-module">
                             Nieuwe module
                         </Button>
