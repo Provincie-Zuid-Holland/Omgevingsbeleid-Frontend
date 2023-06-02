@@ -1,5 +1,6 @@
 import { Heading, Text } from '@pzh-ui/components'
 import classNames from 'classnames'
+import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
 import { Container } from '@/components/Container'
@@ -16,6 +17,8 @@ const Login = () => {
 
     return (
         <>
+            <Helmet title="Inloggen" />
+
             <Container
                 className={classNames('overflow-hidden', {
                     'min-h-[576px]': !isMobile,
