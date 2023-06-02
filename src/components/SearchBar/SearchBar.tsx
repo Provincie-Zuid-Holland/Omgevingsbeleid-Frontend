@@ -1,11 +1,11 @@
-import 'url-search-params-polyfill'
-
+import { FieldInput } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useClickAway, useWindowSize } from 'react-use'
+import { useClickAway } from 'react-use'
 
 import { searchBarFilters } from '@/constants/searchBarFilters'
+import useBreakpoint from '@/hooks/useBreakpoint'
 
 import SearchBarPopupItem from '../SearchBarPopupItem'
 
@@ -22,8 +22,7 @@ const SearchBar = ({
 }: SearchBarProps) => {
     const location = useLocation()
     const navigate = useNavigate()
-    const windowSize = useWindowSize()
-    const isMobile = windowSize.width <= 640
+    const { isMobile } = useBreakpoint()
 
     const [searchQuery, setSearchQuery] = useState('')
     const [searchBarPopupOpen, setSearchBarPopupOpen] = useState(false)
@@ -34,18 +33,18 @@ const SearchBar = ({
     })
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.keyCode === 13) {
+        if (e.key === 'Enter') {
             // Enter key
             if (searchQuery.length === 0) return
             setSearchBarPopupOpen(false)
             if (callBack) {
                 callBack()
             }
-            navigate(`/zoekresultaten?query=${searchQuery}`, { replace: true })
+            navigate(`/zoekresultaten?query=${searchQuery}`)
         } else if (e.key === 'Escape') {
             // Escape key
             setSearchBarPopupOpen(false)
-        } else if (e.keyCode === 40 && searchQuery.length > 0) {
+        } else if (e.key === 'ArrowDown' && searchQuery.length > 0) {
             // Arrow Down key
             e.preventDefault()
 
@@ -77,9 +76,13 @@ const SearchBar = ({
         <div
             ref={searchBarRef}
             className={`relative block w-full ${className}`}>
-            <input
-                className={`pl-10 placeholder-gray-500 pr-6 rounded w-full appearance-none px-3 pb-1 border hover:border-opacity-50 border-pzh-blue border-opacity-30 transition-colors ease-in duration-100`}
+            <FieldInput
                 name="searchInput"
+                placeholder={
+                    isMobile
+                        ? 'Zoeken'
+                        : 'Zoek binnen het beleid van de provincie Zuid-Holland'
+                }
                 onChange={e => {
                     setSearchQuery(e.target.value)
                     if (!searchBarPopupOpen) {
@@ -87,20 +90,12 @@ const SearchBar = ({
                     }
                 }}
                 onClick={() => setSearchBarPopupOpen(true)}
+                onKeyDown={handleKeyDown}
                 autoComplete="off"
                 id={id}
-                type="text"
                 value={searchQuery}
-                placeholder={
-                    isMobile
-                        ? 'Zoeken'
-                        : 'Zoek binnen het beleid van de provincie Zuid-Holland'
-                }
-                onKeyDown={handleKeyDown}
+                icon={MagnifyingGlass}
             />
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <MagnifyingGlass size={18} className="text-pzh-blue-dark" />
-            </div>
             {searchQuery.length > 0 && searchBarPopupOpen ? (
                 <div
                     className="absolute top-0 z-10 w-full px-5"

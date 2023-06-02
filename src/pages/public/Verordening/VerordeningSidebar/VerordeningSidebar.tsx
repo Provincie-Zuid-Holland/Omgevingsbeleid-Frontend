@@ -177,12 +177,20 @@ const VerordeningSidebarItem = ({
                             {item.Type} {item.Volgnummer}
                         </span>
                     </button>
+<<<<<<< HEAD
                     <button
                         onClick={setActive}
                         onKeyPress={e => {
                             if (e.key === 'Enter') {
                                 setActive()
                                 focusElement(item.UUID)
+=======
+                    <span
+                        onClick={() => {
+                            navigate(`${location.pathname}?actief=${item.UUID}`)
+                            if (windowSize.width < 1028) {
+                                setNavMenuOpen(false)
+>>>>>>> feature/modules
                             }
                         }}
                         className="block pl-5 text-left cursor-pointer">
@@ -214,6 +222,7 @@ const VerordeningSidebarItem = ({
                             : undefined
                     }
                     className="pl-5 my-1 text-left cursor-pointer"
+<<<<<<< HEAD
                     onClick={setActive}
                     onKeyDown={e => {
                         if (e.key === 'Enter') {
@@ -222,6 +231,12 @@ const VerordeningSidebarItem = ({
                         } else if (e.key === 'ArrowRight') {
                             setActive()
                             focusElement(item.UUID)
+=======
+                    onClick={() => {
+                        navigate(`${location.pathname}?actief=${item.UUID}`)
+                        if (windowSize.width < 1028) {
+                            setNavMenuOpen(false)
+>>>>>>> feature/modules
                         }
                     }}>
                     <span className="font-bold">

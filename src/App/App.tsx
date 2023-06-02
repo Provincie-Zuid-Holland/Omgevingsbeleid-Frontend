@@ -1,15 +1,12 @@
 import './appConfig'
 
-import { DNABar, Feedback } from '@pzh-ui/components'
+import { DNABar, ToastContainer } from '@pzh-ui/components'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import classNames from 'classnames'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet'
-import { ToastContainer } from 'react-toastify'
 import { useEffectOnce } from 'react-use'
 
-import axe from '@/a11y'
 import { LoaderContent } from '@/components/Loader'
 import AuthProvider from '@/context/AuthContext'
 import usePage from '@/hooks/usePage'
@@ -31,21 +28,21 @@ const queryClient = new QueryClient({
 })
 
 const App = () => {
-    const userIsInMuteerEnvironment = usePage('/muteer/')
+    const userIsInMuteerEnvironment = usePage('/muteer')
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
-    const isNetworkVisualization = usePage('/beleidsnetwerk')
+    const isNetworkPage = usePage('/beleidsnetwerk')
 
     if (
         process.env.NODE_ENV !== 'production' &&
         !process.env.JEST_WORKER_ID &&
         process.env.REACT_APP_ENABLE_AXE === 'true'
     ) {
+        const axe = require('@/a11y').default
+
         axe()
     }
 
-    useEffectOnce(() => {
-        checkForInternetExplorer()
-    })
+    useEffectOnce(() => checkForInternetExplorer())
 
     // Used to check for Internet Explorer on mount and display an alert that we only support modern browsers. We do polyfill functionalities where needed for Internet Explorer.
     const checkForInternetExplorer = () => {
@@ -63,37 +60,26 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
             <AuthProvider>
                 <div
-                    className={classNames(
-                        'min-h-screen text-pzh-blue-dark relative overflow-x-hidden',
-                        {
-                            'advanced-search-page': isAdvancedSearchPage,
-                        }
-                    )}
+                    className="text-pzh-blue-dark relative flex flex-col min-h-screen"
                     id="main-container">
-                    <Helmet>
+                    <Helmet titleTemplate="%s - Omgevingsbeleid Provincie Zuid-Holland">
                         <meta charSet="utf-8" />
                         <title>Omgevingsbeleid - Provincie Zuid-Holland</title>
                     </Helmet>
 
-                    <BaseLayout
-                        hideFooter={
-                            isAdvancedSearchPage ||
-                            userIsInMuteerEnvironment ||
-                            isNetworkVisualization
-                        }>
+                    <BaseLayout hideFooter={isAdvancedSearchPage}>
                         <ErrorBoundary FallbackComponent={ErrorPage}>
                             <Suspense fallback={<LoaderContent />}>
                                 <AppRoutes />
                             </Suspense>
                         </ErrorBoundary>
-                        <ToastContainer limit={1} position="bottom-left" />
+                        <ToastContainer position="bottom-left" />
                         {!isAdvancedSearchPage &&
-                            !userIsInMuteerEnvironment && <DNABar blocks={6} />}
+                            !userIsInMuteerEnvironment &&
+                            !isNetworkPage && (
+                                <DNABar blocks={6} className="top-[96px]" />
+                            )}
                     </BaseLayout>
-                    <Feedback
-                        email="omgevingsbeleid@pzh.nl"
-                        website="obzh.nl"
-                    />
                 </div>
             </AuthProvider>
         </QueryClientProvider>

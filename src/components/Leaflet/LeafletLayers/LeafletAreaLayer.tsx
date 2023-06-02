@@ -11,9 +11,10 @@ import { colors } from '@/constants/leaflet'
 interface LeafletAreaLayerProps {
     layer: any
     index?: string
+    color?: string
 }
 
-const LeafletAreaLayer = ({ layer, index }: LeafletAreaLayerProps) => {
+const LeafletAreaLayer = ({ layer, index, color }: LeafletAreaLayerProps) => {
     const map = useMap()
 
     const [isActive, setIsActive] = useState(map.hasLayer(layer))
@@ -34,7 +35,9 @@ const LeafletAreaLayer = ({ layer, index }: LeafletAreaLayerProps) => {
                 <div
                     className="flex-none inline-block w-4 h-4 mr-2"
                     style={{
-                        backgroundColor: index
+                        backgroundColor: color
+                            ? color
+                            : index
                             ? colors[parseInt(index)]
                             : '#3388ff',
                     }}

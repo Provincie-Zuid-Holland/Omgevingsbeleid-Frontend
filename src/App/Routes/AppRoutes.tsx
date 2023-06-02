@@ -1,26 +1,37 @@
 import { useCallback, useLayoutEffect } from 'react'
 import { useNavigate, useRoutes } from 'react-router-dom'
 
-import { NetworkGraph } from '@/components/Network'
+import * as models from '@/config/objects'
+import { ModelType } from '@/config/objects/types'
+import ModuleProvider from '@/context/ModuleContext'
+import ObjectProvider from '@/context/ObjectContext'
 import useAuth from '@/hooks/useAuth'
-import { Dashboard, MijnBeleid } from '@/pages/protected'
 import {
+    Dashboard,
+    ObjectEdit,
+    DynamicOverview,
+    ModuleCreate,
+    ModuleDetail,
+    ModuleEdit,
+    ObjectCreate,
+    ObjectWrite,
+} from '@/pages/protected'
+import ObjectDetail from '@/pages/protected/DynamicObject/ObjectDetail'
+import {
+    AreaDetail,
+    AreaOverview,
     Accessibility,
+    EnvironmentProgram,
     Home,
-    InProgress,
     Login,
-    MapSearch,
-    ObjectDetail,
     PlanningAndReleases,
-    SearchResults,
-    UniversalObjectOverview,
+    DynamicOverview as DynamicOverviewPublic,
+    DynamicObject as DynamicObjectPublic,
+    Network,
+    ThemeDetail,
+    ThemeOverview,
 } from '@/pages/public'
-import AreaDetail from '@/pages/public/AreaDetail'
-import AreaOverview from '@/pages/public/AreaOverview'
-import EnvironmentProgram from '@/pages/public/EnvironmentProgram'
-import ThemeDetail from '@/pages/public/ThemeDetail'
-import ThemeOverview from '@/pages/public/ThemeOverview'
-import detailPages from '@/utils/detailPages'
+import NotFoundPage from '@/pages/public/NotFoundPage/NotFoundPage'
 
 import ProtectedRoute from './ProtectedRoute'
 
@@ -35,11 +46,11 @@ const AppRoutes = () => {
         },
         { path: 'login', element: <Login /> },
         { path: 'logout', element: <Logout /> },
-        {
-            path: 'zoekresultaten',
-            element: <SearchResults />,
-        },
-        { path: 'zoeken-op-kaart', element: <MapSearch /> },
+        // {
+        //     path: 'zoekresultaten',
+        //     element: <SearchResults />,
+        // },
+        // { path: 'zoeken-op-kaart', element: <MapSearch /> },
         {
             path: 'planning-en-releases',
             element: <PlanningAndReleases />,
@@ -48,13 +59,13 @@ const AppRoutes = () => {
             path: 'digi-toegankelijkheid',
             element: <Accessibility />,
         },
-        {
-            path: 'in-bewerking',
-            element: <InProgress />,
-        },
+        // {
+        //     path: 'in-bewerking',
+        //     element: <InProgress />,
+        // },
         {
             path: 'beleidsnetwerk',
-            element: <NetworkGraph />,
+            element: <Network />,
         },
         // {
         //     path: 'verordening',
@@ -75,20 +86,17 @@ const AppRoutes = () => {
                             element: <AreaOverview />,
                         },
                         {
-                            path: ':id',
+                            path: ':uuid',
                             children: [
                                 {
                                     index: true,
                                     element: <AreaDetail />,
                                 },
                                 {
-                                    path: ':id',
+                                    path: ':uuid',
                                     element: (
-                                        <ObjectDetail
-                                            {...detailPages.find(
-                                                page =>
-                                                    page.slug === 'maatregelen'
-                                            )}
+                                        <DynamicObjectPublic
+                                            model={models['maatregel']}
                                         />
                                     ),
                                 },
@@ -104,20 +112,17 @@ const AppRoutes = () => {
                             element: <ThemeOverview />,
                         },
                         {
-                            path: ':id',
+                            path: ':uuid',
                             children: [
                                 {
                                     index: true,
                                     element: <ThemeDetail />,
                                 },
                                 {
-                                    path: ':id',
+                                    path: ':uuid',
                                     element: (
-                                        <ObjectDetail
-                                            {...detailPages.find(
-                                                page =>
-                                                    page.slug === 'maatregelen'
-                                            )}
+                                        <DynamicObjectPublic
+                                            model={models['maatregel']}
                                         />
                                     ),
                                 },
@@ -127,23 +132,26 @@ const AppRoutes = () => {
                 },
             ],
         },
-        ...detailPages
-            .filter(page => page.isPublic)
-            .map(item => ({
-                path: item.slug,
+        ...Object.keys(models)
+            .filter(model => !!models[model as ModelType].defaults.slugOverview)
+            .map(model => ({
+                path: models[model as ModelType].defaults.slugOverview,
                 children: [
                     {
                         index: true,
                         element: (
-                            <UniversalObjectOverview
-                                {...item}
-                                dataEndpoint={item.dataValidEndpoint}
+                            <DynamicOverviewPublic
+                                model={models[model as ModelType]}
                             />
                         ),
                     },
                     {
-                        path: ':id',
-                        element: <ObjectDetail {...item} />,
+                        path: ':uuid',
+                        element: (
+                            <DynamicObjectPublic
+                                model={models[model as ModelType]}
+                            />
+                        ),
                     },
                 ],
             })),
@@ -155,58 +163,168 @@ const AppRoutes = () => {
             element: <ProtectedRoute />,
             children: [
                 {
-                    path: 'dashboard',
+                    index: true,
                     element: <Dashboard />,
                 },
                 {
-                    path: 'mijn-beleid',
-                    element: <MijnBeleid />,
+                    path: 'modules',
+                    children: [
+                        {
+                            path: ':moduleId',
+                            element: <ModuleProvider />,
+                            children: [
+                                {
+                                    index: true,
+                                    element: <ModuleDetail />,
+                                },
+                                {
+                                    path: 'bewerk',
+                                    element: <ModuleEdit />,
+                                },
+                                ...Object.keys(models)
+                                    .filter(
+                                        model =>
+                                            !models[model as ModelType].defaults
+                                                .atemporal
+                                    )
+                                    .map(model => ({
+                                        path: models[model as ModelType]
+                                            .defaults.singular,
+                                        element: (
+                                            <ObjectProvider
+                                                model={
+                                                    models[model as ModelType]
+                                                }
+                                            />
+                                        ),
+                                        children: [
+                                            {
+                                                path: ':objectId',
+                                                children: [
+                                                    {
+                                                        index: true,
+                                                        element: (
+                                                            <ObjectDetail
+                                                                model={
+                                                                    models[
+                                                                        model as ModelType
+                                                                    ]
+                                                                }
+                                                            />
+                                                        ),
+                                                    },
+                                                    {
+                                                        path: 'bewerk',
+                                                        element: (
+                                                            <ObjectEdit
+                                                                model={
+                                                                    models[
+                                                                        model as ModelType
+                                                                    ]
+                                                                }
+                                                            />
+                                                        ),
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    })),
+                            ],
+                        },
+                        {
+                            path: 'nieuw',
+                            element: (
+                                <ProtectedRoute
+                                    permissions={{
+                                        canCreateModule: true,
+                                    }}>
+                                    <ModuleCreate />
+                                </ProtectedRoute>
+                            ),
+                        },
+                    ],
                 },
-                // {
-                //     path: 'verordeningen',
-                //     children: [
-                //         {
-                //             path: 'nieuw',
-                //             element: (
-                //                 <MutatePolicy
-                //                     policyConstants={policyObjects.VERORDENING}
-                //                 />
-                //             ),
-                //         },
-                //         {
-                //             path: ':single',
-                //             children: [
-                //                 {
-                //                     index: true,
-                //                     element: <VerordeningEdit />,
-                //                 },
-                //                 {
-                //                     path: 'bewerk',
-                //                     element: (
-                //                         <MutatePolicy
-                //                             policyConstants={
-                //                                 policyObjects.VERORDENING
-                //                             }
-                //                         />
-                //                     ),
-                //                 },
-                //             ],
-                //         },
-                //     ],
-                // },
-                ...detailPages
-                    .filter(page => !!page.element)
-                    .map(item => ({
-                        path: item.slug,
-                        children: [
+                ...Object.keys(models).map(model => ({
+                    path: models[model as ModelType].defaults.plural,
+                    children: [
+                        {
+                            index: true,
+                            element: (
+                                <DynamicOverview
+                                    model={models[model as ModelType]}
+                                />
+                            ),
+                        },
+                        {
+                            path: ':objectId',
+                            children: [
+                                {
+                                    index: true,
+                                    element: (
+                                        <ObjectProvider
+                                            model={models[model as ModelType]}>
+                                            <ObjectDetail
+                                                model={
+                                                    models[model as ModelType]
+                                                }
+                                            />
+                                        </ObjectProvider>
+                                    ),
+                                },
+                                ...((models[model as ModelType].defaults
+                                    .atemporal && [
+                                    {
+                                        path: 'bewerk',
+                                        element: (
+                                            <ProtectedRoute
+                                                permissions={{
+                                                    canCreateModule: true,
+                                                }}
+                                                redirectTo={`/muteer/${
+                                                    models[model as ModelType]
+                                                        .defaults.plural
+                                                }`}>
+                                                <ObjectWrite
+                                                    model={
+                                                        models[
+                                                            model as ModelType
+                                                        ]
+                                                    }
+                                                />
+                                            </ProtectedRoute>
+                                        ),
+                                    },
+                                ]) ||
+                                    []),
+                            ],
+                        },
+                        ...((models[model as ModelType].defaults.atemporal && [
                             {
-                                index: true,
-                                element: item.element,
+                                path: 'nieuw',
+                                element: (
+                                    <ProtectedRoute
+                                        permissions={{
+                                            canCreateModule: true,
+                                        }}
+                                        redirectTo={`/muteer/${
+                                            models[model as ModelType].defaults
+                                                .plural
+                                        }`}>
+                                        <ObjectCreate
+                                            model={models[model as ModelType]}
+                                        />
+                                    </ProtectedRoute>
+                                ),
                             },
-                            ...(item.children || []),
-                        ],
-                    })),
+                        ]) ||
+                            []),
+                    ],
+                })),
             ],
+        },
+        {
+            path: '*',
+            element: <NotFoundPage />,
         },
     ])
 
@@ -218,7 +336,7 @@ const Logout = () => {
     const { signout } = useAuth()
 
     const cleanup = useCallback(
-        () => signout(() => navigate('/', { replace: true })),
+        () => signout(() => navigate('/')),
         [signout, navigate]
     )
 

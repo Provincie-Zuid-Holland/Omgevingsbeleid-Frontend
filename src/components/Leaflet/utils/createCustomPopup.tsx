@@ -65,7 +65,7 @@ const createCustomPopup = async (
                 'geoQuery',
                 `${point.x.toFixed(2)}+${point.y.toFixed(2)}`
             )
-            navigate(`${MAP_SEARCH_PAGE}?${searchParams}`, { replace: true })
+            navigate(`${MAP_SEARCH_PAGE}?${searchParams}`)
         }
 
         callback?.({
@@ -98,9 +98,7 @@ const createCustomPopup = async (
 
                 if (isAdvancedSearch) {
                     searchParams.set('geoQuery', geoQuery)
-                    navigate(`${MAP_SEARCH_PAGE}?${searchParams}`, {
-                        replace: true,
-                    })
+                    navigate(`${MAP_SEARCH_PAGE}?${searchParams}`)
                 }
 
                 callback?.({
@@ -150,14 +148,14 @@ const handlePopupEvents = (
         ?.addEventListener('click', () => {
             map.fireEvent('draw:deletestart')
             map.removeLayer(layer)
-            path && navigate(path, { replace: true })
+            path && navigate(path)
         })
 
     popupContainer
         .querySelector('.advanced-search-button')
         ?.addEventListener('click', () => {
             searchParams.append('searchOpen', 'true')
-            navigate(`${path}?${searchParams}`, { replace: true })
+            navigate(`${path}?${searchParams}`)
         })
 }
 

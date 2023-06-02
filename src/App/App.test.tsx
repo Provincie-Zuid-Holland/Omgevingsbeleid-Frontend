@@ -34,19 +34,6 @@ describe('App', () => {
         const logoMenu = screen
             .getByAltText('Provincie Zuid-Holland Logo')
             .closest('a')
-        fireEvent.click(menuBtn)
-
-        const verordeningLink = screen.getByText('Verordening')
-        fireEvent.click(verordeningLink)
-        const verordeningTitle = screen.getByRole('heading', {
-            name: 'Verordening',
-            level: 3,
-        })
-        expect(verordeningTitle).toBeInTheDocument()
-
-        fireEvent.click(logoMenu as Element)
-
-        expect(screen.getByText('Omgevingsbeleid')).toBeInTheDocument()
 
         // User can navigate to a detail page
         fireEvent.click(menuBtn)
@@ -89,11 +76,5 @@ describe('App', () => {
             level: 1,
         })
         expect(a11yTitle).toBeInTheDocument()
-
-        window.dispatchEvent(
-            new CustomEvent('authEvent', {
-                detail: { message: 'Authenticated sessie is afgelopen' },
-            })
-        )
     })
 })
