@@ -1,89 +1,70 @@
-import { Text } from '@pzh-ui/components'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { TabItem, Tabs, Text } from '@pzh-ui/components'
+import { Link, useNavigate } from 'react-router-dom'
 
+import { SearchObject } from '@/api/fetchers.schemas'
+import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
 import { LeafletMap } from '@/components/Leaflet'
-import SearchBar from '@/components/SearchBar'
+import * as models from '@/config/objects'
+import { ModelType } from '@/config/objects/types'
 import { MAP_SEARCH_PAGE } from '@/constants/leaflet'
 
-function SearchSection() {
-    const [currentView, setCurrentView] = useState('text')
+const SearchSection = () => {
+    const navigate = useNavigate()
 
-    return (
-        <div className="col-span-6 px-3 pt-3 pb-6 mt-4 sm:px-6 lg:mt-0 lg:col-span-4 bg-pzh-gray-300">
-            <div className="w-full text-sm border-b border-gray-400 sm:text-base">
-                <div
-                    className="inline-block px-2 pl-0"
-                    onClick={() => setCurrentView('text')}>
-                    <SearchSectionLabel
-                        text="Zoeken op tekst"
-                        active={currentView === 'text'}
-                    />
-                </div>
-                <div
-                    className="inline-block px-2"
-                    onClick={() => setCurrentView('map')}>
-                    <SearchSectionLabel
-                        text="Zoeken op de kaart"
-                        active={currentView === 'map'}
-                    />
-                </div>
-            </div>
-            {currentView === 'text' ? (
-                <div>
-                    <Text type="body" className="mt-4">
-                        Naar welk onderwerp ben je op zoek?
-                    </Text>
-                    <SearchBar className="mt-2" id="search-query-home" />
-                </div>
-            ) : currentView === 'map' ? (
-                <div>
-                    <Text type="body" className="mt-4">
-                        Wil je het beleid en de regelgeving van de provincie op
-                        een specifieke locatie raadplegen? Zoek hieronder op een
-                        locatie of markeer een punt of vorm op de kaart.
-                    </Text>
-                    <div className="w-full mx-auto mt-4" id="leaflet-homepage">
-                        <LeafletMap
-                            controllers={{ showSearch: false, showDraw: true }}
-                            className="w-full border border-gray-300 rounded"
-                        />
-                    </div>
-                    <div className="mt-4">
-                        <Link
-                            to={MAP_SEARCH_PAGE}
-                            className="underline text-pzh-green hover:text-pzh-green-dark">
-                            Wilt u uitgebreider zoeken op de kaart?
-                        </Link>
-                    </div>
-                </div>
-            ) : null}
-        </div>
-    )
-}
+    const handleChange = (object?: SearchObject) => {
+        if (!object) return
 
-interface SearchSectionLabelProps {
-    active?: boolean
-    text: string
-}
+        const { slugOverview } =
+            models[object.Object_Type as ModelType].defaults || {}
 
-const SearchSectionLabel = ({ active, text }: SearchSectionLabelProps) => {
-    if (active) {
-        return (
-            <button
-                type="button"
-                className="inline-block py-1 font-bold border-b-4 border-pzh-green text-pzh-green">
-                {text}
-            </button>
-        )
+        if (slugOverview) {
+            navigate(`/${slugOverview}/${object.UUID}`)
+        }
     }
 
     return (
-        <button
-            type="button"
-            className="inline-block py-1 transition-colors duration-150 ease-in cursor-pointer hover:text-pzh-green">
-            {text}
-        </button>
+        <div className="col-span-6 px-3 pt-3 pb-6 mt-4 sm:px-6 lg:mt-0 lg:col-span-4 bg-pzh-gray-300">
+            <Tabs>
+                <TabItem title="Zoeken op tekst">
+                    <div className="mt-4">
+                        <DynamicObjectSearch
+                            plain
+                            onChange={handleChange}
+                            label="Naar welk onderwerp ben je op zoek?"
+                            placeholder="Zoek binnen het beleid van de provincie Zuid-Holland"
+                        />
+                    </div>
+                </TabItem>
+                <TabItem title="Zoeken op de kaart">
+                    <>
+                        <Text type="body" className="mt-4">
+                            Wil je het beleid en de regelgeving van de provincie
+                            op een specifieke locatie raadplegen? Zoek hieronder
+                            op een locatie of markeer een punt of vorm op de
+                            kaart.
+                        </Text>
+                        <div
+                            className="w-full mx-auto mt-4"
+                            id="leaflet-homepage">
+                            <LeafletMap
+                                controllers={{
+                                    showSearch: false,
+                                    showDraw: true,
+                                }}
+                                className="w-full border border-gray-300 rounded"
+                            />
+                        </div>
+                        <div className="mt-4">
+                            <Link
+                                to={MAP_SEARCH_PAGE}
+                                className="underline text-pzh-green hover:text-pzh-green-dark">
+                                Wilt u uitgebreider zoeken op de kaart?
+                            </Link>
+                        </div>
+                    </>
+                </TabItem>
+            </Tabs>
+        </div>
     )
 }
 

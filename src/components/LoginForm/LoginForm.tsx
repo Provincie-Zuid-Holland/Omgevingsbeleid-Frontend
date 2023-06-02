@@ -8,21 +8,15 @@ import {
 import { Form, Formik } from 'formik'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import * as Yup from 'yup'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import useAuth from '@/hooks/useAuth'
+import * as loginForm from '@/validation/loginForm'
 
 interface FormProps {
     email: string
     password: string
 }
-
-const schema = Yup.object().shape({
-    email: Yup.string()
-        .email('Onjuist e-mailadres')
-        .required('Dit veld is verplicht'),
-    password: Yup.string().required('Dit veld is verplicht'),
-})
 
 /**
  * Displays a login form in which the user can log into the application.
@@ -34,13 +28,18 @@ const LoginForm = () => {
 
     const [wachtwoordResetPopup, setWachtwoordResetPopup] = useState(false)
     const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(false)
 
     const handleFormSubmit = ({ email, password }: FormProps) => {
+        setLoading(true)
+
         signin(email, password)
             .then(() => {
-                navigate('/muteer/dashboard', { replace: true })
+                setLoading(false)
+                navigate('/muteer')
             })
             .catch(err => {
+                setLoading(false)
                 setError(err?.data?.message || 'Er is iets mis gegaan.')
             })
     }
@@ -56,7 +55,7 @@ const LoginForm = () => {
             <Formik
                 initialValues={{ email: '', password: '' }}
                 onSubmit={handleFormSubmit}
-                validationSchema={schema}>
+                validationSchema={toFormikValidationSchema(loginForm.SCHEMA)}>
                 {({ values, handleSubmit, isValid, dirty }) => (
                     <Form onSubmit={handleSubmit}>
                         <FormikInput
@@ -78,7 +77,8 @@ const LoginForm = () => {
                         <div className="flex items-center justify-between mt-7">
                             <Button
                                 type="submit"
-                                isDisabled={!isValid || !dirty}>
+                                isDisabled={!isValid || !dirty}
+                                isLoading={loading}>
                                 Inloggen
                             </Button>
                             <button
@@ -95,7 +95,7 @@ const LoginForm = () => {
                         </div>
                         {error && (
                             <div className="mt-4">
-                                <span className=" text-pzh-red">{error}</span>
+                                <span className="text-pzh-red">{error}</span>
                             </div>
                         )}
                     </Form>
@@ -138,13 +138,13 @@ const PopupPasswordForgot = ({
             één werkdag een nieuw wachtwoord.
         </p>
         <div className="flex items-center justify-between mt-5">
-            <button
-                className="text-sm underline transition-colors cursor-pointer text-pzh-blue hover:text-pzh-blue-dark"
-                onClick={togglePopup}
+            <Button
+                variant="link"
+                onPress={togglePopup}
                 id="close-password-forget-popup"
                 data-testid="close-password-forget-popup">
                 Annuleren
-            </button>
+            </Button>
             <Button
                 variant="cta"
                 id="wachtwoord-reset-button-mailto"

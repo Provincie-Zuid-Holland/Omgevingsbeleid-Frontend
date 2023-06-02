@@ -1,5 +1,5 @@
 import { MapOptions } from 'leaflet'
-import { ReactNode } from 'react'
+import { ReactNode, useMemo } from 'react'
 import {
     LayersControl,
     MapContainer,
@@ -58,36 +58,42 @@ const LeafletMap = ({
         ...controllers,
     }
 
-    return (
-        <MapContainer
-            {...mapOptions}
-            className={`z-0 leaflet-map ${className || ''}`}
-            id={id}>
-            {mapControllers.showLayers && <LeafletControlLayer />}
+    const leafletMap = useMemo(
+        () => (
+            <MapContainer
+                {...mapOptions}
+                className={`z-0 leaflet-map ${className || ''}`}
+                id={id}>
+                {mapControllers.showLayers && <LeafletControlLayer />}
 
-            {mapControllers.showDraw && (
-                <LeafletDraw onDraw={callbacks?.onDraw} />
-            )}
+                {mapControllers.showDraw && (
+                    <LeafletDraw onDraw={callbacks?.onDraw} />
+                )}
 
-            {mapControllers.showSearch && <LeafletSearch />}
+                {mapControllers.showSearch && <LeafletSearch />}
 
-            {mapControllers.showZoom && <LeafletZoom />}
+                {mapControllers.showZoom && <LeafletZoom />}
 
-            {!mapControllers.showLayers && (
-                <LayersControl position="topright">
-                    <LayersControl.BaseLayer checked name="Map">
-                        <TileLayer
-                            url={tileURL}
-                            minZoom={3}
-                            attribution='Map data: <a href="http://www.kadaster.nl">Kadaster</a>'
-                        />
-                    </LayersControl.BaseLayer>
-                </LayersControl>
-            )}
+                {!mapControllers.showLayers && (
+                    <LayersControl position="topright">
+                        <LayersControl.BaseLayer checked name="Map">
+                            <TileLayer
+                                url={tileURL}
+                                minZoom={3}
+                                attribution='Map data: <a href="http://www.kadaster.nl">Kadaster</a>'
+                            />
+                        </LayersControl.BaseLayer>
+                    </LayersControl>
+                )}
 
-            {children}
-        </MapContainer>
+                {children}
+            </MapContainer>
+        ),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [id]
     )
+
+    return leafletMap
 }
 
 export default LeafletMap

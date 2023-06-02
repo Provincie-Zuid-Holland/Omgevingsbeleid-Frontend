@@ -28,13 +28,10 @@ const useSearchParam = () => {
             searchParams.append(param, value.join(','))
         }
 
-        return navigate(
-            {
-                pathname: location.pathname,
-                search: `?${searchParams}`,
-            },
-            { replace: true }
-        )
+        return navigate({
+            pathname: location.pathname,
+            search: `?${searchParams}`,
+        })
     }
 
     /**
@@ -47,13 +44,10 @@ const useSearchParam = () => {
             param.forEach(val => searchParams.delete(val))
         }
 
-        return navigate(
-            {
-                pathname: location.pathname,
-                search: `?${searchParams}`,
-            },
-            { replace: true }
-        )
+        return navigate({
+            pathname: location.pathname,
+            search: `?${searchParams}`,
+        })
     }
 
     return { get, set, remove }

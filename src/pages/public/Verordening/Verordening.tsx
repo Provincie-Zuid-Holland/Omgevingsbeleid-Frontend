@@ -200,6 +200,7 @@ const VerordeningsSection = ({
         return (
             <div className="mt-6 mb-4">
                 <div
+<<<<<<< HEAD
                     id={section.UUID}
                     tabIndex={0}
                     onClick={setActive}
@@ -208,6 +209,11 @@ const VerordeningsSection = ({
                         if (e.key === 'ArrowLeft') {
                             handleKeyLeft()
                         }
+=======
+                    onClick={() => {
+                        navigate(`${location.pathname}?actief=${section.UUID}`)
+                        setActiveArticle(section)
+>>>>>>> feature/modules
                     }}
                     style={{ width: 'calc(100% + 1rem)' }}
                     className="p-2 -mt-2 -ml-2 transition-colors duration-150 ease-in rounded-md cursor-pointer hover:bg-gray-200 hover:bg-opacity-70">

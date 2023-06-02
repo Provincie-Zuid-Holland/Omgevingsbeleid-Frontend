@@ -116,8 +116,8 @@ const VerordeningPopupDetail = ({
                                         style={{ width: 'calc(100% + 1rem)' }}
                                         className={`px-2 py-3 mb-1 -ml-2 transition-colors duration-150 ease-in cursor-pointer ${
                                             activeChild?.UUID === child.UUID
-                                                ? 'bg-pzh-blue-light bg-opacity-20'
-                                                : 'hover:bg-pzh-blue-light hover:bg-opacity-20'
+                                                ? 'bg-pzh-blue-light/20'
+                                                : 'hover:bg-pzh-blue-light/20'
                                         }`}>
                                         <Text>{child.Inhoud}</Text>
                                     </div>
@@ -138,7 +138,7 @@ const VerordeningPopupDetail = ({
                         </Heading>
                         {articleHasChildren ? (
                             <div
-                                className="flex items-center justify-center mt-4 text-center rounded-md bg-pzh-cool-gray-light bg-opacity-20"
+                                className="flex items-center justify-center mt-4 text-center rounded-md bg-pzh-cool-gray-light/20"
                                 style={{ height: '400px' }}>
                                 {activeChild ? (
                                     <LeafletTinyViewer
@@ -187,7 +187,11 @@ const VerordeningPopupDetail = ({
                                             location.pathname + location.search,
                                     }}
                                     className="text-sm underline text-pzh-green hover:text-pzh-green-dark">
+<<<<<<< HEAD
                                     Bekijk grote Beleidsnetwerk
+=======
+                                    Bekijk grote beleidsnetwerk
+>>>>>>> feature/modules
                                 </Link>
                             </div>
                             <div>

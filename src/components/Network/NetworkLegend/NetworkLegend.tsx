@@ -1,147 +1,80 @@
-// import { faChevronDown, faChevronUp } from '@fortawesome/pro-regular-svg-icons'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Text } from '@pzh-ui/components'
-import { AngleDown, AngleUp } from '@pzh-ui/icons'
+import { Triangle } from '@pzh-ui/icons'
 import classNames from 'classnames'
-import * as d3 from 'd3'
-import { useState } from 'react'
-import { useWindowSize } from 'react-use'
 
-import { LoaderSmallSpan } from '@/components/Loader'
-import networkGraphConnectionProperties from '@/constants/networkGraphConnectionProperties'
-import networkGraphFilterMenu from '@/constants/networkGraphFilterMenu'
+import { ModelType } from '@/config/objects/types'
+import useNetworkStore from '@/store/networkStore'
 
-export interface NetworkLegendProps {
-    isLoading: boolean
-    filters: any
-    setFilters: (e: any) => void
-}
+const NetworkLegend = () => {
+    const { filters, selectedFilters, setSelectedFilters } = useNetworkStore(
+        state => ({
+            ...state,
+        })
+    )
 
-function NetworkLegend({ isLoading, filters, setFilters }: NetworkLegendProps) {
-    const [isOpen, setIsOpen] = useState(false)
-    const { width } = useWindowSize()
-    const isMobile = width <= 768
+    const handleClick = (val: ModelType) => {
+        if (selectedFilters?.filter(e => e !== val).length === 0) {
+            setSelectedFilters(
+                filters.flatMap(filter =>
+                    filter.options.map(option => option.value)
+                )
+            )
+        } else if (selectedFilters?.includes(val)) {
+            setSelectedFilters(selectedFilters.filter(e => e !== val))
+        } else {
+            setSelectedFilters(
+                selectedFilters ? [...selectedFilters, val] : [val]
+            )
+        }
+    }
 
     return (
-        <div className="absolute bottom-0 right-0 p-4 pt-4 mb-4 mr-4 text-sm bg-white border rounded shadow-sm z-5">
-            <button
-                onClick={() => setIsOpen(!isOpen)}
-                type="button"
-                className={classNames(
-                    'flex items-center justify-between w-full',
-                    {
-                        block: isMobile,
-                        hidden: !isMobile,
-                        'mb-2': isOpen && isMobile,
-                    }
-                )}>
-                <Text className="bold" type="body">
-                    Legenda
-                </Text>
+        <div className="absolute right-5 bottom-5 py-3 px-4 bg-pzh-white shadow-card">
+            {filters.map((group, index) => (
+                <div
+                    key={group.label}
+                    className={classNames({ 'mt-1': index !== 0 })}>
+                    <Text type="body-bold" className="mb-1 text-pzh-blue">
+                        {group.label}
+                    </Text>
 
-                {isOpen ? (
-                    <AngleDown className="ml-16 text-gray-800" />
-                ) : (
-                    <AngleUp className="ml-16 text-gray-800" />
-                )}
-            </button>
-            {(isMobile && isOpen) || !isMobile
-                ? Object.keys(networkGraphFilterMenu).map(filterSection => (
-                      <div key={filterSection}>
-                          <span className="inline-block mt-2 mb-1 font-bold text-pzh-blue-dark">
-                              {filterSection}
-                          </span>
-                          <ul>
-                              {isLoading ? (
-                                  <LoaderSmallSpan />
-                              ) : (
-                                  Object.keys(filters)
-                                      .filter(e =>
-                                          networkGraphFilterMenu[
-                                              filterSection as keyof typeof networkGraphFilterMenu
-                                          ].includes(e)
-                                      )
-                                      .sort()
-                                      .map(filterKey => {
-                                          const nodeSymbol =
-                                              networkGraphConnectionProperties[
-                                                  filterKey.toLowerCase() as keyof typeof networkGraphConnectionProperties
-                                              ].symbol
-
-                                          const iconPath = d3
-                                              .symbol()
-                                              .type(nodeSymbol)
-                                              .size(40)()
-
-                                          const filterTitle =
-                                              networkGraphConnectionProperties[
-                                                  filterKey as keyof typeof networkGraphConnectionProperties
-                                              ]?.plural
-
-                                          const isActive = filters[filterKey]
-
-                                          const iconColor =
-                                              networkGraphConnectionProperties[
-                                                  filterKey as keyof typeof networkGraphConnectionProperties
-                                              ]?.hex
-
-                                          return (
-                                              <button
-                                                  key={filterTitle}
-                                                  onClick={() =>
-                                                      setFilters({
-                                                          type: 'toggleFilter',
-                                                          filterType: filterKey,
-                                                          newState:
-                                                              !filters[
-                                                                  filterKey
-                                                              ],
-                                                      })
-                                                  }
-                                                  className="flex items-center">
-                                                  <LegendIcon
-                                                      iconColor={iconColor}
-                                                      isActive={isActive}
-                                                      iconPath={iconPath}
-                                                  />
-                                                  <Text
-                                                      className={classNames({
-                                                          'opacity-75 line-through':
-                                                              !isActive,
-                                                      })}
-                                                      type="span">
-                                                      {filterTitle}
-                                                  </Text>
-                                              </button>
-                                          )
-                                      })
-                              )}
-                          </ul>
-                      </div>
-                  ))
-                : null}
+                    {group.options.map(option => (
+                        <button
+                            key={option.value}
+                            onClick={() => handleClick(option.value)}
+                            className={classNames('flex items-baseline', {
+                                'opacity-40 line-through':
+                                    !selectedFilters?.includes(option.value),
+                            })}>
+                            {getIcon(option.value)}
+                            <span>{option.label}</span>
+                        </button>
+                    ))}
+                </div>
+            ))}
         </div>
     )
 }
 
-type LegendIconProps = {
-    iconColor: string
-    isActive: boolean
-    iconPath: string | null
+const getIcon = (type: ModelType) => {
+    switch (type) {
+        case 'ambitie':
+            return <Triangle className="text-pzh-apple-green mr-2" />
+        case 'beleidsdoel':
+            return (
+                <div className="w-[12px] h-[12px] rounded-[2px] bg-pzh-orange mr-[11px]" />
+            )
+        case 'beleidskeuze':
+            return (
+                <div className="w-[12px] h-[12px] rounded-full bg-pzh-yellow mr-[11px]" />
+            )
+        case 'maatregel':
+            return (
+                <div className="w-[10px] h-[10px] rounded-[2px] rotate-[45deg] -translate-y-[2px] translate-x-[1px] bg-pzh-green mr-[11px]" />
+            )
+        default:
+            return <div />
+    }
 }
-
-const LegendIcon = ({ iconColor, isActive, iconPath }: LegendIconProps) => (
-    <svg
-        width="20"
-        height="20"
-        fill={iconColor}
-        className={classNames('mt-1', {
-            'opacity-75': !isActive,
-        })}
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg">
-        <path d={iconPath || ''} transform="translate(5,5)" />
-    </svg>
-)
 
 export default NetworkLegend

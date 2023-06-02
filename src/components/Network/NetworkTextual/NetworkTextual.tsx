@@ -1,217 +1,144 @@
-import { Heading, Hyperlink, Modal, Table, Text } from '@pzh-ui/components'
+import { Table } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
-import { useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useWindowSize } from 'react-use'
+import { useCallback, useMemo, useState } from 'react'
+import { useUpdateEffect } from 'react-use'
 
-import { GetGraph200 } from '@/api/fetchers.schemas'
-import networkGraphConnectionProperties from '@/constants/networkGraphConnectionProperties'
-import networkGraphGenerateHref from '@/utils/networkGraphGenerateHref'
+import { GraphVertice } from '@/api/fetchers.schemas'
+import NetworkModal from '@/components/Modals/NetworkModal'
+import * as models from '@/config/objects'
+import { ModelType } from '@/config/objects/types'
+import useNetworkStore from '@/store/networkStore'
+import { filterConnections, formatGraphData } from '@/utils/d3'
 
-export interface NetworkTextualProps {
-    graphData: GetGraph200 | null | undefined
-    filters: any
-    children?: React.ReactNode
+interface NetworkTextualProps {
+    graph: ReturnType<typeof formatGraphData>
 }
 
-function NetworkTextual({ graphData, filters, children }: NetworkTextualProps) {
-    const { width } = useWindowSize()
-    const isMobile = width <= 768
-
-    const [filterQuery, setFilterQuery] = useState('')
-    const [selectedRelations, setSelectedRelations] = useState<
-        GetGraph200['nodes']
-    >([])
-    const [selectedObject, setSelectedObject] = useState<{
-        UUID?: string
-        Titel?: string
-        Type?: string
-    } | null>(null)
-
-    const objectUUIDSWithARelation = graphData?.links?.reduce<string[]>(
-        (acc, val) => {
-            if (!acc.includes(val.source as string)) {
-                acc.push(val.source as string)
-            }
-            if (!acc.includes(val.target as string)) {
-                acc.push(val.target as string)
-            }
-            return acc
-        },
-        []
+const NetworkTextual = ({ graph }: NetworkTextualProps) => {
+    const { activeNode, setActiveNode, setActiveConnections } = useNetworkStore(
+        state => ({
+            ...state,
+        })
     )
 
-    const objectsWithARelation = graphData?.nodes
-        ?.filter(node =>
-            objectUUIDSWithARelation?.includes(node.UUID as string)
-        )
-        .sort((a, b) => (a.Titel as string).localeCompare(b.Titel as string))
+    const [open, setOpen] = useState(false)
 
-    const filteredObjects = objectsWithARelation
-        ?.filter(obj => filters[obj.Type as string] === true)
-        .filter(obj =>
-            (obj.Titel?.toLowerCase() as string).includes(
-                filterQuery.toLowerCase()
-            )
-        )
+    /**
+     * Function to sort column by Object_Type
+     */
+    const customSortType = (rowA: any, rowB: any, columnId: string) => {
+        let [a, b] = [rowA.values[columnId], rowB.values[columnId]]
 
-    const filteredObjectsLength = filteredObjects?.length
+        a = a ? a.props['data-value'] : null
+        b = b ? b.props['data-value'] : null
 
-    useEffect(() => {
-        // Get a list of the objects that have a relation with the selected object
-        const objectsWithRelationUUIDS = graphData?.links
-            ?.filter(
-                link =>
-                    link.source === selectedObject?.UUID ||
-                    link.target === selectedObject?.UUID
-            )
-            .map(link => {
-                if (link.source === selectedObject?.UUID) {
-                    return link.target
-                }
-                return link.source
-            })
+        return a === b ? 0 : a > b ? 1 : -1
+    }
 
-        const objectsWithRelation = graphData?.nodes?.filter(node =>
-            objectsWithRelationUUIDS?.includes(node.UUID as string)
-        )
+    /**
+     * Handle click on row
+     */
+    const handleClick = useCallback(
+        (node: GraphVertice) => {
+            const connectedLinks = filterConnections(graph.links, node)
+            const connections = [
+                ...new Set(
+                    connectedLinks
+                        .flatMap(connection => [
+                            connection.source,
+                            connection.target,
+                        ])
+                        .filter(connection => connection !== node.Code)
+                ),
+            ]
+            const nodes = connections.map(connection =>
+                graph.nodes.find(node => node.Code === connection)
+            ) as GraphVertice[]
 
-        setSelectedRelations(objectsWithRelation)
-    }, [selectedObject, graphData])
+            setActiveConnections(nodes)
+
+            setActiveNode(node)
+            setOpen(true)
+        },
+        [graph, setActiveConnections, setActiveNode]
+    )
+
+    /**
+     * If activeNode is changed by Search input, find connected links and open modal.
+     */
+    useUpdateEffect(() => {
+        if (!open && activeNode) {
+            const connectedLinks = filterConnections(graph.links, activeNode)
+            const connections = [
+                ...new Set(
+                    connectedLinks
+                        .flatMap(connection => [
+                            connection.source,
+                            connection.target,
+                        ])
+                        .filter(connection => connection !== activeNode.Code)
+                ),
+            ]
+            const nodes = connections.map(connection =>
+                graph.nodes.find(node => node.Code === connection)
+            ) as GraphVertice[]
+
+            setActiveConnections(nodes)
+            setOpen(true)
+        }
+    }, [activeNode])
 
     const columns = useMemo(
         () => [
             {
                 Header: 'Titel',
-                accessor: 'title',
+                accessor: 'Title',
             },
             {
                 Header: 'Type',
-                accessor: 'type',
-            },
-            {
-                Header: '',
-                accessor: 'icon',
+                accessor: 'Object_Type',
+                sortType: customSortType,
             },
         ],
         []
     )
 
-    const data = useMemo(
+    const formattedData = useMemo(
         () =>
-            filteredObjects?.map(obj => ({
-                title: obj?.Titel || '',
-                type: obj?.Type || '',
-                icon: <AngleRight />,
-                onClick: () => setSelectedObject(obj),
-            })),
-        [filteredObjects]
+            graph.nodes?.map(node => ({
+                Title: node.Title,
+                Object_Type: (
+                    <span
+                        data-value={node.Object_Type}
+                        className="flex items-center justify-between">
+                        {
+                            models[node.Object_Type as ModelType].defaults
+                                .singularCapitalize
+                        }
+                        <AngleRight />
+                    </span>
+                ),
+                onClick: () => handleClick(node),
+            })) || [],
+        [graph, handleClick]
     )
 
-    if (!graphData) return null
-
     return (
-        <div className="pb-16">
-            <SelectedObjModal
-                selectedRelations={selectedRelations}
-                setSelectedObject={setSelectedObject}
-                selectedObject={selectedObject}
-            />
-
-            <div className="flex w-full mt-4 mb-2">
-                <input
-                    autoComplete="off"
-                    className={`block w-full pl-4 pr-24 md:pr-4 pt-2 pb-1 text-gray-700 border border-pzh-gray-400 rounded appearance-none focus:outline-none`}
-                    id="network-graph-search-query"
-                    placeholder={
-                        isMobile ? 'Filter' : 'Filter op titel van beleid'
-                    }
-                    type="text"
-                    value={filterQuery}
-                    onChange={event => setFilterQuery(event.target.value)}
-                />
-                {children}
-            </div>
-
-            <Text type="body-small">
-                {filteredObjectsLength === 1
-                    ? `Er is 1 resultaat gevonden`
-                    : `Er zijn ${filteredObjectsLength} resultaten gevonden`}
-            </Text>
-
+        <div className="mt-5">
             <Table
-                className="mt-6"
                 columns={columns}
-                data={data || []}
+                data={formattedData}
                 // @ts-ignore
                 disableSortRemove
                 disableMultiSort
+                initialState={{
+                    // @ts-ignore
+                    sortBy: [{ id: 'Title' }],
+                }}
             />
+
+            <NetworkModal isOpen={open} onClose={() => setOpen(false)} />
         </div>
-    )
-}
-
-const SelectedObjModal = ({
-    selectedObject,
-    setSelectedObject,
-    selectedRelations,
-}: {
-    selectedObject: any
-    setSelectedObject: any
-    selectedRelations: GetGraph200['nodes']
-}) => {
-    if (!selectedObject) return null
-
-    const selectedObjectProperties =
-        networkGraphConnectionProperties[
-            selectedObject.Type as keyof typeof networkGraphConnectionProperties
-        ]
-
-    const modalText = `Een overzicht van de koppelingen van ${selectedObjectProperties?.prefix} ${selectedObjectProperties?.singular} '${selectedObject.Titel}'`
-    const hrefSelectedObject =
-        networkGraphGenerateHref({
-            property:
-                selectedObject.Type as keyof typeof networkGraphConnectionProperties,
-            UUID: selectedObject.UUID as string,
-        }) || ''
-    return (
-        <Modal
-            closeButton
-            open={selectedObject !== null}
-            onClose={() => setSelectedObject(null)}
-            ariaLabel={`Bekijk de koppelingen van ${selectedObject.Titel}`}>
-            <Heading level="2">Details van object</Heading>
-            <Text type="body">{modalText}</Text>
-
-            <div className="my-4">
-                {selectedRelations?.map(node => {
-                    const hrefURL =
-                        networkGraphGenerateHref({
-                            property:
-                                node.Type as keyof typeof networkGraphConnectionProperties,
-                            UUID: node.UUID as string,
-                        }) || ''
-
-                    return (
-                        <Link
-                            className="grid w-full grid-cols-6 px-4 py-2 border-t border-gray-300 hover:bg-gray-200 focus:bg-gray-200"
-                            to={hrefURL}
-                            key={node.UUID as string}>
-                            <Text className="col-span-4 underline" type="body">
-                                {node.Titel as string}
-                            </Text>
-                            <Text className="col-span-2" type="body">
-                                {node.Type as string}
-                            </Text>
-                        </Link>
-                    )
-                })}
-            </div>
-            <Hyperlink
-                text={`Bekijk de detailpagina van ${selectedObjectProperties.demonstrativePronoun} ${selectedObjectProperties.singular} in het digitaal omgevingsbeleid`}
-                to={hrefSelectedObject}
-            />
-        </Modal>
     )
 }
 

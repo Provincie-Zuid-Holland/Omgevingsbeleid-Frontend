@@ -1,4 +1,4 @@
-import { Heading, Text } from '@pzh-ui/components'
+import { Heading, Hyperlink, Text } from '@pzh-ui/components'
 import { ArrowUpRightFromSquare, FilePdf } from '@pzh-ui/icons'
 import { Link } from 'react-router-dom'
 
@@ -52,7 +52,7 @@ const Home = () => {
                 </div>
                 <div className="relative hidden col-span-3 lg:block">
                     <div
-                        className={`inline-block absolute bg-cover bg-no-repeat bg-center left-0 top-0 h-full image-home-1 text-white bg-gray-100`}
+                        className="inline-block absolute bg-cover bg-no-repeat bg-center left-0 top-0 h-full image-home-1 text-white bg-gray-100"
                         style={{
                             height: '480px',
                             width: '50vw',
@@ -61,7 +61,7 @@ const Home = () => {
                 </div>
             </Container>
 
-            <div className="block w-full h-64 bg-center bg-no-repeat bg-cover bg-pzh-blue lg:hidden image-home-1"></div>
+            <div className="block w-full h-64 bg-center bg-no-repeat bg-cover bg-pzh-blue lg:hidden image-home-1" />
 
             <Container className="py-6 border-t border-gray-300 md:py-8 lg:py-16">
                 <div className="col-span-6 lg:col-span-2">
@@ -93,7 +93,7 @@ const Home = () => {
                             voor iedereen is te begrijpen. Daarom zet de
                             provincie drie instrumenten in waar al het
                             Omgevingsbeleid in staat: de{' '}
-                            <span
+                            <button
                                 className="underline cursor-pointer"
                                 onClick={() =>
                                     document
@@ -103,9 +103,9 @@ const Home = () => {
                                         ?.scrollIntoView({ behavior: 'smooth' })
                                 }>
                                 Omgevingsvisie
-                            </span>
+                            </button>
                             , het{' '}
-                            <span
+                            <button
                                 className="underline cursor-pointer"
                                 onClick={() =>
                                     document
@@ -115,9 +115,9 @@ const Home = () => {
                                         ?.scrollIntoView({ behavior: 'smooth' })
                                 }>
                                 Omgevingsprogramma
-                            </span>{' '}
+                            </button>{' '}
                             en de{' '}
-                            <span
+                            <button
                                 className="underline cursor-pointer"
                                 onClick={() =>
                                     document
@@ -127,7 +127,7 @@ const Home = () => {
                                         ?.scrollIntoView({ behavior: 'smooth' })
                                 }>
                                 Omgevingsverordening
-                            </span>
+                            </button>
                             . Zo staat het beleid niet meer in tientallen
                             documenten, maar in één systeem bij elkaar. Dit
                             maakt het allemaal een stuk overzichtelijker.
@@ -140,7 +140,7 @@ const Home = () => {
                 className="pt-0 pb-3 md:pt-12 md:pb-6 lg:pt-16 lg:pb-8 lg:flex-col"
                 id="omgevingsvisie-section">
                 <div
-                    className={`inline-block mb-8 lg:hidden bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-2 text-white bg-gray-100 md:relative absolute left-0 w-screen md:w-auto`}
+                    className="inline-block mb-8 lg:hidden bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-2 text-white bg-gray-100 md:relative absolute left-0 w-screen md:w-auto"
                     style={responsiveImageHeight}
                 />
                 <div
@@ -155,28 +155,25 @@ const Home = () => {
                         provincie voor staat. Het beschrijft hoe de provincie de
                         toekomst van Zuid-Holland voor zich ziet. De
                         Omgevingsvisie bevat verschillende onderdelen: in de{' '}
-                        <Link
-                            className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/ambities">
-                            ambities
-                        </Link>{' '}
+                        <Hyperlink
+                            text="ambities"
+                            to="/omgevingsvisie/ambities"
+                        />{' '}
                         wordt omschreven waar we als provincie heen willen, de{' '}
-                        <Link
-                            className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/beleidsdoelen">
-                            beleidsdoelen
-                        </Link>{' '}
+                        <Hyperlink
+                            text="beleidsdoelen"
+                            to="/omgevingsvisie/beleidsdoelen"
+                        />{' '}
                         geven hier richting aan en de{' '}
-                        <Link
-                            className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/beleidskeuzes">
-                            beleidskeuzes
-                        </Link>{' '}
+                        <Hyperlink
+                            text="beleidskeuzes"
+                            to="/omgevingsvisie/beleidskeuzes"
+                        />{' '}
                         bepalen hoe de ambities bereikt dienen te worden.
                     </Text>
                 </div>
                 <div
-                    className={`hidden lg:inline-block bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-2 text-white bg-gray-100`}
+                    className="hidden lg:inline-block bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-2 text-white bg-gray-100"
                     style={responsiveImageHeight}
                 />
             </Container>
@@ -185,7 +182,7 @@ const Home = () => {
                 className="md:py-6 lg:py-8"
                 id="omgevingsprogramma-section">
                 <div
-                    className={`lg:mb-0 mb-8 inline-block bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-3 text-white bg-gray-100`}
+                    className="lg:mb-0 mb-8 inline-block bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-3 text-white bg-gray-100"
                     style={responsiveImageHeight}
                 />
                 <div className="flex flex-col justify-center col-span-6 lg:col-span-2 ">
@@ -194,10 +191,16 @@ const Home = () => {
                         Omgevings­programma
                     </Heading>
                     <Text type="body" className="mt-4">
-                        In het Omgevingsprogramma staat beschreven welke{' '}
+                        In het{' '}
                         <Link
                             className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/maatregelen">
+                            to="omgevingsprogramma">
+                            Omgevingsprogramma
+                        </Link>{' '}
+                        staat beschreven welke{' '}
+                        <Link
+                            className="underline text-pzh-green hover:text-pzh-green-dark"
+                            to="omgevingsprogramma/maatregelen">
                             maatregelen
                         </Link>{' '}
                         de provincie treft om de visie waar te maken. Het
@@ -214,7 +217,7 @@ const Home = () => {
                 className="pb-8 lg:pt-16"
                 id="omgevingsverordening-section">
                 <div
-                    className={`inline-block mb-8 lg:hidden bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-4 text-white bg-gray-100`}
+                    className="inline-block mb-8 lg:hidden bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-4 text-white bg-gray-100"
                     style={responsiveImageHeight}
                 />
                 <div className="flex flex-col justify-center col-span-6 lg:col-span-2">
@@ -234,16 +237,18 @@ const Home = () => {
                         regels waar burgers en bedrijven zich aan moeten houden.
                         Al deze regels van de provincie over de fysieke
                         leefomgeving zijn ondergebracht in de{' '}
-                        <Link
+                        <a
                             className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/verordening">
+                            href="https://www.ruimtelijkeplannen.nl/web-roo/transform/NL.IMRO.9928.OVerordening2019-GC09/pt_NL.IMRO.9928.OVerordening2019-GC09.xml#NL.IMRO.PT.sf2d75b3e-7108-49c2-a4bd-cc4b35699474"
+                            rel="noopener noreferrer"
+                            target="_blank">
                             Omgevingsverordening
-                        </Link>
+                        </a>
                         .
                     </Text>
                 </div>
                 <div
-                    className={`hidden lg:inline-block bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-4 text-white bg-gray-100`}
+                    className="hidden lg:inline-block bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-4 text-white bg-gray-100"
                     style={responsiveImageHeight}
                 />
             </Container>

@@ -1,5 +1,6 @@
 import { FC } from 'react'
-import { useMedia } from 'react-use'
+
+import useBreakpoint from '@/hooks/useBreakpoint'
 
 interface ContainerMapSearchProps {
     id?: string
@@ -13,7 +14,7 @@ const ContainerMapSearch: FC<ContainerMapSearchProps> = ({
     className = '',
     reference,
 }) => {
-    const isMobile = useMedia('(max-width: 640px)')
+    const { isMobile } = useBreakpoint()
 
     return (
         <div

@@ -1,66 +1,57 @@
+import { Badge } from '@pzh-ui/components'
 import { ArrowRightFromBracket, Eye } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { FC, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useWindowSize } from 'react-use'
 
+import { environment } from '@/api/instance'
+import useAuth from '@/hooks/useAuth'
+import useBreakpoint from '@/hooks/useBreakpoint'
 import usePage from '@/hooks/usePage'
 import logoSVG from '@/images/PZH_Basislogo.svg'
-import logoWhite from '@/images/PZH_Basislogo_white.png'
-import hideBannerLocalStorage from '@/utils/hideBannerLocalStorage'
+import logoWhite from '@/images/PZH_Basislogo_white.svg'
+import getEnvironmentText from '@/utils/getEnvironmentName'
 
-import BannerEnvironment from '../BannerEnvironment'
 import { Container } from '../Container'
 import NavigationPopupMenu from '../NavigationPopupMenu'
+import UserMenu from '../UserMenu'
 
 /**
  * Displays a navbar on top of the page which the user can use to login, logout and search within the omgevingsbeleid.
- *
- * @param {boolean} loggedIn - Parameter that is set true if user is logged in.
  */
 
-interface NavigationProps {
-    loggedIn: boolean
-}
-
-const Navigation = ({ loggedIn }: NavigationProps) => {
-    const userIsInMuteerEnvironment = usePage('/muteer/')
+const Navigation = () => {
+    const { user } = useAuth()
+    const userIsInMuteerEnvironment = usePage('/muteer')
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
-    const windowSize = useWindowSize()
-    const [showBanner, setShowBanner] = useState(
-        userIsInMuteerEnvironment && !hideBannerLocalStorage()
-    )
 
     // State for popup menu
     const [isOpen, setIsOpen] = useState(false)
-    const isMobile = windowSize.width <= 640
+    const { isMobile } = useBreakpoint()
 
     return (
         <header
             className={classNames(
-                'top-0 z-20 w-full border-b border-b-pzh-cool-gray-light/30',
+                'top-0 z-20 w-full border-b border-b-pzh-gray-200',
                 {
-                    fixed: !isAdvancedSearchPage,
+                    sticky: !isAdvancedSearchPage,
                     relative: isAdvancedSearchPage,
-                    'bg-pzh-blue': isOpen,
-                    'bg-white': !isOpen,
+                    'bg-pzh-blue': isOpen || userIsInMuteerEnvironment,
+                    'bg-white': !isOpen && !userIsInMuteerEnvironment,
                 }
             )}
             id="top-navigation">
-            <BannerEnvironment
-                hideBannerLocalStorage={hideBannerLocalStorage}
-                userIsInMuteerEnvironment={userIsInMuteerEnvironment}
-                showBanner={showBanner}
-                setShowBanner={setShowBanner}
-            />
-
             <Container>
                 {/* Logo */}
                 <div className="col-span-4 my-auto sm:col-span-3">
                     <Link
                         id="href-naar-home"
-                        to={loggedIn ? '/muteer/dashboard' : '/'}
-                        className="relative z-10"
+                        to={
+                            !!user && userIsInMuteerEnvironment
+                                ? '/muteer'
+                                : '/'
+                        }
+                        className="relative"
                         style={
                             isMobile
                                 ? { marginLeft: '-2rem' }
@@ -69,36 +60,45 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
                         onClick={() => {
                             setIsOpen(false)
                         }}>
-                        <Logo isOpen={isOpen} />
+                        <Logo
+                            type={
+                                isOpen || userIsInMuteerEnvironment
+                                    ? 'white'
+                                    : 'color'
+                            }
+                        />
                     </Link>
+
+                    {userIsInMuteerEnvironment && (
+                        <Badge
+                            text={getEnvironmentText(environment)}
+                            variant="white"
+                        />
+                    )}
                 </div>
 
                 {/* Buttons to toggle popup menu */}
                 <div className="flex items-center justify-end col-span-2 my-auto sm:col-span-3">
-                    {loggedIn && !isOpen && userIsInMuteerEnvironment ? (
+                    {!!user && !isOpen && userIsInMuteerEnvironment ? (
                         <MenuIcon
                             setIsOpen={setIsOpen}
                             to="/"
-                            icon={<Eye size={16} className="mr-2 -mt-1" />}>
-                            Raadplegen
+                            icon={<Eye size={16} className="mr-2 -mt-1" />}
+                            color="white">
+                            Raadpleegomgeving
                         </MenuIcon>
                     ) : null}
-                    {loggedIn && !isOpen && !userIsInMuteerEnvironment ? (
+                    {!!user && !isOpen && !userIsInMuteerEnvironment ? (
                         <MenuIcon
                             setIsOpen={setIsOpen}
-                            to="/muteer/dashboard"
-                            icon={
-                                <Eye
-                                    aria-hidden="true"
-                                    size={16}
-                                    className="mr-2 -mt-1"
-                                />
-                            }>
+                            to="/muteer"
+                            icon={<Eye size={16} className="mr-2 -mt-1" />}
+                            color="blue">
                             Bewerken
                         </MenuIcon>
                     ) : null}
 
-                    {!loggedIn && !isOpen ? (
+                    {!!!user && !isOpen ? (
                         <MenuIcon
                             setIsOpen={setIsOpen}
                             to="/login"
@@ -110,14 +110,18 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
                                 />
                             }
                             label={isMobile ? null : 'Inloggen'}
+                            color="blue"
                         />
                     ) : null}
 
-                    <NavigationPopupMenu
-                        showBanner={showBanner}
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                    />
+                    {!userIsInMuteerEnvironment && (
+                        <NavigationPopupMenu
+                            isOpen={isOpen}
+                            setIsOpen={setIsOpen}
+                        />
+                    )}
+
+                    {!!user && userIsInMuteerEnvironment && <UserMenu />}
                 </div>
             </Container>
         </header>
@@ -130,6 +134,7 @@ interface MenuIconProps {
     className?: string
     setIsOpen: (e: boolean) => void
     label?: string | null
+    color: 'white' | 'blue'
 }
 
 const MenuIcon: FC<MenuIconProps> = ({
@@ -138,10 +143,17 @@ const MenuIcon: FC<MenuIconProps> = ({
     setIsOpen,
     label,
     children = null,
+    color,
 }) => (
     <Link
         to={to}
-        className="flex items-center justify-center px-2 py-2 font-bold transition duration-300 ease-in rounded text-pzh-blue hover:text-pzh-blue-dark"
+        className={classNames(
+            'flex items-center justify-center px-2 py-2 font-bold transition duration-300 ease-in rounded',
+            {
+                'text-pzh-blue hover:text-pzh-blue-dark': color === 'blue',
+                'text-pzh-white': color === 'white',
+            }
+        )}
         onClick={() => {
             setIsOpen(false)
         }}>
@@ -154,16 +166,16 @@ const MenuIcon: FC<MenuIconProps> = ({
 )
 
 interface LogoProps {
-    isOpen: boolean
+    type: 'color' | 'white'
 }
 
-const Logo = ({ isOpen }: LogoProps) => (
+const Logo = ({ type }: LogoProps) => (
     <img
         className="inline-block object-contain"
-        title="Provincie Zuid-Holland Logo"
+        title="Provincie Zuid-Holland, naar de homepage"
         style={{ height: '96px' }}
-        src={isOpen ? logoWhite : logoSVG}
-        alt="Provincie Zuid-Holland Logo"
+        src={type === 'white' ? logoWhite : logoSVG}
+        alt="Provincie Zuid-Holland, naar de homepage"
     />
 )
 

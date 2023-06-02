@@ -1,5 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios'
 
+import { toastNotification } from '@/utils/toastNotification'
+
 export type Environment = 'dev' | 'test' | 'acc' | 'prod'
 
 const apiUrl = process.env.REACT_APP_API_URL
@@ -15,27 +17,21 @@ const instance = axios.create({
     },
 })
 
-instance.interceptors.request.use(function (config) {
+instance.interceptors.request.use(config => {
     config.headers &&
         (config.headers.Authorization = `Bearer ${getAccessToken()}`)
     return config
 })
 
 instance.interceptors.response.use(
-    function (response) {
-        return response
-    },
-    function (error) {
+    response => response,
+    error => {
         const allowedUrls = ['password-reset']
         if (
             error?.response?.status === 401 &&
             !allowedUrls.includes(error?.response?.config?.url)
         ) {
-            window.dispatchEvent(
-                new CustomEvent('authEvent', {
-                    detail: { message: 'Authenticated sessie is afgelopen' },
-                })
-            )
+            toastNotification('unauthorized')
         }
 
         throw error?.response
