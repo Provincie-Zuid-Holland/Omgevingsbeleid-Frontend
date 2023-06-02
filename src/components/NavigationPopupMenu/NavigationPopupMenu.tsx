@@ -162,10 +162,6 @@ const NavigationPopupMenu = ({
                                         targetBlank
                                         text="Verordening"
                                         setIsOpen={setIsOpen}
-<<<<<<< HEAD
-=======
-                                        targetBlank
->>>>>>> dev
                                         to="https://www.ruimtelijkeplannen.nl/web-roo/transform/NL.IMRO.9928.OVerordening2019-GC09/pt_NL.IMRO.9928.OVerordening2019-GC09.xml#NL.IMRO.PT.sf2d75b3e-7108-49c2-a4bd-cc4b35699474"
                                     />
                                 </ul>
