@@ -9,6 +9,7 @@ import { UserShort, AuthToken } from '@/api/fetchers.schemas'
 export type Role =
     | 'Ambtelijk opdrachtgever'
     | 'Behandelend Ambtenaar'
+    | 'Functioneel beheerder'
     | 'Beheerder'
     | 'Portefeuillehouder'
     | 'Technisch beheerder'

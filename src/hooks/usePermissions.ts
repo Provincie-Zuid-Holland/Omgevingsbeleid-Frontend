@@ -26,6 +26,8 @@ const usePermissions = (): Permissions => {
     }
 
     switch (role) {
+        case 'Technisch beheerder':
+        case 'Functioneel beheerder':
         case 'Beheerder':
         case 'Superuser':
         case 'Test runner':
