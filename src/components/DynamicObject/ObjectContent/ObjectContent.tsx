@@ -34,20 +34,25 @@ interface ContentProps {
 }
 
 const Content = ({ title, value, hidden, html }: ContentProps) => {
-    const cleanHtml = DOMPurify.sanitize(html)
+    const cleanHtml = DOMPurify.sanitize(html).replace(
+        /\bhttps?:\/\/\S+/gi,
+        '<a class="underline text-pzh-green hover:text-pzh-blue-dark" href="$&" target="_blank" rel="noreferrer noopener">$&</a>'
+    )
 
     const Wrapper = value === 'Description' ? 'p' : 'div'
 
     return (
         <>
-            <Heading
-                as="2"
-                level="3"
-                className={classNames('mb-4', {
-                    'sr-only': hidden,
-                })}>
-                {title}
-            </Heading>
+            {title && (
+                <Heading
+                    as="2"
+                    level="3"
+                    className={classNames('mb-4', {
+                        'sr-only': hidden,
+                    })}>
+                    {title}
+                </Heading>
+            )}
             <Wrapper
                 className="prose prose-neutral prose-li:my-0 mb-4 md:mb-8 max-w-full text-pzh-blue-dark marker:text-pzh-blue-dark leading-6"
                 dangerouslySetInnerHTML={{ __html: cleanHtml }}
@@ -109,6 +114,10 @@ export const fields: {
     {
         title: 'Omschrijving',
         value: 'Description',
+        hidden: true,
+    },
+    {
+        value: 'Weblink',
         hidden: true,
     },
     {
