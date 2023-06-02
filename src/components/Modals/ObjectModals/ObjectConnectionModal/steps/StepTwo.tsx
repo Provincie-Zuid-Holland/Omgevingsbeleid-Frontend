@@ -30,9 +30,12 @@ export const StepTwo = ({
     const { useGetValid } = fetchers || {}
 
     const { data: items, isLoading } =
-        useGetValid?.(undefined, {
-            query: { enabled: atemporal },
-        }) || {}
+        useGetValid?.(
+            { limit: 200 },
+            {
+                query: { enabled: atemporal },
+            }
+        ) || {}
 
     const options = useMemo(
         () =>

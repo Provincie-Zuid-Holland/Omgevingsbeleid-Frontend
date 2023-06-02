@@ -31,7 +31,10 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
         }
     )
 
-    const { refetch } = useGetValid(undefined, { query: { enabled: false } })
+    const { refetch } = useGetValid(
+        { limit: 200 },
+        { query: { enabled: false } }
+    )
 
     const writeObject = usePatchObject?.({
         mutation: {

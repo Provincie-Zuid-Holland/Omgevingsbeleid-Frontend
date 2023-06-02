@@ -25,7 +25,7 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
     } = model.defaults
     const { useGetValid } = model.fetchers
 
-    const { data, isLoading } = useGetValid()
+    const { data, isLoading } = useGetValid({ limit: 200 })
 
     /**
      * Function to sort column by Modified_Date
