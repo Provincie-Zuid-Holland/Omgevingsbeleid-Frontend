@@ -24,23 +24,20 @@ function Dropdown({ isOpen, setIsOpen, items, className }: DropdownProps) {
             className={className}
             isOpen={isOpen}
             setIsOpen={setIsOpen}>
-            {items.map((item, index) =>
-                item.link ? (
-                    <DropdownLinkElement
+            {items.map((item, index) => {
+                const Element = item.link
+                    ? DropdownLinkElement
+                    : DropdownTextElement
+
+                return (
+                    <Element
                         setIsOpen={setIsOpen}
                         item={item}
                         index={index}
                         key={item.text}
-                    />
-                ) : (
-                    <DropdownTextElement
-                        key={item.text}
-                        item={item}
-                        index={index}
-                        setIsOpen={setIsOpen}
                     />
                 )
-            )}
+            })}
         </DropdownContainer>
     )
 }

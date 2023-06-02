@@ -107,6 +107,6 @@ del {
     text-decoration-thickness: 1px;
 }
 
-footer {
+footer:not(.has-feedback) {
     transform: translate3d(0, 0, 0);
 }
