@@ -2158,10 +2158,10 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
   integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
 
-"@pzh-ui/components@^0.0.324":
-  version "0.0.324"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.324.tgz#0a28d274f487e82424d4c3f31f0b38451e49f4d2"
-  integrity sha512-mnxUQj33LnGhaauWrT3IPzoHWMz/98RVq0s6Tye4uAUOYye4cIS4Z7QdIpcpmILiNawNunpvoTnzj/6777WuMg==
+"@pzh-ui/components@^0.0.327":
+  version "0.0.327"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.327.tgz#8c2874665f9e61415d9091d8e3d26d7b1c98011b"
+  integrity sha512-8zaLfp/0uqxY60FqQn4II966fiDWeux6tx2gRr9JU1DXD2L8YZdlBtFM/yswIWIo8g6ncBbCy2hEp7xKOzwtzA==
   dependencies:
     "@floating-ui/react-dom-interactions" "^0.3.1"
     "@headlessui/react" "^1.5.0"
@@ -2214,10 +2214,10 @@
     eslint-plugin-react-hooks "^4.3.0"
     prettier "^2.5.1"
 
-"@pzh-ui/css@^0.0.62":
-  version "0.0.62"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/css/-/css-0.0.62.tgz#2240cc359a383153824f9e776a38de75636512cc"
-  integrity sha512-O7nGBXCCUolJPxntUtBEjZ6vGVH2kI+JhwNHni6pcPT6tKFPh7Qt399xHKYb3iNHEfOLxme5sU4kweN0WmDuSw==
+"@pzh-ui/css@^0.0.63":
+  version "0.0.63"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/css/-/css-0.0.63.tgz#58bce1823ba9a0edfa83625dc99422368e265f98"
+  integrity sha512-tLkd+YUl4Y0foRCPjfChdA9HZFbH1UKXrpIh2xEvdIzukjkVv81p90gYwDBxBMfgGBgvak9VVC0c5thVL+xOHQ==
   dependencies:
     "@rollup/plugin-typescript" "^8.3.1"
     "@tailwindcss/custom-forms" "^0.2.1"
@@ -4792,7 +4792,7 @@
     "@types/d3-interpolate" "*"
     "@types/d3-selection" "*"
 
-"@types/d3@^7.1.0":
+"@types/d3@^7.4.0":
   version "7.4.0"
   resolved "https://registry.yarnpkg.com/@types/d3/-/d3-7.4.0.tgz#fc5cac5b1756fc592a3cf1f3dc881bf08225f515"
   integrity sha512-jIfNVK0ZlxcuRDKtRS/SypEyOQ6UHaFQBKv032X45VvxSJ6Yi5G9behy9h6tNTHTDGh5Vq+KbmBjUWLgY4meCA==
@@ -7301,6 +7301,11 @@ d3-shape@3:
   integrity sha512-tGDh1Muf8kWjEDT/LswZJ8WF85yDZLvVJpYU9Nq+8+yW1Z5enxrmXOhTArlkaElU+CTn0OTVNli+/i+HP45QEQ==
   dependencies:
     d3-path "1 - 3"
+
+d3-symbol-extra@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/d3-symbol-extra/-/d3-symbol-extra-0.1.0.tgz#2fd7fb85937b88f8db417e93617e2f05d50a5c0a"
+  integrity sha512-pGx1lR4CnlKWsK2FHAg/72SX1nS67L5LY43YuEZHHIt6JnItkh674WZA57/p8O9StjW68oOwCTdC5sK2PGsF+Q==
 
 "d3-time-format@2 - 4", d3-time-format@4:
   version "4.1.0"

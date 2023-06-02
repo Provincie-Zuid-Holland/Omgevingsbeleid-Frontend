@@ -1,5 +1,4 @@
 import { Button, Heading } from '@pzh-ui/components'
-import { useNavigate } from 'react-router-dom'
 
 import * as models from '@/config/objects'
 import { ModelReturnType, ModelType } from '@/config/objects/types'
@@ -7,8 +6,6 @@ import { ModelReturnType, ModelType } from '@/config/objects/types'
 const ObjectCard = ({ Object_Type, Object_ID, Title }: ModelReturnType) => {
     const model = models[Object_Type as ModelType]
     const { plural, singularCapitalize, singularReadable } = model.defaults
-
-    const navigate = useNavigate()
 
     return (
         <li
@@ -20,9 +17,10 @@ const ObjectCard = ({ Object_Type, Object_ID, Title }: ModelReturnType) => {
             </Heading>
             <div className="mt-auto">
                 <Button
+                    as="a"
+                    href={`/muteer/${plural}/${Object_ID}`}
                     size="small"
-                    variant="secondary"
-                    onPress={() => navigate(`/muteer/${plural}/${Object_ID}`)}>
+                    variant="secondary">
                     Bekijk {singularReadable}
                 </Button>
             </div>
