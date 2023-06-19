@@ -8,9 +8,13 @@ import { ModelReturnType } from '@/config/objects/types'
 interface ObjectContentProps {
     /** Object data */
     data: ModelReturnType
+    /** Custom description title */
+    customTitle?: {
+        [K in keyof ModelReturnType]: string
+    }
 }
 
-const ObjectContent = ({ data }: ObjectContentProps) => (
+const ObjectContent = ({ data, customTitle }: ObjectContentProps) => (
     <div data-section="Inhoud">
         {fields.map(field => {
             const content = data[field.value]
@@ -21,7 +25,14 @@ const ObjectContent = ({ data }: ObjectContentProps) => (
 
             if (typeof content !== 'string') return null
 
-            return <Content key={field.value} html={content} {...field} />
+            return (
+                <Content
+                    key={field.value}
+                    html={content}
+                    customTitle={customTitle}
+                    {...field}
+                />
+            )
         })}
     </div>
 )
@@ -31,9 +42,12 @@ interface ContentProps {
     value: keyof ModelReturnType
     hidden?: boolean
     html: string
+    customTitle?: {
+        [K in keyof ModelReturnType]: string
+    }
 }
 
-const Content = ({ title, value, hidden, html }: ContentProps) => {
+const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
     const cleanHtml = DOMPurify.sanitize(html).replace(
         /\bhttps?:\/\/\S+/gi,
         '<a class="underline text-pzh-green hover:text-pzh-blue-dark" href="$&" target="_blank" rel="noreferrer noopener">$&</a>'
@@ -48,9 +62,9 @@ const Content = ({ title, value, hidden, html }: ContentProps) => {
                     as="2"
                     level="3"
                     className={classNames('mb-4', {
-                        'sr-only': hidden,
+                        'sr-only': hidden && !customTitle?.[value],
                     })}>
-                    {title}
+                    {customTitle?.[value] || title}
                 </Heading>
             )}
             <Wrapper
@@ -119,10 +133,6 @@ export const fields: {
     {
         value: 'Weblink',
         hidden: true,
-    },
-    {
-        title: 'Wat wil de provincie bereiken?',
-        value: 'Accomplish',
     },
     {
         title: 'Aanleiding',

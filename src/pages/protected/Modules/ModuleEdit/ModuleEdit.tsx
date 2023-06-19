@@ -7,11 +7,7 @@ import { useModulesModuleIdGet } from '@/api/fetchers'
 import { Module } from '@/api/fetchers.schemas'
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed/ButtonSubmitFixed'
 import { LoaderContent } from '@/components/Loader'
-import {
-    FormBasicInfo,
-    FormContents,
-    FormDelete,
-} from '@/components/Modules/ModuleForm'
+import { FormBasicInfo, FormDelete } from '@/components/Modules/ModuleForm'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
@@ -78,12 +74,6 @@ const ModuleEdit = () => {
 
                             <div className="grid grid-cols-6 gap-x-10 gap-y-0">
                                 <FormBasicInfo />
-
-                                <div className="col-span-6 my-10">
-                                    <Divider />
-                                </div>
-
-                                <FormContents />
                             </div>
 
                             <ButtonSubmitFixed

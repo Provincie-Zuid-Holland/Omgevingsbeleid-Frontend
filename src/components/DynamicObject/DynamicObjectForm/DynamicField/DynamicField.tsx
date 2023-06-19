@@ -34,7 +34,7 @@ const DynamicField = ({
         throw new Error(`Oh no! No field found for type: ${type}..`)
     }
 
-    if (type === 'image' && 'accept' in field) {
+    if (type === 'image') {
         // @ts-ignore
         field.defaultValue = null
 
@@ -43,6 +43,7 @@ const DynamicField = ({
             if (!!!files.length) return setFieldValue(field.name, null)
         }
 
+        // @ts-ignore
         field.onDropAccepted = async files => {
             return setFieldValue(
                 field.name,

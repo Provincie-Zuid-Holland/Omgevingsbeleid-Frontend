@@ -61,8 +61,8 @@ function AreaDetail() {
                             <ObjectList
                                 data={transformedMaatregelen}
                                 isLoading={isLoading}
-                                objectType="gebiedsprogramma’s"
-                                objectSlug={`omgevingsprogramma/gebiedsprogrammas/${uuid}`}
+                                objectType="maatregelen"
+                                objectSlug="omgevingsprogramma/maatregelen"
                                 advancedSearch={false}
                                 hasFilter={false}
                                 title="Maatregelen in dit gebiedsprogramma"

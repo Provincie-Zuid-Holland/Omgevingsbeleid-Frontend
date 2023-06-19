@@ -626,15 +626,15 @@ export interface ModuleAddNewObject {
     Owner_1_UUID: string
     Owner_2_UUID?: string | null
     Client_1_UUID?: string | null
-    Explanation: string
-    Conclusion: string
+    Explanation?: string | null
+    Conclusion?: string | null
 }
 
 export interface ModuleAddExistingObject {
     Object_UUID: string
     Action: ModuleObjectAction
-    Explanation: string
-    Conclusion: string
+    Explanation?: string | null
+    Conclusion?: string | null
 }
 
 export interface Module {
@@ -680,7 +680,7 @@ export interface MaatregelShort {
 
 export interface MaatregelPatch {
     Title?: string | null
-    Accomplish?: string | null
+    Description?: string | null
     Role?: string | null
     Effect?: string | null
     Gebied_UUID?: string | null
@@ -706,7 +706,7 @@ export interface MaatregelGet {
     Start_Validity?: string | null
     End_Validity?: string | null
     Title?: string
-    Accomplish?: string
+    Description?: string
     Role?: string
     Effect?: string
     Gebied?: Werkingsgebied
@@ -828,6 +828,8 @@ export interface GebiedsprogrammaBasic {
     Created_Date?: string
     Modified_Date?: string
     Title?: string
+    Start_Validity?: string | null
+    End_Validity?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
 }
@@ -920,6 +922,8 @@ export interface BeleidsregelBasic {
     Modified_Date?: string
     Title?: string
     Weblink?: string
+    Start_Validity?: string | null
+    End_Validity?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
 }
@@ -946,7 +950,7 @@ export interface BeleidskeuzeShort {
 
 export interface BeleidskeuzePatch {
     Title?: string | null
-    Accomplish?: string | null
+    Description?: string | null
     Cause?: string | null
     Provincial_Interest?: string | null
     Explanation?: string | null
@@ -973,7 +977,7 @@ export interface BeleidskeuzeGet {
     Start_Validity?: string | null
     End_Validity?: string | null
     Title?: string
-    Accomplish?: string
+    Description?: string
     Cause?: string
     Provincial_Interest?: string
     Explanation?: string
@@ -1052,7 +1056,7 @@ export interface BeleidsdoelGet {
     Modified_By?: UserShort
     Ambities?: RelationShortAmbitieShort[]
     Beleidskeuzes?: RelationShortBeleidskeuzeShort[]
-    Maatregels?: RelationShortMaatregelShort[]
+    Maatregelen?: RelationShortMaatregelShort[]
     ObjectStatics?: BeleidsdoelGetObjectStatics
 }
 
@@ -1064,6 +1068,8 @@ export interface BeleidsdoelBasic {
     Modified_Date?: string
     Title?: string
     Description?: string
+    Start_Validity?: string | null
+    End_Validity?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
 }
@@ -1133,6 +1139,8 @@ export interface AmbitieBasic {
     Created_Date?: string
     Modified_Date?: string
     Title?: string
+    Start_Validity?: string | null
+    End_Validity?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
 }

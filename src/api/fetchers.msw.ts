@@ -180,6 +180,20 @@ export const getAmbitiesValidLineageIdGetMock = () =>
             undefined,
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
         Created_By: faker.helpers.arrayElement([
             {
                 UUID: faker.datatype.uuid(),
@@ -512,6 +526,20 @@ export const getModulesModuleIdObjectAmbitieLineageIdGetMock = () =>
             undefined,
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
         Created_By: faker.helpers.arrayElement([
             {
                 UUID: faker.datatype.uuid(),
@@ -946,7 +974,7 @@ export const getBeleidsdoelenValidGetMock = () =>
             })),
             undefined,
         ]),
-        Maatregels: faker.helpers.arrayElement([
+        Maatregelen: faker.helpers.arrayElement([
             Array.from(
                 { length: faker.datatype.number({ min: 1, max: 10 }) },
                 (_, i) => i + 1
@@ -1058,6 +1086,20 @@ export const getBeleidsdoelenValidLineageIdGetMock = () =>
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
         Description: faker.helpers.arrayElement([
             faker.random.word(),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
             undefined,
         ]),
         Created_By: faker.helpers.arrayElement([
@@ -1203,7 +1245,7 @@ export const getBeleidsdoelenVersionObjectUuidGetMock = () => ({
         })),
         undefined,
     ]),
-    Maatregels: faker.helpers.arrayElement([
+    Maatregelen: faker.helpers.arrayElement([
         Array.from(
             { length: faker.datatype.number({ min: 1, max: 10 }) },
             (_, i) => i + 1
@@ -1412,7 +1454,7 @@ export const getBeleidsdoelenLatestLineageIdGetMock = () => ({
         })),
         undefined,
     ]),
-    Maatregels: faker.helpers.arrayElement([
+    Maatregelen: faker.helpers.arrayElement([
         Array.from(
             { length: faker.datatype.number({ min: 1, max: 10 }) },
             (_, i) => i + 1
@@ -1542,6 +1584,20 @@ export const getModulesModuleIdObjectBeleidsdoelLineageIdGetMock = () =>
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
         Description: faker.helpers.arrayElement([
             faker.random.word(),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
             undefined,
         ]),
         Created_By: faker.helpers.arrayElement([
@@ -1705,7 +1761,7 @@ export const getModulesModuleIdObjectBeleidsdoelLatestLineageIdGetMock =
             })),
             undefined,
         ]),
-        Maatregels: faker.helpers.arrayElement([
+        Maatregelen: faker.helpers.arrayElement([
             Array.from(
                 { length: faker.datatype.number({ min: 1, max: 10 }) },
                 (_, i) => i + 1
@@ -1927,7 +1983,7 @@ export const getModulesModuleIdObjectBeleidsdoelVersionObjectUuidGetMock =
             })),
             undefined,
         ]),
-        Maatregels: faker.helpers.arrayElement([
+        Maatregelen: faker.helpers.arrayElement([
             Array.from(
                 { length: faker.datatype.number({ min: 1, max: 10 }) },
                 (_, i) => i + 1
@@ -2052,7 +2108,7 @@ export const getBeleidskeuzesValidGetMock = () =>
             undefined,
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Accomplish: faker.helpers.arrayElement([
+        Description: faker.helpers.arrayElement([
             faker.random.word(),
             undefined,
         ]),
@@ -2469,7 +2525,7 @@ export const getBeleidskeuzesVersionObjectUuidGetMock = () => ({
         undefined,
     ]),
     Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Accomplish: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Description: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Cause: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Provincial_Interest: faker.helpers.arrayElement([
         faker.random.word(),
@@ -2792,7 +2848,7 @@ export const getBeleidskeuzesLatestLineageIdGetMock = () => ({
         undefined,
     ]),
     Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Accomplish: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Description: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Cause: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Provincial_Interest: faker.helpers.arrayElement([
         faker.random.word(),
@@ -3282,7 +3338,7 @@ export const getModulesModuleIdObjectBeleidskeuzeLatestLineageIdGetMock =
             undefined,
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Accomplish: faker.helpers.arrayElement([
+        Description: faker.helpers.arrayElement([
             faker.random.word(),
             undefined,
         ]),
@@ -3631,7 +3687,7 @@ export const getModulesModuleIdObjectBeleidskeuzeVersionObjectUuidGetMock =
             undefined,
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Accomplish: faker.helpers.arrayElement([
+        Description: faker.helpers.arrayElement([
             faker.random.word(),
             undefined,
         ]),
@@ -4115,6 +4171,20 @@ export const getBeleidsregelsValidLineageIdGetMock = () =>
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
         Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
         Created_By: faker.helpers.arrayElement([
             {
                 UUID: faker.datatype.uuid(),
@@ -4450,6 +4520,20 @@ export const getModulesModuleIdObjectBeleidsregelLineageIdGetMock = () =>
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
         Weblink: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
         Created_By: faker.helpers.arrayElement([
             {
                 UUID: faker.datatype.uuid(),
@@ -4934,6 +5018,20 @@ export const getGebiedsprogrammasValidLineageIdGetMock = () =>
             undefined,
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
         Created_By: faker.helpers.arrayElement([
             {
                 UUID: faker.datatype.uuid(),
@@ -5274,6 +5372,20 @@ export const getModulesModuleIdObjectGebiedsprogrammasLineageIdGetMock = () =>
             undefined,
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
         Created_By: faker.helpers.arrayElement([
             {
                 UUID: faker.datatype.uuid(),
@@ -5631,7 +5743,7 @@ export const getMaatregelenValidGetMock = () =>
             undefined,
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Accomplish: faker.helpers.arrayElement([
+        Description: faker.helpers.arrayElement([
             faker.random.word(),
             undefined,
         ]),
@@ -5938,7 +6050,7 @@ export const getMaatregelenVersionObjectUuidGetMock = () => ({
         undefined,
     ]),
     Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Accomplish: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Description: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Role: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Effect: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Gebied: faker.helpers.arrayElement([
@@ -6159,7 +6271,7 @@ export const getMaatregelenLatestLineageIdGetMock = () => ({
         undefined,
     ]),
     Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Accomplish: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Description: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Role: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Effect: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Gebied: faker.helpers.arrayElement([
@@ -6479,7 +6591,7 @@ export const getModulesModuleIdObjectMaatregelLatestLineageIdGetMock = () => ({
         undefined,
     ]),
     Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-    Accomplish: faker.helpers.arrayElement([faker.random.word(), undefined]),
+    Description: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Role: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Effect: faker.helpers.arrayElement([faker.random.word(), undefined]),
     Gebied: faker.helpers.arrayElement([
@@ -6701,7 +6813,7 @@ export const getModulesModuleIdObjectMaatregelVersionObjectUuidGetMock =
             undefined,
         ]),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Accomplish: faker.helpers.arrayElement([
+        Description: faker.helpers.arrayElement([
             faker.random.word(),
             undefined,
         ]),
@@ -8785,5 +8897,8 @@ export const getOmgevingsbeleidAPIMSW = () => [
             ctx.status(200, 'Mocked status'),
             ctx.json(getPasswordResetPostMock())
         )
+    }),
+    rest.get('*/health', (_req, res, ctx) => {
+        return res(ctx.delay(1000), ctx.status(200, 'Mocked status'))
     }),
 ]

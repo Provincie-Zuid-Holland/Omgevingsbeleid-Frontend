@@ -44,12 +44,14 @@ const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
      * Highlight connected shape on hover
      */
     const handleMouseInteraction = useCallback(
-        (code: string, type: 'enter' | 'leave') => {
+        (element: HTMLAnchorElement, code: string, type: 'enter' | 'leave') => {
             const el = document.querySelector(`[data-code-shape="${code}"]`)
 
             if (type === 'enter') {
+                element.classList.add('font-bold')
                 el?.classList.add('stroke-pzh-blue-dark')
             } else {
+                element.classList.remove('font-bold')
                 el?.classList.remove('stroke-pzh-blue-dark')
             }
         },
@@ -87,16 +89,18 @@ const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
                                                 index as ModelType,
                                                 object.UUID
                                             )}
-                                            className="flex items-start hover:font-bold"
+                                            className="flex items-start"
                                             data-code-link={object.Code}
-                                            onMouseEnter={() =>
+                                            onMouseEnter={el =>
                                                 handleMouseInteraction(
+                                                    el.currentTarget,
                                                     object.Code,
                                                     'enter'
                                                 )
                                             }
-                                            onMouseLeave={() =>
+                                            onMouseLeave={el =>
                                                 handleMouseInteraction(
+                                                    el.currentTarget,
                                                     object.Code,
                                                     'leave'
                                                 )

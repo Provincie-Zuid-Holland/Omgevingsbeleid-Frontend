@@ -92,14 +92,6 @@ const AppRoutes = () => {
                                     index: true,
                                     element: <AreaDetail />,
                                 },
-                                {
-                                    path: ':uuid',
-                                    element: (
-                                        <DynamicObjectPublic
-                                            model={models['maatregel']}
-                                        />
-                                    ),
-                                },
                             ],
                         },
                     ],
@@ -117,14 +109,6 @@ const AppRoutes = () => {
                                 {
                                     index: true,
                                     element: <ThemeDetail />,
-                                },
-                                {
-                                    path: ':uuid',
-                                    element: (
-                                        <DynamicObjectPublic
-                                            model={models['maatregel']}
-                                        />
-                                    ),
                                 },
                             ],
                         },

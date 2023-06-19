@@ -20,6 +20,8 @@ import {
     ModuleObjectShort,
 } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
+import * as models from '@/config/objects'
+import { ModelType } from '@/config/objects/types'
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
 
@@ -35,6 +37,9 @@ const ModuleEditObjectModal = ({
     object,
 }: ModuleEditObjectModalProps) => {
     const queryClient = useQueryClient()
+
+    const model = models[object.Object_Type as ModelType] || {}
+    const { singularReadable, prefixSingular } = model.defaults || {}
 
     const isAdded =
         object.ModuleObjectContext?.Action === 'Create' ||
@@ -130,7 +135,7 @@ const ModuleEditObjectModal = ({
                                 name="Action"
                                 placeholder="Selecteer de actie"
                                 label="Actie"
-                                description="Gaat deze beleidskeuze wijzigen in deze module, of komt hij te vervallen?"
+                                description={`Gaat ${prefixSingular} ${singularReadable} wijzigen in deze module, of komt hij te vervallen?`}
                                 options={[
                                     {
                                         label: 'Wijzigen',
@@ -150,7 +155,7 @@ const ModuleEditObjectModal = ({
                                 name="Explanation"
                                 label="Toelichting"
                                 placeholder="Vul de toelichting in"
-                                description="Geef aan waarom deze beleidskeuze gaat worden aangepast in deze module"
+                                description={`Geef aan waarom ${prefixSingular} ${singularReadable} gaat worden aangepast in deze module`}
                                 optimized={false}
                             />
                         </div>
@@ -159,7 +164,7 @@ const ModuleEditObjectModal = ({
                                 name="Conclusion"
                                 label="Conclusie"
                                 placeholder="Vul de conclusie in"
-                                description="Geef aan welke wijzigingen doorgevoerd gaan worden aan deze beleidskeuze"
+                                description={`Geef aan welke wijzigingen doorgevoerd gaan worden aan ${prefixSingular} ${singularReadable}`}
                                 optimized={false}
                             />
                         </div>

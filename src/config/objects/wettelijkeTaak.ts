@@ -69,7 +69,8 @@ const wettelijkeTaak: DynamicObject<
                     name: 'Weblink',
                     label: 'Link naar wetten.nl',
                     type: 'url',
-                    validation: schemaDefaults.url(),
+                    // @ts-ignore
+                    validation: schemaDefaults.optionalUrl,
                 },
             ],
         },

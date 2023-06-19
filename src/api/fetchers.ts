@@ -7354,3 +7354,49 @@ export const usePasswordResetPost = <
         TContext
     >(mutationFn, mutationOptions)
 }
+
+/**
+ * @summary Health Check
+ */
+export const healthCheckHealthGet = (signal?: AbortSignal) => {
+    return customInstance<unknown>({ url: `/health`, method: 'get', signal })
+}
+
+export const getHealthCheckHealthGetQueryKey = () => [`/health`]
+
+export type HealthCheckHealthGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof healthCheckHealthGet>>
+>
+export type HealthCheckHealthGetQueryError = unknown
+
+export const useHealthCheckHealthGet = <
+    TData = Awaited<ReturnType<typeof healthCheckHealthGet>>,
+    TError = unknown
+>(options?: {
+    query?: UseQueryOptions<
+        Awaited<ReturnType<typeof healthCheckHealthGet>>,
+        TError,
+        TData
+    >
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey = queryOptions?.queryKey ?? getHealthCheckHealthGetQueryKey()
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof healthCheckHealthGet>>
+    > = ({ signal }) => healthCheckHealthGet(signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof healthCheckHealthGet>>,
+        TError,
+        TData
+    >({ queryKey, queryFn, ...queryOptions }) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
