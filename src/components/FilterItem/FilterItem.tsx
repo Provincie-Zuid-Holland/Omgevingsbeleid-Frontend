@@ -1,17 +1,15 @@
 import { FieldCheckbox } from '@pzh-ui/components'
 
+import * as models from '@/config/objects'
+import { ModelType } from '@/config/objects/types'
 import useSearchFilterStore from '@/hooks/useSearchFilterStore'
-import { DimensionType } from '@/types/dimensions'
-import getDimensionsConstants from '@/utils/getDimensionsConstants'
 
 export interface FilterItemProps {
     item: string
 }
 
 const FilterItem = ({ item }: FilterItemProps) => {
-    const dimensieContants = getDimensionsConstants(item as DimensionType)
-    const titleSingular = dimensieContants.TITLE_SINGULAR
-    const titlePlural = dimensieContants.TITLE_PLURAL
+    const model = models[item as ModelType]
 
     const { filterState, toggleFilter } = useSearchFilterStore(state => ({
         filterState: state.filterState,
@@ -26,7 +24,11 @@ const FilterItem = ({ item }: FilterItemProps) => {
                 <FieldCheckbox
                     checked={checked}
                     onChange={() => toggleFilter(item)}>
-                    {`${count === 1 ? titleSingular : titlePlural} (${count})`}
+                    {`${
+                        count === 1
+                            ? model.defaults.singularReadable
+                            : model.defaults.plural
+                    } (${count})`}
                 </FieldCheckbox>
             </div>
         </li>

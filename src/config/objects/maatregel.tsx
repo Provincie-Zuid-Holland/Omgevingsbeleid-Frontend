@@ -14,7 +14,7 @@ import {
 } from '@/api/fetchers'
 import {
     MaatregelPatch,
-    MaatregelStaticPatchStatics,
+    MaatregelStaticPostStatics,
 } from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
@@ -42,7 +42,7 @@ const fetchers = {
 const maatregel: DynamicObject<
     typeof fetchers,
     keyof MaatregelPatch,
-    (keyof MaatregelStaticPatchStatics)[]
+    (keyof MaatregelStaticPostStatics)[]
 > = {
     defaults: {
         singular: 'maatregel',

@@ -95,21 +95,13 @@ function ObjectProvider({
     const usePatchObject = () =>
         usePatchObjectInModule?.({
             mutation: {
-                onError: () => {
-                    toastNotification('error')
-                },
-                onSuccess: () => {
-                    toastNotification('saved')
-                },
+                onSuccess: () => toastNotification('saved'),
             },
         })
 
     const usePostObjectStatic = (onSuccess?: () => void) =>
         usePostStatic?.({
             mutation: {
-                onError: () => {
-                    toastNotification('error')
-                },
                 onSuccess: () => {
                     queryClient
                         .invalidateQueries(data?.queryKey)

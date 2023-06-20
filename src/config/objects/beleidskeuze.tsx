@@ -18,7 +18,7 @@ import {
 } from '@/api/fetchers'
 import {
     BeleidskeuzePatch,
-    BeleidskeuzeStaticPatchStatics,
+    BeleidskeuzeStaticPostStatics,
 } from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
@@ -54,7 +54,7 @@ const queryKeys = {
 const beleidskeuze: DynamicObject<
     typeof fetchers,
     keyof BeleidskeuzePatch,
-    (keyof BeleidskeuzeStaticPatchStatics)[],
+    (keyof BeleidskeuzeStaticPostStatics)[],
     typeof queryKeys
 > = {
     defaults: {

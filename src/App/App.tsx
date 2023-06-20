@@ -12,6 +12,7 @@ import AuthProvider from '@/context/AuthContext'
 import usePage from '@/hooks/usePage'
 import { ErrorPage } from '@/pages/public'
 import { BaseLayout } from '@/templates/BaseLayout'
+import { toastNotification } from '@/utils/toastNotification'
 
 import AppRoutes from './Routes'
 
@@ -23,6 +24,7 @@ const queryClient = new QueryClient({
             staleTime: 1000 * 60 * 60 * 24,
             retry: false,
             retryOnMount: true,
+            onError: () => toastNotification('error'),
         },
     },
 })

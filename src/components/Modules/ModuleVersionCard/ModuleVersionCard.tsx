@@ -27,9 +27,6 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
      */
     const createVersion = useModulesModuleIdStatusPatch({
         mutation: {
-            onError: () => {
-                toastNotification('error')
-            },
             onSuccess: () => {
                 queryClient.invalidateQueries(
                     getModulesModuleIdGetQueryKey(parseInt(moduleId!))

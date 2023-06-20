@@ -34,9 +34,6 @@ const ModuleCompleteModal = ({ isOpen, onClose }: ModuleCompleteModalProps) => {
 
     const completeModule = useModulesModuleIdCompletePost({
         mutation: {
-            onError: () => {
-                toastNotification('error')
-            },
             onSuccess: () => {
                 queryClient
                     .invalidateQueries(getModulesGetQueryKey(), {

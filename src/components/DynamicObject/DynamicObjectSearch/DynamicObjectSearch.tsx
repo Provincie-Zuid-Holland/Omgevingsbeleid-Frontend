@@ -3,7 +3,7 @@ import { MagnifyingGlass } from '@pzh-ui/icons'
 import debounce from 'lodash.debounce'
 import { useState } from 'react'
 
-import { searchGet } from '@/api/fetchers'
+import { searchPost } from '@/api/fetchers'
 import { SearchObject } from '@/api/fetchers.schemas'
 import { ModelType } from '@/config/objects/types'
 
@@ -48,7 +48,7 @@ const DynamicObjectSearch = ({
         query: string,
         callback: (options: Option[]) => void
     ) => {
-        searchGet({ query })
+        searchPost({ query })
             .then(data => {
                 const filteredObject = !!filter
                     ? data.Objects.filter(object => {

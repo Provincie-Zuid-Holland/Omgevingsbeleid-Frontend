@@ -6,9 +6,9 @@
     "dependencies": {
         "@craco/craco": "7.0.0-alpha.3",
         "@headlessui/react": "^1.5.0",
-        "@pzh-ui/components": "^0.0.332",
+        "@pzh-ui/components": "^0.0.336",
         "@pzh-ui/config": "^0.0.34",
-        "@pzh-ui/css": "^0.0.63",
+        "@pzh-ui/css": "^0.0.64",
         "@pzh-ui/icons": "^0.0.31",
         "@sentry/browser": "^6.11.0",
         "@tanstack/react-query": "^4.29.5",

@@ -98,9 +98,6 @@ function ModuleProvider() {
     ) =>
         useModulesModuleIdPost({
             mutation: {
-                onError: () => {
-                    toastNotification('error')
-                },
                 onSuccess: () => {
                     Promise.all([
                         queryClient.invalidateQueries(
@@ -119,9 +116,6 @@ function ModuleProvider() {
     const useCloseModule = (onSuccess?: () => void) =>
         useModulesModuleIdClosePost({
             mutation: {
-                onError: () => {
-                    toastNotification('error')
-                },
                 onSuccess: () => {
                     queryClient
                         .invalidateQueries(getModulesGetQueryKey(), {
@@ -137,9 +131,6 @@ function ModuleProvider() {
     const useRemoveObjectFromModule = (onSuccess?: () => void) =>
         useModulesModuleIdRemoveObjectTypeLineageIdDelete({
             mutation: {
-                onError: () => {
-                    toastNotification('error')
-                },
                 onSuccess: () => {
                     queryClient
                         .invalidateQueries(

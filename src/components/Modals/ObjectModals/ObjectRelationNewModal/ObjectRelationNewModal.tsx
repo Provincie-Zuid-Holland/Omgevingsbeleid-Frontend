@@ -51,9 +51,6 @@ const ObjectRelationNewModal = ({
 
     const postAcknowledgedRelations = usePostAcknowledgedRelations?.({
         mutation: {
-            onError: () => {
-                toastNotification('error')
-            },
             onSuccess: () => {
                 Promise.all([
                     queryClient.invalidateQueries(queryKey),

@@ -66,9 +66,6 @@ const ModuleEditObjectModal = ({
     const { mutate, isLoading } =
         useModulesModuleIdObjectContextObjectTypeLineageIdPost({
             mutation: {
-                onError: () => {
-                    toastNotification('error')
-                },
                 onSuccess: () => {
                     queryClient
                         .invalidateQueries(

@@ -2158,10 +2158,10 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
   integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
 
-"@pzh-ui/components@^0.0.332":
-  version "0.0.332"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.332.tgz#03d7aedd612eccbfea37cb2423bb62bd187226b7"
-  integrity sha512-o1OUZnT2dwqOLangoOUgwVegnbdP89JD9Hz+2HTObq57g7BqpV/qTtVxFW6JT8BOoxi+FrsaRb/pAWS9AALwlw==
+"@pzh-ui/components@^0.0.336":
+  version "0.0.336"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.336.tgz#00ed289bbbdae1030732d8f7d58af8e021a45961"
+  integrity sha512-v8lqaFsDcG34GPXatD6rjEvkTA14Yi1D9hSJuj4nhEokLox9t+PoB7o2d07Vfbf3VNYhi1cxQd/Qf+GsL+Mstg==
   dependencies:
     "@floating-ui/react-dom-interactions" "^0.3.1"
     "@headlessui/react" "^1.5.0"
@@ -2214,10 +2214,10 @@
     eslint-plugin-react-hooks "^4.3.0"
     prettier "^2.5.1"
 
-"@pzh-ui/css@^0.0.63":
-  version "0.0.63"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/css/-/css-0.0.63.tgz#58bce1823ba9a0edfa83625dc99422368e265f98"
-  integrity sha512-tLkd+YUl4Y0foRCPjfChdA9HZFbH1UKXrpIh2xEvdIzukjkVv81p90gYwDBxBMfgGBgvak9VVC0c5thVL+xOHQ==
+"@pzh-ui/css@^0.0.64":
+  version "0.0.64"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/css/-/css-0.0.64.tgz#f4d47811ccdc014e61c3ca722df754e8a882ceb4"
+  integrity sha512-Q7JFNfvpSgxFhCtficsSrv4eqoVZ4EfNYPkwmoFqGlv7Ip/Al2pXgjo8uLD2lV9p9/S+k+HaDkf2MpgzL8Q38A==
   dependencies:
     "@rollup/plugin-typescript" "^8.3.1"
     "@tailwindcss/custom-forms" "^0.2.1"

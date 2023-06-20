@@ -6,16 +6,16 @@ import {
     AmbitieStaticPostStatics,
     BeleidsdoelGet,
     BeleidsdoelPatch,
-    BeleidsdoelStaticPatchStatics,
+    BeleidsdoelStaticPostStatics,
     BeleidskeuzeGet,
     BeleidskeuzePatch,
-    BeleidskeuzeStaticPatchStatics,
+    BeleidskeuzeStaticPostStatics,
     GebiedsprogrammaGet,
     GebiedsprogrammaPatch,
     GebiedsprogrammaStaticPostStatics,
     MaatregelGet,
     MaatregelPatch,
-    MaatregelStaticPatchStatics,
+    MaatregelStaticPostStatics,
     NationaalBelangGet,
     VerplichtProgrammaGet,
     WettelijkeTaakGet,
@@ -104,10 +104,10 @@ export type ModelPatchType = BeleidsdoelPatch &
     MaatregelPatch &
     GebiedsprogrammaPatch
 
-export type ModelPatchStaticType = BeleidsdoelStaticPatchStatics &
+export type ModelPatchStaticType = BeleidsdoelStaticPostStatics &
     AmbitieStaticPostStatics &
-    BeleidskeuzeStaticPatchStatics &
-    MaatregelStaticPatchStatics &
+    BeleidskeuzeStaticPostStatics &
+    MaatregelStaticPostStatics &
     GebiedsprogrammaStaticPostStatics
 
 export type Model = typeof models[ModelType]
