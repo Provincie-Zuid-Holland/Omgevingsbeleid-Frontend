@@ -1,16 +1,13 @@
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
 
-import {
-    GetSearch200ResultsItem,
-    GetSearchGeo200ResultsItem,
-} from '@/api/fetchers.schemas'
+import { GeoSearchResult } from '@/api/fetchers.schemas'
+import * as models from '@/config/objects'
+import { ModelType } from '@/config/objects/types'
 import useSearchParam from '@/hooks/useSearchParam'
-import { DimensionType } from '@/types/dimensions'
-import getDimensionsConstants from '@/utils/getDimensionsConstants'
 
 interface SearchResultItem {
-    item: GetSearch200ResultsItem | GetSearchGeo200ResultsItem
+    item: GeoSearchResult
     searchQuery: any
 }
 
@@ -62,9 +59,7 @@ const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
     const type = item.Type
     if (!type) return null
 
-    const dimensieContants = getDimensionsConstants(type as DimensionType)
-    const overzichtURL = dimensieContants.SLUG_OVERVIEW
-    const titleSingular = dimensieContants.TITLE_SINGULAR
+    const model = models[type as ModelType]
 
     return (
         <li
@@ -72,13 +67,13 @@ const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
             key={item.UUID}>
             <Link
                 className="group"
-                to={`/${overzichtURL}/${item.UUID}${
+                to={`/${model.defaults.slugOverview}/${item.UUID}${
                     searchQuery ? `#${searchQuery}` : ''
                 }`}>
                 <span
                     className="block text-sm opacity-75 text-pzh-blue"
                     data-test="search-result-type">
-                    {titleSingular}
+                    {model.defaults.singularReadable}
                 </span>
                 {content.Titel ? (
                     <h2
@@ -96,7 +91,7 @@ const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
                 ) : (
                     <p className="mt-2 italic">
                         Er is nog geen omschrijving voor deze
-                        {' ' + titleSingular.toLowerCase()}
+                        {' ' + model.defaults.singularReadable}
                     </p>
                 )}
             </Link>

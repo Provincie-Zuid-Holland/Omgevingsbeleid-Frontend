@@ -27,9 +27,6 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
 
     const createObject = usePostObject?.({
         mutation: {
-            onError: () => {
-                toastNotification('error')
-            },
             onSuccess: () => {
                 refetch().then(() => navigate(`/muteer/${plural}`))
 

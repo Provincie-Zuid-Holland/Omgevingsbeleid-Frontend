@@ -14,7 +14,7 @@ import {
 } from '@/api/fetchers'
 import {
     MaatregelPatch,
-    MaatregelStaticPatchStatics,
+    MaatregelStaticPostStatics,
 } from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
@@ -42,7 +42,7 @@ const fetchers = {
 const maatregel: DynamicObject<
     typeof fetchers,
     keyof MaatregelPatch,
-    (keyof MaatregelStaticPatchStatics)[]
+    (keyof MaatregelStaticPostStatics)[]
 > = {
     defaults: {
         singular: 'maatregel',
@@ -100,7 +100,7 @@ const maatregel: DynamicObject<
                 'In deze sectie kun je alle tekst met betrekking tot de maatregel kwijt. Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct welke keuze de provincie maakt en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',
             fields: [
                 {
-                    name: 'Accomplish',
+                    name: 'Description',
                     label: 'Wat wil de provincie bereiken?',
                     description:
                         'Formuleer bondig wat de provincie met deze maatregel wil bewerkstelligen.',

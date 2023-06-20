@@ -96,9 +96,6 @@ const ModuleContentsModal = ({
      */
     const addNewObjectToModule = useModulesModuleIdAddNewObjectPost({
         mutation: {
-            onError: () => {
-                toastNotification('error')
-            },
             onSuccess: () => {
                 queryClient
                     .invalidateQueries(
@@ -116,9 +113,6 @@ const ModuleContentsModal = ({
      */
     const addExistingObjectToModule = useModulesModuleIdAddExistingObjectPost({
         mutation: {
-            onError: () => {
-                toastNotification('error')
-            },
             onSuccess: () => {
                 queryClient
                     .invalidateQueries(

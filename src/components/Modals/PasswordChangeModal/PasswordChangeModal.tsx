@@ -33,9 +33,6 @@ export default function PasswordChangeModal({
 
     const { isLoading, mutate } = usePasswordResetPost({
         mutation: {
-            onError: () => {
-                toastNotification('error')
-            },
             onSuccess: () => {
                 setOpen(false)
 

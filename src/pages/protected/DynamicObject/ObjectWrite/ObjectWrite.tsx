@@ -38,9 +38,6 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
 
     const writeObject = usePatchObject?.({
         mutation: {
-            onError: () => {
-                toastNotification('error')
-            },
             onSuccess: () => {
                 queryClient.invalidateQueries(queryKey)
                 refetch().then(() => navigate(`/muteer/${plural}`))

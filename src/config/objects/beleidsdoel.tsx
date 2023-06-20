@@ -14,7 +14,7 @@ import {
 } from '@/api/fetchers'
 import {
     BeleidsdoelPatch,
-    BeleidsdoelStaticPatchStatics,
+    BeleidsdoelStaticPostStatics,
 } from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
@@ -42,7 +42,7 @@ const fetchers = {
 const beleidsdoel: DynamicObject<
     typeof fetchers,
     keyof BeleidsdoelPatch,
-    (keyof BeleidsdoelStaticPatchStatics)[]
+    (keyof BeleidsdoelStaticPostStatics)[]
 > = {
     defaults: {
         singular: 'beleidsdoel',

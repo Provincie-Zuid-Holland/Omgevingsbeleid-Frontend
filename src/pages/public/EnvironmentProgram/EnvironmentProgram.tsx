@@ -33,13 +33,6 @@ function EnvironmentProgram() {
                         Omgevingsprogramma is een overzicht van alle maatregelen
                         inclusief de onderliggende activiteiten.
                     </Text>
-                    <Text type="body" className="mt-3">
-                        Sodales massa nascetur urna aliquam. Amet placerat a
-                        orci tempor. Amet neque, semper diam massa euismod
-                        ornare tempus sit proin. Blandit tincidunt sed et
-                        tincidunt ut vestibulum suspendisse in egestas. Sit
-                        mauris urna, in sagittis.
-                    </Text>
                     <Heading level="2" className="mt-8">
                         Thematische programma’s
                     </Heading>
@@ -47,7 +40,7 @@ function EnvironmentProgram() {
                         De provincie heeft een aantal beleidsdoelen
                         geformuleerd. Deze beleidsdoelen zijn direct de thema’s
                         voor de thematische programma’s. Een overzicht van alle
-                        beleidsdoelen vindt u hier...
+                        beleidsdoelen vindt u hier.
                     </Text>
                     <Link
                         className="block mt-3 underline text-pzh-green hover:text-pzh-green-dark"
@@ -67,6 +60,20 @@ function EnvironmentProgram() {
                         className="block mt-3 underline text-pzh-green hover:text-pzh-green-dark"
                         to="/omgevingsprogramma/gebiedsprogrammas">
                         Bekijk de gebiedsprogramma’s
+                    </Link>
+                    <Heading level="2" className="mt-8">
+                        Maatregelen
+                    </Heading>
+                    <Text type="body" className="mt-3">
+                        De maatregelen geven aan wat de provincie gaat doen om
+                        de keuzes uit te voeren. De maatregelen zijn een
+                        uitwerking van de beleidskeuzes en komen voort uit het
+                        Omgevingsprogramma.
+                    </Text>
+                    <Link
+                        className="block mt-3 underline text-pzh-green hover:text-pzh-green-dark"
+                        to="/omgevingsprogramma/maatregelen">
+                        Bekijk de maatregelen
                     </Link>
                 </div>
             </Container>

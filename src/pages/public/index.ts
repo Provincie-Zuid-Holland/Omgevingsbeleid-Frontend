@@ -8,7 +8,7 @@ import ErrorPage from './ErrorPage'
 import Home from './Home'
 // import InProgress from './InProgress'
 import Login from './Login'
-// import MapSearch from './MapSearch'
+import MapSearch from './MapSearch'
 import Network from './Network'
 import PlanningAndReleases from './PlanningAndReleases'
 // import SearchResults from './SearchResults'
@@ -24,7 +24,7 @@ export {
     Home,
     // InProgress,
     Login,
-    // MapSearch,
+    MapSearch,
     PlanningAndReleases,
     // SearchResults,
     DynamicOverview,

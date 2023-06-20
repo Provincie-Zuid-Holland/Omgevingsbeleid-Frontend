@@ -34,7 +34,12 @@ const ObjectSidebar = ({
 
         if (!Start_Validity) return 'Nog niet geldig, versie in bewerking'
 
-        if (today > new Date(Start_Validity) && !End_Validity) {
+        if (
+            (today > new Date(Start_Validity) && !End_Validity) ||
+            (today > new Date(Start_Validity) &&
+                End_Validity &&
+                today <= new Date(End_Validity))
+        ) {
             return `Geldend van ${formatDate(
                 new Date(Start_Validity),
                 'd MMMM yyyy'
@@ -42,7 +47,7 @@ const ObjectSidebar = ({
         } else if (
             today > new Date(Start_Validity) &&
             End_Validity &&
-            today < new Date(End_Validity)
+            today > new Date(End_Validity)
         ) {
             return `Geldend van ${formatDate(
                 new Date(Start_Validity),

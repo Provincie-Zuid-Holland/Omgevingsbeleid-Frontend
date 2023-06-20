@@ -30,19 +30,22 @@ import type {
     ModulesModuleIdObjectAmbitieLineageIdGetParams,
     AmbitieUUID,
     AmbitiePatch,
+    ActiveModuleObject,
+    ModulesObjectAmbitieActiveLineageIdGetParams,
     BeleidsdoelGet,
     BeleidsdoelenValidGetParams,
     BeleidsdoelBasic,
     BeleidsdoelenValidLineageIdGetParams,
-    BeleidsdoelStaticPatchStatics,
+    BeleidsdoelStaticPostStatics,
     ModulesModuleIdObjectBeleidsdoelLineageIdGetParams,
     BeleidsdoelUUID,
     BeleidsdoelPatch,
+    ModulesObjectBeleidsdoelActiveLineageIdGetParams,
     BeleidskeuzeGet,
     BeleidskeuzesValidGetParams,
     BeleidskeuzeBasic,
     BeleidskeuzesValidLineageIdGetParams,
-    BeleidskeuzeStaticPatchStatics,
+    BeleidskeuzeStaticPostStatics,
     AcknowledgedRelation,
     BeleidskeuzeAcknowledgedRelationsLineageIdGetParams,
     RequestAcknowledgedRelation,
@@ -50,6 +53,7 @@ import type {
     ModulesModuleIdObjectBeleidskeuzeLineageIdGetParams,
     BeleidskeuzeUUID,
     BeleidskeuzePatch,
+    ModulesObjectsBeleidskeuzeActiveLineageIdGetParams,
     BeleidsregelGet,
     BeleidsregelsValidGetParams,
     BeleidsregelBasic,
@@ -58,6 +62,7 @@ import type {
     ModulesModuleIdObjectBeleidsregelLineageIdGetParams,
     BeleidsregelUUID,
     BeleidsregelPatch,
+    ModulesObjectsBeleidsregelActiveLineageIdGetParams,
     GebiedsprogrammaGet,
     GebiedsprogrammasValidGetParams,
     GebiedsprogrammaBasic,
@@ -66,39 +71,48 @@ import type {
     ModulesModuleIdObjectGebiedsprogrammasLineageIdGetParams,
     GebiedsprogrammaUUID,
     GebiedsprogrammaPatch,
+    ModulesObjectsGebiedsprogrammaActiveLineageIdGetParams,
     MaatregelGet,
     MaatregelenValidGetParams,
     MaatregelBasic,
     MaatregelenValidLineageIdGetParams,
-    MaatregelStaticPatchStatics,
+    MaatregelStaticPostStatics,
     ModulesModuleIdObjectMaatregelLineageIdGetParams,
     MaatregelUUID,
     MaatregelPatch,
+    ModulesObjectsMaatregelActiveLineageIdGetParams,
     NationaalBelangUUID,
     NationaalBelangCreate,
     NationaalBelangEdit,
     NationaalBelangBasic,
     NationaalBelangValidGetParams,
     NationaalBelangGet,
-    NationaalBelangStaticEditStatics,
+    NationaalBelangStaticPostStatics,
+    ModulesObjectsNationaalBelangActiveLineageIdGetParams,
     VerplichtProgrammaUUID,
     VerplichtProgrammaCreate,
     VerplichtProgrammaEdit,
     VerplichtProgrammaBasic,
     VerplichtProgrammaValidGetParams,
     VerplichtProgrammaGet,
-    VerplichtProgrammaStaticEditStatics,
+    VerplichtProgrammaStaticPostStatics,
+    ModulesObjectsVerplichtProgrammaActiveLineageIdGetParams,
     WettelijkeTaakUUID,
     WettelijkeTaakCreate,
     WettelijkeTaakEdit,
     WettelijkeTaakBasic,
     WettelijkeTaakValidGetParams,
     WettelijkeTaakGet,
-    WettelijkeTaakStaticEditStatics,
+    WettelijkeTaakStaticPostStatics,
+    ModulesObjectsWettelijkeTaakActiveLineageIdGetParams,
     UserShort,
     Werkingsgebied,
+    SearchResultWrapper,
+    SearchGeoPostParams,
     SearchResponse,
-    SearchGetParams,
+    SearchPostParams,
+    ValidSearchResponse,
+    SearchValidPostParams,
     GraphResponse,
     ObjectGraphGetParams,
     Module,
@@ -116,6 +130,8 @@ import type {
     ModuleObjectContext,
     ModuleEditObjectContext,
     ModuleSnapshot,
+    ModuleObjectShort,
+    ModulesObjectsLatestGetParams,
     AuthToken,
     BodyFastapiHandlerLoginAccessTokenPost,
     PasswordResetPostParams,
@@ -861,6 +877,77 @@ export const useModulesModuleIdObjectAmbitieVersionObjectUuidGet = <
 }
 
 /**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const modulesObjectAmbitieActiveLineageIdGet = (
+    lineageId: number,
+    params?: ModulesObjectAmbitieActiveLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<ActiveModuleObject[]>({
+        url: `/modules/object/ambitie/active/${lineageId}`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getModulesObjectAmbitieActiveLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: ModulesObjectAmbitieActiveLineageIdGetParams
+) => [
+    `/modules/object/ambitie/active/${lineageId}`,
+    ...(params ? [params] : []),
+]
+
+export type ModulesObjectAmbitieActiveLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof modulesObjectAmbitieActiveLineageIdGet>>
+>
+export type ModulesObjectAmbitieActiveLineageIdGetQueryError =
+    HTTPValidationError
+
+export const useModulesObjectAmbitieActiveLineageIdGet = <
+    TData = Awaited<ReturnType<typeof modulesObjectAmbitieActiveLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ModulesObjectAmbitieActiveLineageIdGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof modulesObjectAmbitieActiveLineageIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesObjectAmbitieActiveLineageIdGetQueryKey(lineageId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof modulesObjectAmbitieActiveLineageIdGet>>
+    > = ({ signal }) =>
+        modulesObjectAmbitieActiveLineageIdGet(lineageId, params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof modulesObjectAmbitieActiveLineageIdGet>>,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
  * @summary Get all the valid beleidsdoel lineages and shows the latest object of each
  */
 export const beleidsdoelenValidGet = (
@@ -1230,13 +1317,13 @@ export const useBeleidsdoelenRelationsLineageIdPut = <
  */
 export const beleidsdoelStaticLineageIdPost = (
     lineageId: number,
-    beleidsdoelStaticPatchStatics: BeleidsdoelStaticPatchStatics
+    beleidsdoelStaticPostStatics: BeleidsdoelStaticPostStatics
 ) => {
     return customInstance<ResponseOK>({
         url: `/beleidsdoel/static/${lineageId}`,
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
-        data: beleidsdoelStaticPatchStatics,
+        data: beleidsdoelStaticPostStatics,
     })
 }
 
@@ -1244,7 +1331,7 @@ export type BeleidsdoelStaticLineageIdPostMutationResult = NonNullable<
     Awaited<ReturnType<typeof beleidsdoelStaticLineageIdPost>>
 >
 export type BeleidsdoelStaticLineageIdPostMutationBody =
-    BeleidsdoelStaticPatchStatics
+    BeleidsdoelStaticPostStatics
 export type BeleidsdoelStaticLineageIdPostMutationError = HTTPValidationError
 
 export const useBeleidsdoelStaticLineageIdPost = <
@@ -1254,7 +1341,7 @@ export const useBeleidsdoelStaticLineageIdPost = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsdoelStaticLineageIdPost>>,
         TError,
-        { lineageId: number; data: BeleidsdoelStaticPatchStatics },
+        { lineageId: number; data: BeleidsdoelStaticPostStatics },
         TContext
     >
 }) => {
@@ -1262,7 +1349,7 @@ export const useBeleidsdoelStaticLineageIdPost = <
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof beleidsdoelStaticLineageIdPost>>,
-        { lineageId: number; data: BeleidsdoelStaticPatchStatics }
+        { lineageId: number; data: BeleidsdoelStaticPostStatics }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -1272,7 +1359,7 @@ export const useBeleidsdoelStaticLineageIdPost = <
     return useMutation<
         Awaited<ReturnType<typeof beleidsdoelStaticLineageIdPost>>,
         TError,
-        { lineageId: number; data: BeleidsdoelStaticPatchStatics },
+        { lineageId: number; data: BeleidsdoelStaticPostStatics },
         TContext
     >(mutationFn, mutationOptions)
 }
@@ -1612,6 +1699,81 @@ export const useModulesModuleIdObjectBeleidsdoelVersionObjectUuidGet = <
         queryKey,
         queryFn,
         enabled: !!(moduleId && objectUuid),
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const modulesObjectBeleidsdoelActiveLineageIdGet = (
+    lineageId: number,
+    params?: ModulesObjectBeleidsdoelActiveLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<ActiveModuleObject[]>({
+        url: `/modules/object/beleidsdoel/active/${lineageId}`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getModulesObjectBeleidsdoelActiveLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: ModulesObjectBeleidsdoelActiveLineageIdGetParams
+) => [
+    `/modules/object/beleidsdoel/active/${lineageId}`,
+    ...(params ? [params] : []),
+]
+
+export type ModulesObjectBeleidsdoelActiveLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof modulesObjectBeleidsdoelActiveLineageIdGet>>
+>
+export type ModulesObjectBeleidsdoelActiveLineageIdGetQueryError =
+    HTTPValidationError
+
+export const useModulesObjectBeleidsdoelActiveLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesObjectBeleidsdoelActiveLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ModulesObjectBeleidsdoelActiveLineageIdGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<typeof modulesObjectBeleidsdoelActiveLineageIdGet>
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesObjectBeleidsdoelActiveLineageIdGetQueryKey(lineageId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof modulesObjectBeleidsdoelActiveLineageIdGet>>
+    > = ({ signal }) =>
+        modulesObjectBeleidsdoelActiveLineageIdGet(lineageId, params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof modulesObjectBeleidsdoelActiveLineageIdGet>>,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
         ...queryOptions,
     }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
@@ -1990,13 +2152,13 @@ export const useBeleidskeuzesRelationsLineageIdPut = <
  */
 export const beleidskeuzeStaticLineageIdPost = (
     lineageId: number,
-    beleidskeuzeStaticPatchStatics: BeleidskeuzeStaticPatchStatics
+    beleidskeuzeStaticPostStatics: BeleidskeuzeStaticPostStatics
 ) => {
     return customInstance<ResponseOK>({
         url: `/beleidskeuze/static/${lineageId}`,
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
-        data: beleidskeuzeStaticPatchStatics,
+        data: beleidskeuzeStaticPostStatics,
     })
 }
 
@@ -2004,7 +2166,7 @@ export type BeleidskeuzeStaticLineageIdPostMutationResult = NonNullable<
     Awaited<ReturnType<typeof beleidskeuzeStaticLineageIdPost>>
 >
 export type BeleidskeuzeStaticLineageIdPostMutationBody =
-    BeleidskeuzeStaticPatchStatics
+    BeleidskeuzeStaticPostStatics
 export type BeleidskeuzeStaticLineageIdPostMutationError = HTTPValidationError
 
 export const useBeleidskeuzeStaticLineageIdPost = <
@@ -2014,7 +2176,7 @@ export const useBeleidskeuzeStaticLineageIdPost = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidskeuzeStaticLineageIdPost>>,
         TError,
-        { lineageId: number; data: BeleidskeuzeStaticPatchStatics },
+        { lineageId: number; data: BeleidskeuzeStaticPostStatics },
         TContext
     >
 }) => {
@@ -2022,7 +2184,7 @@ export const useBeleidskeuzeStaticLineageIdPost = <
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof beleidskeuzeStaticLineageIdPost>>,
-        { lineageId: number; data: BeleidskeuzeStaticPatchStatics }
+        { lineageId: number; data: BeleidskeuzeStaticPostStatics }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -2032,7 +2194,7 @@ export const useBeleidskeuzeStaticLineageIdPost = <
     return useMutation<
         Awaited<ReturnType<typeof beleidskeuzeStaticLineageIdPost>>,
         TError,
-        { lineageId: number; data: BeleidskeuzeStaticPatchStatics },
+        { lineageId: number; data: BeleidskeuzeStaticPostStatics },
         TContext
     >(mutationFn, mutationOptions)
 }
@@ -2596,6 +2758,87 @@ export const useModulesModuleIdObjectBeleidskeuzeVersionObjectUuidGet = <
         queryKey,
         queryFn,
         enabled: !!(moduleId && objectUuid),
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const modulesObjectsBeleidskeuzeActiveLineageIdGet = (
+    lineageId: number,
+    params?: ModulesObjectsBeleidskeuzeActiveLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<ActiveModuleObject[]>({
+        url: `/modules/objects/beleidskeuze/active/${lineageId}`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getModulesObjectsBeleidskeuzeActiveLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: ModulesObjectsBeleidskeuzeActiveLineageIdGetParams
+) => [
+    `/modules/objects/beleidskeuze/active/${lineageId}`,
+    ...(params ? [params] : []),
+]
+
+export type ModulesObjectsBeleidskeuzeActiveLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<ReturnType<typeof modulesObjectsBeleidskeuzeActiveLineageIdGet>>
+    >
+export type ModulesObjectsBeleidskeuzeActiveLineageIdGetQueryError =
+    HTTPValidationError
+
+export const useModulesObjectsBeleidskeuzeActiveLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesObjectsBeleidskeuzeActiveLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ModulesObjectsBeleidskeuzeActiveLineageIdGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<typeof modulesObjectsBeleidskeuzeActiveLineageIdGet>
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesObjectsBeleidskeuzeActiveLineageIdGetQueryKey(
+            lineageId,
+            params
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof modulesObjectsBeleidskeuzeActiveLineageIdGet>>
+    > = ({ signal }) =>
+        modulesObjectsBeleidskeuzeActiveLineageIdGet(lineageId, params, signal)
+
+    const query = useQuery<
+        Awaited<
+            ReturnType<typeof modulesObjectsBeleidskeuzeActiveLineageIdGet>
+        >,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
         ...queryOptions,
     }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
@@ -3360,6 +3603,87 @@ export const useModulesModuleIdObjectBeleidsregelVersionObjectUuidGet = <
         queryKey,
         queryFn,
         enabled: !!(moduleId && objectUuid),
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const modulesObjectsBeleidsregelActiveLineageIdGet = (
+    lineageId: number,
+    params?: ModulesObjectsBeleidsregelActiveLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<ActiveModuleObject[]>({
+        url: `/modules/objects/beleidsregel/active/${lineageId}`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getModulesObjectsBeleidsregelActiveLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: ModulesObjectsBeleidsregelActiveLineageIdGetParams
+) => [
+    `/modules/objects/beleidsregel/active/${lineageId}`,
+    ...(params ? [params] : []),
+]
+
+export type ModulesObjectsBeleidsregelActiveLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<ReturnType<typeof modulesObjectsBeleidsregelActiveLineageIdGet>>
+    >
+export type ModulesObjectsBeleidsregelActiveLineageIdGetQueryError =
+    HTTPValidationError
+
+export const useModulesObjectsBeleidsregelActiveLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesObjectsBeleidsregelActiveLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ModulesObjectsBeleidsregelActiveLineageIdGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<typeof modulesObjectsBeleidsregelActiveLineageIdGet>
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesObjectsBeleidsregelActiveLineageIdGetQueryKey(
+            lineageId,
+            params
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof modulesObjectsBeleidsregelActiveLineageIdGet>>
+    > = ({ signal }) =>
+        modulesObjectsBeleidsregelActiveLineageIdGet(lineageId, params, signal)
+
+    const query = useQuery<
+        Awaited<
+            ReturnType<typeof modulesObjectsBeleidsregelActiveLineageIdGet>
+        >,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
         ...queryOptions,
     }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
@@ -4158,6 +4482,97 @@ export const useModulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGet = <
 }
 
 /**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const modulesObjectsGebiedsprogrammaActiveLineageIdGet = (
+    lineageId: number,
+    params?: ModulesObjectsGebiedsprogrammaActiveLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<ActiveModuleObject[]>({
+        url: `/modules/objects/gebiedsprogramma/active/${lineageId}`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getModulesObjectsGebiedsprogrammaActiveLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: ModulesObjectsGebiedsprogrammaActiveLineageIdGetParams
+) => [
+    `/modules/objects/gebiedsprogramma/active/${lineageId}`,
+    ...(params ? [params] : []),
+]
+
+export type ModulesObjectsGebiedsprogrammaActiveLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof modulesObjectsGebiedsprogrammaActiveLineageIdGet>
+        >
+    >
+export type ModulesObjectsGebiedsprogrammaActiveLineageIdGetQueryError =
+    HTTPValidationError
+
+export const useModulesObjectsGebiedsprogrammaActiveLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesObjectsGebiedsprogrammaActiveLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ModulesObjectsGebiedsprogrammaActiveLineageIdGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesObjectsGebiedsprogrammaActiveLineageIdGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesObjectsGebiedsprogrammaActiveLineageIdGetQueryKey(
+            lineageId,
+            params
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<typeof modulesObjectsGebiedsprogrammaActiveLineageIdGet>
+        >
+    > = ({ signal }) =>
+        modulesObjectsGebiedsprogrammaActiveLineageIdGet(
+            lineageId,
+            params,
+            signal
+        )
+
+    const query = useQuery<
+        Awaited<
+            ReturnType<typeof modulesObjectsGebiedsprogrammaActiveLineageIdGet>
+        >,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
  * @summary Get all the valid maatregel lineages and shows the latest object of each
  */
 export const maatregelenValidGet = (
@@ -4525,13 +4940,13 @@ export const useMaatregelenRelationsLineageIdPut = <
  */
 export const maatregelStaticLineageIdPost = (
     lineageId: number,
-    maatregelStaticPatchStatics: MaatregelStaticPatchStatics
+    maatregelStaticPostStatics: MaatregelStaticPostStatics
 ) => {
     return customInstance<ResponseOK>({
         url: `/maatregel/static/${lineageId}`,
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
-        data: maatregelStaticPatchStatics,
+        data: maatregelStaticPostStatics,
     })
 }
 
@@ -4539,7 +4954,7 @@ export type MaatregelStaticLineageIdPostMutationResult = NonNullable<
     Awaited<ReturnType<typeof maatregelStaticLineageIdPost>>
 >
 export type MaatregelStaticLineageIdPostMutationBody =
-    MaatregelStaticPatchStatics
+    MaatregelStaticPostStatics
 export type MaatregelStaticLineageIdPostMutationError = HTTPValidationError
 
 export const useMaatregelStaticLineageIdPost = <
@@ -4549,7 +4964,7 @@ export const useMaatregelStaticLineageIdPost = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof maatregelStaticLineageIdPost>>,
         TError,
-        { lineageId: number; data: MaatregelStaticPatchStatics },
+        { lineageId: number; data: MaatregelStaticPostStatics },
         TContext
     >
 }) => {
@@ -4557,7 +4972,7 @@ export const useMaatregelStaticLineageIdPost = <
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof maatregelStaticLineageIdPost>>,
-        { lineageId: number; data: MaatregelStaticPatchStatics }
+        { lineageId: number; data: MaatregelStaticPostStatics }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -4567,7 +4982,7 @@ export const useMaatregelStaticLineageIdPost = <
     return useMutation<
         Awaited<ReturnType<typeof maatregelStaticLineageIdPost>>,
         TError,
-        { lineageId: number; data: MaatregelStaticPatchStatics },
+        { lineageId: number; data: MaatregelStaticPostStatics },
         TContext
     >(mutationFn, mutationOptions)
 }
@@ -4896,6 +5311,81 @@ export const useModulesModuleIdObjectMaatregelVersionObjectUuidGet = <
         queryKey,
         queryFn,
         enabled: !!(moduleId && objectUuid),
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const modulesObjectsMaatregelActiveLineageIdGet = (
+    lineageId: number,
+    params?: ModulesObjectsMaatregelActiveLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<ActiveModuleObject[]>({
+        url: `/modules/objects/maatregel/active/${lineageId}`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getModulesObjectsMaatregelActiveLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: ModulesObjectsMaatregelActiveLineageIdGetParams
+) => [
+    `/modules/objects/maatregel/active/${lineageId}`,
+    ...(params ? [params] : []),
+]
+
+export type ModulesObjectsMaatregelActiveLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof modulesObjectsMaatregelActiveLineageIdGet>>
+>
+export type ModulesObjectsMaatregelActiveLineageIdGetQueryError =
+    HTTPValidationError
+
+export const useModulesObjectsMaatregelActiveLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesObjectsMaatregelActiveLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ModulesObjectsMaatregelActiveLineageIdGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<typeof modulesObjectsMaatregelActiveLineageIdGet>
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesObjectsMaatregelActiveLineageIdGetQueryKey(lineageId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof modulesObjectsMaatregelActiveLineageIdGet>>
+    > = ({ signal }) =>
+        modulesObjectsMaatregelActiveLineageIdGet(lineageId, params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof modulesObjectsMaatregelActiveLineageIdGet>>,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
         ...queryOptions,
     }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
@@ -5246,13 +5736,13 @@ export const useNationaalBelangRelationsLineageIdPut = <
  */
 export const nationaalBelangStaticLineageIdPost = (
     lineageId: number,
-    nationaalBelangStaticEditStatics: NationaalBelangStaticEditStatics
+    nationaalBelangStaticPostStatics: NationaalBelangStaticPostStatics
 ) => {
     return customInstance<ResponseOK>({
         url: `/nationaal-belang/static/${lineageId}`,
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
-        data: nationaalBelangStaticEditStatics,
+        data: nationaalBelangStaticPostStatics,
     })
 }
 
@@ -5260,7 +5750,7 @@ export type NationaalBelangStaticLineageIdPostMutationResult = NonNullable<
     Awaited<ReturnType<typeof nationaalBelangStaticLineageIdPost>>
 >
 export type NationaalBelangStaticLineageIdPostMutationBody =
-    NationaalBelangStaticEditStatics
+    NationaalBelangStaticPostStatics
 export type NationaalBelangStaticLineageIdPostMutationError =
     HTTPValidationError
 
@@ -5271,7 +5761,7 @@ export const useNationaalBelangStaticLineageIdPost = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof nationaalBelangStaticLineageIdPost>>,
         TError,
-        { lineageId: number; data: NationaalBelangStaticEditStatics },
+        { lineageId: number; data: NationaalBelangStaticPostStatics },
         TContext
     >
 }) => {
@@ -5279,7 +5769,7 @@ export const useNationaalBelangStaticLineageIdPost = <
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof nationaalBelangStaticLineageIdPost>>,
-        { lineageId: number; data: NationaalBelangStaticEditStatics }
+        { lineageId: number; data: NationaalBelangStaticPostStatics }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -5289,9 +5779,100 @@ export const useNationaalBelangStaticLineageIdPost = <
     return useMutation<
         Awaited<ReturnType<typeof nationaalBelangStaticLineageIdPost>>,
         TError,
-        { lineageId: number; data: NationaalBelangStaticEditStatics },
+        { lineageId: number; data: NationaalBelangStaticPostStatics },
         TContext
     >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const modulesObjectsNationaalBelangActiveLineageIdGet = (
+    lineageId: number,
+    params?: ModulesObjectsNationaalBelangActiveLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<ActiveModuleObject[]>({
+        url: `/modules/objects/nationaal-belang/active/${lineageId}`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getModulesObjectsNationaalBelangActiveLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: ModulesObjectsNationaalBelangActiveLineageIdGetParams
+) => [
+    `/modules/objects/nationaal-belang/active/${lineageId}`,
+    ...(params ? [params] : []),
+]
+
+export type ModulesObjectsNationaalBelangActiveLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof modulesObjectsNationaalBelangActiveLineageIdGet>
+        >
+    >
+export type ModulesObjectsNationaalBelangActiveLineageIdGetQueryError =
+    HTTPValidationError
+
+export const useModulesObjectsNationaalBelangActiveLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesObjectsNationaalBelangActiveLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ModulesObjectsNationaalBelangActiveLineageIdGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesObjectsNationaalBelangActiveLineageIdGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesObjectsNationaalBelangActiveLineageIdGetQueryKey(
+            lineageId,
+            params
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<typeof modulesObjectsNationaalBelangActiveLineageIdGet>
+        >
+    > = ({ signal }) =>
+        modulesObjectsNationaalBelangActiveLineageIdGet(
+            lineageId,
+            params,
+            signal
+        )
+
+    const query = useQuery<
+        Awaited<
+            ReturnType<typeof modulesObjectsNationaalBelangActiveLineageIdGet>
+        >,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
 }
 
 /**
@@ -5639,13 +6220,13 @@ export const useVerplichtProgrammaRelationsLineageIdPut = <
  */
 export const verplichtProgrammaStaticLineageIdPost = (
     lineageId: number,
-    verplichtProgrammaStaticEditStatics: VerplichtProgrammaStaticEditStatics
+    verplichtProgrammaStaticPostStatics: VerplichtProgrammaStaticPostStatics
 ) => {
     return customInstance<ResponseOK>({
         url: `/verplicht-programma/static/${lineageId}`,
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
-        data: verplichtProgrammaStaticEditStatics,
+        data: verplichtProgrammaStaticPostStatics,
     })
 }
 
@@ -5653,7 +6234,7 @@ export type VerplichtProgrammaStaticLineageIdPostMutationResult = NonNullable<
     Awaited<ReturnType<typeof verplichtProgrammaStaticLineageIdPost>>
 >
 export type VerplichtProgrammaStaticLineageIdPostMutationBody =
-    VerplichtProgrammaStaticEditStatics
+    VerplichtProgrammaStaticPostStatics
 export type VerplichtProgrammaStaticLineageIdPostMutationError =
     HTTPValidationError
 
@@ -5664,7 +6245,7 @@ export const useVerplichtProgrammaStaticLineageIdPost = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof verplichtProgrammaStaticLineageIdPost>>,
         TError,
-        { lineageId: number; data: VerplichtProgrammaStaticEditStatics },
+        { lineageId: number; data: VerplichtProgrammaStaticPostStatics },
         TContext
     >
 }) => {
@@ -5672,7 +6253,7 @@ export const useVerplichtProgrammaStaticLineageIdPost = <
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof verplichtProgrammaStaticLineageIdPost>>,
-        { lineageId: number; data: VerplichtProgrammaStaticEditStatics }
+        { lineageId: number; data: VerplichtProgrammaStaticPostStatics }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -5682,9 +6263,106 @@ export const useVerplichtProgrammaStaticLineageIdPost = <
     return useMutation<
         Awaited<ReturnType<typeof verplichtProgrammaStaticLineageIdPost>>,
         TError,
-        { lineageId: number; data: VerplichtProgrammaStaticEditStatics },
+        { lineageId: number; data: VerplichtProgrammaStaticPostStatics },
         TContext
     >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const modulesObjectsVerplichtProgrammaActiveLineageIdGet = (
+    lineageId: number,
+    params?: ModulesObjectsVerplichtProgrammaActiveLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<ActiveModuleObject[]>({
+        url: `/modules/objects/verplicht-programma/active/${lineageId}`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getModulesObjectsVerplichtProgrammaActiveLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: ModulesObjectsVerplichtProgrammaActiveLineageIdGetParams
+) => [
+    `/modules/objects/verplicht-programma/active/${lineageId}`,
+    ...(params ? [params] : []),
+]
+
+export type ModulesObjectsVerplichtProgrammaActiveLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof modulesObjectsVerplichtProgrammaActiveLineageIdGet
+            >
+        >
+    >
+export type ModulesObjectsVerplichtProgrammaActiveLineageIdGetQueryError =
+    HTTPValidationError
+
+export const useModulesObjectsVerplichtProgrammaActiveLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesObjectsVerplichtProgrammaActiveLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ModulesObjectsVerplichtProgrammaActiveLineageIdGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesObjectsVerplichtProgrammaActiveLineageIdGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesObjectsVerplichtProgrammaActiveLineageIdGetQueryKey(
+            lineageId,
+            params
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<
+                typeof modulesObjectsVerplichtProgrammaActiveLineageIdGet
+            >
+        >
+    > = ({ signal }) =>
+        modulesObjectsVerplichtProgrammaActiveLineageIdGet(
+            lineageId,
+            params,
+            signal
+        )
+
+    const query = useQuery<
+        Awaited<
+            ReturnType<
+                typeof modulesObjectsVerplichtProgrammaActiveLineageIdGet
+            >
+        >,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
 }
 
 /**
@@ -6029,13 +6707,13 @@ export const useWettelijkeTaakRelationsLineageIdPut = <
  */
 export const wettelijkeTaakStaticLineageIdPost = (
     lineageId: number,
-    wettelijkeTaakStaticEditStatics: WettelijkeTaakStaticEditStatics
+    wettelijkeTaakStaticPostStatics: WettelijkeTaakStaticPostStatics
 ) => {
     return customInstance<ResponseOK>({
         url: `/wettelijke-taak/static/${lineageId}`,
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
-        data: wettelijkeTaakStaticEditStatics,
+        data: wettelijkeTaakStaticPostStatics,
     })
 }
 
@@ -6043,7 +6721,7 @@ export type WettelijkeTaakStaticLineageIdPostMutationResult = NonNullable<
     Awaited<ReturnType<typeof wettelijkeTaakStaticLineageIdPost>>
 >
 export type WettelijkeTaakStaticLineageIdPostMutationBody =
-    WettelijkeTaakStaticEditStatics
+    WettelijkeTaakStaticPostStatics
 export type WettelijkeTaakStaticLineageIdPostMutationError = HTTPValidationError
 
 export const useWettelijkeTaakStaticLineageIdPost = <
@@ -6053,7 +6731,7 @@ export const useWettelijkeTaakStaticLineageIdPost = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof wettelijkeTaakStaticLineageIdPost>>,
         TError,
-        { lineageId: number; data: WettelijkeTaakStaticEditStatics },
+        { lineageId: number; data: WettelijkeTaakStaticPostStatics },
         TContext
     >
 }) => {
@@ -6061,7 +6739,7 @@ export const useWettelijkeTaakStaticLineageIdPost = <
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof wettelijkeTaakStaticLineageIdPost>>,
-        { lineageId: number; data: WettelijkeTaakStaticEditStatics }
+        { lineageId: number; data: WettelijkeTaakStaticPostStatics }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -6071,9 +6749,100 @@ export const useWettelijkeTaakStaticLineageIdPost = <
     return useMutation<
         Awaited<ReturnType<typeof wettelijkeTaakStaticLineageIdPost>>,
         TError,
-        { lineageId: number; data: WettelijkeTaakStaticEditStatics },
+        { lineageId: number; data: WettelijkeTaakStaticPostStatics },
         TContext
     >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const modulesObjectsWettelijkeTaakActiveLineageIdGet = (
+    lineageId: number,
+    params?: ModulesObjectsWettelijkeTaakActiveLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<ActiveModuleObject[]>({
+        url: `/modules/objects/wettelijke-taak/active/${lineageId}`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getModulesObjectsWettelijkeTaakActiveLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: ModulesObjectsWettelijkeTaakActiveLineageIdGetParams
+) => [
+    `/modules/objects/wettelijke-taak/active/${lineageId}`,
+    ...(params ? [params] : []),
+]
+
+export type ModulesObjectsWettelijkeTaakActiveLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof modulesObjectsWettelijkeTaakActiveLineageIdGet>
+        >
+    >
+export type ModulesObjectsWettelijkeTaakActiveLineageIdGetQueryError =
+    HTTPValidationError
+
+export const useModulesObjectsWettelijkeTaakActiveLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesObjectsWettelijkeTaakActiveLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ModulesObjectsWettelijkeTaakActiveLineageIdGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesObjectsWettelijkeTaakActiveLineageIdGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesObjectsWettelijkeTaakActiveLineageIdGetQueryKey(
+            lineageId,
+            params
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<typeof modulesObjectsWettelijkeTaakActiveLineageIdGet>
+        >
+    > = ({ signal }) =>
+        modulesObjectsWettelijkeTaakActiveLineageIdGet(
+            lineageId,
+            params,
+            signal
+        )
+
+    const query = useQuery<
+        Awaited<
+            ReturnType<typeof modulesObjectsWettelijkeTaakActiveLineageIdGet>
+        >,
+        TError,
+        TData
+    >({
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
 }
 
 /**
@@ -6164,60 +6933,149 @@ export const useWerkingsgebiedenGet = <
 }
 
 /**
- * @summary Search for objects
+ * @summary List the objects active in werkingsgebieden
  */
-export const searchGet = (params: SearchGetParams, signal?: AbortSignal) => {
-    return customInstance<SearchResponse>({
-        url: `/search`,
-        method: 'get',
+export const searchGeoPost = (
+    searchGeoPostBody: string[],
+    params?: SearchGeoPostParams
+) => {
+    return customInstance<SearchResultWrapper>({
+        url: `/search/geo`,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: searchGeoPostBody,
         params,
-        signal,
     })
 }
 
-export const getSearchGetQueryKey = (params: SearchGetParams) => [
-    `/search`,
-    ...(params ? [params] : []),
-]
-
-export type SearchGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof searchGet>>
+export type SearchGeoPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof searchGeoPost>>
 >
-export type SearchGetQueryError = HTTPValidationError
+export type SearchGeoPostMutationBody = string[]
+export type SearchGeoPostMutationError = HTTPValidationError
 
-export const useSearchGet = <
-    TData = Awaited<ReturnType<typeof searchGet>>,
-    TError = HTTPValidationError
->(
-    params: SearchGetParams,
-    options?: {
-        query?: UseQueryOptions<
-            Awaited<ReturnType<typeof searchGet>>,
-            TError,
-            TData
-        >
-    }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-    const { query: queryOptions } = options ?? {}
-
-    const queryKey = queryOptions?.queryKey ?? getSearchGetQueryKey(params)
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof searchGet>>> = ({
-        signal,
-    }) => searchGet(params, signal)
-
-    const query = useQuery<
-        Awaited<ReturnType<typeof searchGet>>,
+export const useSearchGeoPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof searchGeoPost>>,
         TError,
-        TData
-    >({ queryKey, queryFn, ...queryOptions }) as UseQueryResult<
-        TData,
-        TError
-    > & { queryKey: QueryKey }
+        { data: string[]; params?: SearchGeoPostParams },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
 
-    query.queryKey = queryKey
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof searchGeoPost>>,
+        { data: string[]; params?: SearchGeoPostParams }
+    > = props => {
+        const { data, params } = props ?? {}
 
-    return query
+        return searchGeoPost(data, params)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof searchGeoPost>>,
+        TError,
+        { data: string[]; params?: SearchGeoPostParams },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Search for objects
+ */
+export const searchPost = (params: SearchPostParams) => {
+    return customInstance<SearchResponse>({
+        url: `/search`,
+        method: 'post',
+        params,
+    })
+}
+
+export type SearchPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof searchPost>>
+>
+
+export type SearchPostMutationError = HTTPValidationError
+
+export const useSearchPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof searchPost>>,
+        TError,
+        { params: SearchPostParams },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof searchPost>>,
+        { params: SearchPostParams }
+    > = props => {
+        const { params } = props ?? {}
+
+        return searchPost(params)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof searchPost>>,
+        TError,
+        { params: SearchPostParams },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Search for valid objects
+ */
+export const searchValidPost = (params: SearchValidPostParams) => {
+    return customInstance<ValidSearchResponse>({
+        url: `/search/valid`,
+        method: 'post',
+        params,
+    })
+}
+
+export type SearchValidPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof searchValidPost>>
+>
+
+export type SearchValidPostMutationError = HTTPValidationError
+
+export const useSearchValidPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof searchValidPost>>,
+        TError,
+        { params: SearchValidPostParams },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof searchValidPost>>,
+        { params: SearchValidPostParams }
+    > = props => {
+        const { params } = props ?? {}
+
+        return searchValidPost(params)
+    }
+
+    return useMutation<
+        Awaited<ReturnType<typeof searchValidPost>>,
+        TError,
+        { params: SearchValidPostParams },
+        TContext
+    >(mutationFn, mutationOptions)
 }
 
 /**
@@ -7224,6 +8082,66 @@ export const useModulesModuleIdSnapshotStatusIdGet = <
 }
 
 /**
+ * @summary List latest module objects filtered by e.g. owner uuid, object type or minimum status
+ */
+export const modulesObjectsLatestGet = (
+    params?: ModulesObjectsLatestGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<ModuleObjectShort[]>({
+        url: `/modules/objects/latest`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getModulesObjectsLatestGetQueryKey = (
+    params?: ModulesObjectsLatestGetParams
+) => [`/modules/objects/latest`, ...(params ? [params] : [])]
+
+export type ModulesObjectsLatestGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof modulesObjectsLatestGet>>
+>
+export type ModulesObjectsLatestGetQueryError = HTTPValidationError
+
+export const useModulesObjectsLatestGet = <
+    TData = Awaited<ReturnType<typeof modulesObjectsLatestGet>>,
+    TError = HTTPValidationError
+>(
+    params?: ModulesObjectsLatestGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof modulesObjectsLatestGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getModulesObjectsLatestGetQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof modulesObjectsLatestGet>>
+    > = ({ signal }) => modulesObjectsLatestGet(params, signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof modulesObjectsLatestGet>>,
+        TError,
+        TData
+    >({ queryKey, queryFn, ...queryOptions }) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
+}
+
+/**
  * @summary Login an user and receive a JWT token
  */
 export const loginAccessTokenPost = (
@@ -7353,4 +8271,50 @@ export const usePasswordResetPost = <
         { params: PasswordResetPostParams },
         TContext
     >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Health Check
+ */
+export const healthCheckHealthGet = (signal?: AbortSignal) => {
+    return customInstance<unknown>({ url: `/health`, method: 'get', signal })
+}
+
+export const getHealthCheckHealthGetQueryKey = () => [`/health`]
+
+export type HealthCheckHealthGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof healthCheckHealthGet>>
+>
+export type HealthCheckHealthGetQueryError = unknown
+
+export const useHealthCheckHealthGet = <
+    TData = Awaited<ReturnType<typeof healthCheckHealthGet>>,
+    TError = unknown
+>(options?: {
+    query?: UseQueryOptions<
+        Awaited<ReturnType<typeof healthCheckHealthGet>>,
+        TError,
+        TData
+    >
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey = queryOptions?.queryKey ?? getHealthCheckHealthGetQueryKey()
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof healthCheckHealthGet>>
+    > = ({ signal }) => healthCheckHealthGet(signal)
+
+    const query = useQuery<
+        Awaited<ReturnType<typeof healthCheckHealthGet>>,
+        TError,
+        TData
+    >({ queryKey, queryFn, ...queryOptions }) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: QueryKey }
+
+    query.queryKey = queryKey
+
+    return query
 }

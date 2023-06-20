@@ -20,9 +20,6 @@ const ModuleCreate = () => {
 
     const { mutateAsync, isLoading } = useModulesPost({
         mutation: {
-            onError: () => {
-                toastNotification('error')
-            },
             onSuccess: res => {
                 queryClient
                     .invalidateQueries(getModulesGetQueryKey(), {

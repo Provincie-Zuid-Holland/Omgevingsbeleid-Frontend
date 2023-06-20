@@ -14,11 +14,11 @@ function ThemeDetail() {
 
     const transformedMaatregelen = useMemo(
         () =>
-            data?.Maatregels?.map(item => ({
+            data?.Maatregelen?.map(item => ({
                 Title: item.Object.Title,
                 UUID: item.Object.UUID,
             })),
-        [data?.Maatregels]
+        [data?.Maatregelen]
     )
 
     const breadcrumbPaths = [
@@ -59,8 +59,8 @@ function ThemeDetail() {
                             <ObjectList
                                 data={transformedMaatregelen}
                                 isLoading={isLoading}
-                                objectType="thematische programma’s"
-                                objectSlug={`omgevingsprogramma/thematische-programmas/${uuid}`}
+                                objectType="maatregelen"
+                                objectSlug="omgevingsprogramma/maatregelen"
                                 advancedSearch={false}
                                 hasFilter={false}
                                 title="Maatregelen in dit thematische programma"

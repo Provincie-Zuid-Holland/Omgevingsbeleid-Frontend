@@ -23,9 +23,6 @@ const ModuleActivateModal = ({ isOpen, onClose }: ModuleActivateModalProps) => {
      */
     const { mutate, isLoading } = useModulesModuleIdActivatePost({
         mutation: {
-            onError: () => {
-                toastNotification('error')
-            },
             onSuccess: () => {
                 Promise.all([
                     queryClient.invalidateQueries(getModulesGetQueryKey(), {

@@ -24,8 +24,8 @@ export const SCHEMA_ADD_OBJECT_STEPS = [
         Title: schemaDefaults.title,
         Owner_1_UUID: schemaDefaults.requiredString(),
         Owner_2_UUID: schemaDefaults.optionalString,
-        Explanation: schemaDefaults.requiredString(),
-        Conclusion: schemaDefaults.requiredString(),
+        Explanation: schemaDefaults.optionalString,
+        Conclusion: schemaDefaults.optionalString,
     }),
     z.object({ Object_UUID: schemaDefaults.requiredString() }),
     z.object({

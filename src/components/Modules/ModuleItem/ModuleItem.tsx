@@ -79,7 +79,8 @@ const ModuleItem = ({
             hasRights &&
             canPatchObjectInModule &&
             !isLocked &&
-            isActive && [
+            isActive &&
+            !hasEditButton && [
                 {
                     text: 'Bewerken',
                     link: `/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}/bewerk`,

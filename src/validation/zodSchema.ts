@@ -26,7 +26,7 @@ export const schemaDefaults = {
                 invalid_type_error: msg,
             })
             .url('Onjuiste link'),
-    optionalUrl: z.string().url('Onjuiste link').optional().nullable(),
+    optionalUrl: z.string().url('Onjuiste link').optional(),
     title: z
         .string({
             required_error: 'Vul een titel in',
@@ -37,6 +37,7 @@ export const schemaDefaults = {
     date: z
         .string({ required_error: 'Selecteer een datum' })
         .datetime('Onjuiste datum'),
+    file: z.instanceof(File),
 }
 
 export type Validation = {

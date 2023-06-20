@@ -2158,10 +2158,10 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
   integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
 
-"@pzh-ui/components@^0.0.327":
-  version "0.0.327"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.327.tgz#8c2874665f9e61415d9091d8e3d26d7b1c98011b"
-  integrity sha512-8zaLfp/0uqxY60FqQn4II966fiDWeux6tx2gRr9JU1DXD2L8YZdlBtFM/yswIWIo8g6ncBbCy2hEp7xKOzwtzA==
+"@pzh-ui/components@^0.0.336":
+  version "0.0.336"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.336.tgz#00ed289bbbdae1030732d8f7d58af8e021a45961"
+  integrity sha512-v8lqaFsDcG34GPXatD6rjEvkTA14Yi1D9hSJuj4nhEokLox9t+PoB7o2d07Vfbf3VNYhi1cxQd/Qf+GsL+Mstg==
   dependencies:
     "@floating-ui/react-dom-interactions" "^0.3.1"
     "@headlessui/react" "^1.5.0"
@@ -2183,7 +2183,7 @@
     react-aria "^3.23.1"
     react-datepicker "^4.7.0"
     react-dom "^18.0.0"
-    react-dropzone "^12.0.4"
+    react-dropzone "^14.2.3"
     react-router-dom "^6.9.0"
     react-select "^5.7.3"
     react-stately "^3.18.0"
@@ -2214,10 +2214,10 @@
     eslint-plugin-react-hooks "^4.3.0"
     prettier "^2.5.1"
 
-"@pzh-ui/css@^0.0.63":
-  version "0.0.63"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/css/-/css-0.0.63.tgz#58bce1823ba9a0edfa83625dc99422368e265f98"
-  integrity sha512-tLkd+YUl4Y0foRCPjfChdA9HZFbH1UKXrpIh2xEvdIzukjkVv81p90gYwDBxBMfgGBgvak9VVC0c5thVL+xOHQ==
+"@pzh-ui/css@^0.0.64":
+  version "0.0.64"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/css/-/css-0.0.64.tgz#f4d47811ccdc014e61c3ca722df754e8a882ceb4"
+  integrity sha512-Q7JFNfvpSgxFhCtficsSrv4eqoVZ4EfNYPkwmoFqGlv7Ip/Al2pXgjo8uLD2lV9p9/S+k+HaDkf2MpgzL8Q38A==
   dependencies:
     "@rollup/plugin-typescript" "^8.3.1"
     "@tailwindcss/custom-forms" "^0.2.1"
@@ -8706,12 +8706,12 @@ file-loader@^6.2.0:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
 
-file-selector@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/file-selector/-/file-selector-0.5.0.tgz#21c7126dc9728b31a2742d91cab20d55e67e4fb4"
-  integrity sha512-s8KNnmIDTBoD0p9uJ9uD0XY38SCeBOtj0UMXyQSLg1Ypfrfj8+dAvwsLjYQkQ2GjhVtp2HrnF5cJzMhBjfD8HA==
+file-selector@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/file-selector/-/file-selector-0.6.0.tgz#fa0a8d9007b829504db4d07dd4de0310b65287dc"
+  integrity sha512-QlZ5yJC0VxHxQQsQhXvBaC7VRJ2uaxTf+Tfpu4Z/OcVQJVpZO+DGU0rkoVW5ce2SccxugvpBJoMvUs59iILYdw==
   dependencies:
-    tslib "^2.0.3"
+    tslib "^2.4.0"
 
 file-uri-to-path@2:
   version "2.0.0"
@@ -13217,13 +13217,13 @@ react-dom@^18.0.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
-react-dropzone@^12.0.4:
-  version "12.1.0"
-  resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-12.1.0.tgz#e097b37e9da6f9e324efc757b7434ebc6f3dc2cb"
-  integrity sha512-iBYHA1rbopIvtzokEX4QubO6qk5IF/x3BtKGu74rF2JkQDXnwC4uO/lHKpaw4PJIV6iIAYOlwLv2FpiGyqHNog==
+react-dropzone@^14.2.3:
+  version "14.2.3"
+  resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-14.2.3.tgz#0acab68308fda2d54d1273a1e626264e13d4e84b"
+  integrity sha512-O3om8I+PkFKbxCukfIR3QAGftYXDZfOE2N1mr/7qebQJHs7U+/RSL/9xomJNpRg9kM5h9soQSdf0Gc7OHF5Fug==
   dependencies:
     attr-accept "^2.2.2"
-    file-selector "^0.5.0"
+    file-selector "^0.6.0"
     prop-types "^15.8.1"
 
 react-error-boundary@^3.1.4:

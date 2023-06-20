@@ -18,7 +18,7 @@ import {
 } from '@/api/fetchers'
 import {
     BeleidskeuzePatch,
-    BeleidskeuzeStaticPatchStatics,
+    BeleidskeuzeStaticPostStatics,
 } from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
@@ -54,7 +54,7 @@ const queryKeys = {
 const beleidskeuze: DynamicObject<
     typeof fetchers,
     keyof BeleidskeuzePatch,
-    (keyof BeleidskeuzeStaticPatchStatics)[],
+    (keyof BeleidskeuzeStaticPostStatics)[],
     typeof queryKeys
 > = {
     defaults: {
@@ -118,7 +118,7 @@ const beleidskeuze: DynamicObject<
                 'In deze sectie kun je alle tekst met betrekking tot de beleidskeuze kwijt. Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct welke keuze de provincie maakt en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',
             fields: [
                 {
-                    name: 'Accomplish',
+                    name: 'Description',
                     label: 'Wat wil de provincie bereiken?',
                     description:
                         'Hier geef je aan welke keuze de provincie heeft genomen. Formuleer in één of enkele zinnen wat de provincie wil bereiken en welke rechtsgevolgen dit eventueel heeft voor derden.',

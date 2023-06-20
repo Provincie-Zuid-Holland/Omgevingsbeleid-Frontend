@@ -30,8 +30,13 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
 
     const [revisionModalOpen, setRevisionModalOpen] = useState(false)
 
-    const { singularCapitalize, pluralCapitalize, plural, slugOverview } =
-        model.defaults
+    const {
+        singularCapitalize,
+        pluralCapitalize,
+        plural,
+        slugOverview,
+        singular,
+    } = model.defaults
     const { useGetVersion, useGetValidLineage, useGetLatestLineage } =
         model.fetchers
 
@@ -110,7 +115,18 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
                     </Heading>
 
                     <div className="order-4">
-                        <ObjectContent data={data} />
+                        <ObjectContent
+                            data={data}
+                            customTitle={
+                                singular === 'beleidskeuze' ||
+                                singular === 'maatregel'
+                                    ? {
+                                          Description:
+                                              'Wat wil de provincie bereiken?',
+                                      }
+                                    : undefined
+                            }
+                        />
                     </div>
 
                     {data.Gebied && (
