@@ -32,9 +32,8 @@ const ModuleCard = (props: Module) => {
                     <Button
                         size="small"
                         variant="cta"
-                        onPress={() =>
-                            navigate(`/muteer/modules/${Module_ID}`)
-                        }>
+                        onPress={() => navigate(`/muteer/modules/${Module_ID}`)}
+                        data-testid="module-card-button">
                         Bekijk module
                     </Button>
                 )}

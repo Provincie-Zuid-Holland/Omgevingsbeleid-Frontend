@@ -1,17 +1,17 @@
-import { Breadcrumbs, Heading } from '@pzh-ui/components'
+import { Breadcrumbs, Heading, Notification } from '@pzh-ui/components'
 import classNames from 'classnames'
 import { useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 
 import { Container } from '@/components/Container'
-import ObjectArea from '@/components/DynamicObject/ObjectArea/ObjectArea'
+import ObjectArea from '@/components/DynamicObject/ObjectArea'
 import ObjectConnectionsPublic from '@/components/DynamicObject/ObjectConnectionsPublic'
-import ObjectContent from '@/components/DynamicObject/ObjectContent/ObjectContent'
+import ObjectContent from '@/components/DynamicObject/ObjectContent'
 import ObjectRelationsPublic from '@/components/DynamicObject/ObjectRelationsPublic'
 import Sidebar from '@/components/DynamicObject/ObjectSidebar'
 import { LoaderContent } from '@/components/Loader'
-import RevisionModal from '@/components/Modals/RevisionModal/RevisionModal'
+import RevisionModal from '@/components/Modals/RevisionModal'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useRevisionStore from '@/store/revisionStore'
 
@@ -36,6 +36,8 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
         plural,
         slugOverview,
         singular,
+        singularReadable,
+        demonstrative,
     } = model.defaults
     const { useGetVersion, useGetValidLineage, useGetLatestLineage } =
         model.fetchers
@@ -47,9 +49,12 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
     } = useGetVersion?.<ModelReturnType>(uuid!, {
         query: { enabled: !!uuid },
     }) || {}
-    const { data: latest } = useGetLatestLineage(data.Object_ID!, {
-        query: { enabled: !!data.Object_ID },
-    })
+    const { data: latest, isLoading: latestIsLoading } = useGetLatestLineage(
+        data.Object_ID!,
+        {
+            query: { enabled: !!data.Object_ID },
+        }
+    )
     const { data: revisions } =
         useGetValidLineage?.<ModelReturnType[]>(data.Object_ID!, undefined, {
             query: { enabled: !!data.Object_ID },
@@ -106,6 +111,23 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
                         className="order-1">
                         {singularCapitalize}
                     </Heading>
+
+                    {!isLoading &&
+                        !latestIsLoading &&
+                        latest &&
+                        data.UUID !== latest.UUID && (
+                            <Notification className="order-2 mt-4">
+                                <>
+                                    Let op, dit is een verouderde versie van{' '}
+                                    {demonstrative} {singularReadable},{' '}
+                                    <Link
+                                        to={`/${slugOverview}/${latest.UUID}`}
+                                        className="underline">
+                                        bekijk hier de vigerende versie
+                                    </Link>
+                                </>
+                            </Notification>
+                        )}
 
                     <Heading
                         level="1"

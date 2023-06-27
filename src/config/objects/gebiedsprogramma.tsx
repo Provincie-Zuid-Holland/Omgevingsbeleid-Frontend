@@ -11,6 +11,7 @@ import {
     useGebiedsprogrammasVersionObjectUuidGet,
     useModulesModuleIdObjectGebiedsprogrammasLatestLineageIdGet,
     useModulesModuleIdObjectGebiedsprogrammasLineageIdPatch,
+    useModulesObjectsGebiedsprogrammaActiveLineageIdGet,
 } from '@/api/fetchers'
 import {
     GebiedsprogrammaPatch,
@@ -38,6 +39,7 @@ const fetchers = {
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
     usePostObject: null,
+    useGetActiveModules: useModulesObjectsGebiedsprogrammaActiveLineageIdGet,
 }
 
 const gebiedsprogramma: DynamicObject<

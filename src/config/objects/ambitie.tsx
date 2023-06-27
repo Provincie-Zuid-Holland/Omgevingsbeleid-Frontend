@@ -11,6 +11,7 @@ import {
     useAmbitiesVersionObjectUuidGet,
     useModulesModuleIdObjectAmbitieLatestLineageIdGet,
     useModulesModuleIdObjectAmbitieLineageIdPatch,
+    useModulesObjectAmbitieActiveLineageIdGet,
 } from '@/api/fetchers'
 import { AmbitiePatch, AmbitieStaticPostStatics } from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
@@ -34,6 +35,7 @@ const fetchers = {
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
     usePostObject: null,
+    useGetActiveModules: useModulesObjectAmbitieActiveLineageIdGet,
 }
 
 const ambitie: DynamicObject<

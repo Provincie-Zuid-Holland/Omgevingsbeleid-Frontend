@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import { useFullGraphGet } from '@/api/fetchers'
 import { GraphResponse } from '@/api/fetchers.schemas'
 import { ModelType } from '@/config/objects/types'
+import useFilterStore from '@/store/filterStore'
 import useNetworkStore from '@/store/networkStore'
 import { formatGraphData } from '@/utils/d3'
 
@@ -11,7 +12,7 @@ import NetworkTextual from '../NetworkTextual'
 import NetworkVisual from '../NetworkVisual'
 
 const NetworkGraph = () => {
-    const selectedFilters = useNetworkStore(state => state.selectedFilters)
+    const selectedFilters = useFilterStore(state => state.selectedFilters)
     const activeTab = useNetworkStore(state => state.activeTab)
 
     const { data } = useFullGraphGet()

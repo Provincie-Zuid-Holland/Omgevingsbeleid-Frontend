@@ -10,6 +10,7 @@ const getModuleStatusColor = (status?: string) => {
             return 'purple'
         case 'Vigerend':
         case 'Vastgesteld':
+        case 'Module afgerond':
             return 'green'
         default:
             return 'gray'

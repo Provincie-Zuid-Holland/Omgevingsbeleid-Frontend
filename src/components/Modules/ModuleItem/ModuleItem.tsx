@@ -157,7 +157,8 @@ const ModuleItem = ({
                         <button
                             className="flex items-center justify-center w-6 h-6 hover:bg-pzh-gray-100 rounded-full"
                             onClick={() => setIsOpen(!isOpen)}
-                            aria-label="Onderdeel menu">
+                            aria-label="Onderdeel menu"
+                            data-testid="module-item-menu">
                             <EllipsisVertical />
                         </button>
                         <Dropdown

@@ -30,8 +30,8 @@ export const SCHEMA_ADD_OBJECT_STEPS = [
     z.object({ Object_UUID: schemaDefaults.requiredString() }),
     z.object({
         Action: schemaDefaults.title,
-        Explanation: schemaDefaults.requiredString(),
-        Conclusion: schemaDefaults.requiredString(),
+        Explanation: schemaDefaults.optionalString,
+        Conclusion: schemaDefaults.optionalString,
     }),
 ]
 
@@ -40,8 +40,8 @@ export const SCHEMA_ADD_NEW_OBJECT = z.object({
     Title: schemaDefaults.title,
     Owner_1_UUID: schemaDefaults.requiredString(),
     Owner_2_UUID: schemaDefaults.optionalString,
-    Explanation: schemaDefaults.requiredString(),
-    Conclusion: schemaDefaults.requiredString(),
+    Explanation: schemaDefaults.optionalString,
+    Conclusion: schemaDefaults.optionalString,
 })
 
 export const SCHEMA_EDIT_EXISTING_OBJECT = z.object({

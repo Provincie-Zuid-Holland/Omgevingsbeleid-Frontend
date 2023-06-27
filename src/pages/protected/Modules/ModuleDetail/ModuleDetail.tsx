@@ -190,7 +190,7 @@ const Modals = ({ moduleModal, setModuleModal, module }: ModalsProps) => (
             initialStep={1}
             initialValues={{
                 ...modules.EMPTY_MODULE_OBJECT,
-                state: 'new',
+                state: 'existing',
             }}
             module={module}
         />

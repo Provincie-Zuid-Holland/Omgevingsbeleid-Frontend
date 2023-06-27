@@ -8,13 +8,13 @@ export const StepOne = ({}: StepProps) => (
             Wat wil je toevoegen?
         </Heading>
         <Text className="mb-4">
-            Wil je een nieuw object toevoegen, of een bestaand object?
+            Wil je een bestaand object bewerken of een nieuw object toevoegen?
         </Text>
         <FormikRadioGroup
             name="state"
             options={[
-                { label: 'Nieuw', value: 'new' },
                 { label: 'Bestaand', value: 'existing' },
+                { label: 'Nieuw', value: 'new' },
             ]}
             required
         />

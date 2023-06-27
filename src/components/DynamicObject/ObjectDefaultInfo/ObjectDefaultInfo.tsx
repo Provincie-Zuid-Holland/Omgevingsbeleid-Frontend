@@ -118,6 +118,8 @@ const Item = ({ label, user, handleClick, isLoading, canEdit }: ItemProps) => (
                     />
                 ) : !user ? (
                     <button
+                        type="button"
+                        data-testid="object-person-add"
                         aria-label={`${label} toevoegen`}
                         onClick={handleClick}
                         className="after:content-[' '] after:absolute after:left-0 after:top-0 after:w-full after:h-full">
@@ -127,6 +129,8 @@ const Item = ({ label, user, handleClick, isLoading, canEdit }: ItemProps) => (
                     </button>
                 ) : (
                     <button
+                        type="button"
+                        data-testid="object-person-edit"
                         aria-label={`${label} wijzigen`}
                         onClick={handleClick}
                         className="after:content-[' '] after:absolute after:left-0 after:top-0 after:w-full after:h-full">

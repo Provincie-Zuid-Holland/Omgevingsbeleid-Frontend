@@ -11,6 +11,7 @@ import {
     useBeleidsregelsVersionObjectUuidGet,
     useModulesModuleIdObjectBeleidsregelLatestLineageIdGet,
     useModulesModuleIdObjectBeleidsregelLineageIdPatch,
+    useModulesObjectsBeleidsregelActiveLineageIdGet,
 } from '@/api/fetchers'
 import {
     BeleidsregelPatch,
@@ -37,6 +38,7 @@ const fetchers = {
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
     usePostObject: null,
+    useGetActiveModules: useModulesObjectsBeleidsregelActiveLineageIdGet,
 }
 
 const beleidsregel: DynamicObject<

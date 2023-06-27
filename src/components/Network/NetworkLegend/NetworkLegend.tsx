@@ -3,10 +3,10 @@ import { Triangle } from '@pzh-ui/icons'
 import classNames from 'classnames'
 
 import { ModelType } from '@/config/objects/types'
-import useNetworkStore from '@/store/networkStore'
+import useFilterStore from '@/store/filterStore'
 
 const NetworkLegend = () => {
-    const { filters, selectedFilters, setSelectedFilters } = useNetworkStore(
+    const { filters, selectedFilters, setSelectedFilters } = useFilterStore(
         state => ({
             ...state,
         })

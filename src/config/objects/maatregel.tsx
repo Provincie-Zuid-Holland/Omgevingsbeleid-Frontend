@@ -11,6 +11,7 @@ import {
     useMaatregelStaticLineageIdPost,
     useModulesModuleIdObjectMaatregelLatestLineageIdGet,
     useModulesModuleIdObjectMaatregelLineageIdPatch,
+    useModulesObjectsMaatregelActiveLineageIdGet,
 } from '@/api/fetchers'
 import {
     MaatregelPatch,
@@ -37,6 +38,7 @@ const fetchers = {
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
     usePostObject: null,
+    useGetActiveModules: useModulesObjectsMaatregelActiveLineageIdGet,
 }
 
 const maatregel: DynamicObject<

@@ -8,9 +8,7 @@ interface ModuleInactiveCardProps {
 }
 
 const ModuleInactiveCard = ({ setModuleModal }: ModuleInactiveCardProps) => (
-    <div
-        className="py-4 px-6 bg-pzh-ui-light-blue"
-        data-testid="module-inactive-card">
+    <div className="py-4 px-6 bg-pzh-ui-light-blue">
         <Text type="body" className="mb-2 font-bold">
             Module inactief
         </Text>
@@ -20,6 +18,7 @@ const ModuleInactiveCard = ({ setModuleModal }: ModuleInactiveCardProps) => (
             bewerken.
         </Text>
         <Button
+            data-testid="module-activate"
             onPress={() =>
                 setModuleModal({
                     isOpen: true,

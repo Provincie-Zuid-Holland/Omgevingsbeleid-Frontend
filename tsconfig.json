@@ -16,7 +16,7 @@
         "isolatedModules": true,
         "noEmit": true,
         "jsx": "react-jsx",
-        "typeRoots": ["./node_modules/@types", "api"],
+        "typeRoots": ["./node_modules/@types", "api", "types"],
         "downlevelIteration": true,
         "noErrorTruncation": true
     },

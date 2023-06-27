@@ -7,7 +7,11 @@ import {
 import { createContext, ReactNode, useMemo } from 'react'
 import { Outlet, useParams } from 'react-router-dom'
 
-import { HTTPValidationError, ResponseOK } from '@/api/fetchers.schemas'
+import {
+    ActiveModuleObject,
+    HTTPValidationError,
+    ResponseOK,
+} from '@/api/fetchers.schemas'
 import {
     Model,
     ModelPatchStaticType,
@@ -46,6 +50,10 @@ interface ObjectContextType extends QueryObserverBaseResult<ModelReturnType> {
     >
     /** Is user owner of object */
     isOwner?: boolean
+    /** List the last modified module object grouped per module ID */
+    activeModules?: ActiveModuleObject[]
+    /** Active modules loading */
+    activeModulesLoading?: boolean
 }
 
 export const ObjectContext = createContext<ObjectContextType>(null!)
@@ -67,6 +75,7 @@ function ObjectProvider({
         useGetLatestLineageInModule,
         usePatchObjectInModule,
         usePostStatic,
+        useGetActiveModules,
     } = model.fetchers
 
     const latestInModule = useGetLatestLineageInModule?.<ModelReturnType>(
@@ -79,6 +88,15 @@ function ObjectProvider({
     const latest = useGetLatestLineage!<ModelReturnType>(parseInt(objectId!), {
         query: { enabled: !!objectId && !moduleId },
     })
+
+    const { data: activeModules, isLoading: activeModulesLoading } =
+        useGetActiveModules?.(
+            parseInt(objectId!),
+            { minimum_status: 'Ontwerp GS Concept' },
+            {
+                query: { enabled: !!objectId, onError: () => {} },
+            }
+        ) || {}
 
     /**
      * If object is still in a module return latest lineage of object in module,
@@ -131,6 +149,8 @@ function ObjectProvider({
         usePatchObject,
         usePostObjectStatic,
         isOwner,
+        activeModules,
+        activeModulesLoading,
     }
 
     return (

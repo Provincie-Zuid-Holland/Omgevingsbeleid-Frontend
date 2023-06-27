@@ -86,9 +86,7 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
     )
 
     return (
-        <div
-            className="mb-5 py-4 px-6 bg-pzh-gray-100"
-            data-testid="module-version-card">
+        <div className="mb-5 py-4 px-6 bg-pzh-gray-100">
             <Text type="body" className="mb-2 font-bold text-pzh-blue">
                 Versie aanmaken
             </Text>
@@ -114,7 +112,8 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
                             variant="cta"
                             className="mt-1"
                             isLoading={isSubmitting}
-                            isDisabled={isSubmitting}>
+                            isDisabled={isSubmitting}
+                            data-testid="module-version-create">
                             Versie aanmaken
                         </Button>
                     </Form>

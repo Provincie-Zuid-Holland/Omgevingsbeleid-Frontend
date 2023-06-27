@@ -100,11 +100,19 @@ mark {
 ins {
     background-color: rgba(0, 128, 77, 0.2);
     text-decoration-thickness: 1px;
+
+    &:has(br:only-child) {
+        display: block;
+    }
 }
 
 del {
     background-color: rgba(209, 31, 61, 0.1);
     text-decoration-thickness: 1px;
+
+    &:has(br:only-child) {
+        display: block;
+    }
 }
 
 footer:not(.has-feedback) {

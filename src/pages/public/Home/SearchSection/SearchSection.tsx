@@ -1,71 +1,45 @@
 import { TabItem, Tabs, Text } from '@pzh-ui/components'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-import { SearchObject } from '@/api/fetchers.schemas'
-import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
 import { LeafletMap } from '@/components/Leaflet'
-import * as models from '@/config/objects'
-import { ModelType } from '@/config/objects/types'
+import SearchBar from '@/components/SearchBar'
 import { MAP_SEARCH_PAGE } from '@/constants/leaflet'
 
-const SearchSection = () => {
-    const navigate = useNavigate()
-
-    const handleChange = (object?: SearchObject) => {
-        if (!object) return
-
-        const { slugOverview } =
-            models[object.Object_Type as ModelType].defaults || {}
-
-        if (slugOverview) {
-            navigate(`/${slugOverview}/${object.UUID}`)
-        }
-    }
-
-    return (
-        <div className="col-span-6 px-3 pt-3 pb-6 mt-4 sm:px-6 lg:mt-0 lg:col-span-4 bg-pzh-gray-300">
-            <Tabs>
-                <TabItem title="Zoeken op tekst">
-                    <div className="mt-4">
-                        <DynamicObjectSearch
-                            plain
-                            onChange={handleChange}
-                            label="Naar welk onderwerp ben je op zoek?"
-                            placeholder="Zoek binnen het beleid van de provincie Zuid-Holland"
+const SearchSection = () => (
+    <div className="col-span-6 px-3 pt-3 pb-6 mt-4 sm:px-6 lg:mt-0 lg:col-span-4 bg-pzh-gray-300">
+        <Tabs>
+            <TabItem title="Zoeken op tekst">
+                <div className="mt-4">
+                    <SearchBar label="Naar welk onderwerp ben je op zoek?" />
+                </div>
+            </TabItem>
+            <TabItem title="Zoeken op de kaart">
+                <>
+                    <Text type="body" className="mt-4">
+                        Wil je het beleid en de regelgeving van de provincie op
+                        een specifieke locatie raadplegen? Zoek hieronder op een
+                        locatie of markeer een punt of vorm op de kaart.
+                    </Text>
+                    <div className="w-full mx-auto mt-4" id="leaflet-homepage">
+                        <LeafletMap
+                            controllers={{
+                                showSearch: false,
+                                showDraw: true,
+                            }}
+                            className="w-full border border-gray-300 rounded"
                         />
                     </div>
-                </TabItem>
-                <TabItem title="Zoeken op de kaart">
-                    <>
-                        <Text type="body" className="mt-4">
-                            Wil je het beleid en de regelgeving van de provincie
-                            op een specifieke locatie raadplegen? Zoek hieronder
-                            op een locatie of markeer een punt of vorm op de
-                            kaart.
-                        </Text>
-                        <div
-                            className="w-full mx-auto mt-4"
-                            id="leaflet-homepage">
-                            <LeafletMap
-                                controllers={{
-                                    showSearch: false,
-                                    showDraw: true,
-                                }}
-                                className="w-full border border-gray-300 rounded"
-                            />
-                        </div>
-                        <div className="mt-4">
-                            <Link
-                                to={MAP_SEARCH_PAGE}
-                                className="underline text-pzh-green hover:text-pzh-green-dark">
-                                Wilt u uitgebreider zoeken op de kaart?
-                            </Link>
-                        </div>
-                    </>
-                </TabItem>
-            </Tabs>
-        </div>
-    )
-}
+                    <div className="mt-4">
+                        <Link
+                            to={MAP_SEARCH_PAGE}
+                            className="underline text-pzh-green hover:text-pzh-green-dark">
+                            Wilt u uitgebreider zoeken op de kaart?
+                        </Link>
+                    </div>
+                </>
+            </TabItem>
+        </Tabs>
+    </div>
+)
 
 export default SearchSection
