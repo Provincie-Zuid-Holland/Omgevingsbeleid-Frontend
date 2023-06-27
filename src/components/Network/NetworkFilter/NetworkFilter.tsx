@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { ClearIndicatorProps, GroupBase } from 'react-select'
 
 import { ModelType } from '@/config/objects/types'
+import useFilterStore from '@/store/filterStore'
 import useNetworkStore from '@/store/networkStore'
 import {
     filterConnections,
@@ -18,17 +19,14 @@ interface NetworkFilterProps {
 }
 
 const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
-    const {
-        amountOfFilters,
-        filters,
-        selectedFilters,
-        setSelectedFilters,
-        setActiveNode,
-        setActiveConnections,
-    } = useNetworkStore(state => ({
+    const { setActiveNode, setActiveConnections } = useNetworkStore(state => ({
         ...state,
-        amountOfFilters: state.selectedFilters?.length || 0,
     }))
+    const { amountOfFilters, filters, selectedFilters, setSelectedFilters } =
+        useFilterStore(state => ({
+            ...state,
+            amountOfFilters: state.selectedFilters?.length || 0,
+        }))
 
     /**
      * Format options for search field

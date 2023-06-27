@@ -15,6 +15,7 @@ import {
     useBeleidskeuzesVersionObjectUuidGet,
     useModulesModuleIdObjectBeleidskeuzeLatestLineageIdGet,
     useModulesModuleIdObjectBeleidskeuzeLineageIdPatch,
+    useModulesObjectsBeleidskeuzeActiveLineageIdGet,
 } from '@/api/fetchers'
 import {
     BeleidskeuzePatch,
@@ -44,6 +45,7 @@ const fetchers = {
     usePatchAcknowledgedRelations:
         useBeleidskeuzeAcknowledgedRelationsLineageIdEditPost,
     usePostObject: null,
+    useGetActiveModules: useModulesObjectsBeleidskeuzeActiveLineageIdGet,
 }
 
 const queryKeys = {

@@ -68,6 +68,11 @@ const ObjectConnectionPart = ({
             </div>
 
             <button
+                data-testid={
+                    amount === 0
+                        ? 'object-connection-add'
+                        : 'object-connection-edit'
+                }
                 type="button"
                 onClick={() => handleButtonClick(amount)}
                 disabled={!canEdit}

@@ -7,11 +7,17 @@ export default function useAxe() {
 
     React.useEffect(() => {
         const axe = require('@axe-core/react')
+        let axeRunning = false
 
         // Using requestAnimationFrame to ensure that
         // axe runs after the page has finished rendering
         const runAxe = () => {
-            axe(React, ReactDOM)
+            if (!axeRunning) {
+                axeRunning = true
+                axe(React, ReactDOM).then(() => {
+                    axeRunning = false
+                })
+            }
             requestAnimationFrame(runAxe)
         }
         requestAnimationFrame(runAxe)

@@ -64,42 +64,41 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
 
     const formattedData = useMemo(
         () =>
-            data?.map(
-                ({ Title, Modified_Date, Object_ID, Start_Validity }) => ({
-                    Title,
-                    ...(!atemporal && {
+            data?.map(({ Title, Modified_Date, Object_ID, ...props }) => ({
+                Title,
+                ...(!atemporal &&
+                    'Start_Validity' in props && {
                         Status: (
-                            <span data-value={Start_Validity}>
+                            <span data-value={props.Start_Validity}>
                                 Vigerend (sinds{' '}
-                                {Start_Validity &&
+                                {props.Start_Validity &&
                                     formatDate(
-                                        new Date(Start_Validity),
+                                        new Date(props.Start_Validity),
                                         'd MMMM yyyy'
                                     )}
                                 )
                             </span>
                         ),
                     }),
-                    Modified_Date: (
-                        <span data-value={Modified_Date}>
-                            {Modified_Date
-                                ? formatDate(
-                                      new Date(Modified_Date + 'Z'),
-                                      'cccccc d MMMM yyyy, p'
-                                  )
-                                : 'nooit'}
-                        </span>
-                    ),
-                    ...((!atemporal || (atemporal && canCreateModule)) && {
-                        onClick: () =>
-                            navigate(
-                                `/muteer/${plural}/${Object_ID}${
-                                    atemporal ? '/bewerk' : ''
-                                }`
-                            ),
-                    }),
-                })
-            ) || [],
+                Modified_Date: (
+                    <span data-value={Modified_Date}>
+                        {Modified_Date
+                            ? formatDate(
+                                  new Date(Modified_Date + 'Z'),
+                                  'cccccc d MMMM yyyy, p'
+                              )
+                            : 'nooit'}
+                    </span>
+                ),
+                ...((!atemporal || (atemporal && canCreateModule)) && {
+                    onClick: () =>
+                        navigate(
+                            `/muteer/${plural}/${Object_ID}${
+                                atemporal ? '/bewerk' : ''
+                            }`
+                        ),
+                }),
+            })) || [],
         [data, atemporal, plural, canCreateModule, navigate]
     )
 

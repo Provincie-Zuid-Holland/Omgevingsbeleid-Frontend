@@ -128,10 +128,7 @@ const SearchResults = () => {
                     </Heading>
                 </div>
                 <div className="flex items-center w-full col-span-6 mt-2 mb-4 md:mt-0 md:mb-0 md:w-auto md:col-span-4">
-                    <SearchBar
-                        className="rounded-sm"
-                        id="search-query-results"
-                    />
+                    <SearchBar />
                 </div>
             </Container>
             <Container className="pb-16 mt-4">

@@ -1,10 +1,9 @@
 import { Transition } from '@headlessui/react'
-import { Heading, Text } from '@pzh-ui/components'
+import { FieldSelect, Heading, Text } from '@pzh-ui/components'
 import { ArrowLeft, DrawPolygon, LocationDot } from '@pzh-ui/icons'
 import Leaflet, { latLng, Map } from 'leaflet'
-import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import { ReactNode, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Select from 'react-select'
 
 import { useWerkingsgebiedenGet } from '@/api/fetchers'
 import { LeafletSearchInput } from '@/components/Leaflet'
@@ -31,8 +30,6 @@ const SidebarInformation = ({
 
     const [werkingsgebied, setWerkingsgebied] =
         useState<Leaflet.Proj.GeoJSON | null>(null)
-
-    const searchInput = useRef<HTMLInputElement>(null)
 
     const { data, isLoading } = useWerkingsgebiedenGet()
     const selectedVal = useMemo(
@@ -120,10 +117,7 @@ const SidebarInformation = ({
                             <LeafletSearchInput
                                 mapInstance={mapInstance}
                                 drawCallback={onDraw}
-                                ref={searchInput}
                                 placeholder="Geef een adres op"
-                                withSearchIcon
-                                classes="block w-full h-2.4 pl-4 pr-8 pb-3 pt-3.5 placeholder-pzh-blue-dark placeholder-opacity-50 text-sm border border-gray-400 rounded appearance-none focus:outline-none hover:border-gray-500 focus:border-gray-500"
                             />
                         </div>
                     </>
@@ -134,42 +128,42 @@ const SidebarInformation = ({
                     description="Selecteer een werkingsgebied om het gekoppelde beleid in te zien."
                 />
                 {data && (
-                    <div className="form-select-container">
-                        <Select
-                            className="mt-2"
-                            id="select-werkingsgebied"
-                            name="werkingsgebied"
-                            options={
-                                data.map(item => ({
-                                    label: item.Title || '',
-                                    value: item.UUID || '',
-                                })) || []
-                            }
-                            value={
-                                (selectedVal && {
-                                    label: selectedVal.Title || '',
-                                    value: selectedVal.UUID || '',
-                                }) ||
-                                null
-                            }
-                            components={{
-                                IndicatorSeparator: () => null,
-                            }}
-                            aria-label="Selecteer een werkingsgebied"
-                            classNamePrefix="form-select"
-                            placeholder="Selecteer een werkingsgebied"
-                            menuPortalTarget={
-                                document.getElementById(
-                                    'select-werkingsgebied-portal'
-                                ) as HTMLElement
-                            }
-                            menuPlacement="auto"
-                            isLoading={isLoading}
-                            onChange={val => {
-                                set('werkingsgebied', val?.value || '')
-                            }}
-                        />
-                    </div>
+                    <FieldSelect
+                        className="mt-2"
+                        id="select-werkingsgebied"
+                        name="werkingsgebied"
+                        options={
+                            data.map(item => ({
+                                label: item.Title || '',
+                                value: item.UUID || '',
+                            })) || []
+                        }
+                        value={
+                            (selectedVal && {
+                                label: selectedVal.Title || '',
+                                value: selectedVal.UUID || '',
+                            }) ||
+                            null
+                        }
+                        components={{
+                            IndicatorSeparator: () => null,
+                        }}
+                        aria-label="Selecteer een werkingsgebied"
+                        placeholder="Selecteer een werkingsgebied"
+                        menuPortalTarget={
+                            document.getElementById(
+                                'select-werkingsgebied-portal'
+                            ) as HTMLElement
+                        }
+                        menuPlacement="auto"
+                        isLoading={isLoading}
+                        onChange={val => {
+                            set(
+                                'werkingsgebied',
+                                (val as { value: string })?.value || ''
+                            )
+                        }}
+                    />
                 )}
             </Transition>
 

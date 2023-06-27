@@ -24,7 +24,8 @@ const ModuleCompleteCard = ({ setModuleModal }: ModuleCompleteCardProps) => (
                     isOpen: true,
                     action: 'completeModule',
                 })
-            }>
+            }
+            data-testid="module-complete-button">
             Module afsluiten
         </Button>
     </div>

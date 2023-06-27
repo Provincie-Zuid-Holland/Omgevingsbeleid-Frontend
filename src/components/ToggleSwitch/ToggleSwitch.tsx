@@ -13,6 +13,7 @@ const ToggleSwitch = ({ title, checked, onClick }: ToggleSwitchProps) => (
             onClick={event => onClick(event.target.checked)}
             readOnly
             className="opacity-0 w-0 h-0 peer"
+            data-testid="toggle-switch"
         />
         <span className="sr-only">{title}</span>
         <span className="absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-pzh-gray-300 rounded-[34px] before:absolute before:content-[''] before:h-[24px] before:w-[24px] before:left-[4px] before:bottom-[4px] before:bg-pzh-white before:rounded-full peer-checked:bg-pzh-green peer-checked:before:translate-x-[22px] peer-focus:ring peer-focus:ring-pzh-blue-dark peer-focus:ring-offset-2 transition before:transition" />

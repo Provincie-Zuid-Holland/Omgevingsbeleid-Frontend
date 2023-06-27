@@ -33,6 +33,7 @@ export const StepOne = ({ title, id, model, relations }: StepProps) => {
                 onChange={object => setFieldValue('Title', object?.Title)}
                 objectKey="id"
                 filter={filter}
+                filterType={singular}
                 placeholder={`Zoek in de ${plural}`}
                 label={pluralCapitalize}
                 defaultValue={

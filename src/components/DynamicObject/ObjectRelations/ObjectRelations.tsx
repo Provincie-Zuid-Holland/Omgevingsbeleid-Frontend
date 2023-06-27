@@ -95,6 +95,7 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
                 <Heading level="3">Beleidsrelaties</Heading>
                 {userCanEdit && (
                     <button
+                        data-testid="object-relation-add"
                         onClick={() =>
                             setModal({
                                 ...modal,

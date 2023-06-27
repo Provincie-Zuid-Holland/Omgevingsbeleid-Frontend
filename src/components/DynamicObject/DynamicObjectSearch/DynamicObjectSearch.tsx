@@ -1,7 +1,7 @@
-import { FieldSelect, FieldSelectProps, FormikSelect } from '@pzh-ui/components'
+import { FieldSelectProps, FormikSelect } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
+import { useFormikContext } from 'formik'
 import debounce from 'lodash.debounce'
-import { useState } from 'react'
 
 import { searchPost } from '@/api/fetchers'
 import { SearchObject } from '@/api/fetchers.schemas'
@@ -9,7 +9,7 @@ import { ModelType } from '@/config/objects/types'
 
 type Option = {
     label: JSX.Element
-    value: string | number
+    value: SearchObject
 }
 
 interface DynamicObjectSearchProps
@@ -26,8 +26,6 @@ interface DynamicObjectSearchProps
     filter?: number | string | number[] | string[]
     /** Filter items by Object_Type */
     filterType?: ModelType
-    /** If field is not inside Formik context */
-    plain?: boolean
 }
 
 const DynamicObjectSearch = ({
@@ -37,12 +35,9 @@ const DynamicObjectSearch = ({
     label,
     filter,
     filterType,
-    plain,
     ...rest
 }: DynamicObjectSearchProps) => {
-    const [suggestions, setSuggestions] = useState<SearchObject[]>([])
-
-    const Field = plain ? FieldSelect : FormikSelect
+    const { setFieldValue } = useFormikContext()
 
     const loadSuggestions = (
         query: string,
@@ -84,7 +79,6 @@ const DynamicObjectSearch = ({
                       })
                     : data.Objects
 
-                setSuggestions(filteredObject)
                 callback(
                     filteredObject.map(object => ({
                         label: (
@@ -95,10 +89,7 @@ const DynamicObjectSearch = ({
                                 </span>
                             </div>
                         ),
-                        value:
-                            objectKey === 'uuid'
-                                ? object.UUID
-                                : object.Object_ID,
+                        value: object,
                     }))
                 )
             })
@@ -107,28 +98,21 @@ const DynamicObjectSearch = ({
 
     const handleSuggestions = debounce(loadSuggestions, 500)
 
-    const handleChange = (val: unknown) => {
-        const selected = plain ? (val as Option).value : val
-
-        return onChange(
-            suggestions.find(object =>
-                objectKey === 'uuid'
-                    ? object.UUID === selected
-                    : object.Object_ID === selected
-            )
-        )
-    }
-
     const key = objectKey === 'uuid' ? 'Object_UUID' : 'Object_ID'
 
+    const handleChange = (val: SearchObject) => {
+        setFieldValue(key, objectKey === 'uuid' ? val.UUID : val.Object_ID)
+        return onChange(val)
+    }
+
     return (
-        <Field
+        <FormikSelect
             key={key}
             name={key}
             placeholder={placeholder}
             label={label}
             loadOptions={handleSuggestions}
-            onChange={handleChange}
+            onChange={val => handleChange(val as SearchObject)}
             noOptionsMessage={({ inputValue }) =>
                 !inputValue
                     ? 'Start met typen om te zoeken'
@@ -138,7 +122,6 @@ const DynamicObjectSearch = ({
             isAsync
             cacheOptions
             isClearable
-            optimized={false}
             components={{
                 DropdownIndicator: () => (
                     <div className="mr-4">

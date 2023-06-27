@@ -19,11 +19,11 @@ import type {
 } from '@tanstack/react-query'
 
 import type {
-    AmbitieGet,
+    AmbitieBasic,
     HTTPValidationError,
     AmbitiesValidGetParams,
-    AmbitieBasic,
     AmbitiesValidLineageIdGetParams,
+    AmbitieGet,
     RelationShort,
     ResponseOK,
     AmbitieStaticPostStatics,
@@ -32,19 +32,19 @@ import type {
     AmbitiePatch,
     ActiveModuleObject,
     ModulesObjectAmbitieActiveLineageIdGetParams,
-    BeleidsdoelGet,
-    BeleidsdoelenValidGetParams,
     BeleidsdoelBasic,
+    BeleidsdoelenValidGetParams,
     BeleidsdoelenValidLineageIdGetParams,
+    BeleidsdoelGet,
     BeleidsdoelStaticPostStatics,
     ModulesModuleIdObjectBeleidsdoelLineageIdGetParams,
     BeleidsdoelUUID,
     BeleidsdoelPatch,
     ModulesObjectBeleidsdoelActiveLineageIdGetParams,
-    BeleidskeuzeGet,
-    BeleidskeuzesValidGetParams,
     BeleidskeuzeBasic,
+    BeleidskeuzesValidGetParams,
     BeleidskeuzesValidLineageIdGetParams,
+    BeleidskeuzeGet,
     BeleidskeuzeStaticPostStatics,
     AcknowledgedRelation,
     BeleidskeuzeAcknowledgedRelationsLineageIdGetParams,
@@ -54,28 +54,28 @@ import type {
     BeleidskeuzeUUID,
     BeleidskeuzePatch,
     ModulesObjectsBeleidskeuzeActiveLineageIdGetParams,
-    BeleidsregelGet,
-    BeleidsregelsValidGetParams,
     BeleidsregelBasic,
+    BeleidsregelsValidGetParams,
     BeleidsregelsValidLineageIdGetParams,
+    BeleidsregelGet,
     BeleidsregelStaticPostStatics,
     ModulesModuleIdObjectBeleidsregelLineageIdGetParams,
     BeleidsregelUUID,
     BeleidsregelPatch,
     ModulesObjectsBeleidsregelActiveLineageIdGetParams,
-    GebiedsprogrammaGet,
-    GebiedsprogrammasValidGetParams,
     GebiedsprogrammaBasic,
+    GebiedsprogrammasValidGetParams,
     GebiedsprogrammasValidLineageIdGetParams,
+    GebiedsprogrammaGet,
     GebiedsprogrammaStaticPostStatics,
     ModulesModuleIdObjectGebiedsprogrammasLineageIdGetParams,
     GebiedsprogrammaUUID,
     GebiedsprogrammaPatch,
     ModulesObjectsGebiedsprogrammaActiveLineageIdGetParams,
-    MaatregelGet,
-    MaatregelenValidGetParams,
     MaatregelBasic,
+    MaatregelenValidGetParams,
     MaatregelenValidLineageIdGetParams,
+    MaatregelGet,
     MaatregelStaticPostStatics,
     ModulesModuleIdObjectMaatregelLineageIdGetParams,
     MaatregelUUID,
@@ -149,7 +149,7 @@ export const ambitiesValidGet = (
     params?: AmbitiesValidGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<AmbitieGet[]>({
+    return customInstance<AmbitieBasic[]>({
         url: `/ambities/valid`,
         method: 'get',
         params,
@@ -954,7 +954,7 @@ export const beleidsdoelenValidGet = (
     params?: BeleidsdoelenValidGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<BeleidsdoelGet[]>({
+    return customInstance<BeleidsdoelBasic[]>({
         url: `/beleidsdoelen/valid`,
         method: 'get',
         params,
@@ -1789,7 +1789,7 @@ export const beleidskeuzesValidGet = (
     params?: BeleidskeuzesValidGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<BeleidskeuzeGet[]>({
+    return customInstance<BeleidskeuzeBasic[]>({
         url: `/beleidskeuzes/valid`,
         method: 'get',
         params,
@@ -2854,7 +2854,7 @@ export const beleidsregelsValidGet = (
     params?: BeleidsregelsValidGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<BeleidsregelGet[]>({
+    return customInstance<BeleidsregelBasic[]>({
         url: `/beleidsregels/valid`,
         method: 'get',
         params,
@@ -3699,7 +3699,7 @@ export const gebiedsprogrammasValidGet = (
     params?: GebiedsprogrammasValidGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<GebiedsprogrammaGet[]>({
+    return customInstance<GebiedsprogrammaBasic[]>({
         url: `/gebiedsprogrammas/valid`,
         method: 'get',
         params,
@@ -4579,7 +4579,7 @@ export const maatregelenValidGet = (
     params?: MaatregelenValidGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<MaatregelGet[]>({
+    return customInstance<MaatregelBasic[]>({
         url: `/maatregelen/valid`,
         method: 'get',
         params,

@@ -10,7 +10,7 @@ import {
 } from '@/api/fetchers'
 import {
     WettelijkeTaakEdit,
-    WettelijkeTaakStaticEditStatics,
+    WettelijkeTaakStaticPostStatics,
 } from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
@@ -32,12 +32,13 @@ const fetchers = {
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
     usePostObject: useWettelijkeTaakPost,
+    useGetActiveModules: null,
 }
 
 const wettelijkeTaak: DynamicObject<
     typeof fetchers,
     keyof WettelijkeTaakEdit,
-    (keyof WettelijkeTaakStaticEditStatics)[]
+    (keyof WettelijkeTaakStaticPostStatics)[]
 > = {
     defaults: {
         singular: 'wettelijke_taak',

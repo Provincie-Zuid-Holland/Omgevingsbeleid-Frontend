@@ -1,9 +1,13 @@
 import { Divider, Heading } from '@pzh-ui/components'
-import { useParams } from 'react-router-dom'
+import { ArrowUpRightFromSquare } from '@pzh-ui/icons'
+import { useParams, Link } from 'react-router-dom'
 
+import ObjectActiveModules from '@/components/DynamicObject/ObjectActiveModules'
 import ObjectConnections from '@/components/DynamicObject/ObjectConnections'
 import ObjectDefaultInfo from '@/components/DynamicObject/ObjectDefaultInfo'
 import ObjectRelations from '@/components/DynamicObject/ObjectRelations'
+import ObjectValidArchived from '@/components/DynamicObject/ObjectValidArchived'
+import { LoaderCard } from '@/components/Loader'
 import { Model } from '@/config/objects/types'
 import useModule from '@/hooks/useModule'
 import useObject from '@/hooks/useObject'
@@ -16,10 +20,11 @@ interface ObjectDetailProps {
 const ObjectDetail = ({ model }: ObjectDetailProps) => {
     const { moduleId } = useParams()
 
-    const { singularCapitalize, plural, pluralCapitalize } = model.defaults
+    const { singularCapitalize, plural, pluralCapitalize, slugOverview } =
+        model.defaults
 
     const { data: module } = useModule() || {}
-    const { data: object } = useObject()
+    const { data: object, isLoading } = useObject()
 
     const breadcrumbPaths = [
         { name: 'Muteeromgeving', path: '/muteer' },
@@ -34,17 +39,31 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
     ]
 
     return (
-        <MutateLayout title={singularCapitalize} breadcrumbs={breadcrumbPaths}>
-            <div className="col-span-6">
-                <Heading level="1">{singularCapitalize}</Heading>
+        <MutateLayout
+            title={`${singularCapitalize}: ${object?.Title}`}
+            breadcrumbs={breadcrumbPaths}>
+            <div className="col-span-4">
+                <Heading level="3" as="2" className="mb-2">
+                    {singularCapitalize}
+                </Heading>
+                {isLoading && <LoaderCard height="56" className="w-auto" />}
+                <Heading level="1" className="mb-2">
+                    {object?.Title}
+                </Heading>
+                <Link
+                    to={`/${slugOverview}/${object?.UUID}`}
+                    className="flex items-center text-pzh-green underline hover:text-pzh-green-dark">
+                    Bekijk in raadpleegomgeving
+                    <ArrowUpRightFromSquare className="ml-2" />
+                </Link>
 
                 <Divider className="mb-8 mt-6" />
-            </div>
 
-            <div className="col-span-4">
-                <Heading as="2" level="3" className="mb-4">
-                    Status
-                </Heading>
+                <ObjectActiveModules />
+
+                <Divider className="my-6" />
+
+                <ObjectValidArchived model={model} />
             </div>
 
             <div className="col-span-2">
