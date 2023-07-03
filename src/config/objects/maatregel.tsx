@@ -68,7 +68,11 @@ const maatregel: DynamicObject<
         'Portfolio_Holder_1_UUID',
         'Portfolio_Holder_2_UUID',
     ],
-    allowedConnections: [{ type: 'beleidsdoel', key: 'Beleidsdoelen' }],
+    allowedConnections: [
+        { type: 'beleidsdoel', key: 'Beleidsdoelen' },
+        { type: 'gebiedsprogramma', key: 'Gebiedsprogrammas' },
+        { type: 'maatregel', key: 'Maatregelen' },
+    ],
     connectionsDescription: (
         <>
             Binnen het omgevingsbeleid bestaan koppelingen en relaties. Een
