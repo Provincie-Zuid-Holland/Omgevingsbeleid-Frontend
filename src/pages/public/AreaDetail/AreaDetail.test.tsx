@@ -1,9 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import {
-    render,
-    screen,
-    waitForElementToBeRemoved,
-} from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 
@@ -39,14 +35,12 @@ describe('AreaDetail', () => {
     it('Component renders', async () => {
         setup()
 
-        await waitForElementToBeRemoved(() =>
-            screen.queryByTestId('loader-content')
-        )
-
-        const element = screen.getByRole('heading', {
-            name: gebiedsprogrammas.results[0].Title,
-            level: 1,
+        waitFor(() => {
+            const element = screen.getByRole('heading', {
+                name: gebiedsprogrammas.results[0].Title,
+                level: 1,
+            })
+            expect(element).toBeTruthy()
         })
-        expect(element).toBeTruthy()
     })
 })

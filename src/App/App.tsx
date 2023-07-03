@@ -79,7 +79,7 @@ const App = () => {
                     </div>
                 </AuthProvider>
             </QueryClientProvider>
-            {import.meta.env.MODE !== 'production' &&
+            {!import.meta.env.PROD &&
                 !import.meta.env.JEST_WORKER_ID &&
                 import.meta.env.VITE_ENABLE_AXE === 'true' && <Axe />}
         </>

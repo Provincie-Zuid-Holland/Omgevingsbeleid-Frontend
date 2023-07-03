@@ -9,9 +9,10 @@ describe('ObjectList', () => {
         objectType: 'beleidsdoelen',
         objectSlug: 'beleidsdoelen',
         data: [
-            { Titel: 'Test', UUID: '123' },
-            { Titel: 'Test 2', UUID: '1234' },
+            { Title: 'Test', UUID: '123' },
+            { Title: 'Test 2', UUID: '1234' },
         ],
+        total: 2,
     }
 
     const setup = (customProps?: { [key: string]: any }) => {

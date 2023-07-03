@@ -7,10 +7,14 @@ import AuthProvider from '@/context/AuthContext'
 
 import Login from './Login'
 
-const mockedUsedNavigate = vi.fn()
-vi.mock('react-router-dom', () => ({
-    useNavigate: () => mockedUsedNavigate,
-}))
+vi.mock('react-router-dom', async () => {
+    const actual = (await vi.importActual('react-router-dom')) as any
+
+    return {
+        ...actual,
+        useNavigate: vi.fn(),
+    }
+})
 
 const queryClient = new QueryClient()
 

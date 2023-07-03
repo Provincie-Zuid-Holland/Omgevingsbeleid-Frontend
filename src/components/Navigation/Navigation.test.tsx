@@ -1,10 +1,14 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+import AuthProvider from '@/context/AuthContext'
 
 import Navigation from './Navigation'
 
 describe('Navigation', () => {
+    const queryClient = new QueryClient()
     const setLoginStateMock = vi.fn()
     const defaultProps = {
         setLoginState: setLoginStateMock,
@@ -14,9 +18,13 @@ describe('Navigation', () => {
     const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
         render(
-            <MemoryRouter>
-                <Navigation {...props} />
-            </MemoryRouter>
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <AuthProvider>
+                        <Navigation {...props} />
+                    </AuthProvider>
+                </MemoryRouter>
+            </QueryClientProvider>
         )
     }
 

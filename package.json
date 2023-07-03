@@ -55,6 +55,7 @@
         "prebuild": "npm run-script build:css --minify",
         "start": "concurrently \"npm run-script watch:css\" \"vite\"",
         "build": "tsc && vite build",
+        "serve": "vite preview",
         "format": "prettier --write './src/**/*'",
         "test": "vitest watch",
         "test:no-watch": "vitest run",

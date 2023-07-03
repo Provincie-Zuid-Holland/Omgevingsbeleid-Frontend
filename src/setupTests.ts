@@ -1,3 +1,4 @@
+/* eslint-disable prefer-rest-params */
 import matchers from '@testing-library/jest-dom/matchers'
 import { expect } from 'vitest'
 
@@ -17,12 +18,12 @@ global.document.createElementNS = function (
         qualifiedName === 'svg'
     ) {
         //@ts-ignore
-        const element = createElementNSOrig.apply(this, ...rest) as any
+        const element = createElementNSOrig.apply(this, arguments) as any
         element.createSVGRect = function () {}
         return element
     }
     //@ts-ignore
-    return createElementNSOrig.apply(this, ...rest)
+    return createElementNSOrig.apply(this, arguments)
 }
 
 // Mock IntersectionObserver

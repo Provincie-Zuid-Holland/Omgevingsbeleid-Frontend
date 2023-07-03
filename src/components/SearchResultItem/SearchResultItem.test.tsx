@@ -28,7 +28,7 @@ describe('SearchResultItem', () => {
         item: {
             Omschrijving: 'Description',
             Titel: 'Test Title',
-            Type: 'beleidskeuzes',
+            Type: 'beleidskeuze',
         },
         searchQuery: 'search query',
     }
