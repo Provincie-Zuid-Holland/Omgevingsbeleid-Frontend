@@ -1,10 +1,12 @@
 import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
 
 import { Container } from '@/components/Container'
 import ObjectList from '@/components/ObjectList'
 import { Model } from '@/config/objects/types'
+
+const PAGE_LIMIT = 20
 
 interface DynamicOverviewProps {
     model: Model
@@ -13,21 +15,23 @@ interface DynamicOverviewProps {
 function DynamicOverview({ model }: DynamicOverviewProps) {
     const pathName = location.pathname || ''
 
+    const [currPage, setCurrPage] = useState(1)
+
     const { useGetValid } = model.fetchers
     const { plural, pluralCapitalize, description, slugOverview } =
         model.defaults
 
-    const { data, isLoading } = useGetValid({ limit: 200 })
+    const { data, isLoading } = useGetValid({
+        limit: PAGE_LIMIT,
+        offset: (currPage - 1) * PAGE_LIMIT,
+    })
 
     /**
      * Create array of returned data with correct format
      * sort data by Title
      */
     const allObjects = useMemo(
-        () =>
-            data
-                ?.map(({ Title, UUID }) => ({ Title, UUID }))
-                .sort((a, b) => a.Title!.localeCompare(b.Title!)),
+        () => data?.results?.map(({ Title, UUID }) => ({ Title, UUID })),
         [data]
     )
 
@@ -54,6 +58,9 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
                             isLoading={isLoading}
                             objectSlug={slugOverview ? slugOverview : ''}
                             objectType={plural}
+                            limit={PAGE_LIMIT}
+                            onPageChange={setCurrPage}
+                            total={data?.total}
                         />
                     </div>
                 </div>

@@ -22,7 +22,7 @@ describe('App', () => {
             setup({})
         })
 
-        const windowScrollMock = jest.fn()
+        const windowScrollMock = vi.fn()
         window.scrollTo = windowScrollMock
 
         await waitFor(() => {

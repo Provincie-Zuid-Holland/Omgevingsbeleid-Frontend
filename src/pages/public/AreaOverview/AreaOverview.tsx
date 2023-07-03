@@ -38,7 +38,7 @@ function AreaOverview() {
                 <div className="col-span-6 mt-8">
                     {data ? (
                         <ul className="grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
-                            {data.map(item => (
+                            {data.results.map(item => (
                                 <li key={item.UUID}>
                                     <AreaCard
                                         image={item?.Image}

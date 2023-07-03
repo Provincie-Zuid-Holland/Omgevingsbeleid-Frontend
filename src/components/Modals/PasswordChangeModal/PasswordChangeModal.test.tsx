@@ -5,7 +5,7 @@ import PasswordChangeModal from './PasswordChangeModal'
 
 describe('PasswordChangeModal', () => {
     const defaultProps = {
-        setOpen: jest.fn(),
+        setOpen: vi.fn(),
     }
 
     const setup = (customProps?: any) => {

@@ -1,30 +1,13 @@
 import { Disclosure } from '@headlessui/react'
 import { Button, Divider, Heading, Text } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
-import { useQuery } from '@tanstack/react-query'
 import { Helmet } from 'react-helmet'
 
-import { getEdits } from '@/api/fetchers'
 import { Container } from '@/components/Container'
 import imageInBewerking from '@/images/in-bewerking.webp'
 import { scrollToElementByID } from '@/utils/scrollToElementByID'
 
-import TableLatestEdits from './TableLatestEdits'
-
 function InProgress() {
-    const { isLoading, data: edits } = useQuery(['/edits'], () =>
-        getEdits().then(data => {
-            const filteredData = data.filter(
-                item =>
-                    item.Status !== 'Ontwerp GS Concept' &&
-                    item.Status !== 'Definitief ontwerp GS concept'
-            )
-            return filteredData.length > 10
-                ? filteredData.slice(0, 10)
-                : filteredData
-        })
-    )
-
     return (
         <div>
             <Helmet>
@@ -83,7 +66,6 @@ function InProgress() {
                     kan eenvoudig worden gesorteerd door op het kopje van de
                     kolom te drukken.
                 </Text>
-                <TableLatestEdits edits={edits} isLoading={isLoading} />
             </Container>
             <Divider />
             <Container className="py-12">

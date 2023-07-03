@@ -6,7 +6,6 @@ import { useState } from 'react'
 
 import { GeoSearchResult } from '@/api/fetchers.schemas'
 import { LoaderCard } from '@/components/Loader'
-import Pagination from '@/components/Pagination'
 import SearchFilterSection from '@/components/SearchFilterSection'
 import SearchResultItem from '@/components/SearchResultItem'
 import useSearchFilterStore from '@/hooks/useSearchFilterStore'
@@ -110,13 +109,6 @@ const SidebarResults = ({
                                             />
                                         ))}
                                 </ul>
-                                <Pagination
-                                    setSearchResults={setSearchResults}
-                                    searchResults={searchResults}
-                                    UUIDs={UUIDs}
-                                    limit={10}
-                                    total={searchResultsTotal}
-                                />
                             </div>
                         ) : (
                             <Text className="mt-2">

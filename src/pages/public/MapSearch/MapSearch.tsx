@@ -94,7 +94,7 @@ const MapSearch = () => {
     const getSearchResults = async (UUIDs: string[]) => {
         setSearchResultsLoading(true)
 
-        return searchGeoPost(UUIDs).then(data => {
+        return searchGeoPost({ Area_List: UUIDs }).then(data => {
             setSearchResults(data.results || [])
             setSearchResultsTotal(data.total || 0)
             initializeFilters(data.results || [])

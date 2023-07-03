@@ -1,6 +1,5 @@
 import { useMemo, useRef } from 'react'
 
-import { GetSearch200ResultsItem } from '@/api/fetchers.schemas'
 import FilterItem from '@/components/FilterItem'
 import { LoaderCard } from '@/components/Loader'
 import useSearchFilterStore from '@/hooks/useSearchFilterStore'
@@ -8,7 +7,7 @@ import useSearchParam from '@/hooks/useSearchParam'
 
 interface SearchFilterSection {
     loaded: boolean
-    searchResults?: GetSearch200ResultsItem[]
+    searchResults?: any[]
     hideLabels?: boolean
 }
 

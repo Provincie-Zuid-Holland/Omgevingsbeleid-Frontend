@@ -6,8 +6,8 @@ import { BrowserRouter } from 'react-router-dom'
 import LeafletSearchInput from './LeafletSearchInput'
 
 describe('LeafletSearchInput', () => {
-    const selectMock = jest.fn()
-    const mapPanToMock = jest.fn()
+    const selectMock = vi.fn()
+    const mapPanToMock = vi.fn()
     const defaultProps = {
         mapPanTo: mapPanToMock,
         reference: {

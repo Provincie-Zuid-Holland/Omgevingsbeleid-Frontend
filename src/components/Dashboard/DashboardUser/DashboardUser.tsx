@@ -1,19 +1,42 @@
 import { Heading, TabItem, Tabs, Text } from '@pzh-ui/components'
+import groupBy from 'lodash.groupby'
+import { useMemo } from 'react'
 
-import { useBeleidskeuzesValidGet, useModulesGet } from '@/api/fetchers'
-import { Module } from '@/api/fetchers.schemas'
+import { useModulesGet, useModulesObjectsLatestGet } from '@/api/fetchers'
+import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
 import ObjectCard from '@/components/DynamicObject/ObjectCard'
 import { LoaderCard } from '@/components/Loader'
 import ModuleCard from '@/components/Modules/ModuleCard'
-import { ModelReturnType } from '@/config/objects/types'
+import * as models from '@/config/objects'
+import { ModelReturnType, ModelType } from '@/config/objects/types'
+import useAuth from '@/hooks/useAuth'
 
 const DashboardUser = () => {
+    const { user } = useAuth()
+
     const { data: modules, isLoading: modulesLoading } = useModulesGet({
         only_active: true,
         only_mine: true,
     })
 
-    const { data, isLoading } = useBeleidskeuzesValidGet()
+    const { data: objects, isLoading } = useModulesObjectsLatestGet({
+        owner_uuid: user?.UUID,
+    })
+
+    /**
+     * Format relations
+     */
+    const userObjects = useMemo(() => {
+        const grouped = groupBy(objects, 'Object_Type')
+        const sorted = Object.keys(grouped)
+            .sort()
+            .reduce((obj: any, key) => {
+                obj[key] = grouped[key]
+                return obj
+            }, {})
+
+        return sorted
+    }, [objects]) as { [key in ModelType]: ModuleObjectShort[] }
 
     return (
         <div className="col-span-6">
@@ -22,7 +45,11 @@ const DashboardUser = () => {
                     Modules
                 </Heading>
 
-                <ItemList items={modules} isLoading={modulesLoading} />
+                <ItemList
+                    items={modules}
+                    isLoading={modulesLoading}
+                    type="module"
+                />
 
                 <div className="grid grid-cols-6 mt-8">
                     <div className="col-span-6 lg:col-span-3 mb-6">
@@ -36,14 +63,31 @@ const DashboardUser = () => {
                         </Text>
                     </div>
 
-                    <div className="col-span-6">
-                        <Tabs>
-                            <TabItem
-                                title={`Beleidskeuzes (${data?.length || 0})`}>
-                                <ItemList items={data} isLoading={isLoading} />
-                            </TabItem>
-                        </Tabs>
-                    </div>
+                    {!!Object.keys(userObjects).length && (
+                        <div className="col-span-6">
+                            <Tabs>
+                                {Object.keys(userObjects).map(type => {
+                                    const objects =
+                                        userObjects[type as ModelType]
+                                    const model = models[type as ModelType]
+
+                                    return (
+                                        <TabItem
+                                            key={type}
+                                            title={`${
+                                                model.defaults.pluralCapitalize
+                                            } (${objects?.length || 0})`}>
+                                            <ItemList
+                                                items={objects || []}
+                                                isLoading={isLoading}
+                                                type="object"
+                                            />
+                                        </TabItem>
+                                    )
+                                })}
+                            </Tabs>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
@@ -52,10 +96,11 @@ const DashboardUser = () => {
 
 interface ItemListProps {
     isLoading: boolean
-    items?: Module[] | ModelReturnType[]
+    items?: Module[] | ModelReturnType[] | ModuleObjectShort[]
+    type: 'module' | 'object'
 }
 
-const ItemList = ({ isLoading, items }: ItemListProps) => (
+const ItemList = ({ isLoading, items, type }: ItemListProps) => (
     <>
         {isLoading ? (
             <div className="mt-5 grid gap-9 lg:grid-cols-3 grid-cols-1">
@@ -68,14 +113,17 @@ const ItemList = ({ isLoading, items }: ItemListProps) => (
                 {items?.length ? (
                     <ul className="mt-5 grid gap-9 lg:grid-cols-3 grid-cols-1">
                         {items.map(item =>
-                            'Module_ID' in item ? (
+                            'Module_ID' in item &&
+                            'Status' in item &&
+                            type === 'module' ? (
                                 <ModuleCard key={item.Module_ID} {...item} />
                             ) : (
-                                'Object_ID' in item && (
+                                'Object_ID' in item &&
+                                type === 'object' && (
                                     <ObjectCard
                                         key={item.UUID}
-                                        Object_Type="beleidskeuze"
-                                        {...item}
+                                        Object_Type={item.Object_Type}
+                                        {...(item as ModelReturnType)}
                                     />
                                 )
                             )

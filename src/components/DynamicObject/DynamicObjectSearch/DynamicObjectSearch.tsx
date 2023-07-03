@@ -3,7 +3,7 @@ import { MagnifyingGlass } from '@pzh-ui/icons'
 import { useFormikContext } from 'formik'
 import debounce from 'lodash.debounce'
 
-import { searchPost } from '@/api/fetchers'
+import { searchValidPost } from '@/api/fetchers'
 import { SearchObject } from '@/api/fetchers.schemas'
 import { ModelType } from '@/config/objects/types'
 
@@ -32,7 +32,6 @@ const DynamicObjectSearch = ({
     onChange,
     objectKey = 'uuid',
     placeholder = 'Zoek op titel van beleidskeuze, maatregel, etc.',
-    label,
     filter,
     filterType,
     ...rest
@@ -43,10 +42,10 @@ const DynamicObjectSearch = ({
         query: string,
         callback: (options: Option[]) => void
     ) => {
-        searchPost({ query })
+        searchValidPost({ query })
             .then(data => {
                 const filteredObject = !!filter
-                    ? data.Objects.filter(object => {
+                    ? data.results.filter(object => {
                           if (Array.isArray(filter)) {
                               return objectKey === 'uuid'
                                   ? !!filterType
@@ -77,7 +76,7 @@ const DynamicObjectSearch = ({
                                   : object.Object_ID !== filter
                           }
                       })
-                    : data.Objects
+                    : data.results
 
                 callback(
                     filteredObject.map(object => ({
@@ -110,7 +109,6 @@ const DynamicObjectSearch = ({
             key={key}
             name={key}
             placeholder={placeholder}
-            label={label}
             loadOptions={handleSuggestions}
             onChange={val => handleChange(val as SearchObject)}
             noOptionsMessage={({ inputValue }) =>

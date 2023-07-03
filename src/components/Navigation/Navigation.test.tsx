@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router-dom'
 import Navigation from './Navigation'
 
 describe('Navigation', () => {
-    const setLoginStateMock = jest.fn()
+    const setLoginStateMock = vi.fn()
     const defaultProps = {
         setLoginState: setLoginStateMock,
         loggedIn: false,

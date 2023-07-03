@@ -7,9 +7,8 @@ import AuthProvider from '@/context/AuthContext'
 
 import Login from './Login'
 
-const mockedUsedNavigate = jest.fn()
-jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
+const mockedUsedNavigate = vi.fn()
+vi.mock('react-router-dom', () => ({
     useNavigate: () => mockedUsedNavigate,
 }))
 

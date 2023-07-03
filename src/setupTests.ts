@@ -1,6 +1,9 @@
-/* eslint-disable */
+import matchers from '@testing-library/jest-dom/matchers'
+import { expect } from 'vitest'
 
 import { server } from './mocks/server'
+
+expect.extend(matchers)
 
 // https://stackoverflow.com/questions/54382414/fixing-react-leaflet-testing-error-cannot-read-property-layeradd-of-null/54384719#54384719
 const createElementNSOrig = global.document.createElementNS
@@ -14,19 +17,19 @@ global.document.createElementNS = function (
         qualifiedName === 'svg'
     ) {
         //@ts-ignore
-        const element = createElementNSOrig.apply(this, arguments) as any
+        const element = createElementNSOrig.apply(this, ...rest) as any
         element.createSVGRect = function () {}
         return element
     }
     //@ts-ignore
-    return createElementNSOrig.apply(this, arguments)
+    return createElementNSOrig.apply(this, ...rest)
 }
 
 // Mock IntersectionObserver
 class IntersectionObserver {
-    observe = jest.fn()
-    disconnect = jest.fn()
-    unobserve = jest.fn()
+    observe = vi.fn()
+    disconnect = vi.fn()
+    unobserve = vi.fn()
 }
 
 Object.defineProperty(window, 'IntersectionObserver', {
@@ -49,11 +52,11 @@ beforeAll(() => {
         matches: false,
         media: query,
         onchange: null,
-        addListener: jest.fn(), // Deprecated
-        removeListener: jest.fn(), // Deprecated
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
+        addListener: vi.fn(), // Deprecated
+        removeListener: vi.fn(), // Deprecated
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        dispatchEvent: vi.fn(),
     })
 })
 

@@ -9,8 +9,12 @@ cypress/fixtures
 cypress/support/localStorage.json
 cypress.json
 
+# analyse bundle
+analyse.html
+
 # production
 /build
+/dist
 
 #documents
 /docs

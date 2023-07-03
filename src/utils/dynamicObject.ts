@@ -57,6 +57,23 @@ export const getStaticDataPropertyRequired = (
     }
 }
 
+export const getStaticDataFilterProperty = (
+    key: keyof ModelPatchStaticType
+) => {
+    switch (key) {
+        case 'Owner_1_UUID':
+            return 'Owner_2'
+        case 'Owner_2_UUID':
+            return 'Owner_1'
+        case 'Portfolio_Holder_1_UUID':
+            return 'Portfolio_Holder_2'
+        case 'Portfolio_Holder_2_UUID':
+            return 'Portfolio_Holder_1'
+        default:
+            break
+    }
+}
+
 export const getObjectActionText = (action?: string) => {
     switch (action) {
         case 'Toevoegen':

@@ -20,7 +20,7 @@ describe('AreaDetail', () => {
     const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
         const path = `/omgevingsprogramma/gebiedsprogrammas/:id`
-        const initialEntries = `/omgevingsprogramma/gebiedsprogrammas/${gebiedsprogrammas[0].UUID}`
+        const initialEntries = `/omgevingsprogramma/gebiedsprogrammas/${gebiedsprogrammas.results[0].UUID}`
 
         render(
             <QueryClientProvider client={queryClient}>
@@ -44,7 +44,7 @@ describe('AreaDetail', () => {
         )
 
         const element = screen.getByRole('heading', {
-            name: gebiedsprogrammas[0].Title,
+            name: gebiedsprogrammas.results[0].Title,
             level: 1,
         })
         expect(element).toBeTruthy()

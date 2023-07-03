@@ -4,8 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 import SearchBar from './SearchBar'
 
-jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
+vi.mock('react-router-dom', () => ({
     useLocation: () => ({
         pathname: '/zoekresultaten',
         search: '?query=',

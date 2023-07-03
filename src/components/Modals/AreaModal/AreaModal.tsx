@@ -31,7 +31,7 @@ const AreaModal = ({
 }: AreaModalProps) => {
     const [step, setStep] = useState(initialStep)
 
-    const { data, isLoading } = useWerkingsgebiedenGet({
+    const { data, isLoading } = useWerkingsgebiedenGet(undefined, {
         query: { enabled: isOpen },
     })
 
@@ -40,7 +40,7 @@ const AreaModal = ({
      */
     const groupedData = useMemo(
         () =>
-            data?.reduce((r, a) => {
+            data?.results.reduce((r, a) => {
                 r[a.ID] = r[a.ID] || []
                 r[a.ID].push(a)
                 return r

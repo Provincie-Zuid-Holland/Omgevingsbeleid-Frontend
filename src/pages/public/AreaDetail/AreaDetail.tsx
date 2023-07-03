@@ -63,8 +63,7 @@ function AreaDetail() {
                                 isLoading={isLoading}
                                 objectType="maatregelen"
                                 objectSlug="omgevingsprogramma/maatregelen"
-                                advancedSearch={false}
-                                hasFilter={false}
+                                hasSearch={false}
                                 title="Maatregelen in dit gebiedsprogramma"
                             />
                         </div>

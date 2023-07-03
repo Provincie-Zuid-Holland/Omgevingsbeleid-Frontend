@@ -6,7 +6,7 @@ import { MemoryRouter } from 'react-router-dom'
 import Dropdown, { DropdownProps } from './Dropdown'
 
 describe('Dropdown', () => {
-    const callback = jest.fn()
+    const callback = vi.fn()
     const slug = '/this-is-a-slug/for-testing'
 
     const defaultProps: DropdownProps = {

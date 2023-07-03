@@ -7,6 +7,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet'
 import { useEffectOnce } from 'react-use'
 
+import Axe from '@/Axe'
 import { LoaderContent } from '@/components/Loader'
 import AuthProvider from '@/context/AuthContext'
 import usePage from '@/hooks/usePage'
@@ -34,16 +35,6 @@ const App = () => {
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
     const isNetworkPage = usePage('/beleidsnetwerk')
 
-    if (
-        process.env.NODE_ENV !== 'production' &&
-        !process.env.JEST_WORKER_ID &&
-        process.env.REACT_APP_ENABLE_AXE === 'true'
-    ) {
-        const axe = require('@/a11y').default
-
-        axe()
-    }
-
     useEffectOnce(() => checkForInternetExplorer())
 
     // Used to check for Internet Explorer on mount and display an alert that we only support modern browsers. We do polyfill functionalities where needed for Internet Explorer.
@@ -59,32 +50,39 @@ const App = () => {
     }
 
     return (
-        <QueryClientProvider client={queryClient}>
-            <AuthProvider>
-                <div
-                    className="text-pzh-blue-dark relative flex flex-col min-h-screen"
-                    id="main-container">
-                    <Helmet titleTemplate="%s - Omgevingsbeleid Provincie Zuid-Holland">
-                        <meta charSet="utf-8" />
-                        <title>Omgevingsbeleid - Provincie Zuid-Holland</title>
-                    </Helmet>
+        <>
+            <QueryClientProvider client={queryClient}>
+                <AuthProvider>
+                    <div
+                        className="text-pzh-blue-dark relative flex flex-col min-h-screen"
+                        id="main-container">
+                        <Helmet titleTemplate="%s - Omgevingsbeleid Provincie Zuid-Holland">
+                            <meta charSet="utf-8" />
+                            <title>
+                                Omgevingsbeleid - Provincie Zuid-Holland
+                            </title>
+                        </Helmet>
 
-                    <BaseLayout hideFooter={isAdvancedSearchPage}>
-                        <ErrorBoundary FallbackComponent={ErrorPage}>
-                            <Suspense fallback={<LoaderContent />}>
-                                <AppRoutes />
-                            </Suspense>
-                        </ErrorBoundary>
-                        <ToastContainer position="bottom-left" />
-                        {!isAdvancedSearchPage &&
-                            !userIsInMuteerEnvironment &&
-                            !isNetworkPage && (
-                                <DNABar blocks={6} className="top-[96px]" />
-                            )}
-                    </BaseLayout>
-                </div>
-            </AuthProvider>
-        </QueryClientProvider>
+                        <BaseLayout hideFooter={isAdvancedSearchPage}>
+                            <ErrorBoundary FallbackComponent={ErrorPage}>
+                                <Suspense fallback={<LoaderContent />}>
+                                    <AppRoutes />
+                                </Suspense>
+                            </ErrorBoundary>
+                            <ToastContainer position="bottom-left" />
+                            {!isAdvancedSearchPage &&
+                                !userIsInMuteerEnvironment &&
+                                !isNetworkPage && (
+                                    <DNABar blocks={6} className="top-[96px]" />
+                                )}
+                        </BaseLayout>
+                    </div>
+                </AuthProvider>
+            </QueryClientProvider>
+            {import.meta.env.MODE !== 'production' &&
+                !import.meta.env.JEST_WORKER_ID &&
+                import.meta.env.VITE_ENABLE_AXE === 'true' && <Axe />}
+        </>
     )
 }
 

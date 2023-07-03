@@ -29,7 +29,7 @@ export const StepThree = ({}: StepProps) => {
      */
     const userOptions = useMemo(
         () =>
-            users?.map(user => ({
+            users?.results.map(user => ({
                 label: user.Gebruikersnaam,
                 value: user.UUID,
             })),

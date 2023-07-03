@@ -32,7 +32,7 @@ import {
     ThemeOverview,
     MapSearch,
 } from '@/pages/public'
-import NotFoundPage from '@/pages/public/NotFoundPage/NotFoundPage'
+import NotFoundPage from '@/pages/public/NotFoundPage'
 
 import ProtectedRoute from './ProtectedRoute'
 

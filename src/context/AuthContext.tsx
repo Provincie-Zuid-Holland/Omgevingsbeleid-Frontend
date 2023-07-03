@@ -40,12 +40,12 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
     const [accessToken, setAccessToken, removeAccessToken] =
         useLocalStorage<string>(
-            process.env.REACT_APP_KEY_API_ACCESS_TOKEN || '',
+            import.meta.env.VITE_KEY_API_ACCESS_TOKEN || '',
             undefined,
             { raw: true }
         )
     const [identifier, setIdentifier, removeIdentifier] =
-        useLocalStorage<UserShort>(process.env.REACT_APP_KEY_IDENTIFIER || '')
+        useLocalStorage<UserShort>(import.meta.env.VITE_KEY_IDENTIFIER || '')
 
     /**
      * Signin to application
