@@ -1,5 +1,6 @@
 import { Heading, Hyperlink, Text } from '@pzh-ui/components'
 import { ArrowUpRightFromSquare, FilePdf } from '@pzh-ui/icons'
+import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
 import { Container } from '@/components/Container'
@@ -22,6 +23,20 @@ const Home = () => {
 
     return (
         <>
+            <Helmet>
+                <meta
+                    name="description"
+                    content="Provincie Zuid-Holland heeft haar beleid eenvoudiger,
+                        transparanter en toegankelijker gemaakt. Via deze
+                        website kan je al het Omgevingsbeleid van de provincie
+                        Zuid-Holland inzien. Denk bijvoorbeeld aan de
+                        provinciale ambities voor een duurzame economie, de
+                        regelgeving rondom gevaarlijke gassen of aan de
+                        maatregelen die de provincie neemt om natuur te
+                        herstellen."
+                />
+            </Helmet>
+
             <Container
                 style={{
                     minHeight: '576px',
