@@ -71,6 +71,7 @@ const maatregel: DynamicObject<
     allowedConnections: [
         { type: 'beleidsdoel', key: 'Beleidsdoelen' },
         { type: 'gebiedsprogramma', key: 'Gebiedsprogrammas' },
+        { type: 'maatregel', key: 'Maatregelen' },
     ],
     connectionsDescription: (
         <>
