@@ -31,6 +31,7 @@ import {
     ThemeDetail,
     ThemeOverview,
     MapSearch,
+    SearchResults,
 } from '@/pages/public'
 import NotFoundPage from '@/pages/public/NotFoundPage'
 
@@ -47,10 +48,10 @@ const AppRoutes = () => {
         },
         { path: 'login', element: <Login /> },
         { path: 'logout', element: <Logout /> },
-        // {
-        //     path: 'zoekresultaten',
-        //     element: <SearchResults />,
-        // },
+        {
+            path: 'zoekresultaten',
+            element: <SearchResults />,
+        },
         { path: 'zoeken-op-kaart', element: <MapSearch /> },
         {
             path: 'planning-en-releases',

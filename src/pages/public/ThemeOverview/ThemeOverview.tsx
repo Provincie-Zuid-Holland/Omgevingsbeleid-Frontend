@@ -1,5 +1,6 @@
 import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import { useMemo, useState } from 'react'
+import { Helmet } from 'react-helmet'
 
 import { useBeleidsdoelenValidGet } from '@/api/fetchers'
 import { Container } from '@/components/Container'
@@ -30,7 +31,9 @@ function ThemeOverview() {
     if (isLoading) return <LoaderContent />
 
     return (
-        <div>
+        <>
+            <Helmet title="Thematische programma’s" />
+
             <Container className="pb-20 overflow-hidden">
                 <div className="col-span-6">
                     <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
@@ -62,7 +65,7 @@ function ThemeOverview() {
                     </div>
                 </div>
             </Container>
-        </div>
+        </>
     )
 }
 

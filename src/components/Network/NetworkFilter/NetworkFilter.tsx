@@ -25,7 +25,15 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
     const { amountOfFilters, filters, selectedFilters, setSelectedFilters } =
         useFilterStore(state => ({
             ...state,
-            amountOfFilters: state.selectedFilters?.length || 0,
+            filters: state.filters
+                .map(filter => {
+                    const options = filter.options.filter(
+                        option => option.exclude !== 'network'
+                    )
+                    return { ...filter, options }
+                })
+                .filter(filter => filter.options.length > 0),
+            amountOfFilters: state.selectedFilters?.network?.length || 0,
         }))
 
     /**
@@ -54,7 +62,7 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
         () =>
             filters.flatMap(filter =>
                 filter.options.filter(option =>
-                    selectedFilters?.includes(option.value)
+                    selectedFilters?.network.includes(option.value)
                 )
             ),
         [filters, selectedFilters]
@@ -68,12 +76,14 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
     ) => {
         if (val.length === 0) {
             setSelectedFilters(
+                'network',
                 filters.flatMap(filter =>
                     filter.options.map(option => option.value)
                 )
             )
         } else {
             setSelectedFilters(
+                'network',
                 (val as { label: string; value: ModelType }[])?.map(
                     e => e.value
                 )

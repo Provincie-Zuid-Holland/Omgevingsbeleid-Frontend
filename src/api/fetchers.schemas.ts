@@ -257,24 +257,24 @@ export interface WettelijkeTaakStaticPostStatics {
     Owner_2_UUID?: string | null
 }
 
-export interface WettelijkeTaakShort {
+export interface WettelijkeTaakMinimal {
     Object_Type?: string
     Object_ID?: number
+    Code?: string
     UUID?: string
     Created_Date?: string
     Modified_Date?: string
     Title?: string
-    Weblink?: string
 }
 
-export interface WettelijkeTaakGetStatics {
+export interface WettelijkeTaakFullStatics {
     Owner_1?: UserShort
     Owner_2?: UserShort
 }
 
-export type WettelijkeTaakGetObjectStatics = WettelijkeTaakGetStatics | null
+export type WettelijkeTaakFullObjectStatics = WettelijkeTaakFullStatics | null
 
-export interface WettelijkeTaakGet {
+export interface WettelijkeTaakFull {
     Object_Type?: string
     Object_ID?: number
     Code?: string
@@ -287,9 +287,9 @@ export interface WettelijkeTaakGet {
     End_Validity?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
-    WettelijkeTaken?: WettelijkeTaakShort[]
-    Beleidskeuzes?: RelationShortBeleidskeuzeShort[]
-    ObjectStatics?: WettelijkeTaakGetObjectStatics
+    VerplichtProgrammas?: VerplichtProgrammaMinimal[]
+    Beleidskeuzes?: RelationShortBeleidskeuzeMinimal[]
+    ObjectStatics?: WettelijkeTaakFullObjectStatics
 }
 
 export interface WettelijkeTaakEdit {
@@ -314,13 +314,12 @@ export interface WettelijkeTaakCreate {
 export interface WettelijkeTaakBasic {
     Object_Type?: string
     Object_ID?: number
+    Code?: string
     UUID?: string
     Created_Date?: string
     Modified_Date?: string
     Title?: string
     Weblink?: string
-    Created_By?: UserShort
-    Modified_By?: UserShort
 }
 
 export interface Werkingsgebied {
@@ -341,10 +340,25 @@ export interface VerplichtProgrammaStaticPostStatics {
     Owner_2_UUID?: string | null
 }
 
-export type VerplichtProgrammaGetObjectStatics =
-    VerplichtProgrammaGetStatics | null
+export interface VerplichtProgrammaMinimal {
+    Object_Type?: string
+    Object_ID?: number
+    Code?: string
+    UUID?: string
+    Created_Date?: string
+    Modified_Date?: string
+    Title?: string
+}
 
-export interface VerplichtProgrammaGet {
+export interface VerplichtProgrammaFullStatics {
+    Owner_1?: UserShort
+    Owner_2?: UserShort
+}
+
+export type VerplichtProgrammaFullObjectStatics =
+    VerplichtProgrammaFullStatics | null
+
+export interface VerplichtProgrammaFull {
     Object_Type?: string
     Object_ID?: number
     Code?: string
@@ -357,9 +371,9 @@ export interface VerplichtProgrammaGet {
     End_Validity?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
-    WettelijkeTaken?: WettelijkeTaakShort[]
-    Maatregelen?: RelationShortMaatregelShort[]
-    ObjectStatics?: VerplichtProgrammaGetObjectStatics
+    WettelijkeTaken?: WettelijkeTaakMinimal[]
+    Maatregelen?: RelationShortMaatregelMinimal[]
+    ObjectStatics?: VerplichtProgrammaFullObjectStatics
 }
 
 export interface VerplichtProgrammaEdit {
@@ -384,12 +398,11 @@ export interface VerplichtProgrammaCreate {
 export interface VerplichtProgrammaBasic {
     Object_Type?: string
     Object_ID?: number
+    Code?: string
     UUID?: string
     Created_Date?: string
     Modified_Date?: string
     Title?: string
-    Created_By?: UserShort
-    Modified_By?: UserShort
 }
 
 export type ValidationErrorLocItem = string | number
@@ -413,11 +426,6 @@ export interface UserShort {
     UUID: string
     Rol: string
     Gebruikersnaam: string
-}
-
-export interface VerplichtProgrammaGetStatics {
-    Owner_1?: UserShort
-    Owner_2?: UserShort
 }
 
 export interface SearchObject {
@@ -451,44 +459,44 @@ export interface RelationShort {
     Description?: string
 }
 
-export interface RelationShortWettelijkeTaakShort {
+export interface RelationShortWettelijkeTaakMinimal {
     Relation: RelationShort
-    Object: WettelijkeTaakShort
+    Object: WettelijkeTaakMinimal
 }
 
-export interface RelationShortNationaalBelangShort {
+export interface RelationShortNationaalBelangMinimal {
     Relation: RelationShort
-    Object: NationaalBelangShort
+    Object: NationaalBelangMinimal
 }
 
-export interface RelationShortMaatregelShort {
+export interface RelationShortMaatregelMinimal {
     Relation: RelationShort
-    Object: MaatregelShort
+    Object: MaatregelMinimal
 }
 
-export interface RelationShortGebiedsprogrammaShort {
+export interface RelationShortGebiedsprogrammaMinimal {
     Relation: RelationShort
-    Object: GebiedsprogrammaShort
+    Object: GebiedsprogrammaMinimal
 }
 
-export interface RelationShortBeleidsregelShort {
+export interface RelationShortBeleidsregelMinimal {
     Relation: RelationShort
-    Object: BeleidsregelShort
+    Object: BeleidsregelMinimal
 }
 
-export interface RelationShortBeleidskeuzeShort {
+export interface RelationShortBeleidskeuzeMinimal {
     Relation: RelationShort
-    Object: BeleidskeuzeShort
+    Object: BeleidskeuzeMinimal
 }
 
-export interface RelationShortBeleidsdoelShort {
+export interface RelationShortBeleidsdoelMinimal {
     Relation: RelationShort
-    Object: BeleidsdoelShort
+    Object: BeleidsdoelMinimal
 }
 
-export interface RelationShortAmbitieShort {
+export interface RelationShortAmbitieMinimal {
     Relation: RelationShort
-    Object: AmbitieShort
+    Object: AmbitieMinimal
 }
 
 /**
@@ -564,11 +572,11 @@ export interface PagedResponseNationaalBelangBasic {
 /**
  * Wrap any response schema and add pagination metadata.
  */
-export interface PagedResponseMaatregelGet {
+export interface PagedResponseMaatregelExtended {
     total: number
     offset?: number
     limit?: number
-    results: MaatregelGet[]
+    results: MaatregelExtended[]
 }
 
 /**
@@ -594,11 +602,11 @@ export interface PagedResponseGeoSearchResult {
 /**
  * Wrap any response schema and add pagination metadata.
  */
-export interface PagedResponseGebiedsprogrammaGet {
+export interface PagedResponseGebiedsprogrammaExtended {
     total: number
     offset?: number
     limit?: number
-    results: GebiedsprogrammaGet[]
+    results: GebiedsprogrammaExtended[]
 }
 
 /**
@@ -614,11 +622,11 @@ export interface PagedResponseGebiedsprogrammaBasic {
 /**
  * Wrap any response schema and add pagination metadata.
  */
-export interface PagedResponseBeleidsregelGet {
+export interface PagedResponseBeleidsregelExtended {
     total: number
     offset?: number
     limit?: number
-    results: BeleidsregelGet[]
+    results: BeleidsregelExtended[]
 }
 
 /**
@@ -634,31 +642,31 @@ export interface PagedResponseBeleidsregelBasic {
 /**
  * Wrap any response schema and add pagination metadata.
  */
-export interface PagedResponseBeleidskeuzeGet {
+export interface PagedResponseBeleidskeuzeExtended {
     total: number
     offset?: number
     limit?: number
-    results: BeleidskeuzeGet[]
+    results: BeleidskeuzeExtended[]
 }
 
 /**
  * Wrap any response schema and add pagination metadata.
  */
-export interface PagedResponseBeleidskeuzeBasic {
+export interface PagedResponseBeleidskeueBasic {
     total: number
     offset?: number
     limit?: number
-    results: BeleidskeuzeBasic[]
+    results: BeleidskeueBasic[]
 }
 
 /**
  * Wrap any response schema and add pagination metadata.
  */
-export interface PagedResponseBeleidsdoelGet {
+export interface PagedResponseBeleidsdoelExtended {
     total: number
     offset?: number
     limit?: number
-    results: BeleidsdoelGet[]
+    results: BeleidsdoelExtended[]
 }
 
 /**
@@ -674,11 +682,11 @@ export interface PagedResponseBeleidsdoelBasic {
 /**
  * Wrap any response schema and add pagination metadata.
  */
-export interface PagedResponseAmbitieGet {
+export interface PagedResponseAmbitieExtended {
     total: number
     offset?: number
     limit?: number
-    results: AmbitieGet[]
+    results: AmbitieExtended[]
 }
 
 /**
@@ -718,9 +726,10 @@ export interface NationaalBelangStaticPostStatics {
     Owner_2_UUID?: string | null
 }
 
-export interface NationaalBelangShort {
+export interface NationaalBelangMinimal {
     Object_Type?: string
     Object_ID?: number
+    Code?: string
     UUID?: string
     Created_Date?: string
     Modified_Date?: string
@@ -728,14 +737,14 @@ export interface NationaalBelangShort {
     Weblink?: string
 }
 
-export interface NationaalBelangGetStatics {
+export interface NationaalBelangFullStatics {
     Owner_1?: UserShort
     Owner_2?: UserShort
 }
 
-export type NationaalBelangGetObjectStatics = NationaalBelangGetStatics | null
+export type NationaalBelangFullObjectStatics = NationaalBelangFullStatics | null
 
-export interface NationaalBelangGet {
+export interface NationaalBelangFull {
     Object_Type?: string
     Object_ID?: number
     Code?: string
@@ -748,8 +757,8 @@ export interface NationaalBelangGet {
     End_Validity?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
-    Beleidskeuzes?: BeleidskeuzeShort[]
-    ObjectStatics?: NationaalBelangGetObjectStatics
+    Beleidskeuzes?: BeleidskeuzeMinimal[]
+    ObjectStatics?: NationaalBelangFullObjectStatics
 }
 
 export interface NationaalBelangEdit {
@@ -774,13 +783,12 @@ export interface NationaalBelangCreate {
 export interface NationaalBelangBasic {
     Object_Type?: string
     Object_ID?: number
+    Code?: string
     UUID?: string
     Created_Date?: string
     Modified_Date?: string
     Title?: string
     Weblink?: string
-    Created_By?: UserShort
-    Modified_By?: UserShort
 }
 
 /**
@@ -902,8 +910,8 @@ export interface ModuleAddNewObject {
     Owner_1_UUID: string
     Owner_2_UUID?: string | null
     Client_1_UUID?: string | null
-    Explanation?: string | null
-    Conclusion?: string | null
+    Explanation: string
+    Conclusion: string
 }
 
 export interface ModuleAddExistingObject {
@@ -947,13 +955,6 @@ export interface MaatregelStaticPostStatics {
     Client_1_UUID?: string | null
 }
 
-export interface MaatregelShort {
-    Object_Type?: string
-    Object_ID?: number
-    UUID?: string
-    Title?: string
-}
-
 export interface MaatregelPatch {
     Title?: string | null
     Description?: string | null
@@ -962,7 +963,14 @@ export interface MaatregelPatch {
     Gebied_UUID?: string | null
 }
 
-export interface MaatregelGetStatics {
+export interface MaatregelMinimal {
+    Object_Type?: string
+    Object_ID?: number
+    UUID?: string
+    Title?: string
+}
+
+export interface MaatregelFullStatics {
     Owner_1?: UserShort
     Owner_2?: UserShort
     Portfolio_Holder_1?: UserShort
@@ -970,9 +978,9 @@ export interface MaatregelGetStatics {
     Client_1?: UserShort
 }
 
-export type MaatregelGetObjectStatics = MaatregelGetStatics | null
+export type MaatregelFullObjectStatics = MaatregelFullStatics | null
 
-export interface MaatregelGet {
+export interface MaatregelFull {
     Object_ID?: number
     Code?: string
     UUID?: string
@@ -988,14 +996,25 @@ export interface MaatregelGet {
     Gebied?: Werkingsgebied
     Created_By?: UserShort
     Modified_By?: UserShort
-    Beleidskeuzes?: RelationShortBeleidskeuzeShort[]
-    Gebiedsprogrammas?: RelationShortGebiedsprogrammaShort[]
-    Beleidsdoelen?: RelationShortBeleidsdoelShort[]
-    ObjectStatics?: MaatregelGetObjectStatics
+    Beleidskeuzes?: RelationShortBeleidskeuzeMinimal[]
+    Gebiedsprogrammas?: RelationShortGebiedsprogrammaMinimal[]
+    Beleidsdoelen?: RelationShortBeleidsdoelMinimal[]
+    ObjectStatics?: MaatregelFullObjectStatics
 }
 
-export interface MaatregelBasic {
+export interface MaatregelExtendedStatics {
+    Owner_1?: UserShort
+    Owner_2?: UserShort
+    Portfolio_Holder_1?: UserShort
+    Portfolio_Holder_2?: UserShort
+    Client_1?: UserShort
+}
+
+export type MaatregelExtendedObjectStatics = MaatregelExtendedStatics | null
+
+export interface MaatregelExtended {
     Object_ID?: number
+    Code?: string
     UUID?: string
     Adjust_On?: string | null
     Created_Date?: string
@@ -1003,10 +1022,22 @@ export interface MaatregelBasic {
     Start_Validity?: string | null
     End_Validity?: string | null
     Title?: string
-    Role?: string
     Gebied?: Werkingsgebied
     Created_By?: UserShort
     Modified_By?: UserShort
+    ObjectStatics?: MaatregelExtendedObjectStatics
+}
+
+export interface MaatregelBasic {
+    Object_ID?: number
+    Code?: string
+    UUID?: string
+    Adjust_On?: string | null
+    Created_Date?: string
+    Modified_Date?: string
+    Start_Validity?: string | null
+    End_Validity?: string | null
+    Title?: string
 }
 
 export interface HTTPValidationError {
@@ -1019,11 +1050,6 @@ export interface GraphVertice {
     Object_ID: number
     Code: string
     Title: string
-}
-
-export interface GraphResponse {
-    Vertices: GraphVertice[]
-    Edges: GraphEdge[]
 }
 
 /**
@@ -1041,6 +1067,11 @@ export interface GraphEdge {
     Vertice_A_Code: string
     Vertice_B_Code: string
     Type: GraphEdgeType
+}
+
+export interface GraphResponse {
+    Vertices: GraphVertice[]
+    Edges: GraphEdge[]
 }
 
 export type GeoSearchResultGebied = string | string
@@ -1068,20 +1099,20 @@ export interface GebiedsprogrammaStaticPostStatics {
     Client_1_UUID?: string | null
 }
 
-export interface GebiedsprogrammaShort {
-    Object_Type?: string
-    Object_ID?: number
-    UUID?: string
-    Title?: string
-}
-
 export interface GebiedsprogrammaPatch {
     Title?: string | null
     Description?: string | null
     Image?: string | null
 }
 
-export interface GebiedsprogrammaGetStatics {
+export interface GebiedsprogrammaMinimal {
+    Object_Type?: string
+    Object_ID?: number
+    UUID?: string
+    Title?: string
+}
+
+export interface GebiedsprogrammaFullStatics {
     Owner_1?: UserShort
     Owner_2?: UserShort
     Portfolio_Holder_1?: UserShort
@@ -1089,9 +1120,10 @@ export interface GebiedsprogrammaGetStatics {
     Client_1?: UserShort
 }
 
-export type GebiedsprogrammaGetObjectStatics = GebiedsprogrammaGetStatics | null
+export type GebiedsprogrammaFullObjectStatics =
+    GebiedsprogrammaFullStatics | null
 
-export interface GebiedsprogrammaGet {
+export interface GebiedsprogrammaFull {
     Object_ID?: number
     Code?: string
     UUID?: string
@@ -1105,12 +1137,24 @@ export interface GebiedsprogrammaGet {
     Image?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
-    Maatregelen?: RelationShortMaatregelShort[]
-    ObjectStatics?: GebiedsprogrammaGetObjectStatics
+    Maatregelen?: RelationShortMaatregelMinimal[]
+    ObjectStatics?: GebiedsprogrammaFullObjectStatics
 }
 
-export interface GebiedsprogrammaBasic {
+export interface GebiedsprogrammaExtendedStatics {
+    Owner_1?: UserShort
+    Owner_2?: UserShort
+    Portfolio_Holder_1?: UserShort
+    Portfolio_Holder_2?: UserShort
+    Client_1?: UserShort
+}
+
+export type GebiedsprogrammaExtendedObjectStatics =
+    GebiedsprogrammaExtendedStatics | null
+
+export interface GebiedsprogrammaExtended {
     Object_ID?: number
+    Code?: string
     UUID?: string
     Adjust_On?: string | null
     Created_Date?: string
@@ -1118,8 +1162,23 @@ export interface GebiedsprogrammaBasic {
     Title?: string
     Start_Validity?: string | null
     End_Validity?: string | null
+    Image?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
+    ObjectStatics?: GebiedsprogrammaExtendedObjectStatics
+}
+
+export interface GebiedsprogrammaBasic {
+    Object_ID?: number
+    Code?: string
+    UUID?: string
+    Adjust_On?: string | null
+    Created_Date?: string
+    Modified_Date?: string
+    Title?: string
+    Start_Validity?: string | null
+    End_Validity?: string | null
+    Image?: string | null
 }
 
 export interface EditAcknowledgedRelation {
@@ -1161,20 +1220,20 @@ export interface BeleidsregelStaticPostStatics {
     Client_1_UUID?: string | null
 }
 
-export interface BeleidsregelShort {
-    Object_Type?: string
-    Object_ID?: number
-    UUID?: string
-    Title?: string
-}
-
 export interface BeleidsregelPatch {
     Title?: string | null
     Weblink?: string | null
     Description?: string | null
 }
 
-export interface BeleidsregelGetStatics {
+export interface BeleidsregelMinimal {
+    Object_Type?: string
+    Object_ID?: number
+    UUID?: string
+    Title?: string
+}
+
+export interface BeleidsregelFullStatics {
     Owner_1?: UserShort
     Owner_2?: UserShort
     Portfolio_Holder_1?: UserShort
@@ -1182,9 +1241,9 @@ export interface BeleidsregelGetStatics {
     Client_1?: UserShort
 }
 
-export type BeleidsregelGetObjectStatics = BeleidsregelGetStatics | null
+export type BeleidsregelFullObjectStatics = BeleidsregelFullStatics | null
 
-export interface BeleidsregelGet {
+export interface BeleidsregelFull {
     Object_ID?: number
     Code?: string
     UUID?: string
@@ -1198,12 +1257,24 @@ export interface BeleidsregelGet {
     End_Validity?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
-    Beleidskeuzes?: RelationShortBeleidskeuzeShort[]
-    ObjectStatics?: BeleidsregelGetObjectStatics
+    Beleidskeuzes?: RelationShortBeleidskeuzeMinimal[]
+    ObjectStatics?: BeleidsregelFullObjectStatics
 }
 
-export interface BeleidsregelBasic {
+export interface BeleidsregelExtendedStatics {
+    Owner_1?: UserShort
+    Owner_2?: UserShort
+    Portfolio_Holder_1?: UserShort
+    Portfolio_Holder_2?: UserShort
+    Client_1?: UserShort
+}
+
+export type BeleidsregelExtendedObjectStatics =
+    BeleidsregelExtendedStatics | null
+
+export interface BeleidsregelExtended {
     Object_ID?: number
+    Code?: string
     UUID?: string
     Adjust_On?: string | null
     Created_Date?: string
@@ -1214,6 +1285,20 @@ export interface BeleidsregelBasic {
     End_Validity?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
+    ObjectStatics?: BeleidsregelExtendedObjectStatics
+}
+
+export interface BeleidsregelBasic {
+    Object_ID?: number
+    Code?: string
+    UUID?: string
+    Adjust_On?: string | null
+    Created_Date?: string
+    Modified_Date?: string
+    Title?: string
+    Weblink?: string
+    Start_Validity?: string | null
+    End_Validity?: string | null
 }
 
 export interface BeleidskeuzeUUID {
@@ -1229,13 +1314,6 @@ export interface BeleidskeuzeStaticPostStatics {
     Client_1_UUID?: string | null
 }
 
-export interface BeleidskeuzeShort {
-    Object_Type?: string
-    Object_ID?: number
-    UUID?: string
-    Title?: string
-}
-
 export interface BeleidskeuzePatch {
     Title?: string | null
     Description?: string | null
@@ -1245,7 +1323,14 @@ export interface BeleidskeuzePatch {
     Gebied_UUID?: string | null
 }
 
-export interface BeleidskeuzeGetStatics {
+export interface BeleidskeuzeMinimal {
+    Object_Type?: string
+    Object_ID?: number
+    UUID?: string
+    Title?: string
+}
+
+export interface BeleidskeuzeFullStatics {
     Owner_1?: UserShort
     Owner_2?: UserShort
     Portfolio_Holder_1?: UserShort
@@ -1253,9 +1338,9 @@ export interface BeleidskeuzeGetStatics {
     Client_1?: UserShort
 }
 
-export type BeleidskeuzeGetObjectStatics = BeleidskeuzeGetStatics | null
+export type BeleidskeuzeFullObjectStatics = BeleidskeuzeFullStatics | null
 
-export interface BeleidskeuzeGet {
+export interface BeleidskeuzeFull {
     Object_ID?: number
     Code?: string
     UUID?: string
@@ -1272,16 +1357,28 @@ export interface BeleidskeuzeGet {
     Gebied?: Werkingsgebied
     Created_By?: UserShort
     Modified_By?: UserShort
-    WettelijkeTaken?: RelationShortWettelijkeTaakShort[]
-    NationaleBelangen?: RelationShortNationaalBelangShort[]
-    Beleidsdoelen?: RelationShortBeleidsdoelShort[]
-    Beleidsregels?: RelationShortBeleidsregelShort[]
-    Maatregelen?: RelationShortMaatregelShort[]
-    ObjectStatics?: BeleidskeuzeGetObjectStatics
+    WettelijkeTaken?: RelationShortWettelijkeTaakMinimal[]
+    NationaleBelangen?: RelationShortNationaalBelangMinimal[]
+    Beleidsdoelen?: RelationShortBeleidsdoelMinimal[]
+    Beleidsregels?: RelationShortBeleidsregelMinimal[]
+    Maatregelen?: RelationShortMaatregelMinimal[]
+    ObjectStatics?: BeleidskeuzeFullObjectStatics
 }
 
-export interface BeleidskeuzeBasic {
+export interface BeleidskeuzeExtendedStatics {
+    Owner_1?: UserShort
+    Owner_2?: UserShort
+    Portfolio_Holder_1?: UserShort
+    Portfolio_Holder_2?: UserShort
+    Client_1?: UserShort
+}
+
+export type BeleidskeuzeExtendedObjectStatics =
+    BeleidskeuzeExtendedStatics | null
+
+export interface BeleidskeuzeExtended {
     Object_ID?: number
+    Code?: string
     UUID?: string
     Adjust_On?: string | null
     Created_Date?: string
@@ -1289,9 +1386,21 @@ export interface BeleidskeuzeBasic {
     Start_Validity?: string | null
     End_Validity?: string | null
     Title?: string
-    Gebied?: Werkingsgebied
     Created_By?: UserShort
     Modified_By?: UserShort
+    ObjectStatics?: BeleidskeuzeExtendedObjectStatics
+}
+
+export interface BeleidskeueBasic {
+    Object_ID?: number
+    Code?: string
+    UUID?: string
+    Adjust_On?: string | null
+    Created_Date?: string
+    Modified_Date?: string
+    Start_Validity?: string | null
+    End_Validity?: string | null
+    Title?: string
 }
 
 export interface BeleidsdoelUUID {
@@ -1307,19 +1416,19 @@ export interface BeleidsdoelStaticPostStatics {
     Client_1_UUID?: string | null
 }
 
-export interface BeleidsdoelShort {
+export interface BeleidsdoelPatch {
+    Title?: string | null
+    Description?: string | null
+}
+
+export interface BeleidsdoelMinimal {
     Object_Type?: string
     Object_ID?: number
     UUID?: string
     Title?: string
 }
 
-export interface BeleidsdoelPatch {
-    Title?: string | null
-    Description?: string | null
-}
-
-export interface BeleidsdoelGetStatics {
+export interface BeleidsdoelFullStatics {
     Owner_1?: UserShort
     Owner_2?: UserShort
     Portfolio_Holder_1?: UserShort
@@ -1327,9 +1436,9 @@ export interface BeleidsdoelGetStatics {
     Client_1?: UserShort
 }
 
-export type BeleidsdoelGetObjectStatics = BeleidsdoelGetStatics | null
+export type BeleidsdoelFullObjectStatics = BeleidsdoelFullStatics | null
 
-export interface BeleidsdoelGet {
+export interface BeleidsdoelFull {
     Object_ID?: number
     Code?: string
     UUID?: string
@@ -1342,14 +1451,25 @@ export interface BeleidsdoelGet {
     End_Validity?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
-    Ambities?: RelationShortAmbitieShort[]
-    Beleidskeuzes?: RelationShortBeleidskeuzeShort[]
-    Maatregelen?: RelationShortMaatregelShort[]
-    ObjectStatics?: BeleidsdoelGetObjectStatics
+    Ambities?: RelationShortAmbitieMinimal[]
+    Beleidskeuzes?: RelationShortBeleidskeuzeMinimal[]
+    Maatregelen?: RelationShortMaatregelMinimal[]
+    ObjectStatics?: BeleidsdoelFullObjectStatics
 }
 
-export interface BeleidsdoelBasic {
+export interface BeleidsdoelExtendedStatics {
+    Owner_1?: UserShort
+    Owner_2?: UserShort
+    Portfolio_Holder_1?: UserShort
+    Portfolio_Holder_2?: UserShort
+    Client_1?: UserShort
+}
+
+export type BeleidsdoelExtendedObjectStatics = BeleidsdoelExtendedStatics | null
+
+export interface BeleidsdoelExtended {
     Object_ID?: number
+    Code?: string
     UUID?: string
     Adjust_On?: string | null
     Created_Date?: string
@@ -1360,6 +1480,20 @@ export interface BeleidsdoelBasic {
     End_Validity?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
+    ObjectStatics?: BeleidsdoelExtendedObjectStatics
+}
+
+export interface BeleidsdoelBasic {
+    Object_ID?: number
+    Code?: string
+    UUID?: string
+    Adjust_On?: string | null
+    Created_Date?: string
+    Modified_Date?: string
+    Title?: string
+    Description?: string
+    Start_Validity?: string | null
+    End_Validity?: string | null
 }
 
 export interface AuthToken {
@@ -1381,19 +1515,19 @@ export interface AmbitieStaticPostStatics {
     Client_1_UUID?: string | null
 }
 
-export interface AmbitieShort {
+export interface AmbitiePatch {
+    Title?: string | null
+    Description?: string | null
+}
+
+export interface AmbitieMinimal {
     Object_Type?: string
     Object_ID?: number
     UUID?: string
     Title?: string
 }
 
-export interface AmbitiePatch {
-    Title?: string | null
-    Description?: string | null
-}
-
-export interface AmbitieGetStatics {
+export interface AmbitieFullStatics {
     Owner_1?: UserShort
     Owner_2?: UserShort
     Portfolio_Holder_1?: UserShort
@@ -1401,9 +1535,9 @@ export interface AmbitieGetStatics {
     Client_1?: UserShort
 }
 
-export type AmbitieGetObjectStatics = AmbitieGetStatics | null
+export type AmbitieFullObjectStatics = AmbitieFullStatics | null
 
-export interface AmbitieGet {
+export interface AmbitieFull {
     Object_ID?: number
     Code?: string
     UUID?: string
@@ -1416,12 +1550,23 @@ export interface AmbitieGet {
     End_Validity?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
-    Beleidsdoelen?: RelationShortBeleidsdoelShort[]
-    ObjectStatics?: AmbitieGetObjectStatics
+    Beleidsdoelen?: RelationShortBeleidsdoelMinimal[]
+    ObjectStatics?: AmbitieFullObjectStatics
 }
 
-export interface AmbitieBasic {
+export interface AmbitieExtendedStatics {
+    Owner_1?: UserShort
+    Owner_2?: UserShort
+    Portfolio_Holder_1?: UserShort
+    Portfolio_Holder_2?: UserShort
+    Client_1?: UserShort
+}
+
+export type AmbitieExtendedObjectStatics = AmbitieExtendedStatics | null
+
+export interface AmbitieExtended {
     Object_ID?: number
+    Code?: string
     UUID?: string
     Adjust_On?: string | null
     Created_Date?: string
@@ -1431,6 +1576,19 @@ export interface AmbitieBasic {
     End_Validity?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
+    ObjectStatics?: AmbitieExtendedObjectStatics
+}
+
+export interface AmbitieBasic {
+    Object_ID?: number
+    Code?: string
+    UUID?: string
+    Adjust_On?: string | null
+    Created_Date?: string
+    Modified_Date?: string
+    Title?: string
+    Start_Validity?: string | null
+    End_Validity?: string | null
 }
 
 export interface ActiveModuleObject {

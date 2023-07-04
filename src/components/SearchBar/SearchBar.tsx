@@ -11,18 +11,26 @@ const SearchBar = ({ callBack, ...rest }: SearchBarProps) => {
     const navigate = useNavigate()
 
     const handleChange = (e: KeyboardEvent) => {
+        const searchParams = new URLSearchParams(window.location.search)
+
         if (e.key === 'Enter') {
             const value = (e.target as HTMLInputElement).value
 
+            searchParams.delete('query')
+            searchParams.append('query', value)
+
             callBack?.()
-            navigate(`/zoekresultaten?query=${value}`)
+            navigate({
+                pathname: '/zoekresultaten',
+                search: `?${searchParams}`,
+            })
         }
     }
 
     return (
         <div className="w-full">
             <FieldInput
-                name="search"
+                name="query"
                 placeholder="Zoek binnen het beleid van de provincie Zuid-Holland"
                 icon={MagnifyingGlass}
                 onKeyDown={handleChange}

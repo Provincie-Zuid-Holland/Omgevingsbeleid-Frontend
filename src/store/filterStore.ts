@@ -5,16 +5,20 @@ import { ModelType } from '@/config/objects/types'
 
 type Filter = {
     label: string
-    options: { label: string; value: ModelType }[]
+    options: { label: string; value: ModelType; exclude?: FilterKey }[]
 }[]
+
+type FilterKey = 'network' | 'search'
 
 interface FilterState {
     /** All possible filters */
     filters: Filter
     /** Active filters */
-    selectedFilters?: ModelType[]
+    selectedFilters: {
+        [key in FilterKey]: ModelType[]
+    }
     /** Set active filters */
-    setSelectedFilters: (filters?: ModelType[]) => void
+    setSelectedFilters: (key: FilterKey, selectedFilters?: ModelType[]) => void
 }
 
 const useFilterStore = create<FilterState>(set => ({
@@ -47,14 +51,39 @@ const useFilterStore = create<FilterState>(set => ({
                     label: models['maatregel']['defaults']['pluralCapitalize'],
                     value: 'maatregel',
                 },
+                {
+                    label: models['gebiedsprogramma']['defaults'][
+                        'pluralCapitalize'
+                    ],
+                    value: 'gebiedsprogramma',
+                    exclude: 'network',
+                },
+            ],
+        },
+        {
+            label: 'Uitvoering',
+            options: [
+                {
+                    label: models['beleidsregel']['defaults'][
+                        'pluralCapitalize'
+                    ],
+                    value: 'beleidsregel',
+                    exclude: 'network',
+                },
             ],
         },
     ],
-    selectedFilters: ['ambitie', 'beleidsdoel', 'beleidskeuze', 'maatregel'],
-    setSelectedFilters: selectedFilters =>
+    selectedFilters: {
+        network: ['ambitie', 'beleidsdoel', 'beleidskeuze', 'maatregel'],
+        search: [],
+    },
+    setSelectedFilters: (key, selectedFilters) =>
         set(state => ({
             ...state,
-            selectedFilters,
+            selectedFilters: {
+                ...state.selectedFilters,
+                [key]: selectedFilters,
+            },
         })),
 }))
 

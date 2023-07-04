@@ -1,33 +1,29 @@
-import { FC } from 'react'
+import { Heading } from '@pzh-ui/components'
 import { Link } from 'react-router-dom'
 
-import { GeoSearchResult } from '@/api/fetchers.schemas'
+import { ValidSearchObject } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
-import useSearchParam from '@/hooks/useSearchParam'
 
-interface SearchResultItem {
-    item: GeoSearchResult
-    searchQuery: any
+interface SearchResultItem extends ValidSearchObject {
+    query?: string
 }
 
-const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
-    const { get } = useSearchParam()
-    const [paramTextQuery] = get('query')
-
-    const truncateTextWithEllipsis = (text: string, characters = 260) => {
-        if (text.length > characters) {
-            return text.substring(0, characters) + '...'
-        }
-        return text
-    }
+const SearchResultItem = ({
+    Title,
+    Object_Type,
+    UUID,
+    Description,
+    query,
+}: SearchResultItem) => {
+    const model = models[Object_Type as ModelType]
 
     const highlightString = (
         text: string | undefined,
-        query: string | null
+        query?: string | null
     ) => {
         if (!text) {
-            return null
+            return ''
         } else if (!query) {
             return text
         }
@@ -44,55 +40,31 @@ const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
         return markedText
     }
 
-    const content = {
-        Titel: paramTextQuery
-            ? highlightString(item.Titel, paramTextQuery.toString())
-            : item.Titel || '',
-        Omschrijving: paramTextQuery
-            ? highlightString(
-                  truncateTextWithEllipsis(item.Omschrijving || ''),
-                  paramTextQuery.toString()
-              )
-            : truncateTextWithEllipsis(item.Omschrijving || ''),
-    }
-
-    const type = item.Type
-    if (!type) return null
-
-    const model = models[type as ModelType]
+    const highlightedSentence = highlightString(Description, query)
+    const highlightedTitle = highlightString(Title, query)
 
     return (
-        <li
-            className={`py-4 md:pr-8 transition-colors duration-100 ease-in bg-white border-gray-300 group`}
-            key={item.UUID}>
+        <li className="mb-6">
             <Link
-                className="group"
-                to={`/${model.defaults.slugOverview}/${item.UUID}${
-                    searchQuery ? `#${searchQuery}` : ''
-                }`}>
-                <span
-                    className="block text-sm opacity-75 text-pzh-blue"
-                    data-test="search-result-type">
-                    {model.defaults.singularReadable}
+                to={`/${model.defaults.slugOverview}/${UUID}`}
+                className="group">
+                <span className="text-pzh-gray-600">
+                    {model.defaults.singularCapitalize}
                 </span>
-                {content.Titel ? (
-                    <h2
-                        className="block mt-1 text-lg font-bold group-hover:text-pzh-green text-pzh-blue group-hover:underline"
-                        dangerouslySetInnerHTML={{ __html: content.Titel }}
+                <Heading level="3" className="mb-2 group-hover:text-pzh-green">
+                    <span
+                        dangerouslySetInnerHTML={{ __html: highlightedTitle }}
                     />
-                ) : null}
-                {content.Omschrijving ? (
+                </Heading>
+                {!!Description ? (
                     <p
-                        className="mt-2"
+                        className="line-clamp-3"
                         dangerouslySetInnerHTML={{
-                            __html: content.Omschrijving,
+                            __html: highlightedSentence,
                         }}
                     />
                 ) : (
-                    <p className="mt-2 italic">
-                        Er is nog geen omschrijving voor deze
-                        {' ' + model.defaults.singularReadable}
-                    </p>
+                    <span className="italic">Geen voorbeeld beschikbaar</span>
                 )}
             </Link>
         </li>

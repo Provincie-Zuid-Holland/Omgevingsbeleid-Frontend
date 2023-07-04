@@ -1,4 +1,5 @@
 import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
+import { Helmet } from 'react-helmet'
 
 import { useGebiedsprogrammasValidGet } from '@/api/fetchers'
 import AreaCard from '@/components/AreaCard'
@@ -20,7 +21,9 @@ function AreaOverview() {
     if (isLoading) return <LoaderContent />
 
     return (
-        <div>
+        <>
+            <Helmet title="Gebiedsprogramma’s" />
+
             <Container className="pb-20 overflow-hidden">
                 <div className="col-span-6 xl:col-span-3">
                     <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
@@ -55,7 +58,7 @@ function AreaOverview() {
                     )}
                 </div>
             </Container>
-        </div>
+        </>
     )
 }
 

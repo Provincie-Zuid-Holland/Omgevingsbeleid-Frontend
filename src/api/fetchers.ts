@@ -19,70 +19,70 @@ import type {
 } from '@tanstack/react-query'
 
 import type {
-    PagedResponseAmbitieGet,
+    PagedResponseAmbitieBasic,
     HTTPValidationError,
     AmbitiesValidGetParams,
-    PagedResponseAmbitieBasic,
     AmbitiesValidLineageIdGetParams,
-    AmbitieGet,
+    AmbitieFull,
     RelationShort,
     ResponseOK,
     AmbitieStaticPostStatics,
+    PagedResponseAmbitieExtended,
     ModulesModuleIdObjectAmbitieLineageIdGetParams,
     AmbitieUUID,
     AmbitiePatch,
     ActiveModuleObject,
     ModulesObjectAmbitieActiveLineageIdGetParams,
-    PagedResponseBeleidsdoelGet,
-    BeleidsdoelenValidGetParams,
     PagedResponseBeleidsdoelBasic,
+    BeleidsdoelenValidGetParams,
     BeleidsdoelenValidLineageIdGetParams,
-    BeleidsdoelGet,
+    BeleidsdoelFull,
     BeleidsdoelStaticPostStatics,
+    PagedResponseBeleidsdoelExtended,
     ModulesModuleIdObjectBeleidsdoelLineageIdGetParams,
     BeleidsdoelUUID,
     BeleidsdoelPatch,
     ModulesObjectBeleidsdoelActiveLineageIdGetParams,
-    PagedResponseBeleidskeuzeGet,
+    PagedResponseBeleidskeueBasic,
     BeleidskeuzesValidGetParams,
-    PagedResponseBeleidskeuzeBasic,
     BeleidskeuzesValidLineageIdGetParams,
-    BeleidskeuzeGet,
+    BeleidskeuzeFull,
     BeleidskeuzeStaticPostStatics,
     AcknowledgedRelation,
     BeleidskeuzeAcknowledgedRelationsLineageIdGetParams,
     RequestAcknowledgedRelation,
     EditAcknowledgedRelation,
+    PagedResponseBeleidskeuzeExtended,
     ModulesModuleIdObjectBeleidskeuzeLineageIdGetParams,
     BeleidskeuzeUUID,
     BeleidskeuzePatch,
     ModulesObjectsBeleidskeuzeActiveLineageIdGetParams,
-    PagedResponseBeleidsregelGet,
-    BeleidsregelsValidGetParams,
     PagedResponseBeleidsregelBasic,
+    BeleidsregelsValidGetParams,
     BeleidsregelsValidLineageIdGetParams,
-    BeleidsregelGet,
+    BeleidsregelFull,
     BeleidsregelStaticPostStatics,
+    PagedResponseBeleidsregelExtended,
     ModulesModuleIdObjectBeleidsregelLineageIdGetParams,
     BeleidsregelUUID,
     BeleidsregelPatch,
     ModulesObjectsBeleidsregelActiveLineageIdGetParams,
-    PagedResponseGebiedsprogrammaGet,
-    GebiedsprogrammasValidGetParams,
     PagedResponseGebiedsprogrammaBasic,
+    GebiedsprogrammasValidGetParams,
     GebiedsprogrammasValidLineageIdGetParams,
-    GebiedsprogrammaGet,
+    GebiedsprogrammaFull,
     GebiedsprogrammaStaticPostStatics,
+    PagedResponseGebiedsprogrammaExtended,
     ModulesModuleIdObjectGebiedsprogrammasLineageIdGetParams,
     GebiedsprogrammaUUID,
     GebiedsprogrammaPatch,
     ModulesObjectsGebiedsprogrammaActiveLineageIdGetParams,
-    PagedResponseMaatregelGet,
-    MaatregelenValidGetParams,
     PagedResponseMaatregelBasic,
+    MaatregelenValidGetParams,
     MaatregelenValidLineageIdGetParams,
-    MaatregelGet,
+    MaatregelFull,
     MaatregelStaticPostStatics,
+    PagedResponseMaatregelExtended,
     ModulesModuleIdObjectMaatregelLineageIdGetParams,
     MaatregelUUID,
     MaatregelPatch,
@@ -92,7 +92,7 @@ import type {
     NationaalBelangEdit,
     PagedResponseNationaalBelangBasic,
     NationaalBelangValidGetParams,
-    NationaalBelangGet,
+    NationaalBelangFull,
     NationaalBelangStaticPostStatics,
     ModulesObjectsNationaalBelangActiveLineageIdGetParams,
     VerplichtProgrammaUUID,
@@ -100,7 +100,7 @@ import type {
     VerplichtProgrammaEdit,
     PagedResponseVerplichtProgrammaBasic,
     VerplichtProgrammaValidGetParams,
-    VerplichtProgrammaGet,
+    VerplichtProgrammaFull,
     VerplichtProgrammaStaticPostStatics,
     ModulesObjectsVerplichtProgrammaActiveLineageIdGetParams,
     WettelijkeTaakUUID,
@@ -108,7 +108,7 @@ import type {
     WettelijkeTaakEdit,
     PagedResponseWettelijkeTaakBasic,
     WettelijkeTaakValidGetParams,
-    WettelijkeTaakGet,
+    WettelijkeTaakFull,
     WettelijkeTaakStaticPostStatics,
     ModulesObjectsWettelijkeTaakActiveLineageIdGetParams,
     PagedResponseUserShort,
@@ -158,7 +158,7 @@ export const ambitiesValidGet = (
     params?: AmbitiesValidGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<PagedResponseAmbitieGet>({
+    return customInstance<PagedResponseAmbitieBasic>({
         url: `/ambities/valid`,
         method: 'get',
         params,
@@ -326,7 +326,7 @@ export const ambitiesVersionObjectUuidGet = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
-    return customInstance<AmbitieGet>({
+    return customInstance<AmbitieFull>({
         url: `/ambities/version/${objectUuid}`,
         method: 'get',
         signal,
@@ -408,7 +408,7 @@ export const ambitiesLatestLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<AmbitieGet>({
+    return customInstance<AmbitieFull>({
         url: `/ambities/latest/${lineageId}`,
         method: 'get',
         signal,
@@ -716,7 +716,7 @@ export const modulesModuleIdObjectAmbitieLineageIdGet = (
     params?: ModulesModuleIdObjectAmbitieLineageIdGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<PagedResponseAmbitieBasic>({
+    return customInstance<PagedResponseAmbitieExtended>({
         url: `/modules/${moduleId}/object/ambitie/${lineageId}`,
         method: 'get',
         params,
@@ -917,7 +917,7 @@ export const modulesModuleIdObjectAmbitieLatestLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<AmbitieGet>({
+    return customInstance<AmbitieFull>({
         url: `/modules/${moduleId}/object/ambitie/latest/${lineageId}`,
         method: 'get',
         signal,
@@ -1037,7 +1037,7 @@ export const modulesModuleIdObjectAmbitieVersionObjectUuidGet = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
-    return customInstance<AmbitieGet>({
+    return customInstance<AmbitieFull>({
         url: `/modules/${moduleId}/object/ambitie/version/${objectUuid}`,
         method: 'get',
         signal,
@@ -1253,7 +1253,7 @@ export const beleidsdoelenValidGet = (
     params?: BeleidsdoelenValidGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<PagedResponseBeleidsdoelGet>({
+    return customInstance<PagedResponseBeleidsdoelBasic>({
         url: `/beleidsdoelen/valid`,
         method: 'get',
         params,
@@ -1423,7 +1423,7 @@ export const beleidsdoelenVersionObjectUuidGet = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
-    return customInstance<BeleidsdoelGet>({
+    return customInstance<BeleidsdoelFull>({
         url: `/beleidsdoelen/version/${objectUuid}`,
         method: 'get',
         signal,
@@ -1506,7 +1506,7 @@ export const beleidsdoelenLatestLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<BeleidsdoelGet>({
+    return customInstance<BeleidsdoelFull>({
         url: `/beleidsdoelen/latest/${lineageId}`,
         method: 'get',
         signal,
@@ -1817,7 +1817,7 @@ export const modulesModuleIdObjectBeleidsdoelLineageIdGet = (
     params?: ModulesModuleIdObjectBeleidsdoelLineageIdGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<PagedResponseBeleidsdoelBasic>({
+    return customInstance<PagedResponseBeleidsdoelExtended>({
         url: `/modules/${moduleId}/object/beleidsdoel/${lineageId}`,
         method: 'get',
         params,
@@ -2033,7 +2033,7 @@ export const modulesModuleIdObjectBeleidsdoelLatestLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<BeleidsdoelGet>({
+    return customInstance<BeleidsdoelFull>({
         url: `/modules/${moduleId}/object/beleidsdoel/latest/${lineageId}`,
         method: 'get',
         signal,
@@ -2164,7 +2164,7 @@ export const modulesModuleIdObjectBeleidsdoelVersionObjectUuidGet = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
-    return customInstance<BeleidsdoelGet>({
+    return customInstance<BeleidsdoelFull>({
         url: `/modules/${moduleId}/object/beleidsdoel/version/${objectUuid}`,
         method: 'get',
         signal,
@@ -2398,7 +2398,7 @@ export const beleidskeuzesValidGet = (
     params?: BeleidskeuzesValidGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<PagedResponseBeleidskeuzeGet>({
+    return customInstance<PagedResponseBeleidskeueBasic>({
         url: `/beleidskeuzes/valid`,
         method: 'get',
         params,
@@ -2479,7 +2479,7 @@ export const beleidskeuzesValidLineageIdGet = (
     params?: BeleidskeuzesValidLineageIdGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<PagedResponseBeleidskeuzeBasic>({
+    return customInstance<PagedResponseBeleidskeueBasic>({
         url: `/beleidskeuzes/valid/${lineageId}`,
         method: 'get',
         params,
@@ -2568,7 +2568,7 @@ export const beleidskeuzesVersionObjectUuidGet = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
-    return customInstance<BeleidskeuzeGet>({
+    return customInstance<BeleidskeuzeFull>({
         url: `/beleidskeuzes/version/${objectUuid}`,
         method: 'get',
         signal,
@@ -2651,7 +2651,7 @@ export const beleidskeuzesLatestLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<BeleidskeuzeGet>({
+    return customInstance<BeleidskeuzeFull>({
         url: `/beleidskeuzes/latest/${lineageId}`,
         method: 'get',
         signal,
@@ -3262,7 +3262,7 @@ export const modulesModuleIdObjectBeleidskeuzeLineageIdGet = (
     params?: ModulesModuleIdObjectBeleidskeuzeLineageIdGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<PagedResponseBeleidskeuzeBasic>({
+    return customInstance<PagedResponseBeleidskeuzeExtended>({
         url: `/modules/${moduleId}/object/beleidskeuze/${lineageId}`,
         method: 'get',
         params,
@@ -3482,7 +3482,7 @@ export const modulesModuleIdObjectBeleidskeuzeLatestLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<BeleidskeuzeGet>({
+    return customInstance<BeleidskeuzeFull>({
         url: `/modules/${moduleId}/object/beleidskeuze/latest/${lineageId}`,
         method: 'get',
         signal,
@@ -3613,7 +3613,7 @@ export const modulesModuleIdObjectBeleidskeuzeVersionObjectUuidGet = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
-    return customInstance<BeleidskeuzeGet>({
+    return customInstance<BeleidskeuzeFull>({
         url: `/modules/${moduleId}/object/beleidskeuze/version/${objectUuid}`,
         method: 'get',
         signal,
@@ -3852,7 +3852,7 @@ export const beleidsregelsValidGet = (
     params?: BeleidsregelsValidGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<PagedResponseBeleidsregelGet>({
+    return customInstance<PagedResponseBeleidsregelBasic>({
         url: `/beleidsregels/valid`,
         method: 'get',
         params,
@@ -4022,7 +4022,7 @@ export const beleidsregelsVersionObjectUuidGet = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
-    return customInstance<BeleidsregelGet>({
+    return customInstance<BeleidsregelFull>({
         url: `/beleidsregels/version/${objectUuid}`,
         method: 'get',
         signal,
@@ -4105,7 +4105,7 @@ export const beleidsregelsLatestLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<BeleidsregelGet>({
+    return customInstance<BeleidsregelFull>({
         url: `/beleidsregels/latest/${lineageId}`,
         method: 'get',
         signal,
@@ -4416,7 +4416,7 @@ export const modulesModuleIdObjectBeleidsregelLineageIdGet = (
     params?: ModulesModuleIdObjectBeleidsregelLineageIdGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<PagedResponseBeleidsregelBasic>({
+    return customInstance<PagedResponseBeleidsregelExtended>({
         url: `/modules/${moduleId}/object/beleidsregel/${lineageId}`,
         method: 'get',
         params,
@@ -4636,7 +4636,7 @@ export const modulesModuleIdObjectBeleidsregelLatestLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<BeleidsregelGet>({
+    return customInstance<BeleidsregelFull>({
         url: `/modules/${moduleId}/object/beleidsregel/latest/${lineageId}`,
         method: 'get',
         signal,
@@ -4767,7 +4767,7 @@ export const modulesModuleIdObjectBeleidsregelVersionObjectUuidGet = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
-    return customInstance<BeleidsregelGet>({
+    return customInstance<BeleidsregelFull>({
         url: `/modules/${moduleId}/object/beleidsregel/version/${objectUuid}`,
         method: 'get',
         signal,
@@ -5006,7 +5006,7 @@ export const gebiedsprogrammasValidGet = (
     params?: GebiedsprogrammasValidGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<PagedResponseGebiedsprogrammaGet>({
+    return customInstance<PagedResponseGebiedsprogrammaBasic>({
         url: `/gebiedsprogrammas/valid`,
         method: 'get',
         params,
@@ -5183,7 +5183,7 @@ export const gebiedsprogrammasVersionObjectUuidGet = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
-    return customInstance<GebiedsprogrammaGet>({
+    return customInstance<GebiedsprogrammaFull>({
         url: `/gebiedsprogrammas/version/${objectUuid}`,
         method: 'get',
         signal,
@@ -5268,7 +5268,7 @@ export const gebiedsprogrammasLatestLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<GebiedsprogrammaGet>({
+    return customInstance<GebiedsprogrammaFull>({
         url: `/gebiedsprogrammas/latest/${lineageId}`,
         method: 'get',
         signal,
@@ -5583,7 +5583,7 @@ export const modulesModuleIdObjectGebiedsprogrammasLineageIdGet = (
     params?: ModulesModuleIdObjectGebiedsprogrammasLineageIdGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<PagedResponseGebiedsprogrammaBasic>({
+    return customInstance<PagedResponseGebiedsprogrammaExtended>({
         url: `/modules/${moduleId}/object/gebiedsprogrammas/${lineageId}`,
         method: 'get',
         params,
@@ -5828,7 +5828,7 @@ export const modulesModuleIdObjectGebiedsprogrammasLatestLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<GebiedsprogrammaGet>({
+    return customInstance<GebiedsprogrammaFull>({
         url: `/modules/${moduleId}/object/gebiedsprogrammas/latest/${lineageId}`,
         method: 'get',
         signal,
@@ -5962,7 +5962,7 @@ export const modulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGet = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
-    return customInstance<GebiedsprogrammaGet>({
+    return customInstance<GebiedsprogrammaFull>({
         url: `/modules/${moduleId}/object/gebiedsprogrammas/version/${objectUuid}`,
         method: 'get',
         signal,
@@ -6217,7 +6217,7 @@ export const maatregelenValidGet = (
     params?: MaatregelenValidGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<PagedResponseMaatregelGet>({
+    return customInstance<PagedResponseMaatregelBasic>({
         url: `/maatregelen/valid`,
         method: 'get',
         params,
@@ -6386,7 +6386,7 @@ export const maatregelenVersionObjectUuidGet = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
-    return customInstance<MaatregelGet>({
+    return customInstance<MaatregelFull>({
         url: `/maatregelen/version/${objectUuid}`,
         method: 'get',
         signal,
@@ -6469,7 +6469,7 @@ export const maatregelenLatestLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<MaatregelGet>({
+    return customInstance<MaatregelFull>({
         url: `/maatregelen/latest/${lineageId}`,
         method: 'get',
         signal,
@@ -6779,7 +6779,7 @@ export const modulesModuleIdObjectMaatregelLineageIdGet = (
     params?: ModulesModuleIdObjectMaatregelLineageIdGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<PagedResponseMaatregelBasic>({
+    return customInstance<PagedResponseMaatregelExtended>({
         url: `/modules/${moduleId}/object/maatregel/${lineageId}`,
         method: 'get',
         params,
@@ -6986,7 +6986,7 @@ export const modulesModuleIdObjectMaatregelLatestLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<MaatregelGet>({
+    return customInstance<MaatregelFull>({
         url: `/modules/${moduleId}/object/maatregel/latest/${lineageId}`,
         method: 'get',
         signal,
@@ -7108,7 +7108,7 @@ export const modulesModuleIdObjectMaatregelVersionObjectUuidGet = (
     objectUuid: string,
     signal?: AbortSignal
 ) => {
-    return customInstance<MaatregelGet>({
+    return customInstance<MaatregelFull>({
         url: `/modules/${moduleId}/object/maatregel/version/${objectUuid}`,
         method: 'get',
         signal,
@@ -7562,7 +7562,7 @@ export const nationaalBelangLatestLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<NationaalBelangGet>({
+    return customInstance<NationaalBelangFull>({
         url: `/nationaal-belang/latest/${lineageId}`,
         method: 'get',
         signal,
@@ -8216,7 +8216,7 @@ export const verplichtProgrammaLatestLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<VerplichtProgrammaGet>({
+    return customInstance<VerplichtProgrammaFull>({
         url: `/verplicht-programma/latest/${lineageId}`,
         method: 'get',
         signal,
@@ -8881,7 +8881,7 @@ export const wettelijkeTaakLatestLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<WettelijkeTaakGet>({
+    return customInstance<WettelijkeTaakFull>({
         url: `/wettelijke-taak/latest/${lineageId}`,
         method: 'get',
         signal,

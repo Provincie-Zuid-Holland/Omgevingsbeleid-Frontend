@@ -1960,10 +1960,10 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
   integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
 
-"@pzh-ui/components@^0.0.338":
-  version "0.0.338"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.338.tgz#2800d9b269fc897b3c88eb1cda0a360ab6f6b251"
-  integrity sha512-YcRY/SatM8H2TJnRdVBvtkATp8gn6tTn0+OgsFTfkql+selOlff1sxk0bNtkQkcOdUThTXky8pxsswvnvwb20w==
+"@pzh-ui/components@^0.0.343":
+  version "0.0.343"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.343.tgz#01a12817e6b0e0a63f908ec0e9c77108b86cecae"
+  integrity sha512-w+GKzTIUokh0Tlrw3TtxxnAPWrTy3hKt4IuNY5rmdu32wBkEGQyKh9qkYDDV47NJT/b6m1QNSNciMYaMYnRsAQ==
   dependencies:
     "@floating-ui/react-dom-interactions" "^0.3.1"
     "@headlessui/react" "^1.5.0"
@@ -1987,6 +1987,7 @@
     react-datepicker "^4.7.0"
     react-dom "^18.0.0"
     react-dropzone "^14.2.3"
+    react-paginate "^8.2.0"
     react-router-dom "^6.9.0"
     react-select "^5.7.3"
     react-stately "^3.18.0"
@@ -10126,7 +10127,7 @@ promise-retry@^2.0.1:
     err-code "^2.0.2"
     retry "^0.12.0"
 
-prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@^15, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -10490,6 +10491,13 @@ react-onclickoutside@^6.12.0:
   version "6.12.2"
   resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-6.12.2.tgz#8e6cf80c7d17a79f2c908399918158a7b02dda01"
   integrity sha512-NMXGa223OnsrGVp5dJHkuKxQ4czdLmXSp5jSV9OqiCky9LOpPATn3vLldc+q5fK3gKbEHvr7J1u0yhBh/xYkpA==
+
+react-paginate@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/react-paginate/-/react-paginate-8.2.0.tgz#947c3dcb444a6c16c1bcf8361871aa135baa3dcd"
+  integrity sha512-sJCz1PW+9PNIjUSn919nlcRVuleN2YPoFBOvL+6TPgrH/3lwphqiSOgdrLafLdyLDxsgK+oSgviqacF4hxsDIw==
+  dependencies:
+    prop-types "^15"
 
 react-popper@^2.2.5:
   version "2.3.0"
