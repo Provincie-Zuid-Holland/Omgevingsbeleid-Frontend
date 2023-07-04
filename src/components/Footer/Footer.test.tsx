@@ -18,7 +18,7 @@ describe('Footer', () => {
 
     it('Component renders', () => {
         setup()
-        const element = screen.getByText('Zuid-Holland.')
+        const element = screen.getByText('Krachtig Zuid-Holland')
         expect(element).toBeTruthy()
     })
 })
