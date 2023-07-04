@@ -1,12 +1,22 @@
-import React, { useEffect } from 'react'
+import React, { useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
+import { useUpdateEffect } from 'react-use'
 
 const Axe = () => {
-    useEffect(() => {
+    const [mutationCount, setMutationCount] = useState(0) // State variable to track DOM mutations
+
+    // Create a MutationObserver and observe the entire document for DOM mutations
+    const observer = useRef(
+        new MutationObserver(() => {
+            setMutationCount(count => count + 1) // Increment the mutation count
+        })
+    )
+
+    observer.current.observe(document, { subtree: true, childList: true })
+
+    useUpdateEffect(() => {
         let axeRunning = false
 
-        // Using requestAnimationFrame to ensure that
-        // axe runs after the page has finished rendering
         const runAxe = () => {
             if (!axeRunning) {
                 axeRunning = true
@@ -16,10 +26,16 @@ const Axe = () => {
                     })
                 )
             }
-            requestAnimationFrame(runAxe)
         }
-        requestAnimationFrame(runAxe)
-    })
+
+        runAxe() // Run axe immediately on page load, route changes, and DOM mutations
+
+        // Clean up the effect by disconnecting the MutationObserver
+        return () => {
+            axeRunning = true // Prevent future runs of axe
+            observer.current.disconnect()
+        }
+    }, [mutationCount]) // Include mutationCount as dependencies in useUpdateEffect
 
     return null
 }

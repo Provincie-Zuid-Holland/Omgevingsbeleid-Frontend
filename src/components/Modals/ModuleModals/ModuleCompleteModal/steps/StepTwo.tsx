@@ -21,7 +21,7 @@ export const StepTwo = () => {
     const objects = useMemo(
         () =>
             data?.Objects.filter(object => object.Object_Type !== 'Terminate'),
-        [data?.Objects]
+        [data]
     )
 
     const date = useMemo(
