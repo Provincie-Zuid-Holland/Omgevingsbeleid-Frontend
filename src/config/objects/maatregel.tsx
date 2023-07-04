@@ -70,8 +70,8 @@ const maatregel: DynamicObject<
     ],
     allowedConnections: [
         { type: 'beleidsdoel', key: 'Beleidsdoelen' },
+        { type: 'beleidskeuze', key: 'Beleidskeuzes' },
         { type: 'gebiedsprogramma', key: 'Gebiedsprogrammas' },
-        { type: 'maatregel', key: 'Maatregelen' },
     ],
     connectionsDescription: (
         <>
