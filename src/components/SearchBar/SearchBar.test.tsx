@@ -44,7 +44,7 @@ describe('SearchBar', () => {
         const { searchBar } = setup()
 
         // Assertion onChange
-        const searchQuery = 'Testing%20the%20SearchBar%20component'
+        const searchQuery = 'Test'
         fireEvent.change(searchBar, { target: { value: searchQuery } })
         expect(searchBar.value).toBe(searchQuery)
 
