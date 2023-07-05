@@ -213,7 +213,6 @@ const SidebarResults = ({
                         activeFilters={amountOfFilters}
                         handleChange={handleDropdownChange}
                         defaultValue={defaultValue}
-                        closeMenuOnSelect
                     />
                 </div>
             </div>
