@@ -43,7 +43,7 @@ import type {
     BeleidsdoelUUID,
     BeleidsdoelPatch,
     ModulesObjectBeleidsdoelActiveLineageIdGetParams,
-    PagedResponseBeleidskeueBasic,
+    PagedResponseBeleidskeuzeBasic,
     BeleidskeuzesValidGetParams,
     BeleidskeuzesValidLineageIdGetParams,
     BeleidskeuzeFull,
@@ -2398,7 +2398,7 @@ export const beleidskeuzesValidGet = (
     params?: BeleidskeuzesValidGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<PagedResponseBeleidskeueBasic>({
+    return customInstance<PagedResponseBeleidskeuzeBasic>({
         url: `/beleidskeuzes/valid`,
         method: 'get',
         params,
@@ -2479,7 +2479,7 @@ export const beleidskeuzesValidLineageIdGet = (
     params?: BeleidskeuzesValidLineageIdGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<PagedResponseBeleidskeueBasic>({
+    return customInstance<PagedResponseBeleidskeuzeBasic>({
         url: `/beleidskeuzes/valid/${lineageId}`,
         method: 'get',
         params,

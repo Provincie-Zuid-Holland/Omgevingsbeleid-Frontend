@@ -5,7 +5,7 @@
     "homepage": "https://obzhtest.azureedge.net/",
     "dependencies": {
         "@headlessui/react": "^1.5.0",
-        "@pzh-ui/components": "^0.0.343",
+        "@pzh-ui/components": "^0.0.344",
         "@pzh-ui/config": "^0.0.34",
         "@pzh-ui/css": "^0.0.64",
         "@pzh-ui/icons": "^0.0.31",

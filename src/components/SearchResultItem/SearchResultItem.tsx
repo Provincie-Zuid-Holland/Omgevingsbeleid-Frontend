@@ -5,7 +5,8 @@ import { ValidSearchObject } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 
-interface SearchResultItem extends ValidSearchObject {
+interface SearchResultItem
+    extends Omit<ValidSearchObject, 'Object_ID' | 'Score'> {
     query?: string
 }
 

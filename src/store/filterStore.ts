@@ -8,7 +8,7 @@ type Filter = {
     options: { label: string; value: ModelType; exclude?: FilterKey }[]
 }[]
 
-type FilterKey = 'network' | 'search'
+type FilterKey = 'network' | 'search' | 'mapSearch'
 
 interface FilterState {
     /** All possible filters */
@@ -76,6 +76,7 @@ const useFilterStore = create<FilterState>(set => ({
     selectedFilters: {
         network: ['ambitie', 'beleidsdoel', 'beleidskeuze', 'maatregel'],
         search: [],
+        mapSearch: [],
     },
     setSelectedFilters: (key, selectedFilters) =>
         set(state => ({

@@ -652,11 +652,11 @@ export interface PagedResponseBeleidskeuzeExtended {
 /**
  * Wrap any response schema and add pagination metadata.
  */
-export interface PagedResponseBeleidskeueBasic {
+export interface PagedResponseBeleidskeuzeBasic {
     total: number
     offset?: number
     limit?: number
-    results: BeleidskeueBasic[]
+    results: BeleidskeuzeBasic[]
 }
 
 /**
@@ -910,8 +910,8 @@ export interface ModuleAddNewObject {
     Owner_1_UUID: string
     Owner_2_UUID?: string | null
     Client_1_UUID?: string | null
-    Explanation: string
-    Conclusion: string
+    Explanation?: string | null
+    Conclusion?: string | null
 }
 
 export interface ModuleAddExistingObject {
@@ -1391,7 +1391,7 @@ export interface BeleidskeuzeExtended {
     ObjectStatics?: BeleidskeuzeExtendedObjectStatics
 }
 
-export interface BeleidskeueBasic {
+export interface BeleidskeuzeBasic {
     Object_ID?: number
     Code?: string
     UUID?: string

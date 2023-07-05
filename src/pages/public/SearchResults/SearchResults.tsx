@@ -7,7 +7,7 @@ import {
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useSearchParam } from 'react-use'
+import { useUpdateEffect } from 'react-use'
 
 import { useSearchValidPost } from '@/api/fetchers'
 import { Container } from '@/components/Container'
@@ -21,8 +21,8 @@ import useFilterStore from '@/store/filterStore'
 const PAGE_LIMIT = 10
 
 const SearchResults = () => {
-    const query = useSearchParam('query') || ''
-    const { set } = useSearchParams()
+    const { get, set, remove } = useSearchParams()
+    const [query, page] = get(['query', 'page'])
 
     const filters = useFilterStore(state => state.filters)
     const selectedFilters = useFilterStore(
@@ -30,7 +30,7 @@ const SearchResults = () => {
     )
     const setSelectedFilters = useFilterStore(state => state.setSelectedFilters)
 
-    const [currPage, setCurrPage] = useState(1)
+    const [currPage, setCurrPage] = useState(parseInt(page || '1'))
 
     /** Handle filter change */
     const onFilterChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -81,13 +81,23 @@ const SearchResults = () => {
     useEffect(() => {
         mutate({
             params: {
-                query,
+                query: query || '',
                 limit: PAGE_LIMIT,
                 offset: (currPage - 1) * PAGE_LIMIT,
             },
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [query, currPage])
+
+    useUpdateEffect(() => {
+        setCurrPage(1)
+        remove('page')
+    }, [query])
+
+    const handlePageChange = (page: number) => {
+        setCurrPage(page)
+        set('page', page.toString())
+    }
 
     return (
         <>
@@ -101,7 +111,7 @@ const SearchResults = () => {
                 </div>
                 <div className="col-span-4">
                     <SearchBar
-                        defaultValue={query}
+                        defaultValue={query || ''}
                         callBack={() =>
                             setPagination({ ...pagination, isLoaded: false })
                         }
@@ -144,7 +154,7 @@ const SearchResults = () => {
                             {data?.results.map(item => (
                                 <SearchResultItem
                                     key={item.UUID}
-                                    query={query}
+                                    query={query || ''}
                                     {...item}
                                 />
                             ))}
@@ -161,7 +171,8 @@ const SearchResults = () => {
                             <div className="mt-8 flex justify-center">
                                 <Pagination
                                     key={query}
-                                    onChange={setCurrPage}
+                                    onChange={handlePageChange}
+                                    forcePage={currPage - 1}
                                     {...pagination}
                                 />
                             </div>
