@@ -1,6 +1,7 @@
 import { FieldInput, Heading, ListLink, Pagination } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
-import { useState } from 'react'
+import { KeyboardEvent, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useUpdateEffect } from 'react-use'
 
 import { LoaderCard, LoaderSpinner } from '@/components/Loader'
@@ -10,6 +11,8 @@ interface ObjectListProps {
     objectType: string
     /** Slug of the object */
     objectSlug: string
+    /** Singular of the object */
+    objectSingular?: string
     /** Array of objects */
     data: {
         Title?: string
@@ -25,6 +28,8 @@ interface ObjectListProps {
     total?: number
     /** Limit number per page */
     limit?: number
+    /** Current page */
+    currPage?: number
     /** On page change */
     onPageChange?: (page: number) => void
 }
@@ -33,18 +38,44 @@ const ObjectList = ({
     data,
     objectType,
     objectSlug,
+    objectSingular,
     isLoading,
     hasSearch = true,
     title,
     total = 0,
     limit = 20,
+    currPage,
     onPageChange,
 }: ObjectListProps) => {
+    const navigate = useNavigate()
+
     const [pagination, setPagination] = useState({
         isLoaded: false,
         total,
         limit,
     })
+
+    /**
+     * Handle change of search field
+     */
+    const handleChange = (e: KeyboardEvent) => {
+        const searchParams = new URLSearchParams(window.location.search)
+
+        if (e.key === 'Enter' && objectSingular) {
+            const value = (e.target as HTMLInputElement).value
+
+            searchParams.delete('query')
+            searchParams.append('query', value)
+
+            searchParams.delete('filter')
+            searchParams.append('filter', objectSingular)
+
+            navigate({
+                pathname: '/zoekresultaten',
+                search: `?${searchParams}`,
+            })
+        }
+    }
 
     useUpdateEffect(() => {
         if (!pagination.isLoaded && !!total) {
@@ -72,6 +103,7 @@ const ObjectList = ({
             </div>
 
             {hasSearch &&
+                objectSingular &&
                 !isLoading &&
                 !!pagination.total &&
                 pagination.total > pagination.limit && (
@@ -80,6 +112,7 @@ const ObjectList = ({
                             name="search"
                             placeholder={`Zoek in ${objectType}`}
                             icon={MagnifyingGlass}
+                            onKeyDown={handleChange}
                         />
                     </div>
                 )}
@@ -107,6 +140,7 @@ const ObjectList = ({
                         onChange={onPageChange}
                         total={pagination.total}
                         limit={pagination.limit}
+                        forcePage={currPage}
                     />
                 </div>
             )}

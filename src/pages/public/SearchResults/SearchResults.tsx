@@ -22,17 +22,23 @@ const PAGE_LIMIT = 10
 
 const SearchResults = () => {
     const { get, set, remove } = useSearchParams()
-    const [query, page] = get(['query', 'page'])
+    const [query, page, filter] = get(['query', 'page', 'filter'])
 
     const filters = useFilterStore(state => state.filters)
     const selectedFilters = useFilterStore(
-        state => state.selectedFilters.search
+        state =>
+            ({
+                ...state.selectedFilters,
+                search: filter?.split(',') || [],
+            }.search)
     )
     const setSelectedFilters = useFilterStore(state => state.setSelectedFilters)
 
     const [currPage, setCurrPage] = useState(parseInt(page || '1'))
 
-    /** Handle filter change */
+    /**
+     * Handle filter change
+     */
     const onFilterChange = (e: React.FormEvent<HTMLInputElement>) => {
         const target = e.currentTarget
         const newValue = [...selectedFilters]
@@ -46,8 +52,16 @@ const SearchResults = () => {
             )
         }
 
-        setSelectedFilters('search', newValue)
+        setSelectedFilters('search', newValue as ModelType[])
         set('filter', newValue)
+    }
+
+    /**
+     * Handle pagination
+     */
+    const handlePageChange = (page: number) => {
+        setCurrPage(page)
+        set('page', page.toString())
     }
 
     const { data, mutate, isLoading } = useSearchValidPost({
@@ -93,11 +107,6 @@ const SearchResults = () => {
         setCurrPage(1)
         remove('page')
     }, [query])
-
-    const handlePageChange = (page: number) => {
-        setCurrPage(page)
-        set('page', page.toString())
-    }
 
     return (
         <>
@@ -161,7 +170,7 @@ const SearchResults = () => {
                         </ul>
                     ) : (
                         <span className="italic text-pzh-gray-600">
-                            Er zijn geen resultaten
+                            Er zijn geen resultaten gevonden
                         </span>
                     )}
 

@@ -53,7 +53,7 @@ const SidebarResults = ({
             selectedFilters: {
                 ...state.selectedFilters,
                 mapSearch: filter?.split(',') || [],
-            },
+            }.mapSearch,
             amountOfFilters: filter?.split(',')?.length || 0,
         }))
 
@@ -128,7 +128,7 @@ const SidebarResults = ({
         () =>
             filters.flatMap(filter =>
                 filter.options.filter(option =>
-                    selectedFilters?.mapSearch.includes(option.value)
+                    selectedFilters?.includes(option.value)
                 )
             ),
         [filters, selectedFilters]
@@ -146,7 +146,7 @@ const SidebarResults = ({
             mutate({
                 data: {
                     Area_List: UUIDs,
-                    Object_Types: selectedFilters.mapSearch,
+                    Object_Types: selectedFilters,
                 },
                 params: {
                     limit: PAGE_LIMIT,
@@ -159,7 +159,7 @@ const SidebarResults = ({
             mutate({
                 data: {
                     Area_List: [paramWerkingsgebied],
-                    Object_Types: selectedFilters.mapSearch,
+                    Object_Types: selectedFilters,
                 },
                 params: {
                     limit: PAGE_LIMIT,

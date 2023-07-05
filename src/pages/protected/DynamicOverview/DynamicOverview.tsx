@@ -170,13 +170,15 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
                         <LoaderSpinner />
                     </div>
                 ) : (
-                    <Table
-                        columns={columns}
-                        data={formattedData}
-                        // @ts-ignore
-                        disableSortRemove
-                        disableMultiSort
-                    />
+                    <div data-table="dynamic-overview-table">
+                        <Table
+                            columns={columns}
+                            data={formattedData}
+                            // @ts-ignore
+                            disableSortRemove
+                            disableMultiSort
+                        />
+                    </div>
                 )}
 
                 {!!pagination.total &&

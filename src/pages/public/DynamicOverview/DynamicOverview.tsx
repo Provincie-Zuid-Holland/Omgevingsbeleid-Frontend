@@ -1,10 +1,12 @@
 import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import { useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
+import { useUpdateEffect } from 'react-use'
 
 import { Container } from '@/components/Container'
 import ObjectList from '@/components/ObjectList'
 import { Model } from '@/config/objects/types'
+import useSearchParam from '@/hooks/useSearchParam'
 
 const PAGE_LIMIT = 20
 
@@ -15,10 +17,13 @@ interface DynamicOverviewProps {
 function DynamicOverview({ model }: DynamicOverviewProps) {
     const pathName = location.pathname || ''
 
-    const [currPage, setCurrPage] = useState(1)
+    const { get, set, remove } = useSearchParam()
+    const [page] = get(['page'])
+
+    const [currPage, setCurrPage] = useState(parseInt(page || '1'))
 
     const { useGetValid } = model.fetchers
-    const { plural, pluralCapitalize, description, slugOverview } =
+    const { singular, plural, pluralCapitalize, description, slugOverview } =
         model.defaults
 
     const { data, isLoading } = useGetValid({
@@ -34,6 +39,19 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
         () => data?.results?.map(({ Title, UUID }) => ({ Title, UUID })),
         [data]
     )
+
+    /**
+     * Handle pagination
+     */
+    const handlePageChange = (page: number) => {
+        setCurrPage(page)
+        set('page', page.toString())
+    }
+
+    useUpdateEffect(() => {
+        setCurrPage(1)
+        remove('page')
+    }, [plural])
 
     const breadcrumbPaths = [
         { name: 'Omgevingsbeleid', path: '/' },
@@ -56,11 +74,13 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
                         <ObjectList
                             data={allObjects || []}
                             isLoading={isLoading}
-                            objectSlug={slugOverview ? slugOverview : ''}
+                            objectSlug={slugOverview || ''}
                             objectType={plural}
+                            objectSingular={singular}
                             limit={PAGE_LIMIT}
-                            onPageChange={setCurrPage}
+                            onPageChange={handlePageChange}
                             total={data?.total}
+                            currPage={currPage - 1}
                         />
                     </div>
                 </div>

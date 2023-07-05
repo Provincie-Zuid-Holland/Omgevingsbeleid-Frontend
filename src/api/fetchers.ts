@@ -124,7 +124,7 @@ import type {
     SearchValidPostParams,
     GraphResponse,
     ObjectGraphGetParams,
-    Module,
+    PagedResponseModule,
     ModulesGetParams,
     ModuleCreatedResponse,
     ModuleCreate,
@@ -141,6 +141,8 @@ import type {
     ModuleSnapshot,
     ModuleObjectShort,
     ModulesObjectsLatestGetParams,
+    PagedResponseGenericObjectShort,
+    ObjectsValidGetParams,
     AuthToken,
     BodyFastapiHandlerLoginAccessTokenPost,
     PasswordResetPostParams,
@@ -9807,7 +9809,7 @@ export const useObjectGraphGet = <
  * @summary List the modules
  */
 export const modulesGet = (params?: ModulesGetParams, signal?: AbortSignal) => {
-    return customInstance<Module[]>({
+    return customInstance<PagedResponseModule>({
         url: `/modules`,
         method: 'get',
         params,
@@ -11099,6 +11101,85 @@ export const useModulesObjectsLatestGet = <
     }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const queryOptions = getModulesObjectsLatestGetQueryOptions(params, options)
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary List all objects filterable in short format
+ */
+export const objectsValidGet = (
+    params?: ObjectsValidGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseGenericObjectShort>({
+        url: `/objects/valid`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getObjectsValidGetQueryKey = (params?: ObjectsValidGetParams) =>
+    [`/objects/valid`, ...(params ? [params] : [])] as const
+
+export const getObjectsValidGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof objectsValidGet>>,
+    TError = HTTPValidationError
+>(
+    params?: ObjectsValidGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof objectsValidGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryOptions<
+    Awaited<ReturnType<typeof objectsValidGet>>,
+    TError,
+    TData
+> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getObjectsValidGetQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof objectsValidGet>>
+    > = ({ signal }) => objectsValidGet(params, signal)
+
+    return { queryKey, queryFn, ...queryOptions }
+}
+
+export type ObjectsValidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof objectsValidGet>>
+>
+export type ObjectsValidGetQueryError = HTTPValidationError
+
+/**
+ * @summary List all objects filterable in short format
+ */
+export const useObjectsValidGet = <
+    TData = Awaited<ReturnType<typeof objectsValidGet>>,
+    TError = HTTPValidationError
+>(
+    params?: ObjectsValidGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof objectsValidGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getObjectsValidGetQueryOptions(params, options)
 
     const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
         queryKey: QueryKey

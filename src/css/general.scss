@@ -35,6 +35,50 @@ body {
     font-size: 18px;
 }
 
+// Image urls
+.image-login-1 {
+    background-image: url('../images/login-1.webp');
+}
+.image-home-1 {
+    background-image: url('../images/landing-1.webp');
+}
+.image-home-2 {
+    background-image: url('../images/landing-2.webp');
+}
+.image-home-3 {
+    background-image: url('../images/landing-3.webp');
+}
+.image-home-4 {
+    background-image: url('../images/landing-4.webp');
+}
+
+.tooltip-triangle {
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 10px 10px 10px;
+        border-color: transparent transparent #fff transparent;
+        top: -10px;
+        z-index: 10;
+        right: 10px;
+    }
+}
+
+@media (min-width: 640px) {
+    [data-table='dynamic-overview-table'] table {
+        th:nth-child(2) {
+            width: 350px;
+        }
+        th:last-child {
+            width: 250px;
+        }
+    }
+}
+
 mark {
     &.marked-purple,
     &.marked-orange,

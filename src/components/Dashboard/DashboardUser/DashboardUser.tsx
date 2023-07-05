@@ -2,8 +2,12 @@ import { Heading, TabItem, Tabs, Text } from '@pzh-ui/components'
 import groupBy from 'lodash.groupby'
 import { useMemo } from 'react'
 
-import { useModulesGet, useModulesObjectsLatestGet } from '@/api/fetchers'
-import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
+import { useModulesGet, useObjectsValidGet } from '@/api/fetchers'
+import {
+    Module,
+    ModuleObjectShort,
+    PagedResponseGenericObjectShort,
+} from '@/api/fetchers.schemas'
 import ObjectCard from '@/components/DynamicObject/ObjectCard'
 import { LoaderCard } from '@/components/Loader'
 import ModuleCard from '@/components/Modules/ModuleCard'
@@ -17,17 +21,21 @@ const DashboardUser = () => {
     const { data: modules, isLoading: modulesLoading } = useModulesGet({
         only_active: true,
         only_mine: true,
+        limit: 100,
     })
 
-    const { data: objects, isLoading } = useModulesObjectsLatestGet({
-        owner_uuid: user?.UUID,
-    })
+    const { data: objects, isLoading } = useObjectsValidGet(
+        {
+            owner_uuid: user?.UUID,
+        },
+        { query: { enabled: !!user?.UUID } }
+    )
 
     /**
      * Format relations
      */
     const userObjects = useMemo(() => {
-        const grouped = groupBy(objects, 'Object_Type')
+        const grouped = groupBy(objects?.results, 'Object_Type')
         const sorted = Object.keys(grouped)
             .sort()
             .reduce((obj: any, key) => {
@@ -36,7 +44,9 @@ const DashboardUser = () => {
             }, {})
 
         return sorted
-    }, [objects]) as { [key in ModelType]: ModuleObjectShort[] }
+    }, [objects?.results]) as {
+        [key in ModelType]: PagedResponseGenericObjectShort[]
+    }
 
     return (
         <div className="col-span-6">
@@ -46,7 +56,7 @@ const DashboardUser = () => {
                 </Heading>
 
                 <ItemList
-                    items={modules}
+                    items={modules?.results}
                     isLoading={modulesLoading}
                     type="module"
                 />
@@ -63,7 +73,7 @@ const DashboardUser = () => {
                         </Text>
                     </div>
 
-                    {!!Object.keys(userObjects).length && (
+                    {!!Object.keys(userObjects).length ? (
                         <div className="col-span-6">
                             <Tabs>
                                 {Object.keys(userObjects).map(type => {
@@ -87,6 +97,12 @@ const DashboardUser = () => {
                                 })}
                             </Tabs>
                         </div>
+                    ) : (
+                        <div className="col-span-6">
+                            <span className="italic">
+                                Geen beleidsobjecten gevonden
+                            </span>
+                        </div>
                     )}
                 </div>
             </div>
@@ -96,7 +112,11 @@ const DashboardUser = () => {
 
 interface ItemListProps {
     isLoading: boolean
-    items?: Module[] | ModelReturnType[] | ModuleObjectShort[]
+    items?:
+        | Module[]
+        | ModelReturnType[]
+        | ModuleObjectShort[]
+        | PagedResponseGenericObjectShort[]
     type: 'module' | 'object'
 }
 

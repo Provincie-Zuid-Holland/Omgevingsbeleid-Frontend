@@ -13,6 +13,14 @@ export type PasswordResetPostParams = {
     new_password: string
 }
 
+export type ObjectsValidGetParams = {
+    owner_uuid?: string
+    object_type?: string
+    offset?: number
+    limit?: number
+    sort?: string
+}
+
 export type ModulesObjectsLatestGetParams = {
     object_type?: string
     owner_uuid?: string
@@ -23,6 +31,9 @@ export type ModulesObjectsLatestGetParams = {
 export type ModulesGetParams = {
     only_mine?: boolean
     only_active?: boolean
+    offset?: number
+    limit?: number
+    sort?: string
     object_type?: string
     lineage_id?: number
 }
@@ -35,27 +46,32 @@ export type SearchValidPostParams = {
     query: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type SearchPostParams = {
     query: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type SearchGeoPostParams = {
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type WerkingsgebiedenGetParams = {
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type UsersGetParams = {
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type ModulesObjectsWettelijkeTaakActiveLineageIdGetParams = {
@@ -67,6 +83,7 @@ export type WettelijkeTaakValidGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type ModulesObjectsVerplichtProgrammaActiveLineageIdGetParams = {
@@ -78,6 +95,7 @@ export type VerplichtProgrammaValidGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type ModulesObjectsNationaalBelangActiveLineageIdGetParams = {
@@ -89,6 +107,7 @@ export type NationaalBelangValidGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type ModulesObjectsMaatregelActiveLineageIdGetParams = {
@@ -100,6 +119,7 @@ export type ModulesModuleIdObjectMaatregelLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type MaatregelenValidLineageIdGetParams = {
@@ -107,6 +127,7 @@ export type MaatregelenValidLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type MaatregelenValidGetParams = {
@@ -114,6 +135,7 @@ export type MaatregelenValidGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type ModulesObjectsGebiedsprogrammaActiveLineageIdGetParams = {
@@ -125,6 +147,7 @@ export type ModulesModuleIdObjectGebiedsprogrammasLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type GebiedsprogrammasValidLineageIdGetParams = {
@@ -132,6 +155,7 @@ export type GebiedsprogrammasValidLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type GebiedsprogrammasValidGetParams = {
@@ -139,6 +163,7 @@ export type GebiedsprogrammasValidGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type ModulesObjectsBeleidsregelActiveLineageIdGetParams = {
@@ -150,6 +175,7 @@ export type ModulesModuleIdObjectBeleidsregelLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type BeleidsregelsValidLineageIdGetParams = {
@@ -157,6 +183,7 @@ export type BeleidsregelsValidLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type BeleidsregelsValidGetParams = {
@@ -164,6 +191,7 @@ export type BeleidsregelsValidGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type ModulesObjectsBeleidskeuzeActiveLineageIdGetParams = {
@@ -175,6 +203,7 @@ export type ModulesModuleIdObjectBeleidskeuzeLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type BeleidskeuzeAcknowledgedRelationsLineageIdGetParams = {
@@ -188,6 +217,7 @@ export type BeleidskeuzesValidLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type BeleidskeuzesValidGetParams = {
@@ -195,6 +225,7 @@ export type BeleidskeuzesValidGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type ModulesObjectBeleidsdoelActiveLineageIdGetParams = {
@@ -206,6 +237,7 @@ export type ModulesModuleIdObjectBeleidsdoelLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type BeleidsdoelenValidLineageIdGetParams = {
@@ -213,6 +245,7 @@ export type BeleidsdoelenValidLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type BeleidsdoelenValidGetParams = {
@@ -220,6 +253,7 @@ export type BeleidsdoelenValidGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type ModulesObjectAmbitieActiveLineageIdGetParams = {
@@ -231,6 +265,7 @@ export type ModulesModuleIdObjectAmbitieLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type AmbitiesValidLineageIdGetParams = {
@@ -238,6 +273,7 @@ export type AmbitiesValidLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export type AmbitiesValidGetParams = {
@@ -245,6 +281,7 @@ export type AmbitiesValidGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
+    sort?: string
 }
 
 export interface WettelijkeTaakUUID {
@@ -572,6 +609,16 @@ export interface PagedResponseNationaalBelangBasic {
 /**
  * Wrap any response schema and add pagination metadata.
  */
+export interface PagedResponseModule {
+    total: number
+    offset?: number
+    limit?: number
+    results: Module[]
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
 export interface PagedResponseMaatregelExtended {
     total: number
     offset?: number
@@ -597,6 +644,16 @@ export interface PagedResponseGeoSearchResult {
     offset?: number
     limit?: number
     results: GeoSearchResult[]
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
+export interface PagedResponseGenericObjectShort {
+    total: number
+    offset?: number
+    limit?: number
+    results: GenericObjectShort[]
 }
 
 /**
@@ -1084,6 +1141,14 @@ export interface GeoSearchResult {
     Type: string
     Titel?: string
     Omschrijving?: string
+}
+
+export interface GenericObjectShort {
+    Object_Type: string
+    Object_ID: number
+    UUID: string
+    Title?: string
+    Description?: string
 }
 
 export interface GebiedsprogrammaUUID {

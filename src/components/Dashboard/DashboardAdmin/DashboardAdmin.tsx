@@ -1,6 +1,6 @@
-import { Button, Heading, Text } from '@pzh-ui/components'
+import { Button, Heading, Pagination, Text } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { useModulesGet } from '@/api/fetchers'
@@ -9,14 +9,52 @@ import ModuleTile from '@/components/Modules/ModuleTile'
 import * as models from '@/config/objects'
 import { Model } from '@/config/objects/types'
 
+const PAGE_LIMIT = 20
+
 const DashboardAdmin = () => {
-    const { data: modules, isLoading: modulesLoading } = useModulesGet({
-        only_active: false,
-        only_mine: false,
+    const [currPage, setCurrPage] = useState(1)
+
+    const { data: modules, isLoading: modulesLoading } = useModulesGet(
+        {
+            only_active: false,
+            only_mine: false,
+            limit: PAGE_LIMIT,
+            offset: (currPage - 1) * PAGE_LIMIT,
+        },
+        {
+            query: {
+                onSuccess(data) {
+                    if (!!!data.results.length) {
+                        setPagination({
+                            isLoaded: false,
+                            total: data?.total,
+                            limit: data?.limit,
+                        })
+                    } else {
+                        if (!pagination.isLoaded) {
+                            setPagination({
+                                isLoaded: true,
+                                total: data?.total,
+                                limit: data?.limit,
+                            })
+                        }
+                    }
+                },
+            },
+        }
+    )
+
+    const [pagination, setPagination] = useState({
+        isLoaded: false,
+        total: modules?.total,
+        limit: modules?.limit,
     })
 
     const sortedModules = useMemo(
-        () => modules?.sort((a, b) => Number(a.Closed) - Number(b.Closed)),
+        () =>
+            modules?.results.sort(
+                (a, b) => Number(a.Closed) - Number(b.Closed)
+            ),
         [modules]
     )
 
@@ -84,6 +122,18 @@ const DashboardAdmin = () => {
                             ))
                         )}
                     </div>
+
+                    {!!pagination.total &&
+                        !!pagination.limit &&
+                        pagination.total > pagination.limit && (
+                            <div className="mt-8 flex justify-center">
+                                <Pagination
+                                    onChange={setCurrPage}
+                                    forcePage={currPage - 1}
+                                    {...pagination}
+                                />
+                            </div>
+                        )}
                 </div>
             </div>
         </div>

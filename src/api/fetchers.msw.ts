@@ -7198,8 +7198,17 @@ export const getObjectGraphGetMock = () => ({
     })),
 })
 
-export const getModulesGetMock = () =>
-    Array.from(
+export const getModulesGetMock = () => ({
+    total: faker.datatype.number({ min: undefined, max: undefined }),
+    offset: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    limit: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    results: Array.from(
         { length: faker.datatype.number({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
@@ -7266,7 +7275,8 @@ export const getModulesGetMock = () =>
             },
             undefined,
         ]),
-    }))
+    })),
+})
 
 export const getModulesPostMock = () => ({
     Module_ID: faker.datatype.number({ min: undefined, max: undefined }),
@@ -7510,6 +7520,31 @@ export const getModulesObjectsLatestGetMock = () =>
             undefined,
         ]),
     }))
+
+export const getObjectsValidGetMock = () => ({
+    total: faker.datatype.number({ min: undefined, max: undefined }),
+    offset: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    limit: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    results: Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_Type: faker.random.word(),
+        Object_ID: faker.datatype.number({ min: undefined, max: undefined }),
+        UUID: faker.datatype.uuid(),
+        Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Description: faker.helpers.arrayElement([
+            faker.random.word(),
+            undefined,
+        ]),
+    })),
+})
 
 export const getLoginAccessTokenPostMock = () => ({
     access_token: faker.random.word(),
@@ -8542,6 +8577,13 @@ export const getOmgevingsbeleidAPIMSW = () => [
             ctx.delay(1000),
             ctx.status(200, 'Mocked status'),
             ctx.json(getModulesObjectsLatestGetMock())
+        )
+    }),
+    rest.get('*/objects/valid', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getObjectsValidGetMock())
         )
     }),
     rest.post('*/login/access-token', (_req, res, ctx) => {
