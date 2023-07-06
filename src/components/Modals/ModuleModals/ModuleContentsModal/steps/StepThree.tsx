@@ -17,7 +17,7 @@ import { StepProps } from './types'
 
 export const StepThree = ({}: StepProps) => {
     const { values } = useFormikContext<ContentsModalForm>()
-    const { data: users, isFetching, isLoading } = useUsersGet()
+    const { data: users, isFetching, isLoading } = useUsersGet({ limit: 500 })
 
     const model =
         models[('Object_Type' in values && values.Object_Type) as ModelType] ||

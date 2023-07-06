@@ -25,7 +25,7 @@ const ObjectPersonModal = ({
         data: users,
         isFetching,
         isLoading: loadingUsers,
-    } = useUsersGet(undefined, { query: { enabled: isOpen } })
+    } = useUsersGet({ limit: 500 }, { query: { enabled: isOpen } })
 
     /**
      * Format user options
