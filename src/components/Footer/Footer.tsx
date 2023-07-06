@@ -45,8 +45,7 @@ function Footer({ className = '' }: FooterProps) {
             <Container className={`pt-8 pb-16 md:pb-12 md:py-8 ${className}`}>
                 <div className="col-span-6 md:col-span-3 lg:col-span-2">
                     <Heading level="3" color="text-pzh-blue">
-                        Elke dag beter.{' '}
-                        <span className="inline-block">Zuid-Holland.</span>
+                        Krachtig Zuid-Holland
                     </Heading>
                 </div>
                 <div className="grid grid-cols-4 col-span-6 md:col-span-3 lg:col-span-4">
