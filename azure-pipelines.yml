@@ -11,10 +11,13 @@ pool:
 
 variables:
     CI: false
+
     ${{ if eq(variables['Build.SourceBranchName'], 'dev') }}:
         deploy_env: dev
+
     ${{ if eq(variables['Build.SourceBranchName'], 'test') }}:
         deploy_env: test
+
     ${{ if eq(variables['Build.SourceBranchName'], 'acc') }}:
         deploy_env: acc
 
