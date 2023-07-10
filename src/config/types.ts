@@ -1,4 +1,4 @@
-import { FieldFileUploadProps } from '@pzh-ui/components'
+import { FieldFileUploadProps, FieldRteProps } from '@pzh-ui/components'
 
 import { Validation } from '@/validation/zodSchema'
 
@@ -45,6 +45,17 @@ export type DynamicField<FieldType = string> = {
               type: Exclude<
                   'text' | 'textarea' | 'wysiwyg' | 'area' | 'url' | 'select',
                   'image'
+              >
+          }
+    ) &
+    (
+        | ({
+              type: 'wysiwyg'
+          } & FieldRteProps)
+        | {
+              type: Exclude<
+                  'text' | 'textarea' | 'image' | 'area' | 'url' | 'select',
+                  'wysiwyg'
               >
           }
     )

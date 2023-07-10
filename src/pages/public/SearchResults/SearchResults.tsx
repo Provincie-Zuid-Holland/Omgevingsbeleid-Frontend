@@ -5,7 +5,7 @@ import {
     Text,
 } from '@pzh-ui/components'
 import classNames from 'classnames'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useUpdateEffect } from 'react-use'
 
@@ -29,12 +29,18 @@ const SearchResults = () => {
         state =>
             ({
                 ...state.selectedFilters,
-                search: filter?.split(',') || [],
+                search: (!!filter && filter?.split(',')) || [],
             }.search)
     )
     const setSelectedFilters = useFilterStore(state => state.setSelectedFilters)
 
     const [currPage, setCurrPage] = useState(parseInt(page || '1'))
+
+    const allFilters = useMemo(
+        () =>
+            filters.flatMap(group => group.options.map(filter => filter.value)),
+        [filters]
+    )
 
     /**
      * Handle filter change
@@ -54,6 +60,17 @@ const SearchResults = () => {
 
         setSelectedFilters('search', newValue as ModelType[])
         set('filter', newValue)
+
+        mutate({
+            data: {
+                Object_Types: !!newValue.length ? newValue : allFilters,
+            },
+            params: {
+                query: query || '',
+                limit: PAGE_LIMIT,
+                offset: (currPage - 1) * PAGE_LIMIT,
+            },
+        })
     }
 
     /**
@@ -74,7 +91,10 @@ const SearchResults = () => {
                         limit: data?.limit,
                     })
                 } else {
-                    if (!pagination.isLoaded) {
+                    if (
+                        !pagination.isLoaded ||
+                        data.total !== pagination.total
+                    ) {
                         setPagination({
                             isLoaded: true,
                             total: data?.total,
@@ -94,6 +114,11 @@ const SearchResults = () => {
 
     useEffect(() => {
         mutate({
+            data: {
+                Object_Types: !!selectedFilters.length
+                    ? selectedFilters
+                    : allFilters,
+            },
             params: {
                 query: query || '',
                 limit: PAGE_LIMIT,

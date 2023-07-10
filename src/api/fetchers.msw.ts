@@ -7120,16 +7120,16 @@ export const getSearchPostMock = () => ({
         { length: faker.datatype.number({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Module_ID: faker.helpers.arrayElement([
-            faker.datatype.number({ min: undefined, max: undefined }),
-            undefined,
-        ]),
         UUID: faker.datatype.uuid(),
         Object_Type: faker.random.word(),
         Object_ID: faker.datatype.number({ min: undefined, max: undefined }),
         Title: faker.random.word(),
         Description: faker.random.word(),
         Score: faker.datatype.number({ min: undefined, max: undefined }),
+        Module_ID: faker.helpers.arrayElement([
+            faker.datatype.number({ min: undefined, max: undefined }),
+            undefined,
+        ]),
     })),
 })
 

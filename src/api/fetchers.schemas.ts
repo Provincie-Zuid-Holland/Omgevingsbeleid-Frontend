@@ -465,14 +465,18 @@ export interface UserShort {
     Gebruikersnaam: string
 }
 
+export interface SearchRequestData {
+    Object_Types?: string[]
+}
+
 export interface SearchObject {
-    Module_ID?: number
     UUID: string
     Object_Type: string
     Object_ID: number
     Title: string
     Description: string
     Score: number
+    Module_ID?: number
 }
 
 export interface SearchGeoRequestData {

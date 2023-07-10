@@ -119,6 +119,7 @@ import type {
     SearchGeoRequestData,
     SearchGeoPostParams,
     PagedResponseSearchObject,
+    SearchRequestData,
     SearchPostParams,
     PagedResponseValidSearchObject,
     SearchValidPostParams,
@@ -9533,10 +9534,15 @@ export const useSearchGeoPost = <
 /**
  * @summary Search for objects
  */
-export const searchPost = (params: SearchPostParams) => {
+export const searchPost = (
+    searchRequestData: SearchRequestData,
+    params: SearchPostParams
+) => {
     return customInstance<PagedResponseSearchObject>({
         url: `/search`,
         method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: searchRequestData,
         params,
     })
 }
@@ -9548,24 +9554,24 @@ export const getSearchPostMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof searchPost>>,
         TError,
-        { params: SearchPostParams },
+        { data: SearchRequestData; params: SearchPostParams },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof searchPost>>,
     TError,
-    { params: SearchPostParams },
+    { data: SearchRequestData; params: SearchPostParams },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof searchPost>>,
-        { params: SearchPostParams }
+        { data: SearchRequestData; params: SearchPostParams }
     > = props => {
-        const { params } = props ?? {}
+        const { data, params } = props ?? {}
 
-        return searchPost(params)
+        return searchPost(data, params)
     }
 
     return { mutationFn, ...mutationOptions }
@@ -9574,7 +9580,7 @@ export const getSearchPostMutationOptions = <
 export type SearchPostMutationResult = NonNullable<
     Awaited<ReturnType<typeof searchPost>>
 >
-
+export type SearchPostMutationBody = SearchRequestData
 export type SearchPostMutationError = HTTPValidationError
 
 /**
@@ -9587,7 +9593,7 @@ export const useSearchPost = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof searchPost>>,
         TError,
-        { params: SearchPostParams },
+        { data: SearchRequestData; params: SearchPostParams },
         TContext
     >
 }) => {
@@ -9599,10 +9605,15 @@ export const useSearchPost = <
 /**
  * @summary Search for valid objects
  */
-export const searchValidPost = (params: SearchValidPostParams) => {
+export const searchValidPost = (
+    searchRequestData: SearchRequestData,
+    params: SearchValidPostParams
+) => {
     return customInstance<PagedResponseValidSearchObject>({
         url: `/search/valid`,
         method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: searchRequestData,
         params,
     })
 }
@@ -9614,24 +9625,24 @@ export const getSearchValidPostMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof searchValidPost>>,
         TError,
-        { params: SearchValidPostParams },
+        { data: SearchRequestData; params: SearchValidPostParams },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof searchValidPost>>,
     TError,
-    { params: SearchValidPostParams },
+    { data: SearchRequestData; params: SearchValidPostParams },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof searchValidPost>>,
-        { params: SearchValidPostParams }
+        { data: SearchRequestData; params: SearchValidPostParams }
     > = props => {
-        const { params } = props ?? {}
+        const { data, params } = props ?? {}
 
-        return searchValidPost(params)
+        return searchValidPost(data, params)
     }
 
     return { mutationFn, ...mutationOptions }
@@ -9640,7 +9651,7 @@ export const getSearchValidPostMutationOptions = <
 export type SearchValidPostMutationResult = NonNullable<
     Awaited<ReturnType<typeof searchValidPost>>
 >
-
+export type SearchValidPostMutationBody = SearchRequestData
 export type SearchValidPostMutationError = HTTPValidationError
 
 /**
@@ -9653,7 +9664,7 @@ export const useSearchValidPost = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof searchValidPost>>,
         TError,
-        { params: SearchValidPostParams },
+        { data: SearchRequestData; params: SearchValidPostParams },
         TContext
     >
 }) => {

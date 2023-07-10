@@ -25,7 +25,7 @@ interface DynamicObjectSearchProps
     /** Filter items by UUID or Object_ID */
     filter?: number | string | number[] | string[]
     /** Filter items by Object_Type */
-    filterType?: ModelType
+    filterType?: ModelType[]
 }
 
 const DynamicObjectSearch = ({
@@ -42,37 +42,19 @@ const DynamicObjectSearch = ({
         query: string,
         callback: (options: Option[]) => void
     ) => {
-        searchValidPost({ query })
+        searchValidPost({ Object_Types: filterType }, { query, limit: 50 })
             .then(data => {
                 const filteredObject = !!filter
                     ? data.results.filter(object => {
                           if (Array.isArray(filter)) {
                               return objectKey === 'uuid'
-                                  ? !!filterType
-                                      ? object.Object_Type === filterType &&
-                                        !(filter as string[]).includes(
-                                            object.UUID
-                                        )
-                                      : !(filter as string[]).includes(
-                                            object.UUID
-                                        )
-                                  : !!filterType
-                                  ? object.Object_Type === filterType &&
-                                    !(filter as number[]).includes(
-                                        object.Object_ID
-                                    )
+                                  ? !(filter as string[]).includes(object.UUID)
                                   : !(filter as number[]).includes(
                                         object.Object_ID
                                     )
                           } else {
                               return objectKey === 'uuid'
-                                  ? !!filterType
-                                      ? object.Object_Type === filterType &&
-                                        object.UUID !== filter
-                                      : object.UUID !== filter
-                                  : !!filterType
-                                  ? object.Object_Type === filterType &&
-                                    object.Object_ID !== filter
+                                  ? object.UUID !== filter
                                   : object.Object_ID !== filter
                           }
                       })

@@ -102,7 +102,7 @@ export const StepTwo = ({
                     onChange={object => setFieldValue('Title', object?.Title)}
                     objectKey="id"
                     filter={selected}
-                    filterType={singular}
+                    filterType={singular && [singular]}
                     placeholder={`Zoek in de ${plural}`}
                     label={pluralCapitalize}
                     defaultValue={
