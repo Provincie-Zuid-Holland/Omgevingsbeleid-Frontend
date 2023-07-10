@@ -71,6 +71,9 @@ const SearchResults = () => {
                 offset: (currPage - 1) * PAGE_LIMIT,
             },
         })
+
+        setCurrPage(1)
+        remove('page')
     }
 
     /**
