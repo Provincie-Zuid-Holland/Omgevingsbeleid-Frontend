@@ -50,7 +50,7 @@ const TableOfContents = () => {
     if (!elements.length) return null
 
     return (
-        <nav id="table-of-contents">
+        <nav data-testid="table-of-contents">
             <ul>
                 {elements.map(el => (
                     <li

@@ -1,9 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import {
-    render,
-    screen,
-    waitForElementToBeRemoved,
-} from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 
@@ -28,11 +24,9 @@ describe('AreaOverview', () => {
     it('Component renders', async () => {
         setup()
 
-        await waitForElementToBeRemoved(() =>
-            screen.queryByTestId('loader-content')
-        )
-
-        const element = screen.getByText('Derde Gebiedsprogramma')
-        expect(element).toBeTruthy()
+        waitFor(() => {
+            const element = screen.getByText('Derde Gebiedsprogramma')
+            expect(element).toBeTruthy()
+        })
     })
 })

@@ -7,6 +7,7 @@ import {
     SimulationLinkDatum,
     forceManyBody,
     forceX,
+    forceCollide,
 } from 'd3'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -69,7 +70,7 @@ const Visual = ({ graph }: VisualProps) => {
                 'link',
                 forceLink(links).id((d: any) => d.id)
             )
-            .force('charge', forceManyBody().strength(-50))
+            .force('charge', forceManyBody().strength(-55))
             .force('x', forceX())
             .force('y', forceY())
 

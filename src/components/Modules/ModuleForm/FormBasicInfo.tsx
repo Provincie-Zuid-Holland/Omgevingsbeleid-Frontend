@@ -10,11 +10,11 @@ import { useMemo } from 'react'
 import { useUsersGet } from '@/api/fetchers'
 
 const FormBasicInfo = () => {
-    const { data: users, isFetching, isLoading } = useUsersGet()
+    const { data: users, isFetching, isLoading } = useUsersGet({ limit: 500 })
 
     const userOptions = useMemo(
         () =>
-            users?.map(user => ({
+            users?.results.map(user => ({
                 label: user.Gebruikersnaam,
                 value: user.UUID,
             })),

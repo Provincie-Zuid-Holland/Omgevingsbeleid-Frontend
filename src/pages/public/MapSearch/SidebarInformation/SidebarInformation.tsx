@@ -33,7 +33,7 @@ const SidebarInformation = ({
 
     const { data, isLoading } = useWerkingsgebiedenGet()
     const selectedVal = useMemo(
-        () => data?.find(item => item.UUID === paramWerkingsgebied),
+        () => data?.results.find(item => item.UUID === paramWerkingsgebied),
         [data, paramWerkingsgebied]
     )
 
@@ -133,7 +133,7 @@ const SidebarInformation = ({
                         id="select-werkingsgebied"
                         name="werkingsgebied"
                         options={
-                            data.map(item => ({
+                            data.results?.map(item => ({
                                 label: item.Title || '',
                                 value: item.UUID || '',
                             })) || []

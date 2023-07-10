@@ -3,7 +3,7 @@ import {
     UseMutationResult,
     useQueryClient,
 } from '@tanstack/react-query'
-import { createContext, useMemo } from 'react'
+import { ReactNode, createContext, useMemo } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
 import {
@@ -76,7 +76,7 @@ interface ModuleContextType {
 
 export const ModuleContext = createContext<ModuleContextType>(null!)
 
-function ModuleProvider() {
+function ModuleProvider({ children }: { children?: ReactNode }) {
     const queryClient = useQueryClient()
     const navigate = useNavigate()
     const { moduleId } = useParams()
@@ -186,7 +186,7 @@ function ModuleProvider() {
 
     return (
         <ModuleContext.Provider value={value}>
-            <Outlet />
+            {children || <Outlet />}
         </ModuleContext.Provider>
     )
 }

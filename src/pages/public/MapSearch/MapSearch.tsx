@@ -6,13 +6,10 @@ import { useNavigate } from 'react-router-dom'
 import { useEffectOnce, useMedia, useUpdateEffect } from 'react-use'
 
 import { getWerkingsGebieden } from '@/api/axiosGeoJSON'
-import { searchGeoPost } from '@/api/fetchers'
-import { GeoSearchResult } from '@/api/fetchers.schemas'
 import { ContainerMapSearch } from '@/components/Container'
 import { LeafletMap } from '@/components/Leaflet'
 import { mapPanTo } from '@/components/Leaflet/utils'
 import { RDProj4, leafletBounds } from '@/constants/leaflet'
-import useSearchFilterStore from '@/hooks/useSearchFilterStore'
 import useSearchParam from '@/hooks/useSearchParam'
 
 import SidebarInformation from './SidebarInformation'
@@ -39,23 +36,16 @@ const MapSearch = () => {
     const [initialized, setInitialized] = useState(false)
     const [mapInstance, setMapInstance] = useState<Map | null>(null)
     const [UUIDs, setUUIDs] = useState<string[]>([])
-    const [searchResultsTotal, setSearchResultsTotal] = useState(0)
-    const [searchResults, setSearchResults] = useState<GeoSearchResult[]>([])
-    const [searchResultsLoading, setSearchResultsLoading] = useState(true)
     const [searchOpen, setSearchOpen] = useState(paramSearchOpen === 'true')
     const [drawType, setDrawType] = useState('')
-
-    const initializeFilters = useSearchFilterStore(
-        state => state.initializeFilters
-    )
+    const [geoLoading, setGeoLoading] = useState(false)
 
     /**
      * Set UUIDs of current location or area
      */
     const onDraw = async (callback: any) => {
-        setSearchResults([])
         setUUIDs([])
-        setSearchResultsLoading(true)
+        setGeoLoading(true)
 
         if (callback.type === 'polygon') {
             setDrawType(callback.type)
@@ -67,41 +57,28 @@ const MapSearch = () => {
 
                 setUUIDs(werkingsgebiedenUUIDS)
             } else {
-                setSearchResultsLoading(false)
+                setGeoLoading(false)
             }
         } else if (callback.type === 'marker') {
             const werkingsgebieden = await getWerkingsGebieden(
                 callback.point.x,
                 callback.point.y
-            )
+            ).then(data => {
+                setGeoLoading(false)
+                return data
+            })
 
             const werkingsgebiedenUUIDS = werkingsgebieden.map(
                 (item: any) => item.properties.UUID
             )
 
             if (!werkingsgebieden.length) {
-                setSearchResultsLoading(false)
+                setGeoLoading(false)
             }
 
             setUUIDs(werkingsgebiedenUUIDS)
             setDrawType(callback.type)
         }
-    }
-
-    /**
-     * Get search results from API based on provided UUIDs
-     */
-    const getSearchResults = async (UUIDs: string[]) => {
-        setSearchResultsLoading(true)
-
-        return searchGeoPost(UUIDs).then(data => {
-            setSearchResults(data.results || [])
-            setSearchResultsTotal(data.total || 0)
-            initializeFilters(data.results || [])
-            setSearchResultsLoading(false)
-
-            return data
-        })
     }
 
     /**
@@ -112,24 +89,14 @@ const MapSearch = () => {
             setSearchOpen(true)
             mapInstance?.closePopup()
         } else {
-            setSearchResultsLoading(true)
             setSearchOpen(false)
         }
 
-        if (
-            paramSearchOpen === 'true' &&
-            UUIDs.length &&
-            !paramWerkingsgebied
-        ) {
-            getSearchResults(UUIDs)
-        }
-
         if (paramSearchOpen === 'true' && paramWerkingsgebied) {
-            getSearchResults([paramWerkingsgebied])
             setDrawType('werkingsgebied')
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [paramSearchOpen, paramWerkingsgebied, UUIDs, mapInstance])
+    }, [paramSearchOpen, paramWerkingsgebied, mapInstance])
 
     /**
      * If URL contains geoQuery, create marker or polygon.
@@ -242,12 +209,10 @@ const MapSearch = () => {
 
                 <SidebarResults
                     searchOpen={searchOpen}
-                    searchResultsTotal={searchResultsTotal}
-                    searchResults={searchResults}
-                    setSearchResults={setSearchResults}
-                    isLoading={searchResultsLoading}
                     drawType={drawType}
                     UUIDs={UUIDs}
+                    mapInstance={mapInstance}
+                    geoLoading={geoLoading}
                 />
             </ContainerMapSearch>
 

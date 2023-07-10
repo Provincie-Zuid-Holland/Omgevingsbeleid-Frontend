@@ -5,7 +5,7 @@ import LeafletController from './LeafletController'
 describe('LeafletController', () => {
     const defaultProps = {}
 
-    const setup = customProps => {
+    const setup = (customProps: any) => {
         const props = { ...defaultProps, ...customProps }
         render(<LeafletController {...props} />)
     }

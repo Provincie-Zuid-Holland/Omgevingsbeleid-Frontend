@@ -1,10 +1,5 @@
 import { create } from 'zustand'
 
-import {
-    GetSearch200ResultsItem,
-    GetSearchGeo200ResultsItem,
-} from '@/api/fetchers.schemas'
-
 interface FilterObjectInterface {
     checked: boolean
     count: number
@@ -17,16 +12,14 @@ interface FilterStore {
     }
     availableFilters: string[]
     initializeFilters: (
-        searchResultItems: GetSearch200ResultsItem[],
+        searchResultItems: any[],
         update?: boolean,
         filter?: string | null
     ) => void
     toggleFilter: (name: string) => void
 }
 
-const generateAvailableFilters = (
-    searchResultItems: GetSearch200ResultsItem[]
-) => {
+const generateAvailableFilters = (searchResultItems: any[]) => {
     const availableFilters: string[] = []
 
     searchResultItems.forEach(item => {
@@ -39,7 +32,7 @@ const generateAvailableFilters = (
 }
 
 const generateFilterState = (
-    searchResultItems: GetSearch200ResultsItem[],
+    searchResultItems: any[],
     update?: boolean,
     filter?: string | null,
     state?: FilterStore
@@ -76,9 +69,7 @@ const useSearchFilterStore = create<FilterStore>(set => ({
     filterState: {},
     availableFilters: [],
     initializeFilters: (
-        searchResultItems:
-            | GetSearch200ResultsItem[]
-            | GetSearchGeo200ResultsItem[],
+        searchResultItems: any[],
         update?: boolean,
         filter?: string | null
     ) =>

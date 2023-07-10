@@ -12,7 +12,9 @@ import NetworkTextual from '../NetworkTextual'
 import NetworkVisual from '../NetworkVisual'
 
 const NetworkGraph = () => {
-    const selectedFilters = useFilterStore(state => state.selectedFilters)
+    const selectedFilters = useFilterStore(
+        state => state.selectedFilters.network
+    )
     const activeTab = useNetworkStore(state => state.activeTab)
 
     const { data } = useFullGraphGet()

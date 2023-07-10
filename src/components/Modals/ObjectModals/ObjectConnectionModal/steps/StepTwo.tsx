@@ -39,7 +39,7 @@ export const StepTwo = ({
 
     const options = useMemo(
         () =>
-            items?.map(({ Title, Object_ID }) => ({
+            items?.results.map(({ Title, Object_ID }) => ({
                 label: Title,
                 value: Object_ID,
             })),
@@ -102,7 +102,7 @@ export const StepTwo = ({
                     onChange={object => setFieldValue('Title', object?.Title)}
                     objectKey="id"
                     filter={selected}
-                    filterType={singular}
+                    filterType={singular && [singular]}
                     placeholder={`Zoek in de ${plural}`}
                     label={pluralCapitalize}
                     defaultValue={

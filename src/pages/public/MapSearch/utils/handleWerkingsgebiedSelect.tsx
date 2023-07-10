@@ -94,7 +94,7 @@ const handleWerkingsgebiedSelect = async (
                 console.log('Request canceled -', err.message)
             } else {
                 console.log(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
+                toast(import.meta.env.VITE_ERROR_MSG)
             }
         })
 }

@@ -1,24 +1,24 @@
 import { Schema } from 'zod'
 
 import {
-    AmbitieGet,
+    AmbitieFull,
     AmbitiePatch,
     AmbitieStaticPostStatics,
-    BeleidsdoelGet,
+    BeleidsdoelFull,
     BeleidsdoelPatch,
     BeleidsdoelStaticPostStatics,
-    BeleidskeuzeGet,
+    BeleidskeuzeFull,
     BeleidskeuzePatch,
     BeleidskeuzeStaticPostStatics,
-    GebiedsprogrammaGet,
+    GebiedsprogrammaFull,
     GebiedsprogrammaPatch,
     GebiedsprogrammaStaticPostStatics,
-    MaatregelGet,
+    MaatregelFull,
     MaatregelPatch,
     MaatregelStaticPostStatics,
-    NationaalBelangGet,
-    VerplichtProgrammaGet,
-    WettelijkeTaakGet,
+    NationaalBelangFull,
+    VerplichtProgrammaFull,
+    WettelijkeTaakFull,
 } from '@/api/fetchers.schemas'
 
 import { DynamicSection } from '../types'
@@ -89,14 +89,14 @@ export interface DynamicObject<
 
 export type ModelType = keyof typeof models
 
-export type ModelReturnType = BeleidsdoelGet &
-    AmbitieGet &
-    BeleidskeuzeGet &
-    MaatregelGet &
-    GebiedsprogrammaGet &
-    NationaalBelangGet &
-    WettelijkeTaakGet &
-    VerplichtProgrammaGet
+export type ModelReturnType = BeleidsdoelFull &
+    AmbitieFull &
+    BeleidskeuzeFull &
+    MaatregelFull &
+    GebiedsprogrammaFull &
+    NationaalBelangFull &
+    WettelijkeTaakFull &
+    VerplichtProgrammaFull
 
 export type ModelPatchType = BeleidsdoelPatch &
     AmbitiePatch &

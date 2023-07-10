@@ -34,7 +34,7 @@ steps:
 
     - script: npm install
       displayName: 'Install dependencies'
-    - script: Set REACT_APP_API_ENV=${{ parameters['env'] }}
+    - script: Set VITE_API_ENV=${{ parameters['env'] }}
       displayName: 'Set env'
     - script: npm run-script build
       displayName: 'Build'

@@ -23,7 +23,7 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
         }) || {}
 
     /** Filter out first object which is the valid one */
-    const archivedObjects = useMemo(() => data?.slice(1), [data])
+    const archivedObjects = useMemo(() => data?.results.slice(1), [data])
 
     return (
         <div>

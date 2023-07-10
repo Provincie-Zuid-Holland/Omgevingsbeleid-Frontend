@@ -1,7 +1,8 @@
-import { FieldInput, Heading, ListLink, Text } from '@pzh-ui/components'
+import { FieldInput, Heading, ListLink, Pagination } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
-import { useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { KeyboardEvent, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useUpdateEffect } from 'react-use'
 
 import { LoaderCard, LoaderSpinner } from '@/components/Loader'
 
@@ -10,6 +11,8 @@ interface ObjectListProps {
     objectType: string
     /** Slug of the object */
     objectSlug: string
+    /** Singular of the object */
+    objectSingular?: string
     /** Array of objects */
     data: {
         Title?: string
@@ -17,79 +20,102 @@ interface ObjectListProps {
     }[]
     /** Is data loading */
     isLoading?: boolean
-    /** Is data filterable */
-    hasFilter?: boolean
+    /** Is data searchable */
+    hasSearch?: boolean
     /** Title of list */
     title?: string
-    /** Is advanced search button visible */
-    advancedSearch?: boolean
+    /** Total number of items */
+    total?: number
+    /** Limit number per page */
+    limit?: number
+    /** Current page */
+    currPage?: number
+    /** On page change */
+    onPageChange?: (page: number) => void
 }
 
 const ObjectList = ({
     data,
     objectType,
     objectSlug,
+    objectSingular,
     isLoading,
-    hasFilter = true,
+    hasSearch = true,
     title,
-    advancedSearch = true,
+    total = 0,
+    limit = 20,
+    currPage,
+    onPageChange,
 }: ObjectListProps) => {
-    const [filterQuery, setFilterQuery] = useState('')
+    const navigate = useNavigate()
 
-    const filteredLength = useMemo(() => {
-        if (!data) {
-            return 0
-        } else if (filterQuery === '') {
-            return data.length
-        } else {
-            return data.filter(item =>
-                item.Title?.toLowerCase().includes(filterQuery.toLowerCase())
-            ).length
+    const [pagination, setPagination] = useState({
+        isLoaded: false,
+        total,
+        limit,
+    })
+
+    /**
+     * Handle change of search field
+     */
+    const handleChange = (e: KeyboardEvent) => {
+        const searchParams = new URLSearchParams(window.location.search)
+
+        if (e.key === 'Enter' && objectSingular) {
+            const value = (e.target as HTMLInputElement).value
+
+            searchParams.delete('query')
+            searchParams.append('query', value)
+
+            searchParams.delete('filter')
+            searchParams.append('filter', objectSingular)
+
+            navigate({
+                pathname: '/zoekresultaten',
+                search: `?${searchParams}`,
+            })
         }
-    }, [data, filterQuery])
+    }
 
-    const sortedData = useMemo(
-        () => data.sort((a, b) => a.Title!.localeCompare(b.Title!)),
-        [data]
-    )
+    useUpdateEffect(() => {
+        if (!pagination.isLoaded && !!total) {
+            setPagination({ isLoaded: true, total, limit })
+        }
+    }, [total, limit])
+
+    useUpdateEffect(() => {
+        if (pagination.isLoaded) {
+            setPagination({ isLoaded: false, total, limit })
+        }
+    }, [objectType])
 
     return (
-        <div>
-            <div>
-                <div className="flex flex-col justify-between sm:flex-row">
-                    <Heading as="2" level="3" className="mb-3">
-                        {title
-                            ? title
-                            : isLoading
-                            ? `De ${objectType} worden geladen`
-                            : `De ${filteredLength} ${objectType}`}
-                        {isLoading && <LoaderSpinner className="ml-2" />}
-                    </Heading>
-                    {advancedSearch && (
-                        <Link
-                            className="block mt-2 mb-1 sm:mb-0 sm:mt-0"
-                            to="/zoekresultaten">
-                            <Text
-                                className="underline"
-                                color="text-pzh-green hover:text-pzh-green-dark">
-                                uitgebreid zoeken
-                            </Text>
-                        </Link>
-                    )}
-                </div>
+        <>
+            <div className="flex flex-col justify-between sm:flex-row">
+                <Heading as="2" level="3" className="mb-3">
+                    {title
+                        ? title
+                        : !pagination.isLoaded && isLoading
+                        ? `De ${objectType} worden geladen`
+                        : `De ${pagination.total} ${objectType}`}
+                    {isLoading && <LoaderSpinner className="ml-2" />}
+                </Heading>
+            </div>
 
-                {hasFilter && !isLoading && data && data?.length > 20 && (
+            {hasSearch &&
+                objectSingular &&
+                !isLoading &&
+                !!pagination.total &&
+                pagination.total > pagination.limit && (
                     <div className="my-4">
                         <FieldInput
                             name="search"
-                            value={filterQuery}
-                            onChange={e => setFilterQuery(e.target.value)}
-                            placeholder={`Filter op titel binnen de ${objectType}`}
+                            placeholder={`Zoek in ${objectType}`}
                             icon={MagnifyingGlass}
+                            onKeyDown={handleChange}
                         />
                     </div>
                 )}
-            </div>
             <ul className="mt-2">
                 {isLoading ? (
                     <li className="mt-6">
@@ -98,23 +124,27 @@ const ObjectList = ({
                         <LoaderCard height="25" />
                     </li>
                 ) : (
-                    sortedData
-                        ?.filter(item =>
-                            item.Title?.toLowerCase().includes(
-                                filterQuery.toLowerCase()
-                            )
-                        )
-                        ?.map((obj, index) => (
-                            <li key={index} className="py-0.5">
-                                <ListLink
-                                    text={obj.Title || ''}
-                                    to={`/${objectSlug}/${obj.UUID}`}
-                                />
-                            </li>
-                        ))
+                    data?.map((obj, index) => (
+                        <li key={index} className="py-0.5">
+                            <ListLink
+                                text={obj.Title || ''}
+                                to={`/${objectSlug}/${obj.UUID}`}
+                            />
+                        </li>
+                    ))
                 )}
             </ul>
-        </div>
+            {onPageChange && pagination.total > pagination.limit && (
+                <div className="mt-8 flex justify-center">
+                    <Pagination
+                        onChange={onPageChange}
+                        total={pagination.total}
+                        limit={pagination.limit}
+                        forcePage={currPage}
+                    />
+                </div>
+            )}
+        </>
     )
 }
 

@@ -25,7 +25,7 @@ export const notifications: Record<
 > = {
     saved: { message: 'Opgeslagen', type: 'success' },
     error: {
-        message: process.env.REACT_APP_ERROR_MSG || '',
+        message: import.meta.env.VITE_ERROR_MSG || '',
         type: 'error',
     },
     notAllowed: {

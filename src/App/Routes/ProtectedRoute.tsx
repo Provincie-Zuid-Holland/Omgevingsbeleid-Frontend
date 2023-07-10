@@ -34,9 +34,7 @@ function ProtectedRoute({
     }, [providedPermissions, userPermissions])
 
     if (!user) {
-        localStorage.removeItem(
-            process.env.REACT_APP_KEY_API_ACCESS_TOKEN || ''
-        )
+        localStorage.removeItem(import.meta.env.VITE_KEY_API_ACCESS_TOKEN || '')
         toastNotification('notLoggedIn')
 
         // Redirect them to the /login page, but save the current location they were

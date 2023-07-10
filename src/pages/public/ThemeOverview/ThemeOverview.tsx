@@ -1,13 +1,21 @@
 import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
+import { Helmet } from 'react-helmet'
 
 import { useBeleidsdoelenValidGet } from '@/api/fetchers'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import ObjectList from '@/components/ObjectList'
 
+const PAGE_LIMIT = 20
+
 function ThemeOverview() {
-    const { isLoading, data } = useBeleidsdoelenValidGet()
+    const [currPage, setCurrPage] = useState(1)
+
+    const { isLoading, data } = useBeleidsdoelenValidGet({
+        limit: PAGE_LIMIT,
+        offset: (currPage - 1) * PAGE_LIMIT,
+    })
 
     const breadcrumbPaths = [
         { name: 'Home', path: '/' },
@@ -16,14 +24,16 @@ function ThemeOverview() {
     ]
 
     const transformedData = useMemo(
-        () => data?.map(({ Title, UUID }) => ({ Title, UUID })),
+        () => data?.results.map(({ Title, UUID }) => ({ Title, UUID })),
         [data]
     )
 
     if (isLoading) return <LoaderContent />
 
     return (
-        <div>
+        <>
+            <Helmet title="Thematische programma’s" />
+
             <Container className="pb-20 overflow-hidden">
                 <div className="col-span-6">
                     <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
@@ -46,13 +56,16 @@ function ThemeOverview() {
                                 isLoading={isLoading}
                                 objectType="thematische programma’s"
                                 objectSlug="omgevingsprogramma/thematische-programmas"
-                                advancedSearch={false}
+                                limit={PAGE_LIMIT}
+                                onPageChange={setCurrPage}
+                                total={data?.total}
+                                hasSearch={false}
                             />
                         )}
                     </div>
                 </div>
             </Container>
-        </div>
+        </>
     )
 }
 

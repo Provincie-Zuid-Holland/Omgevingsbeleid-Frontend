@@ -68,7 +68,11 @@ const maatregel: DynamicObject<
         'Portfolio_Holder_1_UUID',
         'Portfolio_Holder_2_UUID',
     ],
-    allowedConnections: [{ type: 'beleidsdoel', key: 'Beleidsdoelen' }],
+    allowedConnections: [
+        { type: 'beleidsdoel', key: 'Beleidsdoelen' },
+        { type: 'beleidskeuze', key: 'Beleidskeuzes' },
+        { type: 'gebiedsprogramma', key: 'Gebiedsprogrammas' },
+    ],
     connectionsDescription: (
         <>
             Binnen het omgevingsbeleid bestaan koppelingen en relaties. Een
@@ -108,6 +112,7 @@ const maatregel: DynamicObject<
                         'Formuleer bondig wat de provincie met deze maatregel wil bewerkstelligen.',
                     type: 'wysiwyg',
                     required: true,
+                    customMenuOptions: ['image'],
                 },
                 {
                     name: 'Role',
@@ -128,6 +133,7 @@ const maatregel: DynamicObject<
                     description: 'Beschrijf de uitwerking van de maatregel.',
                     type: 'wysiwyg',
                     required: true,
+                    customMenuOptions: ['image'],
                 },
             ],
         },

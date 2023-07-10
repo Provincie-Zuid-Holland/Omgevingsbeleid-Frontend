@@ -55,6 +55,11 @@ const DynamicField = ({
         if (!!values[field.name]) field.defaultValue = [values[field.name]]
     }
 
+    if (type === 'wysiwyg') {
+        // @ts-ignore
+        field.menuClassName = 'sticky top-[96px]'
+    }
+
     const marginTop = isFirst ? '' : 'mt-8'
 
     return (
