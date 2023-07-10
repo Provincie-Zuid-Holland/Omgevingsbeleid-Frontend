@@ -106,6 +106,13 @@ const SearchResults = () => {
                     }
                 }
             },
+            onError() {
+                setPagination({
+                    isLoaded: false,
+                    total: 0,
+                    limit: 0,
+                })
+            },
         },
     })
 
