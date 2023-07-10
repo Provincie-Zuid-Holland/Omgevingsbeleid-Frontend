@@ -9,21 +9,36 @@ const NetworkLegend = () => {
     const { filters, selectedFilters, setSelectedFilters } = useFilterStore(
         state => ({
             ...state,
+            filters: state.filters
+                .map(filter => {
+                    const options = filter.options.filter(
+                        option => option.exclude !== 'network'
+                    )
+                    return { ...filter, options }
+                })
+                .filter(filter => filter.options.length > 0),
         })
     )
 
     const handleClick = (val: ModelType) => {
-        if (selectedFilters?.filter(e => e !== val).length === 0) {
+        if (selectedFilters?.network.filter(e => e !== val).length === 0) {
             setSelectedFilters(
+                'network',
                 filters.flatMap(filter =>
                     filter.options.map(option => option.value)
                 )
             )
-        } else if (selectedFilters?.includes(val)) {
-            setSelectedFilters(selectedFilters.filter(e => e !== val))
+        } else if (selectedFilters?.network.includes(val)) {
+            setSelectedFilters(
+                'network',
+                selectedFilters.network.filter(e => e !== val)
+            )
         } else {
             setSelectedFilters(
-                selectedFilters ? [...selectedFilters, val] : [val]
+                'network',
+                selectedFilters.network
+                    ? [...selectedFilters.network, val]
+                    : [val]
             )
         }
     }
@@ -44,7 +59,9 @@ const NetworkLegend = () => {
                             onClick={() => handleClick(option.value)}
                             className={classNames('flex items-baseline', {
                                 'opacity-40 line-through':
-                                    !selectedFilters?.includes(option.value),
+                                    !selectedFilters?.network.includes(
+                                        option.value
+                                    ),
                             })}>
                             {getIcon(option.value)}
                             <span>{option.label}</span>

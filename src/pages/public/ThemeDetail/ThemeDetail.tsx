@@ -61,8 +61,7 @@ function ThemeDetail() {
                                 isLoading={isLoading}
                                 objectType="maatregelen"
                                 objectSlug="omgevingsprogramma/maatregelen"
-                                advancedSearch={false}
-                                hasFilter={false}
+                                hasSearch={false}
                                 title="Maatregelen in dit thematische programma"
                             />
                         </div>

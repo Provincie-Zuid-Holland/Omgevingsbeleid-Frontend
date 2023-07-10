@@ -10,6 +10,7 @@ import { Model, ModelPatchStaticType } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import usePermissions from '@/hooks/usePermissions'
 import {
+    getStaticDataFilterProperty,
     getStaticDataLabel,
     getStaticDataPropertyKey,
     getStaticDataPropertyRequired,
@@ -56,7 +57,11 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
                     const label = getStaticDataLabel(item)
                     const key = getStaticDataPropertyKey(item)
                     const required = getStaticDataPropertyRequired(item)
+                    const filterProperty = getStaticDataFilterProperty(item)
                     const user = data?.[key]
+
+                    const filter =
+                        filterProperty && data?.[filterProperty]?.UUID
 
                     return (
                         <Item
@@ -69,6 +74,7 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
                                     label,
                                     value: user,
                                     required,
+                                    filter,
                                 })
                             }
                             isLoading={isLoading}

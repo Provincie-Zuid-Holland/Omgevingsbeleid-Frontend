@@ -1,174 +1,226 @@
-import 'url-search-params-polyfill'
-
-import { Heading } from '@pzh-ui/components'
+import {
+    FieldCheckboxGroup,
+    Heading,
+    Pagination,
+    Text,
+} from '@pzh-ui/components'
+import classNames from 'classnames'
 import { useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useMedia } from 'react-use'
+import { useUpdateEffect } from 'react-use'
 
-import { getSearch } from '@/api/fetchers'
-import { GetSearch200ResultsItem } from '@/api/fetchers.schemas'
-import Container from '@/components/Container/Container'
-import { LoaderCard } from '@/components/Loader'
-import Pagination from '@/components/Pagination'
+import { useSearchValidPost } from '@/api/fetchers'
+import { Container } from '@/components/Container'
+import { LoaderSpinner } from '@/components/Loader'
 import SearchBar from '@/components/SearchBar'
-import SearchFilterSection from '@/components/SearchFilterSection'
 import SearchResultItem from '@/components/SearchResultItem'
-import useSearchFilterStore from '@/hooks/useSearchFilterStore'
-import useSearchParam from '@/hooks/useSearchParam'
-import handleError from '@/utils/handleError'
+import { ModelType } from '@/config/objects/types'
+import { default as useSearchParams } from '@/hooks/useSearchParam'
+import useFilterStore from '@/store/filterStore'
+
+const PAGE_LIMIT = 10
 
 const SearchResults = () => {
-    const initializeFilters = useSearchFilterStore(
-        state => state.initializeFilters
+    const { get, set, remove } = useSearchParams()
+    const [query, page, filter] = get(['query', 'page', 'filter'])
+
+    const filters = useFilterStore(state => state.filters)
+    const selectedFilters = useFilterStore(
+        state =>
+            ({
+                ...state.selectedFilters,
+                search: (!!filter && filter?.split(',')) || [],
+            }.search)
     )
-    const filterState = useSearchFilterStore(state => state.filterState)
-    const [searchResults, setSearchResults] = useState<
-        GetSearch200ResultsItem[]
-    >([])
-    const [searchResultsTotal, setSearchResultsTotal] = useState(0)
-    const [dataLoaded, setDataLoaded] = useState(false)
-    const [initializedQuery, setInitializedQuery] = useState<null | string>(
-        null
+    const setSelectedFilters = useFilterStore(state => state.setSelectedFilters)
+
+    const [currPage, setCurrPage] = useState(parseInt(page || '1'))
+
+    const allFilters = useMemo(
+        () =>
+            filters.flatMap(group => group.options.map(filter => filter.value)),
+        [filters]
     )
-    const { get, set, remove } = useSearchParam()
-    const [paramTextQuery, paramOnly, filter] = get(['query', 'only', 'filter'])
-    const isMobile = useMedia('(max-width: 768px)')
 
-    useEffect(() => {
-        if (initializedQuery !== null && initializedQuery === paramTextQuery)
-            return
+    /**
+     * Handle filter change
+     */
+    const onFilterChange = (e: React.FormEvent<HTMLInputElement>) => {
+        const target = e.currentTarget
+        const newValue = [...selectedFilters]
 
-        const textualSearchQuery = async () => {
-            if (!paramTextQuery) {
-                setDataLoaded(true)
-                return
-            }
-
-            try {
-                const { results, total = 0 } = await getSearch({
-                    query: paramTextQuery,
-                    limit: 20,
-                    ...(paramOnly && { only: paramOnly }),
-                })
-                initializeFilters(results || [], false, filter)
-                setSearchResults(results || [])
-                setSearchResultsTotal(total)
-                setDataLoaded(true)
-            } catch (error) {
-                let message = 'Unknown Error'
-                if (error instanceof Error) message = error.message
-                handleError(message)
-                setDataLoaded(true)
-            }
-        }
-
-        setDataLoaded(false)
-        textualSearchQuery()
-        setInitializedQuery(paramTextQuery)
-    }, [paramTextQuery, paramOnly, initializeFilters, filter, initializedQuery])
-
-    const filteredSearchResults = useMemo(() => {
-        const acceptedTypes = [
-            'ambities',
-            'beleidsdoelen',
-            'beleidskeuzes',
-            'maatregelen',
-            'Beleidsregels',
-        ]
-        /**
-         * By default none of the filters are active, if so return all
-         * If there is one or more filter checked return the checked
-         */
-        return searchResults.filter(item => {
-            const filterIsActive = Object.keys(filterState).some(
-                filter => filterState[filter].checked
-            )
-
-            if (!item.Type) {
-                return false
-            } else if (!acceptedTypes.includes(item.Type)) {
-                return false
-            } else if (filterIsActive && filterState[item.Type]?.checked) {
-                return true
-            } else if (!filterIsActive) {
-                return true
-            } else {
-                return false
-            }
-        })
-    }, [searchResults, filterState])
-
-    useEffect(() => {
-        const checkedFilters = Object.keys(filterState).filter(
-            key => filterState[key].checked
-        )
-
-        if (checkedFilters.length) {
-            set('filter', checkedFilters)
+        if (target.checked) {
+            newValue.push(target.value as ModelType)
         } else {
-            remove('filter')
+            newValue.splice(
+                newValue.findIndex(item => item === target.value),
+                1
+            )
         }
+
+        setSelectedFilters('search', newValue as ModelType[])
+        set('filter', newValue)
+
+        mutate({
+            data: {
+                Object_Types: !!newValue.length ? newValue : allFilters,
+            },
+            params: {
+                query: query || '',
+                limit: PAGE_LIMIT,
+                offset: (currPage - 1) * PAGE_LIMIT,
+            },
+        })
+
+        setCurrPage(1)
+        remove('page')
+    }
+
+    /**
+     * Handle pagination
+     */
+    const handlePageChange = (page: number) => {
+        setCurrPage(page)
+        set('page', page.toString())
+    }
+
+    const { data, mutate, isLoading } = useSearchValidPost({
+        mutation: {
+            onSuccess(data) {
+                if (!!!data.results.length) {
+                    setPagination({
+                        isLoaded: false,
+                        total: data?.total,
+                        limit: data?.limit,
+                    })
+                } else {
+                    if (
+                        !pagination.isLoaded ||
+                        data.total !== pagination.total
+                    ) {
+                        setPagination({
+                            isLoaded: true,
+                            total: data?.total,
+                            limit: data?.limit,
+                        })
+                    }
+                }
+            },
+            onError() {
+                setPagination({
+                    isLoaded: false,
+                    total: 0,
+                    limit: 0,
+                })
+            },
+        },
+    })
+
+    const [pagination, setPagination] = useState({
+        isLoaded: false,
+        total: data?.total,
+        limit: data?.limit,
+    })
+
+    useEffect(() => {
+        mutate({
+            data: {
+                Object_Types: !!selectedFilters.length
+                    ? selectedFilters
+                    : allFilters,
+            },
+            params: {
+                query: query || '',
+                limit: PAGE_LIMIT,
+                offset: (currPage - 1) * PAGE_LIMIT,
+            },
+        })
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [filterState])
+    }, [query, currPage])
+
+    useUpdateEffect(() => {
+        setCurrPage(1)
+        remove('page')
+    }, [query])
 
     return (
         <>
-            <Helmet>
-                <title>Omgevingsbeleid - Zoekresultaten</title>
-            </Helmet>
-            <Container
-                className="z-10 md:sticky bg-pzh-blue"
-                style={isMobile ? {} : { height: 96 + 'px', top: '96px' }}>
-                <div className="flex items-center col-span-6 md:col-span-2">
-                    <Heading
-                        level="1"
-                        className="relative mt-4 font-bold text-white md:mt-2"
-                        color="text-white">
+            <Helmet title="Zoekresultaten" />
+
+            <Container className="h-[96px] items-center bg-pzh-blue">
+                <div className="col-span-2">
+                    <Heading level="2" as="1" color="-mb-1 text-pzh-white">
                         Zoeken
                     </Heading>
                 </div>
-                <div className="flex items-center w-full col-span-6 mt-2 mb-4 md:mt-0 md:mb-0 md:w-auto md:col-span-4">
-                    <SearchBar />
+                <div className="col-span-4">
+                    <SearchBar
+                        defaultValue={query || ''}
+                        callBack={() =>
+                            setPagination({ ...pagination, isLoaded: false })
+                        }
+                    />
                 </div>
             </Container>
-            <Container className="pb-16 mt-4">
-                <SearchFilterSection
-                    searchResults={searchResults}
-                    loaded={dataLoaded}
-                />
 
-                <div className={`col-span-6 md:col-span-4`}>
-                    {dataLoaded && searchResults.length > 0 ? (
-                        <>
-                            <ul id="search-results" className="mb-4">
-                                {filteredSearchResults.map(item => (
-                                    <SearchResultItem
-                                        searchQuery={null}
-                                        item={item}
-                                        key={item.UUID}
-                                    />
-                                ))}
-                            </ul>
-                            {paramTextQuery && (
-                                <Pagination
-                                    setSearchResults={setSearchResults}
-                                    searchResults={searchResults}
-                                    limit={20}
-                                    total={searchResultsTotal}
+            <Container className="pt-8 pb-20 relative">
+                <div className="col-span-2">
+                    <div className="sticky top-[120px]">
+                        {filters.map((filter, index) => (
+                            <div
+                                key={filter.label}
+                                className={classNames({
+                                    'mb-6': index + 1 !== filters.length,
+                                })}>
+                                <Text
+                                    type="body-bold"
+                                    className="mb-3 text-pzh-blue">
+                                    {filter.label}
+                                </Text>
+
+                                <FieldCheckboxGroup
+                                    name={filter.label}
+                                    options={filter.options}
+                                    value={selectedFilters}
+                                    onChange={onFilterChange}
                                 />
-                            )}
-                        </>
-                    ) : dataLoaded && searchResults.length === 0 ? (
-                        <h2 className="block mt-8 text-pzh-gray-600">
-                            Geen resultaten
-                        </h2>
-                    ) : !dataLoaded ? (
-                        <div className="mt-4">
-                            <LoaderCard height="150" />
-                            <LoaderCard height="150" />
-                            <LoaderCard height="150" />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className="col-span-4">
+                    {isLoading ? (
+                        <div className="flex justify-center">
+                            <LoaderSpinner />
                         </div>
-                    ) : null}
+                    ) : !!data?.results.length ? (
+                        <ul>
+                            {data?.results.map(item => (
+                                <SearchResultItem
+                                    key={item.UUID}
+                                    query={query || ''}
+                                    {...item}
+                                />
+                            ))}
+                        </ul>
+                    ) : (
+                        <span className="italic text-pzh-gray-600">
+                            Er zijn geen resultaten gevonden
+                        </span>
+                    )}
+
+                    {!!pagination.total &&
+                        !!pagination.limit &&
+                        pagination.total > pagination.limit && (
+                            <div className="mt-8 flex justify-center">
+                                <Pagination
+                                    key={query}
+                                    onChange={handlePageChange}
+                                    forcePage={currPage - 1}
+                                    {...pagination}
+                                />
+                            </div>
+                        )}
                 </div>
             </Container>
         </>

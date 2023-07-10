@@ -54,7 +54,7 @@ describe('LeafletMap', () => {
 
         fireEvent.click(searchController)
 
-        const searchInput = screen.getByPlaceholderText(
+        const searchInput = screen.getByText(
             'Zoeken op de kaart'
         ) as HTMLInputElement
 

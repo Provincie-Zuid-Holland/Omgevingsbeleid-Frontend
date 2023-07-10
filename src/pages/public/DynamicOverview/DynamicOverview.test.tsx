@@ -26,7 +26,10 @@ describe('DynamicOverview', () => {
 
     it('Component renders', () => {
         setup()
-        const element = screen.getByText('Beleidskeuzes')
+        const element = screen.getByRole('heading', {
+            name: 'Beleidskeuzes',
+            level: 1,
+        })
         expect(element).toBeTruthy()
     })
 })

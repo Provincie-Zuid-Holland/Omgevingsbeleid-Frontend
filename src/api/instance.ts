@@ -4,11 +4,11 @@ import { toastNotification } from '@/utils/toastNotification'
 
 export type Environment = 'dev' | 'test' | 'acc' | 'prod'
 
-const apiUrl = process.env.REACT_APP_API_URL
-const environment = process.env.REACT_APP_API_ENV as Environment
+const apiUrl = import.meta.env.VITE_API_URL
+const environment = import.meta.env.VITE_API_ENV as Environment
 
 const getAccessToken = () =>
-    localStorage.getItem(process.env.REACT_APP_KEY_API_ACCESS_TOKEN || '')
+    localStorage.getItem(import.meta.env.VITE_KEY_API_ACCESS_TOKEN || '')
 
 const instance = axios.create({
     baseURL: apiUrl,

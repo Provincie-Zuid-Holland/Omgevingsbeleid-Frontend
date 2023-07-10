@@ -4,12 +4,10 @@ import { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css'
 
-import { GetEdits200Item } from '@/api/fetchers.schemas'
 import { LoaderCard } from '@/components/Loader'
-import getDimensionsConstants from '@/utils/getDimensionsConstants'
 
 export interface TableLatestEditsProps {
-    edits?: GetEdits200Item[]
+    edits?: any[]
     isLoading?: boolean
 }
 function TableLatestEdits({ edits = [], isLoading }: TableLatestEditsProps) {
@@ -41,12 +39,10 @@ function TableLatestEdits({ edits = [], isLoading }: TableLatestEditsProps) {
         )
     }
 
-    const getLink = (item: GetEdits200Item) => {
+    const getLink = (item: any) => {
         if (!item.Type) return '/'
 
-        const constants = getDimensionsConstants(item.Type)
-
-        const slug = constants.SLUG_OVERVIEW
+        const slug = ''
         return `/${slug}/${item.UUID}`
     }
 
@@ -154,11 +150,7 @@ function TableLatestEdits({ edits = [], isLoading }: TableLatestEditsProps) {
     )
 }
 
-const StatusComponent = ({
-    policyObject,
-}: {
-    policyObject: GetEdits200Item
-}) => (
+const StatusComponent = ({ policyObject }: { policyObject: any }) => (
     <span>
         {policyObject.Status}{' '}
         <Tippy

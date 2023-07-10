@@ -3,7 +3,7 @@ module.exports = {
     content: [
         './src/**/*.{js,jsx,ts,tsx}',
         './node_modules/@pzh-ui/components/dist/**/*.{js,jsx,ts,tsx}',
-        './public/index.html',
+        './index.html',
     ],
     theme: {
         extend: {

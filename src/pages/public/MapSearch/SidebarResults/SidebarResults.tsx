@@ -1,39 +1,181 @@
 import { Transition } from '@headlessui/react'
-import { Heading, Text } from '@pzh-ui/components'
-import { Filter as FilterIcon } from '@pzh-ui/icons'
-import Tippy from '@tippyjs/react'
-import { useState } from 'react'
+import { Heading, Pagination, Text } from '@pzh-ui/components'
+import { Map } from 'leaflet'
+import { useMemo, useRef, useState } from 'react'
+import { useUpdateEffect } from 'react-use'
 
-import { GeoSearchResult } from '@/api/fetchers.schemas'
+import { useSearchGeoPost } from '@/api/fetchers'
+import Filter from '@/components/Filter'
 import { LoaderCard } from '@/components/Loader'
-import Pagination from '@/components/Pagination'
-import SearchFilterSection from '@/components/SearchFilterSection'
 import SearchResultItem from '@/components/SearchResultItem'
-import useSearchFilterStore from '@/hooks/useSearchFilterStore'
+import { ModelType } from '@/config/objects/types'
+import useSearchParam from '@/hooks/useSearchParam'
+import useFilterStore from '@/store/filterStore'
+
+const PAGE_LIMIT = 20
 
 interface SidebarResultsProps {
     searchOpen: boolean
-    searchResultsTotal: number
-    searchResults: GeoSearchResult[]
-    setSearchResults: (results: GeoSearchResult[]) => void
-    isLoading: boolean
     drawType?: string
     UUIDs: string[]
+    mapInstance: Map | null
+    geoLoading: boolean
 }
 
 const SidebarResults = ({
     searchOpen,
-    searchResultsTotal,
-    searchResults,
-    setSearchResults,
-    isLoading,
     drawType,
     UUIDs,
+    mapInstance,
+    geoLoading,
 }: SidebarResultsProps) => {
-    const availableFilters = useSearchFilterStore(
-        state => state.availableFilters
+    const { get, set, remove } = useSearchParam()
+    const [paramSearchOpen, paramWerkingsgebied, page, filter] = get([
+        'searchOpen',
+        'werkingsgebied',
+        'page',
+        'filter',
+    ])
+
+    const resultsContainer = useRef<HTMLDivElement>(null)
+
+    const { amountOfFilters, filters, selectedFilters, setSelectedFilters } =
+        useFilterStore(state => ({
+            ...state,
+            filters: state.filters
+                .map(filter => {
+                    const options = filter.options.filter(
+                        option => option.exclude !== 'mapSearch'
+                    )
+                    return { ...filter, options }
+                })
+                .filter(filter => filter.options.length > 0),
+            selectedFilters: {
+                ...state.selectedFilters,
+                mapSearch: filter?.split(',') || [],
+            }.mapSearch,
+            amountOfFilters: filter?.split(',')?.length || 0,
+        }))
+
+    const { data, mutate, isLoading } = useSearchGeoPost({
+        mutation: {
+            onSuccess(data) {
+                if (!!!data.results.length) {
+                    setPagination({
+                        isLoaded: false,
+                        total: data?.total,
+                        limit: data?.limit,
+                    })
+                } else {
+                    if (!pagination.isLoaded) {
+                        setPagination({
+                            isLoaded: true,
+                            total: data?.total,
+                            limit: data?.limit,
+                        })
+                    }
+
+                    if (resultsContainer.current) {
+                        resultsContainer.current.scrollTo(0, 0)
+                    }
+                }
+            },
+        },
+    })
+
+    const [currPage, setCurrPage] = useState(parseInt(page || '1'))
+    const [pagination, setPagination] = useState({
+        isLoaded: false,
+        total: data?.total,
+        limit: data?.limit,
+    })
+
+    /**
+     * Handle pagination
+     */
+    const handlePageChange = (page: number) => {
+        setCurrPage(page)
+        set('page', page.toString())
+    }
+
+    /**
+     * Handle change of dropdown field
+     */
+    const handleDropdownChange = (
+        val: { label: string; value: ModelType }[]
+    ) => {
+        setPagination({ ...pagination, isLoaded: false })
+        setCurrPage(1)
+        remove('page')
+
+        const selected =
+            val.length === 0
+                ? filters.flatMap(filter =>
+                      filter.options.map(option => option.value)
+                  )
+                : (val as { label: string; value: ModelType }[])?.map(
+                      e => e.value
+                  )
+
+        setSelectedFilters('mapSearch', selected)
+        set('filter', selected)
+    }
+
+    /**
+     * Set default value of object filter based on provided filters
+     */
+    const defaultValue = useMemo(
+        () =>
+            filters.flatMap(filter =>
+                filter.options.filter(option =>
+                    selectedFilters?.includes(option.value)
+                )
+            ),
+        [filters, selectedFilters]
     )
-    const filterState = useSearchFilterStore(state => state.filterState)
+
+    /**
+     * If URL contains searchOpen=true open the results sidebar.
+     */
+    useUpdateEffect(() => {
+        if (
+            paramSearchOpen === 'true' &&
+            UUIDs.length &&
+            !paramWerkingsgebied
+        ) {
+            mutate({
+                data: {
+                    Area_List: UUIDs,
+                    Object_Types: selectedFilters,
+                },
+                params: {
+                    limit: PAGE_LIMIT,
+                    offset: (currPage - 1) * PAGE_LIMIT,
+                },
+            })
+        }
+
+        if (paramSearchOpen === 'true' && paramWerkingsgebied) {
+            mutate({
+                data: {
+                    Area_List: [paramWerkingsgebied],
+                    Object_Types: selectedFilters,
+                },
+                params: {
+                    limit: PAGE_LIMIT,
+                    offset: (currPage - 1) * PAGE_LIMIT,
+                },
+            })
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+        paramSearchOpen,
+        paramWerkingsgebied,
+        UUIDs,
+        mapInstance,
+        currPage,
+        filter,
+    ])
 
     return (
         <Transition
@@ -45,17 +187,17 @@ const SidebarResults = ({
             leaveFrom="mr-0"
             leaveTo="-mr-840"
             className="relative w-full max-w-2xl px-4 pt-4 pb-4 overflow-hidden lg:px-20 md:px-10 md:pb-0 md:shadow-pane z-1">
-            <div className="pb-2 border-b">
+            <div className="pb-3 border-b">
                 <div className="flex items-start justify-between">
                     <div>
                         <Heading level="3">Resultaten</Heading>
-                        {!isLoading ? (
+                        {!isLoading && !geoLoading ? (
                             <span className="block text-sm text-opacity-50 text-pzh-blue-dark">
-                                {!searchResultsTotal
+                                {!data?.total
                                     ? 'Er zijn geen resultaten'
-                                    : searchResultsTotal === 1
+                                    : data.total === 1
                                     ? `Er is 1 resultaat`
-                                    : `Er zijn ${searchResultsTotal} resultaten`}
+                                    : `Er zijn ${data.total} resultaten`}
                             </span>
                         ) : (
                             <LoaderCard
@@ -65,111 +207,74 @@ const SidebarResults = ({
                             />
                         )}
                     </div>
-                    {availableFilters?.length > 1 && (
-                        <Filter isLoading={isLoading} />
-                    )}
+                    <Filter
+                        className="min-w-[250px]"
+                        filters={filters}
+                        activeFilters={amountOfFilters}
+                        handleChange={handleDropdownChange}
+                        defaultValue={defaultValue}
+                    />
                 </div>
             </div>
             <div className="h-full mt-2">
-                {!isLoading ? (
-                    <>
-                        {searchResults.length ? (
-                            <div className="h-full pb-8 md:overflow-auto md:pb-20">
+                <div
+                    ref={resultsContainer}
+                    className="h-full pb-8 md:pb-24 pt-4 md:overflow-auto">
+                    {!isLoading && !geoLoading ? (
+                        <>
+                            {data?.results.length ? (
                                 <ul className="mb-4">
-                                    {searchResults
-                                        /**
-                                         * By default none of the filters are active, if so return all
-                                         * If there is one or more filter checked return the checked
-                                         */
-                                        .filter(item => {
-                                            const filterIsActive = Object.keys(
-                                                filterState
-                                            ).some(
-                                                filter =>
-                                                    filterState[filter].checked
-                                            )
-
-                                            if (!item.Type) {
-                                                return false
-                                            } else if (
-                                                filterIsActive &&
-                                                filterState[item.Type]?.checked
-                                            ) {
-                                                return true
-                                            } else if (!filterIsActive) {
-                                                return true
-                                            } else {
-                                                return false
+                                    {data.results.map(item => (
+                                        <SearchResultItem
+                                            query={undefined}
+                                            key={item.UUID}
+                                            Description={
+                                                item.Omschrijving || ''
                                             }
-                                        })
-                                        .map(item => (
-                                            <SearchResultItem
-                                                searchQuery={null}
-                                                item={item}
-                                                key={item.UUID}
-                                            />
-                                        ))}
+                                            Object_Type={item.Type}
+                                            Title={item.Titel || ''}
+                                            {...item}
+                                        />
+                                    ))}
                                 </ul>
+                            ) : (
+                                <Text className="mt-2">
+                                    Er zijn geen resultaten voor{' '}
+                                    {drawType === 'polygon'
+                                        ? 'het getekende gebied'
+                                        : drawType === 'marker'
+                                        ? 'het ingevoerde adres'
+                                        : drawType === 'werkingsgebied'
+                                        ? 'dit werkingsgebied'
+                                        : 'de geplaatste marker'}
+                                    . Probeer het opnieuw (binnen de grenzen van
+                                    de provincie Zuid-Holland).
+                                </Text>
+                            )}
+                        </>
+                    ) : (
+                        <div className="mt-4">
+                            <LoaderCard height="150" />
+                            <LoaderCard height="150" />
+                            <LoaderCard height="150" />
+                            <LoaderCard height="150" />
+                        </div>
+                    )}
+
+                    {!!pagination.total &&
+                        !!pagination.limit &&
+                        pagination.total > pagination.limit && (
+                            <div className="mt-8 flex justify-center">
                                 <Pagination
-                                    setSearchResults={setSearchResults}
-                                    searchResults={searchResults}
-                                    UUIDs={UUIDs}
-                                    limit={10}
-                                    total={searchResultsTotal}
+                                    onChange={handlePageChange}
+                                    forcePage={currPage - 1}
+                                    {...pagination}
                                 />
                             </div>
-                        ) : (
-                            <Text className="mt-2">
-                                Er zijn geen resultaten voor{' '}
-                                {drawType === 'polygon'
-                                    ? 'het getekende gebied'
-                                    : drawType === 'marker'
-                                    ? 'het ingevoerde adres'
-                                    : drawType === 'werkingsgebied'
-                                    ? 'dit werkingsgebied'
-                                    : 'de geplaatste marker'}
-                                . Probeer het opnieuw (binnen de grenzen van de
-                                provincie Zuid-Holland).
-                            </Text>
                         )}
-                    </>
-                ) : (
-                    <div className="mt-4">
-                        <LoaderCard height="150" />
-                        <LoaderCard height="150" />
-                        <LoaderCard height="150" />
-                        <LoaderCard height="150" />
-                    </div>
-                )}
+                </div>
             </div>
         </Transition>
-    )
-}
-
-const Filter = ({ isLoading }: Partial<SidebarResultsProps>) => {
-    const [visible, setVisible] = useState(false)
-
-    return (
-        <Tippy
-            interactive
-            visible={visible}
-            onClickOutside={() => setVisible(false)}
-            placement="bottom"
-            className="pzh-tippy"
-            content={
-                <div className="flex flex-col w-48 px-4 pt-2 pb-4 bg-white border border-gray-400 rounded shadow-md">
-                    <Text className="font-bold">Filteren</Text>
-
-                    <SearchFilterSection loaded={!isLoading} hideLabels />
-                </div>
-            }>
-            <button
-                onClick={() => setVisible(!visible)}
-                className="flex items-center px-2 py-2 border border-gray-400 rounded">
-                <FilterIcon size={16} className="mr-2" />
-                <span className="-mb-1 text-sm">Filter</span>
-            </button>
-        </Tippy>
     )
 }
 

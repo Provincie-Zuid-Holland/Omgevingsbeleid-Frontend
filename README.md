@@ -36,20 +36,19 @@ $ npm install
 Create a .env file in the root of the project.
 
 ```jsx
-REACT_APP_API_URL = 'https://api-obzh-dev.azurewebsites.net/v0.1' // Used in the API url (in instance.ts)
-REACT_APP_GEOSERVER_API_URL =
-    'https://geo-omgevingsbeleid-test.azurewebsites.net' // Used in the Geoserver API url (in axiosGeoJSON.ts)
-REACT_APP_API_ENV = 'dev' // Used in the API url (in instance.ts)
-REACT_APP_KEY_API_ACCESS_TOKEN = 'OB_access_token' // Used to set login token
-REACT_APP_KEY_IDENTIFIER = 'OB_identifier' // Used to set login identifier
-REACT_APP_ERROR_MSG = 'Er is iets misgegaan, probeer het later nog eens' // Error message
+API_URL = 'https://api-obzh-dev.azurewebsites.net/v0.1' // Used in the API url (in instance.ts)
+VITE_GEOSERVER_API_URL = 'https://geo-omgevingsbeleid-test.azurewebsites.net' // Used in the Geoserver API url (in axiosGeoJSON.ts)
+API_ENV = 'dev' // Used in the API url (in instance.ts)
+VITE_KEY_API_ACCESS_TOKEN = 'OB_access_token' // Used to set login token
+VITE_KEY_IDENTIFIER = 'OB_identifier' // Used to set login identifier
+VITE_ERROR_MSG = 'Er is iets misgegaan, probeer het later nog eens' // Error message
 ```
 
 The following environment variables are not necessary. They are used to initialize the Sentry bug tracker.
 
 ```jsx
-REACT_APP_SENTRY_DSN = '' // Contains the DSN to track bugs in Sentry
-REACT_APP_RELEASE_VERSION = '' // Used to log version in Sentry bugs
+VITE_SENTRY_DSN = '' // Contains the DSN to track bugs in Sentry
+VITE_RELEASE_VERSION = '' // Used to log version in Sentry bugs
 ```
 
 ## Available scripts

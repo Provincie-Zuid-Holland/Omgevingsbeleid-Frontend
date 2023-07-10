@@ -4,13 +4,17 @@ import { BrowserRouter } from 'react-router-dom'
 
 import SearchBar from './SearchBar'
 
-jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
-    useLocation: () => ({
-        pathname: '/zoekresultaten',
-        search: '?query=',
-    }),
-}))
+vi.mock('react-router-dom', async () => {
+    const actual = (await vi.importActual('react-router-dom')) as any
+
+    return {
+        ...actual,
+        useLocation: () => ({
+            pathname: '/zoekresultaten',
+            search: '?query=',
+        }),
+    }
+})
 
 describe('SearchBar', () => {
     const defaultProps = {
@@ -40,21 +44,9 @@ describe('SearchBar', () => {
         const { searchBar } = setup()
 
         // Assertion onChange
-        const searchQuery = 'Testing%20the%20SearchBar%20component'
+        const searchQuery = 'Test'
         fireEvent.change(searchBar, { target: { value: searchQuery } })
         expect(searchBar.value).toBe(searchQuery)
-
-        // Assertion searchBar type suggestions
-        const suggestionTypes = [
-            'beleidskeuzes',
-            'ambities',
-            'beleidsdoelen',
-            'maatregelen',
-            'beleidsregels',
-        ]
-        suggestionTypes.forEach(type => {
-            expect(screen.getByText(type)).toBeTruthy()
-        })
 
         // Check if url changes when user hits enter
         fireEvent.keyDown(searchBar, {

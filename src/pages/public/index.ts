@@ -11,7 +11,7 @@ import Login from './Login'
 import MapSearch from './MapSearch'
 import Network from './Network'
 import PlanningAndReleases from './PlanningAndReleases'
-// import SearchResults from './SearchResults'
+import SearchResults from './SearchResults'
 import ThemeDetail from './ThemeDetail'
 import ThemeOverview from './ThemeOverview'
 
@@ -26,7 +26,7 @@ export {
     Login,
     MapSearch,
     PlanningAndReleases,
-    // SearchResults,
+    SearchResults,
     DynamicOverview,
     DynamicObject,
     Network,

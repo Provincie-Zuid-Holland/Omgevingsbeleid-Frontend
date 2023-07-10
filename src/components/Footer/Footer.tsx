@@ -23,8 +23,7 @@ function Footer() {
                 })}>
                 <div className="col-span-6 md:col-span-3 lg:col-span-2">
                     <Heading level="3" color="text-pzh-blue">
-                        Elke dag beter.{' '}
-                        <span className="inline-block">Zuid-Holland.</span>
+                        Krachtig Zuid-Holland
                     </Heading>
                 </div>
                 {!userIsInMuteerEnvironment && (

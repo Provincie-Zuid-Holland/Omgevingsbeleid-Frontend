@@ -3,7 +3,7 @@ import { MagnifyingGlass } from '@pzh-ui/icons'
 import { useFormikContext } from 'formik'
 import debounce from 'lodash.debounce'
 
-import { searchPost } from '@/api/fetchers'
+import { searchValidPost } from '@/api/fetchers'
 import { SearchObject } from '@/api/fetchers.schemas'
 import { ModelType } from '@/config/objects/types'
 
@@ -25,14 +25,13 @@ interface DynamicObjectSearchProps
     /** Filter items by UUID or Object_ID */
     filter?: number | string | number[] | string[]
     /** Filter items by Object_Type */
-    filterType?: ModelType
+    filterType?: ModelType[]
 }
 
 const DynamicObjectSearch = ({
     onChange,
     objectKey = 'uuid',
     placeholder = 'Zoek op titel van beleidskeuze, maatregel, etc.',
-    label,
     filter,
     filterType,
     ...rest
@@ -43,41 +42,23 @@ const DynamicObjectSearch = ({
         query: string,
         callback: (options: Option[]) => void
     ) => {
-        searchPost({ query })
+        searchValidPost({ Object_Types: filterType }, { query, limit: 50 })
             .then(data => {
                 const filteredObject = !!filter
-                    ? data.Objects.filter(object => {
+                    ? data.results.filter(object => {
                           if (Array.isArray(filter)) {
                               return objectKey === 'uuid'
-                                  ? !!filterType
-                                      ? object.Object_Type === filterType &&
-                                        !(filter as string[]).includes(
-                                            object.UUID
-                                        )
-                                      : !(filter as string[]).includes(
-                                            object.UUID
-                                        )
-                                  : !!filterType
-                                  ? object.Object_Type === filterType &&
-                                    !(filter as number[]).includes(
-                                        object.Object_ID
-                                    )
+                                  ? !(filter as string[]).includes(object.UUID)
                                   : !(filter as number[]).includes(
                                         object.Object_ID
                                     )
                           } else {
                               return objectKey === 'uuid'
-                                  ? !!filterType
-                                      ? object.Object_Type === filterType &&
-                                        object.UUID !== filter
-                                      : object.UUID !== filter
-                                  : !!filterType
-                                  ? object.Object_Type === filterType &&
-                                    object.Object_ID !== filter
+                                  ? object.UUID !== filter
                                   : object.Object_ID !== filter
                           }
                       })
-                    : data.Objects
+                    : data.results
 
                 callback(
                     filteredObject.map(object => ({
@@ -110,7 +91,6 @@ const DynamicObjectSearch = ({
             key={key}
             name={key}
             placeholder={placeholder}
-            label={label}
             loadOptions={handleSuggestions}
             onChange={val => handleChange(val as SearchObject)}
             noOptionsMessage={({ inputValue }) =>

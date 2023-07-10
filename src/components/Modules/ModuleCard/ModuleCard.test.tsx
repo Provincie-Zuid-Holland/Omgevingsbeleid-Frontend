@@ -7,9 +7,9 @@ import { getModulesModuleIdGetMock } from '@/api/fetchers.msw'
 import ModuleCard from './ModuleCard'
 
 describe('ModuleCard', () => {
-    const setup = () => {
-        const props = getModulesModuleIdGetMock().Module
+    const props = getModulesModuleIdGetMock().Module
 
+    const setup = () => {
         render(
             <MemoryRouter>
                 <ModuleCard {...props} />
@@ -19,7 +19,7 @@ describe('ModuleCard', () => {
 
     it('Component renders', () => {
         setup()
-        const element = screen.getByText('Test')
+        const element = screen.getByText(props.Title)
         expect(element).toBeTruthy()
     })
 })

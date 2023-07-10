@@ -25,22 +25,24 @@ const ObjectPersonModal = ({
         data: users,
         isFetching,
         isLoading: loadingUsers,
-    } = useUsersGet({ query: { enabled: isOpen } })
+    } = useUsersGet({ limit: 500 }, { query: { enabled: isOpen } })
 
     /**
      * Format user options
      */
     const userOptions = useMemo(
         () =>
-            users?.map(user => ({
-                label: user.Gebruikersnaam,
-                value: user.UUID,
-            })),
-        [users]
+            users?.results
+                ?.filter(user => user.UUID !== person?.filter)
+                ?.map(user => ({
+                    label: user.Gebruikersnaam,
+                    value: user.UUID,
+                })),
+        [users, person?.filter]
     )
 
     const { usePostObjectStatic } = useObject()
-    const { mutate, isLoading } = usePostObjectStatic(() => onClose())
+    const { mutate, isLoading } = usePostObjectStatic(onClose)
 
     /**
      * Update person

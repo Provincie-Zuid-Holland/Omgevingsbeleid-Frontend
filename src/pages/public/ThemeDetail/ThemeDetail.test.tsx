@@ -1,9 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import {
-    render,
-    screen,
-    waitForElementToBeRemoved,
-} from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
 
@@ -20,7 +16,7 @@ describe('ThemeDetail', () => {
     const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
         const path = `/omgevingsprogramma/thematische-programmas/:id`
-        const initialEntries = `/omgevingsprogramma/thematische-programmas/${beleidsdoelen[0].UUID}`
+        const initialEntries = `/omgevingsprogramma/thematische-programmas/${beleidsdoelen.results[0].UUID}`
 
         render(
             <QueryClientProvider client={queryClient}>
@@ -39,14 +35,12 @@ describe('ThemeDetail', () => {
     it('Component renders', async () => {
         setup()
 
-        await waitForElementToBeRemoved(() =>
-            screen.queryByTestId('loader-content')
-        )
-
-        const element = screen.getByRole('heading', {
-            name: beleidsdoelen[0].Title,
-            level: 1,
+        waitFor(() => {
+            const element = screen.getByRole('heading', {
+                name: beleidsdoelen.results[0].Title,
+                level: 1,
+            })
+            expect(element).toBeTruthy()
         })
-        expect(element).toBeTruthy()
     })
 })

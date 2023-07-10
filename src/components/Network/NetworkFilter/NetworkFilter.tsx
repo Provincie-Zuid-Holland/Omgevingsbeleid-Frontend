@@ -3,6 +3,7 @@ import { MagnifyingGlass, Xmark } from '@pzh-ui/icons'
 import { useMemo } from 'react'
 import { ClearIndicatorProps, GroupBase } from 'react-select'
 
+import Filter from '@/components/Filter'
 import { ModelType } from '@/config/objects/types'
 import useFilterStore from '@/store/filterStore'
 import useNetworkStore from '@/store/networkStore'
@@ -25,7 +26,15 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
     const { amountOfFilters, filters, selectedFilters, setSelectedFilters } =
         useFilterStore(state => ({
             ...state,
-            amountOfFilters: state.selectedFilters?.length || 0,
+            filters: state.filters
+                .map(filter => {
+                    const options = filter.options.filter(
+                        option => option.exclude !== 'network'
+                    )
+                    return { ...filter, options }
+                })
+                .filter(filter => filter.options.length > 0),
+            amountOfFilters: state.selectedFilters?.network?.length || 0,
         }))
 
     /**
@@ -54,7 +63,7 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
         () =>
             filters.flatMap(filter =>
                 filter.options.filter(option =>
-                    selectedFilters?.includes(option.value)
+                    selectedFilters?.network.includes(option.value)
                 )
             ),
         [filters, selectedFilters]
@@ -68,12 +77,14 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
     ) => {
         if (val.length === 0) {
             setSelectedFilters(
+                'network',
                 filters.flatMap(filter =>
                     filter.options.map(option => option.value)
                 )
             )
         } else {
             setSelectedFilters(
+                'network',
                 (val as { label: string; value: ModelType }[])?.map(
                     e => e.value
                 )
@@ -145,28 +156,13 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
                         onChange={e => handleChange(e as typeof options[0])}
                     />
                 </div>
-                <div className="relative sm:ml-3 mt-2 sm:mt-0 sm:w-1/5 w-full min-w-[250px]">
-                    <span className="absolute flex items-center justify-center z-1 pt-[4px] w-[24px] h-[24px] top-[-12px] right-[-12px] bg-pzh-blue-dark text-pzh-white rounded-full text-sm font-bold">
-                        {amountOfFilters}
-                    </span>
-                    <FieldSelect
-                        name="Filter"
-                        placeholder="Filter op type"
-                        options={filters}
-                        value={defaultValue}
-                        onChange={val =>
-                            handleDropdownChange(
-                                val as { label: string; value: ModelType }[]
-                            )
-                        }
-                        isMulti
-                        isClearable={false}
-                        closeMenuOnSelect={false}
-                        hideSelectedOptions={false}
-                        isSearchable={false}
-                        controlShouldRenderValue={false}
-                    />
-                </div>
+                <Filter
+                    filters={filters}
+                    activeFilters={amountOfFilters}
+                    defaultValue={defaultValue}
+                    handleChange={val => handleDropdownChange(val)}
+                    className="sm:ml-3 mt-2 sm:mt-0 sm:w-1/5 w-full min-w-[250px]"
+                />
             </div>
             {typeof results === 'number' && (
                 <span className="block mt-2 text-sm">
