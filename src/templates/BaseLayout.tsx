@@ -11,9 +11,15 @@ interface BaseLayoutProps {
 export function BaseLayout({ hideFooter, children }: BaseLayoutProps) {
     return (
         <>
+            <a
+                href="#content"
+                className="sr-only focus:not-sr-only focus:ring-1 focus:ring-inset">
+                Ga direct naar de inhoud
+            </a>
+
             <Navigation />
 
-            <main>{children}</main>
+            <main id="content">{children}</main>
 
             {!hideFooter && <Footer />}
         </>

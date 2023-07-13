@@ -70,6 +70,8 @@ const ObjectList = ({
             searchParams.delete('filter')
             searchParams.append('filter', objectSingular)
 
+            searchParams.delete('page')
+
             navigate({
                 pathname: '/zoekresultaten',
                 search: `?${searchParams}`,

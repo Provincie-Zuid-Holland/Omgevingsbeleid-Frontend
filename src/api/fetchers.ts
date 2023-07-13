@@ -24,8 +24,9 @@ import type {
     AmbitiesValidGetParams,
     AmbitiesValidLineageIdGetParams,
     AmbitieFull,
-    RelationShort,
+    ReadRelationShort,
     ResponseOK,
+    WriteRelationShort,
     AmbitieStaticPostStatics,
     PagedResponseAmbitieExtended,
     ModulesModuleIdObjectAmbitieLineageIdGetParams,
@@ -493,7 +494,7 @@ export const ambitiesRelationsLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<RelationShort[]>({
+    return customInstance<ReadRelationShort[]>({
         url: `/ambities/relations/${lineageId}`,
         method: 'get',
         signal,
@@ -573,13 +574,13 @@ export const useAmbitiesRelationsLineageIdGet = <
  */
 export const ambitiesRelationsLineageIdPut = (
     lineageId: number,
-    relationShort: RelationShort[]
+    writeRelationShort: WriteRelationShort[]
 ) => {
     return customInstance<ResponseOK>({
         url: `/ambities/relations/${lineageId}`,
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
-        data: relationShort,
+        data: writeRelationShort,
     })
 }
 
@@ -590,20 +591,20 @@ export const getAmbitiesRelationsLineageIdPutMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof ambitiesRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: RelationShort[] },
+        { lineageId: number; data: WriteRelationShort[] },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof ambitiesRelationsLineageIdPut>>,
     TError,
-    { lineageId: number; data: RelationShort[] },
+    { lineageId: number; data: WriteRelationShort[] },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof ambitiesRelationsLineageIdPut>>,
-        { lineageId: number; data: RelationShort[] }
+        { lineageId: number; data: WriteRelationShort[] }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -616,7 +617,7 @@ export const getAmbitiesRelationsLineageIdPutMutationOptions = <
 export type AmbitiesRelationsLineageIdPutMutationResult = NonNullable<
     Awaited<ReturnType<typeof ambitiesRelationsLineageIdPut>>
 >
-export type AmbitiesRelationsLineageIdPutMutationBody = RelationShort[]
+export type AmbitiesRelationsLineageIdPutMutationBody = WriteRelationShort[]
 export type AmbitiesRelationsLineageIdPutMutationError = HTTPValidationError
 
 /**
@@ -629,7 +630,7 @@ export const useAmbitiesRelationsLineageIdPut = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof ambitiesRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: RelationShort[] },
+        { lineageId: number; data: WriteRelationShort[] },
         TContext
     >
 }) => {
@@ -1591,7 +1592,7 @@ export const beleidsdoelenRelationsLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<RelationShort[]>({
+    return customInstance<ReadRelationShort[]>({
         url: `/beleidsdoelen/relations/${lineageId}`,
         method: 'get',
         signal,
@@ -1672,13 +1673,13 @@ export const useBeleidsdoelenRelationsLineageIdGet = <
  */
 export const beleidsdoelenRelationsLineageIdPut = (
     lineageId: number,
-    relationShort: RelationShort[]
+    writeRelationShort: WriteRelationShort[]
 ) => {
     return customInstance<ResponseOK>({
         url: `/beleidsdoelen/relations/${lineageId}`,
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
-        data: relationShort,
+        data: writeRelationShort,
     })
 }
 
@@ -1689,20 +1690,20 @@ export const getBeleidsdoelenRelationsLineageIdPutMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsdoelenRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: RelationShort[] },
+        { lineageId: number; data: WriteRelationShort[] },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof beleidsdoelenRelationsLineageIdPut>>,
     TError,
-    { lineageId: number; data: RelationShort[] },
+    { lineageId: number; data: WriteRelationShort[] },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof beleidsdoelenRelationsLineageIdPut>>,
-        { lineageId: number; data: RelationShort[] }
+        { lineageId: number; data: WriteRelationShort[] }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -1715,7 +1716,8 @@ export const getBeleidsdoelenRelationsLineageIdPutMutationOptions = <
 export type BeleidsdoelenRelationsLineageIdPutMutationResult = NonNullable<
     Awaited<ReturnType<typeof beleidsdoelenRelationsLineageIdPut>>
 >
-export type BeleidsdoelenRelationsLineageIdPutMutationBody = RelationShort[]
+export type BeleidsdoelenRelationsLineageIdPutMutationBody =
+    WriteRelationShort[]
 export type BeleidsdoelenRelationsLineageIdPutMutationError =
     HTTPValidationError
 
@@ -1729,7 +1731,7 @@ export const useBeleidsdoelenRelationsLineageIdPut = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsdoelenRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: RelationShort[] },
+        { lineageId: number; data: WriteRelationShort[] },
         TContext
     >
 }) => {
@@ -2736,7 +2738,7 @@ export const beleidskeuzesRelationsLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<RelationShort[]>({
+    return customInstance<ReadRelationShort[]>({
         url: `/beleidskeuzes/relations/${lineageId}`,
         method: 'get',
         signal,
@@ -2817,13 +2819,13 @@ export const useBeleidskeuzesRelationsLineageIdGet = <
  */
 export const beleidskeuzesRelationsLineageIdPut = (
     lineageId: number,
-    relationShort: RelationShort[]
+    writeRelationShort: WriteRelationShort[]
 ) => {
     return customInstance<ResponseOK>({
         url: `/beleidskeuzes/relations/${lineageId}`,
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
-        data: relationShort,
+        data: writeRelationShort,
     })
 }
 
@@ -2834,20 +2836,20 @@ export const getBeleidskeuzesRelationsLineageIdPutMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidskeuzesRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: RelationShort[] },
+        { lineageId: number; data: WriteRelationShort[] },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof beleidskeuzesRelationsLineageIdPut>>,
     TError,
-    { lineageId: number; data: RelationShort[] },
+    { lineageId: number; data: WriteRelationShort[] },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof beleidskeuzesRelationsLineageIdPut>>,
-        { lineageId: number; data: RelationShort[] }
+        { lineageId: number; data: WriteRelationShort[] }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -2860,7 +2862,8 @@ export const getBeleidskeuzesRelationsLineageIdPutMutationOptions = <
 export type BeleidskeuzesRelationsLineageIdPutMutationResult = NonNullable<
     Awaited<ReturnType<typeof beleidskeuzesRelationsLineageIdPut>>
 >
-export type BeleidskeuzesRelationsLineageIdPutMutationBody = RelationShort[]
+export type BeleidskeuzesRelationsLineageIdPutMutationBody =
+    WriteRelationShort[]
 export type BeleidskeuzesRelationsLineageIdPutMutationError =
     HTTPValidationError
 
@@ -2874,7 +2877,7 @@ export const useBeleidskeuzesRelationsLineageIdPut = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidskeuzesRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: RelationShort[] },
+        { lineageId: number; data: WriteRelationShort[] },
         TContext
     >
 }) => {
@@ -4190,7 +4193,7 @@ export const beleidsregelsRelationsLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<RelationShort[]>({
+    return customInstance<ReadRelationShort[]>({
         url: `/beleidsregels/relations/${lineageId}`,
         method: 'get',
         signal,
@@ -4271,13 +4274,13 @@ export const useBeleidsregelsRelationsLineageIdGet = <
  */
 export const beleidsregelsRelationsLineageIdPut = (
     lineageId: number,
-    relationShort: RelationShort[]
+    writeRelationShort: WriteRelationShort[]
 ) => {
     return customInstance<ResponseOK>({
         url: `/beleidsregels/relations/${lineageId}`,
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
-        data: relationShort,
+        data: writeRelationShort,
     })
 }
 
@@ -4288,20 +4291,20 @@ export const getBeleidsregelsRelationsLineageIdPutMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: RelationShort[] },
+        { lineageId: number; data: WriteRelationShort[] },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdPut>>,
     TError,
-    { lineageId: number; data: RelationShort[] },
+    { lineageId: number; data: WriteRelationShort[] },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdPut>>,
-        { lineageId: number; data: RelationShort[] }
+        { lineageId: number; data: WriteRelationShort[] }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -4314,7 +4317,8 @@ export const getBeleidsregelsRelationsLineageIdPutMutationOptions = <
 export type BeleidsregelsRelationsLineageIdPutMutationResult = NonNullable<
     Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdPut>>
 >
-export type BeleidsregelsRelationsLineageIdPutMutationBody = RelationShort[]
+export type BeleidsregelsRelationsLineageIdPutMutationBody =
+    WriteRelationShort[]
 export type BeleidsregelsRelationsLineageIdPutMutationError =
     HTTPValidationError
 
@@ -4328,7 +4332,7 @@ export const useBeleidsregelsRelationsLineageIdPut = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: RelationShort[] },
+        { lineageId: number; data: WriteRelationShort[] },
         TContext
     >
 }) => {
@@ -5354,7 +5358,7 @@ export const gebiedsprogrammasRelationsLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<RelationShort[]>({
+    return customInstance<ReadRelationShort[]>({
         url: `/gebiedsprogrammas/relations/${lineageId}`,
         method: 'get',
         signal,
@@ -5437,13 +5441,13 @@ export const useGebiedsprogrammasRelationsLineageIdGet = <
  */
 export const gebiedsprogrammasRelationsLineageIdPut = (
     lineageId: number,
-    relationShort: RelationShort[]
+    writeRelationShort: WriteRelationShort[]
 ) => {
     return customInstance<ResponseOK>({
         url: `/gebiedsprogrammas/relations/${lineageId}`,
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
-        data: relationShort,
+        data: writeRelationShort,
     })
 }
 
@@ -5454,20 +5458,20 @@ export const getGebiedsprogrammasRelationsLineageIdPutMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: RelationShort[] },
+        { lineageId: number; data: WriteRelationShort[] },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdPut>>,
     TError,
-    { lineageId: number; data: RelationShort[] },
+    { lineageId: number; data: WriteRelationShort[] },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdPut>>,
-        { lineageId: number; data: RelationShort[] }
+        { lineageId: number; data: WriteRelationShort[] }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -5480,7 +5484,8 @@ export const getGebiedsprogrammasRelationsLineageIdPutMutationOptions = <
 export type GebiedsprogrammasRelationsLineageIdPutMutationResult = NonNullable<
     Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdPut>>
 >
-export type GebiedsprogrammasRelationsLineageIdPutMutationBody = RelationShort[]
+export type GebiedsprogrammasRelationsLineageIdPutMutationBody =
+    WriteRelationShort[]
 export type GebiedsprogrammasRelationsLineageIdPutMutationError =
     HTTPValidationError
 
@@ -5494,7 +5499,7 @@ export const useGebiedsprogrammasRelationsLineageIdPut = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: RelationShort[] },
+        { lineageId: number; data: WriteRelationShort[] },
         TContext
     >
 }) => {
@@ -6554,7 +6559,7 @@ export const maatregelenRelationsLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<RelationShort[]>({
+    return customInstance<ReadRelationShort[]>({
         url: `/maatregelen/relations/${lineageId}`,
         method: 'get',
         signal,
@@ -6635,13 +6640,13 @@ export const useMaatregelenRelationsLineageIdGet = <
  */
 export const maatregelenRelationsLineageIdPut = (
     lineageId: number,
-    relationShort: RelationShort[]
+    writeRelationShort: WriteRelationShort[]
 ) => {
     return customInstance<ResponseOK>({
         url: `/maatregelen/relations/${lineageId}`,
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
-        data: relationShort,
+        data: writeRelationShort,
     })
 }
 
@@ -6652,20 +6657,20 @@ export const getMaatregelenRelationsLineageIdPutMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof maatregelenRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: RelationShort[] },
+        { lineageId: number; data: WriteRelationShort[] },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof maatregelenRelationsLineageIdPut>>,
     TError,
-    { lineageId: number; data: RelationShort[] },
+    { lineageId: number; data: WriteRelationShort[] },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof maatregelenRelationsLineageIdPut>>,
-        { lineageId: number; data: RelationShort[] }
+        { lineageId: number; data: WriteRelationShort[] }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -6678,7 +6683,7 @@ export const getMaatregelenRelationsLineageIdPutMutationOptions = <
 export type MaatregelenRelationsLineageIdPutMutationResult = NonNullable<
     Awaited<ReturnType<typeof maatregelenRelationsLineageIdPut>>
 >
-export type MaatregelenRelationsLineageIdPutMutationBody = RelationShort[]
+export type MaatregelenRelationsLineageIdPutMutationBody = WriteRelationShort[]
 export type MaatregelenRelationsLineageIdPutMutationError = HTTPValidationError
 
 /**
@@ -6691,7 +6696,7 @@ export const useMaatregelenRelationsLineageIdPut = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof maatregelenRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: RelationShort[] },
+        { lineageId: number; data: WriteRelationShort[] },
         TContext
     >
 }) => {
@@ -7648,7 +7653,7 @@ export const nationaalBelangRelationsLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<RelationShort[]>({
+    return customInstance<ReadRelationShort[]>({
         url: `/nationaal-belang/relations/${lineageId}`,
         method: 'get',
         signal,
@@ -7729,13 +7734,13 @@ export const useNationaalBelangRelationsLineageIdGet = <
  */
 export const nationaalBelangRelationsLineageIdPut = (
     lineageId: number,
-    relationShort: RelationShort[]
+    writeRelationShort: WriteRelationShort[]
 ) => {
     return customInstance<ResponseOK>({
         url: `/nationaal-belang/relations/${lineageId}`,
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
-        data: relationShort,
+        data: writeRelationShort,
     })
 }
 
@@ -7746,20 +7751,20 @@ export const getNationaalBelangRelationsLineageIdPutMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: RelationShort[] },
+        { lineageId: number; data: WriteRelationShort[] },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdPut>>,
     TError,
-    { lineageId: number; data: RelationShort[] },
+    { lineageId: number; data: WriteRelationShort[] },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdPut>>,
-        { lineageId: number; data: RelationShort[] }
+        { lineageId: number; data: WriteRelationShort[] }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -7772,7 +7777,8 @@ export const getNationaalBelangRelationsLineageIdPutMutationOptions = <
 export type NationaalBelangRelationsLineageIdPutMutationResult = NonNullable<
     Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdPut>>
 >
-export type NationaalBelangRelationsLineageIdPutMutationBody = RelationShort[]
+export type NationaalBelangRelationsLineageIdPutMutationBody =
+    WriteRelationShort[]
 export type NationaalBelangRelationsLineageIdPutMutationError =
     HTTPValidationError
 
@@ -7786,7 +7792,7 @@ export const useNationaalBelangRelationsLineageIdPut = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: RelationShort[] },
+        { lineageId: number; data: WriteRelationShort[] },
         TContext
     >
 }) => {
@@ -8302,7 +8308,7 @@ export const verplichtProgrammaRelationsLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<RelationShort[]>({
+    return customInstance<ReadRelationShort[]>({
         url: `/verplicht-programma/relations/${lineageId}`,
         method: 'get',
         signal,
@@ -8385,13 +8391,13 @@ export const useVerplichtProgrammaRelationsLineageIdGet = <
  */
 export const verplichtProgrammaRelationsLineageIdPut = (
     lineageId: number,
-    relationShort: RelationShort[]
+    writeRelationShort: WriteRelationShort[]
 ) => {
     return customInstance<ResponseOK>({
         url: `/verplicht-programma/relations/${lineageId}`,
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
-        data: relationShort,
+        data: writeRelationShort,
     })
 }
 
@@ -8402,20 +8408,20 @@ export const getVerplichtProgrammaRelationsLineageIdPutMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: RelationShort[] },
+        { lineageId: number; data: WriteRelationShort[] },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdPut>>,
     TError,
-    { lineageId: number; data: RelationShort[] },
+    { lineageId: number; data: WriteRelationShort[] },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdPut>>,
-        { lineageId: number; data: RelationShort[] }
+        { lineageId: number; data: WriteRelationShort[] }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -8429,7 +8435,7 @@ export type VerplichtProgrammaRelationsLineageIdPutMutationResult = NonNullable<
     Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdPut>>
 >
 export type VerplichtProgrammaRelationsLineageIdPutMutationBody =
-    RelationShort[]
+    WriteRelationShort[]
 export type VerplichtProgrammaRelationsLineageIdPutMutationError =
     HTTPValidationError
 
@@ -8443,7 +8449,7 @@ export const useVerplichtProgrammaRelationsLineageIdPut = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: RelationShort[] },
+        { lineageId: number; data: WriteRelationShort[] },
         TContext
     >
 }) => {
@@ -8967,7 +8973,7 @@ export const wettelijkeTaakRelationsLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<RelationShort[]>({
+    return customInstance<ReadRelationShort[]>({
         url: `/wettelijke-taak/relations/${lineageId}`,
         method: 'get',
         signal,
@@ -9048,13 +9054,13 @@ export const useWettelijkeTaakRelationsLineageIdGet = <
  */
 export const wettelijkeTaakRelationsLineageIdPut = (
     lineageId: number,
-    relationShort: RelationShort[]
+    writeRelationShort: WriteRelationShort[]
 ) => {
     return customInstance<ResponseOK>({
         url: `/wettelijke-taak/relations/${lineageId}`,
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
-        data: relationShort,
+        data: writeRelationShort,
     })
 }
 
@@ -9065,20 +9071,20 @@ export const getWettelijkeTaakRelationsLineageIdPutMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: RelationShort[] },
+        { lineageId: number; data: WriteRelationShort[] },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdPut>>,
     TError,
-    { lineageId: number; data: RelationShort[] },
+    { lineageId: number; data: WriteRelationShort[] },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdPut>>,
-        { lineageId: number; data: RelationShort[] }
+        { lineageId: number; data: WriteRelationShort[] }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -9091,7 +9097,8 @@ export const getWettelijkeTaakRelationsLineageIdPutMutationOptions = <
 export type WettelijkeTaakRelationsLineageIdPutMutationResult = NonNullable<
     Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdPut>>
 >
-export type WettelijkeTaakRelationsLineageIdPutMutationBody = RelationShort[]
+export type WettelijkeTaakRelationsLineageIdPutMutationBody =
+    WriteRelationShort[]
 export type WettelijkeTaakRelationsLineageIdPutMutationError =
     HTTPValidationError
 
@@ -9105,7 +9112,7 @@ export const useWettelijkeTaakRelationsLineageIdPut = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: RelationShort[] },
+        { lineageId: number; data: WriteRelationShort[] },
         TContext
     >
 }) => {

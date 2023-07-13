@@ -84,7 +84,7 @@ const SearchResults = () => {
         set('page', page.toString())
     }
 
-    const { data, mutate, isLoading } = useSearchValidPost({
+    const { data, mutate, isLoading, isError } = useSearchValidPost({
         mutation: {
             onSuccess(data) {
                 if (!!!data.results.length) {
@@ -105,13 +105,6 @@ const SearchResults = () => {
                         })
                     }
                 }
-            },
-            onError() {
-                setPagination({
-                    isLoaded: false,
-                    total: 0,
-                    limit: 0,
-                })
             },
         },
     })
@@ -209,7 +202,8 @@ const SearchResults = () => {
                         </span>
                     )}
 
-                    {!!pagination.total &&
+                    {!isError &&
+                        !!pagination.total &&
                         !!pagination.limit &&
                         pagination.total > pagination.limit && (
                             <div className="mt-8 flex justify-center">

@@ -1,20 +1,16 @@
 import {
     AcknowledgedRelation,
-    RelationShort,
+    ReadRelationShort,
     UserShort,
 } from '@/api/fetchers.schemas'
-import {
-    Model,
-    ModelPatchStaticType,
-    ModelReturnType,
-} from '@/config/objects/types'
+import { Model, ModelPatchStaticType, ModelType } from '@/config/objects/types'
 
 export interface ObjectConnectionModalActions {
-    connectionKey?: keyof ModelReturnType
+    connectionKey?: ModelType
     isOpen: boolean
     connectionModel: Model
     initialStep?: number
-    initialValues: RelationShort | { items?: number[] }
+    initialValues: ReadRelationShort | { items?: number[] }
 }
 
 export interface ObjectPersonModalActions {

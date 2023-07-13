@@ -3,7 +3,7 @@ import { MagnifyingGlass } from '@pzh-ui/icons'
 import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
 
-import { RelationShort } from '@/api/fetchers.schemas'
+import { ReadRelationShort } from '@/api/fetchers.schemas'
 import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
 
 import { StepProps } from './types'
@@ -15,7 +15,7 @@ export const StepTwo = ({
     connections,
 }: StepProps) => {
     const { values, setFieldValue } = useFormikContext<
-        RelationShort & { Title?: string; items?: RelationShort[] }
+        ReadRelationShort & { items?: ReadRelationShort[] }
     >()
 
     const { defaults, fetchers } = connectionModel || {}

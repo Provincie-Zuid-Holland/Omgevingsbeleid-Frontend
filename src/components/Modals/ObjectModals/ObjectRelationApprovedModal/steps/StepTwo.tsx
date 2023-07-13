@@ -1,12 +1,12 @@
 import { FormikCheckbox, Heading, Text } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
 
-import { RelationShort } from '@/api/fetchers.schemas'
+import { ReadRelationShort } from '@/api/fetchers.schemas'
 
 import { StepProps } from './types'
 
 export const StepTwo = ({ title, model }: StepProps) => {
-    const { values } = useFormikContext<RelationShort & { Title?: string }>()
+    const { values } = useFormikContext<ReadRelationShort>()
 
     const { singular } = model.defaults
 
