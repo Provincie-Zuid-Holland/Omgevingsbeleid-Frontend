@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
 
-import { RelationShort } from '@/api/fetchers.schemas'
+import { ReadRelationShort, WriteRelationShort } from '@/api/fetchers.schemas'
 
 import { StepProps } from './types'
 
@@ -61,7 +61,10 @@ export const StepOne = ({
                     {Array.isArray(connections) &&
                         connections.map(connection => (
                             <Connection
-                                key={connection.UUID}
+                                key={
+                                    connection.Object_Type +
+                                    connection.Object_ID
+                                }
                                 atemporal={atemporal}
                                 setStep={setStep!}
                                 handleDeleteConnection={handleDeleteConnection!}
@@ -74,11 +77,10 @@ export const StepOne = ({
     )
 }
 
-interface ConnectionProps extends RelationShort {
+interface ConnectionProps extends ReadRelationShort {
     atemporal?: boolean
-    Title?: string
     setStep: (step: number) => void
-    handleDeleteConnection: (connection: RelationShort) => void
+    handleDeleteConnection: (connection: WriteRelationShort) => void
 }
 
 const Connection = ({
@@ -90,7 +92,7 @@ const Connection = ({
     setStep,
     handleDeleteConnection,
 }: ConnectionProps) => {
-    const { setFieldValue } = useFormikContext<RelationShort>()
+    const { setFieldValue } = useFormikContext<ReadRelationShort>()
 
     return (
         <div className="mt-3">

@@ -6,11 +6,10 @@ import { useParams } from 'react-router-dom'
 import { useUpdateEffect } from 'react-use'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
-import { RelationShort } from '@/api/fetchers.schemas'
+import { WriteRelationShort } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import { Model } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
-import getPropertyByName from '@/utils/getPropertyByName'
 import { toastNotification } from '@/utils/toastNotification'
 import * as objectConnection from '@/validation/objectConnection'
 
@@ -41,12 +40,11 @@ const ObjectConnectionModal = ({
     const { data, queryKey: objectQueryKey, isFetching } = useObject()
     const { useGetRelations, usePutRelations } = model.fetchers
 
-    const { refetch: refetchRelations, queryKey } = useGetRelations(
-        parseInt(objectId!),
-        {
-            query: { enabled: false },
-        }
-    )
+    const {
+        data: relations,
+        refetch: refetchRelations,
+        queryKey,
+    } = useGetRelations(parseInt(objectId!))
 
     /**
      * Handle modal close
@@ -80,33 +78,35 @@ const ObjectConnectionModal = ({
      * Handle for submit
      */
     const handleFormSubmit = (
-        payload: RelationShort | { items?: number[] }
+        payload: WriteRelationShort | { items?: number[] }
     ) => {
         refetchRelations().then(({ data, isSuccess }) => {
             if (isSuccess && !!data) {
+                let newData = data as WriteRelationShort[]
+
                 if (!('items' in payload)) {
                     if (!('Object_ID' in payload)) return
 
-                    const isExisting = data.find(
+                    const isExisting = newData.find(
                         item =>
                             item.Object_ID === payload?.Object_ID &&
                             item.Object_Type === payload?.Object_Type
                     )
 
                     if (isExisting) {
-                        isExisting.Description = payload?.Description
+                        isExisting.Description = payload?.Description || ''
                     } else {
                         if (payload?.Object_ID && payload.Object_Type) {
-                            data.push({
+                            newData.push({
                                 Object_ID: payload?.Object_ID,
                                 Object_Type: payload?.Object_Type,
-                                Description: payload?.Description,
+                                Description: payload?.Description || '',
                             })
                         }
                     }
                 } else {
-                    data = [
-                        ...data.filter(
+                    newData = [
+                        ...newData.filter(
                             e =>
                                 e.Object_Type !==
                                 connectionModel?.defaults?.singular
@@ -119,7 +119,10 @@ const ObjectConnectionModal = ({
                 }
 
                 putRelations
-                    .mutateAsync({ lineageId: parseInt(objectId!), data })
+                    .mutateAsync({
+                        lineageId: parseInt(objectId!),
+                        data: newData,
+                    })
                     .then(handleClose)
             }
         })
@@ -128,7 +131,7 @@ const ObjectConnectionModal = ({
     /**
      * Handle delete connection
      */
-    const handleDeleteConnection = (connection: RelationShort) => {
+    const handleDeleteConnection = (connection: WriteRelationShort) => {
         refetchRelations().then(({ data, isSuccess }) => {
             if (isSuccess && !!data) {
                 data.splice(
@@ -162,21 +165,13 @@ const ObjectConnectionModal = ({
     /**
      * Format connections array
      */
-    const connections = useMemo(() => {
-        if (data && connectionKey && connectionKey in data) {
-            const propertyType = getPropertyByName(data, connectionKey)
-
-            if (Array.isArray(propertyType)) {
-                // @ts-ignore
-                return propertyType.map(({ Object, Relation }) => ({
-                    ...Object,
-                    Object_ID: Object.Object_ID || 0,
-                    Object_Type: Object.Object_Type || '',
-                    Description: Relation.Description,
-                }))
-            }
-        }
-    }, [data, connectionKey])
+    const connections = useMemo(
+        () =>
+            relations?.filter(
+                relation => relation.Object_Type === connectionKey
+            ),
+        [relations, connectionKey]
+    )
 
     const CurrentStep = steps[step - 1]
     const isFinalStep = step === (connectionModel?.defaults?.atemporal ? 2 : 3)

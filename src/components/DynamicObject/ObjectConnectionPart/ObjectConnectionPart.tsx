@@ -1,19 +1,15 @@
 import { PenToSquare, Plus, Spinner } from '@pzh-ui/icons'
 import { useMemo } from 'react'
 
-import { RelationShort } from '@/api/fetchers.schemas'
+import { ReadRelationShort } from '@/api/fetchers.schemas'
 import { ObjectConnectionModalActions } from '@/components/Modals/ObjectModals/types'
-import { Model, ModelReturnType } from '@/config/objects/types'
-
-import { Connection } from '../ObjectConnections/ObjectConnections'
+import { Model } from '@/config/objects/types'
 
 interface ObjectConnectionPartProps {
-    /** Key of connection */
-    connectionKey?: keyof ModelReturnType
     /** Model of relation */
     model: Model
     /** Connections */
-    connections?: Connection[]
+    connections?: ReadRelationShort[]
     /** Set state of modal */
     setModal: (state: ObjectConnectionModalActions) => void
     /** Is data loading */
@@ -23,7 +19,6 @@ interface ObjectConnectionPartProps {
 }
 
 const ObjectConnectionPart = ({
-    connectionKey,
     model,
     connections,
     setModal,
@@ -32,7 +27,7 @@ const ObjectConnectionPart = ({
 }: ObjectConnectionPartProps) => {
     const handleButtonClick = (amount?: number) => {
         setModal({
-            connectionKey,
+            connectionKey: model.defaults.singular,
             initialStep: amount === 0 ? 2 : 1,
             initialValues: (model.defaults.atemporal
                 ? {
@@ -40,7 +35,7 @@ const ObjectConnectionPart = ({
                   }
                 : {
                       Object_Type: model.defaults.singular,
-                  }) as RelationShort,
+                  }) as ReadRelationShort,
             isOpen: true,
             connectionModel: model,
         })

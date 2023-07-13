@@ -1,14 +1,14 @@
 import { Heading } from '@pzh-ui/components'
 import { useCallback, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
-import { RelationShort } from '@/api/fetchers.schemas'
+import { ReadRelationShort } from '@/api/fetchers.schemas'
 import ObjectConnectionModal from '@/components/Modals/ObjectModals/ObjectConnectionModal'
 import { ObjectConnectionModalActions } from '@/components/Modals/ObjectModals/types'
 import * as models from '@/config/objects'
-import { Model, ModelReturnType } from '@/config/objects/types'
+import { Model, ModelType } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import usePermissions from '@/hooks/usePermissions'
-import getPropertyByName from '@/utils/getPropertyByName'
 
 import ObjectConnectionPart from '../ObjectConnectionPart'
 
@@ -25,37 +25,33 @@ export interface Connection {
 }
 
 const ObjectConnections = ({ model }: ObjectConnectionsProps) => {
+    const { objectId } = useParams()
+
     const { canCreateModule, canPatchObjectInModule } = usePermissions()
 
-    const { data, isLoading, isOwner } = useObject()
+    const { isLoading, isOwner } = useObject()
+    const { useGetRelations } = model.fetchers
 
     const [modal, setModal] = useState<ObjectConnectionModalActions>({
         isOpen: false,
         initialStep: 1,
-        initialValues: {} as RelationShort,
+        initialValues: {} as ReadRelationShort,
         connectionModel: {} as Model,
+    })
+
+    const { data: relations } = useGetRelations(parseInt(objectId!), {
+        query: {
+            enabled: !!objectId,
+        },
     })
 
     /**
      * Get connections of Object_Type
      */
     const getConnections = useCallback(
-        (type: keyof ModelReturnType) => {
-            if (data && type in data) {
-                const propertyType = getPropertyByName(data, type)
-
-                if (Array.isArray(propertyType)) {
-                    // @ts-ignore
-                    return propertyType.map(({ Object, Relation }) => ({
-                        ...Object,
-                        Object_ID: Object.Object_ID || 0,
-                        Object_Type: Object.Object_Type || '',
-                        Description: Relation.Description,
-                    }))
-                }
-            }
-        },
-        [data]
+        (type: ModelType) =>
+            relations?.filter(relation => relation.Object_Type === type),
+        [relations]
     )
 
     if (!!!model.allowedConnections?.length) return null
@@ -69,10 +65,9 @@ const ObjectConnections = ({ model }: ObjectConnectionsProps) => {
             {model.allowedConnections?.map(connection => (
                 <ObjectConnectionPart
                     key={connection.type}
-                    connectionKey={connection.key}
                     model={models[connection.type]}
                     setModal={setModal}
-                    connections={getConnections(connection.key) as Connection[]}
+                    connections={getConnections(connection.type)}
                     isLoading={isLoading}
                     canEdit={
                         (canPatchObjectInModule && isOwner) || canCreateModule

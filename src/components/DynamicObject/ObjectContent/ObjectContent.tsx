@@ -3,8 +3,8 @@ import classNames from 'classnames'
 import DOMPurify from 'dompurify'
 
 import {
-    RelationShortNationaalBelangMinimal,
-    RelationShortWettelijkeTaakMinimal,
+    ReadRelationShortNationaalBelangMinimal,
+    ReadRelationShortWettelijkeTaakMinimal,
 } from '@/api/fetchers.schemas'
 import { ModelReturnType } from '@/config/objects/types'
 
@@ -28,8 +28,8 @@ const ObjectContent = ({ data, customTitle }: ObjectContentProps) => (
                         key={field.value}
                         items={
                             content as (
-                                | RelationShortNationaalBelangMinimal
-                                | RelationShortWettelijkeTaakMinimal
+                                | ReadRelationShortNationaalBelangMinimal
+                                | ReadRelationShortWettelijkeTaakMinimal
                             )[]
                         }
                         {...field}
@@ -94,8 +94,8 @@ interface ListProps {
     description?: string
     hidden?: boolean
     items: (
-        | RelationShortNationaalBelangMinimal
-        | RelationShortWettelijkeTaakMinimal
+        | ReadRelationShortNationaalBelangMinimal
+        | ReadRelationShortWettelijkeTaakMinimal
     )[]
 }
 

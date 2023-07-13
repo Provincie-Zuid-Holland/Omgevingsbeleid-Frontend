@@ -284,6 +284,12 @@ export type AmbitiesValidGetParams = {
     sort?: string
 }
 
+export interface WriteRelationShort {
+    Object_ID: number
+    Object_Type: string
+    Description?: string | null
+}
+
 export interface WettelijkeTaakUUID {
     Object_ID?: number
     UUID?: string
@@ -325,7 +331,7 @@ export interface WettelijkeTaakFull {
     Created_By?: UserShort
     Modified_By?: UserShort
     VerplichtProgrammas?: VerplichtProgrammaMinimal[]
-    Beleidskeuzes?: RelationShortBeleidskeuzeMinimal[]
+    Beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
     ObjectStatics?: WettelijkeTaakFullObjectStatics
 }
 
@@ -409,7 +415,7 @@ export interface VerplichtProgrammaFull {
     Created_By?: UserShort
     Modified_By?: UserShort
     WettelijkeTaken?: WettelijkeTaakMinimal[]
-    Maatregelen?: RelationShortMaatregelMinimal[]
+    Maatregelen?: ReadRelationShortMaatregelMinimal[]
     ObjectStatics?: VerplichtProgrammaFullObjectStatics
 }
 
@@ -494,49 +500,50 @@ export interface RequestAcknowledgedRelation {
     Explanation?: string
 }
 
-export interface RelationShort {
+export interface ReadRelationShort {
     Object_ID: number
     Object_Type: string
-    Description?: string
+    Description: string
+    Title: string
 }
 
-export interface RelationShortWettelijkeTaakMinimal {
-    Relation: RelationShort
+export interface ReadRelationShortWettelijkeTaakMinimal {
+    Relation: ReadRelationShort
     Object: WettelijkeTaakMinimal
 }
 
-export interface RelationShortNationaalBelangMinimal {
-    Relation: RelationShort
+export interface ReadRelationShortNationaalBelangMinimal {
+    Relation: ReadRelationShort
     Object: NationaalBelangMinimal
 }
 
-export interface RelationShortMaatregelMinimal {
-    Relation: RelationShort
+export interface ReadRelationShortMaatregelMinimal {
+    Relation: ReadRelationShort
     Object: MaatregelMinimal
 }
 
-export interface RelationShortGebiedsprogrammaMinimal {
-    Relation: RelationShort
+export interface ReadRelationShortGebiedsprogrammaMinimal {
+    Relation: ReadRelationShort
     Object: GebiedsprogrammaMinimal
 }
 
-export interface RelationShortBeleidsregelMinimal {
-    Relation: RelationShort
+export interface ReadRelationShortBeleidsregelMinimal {
+    Relation: ReadRelationShort
     Object: BeleidsregelMinimal
 }
 
-export interface RelationShortBeleidskeuzeMinimal {
-    Relation: RelationShort
+export interface ReadRelationShortBeleidskeuzeMinimal {
+    Relation: ReadRelationShort
     Object: BeleidskeuzeMinimal
 }
 
-export interface RelationShortBeleidsdoelMinimal {
-    Relation: RelationShort
+export interface ReadRelationShortBeleidsdoelMinimal {
+    Relation: ReadRelationShort
     Object: BeleidsdoelMinimal
 }
 
-export interface RelationShortAmbitieMinimal {
-    Relation: RelationShort
+export interface ReadRelationShortAmbitieMinimal {
+    Relation: ReadRelationShort
     Object: AmbitieMinimal
 }
 
@@ -1057,9 +1064,9 @@ export interface MaatregelFull {
     Gebied?: Werkingsgebied
     Created_By?: UserShort
     Modified_By?: UserShort
-    Beleidskeuzes?: RelationShortBeleidskeuzeMinimal[]
-    Gebiedsprogrammas?: RelationShortGebiedsprogrammaMinimal[]
-    Beleidsdoelen?: RelationShortBeleidsdoelMinimal[]
+    Beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
+    Gebiedsprogrammas?: ReadRelationShortGebiedsprogrammaMinimal[]
+    Beleidsdoelen?: ReadRelationShortBeleidsdoelMinimal[]
     ObjectStatics?: MaatregelFullObjectStatics
 }
 
@@ -1206,7 +1213,7 @@ export interface GebiedsprogrammaFull {
     Image?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
-    Maatregelen?: RelationShortMaatregelMinimal[]
+    Maatregelen?: ReadRelationShortMaatregelMinimal[]
     ObjectStatics?: GebiedsprogrammaFullObjectStatics
 }
 
@@ -1326,7 +1333,7 @@ export interface BeleidsregelFull {
     End_Validity?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
-    Beleidskeuzes?: RelationShortBeleidskeuzeMinimal[]
+    Beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
     ObjectStatics?: BeleidsregelFullObjectStatics
 }
 
@@ -1426,11 +1433,11 @@ export interface BeleidskeuzeFull {
     Gebied?: Werkingsgebied
     Created_By?: UserShort
     Modified_By?: UserShort
-    WettelijkeTaken?: RelationShortWettelijkeTaakMinimal[]
-    NationaleBelangen?: RelationShortNationaalBelangMinimal[]
-    Beleidsdoelen?: RelationShortBeleidsdoelMinimal[]
-    Beleidsregels?: RelationShortBeleidsregelMinimal[]
-    Maatregelen?: RelationShortMaatregelMinimal[]
+    WettelijkeTaken?: ReadRelationShortWettelijkeTaakMinimal[]
+    NationaleBelangen?: ReadRelationShortNationaalBelangMinimal[]
+    Beleidsdoelen?: ReadRelationShortBeleidsdoelMinimal[]
+    Beleidsregels?: ReadRelationShortBeleidsregelMinimal[]
+    Maatregelen?: ReadRelationShortMaatregelMinimal[]
     ObjectStatics?: BeleidskeuzeFullObjectStatics
 }
 
@@ -1520,9 +1527,9 @@ export interface BeleidsdoelFull {
     End_Validity?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
-    Ambities?: RelationShortAmbitieMinimal[]
-    Beleidskeuzes?: RelationShortBeleidskeuzeMinimal[]
-    Maatregelen?: RelationShortMaatregelMinimal[]
+    Ambities?: ReadRelationShortAmbitieMinimal[]
+    Beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
+    Maatregelen?: ReadRelationShortMaatregelMinimal[]
     ObjectStatics?: BeleidsdoelFullObjectStatics
 }
 
@@ -1619,7 +1626,7 @@ export interface AmbitieFull {
     End_Validity?: string | null
     Created_By?: UserShort
     Modified_By?: UserShort
-    Beleidsdoelen?: RelationShortBeleidsdoelMinimal[]
+    Beleidsdoelen?: ReadRelationShortBeleidsdoelMinimal[]
     ObjectStatics?: AmbitieFullObjectStatics
 }
 
