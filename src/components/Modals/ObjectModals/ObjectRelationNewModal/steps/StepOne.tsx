@@ -1,15 +1,13 @@
 import { Text } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
 
-import { RelationShort } from '@/api/fetchers.schemas'
+import { ReadRelationShort } from '@/api/fetchers.schemas'
 import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
 
 import { StepProps } from './types'
 
 export const StepOne = ({ title, id, model, relations }: StepProps) => {
-    const { values, setFieldValue } = useFormikContext<
-        RelationShort & { Title?: string }
-    >()
+    const { values, setFieldValue } = useFormikContext<ReadRelationShort>()
 
     const { pluralCapitalize, plural, prefixSingular, singular } =
         model.defaults
