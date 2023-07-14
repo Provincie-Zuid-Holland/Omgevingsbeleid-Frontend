@@ -111,6 +111,7 @@ const gebiedsprogramma: DynamicObject<
                     maxFiles: 1,
                     preview: true,
                     required: true,
+                    validation: schemaDefaults.requiredString(),
                 },
             ],
         },
