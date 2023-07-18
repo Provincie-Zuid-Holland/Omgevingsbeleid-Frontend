@@ -1,14 +1,14 @@
 import { Button, Heading, Modal } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Formik, Form } from 'formik'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useUpdateEffect } from 'react-use'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
-import { WriteRelationShort } from '@/api/fetchers.schemas'
+import { ReadRelation, WriteRelation } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
-import { Model } from '@/config/objects/types'
+import { Model, ModelReturnType } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import { toastNotification } from '@/utils/toastNotification'
 import * as objectConnection from '@/validation/objectConnection'
@@ -24,18 +24,14 @@ interface ObjectConnectionModalProps extends ObjectConnectionModalActions {
 }
 
 const ObjectConnectionModal = ({
-    isOpen,
     onClose,
     initialValues,
-    initialStep = 1,
     model,
     connectionModel,
-    connectionKey,
+    ...rest
 }: ObjectConnectionModalProps) => {
     const queryClient = useQueryClient()
     const { objectId } = useParams()
-
-    const [step, setStep] = useState(initialStep)
 
     const { data, queryKey: objectQueryKey, isFetching } = useObject()
     const { useGetRelations, usePutRelations } = model.fetchers
@@ -44,22 +40,7 @@ const ObjectConnectionModal = ({
         data: relations,
         refetch: refetchRelations,
         queryKey,
-    } = useGetRelations(parseInt(objectId!))
-
-    /**
-     * Handle modal close
-     */
-    const handleClose = () => {
-        onClose()
-
-        // Wait for modal animation to finish before resetting step
-        setTimeout(() => setStep(initialStep), 300)
-    }
-
-    /**
-     * Update step if initialStep has changed
-     */
-    useUpdateEffect(() => setStep(initialStep), [initialStep])
+    } = useGetRelations(parseInt(objectId!), { query: { enabled: !!objectId } })
 
     const putRelations = usePutRelations({
         mutation: {
@@ -78,11 +59,13 @@ const ObjectConnectionModal = ({
      * Handle for submit
      */
     const handleFormSubmit = (
-        payload: WriteRelationShort | { items?: number[] }
+        payload:
+            | WriteRelation
+            | { items?: { Object_ID: number; Title: string }[] }
     ) => {
         refetchRelations().then(({ data, isSuccess }) => {
             if (isSuccess && !!data) {
-                let newData = data as WriteRelationShort[]
+                let newData = data as WriteRelation[]
 
                 if (!('items' in payload)) {
                     if (!('Object_ID' in payload)) return
@@ -112,7 +95,7 @@ const ObjectConnectionModal = ({
                                 connectionModel?.defaults?.singular
                         ),
                         ...(payload.items?.map(item => ({
-                            Object_ID: item,
+                            Object_ID: item.Object_ID,
                             Object_Type: connectionModel?.defaults?.singular,
                         })) || []),
                     ]
@@ -123,7 +106,7 @@ const ObjectConnectionModal = ({
                         lineageId: parseInt(objectId!),
                         data: newData,
                     })
-                    .then(handleClose)
+                    .then(onClose)
             }
         })
     }
@@ -131,7 +114,7 @@ const ObjectConnectionModal = ({
     /**
      * Handle delete connection
      */
-    const handleDeleteConnection = (connection: WriteRelationShort) => {
+    const handleDeleteConnection = (connection: WriteRelation) => {
         refetchRelations().then(({ data, isSuccess }) => {
             if (isSuccess && !!data) {
                 data.splice(
@@ -152,7 +135,8 @@ const ObjectConnectionModal = ({
                         if ('items' in initialValues) {
                             initialValues.items?.splice(
                                 initialValues.items.findIndex(
-                                    item => item === connection.Object_ID
+                                    item =>
+                                        item.Object_ID === connection.Object_ID
                                 ),
                                 1
                             )
@@ -162,19 +146,75 @@ const ObjectConnectionModal = ({
         })
     }
 
-    /**
-     * Format connections array
-     */
-    const connections = useMemo(
-        () =>
-            relations?.filter(
-                relation => relation.Object_Type === connectionKey
-            ),
-        [relations, connectionKey]
+    return (
+        <ConnectionModal
+            model={model}
+            initialValues={initialValues}
+            connectionModel={connectionModel}
+            data={data}
+            handleFormSubmit={handleFormSubmit}
+            handleDeleteConnection={handleDeleteConnection}
+            isFetching={isFetching}
+            relations={relations}
+            onClose={onClose}
+            {...rest}
+        />
     )
+}
+
+interface ConnectionModalProps extends ObjectConnectionModalProps {
+    isFetching?: boolean
+    handleDeleteConnection: (connection: WriteRelation) => void
+    handleFormSubmit: (
+        payload:
+            | WriteRelation
+            | { items?: { Object_ID: number; Title: string }[] }
+    ) => void
+    relations?: ReadRelation[]
+    data?: ModelReturnType
+}
+
+export const ConnectionModal = ({
+    isOpen,
+    onClose,
+    isFetching,
+    handleFormSubmit,
+    initialValues,
+    connectionModel,
+    handleDeleteConnection,
+    model,
+    data,
+    relations,
+    connectionKey,
+    initialStep = 1,
+}: ConnectionModalProps) => {
+    const [step, setStep] = useState(initialStep)
 
     const CurrentStep = steps[step - 1]
     const isFinalStep = step === (connectionModel?.defaults?.atemporal ? 2 : 3)
+
+    /**
+     * Update step if initialStep has changed
+     */
+    useUpdateEffect(() => setStep(initialStep), [initialStep])
+
+    /**
+     * Update step if isOpen has changed
+     */
+    useUpdateEffect(() => {
+        // Wait for modal animation to finish before resetting step
+        setTimeout(() => setStep(initialStep), 300)
+    }, [isOpen])
+
+    /**
+     * Handle modal close
+     */
+    const handleClose = () => {
+        onClose()
+
+        // Wait for modal animation to finish before resetting step
+        setTimeout(() => setStep(initialStep), 300)
+    }
 
     return (
         <Modal
@@ -205,7 +245,10 @@ const ObjectConnectionModal = ({
                             title={data?.Title}
                             connectionModel={connectionModel}
                             model={model}
-                            connections={connections}
+                            connections={relations?.filter(
+                                relation =>
+                                    relation.Object_Type === connectionKey
+                            )}
                             setStep={setStep}
                             handleDeleteConnection={handleDeleteConnection}
                         />

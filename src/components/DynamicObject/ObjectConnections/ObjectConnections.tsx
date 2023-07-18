@@ -2,7 +2,7 @@ import { Heading } from '@pzh-ui/components'
 import { useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { ReadRelationShort } from '@/api/fetchers.schemas'
+import { ReadRelation } from '@/api/fetchers.schemas'
 import ObjectConnectionModal from '@/components/Modals/ObjectModals/ObjectConnectionModal'
 import { ObjectConnectionModalActions } from '@/components/Modals/ObjectModals/types'
 import * as models from '@/config/objects'
@@ -35,7 +35,7 @@ const ObjectConnections = ({ model }: ObjectConnectionsProps) => {
     const [modal, setModal] = useState<ObjectConnectionModalActions>({
         isOpen: false,
         initialStep: 1,
-        initialValues: {} as ReadRelationShort,
+        initialValues: {} as ReadRelation,
         connectionModel: {} as Model,
     })
 

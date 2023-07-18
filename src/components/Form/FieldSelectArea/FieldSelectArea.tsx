@@ -9,11 +9,11 @@ import { ModelReturnType } from '@/config/objects/types'
 import { DynamicField } from '@/config/types'
 import useObject from '@/hooks/useObject'
 
-import AreaPreview from '../AreaPreview'
-import AreaModal from '../Modals/AreaModal'
-import { AreaProps } from '../Modals/AreaModal/AreaModal'
+import AreaPreview from '../../AreaPreview'
+import AreaModal from '../../Modals/AreaModal'
+import { AreaProps } from '../../Modals/AreaModal/AreaModal'
 
-const SelectArea = ({
+const FieldSelectArea = ({
     name,
     label,
     required,
@@ -129,4 +129,4 @@ const SelectArea = ({
     )
 }
 
-export default SelectArea
+export default FieldSelectArea

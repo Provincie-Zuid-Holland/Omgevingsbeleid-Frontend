@@ -10,6 +10,7 @@ import {
     BeleidskeuzeFull,
     BeleidskeuzePatch,
     BeleidskeuzeStaticPostStatics,
+    BeleidsregelPatch,
     GebiedsprogrammaFull,
     GebiedsprogrammaPatch,
     GebiedsprogrammaStaticPostStatics,
@@ -102,7 +103,8 @@ export type ModelPatchType = BeleidsdoelPatch &
     AmbitiePatch &
     BeleidskeuzePatch &
     MaatregelPatch &
-    GebiedsprogrammaPatch
+    GebiedsprogrammaPatch &
+    BeleidsregelPatch
 
 export type ModelPatchStaticType = BeleidsdoelStaticPostStatics &
     AmbitieStaticPostStatics &

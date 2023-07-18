@@ -20,8 +20,10 @@ const ObjectActiveModules = () => {
             ) : !!activeModules?.length ? (
                 <ul className="grid gap-9 lg:grid-cols-2 grid-cols-1">
                     {activeModules.map(object => (
-                        // @ts-ignore TO-DO Remove this ignore line
-                        <ModuleCard key={object.UUID} {...object} />
+                        <ModuleCard
+                            key={object.Module_Object.UUID}
+                            {...object.Module}
+                        />
                     ))}
                 </ul>
             ) : (

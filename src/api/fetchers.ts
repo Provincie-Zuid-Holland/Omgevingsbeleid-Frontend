@@ -24,15 +24,15 @@ import type {
     AmbitiesValidGetParams,
     AmbitiesValidLineageIdGetParams,
     AmbitieFull,
-    ReadRelationShort,
+    ReadRelation,
     ResponseOK,
-    WriteRelationShort,
+    WriteRelation,
     AmbitieStaticPostStatics,
     PagedResponseAmbitieExtended,
     ModulesModuleIdObjectAmbitieLineageIdGetParams,
     AmbitieUUID,
     AmbitiePatch,
-    ActiveModuleObject,
+    ActiveModuleObjectWrapper,
     ModulesObjectAmbitieActiveLineageIdGetParams,
     PagedResponseBeleidsdoelBasic,
     BeleidsdoelenValidGetParams,
@@ -95,7 +95,6 @@ import type {
     NationaalBelangValidGetParams,
     NationaalBelangFull,
     NationaalBelangStaticPostStatics,
-    ModulesObjectsNationaalBelangActiveLineageIdGetParams,
     VerplichtProgrammaUUID,
     VerplichtProgrammaCreate,
     VerplichtProgrammaEdit,
@@ -103,7 +102,6 @@ import type {
     VerplichtProgrammaValidGetParams,
     VerplichtProgrammaFull,
     VerplichtProgrammaStaticPostStatics,
-    ModulesObjectsVerplichtProgrammaActiveLineageIdGetParams,
     WettelijkeTaakUUID,
     WettelijkeTaakCreate,
     WettelijkeTaakEdit,
@@ -111,7 +109,6 @@ import type {
     WettelijkeTaakValidGetParams,
     WettelijkeTaakFull,
     WettelijkeTaakStaticPostStatics,
-    ModulesObjectsWettelijkeTaakActiveLineageIdGetParams,
     PagedResponseUserShort,
     UsersGetParams,
     PagedResponseWerkingsgebied,
@@ -494,7 +491,7 @@ export const ambitiesRelationsLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<ReadRelationShort[]>({
+    return customInstance<ReadRelation[]>({
         url: `/ambities/relations/${lineageId}`,
         method: 'get',
         signal,
@@ -574,13 +571,13 @@ export const useAmbitiesRelationsLineageIdGet = <
  */
 export const ambitiesRelationsLineageIdPut = (
     lineageId: number,
-    writeRelationShort: WriteRelationShort[]
+    writeRelation: WriteRelation[]
 ) => {
     return customInstance<ResponseOK>({
         url: `/ambities/relations/${lineageId}`,
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
-        data: writeRelationShort,
+        data: writeRelation,
     })
 }
 
@@ -591,20 +588,20 @@ export const getAmbitiesRelationsLineageIdPutMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof ambitiesRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: WriteRelationShort[] },
+        { lineageId: number; data: WriteRelation[] },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof ambitiesRelationsLineageIdPut>>,
     TError,
-    { lineageId: number; data: WriteRelationShort[] },
+    { lineageId: number; data: WriteRelation[] },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof ambitiesRelationsLineageIdPut>>,
-        { lineageId: number; data: WriteRelationShort[] }
+        { lineageId: number; data: WriteRelation[] }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -617,7 +614,7 @@ export const getAmbitiesRelationsLineageIdPutMutationOptions = <
 export type AmbitiesRelationsLineageIdPutMutationResult = NonNullable<
     Awaited<ReturnType<typeof ambitiesRelationsLineageIdPut>>
 >
-export type AmbitiesRelationsLineageIdPutMutationBody = WriteRelationShort[]
+export type AmbitiesRelationsLineageIdPutMutationBody = WriteRelation[]
 export type AmbitiesRelationsLineageIdPutMutationError = HTTPValidationError
 
 /**
@@ -630,7 +627,7 @@ export const useAmbitiesRelationsLineageIdPut = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof ambitiesRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: WriteRelationShort[] },
+        { lineageId: number; data: WriteRelation[] },
         TContext
     >
 }) => {
@@ -1163,7 +1160,7 @@ export const modulesObjectAmbitieActiveLineageIdGet = (
     params?: ModulesObjectAmbitieActiveLineageIdGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<ActiveModuleObject[]>({
+    return customInstance<ActiveModuleObjectWrapper[]>({
         url: `/modules/object/ambitie/active/${lineageId}`,
         method: 'get',
         params,
@@ -1592,7 +1589,7 @@ export const beleidsdoelenRelationsLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<ReadRelationShort[]>({
+    return customInstance<ReadRelation[]>({
         url: `/beleidsdoelen/relations/${lineageId}`,
         method: 'get',
         signal,
@@ -1673,13 +1670,13 @@ export const useBeleidsdoelenRelationsLineageIdGet = <
  */
 export const beleidsdoelenRelationsLineageIdPut = (
     lineageId: number,
-    writeRelationShort: WriteRelationShort[]
+    writeRelation: WriteRelation[]
 ) => {
     return customInstance<ResponseOK>({
         url: `/beleidsdoelen/relations/${lineageId}`,
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
-        data: writeRelationShort,
+        data: writeRelation,
     })
 }
 
@@ -1690,20 +1687,20 @@ export const getBeleidsdoelenRelationsLineageIdPutMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsdoelenRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: WriteRelationShort[] },
+        { lineageId: number; data: WriteRelation[] },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof beleidsdoelenRelationsLineageIdPut>>,
     TError,
-    { lineageId: number; data: WriteRelationShort[] },
+    { lineageId: number; data: WriteRelation[] },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof beleidsdoelenRelationsLineageIdPut>>,
-        { lineageId: number; data: WriteRelationShort[] }
+        { lineageId: number; data: WriteRelation[] }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -1716,8 +1713,7 @@ export const getBeleidsdoelenRelationsLineageIdPutMutationOptions = <
 export type BeleidsdoelenRelationsLineageIdPutMutationResult = NonNullable<
     Awaited<ReturnType<typeof beleidsdoelenRelationsLineageIdPut>>
 >
-export type BeleidsdoelenRelationsLineageIdPutMutationBody =
-    WriteRelationShort[]
+export type BeleidsdoelenRelationsLineageIdPutMutationBody = WriteRelation[]
 export type BeleidsdoelenRelationsLineageIdPutMutationError =
     HTTPValidationError
 
@@ -1731,7 +1727,7 @@ export const useBeleidsdoelenRelationsLineageIdPut = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsdoelenRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: WriteRelationShort[] },
+        { lineageId: number; data: WriteRelation[] },
         TContext
     >
 }) => {
@@ -2300,7 +2296,7 @@ export const modulesObjectBeleidsdoelActiveLineageIdGet = (
     params?: ModulesObjectBeleidsdoelActiveLineageIdGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<ActiveModuleObject[]>({
+    return customInstance<ActiveModuleObjectWrapper[]>({
         url: `/modules/object/beleidsdoel/active/${lineageId}`,
         method: 'get',
         params,
@@ -2738,7 +2734,7 @@ export const beleidskeuzesRelationsLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<ReadRelationShort[]>({
+    return customInstance<ReadRelation[]>({
         url: `/beleidskeuzes/relations/${lineageId}`,
         method: 'get',
         signal,
@@ -2819,13 +2815,13 @@ export const useBeleidskeuzesRelationsLineageIdGet = <
  */
 export const beleidskeuzesRelationsLineageIdPut = (
     lineageId: number,
-    writeRelationShort: WriteRelationShort[]
+    writeRelation: WriteRelation[]
 ) => {
     return customInstance<ResponseOK>({
         url: `/beleidskeuzes/relations/${lineageId}`,
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
-        data: writeRelationShort,
+        data: writeRelation,
     })
 }
 
@@ -2836,20 +2832,20 @@ export const getBeleidskeuzesRelationsLineageIdPutMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidskeuzesRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: WriteRelationShort[] },
+        { lineageId: number; data: WriteRelation[] },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof beleidskeuzesRelationsLineageIdPut>>,
     TError,
-    { lineageId: number; data: WriteRelationShort[] },
+    { lineageId: number; data: WriteRelation[] },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof beleidskeuzesRelationsLineageIdPut>>,
-        { lineageId: number; data: WriteRelationShort[] }
+        { lineageId: number; data: WriteRelation[] }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -2862,8 +2858,7 @@ export const getBeleidskeuzesRelationsLineageIdPutMutationOptions = <
 export type BeleidskeuzesRelationsLineageIdPutMutationResult = NonNullable<
     Awaited<ReturnType<typeof beleidskeuzesRelationsLineageIdPut>>
 >
-export type BeleidskeuzesRelationsLineageIdPutMutationBody =
-    WriteRelationShort[]
+export type BeleidskeuzesRelationsLineageIdPutMutationBody = WriteRelation[]
 export type BeleidskeuzesRelationsLineageIdPutMutationError =
     HTTPValidationError
 
@@ -2877,7 +2872,7 @@ export const useBeleidskeuzesRelationsLineageIdPut = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidskeuzesRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: WriteRelationShort[] },
+        { lineageId: number; data: WriteRelation[] },
         TContext
     >
 }) => {
@@ -3751,7 +3746,7 @@ export const modulesObjectsBeleidskeuzeActiveLineageIdGet = (
     params?: ModulesObjectsBeleidskeuzeActiveLineageIdGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<ActiveModuleObject[]>({
+    return customInstance<ActiveModuleObjectWrapper[]>({
         url: `/modules/objects/beleidskeuze/active/${lineageId}`,
         method: 'get',
         params,
@@ -4193,7 +4188,7 @@ export const beleidsregelsRelationsLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<ReadRelationShort[]>({
+    return customInstance<ReadRelation[]>({
         url: `/beleidsregels/relations/${lineageId}`,
         method: 'get',
         signal,
@@ -4274,13 +4269,13 @@ export const useBeleidsregelsRelationsLineageIdGet = <
  */
 export const beleidsregelsRelationsLineageIdPut = (
     lineageId: number,
-    writeRelationShort: WriteRelationShort[]
+    writeRelation: WriteRelation[]
 ) => {
     return customInstance<ResponseOK>({
         url: `/beleidsregels/relations/${lineageId}`,
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
-        data: writeRelationShort,
+        data: writeRelation,
     })
 }
 
@@ -4291,20 +4286,20 @@ export const getBeleidsregelsRelationsLineageIdPutMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: WriteRelationShort[] },
+        { lineageId: number; data: WriteRelation[] },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdPut>>,
     TError,
-    { lineageId: number; data: WriteRelationShort[] },
+    { lineageId: number; data: WriteRelation[] },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdPut>>,
-        { lineageId: number; data: WriteRelationShort[] }
+        { lineageId: number; data: WriteRelation[] }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -4317,8 +4312,7 @@ export const getBeleidsregelsRelationsLineageIdPutMutationOptions = <
 export type BeleidsregelsRelationsLineageIdPutMutationResult = NonNullable<
     Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdPut>>
 >
-export type BeleidsregelsRelationsLineageIdPutMutationBody =
-    WriteRelationShort[]
+export type BeleidsregelsRelationsLineageIdPutMutationBody = WriteRelation[]
 export type BeleidsregelsRelationsLineageIdPutMutationError =
     HTTPValidationError
 
@@ -4332,7 +4326,7 @@ export const useBeleidsregelsRelationsLineageIdPut = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: WriteRelationShort[] },
+        { lineageId: number; data: WriteRelation[] },
         TContext
     >
 }) => {
@@ -4906,7 +4900,7 @@ export const modulesObjectsBeleidsregelActiveLineageIdGet = (
     params?: ModulesObjectsBeleidsregelActiveLineageIdGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<ActiveModuleObject[]>({
+    return customInstance<ActiveModuleObjectWrapper[]>({
         url: `/modules/objects/beleidsregel/active/${lineageId}`,
         method: 'get',
         params,
@@ -5358,7 +5352,7 @@ export const gebiedsprogrammasRelationsLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<ReadRelationShort[]>({
+    return customInstance<ReadRelation[]>({
         url: `/gebiedsprogrammas/relations/${lineageId}`,
         method: 'get',
         signal,
@@ -5441,13 +5435,13 @@ export const useGebiedsprogrammasRelationsLineageIdGet = <
  */
 export const gebiedsprogrammasRelationsLineageIdPut = (
     lineageId: number,
-    writeRelationShort: WriteRelationShort[]
+    writeRelation: WriteRelation[]
 ) => {
     return customInstance<ResponseOK>({
         url: `/gebiedsprogrammas/relations/${lineageId}`,
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
-        data: writeRelationShort,
+        data: writeRelation,
     })
 }
 
@@ -5458,20 +5452,20 @@ export const getGebiedsprogrammasRelationsLineageIdPutMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: WriteRelationShort[] },
+        { lineageId: number; data: WriteRelation[] },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdPut>>,
     TError,
-    { lineageId: number; data: WriteRelationShort[] },
+    { lineageId: number; data: WriteRelation[] },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdPut>>,
-        { lineageId: number; data: WriteRelationShort[] }
+        { lineageId: number; data: WriteRelation[] }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -5484,8 +5478,7 @@ export const getGebiedsprogrammasRelationsLineageIdPutMutationOptions = <
 export type GebiedsprogrammasRelationsLineageIdPutMutationResult = NonNullable<
     Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdPut>>
 >
-export type GebiedsprogrammasRelationsLineageIdPutMutationBody =
-    WriteRelationShort[]
+export type GebiedsprogrammasRelationsLineageIdPutMutationBody = WriteRelation[]
 export type GebiedsprogrammasRelationsLineageIdPutMutationError =
     HTTPValidationError
 
@@ -5499,7 +5492,7 @@ export const useGebiedsprogrammasRelationsLineageIdPut = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: WriteRelationShort[] },
+        { lineageId: number; data: WriteRelation[] },
         TContext
     >
 }) => {
@@ -6104,7 +6097,7 @@ export const modulesObjectsGebiedsprogrammaActiveLineageIdGet = (
     params?: ModulesObjectsGebiedsprogrammaActiveLineageIdGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<ActiveModuleObject[]>({
+    return customInstance<ActiveModuleObjectWrapper[]>({
         url: `/modules/objects/gebiedsprogramma/active/${lineageId}`,
         method: 'get',
         params,
@@ -6559,7 +6552,7 @@ export const maatregelenRelationsLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<ReadRelationShort[]>({
+    return customInstance<ReadRelation[]>({
         url: `/maatregelen/relations/${lineageId}`,
         method: 'get',
         signal,
@@ -6640,13 +6633,13 @@ export const useMaatregelenRelationsLineageIdGet = <
  */
 export const maatregelenRelationsLineageIdPut = (
     lineageId: number,
-    writeRelationShort: WriteRelationShort[]
+    writeRelation: WriteRelation[]
 ) => {
     return customInstance<ResponseOK>({
         url: `/maatregelen/relations/${lineageId}`,
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
-        data: writeRelationShort,
+        data: writeRelation,
     })
 }
 
@@ -6657,20 +6650,20 @@ export const getMaatregelenRelationsLineageIdPutMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof maatregelenRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: WriteRelationShort[] },
+        { lineageId: number; data: WriteRelation[] },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof maatregelenRelationsLineageIdPut>>,
     TError,
-    { lineageId: number; data: WriteRelationShort[] },
+    { lineageId: number; data: WriteRelation[] },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof maatregelenRelationsLineageIdPut>>,
-        { lineageId: number; data: WriteRelationShort[] }
+        { lineageId: number; data: WriteRelation[] }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -6683,7 +6676,7 @@ export const getMaatregelenRelationsLineageIdPutMutationOptions = <
 export type MaatregelenRelationsLineageIdPutMutationResult = NonNullable<
     Awaited<ReturnType<typeof maatregelenRelationsLineageIdPut>>
 >
-export type MaatregelenRelationsLineageIdPutMutationBody = WriteRelationShort[]
+export type MaatregelenRelationsLineageIdPutMutationBody = WriteRelation[]
 export type MaatregelenRelationsLineageIdPutMutationError = HTTPValidationError
 
 /**
@@ -6696,7 +6689,7 @@ export const useMaatregelenRelationsLineageIdPut = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof maatregelenRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: WriteRelationShort[] },
+        { lineageId: number; data: WriteRelation[] },
         TContext
     >
 }) => {
@@ -7247,7 +7240,7 @@ export const modulesObjectsMaatregelActiveLineageIdGet = (
     params?: ModulesObjectsMaatregelActiveLineageIdGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<ActiveModuleObject[]>({
+    return customInstance<ActiveModuleObjectWrapper[]>({
         url: `/modules/objects/maatregel/active/${lineageId}`,
         method: 'get',
         params,
@@ -7653,7 +7646,7 @@ export const nationaalBelangRelationsLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<ReadRelationShort[]>({
+    return customInstance<ReadRelation[]>({
         url: `/nationaal-belang/relations/${lineageId}`,
         method: 'get',
         signal,
@@ -7734,13 +7727,13 @@ export const useNationaalBelangRelationsLineageIdGet = <
  */
 export const nationaalBelangRelationsLineageIdPut = (
     lineageId: number,
-    writeRelationShort: WriteRelationShort[]
+    writeRelation: WriteRelation[]
 ) => {
     return customInstance<ResponseOK>({
         url: `/nationaal-belang/relations/${lineageId}`,
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
-        data: writeRelationShort,
+        data: writeRelation,
     })
 }
 
@@ -7751,20 +7744,20 @@ export const getNationaalBelangRelationsLineageIdPutMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: WriteRelationShort[] },
+        { lineageId: number; data: WriteRelation[] },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdPut>>,
     TError,
-    { lineageId: number; data: WriteRelationShort[] },
+    { lineageId: number; data: WriteRelation[] },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdPut>>,
-        { lineageId: number; data: WriteRelationShort[] }
+        { lineageId: number; data: WriteRelation[] }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -7777,8 +7770,7 @@ export const getNationaalBelangRelationsLineageIdPutMutationOptions = <
 export type NationaalBelangRelationsLineageIdPutMutationResult = NonNullable<
     Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdPut>>
 >
-export type NationaalBelangRelationsLineageIdPutMutationBody =
-    WriteRelationShort[]
+export type NationaalBelangRelationsLineageIdPutMutationBody = WriteRelation[]
 export type NationaalBelangRelationsLineageIdPutMutationError =
     HTTPValidationError
 
@@ -7792,7 +7784,7 @@ export const useNationaalBelangRelationsLineageIdPut = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: WriteRelationShort[] },
+        { lineageId: number; data: WriteRelation[] },
         TContext
     >
 }) => {
@@ -7873,126 +7865,6 @@ export const useNationaalBelangStaticLineageIdPost = <
         getNationaalBelangStaticLineageIdPostMutationOptions(options)
 
     return useMutation(mutationOptions)
-}
-
-/**
- * @summary List the last modified module object grouped per module ID
- */
-export const modulesObjectsNationaalBelangActiveLineageIdGet = (
-    lineageId: number,
-    params?: ModulesObjectsNationaalBelangActiveLineageIdGetParams,
-    signal?: AbortSignal
-) => {
-    return customInstance<ActiveModuleObject[]>({
-        url: `/modules/objects/nationaal-belang/active/${lineageId}`,
-        method: 'get',
-        params,
-        signal,
-    })
-}
-
-export const getModulesObjectsNationaalBelangActiveLineageIdGetQueryKey = (
-    lineageId: number,
-    params?: ModulesObjectsNationaalBelangActiveLineageIdGetParams
-) =>
-    [
-        `/modules/objects/nationaal-belang/active/${lineageId}`,
-        ...(params ? [params] : []),
-    ] as const
-
-export const getModulesObjectsNationaalBelangActiveLineageIdGetQueryOptions = <
-    TData = Awaited<
-        ReturnType<typeof modulesObjectsNationaalBelangActiveLineageIdGet>
-    >,
-    TError = HTTPValidationError
->(
-    lineageId: number,
-    params?: ModulesObjectsNationaalBelangActiveLineageIdGetParams,
-    options?: {
-        query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof modulesObjectsNationaalBelangActiveLineageIdGet
-                >
-            >,
-            TError,
-            TData
-        >
-    }
-): UseQueryOptions<
-    Awaited<ReturnType<typeof modulesObjectsNationaalBelangActiveLineageIdGet>>,
-    TError,
-    TData
-> & { queryKey: QueryKey } => {
-    const { query: queryOptions } = options ?? {}
-
-    const queryKey =
-        queryOptions?.queryKey ??
-        getModulesObjectsNationaalBelangActiveLineageIdGetQueryKey(
-            lineageId,
-            params
-        )
-
-    const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<typeof modulesObjectsNationaalBelangActiveLineageIdGet>
-        >
-    > = ({ signal }) =>
-        modulesObjectsNationaalBelangActiveLineageIdGet(
-            lineageId,
-            params,
-            signal
-        )
-
-    return { queryKey, queryFn, enabled: !!lineageId, ...queryOptions }
-}
-
-export type ModulesObjectsNationaalBelangActiveLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<typeof modulesObjectsNationaalBelangActiveLineageIdGet>
-        >
-    >
-export type ModulesObjectsNationaalBelangActiveLineageIdGetQueryError =
-    HTTPValidationError
-
-/**
- * @summary List the last modified module object grouped per module ID
- */
-export const useModulesObjectsNationaalBelangActiveLineageIdGet = <
-    TData = Awaited<
-        ReturnType<typeof modulesObjectsNationaalBelangActiveLineageIdGet>
-    >,
-    TError = HTTPValidationError
->(
-    lineageId: number,
-    params?: ModulesObjectsNationaalBelangActiveLineageIdGetParams,
-    options?: {
-        query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof modulesObjectsNationaalBelangActiveLineageIdGet
-                >
-            >,
-            TError,
-            TData
-        >
-    }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-    const queryOptions =
-        getModulesObjectsNationaalBelangActiveLineageIdGetQueryOptions(
-            lineageId,
-            params,
-            options
-        )
-
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-        queryKey: QueryKey
-    }
-
-    query.queryKey = queryOptions.queryKey
-
-    return query
 }
 
 /**
@@ -8308,7 +8180,7 @@ export const verplichtProgrammaRelationsLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<ReadRelationShort[]>({
+    return customInstance<ReadRelation[]>({
         url: `/verplicht-programma/relations/${lineageId}`,
         method: 'get',
         signal,
@@ -8391,13 +8263,13 @@ export const useVerplichtProgrammaRelationsLineageIdGet = <
  */
 export const verplichtProgrammaRelationsLineageIdPut = (
     lineageId: number,
-    writeRelationShort: WriteRelationShort[]
+    writeRelation: WriteRelation[]
 ) => {
     return customInstance<ResponseOK>({
         url: `/verplicht-programma/relations/${lineageId}`,
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
-        data: writeRelationShort,
+        data: writeRelation,
     })
 }
 
@@ -8408,20 +8280,20 @@ export const getVerplichtProgrammaRelationsLineageIdPutMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: WriteRelationShort[] },
+        { lineageId: number; data: WriteRelation[] },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdPut>>,
     TError,
-    { lineageId: number; data: WriteRelationShort[] },
+    { lineageId: number; data: WriteRelation[] },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdPut>>,
-        { lineageId: number; data: WriteRelationShort[] }
+        { lineageId: number; data: WriteRelation[] }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -8435,7 +8307,7 @@ export type VerplichtProgrammaRelationsLineageIdPutMutationResult = NonNullable<
     Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdPut>>
 >
 export type VerplichtProgrammaRelationsLineageIdPutMutationBody =
-    WriteRelationShort[]
+    WriteRelation[]
 export type VerplichtProgrammaRelationsLineageIdPutMutationError =
     HTTPValidationError
 
@@ -8449,7 +8321,7 @@ export const useVerplichtProgrammaRelationsLineageIdPut = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: WriteRelationShort[] },
+        { lineageId: number; data: WriteRelation[] },
         TContext
     >
 }) => {
@@ -8530,137 +8402,6 @@ export const useVerplichtProgrammaStaticLineageIdPost = <
         getVerplichtProgrammaStaticLineageIdPostMutationOptions(options)
 
     return useMutation(mutationOptions)
-}
-
-/**
- * @summary List the last modified module object grouped per module ID
- */
-export const modulesObjectsVerplichtProgrammaActiveLineageIdGet = (
-    lineageId: number,
-    params?: ModulesObjectsVerplichtProgrammaActiveLineageIdGetParams,
-    signal?: AbortSignal
-) => {
-    return customInstance<ActiveModuleObject[]>({
-        url: `/modules/objects/verplicht-programma/active/${lineageId}`,
-        method: 'get',
-        params,
-        signal,
-    })
-}
-
-export const getModulesObjectsVerplichtProgrammaActiveLineageIdGetQueryKey = (
-    lineageId: number,
-    params?: ModulesObjectsVerplichtProgrammaActiveLineageIdGetParams
-) =>
-    [
-        `/modules/objects/verplicht-programma/active/${lineageId}`,
-        ...(params ? [params] : []),
-    ] as const
-
-export const getModulesObjectsVerplichtProgrammaActiveLineageIdGetQueryOptions =
-    <
-        TData = Awaited<
-            ReturnType<
-                typeof modulesObjectsVerplichtProgrammaActiveLineageIdGet
-            >
-        >,
-        TError = HTTPValidationError
-    >(
-        lineageId: number,
-        params?: ModulesObjectsVerplichtProgrammaActiveLineageIdGetParams,
-        options?: {
-            query?: UseQueryOptions<
-                Awaited<
-                    ReturnType<
-                        typeof modulesObjectsVerplichtProgrammaActiveLineageIdGet
-                    >
-                >,
-                TError,
-                TData
-            >
-        }
-    ): UseQueryOptions<
-        Awaited<
-            ReturnType<
-                typeof modulesObjectsVerplichtProgrammaActiveLineageIdGet
-            >
-        >,
-        TError,
-        TData
-    > & { queryKey: QueryKey } => {
-        const { query: queryOptions } = options ?? {}
-
-        const queryKey =
-            queryOptions?.queryKey ??
-            getModulesObjectsVerplichtProgrammaActiveLineageIdGetQueryKey(
-                lineageId,
-                params
-            )
-
-        const queryFn: QueryFunction<
-            Awaited<
-                ReturnType<
-                    typeof modulesObjectsVerplichtProgrammaActiveLineageIdGet
-                >
-            >
-        > = ({ signal }) =>
-            modulesObjectsVerplichtProgrammaActiveLineageIdGet(
-                lineageId,
-                params,
-                signal
-            )
-
-        return { queryKey, queryFn, enabled: !!lineageId, ...queryOptions }
-    }
-
-export type ModulesObjectsVerplichtProgrammaActiveLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<
-                typeof modulesObjectsVerplichtProgrammaActiveLineageIdGet
-            >
-        >
-    >
-export type ModulesObjectsVerplichtProgrammaActiveLineageIdGetQueryError =
-    HTTPValidationError
-
-/**
- * @summary List the last modified module object grouped per module ID
- */
-export const useModulesObjectsVerplichtProgrammaActiveLineageIdGet = <
-    TData = Awaited<
-        ReturnType<typeof modulesObjectsVerplichtProgrammaActiveLineageIdGet>
-    >,
-    TError = HTTPValidationError
->(
-    lineageId: number,
-    params?: ModulesObjectsVerplichtProgrammaActiveLineageIdGetParams,
-    options?: {
-        query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof modulesObjectsVerplichtProgrammaActiveLineageIdGet
-                >
-            >,
-            TError,
-            TData
-        >
-    }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-    const queryOptions =
-        getModulesObjectsVerplichtProgrammaActiveLineageIdGetQueryOptions(
-            lineageId,
-            params,
-            options
-        )
-
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-        queryKey: QueryKey
-    }
-
-    query.queryKey = queryOptions.queryKey
-
-    return query
 }
 
 /**
@@ -8973,7 +8714,7 @@ export const wettelijkeTaakRelationsLineageIdGet = (
     lineageId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<ReadRelationShort[]>({
+    return customInstance<ReadRelation[]>({
         url: `/wettelijke-taak/relations/${lineageId}`,
         method: 'get',
         signal,
@@ -9054,13 +8795,13 @@ export const useWettelijkeTaakRelationsLineageIdGet = <
  */
 export const wettelijkeTaakRelationsLineageIdPut = (
     lineageId: number,
-    writeRelationShort: WriteRelationShort[]
+    writeRelation: WriteRelation[]
 ) => {
     return customInstance<ResponseOK>({
         url: `/wettelijke-taak/relations/${lineageId}`,
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
-        data: writeRelationShort,
+        data: writeRelation,
     })
 }
 
@@ -9071,20 +8812,20 @@ export const getWettelijkeTaakRelationsLineageIdPutMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: WriteRelationShort[] },
+        { lineageId: number; data: WriteRelation[] },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdPut>>,
     TError,
-    { lineageId: number; data: WriteRelationShort[] },
+    { lineageId: number; data: WriteRelation[] },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdPut>>,
-        { lineageId: number; data: WriteRelationShort[] }
+        { lineageId: number; data: WriteRelation[] }
     > = props => {
         const { lineageId, data } = props ?? {}
 
@@ -9097,8 +8838,7 @@ export const getWettelijkeTaakRelationsLineageIdPutMutationOptions = <
 export type WettelijkeTaakRelationsLineageIdPutMutationResult = NonNullable<
     Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdPut>>
 >
-export type WettelijkeTaakRelationsLineageIdPutMutationBody =
-    WriteRelationShort[]
+export type WettelijkeTaakRelationsLineageIdPutMutationBody = WriteRelation[]
 export type WettelijkeTaakRelationsLineageIdPutMutationError =
     HTTPValidationError
 
@@ -9112,7 +8852,7 @@ export const useWettelijkeTaakRelationsLineageIdPut = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdPut>>,
         TError,
-        { lineageId: number; data: WriteRelationShort[] },
+        { lineageId: number; data: WriteRelation[] },
         TContext
     >
 }) => {
@@ -9192,126 +8932,6 @@ export const useWettelijkeTaakStaticLineageIdPost = <
         getWettelijkeTaakStaticLineageIdPostMutationOptions(options)
 
     return useMutation(mutationOptions)
-}
-
-/**
- * @summary List the last modified module object grouped per module ID
- */
-export const modulesObjectsWettelijkeTaakActiveLineageIdGet = (
-    lineageId: number,
-    params?: ModulesObjectsWettelijkeTaakActiveLineageIdGetParams,
-    signal?: AbortSignal
-) => {
-    return customInstance<ActiveModuleObject[]>({
-        url: `/modules/objects/wettelijke-taak/active/${lineageId}`,
-        method: 'get',
-        params,
-        signal,
-    })
-}
-
-export const getModulesObjectsWettelijkeTaakActiveLineageIdGetQueryKey = (
-    lineageId: number,
-    params?: ModulesObjectsWettelijkeTaakActiveLineageIdGetParams
-) =>
-    [
-        `/modules/objects/wettelijke-taak/active/${lineageId}`,
-        ...(params ? [params] : []),
-    ] as const
-
-export const getModulesObjectsWettelijkeTaakActiveLineageIdGetQueryOptions = <
-    TData = Awaited<
-        ReturnType<typeof modulesObjectsWettelijkeTaakActiveLineageIdGet>
-    >,
-    TError = HTTPValidationError
->(
-    lineageId: number,
-    params?: ModulesObjectsWettelijkeTaakActiveLineageIdGetParams,
-    options?: {
-        query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof modulesObjectsWettelijkeTaakActiveLineageIdGet
-                >
-            >,
-            TError,
-            TData
-        >
-    }
-): UseQueryOptions<
-    Awaited<ReturnType<typeof modulesObjectsWettelijkeTaakActiveLineageIdGet>>,
-    TError,
-    TData
-> & { queryKey: QueryKey } => {
-    const { query: queryOptions } = options ?? {}
-
-    const queryKey =
-        queryOptions?.queryKey ??
-        getModulesObjectsWettelijkeTaakActiveLineageIdGetQueryKey(
-            lineageId,
-            params
-        )
-
-    const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<typeof modulesObjectsWettelijkeTaakActiveLineageIdGet>
-        >
-    > = ({ signal }) =>
-        modulesObjectsWettelijkeTaakActiveLineageIdGet(
-            lineageId,
-            params,
-            signal
-        )
-
-    return { queryKey, queryFn, enabled: !!lineageId, ...queryOptions }
-}
-
-export type ModulesObjectsWettelijkeTaakActiveLineageIdGetQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<typeof modulesObjectsWettelijkeTaakActiveLineageIdGet>
-        >
-    >
-export type ModulesObjectsWettelijkeTaakActiveLineageIdGetQueryError =
-    HTTPValidationError
-
-/**
- * @summary List the last modified module object grouped per module ID
- */
-export const useModulesObjectsWettelijkeTaakActiveLineageIdGet = <
-    TData = Awaited<
-        ReturnType<typeof modulesObjectsWettelijkeTaakActiveLineageIdGet>
-    >,
-    TError = HTTPValidationError
->(
-    lineageId: number,
-    params?: ModulesObjectsWettelijkeTaakActiveLineageIdGetParams,
-    options?: {
-        query?: UseQueryOptions<
-            Awaited<
-                ReturnType<
-                    typeof modulesObjectsWettelijkeTaakActiveLineageIdGet
-                >
-            >,
-            TError,
-            TData
-        >
-    }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-    const queryOptions =
-        getModulesObjectsWettelijkeTaakActiveLineageIdGetQueryOptions(
-            lineageId,
-            params,
-            options
-        )
-
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-        queryKey: QueryKey
-    }
-
-    query.queryKey = queryOptions.queryKey
-
-    return query
 }
 
 /**

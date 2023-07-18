@@ -8,7 +8,7 @@ import { createContext, ReactNode, useMemo } from 'react'
 import { Outlet, useParams } from 'react-router-dom'
 
 import {
-    ActiveModuleObject,
+    ActiveModuleObjectWrapper,
     HTTPValidationError,
     ResponseOK,
 } from '@/api/fetchers.schemas'
@@ -51,7 +51,7 @@ interface ObjectContextType extends QueryObserverBaseResult<ModelReturnType> {
     /** Is user owner of object */
     isOwner?: boolean
     /** List the last modified module object grouped per module ID */
-    activeModules?: ActiveModuleObject[]
+    activeModules?: ActiveModuleObjectWrapper[]
     /** Active modules loading */
     activeModulesLoading?: boolean
 }

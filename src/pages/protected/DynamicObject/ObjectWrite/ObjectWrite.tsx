@@ -22,7 +22,13 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
     const { objectId } = useParams()
 
     const { singularCapitalize, plural, pluralCapitalize } = model.defaults
-    const { usePatchObject, useGetLatestLineage, useGetValid } = model.fetchers
+    const {
+        usePatchObject,
+        useGetLatestLineage,
+        useGetValid,
+        useGetRelations,
+        usePutRelations,
+    } = model.fetchers
 
     const { data, isLoading, queryKey } = useGetLatestLineage?.(
         parseInt(objectId!),
@@ -31,21 +37,19 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
         }
     )
 
-    const { refetch } = useGetValid(
-        { limit: 200 },
-        { query: { enabled: false } }
+    const { data: relations, queryKey: relationsQueryKey } = useGetRelations(
+        parseInt(objectId!),
+        {
+            query: { enabled: !!objectId },
+        }
     )
 
-    const writeObject = usePatchObject?.({
-        mutation: {
-            onSuccess: () => {
-                queryClient.invalidateQueries(queryKey)
-                refetch().then(() => navigate(`/muteer/${plural}`))
-
-                toastNotification('saved')
-            },
-        },
+    const { queryKey: validQueryKey } = useGetValid(undefined, {
+        query: { enabled: false },
     })
+
+    const writeObject = usePatchObject?.()
+    const putRelations = usePutRelations?.()
 
     /**
      * Format initialData based on object fields
@@ -57,12 +61,16 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
 
         const objectData = {} as { [key in typeof fields[number]]: any }
 
-        fields?.forEach(
-            field => (objectData[field] = data?.[field as keyof typeof data])
-        )
+        fields?.forEach(field => {
+            if (field === 'connections') {
+                return (objectData[field] = relations)
+            }
+
+            return (objectData[field] = data?.[field as keyof typeof data])
+        })
 
         return objectData
-    }, [data, model.dynamicSections])
+    }, [data, model.dynamicSections, relations])
 
     /**
      * Handle submit of form
@@ -73,11 +81,53 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
     ) => {
         if (!payload) return
 
+        const { connections, ...rest } = payload
+
         writeObject
-            ?.mutateAsync({
-                lineageId: parseInt(objectId!),
-                data: payload,
-            })
+            ?.mutateAsync(
+                {
+                    lineageId: parseInt(objectId!),
+                    data: rest,
+                },
+                {
+                    onSuccess: () => {
+                        if (!!connections) {
+                            putRelations.mutateAsync(
+                                {
+                                    lineageId: parseInt(objectId!),
+                                    data: connections,
+                                },
+                                {
+                                    onSuccess: () => {
+                                        Promise.all([
+                                            queryClient.invalidateQueries(
+                                                queryKey
+                                            ),
+                                            queryClient.invalidateQueries(
+                                                validQueryKey
+                                            ),
+                                            queryClient.invalidateQueries(
+                                                relationsQueryKey
+                                            ),
+                                        ]).then(() =>
+                                            navigate(`/muteer/${plural}`)
+                                        )
+
+                                        toastNotification('saved')
+                                    },
+                                }
+                            )
+                        } else {
+                            Promise.all([
+                                queryClient.invalidateQueries(queryKey),
+                                queryClient.invalidateQueries(validQueryKey),
+                            ]).then(() => navigate(`/muteer/${plural}`))
+
+                            toastNotification('saved')
+                        }
+                    },
+                }
+            )
             .catch(err => handleError<typeof initialData>(err, helpers))
     }
 

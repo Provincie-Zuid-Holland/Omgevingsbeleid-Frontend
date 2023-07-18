@@ -25,6 +25,7 @@ export type ModulesObjectsLatestGetParams = {
     object_type?: string
     owner_uuid?: string
     minimum_status?: ModuleStatusCode
+    action?: ModuleObjectActionFilter
     only_active_modules?: boolean
 }
 
@@ -74,10 +75,6 @@ export type UsersGetParams = {
     sort?: string
 }
 
-export type ModulesObjectsWettelijkeTaakActiveLineageIdGetParams = {
-    minimum_status?: ModuleStatusCode
-}
-
 export type WettelijkeTaakValidGetParams = {
     all_filters?: string
     any_filters?: string
@@ -86,20 +83,12 @@ export type WettelijkeTaakValidGetParams = {
     sort?: string
 }
 
-export type ModulesObjectsVerplichtProgrammaActiveLineageIdGetParams = {
-    minimum_status?: ModuleStatusCode
-}
-
 export type VerplichtProgrammaValidGetParams = {
     all_filters?: string
     any_filters?: string
     offset?: number
     limit?: number
     sort?: string
-}
-
-export type ModulesObjectsNationaalBelangActiveLineageIdGetParams = {
-    minimum_status?: ModuleStatusCode
 }
 
 export type NationaalBelangValidGetParams = {
@@ -284,7 +273,7 @@ export type AmbitiesValidGetParams = {
     sort?: string
 }
 
-export interface WriteRelationShort {
+export interface WriteRelation {
     Object_ID: number
     Object_Type: string
     Description?: string | null
@@ -503,8 +492,7 @@ export interface RequestAcknowledgedRelation {
 export interface ReadRelationShort {
     Object_ID: number
     Object_Type: string
-    Description: string
-    Title: string
+    Description?: string | null
 }
 
 export interface ReadRelationShortWettelijkeTaakMinimal {
@@ -545,6 +533,13 @@ export interface ReadRelationShortBeleidsdoelMinimal {
 export interface ReadRelationShortAmbitieMinimal {
     Relation: ReadRelationShort
     Object: AmbitieMinimal
+}
+
+export interface ReadRelation {
+    Object_ID: number
+    Object_Type: string
+    Description?: string | null
+    Title?: string | null
 }
 
 /**
@@ -891,6 +886,16 @@ export interface ModuleSnapshot {
     Objects: ModuleSnapshotObjectsItem[]
 }
 
+export interface ModuleShort {
+    Module_ID: number
+    Closed: boolean
+    Title: string
+    Description: string
+    Status?: ModuleStatus
+    Module_Manager_1?: UserShort
+    Module_Manager_2?: UserShort
+}
+
 export interface ModulePatchStatus {
     Status: ModuleStatusCode
 }
@@ -932,6 +937,19 @@ export interface ModuleObjectContext {
     Created_By?: UserShort
     Modified_By?: UserShort
 }
+
+/**
+ * An enumeration.
+ */
+export type ModuleObjectActionFilter =
+    typeof ModuleObjectActionFilter[keyof typeof ModuleObjectActionFilter]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ModuleObjectActionFilter = {
+    Create: 'Create',
+    Edit: 'Edit',
+    Terminate: 'Terminate',
+} as const
 
 /**
  * An enumeration.
@@ -1668,10 +1686,15 @@ export interface AmbitieBasic {
 }
 
 export interface ActiveModuleObject {
-    Module_ID: number
+    Module_ID?: number
     UUID: string
     Modified_Date: string
     Title: string
+}
+
+export interface ActiveModuleObjectWrapper {
+    Module: ModuleShort
+    Module_Object: ActiveModuleObject
 }
 
 export interface AcknowledgedRelationSide {

@@ -1,9 +1,9 @@
-import { Module, UserShort } from '@/api/fetchers.schemas'
+import { Module, ModuleShort, UserShort } from '@/api/fetchers.schemas'
 
 /**
  * Array of selected managers of module
  */
-const useModuleManagers = (module?: Module) => {
+const useModuleManagers = (module?: Module | ModuleShort) => {
     const items: UserShort[] = []
 
     if (module?.Module_Manager_1) {

@@ -3,7 +3,7 @@ import { MagnifyingGlass } from '@pzh-ui/icons'
 import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
 
-import { ReadRelationShort } from '@/api/fetchers.schemas'
+import { ReadRelation } from '@/api/fetchers.schemas'
 import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
 
 import { StepProps } from './types'
@@ -15,7 +15,7 @@ export const StepTwo = ({
     connections,
 }: StepProps) => {
     const { values, setFieldValue } = useFormikContext<
-        ReadRelationShort & { items?: ReadRelationShort[] }
+        ReadRelation & { items?: ReadRelation[] }
     >()
 
     const { defaults, fetchers } = connectionModel || {}
@@ -41,7 +41,7 @@ export const StepTwo = ({
         () =>
             items?.results.map(({ Title, Object_ID }) => ({
                 label: Title,
-                value: Object_ID,
+                value: { Object_ID, Title },
             })),
         [items]
     )
@@ -55,7 +55,7 @@ export const StepTwo = ({
         <>
             <Text className="mb-4">
                 Selecteer {prefixSingular} {singularReadable} waarmee je een
-                koppeling wilt maken vanuit {model.defaults.singular}:{' '}
+                koppeling wilt maken vanuit {model.defaults.singularReadable}:{' '}
                 <span className="font-bold">{title}</span>
             </Text>
             {atemporal ? (

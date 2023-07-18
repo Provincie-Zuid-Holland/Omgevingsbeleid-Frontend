@@ -2,6 +2,8 @@ import { FieldFileUploadProps, FieldRteProps } from '@pzh-ui/components'
 
 import { Validation } from '@/validation/zodSchema'
 
+import { ModelReturnType, ModelType } from './objects/types'
+
 export type DynamicSection<FieldType = string> = {
     /** Title of section */
     title: string
@@ -21,7 +23,15 @@ export type DynamicField<FieldType = string> = {
     /** Placeholder of field (optional) */
     placeholder?: string
     /** Type of field */
-    type: 'text' | 'textarea' | 'wysiwyg' | 'select' | 'area' | 'url' | 'image'
+    type:
+        | 'text'
+        | 'textarea'
+        | 'wysiwyg'
+        | 'select'
+        | 'area'
+        | 'url'
+        | 'image'
+        | 'connections'
     /** Is field required (optional) */
     required?: boolean
     /** Field validation (optional) */
@@ -32,7 +42,13 @@ export type DynamicField<FieldType = string> = {
     | { type: 'select'; options: { label: string; value: string }[] }
     | {
           type: Exclude<
-              'text' | 'textarea' | 'wysiwyg' | 'area' | 'url' | 'image',
+              | 'text'
+              | 'textarea'
+              | 'wysiwyg'
+              | 'area'
+              | 'url'
+              | 'image'
+              | 'connections',
               'select'
           >
       }
@@ -43,7 +59,13 @@ export type DynamicField<FieldType = string> = {
           } & Omit<FieldFileUploadProps, 'onChange'>)
         | {
               type: Exclude<
-                  'text' | 'textarea' | 'wysiwyg' | 'area' | 'url' | 'select',
+                  | 'text'
+                  | 'textarea'
+                  | 'wysiwyg'
+                  | 'area'
+                  | 'url'
+                  | 'select'
+                  | 'connections',
                   'image'
               >
           }
@@ -54,8 +76,37 @@ export type DynamicField<FieldType = string> = {
           } & FieldRteProps)
         | {
               type: Exclude<
-                  'text' | 'textarea' | 'image' | 'area' | 'url' | 'select',
+                  | 'text'
+                  | 'textarea'
+                  | 'image'
+                  | 'area'
+                  | 'url'
+                  | 'select'
+                  | 'connections',
                   'wysiwyg'
+              >
+          }
+    ) &
+    (
+        | {
+              type: 'connections'
+              allowedConnections: {
+                  /** Type of connection */
+                  type: ModelType
+                  /** Key of connection, this corresponds with the API field */
+                  key: keyof ModelReturnType
+              }[]
+          }
+        | {
+              type: Exclude<
+                  | 'text'
+                  | 'textarea'
+                  | 'wysiwyg'
+                  | 'area'
+                  | 'url'
+                  | 'image'
+                  | 'select',
+                  'connections'
               >
           }
     )

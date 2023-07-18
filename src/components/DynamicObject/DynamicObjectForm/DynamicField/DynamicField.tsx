@@ -7,7 +7,9 @@ import {
 } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
 
-import SelectArea from '@/components/SelectArea'
+import FieldConnections from '@/components/Form/FieldConnections'
+import FieldSelectArea from '@/components/Form/FieldSelectArea'
+import { Model } from '@/config/objects/types'
 import { DynamicField as DynamicFieldProps } from '@/config/types'
 import { fileToBase64 } from '@/utils/file'
 
@@ -16,9 +18,10 @@ const inputFieldMap = {
     textarea: FormikTextArea,
     wysiwyg: FormikRte,
     select: FormikSelect,
-    area: SelectArea,
+    area: FieldSelectArea,
     url: FormikInput,
     image: FormikFileUpload,
+    connections: FieldConnections,
 }
 
 const DynamicField = ({
@@ -26,7 +29,11 @@ const DynamicField = ({
     isFirst,
     isLocked,
     ...field
-}: DynamicFieldProps & { isFirst?: boolean; isLocked?: boolean }) => {
+}: DynamicFieldProps & {
+    isFirst?: boolean
+    isLocked?: boolean
+    model: Model
+}) => {
     const { setFieldValue, values } = useFormikContext()
 
     const InputField = inputFieldMap[type]
@@ -68,7 +75,9 @@ const DynamicField = ({
             <InputField
                 type={type === 'url' ? 'url' : undefined}
                 disabled={isLocked}
-                blurInputOnSelect
+                {...(type === 'select' && {
+                    blurInputOnSelect: true,
+                })}
                 {...field}
             />
         </div>
