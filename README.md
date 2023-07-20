@@ -28,7 +28,7 @@ Create a new folder within your documents where you’ll clone the repository to
 ```
 $ git clone https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend.git
 $ cd Omgevingsbeleid-Frontend
-$ npm install
+$ yarn
 ```
 
 ### Create a .env file
@@ -36,12 +36,13 @@ $ npm install
 Create a .env file in the root of the project.
 
 ```jsx
-API_URL = 'https://api-obzh-dev.azurewebsites.net/v0.1' // Used in the API url (in instance.ts)
+VITE_API_URL = 'https://api-obzh-dev.azurewebsites.net/v0.1' // Used in the API url (in instance.ts)
 VITE_GEOSERVER_API_URL = 'https://geo-omgevingsbeleid-test.azurewebsites.net' // Used in the Geoserver API url (in axiosGeoJSON.ts)
-API_ENV = 'dev' // Used in the API url (in instance.ts)
+VITE_API_ENV = 'dev' // Used in the API url (in instance.ts)
 VITE_KEY_API_ACCESS_TOKEN = 'OB_access_token' // Used to set login token
 VITE_KEY_IDENTIFIER = 'OB_identifier' // Used to set login identifier
 VITE_ERROR_MSG = 'Er is iets misgegaan, probeer het later nog eens' // Error message
+VITE_ENABLE_AXE = true // Used to see accessibility issues in the console
 ```
 
 The following environment variables are not necessary. They are used to initialize the Sentry bug tracker.
@@ -55,13 +56,13 @@ VITE_RELEASE_VERSION = '' // Used to log version in Sentry bugs
 
 ---
 
-This runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000/) to view it in the browser. The page will reload if you make edits to the code. You will also see any lint errors in the console.
+This runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000/) to view it in the browser. The page will reload using [Vite HMR](https://vitejs.dev/guide/features.html#hot-module-replacement) if you make edits to the code. You will also see any lint errors or accessibility improvements in the console.
 
 ```
 yarn start
 ```
 
-Launches the test runner in the interactive watch mode. See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Launches the test runner in the interactive watch mode. See the section about [running tests](https://vitest.dev/guide/) for more information.
 
 ```
 yarn test
@@ -79,12 +80,6 @@ Builds the app for production to the **`\*build**`\*\* folder. It correctly bund
 yarn build
 ```
 
-Builds the application just as `npm run build` would do, but also [purges](https://tailwindcss.com/docs/controlling-file-size) the generated Tailwind files. There are two commands to create a build. One for windows `prod:build-win` and one for OSX `prod:build-osx`.
-
-```
-yarn prod:build
-```
-
 # Source File Structure
 
 ---
@@ -94,20 +89,27 @@ The project uses the following structure:
 -   src
     -   api
     -   App
-    -   pages
     -   components
+    -   config
     -   constants
+    -   context
     -   css
+    -   fonts
     -   hooks
     -   images
     -   mocks
+    -   pages
+    -   store
+    -   templates
+    -   types
     -   utils
+    -   validation
 
 ### src/api
 
-The API folder holds our API Functionality. We use [Axios](https://github.com/axios/axios) as the HTTP client. In the /API folder there are three files for the different API's. It contains:
+The api folder holds our API Functionality. We use [Axios](https://github.com/axios/axios) as the HTTP client in combination with [React-query](https://tanstack.com/query/latest/). In the /api folder there are three files for the different API's. It contains:
 
--   `instance.ts` - Which is our general API
+-   `instance.ts` - Which is our general API (check [API docs](https://api-obzh-dev.azurewebsites.net/docs) for more information about the different endpoints)
 -   `axiosGeoJSON.ts` - Which is our API to connect to the GEO Server
 -   `axiosLocatieserver.ts` - Which is our API to connect to PDOK Location server
 
@@ -115,6 +117,12 @@ There are also two generated files which holds all of the endpoints and models. 
 
 -   `fetchers.ts` - Contains all API endpoints
 -   `fetchers.schemas.ts` - Contains all Typescript models
+
+These files can be generated using the following command:
+
+```
+yarn generate-types
+```
 
 ### src/App
 
@@ -154,6 +162,10 @@ Contains hooks that are used in different components.
 ### src/images
 
 Contains the images that we use in the front-end, like the Provincie Zuid-Holland logo.
+
+### src/config
+
+Contains the configuration files for all possible policy objects.
 
 ## Testing
 

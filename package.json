@@ -5,7 +5,7 @@
     "homepage": "https://obzhtest.azureedge.net/",
     "dependencies": {
         "@headlessui/react": "^1.5.0",
-        "@pzh-ui/components": "^0.0.353",
+        "@pzh-ui/components": "^0.0.356",
         "@pzh-ui/config": "^0.0.34",
         "@pzh-ui/css": "^0.0.64",
         "@pzh-ui/icons": "^0.0.31",
@@ -48,7 +48,6 @@
         "zustand": "^4.3.7"
     },
     "scripts": {
-        "analyze": "source-map-explorer 'build/static/js/*.js'",
         "build:css": "npx tailwindcss -i node_modules/@pzh-ui/css/src/tailwind.src.css -o src/css/tailwind.css",
         "watch:css": "npx tailwindcss -i node_modules/@pzh-ui/css/src/tailwind.src.css -o src/css/tailwind.css --watch",
         "prestart": "npm run-script build:css",
@@ -60,7 +59,6 @@
         "test": "vitest watch",
         "test:no-watch": "vitest run",
         "test:coverage": "vitest run --coverage",
-        "eject": "react-scripts eject",
         "generate-types": "orval && eslint --fix './src/api/fetchers.ts'"
     },
     "browserslist": {
@@ -118,7 +116,6 @@
         "prettier": "^2.3.1",
         "rollup-plugin-visualizer": "^5.9.2",
         "sass": "^1.63.6",
-        "source-map-explorer": "^2.5.3",
         "tailwindcss": "^3.2.4",
         "vite": "^4.3.9",
         "vite-plugin-svgr": "^3.2.0",

@@ -69,7 +69,7 @@ body {
 }
 
 @media (min-width: 640px) {
-    [data-table='dynamic-overview-table'] table {
+    [data-table] table {
         th:nth-child(2) {
             width: 350px;
         }

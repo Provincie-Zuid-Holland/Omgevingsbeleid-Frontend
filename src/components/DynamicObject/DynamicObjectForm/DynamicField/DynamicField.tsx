@@ -46,8 +46,12 @@ const DynamicField = ({
         field.defaultValue = null
 
         // @ts-ignore
-        field.onChange = files => {
-            if (!!!files.length) return setFieldValue(field.name, null)
+        field.onChange = async files => {
+            if (!!!files.length) {
+                return setFieldValue(field.name, null)
+            }
+
+            return setFieldValue(field.name, await fileToBase64(files[0]))
         }
 
         // @ts-ignore

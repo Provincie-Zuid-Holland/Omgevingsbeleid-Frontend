@@ -132,7 +132,7 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
     }
 
     const breadcrumbPaths = [
-        { name: 'Muteeromgeving', path: '/muteer' },
+        { name: 'Dashboard', path: '/muteer' },
         {
             name: pluralCapitalize,
             path: `/muteer/${plural}`,

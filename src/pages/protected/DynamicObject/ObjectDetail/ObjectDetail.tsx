@@ -27,7 +27,7 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
     const { data: object, isLoading } = useObject()
 
     const breadcrumbPaths = [
-        { name: 'Muteeromgeving', path: '/muteer' },
+        { name: 'Dashboard', path: '/muteer' },
         ...((!!moduleId && [
             { name: 'Modules', path: '/muteer' },
             {
