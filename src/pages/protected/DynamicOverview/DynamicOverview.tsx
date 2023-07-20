@@ -1,5 +1,6 @@
 import {
     Button,
+    FieldInput,
     Heading,
     Pagination,
     TabItem,
@@ -7,11 +8,13 @@ import {
     Tabs,
     formatDate,
 } from '@pzh-ui/components'
-import { useMemo, useState } from 'react'
+import { MagnifyingGlass } from '@pzh-ui/icons'
+import { ChangeEvent, KeyboardEvent, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUpdateEffect } from 'react-use'
 
-import { useModulesObjectsLatestGet } from '@/api/fetchers'
+import { useModulesObjectsLatestGet, useSearchValidPost } from '@/api/fetchers'
+import { ModuleObjectShortStatus } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import * as models from '@/config/objects'
 import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
@@ -27,50 +30,174 @@ interface DynamicOverviewProps {
 const DynamicOverview = ({ model }: DynamicOverviewProps) => {
     const { canCreateModule } = usePermissions()
 
-    const [currPage, setCurrPage] = useState(1)
     const [activeTab, setActiveTab] = useState<'valid' | 'latest'>('valid')
+    const [query, setQuery] = useState('')
 
     const {
         atemporal,
-        singular,
         singularReadable,
         plural,
         pluralCapitalize,
         prefixNewObject,
     } = model.defaults
+
+    /**
+     * Handle key down of search field
+     */
+    const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            const value = (e.target as HTMLInputElement).value
+            setQuery(value)
+        }
+    }
+
+    const handleChange = (e: ChangeEvent) => {
+        const value = (e.target as HTMLInputElement).value
+
+        if (!value) {
+            setQuery('')
+        }
+    }
+
+    useUpdateEffect(() => {
+        setQuery('')
+    }, [plural])
+
+    useUpdateEffect(() => {
+        if (activeTab === 'latest') setQuery('')
+    }, [activeTab])
+
+    const breadcrumbPaths = [
+        { name: 'Dashboard', path: '/muteer' },
+        { name: pluralCapitalize || '', isCurrent: true },
+    ]
+
+    return (
+        <MutateLayout title={pluralCapitalize} breadcrumbs={breadcrumbPaths}>
+            <div className="col-span-6">
+                <div className="flex items-center justify-between mb-6">
+                    <Heading>{pluralCapitalize}</Heading>
+                    {atemporal && canCreateModule ? (
+                        <Button
+                            as="a"
+                            href={`/muteer/${plural}/nieuw`}
+                            variant="cta">
+                            {prefixNewObject} {singularReadable}
+                        </Button>
+                    ) : (
+                        activeTab !== 'latest' && (
+                            <FieldInput
+                                key={plural}
+                                name="search"
+                                placeholder="Zoeken in lijst"
+                                className="min-w-[368px]"
+                                icon={MagnifyingGlass}
+                                onKeyDown={handleKeyDown}
+                                onChange={handleChange}
+                            />
+                        )
+                    )}
+                </div>
+
+                {atemporal ? (
+                    <TabTable type="valid" activeTab="valid" model={model} />
+                ) : (
+                    <Tabs
+                        selectedKey={activeTab}
+                        onSelectionChange={key =>
+                            setActiveTab(key as typeof activeTab)
+                        }>
+                        <TabItem title="Vigerend" key="valid">
+                            <TabTable
+                                type="valid"
+                                activeTab={activeTab}
+                                model={model}
+                                query={query}
+                            />
+                        </TabItem>
+                        <TabItem title="In ontwerp" key="latest">
+                            <TabTable
+                                type="latest"
+                                activeTab={activeTab}
+                                model={model}
+                                query={query}
+                            />
+                        </TabItem>
+                    </Tabs>
+                )}
+            </div>
+        </MutateLayout>
+    )
+}
+
+interface TabTableProps {
+    type: 'valid' | 'latest'
+    activeTab: 'valid' | 'latest'
+    model: Model
+    query?: string
+}
+
+const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
+    const navigate = useNavigate()
+    const { canCreateModule } = usePermissions()
+
+    const { atemporal, plural, pluralCapitalize, singular } = model.defaults
     const { useGetValid } = model.fetchers
 
-    const { data: validData, isLoading: validDataLoading } = useGetValid(
+    const [currPage, setCurrPage] = useState(1)
+
+    /**
+     * Get correct data fetcher based on type
+     */
+    const useGetData =
+        type === 'valid' ? useGetValid : useModulesObjectsLatestGet
+
+    const { data, isLoading } = useGetData(
         {
             limit: PAGE_LIMIT,
             offset: (currPage - 1) * PAGE_LIMIT,
+            ...(type === 'latest' && {
+                object_type: singular,
+                action: 'Create',
+            }),
         },
         {
             query: {
-                enabled: atemporal || (activeTab === 'valid' && !atemporal),
+                enabled:
+                    type === 'valid'
+                        ? atemporal || (activeTab === 'valid' && !atemporal)
+                        : activeTab === 'latest' && !atemporal,
             },
         }
     )
 
-    const { data: latestData, isLoading: latestDataLoading } =
-        useModulesObjectsLatestGet(
-            {
-                object_type: singular,
-            },
-            {
-                query: {
-                    enabled: activeTab === 'latest' && !atemporal,
-                },
-            }
-        )
-
-    const data = activeTab === 'valid' ? validData : validData
+    const {
+        data: searchData,
+        mutate,
+        isLoading: searchLoading,
+    } = useSearchValidPost()
 
     const [pagination, setPagination] = useState({
         isLoaded: false,
         total: data?.total,
         limit: data?.limit,
     })
+
+    useUpdateEffect(() => {
+        if (!query) {
+            return
+        }
+
+        mutate({
+            data: {
+                Object_Types: [singular],
+            },
+            params: {
+                query,
+                limit: 50,
+            },
+        })
+    }, [query, currPage])
 
     useUpdateEffect(() => {
         if (!pagination.isLoaded && !!data?.total) {
@@ -93,88 +220,11 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
         }
     }, [plural])
 
-    const breadcrumbPaths = [
-        { name: 'Dashboard', path: '/muteer' },
-        { name: pluralCapitalize || '', isCurrent: true },
-    ]
-
-    return (
-        <MutateLayout title={pluralCapitalize} breadcrumbs={breadcrumbPaths}>
-            <div className="col-span-6">
-                <div className="flex items-center justify-between mb-6">
-                    <Heading>{pluralCapitalize}</Heading>
-                    {atemporal && canCreateModule && (
-                        <Button
-                            as="a"
-                            href={`/muteer/${plural}/nieuw`}
-                            variant="cta">
-                            {prefixNewObject} {singularReadable}
-                        </Button>
-                    )}
-                </div>
-
-                {atemporal ? (
-                    <TabTable
-                        model={model}
-                        data={validData?.results}
-                        isLoading={validDataLoading}
-                        setCurrPage={setCurrPage}
-                        pagination={pagination}
-                    />
-                ) : (
-                    <Tabs
-                        selectedKey={activeTab}
-                        onSelectionChange={key =>
-                            setActiveTab(key as typeof activeTab)
-                        }>
-                        <TabItem title="Vigerend" key="valid">
-                            <TabTable
-                                model={model}
-                                data={data?.results}
-                                isLoading={validDataLoading}
-                                setCurrPage={setCurrPage}
-                                pagination={pagination}
-                            />
-                        </TabItem>
-                        <TabItem title="In ontwerp" key="latest">
-                            <TabTable
-                                model={model}
-                                data={data?.results}
-                                isLoading={latestDataLoading}
-                                setCurrPage={setCurrPage}
-                                pagination={pagination}
-                            />
-                        </TabItem>
-                    </Tabs>
-                )}
-            </div>
-        </MutateLayout>
-    )
-}
-
-interface TabTableProps {
-    data?: ModelReturnType[]
-    model: Model
-    isLoading: boolean
-    setCurrPage: (page: number) => void
-    pagination: {
-        isLoaded: boolean
-        total?: number
-        limit?: number
-    }
-}
-
-const TabTable = ({
-    data,
-    model,
-    isLoading,
-    setCurrPage,
-    pagination,
-}: TabTableProps) => {
-    const navigate = useNavigate()
-    const { canCreateModule } = usePermissions()
-
-    const { atemporal, plural } = model.defaults
+    /**
+     * Show search results if query is not empty and tab is valid
+     */
+    const results =
+        !!query && activeTab !== 'latest' ? searchData?.results : data?.results
 
     /**
      * Function to sort column by Modified_Date
@@ -188,6 +238,9 @@ const TabTable = ({
         return a === b ? 0 : a > b ? 1 : -1
     }
 
+    /**
+     * Setup Table columns
+     */
     const columns = useMemo(
         () => [
             {
@@ -211,47 +264,69 @@ const TabTable = ({
         [atemporal]
     )
 
+    /**
+     * Format data before passing to Table
+     */
     const formattedData = useMemo(
         () =>
-            data?.map(({ Title, Modified_Date, Object_ID, ...props }) => ({
-                Title,
-                ...(!atemporal &&
-                    'Start_Validity' in props && {
-                        Status: (
-                            <span data-value={props.Start_Validity}>
-                                Vigerend
-                            </span>
-                        ),
+            results?.map(
+                ({
+                    Title,
+                    Modified_Date,
+                    Object_ID,
+                    Object_Type,
+                    ...props
+                }: ModelReturnType | ModuleObjectShortStatus) => ({
+                    Title,
+                    ...(!atemporal && 'Start_Validity' in props
+                        ? {
+                              Status: (
+                                  <span data-value={props.Start_Validity}>
+                                      Vigerend
+                                  </span>
+                              ),
+                          }
+                        : 'Status' in props && {
+                              Status: (
+                                  <span data-value={props.Status}>
+                                      {props.Status}
+                                  </span>
+                              ),
+                          }),
+                    Modified_Date: (
+                        <span data-value={Modified_Date}>
+                            {Modified_Date
+                                ? formatDate(
+                                      new Date(Modified_Date + 'Z'),
+                                      'cccccc d MMMM yyyy, p'
+                                  )
+                                : 'nooit'}
+                        </span>
+                    ),
+                    ...((!atemporal || (atemporal && canCreateModule)) && {
+                        onClick: () =>
+                            navigate(
+                                type === 'valid'
+                                    ? `/muteer/${plural}/${Object_ID}${
+                                          atemporal ? '/bewerk' : ''
+                                      }`
+                                    : 'Module_ID' in props
+                                    ? `/muteer/modules/${props.Module_ID}/${Object_Type}/${Object_ID}`
+                                    : ''
+                            ),
                     }),
-                Modified_Date: (
-                    <span data-value={Modified_Date}>
-                        {Modified_Date
-                            ? formatDate(
-                                  new Date(Modified_Date + 'Z'),
-                                  'cccccc d MMMM yyyy, p'
-                              )
-                            : 'nooit'}
-                    </span>
-                ),
-                ...((!atemporal || (atemporal && canCreateModule)) && {
-                    onClick: () =>
-                        navigate(
-                            `/muteer/${plural}/${Object_ID}${
-                                atemporal ? '/bewerk' : ''
-                            }`
-                        ),
-                }),
-            })) || [],
-        [data, atemporal, plural, canCreateModule, navigate]
+                })
+            ) || [],
+        [results, atemporal, plural, canCreateModule, navigate, type]
     )
 
     return (
         <div className="mt-6">
-            {isLoading ? (
+            {isLoading || searchLoading ? (
                 <div className="flex justify-center">
                     <LoaderSpinner />
                 </div>
-            ) : (
+            ) : !!formattedData.length ? (
                 <div data-table>
                     <Table
                         columns={columns}
@@ -261,13 +336,26 @@ const TabTable = ({
                         disableMultiSort
                     />
                 </div>
+            ) : (
+                <span className="italic">
+                    {!!query
+                        ? `Er zijn geen resultaten gevonden voor '${query}'`
+                        : type === 'valid'
+                        ? `Er zijn geen vigerende ${pluralCapitalize.toLowerCase()} gevonden`
+                        : `Er zijn geen ${pluralCapitalize.toLowerCase()} in ontwerp`}
+                </span>
             )}
 
-            {!!pagination.total &&
+            {!query &&
+                !!pagination.total &&
                 !!pagination.limit &&
                 pagination.total > pagination.limit && (
                     <div className="mt-8 flex justify-center">
-                        <Pagination onChange={setCurrPage} {...pagination} />
+                        <Pagination
+                            onChange={setCurrPage}
+                            initialPage={currPage - 1}
+                            {...pagination}
+                        />
                     </div>
                 )}
         </div>

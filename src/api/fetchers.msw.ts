@@ -10,7 +10,7 @@
  */
 import { rest } from 'msw'
 import { faker } from '@faker-js/faker'
-import { GraphEdgeType } from './fetchers.schemas'
+import { GraphEdgeType, ModuleStatusCode } from './fetchers.schemas'
 
 export const getAmbitiesValidGetMock = () => ({
     total: faker.datatype.number({ min: undefined, max: undefined }),
@@ -7775,8 +7775,17 @@ export const getModulesModuleIdSnapshotStatusIdGetMock = () => ({
     ).map(() => ({})),
 })
 
-export const getModulesObjectsLatestGetMock = () =>
-    Array.from(
+export const getModulesObjectsLatestGetMock = () => ({
+    total: faker.datatype.number({ min: undefined, max: undefined }),
+    offset: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    limit: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    results: Array.from(
         { length: faker.datatype.number({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
@@ -7810,7 +7819,9 @@ export const getModulesObjectsLatestGetMock = () =>
             },
             undefined,
         ]),
-    }))
+        Status: faker.helpers.arrayElement(Object.values(ModuleStatusCode)),
+    })),
+})
 
 export const getObjectsValidGetMock = () => ({
     total: faker.datatype.number({ min: undefined, max: undefined }),

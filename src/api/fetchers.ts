@@ -138,7 +138,7 @@ import type {
     ModuleObjectContext,
     ModuleEditObjectContext,
     ModuleSnapshot,
-    ModuleObjectShort,
+    PagedResponseModuleObjectShortStatus,
     ModulesObjectsLatestGetParams,
     PagedResponseGenericObjectShort,
     ObjectsValidGetParams,
@@ -10676,7 +10676,7 @@ export const modulesObjectsLatestGet = (
     params?: ModulesObjectsLatestGetParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<ModuleObjectShort[]>({
+    return customInstance<PagedResponseModuleObjectShortStatus>({
         url: `/modules/objects/latest`,
         method: 'get',
         params,

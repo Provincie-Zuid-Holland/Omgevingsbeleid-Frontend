@@ -27,6 +27,9 @@ export type ModulesObjectsLatestGetParams = {
     minimum_status?: ModuleStatusCode
     action?: ModuleObjectActionFilter
     only_active_modules?: boolean
+    offset?: number
+    limit?: number
+    sort?: string
 }
 
 export type ModulesGetParams = {
@@ -625,6 +628,16 @@ export interface PagedResponseModule {
 /**
  * Wrap any response schema and add pagination metadata.
  */
+export interface PagedResponseModuleObjectShortStatus {
+    total: number
+    offset?: number
+    limit?: number
+    results: ModuleObjectShortStatus[]
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
 export interface PagedResponseMaatregelExtended {
     total: number
     offset?: number
@@ -903,6 +916,19 @@ export interface ModulePatchStatus {
 export interface ModuleObjectContextShort {
     Action: string
     Original_Adjust_On?: string
+}
+
+export interface ModuleObjectShortStatus {
+    Module_ID: number
+    Object_Type: string
+    Object_ID: number
+    Code: string
+    UUID: string
+    Modified_Date: string
+    Title: string
+    ObjectStatics?: ObjectStaticShort
+    ModuleObjectContext?: ModuleObjectContextShort
+    Status: ModuleStatusCode
 }
 
 export interface ModuleObjectShort {
