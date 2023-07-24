@@ -1,11 +1,11 @@
 import axios from 'axios'
 import Leaflet, { latLng, Map } from 'leaflet'
 import ReactDOMServer from 'react-dom/server'
-import { toast } from 'react-toastify'
 
 import { getGeoJsonData } from '@/api/axiosGeoJSON'
 import { CreateCustomPopup } from '@/components/Leaflet/utils/createCustomPopup'
 import { MAP_SEARCH_PAGE } from '@/constants/leaflet'
+import { toastNotification } from '@/utils/toastNotification'
 
 import { MAP_OPTIONS } from '../MapSearch'
 
@@ -94,7 +94,7 @@ const handleWerkingsgebiedSelect = async (
                 console.log('Request canceled -', err.message)
             } else {
                 console.log(err)
-                toast(import.meta.env.VITE_ERROR_MSG)
+                toastNotification('error')
             }
         })
 }

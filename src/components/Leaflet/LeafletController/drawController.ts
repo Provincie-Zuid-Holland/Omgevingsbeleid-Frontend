@@ -36,7 +36,7 @@ const createControlHook = (useElement: any) => {
         const { position, onCreated, onEdit } = props
 
         const onDrawCreate = useCallback(
-            e => {
+            (e: any) => {
                 instance._toolbars.edit._toolbarContainer.classList.remove(
                     'hidden'
                 )

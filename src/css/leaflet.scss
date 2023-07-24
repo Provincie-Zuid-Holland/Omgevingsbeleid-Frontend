@@ -6,17 +6,6 @@
     border-radius: 0.25rem;
 }
 
-#revision-overview-leaflet {
-    height: 500px;
-    width: 100%;
-
-    .leaflet-container {
-        position: relative;
-        height: 100%;
-        width: 100%;
-    }
-}
-
 .leaflet-draw-section .leaflet-bar {
     box-shadow: none;
     border-radius: 0;
@@ -352,23 +341,8 @@
     height: 100%;
 }
 
-#leaflet-preview-card {
-    .leaflet-interactive {
-        cursor: default;
-    }
-}
-
 .hide-leaflet-edit {
     display: none !important;
-}
-
-.leaflet-control-layers-toggle {
-    width: auto;
-    background-position: 3px 50%;
-    padding: 3px;
-    padding-left: 36px;
-    text-decoration: none;
-    line-height: 36px;
 }
 
 .leaflet-control-layer-container {

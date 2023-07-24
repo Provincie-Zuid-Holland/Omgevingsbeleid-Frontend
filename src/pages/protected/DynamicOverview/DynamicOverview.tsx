@@ -23,6 +23,8 @@ import MutateLayout from '@/templates/MutateLayout'
 
 const PAGE_LIMIT = 20
 
+type TabType = 'valid' | 'latest'
+
 interface DynamicOverviewProps {
     model: typeof models[ModelType]
 }
@@ -30,7 +32,7 @@ interface DynamicOverviewProps {
 const DynamicOverview = ({ model }: DynamicOverviewProps) => {
     const { canCreateModule } = usePermissions()
 
-    const [activeTab, setActiveTab] = useState<'valid' | 'latest'>('valid')
+    const [activeTab, setActiveTab] = useState<TabType>('valid')
     const [query, setQuery] = useState('')
 
     const {
@@ -75,7 +77,7 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
     return (
         <MutateLayout title={pluralCapitalize} breadcrumbs={breadcrumbPaths}>
             <div className="col-span-6">
-                <div className="flex items-center justify-between mb-6">
+                <div className="mb-6 flex items-center justify-between">
                     <Heading>{pluralCapitalize}</Heading>
                     {atemporal && canCreateModule ? (
                         <Button
@@ -131,8 +133,8 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
 }
 
 interface TabTableProps {
-    type: 'valid' | 'latest'
-    activeTab: 'valid' | 'latest'
+    type: TabType
+    activeTab: TabType
     model: Model
     query?: string
 }

@@ -156,7 +156,7 @@ const SearchResults = () => {
                 </div>
             </Container>
 
-            <Container className="pt-8 pb-20 relative">
+            <Container className="relative pt-8 pb-20">
                 <div className="col-span-2">
                     <div className="sticky top-[120px]">
                         {filters.map((filter, index) => (

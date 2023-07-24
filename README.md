@@ -41,15 +41,7 @@ VITE_GEOSERVER_API_URL = 'https://geo-omgevingsbeleid-test.azurewebsites.net' //
 VITE_API_ENV = 'dev' // Used in the API url (in instance.ts)
 VITE_KEY_API_ACCESS_TOKEN = 'OB_access_token' // Used to set login token
 VITE_KEY_IDENTIFIER = 'OB_identifier' // Used to set login identifier
-VITE_ERROR_MSG = 'Er is iets misgegaan, probeer het later nog eens' // Error message
 VITE_ENABLE_AXE = true // Used to see accessibility issues in the console
-```
-
-The following environment variables are not necessary. They are used to initialize the Sentry bug tracker.
-
-```jsx
-VITE_SENTRY_DSN = '' // Contains the DSN to track bugs in Sentry
-VITE_RELEASE_VERSION = '' // Used to log version in Sentry bugs
 ```
 
 ## Available scripts

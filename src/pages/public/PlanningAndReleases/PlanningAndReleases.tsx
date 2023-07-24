@@ -8,7 +8,7 @@ import {
     FileLines,
     UniversalAccess,
 } from '@pzh-ui/icons'
-import { FC, useState } from 'react'
+import { ReactNode, useState } from 'react'
 
 import { Container } from '@/components/Container'
 import { releases } from '@/constants/releases'
@@ -223,15 +223,15 @@ const ReleaseListItem = ({
     </li>
 )
 
-const OntwikkelingenList: FC = ({ children }) => (
+const OntwikkelingenList = ({ children }: { children: ReactNode }) => (
     <ul className="grid grid-cols-6 col-span-6 gap-x-10 gap-y-0">{children}</ul>
 )
 
-const OntwikkelingenListItem: FC<{ title: string; icon?: JSX.Element }> = ({
+const OntwikkelingenListItem = ({
     children,
     title,
     icon,
-}) => (
+}: { children: ReactNode, title: string; icon?: JSX.Element }) => (
     <li className="relative col-span-6 pl-8 mt-6 lg:col-span-3 sm:mt-8">
         <span className="absolute left-0 w-4 h-4 text-pzh-pink-dark">
             {icon ? icon : <ArrowUpRightFromSquare size={22} />}

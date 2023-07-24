@@ -56,6 +56,7 @@ const MapSearch = () => {
                 )
 
                 setUUIDs(werkingsgebiedenUUIDS)
+                setGeoLoading(false)
             } else {
                 setGeoLoading(false)
             }

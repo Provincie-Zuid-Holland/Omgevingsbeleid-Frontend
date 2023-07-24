@@ -1,6 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios'
-
-import { toastNotification } from '@/utils/toastNotification'
+import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
 export type Environment = 'dev' | 'test' | 'acc' | 'prod'
 
@@ -17,24 +15,23 @@ const instance = axios.create({
     },
 })
 
-instance.interceptors.request.use(config => {
-    config.headers &&
-        (config.headers.Authorization = `Bearer ${getAccessToken()}`)
-    return config
-})
+instance.interceptors.request.use(
+    async config => {
+        config.headers &&
+            (config.headers.Authorization = `Bearer ${getAccessToken()}`)
+
+        return config
+    },
+    error => Promise.reject(error)
+)
 
 instance.interceptors.response.use(
     response => response,
-    error => {
-        const allowedUrls = ['password-reset']
-        if (
-            error?.response?.status === 401 &&
-            !allowedUrls.includes(error?.response?.config?.url)
-        ) {
-            toastNotification('unauthorized')
+    (error: AxiosError) => {
+        if (error.response?.status === 401 || error.response?.status === 403) {
+            window.location.href = '/login'
         }
-
-        throw error?.response
+        return Promise.reject(error)
     }
 )
 

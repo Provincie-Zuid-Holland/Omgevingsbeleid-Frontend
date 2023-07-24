@@ -1,8 +1,7 @@
+import { Tooltip } from '@pzh-ui/components'
 import { ArrowDownWideShort, ArrowUpWideShort, CircleInfo } from '@pzh-ui/icons'
-import Tippy from '@tippyjs/react'
 import { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
-import 'tippy.js/dist/tippy.css'
 
 import { LoaderCard } from '@/components/Loader'
 
@@ -47,7 +46,7 @@ function TableLatestEdits({ edits = [], isLoading }: TableLatestEditsProps) {
     }
 
     return (
-        <div className="flex flex-col col-span-6 pb-12 mt-4">
+        <div className="col-span-6 mt-4 flex flex-col pb-12">
             <div className="overflow-x-auto">
                 <div className="inline-block min-w-full py-2 align-middle">
                     <div className="overflow-hidden">
@@ -56,22 +55,22 @@ function TableLatestEdits({ edits = [], isLoading }: TableLatestEditsProps) {
                                 <tr>
                                     <th
                                         scope="col"
-                                        className="w-2/5 py-3 pr-6 font-bold text-left text-pzh-blue-dark">
+                                        className="w-2/5 py-3 pr-6 text-left font-bold text-pzh-blue-dark">
                                         Titel
                                     </th>
                                     <th
                                         scope="col"
-                                        className="w-1/5 px-6 py-3 font-bold text-left text-pzh-blue-dark">
+                                        className="w-1/5 px-6 py-3 text-left font-bold text-pzh-blue-dark">
                                         Type
                                     </th>
                                     <th
                                         scope="col"
-                                        className="w-1/5 px-6 py-3 font-bold text-left text-pzh-blue-dark">
+                                        className="w-1/5 px-6 py-3 text-left font-bold text-pzh-blue-dark">
                                         Laatste Status
                                     </th>
                                     <th
                                         scope="col"
-                                        className="w-1/5 px-6 py-3 font-bold text-left cursor-pointer text-pzh-blue-dark">
+                                        className="w-1/5 cursor-pointer px-6 py-3 text-left font-bold text-pzh-blue-dark">
                                         <button
                                             onClick={() =>
                                                 setAscending(!ascending)
@@ -84,7 +83,7 @@ function TableLatestEdits({ edits = [], isLoading }: TableLatestEditsProps) {
                                                     </span>
                                                     <ArrowDownWideShort
                                                         size={16}
-                                                        className="ml-2 -mt-0.5 inline-block"
+                                                        className="-mt-0.5 ml-2 inline-block"
                                                     />
                                                 </Fragment>
                                             ) : (
@@ -94,7 +93,7 @@ function TableLatestEdits({ edits = [], isLoading }: TableLatestEditsProps) {
                                                     </span>
                                                     <ArrowUpWideShort
                                                         size={16}
-                                                        className="ml-2 -mt-0.5 inline-block"
+                                                        className="-mt-0.5 ml-2 inline-block"
                                                     />
                                                 </Fragment>
                                             )}
@@ -111,7 +110,7 @@ function TableLatestEdits({ edits = [], isLoading }: TableLatestEditsProps) {
                                             {policyObject.UUID ? (
                                                 <Link
                                                     to={getLink(policyObject)}
-                                                    className="underline text-pzh-green hover:text-pzh-green-dark">
+                                                    className="text-pzh-green underline hover:text-pzh-green-dark">
                                                     {policyObject.Titel}
                                                 </Link>
                                             ) : (
@@ -153,25 +152,22 @@ function TableLatestEdits({ edits = [], isLoading }: TableLatestEditsProps) {
 const StatusComponent = ({ policyObject }: { policyObject: any }) => (
     <span>
         {policyObject.Status}{' '}
-        <Tippy
-            interactive
-            content={
-                <a
-                    className="text-sm pointer-events-auto"
-                    href="#besluitvormingsproces">
-                    <span className="block font-bold">
-                        {policyObject.Status}
-                    </span>
-                    <span className="block">
-                        Bekijk de uitleg en betekenis van statussen{' '}
-                        <span className="underline">hier</span>
-                    </span>
-                </a>
+        <Tooltip
+            label={
+                <div className="text-pzh-dark-blue ml-1 inline-block cursor-pointer opacity-40 transition-colors duration-500 ease-in hover:opacity-80">
+                    <CircleInfo aria-hidden="true" />
+                </div>
             }>
-            <div className="inline-block ml-1 transition-colors duration-500 ease-in cursor-pointer text-pzh-dark-blue opacity-40 hover:opacity-80">
-                <CircleInfo aria-hidden="true" />
-            </div>
-        </Tippy>
+            <a
+                className="pointer-events-auto text-sm"
+                href="#besluitvormingsproces">
+                <span className="block font-bold">{policyObject.Status}</span>
+                <span className="block">
+                    Bekijk de uitleg en betekenis van statussen{' '}
+                    <span className="underline">hier</span>
+                </span>
+            </a>
+        </Tooltip>
     </span>
 )
 

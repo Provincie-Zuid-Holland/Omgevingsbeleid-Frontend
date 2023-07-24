@@ -1,6 +1,3 @@
-// Import Helpers
-import '../sentry'
-
 // Import Styling
 import '@/css/tailwind.css'
 import '@/css/styles.scss'

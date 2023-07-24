@@ -42,10 +42,10 @@ const Home = () => {
                     minHeight: '576px',
                 }}
                 className="overflow-hidden">
-                <div className="col-span-6 mb-8 lg:mb-16 lg:col-span-3">
+                <div className="col-span-6 mb-8 lg:col-span-3 lg:mb-16">
                     <Heading
                         level="1"
-                        className="mt-4 text-3xl font-bold md:mt-12 lg:mt-16 text-pzh-blue">
+                        className="mt-4 text-3xl font-bold text-pzh-blue md:mt-12 lg:mt-16">
                         Omgevingsbeleid
                     </Heading>
                     <Text type="introduction-paragraph" className="mt-3">
@@ -65,9 +65,9 @@ const Home = () => {
                         worden aangepast zodat het altijd up-to-date is.
                     </Text>
                 </div>
-                <div className="relative hidden col-span-3 lg:block">
+                <div className="relative col-span-3 hidden lg:block">
                     <div
-                        className="inline-block absolute bg-cover bg-no-repeat bg-center left-0 top-0 h-full image-home-1 text-white bg-gray-100"
+                        className="image-home-1 absolute left-0 top-0 inline-block h-full bg-gray-100 bg-cover bg-center bg-no-repeat text-white"
                         style={{
                             height: '480px',
                             width: '50vw',
@@ -76,9 +76,9 @@ const Home = () => {
                 </div>
             </Container>
 
-            <div className="block w-full h-64 bg-center bg-no-repeat bg-cover bg-pzh-blue lg:hidden image-home-1" />
+            <div className="image-home-1 block h-64 w-full bg-pzh-blue bg-cover bg-center bg-no-repeat lg:hidden" />
 
-            <Container className="py-6 border-t border-gray-300 md:py-8 lg:py-16">
+            <Container className="border-t border-gray-300 py-6 md:py-8 lg:py-16">
                 <div className="col-span-6 lg:col-span-2">
                     <Heading
                         level="2"
@@ -109,7 +109,7 @@ const Home = () => {
                             provincie drie instrumenten in waar al het
                             Omgevingsbeleid in staat: de{' '}
                             <button
-                                className="underline cursor-pointer"
+                                className="cursor-pointer underline"
                                 onClick={() =>
                                     document
                                         .querySelector(
@@ -121,7 +121,7 @@ const Home = () => {
                             </button>
                             , het{' '}
                             <button
-                                className="underline cursor-pointer"
+                                className="cursor-pointer underline"
                                 onClick={() =>
                                     document
                                         .querySelector(
@@ -133,7 +133,7 @@ const Home = () => {
                             </button>{' '}
                             en de{' '}
                             <button
-                                className="underline cursor-pointer"
+                                className="cursor-pointer underline"
                                 onClick={() =>
                                     document
                                         .querySelector(
@@ -152,14 +152,14 @@ const Home = () => {
             </div>
 
             <Container
-                className="pt-0 pb-3 md:pt-12 md:pb-6 lg:pt-16 lg:pb-8 lg:flex-col"
+                className="pt-0 pb-3 md:pt-12 md:pb-6 lg:flex-col lg:pt-16 lg:pb-8"
                 id="omgevingsvisie-section">
                 <div
-                    className="inline-block mb-8 lg:hidden bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-2 text-white bg-gray-100 md:relative absolute left-0 w-screen md:w-auto"
+                    className="image-home-2 absolute left-0 col-span-6 mb-8 inline-block w-screen bg-gray-100 bg-cover bg-center bg-no-repeat text-white md:relative md:w-auto lg:col-span-4 lg:hidden"
                     style={responsiveImageHeight}
                 />
                 <div
-                    className="flex flex-col justify-center col-span-6 pt-6 lg:col-span-2 md:pt-0"
+                    className="col-span-6 flex flex-col justify-center pt-6 md:pt-0 lg:col-span-2"
                     style={responsiveImageOffset}>
                     <Heading level="2">
                         {/* 👇🏻 Contains a soft hyphen */}
@@ -188,7 +188,7 @@ const Home = () => {
                     </Text>
                 </div>
                 <div
-                    className="hidden lg:inline-block bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-2 text-white bg-gray-100"
+                    className="image-home-2 col-span-6 hidden bg-gray-100 bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:inline-block"
                     style={responsiveImageHeight}
                 />
             </Container>
@@ -197,10 +197,10 @@ const Home = () => {
                 className="md:py-6 lg:py-8"
                 id="omgevingsprogramma-section">
                 <div
-                    className="lg:mb-0 mb-8 inline-block bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-3 text-white bg-gray-100"
+                    className="image-home-3 col-span-6 mb-8 inline-block bg-gray-100 bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:mb-0"
                     style={responsiveImageHeight}
                 />
-                <div className="flex flex-col justify-center col-span-6 lg:col-span-2 ">
+                <div className="col-span-6 flex flex-col justify-center lg:col-span-2 ">
                     <Heading level="2" color="text-pzh-blue">
                         {/* 👇🏻 Contains a soft hyphen */}
                         Omgevings­programma
@@ -208,13 +208,13 @@ const Home = () => {
                     <Text type="body" className="mt-4">
                         In het{' '}
                         <Link
-                            className="underline text-pzh-green hover:text-pzh-green-dark"
+                            className="text-pzh-green underline hover:text-pzh-green-dark"
                             to="omgevingsprogramma">
                             Omgevingsprogramma
                         </Link>{' '}
                         staat beschreven welke{' '}
                         <Link
-                            className="underline text-pzh-green hover:text-pzh-green-dark"
+                            className="text-pzh-green underline hover:text-pzh-green-dark"
                             to="omgevingsprogramma/maatregelen">
                             maatregelen
                         </Link>{' '}
@@ -232,10 +232,10 @@ const Home = () => {
                 className="pb-8 lg:pt-16"
                 id="omgevingsverordening-section">
                 <div
-                    className="inline-block mb-8 lg:hidden bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-4 text-white bg-gray-100"
+                    className="image-home-4 col-span-6 mb-8 inline-block bg-gray-100 bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:hidden"
                     style={responsiveImageHeight}
                 />
-                <div className="flex flex-col justify-center col-span-6 lg:col-span-2">
+                <div className="col-span-6 flex flex-col justify-center lg:col-span-2">
                     <Heading level="2" color="text-pzh-blue">
                         {/* 👇🏻 Contains a soft hyphen */}
                         Omgevings­verordening
@@ -253,7 +253,7 @@ const Home = () => {
                         Al deze regels van de provincie over de fysieke
                         leefomgeving zijn ondergebracht in de{' '}
                         <a
-                            className="underline text-pzh-green hover:text-pzh-green-dark"
+                            className="text-pzh-green underline hover:text-pzh-green-dark"
                             href="https://www.ruimtelijkeplannen.nl/web-roo/transform/NL.IMRO.9928.OVerordening2019-GC10/pt_NL.IMRO.9928.OVerordening2019-GC10.xml"
                             rel="noopener noreferrer"
                             target="_blank">
@@ -263,12 +263,12 @@ const Home = () => {
                     </Text>
                 </div>
                 <div
-                    className="hidden lg:inline-block bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-4 text-white bg-gray-100"
+                    className="image-home-4 col-span-6 hidden bg-gray-100 bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:inline-block"
                     style={responsiveImageHeight}
                 />
             </Container>
 
-            <Container className="py-12 border-t border-gray-300">
+            <Container className="border-t border-gray-300 py-12">
                 <div className="col-span-6">
                     <Heading
                         level="3"
@@ -283,7 +283,7 @@ const Home = () => {
                         PDF’s of via een externe bron.
                     </Text>
                 </div>
-                <ul className="grid grid-cols-6 col-span-6 lg:col-span-4">
+                <ul className="col-span-6 grid grid-cols-6 lg:col-span-4">
                     <DocumentLink
                         href="docs/Omgevingsvisie_Zuid-Holland_Deel_1.pdf"
                         iconLeft={<FilePdf />}
@@ -315,7 +315,7 @@ const Home = () => {
                             opgeleverde functionaliteiten.
                         </Text>
                     </div>
-                    <div className="col-span-6 mt-6 lg:mt-0 lg:col-span-4">
+                    <div className="col-span-6 mt-6 lg:col-span-4 lg:mt-0">
                         <div className="grid grid-cols-4 gap-3 text-white md:gap-10">
                             {releases.slice(0, 2).map(release => (
                                 <ReleaseItem

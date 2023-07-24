@@ -1,19 +1,20 @@
-import { FC } from 'react'
+import { ReactNode } from 'react'
 
 import useBreakpoint from '@/hooks/useBreakpoint'
 
 interface ContainerMapSearchProps {
+    children: ReactNode
     id?: string
     className?: string
     reference?: string
 }
 
-const ContainerMapSearch: FC<ContainerMapSearchProps> = ({
+const ContainerMapSearch = ({
     children,
     id = undefined,
     className = '',
     reference,
-}) => {
+}: ContainerMapSearchProps) => {
     const { isMobile } = useBreakpoint()
 
     return (

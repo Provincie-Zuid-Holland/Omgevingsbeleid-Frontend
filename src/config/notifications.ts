@@ -25,7 +25,7 @@ export const notifications: Record<
 > = {
     saved: { message: 'Opgeslagen', type: 'success' },
     error: {
-        message: import.meta.env.VITE_ERROR_MSG || '',
+        message: 'Er is iets misgegaan, probeer het later nog eens',
         type: 'error',
     },
     notAllowed: {

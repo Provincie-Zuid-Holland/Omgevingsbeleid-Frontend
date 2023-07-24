@@ -1,5 +1,5 @@
 import { AngleDown, AngleUp } from '@pzh-ui/icons'
-import { FC, useState } from 'react'
+import { ReactNode, useState } from 'react'
 
 /**
  * Component that renders the ToggleableSection component which displays a button which either contains the options of the legenda or Achtergrondlaag of the map when clicked on.
@@ -10,15 +10,16 @@ import { FC, useState } from 'react'
  */
 
 interface ToggleableSectionProps {
+    children: ReactNode
     title: string
     positionTop?: boolean
 }
 
-const ToggleableSection: FC<ToggleableSectionProps> = ({
+const ToggleableSection = ({
     children,
     title,
     positionTop,
-}) => {
+}: ToggleableSectionProps) => {
     const [open, setOpen] = useState(true)
 
     return (

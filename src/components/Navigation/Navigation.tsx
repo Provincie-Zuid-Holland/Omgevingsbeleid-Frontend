@@ -1,7 +1,7 @@
 import { Badge } from '@pzh-ui/components'
 import { ArrowRightFromBracket, Eye } from '@pzh-ui/icons'
 import classNames from 'classnames'
-import { FC, useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { environment } from '@/api/instance'
@@ -129,6 +129,7 @@ const Navigation = () => {
 }
 
 interface MenuIconProps {
+    children?: ReactNode
     to: string
     icon: JSX.Element
     className?: string
@@ -137,14 +138,14 @@ interface MenuIconProps {
     color: 'white' | 'blue'
 }
 
-const MenuIcon: FC<MenuIconProps> = ({
+const MenuIcon = ({
     to,
     icon,
     setIsOpen,
     label,
     children = null,
     color,
-}) => (
+}: MenuIconProps) => (
     <Link
         to={to}
         className={classNames(
