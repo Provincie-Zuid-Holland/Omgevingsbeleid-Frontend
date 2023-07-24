@@ -37,11 +37,7 @@ const Home = () => {
                 />
             </Helmet>
 
-            <Container
-                style={{
-                    minHeight: '576px',
-                }}
-                className="overflow-hidden">
+            <Container className="min-h-[576px] overflow-hidden">
                 <div className="col-span-6 mb-8 lg:col-span-3 lg:mb-16">
                     <Heading
                         level="1"
@@ -66,13 +62,7 @@ const Home = () => {
                     </Text>
                 </div>
                 <div className="relative col-span-3 hidden lg:block">
-                    <div
-                        className="image-home-1 absolute left-0 top-0 inline-block h-full bg-gray-100 bg-cover bg-center bg-no-repeat text-white"
-                        style={{
-                            height: '480px',
-                            width: '50vw',
-                        }}
-                    />
+                    <div className="image-home-1 absolute left-0 top-0 inline-block h-[480px] w-[50vw] bg-gray-100 bg-cover bg-center bg-no-repeat text-white" />
                 </div>
             </Container>
 
@@ -152,7 +142,7 @@ const Home = () => {
             </div>
 
             <Container
-                className="pt-0 pb-3 md:pt-12 md:pb-6 lg:flex-col lg:pt-16 lg:pb-8"
+                className="pb-3 pt-0 md:pb-6 md:pt-12 lg:flex-col lg:pb-8 lg:pt-16"
                 id="omgevingsvisie-section">
                 <div
                     className="image-home-2 absolute left-0 col-span-6 mb-8 inline-block w-screen bg-gray-100 bg-cover bg-center bg-no-repeat text-white md:relative md:w-auto lg:col-span-4 lg:hidden"

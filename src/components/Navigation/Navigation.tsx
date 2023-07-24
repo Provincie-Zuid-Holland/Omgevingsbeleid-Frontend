@@ -51,12 +51,10 @@ const Navigation = () => {
                                 ? '/muteer'
                                 : '/'
                         }
-                        className="relative"
-                        style={
-                            isMobile
-                                ? { marginLeft: '-2rem' }
-                                : { marginLeft: '-96px' }
-                        }
+                        className={classNames('relative', {
+                            '-ml-8': isMobile,
+                            '-ml-[96px]': !isMobile,
+                        })}
                         onClick={() => {
                             setIsOpen(false)
                         }}>
@@ -78,12 +76,12 @@ const Navigation = () => {
                 </div>
 
                 {/* Buttons to toggle popup menu */}
-                <div className="flex items-center justify-end col-span-2 my-auto sm:col-span-3">
+                <div className="col-span-2 my-auto flex items-center justify-end sm:col-span-3">
                     {!!user && !isOpen && userIsInMuteerEnvironment ? (
                         <MenuIcon
                             setIsOpen={setIsOpen}
                             to="/"
-                            icon={<Eye size={16} className="mr-2 -mt-1" />}
+                            icon={<Eye size={16} className="-mt-1 mr-2" />}
                             color="white">
                             Raadpleegomgeving
                         </MenuIcon>
@@ -92,7 +90,7 @@ const Navigation = () => {
                         <MenuIcon
                             setIsOpen={setIsOpen}
                             to="/muteer"
-                            icon={<Eye size={16} className="mr-2 -mt-1" />}
+                            icon={<Eye size={16} className="-mt-1 mr-2" />}
                             color="blue">
                             Bewerken
                         </MenuIcon>
@@ -105,7 +103,7 @@ const Navigation = () => {
                             icon={
                                 <ArrowRightFromBracket
                                     size={16}
-                                    className="mr-2 -mt-0.5 inline-block"
+                                    className="-mt-0.5 mr-2 inline-block"
                                     aria-hidden="true"
                                 />
                             }
@@ -149,7 +147,7 @@ const MenuIcon = ({
     <Link
         to={to}
         className={classNames(
-            'flex items-center justify-center px-2 py-2 font-bold transition duration-300 ease-in rounded',
+            'flex items-center justify-center rounded px-2 py-2 font-bold transition duration-300 ease-in',
             {
                 'text-pzh-blue hover:text-pzh-blue-dark': color === 'blue',
                 'text-pzh-white': color === 'white',
@@ -172,9 +170,8 @@ interface LogoProps {
 
 const Logo = ({ type }: LogoProps) => (
     <img
-        className="inline-block object-contain"
+        className="inline-block h-[96px] object-contain"
         title="Provincie Zuid-Holland, naar de homepage"
-        style={{ height: '96px' }}
         src={type === 'white' ? logoWhite : logoSVG}
         alt="Provincie Zuid-Holland, naar de homepage"
     />

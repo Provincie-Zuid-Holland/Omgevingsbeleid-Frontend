@@ -7,13 +7,13 @@ interface AreaCardProps {
 }
 
 const AreaCard = ({ image, title, link }: AreaCardProps) => (
-    <div className="rounded-t overflow-hidden h-full flex flex-col">
+    <div className="flex h-full flex-col overflow-hidden rounded-t">
         {image ? (
-            <img src={image} alt={title} className="h-40 object-cover" />
+            <img src={image} alt="" className="h-40 object-cover" />
         ) : (
             <div className="h-40 bg-pzh-gray-200" />
         )}
-        <div className="rounded-b border border-pzh-gray-400 p-6 flex flex-1 flex-col">
+        <div className="flex flex-1 flex-col rounded-b border border-pzh-gray-400 p-6">
             <Heading level="3" className="mb-4">
                 {title}
             </Heading>

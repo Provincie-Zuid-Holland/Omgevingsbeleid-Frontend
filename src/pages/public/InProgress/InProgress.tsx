@@ -10,9 +10,7 @@ import { scrollToElementByID } from '@/utils/scrollToElementByID'
 function InProgress() {
     return (
         <div>
-            <Helmet>
-                <title>Omgevingsbeleid - In bewerking</title>
-            </Helmet>
+            <Helmet title="In bewerking" />
             <Container className="overflow-hidden">
                 <div className="col-span-3">
                     <Heading level="1" className="mt-16">
@@ -32,19 +30,11 @@ function InProgress() {
                         Bekijk overzicht
                     </Button>
                 </div>
-                <div
-                    className="relative col-span-3"
-                    style={{ minHeight: '480px' }} // To mimick the height of the 480px div with the absolute position
-                >
-                    <div
-                        style={{
-                            height: '480px',
-                            width: 'calc(50vw - 1rem)',
-                        }}
-                        className={`absolute text-center left-0 top-0 h-full bg-gray-100 sm:inline-block`}>
+                <div className="relative col-span-3 min-h-[480px]">
+                    <div className="absolute left-0 top-0 h-[480px] w-[calc(50vw-1rem)] bg-gray-100 text-center sm:inline-block">
                         <img
                             alt="Afbeelding van een typemachine"
-                            className={`object-cover w-full h-full`}
+                            className="h-full w-full object-cover"
                             src={imageInBewerking}
                         />
                     </div>
@@ -94,7 +84,7 @@ function InProgress() {
                     {/* Hidden heading to keep the whitespace consistent */}
                     <Heading
                         level="3"
-                        className="opacity-0 pointer-events-none">
+                        className="pointer-events-none opacity-0">
                         -
                     </Heading>
                     <div className="mt-4">
@@ -144,7 +134,7 @@ function InProgress() {
                     {/* Hidden heading to keep the whitespace consistent */}
                     <Heading
                         level="3"
-                        className="opacity-0 pointer-events-none">
+                        className="pointer-events-none opacity-0">
                         -
                     </Heading>
                     <div className="mt-4">
@@ -186,19 +176,19 @@ const Dropdown = ({
         {({ open }) => (
             <>
                 <Disclosure.Button
-                    className={`flex bg-opacity-10 group items-center justify-between w-full px-5 py-3 font-bold transition-colors duration-200 ease-in text-pzh-pink-dark bg-pzh-pink-dark mt-2 ${
+                    className={`group mt-2 flex w-full items-center justify-between bg-pzh-pink-dark bg-opacity-10 px-5 py-3 font-bold text-pzh-pink-dark transition-colors duration-200 ease-in ${
                         open ? 'rounded-t-md' : 'rounded-md'
                     }`}>
                     <span>{buttonText}</span>
 
                     <Plus
                         size={20}
-                        className={`transition-transform ease-in duration-100 ${
-                            open ? 'transform rotate-45' : ''
+                        className={`transition-transform duration-100 ease-in ${
+                            open ? 'rotate-45 transform' : ''
                         }`}
                     />
                 </Disclosure.Button>
-                <Disclosure.Panel className="px-5 pb-3 text-pzh-blue-dark rounded-b-md bg-pzh-pink-dark bg-opacity-10">
+                <Disclosure.Panel className="rounded-b-md bg-pzh-pink-dark bg-opacity-10 px-5 pb-3 text-pzh-blue-dark">
                     {panelText}
                 </Disclosure.Panel>
             </>

@@ -19,7 +19,7 @@ type Releases = typeof releases
 const PlanningAndReleases = () => (
     <div>
         <Container className="overflow-hidden">
-            <div className="col-span-6 mb-0 lg:col-span-3 sm:mb-16 lg:mb-0">
+            <div className="col-span-6 mb-0 sm:mb-16 lg:col-span-3 lg:mb-0">
                 <Heading level="1" className="mt-1 sm:mt-8 md:mt-12 lg:mt-16">
                     Planning & Releases
                 </Heading>
@@ -41,19 +41,11 @@ const PlanningAndReleases = () => (
                     .
                 </Text>
             </div>
-            <div
-                className="relative hidden col-span-3 lg:block"
-                style={{ minHeight: '480px' }} // To mimick the height of the 480px div with the absolute position
-            >
-                <div
-                    style={{
-                        height: '480px',
-                        width: 'calc(50vw)',
-                    }}
-                    className={`absolute text-center left-0 top-0 h-full bg-gray-100 sm:inline-block`}>
+            <div className="relative col-span-3 hidden min-h-[480px] lg:block">
+                <div className="absolute left-0 top-0 h-[480px] w-[50vw] bg-gray-100 text-center sm:inline-block">
                     <img
                         alt="Afbeelding van twee maquettes"
-                        className={`object-cover w-full h-full`}
+                        className="h-full w-full object-cover"
                         src={imagePlanningAndReleases}
                     />
                 </div>
@@ -62,7 +54,7 @@ const PlanningAndReleases = () => (
         <img
             src={imagePlanningAndReleases}
             alt="Afbeelding van twee maquettes"
-            className="block w-full h-64 mt-6 bg-center bg-no-repeat bg-cover bg-pzh-blue lg:hidden image-home-1"
+            className="image-home-1 mt-6 block h-64 w-full bg-pzh-blue bg-cover bg-center bg-no-repeat lg:hidden"
         />
         <Container className="pb-8 lg:pb-12">
             <Heading className="col-span-6 mt-6 sm:mt-8" level="2">
@@ -153,7 +145,7 @@ const ReleaseList = ({ releases = [] }: { releases: Releases }) => {
     }
 
     return (
-        <ul className="grid grid-cols-6 col-span-6 gap-x-10 gap-y-0">
+        <ul className="col-span-6 grid grid-cols-6 gap-x-10 gap-y-0">
             {releases
                 .filter((_, idx) => idx < currentViewAmount)
                 .map(release => (
@@ -168,7 +160,7 @@ const ReleaseList = ({ releases = [] }: { releases: Releases }) => {
             {releases.length > currentViewAmount ? (
                 <li
                     onClick={increaseViewAmount}
-                    className="col-span-6 py-4 underline cursor-pointer lg:col-span-5 lg:col-start-2 text-pzh-green hover:text-pzh-green-dark">
+                    className="col-span-6 cursor-pointer py-4 text-pzh-green underline hover:text-pzh-green-dark lg:col-span-5 lg:col-start-2">
                     Toon meer releases
                 </li>
             ) : null}
@@ -192,9 +184,9 @@ const ReleaseListItem = ({
     date,
     items,
 }: ReleaseListItemProps) => (
-    <li className="relative col-span-6 pb-8 mt-4 border-b border-gray-300 sm:mt-8">
-        <div className="grid grid-cols-6 col-span-6 gap-x-10 gap-y-0">
-            <div className="col-span-6 lg:col-span-1 text-pzh-gray-600">
+    <li className="relative col-span-6 mt-4 border-b border-gray-300 pb-8 sm:mt-8">
+        <div className="col-span-6 grid grid-cols-6 gap-x-10 gap-y-0">
+            <div className="col-span-6 text-pzh-gray-600 lg:col-span-1">
                 {date}
             </div>
             <div className="col-span-6 lg:col-span-5">
@@ -211,7 +203,7 @@ const ReleaseListItem = ({
                             {items[key as keyof typeof items].map(item => (
                                 <li
                                     key={item}
-                                    className="pl-1 list-disc list-outside">
+                                    className="list-outside list-disc pl-1">
                                     {item}
                                 </li>
                             ))}
@@ -224,16 +216,20 @@ const ReleaseListItem = ({
 )
 
 const OntwikkelingenList = ({ children }: { children: ReactNode }) => (
-    <ul className="grid grid-cols-6 col-span-6 gap-x-10 gap-y-0">{children}</ul>
+    <ul className="col-span-6 grid grid-cols-6 gap-x-10 gap-y-0">{children}</ul>
 )
 
 const OntwikkelingenListItem = ({
     children,
     title,
     icon,
-}: { children: ReactNode, title: string; icon?: JSX.Element }) => (
-    <li className="relative col-span-6 pl-8 mt-6 lg:col-span-3 sm:mt-8">
-        <span className="absolute left-0 w-4 h-4 text-pzh-pink-dark">
+}: {
+    children: ReactNode
+    title: string
+    icon?: JSX.Element
+}) => (
+    <li className="relative col-span-6 mt-6 pl-8 sm:mt-8 lg:col-span-3">
+        <span className="absolute left-0 h-4 w-4 text-pzh-pink-dark">
             {icon ? icon : <ArrowUpRightFromSquare size={22} />}
         </span>
         <div>

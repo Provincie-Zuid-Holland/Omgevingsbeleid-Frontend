@@ -29,7 +29,6 @@
         "proj4leaflet": "^1.0.2",
         "promise-polyfill": "^8.2.0",
         "react": "^18.2.0",
-        "react-accessible-accordion": "^5.0.0",
         "react-content-loader": "^6.0.3",
         "react-dom": "^18.2.0",
         "react-error-boundary": "^3.1.4",
@@ -94,7 +93,6 @@
         "@types/react-dom": "^18.2.7",
         "@types/react-helmet": "^6.1.6",
         "@types/react-leaflet": "^2.8.2",
-        "@types/react-lines-ellipsis": "^0.15.1",
         "@types/react-router-dom": "^5.3.2",
         "@types/react-select": "^5.0.1",
         "@types/smoothscroll-polyfill": "^0.3.1",
@@ -119,8 +117,7 @@
         "vite": "^4.3.9",
         "vite-plugin-svgr": "^3.2.0",
         "vite-tsconfig-paths": "^4.2.0",
-        "vitest": "^0.32.2",
-        "yarn": "^1.22.19"
+        "vitest": "^0.32.2"
     },
     "msw": {
         "workerDirectory": "public"

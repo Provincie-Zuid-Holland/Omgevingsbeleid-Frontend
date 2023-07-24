@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { ReactNode } from 'react'
 
 import useBreakpoint from '@/hooks/useBreakpoint'
@@ -21,8 +22,13 @@ const ContainerMapSearch = ({
         <div
             id={id}
             ref={reference}
-            className={`flex flex-col md:flex-row mx-auto ${className}`}
-            style={!isMobile ? { height: 'calc(100vh - 96px' } : undefined}>
+            className={classNames(
+                'mx-auto flex flex-col md:flex-row',
+                {
+                    'h-[calc(100vh-96px)]': !isMobile,
+                },
+                className
+            )}>
             {children}
         </div>
     )

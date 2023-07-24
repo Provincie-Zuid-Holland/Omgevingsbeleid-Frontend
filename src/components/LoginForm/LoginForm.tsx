@@ -74,7 +74,7 @@ const LoginForm = () => {
                                 value={values.password}
                             />
                         </div>
-                        <div className="flex items-center justify-between mt-7">
+                        <div className="mt-7 flex items-center justify-between">
                             <Button
                                 type="submit"
                                 isDisabled={!isValid || !dirty}
@@ -82,7 +82,7 @@ const LoginForm = () => {
                                 Inloggen
                             </Button>
                             <button
-                                className="mt-4 text-sm underline cursor-pointer sm:mt-0 sm:ml-4 text-pzh-green hover:text-pzh-green-dark"
+                                className="mt-4 cursor-pointer text-sm text-pzh-green underline hover:text-pzh-green-dark sm:ml-4 sm:mt-0"
                                 onClick={e => {
                                     e.preventDefault()
                                     setWachtwoordResetPopup(
@@ -126,7 +126,7 @@ const PopupPasswordForgot = ({
         ariaLabel="Wachtwoord vergeten">
         <Heading level="3">Wachtwoord vergeten</Heading>
 
-        <Notification className="mt-2 mb-4">
+        <Notification className="mb-4 mt-2">
             Binnenkort willen wij het mogelijk maken dat medewerkers van
             provincie Zuid-Holland automatisch kunnen inloggen. Tot die tijd
             moet het nog met een e-mailadres en een wachtwoord.
@@ -137,11 +137,10 @@ const PopupPasswordForgot = ({
             Omgevingsbeleid door op de link te klikken. Je ontvangt dan binnen
             één werkdag een nieuw wachtwoord.
         </p>
-        <div className="flex items-center justify-between mt-5">
+        <div className="mt-5 flex items-center justify-between">
             <Button
                 variant="link"
                 onPress={togglePopup}
-                id="close-password-forget-popup"
                 data-testid="close-password-forget-popup">
                 Annuleren
             </Button>

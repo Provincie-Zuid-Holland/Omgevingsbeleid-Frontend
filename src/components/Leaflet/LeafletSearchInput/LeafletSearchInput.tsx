@@ -33,7 +33,7 @@ const LeafletSearchInput = ({
     mapInstance,
     searchCallback,
     drawCallback,
-    placeholder,
+    placeholder = 'Zoeken op de kaart',
 }: LeafletSearchInputProps) => {
     const navigate = useNavigate()
 
@@ -97,7 +97,7 @@ const LeafletSearchInput = ({
         <FieldSelect
             name="leaflet-search"
             loadOptions={handleSuggestions}
-            placeholder={placeholder || 'Zoeken op de kaart'}
+            placeholder={placeholder}
             onChange={val => handleChange((val as Option).value)}
             isAsync
             cacheOptions

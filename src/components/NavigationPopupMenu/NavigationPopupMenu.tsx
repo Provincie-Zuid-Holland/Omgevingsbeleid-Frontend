@@ -1,5 +1,6 @@
 import { Heading, Text } from '@pzh-ui/components'
 import { AngleRight, Bars, Xmark } from '@pzh-ui/icons'
+import classNames from 'classnames'
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useKey, useWindowSize } from 'react-use'
@@ -56,7 +57,7 @@ const NavigationPopupMenu = ({
             {isMobile ? (
                 <div className="fixed bottom-0 right-0 z-50">
                     <div
-                        className="flex items-center justify-center p-8 text-white cursor-pointer bg-pzh-blue-dark"
+                        className="flex cursor-pointer items-center justify-center bg-pzh-blue-dark p-8 text-white"
                         onClick={() => setIsOpen(!isOpen)}>
                         {isOpen ? (
                             <Xmark
@@ -76,16 +77,16 @@ const NavigationPopupMenu = ({
             ) : null}
             {isOpen ? (
                 <>
-                    <div className="fixed top-[96px] left-0 z-0 block w-screen h-screen bg-gray-900 pointer-events-none opacity-40" />
+                    <div className="pointer-events-none fixed left-0 top-[96px] z-0 block h-screen w-screen bg-gray-900 opacity-40" />
                     <nav
                         id="popup-menu"
-                        className="fixed top-[96px] left-0 z-10 w-full pb-8 bg-white"
+                        className="fixed left-0 top-[96px] z-10 w-full bg-white pb-8"
                         aria-label="primary">
                         <Container
                             className="h-full overflow-y-auto"
                             style={isMobile ? containerHeightStyle : undefined}>
-                            <div className="flex flex-col col-span-6 mt-6 md:items-center sm:flex-row">
-                                <div className="relative flex items-center flex-1 w-full">
+                            <div className="col-span-6 mt-6 flex flex-col sm:flex-row md:items-center">
+                                <div className="relative flex w-full flex-1 items-center">
                                     <SearchBar
                                         callBack={() => {
                                             setIsOpen(false)
@@ -98,7 +99,7 @@ const NavigationPopupMenu = ({
                                         <Link
                                             to="/zoeken-op-kaart"
                                             onClick={() => setIsOpen(false)}
-                                            className="underline text-pzh-green hover:text-pzh-green-dark">
+                                            className="text-pzh-green underline hover:text-pzh-green-dark">
                                             Zoek op de kaart
                                         </Link>
                                     </Text>
@@ -188,11 +189,11 @@ const NavigationPopupMenu = ({
                                     />
                                 </ul>
                             </div>
-                            <div className="col-span-6 mb-10 md:mb-0 md:mt-6 md:col-span-2">
+                            <div className="col-span-6 mb-10 md:col-span-2 md:mb-0 md:mt-6">
                                 <ul
-                                    style={
-                                        isMobile ? {} : { marginTop: '32px' }
-                                    }>
+                                    className={classNames({
+                                        'mt-[32px]': !isMobile,
+                                    })}>
                                     <ListItem
                                         text="Beleidsnetwerk"
                                         setIsOpen={setIsOpen}
@@ -245,10 +246,10 @@ const ToggleMenuButton = ({
             }
         }}
         id="popup-menu-toggle"
-        className={`relative flex items-center justify-center px-2 pb-1 mb-1 pt-2 -mr-6 transition-colors duration-100 ease-in rounded ${
+        className={`relative -mr-6 mb-1 flex items-center justify-center rounded px-2 pb-1 pt-2 transition-colors duration-100 ease-in ${
             isOpen
                 ? 'text-white hover:bg-gray-100 hover:text-pzh-blue'
-                : 'text-pzh-blue hover:text-pzh-blue-dark hover:bg-gray-100'
+                : 'text-pzh-blue hover:bg-gray-100 hover:text-pzh-blue-dark'
         } ${isMobile ? 'hidden' : ''}`}
         aria-expanded={isOpen}
         onClick={() => setIsOpen(!isOpen)}>
@@ -288,7 +289,7 @@ const ListItem = ({
                     rel="noopener noreferrer"
                     onClick={() => setIsOpen(false)}
                     id={`menu-item-${text.replace(/\s+/g, '-').toLowerCase()}`}>
-                    <AngleRight className="mr-2 -mt-0.5 inline-block" />
+                    <AngleRight className="-mt-0.5 mr-2 inline-block" />
                     <span className="underline">{text}</span>
                 </a>
             </li>
@@ -303,7 +304,7 @@ const ListItem = ({
                 state={state}
                 onClick={() => setIsOpen(false)}
                 id={`menu-item-${text.replace(/\s+/g, '-').toLowerCase()}`}>
-                <AngleRight className="mr-2 -mt-0.5 inline-block" />
+                <AngleRight className="-mt-0.5 mr-2 inline-block" />
                 <span className="underline">{text}</span>
             </Link>
         </li>
