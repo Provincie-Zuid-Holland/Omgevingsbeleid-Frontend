@@ -143,12 +143,6 @@ const NavigationPopupMenu = ({
                                 <Heading level="3">Actueel</Heading>
                                 <ul className="mt-1">
                                     <ListItem
-                                        text="Beleidswijzigingen"
-                                        setIsOpen={setIsOpen}
-                                        to="/in-bewerking"
-                                    />
-
-                                    <ListItem
                                         targetBlank
                                         text="Lange Termijn Agenda"
                                         setIsOpen={setIsOpen}

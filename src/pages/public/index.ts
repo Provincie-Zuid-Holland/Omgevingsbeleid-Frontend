@@ -6,7 +6,6 @@ import DynamicOverview from './DynamicOverview'
 import EnvironmentProgram from './EnvironmentProgram'
 import ErrorPage from './ErrorPage'
 import Home from './Home'
-// import InProgress from './InProgress'
 import Login from './Login'
 import MapSearch from './MapSearch'
 import Network from './Network'
@@ -23,7 +22,6 @@ export {
     EnvironmentProgram,
     ErrorPage,
     Home,
-    // InProgress,
     Login,
     MapSearch,
     PlanningAndReleases,

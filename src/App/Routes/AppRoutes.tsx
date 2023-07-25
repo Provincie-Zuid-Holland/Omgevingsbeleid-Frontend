@@ -61,10 +61,6 @@ const AppRoutes = () => {
             path: 'digi-toegankelijkheid',
             element: <Accessibility />,
         },
-        // {
-        //     path: 'in-bewerking',
-        //     element: <InProgress />,
-        // },
         {
             path: 'beleidsnetwerk',
             element: <Network />,
