@@ -10,6 +10,7 @@ import Home from './Home'
 import Login from './Login'
 import MapSearch from './MapSearch'
 import Network from './Network'
+import NotFoundPage from './NotFoundPage'
 import PlanningAndReleases from './PlanningAndReleases'
 import SearchResults from './SearchResults'
 import ThemeDetail from './ThemeDetail'
@@ -32,4 +33,5 @@ export {
     Network,
     ThemeDetail,
     ThemeOverview,
+    NotFoundPage,
 }

@@ -18,7 +18,7 @@ const DynamicSection = ({
     model: Model
 }) => (
     <>
-        <div className="col-span-2">
+        <div className="col-span-6 md:col-span-2">
             <Heading as="2" level="3" className="mb-3">
                 {title}
             </Heading>
@@ -26,7 +26,7 @@ const DynamicSection = ({
             {description && <Text type="body">{description}</Text>}
         </div>
 
-        <div className="col-span-4 pt-[48px]">
+        <div className="col-span-6 pt-[48px] md:col-span-4">
             {fields.map((field, index) => (
                 <DynamicField
                     key={`field-${field.type}-${index}`}

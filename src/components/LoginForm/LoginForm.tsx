@@ -26,7 +26,7 @@ const LoginForm = () => {
     const navigate = useNavigate()
     const { signin } = useAuth()
 
-    const [wachtwoordResetPopup, setWachtwoordResetPopup] = useState(false)
+    const [passwordResetPopup, setPasswordResetPopup] = useState(false)
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
 
@@ -47,10 +47,8 @@ const LoginForm = () => {
     return (
         <>
             <PopupPasswordForgot
-                show={wachtwoordResetPopup}
-                togglePopup={() =>
-                    setWachtwoordResetPopup(!wachtwoordResetPopup)
-                }
+                show={passwordResetPopup}
+                togglePopup={() => setPasswordResetPopup(!passwordResetPopup)}
             />
             <Formik
                 initialValues={{ email: '', password: '' }}
@@ -82,13 +80,11 @@ const LoginForm = () => {
                                 Inloggen
                             </Button>
                             <button
+                                type="button"
                                 className="mt-4 cursor-pointer text-sm text-pzh-green underline hover:text-pzh-green-dark sm:ml-4 sm:mt-0"
-                                onClick={e => {
-                                    e.preventDefault()
-                                    setWachtwoordResetPopup(
-                                        !wachtwoordResetPopup
-                                    )
-                                }}
+                                onClick={() =>
+                                    setPasswordResetPopup(!passwordResetPopup)
+                                }
                                 tabIndex={0}>
                                 Wachtwoord vergeten?
                             </button>

@@ -16,8 +16,7 @@ import { useUpdateEffect } from 'react-use'
 import { useModulesObjectsLatestGet, useSearchValidPost } from '@/api/fetchers'
 import { ModuleObjectShortStatus } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
-import * as models from '@/config/objects'
-import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
+import { Model, ModelReturnType } from '@/config/objects/types'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 
@@ -26,7 +25,7 @@ const PAGE_LIMIT = 20
 type TabType = 'valid' | 'latest'
 
 interface DynamicOverviewProps {
-    model: (typeof models)[ModelType]
+    model: Model
 }
 
 const DynamicOverview = ({ model }: DynamicOverviewProps) => {

@@ -140,23 +140,28 @@ const SearchResults = () => {
         <>
             <Helmet title="Zoekresultaten" />
 
-            <Container className="h-[96px] items-center bg-pzh-blue">
-                <div className="col-span-2">
-                    <Heading level="2" as="1" color="-mb-1 text-pzh-white">
-                        Zoeken
-                    </Heading>
-                </div>
-                <div className="col-span-4">
-                    <SearchBar
-                        defaultValue={query || ''}
-                        callBack={() =>
-                            setPagination({ ...pagination, isLoaded: false })
-                        }
-                    />
-                </div>
-            </Container>
+            <div className="bg-pzh-blue">
+                <Container className="h-[96px] items-center">
+                    <div className="col-span-2">
+                        <Heading level="2" as="1" color="-mb-1 text-pzh-white">
+                            Zoeken
+                        </Heading>
+                    </div>
+                    <div className="col-span-4">
+                        <SearchBar
+                            defaultValue={query || ''}
+                            callBack={() =>
+                                setPagination({
+                                    ...pagination,
+                                    isLoaded: false,
+                                })
+                            }
+                        />
+                    </div>
+                </Container>
+            </div>
 
-            <Container className="relative pt-8 pb-20">
+            <Container className="relative pb-20 pt-8">
                 <div className="col-span-2">
                     <div className="sticky top-[120px]">
                         {filters.map((filter, index) => (

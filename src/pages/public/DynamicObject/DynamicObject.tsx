@@ -95,7 +95,7 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
                     <Breadcrumbs items={breadcrumbPaths} />
                 </div>
 
-                <div className="col-span-6 xl:col-span-2 order-1">
+                <div className="order-1 col-span-6 xl:col-span-2">
                     <Sidebar
                         revisions={amountOfRevisions}
                         plural={plural}
@@ -104,7 +104,7 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
                     />
                 </div>
 
-                <div className="col-span-6 xl:col-span-4 order-2 flex flex-col">
+                <div className="order-2 col-span-6 mt-6 flex flex-col xl:col-span-4 xl:mt-0">
                     <Heading
                         level="3"
                         color="text-pzh-blue"
@@ -132,7 +132,7 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
                     <Heading
                         level="1"
                         color="text-pzh-blue"
-                        className="mt-4 mb-2 md:mb-4 order-2 md:order-3">
+                        className="order-2 mb-2 mt-4 md:order-3 md:mb-4">
                         {data.Title}
                     </Heading>
 
@@ -161,17 +161,18 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
                         </div>
                     )}
 
-                    {model.allowedConnections && !model.acknowledgedRelation && (
-                        <div
-                            className={classNames('order-8', {
-                                'mt-4 md:mt-8': !!data.Gebied,
-                            })}>
-                            <ObjectConnectionsPublic
-                                model={model}
-                                data={data}
-                            />
-                        </div>
-                    )}
+                    {model.allowedConnections &&
+                        !model.acknowledgedRelation && (
+                            <div
+                                className={classNames('order-8', {
+                                    'mt-4 md:mt-8': !!data.Gebied,
+                                })}>
+                                <ObjectConnectionsPublic
+                                    model={model}
+                                    data={data}
+                                />
+                            </div>
+                        )}
 
                     {model.allowedConnections && model.acknowledgedRelation && (
                         <div

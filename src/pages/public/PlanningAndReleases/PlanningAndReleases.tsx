@@ -35,7 +35,7 @@ const PlanningAndReleases = () => (
                     contact op met ons via{' '}
                     <a
                         href="mailto:omgevingsbeleid@pzh.nl"
-                        className="text-pzh-green hover:text-pzh-green-dark">
+                        className="text-pzh-green underline hover:text-pzh-green-dark">
                         omgevingsbeleid@pzh.nl
                     </a>
                     .
@@ -66,7 +66,7 @@ const PlanningAndReleases = () => (
                 Na een aantal sprints wordt er een groter geheel opgeleverd.
                 Deze grotere onderdelen hebben wij op een roadmap staan.
             </Text>
-            <OntwikkelingenList>
+            <ul className="col-span-6 grid grid-cols-6 gap-x-10 gap-y-0">
                 <OntwikkelingenListItem
                     title="Exports automatiseren"
                     icon={<FileExport size={22} />}>
@@ -111,7 +111,7 @@ const PlanningAndReleases = () => (
                     ondersteunen zodat direct helder wordt wat er wordt
                     aangepast.
                 </OntwikkelingenListItem>
-            </OntwikkelingenList>
+            </ul>
         </Container>
         <Divider />
         <Container className="pt-8 lg:pt-12">
@@ -213,10 +213,6 @@ const ReleaseListItem = ({
             </div>
         </div>
     </li>
-)
-
-const OntwikkelingenList = ({ children }: { children: ReactNode }) => (
-    <ul className="col-span-6 grid grid-cols-6 gap-x-10 gap-y-0">{children}</ul>
 )
 
 const OntwikkelingenListItem = ({

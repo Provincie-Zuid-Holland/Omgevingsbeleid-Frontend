@@ -73,7 +73,10 @@ const App = () => {
                             {!isAdvancedSearchPage &&
                                 !userIsInMuteerEnvironment &&
                                 !isNetworkPage && (
-                                    <DNABar blocks={6} className="top-[96px]" />
+                                    <DNABar
+                                        blocks={6}
+                                        className="top-[96px] hidden lg:block"
+                                    />
                                 )}
                         </BaseLayout>
                     </div>

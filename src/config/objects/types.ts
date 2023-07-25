@@ -11,6 +11,7 @@ import {
     BeleidskeuzePatch,
     BeleidskeuzeStaticPostStatics,
     BeleidsregelPatch,
+    BeleidsregelStaticPostStatics,
     GebiedsprogrammaFull,
     GebiedsprogrammaPatch,
     GebiedsprogrammaStaticPostStatics,
@@ -110,6 +111,7 @@ export type ModelPatchStaticType = BeleidsdoelStaticPostStatics &
     AmbitieStaticPostStatics &
     BeleidskeuzeStaticPostStatics &
     MaatregelStaticPostStatics &
-    GebiedsprogrammaStaticPostStatics
+    GebiedsprogrammaStaticPostStatics &
+    BeleidsregelStaticPostStatics
 
-export type Model = typeof models[ModelType]
+export type Model = (typeof models)[ModelType]

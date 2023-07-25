@@ -55,14 +55,14 @@ function Accessibility() {
                         dan contact op met ons Contact Centrum via{' '}
                         <a
                             href="mailto:zuidholland@pzh.nl"
-                            className="text-pzh-green hover:text-pzh-green-dark">
+                            className="text-pzh-green underline hover:text-pzh-green-dark">
                             zuidholland@pzh.nl
                         </a>{' '}
                         of kijk op{' '}
                         <a
                             href="www.zuid-holland.nl/contact"
                             target="_blank"
-                            className="text-pzh-green hover:text-pzh-green-dark"
+                            className="text-pzh-green underline hover:text-pzh-green-dark"
                             rel="noopener noreferrer">
                             www.zuid-holland.nl/contact
                         </a>

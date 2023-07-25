@@ -27,7 +27,7 @@ const Navigation = () => {
 
     // State for popup menu
     const [isOpen, setIsOpen] = useState(false)
-    const { isMobile } = useBreakpoint()
+    const { isDesktop, isMobile } = useBreakpoint()
 
     return (
         <header
@@ -52,8 +52,8 @@ const Navigation = () => {
                                 : '/'
                         }
                         className={classNames('relative', {
-                            '-ml-8': isMobile,
-                            '-ml-[96px]': !isMobile,
+                            '-ml-8': !isDesktop,
+                            '-ml-[96px]': isDesktop,
                         })}
                         onClick={() => {
                             setIsOpen(false)

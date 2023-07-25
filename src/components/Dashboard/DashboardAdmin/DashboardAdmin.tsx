@@ -60,7 +60,7 @@ const DashboardAdmin = () => {
 
     return (
         <div className="grid grid-cols-6">
-            <div className="col-span-6 lg:col-span-3 mb-4">
+            <div className="col-span-6 mb-4 lg:col-span-3">
                 <Heading as="2" level="3" className="mb-3">
                     Onderdelen
                 </Heading>
@@ -72,7 +72,7 @@ const DashboardAdmin = () => {
                 </Text>
             </div>
             <div className="col-span-6">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-x-10 gap-y-4">
+                <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-2 xl:grid-cols-3">
                     {Object.keys(models).map(key => {
                         const model = models[key as keyof typeof models]
 
@@ -104,7 +104,7 @@ const DashboardAdmin = () => {
                         </div>
                     </div>
 
-                    <div className="w-full h-px mb-3 bg-pzh-blue" />
+                    <div className="mb-3 h-px w-full bg-pzh-blue" />
 
                     <div className="grid grid-cols-1 gap-y-2">
                         {modulesLoading ? (
@@ -145,7 +145,7 @@ const ModelTile = ({ model }: { model: Model }) => {
 
     return (
         <Link to={`/muteer/${plural}`} data-testid="dashboard-model-tile">
-            <div className="flex items-center justify-between px-5 py-4 border border-pzh-gray-200 rounded-[4px] group">
+            <div className="group flex items-center justify-between rounded-[4px] border border-pzh-gray-200 px-5 py-4">
                 <div className="flex items-center">
                     <Icon size={20} className="mr-3 text-pzh-blue" />
                     <Heading as="3" level="4" className="-mb-[6px]">

@@ -43,7 +43,7 @@ const FormBasicInfo = () => {
 
     return (
         <>
-            <div className="col-span-2">
+            <div className="col-span-6 sm:col-span-2">
                 <Heading as="2" level="3" className="mb-3">
                     Algemene informatie
                 </Heading>
@@ -53,14 +53,14 @@ const FormBasicInfo = () => {
                 </Text>
             </div>
 
-            <div className="col-span-4 pt-[48px]">
+            <div className="col-span-6 pt-[48px] sm:col-span-4">
                 <FormikInput
                     name="Title"
                     label="Titel"
                     placeholder="Titel van de module"
                     required
                 />
-                <div className="mt-6 grid grid-cols-2 gap-x-10">
+                <div className="mt-6 grid grid-cols-1 gap-x-10 sm:grid-cols-2">
                     <div>
                         <FormikSelect
                             key={String(
@@ -76,7 +76,7 @@ const FormBasicInfo = () => {
                             required
                         />
                     </div>
-                    <div>
+                    <div className="mt-6 sm:mt-0">
                         <FormikSelect
                             key={String(
                                 userOptions2?.length +

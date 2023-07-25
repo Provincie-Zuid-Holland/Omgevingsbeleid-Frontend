@@ -15,15 +15,12 @@ const instance = axios.create({
     },
 })
 
-instance.interceptors.request.use(
-    async config => {
-        config.headers &&
-            (config.headers.Authorization = `Bearer ${getAccessToken()}`)
+instance.interceptors.request.use(async config => {
+    config.headers &&
+        (config.headers.Authorization = `Bearer ${getAccessToken()}`)
 
-        return config
-    },
-    error => Promise.reject(error)
-)
+    return config
+}, Promise.reject)
 
 instance.interceptors.response.use(
     response => response,

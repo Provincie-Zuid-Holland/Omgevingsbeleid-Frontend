@@ -37,7 +37,7 @@ const Home = () => {
                 />
             </Helmet>
 
-            <Container className="min-h-[576px] overflow-hidden">
+            <Container className="overflow-hidden lg:min-h-[576px]">
                 <div className="col-span-6 mb-8 lg:col-span-3 lg:mb-16">
                     <Heading
                         level="1"
