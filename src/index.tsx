@@ -13,7 +13,7 @@ const container = document.getElementById('root')
 const root = createRoot(container!)
 
 root.render(
-    <BrowserRouter basename={import.meta.env.PUBLIC_URL}>
+    <BrowserRouter>
         <ScrollToTop />
         <App />
     </BrowserRouter>

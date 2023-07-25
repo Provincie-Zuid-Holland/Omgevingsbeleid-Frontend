@@ -11,9 +11,9 @@ jobs:
         runs-on: ubuntu-latest
 
         env:
-            API_URL: https://api-obzh-dev.azurewebsites.net/v1.0
+            VITE_API_URL: https://api-obzh-dev.azurewebsites.net/v1.0
             VITE_GEOSERVER_API_URL: https://geo-omgevingsbeleid-test.azurewebsites.net
-            API_ENV: dev
+            VITE_API_ENV: dev
             VITE_KEY_API_ACCESS_TOKEN: OB_access_token
             VITE_KEY_IDENTIFIER: OB_identifier
 
@@ -38,7 +38,7 @@ jobs:
               run: yarn install
 
             - name: Run the tests and generate coverage report
-              run: yarn test:no-watch
+              run: yarn test:coverage
 
             - name: Build
               run: yarn build

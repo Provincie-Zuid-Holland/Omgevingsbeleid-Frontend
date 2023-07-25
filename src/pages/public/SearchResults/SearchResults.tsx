@@ -15,7 +15,7 @@ import { LoaderSpinner } from '@/components/Loader'
 import SearchBar from '@/components/SearchBar'
 import SearchResultItem from '@/components/SearchResultItem'
 import { ModelType } from '@/config/objects/types'
-import { default as useSearchParams } from '@/hooks/useSearchParam'
+import useSearchParams from '@/hooks/useSearchParam'
 import useFilterStore from '@/store/filterStore'
 
 const PAGE_LIMIT = 10
