@@ -8,7 +8,7 @@ import {
     Tabs,
     formatDate,
 } from '@pzh-ui/components'
-import { MagnifyingGlass } from '@pzh-ui/icons'
+import { AngleRight, MagnifyingGlass } from '@pzh-ui/icons'
 import { ChangeEvent, KeyboardEvent, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUpdateEffect } from 'react-use'
@@ -26,7 +26,7 @@ const PAGE_LIMIT = 20
 type TabType = 'valid' | 'latest'
 
 interface DynamicOverviewProps {
-    model: typeof models[ModelType]
+    model: (typeof models)[ModelType]
 }
 
 const DynamicOverview = ({ model }: DynamicOverviewProps) => {
@@ -296,13 +296,16 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                               ),
                           }),
                     Modified_Date: (
-                        <span data-value={Modified_Date}>
+                        <span
+                            data-value={Modified_Date}
+                            className="flex items-center justify-between">
                             {Modified_Date
                                 ? formatDate(
                                       new Date(Modified_Date + 'Z'),
                                       'cccccc d MMMM yyyy, p'
                                   )
                                 : 'nooit'}
+                            <AngleRight size={18} />
                         </span>
                     ),
                     ...((!atemporal || (atemporal && canCreateModule)) && {
