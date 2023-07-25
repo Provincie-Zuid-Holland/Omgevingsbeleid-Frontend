@@ -44,7 +44,7 @@ const PlanningAndReleases = () => (
             <div className="relative col-span-3 hidden min-h-[480px] lg:block">
                 <div className="absolute left-0 top-0 h-[480px] w-[50vw] bg-gray-100 text-center sm:inline-block">
                     <img
-                        alt="Afbeelding van twee maquettes"
+                        alt=""
                         className="h-full w-full object-cover"
                         src={imagePlanningAndReleases}
                     />
@@ -53,7 +53,7 @@ const PlanningAndReleases = () => (
         </Container>
         <img
             src={imagePlanningAndReleases}
-            alt="Afbeelding van twee maquettes"
+            alt=""
             className="image-home-1 mt-6 block h-64 w-full bg-pzh-blue bg-cover bg-center bg-no-repeat lg:hidden"
         />
         <Container className="pb-8 lg:pb-12">
