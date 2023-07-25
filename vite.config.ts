@@ -80,7 +80,13 @@ export default defineConfig({
         setupFiles: './src/setupTests.ts',
         coverage: {
             reporter: ['text', 'html'],
-            exclude: ['node_modules/', 'src/setupTests.ts'],
+            exclude: [
+                'node_modules/',
+                'src/setupTests.ts',
+                'src/api/fetchers.*',
+            ],
         },
+        restoreMocks: true,
+        mockReset: true,
     },
 })
