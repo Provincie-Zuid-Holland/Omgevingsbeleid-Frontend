@@ -47,7 +47,7 @@ const NetworkModal = ({ isOpen, onClose }: NetworkModalProps) => {
                             <li key={connection.UUID}>
                                 <Link
                                     to={`/${model.defaults.slugOverview}/${connection.UUID}`}
-                                    className="flex items-center justify-between pt-2 pb-1 px-2 border-b border-pzh-blue-dark/35">
+                                    className="flex items-center justify-between border-b border-pzh-blue-dark/35 px-2 pb-1 pt-2">
                                     <p className="leading-none underline decoration-1">
                                         {connection.Title}
                                     </p>
