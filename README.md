@@ -36,9 +36,12 @@ $ yarn
 Create a .env file in the root of the project.
 
 ```jsx
-VITE_API_URL = 'https://api-obzh-dev.azurewebsites.net/v0.1' // Used in the API url (in instance.ts)
+VITE_API_URL_DEV = 'https://api-obzh-dev.azurewebsites.net'
+VITE_API_URL_TEST = 'https://api-obzh-test.azurewebsites.net'
+VITE_API_URL_ACC = 'https://api-obzh-acc.azurewebsites.net'
+VITE_API_URL_PROD = 'https://api-obzh.azurewebsites.net'
 VITE_GEOSERVER_API_URL = 'https://geo-omgevingsbeleid-test.azurewebsites.net' // Used in the Geoserver API url (in axiosGeoJSON.ts)
-VITE_API_ENV = 'dev' // Used in the API url (in instance.ts)
+VITE_API_ENV = 'dev' // Used to get correct API url (in instance.ts)
 VITE_KEY_API_ACCESS_TOKEN = 'OB_access_token' // Used to set login token
 VITE_KEY_IDENTIFIER = 'OB_identifier' // Used to set login identifier
 VITE_ENABLE_AXE = true // Used to see accessibility issues in the console

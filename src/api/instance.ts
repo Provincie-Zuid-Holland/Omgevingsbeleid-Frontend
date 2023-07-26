@@ -1,8 +1,10 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
+import getApiUrl from '@/utils/getApiUrl'
+
 export type Environment = 'dev' | 'test' | 'acc' | 'prod'
 
-const apiUrl = import.meta.env.VITE_API_URL
+const apiUrl = getApiUrl()
 const environment = import.meta.env.VITE_API_ENV as Environment
 
 const getAccessToken = () =>
