@@ -4,14 +4,13 @@ import getApiUrl from '@/utils/getApiUrl'
 
 export type Environment = 'dev' | 'test' | 'acc' | 'prod'
 
-const apiUrl = getApiUrl()
 const environment = import.meta.env.VITE_API_ENV as Environment
 
 const getAccessToken = () =>
     localStorage.getItem(import.meta.env.VITE_KEY_API_ACCESS_TOKEN || '')
 
 const instance = axios.create({
-    baseURL: apiUrl,
+    baseURL: getApiUrl(),
     headers: {
         'Content-Type': 'application/json',
     },
