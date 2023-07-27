@@ -39,8 +39,13 @@ maintenance:
     type: 'contract'
 
     contacts:
-        - name: Aiden Buis
-          email: hello@aidenbuis.com
+        - name: Omgevingsbeleid
+          email: omgevingsbeleid@pzh.nl
+
+    contractors:
+        - name: Provincie Zuid-Holland
+          until: '2099-01-01'
+          website: 'https://www.zuid-holland.nl'
 
 localisation:
     localisationReady: false
