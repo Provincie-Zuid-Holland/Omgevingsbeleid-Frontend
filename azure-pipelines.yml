@@ -9,9 +9,6 @@ trigger:
 pool:
     vmImage: 'windows-latest'
 
-variables:
-    subscription: 'app-omgevingsbeleid-rg'
-
 stages:
     - stage: Build
       jobs:
@@ -31,7 +28,7 @@ stages:
                 - task: CmdLine@2
                   displayName: 'Set env'
                   inputs:
-                      script: export VITE_API_ENV=$(Build.SourceBranchName)
+                      script: echo "##vso[task.setvariable variable=VITE_API_ENV]$(Build.SourceBranchName)"
 
                 - task: CmdLine@2
                   displayName: 'Build'
@@ -46,7 +43,7 @@ stages:
     - stage: Dev
       dependsOn:
           - Build
-      condition: eq(variables['Build.SourceBranchName'], 'dev')
+      condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'dev'))
       jobs:
           - deployment:
             displayName: Dev deploy
@@ -62,7 +59,7 @@ stages:
     - stage: Test
       dependsOn:
           - Build
-      condition: eq(variables['Build.SourceBranchName'], 'test')
+      condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'test'))
       jobs:
           - deployment:
             displayName: Test deploy
