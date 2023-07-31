@@ -4,11 +4,21 @@ trigger:
             - dev
             - test
             - acc
-            - production
+            - main
 
 pool:
     #vmImage: windows-latest
     name: 'PZH-Ubuntu-Agent'
+
+variables:
+    - name: 'storage_dev'
+      value: 'obfrontenddev'
+    - name: 'storage_test'
+      value: 'obfrontendtest'
+    - name: 'storage_acc'
+      value: 'obfrontendacc'
+    #- name: 'storage_main'
+    #  value: 'obfrontend'
 
 stages:
     - stage: Build
@@ -44,6 +54,7 @@ stages:
     - stage: Dev
       dependsOn:
           - Build
+      condition: eq(variables['Build.SourceBranchName'], 'dev')
       jobs:
           - deployment:
             displayName: Dev deploy
@@ -52,9 +63,25 @@ stages:
                 runOnce:
                     deploy:
                         steps:
-                            - script: export VITE_API_ENV=dev
-                            - script: yarn build
                             - script: echo Running in the Dev environment as deployment job
+
+    - stage: DeployToAzureBlob
+      dependsOn:
+          - Dev
+      jobs:
+          - job: DeployToAzureBlob
+            displayName: 'Deploy to Azure Blob Storage'
+            steps:
+                - task: AzureFileCopy@4
+                  displayName: 'AzureBlob File Copy'
+                  inputs:
+                      SourcePath: '$(System.DefaultWorkingDirectory)/_Provincie-Zuid-Holland.Omgevingsbeleid-Frontend'
+                      azureSubscription: 'pzh-dta'
+                      Destination: AzureBlob
+                      storage: $[variables[format('storage_{0}', variables['VITE_API_ENV'])]]
+                      ContainerName: '$web'
+                      AdditionalArgumentsForBlobCopy: '--recursive'
+                  condition: and(succeeded(), in(variables['Build.SourceBranchName'], 'dev', 'test', 'acc'))
 
     # - stage: Test
     #   dependsOn:
