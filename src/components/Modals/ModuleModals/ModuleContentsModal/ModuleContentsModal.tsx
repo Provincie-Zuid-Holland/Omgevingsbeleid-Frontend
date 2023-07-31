@@ -1,7 +1,7 @@
 import { Button, Modal } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers } from 'formik'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
@@ -125,6 +125,11 @@ const ModuleContentsModal = ({
         },
     })
 
+    const hasError = useMemo(
+        () => addExistingObjectToModule.isError || addNewObjectToModule.isError,
+        [addExistingObjectToModule.isError, addNewObjectToModule.isError]
+    )
+
     /**
      * Handle submit of contents form
      */
@@ -198,10 +203,11 @@ const ModuleContentsModal = ({
                                     size="small"
                                     type="submit"
                                     isDisabled={
-                                        (isFinalStep && !isValid) ||
-                                        (isFinalStep && isSubmitting)
+                                        ((isFinalStep && !isValid) ||
+                                            (isFinalStep && isSubmitting)) &&
+                                        !hasError
                                     }
-                                    isLoading={isSubmitting}>
+                                    isLoading={isSubmitting && !hasError}>
                                     {isFinalStep
                                         ? 'Toevoegen'
                                         : 'Volgende stap'}

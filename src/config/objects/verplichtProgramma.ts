@@ -49,6 +49,8 @@ const verplichtProgramma: DynamicObject<
         prefixSingular: 'het',
         prefixPlural: 'de',
         prefixNewObject: 'Nieuw',
+        demonstrative: 'dit',
+        demonstrativeSingular: 'verplichte programma',
         atemporal: true,
         icon: CircleExclamation,
     },

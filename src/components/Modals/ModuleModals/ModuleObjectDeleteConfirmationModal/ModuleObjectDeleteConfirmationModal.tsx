@@ -21,6 +21,13 @@ const ModuleObjectDeleteConfirmationModal = ({
     const { useRemoveObjectFromModule } = useModule()
     const { mutate } = useRemoveObjectFromModule(() => onClose())
 
+    const handleDeletion = () =>
+        mutate({
+            moduleId: module.Module_ID,
+            objectType: object.Object_Type,
+            lineageId: object.Object_ID,
+        })
+
     const model = models[object.Object_Type as ModelType]
 
     return (
@@ -46,16 +53,7 @@ const ModuleObjectDeleteConfirmationModal = ({
                 <Button variant="link" onPress={onClose}>
                     Annuleren
                 </Button>
-                <Button
-                    onPress={() =>
-                        mutate({
-                            moduleId: module.Module_ID,
-                            objectType: object.Object_Type,
-                            lineageId: object.Object_ID,
-                        })
-                    }>
-                    Ja, verwijder
-                </Button>
+                <Button onPress={handleDeletion}>Ja, verwijder</Button>
             </div>
         </Modal>
     )

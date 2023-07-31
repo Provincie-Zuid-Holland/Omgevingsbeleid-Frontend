@@ -1800,10 +1800,10 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
   integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
 
-"@pzh-ui/components@^0.0.362":
-  version "0.0.362"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.362.tgz#74508647b3f48c92585cdab4712249415dd3469b"
-  integrity sha512-yeIfSly4X34WJCyak1reLJJzNGVNnV9jFHzeWRFVoAxKDRbeYpI+ACJhJ+6Ih2aRZNzUyUa0MmH2uWrRhG22Gw==
+"@pzh-ui/components@^0.0.363":
+  version "0.0.363"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.363.tgz#9f731d2a768b23e681dbf4b9083d65054bd12cae"
+  integrity sha512-rv4xjxLA8PcHLDjYJK91i4R7g3UgHUeoSzX585G9T4jSH5BKkRuyDuU2oMphItBzlAt5J9KBIZLAjCm/rjo6Jg==
   dependencies:
     "@floating-ui/react" "^0.24.8"
     "@headlessui/react" "^1.5.0"

@@ -1,0 +1,38 @@
+---
+#------------------------------------------------------------------
+# Copy soure files to Azure Blob Storage for Azure Virtual Desktop
+#------------------------------------------------------------------
+
+trigger:
+    - none
+
+pool:
+    #vmImage: windows-latest
+    name: 'PZH-Ubuntu-Agent'
+
+variables:
+    subscription: 'pzh-dta'
+    location: 'westeurope'
+    resourcegroupName: 'dta-omgevingsbeleid-rg'
+    storageAccountName: 'obfrontenddev'
+
+# Azure file copy
+steps:
+    - task: AzurePowerShell@5
+      displayName: 'Copy AvD Sources to storage account'
+      inputs:
+          azurePowerShellVersion: 'LatestVersion'
+          azureSubscription: $(subscription) #This is the devops service connection name
+          ErrorActionPreference: 'Stop'
+          FailOnStandardError: true
+          ScriptType: 'inlineScript'
+          inline: |
+              $context = (Get-AzStorageAccount -ResourceGroupName $(resourcegroupName) -AccountName $(storageAccountName)).context
+              $StartTime = Get-Date
+              $EndTime = $StartTime.AddHours(2.0)
+              $key = New-AzStorageAccountSASToken -Context $context -Service File -ResourceType Service,Container,Object -Permission racwdlup -StartTime $StartTime -ExpiryTime $EndTime -Protocol HttpsOnly
+              $Fileshare = 'https://$(storageAccountName).blob.core.windows.net/sources/' + $key
+              # azcopy remove $Fileshare --recursive 
+              # azcopy sync '$(Build.SourcesDirectory)/_Provincie-Zuid-Holland.Omgevingsbeleid-Frontend' $Fileshare --recursive 
+              write-host $Fileshare
+              Revoke-AzStorageAccountUserDelegationKeys -ResourceGroupName $(resourcegroupName) -StorageAccountName $(storageAccountName)

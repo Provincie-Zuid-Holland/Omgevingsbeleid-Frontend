@@ -27,6 +27,9 @@ const queryClient = new QueryClient({
             retryOnMount: true,
             onError: () => toastNotification('error'),
         },
+        mutations: {
+            onError: () => toastNotification('error'),
+        },
     },
 })
 

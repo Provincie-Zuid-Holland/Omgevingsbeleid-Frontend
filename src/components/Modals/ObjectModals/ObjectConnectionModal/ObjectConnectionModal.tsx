@@ -13,8 +13,8 @@ import useObject from '@/hooks/useObject'
 import { toastNotification } from '@/utils/toastNotification'
 import * as objectConnection from '@/validation/objectConnection'
 
-import { ObjectConnectionModalActions } from '../types'
 import { StepOne, StepTwo, StepThree } from './steps'
+import { ObjectConnectionModalActions } from '../types'
 
 const steps = [StepOne, StepTwo, StepThree]
 
@@ -224,7 +224,7 @@ export const ConnectionModal = ({
             maxWidth="sm:max-w-[1200px]"
             closeButton>
             {isFetching && (
-                <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black/20">
+                <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black/20">
                     <LoaderSpinner />
                 </div>
             )}

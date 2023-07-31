@@ -1,10 +1,12 @@
-import { Heading } from '@pzh-ui/components'
+import { Button, Heading } from '@pzh-ui/components'
+import { TrashCan } from '@pzh-ui/icons'
 import { useQueryClient } from '@tanstack/react-query'
 import { FormikHelpers } from 'formik'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
+import ObjectDeleteModal from '@/components/Modals/ObjectModals/ObjectDeleteModal/ObjectDeleteModal'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 import MutateLayout from '@/templates/MutateLayout'
@@ -12,7 +14,7 @@ import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
 
 interface ObjectWriteProps {
-    model: typeof models[ModelType]
+    model: (typeof models)[ModelType]
 }
 
 const ObjectWrite = ({ model }: ObjectWriteProps) => {
@@ -20,6 +22,7 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
     const navigate = useNavigate()
 
     const { objectId } = useParams()
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false)
 
     const { singularCapitalize, plural, pluralCapitalize } = model.defaults
     const {
@@ -59,7 +62,7 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
             section.fields.map(field => field.name)
         )
 
-        const objectData = {} as { [key in typeof fields[number]]: any }
+        const objectData = {} as { [key in (typeof fields)[number]]: any }
 
         fields?.forEach(field => {
             if (field === 'connections') {
@@ -145,9 +148,15 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
             title={`${singularCapitalize} bewerken`}
             breadcrumbs={breadcrumbPaths}>
             <div className="col-span-6">
-                <Heading level="1" className="mb-8">
-                    {singularCapitalize} bewerken
-                </Heading>
+                <div className="mb-8 flex justify-between align-middle">
+                    <Heading level="1">{singularCapitalize} bewerken</Heading>
+                    <Button
+                        variant="secondary"
+                        icon={TrashCan}
+                        onPress={() => setDeleteModalOpen(true)}>
+                        {singularCapitalize} verwijderen
+                    </Button>
+                </div>
 
                 <DynamicObjectForm
                     model={model}
@@ -157,6 +166,13 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
                     isLoading={isLoading}
                 />
             </div>
+
+            <ObjectDeleteModal
+                object={data}
+                model={model}
+                isOpen={deleteModalOpen}
+                onClose={() => setDeleteModalOpen(false)}
+            />
         </MutateLayout>
     )
 }

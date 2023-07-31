@@ -61,6 +61,8 @@ export interface DynamicObject<
         slugOverview?: string
         /** Demonstrative pronoun of object type */
         demonstrative?: string
+        /** If singular is different in combination with demonstrative */
+        demonstrativeSingular?: string
         /** Atemporal object */
         atemporal?: boolean
         /** Icon of object */
