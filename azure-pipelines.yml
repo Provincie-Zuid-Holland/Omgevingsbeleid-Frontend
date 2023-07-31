@@ -46,8 +46,8 @@ stages:
           - Build
       jobs:
           - deployment:
-            displayName: Development deploy
-            environment: Development
+            displayName: Dev deploy
+            environment: Dev
             strategy:
                 runOnce:
                     deploy:
@@ -56,50 +56,50 @@ stages:
                             - script: yarn build
                             - script: echo Running in the Dev environment as deployment job
 
-    - stage: Test
-      dependsOn:
-          - Dev
-      jobs:
-          - deployment:
-            displayName: Test deploy
-            environment: Test
-            strategy:
-                runOnce:
-                    deploy:
-                        steps:
-                            - task: CmdLine@2
-                              displayName: 'Set env'
-                              inputs:
-                                  script: export VITE_API_ENV=test
+    # - stage: Test
+    #   dependsOn:
+    #       - Dev
+    #   jobs:
+    #       - deployment:
+    #         displayName: Test deploy
+    #         environment: Test
+    #         strategy:
+    #             runOnce:
+    #                 deploy:
+    #                     steps:
+    #                         - task: CmdLine@2
+    #                           displayName: 'Set env'
+    #                           inputs:
+    #                               script: export VITE_API_ENV=test
 
-                            - task: CmdLine@2
-                              displayName: 'Build'
-                              inputs:
-                                  script: yarn build
+    #                         - task: CmdLine@2
+    #                           displayName: 'Build'
+    #                           inputs:
+    #                               script: yarn build
 
-                            - script: echo Running in the Test environment as deployment job
-                              displayName: 'Test based stage'
+    #                         - script: echo Running in the Test environment as deployment job
+    #                           displayName: 'Test based stage'
 
-    - stage: Acceptation
-      dependsOn:
-          - Test
-      jobs:
-          - deployment:
-            displayName: Acceptation deploy
-            environment: Acceptation
-            strategy:
-                runOnce:
-                    deploy:
-                        steps:
-                            - task: CmdLine@2
-                              displayName: 'Set env'
-                              inputs:
-                                  script: export VITE_API_ENV=acc
+    # - stage: Acc
+    #   dependsOn:
+    #       - Test
+    #   jobs:
+    #       - deployment:
+    #         displayName: Acc deploy
+    #         environment: Acc
+    #         strategy:
+    #             runOnce:
+    #                 deploy:
+    #                     steps:
+    #                         - task: CmdLine@2
+    #                           displayName: 'Set env'
+    #                           inputs:
+    #                               script: export VITE_API_ENV=acc
 
-                            - task: CmdLine@2
-                              displayName: 'Build'
-                              inputs:
-                                  script: yarn build
+    #                         - task: CmdLine@2
+    #                           displayName: 'Build'
+    #                           inputs:
+    #                               script: yarn build
 
-                            - script: echo Running in the Acceptation environment as deployment job
-                              displayName: 'Acceptation based stage'
+    #                         - script: echo Running in the Acc environment as deployment job
+    #                           displayName: 'Acc based stage'
