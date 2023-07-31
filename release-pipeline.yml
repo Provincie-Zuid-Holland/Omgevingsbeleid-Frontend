@@ -25,6 +25,7 @@ steps:
           azureSubscription: $(subscription) #This is the devops service connection name
           ErrorActionPreference: 'Stop'
           FailOnStandardError: true
+          pwsh: true
           ScriptType: 'inlineScript'
           inline: |
               $context = (Get-AzStorageAccount -ResourceGroupName $(resourcegroupName) -AccountName $(storageAccountName)).context
