@@ -7,18 +7,11 @@ trigger:
             - main
 
 pool:
-    #vmImage: windows-latest
+    vmImage: windows-latest
     name: 'PZH-Ubuntu-Agent'
 
 variables:
-    - name: 'storage_dev'
-      value: 'obfrontenddev'
-    - name: 'storage_test'
-      value: 'obfrontendtest'
-    - name: 'storage_acc'
-      value: 'obfrontendacc'
-    #- name: 'storage_main'
-    #  value: 'obfrontend'
+    subscription: 'app-omgevingsbeleid-rg'
 
 stages:
     - stage: Build
@@ -63,25 +56,15 @@ stages:
                 runOnce:
                     deploy:
                         steps:
-                            - script: echo Running in the Dev environment as deployment job
-
-    - stage: DeployToAzureBlob
-      dependsOn:
-          - Dev
-      jobs:
-          - job: DeployToAzureBlob
-            displayName: 'Deploy to Azure Blob Storage'
-            steps:
-                - task: AzureFileCopy@4
-                  displayName: 'AzureBlob File Copy'
-                  inputs:
-                      SourcePath: '$(System.DefaultWorkingDirectory)/_Provincie-Zuid-Holland.Omgevingsbeleid-Frontend'
-                      azureSubscription: 'pzh-dta'
-                      Destination: AzureBlob
-                      storage: $[variables[format('storage_{0}', variables['VITE_API_ENV'])]]
-                      ContainerName: '$web'
-                      AdditionalArgumentsForBlobCopy: '--recursive'
-                  condition: and(succeeded(), in(variables['Build.SourceBranchName'], 'dev', 'test', 'acc'))
+                            - task: AzureFileCopy@4
+                              displayName: 'AzureBlob File Copy'
+                              inputs:
+                                  SourcePath: '$(System.DefaultWorkingDirectory)/_Provincie-Zuid-Holland.Omgevingsbeleid-Frontend'
+                                  azureSubscription: $(subscription) #This is the devops service connection name
+                                  Destination: AzureBlob
+                                  storage: obfrontenddev
+                                  ContainerName: '$web'
+                                  AdditionalArgumentsForBlobCopy: '--recursive'
 
     # - stage: Test
     #   dependsOn:
