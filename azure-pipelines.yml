@@ -7,8 +7,7 @@ trigger:
             - main
 
 pool:
-    vmImage: windows-latest
-    name: 'PZH-Ubuntu-Agent'
+    vmImage: 'windows-latest'
 
 variables:
     subscription: 'app-omgevingsbeleid-rg'
@@ -56,15 +55,25 @@ stages:
                 runOnce:
                     deploy:
                         steps:
-                            - task: AzureFileCopy@4
-                              displayName: 'AzureBlob File Copy'
-                              inputs:
-                                  SourcePath: '$(System.DefaultWorkingDirectory)/_Provincie-Zuid-Holland.Omgevingsbeleid-Frontend'
-                                  azureSubscription: $(subscription) #This is the devops service connection name
-                                  Destination: AzureBlob
-                                  storage: obfrontenddev
-                                  ContainerName: '$web'
-                                  AdditionalArgumentsForBlobCopy: '--recursive'
+                            - template: azure-file-copy.yml
+                              parameters:
+                                  storageName: 'obfrontenddev'
+
+    - stage: Test
+      dependsOn:
+          - Build
+      condition: eq(variables['Build.SourceBranchName'], 'test')
+      jobs:
+          - deployment:
+            displayName: Test deploy
+            environment: Test
+            strategy:
+                runOnce:
+                    deploy:
+                        steps:
+                            - template: azure-file-copy.yml
+                              parameters:
+                                  storageName: 'obfrontendtest'
 
     # - stage: Test
     #   dependsOn:
