@@ -7,22 +7,14 @@ trigger:
             - production
 
 pool:
-    vmImage: 'ubuntu-latest'
-
-variables:
-    CI: false
-
-    ${{ if eq(variables['Build.SourceBranchName'], 'dev') }}:
-        deploy_env: dev
-    ${{ if eq(variables['Build.SourceBranchName'], 'test') }}:
-        deploy_env: test
-    ${{ if eq(variables['Build.SourceBranchName'], 'acc') }}:
-        deploy_env: acc
+    #vmImage: windows-latest
+    name: 'PZH-Ubuntu-Agent'
 
 stages:
-    - stage: __default
+    - stage: Build
       jobs:
-          - job: Build
+          - job:
+            displayName: Build the application
             steps:
                 - task: NodeTool@0
                   inputs:
@@ -48,3 +40,66 @@ stages:
                   inputs:
                       PathtoPublish: $(System.DefaultWorkingDirectory)/build
                       ArtifactName: BuildedApp
+
+    - stage: Dev
+      dependsOn:
+          - Build
+      jobs:
+          - deployment:
+            displayName: Development deploy
+            environment: Development
+            strategy:
+                runOnce:
+                    deploy:
+                        steps:
+                            - script: export VITE_API_ENV=dev
+                            - script: yarn build
+                            - script: echo Running in the Dev environment as deployment job
+
+    - stage: Test
+      dependsOn:
+          - Dev
+      jobs:
+          - deployment:
+            displayName: Test deploy
+            environment: Test
+            strategy:
+                runOnce:
+                    deploy:
+                        steps:
+                            - task: CmdLine@2
+                              displayName: 'Set env'
+                              inputs:
+                                  script: export VITE_API_ENV=test
+
+                            - task: CmdLine@2
+                              displayName: 'Build'
+                              inputs:
+                                  script: yarn build
+
+                            - script: echo Running in the Test environment as deployment job
+                              displayName: 'Test based stage'
+
+    - stage: Acceptation
+      dependsOn:
+          - Test
+      jobs:
+          - deployment:
+            displayName: Acceptation deploy
+            environment: Acceptation
+            strategy:
+                runOnce:
+                    deploy:
+                        steps:
+                            - task: CmdLine@2
+                              displayName: 'Set env'
+                              inputs:
+                                  script: export VITE_API_ENV=acc
+
+                            - task: CmdLine@2
+                              displayName: 'Build'
+                              inputs:
+                                  script: yarn build
+
+                            - script: echo Running in the Acceptation environment as deployment job
+                              displayName: 'Acceptation based stage'

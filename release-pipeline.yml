@@ -11,7 +11,7 @@ pool:
     name: 'PZH-Ubuntu-Agent'
 
 variables:
-    subscription: 'PZH-DTA'
+    subscription: 'app-omgevingsbeleid-rg'
     location: 'westeurope'
     resourcegroupName: 'dta-omgevingsbeleid-rg'
     storageAccountName: 'obfrontenddev'
