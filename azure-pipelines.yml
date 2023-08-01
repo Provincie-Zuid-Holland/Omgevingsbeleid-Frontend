@@ -8,7 +8,6 @@ trigger:
 
 pool:
     name: 'PZH-Agent'
-    # vmImage: 'windows-latest'
 
 variables:
     subscription: 'dta-omgevingsbeleid'
