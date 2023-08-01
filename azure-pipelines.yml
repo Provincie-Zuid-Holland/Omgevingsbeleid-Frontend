@@ -40,7 +40,7 @@ stages:
 
                 - task: PublishBuildArtifacts@1
                   inputs:
-                      PathtoPublish: $(System.DefaultWorkingDirectory)/build
+                      PathtoPublish: $(Build.SourcesDirectory)/build
                       ArtifactName: BuildedApp
 
     - stage: Dev
