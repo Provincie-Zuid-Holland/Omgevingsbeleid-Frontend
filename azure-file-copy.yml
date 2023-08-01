@@ -1,15 +1,13 @@
 parameters:
     - name: storageName
       type: string
-    - name: subscription
-      type: string
 
 steps:
     - task: AzureFileCopy@5
       displayName: 'AzureBlob File Copy'
       inputs:
-          SourcePath: '$(System.DefaultWorkingDirectory)/_Provincie-Zuid-Holland.Omgevingsbeleid-Frontend'
-          azureSubscription: ${{ parameters.subscription }} # This is the devops service connection name
+          SourcePath: '$(Build.SourcesDirectory)/_Provincie-Zuid-Holland.Omgevingsbeleid-Frontend'
+          azureSubscription: $(subscription) # This is the devops service connection name
           Destination: AzureBlob
           storage: ${{ parameters.storageName }}
           ContainerName: '$web'
