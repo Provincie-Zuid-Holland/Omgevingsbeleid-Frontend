@@ -74,3 +74,35 @@ stages:
                             - template: azure-file-copy.yml
                               parameters:
                                   storageName: 'obfrontendtest'
+
+    - stage: Acc
+      dependsOn:
+          - Build
+      condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'acc'))
+      jobs:
+          - deployment:
+            displayName: Acc deploy
+            environment: Acc
+            strategy:
+                runOnce:
+                    deploy:
+                        steps:
+                            - template: azure-file-copy.yml
+                              parameters:
+                                  storageName: 'obfrontendacc'
+
+    - stage: Prod
+      dependsOn:
+          - Build
+      condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'main'))
+      jobs:
+          - deployment:
+            displayName: Prod deploy
+            environment: Prod
+            strategy:
+                runOnce:
+                    deploy:
+                        steps:
+                            - template: azure-file-copy.yml
+                              parameters:
+                                  storageName: 'obfrontend'
