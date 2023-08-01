@@ -10,7 +10,7 @@ const getApiUrl = (): string => {
             return import.meta.env.VITE_API_URL_TEST
         case 'acc':
             return import.meta.env.VITE_API_URL_ACC
-        case 'prod':
+        case 'main':
             return import.meta.env.VITE_API_URL_PROD
         default:
             return import.meta.env.VITE_API_URL_DEV

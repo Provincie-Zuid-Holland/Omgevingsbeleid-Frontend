@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
 import getApiUrl from '@/utils/getApiUrl'
 
-export type Environment = 'dev' | 'test' | 'acc' | 'prod'
+export type Environment = 'dev' | 'test' | 'acc' | 'main'
 
 const environment = import.meta.env.VITE_API_ENV as Environment
 

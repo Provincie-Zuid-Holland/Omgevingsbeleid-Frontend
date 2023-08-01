@@ -55,6 +55,7 @@ stages:
                             - template: azure-file-copy.yml
                               parameters:
                                   storageName: 'obfrontenddev'
+                                  subscription: 'dta-omgevingsbeleid-dev'
 
     - stage: Test
       dependsOn:
@@ -71,51 +72,4 @@ stages:
                             - template: azure-file-copy.yml
                               parameters:
                                   storageName: 'obfrontendtest'
-
-    # - stage: Test
-    #   dependsOn:
-    #       - Dev
-    #   jobs:
-    #       - deployment:
-    #         displayName: Test deploy
-    #         environment: Test
-    #         strategy:
-    #             runOnce:
-    #                 deploy:
-    #                     steps:
-    #                         - task: CmdLine@2
-    #                           displayName: 'Set env'
-    #                           inputs:
-    #                               script: export VITE_API_ENV=test
-
-    #                         - task: CmdLine@2
-    #                           displayName: 'Build'
-    #                           inputs:
-    #                               script: yarn build
-
-    #                         - script: echo Running in the Test environment as deployment job
-    #                           displayName: 'Test based stage'
-
-    # - stage: Acc
-    #   dependsOn:
-    #       - Test
-    #   jobs:
-    #       - deployment:
-    #         displayName: Acc deploy
-    #         environment: Acc
-    #         strategy:
-    #             runOnce:
-    #                 deploy:
-    #                     steps:
-    #                         - task: CmdLine@2
-    #                           displayName: 'Set env'
-    #                           inputs:
-    #                               script: export VITE_API_ENV=acc
-
-    #                         - task: CmdLine@2
-    #                           displayName: 'Build'
-    #                           inputs:
-    #                               script: yarn build
-
-    #                         - script: echo Running in the Acc environment as deployment job
-    #                           displayName: 'Acc based stage'
+                                  subscription: 'dta-omgevingsbeleid-test'
