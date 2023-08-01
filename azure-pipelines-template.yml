@@ -4,29 +4,23 @@ trigger:
             - dev
             - test
             - acc
-            - production
+            - main
 
 pool:
-    vmImage: 'ubuntu-latest'
+    name: 'PZH-Agent'
 
 variables:
-    CI: false
-
-    ${{ if eq(variables['Build.SourceBranchName'], 'dev') }}:
-        deploy_env: dev
-    ${{ if eq(variables['Build.SourceBranchName'], 'test') }}:
-        deploy_env: test
-    ${{ if eq(variables['Build.SourceBranchName'], 'acc') }}:
-        deploy_env: acc
+    subscription: 'dta-omgevingsbeleid'
 
 stages:
-    - stage: __default
+    - stage: Build
       jobs:
-          - job: Build
+          - job:
+            displayName: Build the application
             steps:
                 - task: NodeTool@0
                   inputs:
-                      versionSpec: '16.17.x'
+                      versionSpec: '16.x'
                   displayName: 'Install Node.js'
 
                 - task: CmdLine@2
@@ -37,7 +31,7 @@ stages:
                 - task: CmdLine@2
                   displayName: 'Set env'
                   inputs:
-                      script: export VITE_API_ENV=$(Build.SourceBranchName)
+                      script: echo "##vso[task.setvariable variable=VITE_API_ENV]$(Build.SourceBranchName)"
 
                 - task: CmdLine@2
                   displayName: 'Build'
@@ -46,5 +40,69 @@ stages:
 
                 - task: PublishBuildArtifacts@1
                   inputs:
-                      PathtoPublish: $(System.DefaultWorkingDirectory)/build
+                      PathtoPublish: $(Build.SourcesDirectory)/build
                       ArtifactName: BuildedApp
+
+    - stage: Dev
+      dependsOn:
+          - Build
+      condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'dev'))
+      jobs:
+          - deployment:
+            displayName: Dev deploy
+            environment: Dev
+            strategy:
+                runOnce:
+                    deploy:
+                        steps:
+                            - template: azure-file-copy.yml
+                              parameters:
+                                  storageName: 'obfrontenddev'
+
+    - stage: Test
+      dependsOn:
+          - Build
+      condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'test'))
+      jobs:
+          - deployment:
+            displayName: Test deploy
+            environment: Test
+            strategy:
+                runOnce:
+                    deploy:
+                        steps:
+                            - template: azure-file-copy.yml
+                              parameters:
+                                  storageName: 'obfrontendtest'
+
+    - stage: Acc
+      dependsOn:
+          - Build
+      condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'acc'))
+      jobs:
+          - deployment:
+            displayName: Acc deploy
+            environment: Acc
+            strategy:
+                runOnce:
+                    deploy:
+                        steps:
+                            - template: azure-file-copy.yml
+                              parameters:
+                                  storageName: 'obfrontendacc'
+
+    - stage: Prod
+      dependsOn:
+          - Build
+      condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'main'))
+      jobs:
+          - deployment:
+            displayName: Prod deploy
+            environment: Prod
+            strategy:
+                runOnce:
+                    deploy:
+                        steps:
+                            - template: azure-file-copy.yml
+                              parameters:
+                                  storageName: 'obfrontend'
