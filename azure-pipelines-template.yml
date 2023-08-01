@@ -1,0 +1,50 @@
+trigger:
+    branches:
+        include:
+            - dev
+            - test
+            - acc
+            - production
+
+pool:
+    vmImage: 'ubuntu-latest'
+
+variables:
+    CI: false
+
+    ${{ if eq(variables['Build.SourceBranchName'], 'dev') }}:
+        deploy_env: dev
+    ${{ if eq(variables['Build.SourceBranchName'], 'test') }}:
+        deploy_env: test
+    ${{ if eq(variables['Build.SourceBranchName'], 'acc') }}:
+        deploy_env: acc
+
+stages:
+    - stage: __default
+      jobs:
+          - job: Build
+            steps:
+                - task: NodeTool@0
+                  inputs:
+                      versionSpec: '16.17.x'
+                  displayName: 'Install Node.js'
+
+                - task: CmdLine@2
+                  displayName: 'Install dependencies'
+                  inputs:
+                      script: yarn install
+
+                - task: CmdLine@2
+                  displayName: 'Set env'
+                  inputs:
+                      script: export VITE_API_ENV=$(Build.SourceBranchName)
+
+                - task: CmdLine@2
+                  displayName: 'Build'
+                  inputs:
+                      script: yarn build
+
+                - task: PublishBuildArtifacts@1
+                  inputs:
+                      PathtoPublish: $(System.DefaultWorkingDirectory)/build
+                      ArtifactName: BuildedApp
