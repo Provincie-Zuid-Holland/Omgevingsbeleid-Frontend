@@ -5,7 +5,7 @@ parameters:
       type: string
 
 steps:
-    - task: AzureFileCopy@4
+    - task: AzureFileCopy@5
       displayName: 'AzureBlob File Copy'
       inputs:
           SourcePath: '$(System.DefaultWorkingDirectory)/_Provincie-Zuid-Holland.Omgevingsbeleid-Frontend'
