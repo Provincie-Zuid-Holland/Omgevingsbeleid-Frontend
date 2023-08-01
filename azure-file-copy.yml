@@ -6,7 +6,7 @@ steps:
     - task: AzureFileCopy@5
       displayName: 'AzureBlob File Copy'
       inputs:
-          SourcePath: '$(Build.SourcesDirectory)/BuildedApp'
+          SourcePath: '$(System.DefaultWorkingDirectory)/build'
           azureSubscription: $(subscription) # This is the devops service connection name
           Destination: AzureBlob
           storage: ${{ parameters.storageName }}
