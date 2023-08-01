@@ -12,3 +12,4 @@ steps:
           storage: ${{ parameters.storageName }}
           ContainerName: '$web'
           AdditionalArgumentsForBlobCopy: '--recursive'
+          CleanTargetBeforeCopy: true
