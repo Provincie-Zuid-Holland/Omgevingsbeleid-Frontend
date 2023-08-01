@@ -55,7 +55,7 @@ stages:
                             - template: azure-file-copy.yml
                               parameters:
                                   storageName: 'obfrontenddev'
-                                  subscription: 'dta-omgevingsbeleid-dev'
+                                  subscription: 'dta-omgevingsbeleid'
 
     - stage: Test
       dependsOn:
