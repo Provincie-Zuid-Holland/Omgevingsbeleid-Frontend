@@ -38,6 +38,11 @@ stages:
                   inputs:
                       script: yarn test:coverage
 
+                - task: PublishCodeCoverageResults@1
+                  inputs:
+                      codeCoverageTool: Cobertura
+                      summaryFileLocation: $(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml
+
                 - task: CmdLine@2
                   displayName: Build
                   inputs:
@@ -45,8 +50,8 @@ stages:
 
                 - task: PublishBuildArtifacts@1
                   inputs:
-                      PathtoPublish: $(Build.SourcesDirectory)/build
-                      ArtifactName: BuildedApp
+                      PathtoPublish: $(Build.DefaultWorkingDirectory)/build
+                      ArtifactName: BuildedApp_$(Build.BuildId)
 
     - stage: Dev
       displayName: Dev deploy
