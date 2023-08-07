@@ -13,15 +13,14 @@ variables:
     subscription: 'dta-omgevingsbeleid'
 
 stages:
-    - stage: Build
+    - stage: Install dependencies
       jobs:
           - job:
-            displayName: Build the application
             steps:
                 - task: NodeTool@0
                   inputs:
                       versionSpec: '16.x'
-                  displayName: 'Install Node.js'
+                  displayName: Install Node.js
 
                 - task: CmdLine@2
                   displayName: 'Install dependencies'
@@ -29,12 +28,29 @@ stages:
                       script: yarn install
 
                 - task: CmdLine@2
-                  displayName: 'Set env'
+                  displayName: Set env
                   inputs:
                       script: echo "##vso[task.setvariable variable=VITE_API_ENV]$(Build.SourceBranchName)"
 
+    - stage: Test application
+      jobs:
+          - job:
+            displayName: Test the application
+            steps:
                 - task: CmdLine@2
-                  displayName: 'Build'
+                  displayName: Run the tests and generate coverage report
+                  inputs:
+                      script: yarn test:coverage
+
+    - stage: Build application
+      dependsOn:
+          - Test application
+      jobs:
+          - job:
+            displayName: Build the application
+            steps:
+                - task: CmdLine@2
+                  displayName: Build
                   inputs:
                       script: yarn build
 
@@ -43,9 +59,9 @@ stages:
                       PathtoPublish: $(Build.SourcesDirectory)/build
                       ArtifactName: BuildedApp
 
-    - stage: Dev
+    - stage: Deploy to Dev
       dependsOn:
-          - Build
+          - Build application
       condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'dev'))
       jobs:
           - deployment:
@@ -59,9 +75,9 @@ stages:
                               parameters:
                                   storageName: 'obfrontenddev'
 
-    - stage: Test
+    - stage: Deploy to Test
       dependsOn:
-          - Build
+          - Build application
       condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'test'))
       jobs:
           - deployment:
@@ -75,9 +91,9 @@ stages:
                               parameters:
                                   storageName: 'obfrontendtest'
 
-    - stage: Acc
+    - stage: Deploy to Acc
       dependsOn:
-          - Build
+          - Build application
       condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'acc'))
       jobs:
           - deployment:
@@ -91,9 +107,9 @@ stages:
                               parameters:
                                   storageName: 'obfrontendacc'
 
-    - stage: Prod
+    - stage: Deploy to Prod
       dependsOn:
-          - Build
+          - Build application
       condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'main'))
       jobs:
           - deployment:
