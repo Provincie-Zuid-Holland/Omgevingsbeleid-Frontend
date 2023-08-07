@@ -32,7 +32,8 @@ stages:
                   inputs:
                       script: echo "##vso[task.setvariable variable=VITE_API_ENV]$(Build.SourceBranchName)"
 
-    - stage: Test application
+    - stage: Test_application
+      displayName: Test application
       jobs:
           - job:
             displayName: Test the application
@@ -42,9 +43,9 @@ stages:
                   inputs:
                       script: yarn test:coverage
 
-    - stage: Build application
+    - stage: Build
       dependsOn:
-          - Test application
+          - Test_application
       jobs:
           - job:
             displayName: Build the application
@@ -59,9 +60,10 @@ stages:
                       PathtoPublish: $(Build.SourcesDirectory)/build
                       ArtifactName: BuildedApp
 
-    - stage: Deploy to Dev
+    - stage: Dev
+      displayName: Dev deploy
       dependsOn:
-          - Build application
+          - Build
       condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'dev'))
       jobs:
           - deployment:
@@ -75,9 +77,10 @@ stages:
                               parameters:
                                   storageName: 'obfrontenddev'
 
-    - stage: Deploy to Test
+    - stage: Test
+      displayName: Test deploy
       dependsOn:
-          - Build application
+          - Build
       condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'test'))
       jobs:
           - deployment:
@@ -91,9 +94,10 @@ stages:
                               parameters:
                                   storageName: 'obfrontendtest'
 
-    - stage: Deploy to Acc
+    - stage: Acc
+      displayName: Acc deploy
       dependsOn:
-          - Build application
+          - Build
       condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'acc'))
       jobs:
           - deployment:
@@ -107,7 +111,8 @@ stages:
                               parameters:
                                   storageName: 'obfrontendacc'
 
-    - stage: Deploy to Prod
+    - stage: Prod
+      displayName: Prod deploy
       dependsOn:
           - Build application
       condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'main'))
