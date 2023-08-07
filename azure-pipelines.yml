@@ -13,7 +13,8 @@ variables:
     subscription: 'dta-omgevingsbeleid'
 
 stages:
-    - stage: Install dependencies
+    - stage: Install
+      displayName: Install dependencies
       jobs:
           - job:
             steps:
@@ -114,7 +115,7 @@ stages:
     - stage: Prod
       displayName: Prod deploy
       dependsOn:
-          - Build application
+          - Build
       condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'main'))
       jobs:
           - deployment:
