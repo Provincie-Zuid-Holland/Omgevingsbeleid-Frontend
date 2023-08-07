@@ -5,6 +5,7 @@ import { default as beleidsregel } from './beleidsregel'
 import { default as gebiedsprogramma } from './gebiedsprogramma'
 import { default as maatregel } from './maatregel'
 import { default as nationaal_belang } from './nationaalBelang'
+import { default as verplicht_programma } from './verplichtProgramma'
 import { default as wettelijke_taak } from './wettelijkeTaak'
 
 export {
@@ -16,4 +17,5 @@ export {
     wettelijke_taak,
     nationaal_belang,
     gebiedsprogramma,
+    verplicht_programma,
 }

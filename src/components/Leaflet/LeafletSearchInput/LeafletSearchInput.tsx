@@ -3,13 +3,13 @@ import { MagnifyingGlass } from '@pzh-ui/icons'
 import { Map, Marker } from 'leaflet'
 import debounce from 'lodash.debounce'
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
 
 import {
     Location,
     getLookupData,
     getSuggestData,
 } from '@/api/axiosLocatieserver'
+import { toastNotification } from '@/utils/toastNotification'
 
 import { mapPanTo } from '../utils'
 
@@ -33,7 +33,7 @@ const LeafletSearchInput = ({
     mapInstance,
     searchCallback,
     drawCallback,
-    placeholder,
+    placeholder = 'Zoeken op de kaart',
 }: LeafletSearchInputProps) => {
     const navigate = useNavigate()
 
@@ -64,7 +64,7 @@ const LeafletSearchInput = ({
                 searchCallback?.(marker)
             })
             .catch(() => {
-                toast(import.meta.env.VITE_ERROR_MSG)
+                toastNotification('error')
             })
     }
 
@@ -97,7 +97,7 @@ const LeafletSearchInput = ({
         <FieldSelect
             name="leaflet-search"
             loadOptions={handleSuggestions}
-            placeholder={placeholder || 'Zoeken op de kaart'}
+            placeholder={placeholder}
             onChange={val => handleChange((val as Option).value)}
             isAsync
             cacheOptions

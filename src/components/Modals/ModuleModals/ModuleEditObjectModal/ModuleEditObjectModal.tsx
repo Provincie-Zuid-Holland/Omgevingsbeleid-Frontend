@@ -63,7 +63,7 @@ const ModuleEditObjectModal = ({
     /**
      * Edit object
      */
-    const { mutate, isLoading } =
+    const { mutate, isLoading, isError } =
         useModulesModuleIdObjectContextObjectTypeLineageIdPost({
             mutation: {
                 onSuccess: () => {
@@ -173,8 +173,8 @@ const ModuleEditObjectModal = ({
                             <Button
                                 variant="cta"
                                 type="submit"
-                                isDisabled={isLoading}
-                                isLoading={isLoading}>
+                                isDisabled={isLoading && !isError}
+                                isLoading={isLoading && !isError}>
                                 Opslaan
                             </Button>
                         </div>

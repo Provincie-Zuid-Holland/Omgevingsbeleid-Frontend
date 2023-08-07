@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import useAuth from '@/hooks/useAuth'
 
 import { DropdownContainer } from '../Dropdown'
-import PasswordChangeModal from '../Modals/PasswordChangeModal/PasswordChangeModal'
+import PasswordChangeModal from '../Modals/PasswordChangeModal'
 
 const UserMenu = () => {
     const { user, signout } = useAuth()
@@ -20,7 +20,7 @@ const UserMenu = () => {
         <>
             <div className="relative">
                 <button
-                    className="flex items-center text-pzh-white ml-2"
+                    className="ml-2 flex items-center text-pzh-white"
                     onClick={() => setIsOpen(!isOpen)}
                     data-testid="user-menu">
                     <span className="sr-only">Gebruikersmenu</span>
@@ -29,19 +29,19 @@ const UserMenu = () => {
                         className={classNames(
                             'ml-0.5 transition duration-150 ease-in-out',
                             {
-                                'transform rotate-180': isOpen,
+                                'rotate-180 transform': isOpen,
                             }
                         )}
                     />
                 </button>
                 {isOpen && (
                     <>
-                        <div className="fixed top-0 left-0 z-1 block w-screen h-screen bg-gray-900/40" />
+                        <div className="fixed left-0 top-0 z-1 block h-screen w-screen bg-gray-900/40" />
                         <DropdownContainer
                             isOpen={isOpen}
                             setIsOpen={setIsOpen}
                             className="mt-8">
-                            <div className="py-2 px-4">
+                            <div className="px-4 py-2">
                                 <strong className="font-bold">
                                     {user?.Gebruikersnaam}
                                 </strong>
@@ -50,7 +50,7 @@ const UserMenu = () => {
                                 </Text>
                             </div>
                             <Divider className="mt-0" />
-                            <div className="py-2 px-4">
+                            <div className="px-4 py-2">
                                 <button
                                     className="flex items-center"
                                     onClick={() => {

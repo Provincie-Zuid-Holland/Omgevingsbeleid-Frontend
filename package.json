@@ -2,24 +2,22 @@
     "name": "pzh",
     "version": "0.1.0",
     "private": true,
-    "homepage": "https://obzhtest.azureedge.net/",
+    "homepage": "https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend",
     "dependencies": {
         "@headlessui/react": "^1.5.0",
-        "@pzh-ui/components": "^0.0.352",
-        "@pzh-ui/config": "^0.0.34",
-        "@pzh-ui/css": "^0.0.64",
+        "@pzh-ui/components": "^0.0.363",
+        "@pzh-ui/config": "^0.0.37",
+        "@pzh-ui/css": "^0.0.65",
         "@pzh-ui/icons": "^0.0.31",
-        "@sentry/browser": "^6.11.0",
-        "@tanstack/react-query": "^4.29.5",
-        "@tippyjs/react": "^4.2.5",
-        "axios": "^0.24.0",
-        "classnames": "^2.3.1",
+        "@tanstack/react-query": "^4.32.0",
+        "axios": "^1.4.0",
+        "classnames": "^2.3.2",
         "d3": "^7.0.1",
         "d3-symbol-extra": "^0.1.0",
         "date-fns": "^2.23.0",
-        "dompurify": "^2.3.1",
-        "formik": "^2.2.9",
-        "framer-motion": "^6.3.3",
+        "dompurify": "^3.0.5",
+        "formik": "^2.4.2",
+        "framer-motion": "^10.13.1",
         "jwt-decode": "^3.1.2",
         "leaflet": "^1.7.1",
         "leaflet-draw": "^1.0.4",
@@ -30,25 +28,22 @@
         "node-sass": "^7.0.1",
         "proj4leaflet": "^1.0.2",
         "promise-polyfill": "^8.2.0",
-        "react": "^18.0.0",
-        "react-accessible-accordion": "^5.0.0",
-        "react-content-loader": "^6.0.3",
-        "react-dom": "^18.0.0",
-        "react-error-boundary": "^3.1.4",
+        "react": "^18.2.0",
+        "react-content-loader": "^6.2.1",
+        "react-dom": "^18.2.0",
+        "react-error-boundary": "^4.0.10",
         "react-helmet": "^6.1.0",
         "react-leaflet": "^3.2.5",
-        "react-router-dom": "^6.9.0",
-        "react-select": "^5.7.3",
+        "react-router-dom": "^6.14.2",
         "react-use": "^17.3.2",
         "smoothscroll-polyfill": "^0.4.4",
-        "typescript": "4.4.4",
+        "typescript": "^5.1.6",
         "url-search-params-polyfill": "^8.1.1",
         "zod": "^3.21.4",
         "zod-formik-adapter": "^1.2.0",
-        "zustand": "^4.3.7"
+        "zustand": "^4.3.9"
     },
     "scripts": {
-        "analyze": "source-map-explorer 'build/static/js/*.js'",
         "build:css": "npx tailwindcss -i node_modules/@pzh-ui/css/src/tailwind.src.css -o src/css/tailwind.css",
         "watch:css": "npx tailwindcss -i node_modules/@pzh-ui/css/src/tailwind.src.css -o src/css/tailwind.css --watch",
         "prestart": "npm run-script build:css",
@@ -60,7 +55,6 @@
         "test": "vitest watch",
         "test:no-watch": "vitest run",
         "test:coverage": "vitest run --coverage",
-        "eject": "react-scripts eject",
         "generate-types": "orval && eslint --fix './src/api/fetchers.ts'"
     },
     "browserslist": {
@@ -70,7 +64,6 @@
             "not op_mini all"
         ],
         "development": [
-            "ie 11",
             "last 1 chrome version",
             "last 1 firefox version",
             "last 1 safari version"
@@ -85,7 +78,7 @@
         "@testing-library/user-event": "^14.4.3",
         "@total-typescript/ts-reset": "^0.4.2",
         "@types/d3": "^7.4.0",
-        "@types/dompurify": "^2.3.3",
+        "@types/dompurify": "^3.0.2",
         "@types/jest": "^27.0.3",
         "@types/leaflet": "^1.7.8",
         "@types/leaflet-draw": "^1.0.5",
@@ -94,17 +87,16 @@
         "@types/lodash.groupby": "^4.6.7",
         "@types/node": "^17.0.0",
         "@types/proj4leaflet": "^1.0.6",
-        "@types/react": "^17.0.37",
-        "@types/react-dom": "^18.0.0",
-        "@types/react-helmet": "^6.1.5",
+        "@types/react": "^18.2.15",
+        "@types/react-dom": "^18.2.7",
+        "@types/react-helmet": "^6.1.6",
         "@types/react-leaflet": "^2.8.2",
-        "@types/react-lines-ellipsis": "^0.15.1",
         "@types/react-router-dom": "^5.3.2",
-        "@types/react-select": "^5.0.1",
         "@types/smoothscroll-polyfill": "^0.3.1",
-        "@typescript-eslint/eslint-plugin": "^4.27.0",
-        "@typescript-eslint/parser": "^4.27.0",
-        "@vitejs/plugin-react": "^4.0.1",
+        "@typescript-eslint/eslint-plugin": "^6.1.0",
+        "@typescript-eslint/parser": "^6.1.0",
+        "@vitejs/plugin-react": "^4.0.3",
+        "@vitest/coverage-v8": "^0.33.0",
         "add": "^2.0.6",
         "autoprefixer": "^10.4.4",
         "c8": "^8.0.0",
@@ -116,35 +108,16 @@
         "msw": "^0.35.0",
         "orval": "^6.16.0",
         "prettier": "^2.3.1",
+        "prettier-plugin-tailwindcss": "^0.4.1",
         "rollup-plugin-visualizer": "^5.9.2",
         "sass": "^1.63.6",
-        "source-map-explorer": "^2.5.3",
         "tailwindcss": "^3.2.4",
-        "vite": "^4.3.9",
+        "vite": "^4.4.7",
         "vite-plugin-svgr": "^3.2.0",
         "vite-tsconfig-paths": "^4.2.0",
-        "vitest": "^0.32.2",
-        "yarn": "^1.22.19"
+        "vitest": "^0.32.2"
     },
     "msw": {
         "workerDirectory": "public"
-    },
-    "jest": {
-        "resetMocks": true,
-        "restoreMocks": true,
-        "coveragePathIgnorePatterns": [
-            "src/api/fetchers.ts",
-            "src/api/fetchers.schemas.ts"
-        ],
-        "transformIgnorePatterns": [
-            "node_modules/(?!d3)/"
-        ],
-        "moduleNameMapper": {
-            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/mocks/fileMock.js",
-            "\\.(css|less)$": "<rootDir>/src/mocks/styleMock.js"
-        }
-    },
-    "resolutions": {
-        "@types/react": "^17.0.37"
     }
 }

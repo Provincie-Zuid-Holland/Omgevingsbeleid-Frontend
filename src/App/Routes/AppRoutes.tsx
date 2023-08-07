@@ -14,9 +14,9 @@ import {
     ModuleDetail,
     ModuleEdit,
     ObjectCreate,
+    ObjectDetail,
     ObjectWrite,
 } from '@/pages/protected'
-import ObjectDetail from '@/pages/protected/DynamicObject/ObjectDetail'
 import {
     AreaDetail,
     AreaOverview,
@@ -32,8 +32,8 @@ import {
     ThemeOverview,
     MapSearch,
     SearchResults,
+    NotFoundPage,
 } from '@/pages/public'
-import NotFoundPage from '@/pages/public/NotFoundPage'
 
 import ProtectedRoute from './ProtectedRoute'
 
@@ -61,10 +61,6 @@ const AppRoutes = () => {
             path: 'digi-toegankelijkheid',
             element: <Accessibility />,
         },
-        // {
-        //     path: 'in-bewerking',
-        //     element: <InProgress />,
-        // },
         {
             path: 'beleidsnetwerk',
             element: <Network />,

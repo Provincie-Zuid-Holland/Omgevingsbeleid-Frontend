@@ -24,7 +24,7 @@ function AreaOverview() {
         <>
             <Helmet title="Gebiedsprogramma’s" />
 
-            <Container className="pb-20 overflow-hidden">
+            <Container className="overflow-hidden pb-20">
                 <div className="col-span-6 xl:col-span-3">
                     <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
                     <Heading level="1" className="mt-10">
@@ -40,7 +40,7 @@ function AreaOverview() {
 
                 <div className="col-span-6 mt-8">
                     {data ? (
-                        <ul className="grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
+                        <ul className="grid grid-cols-1 gap-9 lg:grid-cols-2 xl:grid-cols-3">
                             {data.results.map(item => (
                                 <li key={item.UUID}>
                                     <AreaCard
@@ -52,7 +52,7 @@ function AreaOverview() {
                             ))}
                         </ul>
                     ) : (
-                        <div className="flex items-center justify-center w-full">
+                        <div className="flex w-full items-center justify-center">
                             <LoaderSpinner />
                         </div>
                     )}

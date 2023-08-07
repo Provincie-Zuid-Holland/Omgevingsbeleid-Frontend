@@ -1,7 +1,6 @@
-import { FieldSelect } from '@pzh-ui/components'
+import { FieldSelect, FieldSelectProps } from '@pzh-ui/components'
 import { MagnifyingGlass, Xmark } from '@pzh-ui/icons'
 import { useMemo } from 'react'
-import { ClearIndicatorProps, GroupBase } from 'react-select'
 
 import Filter from '@/components/Filter'
 import { ModelType } from '@/config/objects/types'
@@ -95,7 +94,7 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
     /**
      * Handle change of select field
      */
-    const handleChange = (e: typeof options[0]) => {
+    const handleChange = (e: (typeof options)[0]) => {
         if (!!e) {
             const node = graph.nodes.find(node => node.Code === e.value)
 
@@ -119,11 +118,7 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
     /**
      * Clear value of select field and reset connection higlight
      */
-    const handleClear = (
-        e: React.PropsWithChildren<
-            ClearIndicatorProps<unknown, boolean, GroupBase<unknown>>
-        >
-    ) => {
+    const handleClear = (e: { clearValue: () => void }) => {
         e.clearValue()
         setActiveNode(undefined)
         resetHighlightConnections()
@@ -131,7 +126,7 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
 
     return (
         <>
-            <div className="flex sm:flex-nowrap flex-wrap">
+            <div className="flex flex-wrap sm:flex-nowrap">
                 <div className="w-full">
                     <FieldSelect
                         name="Search"
@@ -153,7 +148,7 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
                                 </button>
                             ),
                         }}
-                        onChange={e => handleChange(e as typeof options[0])}
+                        onChange={e => handleChange(e as (typeof options)[0])}
                     />
                 </div>
                 <Filter
@@ -161,11 +156,11 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
                     activeFilters={amountOfFilters}
                     defaultValue={defaultValue}
                     handleChange={val => handleDropdownChange(val)}
-                    className="sm:ml-3 mt-2 sm:mt-0 sm:w-1/5 w-full min-w-[250px]"
+                    className="mt-2 w-full min-w-[250px] sm:ml-3 sm:mt-0 sm:w-1/5"
                 />
             </div>
             {typeof results === 'number' && (
-                <span className="block mt-2 text-sm">
+                <span className="mt-2 block text-sm">
                     Er {results === 1 ? 'is' : 'zijn'} {results}{' '}
                     {results === 1 ? 'resultaat' : 'resultaten'} gevonden
                 </span>

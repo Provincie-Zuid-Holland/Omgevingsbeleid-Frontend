@@ -6,7 +6,6 @@ import {
     Notification,
 } from '@pzh-ui/components'
 import { Form, Formik } from 'formik'
-import { useEffect, useRef } from 'react'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { usePasswordResetPost } from '@/api/fetchers'
@@ -28,9 +27,6 @@ export default function PasswordChangeModal({
     isOpen,
     setOpen,
 }: PasswordChangeModalProps) {
-    const mailToAnchor = useRef<HTMLAnchorElement>(null)
-    const closeBtn = useRef<HTMLButtonElement>(null)
-
     const { isLoading, mutate } = usePasswordResetPost({
         mutation: {
             onSuccess: () => {
@@ -55,32 +51,6 @@ export default function PasswordChangeModal({
             },
         })
     }
-
-    useEffect(() => {
-        const mailToAnchorEl = mailToAnchor?.current
-        const closeBtnEl = closeBtn?.current
-        const currentPasswordInput = document.getElementById(
-            'password-reset-current-password'
-        )
-
-        currentPasswordInput?.focus()
-
-        const handleKeyEvent = (e: KeyboardEvent) => {
-            if (e.shiftKey && e.code === 'Tab') {
-                mailToAnchorEl?.focus()
-            } else if (e.code === 'Tab') {
-                closeBtnEl?.focus()
-            }
-        }
-
-        mailToAnchorEl?.addEventListener('keydown', handleKeyEvent)
-        closeBtnEl?.addEventListener('keydown', handleKeyEvent)
-
-        return () => {
-            closeBtnEl?.removeEventListener('keydown', handleKeyEvent)
-            mailToAnchorEl?.removeEventListener('keydown', handleKeyEvent)
-        }
-    }, [])
 
     return (
         <Modal
@@ -142,7 +112,7 @@ export default function PasswordChangeModal({
                             />
                         </div>
 
-                        <div className="flex items-center justify-between mt-5">
+                        <div className="mt-5 flex items-center justify-between">
                             <Button
                                 type="button"
                                 variant="link"
@@ -166,10 +136,9 @@ export default function PasswordChangeModal({
                     Ben je je huidige wachtwoord vergeten? Neem dan contact op
                     met
                     <a
-                        ref={mailToAnchor}
                         href="mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten"
                         className="ml-1 underline"
-                        id="wachtwoord-reset-mail">
+                        data-testid="wachtwoord-reset-mail">
                         omgevingsbeleid@pzh.nl
                     </a>
                 </>

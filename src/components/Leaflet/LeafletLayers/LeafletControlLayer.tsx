@@ -33,7 +33,7 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                 <div className="leaflet-layers-control">
                     <div className="flex">
                         <button
-                            className={`leaflet-layers absolute top-0 right-0 p-2 w-8 h-8 flex justify-center items-center bg-white ${
+                            className={`leaflet-layers absolute right-0 top-0 flex h-8 w-8 items-center justify-center bg-white p-2 ${
                                 layerControlOpen ? 'hidden' : ''
                             }`}
                             onClick={() =>
@@ -61,21 +61,16 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                             leave="ease-in duration-300"
                             leaveFrom="transform translate-x-0 opacity-100"
                             leaveTo="transform translate-x-64 opacity-0"
-                            className="relative leaflet-control-layer-container">
+                            className="leaflet-control-layer-container relative">
                             <button
-                                className="absolute top-0 left-0 flex items-center justify-center w-8 h-8 p-2 mr-8 text-gray-700 transform -translate-x-8 bg-gray-100 rounded-l opacity-100 hover:text-gray-800"
+                                className="absolute left-0 top-0 mr-8 flex h-8 w-8 -translate-x-8 transform items-center justify-center rounded-l bg-gray-100 p-2 text-gray-700 opacity-100 hover:text-gray-800"
                                 onClick={() =>
                                     setLayerControlOpen(!layerControlOpen)
                                 }>
                                 <AngleRight size={16} />
                             </button>
                             <div
-                                className="relative z-10 bg-white cursor-pointer overflow-y-auto"
-                                style={{
-                                    width: '375px',
-                                    maxWidth: '100%',
-                                    height: '500px',
-                                }}
+                                className="relative z-10 h-[500px] w-[375px] max-w-full cursor-pointer overflow-y-auto bg-white"
                                 data-testid="leaflet-layers-control-pane">
                                 <div className="w-full">
                                     {children}
@@ -83,7 +78,7 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                                         title="Achtergrondlaag"
                                         positionTop>
                                         <ul className="p-2">
-                                            <li className="px-2 py-1 text-gray-700 cursor-pointer hover:text-gray-800 focus:text-gray-900 hover:bg-gray-50">
+                                            <li className="cursor-pointer px-2 py-1 text-gray-700 hover:bg-gray-50 hover:text-gray-800 focus:text-gray-900">
                                                 <div>
                                                     <input
                                                         className="mr-2"
@@ -106,7 +101,7 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                                                     </label>
                                                 </div>
                                             </li>
-                                            <li className="px-2 py-1 text-gray-700 cursor-pointer hover:text-gray-800 focus:text-gray-900 hover:bg-gray-50">
+                                            <li className="cursor-pointer px-2 py-1 text-gray-700 hover:bg-gray-50 hover:text-gray-800 focus:text-gray-900">
                                                 <div>
                                                     <input
                                                         className="mr-2"

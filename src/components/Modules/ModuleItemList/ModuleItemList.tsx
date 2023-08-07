@@ -115,7 +115,7 @@ const ItemList = ({
                 {objects.map(object => {
                     const model =
                         models[object.Object_Type.toLowerCase() as ModelType]
-                    const { plural } = model?.defaults || {}
+                    const { slugOverview } = model?.defaults || {}
 
                     return (
                         <ModuleItem
@@ -137,7 +137,10 @@ const ItemList = ({
                             }
                             viewCallback={() =>
                                 window
-                                    .open(`/${plural}/${object.UUID}`, '_blank')
+                                    .open(
+                                        `/${slugOverview}/${object.UUID}`,
+                                        '_blank'
+                                    )
                                     ?.focus()
                             }
                             hasEditButton={hasEditButton}

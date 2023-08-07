@@ -27,7 +27,7 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
     const { data: object, isLoading } = useObject()
 
     const breadcrumbPaths = [
-        { name: 'Muteeromgeving', path: '/muteer' },
+        { name: 'Dashboard', path: '/muteer' },
         ...((!!moduleId && [
             { name: 'Modules', path: '/muteer' },
             {
@@ -42,7 +42,7 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
         <MutateLayout
             title={`${singularCapitalize}: ${object?.Title}`}
             breadcrumbs={breadcrumbPaths}>
-            <div className="col-span-4">
+            <div className="col-span-6 sm:col-span-4">
                 <Heading level="3" as="2" className="mb-2">
                     {singularCapitalize}
                 </Heading>
@@ -66,7 +66,7 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
                 <ObjectValidArchived model={model} />
             </div>
 
-            <div className="col-span-2">
+            <div className="col-span-6 mt-6 sm:col-span-2 sm:mt-0">
                 <ObjectDefaultInfo model={model} />
 
                 {!!model.allowedConnections?.length && (

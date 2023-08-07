@@ -4,11 +4,12 @@ import {
     UseMutationResult,
     useQueryClient,
 } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 import { createContext, ReactNode, useMemo } from 'react'
-import { Outlet, useParams } from 'react-router-dom'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
 import {
-    ActiveModuleObject,
+    ActiveModuleObjectWrapper,
     HTTPValidationError,
     ResponseOK,
 } from '@/api/fetchers.schemas'
@@ -51,7 +52,7 @@ interface ObjectContextType extends QueryObserverBaseResult<ModelReturnType> {
     /** Is user owner of object */
     isOwner?: boolean
     /** List the last modified module object grouped per module ID */
-    activeModules?: ActiveModuleObject[]
+    activeModules?: ActiveModuleObjectWrapper[]
     /** Active modules loading */
     activeModulesLoading?: boolean
 }
@@ -67,6 +68,7 @@ function ObjectProvider({
 }) {
     const queryClient = useQueryClient()
     const { user } = useAuth()
+    const navigate = useNavigate()
 
     const { moduleId, objectId } = useParams()
 
@@ -82,11 +84,27 @@ function ObjectProvider({
         parseInt(moduleId!),
         parseInt(objectId!),
         {
-            query: { enabled: !!objectId && !!moduleId },
+            query: {
+                enabled: !!objectId && !!moduleId,
+                onError: error => {
+                    if ((error as AxiosError).response?.status === 404) {
+                        navigate(`/muteer/modules/${moduleId}`)
+                        toastNotification('notAllowed')
+                    }
+                },
+            },
         }
     )
     const latest = useGetLatestLineage!<ModelReturnType>(parseInt(objectId!), {
-        query: { enabled: !!objectId && !moduleId },
+        query: {
+            enabled: !!objectId && !moduleId,
+            onError: error => {
+                if ((error as AxiosError).response?.status === 404) {
+                    navigate('/muteer')
+                    toastNotification('notAllowed')
+                }
+            },
+        },
     })
 
     const { data: activeModules, isLoading: activeModulesLoading } =

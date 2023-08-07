@@ -80,6 +80,7 @@ const ObjectForm = <TData extends FormikValues>({
                         key={`section-${index}`}
                         isLast={index + 1 === sections.length}
                         isLocked={isLocked}
+                        model={model}
                         {...section}
                     />
                 ))}

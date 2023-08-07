@@ -25,9 +25,7 @@ const Sidebar = () => {
 
     return (
         <div
-            className={classNames(
-                'sticky top-[97px] h-full w-[56px] whitespace-nowrap'
-            )}
+            className="sticky top-[97px] h-full w-[56px] whitespace-nowrap"
             onMouseLeave={() => {
                 window.clearTimeout(timer)
                 expanded && setExpanded(false)
@@ -35,7 +33,7 @@ const Sidebar = () => {
             data-testid="sidebar">
             <div
                 className={classNames(
-                    'relative bg-pzh-gray-100 transition-[min-width] ease-[cubic-bezier(.47,1.64,.41,.8)] duration-200 after:shadow-[0px_18px_60px_rgba(0,0,0,0.07),0px_4px_13px_rgba(0,0,0,0.04),0px_2px_6px_rgba(0,0,0,0.03)] after:content-[" "] after:-z-1 after:absolute after:top-0 after:left-0 after:w-full after:h-[calc(100vh-97px)] after:bg-pzh-gray-100',
+                    'after:content-[" "] relative bg-pzh-gray-100 transition-[min-width] duration-200 ease-[cubic-bezier(.47,1.64,.41,.8)] after:absolute after:left-0 after:top-0 after:-z-1 after:h-[calc(100vh-97px)] after:w-full after:bg-pzh-gray-100 after:shadow-[0px_18px_60px_rgba(0,0,0,0.07),0px_4px_13px_rgba(0,0,0,0.04),0px_2px_6px_rgba(0,0,0,0.03)]',
                     {
                         'min-w-[56px]': !expanded,
                         'min-w-[260px]': expanded,
@@ -43,7 +41,7 @@ const Sidebar = () => {
                 )}>
                 <div
                     className={classNames(
-                        'grid grid-cols-1 gap-2 py-10 px-[8px] overflow-hidden'
+                        'grid grid-cols-1 gap-2 overflow-hidden px-[8px] py-10'
                     )}>
                     <MenuItem
                         name="Home"
@@ -104,7 +102,7 @@ const MenuItem = ({
         <Link
             to={path}
             className={classNames(
-                'group flex items-center h-8 px-2 rounded-[4px] hover:text-pzh-green',
+                'group flex h-8 items-center rounded-[4px] px-2 hover:text-pzh-green',
                 {
                     'bg-pzh-gray-200 text-pzh-green': path === pathname,
                     'w-8': !expanded,
@@ -116,7 +114,7 @@ const MenuItem = ({
             <Icon size={20} className="min-w-[20px]" />
             <Text
                 className={classNames(
-                    'ml-2 -mb-0.5 group-hover:text-pzh-green',
+                    '-mb-0.5 ml-2 group-hover:text-pzh-green',
                     {
                         'opacity-0': !expanded,
                         'text-pzh-green': path === pathname,

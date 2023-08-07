@@ -1,48 +1,50 @@
-# Master template for deployment to azure blob storage
+trigger:
+    branches:
+        include:
+            - dev
+            - test
+            - acc
+            - production
 
-parameters:
-    - name: env
-      type: string
-      default: ''
-    - name: target_store
-      type: string
-      default: ''
-    - name: fa-token
-      type: string
-      default: ''
+pool:
+    vmImage: 'ubuntu-latest'
 
-steps:
-    - bash: |
-          if [ -z "$env" ]; then
-            echo "##vso[task.logissue type=error;]Missing template parameter \"env\""
-            echo "##vso[task.complete result=Failed;]"
-          fi
-    - bash: |
-          if [ -z "$target_store" ]; then
-            echo "##vso[task.logissue type=error;]Missing template parameter \"target_store\""
-            echo "##vso[task.complete result=Failed;]"
-          fi
-    - bash: |
-          if [ -z "$fa-token" ]; then
-            echo "##vso[task.logissue type=error;]Missing template parameter \"fa-token\""
-            echo "##vso[task.complete result=Failed;]"
-          fi
-    - task: NodeTool@0
-      inputs:
-          versionSpec: '10.x'
-      displayName: 'Install Node.js'
+variables:
+    CI: false
 
-    - script: npm install
-      displayName: 'Install dependencies'
-    - script: Set VITE_API_ENV=${{ parameters['env'] }}
-      displayName: 'Set env'
-    - script: npm run-script build
-      displayName: 'Build'
-    - task: AzureFileCopy@4
-      inputs:
-          SourcePath: 'public/'
-          azureSubscription: 'PZH-Azure-SP'
-          Destination: 'AzureBlob'
-          ContainerName: '$web'
-          storage: ${{ parameters['target_store'] }}
-      displayName: 'Copy to blob'
+    ${{ if eq(variables['Build.SourceBranchName'], 'dev') }}:
+        deploy_env: dev
+    ${{ if eq(variables['Build.SourceBranchName'], 'test') }}:
+        deploy_env: test
+    ${{ if eq(variables['Build.SourceBranchName'], 'acc') }}:
+        deploy_env: acc
+
+stages:
+    - stage: __default
+      jobs:
+          - job: Build
+            steps:
+                - task: NodeTool@0
+                  inputs:
+                      versionSpec: '16.17.x'
+                  displayName: 'Install Node.js'
+
+                - task: CmdLine@2
+                  displayName: 'Install dependencies'
+                  inputs:
+                      script: yarn install
+
+                - task: CmdLine@2
+                  displayName: 'Set env'
+                  inputs:
+                      script: export VITE_API_ENV=$(Build.SourceBranchName)
+
+                - task: CmdLine@2
+                  displayName: 'Build'
+                  inputs:
+                      script: yarn build
+
+                - task: PublishBuildArtifacts@1
+                  inputs:
+                      PathtoPublish: $(System.DefaultWorkingDirectory)/build
+                      ArtifactName: BuildedApp

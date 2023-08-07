@@ -27,7 +27,7 @@ const FormDelete = () => {
 
     return (
         <>
-            <div className="col-span-2">
+            <div className="col-span-6 sm:col-span-2">
                 <Heading as="2" level="3" className="mb-3">
                     Module verwijderen
                 </Heading>
@@ -36,7 +36,7 @@ const FormDelete = () => {
                 </Text>
             </div>
 
-            <div className="col-span-4 pt-[48px]">
+            <div className="col-span-6 pt-[48px] sm:col-span-4">
                 <Formik
                     onSubmit={handleSubmit}
                     initialValues={{ consent: false }}>

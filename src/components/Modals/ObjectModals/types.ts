@@ -1,6 +1,6 @@
 import {
     AcknowledgedRelation,
-    ReadRelationShort,
+    ReadRelation,
     UserShort,
 } from '@/api/fetchers.schemas'
 import { Model, ModelPatchStaticType, ModelType } from '@/config/objects/types'
@@ -10,7 +10,9 @@ export interface ObjectConnectionModalActions {
     isOpen: boolean
     connectionModel: Model
     initialStep?: number
-    initialValues: ReadRelationShort | { items?: number[] }
+    initialValues:
+        | ReadRelation
+        | { items?: { Object_ID: number; Title: string }[] }
 }
 
 export interface ObjectPersonModalActions {

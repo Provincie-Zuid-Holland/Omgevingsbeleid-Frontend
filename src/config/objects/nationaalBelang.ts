@@ -49,6 +49,7 @@ const nationaalBelang: DynamicObject<
         prefixSingular: 'het',
         prefixPlural: 'de',
         prefixNewObject: 'Nieuw',
+        demonstrative: 'dit',
         atemporal: true,
         icon: Flag,
     },

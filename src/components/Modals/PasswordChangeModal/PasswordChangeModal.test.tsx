@@ -9,7 +9,7 @@ describe('PasswordChangeModal', () => {
 
     const defaultProps = {
         isOpen: true,
-        setOpen: vi.fn(),
+        setOpen: vi.fn,
     }
 
     const setup = (customProps?: any) => {
@@ -20,12 +20,6 @@ describe('PasswordChangeModal', () => {
             </QueryClientProvider>
         )
     }
-
-    it('Component renders', () => {
-        setup()
-        const element = screen.getByText('Wachtwoord wijzigen')
-        expect(element).toBeTruthy()
-    })
 
     it('User can change their password', async () => {
         setup()

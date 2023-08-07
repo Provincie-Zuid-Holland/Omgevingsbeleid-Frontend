@@ -44,37 +44,40 @@ const DynamicObjectSearch = ({
     ) => {
         searchValidPost({ Object_Types: filterType }, { query, limit: 50 })
             .then(data => {
-                const filteredObject = !!filter
-                    ? data.results.filter(object => {
-                          if (Array.isArray(filter)) {
-                              return objectKey === 'uuid'
-                                  ? !(filter as string[]).includes(object.UUID)
-                                  : !(filter as number[]).includes(
-                                        object.Object_ID
-                                    )
-                          } else {
-                              return objectKey === 'uuid'
-                                  ? object.UUID !== filter
-                                  : object.Object_ID !== filter
-                          }
-                      })
-                    : data.results
+                let filteredObject = data.results
 
-                callback(
-                    filteredObject.map(object => ({
-                        label: (
-                            <div className="flex justify-between">
-                                <span>{object.Title}</span>
-                                <span className="capitalize opacity-50">
-                                    {object.Object_Type.replace('_', ' ')}
-                                </span>
-                            </div>
-                        ),
-                        value: object,
-                    }))
-                )
+                if (filter) {
+                    filteredObject = data.results.filter(object =>
+                        Array.isArray(filter)
+                            ? objectKey === 'uuid'
+                                ? !(filter as string[]).includes(object.UUID)
+                                : !(filter as number[]).includes(
+                                      object.Object_ID
+                                  )
+                            : objectKey === 'uuid'
+                            ? object.UUID !== filter
+                            : object.Object_ID !== filter
+                    )
+                }
+
+                const options = filteredObject.map(object => ({
+                    label: (
+                        <div className="flex justify-between">
+                            <span>{object.Title}</span>
+                            <span className="capitalize opacity-50">
+                                {object.Object_Type.replace('_', ' ')}
+                            </span>
+                        </div>
+                    ),
+                    value: object,
+                }))
+
+                callback(options)
             })
-            .catch(() => callback([]))
+            .catch(error => {
+                console.error('Error while fetching suggestions:', error)
+                callback([])
+            })
     }
 
     const handleSuggestions = debounce(loadSuggestions, 500)

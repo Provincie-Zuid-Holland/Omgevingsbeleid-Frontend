@@ -15,7 +15,7 @@ const ErrorPage = ({ resetErrorBoundary }: FallbackProps) => (
             />
         </Helmet>
         <div className="h-full w-full py-10" data-testid="errorboundary">
-            <div className="max-w-4xl px-5 mx-auto sm:px-24 lg:px-8">
+            <div className="mx-auto max-w-4xl px-5 sm:px-24 lg:px-8">
                 <h1 className="mt-8 text-2xl font-bold text-pzh-blue md:text-4xl">
                     Er is iets fout gegaan
                 </h1>
@@ -25,7 +25,7 @@ const ErrorPage = ({ resetErrorBoundary }: FallbackProps) => (
                     toekomst niet meer kan gebeuren.
                 </div>
                 <Link to="/" onClick={resetErrorBoundary}>
-                    <div className="w-56 h-12 py-3 mt-10 font-bold text-center text-white rounded bg-pzh-blue hover:bg-pzh-green">
+                    <div className="mt-10 h-12 w-56 rounded bg-pzh-blue py-3 text-center font-bold text-white hover:bg-pzh-green">
                         Terug naar de startpagina
                     </div>
                 </Link>

@@ -60,7 +60,7 @@ const NetworkVisual = ({ graph }: NetworkVisualProps) => {
      */
     const handleMouseInteraction = useCallback(
         (
-            { type },
+            { type }: MouseEvent,
             d: GraphVertice,
             svg?: Selection<SVGSVGElement, unknown, null, undefined>
         ) => {

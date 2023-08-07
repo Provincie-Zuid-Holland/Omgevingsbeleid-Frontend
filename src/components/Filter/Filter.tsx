@@ -29,7 +29,7 @@ const Filter = ({
     ...rest
 }: FilterProps) => (
     <div className={classNames('relative', className)}>
-        <span className="absolute flex items-center justify-center z-1 pt-[4px] w-[24px] h-[24px] top-[-12px] right-[-12px] bg-pzh-blue-dark text-pzh-white rounded-full text-sm font-bold">
+        <span className="absolute right-[-12px] top-[-12px] z-1 flex h-[24px] w-[24px] items-center justify-center rounded-full bg-pzh-blue-dark pt-[4px] text-sm font-bold text-pzh-white">
             {activeFilters}
         </span>
         <FieldSelect

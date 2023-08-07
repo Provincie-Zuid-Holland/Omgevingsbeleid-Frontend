@@ -49,6 +49,7 @@ const wettelijkeTaak: DynamicObject<
         prefixSingular: 'de',
         prefixPlural: 'de',
         prefixNewObject: 'Nieuwe',
+        demonstrative: 'deze',
         atemporal: true,
         icon: BookBookmark,
     },
