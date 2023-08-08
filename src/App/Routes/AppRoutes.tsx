@@ -17,6 +17,7 @@ import {
     ObjectDetail,
     ObjectWrite,
 } from '@/pages/protected'
+import Regulations from '@/pages/protected/Regulations/Regulations'
 import {
     AreaDetail,
     AreaOverview,
@@ -302,6 +303,10 @@ const AppRoutes = () => {
                             []),
                     ],
                 })),
+                {
+                    path: 'verordening',
+                    element: <Regulations />,
+                },
             ],
         },
         {

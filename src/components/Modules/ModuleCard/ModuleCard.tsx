@@ -1,5 +1,4 @@
 import { Badge, Button, Heading, Text } from '@pzh-ui/components'
-import { useNavigate } from 'react-router-dom'
 
 import { Module, ModuleShort } from '@/api/fetchers.schemas'
 import Avatar from '@/components/Avatar'
@@ -7,17 +6,15 @@ import useModuleManagers from '@/hooks/useModuleManagers'
 import getModuleStatusColor from '@/utils/getModuleStatusColor'
 
 const ModuleCard = (props: Module | ModuleShort) => {
-    const navigate = useNavigate()
-
     const managers = useModuleManagers(props)
 
     const { Module_ID, Title, Description, Status, Closed } = props
 
     return (
         <li
-            className="p-5 border border-pzh-gray-200 rounded h-full flex flex-col"
+            className="flex h-full flex-col rounded border border-pzh-gray-200 p-5"
             data-testid="module-card">
-            <div className="flex flex-wrap items-center justify-between mb-3">
+            <div className="mb-3 flex flex-wrap items-center justify-between">
                 <Badge
                     text={Status?.Status.replace('-', ' ') || ''}
                     variant={getModuleStatusColor(Status?.Status)}
@@ -38,13 +35,14 @@ const ModuleCard = (props: Module | ModuleShort) => {
                 </div>
             </div>
             <Heading level="3">{Title}</Heading>
-            <Text className="mb-4 text-[16px] line-clamp-2">{Description}</Text>
+            <Text className="mb-4 line-clamp-2 text-[16px]">{Description}</Text>
             <div className="mt-auto">
                 {!Closed && (
                     <Button
+                        as="a"
+                        href={`/muteer/modules/${Module_ID}`}
                         size="small"
                         variant="cta"
-                        onPress={() => navigate(`/muteer/modules/${Module_ID}`)}
                         data-testid="module-card-button">
                         Bekijk module
                     </Button>

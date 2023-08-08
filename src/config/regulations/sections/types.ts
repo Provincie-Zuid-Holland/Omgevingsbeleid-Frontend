@@ -9,4 +9,6 @@ export interface Section {
     name: string
     /** Children of section */
     children?: Section[]
+    /** Icon of section */
+    icon: any
 }

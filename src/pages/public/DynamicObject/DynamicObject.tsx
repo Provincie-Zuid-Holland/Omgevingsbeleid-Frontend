@@ -56,12 +56,16 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
         }
     )
     const { data: revisions } =
-        useGetValidLineage?.<ModelReturnType[]>(data.Object_ID!, undefined, {
-            query: { enabled: !!data.Object_ID },
-        }) || {}
+        useGetValidLineage?.<{ results?: ModelReturnType[] }>(
+            data.Object_ID!,
+            undefined,
+            {
+                query: { enabled: !!data.Object_ID },
+            }
+        ) || {}
 
     const amountOfRevisions = useMemo(
-        () => revisions && revisions.length - 1,
+        () => revisions?.results && revisions.results.length - 1,
         [revisions]
     )
 
@@ -188,7 +192,7 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
             {!!amountOfRevisions && amountOfRevisions > 0 && (
                 <RevisionModal
                     model={model}
-                    revisions={revisions}
+                    revisions={revisions?.results}
                     isOpen={revisionModalOpen}
                     onClose={() => setRevisionModalOpen(false)}
                 />

@@ -24,7 +24,11 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
 
     /** Filter out first object which is the valid one */
     const archivedObjects = useMemo(
-        () => data?.results.filter(item => item.UUID !== object?.UUID),
+        () =>
+            (data?.results &&
+                data?.results.length > 1 &&
+                data?.results.filter(item => item.UUID !== object?.UUID)) ||
+            [],
         [data, object]
     )
 
@@ -59,7 +63,7 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                             <Link
                                 key={object.UUID}
                                 to={`/${slugOverview}/${object.UUID}`}
-                                className="grid grid-cols-9 px-3 py-2 border-b border-pzh-gray-300 hover:bg-pzh-gray-100">
+                                className="grid grid-cols-9 border-b border-pzh-gray-300 px-3 py-2 hover:bg-pzh-gray-100">
                                 <div className="col-span-5">
                                     <Text>{object.Title}</Text>
                                 </div>
