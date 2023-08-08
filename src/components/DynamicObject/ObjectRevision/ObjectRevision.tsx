@@ -40,8 +40,8 @@ const ObjectRevision = ({
             />
 
             {fields.map(field => {
-                const contentTo = revisionFrom[field.value]
-                const contentFrom = revisionTo[field.value]
+                const contentFrom = revisionFrom[field.value]
+                const contentTo = revisionTo[field.value]
 
                 if (
                     (typeof contentFrom !== 'string' && contentFrom !== null) ||
@@ -61,7 +61,7 @@ const ObjectRevision = ({
 
             {(!!revisionFrom.Gebied || !!revisionTo.Gebied) && (
                 <>
-                    <Divider className="mt-0 mb-6" />
+                    <Divider className="mb-6 mt-0" />
 
                     <Heading level="3" className="mb-2">
                         Werkingsgebied
@@ -85,15 +85,15 @@ const ObjectRevision = ({
                     </div>
                     <div className="mt-3">
                         <span className="flex items-center">
-                            <div className="w-[14px] h-[14px] -mt-1 mr-2 rounded-full bg-pzh-red" />{' '}
+                            <div className="-mt-1 mr-2 h-[14px] w-[14px] rounded-full bg-pzh-red" />{' '}
                             Verwijderd werkingsgebied
                         </span>
                         <span className="flex items-center">
-                            <div className="w-[14px] h-[14px] -mt-1 mr-2 rounded-full bg-pzh-green" />{' '}
+                            <div className="-mt-1 mr-2 h-[14px] w-[14px] rounded-full bg-pzh-green" />{' '}
                             Toegevoegd werkingsgebied
                         </span>
                         <span className="flex items-center">
-                            <div className="w-[14px] h-[14px] -mt-1 mr-2 rounded-full bg-pzh-blue-light" />{' '}
+                            <div className="-mt-1 mr-2 h-[14px] w-[14px] rounded-full bg-pzh-blue-light" />{' '}
                             Ongewijzigd werkingsgebied
                         </span>
                     </div>
@@ -118,7 +118,7 @@ const Content = ({ title, htmlFrom, htmlTo }: ContentProps) => {
                 {title}
             </Text>
             <p
-                className="prose prose-neutral prose-li:my-0 mb-4 md:mb-8 max-w-full text-pzh-blue-dark marker:text-pzh-blue-dark leading-6"
+                className="prose prose-neutral mb-4 max-w-full leading-6 text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0 md:mb-8"
                 dangerouslySetInnerHTML={{ __html: diff }}
             />
         </>
