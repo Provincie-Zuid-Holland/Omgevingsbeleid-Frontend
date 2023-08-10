@@ -41,7 +41,10 @@ stages:
                 - task: CmdLine@2
                   displayName: Build
                   inputs:
-                      script: set VITE_API_ENV=$(Build.SourceBranchName) && yarn build
+                      script: |
+                          set VITE_API_ENV=$(Build.SourceBranchName)
+                          echo "Environment: $VITE_API_ENV"
+                          yarn build
 
                 - task: PublishBuildArtifacts@1
                   inputs:
