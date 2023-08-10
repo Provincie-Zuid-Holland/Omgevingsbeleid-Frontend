@@ -1,8 +1,14 @@
-import { Section } from './sections/types'
+import { SectionType } from './sections/types'
+
+export type Structure = {
+    id?: string
+    type: SectionType
+    children?: Structure[]
+}
 
 export interface Regulation {
     /** Title of regulation */
     title: string
-    /** Sections in regulation */
-    sections: Section[]
+    /** Structure of regulation */
+    structure: Structure[]
 }

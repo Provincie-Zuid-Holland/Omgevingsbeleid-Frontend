@@ -1,7 +1,8 @@
-import { AngleDown, GripDotsVertical } from '@pzh-ui/icons'
+import { AngleDown } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import {
     Children,
+    HTMLAttributes,
     ReactNode,
     cloneElement,
     isValidElement,
@@ -11,23 +12,22 @@ import {
 interface AccordionProps {
     className?: string
     children: ReactNode | ReactNode[]
-    isDraggable?: boolean
 }
 
-const Accordion = ({ className, children, isDraggable }: AccordionProps) => {
-    const [openItemIndex, setOpenItemIndex] = useState<number | null>(null)
+const Accordion = ({ className, children }: AccordionProps) => {
+    const [openItemId, setOpenItemId] = useState<string | null>(null)
 
-    const handleItemClick = (index: number) => {
-        setOpenItemIndex(prevIndex => (prevIndex === index ? null : index))
+    const handleItemClick = (itemId: string) => {
+        setOpenItemId(prevItemId => (prevItemId === itemId ? null : itemId))
     }
 
-    const processedChildren = Children.map(children, (child, index) => {
-        if (isValidElement(child)) {
+    const processedChildren = Children.map(children, child => {
+        if (isValidElement(child) && child.type === AccordionItem) {
+            const itemId = child.props.id
             const itemProps = {
-                ...(child.props as AccordionProps),
-                isDraggable,
-                isOpen: index === openItemIndex,
-                onToggle: () => handleItemClick(index),
+                ...(child.props as AccordionItemProps),
+                isOpen: itemId === openItemId,
+                onToggle: () => handleItemClick(itemId),
             }
             return cloneElement(child, itemProps)
         }
@@ -38,22 +38,22 @@ const Accordion = ({ className, children, isDraggable }: AccordionProps) => {
 }
 
 interface AccordionItemProps extends AccordionProps {
+    id: string
     isOpen?: boolean
     onToggle?: () => void
 }
 
 const AccordionItem = ({
-    isDraggable,
     className,
     children,
     isOpen,
     onToggle,
-}: AccordionItemProps) => {
+    ...rest
+}: AccordionItemProps & HTMLAttributes<HTMLLIElement>) => {
     const processedChildren = Children.map(children, child => {
         if (isValidElement(child)) {
             const itemProps = {
                 ...(child.props as AccordionProps),
-                isDraggable,
                 isOpen,
                 onToggle,
             }
@@ -64,10 +64,9 @@ const AccordionItem = ({
 
     return (
         <li
-            className={classNames(
-                'relative border-b border-pzh-gray-200 py-2',
-                className
-            )}>
+            className={classNames('border-b border-pzh-gray-200', className)}
+            data-expanded={isOpen}
+            {...rest}>
             {processedChildren}
         </li>
     )
@@ -75,11 +74,13 @@ const AccordionItem = ({
 
 const AccordionTrigger = ({
     className,
+    classNameButton,
     children,
-    isDraggable,
     isOpen,
     onToggle,
-}: AccordionItemProps) => {
+    ...rest
+}: Omit<AccordionItemProps, 'id'> &
+    HTMLAttributes<HTMLDivElement> & { classNameButton?: string }) => {
     const processedChildren = Children.map(children, child => {
         if (isValidElement(child)) {
             const itemProps = {
@@ -92,17 +93,19 @@ const AccordionTrigger = ({
     })
 
     return (
-        <div className={classNames('flex w-full items-center', className)}>
-            {isDraggable && (
-                <GripDotsVertical
-                    size={16}
-                    className="mr-[16px] text-pzh-blue"
-                />
+        <div
+            className={classNames(
+                'relative flex w-full items-center bg-pzh-white',
+                className
             )}
+            {...rest}>
             {processedChildren}
             <button
                 onClick={onToggle}
-                className="after:content-[' '] ml-auto after:absolute after:left-0 after:top-0 after:h-full after:w-full">
+                className={classNames(
+                    "after:content-[' '] ml-auto after:absolute after:right-0 after:top-0 after:h-full",
+                    classNameButton
+                )}>
                 <AngleDown
                     size={16}
                     className={classNames('text-pzh-blue transition', {
@@ -118,10 +121,10 @@ const AccordionContent = ({
     className,
     children,
     isOpen,
-}: AccordionItemProps) => {
+}: Omit<AccordionItemProps, 'id'>) => {
     if (!isOpen) return null
 
-    return <div className={classNames('pt-2', className)}>{children}</div>
+    return <div className={classNames('py-2', className)}>{children}</div>
 }
 
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }

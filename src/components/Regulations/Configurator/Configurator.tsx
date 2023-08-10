@@ -1,39 +1,42 @@
 import { PillButton, Text } from '@pzh-ui/components'
-import { Heading, Plus } from '@pzh-ui/icons'
+import { Plus } from '@pzh-ui/icons'
 
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from '@/components/Accordion'
+import regulation from '@/config/regulations'
+import * as sections from '@/config/regulations/sections'
+import useRegulationStore from '@/store/regulationStore'
+
+import RecursiveAccordion from '../RecursiveAccordion'
 
 const Configurator = () => {
+    const structure = useRegulationStore(state => state.structure)
+    const addItem = useRegulationStore(state => state.addItem)
+
     return (
         <div>
             <Text type="body-bold" color="text-pzh-blue">
-                Verordening
+                {regulation.title}
             </Text>
 
             <div>
-                <Accordion isDraggable className="mb-3">
-                    <AccordionItem>
-                        <AccordionTrigger>
-                            <div className="flex h-[24px] w-[24px] items-center justify-center rounded-[4px] bg-pzh-warm-gray-light">
-                                <Heading size={14} className="text-pzh-white" />
-                            </div>
-                            <Text
-                                className="-mb-1 ml-[16px]"
-                                color="text-pzh-blue">
-                                Hoofdstuk 1: Adequaat aanbod openbaar vervoer
-                            </Text>
-                        </AccordionTrigger>
-                        <AccordionContent className="pl-[72px]">
-                            Hallo
-                        </AccordionContent>
-                    </AccordionItem>
-                </Accordion>
-                <PillButton icon={Plus}>Hoofdstuk</PillButton>
+                <RecursiveAccordion structure={structure} />
+
+                {regulation.structure?.map(({ type }, index) => {
+                    const section = sections[type]
+
+                    return (
+                        <PillButton
+                            key={type + index}
+                            icon={Plus}
+                            onPress={() =>
+                                addItem([], {
+                                    type,
+                                    id: `${type}.${structure.length}`,
+                                })
+                            }>
+                            {section.defaults.name}
+                        </PillButton>
+                    )
+                })}
             </div>
         </div>
     )

@@ -4,8 +4,11 @@ import { Section } from './types'
 
 const member: Section = {
     type: 'member',
-    name: 'Lid',
-    icon: FileLines,
+    defaults: {
+        name: 'Lid',
+        demonstrative: 'dit',
+        icon: FileLines,
+    },
 }
 
 export default member
