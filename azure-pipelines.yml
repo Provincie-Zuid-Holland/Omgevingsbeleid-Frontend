@@ -42,8 +42,8 @@ stages:
                   displayName: Build
                   inputs:
                       script: |
-                          echo '##vso[task.setvariable variable=VITE_API_ENV]$(Build.SourceBranchName)'
-                          echo 'Environment: $VITE_API_ENV'
+                          echo "##vso[task.setvariable variable=VITE_API_ENV]$(Build.SourceBranchName)"
+                          echo "Environment: $(VITE_API_ENV)"
                           yarn build
 
                 - task: PublishBuildArtifacts@1
