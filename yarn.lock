@@ -1800,14 +1800,14 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
   integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
 
-"@pzh-ui/components@^0.0.363":
-  version "0.0.363"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.363.tgz#9f731d2a768b23e681dbf4b9083d65054bd12cae"
-  integrity sha512-rv4xjxLA8PcHLDjYJK91i4R7g3UgHUeoSzX585G9T4jSH5BKkRuyDuU2oMphItBzlAt5J9KBIZLAjCm/rjo6Jg==
+"@pzh-ui/components@^0.0.373":
+  version "0.0.373"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.373.tgz#867612a0dfa0b9593c4b61083ec3d35a51f6dd03"
+  integrity sha512-ViT0JCVhOu4l/uG97JoK1yCGDc6yRuzq3SP6AGz1J5Y8F4aLFb3GfMkcwY5m03A3Kf3GAmDTeHqB+ytfSKJ3qA==
   dependencies:
     "@floating-ui/react" "^0.24.8"
     "@headlessui/react" "^1.5.0"
-    "@pzh-ui/icons" "^0.0.31"
+    "@pzh-ui/icons" "^0.0.33"
     "@tiptap/core" "^2.0.4"
     "@tiptap/extension-bold" "^2.0.4"
     "@tiptap/extension-bullet-list" "^2.0.4"
@@ -1867,10 +1867,10 @@
     prettier "^2.5.1"
     react-toastify "^9.1.2"
 
-"@pzh-ui/css@^0.0.65":
-  version "0.0.65"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/css/-/css-0.0.65.tgz#93881ecfbf8648c350459a3f7b7f078160f44d65"
-  integrity sha512-ZO575jKjx9WskGC95QPfPymggEecw375UoG8hxO4uvokmvAhCjs7kMRdpZcGHYIFGe30jshz28Idub/PsX4qeQ==
+"@pzh-ui/css@^0.0.66":
+  version "0.0.66"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/css/-/css-0.0.66.tgz#43b36e1ea76317611a4303cf087138631bbf4752"
+  integrity sha512-ElpZ3VtuXHogjeQsvwpE8/sY2m2umeSHHUeZlTA7gUTcu88oK6baonPqkvYLLgQbXETj626BvDp6TE1kvHL7Xg==
   dependencies:
     "@rollup/plugin-typescript" "^8.3.1"
     "@tailwindcss/custom-forms" "^0.2.1"
@@ -1884,6 +1884,14 @@
   version "0.0.31"
   resolved "https://registry.yarnpkg.com/@pzh-ui/icons/-/icons-0.0.31.tgz#d9fd68306aba65603a62ff95701031959dd3487b"
   integrity sha512-ADR1khaF5paEN+69/VP28Ra1ktPJLZ6qF35kLWtZ9M5vQ4vlYBedKOGRG3OVRX5g5QxQ5iMvTZThzdC19o8Wbw==
+  dependencies:
+    react "^18.0.0"
+    react-toastify "^9.1.2"
+
+"@pzh-ui/icons@^0.0.33":
+  version "0.0.33"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/icons/-/icons-0.0.33.tgz#6250faf6da832d83ecaab4f0f4bd30bb03a5b008"
+  integrity sha512-JN+Gz44Ywx4UGptUPERmKALJWy+BghGfECNnXEKg2w68LvrTU39gnoP7BeIka5PW2yNqpb/vM0z7Z/7C4CuX7A==
   dependencies:
     react "^18.0.0"
     react-toastify "^9.1.2"
