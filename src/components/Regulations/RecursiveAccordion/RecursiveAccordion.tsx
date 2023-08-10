@@ -39,7 +39,6 @@ const RecursiveAccordion = ({
     })
 
     const handleDrop = (from: number[], to: number[]) => {
-        console.log(from, to)
         // @ts-ignore
         if (document.startViewTransition) {
             // @ts-ignore
@@ -63,7 +62,7 @@ const RecursiveAccordion = ({
                 const currDragged =
                     draggingItem &&
                     (draggingItem.length > 1
-                        ? draggingItem.pop()
+                        ? draggingItem[draggingItem.length - 1]
                         : draggingItem[0])
 
                 return (
@@ -73,7 +72,10 @@ const RecursiveAccordion = ({
                         className={classNames(
                             'relative',
                             GROUP_VARIANTS[parentType][0]
-                        )}>
+                        )}
+                        style={{
+                            viewTransitionName: `card-${parentType}-${index}`,
+                        }}>
                         {isDragging &&
                             draggingItem &&
                             !equalArrays(draggingItem, [
@@ -92,14 +94,13 @@ const RecursiveAccordion = ({
                                 />
                             )}
                         <AccordionTrigger
-                            {...dragProps([...parentIndices, index])}
                             className="py-2 active:animate-pulse active:cursor-grabbing"
                             classNameButton={classNames({
                                 'after:w-full': structure.length <= 1,
                                 'after:w-[calc(100%-36px)]':
                                     structure.length > 1,
                             })}
-                            style={{ viewTransitionName: id }}>
+                            {...dragProps([...parentIndices, index])}>
                             {structure.length > 1 && (
                                 <GripDotsVertical
                                     size={16}
@@ -116,7 +117,7 @@ const RecursiveAccordion = ({
                             <Text
                                 className="-mb-1 ml-[16px]"
                                 color="text-pzh-blue">
-                                {section.defaults.name}: {id}
+                                {section.defaults.name} {index + 1}: {id}
                             </Text>
                         </AccordionTrigger>
                         <AccordionContent
@@ -212,7 +213,7 @@ const DropArea = ({ onDrop, position }: DropAreaProps) => {
             }}
             onDragOver={ev => ev.preventDefault()}
             className={classNames(
-                'after:content-[` `] absolute left-0 z-1 h-2 w-full py-2 transition-[opacity] after:absolute after:h-[4px] after:w-full after:bg-pzh-blue-light',
+                'after:content-[` `] absolute left-0 z-1 h-2 w-full py-2 transition-[opacity] after:absolute after:h-[4px] after:w-full after:animate-pulse after:bg-pzh-blue-light',
                 {
                     '-top-2 after:top-[8px]': position === 'top',
                     '-bottom-2 after:bottom-[8px]': position === 'bottom',

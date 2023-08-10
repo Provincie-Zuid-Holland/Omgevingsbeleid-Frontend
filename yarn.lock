@@ -1800,10 +1800,10 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
   integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
 
-"@pzh-ui/components@^0.0.371":
-  version "0.0.371"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.371.tgz#97d5ffde6e4cad156e08c4812774d6989601210e"
-  integrity sha512-cyDXLcYRHhN4iSwnNCprzucZ5FX1boJY0wkiMB2CLNAZEysDvxXk93t4tV+CdQhZCnZKdl0HtREpQxdbnjB0CA==
+"@pzh-ui/components@^0.0.373":
+  version "0.0.373"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.373.tgz#867612a0dfa0b9593c4b61083ec3d35a51f6dd03"
+  integrity sha512-ViT0JCVhOu4l/uG97JoK1yCGDc6yRuzq3SP6AGz1J5Y8F4aLFb3GfMkcwY5m03A3Kf3GAmDTeHqB+ytfSKJ3qA==
   dependencies:
     "@floating-ui/react" "^0.24.8"
     "@headlessui/react" "^1.5.0"
@@ -1867,10 +1867,10 @@
     prettier "^2.5.1"
     react-toastify "^9.1.2"
 
-"@pzh-ui/css@^0.0.65":
-  version "0.0.65"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/css/-/css-0.0.65.tgz#93881ecfbf8648c350459a3f7b7f078160f44d65"
-  integrity sha512-ZO575jKjx9WskGC95QPfPymggEecw375UoG8hxO4uvokmvAhCjs7kMRdpZcGHYIFGe30jshz28Idub/PsX4qeQ==
+"@pzh-ui/css@^0.0.66":
+  version "0.0.66"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/css/-/css-0.0.66.tgz#43b36e1ea76317611a4303cf087138631bbf4752"
+  integrity sha512-ElpZ3VtuXHogjeQsvwpE8/sY2m2umeSHHUeZlTA7gUTcu88oK6baonPqkvYLLgQbXETj626BvDp6TE1kvHL7Xg==
   dependencies:
     "@rollup/plugin-typescript" "^8.3.1"
     "@tailwindcss/custom-forms" "^0.2.1"
