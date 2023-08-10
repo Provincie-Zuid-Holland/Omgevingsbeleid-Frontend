@@ -1888,6 +1888,14 @@
     react "^18.0.0"
     react-toastify "^9.1.2"
 
+"@pzh-ui/icons@^0.0.33":
+  version "0.0.33"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/icons/-/icons-0.0.33.tgz#6250faf6da832d83ecaab4f0f4bd30bb03a5b008"
+  integrity sha512-JN+Gz44Ywx4UGptUPERmKALJWy+BghGfECNnXEKg2w68LvrTU39gnoP7BeIka5PW2yNqpb/vM0z7Z/7C4CuX7A==
+  dependencies:
+    react "^18.0.0"
+    react-toastify "^9.1.2"
+
 "@react-aria/breadcrumbs@^3.5.3":
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/@react-aria/breadcrumbs/-/breadcrumbs-3.5.3.tgz#05d4d811d7a665ccf6b0b411a2c0ab0f4fb4638e"

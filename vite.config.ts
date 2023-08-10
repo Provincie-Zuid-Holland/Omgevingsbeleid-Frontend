@@ -79,7 +79,7 @@ export default defineConfig({
         environment: 'jsdom',
         setupFiles: './src/setupTests.ts',
         coverage: {
-            reporter: ['text', 'html'],
+            reporter: ['cobertura', 'text'],
             exclude: [
                 'node_modules/',
                 'src/setupTests.ts',

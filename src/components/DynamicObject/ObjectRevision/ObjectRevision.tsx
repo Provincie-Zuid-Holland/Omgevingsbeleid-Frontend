@@ -118,7 +118,7 @@ const Content = ({ title, htmlFrom, htmlTo }: ContentProps) => {
                 {title}
             </Text>
             <p
-                className="prose prose-neutral mb-4 max-w-full leading-6 text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0 md:mb-8"
+                className="prose prose-neutral mb-4 max-w-full whitespace-pre-line leading-6 text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0 md:mb-8"
                 dangerouslySetInnerHTML={{ __html: diff }}
             />
         </>
