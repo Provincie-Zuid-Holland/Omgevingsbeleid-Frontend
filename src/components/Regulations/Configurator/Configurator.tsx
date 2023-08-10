@@ -1,5 +1,6 @@
 import { PillButton, Text } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
+import { v4 as uuidv4 } from 'uuid'
 
 import regulation from '@/config/regulations'
 import * as sections from '@/config/regulations/sections'
@@ -30,7 +31,7 @@ const Configurator = () => {
                             onPress={() =>
                                 addItem([], {
                                     type,
-                                    id: `${type}.${structure.length}`,
+                                    uuid: uuidv4(),
                                 })
                             }>
                             {section.defaults.name}

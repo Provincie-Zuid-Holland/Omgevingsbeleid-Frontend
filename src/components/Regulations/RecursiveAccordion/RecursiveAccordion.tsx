@@ -3,6 +3,7 @@ import { GripDotsVertical } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useState } from 'react'
 import { flushSync } from 'react-dom'
+import { v4 as uuidv4 } from 'uuid'
 
 import {
     Accordion,
@@ -55,7 +56,7 @@ const RecursiveAccordion = ({
 
     return (
         <Accordion className="mb-3">
-            {structure.map(({ type: parentType, id, children }, index) => {
+            {structure.map(({ type: parentType, uuid, children }, index) => {
                 const section = sections[parentType]
                 const Icon = section.defaults.icon
 
@@ -67,14 +68,14 @@ const RecursiveAccordion = ({
 
                 return (
                     <AccordionItem
-                        key={parentType + index + id}
-                        id={id || ''}
+                        key={uuid}
+                        uuid={uuid}
                         className={classNames(
                             'relative',
                             GROUP_VARIANTS[parentType][0]
                         )}
                         style={{
-                            viewTransitionName: `card-${parentType}-${index}`,
+                            viewTransitionName: `card-${uuid}`,
                         }}>
                         {isDragging &&
                             draggingItem &&
@@ -117,7 +118,7 @@ const RecursiveAccordion = ({
                             <Text
                                 className="-mb-1 ml-[16px]"
                                 color="text-pzh-blue">
-                                {section.defaults.name} {index + 1}: {id}
+                                {section.defaults.name}: {uuid}
                             </Text>
                         </AccordionTrigger>
                         <AccordionContent
@@ -153,10 +154,7 @@ const RecursiveAccordion = ({
                                                         ],
                                                         {
                                                             type,
-                                                            id: `${parentType}.${index}.${type}.${
-                                                                children?.length ||
-                                                                0
-                                                            }`,
+                                                            uuid: uuidv4(),
                                                         }
                                                     )
                                                 }>
@@ -169,19 +167,17 @@ const RecursiveAccordion = ({
                         </AccordionContent>
                         {isDragging &&
                             draggingItem &&
-                            !isNaN(currDragged || 0) &&
                             !equalArrays(draggingItem, [
                                 ...parentIndices,
                                 index,
                             ]) &&
-                            // index + 1 !== structure.length &&
                             currDragged !== index + 1 && (
                                 <DropArea
                                     position="bottom"
                                     onDrop={() =>
                                         handleDrop(draggingItem, [
                                             ...parentIndices,
-                                            currDragged || 0 > index
+                                            (currDragged || 0) > index
                                                 ? index + 1
                                                 : index,
                                         ])

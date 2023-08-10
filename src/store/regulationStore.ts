@@ -53,55 +53,51 @@ const useRegulationStore = create<RegulationState>(set => ({
         }),
     moveItem: (fromPath, toPath) =>
         set(state => {
-            const moveElement = (
+            const moveRecursive = (
                 nodes: Structure[],
-                fromLevels: number[],
-                toLevels: number[]
-            ) => {
-                if (fromLevels.length === 0 || toLevels.length === 0) {
+                fromPath: number[],
+                toPath: number[]
+            ): Structure[] => {
+                const [fromIndex, ...fromRest] = fromPath
+                const [toIndex, ...toRest] = toPath
+
+                if (fromIndex === undefined) {
                     return nodes
                 }
 
-                const [fromLevel, ...remainingFromLevels] = fromLevels
-                const [toLevel, ...remainingToLevels] = toLevels
+                const [movedNode] = nodes.splice(fromIndex, 1)
 
-                const fromNode = nodes[fromLevel]
-                if (!fromNode) {
-                    return nodes
-                }
-
-                let toIndex = toLevel
-
-                if (fromNode.children && fromNode.children.length > 0) {
-                    const newNode = { ...fromNode }
-                    newNode.children = moveElement(
-                        newNode.children || [],
-                        remainingFromLevels,
-                        remainingToLevels
+                if (fromRest.length === 0) {
+                    nodes.splice(
+                        toIndex > nodes.length ? nodes.length : toIndex,
+                        0,
+                        movedNode
                     )
-                    nodes.splice(fromLevel, 1, newNode)
                 } else {
-                    const [movedNode] = nodes.splice(fromLevel, 1)
-                    if (toIndex > nodes.length) {
-                        toIndex = nodes.length
+                    if (!movedNode.children) {
+                        movedNode.children = []
                     }
-                    nodes.splice(toIndex, 0, movedNode)
+                    movedNode.children = moveRecursive(
+                        movedNode.children,
+                        fromRest,
+                        toRest
+                    )
+                    nodes.splice(fromIndex, 0, movedNode)
                 }
 
                 return nodes
             }
 
-            const updatedStructure = moveElement(
-                [...state.structure],
-                fromPath,
-                toPath
-            )
-
             return {
                 ...state,
-                structure: updatedStructure,
+                structure: moveRecursive(
+                    [...state.structure],
+                    fromPath,
+                    toPath
+                ),
             }
         }),
+
     draggingItem: null,
     setDraggingItem: draggingItem => set(state => ({ ...state, draggingItem })),
 }))

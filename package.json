@@ -39,6 +39,7 @@
         "smoothscroll-polyfill": "^0.4.4",
         "typescript": "^5.1.6",
         "url-search-params-polyfill": "^8.1.1",
+        "uuid": "^9.0.0",
         "zod": "^3.21.4",
         "zod-formik-adapter": "^1.2.0",
         "zustand": "^4.3.9"
@@ -93,6 +94,7 @@
         "@types/react-leaflet": "^2.8.2",
         "@types/react-router-dom": "^5.3.2",
         "@types/smoothscroll-polyfill": "^0.3.1",
+        "@types/uuid": "^9.0.2",
         "@typescript-eslint/eslint-plugin": "^6.1.0",
         "@typescript-eslint/parser": "^6.1.0",
         "@vitejs/plugin-react": "^4.0.3",

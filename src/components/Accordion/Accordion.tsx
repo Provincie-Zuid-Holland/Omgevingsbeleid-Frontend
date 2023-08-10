@@ -23,7 +23,7 @@ const Accordion = ({ className, children }: AccordionProps) => {
 
     const processedChildren = Children.map(children, child => {
         if (isValidElement(child) && child.type === AccordionItem) {
-            const itemId = child.props.id
+            const itemId = child.props.uuid
             const itemProps = {
                 ...(child.props as AccordionItemProps),
                 isOpen: itemId === openItemId,
@@ -38,7 +38,7 @@ const Accordion = ({ className, children }: AccordionProps) => {
 }
 
 interface AccordionItemProps extends AccordionProps {
-    id: string
+    uuid?: string
     isOpen?: boolean
     onToggle?: () => void
 }
@@ -79,7 +79,7 @@ const AccordionTrigger = ({
     isOpen,
     onToggle,
     ...rest
-}: Omit<AccordionItemProps, 'id'> &
+}: AccordionItemProps &
     HTMLAttributes<HTMLDivElement> & { classNameButton?: string }) => {
     const processedChildren = Children.map(children, child => {
         if (isValidElement(child)) {
@@ -121,7 +121,7 @@ const AccordionContent = ({
     className,
     children,
     isOpen,
-}: Omit<AccordionItemProps, 'id'>) => {
+}: AccordionItemProps) => {
     if (!isOpen) return null
 
     return <div className={classNames('py-2', className)}>{children}</div>
