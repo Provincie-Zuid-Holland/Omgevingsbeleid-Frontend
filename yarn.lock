@@ -1800,10 +1800,10 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
   integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
 
-"@pzh-ui/components@^0.0.373":
-  version "0.0.373"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.373.tgz#867612a0dfa0b9593c4b61083ec3d35a51f6dd03"
-  integrity sha512-ViT0JCVhOu4l/uG97JoK1yCGDc6yRuzq3SP6AGz1J5Y8F4aLFb3GfMkcwY5m03A3Kf3GAmDTeHqB+ytfSKJ3qA==
+"@pzh-ui/components@^0.0.374":
+  version "0.0.374"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.374.tgz#e37940e200382fbede82500a39f0d7b210cbeeab"
+  integrity sha512-mNmo8SfotlhNJM0JnmxDEHYwcC58MwQDtpan8aMOtO/Qsl9T691liDTSIz4+SU3d82deVsiUXY1bTzZAvulePQ==
   dependencies:
     "@floating-ui/react" "^0.24.8"
     "@headlessui/react" "^1.5.0"
@@ -1878,14 +1878,6 @@
     "@tailwindcss/line-clamp" "^0.3.1"
     "@tailwindcss/typography" "^0.5.9"
     react-datepicker "^4.7.0"
-    react-toastify "^9.1.2"
-
-"@pzh-ui/icons@^0.0.33":
-  version "0.0.33"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/icons/-/icons-0.0.33.tgz#6250faf6da832d83ecaab4f0f4bd30bb03a5b008"
-  integrity sha512-JN+Gz44Ywx4UGptUPERmKALJWy+BghGfECNnXEKg2w68LvrTU39gnoP7BeIka5PW2yNqpb/vM0z7Z/7C4CuX7A==
-  dependencies:
-    react "^18.0.0"
     react-toastify "^9.1.2"
 
 "@pzh-ui/icons@^0.0.33":

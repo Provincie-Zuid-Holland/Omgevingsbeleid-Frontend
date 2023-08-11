@@ -4,6 +4,7 @@ import { ReactNode, useMemo } from 'react'
 import { Helmet } from 'react-helmet'
 
 import { Container } from '@/components/Container'
+import RegulationSidebar from '@/components/Regulations/Sidebar'
 import Sidebar from '@/components/Sidebar'
 import useBreakpoint from '@/hooks/useBreakpoint'
 import usePage from '@/hooks/usePage'
@@ -29,6 +30,7 @@ const MutateLayout = ({
 
     const editPage = usePage('/bewerk')
     const newPage = usePage('/nieuw')
+    const regulationPage = usePage('/verordening')
 
     const pathName = location.pathname || ''
 
@@ -41,15 +43,18 @@ const MutateLayout = ({
         [breadcrumbs, pathName]
     )
 
+    const hasSidebar = !editPage && !newPage && !regulationPage && isDesktop
+
     return (
         <div className="flex">
             <Helmet title={title} />
 
-            {!editPage && !newPage && isDesktop && <Sidebar />}
+            {hasSidebar && <Sidebar />}
+            {regulationPage && <RegulationSidebar />}
 
             <div
                 className={classNames('w-full', {
-                    '-ml-[56px]': !editPage && !newPage && isDesktop,
+                    '-ml-[56px]': hasSidebar,
                 })}>
                 {!!breadcrumbPaths?.length && (
                     <Container>

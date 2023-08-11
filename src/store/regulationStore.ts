@@ -15,6 +15,10 @@ interface RegulationState {
     draggingItem: number[] | null
     /** Set dragging item */
     setDraggingItem: (item: number[] | null) => void
+    /** Active item */
+    activeItem?: string
+    /** Set active item */
+    setActiveItem: (item?: string) => void
 }
 
 const useRegulationStore = create<RegulationState>(set => ({
@@ -100,6 +104,8 @@ const useRegulationStore = create<RegulationState>(set => ({
 
     draggingItem: null,
     setDraggingItem: draggingItem => set(state => ({ ...state, draggingItem })),
+    activeItem: undefined,
+    setActiveItem: activeItem => set(state => ({ ...state, activeItem })),
 }))
 
 export default useRegulationStore

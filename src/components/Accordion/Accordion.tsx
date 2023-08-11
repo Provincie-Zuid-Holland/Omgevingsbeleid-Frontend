@@ -8,18 +8,35 @@ import {
     isValidElement,
     useState,
 } from 'react'
+import { useUpdateEffect } from 'react-use'
 
 interface AccordionProps {
     className?: string
     children: ReactNode | ReactNode[]
+    activeItem?: string
+    onClickCallback?: (item: string) => void
 }
 
-const Accordion = ({ className, children }: AccordionProps) => {
-    const [openItemId, setOpenItemId] = useState<string | null>(null)
+const Accordion = ({
+    className,
+    children,
+    activeItem,
+    onClickCallback,
+}: AccordionProps) => {
+    const [openItemId, setOpenItemId] = useState<string | null>(
+        activeItem || null
+    )
 
     const handleItemClick = (itemId: string) => {
         setOpenItemId(prevItemId => (prevItemId === itemId ? null : itemId))
+        onClickCallback?.(itemId)
     }
+
+    useUpdateEffect(() => {
+        if (activeItem) {
+            handleItemClick(activeItem)
+        }
+    }, [activeItem])
 
     const processedChildren = Children.map(children, child => {
         if (isValidElement(child) && child.type === AccordionItem) {
@@ -27,7 +44,8 @@ const Accordion = ({ className, children }: AccordionProps) => {
             const itemProps = {
                 ...(child.props as AccordionItemProps),
                 isOpen: itemId === openItemId,
-                onToggle: () => handleItemClick(itemId),
+                onToggle: () =>
+                    !child.props.isDisabled && handleItemClick(itemId),
             }
             return cloneElement(child, itemProps)
         }
@@ -40,6 +58,7 @@ const Accordion = ({ className, children }: AccordionProps) => {
 interface AccordionItemProps extends AccordionProps {
     uuid?: string
     isOpen?: boolean
+    isDisabled?: boolean
     onToggle?: () => void
 }
 
@@ -47,6 +66,7 @@ const AccordionItem = ({
     className,
     children,
     isOpen,
+    isDisabled,
     onToggle,
     ...rest
 }: AccordionItemProps & HTMLAttributes<HTMLLIElement>) => {
@@ -55,6 +75,7 @@ const AccordionItem = ({
             const itemProps = {
                 ...(child.props as AccordionProps),
                 isOpen,
+                isDisabled,
                 onToggle,
             }
             return cloneElement(child, itemProps)
@@ -77,6 +98,7 @@ const AccordionTrigger = ({
     classNameButton,
     children,
     isOpen,
+    isDisabled,
     onToggle,
     ...rest
 }: AccordionItemProps &
@@ -95,24 +117,26 @@ const AccordionTrigger = ({
     return (
         <div
             className={classNames(
-                'relative flex w-full items-center bg-pzh-white',
+                'relative flex w-full items-center',
                 className
             )}
             {...rest}>
             {processedChildren}
-            <button
-                onClick={onToggle}
-                className={classNames(
-                    "after:content-[' '] ml-auto after:absolute after:right-0 after:top-0 after:h-full",
-                    classNameButton
-                )}>
-                <AngleDown
-                    size={16}
-                    className={classNames('text-pzh-blue transition', {
-                        'rotate-180': isOpen,
-                    })}
-                />
-            </button>
+            {!isDisabled && (
+                <button
+                    onClick={onToggle}
+                    className={classNames(
+                        "after:content-[' '] ml-auto after:absolute after:right-0 after:top-0 after:h-full",
+                        classNameButton
+                    )}>
+                    <AngleDown
+                        size={16}
+                        className={classNames('text-pzh-blue transition', {
+                            'rotate-180': isOpen,
+                        })}
+                    />
+                </button>
+            )}
         </div>
     )
 }

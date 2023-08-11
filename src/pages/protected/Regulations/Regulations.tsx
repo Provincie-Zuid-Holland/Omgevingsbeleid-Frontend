@@ -1,6 +1,6 @@
 import { Heading } from '@pzh-ui/components'
 
-import Configurator from '@/components/Regulations/Configurator'
+import RegulationPreview from '@/components/Regulations/RegulationPreview'
 import MutateLayout from '@/templates/MutateLayout'
 
 const Regulations = () => {
@@ -8,12 +8,12 @@ const Regulations = () => {
         <MutateLayout title="Verordening">
             <div className="col-span-6 mb-8 lg:col-span-3">
                 <Heading level="1" className="mb-3">
-                    Verordeningen
+                    Verordening
                 </Heading>
             </div>
 
             <div className="col-span-6">
-                <Configurator />
+                <RegulationPreview />
             </div>
         </MutateLayout>
     )
