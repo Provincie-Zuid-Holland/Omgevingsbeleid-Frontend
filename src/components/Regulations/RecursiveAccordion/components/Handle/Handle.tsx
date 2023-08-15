@@ -52,7 +52,9 @@ const Handle = ({
                 ) : (
                     <span
                         className="-mb-1 font-bold text-pzh-white"
-                        onClick={() => setActiveItem(uuid)}>
+                        onClick={() =>
+                            activeItem !== uuid && setActiveItem(uuid)
+                        }>
                         {index}
                     </span>
                 )}

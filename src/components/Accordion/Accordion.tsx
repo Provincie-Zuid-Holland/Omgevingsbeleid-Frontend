@@ -33,7 +33,7 @@ const Accordion = ({
     }
 
     useUpdateEffect(() => {
-        if (activeItem) {
+        if (activeItem && activeItem !== openItemId) {
             handleItemClick(activeItem)
         }
     }, [activeItem])

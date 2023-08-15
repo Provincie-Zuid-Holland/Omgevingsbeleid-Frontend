@@ -1,7 +1,7 @@
 import { Regulation } from './types'
 
 const regulation: Regulation = {
-    title: 'Verordening',
+    title: 'Omgevingsverordening',
     structure: [{ type: 'chapter' }],
 }
 
