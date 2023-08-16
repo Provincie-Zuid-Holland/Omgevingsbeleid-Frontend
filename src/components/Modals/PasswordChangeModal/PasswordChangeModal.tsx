@@ -2,7 +2,7 @@ import {
     Button,
     FormikInput,
     Heading,
-    Modal,
+    OLDModal as Modal,
     Notification,
 } from '@pzh-ui/components'
 import { Form, Formik } from 'formik'

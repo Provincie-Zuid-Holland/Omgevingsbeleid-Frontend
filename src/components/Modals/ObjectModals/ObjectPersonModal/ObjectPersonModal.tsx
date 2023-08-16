@@ -1,4 +1,9 @@
-import { Button, FormikSelect, Heading, Modal } from '@pzh-ui/components'
+import {
+    Button,
+    FormikSelect,
+    Heading,
+    OLDModal as Modal,
+} from '@pzh-ui/components'
 import { Form, Formik } from 'formik'
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'

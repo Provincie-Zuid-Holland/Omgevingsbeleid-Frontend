@@ -1,5 +1,4 @@
 import { Heading, Text } from '@pzh-ui/components'
-import classNames from 'classnames'
 import { useMemo } from 'react'
 
 import * as sections from '@/config/regulations/sections'
@@ -27,39 +26,36 @@ const RegulationPreview = () => {
 }
 
 interface PreviewProps extends Structure {
-    index?: number
+    index?: string
     isParent?: boolean
     parentIndex?: number
 }
 
 const Preview = ({
     type,
+    title,
     children,
-    index = 0,
+    index = '',
     isParent,
     parentIndex,
 }: PreviewProps) => {
     const section = sections[type]
 
     return (
-        <div
-            className={classNames({
-                'ml-4': index > 0,
-            })}>
+        <div>
             {isParent ? (
                 <Heading className="mb-3">
-                    {section.defaults.name} {parentIndex}: ...
+                    {section.defaults.singularCapitalize} {parentIndex}: {title}
                 </Heading>
             ) : (
                 <Text type="body-bold" color="text-pzh-blue" className="mb-3">
-                    {section.defaults.name} {parentIndex}.{index}: ...
+                    {section.defaults.singularCapitalize} {index}: {title}
                 </Text>
             )}
             {!!children?.length &&
-                children.map((child, index) => (
+                children.map(child => (
                     <Preview
                         key={child.uuid}
-                        index={index + 1}
                         parentIndex={parentIndex}
                         {...child}
                     />

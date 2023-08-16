@@ -1,4 +1,7 @@
-import { RegulationAddObjectModal } from '@/components/Modals/RegulationModals'
+import {
+    RegulationAddSectionModal,
+    RegulationDeleteSectionModal,
+} from '@/components/Modals/RegulationModals'
 import RegulationPreview from '@/components/Regulations/RegulationPreview'
 import MutateLayout from '@/templates/MutateLayout'
 
@@ -9,7 +12,8 @@ const Regulations = () => {
                 <RegulationPreview />
             </div>
 
-            <RegulationAddObjectModal isOpen onClose={() => {}} />
+            <RegulationAddSectionModal />
+            <RegulationDeleteSectionModal />
         </MutateLayout>
     )
 }

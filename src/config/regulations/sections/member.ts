@@ -5,9 +5,12 @@ import { Section } from './types'
 const member: Section = {
     type: 'member',
     defaults: {
-        name: 'Lid',
+        singular: 'lid',
+        singularCapitalize: 'Lid',
+        prefixSingular: 'het',
         demonstrative: 'dit',
         icon: FileLines,
+        parentIndex: false,
     },
 }
 

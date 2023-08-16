@@ -5,9 +5,12 @@ import { Section } from './types'
 const paragraph: Section = {
     type: 'paragraph',
     defaults: {
-        name: 'Paragraaf',
+        singular: 'paragraaf',
+        singularCapitalize: 'Paragraaf',
+        prefixSingular: 'de',
         demonstrative: 'deze',
         icon: Paragraph,
+        parentIndex: true,
     },
     children: ['article'],
 }

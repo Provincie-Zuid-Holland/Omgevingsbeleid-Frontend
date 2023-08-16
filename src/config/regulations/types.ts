@@ -3,6 +3,8 @@ import { SectionType } from './sections/types'
 export type Structure = {
     uuid?: string
     type: SectionType
+    title?: string
+    index?: string
     children?: Structure[]
 }
 

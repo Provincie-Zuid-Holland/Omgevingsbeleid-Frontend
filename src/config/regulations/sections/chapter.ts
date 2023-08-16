@@ -5,7 +5,9 @@ import { Section } from './types'
 const chapter: Section = {
     type: 'chapter',
     defaults: {
-        name: 'Hoofdstuk',
+        singular: 'hoofdstuk',
+        singularCapitalize: 'Hoofdstuk',
+        prefixSingular: 'het',
         demonstrative: 'dit',
         icon: Heading,
     },

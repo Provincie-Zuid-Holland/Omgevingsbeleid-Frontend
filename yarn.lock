@@ -1800,14 +1800,16 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
   integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
 
-"@pzh-ui/components@^0.0.374":
-  version "0.0.374"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.374.tgz#e37940e200382fbede82500a39f0d7b210cbeeab"
-  integrity sha512-mNmo8SfotlhNJM0JnmxDEHYwcC58MwQDtpan8aMOtO/Qsl9T691liDTSIz4+SU3d82deVsiUXY1bTzZAvulePQ==
+"@pzh-ui/components@^0.0.380":
+  version "0.0.380"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.380.tgz#149e2e1329f362670c84d676add844ec88b5f454"
+  integrity sha512-5XYsNzzLhgL3mQnZow13x0nX0e1A/yaKMQQ2ecCypsoFDMPn9WTJq+HywhnNFT1vEFUlRgBXhSnX+4XL5tlVgw==
   dependencies:
     "@floating-ui/react" "^0.24.8"
     "@headlessui/react" "^1.5.0"
     "@pzh-ui/icons" "^0.0.33"
+    "@react-aria/utils" "^3.19.0"
+    "@react-types/shared" "^3.19.0"
     "@tiptap/core" "^2.0.4"
     "@tiptap/extension-bold" "^2.0.4"
     "@tiptap/extension-bullet-list" "^2.0.4"
@@ -1867,10 +1869,10 @@
     prettier "^2.5.1"
     react-toastify "^9.1.2"
 
-"@pzh-ui/css@^0.0.66":
-  version "0.0.66"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/css/-/css-0.0.66.tgz#43b36e1ea76317611a4303cf087138631bbf4752"
-  integrity sha512-ElpZ3VtuXHogjeQsvwpE8/sY2m2umeSHHUeZlTA7gUTcu88oK6baonPqkvYLLgQbXETj626BvDp6TE1kvHL7Xg==
+"@pzh-ui/css@^0.0.67":
+  version "0.0.67"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/css/-/css-0.0.67.tgz#d56a45c288e0f5e09cc78944074c388cf6d91f91"
+  integrity sha512-EPn4crrBRLQY0L8tpZh4qdl9KHXWk6G8XxLQsQcZS+eUxqV/rCMsQxz+Wax1CUS/SbsQyJLne3Ysr6z7SCuYBQ==
   dependencies:
     "@rollup/plugin-typescript" "^8.3.1"
     "@tailwindcss/custom-forms" "^0.2.1"
@@ -2318,6 +2320,13 @@
   dependencies:
     "@swc/helpers" "^0.5.0"
 
+"@react-aria/ssr@^3.7.1":
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/@react-aria/ssr/-/ssr-3.7.1.tgz#11d0fac17e50028459aad325c2d093dbb2960f68"
+  integrity sha512-ovVPSD1WlRpZHt7GI9DqJrWG3OIYS+NXQ9y5HIewMJpSe+jPQmMQfyRmgX4EnvmxSlp0u04Wg/7oItcoSIb/RA==
+  dependencies:
+    "@swc/helpers" "^0.5.0"
+
 "@react-aria/switch@^3.5.2":
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/@react-aria/switch/-/switch-3.5.2.tgz#b47208e862343998a5f25baaaeb7bc9cbc63a09d"
@@ -2429,6 +2438,17 @@
     "@react-aria/ssr" "^3.7.0"
     "@react-stately/utils" "^3.7.0"
     "@react-types/shared" "^3.18.1"
+    "@swc/helpers" "^0.5.0"
+    clsx "^1.1.1"
+
+"@react-aria/utils@^3.19.0":
+  version "3.19.0"
+  resolved "https://registry.yarnpkg.com/@react-aria/utils/-/utils-3.19.0.tgz#ee7fe77b37181fdf09fdd2e50ae818e4be858f47"
+  integrity sha512-5GXqTCrUQtr78aiLVHZoeeGPuAxO4lCM+udWbKpSCh5xLfCZ7zFlZV9Q9FS0ea+IQypUcY8ngXCLsf22nSu/yg==
+  dependencies:
+    "@react-aria/ssr" "^3.7.1"
+    "@react-stately/utils" "^3.7.0"
+    "@react-types/shared" "^3.19.0"
     "@swc/helpers" "^0.5.0"
     clsx "^1.1.1"
 
@@ -2863,6 +2883,11 @@
   version "3.18.1"
   resolved "https://registry.yarnpkg.com/@react-types/shared/-/shared-3.18.1.tgz#45bac7a1a433916d16535ea583d86a2b4c72ff8c"
   integrity sha512-OpTYRFS607Ctfd6Tmhyk6t6cbFyDhO5K+etU35X50pMzpypo1b7vF0mkngEeTc0Xwl0e749ONZNPZskMyu5k8w==
+
+"@react-types/shared@^3.19.0":
+  version "3.19.0"
+  resolved "https://registry.yarnpkg.com/@react-types/shared/-/shared-3.19.0.tgz#060e547d6e8c3ec84043d62f61cada1a00df1348"
+  integrity sha512-h852l8bWhqUxbXIG8vH3ab7gE19nnP3U1kuWf6SNSMvgmqjiRN9jXKPIFxF/PbfdvnXXm0yZSgSMWfUCARF0Cg==
 
 "@react-types/slider@^3.5.1":
   version "3.5.1"

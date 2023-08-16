@@ -1,4 +1,10 @@
-import { Divider, FieldSelect, Heading, Modal, Text } from '@pzh-ui/components'
+import {
+    Divider,
+    FieldSelect,
+    Heading,
+    OLDModal as Modal,
+    Text,
+} from '@pzh-ui/components'
 import { useMemo, useState } from 'react'
 import { useUpdateEffect } from 'react-use'
 
@@ -130,7 +136,7 @@ const RevisionModal = ({
             />
             <Divider className="my-4" />
 
-            <div className="min-h-[120px] inline-block">
+            <div className="inline-block min-h-[120px]">
                 {revisionFromFetching || revisionToFetching ? (
                     <LoaderSpinner />
                 ) : (

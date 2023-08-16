@@ -2,7 +2,7 @@ import {
     Button,
     FormikCheckbox,
     Heading,
-    Modal,
+    OLDModal as Modal,
     Text,
 } from '@pzh-ui/components'
 import { Form, Formik } from 'formik'

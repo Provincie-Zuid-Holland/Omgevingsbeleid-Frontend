@@ -1,4 +1,4 @@
-import { Button, Modal } from '@pzh-ui/components'
+import { Button, OLDModal as Modal } from '@pzh-ui/components'
 import { QueryKey, useQueryClient } from '@tanstack/react-query'
 import { Formik, Form } from 'formik'
 import { useState } from 'react'
@@ -14,8 +14,8 @@ import useObject from '@/hooks/useObject'
 import { toastNotification } from '@/utils/toastNotification'
 import * as objectRelation from '@/validation/objectRelation'
 
-import { ObjectRelationModalActions } from '../types'
 import { StepOne, StepTwo } from './steps'
+import { ObjectRelationModalActions } from '../types'
 
 const steps = [StepOne, StepTwo]
 

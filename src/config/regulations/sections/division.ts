@@ -5,7 +5,9 @@ import { Section } from './types'
 const division: Section = {
     type: 'division',
     defaults: {
-        name: 'Afdeling',
+        singular: 'afdeling',
+        singularCapitalize: 'Afdeling',
+        prefixSingular: 'de',
         demonstrative: 'deze',
         icon: SectionIcon,
     },

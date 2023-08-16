@@ -1,4 +1,4 @@
-import { Button, Heading, Modal, Text } from '@pzh-ui/components'
+import { Button, Heading, OLDModal as Modal, Text } from '@pzh-ui/components'
 import { useParams } from 'react-router-dom'
 
 import useModule from '@/hooks/useModule'

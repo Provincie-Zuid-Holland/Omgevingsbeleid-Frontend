@@ -1,16 +1,25 @@
 import { create } from 'zustand'
 
+import { SectionType } from '@/config/regulations/sections/types'
 import { Structure } from '@/config/regulations/types'
+
+type Action = {
+    action: 'add' | 'delete'
+    type: SectionType
+    path?: number[]
+    uuid?: string
+    index?: string
+}
 
 interface RegulationState {
     /** Regulation structure */
     structure: Structure[]
-    /** Set regulation structure */
-    setStructure: (structure: Structure[]) => void
     /** Add an item at a specific location */
     addItem: (path: number[], newItem: Structure) => void
     /** Move an item to a specific location */
     moveItem: (fromPath: number[], toPath: number[]) => void
+    /** Delete an item */
+    deleteItem: (uuid: string) => void
     /** Item which is currently being dragged */
     draggingItem: number[] | null
     /** Set dragging item */
@@ -19,11 +28,14 @@ interface RegulationState {
     activeItem?: string
     /** Set active item */
     setActiveItem: (item?: string) => void
+    /** Active item */
+    itemAction?: Action
+    /** Set active item */
+    setItemAction: (action?: Action) => void
 }
 
 const useRegulationStore = create<RegulationState>(set => ({
     structure: [],
-    setStructure: structure => set(state => ({ ...state, structure })),
     addItem: (path, newItem) =>
         set(state => {
             const updateChildren = (nodes: Structure[], levels: number[]) => {
@@ -101,11 +113,30 @@ const useRegulationStore = create<RegulationState>(set => ({
                 ),
             }
         }),
+    deleteItem: uuid =>
+        set(state => {
+            const deleteRecursive = (
+                nodes: Structure[],
+                targetUuid: string
+            ): Structure[] =>
+                nodes
+                    .map(node => ({
+                        ...node,
+                        children: node.children
+                            ? deleteRecursive(node.children, targetUuid)
+                            : undefined,
+                    }))
+                    .filter(node => node.uuid !== targetUuid)
 
+            return {
+                ...state,
+                structure: deleteRecursive(state.structure, uuid),
+            }
+        }),
     draggingItem: null,
     setDraggingItem: draggingItem => set(state => ({ ...state, draggingItem })),
-    activeItem: undefined,
     setActiveItem: activeItem => set(state => ({ ...state, activeItem })),
+    setItemAction: itemAction => set(state => ({ ...state, itemAction })),
 }))
 
 export default useRegulationStore

@@ -5,9 +5,9 @@
     "homepage": "https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend",
     "dependencies": {
         "@headlessui/react": "^1.5.0",
-        "@pzh-ui/components": "^0.0.374",
+        "@pzh-ui/components": "^0.0.380",
         "@pzh-ui/config": "^0.0.37",
-        "@pzh-ui/css": "^0.0.66",
+        "@pzh-ui/css": "^0.0.67",
         "@pzh-ui/icons": "^0.0.33",
         "@tanstack/react-query": "^4.32.0",
         "axios": "^1.4.0",

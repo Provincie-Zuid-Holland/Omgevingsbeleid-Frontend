@@ -5,7 +5,9 @@ import { Section } from './types'
 const article: Section = {
     type: 'article',
     defaults: {
-        name: 'Artikel',
+        singular: 'artikel',
+        singularCapitalize: 'Artikel',
+        prefixSingular: 'het',
         demonstrative: 'dit',
         icon: Font,
     },

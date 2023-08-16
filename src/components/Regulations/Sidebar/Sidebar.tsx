@@ -2,29 +2,39 @@ import { Heading, PillButton } from '@pzh-ui/components'
 import { AngleRight, Plus } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useCallback, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
 
 import regulation from '@/config/regulations'
 import * as sections from '@/config/regulations/sections'
+import { SectionType } from '@/config/regulations/sections/types'
+import useModalStore from '@/store/modalStore'
 import useRegulationStore from '@/store/regulationStore'
 
 import RecursiveAccordion from '../RecursiveAccordion'
+import { formatStructure } from '../utils'
 
 const Sidebar = () => {
-    const structure = useRegulationStore(state => state.structure)
-    const addItem = useRegulationStore(state => state.addItem)
+    const structure = useRegulationStore(state =>
+        formatStructure(state.structure)
+    )
     const activeItem = useRegulationStore(state => state.activeItem)
     const setActiveItem = useRegulationStore(state => state.setActiveItem)
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+    const setItemAction = useRegulationStore(state => state.setItemAction)
 
     const [expanded, setExpanded] = useState(true)
 
-    const handleClick = useCallback(() => {
+    const toggleSidebar = useCallback(() => {
         setExpanded(!expanded)
 
         if (!activeItem) {
             setActiveItem(structure[0].uuid)
         }
     }, [activeItem, structure, expanded, setActiveItem])
+
+    const handleAddItem = (type: SectionType) => {
+        setItemAction({ action: 'add', type, path: [] })
+        setActiveModal('regulationAdd')
+    }
 
     return (
         <div
@@ -39,8 +49,11 @@ const Sidebar = () => {
                     }
                 )}>
                 <button
-                    onClick={handleClick}
+                    onClick={toggleSidebar}
                     className="absolute -right-[12px] top-8 z-10 flex h-[24px] w-[24px] items-center justify-center rounded-full bg-pzh-blue-dark">
+                    <span className="sr-only">{`Zijbalk ${
+                        expanded ? 'sluiten' : 'openen'
+                    }`}</span>
                     <AngleRight
                         className={classNames('transform text-pzh-white', {
                             'rotate-180 transform': expanded,
@@ -73,13 +86,8 @@ const Sidebar = () => {
                                 <PillButton
                                     key={type + index}
                                     icon={Plus}
-                                    onPress={() =>
-                                        addItem([], {
-                                            type,
-                                            uuid: uuidv4(),
-                                        })
-                                    }>
-                                    {section.defaults.name}
+                                    onPress={() => handleAddItem(type)}>
+                                    {section.defaults.singularCapitalize}
                                 </PillButton>
                             )
                         })}
