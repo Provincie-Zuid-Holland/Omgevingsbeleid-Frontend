@@ -3,7 +3,7 @@ import { create } from 'zustand'
 import { SectionType } from '@/config/regulations/sections/types'
 import { Structure } from '@/config/regulations/types'
 
-type Action = {
+export type RegulationAction = {
     action: 'add' | 'delete'
     type: SectionType
     path?: number[]
@@ -29,9 +29,9 @@ interface RegulationState {
     /** Set active item */
     setActiveItem: (item?: string) => void
     /** Active item */
-    itemAction?: Action
+    itemAction?: RegulationAction
     /** Set active item */
-    setItemAction: (action?: Action) => void
+    setItemAction: (action?: RegulationAction) => void
 }
 
 const useRegulationStore = create<RegulationState>(set => ({

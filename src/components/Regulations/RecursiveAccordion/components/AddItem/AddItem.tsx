@@ -9,14 +9,20 @@ interface AddItemProps {
     section: Section
     index: number
     parentIndices: number[]
+    parentUuid?: string
 }
 
-const AddItem = ({ section, index, parentIndices }: AddItemProps) => {
+const AddItem = ({
+    section,
+    index,
+    parentIndices,
+    parentUuid,
+}: AddItemProps) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
     const setItemAction = useRegulationStore(state => state.setItemAction)
 
     const handleAddItem = (type: SectionType, path: number[]) => {
-        setItemAction({ action: 'add', type, path })
+        setItemAction({ action: 'add', type, path, uuid: parentUuid })
         setActiveModal('regulationAdd')
     }
 

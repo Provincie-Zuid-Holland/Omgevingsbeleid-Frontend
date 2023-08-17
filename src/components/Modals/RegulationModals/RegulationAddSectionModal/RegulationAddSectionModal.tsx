@@ -1,16 +1,24 @@
 import { Button, FormikInput, Heading } from '@pzh-ui/components'
 import { Form, Formik } from 'formik'
+import { useMemo } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import Modal from '@/components/Modal'
+import { calculateNewIndex } from '@/components/Regulations/utils'
 import * as sections from '@/config/regulations/sections'
 import useModalStore from '@/store/modalStore'
 import useRegulationStore from '@/store/regulationStore'
 
 const RegulationAddSectionModal = () => {
+    const structure = useRegulationStore(state => state.structure)
     const itemAction = useRegulationStore(state => state.itemAction)
     const addItem = useRegulationStore(state => state.addItem)
     const setActiveModal = useModalStore(state => state.setActiveModal)
+
+    const index = useMemo(
+        () => calculateNewIndex(structure, itemAction),
+        [itemAction, structure]
+    )
 
     if (!itemAction?.type || !itemAction?.path || itemAction.action !== 'add')
         return null
@@ -36,7 +44,7 @@ const RegulationAddSectionModal = () => {
                 onSubmit={handleFormSubmit}
                 initialValues={{
                     label: singularCapitalize,
-                    index: 1,
+                    index,
                 }}
                 enableReinitialize>
                 <Form>
@@ -52,12 +60,7 @@ const RegulationAddSectionModal = () => {
                             <FormikInput name="label" label="Label" disabled />
                         </div>
                         <div className="w-[80px]">
-                            <FormikInput
-                                type="number"
-                                name="index"
-                                label="Nummer"
-                                disabled
-                            />
+                            <FormikInput name="index" label="Nummer" disabled />
                         </div>
                         <div className="flex-1">
                             <FormikInput name="title" label="Opschrift" />

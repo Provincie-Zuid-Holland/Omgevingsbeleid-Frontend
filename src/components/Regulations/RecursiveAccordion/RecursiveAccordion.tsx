@@ -147,6 +147,7 @@ const RecursiveAccordion = ({
                                         section={section}
                                         index={index}
                                         parentIndices={parentIndices}
+                                        parentUuid={uuid}
                                     />
                                 )}
                             </AccordionContent>
