@@ -38,8 +38,10 @@ stages:
                       codeCoverageTool: Cobertura
                       summaryFileLocation: $(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml
 
-                - script: echo "##vso[task.setvariable variable=VITE_API_ENV]$(Build.SourceBranchName)"
+                - task: CmdLine@2
                   displayName: Set environment variable
+                  inputs:
+                      script: set VITE_API_ENV=$(Build.SourceBranchName)
 
                 - task: CmdLine@2
                   displayName: Build
