@@ -26,7 +26,7 @@ export const schemaDefaults = {
                 invalid_type_error: msg,
             })
             .url('Onjuiste link'),
-    optionalUrl: z.string().url('Onjuiste link').optional(),
+    optionalUrl: z.string().url('Onjuiste link').optional().nullable(),
     title: z
         .string({
             required_error: 'Vul een titel in',

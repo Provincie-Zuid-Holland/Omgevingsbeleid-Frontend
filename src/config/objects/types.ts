@@ -10,6 +10,8 @@ import {
     BeleidskeuzeFull,
     BeleidskeuzePatch,
     BeleidskeuzeStaticPostStatics,
+    BeleidsregelPatch,
+    BeleidsregelStaticPostStatics,
     GebiedsprogrammaFull,
     GebiedsprogrammaPatch,
     GebiedsprogrammaStaticPostStatics,
@@ -59,6 +61,8 @@ export interface DynamicObject<
         slugOverview?: string
         /** Demonstrative pronoun of object type */
         demonstrative?: string
+        /** If singular is different in combination with demonstrative */
+        demonstrativeSingular?: string
         /** Atemporal object */
         atemporal?: boolean
         /** Icon of object */
@@ -102,12 +106,14 @@ export type ModelPatchType = BeleidsdoelPatch &
     AmbitiePatch &
     BeleidskeuzePatch &
     MaatregelPatch &
-    GebiedsprogrammaPatch
+    GebiedsprogrammaPatch &
+    BeleidsregelPatch
 
 export type ModelPatchStaticType = BeleidsdoelStaticPostStatics &
     AmbitieStaticPostStatics &
     BeleidskeuzeStaticPostStatics &
     MaatregelStaticPostStatics &
-    GebiedsprogrammaStaticPostStatics
+    GebiedsprogrammaStaticPostStatics &
+    BeleidsregelStaticPostStatics
 
-export type Model = typeof models[ModelType]
+export type Model = (typeof models)[ModelType]

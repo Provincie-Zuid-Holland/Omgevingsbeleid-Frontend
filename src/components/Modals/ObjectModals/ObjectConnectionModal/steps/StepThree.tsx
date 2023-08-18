@@ -1,12 +1,12 @@
 import { FormikTextArea, Text } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
 
-import { ReadRelationShort } from '@/api/fetchers.schemas'
+import { ReadRelation } from '@/api/fetchers.schemas'
 
 import { StepProps } from './types'
 
 export const StepThree = ({ title, connectionModel, model }: StepProps) => {
-    const { values } = useFormikContext<ReadRelationShort>()
+    const { values } = useFormikContext<ReadRelation>()
 
     const { defaults } = connectionModel || {}
     const { singular } = defaults || {}

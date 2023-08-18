@@ -25,7 +25,7 @@ const MutateLayout = ({
     breadcrumbs,
     hasOwnBreadcrumbs,
 }: MutateLayoutProps) => {
-    const { isMobile } = useBreakpoint()
+    const { isDesktop } = useBreakpoint()
 
     const editPage = usePage('/bewerk')
     const newPage = usePage('/nieuw')
@@ -45,15 +45,15 @@ const MutateLayout = ({
         <div className="flex">
             <Helmet title={title} />
 
-            {!editPage && !newPage && !isMobile && <Sidebar />}
+            {!editPage && !newPage && isDesktop && <Sidebar />}
 
             <div
                 className={classNames('w-full', {
-                    '-ml-[56px]': !editPage && !newPage && !isMobile,
+                    '-ml-[56px]': !editPage && !newPage && isDesktop,
                 })}>
                 {!!breadcrumbPaths?.length && (
                     <Container>
-                        <div className="col-span-6 pt-6 pb-5">
+                        <div className="col-span-6 pb-5 pt-6">
                             <Breadcrumbs items={breadcrumbPaths} />
                         </div>
                     </Container>

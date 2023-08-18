@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FC, useRef } from 'react'
+import { ReactNode, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useClickAway } from 'react-use'
 
@@ -43,17 +43,18 @@ function Dropdown({ isOpen, setIsOpen, items, className }: DropdownProps) {
 }
 
 type DropdownContainerProps = {
+    children: ReactNode
     isOpen: boolean
     setIsOpen: (isOpen: boolean) => void
     className?: string
 }
 
-const DropdownContainer: FC<DropdownContainerProps> = ({
+const DropdownContainer = ({
     isOpen,
     setIsOpen,
     className,
     children,
-}) => {
+}: DropdownContainerProps) => {
     const innerContainer = useRef<HTMLDivElement>(null)
     useClickAway(innerContainer, () => {
         setIsOpen(false)

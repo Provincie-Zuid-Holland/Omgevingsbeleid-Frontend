@@ -1,27 +1,34 @@
-import { FC } from 'react'
+import classNames from 'classnames'
+import { ReactNode } from 'react'
 
 import useBreakpoint from '@/hooks/useBreakpoint'
 
 interface ContainerMapSearchProps {
+    children: ReactNode
     id?: string
     className?: string
     reference?: string
 }
 
-const ContainerMapSearch: FC<ContainerMapSearchProps> = ({
+const ContainerMapSearch = ({
     children,
     id = undefined,
     className = '',
     reference,
-}) => {
+}: ContainerMapSearchProps) => {
     const { isMobile } = useBreakpoint()
 
     return (
         <div
             id={id}
             ref={reference}
-            className={`flex flex-col md:flex-row mx-auto ${className}`}
-            style={!isMobile ? { height: 'calc(100vh - 96px' } : undefined}>
+            className={classNames(
+                'mx-auto flex flex-col md:flex-row',
+                {
+                    'h-[calc(100vh-96px)]': !isMobile,
+                },
+                className
+            )}>
             {children}
         </div>
     )

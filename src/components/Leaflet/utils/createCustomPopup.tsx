@@ -2,11 +2,11 @@ import { Button } from '@pzh-ui/components'
 import { LatLng, Map, Point } from 'leaflet'
 import Proj from 'proj4leaflet'
 import ReactDOMServer from 'react-dom/server'
-import { toast } from 'react-toastify'
 
 import { getWerkingsGebiedenByArea } from '@/api/axiosGeoJSON'
 import { LoaderSpinner } from '@/components/Loader'
 import { RDProj4, leafletBounds, MAP_SEARCH_PAGE } from '@/constants/leaflet'
+import { toastNotification } from '@/utils/toastNotification'
 
 // @ts-ignore
 const RDProjection = new Proj.Projection('EPSG:28992', RDProj4, leafletBounds)
@@ -108,7 +108,7 @@ const createCustomPopup = async (
             })
             .catch(function (err) {
                 console.log(err)
-                toast(import.meta.env.VITE_ERROR_MSG)
+                toastNotification('error')
                 callback?.(err)
             })
     }
@@ -183,8 +183,8 @@ export const CreateCustomPopup = ({
     })
 
     return (
-        <div className="text-base custom-popup">
-            <span className="block bold">Locatie</span>
+        <div className="custom-popup text-base">
+            <span className="bold block">Locatie</span>
             <ul className="mt-2 mb-4">
                 {weergavenaam && <li>{weergavenaam}</li>}
                 {type === 'marker' && lat && lng && (
@@ -209,7 +209,7 @@ export const CreateCustomPopup = ({
                         <Button>Bekijk beleid</Button>
                     </a>
                 )}
-                <button className="text-xs underline leaflet-close-popup text-pzh-red">
+                <button className="leaflet-close-popup text-xs text-pzh-red underline">
                     {type === 'marker' ? 'Pin' : 'Gebied'} verwijderen
                 </button>
             </div>

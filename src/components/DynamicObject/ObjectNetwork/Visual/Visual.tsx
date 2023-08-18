@@ -7,12 +7,12 @@ import {
     SimulationLinkDatum,
     forceManyBody,
     forceX,
-    forceCollide,
 } from 'd3'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { GraphResponse } from '@/api/fetchers.schemas'
+import { GraphResponse, GraphVertice } from '@/api/fetchers.schemas'
+import { ModelType } from '@/config/objects/types'
 import { formatGraphData, generateNodes } from '@/utils/d3'
 import { generateObjectPath } from '@/utils/dynamicObject'
 
@@ -35,7 +35,7 @@ const Visual = ({ graph }: VisualProps) => {
     const { links, nodes } = useMemo(() => formatGraphData(graph), [graph])
 
     /** Highlight connected shape on hover */
-    const handleMouseInteraction = useCallback(({ type }, d) => {
+    const handleMouseInteraction = useCallback(({ type }: MouseEvent, d: GraphVertice) => {
         const el = document.querySelector(`[data-code-link="${d.Code}"]`)
 
         if (type === 'mouseover') {
@@ -47,8 +47,8 @@ const Visual = ({ graph }: VisualProps) => {
 
     /** Handle click event on node */
     const handleClick = useCallback(
-        (_, d) => {
-            const path = generateObjectPath(d.Object_Type, d.UUID)
+        (_: MouseEvent, d: GraphVertice) => {
+            const path = generateObjectPath(d.Object_Type as ModelType, d.UUID)
 
             navigate(path)
         },

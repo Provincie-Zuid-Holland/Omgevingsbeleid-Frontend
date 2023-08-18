@@ -9,14 +9,14 @@ import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
 
 import { useUsersGet } from '@/api/fetchers'
+import { ModuleAddNewObject } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 
-import { ContentsModalForm } from '../ModuleContentsModal'
 import { StepProps } from './types'
 
 export const StepThree = ({}: StepProps) => {
-    const { values } = useFormikContext<ContentsModalForm>()
+    const { values } = useFormikContext<ModuleAddNewObject>()
     const { data: users, isFetching, isLoading } = useUsersGet({ limit: 500 })
 
     const model =
@@ -27,13 +27,26 @@ export const StepThree = ({}: StepProps) => {
     /**
      * Format user options
      */
-    const userOptions = useMemo(
+    const userOptions1 = useMemo(
         () =>
-            users?.results.map(user => ({
-                label: user.Gebruikersnaam,
-                value: user.UUID,
-            })),
-        [users]
+            users?.results
+                .filter(user => user.UUID !== values.Owner_2_UUID)
+                .map(user => ({
+                    label: user.Gebruikersnaam,
+                    value: user.UUID,
+                })),
+        [users, values.Owner_2_UUID]
+    )
+
+    const userOptions2 = useMemo(
+        () =>
+            users?.results
+                .filter(user => user.UUID !== values.Owner_1_UUID)
+                .map(user => ({
+                    label: user.Gebruikersnaam,
+                    value: user.UUID,
+                })),
+        [users, values.Owner_1_UUID]
     )
 
     return (
@@ -52,24 +65,26 @@ export const StepThree = ({}: StepProps) => {
             />
             <div className="mt-3">
                 <FormikSelect
-                    key={String(!!userOptions)}
+                    key={String(
+                        userOptions1?.length + (values.Owner_2_UUID || '')
+                    )}
                     name="Owner_1_UUID"
                     label="Eerste eigenaar"
                     placeholder="Kies een eigenaar"
                     isLoading={isLoading && isFetching}
-                    options={userOptions}
+                    options={userOptions1}
                     blurInputOnSelect
                     required
                 />
             </div>
             <div className="mt-3">
                 <FormikSelect
-                    key={String(!!userOptions)}
+                    key={String(userOptions2?.length + values.Owner_1_UUID)}
                     name="Owner_2_UUID"
                     label="Tweede eigenaar"
                     placeholder="Kies een eigenaar"
                     isLoading={isLoading && isFetching}
-                    options={userOptions}
+                    options={userOptions2}
                     blurInputOnSelect
                 />
             </div>

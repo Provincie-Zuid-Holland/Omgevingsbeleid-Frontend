@@ -9,11 +9,11 @@ import { ModelReturnType } from '@/config/objects/types'
 import { DynamicField } from '@/config/types'
 import useObject from '@/hooks/useObject'
 
-import AreaPreview from '../AreaPreview'
-import AreaModal from '../Modals/AreaModal'
-import { AreaProps } from '../Modals/AreaModal/AreaModal'
+import AreaPreview from '../../AreaPreview'
+import AreaModal from '../../Modals/AreaModal'
+import { AreaProps } from '../../Modals/AreaModal/AreaModal'
 
-const SelectArea = ({
+const FieldSelectArea = ({
     name,
     label,
     required,
@@ -69,7 +69,7 @@ const SelectArea = ({
                     onClick={() => setOpen(true)}
                     type="button"
                     className={classNames(
-                        'w-full py-4 px-2 mt-4 border border-pzh-gray-600 rounded-[4px] underline',
+                        'mt-4 w-full rounded-[4px] border border-pzh-gray-600 px-2 py-4 underline',
                         {
                             'text-pzh-green': !disabled,
                             'bg-pzh-gray-100 text-pzh-gray-600': disabled,
@@ -79,15 +79,15 @@ const SelectArea = ({
                     Werkingsgebied koppelen
                 </button>
             ) : (
-                <div className="w-full p-2 mt-4 border border-pzh-gray-600 rounded-[4px]">
+                <div className="mt-4 w-full rounded-[4px] border border-pzh-gray-600 p-2">
                     <div className="grid grid-cols-9 gap-4">
-                        <div className="col-span-3 p-2">
+                        <div className="col-span-9 p-2 md:col-span-3">
                             <Text type="body-bold">
                                 Gekoppeld werkingsgebied
                             </Text>
 
-                            <div className="mt-5 p-2 border border-pzh-gray-200 rounded-[4px]">
-                                <div className="flex justify-between items-start">
+                            <div className="mt-5 rounded-[4px] border border-pzh-gray-200 p-2">
+                                <div className="flex items-start justify-between">
                                     <p className="font-bold leading-5">
                                         {area?.Title}
                                     </p>
@@ -111,7 +111,7 @@ const SelectArea = ({
                                 </span>
                             </div>
                         </div>
-                        <div className="col-span-6 flex flex-1 h-[500px]">
+                        <div className="col-span-9 flex h-[500px] flex-1 md:col-span-6">
                             <AreaPreview area={area} />
                         </div>
                     </div>
@@ -129,4 +129,4 @@ const SelectArea = ({
     )
 }
 
-export default SelectArea
+export default FieldSelectArea

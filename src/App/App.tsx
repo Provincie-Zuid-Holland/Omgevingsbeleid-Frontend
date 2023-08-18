@@ -27,6 +27,9 @@ const queryClient = new QueryClient({
             retryOnMount: true,
             onError: () => toastNotification('error'),
         },
+        mutations: {
+            onError: () => toastNotification('error'),
+        },
     },
 })
 
@@ -54,7 +57,7 @@ const App = () => {
             <QueryClientProvider client={queryClient}>
                 <AuthProvider>
                     <div
-                        className="text-pzh-blue-dark relative flex flex-col min-h-screen"
+                        className="relative flex min-h-screen flex-col text-pzh-blue-dark"
                         id="main-container">
                         <Helmet titleTemplate="%s - Omgevingsbeleid Provincie Zuid-Holland">
                             <meta charSet="utf-8" />
@@ -73,7 +76,10 @@ const App = () => {
                             {!isAdvancedSearchPage &&
                                 !userIsInMuteerEnvironment &&
                                 !isNetworkPage && (
-                                    <DNABar blocks={6} className="top-[96px]" />
+                                    <DNABar
+                                        blocks={6}
+                                        className="top-[96px] hidden lg:block"
+                                    />
                                 )}
                         </BaseLayout>
                     </div>

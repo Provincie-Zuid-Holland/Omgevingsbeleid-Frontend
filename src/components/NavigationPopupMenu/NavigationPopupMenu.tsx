@@ -1,9 +1,11 @@
 import { Heading, Text } from '@pzh-ui/components'
 import { AngleRight, Bars, Xmark } from '@pzh-ui/icons'
-import { useEffect, useState } from 'react'
+import classNames from 'classnames'
+import { KeyboardEvent, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useKey, useWindowSize } from 'react-use'
 
+import { menuGroups } from '@/constants/menu'
 import useBreakpoint from '@/hooks/useBreakpoint'
 
 import { Container } from '../Container'
@@ -56,7 +58,7 @@ const NavigationPopupMenu = ({
             {isMobile ? (
                 <div className="fixed bottom-0 right-0 z-50">
                     <div
-                        className="flex items-center justify-center p-8 text-white cursor-pointer bg-pzh-blue-dark"
+                        className="flex cursor-pointer items-center justify-center bg-pzh-blue-dark p-8 text-white"
                         onClick={() => setIsOpen(!isOpen)}>
                         {isOpen ? (
                             <Xmark
@@ -76,16 +78,16 @@ const NavigationPopupMenu = ({
             ) : null}
             {isOpen ? (
                 <>
-                    <div className="fixed top-[96px] left-0 z-0 block w-screen h-screen bg-gray-900 pointer-events-none opacity-40" />
+                    <div className="pointer-events-none fixed left-0 top-[96px] z-0 block h-screen w-screen bg-gray-900/40" />
                     <nav
                         id="popup-menu"
-                        className="fixed top-[96px] left-0 z-10 w-full pb-8 bg-white"
+                        className="fixed left-0 top-[96px] z-10 w-full bg-white pb-8"
                         aria-label="primary">
                         <Container
                             className="h-full overflow-y-auto"
                             style={isMobile ? containerHeightStyle : undefined}>
-                            <div className="flex flex-col col-span-6 mt-6 md:items-center sm:flex-row">
-                                <div className="relative flex items-center flex-1 w-full">
+                            <div className="col-span-6 mt-6 flex flex-col sm:flex-row md:items-center">
+                                <div className="relative flex w-full flex-1 items-center">
                                     <SearchBar
                                         callBack={() => {
                                             setIsOpen(false)
@@ -98,88 +100,48 @@ const NavigationPopupMenu = ({
                                         <Link
                                             to="/zoeken-op-kaart"
                                             onClick={() => setIsOpen(false)}
-                                            className="underline text-pzh-green hover:text-pzh-green-dark">
+                                            className="text-pzh-green underline hover:text-pzh-green-dark">
                                             Zoek op de kaart
                                         </Link>
                                     </Text>
                                 </div>
                             </div>
-                            <div className="col-span-6 mt-6 md:col-span-2">
-                                <Heading level="3">Omgevingsvisie</Heading>
-                                <ul className="mt-1">
-                                    <ListItem
-                                        text="Ambities"
-                                        setIsOpen={setIsOpen}
-                                        to="/omgevingsvisie/ambities"
-                                    />
-
-                                    <ListItem
-                                        text="Beleidsdoelen"
-                                        setIsOpen={setIsOpen}
-                                        to="/omgevingsvisie/beleidsdoelen"
-                                    />
-
-                                    <ListItem
-                                        text="Beleidskeuzes"
-                                        setIsOpen={setIsOpen}
-                                        to="/omgevingsvisie/beleidskeuzes"
-                                    />
-                                </ul>
-                            </div>
-                            <div className="col-span-6 mt-6 md:col-span-2">
-                                <Link
-                                    to="/omgevingsprogramma"
-                                    onClick={() => setIsOpen(false)}>
-                                    <Heading level="3">
-                                        Omgevingsprogramma
-                                    </Heading>
-                                </Link>
-                                <ul className="mt-1">
-                                    <ListItem
-                                        text="Thematische programma’s"
-                                        setIsOpen={setIsOpen}
-                                        to="/omgevingsprogramma/thematische-programmas"
-                                    />
-                                    <ListItem
-                                        text="Gebiedsprogramma’s"
-                                        setIsOpen={setIsOpen}
-                                        to="/omgevingsprogramma/gebiedsprogrammas"
-                                    />
-                                    <ListItem
-                                        text="Maatregelen"
-                                        setIsOpen={setIsOpen}
-                                        to="/omgevingsprogramma/maatregelen"
-                                    />
-                                </ul>
-                            </div>
-                            <div className="col-span-6 mt-6 md:col-span-2">
-                                <Heading level="3">
-                                    Omgevingsverordening
-                                </Heading>
-                                <ul className="mt-1">
-                                    <ListItem
-                                        text="Beleidsregels"
-                                        setIsOpen={setIsOpen}
-                                        to="/omgevingsverordening/beleidsregels"
-                                    />
-
-                                    <ListItem
-                                        targetBlank
-                                        text="Verordening"
-                                        setIsOpen={setIsOpen}
-                                        to="https://www.ruimtelijkeplannen.nl/web-roo/transform/NL.IMRO.9928.OVerordening2019-GC10/pt_NL.IMRO.9928.OVerordening2019-GC10.xml"
-                                    />
-                                </ul>
-                            </div>
+                            {menuGroups.map(group => (
+                                <div
+                                    key={group.title}
+                                    className="col-span-6 mt-6 md:col-span-2">
+                                    {group.to ? (
+                                        <Link
+                                            to={group.to}
+                                            onClick={() => setIsOpen(false)}>
+                                            <Heading level="3">
+                                                {group.title}
+                                            </Heading>
+                                        </Link>
+                                    ) : (
+                                        <Heading level="3">
+                                            {group.title}
+                                        </Heading>
+                                    )}
+                                    <ul className="mt-1">
+                                        {group.items.map(item => (
+                                            <ListItem
+                                                key={item.text}
+                                                text={item.text}
+                                                setIsOpen={setIsOpen}
+                                                to={item.to}
+                                                {...('targetBlank' in item && {
+                                                    targetBlank:
+                                                        item.targetBlank,
+                                                })}
+                                            />
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))}
                             <div className="col-span-6 mt-6 md:col-span-2">
                                 <Heading level="3">Actueel</Heading>
                                 <ul className="mt-1">
-                                    <ListItem
-                                        text="Beleidswijzigingen"
-                                        setIsOpen={setIsOpen}
-                                        to="/in-bewerking"
-                                    />
-
                                     <ListItem
                                         targetBlank
                                         text="Lange Termijn Agenda"
@@ -188,11 +150,11 @@ const NavigationPopupMenu = ({
                                     />
                                 </ul>
                             </div>
-                            <div className="col-span-6 mb-10 md:mb-0 md:mt-6 md:col-span-2">
+                            <div className="col-span-6 mb-10 md:col-span-2 md:mb-0 md:mt-6">
                                 <ul
-                                    style={
-                                        isMobile ? {} : { marginTop: '32px' }
-                                    }>
+                                    className={classNames({
+                                        'mt-[32px]': !isMobile,
+                                    })}>
                                     <ListItem
                                         text="Beleidsnetwerk"
                                         setIsOpen={setIsOpen}
@@ -202,7 +164,7 @@ const NavigationPopupMenu = ({
                                                 location.pathname +
                                                 location.search,
                                         }}
-                                        onKeyDown={(e: any) => {
+                                        onKeyDown={(e: KeyboardEvent) => {
                                             if (
                                                 e.key === 'Tab' &&
                                                 !e.shiftKey
@@ -245,10 +207,10 @@ const ToggleMenuButton = ({
             }
         }}
         id="popup-menu-toggle"
-        className={`relative flex items-center justify-center px-2 pb-1 mb-1 pt-2 -mr-6 transition-colors duration-100 ease-in rounded ${
+        className={`relative mb-1 flex items-center justify-center rounded px-2 pb-1 pt-2 transition-colors duration-100 ease-in lg:-mr-6 ${
             isOpen
                 ? 'text-white hover:bg-gray-100 hover:text-pzh-blue'
-                : 'text-pzh-blue hover:text-pzh-blue-dark hover:bg-gray-100'
+                : 'text-pzh-blue hover:bg-gray-100 hover:text-pzh-blue-dark'
         } ${isMobile ? 'hidden' : ''}`}
         aria-expanded={isOpen}
         onClick={() => setIsOpen(!isOpen)}>
@@ -288,7 +250,7 @@ const ListItem = ({
                     rel="noopener noreferrer"
                     onClick={() => setIsOpen(false)}
                     id={`menu-item-${text.replace(/\s+/g, '-').toLowerCase()}`}>
-                    <AngleRight className="mr-2 -mt-0.5 inline-block" />
+                    <AngleRight className="-mt-0.5 mr-2 inline-block" />
                     <span className="underline">{text}</span>
                 </a>
             </li>
@@ -303,7 +265,7 @@ const ListItem = ({
                 state={state}
                 onClick={() => setIsOpen(false)}
                 id={`menu-item-${text.replace(/\s+/g, '-').toLowerCase()}`}>
-                <AngleRight className="mr-2 -mt-0.5 inline-block" />
+                <AngleRight className="-mt-0.5 mr-2 inline-block" />
                 <span className="underline">{text}</span>
             </Link>
         </li>

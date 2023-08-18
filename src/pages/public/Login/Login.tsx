@@ -23,30 +23,24 @@ const Login = () => {
                 className={classNames('overflow-hidden', {
                     'min-h-[576px]': !isMobile,
                 })}>
-                <div className="col-span-6 lg:pb-12 lg:col-span-3">
+                <div className="col-span-6 lg:col-span-3 lg:pb-12">
                     <Heading level="1" className="mt-4 sm:mt-12 lg:mt-16">
                         Inloggen
                     </Heading>
-                    <Text type="introduction-paragraph" className="mt-3 mb-8">
+                    <Text type="introduction-paragraph" className="mb-8 mt-3">
                         Als beleidsmedewerker van provincie Zuid-Holland kun je
                         hier inloggen om te werken aan het Omgevingsbeleid.
                     </Text>
                     <LoginForm />
                 </div>
-                <div className="relative hidden col-span-3 lg:inline-block">
-                    <div
-                        className="absolute bg-cover bg-no-repeat bg-center left-0 top-0 h-full image-login-1 text-white sm:inline-block"
-                        style={{
-                            height: '480px',
-                            width: 'calc(50vw)',
-                        }}
-                    />
+                <div className="relative col-span-3 hidden lg:inline-block">
+                    <div className="image-login-1 absolute left-0 top-0 h-[480px] w-[50vw] bg-cover bg-center bg-no-repeat text-white sm:inline-block" />
                 </div>
             </Container>
-            <div className="block w-full h-64 bg-center bg-no-repeat bg-cover bg-pzh-blue lg:hidden image-login-1" />
+            <div className="image-login-1 block h-64 w-full bg-pzh-blue bg-cover bg-center bg-no-repeat lg:hidden" />
 
             <Container className="border-t border-gray-300">
-                <div className="col-span-6 py-4 mt-4 lg:mt-0 lg:py-12 lg:col-span-3">
+                <div className="col-span-6 mt-4 py-4 lg:col-span-3 lg:mt-0 lg:py-12">
                     <Heading as="2" level="3">
                         Digitaal Omgevingsbeleid
                     </Heading>
@@ -57,12 +51,12 @@ const Login = () => {
                         Zuid-Holland inzien.
                     </Text>
                     <Link
-                        className="block mt-4 underline hover:text-pzh-green-dark text-pzh-green"
+                        className="mt-4 block text-pzh-green underline hover:text-pzh-green-dark"
                         to="/">
                         Ga naar de raadpleegomgeving
                     </Link>
                 </div>
-                <div className="col-span-6 py-4 mt-4 mb-4 lg:mt-0 lg:py-12 lg:col-span-3">
+                <div className="col-span-6 mb-4 mt-4 py-4 lg:col-span-3 lg:mt-0 lg:py-12">
                     <Heading as="2" level="3">
                         Hulp bij het inloggen
                     </Heading>
@@ -71,7 +65,7 @@ const Login = () => {
                         afdeling omgevingsbeleid via{' '}
                         <a
                             href="mailto:omgevingsbeleid@pzh.nl?subject=Hulp bij het inloggen"
-                            className="underline cursor-pointer hover:text-pzh-green-dark text-pzh-green"
+                            className="cursor-pointer text-pzh-green underline hover:text-pzh-green-dark"
                             target="_blank"
                             rel="noopener noreferrer">
                             omgevingsbeleid@pzh.nl

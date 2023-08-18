@@ -29,7 +29,7 @@ const NotFoundPage = () => {
 
                     <Text className="my-4">Je kunt het volgende proberen:</Text>
 
-                    <div className="prose prose-neutral prose-li:my-0 mb-4 md:mb-8 max-w-full text-pzh-blue-dark marker:text-pzh-blue-dark leading-6">
+                    <div className="prose prose-neutral mb-4 max-w-full leading-6 text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0 md:mb-8">
                         <ul>
                             <li>
                                 Controleer het internetadres in de adresbalk.

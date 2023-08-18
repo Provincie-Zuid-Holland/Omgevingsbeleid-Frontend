@@ -56,6 +56,7 @@ const MapSearch = () => {
                 )
 
                 setUUIDs(werkingsgebiedenUUIDS)
+                setGeoLoading(false)
             } else {
                 setGeoLoading(false)
             }
@@ -190,9 +191,7 @@ const MapSearch = () => {
 
     return (
         <>
-            <Helmet>
-                <title>Omgevingsbeleid - Zoeken op de kaart</title>
-            </Helmet>
+            <Helmet title="Zoeken op de kaart" />
             <ContainerMapSearch className="overflow-hidden border-t">
                 <SidebarInformation
                     mapInstance={mapInstance}

@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
 
-import { ReadRelationShort, WriteRelationShort } from '@/api/fetchers.schemas'
+import { ReadRelation, WriteRelation } from '@/api/fetchers.schemas'
 
 import { StepProps } from './types'
 
@@ -36,7 +36,8 @@ export const StepOne = ({
     return (
         <>
             <Text className="mb-4">
-                {pluralCapitalize} koppelen aan {model.defaults.singular}:{' '}
+                {pluralCapitalize} koppelen aan{' '}
+                {model.defaults.singularReadable}:{' '}
                 <span className="font-bold">{title}</span>
             </Text>
             <Divider />
@@ -77,10 +78,10 @@ export const StepOne = ({
     )
 }
 
-interface ConnectionProps extends ReadRelationShort {
+interface ConnectionProps extends ReadRelation {
     atemporal?: boolean
     setStep: (step: number) => void
-    handleDeleteConnection: (connection: WriteRelationShort) => void
+    handleDeleteConnection: (connection: WriteRelation) => void
 }
 
 const Connection = ({
@@ -92,7 +93,7 @@ const Connection = ({
     setStep,
     handleDeleteConnection,
 }: ConnectionProps) => {
-    const { setFieldValue } = useFormikContext<ReadRelationShort>()
+    const { setFieldValue } = useFormikContext<ReadRelation>()
 
     return (
         <div className="mt-3">

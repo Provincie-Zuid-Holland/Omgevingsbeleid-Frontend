@@ -19,24 +19,29 @@ const SearchResultItem = ({
 }: SearchResultItem) => {
     const model = models[Object_Type as ModelType]
 
-    const highlightString = (
-        text: string | undefined,
-        query?: string | null
-    ) => {
+    const highlightString = (text?: string, query?: string | null) => {
         if (!text) {
             return ''
         } else if (!query) {
             return text
         }
 
-        const wordsInQuery = query.split(' ').filter(word => word.length >= 4)
-        const markedText = wordsInQuery.reduce((acc, word) => {
-            const regex = new RegExp(word, 'gi')
-            return acc.replace(
-                regex,
-                `<mark class="marked-red" data-testid="marker">$&</mark>`
-            )
-        }, text)
+        // Filter and escape query words to be used in regex
+        const wordsInQuery = query
+            .split(' ')
+            .filter(word => word.length >= 4)
+            .map(word => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+
+        if (wordsInQuery.length === 0) {
+            return text
+        }
+
+        // Create a regex pattern for all the words in the query
+        const pattern = new RegExp(wordsInQuery.join('|'), 'gi')
+        const markedText = text.replace(
+            pattern,
+            `<mark class="marked-red" data-testid="marker">$&</mark>`
+        )
 
         return markedText
     }

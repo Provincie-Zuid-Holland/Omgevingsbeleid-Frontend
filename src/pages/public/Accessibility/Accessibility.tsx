@@ -14,16 +14,14 @@ function Accessibility() {
 
     return (
         <div>
-            <Helmet>
-                <title>Omgevingsbeleid - Digitale toegankelijkheid</title>
-            </Helmet>
+            <Helmet title="Digitale toegankelijkheid" />
             <div
-                className="hidden w-full h-[288px] bg-center bg-no-repeat bg-cover bg-pzh-blue md:block"
+                className="hidden h-[288px] w-full bg-pzh-blue bg-cover bg-center bg-no-repeat md:block"
                 style={{
                     backgroundImage: `url(${imgDigiToegankelijkheid})`,
                 }}
             />
-            <Container className="pb-20 overflow-hidden">
+            <Container className="overflow-hidden pb-20">
                 <div className="col-span-6 md:col-span-4">
                     <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
                     <Heading level="1" className="mt-4 ">
@@ -57,14 +55,14 @@ function Accessibility() {
                         dan contact op met ons Contact Centrum via{' '}
                         <a
                             href="mailto:zuidholland@pzh.nl"
-                            className="text-pzh-green hover:text-pzh-green-dark">
+                            className="text-pzh-green underline hover:text-pzh-green-dark">
                             zuidholland@pzh.nl
                         </a>{' '}
                         of kijk op{' '}
                         <a
                             href="www.zuid-holland.nl/contact"
                             target="_blank"
-                            className="text-pzh-green hover:text-pzh-green-dark"
+                            className="text-pzh-green underline hover:text-pzh-green-dark"
                             rel="noopener noreferrer">
                             www.zuid-holland.nl/contact
                         </a>

@@ -1,4 +1,5 @@
 import { Heading } from '@pzh-ui/components'
+import { useQueryClient } from '@tanstack/react-query'
 import { FormikHelpers } from 'formik'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -15,25 +16,17 @@ interface ObjectCreateProps {
 }
 
 const ObjectCreate = ({ model }: ObjectCreateProps) => {
+    const queryClient = useQueryClient()
     const navigate = useNavigate()
 
     const { singularCapitalize, plural, pluralCapitalize } = model.defaults
-    const { usePostObject, useGetValid } = model.fetchers
+    const { usePostObject, useGetValid, usePutRelations } = model.fetchers
 
-    const { refetch } = useGetValid(
-        { limit: 200 },
-        { query: { enabled: false } }
-    )
+    const { queryKey } = useGetValid(undefined, { query: { enabled: false } })
 
-    const createObject = usePostObject?.({
-        mutation: {
-            onSuccess: () => {
-                refetch().then(() => navigate(`/muteer/${plural}`))
+    const createObject = usePostObject?.()
 
-                toastNotification('saved')
-            },
-        },
-    })
+    const putRelations = usePutRelations?.()
 
     /**
      * Format initialData based on object fields
@@ -61,15 +54,52 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
     ) => {
         if (!payload) return
 
+        const { connections, ...rest } = payload
+
         createObject
-            ?.mutateAsync({
-                data: payload,
-            })
+            ?.mutateAsync(
+                {
+                    data: rest,
+                },
+                {
+                    onSuccess: data => {
+                        if (!!connections && !!data.Object_ID) {
+                            putRelations.mutateAsync(
+                                {
+                                    lineageId: data.Object_ID,
+                                    data: connections,
+                                },
+                                {
+                                    onSuccess: () => {
+                                        queryClient
+                                            .invalidateQueries(queryKey, {
+                                                refetchType: 'all',
+                                            })
+                                            .then(() =>
+                                                navigate(`/muteer/${plural}`)
+                                            )
+
+                                        toastNotification('saved')
+                                    },
+                                }
+                            )
+                        } else {
+                            queryClient
+                                .invalidateQueries(queryKey, {
+                                    refetchType: 'all',
+                                })
+                                .then(() => navigate(`/muteer/${plural}`))
+
+                            toastNotification('saved')
+                        }
+                    },
+                }
+            )
             .catch(err => handleError<typeof initialData>(err, helpers))
     }
 
     const breadcrumbPaths = [
-        { name: 'Muteeromgeving', path: '/muteer' },
+        { name: 'Dashboard', path: '/muteer' },
         {
             name: pluralCapitalize,
             path: `/muteer/${plural}`,
