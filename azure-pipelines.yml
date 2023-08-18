@@ -41,7 +41,7 @@ stages:
                 - task: CmdLine@2
                   displayName: Set environment variable
                   inputs:
-                      script: export VITE_API_ENV=$(Build.SourceBranchName)
+                      script: set VITE_API_ENV=$(Build.SourceBranchName)
 
                 - task: CmdLine@2
                   displayName: Build
