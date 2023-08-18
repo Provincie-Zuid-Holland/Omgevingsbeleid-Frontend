@@ -48,7 +48,8 @@ const Handle = ({
                         className="cursor-grab text-pzh-blue transition"
                     />
                 )}
-                <div
+                <Button
+                    variant="default"
                     className={classNames(
                         'flex h-[24px] min-w-[24px] items-center justify-center rounded-[4px]',
                         GROUP_VARIANTS[type][1],
@@ -57,19 +58,24 @@ const Handle = ({
                             'bg-pzh-blue': activeItem === uuid,
                             'bg-pzh-warm-gray-light': activeItem !== uuid,
                         }
-                    )}>
+                    )}
+                    isDisabled={expanded}
+                    onPress={
+                        !expanded
+                            ? () =>
+                                  activeItem !== uuid
+                                      ? setActiveItem(uuid)
+                                      : undefined
+                            : undefined
+                    }>
                     {expanded ? (
                         <Icon size={14} className="text-pzh-white" />
                     ) : (
-                        <span
-                            className="-mb-1 font-bold text-pzh-white"
-                            onClick={() =>
-                                activeItem !== uuid && setActiveItem(uuid)
-                            }>
+                        <span className="-mb-1 font-bold text-pzh-white">
                             {index}
                         </span>
                     )}
-                </div>
+                </Button>
                 <Text
                     className={classNames('-mb-1', {
                         'opacity-100': expanded,
@@ -80,10 +86,13 @@ const Handle = ({
                 </Text>
             </div>
             <div className="relative z-1 flex items-center gap-[16px]">
-                <Button variant="default" onPress={handleDelete}>
+                <Button
+                    variant="default"
+                    onPress={handleDelete}
+                    isDisabled={!expanded}>
                     <TrashCan size={16} color="text-pzh-blue" />
                 </Button>
-                <Button variant="default">
+                <Button variant="default" isDisabled={!expanded}>
                     <PenToSquare size={16} color="text-pzh-blue" />
                 </Button>
             </div>

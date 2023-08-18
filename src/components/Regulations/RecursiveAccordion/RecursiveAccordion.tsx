@@ -105,12 +105,13 @@ const RecursiveAccordion = ({
                             <AccordionTrigger
                                 className={classNames('overflow-hidden py-2', {
                                     'active:animate-pulse active:cursor-grabbing active:bg-pzh-blue-light/10':
-                                        expanded,
+                                        expanded && structure.length > 1,
                                 })}
                                 classNameButton={classNames({
                                     'after:w-full': structure.length <= 1,
                                     'after:w-[calc(100%-36px)]':
                                         structure.length > 1,
+                                    hidden: !expanded,
                                 })}
                                 {...dragProps([...parentIndices, index])}>
                                 <Handle

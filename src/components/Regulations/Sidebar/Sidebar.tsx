@@ -1,4 +1,4 @@
-import { Heading, PillButton } from '@pzh-ui/components'
+import { Button, Heading, PillButton } from '@pzh-ui/components'
 import { AngleRight, Plus } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useCallback, useState } from 'react'
@@ -27,7 +27,7 @@ const Sidebar = () => {
         setExpanded(!expanded)
 
         if (!activeItem) {
-            setActiveItem(structure[0].uuid)
+            setActiveItem(structure?.[0]?.uuid)
         }
     }, [activeItem, structure, expanded, setActiveItem])
 
@@ -48,8 +48,9 @@ const Sidebar = () => {
                         'min-w-[80vw]': expanded,
                     }
                 )}>
-                <button
-                    onClick={toggleSidebar}
+                <Button
+                    variant="default"
+                    onPress={toggleSidebar}
                     className="absolute -right-[12px] top-8 z-10 flex h-[24px] w-[24px] items-center justify-center rounded-full bg-pzh-blue-dark">
                     <span className="sr-only">{`Zijbalk ${
                         expanded ? 'sluiten' : 'openen'
@@ -60,7 +61,7 @@ const Sidebar = () => {
                         })}
                         size={16}
                     />
-                </button>
+                </Button>
 
                 <div
                     className={classNames('overflow-hidden px-4 pb-[96px]', {
