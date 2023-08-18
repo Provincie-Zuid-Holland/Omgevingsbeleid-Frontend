@@ -6747,6 +6747,10 @@ export const getNationaalBelangLineageIdPostMock = () => ({
     message: faker.random.word(),
 })
 
+export const getNationaalBelangLineageIdDeleteMock = () => ({
+    message: faker.random.word(),
+})
+
 export const getNationaalBelangValidGetMock = () => ({
     total: faker.datatype.number({ min: undefined, max: undefined }),
     offset: faker.helpers.arrayElement([
@@ -6910,6 +6914,10 @@ export const getVerplichtProgrammaPostMock = () => ({
 })
 
 export const getVerplichtProgrammaLineageIdPostMock = () => ({
+    message: faker.random.word(),
+})
+
+export const getVerplichtProgrammaLineageIdDeleteMock = () => ({
     message: faker.random.word(),
 })
 
@@ -7121,6 +7129,10 @@ export const getWettelijkeTaakPostMock = () => ({
 })
 
 export const getWettelijkeTaakLineageIdPostMock = () => ({
+    message: faker.random.word(),
+})
+
+export const getWettelijkeTaakLineageIdDeleteMock = () => ({
     message: faker.random.word(),
 })
 
@@ -8536,6 +8548,13 @@ export const getOmgevingsbeleidAPIMSW = () => [
             ctx.json(getNationaalBelangLineageIdPostMock())
         )
     }),
+    rest.delete('*/nationaal-belang/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getNationaalBelangLineageIdDeleteMock())
+        )
+    }),
     rest.get('*/nationaal-belang/valid', (_req, res, ctx) => {
         return res(
             ctx.delay(1000),
@@ -8585,6 +8604,13 @@ export const getOmgevingsbeleidAPIMSW = () => [
             ctx.json(getVerplichtProgrammaLineageIdPostMock())
         )
     }),
+    rest.delete('*/verplicht-programma/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getVerplichtProgrammaLineageIdDeleteMock())
+        )
+    }),
     rest.get('*/verplicht-programma/valid', (_req, res, ctx) => {
         return res(
             ctx.delay(1000),
@@ -8632,6 +8658,13 @@ export const getOmgevingsbeleidAPIMSW = () => [
             ctx.delay(1000),
             ctx.status(200, 'Mocked status'),
             ctx.json(getWettelijkeTaakLineageIdPostMock())
+        )
+    }),
+    rest.delete('*/wettelijke-taak/:lineageId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getWettelijkeTaakLineageIdDeleteMock())
         )
     }),
     rest.get('*/wettelijke-taak/valid', (_req, res, ctx) => {

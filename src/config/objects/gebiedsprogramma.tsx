@@ -34,6 +34,7 @@ const fetchers = {
     usePatchObjectInModule:
         useModulesModuleIdObjectGebiedsprogrammasLineageIdPatch,
     usePatchObject: null,
+    useDeleteObject: null,
     usePostStatic: useGebiedsprogrammasStaticLineageIdPost,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,

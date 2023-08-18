@@ -7477,6 +7477,72 @@ export const useNationaalBelangLineageIdPost = <
 }
 
 /**
+ * @summary Delete atemporal object
+ */
+export const nationaalBelangLineageIdDelete = (lineageId: number) => {
+    return customInstance<ResponseOK>({
+        url: `/nationaal-belang/${lineageId}`,
+        method: 'delete',
+    })
+}
+
+export const getNationaalBelangLineageIdDeleteMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof nationaalBelangLineageIdDelete>>,
+        TError,
+        { lineageId: number },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof nationaalBelangLineageIdDelete>>,
+    TError,
+    { lineageId: number },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof nationaalBelangLineageIdDelete>>,
+        { lineageId: number }
+    > = props => {
+        const { lineageId } = props ?? {}
+
+        return nationaalBelangLineageIdDelete(lineageId)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type NationaalBelangLineageIdDeleteMutationResult = NonNullable<
+    Awaited<ReturnType<typeof nationaalBelangLineageIdDelete>>
+>
+
+export type NationaalBelangLineageIdDeleteMutationError = HTTPValidationError
+
+/**
+ * @summary Delete atemporal object
+ */
+export const useNationaalBelangLineageIdDelete = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof nationaalBelangLineageIdDelete>>,
+        TError,
+        { lineageId: number },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getNationaalBelangLineageIdDeleteMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
  * @summary Get all the valid nationaal_belang lineages and shows the latest object of each
  */
 export const nationaalBelangValidGet = (
@@ -8003,6 +8069,72 @@ export const useVerplichtProgrammaLineageIdPost = <
 }) => {
     const mutationOptions =
         getVerplichtProgrammaLineageIdPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Delete atemporal object
+ */
+export const verplichtProgrammaLineageIdDelete = (lineageId: number) => {
+    return customInstance<ResponseOK>({
+        url: `/verplicht-programma/${lineageId}`,
+        method: 'delete',
+    })
+}
+
+export const getVerplichtProgrammaLineageIdDeleteMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof verplichtProgrammaLineageIdDelete>>,
+        TError,
+        { lineageId: number },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof verplichtProgrammaLineageIdDelete>>,
+    TError,
+    { lineageId: number },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof verplichtProgrammaLineageIdDelete>>,
+        { lineageId: number }
+    > = props => {
+        const { lineageId } = props ?? {}
+
+        return verplichtProgrammaLineageIdDelete(lineageId)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type VerplichtProgrammaLineageIdDeleteMutationResult = NonNullable<
+    Awaited<ReturnType<typeof verplichtProgrammaLineageIdDelete>>
+>
+
+export type VerplichtProgrammaLineageIdDeleteMutationError = HTTPValidationError
+
+/**
+ * @summary Delete atemporal object
+ */
+export const useVerplichtProgrammaLineageIdDelete = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof verplichtProgrammaLineageIdDelete>>,
+        TError,
+        { lineageId: number },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getVerplichtProgrammaLineageIdDeleteMutationOptions(options)
 
     return useMutation(mutationOptions)
 }
@@ -8540,6 +8672,72 @@ export const useWettelijkeTaakLineageIdPost = <
 }) => {
     const mutationOptions =
         getWettelijkeTaakLineageIdPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Delete atemporal object
+ */
+export const wettelijkeTaakLineageIdDelete = (lineageId: number) => {
+    return customInstance<ResponseOK>({
+        url: `/wettelijke-taak/${lineageId}`,
+        method: 'delete',
+    })
+}
+
+export const getWettelijkeTaakLineageIdDeleteMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof wettelijkeTaakLineageIdDelete>>,
+        TError,
+        { lineageId: number },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof wettelijkeTaakLineageIdDelete>>,
+    TError,
+    { lineageId: number },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof wettelijkeTaakLineageIdDelete>>,
+        { lineageId: number }
+    > = props => {
+        const { lineageId } = props ?? {}
+
+        return wettelijkeTaakLineageIdDelete(lineageId)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type WettelijkeTaakLineageIdDeleteMutationResult = NonNullable<
+    Awaited<ReturnType<typeof wettelijkeTaakLineageIdDelete>>
+>
+
+export type WettelijkeTaakLineageIdDeleteMutationError = HTTPValidationError
+
+/**
+ * @summary Delete atemporal object
+ */
+export const useWettelijkeTaakLineageIdDelete = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof wettelijkeTaakLineageIdDelete>>,
+        TError,
+        { lineageId: number },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getWettelijkeTaakLineageIdDeleteMutationOptions(options)
 
     return useMutation(mutationOptions)
 }

@@ -30,6 +30,7 @@ const fetchers = {
         useModulesModuleIdObjectAmbitieLatestLineageIdGet,
     usePatchObjectInModule: useModulesModuleIdObjectAmbitieLineageIdPatch,
     usePatchObject: null,
+    useDeleteObject: null,
     usePostStatic: useAmbitieStaticLineageIdPost,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,

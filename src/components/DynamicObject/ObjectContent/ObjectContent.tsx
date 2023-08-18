@@ -82,7 +82,7 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
                 </Heading>
             )}
             <Wrapper
-                className="prose prose-neutral prose-li:my-0 mb-4 md:mb-8 max-w-full text-pzh-blue-dark marker:text-pzh-blue-dark leading-6"
+                className="prose prose-neutral mb-4 max-w-full whitespace-pre-line leading-6 text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0 md:mb-8"
                 dangerouslySetInnerHTML={{ __html: cleanHtml }}
             />
         </>
@@ -102,7 +102,7 @@ interface ListProps {
 const List = ({ title, description, items, hidden }: ListProps) => (
     <div
         data-section={title}
-        className="mb-4 md:mb-8 max-w-full whitespace-pre-line prose prose-neutral prose-li:my-0 text-pzh-blue-dark marker:text-pzh-blue-dark leading-6">
+        className="prose prose-neutral mb-4 max-w-full whitespace-pre-line leading-6 text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0 md:mb-8">
         <Heading
             level="2"
             className={classNames('mb-4', { 'sr-only': hidden })}>
