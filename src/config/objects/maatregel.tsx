@@ -33,6 +33,7 @@ const fetchers = {
         useModulesModuleIdObjectMaatregelLatestLineageIdGet,
     usePatchObjectInModule: useModulesModuleIdObjectMaatregelLineageIdPatch,
     usePatchObject: null,
+    useDeleteObject: null,
     usePostStatic: useMaatregelStaticLineageIdPost,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,

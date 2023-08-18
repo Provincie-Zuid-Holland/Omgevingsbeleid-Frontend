@@ -2,6 +2,7 @@ import { CircleExclamation } from '@pzh-ui/icons'
 
 import {
     useVerplichtProgrammaLatestLineageIdGet,
+    useVerplichtProgrammaLineageIdDelete,
     useVerplichtProgrammaLineageIdPost,
     useVerplichtProgrammaPost,
     useVerplichtProgrammaRelationsLineageIdGet,
@@ -27,6 +28,7 @@ const fetchers = {
     useGetLatestLineageInModule: null,
     usePatchObjectInModule: null,
     usePatchObject: useVerplichtProgrammaLineageIdPost,
+    useDeleteObject: useVerplichtProgrammaLineageIdDelete,
     usePostStatic: null,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
