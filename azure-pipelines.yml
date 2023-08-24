@@ -11,6 +11,7 @@ pool:
 
 variables:
     subscription: 'dta-omgevingsbeleid'
+    VITE_API_ENV: $(Build.SourceBranchName)
 
 stages:
     - stage: Build
@@ -37,11 +38,6 @@ stages:
                   inputs:
                       codeCoverageTool: Cobertura
                       summaryFileLocation: $(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml
-
-                - task: CmdLine@2
-                  displayName: Set environment variable
-                  inputs:
-                      script: echo "VITE_API_ENV=$(Build.SourceBranchName)" >> $(Build.SourcesDirectory)/.env
 
                 - task: CmdLine@2
                   displayName: Build
