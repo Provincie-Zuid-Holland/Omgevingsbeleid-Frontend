@@ -17,9 +17,9 @@ export interface Location {
     centroide_rd: string
 }
 
-const api_version = 'v3'
+const api_version = 'v3_1'
 const instance = axios.create({
-    baseURL: `https://geodata.nationaalgeoregister.nl/locatieserver/${api_version}/`,
+    baseURL: `https://api.pdok.nl/bzk/locatieserver/search/${api_version}/`,
 })
 
 const getSuggestData = async (value: string, config?: AxiosRequestConfig) => {
