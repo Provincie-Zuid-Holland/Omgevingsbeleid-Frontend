@@ -211,7 +211,7 @@ leaflet.drawLocal = {
             },
             remove: {
                 tooltip: {
-                    text: 'Klik op een marker om deze te verwijderen',
+                    text: '',
                 },
             },
         },

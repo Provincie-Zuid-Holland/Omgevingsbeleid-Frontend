@@ -1,22 +1,22 @@
-import { Button, FormikInput, Heading, Modal } from '@pzh-ui/components'
+import {
+    Button,
+    FormikInput,
+    Heading,
+    Modal,
+    Notification,
+} from '@pzh-ui/components'
 import { Form, Formik } from 'formik'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import * as Yup from 'yup'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import useAuth from '@/hooks/useAuth'
+import * as loginForm from '@/validation/loginForm'
 
 interface FormProps {
     email: string
     password: string
 }
-
-const schema = Yup.object().shape({
-    email: Yup.string()
-        .email('Onjuist e-mailadres')
-        .required('Dit veld is verplicht'),
-    password: Yup.string().required('Dit veld is verplicht'),
-})
 
 /**
  * Displays a login form in which the user can log into the application.
@@ -26,15 +26,20 @@ const LoginForm = () => {
     const navigate = useNavigate()
     const { signin } = useAuth()
 
-    const [wachtwoordResetPopup, setWachtwoordResetPopup] = useState(false)
+    const [passwordResetPopup, setPasswordResetPopup] = useState(false)
     const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(false)
 
     const handleFormSubmit = ({ email, password }: FormProps) => {
+        setLoading(true)
+
         signin(email, password)
             .then(() => {
-                navigate('/muteer/dashboard', { replace: true })
+                setLoading(false)
+                navigate('/muteer')
             })
             .catch(err => {
+                setLoading(false)
                 setError(err?.data?.message || 'Er is iets mis gegaan.')
             })
     }
@@ -42,15 +47,13 @@ const LoginForm = () => {
     return (
         <>
             <PopupPasswordForgot
-                show={wachtwoordResetPopup}
-                togglePopup={() =>
-                    setWachtwoordResetPopup(!wachtwoordResetPopup)
-                }
+                show={passwordResetPopup}
+                togglePopup={() => setPasswordResetPopup(!passwordResetPopup)}
             />
             <Formik
                 initialValues={{ email: '', password: '' }}
                 onSubmit={handleFormSubmit}
-                validationSchema={schema}>
+                validationSchema={toFormikValidationSchema(loginForm.SCHEMA)}>
                 {({ values, handleSubmit, isValid, dirty }) => (
                     <Form onSubmit={handleSubmit}>
                         <FormikInput
@@ -69,27 +72,26 @@ const LoginForm = () => {
                                 value={values.password}
                             />
                         </div>
-                        <div className="flex items-center justify-between mt-7">
+                        <div className="mt-7 flex items-center justify-between">
                             <Button
                                 type="submit"
-                                isDisabled={!isValid || !dirty}>
+                                isDisabled={!isValid || !dirty}
+                                isLoading={loading}>
                                 Inloggen
                             </Button>
                             <button
-                                className="mt-4 text-sm underline cursor-pointer sm:mt-0 sm:ml-4 text-pzh-green hover:text-pzh-green-dark"
-                                onClick={e => {
-                                    e.preventDefault()
-                                    setWachtwoordResetPopup(
-                                        !wachtwoordResetPopup
-                                    )
-                                }}
+                                type="button"
+                                className="mt-4 cursor-pointer text-sm text-pzh-green underline hover:text-pzh-green-dark sm:ml-4 sm:mt-0"
+                                onClick={() =>
+                                    setPasswordResetPopup(!passwordResetPopup)
+                                }
                                 tabIndex={0}>
                                 Wachtwoord vergeten?
                             </button>
                         </div>
                         {error && (
                             <div className="mt-4">
-                                <span className=" text-pzh-red">{error}</span>
+                                <span className="text-pzh-red">{error}</span>
                             </div>
                         )}
                     </Form>
@@ -120,27 +122,24 @@ const PopupPasswordForgot = ({
         ariaLabel="Wachtwoord vergeten">
         <Heading level="3">Wachtwoord vergeten</Heading>
 
-        <div className="relative p-4 mt-2 mb-4 border-l-4 bg-pzh-blue-super-light border-pzh-blue">
-            <p className="mt-1 text-sm text-pzh-blue-dark">
-                Binnenkort willen wij het mogelijk maken dat medewerkers van
-                provincie Zuid-Holland automatisch kunnen inloggen. Tot die tijd
-                moet het nog met een e-mailadres en een wachtwoord.
-            </p>
-        </div>
+        <Notification className="mb-4 mt-2">
+            Binnenkort willen wij het mogelijk maken dat medewerkers van
+            provincie Zuid-Holland automatisch kunnen inloggen. Tot die tijd
+            moet het nog met een e-mailadres en een wachtwoord.
+        </Notification>
 
         <p className="py-1 text-pzh-blue-dark">
             Wachtwoord vergeten? Stuur dan een e-mail naar het team
             Omgevingsbeleid door op de link te klikken. Je ontvangt dan binnen
             één werkdag een nieuw wachtwoord.
         </p>
-        <div className="flex items-center justify-between mt-5">
-            <button
-                className="text-sm underline transition-colors cursor-pointer text-pzh-blue hover:text-pzh-blue-dark"
-                onClick={togglePopup}
-                id="close-password-forget-popup"
+        <div className="mt-5 flex items-center justify-between">
+            <Button
+                variant="link"
+                onPress={togglePopup}
                 data-testid="close-password-forget-popup">
                 Annuleren
-            </button>
+            </Button>
             <Button
                 variant="cta"
                 id="wachtwoord-reset-button-mailto"

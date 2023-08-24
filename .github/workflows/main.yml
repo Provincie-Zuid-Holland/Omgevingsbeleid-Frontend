@@ -11,12 +11,14 @@ jobs:
         runs-on: ubuntu-latest
 
         env:
-            REACT_APP_API_URL: https://api-obzh-dev.azurewebsites.net/v1.0
-            REACT_APP_GEOSERVER_API_URL: https://geo-omgevingsbeleid-test.azurewebsites.net
-            REACT_APP_API_ENV: dev
-            REACT_APP_KEY_API_ACCESS_TOKEN: OB_access_token
-            REACT_APP_KEY_IDENTIFIER: OB_identifier
-            PZH_FONTAWESOME_SECRET: ${{ secrets.PZH_FONTAWESOME_SECRET }}
+            VITE_API_URL_DEV: 'https://api-obzh-dev.azurewebsites.net'
+            VITE_API_URL_TEST: 'https://api-obzh-test.azurewebsites.net'
+            VITE_API_URL_ACC: 'https://api-obzh-acc.azurewebsites.net'
+            VITE_API_URL_PROD: 'https://api-obzh.azurewebsites.net'
+            VITE_GEOSERVER_API_URL: https://geo-omgevingsbeleid-test.azurewebsites.net
+            VITE_API_ENV: dev
+            VITE_KEY_API_ACCESS_TOKEN: OB_access_token
+            VITE_KEY_IDENTIFIER: OB_identifier
 
         steps:
             - name: Checkout repository
@@ -39,7 +41,7 @@ jobs:
               run: yarn install
 
             - name: Run the tests and generate coverage report
-              run: yarn test:ci
+              run: yarn test:coverage
 
             - name: Build
               run: yarn build

@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router-dom'
 import NavigationPopupMenu from './NavigationPopupMenu'
 
 describe('NavigationPopupMenu', () => {
-    const setIsOpenMock = jest.fn()
+    const setIsOpenMock = vi.fn()
     const defaultProps = {
         showBanner: false,
         isOpen: true,

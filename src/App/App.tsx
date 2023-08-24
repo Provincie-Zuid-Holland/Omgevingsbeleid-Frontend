@@ -1,21 +1,19 @@
 import './appConfig'
 
-import { DNABar } from '@pzh-ui/components'
-import classNames from 'classnames'
+import { DNABar, ToastContainer } from '@pzh-ui/components'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet'
-import { QueryClient, QueryClientProvider } from 'react-query'
-import { ToastContainer } from 'react-toastify'
 import { useEffectOnce } from 'react-use'
 
-import axe from '@/a11y'
-import FeedbackComponent from '@/components/FeedbackComponent'
+import Axe from '@/Axe'
 import { LoaderContent } from '@/components/Loader'
 import AuthProvider from '@/context/AuthContext'
 import usePage from '@/hooks/usePage'
-import ErrorPage from '@/pages/ErrorPage'
+import { ErrorPage } from '@/pages/public'
 import { BaseLayout } from '@/templates/BaseLayout'
+import { toastNotification } from '@/utils/toastNotification'
 
 import AppRoutes from './Routes'
 
@@ -27,22 +25,20 @@ const queryClient = new QueryClient({
             staleTime: 1000 * 60 * 60 * 24,
             retry: false,
             retryOnMount: true,
+            onError: () => toastNotification('error'),
+        },
+        mutations: {
+            onError: () => toastNotification('error'),
         },
     },
 })
 
 const App = () => {
-    const userIsInMuteerEnvironment = usePage('/muteer/')
+    const userIsInMuteerEnvironment = usePage('/muteer')
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
-    const isNetworkVisualization = usePage('/beleidsnetwerk')
+    const isNetworkPage = usePage('/beleidsnetwerk')
 
-    if (process.env.NODE_ENV !== 'production' && !process.env.JEST_WORKER_ID) {
-        axe()
-    }
-
-    useEffectOnce(() => {
-        checkForInternetExplorer()
-    })
+    useEffectOnce(() => checkForInternetExplorer())
 
     // Used to check for Internet Explorer on mount and display an alert that we only support modern browsers. We do polyfill functionalities where needed for Internet Explorer.
     const checkForInternetExplorer = () => {
@@ -57,44 +53,42 @@ const App = () => {
     }
 
     return (
-        <QueryClientProvider client={queryClient}>
-            <AuthProvider>
-                <div
-                    className={classNames(
-                        'min-h-screen text-pzh-blue-dark relative overflow-x-hidden',
-                        {
-                            'bg-gray-100': userIsInMuteerEnvironment,
-                            'advanced-search-page': isAdvancedSearchPage,
-                        }
-                    )}
-                    id="main-container">
-                    <Helmet>
-                        <meta charSet="utf-8" />
-                        <title>Omgevingsbeleid - Provincie Zuid-Holland</title>
-                    </Helmet>
+        <>
+            <QueryClientProvider client={queryClient}>
+                <AuthProvider>
+                    <div
+                        className="relative flex min-h-screen flex-col text-pzh-blue-dark"
+                        id="main-container">
+                        <Helmet titleTemplate="%s - Omgevingsbeleid Provincie Zuid-Holland">
+                            <meta charSet="utf-8" />
+                            <title>
+                                Omgevingsbeleid - Provincie Zuid-Holland
+                            </title>
+                        </Helmet>
 
-                    <BaseLayout
-                        hideFooter={
-                            isAdvancedSearchPage ||
-                            userIsInMuteerEnvironment ||
-                            isNetworkVisualization
-                        }>
-                        <ErrorBoundary FallbackComponent={ErrorPage}>
-                            <Suspense fallback={<LoaderContent />}>
-                                <AppRoutes />
-                            </Suspense>
-                        </ErrorBoundary>
-                        <ToastContainer limit={1} position="bottom-left" />
-                        {!isAdvancedSearchPage && (
-                            <>
-                                <DNABar blocks={6} />
-                                <FeedbackComponent />
-                            </>
-                        )}
-                    </BaseLayout>
-                </div>
-            </AuthProvider>
-        </QueryClientProvider>
+                        <BaseLayout hideFooter={isAdvancedSearchPage}>
+                            <ErrorBoundary FallbackComponent={ErrorPage}>
+                                <Suspense fallback={<LoaderContent />}>
+                                    <AppRoutes />
+                                </Suspense>
+                            </ErrorBoundary>
+                            <ToastContainer position="bottom-left" />
+                            {!isAdvancedSearchPage &&
+                                !userIsInMuteerEnvironment &&
+                                !isNetworkPage && (
+                                    <DNABar
+                                        blocks={6}
+                                        className="top-[96px] hidden lg:block"
+                                    />
+                                )}
+                        </BaseLayout>
+                    </div>
+                </AuthProvider>
+            </QueryClientProvider>
+            {!import.meta.env.PROD &&
+                !import.meta.env.JEST_WORKER_ID &&
+                import.meta.env.VITE_ENABLE_AXE === 'true' && <Axe />}
+        </>
     )
 }
 

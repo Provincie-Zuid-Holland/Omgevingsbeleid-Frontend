@@ -1,44 +1,35 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
-export type Environment = 'dev' | 'test' | 'acc' | 'prod'
+import getApiUrl from '@/utils/getApiUrl'
 
-const apiUrl = process.env.REACT_APP_API_URL
-const environment = process.env.REACT_APP_API_ENV as Environment
+export type Environment = 'dev' | 'test' | 'acc' | 'main'
+
+const environment = import.meta.env.VITE_API_ENV as Environment
 
 const getAccessToken = () =>
-    localStorage.getItem(process.env.REACT_APP_KEY_API_ACCESS_TOKEN || '')
+    localStorage.getItem(import.meta.env.VITE_KEY_API_ACCESS_TOKEN || '')
 
 const instance = axios.create({
-    baseURL: apiUrl,
+    baseURL: getApiUrl(),
     headers: {
         'Content-Type': 'application/json',
     },
 })
 
-instance.interceptors.request.use(function (config) {
+instance.interceptors.request.use(async config => {
     config.headers &&
         (config.headers.Authorization = `Bearer ${getAccessToken()}`)
+
     return config
-})
+}, Promise.reject)
 
 instance.interceptors.response.use(
-    function (response) {
-        return response
-    },
-    function (error) {
-        const allowedUrls = ['password-reset']
-        if (
-            error?.response?.status === 401 &&
-            !allowedUrls.includes(error?.response?.config?.url)
-        ) {
-            window.dispatchEvent(
-                new CustomEvent('authEvent', {
-                    detail: { message: 'Authenticated sessie is afgelopen' },
-                })
-            )
+    response => response,
+    (error: AxiosError) => {
+        if (error.response?.status === 401 || error.response?.status === 403) {
+            window.location.href = '/login'
         }
-
-        throw error?.response
+        return Promise.reject(error)
     }
 )
 

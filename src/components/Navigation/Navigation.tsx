@@ -1,116 +1,125 @@
-import {
-    faEye,
-    faSignIn,
-    IconDefinition,
-} from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Badge } from '@pzh-ui/components'
+import { ArrowRightFromBracket, Eye } from '@pzh-ui/icons'
 import classNames from 'classnames'
-import { FC, useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useWindowSize } from 'react-use'
 
+import { environment } from '@/api/instance'
+import useAuth from '@/hooks/useAuth'
+import useBreakpoint from '@/hooks/useBreakpoint'
 import usePage from '@/hooks/usePage'
 import logoSVG from '@/images/PZH_Basislogo.svg'
-import logoWhite from '@/images/PZH_Basislogo_white.png'
-import hideBannerLocalStorage from '@/utils/hideBannerLocalStorage'
+import logoWhite from '@/images/PZH_Basislogo_white.svg'
+import getEnvironmentText from '@/utils/getEnvironmentName'
 
-import BannerEnvironment from '../BannerEnvironment'
 import { Container } from '../Container'
 import NavigationPopupMenu from '../NavigationPopupMenu'
+import UserMenu from '../UserMenu'
 
 /**
  * Displays a navbar on top of the page which the user can use to login, logout and search within the omgevingsbeleid.
- *
- * @param {boolean} loggedIn - Parameter that is set true if user is logged in.
  */
 
-interface NavigationProps {
-    loggedIn: boolean
-}
-
-const Navigation = ({ loggedIn }: NavigationProps) => {
-    const userIsInMuteerEnvironment = usePage('/muteer/')
+const Navigation = () => {
+    const { user } = useAuth()
+    const userIsInMuteerEnvironment = usePage('/muteer')
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
-    const windowSize = useWindowSize()
-    const [showBanner, setShowBanner] = useState(
-        userIsInMuteerEnvironment && !hideBannerLocalStorage()
-    )
 
     // State for popup menu
     const [isOpen, setIsOpen] = useState(false)
-    const isMobile = windowSize.width <= 640
+    const { isDesktop, isMobile } = useBreakpoint()
 
     return (
         <header
-            className={classNames('top-0 z-20 w-full', {
-                fixed: !isAdvancedSearchPage,
-                relative: isAdvancedSearchPage,
-                'bg-pzh-blue': isOpen,
-                'bg-white': !isOpen,
-            })}
+            className={classNames(
+                'top-0 z-[10000] h-[96px] w-full border-b border-b-pzh-gray-200',
+                {
+                    sticky: !isAdvancedSearchPage,
+                    relative: isAdvancedSearchPage,
+                    'bg-pzh-blue': isOpen || userIsInMuteerEnvironment,
+                    'bg-white': !isOpen && !userIsInMuteerEnvironment,
+                }
+            )}
             id="top-navigation">
-            <BannerEnvironment
-                hideBannerLocalStorage={hideBannerLocalStorage}
-                userIsInMuteerEnvironment={userIsInMuteerEnvironment}
-                showBanner={showBanner}
-                setShowBanner={setShowBanner}
-            />
-
             <Container>
                 {/* Logo */}
                 <div className="col-span-4 my-auto sm:col-span-3">
                     <Link
                         id="href-naar-home"
-                        to={loggedIn ? '/muteer/dashboard' : '/'}
-                        className="relative z-10"
-                        style={
-                            isMobile
-                                ? { marginLeft: '-2rem' }
-                                : { marginLeft: '-96px' }
+                        to={
+                            !!user && userIsInMuteerEnvironment
+                                ? '/muteer'
+                                : '/'
                         }
+                        className={classNames('relative', {
+                            '-ml-8': !isDesktop,
+                            '-ml-[96px]': isDesktop,
+                        })}
                         onClick={() => {
                             setIsOpen(false)
                         }}>
-                        <Logo isOpen={isOpen} />
+                        <Logo
+                            type={
+                                isOpen || userIsInMuteerEnvironment
+                                    ? 'white'
+                                    : 'color'
+                            }
+                        />
                     </Link>
+
+                    {userIsInMuteerEnvironment && (
+                        <Badge
+                            text={getEnvironmentText(environment)}
+                            variant="white"
+                        />
+                    )}
                 </div>
 
                 {/* Buttons to toggle popup menu */}
-                <div className="flex items-center justify-end col-span-2 my-auto sm:col-span-3">
-                    {loggedIn && !isOpen && userIsInMuteerEnvironment ? (
+                <div className="col-span-2 my-auto flex items-center justify-end sm:col-span-3">
+                    {!!user && !isOpen && userIsInMuteerEnvironment ? (
                         <MenuIcon
                             setIsOpen={setIsOpen}
                             to="/"
-                            icon={faEye}
-                            className="mr-2">
-                            Raadplegen
+                            icon={<Eye size={16} className="-mt-1 mr-2" />}
+                            color="white">
+                            Raadpleegomgeving
                         </MenuIcon>
                     ) : null}
-                    {loggedIn && !isOpen && !userIsInMuteerEnvironment ? (
+                    {!!user && !isOpen && !userIsInMuteerEnvironment ? (
                         <MenuIcon
                             setIsOpen={setIsOpen}
-                            to="/muteer/dashboard"
-                            icon={faEye}
-                            className="mr-2">
+                            to="/muteer"
+                            icon={<Eye size={16} className="-mt-1 mr-2" />}
+                            color="blue">
                             Bewerken
                         </MenuIcon>
                     ) : null}
 
-                    {!loggedIn && !isOpen ? (
+                    {!!!user && !isOpen ? (
                         <MenuIcon
                             setIsOpen={setIsOpen}
                             to="/login"
-                            icon={faSignIn}
-                            className="mr-2"
-                            Label={isMobile ? null : 'Inloggen'}
+                            icon={
+                                <ArrowRightFromBracket
+                                    size={16}
+                                    className="-mt-0.5 mr-2 inline-block"
+                                    aria-hidden="true"
+                                />
+                            }
+                            label={isMobile ? null : 'Inloggen'}
+                            color="blue"
                         />
                     ) : null}
 
-                    <NavigationPopupMenu
-                        showBanner={showBanner}
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                    />
+                    {!userIsInMuteerEnvironment && (
+                        <NavigationPopupMenu
+                            isOpen={isOpen}
+                            setIsOpen={setIsOpen}
+                        />
+                    )}
+
+                    {!!user && userIsInMuteerEnvironment && <UserMenu />}
                 </div>
             </Container>
         </header>
@@ -118,50 +127,53 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
 }
 
 interface MenuIconProps {
+    children?: ReactNode
     to: string
-    icon: IconDefinition
+    icon: JSX.Element
     className?: string
     setIsOpen: (e: boolean) => void
-    Label?: string | null
+    label?: string | null
+    color: 'white' | 'blue'
 }
 
-const MenuIcon: FC<MenuIconProps> = ({
+const MenuIcon = ({
     to,
     icon,
-    className,
     setIsOpen,
-    Label,
+    label,
     children = null,
-}) => (
+    color,
+}: MenuIconProps) => (
     <Link
         to={to}
-        className="flex items-center justify-center px-2 py-2 font-bold transition duration-300 ease-in rounded text-pzh-blue hover:text-pzh-blue-dark"
+        className={classNames(
+            'flex items-center justify-center rounded px-2 py-2 font-bold transition duration-300 ease-in',
+            {
+                'text-pzh-blue hover:text-pzh-blue-dark': color === 'blue',
+                'text-pzh-white': color === 'white',
+            }
+        )}
         onClick={() => {
             setIsOpen(false)
         }}>
         <span>
-            <FontAwesomeIcon
-                className={`${className} text-sm`}
-                style={{ fontSize: '0.9rem', marginTop: '-0.2rem' }}
-                icon={icon}
-            />
-            <span className="font-bold">{Label}</span>
+            {icon}
+            <span className="font-bold">{label}</span>
         </span>
         <div>{children}</div>
     </Link>
 )
 
 interface LogoProps {
-    isOpen: boolean
+    type: 'color' | 'white'
 }
 
-const Logo = ({ isOpen }: LogoProps) => (
+const Logo = ({ type }: LogoProps) => (
     <img
-        className="inline-block object-contain"
-        title="Provincie Zuid-Holland Logo"
-        style={{ height: '96px' }}
-        src={isOpen ? logoWhite : logoSVG}
-        alt="Provincie Zuid-Holland Logo"
+        className="inline-block h-[96px] object-contain"
+        title="Provincie Zuid-Holland, naar de homepage"
+        src={type === 'white' ? logoWhite : logoSVG}
+        alt="Provincie Zuid-Holland, naar de homepage"
     />
 )
 

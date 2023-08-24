@@ -1,47 +1,50 @@
-import { Link } from 'react-router-dom'
-
-import isTouchDevice from '@/utils/isTouchDevice'
+import classNames from 'classnames'
+import { forwardRef } from 'react'
 
 /**
  * Displays a tooltip for the NetworkGraph items.
- *
- * @param {object} variables - Contains a collection of style items for the toolip in object form.
- * @param {string} href - Contains the target URL for the Link component.
  */
 
-interface Props {
-    variables: { left?: string | number; top?: string | number }
-    href: string
+export type TooltipVariables = {
+    active: boolean
+    left?: number
+    top?: number
 }
 
-const NetworkGraphTooltip = ({ variables, href }: Props) => {
-    const touchDevice = isTouchDevice()
-    if (touchDevice) return null
+export type TooltipContent = {
+    title?: string
+    type?: string
+}
 
-    return (
-        <div
-            id="d3-tooltip-network-graph"
-            style={{
-                left: variables.left,
-                top: variables.top,
-                maxWidth: 'calc(100vw - 40px - 2rem)', // 40px is the width of the buttons, 2rem is the margin
-            }}
-            className="fixed z-50 hidden hover:block">
-            <div className="px-4 py-2 bg-white rounded shadow-md">
-                <Link to={href} className="select-none group" role="tooltip">
-                    <div
-                        id="d3-tooltip-network-graph-type"
-                        className={`text-gray-600 text-sm`}
-                    />
-                    <div
-                        id="d3-tooltip-network-graph-title"
-                        className={`text-pzh-blue-dark group-hover:underline truncate text-base`}
-                        style={{ maxWidth: '400px' }}
-                    />
-                </Link>
-            </div>
-            <span className="block w-full h-4" />
+interface NetworkGraphTooltipProps {
+    variables: TooltipVariables
+    content?: TooltipContent
+}
+
+const NetworkGraphTooltip = forwardRef<
+    HTMLDivElement,
+    NetworkGraphTooltipProps
+>(({ variables, content }, ref) => (
+    <div
+        ref={ref}
+        id="d3-tooltip-network-graph"
+        style={{
+            left: variables.left,
+            top: variables.top,
+        }}
+        className={classNames('fixed z-50 max-w-[calc(100vw-40px-2rem)]', {
+            'left-[-100%]': !variables.active,
+        })}>
+        <span className="-mt-[10px] block h-[10px] w-full" />
+        <div className="rounded-[4px] bg-black/80 px-3 pt-3 pb-2">
+            <span className="block text-sm capitalize text-pzh-white">
+                {content?.type}
+            </span>
+            <span className="block max-w-[400px] truncate font-bold text-pzh-white group-hover:underline">
+                {content?.title}
+            </span>
         </div>
-    )
-}
+    </div>
+))
+
 export default NetworkGraphTooltip

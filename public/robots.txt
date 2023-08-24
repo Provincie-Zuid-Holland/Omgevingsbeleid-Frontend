@@ -1,0 +1,7 @@
+# Block all crawlers for /muteer/*
+User-agent: *
+Disallow: /muteer/*
+
+# Allow all crawlers
+User-agent: *
+Allow: /

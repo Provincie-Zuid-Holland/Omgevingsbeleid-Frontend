@@ -33,14 +33,19 @@ description:
             - Enables citizens to get insight into what policies are active on a geographical point
 
 legal:
-    license: UPL-1.2 License
+    license: EUPL-1.2
 
 maintenance:
     type: 'contract'
 
     contacts:
-        - name: Aiden Buis
-          email: hello@aidenbuis.com
+        - name: Omgevingsbeleid
+          email: omgevingsbeleid@pzh.nl
+
+    contractors:
+        - name: Provincie Zuid-Holland
+          until: '2099-01-01'
+          website: 'https://www.zuid-holland.nl'
 
 localisation:
     localisationReady: false

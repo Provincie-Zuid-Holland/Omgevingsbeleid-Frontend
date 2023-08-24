@@ -1,94 +1,83 @@
-import { useEffect, useRef } from 'react'
+import { Feedback, Heading, Text } from '@pzh-ui/components'
+import classNames from 'classnames'
 import { Link } from 'react-router-dom'
 
+import usePage from '@/hooks/usePage'
+
 import { Container } from '../Container'
-import Heading from '../Heading'
-import Text from '../Text'
 
-interface FooterProps {
-    className?: string
-}
-
-function Footer({ className = '' }: FooterProps) {
-    /**
-     * We want the footer to always be at the bottom of the page,
-     * even if there is not enough content. To realise this we position
-     * the Footer absolute at the bottom, and give the body a padding-bottom of the current Footer height.
-     */
-    const footerRef = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-        const mainContainerEl = document.getElementById('main-container')
-
-        const handleWindowResize = () => {
-            if (!footerRef.current || !mainContainerEl) return
-            const footerHeight = footerRef.current.offsetHeight
-            mainContainerEl.style.paddingBottom = `${footerHeight}px`
-        }
-
-        /** Initial call */
-        handleWindowResize()
-        window.addEventListener('resize', handleWindowResize)
-
-        return () => {
-            if (mainContainerEl) {
-                mainContainerEl.style.paddingBottom = `0px` // Reset padding bottom
-            }
-            window.removeEventListener('resize', handleWindowResize)
-        }
-    }, [])
+function Footer() {
+    const userIsInMuteerEnvironment = usePage('/muteer')
+    const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
 
     return (
         <footer
-            className={`w-full bg-pzh-cool-gray-light bg-opacity-30 absolute bottom-0`}
-            ref={footerRef}>
-            <Container className={`pt-8 pb-16 md:pb-12 md:py-8 ${className}`}>
+            className={classNames('w-full z-1 mt-auto bg-pzh-gray-200', {
+                'has-feedback':
+                    !userIsInMuteerEnvironment && !isAdvancedSearchPage,
+            })}>
+            <Container
+                className={classNames({
+                    'pt-8 pb-16 md:pb-12 md:py-8': !userIsInMuteerEnvironment,
+                    'py-10': userIsInMuteerEnvironment,
+                })}>
                 <div className="col-span-6 md:col-span-3 lg:col-span-2">
                     <Heading level="3" color="text-pzh-blue">
                         Krachtig Zuid-Holland
                     </Heading>
                 </div>
-                <div className="grid grid-cols-4 col-span-6 md:col-span-3 lg:col-span-4">
-                    <div className="col-span-6 lg:col-span-2">
-                        <ul className="mt-6 underline text-pzh-green md:mt-0">
-                            <li className="pb-3 hover:text-pzh-green-dark md:pb-5">
+                {!userIsInMuteerEnvironment && (
+                    <div className="grid grid-cols-4 col-span-6 md:col-span-3 lg:col-span-4">
+                        <div className="col-span-6 lg:col-span-2">
+                            <ul className="mt-6 font-bold text-pzh-blue md:mt-0">
+                                <li className="pb-3 underline hover:text-pzh-blue-dark md:pb-5">
+                                    <a
+                                        href="https://www.zuid-holland.nl"
+                                        target="_blank"
+                                        rel="noopener noreferrer">
+                                        Provincie Zuid-Holland
+                                    </a>
+                                </li>
+                                <li className="pb-3 underline hover:text-pzh-blue-dark md:pb-5">
+                                    <a
+                                        rel="noopener noreferrer"
+                                        href="https://www.zuid-holland.nl/algemeen/privacyverklaring/"
+                                        target="_blank">
+                                        Cookies & Privacy
+                                    </a>
+                                </li>
+                                <li className="pb-3 underline hover:text-pzh-blue-dark md:pb-5">
+                                    <Link to="/digi-toegankelijkheid">
+                                        Toegankelijkheidsverklaring
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="col-span-6 lg:col-span-2">
+                            <Text type="body">
+                                Mocht je aan- of opmerkingen hebben, dan horen
+                                wij dat graag via{' '}
                                 <a
-                                    href="https://www.zuid-holland.nl"
+                                    href="mailto:omgevingsbeleid@pzh.nl?subject=Aan- of opmerking"
+                                    className="underline cursor-pointer hover:text-pzh-blue-dark text-pzh-blue"
                                     target="_blank"
                                     rel="noopener noreferrer">
-                                    Provincie Zuid-Holland
+                                    omgevingsbeleid@pzh.nl
                                 </a>
-                            </li>
-                            <li className="pb-3 hover:text-pzh-green-dark md:pb-5">
-                                <a
-                                    rel="noopener noreferrer"
-                                    href="https://www.zuid-holland.nl/algemeen/privacyverklaring/"
-                                    target="_blank">
-                                    Cookies & Privacy
-                                </a>
-                            </li>
-                            <li className="pb-3 hover:text-pzh-green-dark md:pb-5">
-                                <Link to="/digi-toegankelijkheid">
-                                    Toegankelijkheidsverklaring
-                                </Link>
-                            </li>
-                        </ul>
+                            </Text>
+                        </div>
                     </div>
-                    <div className="col-span-6 lg:col-span-2">
-                        <Text type="body">
-                            Mocht je aan- of opmerkingen hebben, dan horen wij
-                            dat graag via{' '}
-                            <a
-                                href="mailto:omgevingsbeleid@pzh.nl?subject=Aan- of opmerking"
-                                className="underline cursor-pointer hover:text-pzh-green-dark text-pzh-green"
-                                target="_blank"
-                                rel="noopener noreferrer">
-                                omgevingsbeleid@pzh.nl
-                            </a>
-                        </Text>
-                    </div>
-                </div>
+                )}
             </Container>
+
+            {!userIsInMuteerEnvironment && !isAdvancedSearchPage && (
+                <div role="region">
+                    <Feedback
+                        email="omgevingsbeleid@pzh.nl"
+                        website="obzh.nl"
+                    />
+                </div>
+            )}
         </footer>
     )
 }

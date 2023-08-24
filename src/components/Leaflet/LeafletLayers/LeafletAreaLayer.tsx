@@ -1,5 +1,4 @@
-import { faEye, faEyeSlash } from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Eye, EyeSlash } from '@pzh-ui/icons'
 import { useState } from 'react'
 import { useMap } from 'react-leaflet'
 
@@ -12,9 +11,10 @@ import { colors } from '@/constants/leaflet'
 interface LeafletAreaLayerProps {
     layer: any
     index?: string
+    color?: string
 }
 
-const LeafletAreaLayer = ({ layer, index }: LeafletAreaLayerProps) => {
+const LeafletAreaLayer = ({ layer, index, color }: LeafletAreaLayerProps) => {
     const map = useMap()
 
     const [isActive, setIsActive] = useState(map.hasLayer(layer))
@@ -35,7 +35,9 @@ const LeafletAreaLayer = ({ layer, index }: LeafletAreaLayerProps) => {
                 <div
                     className="flex-none inline-block w-4 h-4 mr-2"
                     style={{
-                        backgroundColor: index
+                        backgroundColor: color
+                            ? color
+                            : index
                             ? colors[parseInt(index)]
                             : '#3388ff',
                     }}
@@ -47,8 +49,8 @@ const LeafletAreaLayer = ({ layer, index }: LeafletAreaLayerProps) => {
                         ''}
                 </span>
             </div>
-            <div className="flex-none w-5 ml-2">
-                <FontAwesomeIcon icon={isActive ? faEye : faEyeSlash} />
+            <div className="flex align-middle w-5 ml-2">
+                {isActive ? <Eye size={18} /> : <EyeSlash size={18} />}
             </div>
         </li>
     )

@@ -1,7 +1,5 @@
 import { ReactNode } from 'react'
 
-import useAuth from '@/hooks/useAuth'
-
 import Footer from '../components/Footer'
 import Navigation from '../components/Navigation'
 
@@ -11,13 +9,17 @@ interface BaseLayoutProps {
 }
 
 export function BaseLayout({ hideFooter, children }: BaseLayoutProps) {
-    const { user } = useAuth()
-
     return (
         <>
-            <Navigation loggedIn={!!user} />
+            <a
+                href="#content"
+                className="sr-only focus:not-sr-only focus:ring-1 focus:ring-inset">
+                Ga direct naar de inhoud
+            </a>
 
-            <main>{children}</main>
+            <Navigation />
+
+            <main id="content">{children}</main>
 
             {!hideFooter && <Footer />}
         </>

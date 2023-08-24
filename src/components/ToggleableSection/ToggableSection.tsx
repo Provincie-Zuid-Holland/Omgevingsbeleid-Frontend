@@ -1,6 +1,5 @@
-import { faChevronUp, faChevronDown } from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { FC, useState } from 'react'
+import { AngleDown, AngleUp } from '@pzh-ui/icons'
+import { ReactNode, useState } from 'react'
 
 /**
  * Component that renders the ToggleableSection component which displays a button which either contains the options of the legenda or Achtergrondlaag of the map when clicked on.
@@ -11,15 +10,16 @@ import { FC, useState } from 'react'
  */
 
 interface ToggleableSectionProps {
+    children: ReactNode
     title: string
     positionTop?: boolean
 }
 
-const ToggleableSection: FC<ToggleableSectionProps> = ({
+const ToggleableSection = ({
     children,
     title,
     positionTop,
-}) => {
+}: ToggleableSectionProps) => {
     const [open, setOpen] = useState(true)
 
     return (
@@ -30,7 +30,7 @@ const ToggleableSection: FC<ToggleableSectionProps> = ({
                     positionTop ? '' : 'border-t'
                 }`}>
                 <span className="font-semibold">{title}</span>
-                <FontAwesomeIcon icon={open ? faChevronUp : faChevronDown} />
+                {open ? <AngleUp /> : <AngleDown />}
             </button>
             {open ? <div className="pb-10">{children}</div> : null}
         </div>

@@ -1,5 +1,4 @@
-import { faMinus, faPlus } from '@fortawesome/pro-light-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Minus, Plus } from '@pzh-ui/icons'
 import { ControlPosition } from 'leaflet'
 import { useMap } from 'react-leaflet'
 
@@ -14,22 +13,18 @@ const LeafletZoom = ({ position = 'bottomleft' }: LeafletZoomProps) => {
 
     return (
         <LeafletController position={position}>
-            <div
+            <button
                 className="leaflet-zoom relative z-10 flex items-center justify-center h-8 w-8 bg-white cursor-pointer"
                 onClick={() => map.zoomIn()}>
-                <FontAwesomeIcon
-                    className="inline-block cursor-pointer text-sm"
-                    icon={faPlus}
-                />
-            </div>
-            <div
+                <span className="sr-only">Inzoomen</span>
+                <Plus size={16} className="inline-block cursor-pointer" />
+            </button>
+            <button
                 className="leaflet-zoom relative z-10 flex items-center justify-center h-8 w-8 bg-white cursor-pointer"
                 onClick={() => map.zoomOut()}>
-                <FontAwesomeIcon
-                    className="inline-block text-sm cursor-pointer"
-                    icon={faMinus}
-                />
-            </div>
+                <span className="sr-only">Uitzoomen</span>
+                <Minus size={16} className="inline-block cursor-pointer" />
+            </button>
         </LeafletController>
     )
 }

@@ -1,7 +1,6 @@
-import { faSearch } from '@fortawesome/pro-light-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { MagnifyingGlass } from '@pzh-ui/icons'
 import { ControlPosition, Marker } from 'leaflet'
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { useMap } from 'react-leaflet'
 
 import { LeafletSearchInput } from '..'
@@ -13,7 +12,6 @@ interface LeafletSearchProps {
 
 const LeafletSearch = ({ position = 'topleft' }: LeafletSearchProps) => {
     const map = useMap()
-    const searchInput = useRef<HTMLInputElement>(null)
 
     const [showLeafletSearch, setShowLeafletSearch] = useState(false)
     const [activeSearchMarker, setActiveSearchMarker] = useState<Marker | null>(
@@ -35,12 +33,6 @@ const LeafletSearch = ({ position = 'topleft' }: LeafletSearchProps) => {
         setShowLeafletSearch(!showLeafletSearch)
     }
 
-    useEffect(() => {
-        if (searchInput.current && showLeafletSearch) {
-            searchInput.current.select()
-        }
-    }, [showLeafletSearch])
-
     return (
         <LeafletController position={position}>
             <div className="leaflet-search relative z-10 flex items-center justify-between h-8 bg-white cursor-pointer">
@@ -49,9 +41,9 @@ const LeafletSearch = ({ position = 'topleft' }: LeafletSearchProps) => {
                         showLeafletSearch ? 'border-r border-gray-300' : null
                     }`}
                     onClick={toggleLeafletSearch}>
-                    <FontAwesomeIcon
-                        className="inline-block text-sm cursor-pointer"
-                        icon={faSearch}
+                    <MagnifyingGlass
+                        size={16}
+                        className="inline-block cursor-pointer"
                         onClick={toggleLeafletSearch}
                     />
                 </div>
@@ -59,7 +51,6 @@ const LeafletSearch = ({ position = 'topleft' }: LeafletSearchProps) => {
                     <LeafletSearchInput
                         mapInstance={map}
                         searchCallback={marker => searchCallback(marker)}
-                        ref={searchInput}
                     />
                 )}
             </div>

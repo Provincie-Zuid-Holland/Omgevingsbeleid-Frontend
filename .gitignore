@@ -9,8 +9,12 @@ cypress/fixtures
 cypress/support/localStorage.json
 cypress.json
 
+# analyse bundle
+analyse.html
+
 # production
 /build
+/dist
 
 #documents
 /docs
@@ -29,7 +33,7 @@ cypress.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-yarn.lock
+package-lock.json
 
 # CSS
 src/css/tailwind.css

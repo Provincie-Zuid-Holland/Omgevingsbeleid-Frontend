@@ -1,313 +1,316 @@
-import { Fragment, useCallback, useLayoutEffect } from 'react'
-import { Route, Routes, useNavigate } from 'react-router-dom'
+import { useCallback, useLayoutEffect } from 'react'
+import { useNavigate, useRoutes } from 'react-router-dom'
 
-import { NetworkGraph } from '@/components/Network'
-import allDimensies from '@/constants/dimensies'
+import * as models from '@/config/objects'
+import { ModelType } from '@/config/objects/types'
+import ModuleProvider from '@/context/ModuleContext'
+import ObjectProvider from '@/context/ObjectContext'
 import useAuth from '@/hooks/useAuth'
-import Login from '@/pages/Login'
-import MuteerBeleidsmodulesOverview from '@/pages/MuteerBeleidsmodulesOverview'
-import MuteerBeleidsrelaties from '@/pages/MuteerBeleidsrelaties'
-import MuteerBeleidsrelatiesCRUD from '@/pages/MuteerBeleidsrelatiesCRUD'
-import MuteerDashboard from '@/pages/MuteerDashboard'
-import MuteerMijnBeleid from '@/pages/MuteerMijnBeleid'
-import MuteerUniversalObjectCRUD from '@/pages/MuteerUniversalObjectCRUD'
-import MuteerUniversalObjectDetail from '@/pages/MuteerUniversalObjectDetail'
-import MuteerUniversalObjectDetailWithStatuses from '@/pages/MuteerUniversalObjectDetailWithStatuses'
-import MuteerUniversalObjectOverzicht from '@/pages/MuteerUniversalObjectOverzicht'
-import MuteerVerordeningenStructuurCRUD from '@/pages/MuteerVerordeningenStructuurCRUD'
-import MuteerVerordeningenstructuurDetail from '@/pages/MuteerVerordeningenstructuurDetail'
-import MuteerVerordeningenstructuurOverzicht from '@/pages/MuteerVerordeningenstructuurOverzicht'
-import RaadpleegDigiToegankelijkheid from '@/pages/RaadpleegDigiToegankelijkheid'
-import RaadpleegHome from '@/pages/RaadpleegHome'
-import RaadpleegInProgress from '@/pages/RaadpleegInProgress'
-import RaadpleegMapSearch from '@/pages/RaadpleegMapSearch'
-import RaadpleegObjectDetail from '@/pages/RaadpleegObjectDetail'
-import RaadpleegPlanningAndReleases from '@/pages/RaadpleegPlanningAndReleases'
-import RaadpleegSearchResults from '@/pages/RaadpleegSearchResults'
-import RaadpleegUniversalObjectOverview from '@/pages/RaadpleegUniversalObjectOverview'
-import RaadpleegVerordening from '@/pages/RaadpleegVerordening'
-import detailPages from '@/utils/detailPages'
+import {
+    Dashboard,
+    ObjectEdit,
+    DynamicOverview,
+    ModuleCreate,
+    ModuleDetail,
+    ModuleEdit,
+    ObjectCreate,
+    ObjectDetail,
+    ObjectWrite,
+} from '@/pages/protected'
+import {
+    AreaDetail,
+    AreaOverview,
+    Accessibility,
+    EnvironmentProgram,
+    Home,
+    Login,
+    PlanningAndReleases,
+    DynamicOverview as DynamicOverviewPublic,
+    DynamicObject as DynamicObjectPublic,
+    Network,
+    ThemeDetail,
+    ThemeOverview,
+    MapSearch,
+    SearchResults,
+    NotFoundPage,
+} from '@/pages/public'
 
 import ProtectedRoute from './ProtectedRoute'
 
 const AppRoutes = () => {
-    const { user } = useAuth()
-    const navigate = useNavigate()
-
-    return (
-        <Routes>
-            {/* Raadpleeg - The homepage where users can search for policies and regulations */}
-            <Route index element={<RaadpleegHome />} />
-
-            {/* Raadpleeg - Result page for search */}
-            <Route
-                path="/zoekresultaten"
-                element={<RaadpleegSearchResults />}
-            />
-
-            {/* Raadpleeg - Search on map page */}
-            <Route path="/zoeken-op-kaart" element={<RaadpleegMapSearch />} />
-
-            <Route
-                path={`/detail/verordening`}
-                element={<RaadpleegVerordening />}
-            />
-
-            {/* Raadpleeg - Overview and Detail pages for all the dimensions */}
-            {detailPages.map(item => (
-                <Route
-                    key={item.slug}
-                    path={`/detail/${item.slug}/:id`}
-                    element={<RaadpleegObjectDetail {...item} />}
-                />
-            ))}
-            {/* Raadpleeg - Overview and Detail pages for all the dimensions */}
-            {detailPages.map(item => (
-                <Route
-                    key={item.slug}
-                    path={`/overzicht/${item.slug}`}
-                    element={
-                        <RaadpleegUniversalObjectOverview
-                            {...item}
-                            dataEndpoint={item.dataValidEndpoint}
-                        />
-                    }
-                />
-            ))}
-
-            <Route path="/login" element={<Login />} />
-            <Route path="/logout" element={<Logout />} />
-            <Route
-                path="/planning-en-releases"
-                element={<RaadpleegPlanningAndReleases />}
-            />
-            <Route
-                path="/digi-toegankelijkheid"
-                element={<RaadpleegDigiToegankelijkheid />}
-            />
-            <Route path="/in-bewerking" element={<RaadpleegInProgress />} />
-            <Route path="/beleidsnetwerk" element={<NetworkGraph />} />
-
-            <Route path="/muteer" element={<ProtectedRoute />}>
-                <Route path="dashboard" element={<MuteerDashboard />} />
-                <Route path="mijn-beleid" element={<MuteerMijnBeleid />} />
-
-                {/* Verordening */}
-                <Route
-                    path="nieuwe-verordening"
-                    element={
-                        <MuteerVerordeningenStructuurCRUD
-                            dimensieConstants={
-                                allDimensies.VERORDENINGSTRUCTUUR
-                            }
-                            navigate={navigate}
-                        />
-                    }
-                />
-                <Route
-                    path="bewerk-verordening/:lineageID/:lineageUUID"
-                    element={
-                        <MuteerVerordeningenStructuurCRUD
-                            dimensieConstants={
-                                allDimensies.VERORDENINGSTRUCTUUR
-                            }
-                            navigate={navigate}
-                        />
-                    }
-                />
-                <Route
-                    path="verordeningen/:lineageID"
-                    element={<MuteerVerordeningenstructuurDetail />}
-                />
-                <Route
-                    path="verordeningen"
-                    element={
-                        <MuteerVerordeningenstructuurOverzicht
-                            dataModel={allDimensies.VERORDENINGSTRUCTUUR}
-                        />
-                    }
-                />
-
-                {/* Beleidskeuzes Pages */}
-                <Route
-                    path={`beleidskeuzes/nieuwe-beleidskeuze`}
-                    element={
-                        <MuteerUniversalObjectCRUD
-                            dimensieConstants={allDimensies.BELEIDSKEUZES}
-                        />
-                    }
-                />
-                <Route
-                    path={`beleidskeuzes/edit/:single`}
-                    element={
-                        <MuteerUniversalObjectCRUD
-                            dimensieConstants={allDimensies.BELEIDSKEUZES}
-                        />
-                    }
-                />
-                <Route
-                    path={`beleidskeuzes/:single`}
-                    element={
-                        <MuteerUniversalObjectDetailWithStatuses
-                            dimensieConstants={allDimensies.BELEIDSKEUZES}
-                        />
-                    }
-                />
-
-                {/* Beleidsmodules pages */}
-                <Route
-                    path={`${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}/${allDimensies.BELEIDSMODULES.SLUG_CREATE_NEW}`}
-                    element={
-                        <MuteerUniversalObjectCRUD
-                            dimensieConstants={allDimensies.BELEIDSMODULES}
-                        />
-                    }
-                />
-                <Route
-                    path={`${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}/:single`}
-                    element={<MuteerBeleidsmodulesOverview />}
-                />
-
-                {/* Maatregelen pages */}
-                <Route
-                    path={`maatregelen/nieuwe-maatregel`}
-                    element={
-                        <MuteerUniversalObjectCRUD
-                            dimensieConstants={allDimensies.MAATREGELEN}
-                        />
-                    }
-                />
-                <Route
-                    path={`maatregelen/edit/:single`}
-                    element={
-                        <MuteerUniversalObjectCRUD
-                            dimensieConstants={allDimensies.MAATREGELEN}
-                        />
-                    }
-                />
-                <Route
-                    path={`maatregelen/:single`}
-                    element={
-                        <MuteerUniversalObjectDetailWithStatuses
-                            dimensieConstants={allDimensies.MAATREGELEN}
-                        />
-                    }
-                />
-
-                {/* Beleidsrelaties */}
-                <Route
-                    path="beleidsrelaties/:UUID/nieuwe-relatie"
-                    element={
-                        <MuteerBeleidsrelatiesCRUD
-                            dataModel={allDimensies.BELEIDSRELATIES}
-                        />
-                    }
-                />
-                <Route
-                    path="beleidsrelaties/:UUID"
-                    element={<MuteerBeleidsrelaties />}
-                />
-                <Route
-                    path="beleidsrelaties"
-                    element={<MuteerBeleidsrelaties />}
-                />
-
-                {/* Overview, Detail en Edit pages for the rest of the objects */}
-                {Object.keys(allDimensies)
-                    .filter(
-                        dimensie =>
-                            allDimensies[dimensie as keyof typeof allDimensies]
-                                .SLUG_CREATE_NEW
-                    )
-                    .map(dimensie => {
-                        // There are custom detail pages for beleidskeuzes, maatregelen and beleidsmodules
-                        const returnDetailPage =
-                            dimensie !== 'BELEIDSKEUZES' &&
-                            dimensie !== 'MAATREGELEN' &&
-                            dimensie !== 'BELEIDSMODULES'
-
-                        const dimensieConstants =
-                            allDimensies[dimensie as keyof typeof allDimensies]
-                        const overzichtSlug =
-                            allDimensies[dimensie as keyof typeof allDimensies]
-                                .SLUG_OVERVIEW
-                        const createNewSlug =
-                            allDimensies[dimensie as keyof typeof allDimensies]
-                                .SLUG_CREATE_NEW
-
-                        const isBeleidsModulePageAndUserIsNotAdmin =
-                            dimensie === 'BELEIDSMODULES' &&
-                            user?.Rol !== 'Beheerder' &&
-                            user?.Rol !== 'Functioneel beheerder' &&
-                            user?.Rol !== 'Technisch beheerder' &&
-                            user?.Rol !== 'Test runner' &&
-                            user?.Rol !== 'Tester'
-
-                        return (
-                            <Fragment key={createNewSlug}>
-                                <Route
-                                    path={`${overzichtSlug}/${createNewSlug}`}
-                                    element={
-                                        <MuteerUniversalObjectCRUD
-                                            dimensieConstants={
-                                                dimensieConstants
-                                            }
-                                        />
-                                    }
-                                />
-                                <Route
-                                    path={`${overzichtSlug}/edit/:single`}
-                                    element={
-                                        <MuteerUniversalObjectCRUD
-                                            dimensieConstants={
-                                                dimensieConstants
-                                            }
-                                        />
-                                    }
-                                />
-                                {returnDetailPage && (
-                                    <Route
-                                        path={`${overzichtSlug}/:single/:version`}
-                                        element={
-                                            <MuteerUniversalObjectDetail
-                                                dimensieConstants={
-                                                    dimensieConstants
+    const routes = useRoutes([
+        /**
+         * Public pages
+         */
+        {
+            path: '/',
+            element: <Home />,
+        },
+        { path: 'login', element: <Login /> },
+        { path: 'logout', element: <Logout /> },
+        {
+            path: 'zoekresultaten',
+            element: <SearchResults />,
+        },
+        { path: 'zoeken-op-kaart', element: <MapSearch /> },
+        {
+            path: 'planning-en-releases',
+            element: <PlanningAndReleases />,
+        },
+        {
+            path: 'digi-toegankelijkheid',
+            element: <Accessibility />,
+        },
+        {
+            path: 'beleidsnetwerk',
+            element: <Network />,
+        },
+        // {
+        //     path: 'verordening',
+        //     element: <Verordening />,
+        // },
+        {
+            path: 'omgevingsprogramma',
+            children: [
+                {
+                    index: true,
+                    element: <EnvironmentProgram />,
+                },
+                {
+                    path: 'gebiedsprogrammas',
+                    children: [
+                        {
+                            index: true,
+                            element: <AreaOverview />,
+                        },
+                        {
+                            path: ':uuid',
+                            children: [
+                                {
+                                    index: true,
+                                    element: <AreaDetail />,
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    path: 'thematische-programmas',
+                    children: [
+                        {
+                            index: true,
+                            element: <ThemeOverview />,
+                        },
+                        {
+                            path: ':uuid',
+                            children: [
+                                {
+                                    index: true,
+                                    element: <ThemeDetail />,
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        },
+        ...Object.keys(models)
+            .filter(model => !!models[model as ModelType].defaults.slugOverview)
+            .map(model => ({
+                path: models[model as ModelType].defaults.slugOverview,
+                children: [
+                    {
+                        index: true,
+                        element: (
+                            <DynamicOverviewPublic
+                                model={models[model as ModelType]}
+                            />
+                        ),
+                    },
+                    {
+                        path: ':uuid',
+                        element: (
+                            <DynamicObjectPublic
+                                model={models[model as ModelType]}
+                            />
+                        ),
+                    },
+                ],
+            })),
+        /**
+         * Protected pages
+         */
+        {
+            path: 'muteer',
+            element: <ProtectedRoute />,
+            children: [
+                {
+                    index: true,
+                    element: <Dashboard />,
+                },
+                {
+                    path: 'modules',
+                    children: [
+                        {
+                            path: ':moduleId',
+                            element: <ModuleProvider />,
+                            children: [
+                                {
+                                    index: true,
+                                    element: <ModuleDetail />,
+                                },
+                                {
+                                    path: 'bewerk',
+                                    element: <ModuleEdit />,
+                                },
+                                ...Object.keys(models)
+                                    .filter(
+                                        model =>
+                                            !models[model as ModelType].defaults
+                                                .atemporal
+                                    )
+                                    .map(model => ({
+                                        path: models[model as ModelType]
+                                            .defaults.singular,
+                                        element: (
+                                            <ObjectProvider
+                                                model={
+                                                    models[model as ModelType]
                                                 }
                                             />
-                                        }
-                                    />
-                                )}
-                                {returnDetailPage && (
-                                    <Route
-                                        path={`${overzichtSlug}/:single`}
-                                        element={
-                                            <MuteerUniversalObjectDetail
-                                                dimensieConstants={
-                                                    dimensieConstants
+                                        ),
+                                        children: [
+                                            {
+                                                path: ':objectId',
+                                                children: [
+                                                    {
+                                                        index: true,
+                                                        element: (
+                                                            <ObjectDetail
+                                                                model={
+                                                                    models[
+                                                                        model as ModelType
+                                                                    ]
+                                                                }
+                                                            />
+                                                        ),
+                                                    },
+                                                    {
+                                                        path: 'bewerk',
+                                                        element: (
+                                                            <ObjectEdit
+                                                                model={
+                                                                    models[
+                                                                        model as ModelType
+                                                                    ]
+                                                                }
+                                                            />
+                                                        ),
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    })),
+                            ],
+                        },
+                        {
+                            path: 'nieuw',
+                            element: (
+                                <ProtectedRoute
+                                    permissions={{
+                                        canCreateModule: true,
+                                    }}>
+                                    <ModuleCreate />
+                                </ProtectedRoute>
+                            ),
+                        },
+                    ],
+                },
+                ...Object.keys(models).map(model => ({
+                    path: models[model as ModelType].defaults.plural,
+                    children: [
+                        {
+                            index: true,
+                            element: (
+                                <DynamicOverview
+                                    model={models[model as ModelType]}
+                                />
+                            ),
+                        },
+                        {
+                            path: ':objectId',
+                            children: [
+                                {
+                                    index: true,
+                                    element: (
+                                        <ObjectProvider
+                                            model={models[model as ModelType]}>
+                                            <ObjectDetail
+                                                model={
+                                                    models[model as ModelType]
                                                 }
                                             />
-                                        }
-                                    />
-                                )}
-                                <Route
-                                    path={`${overzichtSlug}`}
-                                    element={
-                                        <MuteerUniversalObjectOverzicht
-                                            hideAddObject={
-                                                isBeleidsModulePageAndUserIsNotAdmin
-                                            }
-                                            dimensieConstants={
-                                                dimensieConstants
-                                            }
+                                        </ObjectProvider>
+                                    ),
+                                },
+                                ...((models[model as ModelType].defaults
+                                    .atemporal && [
+                                    {
+                                        path: 'bewerk',
+                                        element: (
+                                            <ProtectedRoute
+                                                permissions={{
+                                                    canCreateModule: true,
+                                                }}
+                                                redirectTo={`/muteer/${
+                                                    models[model as ModelType]
+                                                        .defaults.plural
+                                                }`}>
+                                                <ObjectWrite
+                                                    model={
+                                                        models[
+                                                            model as ModelType
+                                                        ]
+                                                    }
+                                                />
+                                            </ProtectedRoute>
+                                        ),
+                                    },
+                                ]) ||
+                                    []),
+                            ],
+                        },
+                        ...((models[model as ModelType].defaults.atemporal && [
+                            {
+                                path: 'nieuw',
+                                element: (
+                                    <ProtectedRoute
+                                        permissions={{
+                                            canCreateModule: true,
+                                        }}
+                                        redirectTo={`/muteer/${
+                                            models[model as ModelType].defaults
+                                                .plural
+                                        }`}>
+                                        <ObjectCreate
+                                            model={models[model as ModelType]}
                                         />
-                                    }
-                                />
-                            </Fragment>
-                        )
-                    })}
-            </Route>
-        </Routes>
-    )
+                                    </ProtectedRoute>
+                                ),
+                            },
+                        ]) ||
+                            []),
+                    ],
+                })),
+            ],
+        },
+        {
+            path: '*',
+            element: <NotFoundPage />,
+        },
+    ])
+
+    return routes
 }
 
 const Logout = () => {
@@ -315,7 +318,7 @@ const Logout = () => {
     const { signout } = useAuth()
 
     const cleanup = useCallback(
-        () => signout(() => navigate('/', { replace: true })),
+        () => signout(() => navigate('/')),
         [signout, navigate]
     )
 

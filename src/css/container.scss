@@ -1,11 +1,11 @@
 // Custom Container
 .pzh-container {
     padding-left: 96px;
-    padding-right: calc(96px + 1rem);
+    padding-right: calc(96px + 2.4rem);
     max-width: 100%;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 1023px) {
     .pzh-container {
         padding-left: 20px;
         padding-right: 20px;

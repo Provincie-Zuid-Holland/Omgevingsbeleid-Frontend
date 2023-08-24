@@ -1,30 +1,39 @@
-import { KeyboardEvent, MouseEvent } from 'react'
+import { Button } from '@pzh-ui/components'
 
 /**
  * Displays a fixed placed submit button.
  */
 interface ButtonSubmitFixedProps {
-    submit?: ((e: MouseEvent | KeyboardEvent) => void) | null
+    disabled?: boolean
+    isLoading?: boolean
+    onCancel?: () => void
 }
 
-function ButtonSubmitFixed({ submit }: ButtonSubmitFixedProps) {
-    if (!submit) return null
-
+function ButtonSubmitFixed({
+    disabled,
+    isLoading,
+    onCancel,
+}: ButtonSubmitFixedProps) {
     return (
-        <div className="fixed bottom-0 right-0 z-10 px-6">
-            <div className="inline-block px-4 py-4 bg-white rounded-t shadow">
-                <button
-                    id="form-submit"
-                    className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer bg-pzh-blue hover:underline"
-                    type="button"
-                    onClick={e => submit(e)}
-                    onKeyPress={e => {
-                        if (e.key === 'Enter') {
-                            submit(e)
-                        }
-                    }}>
-                    Opslaan
-                </button>
+        <div className="grid sticky bottom-4 z-1 mt-10 pointer-events-none">
+            <div className="col-span-6">
+                <div className="flex justify-end">
+                    <div className="bg-pzh-white p-2 pl-4 shadow-card rounded flex align-middle pointer-events-auto">
+                        <Button
+                            variant="link"
+                            onPress={onCancel}
+                            className="mr-4">
+                            Annuleren
+                        </Button>
+                        <Button
+                            variant="cta"
+                            isDisabled={disabled}
+                            isLoading={isLoading}
+                            type="submit">
+                            Opslaan
+                        </Button>
+                    </div>
+                </div>
             </div>
         </div>
     )

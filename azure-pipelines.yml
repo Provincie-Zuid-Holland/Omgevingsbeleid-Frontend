@@ -1,30 +1,122 @@
 trigger:
-  - dev
-  - test
-  - acc
-  - production
-
+    branches:
+        include:
+            - dev
+            - test
+            - acc
+            - main
 
 pool:
-  vmImage: "windows-latest"
+    name: 'PZH-Agent'
 
-jobs:
-  - job: Build
-    steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: "10.x"
-      displayName: "Install Node.js"
+variables:
+    subscription: 'dta-omgevingsbeleid'
 
-    - script: npm config set "@fortawesome:registry" https://npm.fontawesome.com/ && npm config set "//npm.fontawesome.com/:_authToken" $(fa_token)
-      displayName: "FA token"
-    - script: npm install
-      displayName: "Install dependencies"
-    - script: Set REACT_APP_API_ENV=$(Build.SourceBranchName)
-      displayName: "Set env"
-    - script: npm run-script build
-      displayName: "Build"
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: $(System.DefaultWorkingDirectory)/build
-        ArtifactName: BuildedApp
+stages:
+    - stage: Build
+      displayName: Build and Test the application
+      jobs:
+          - job:
+            steps:
+                - task: NodeTool@0
+                  inputs:
+                      versionSpec: '16.x'
+                  displayName: Install Node.js
+
+                - task: CmdLine@2
+                  displayName: 'Install dependencies'
+                  inputs:
+                      script: yarn install
+
+                - task: CmdLine@2
+                  displayName: Run the tests and generate coverage report
+                  inputs:
+                      script: yarn test:coverage
+
+                - task: PublishCodeCoverageResults@1
+                  inputs:
+                      codeCoverageTool: Cobertura
+                      summaryFileLocation: $(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml
+
+                - task: CmdLine@2
+                  displayName: Set environment variable
+                  inputs:
+                      script: set VITE_API_ENV=$(Build.SourceBranchName)
+
+                - task: CmdLine@2
+                  displayName: Build
+                  inputs:
+                      script: yarn build
+
+                - task: PublishBuildArtifacts@1
+                  inputs:
+                      PathtoPublish: $(Build.SourcesDirectory)/build
+                      ArtifactName: BuildedApp_$(Build.BuildId)
+
+    - stage: Dev
+      displayName: Dev deploy
+      dependsOn:
+          - Build
+      condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'dev'))
+      jobs:
+          - deployment:
+            displayName: Dev deploy
+            environment: Dev
+            strategy:
+                runOnce:
+                    deploy:
+                        steps:
+                            - template: azure-file-copy.yml
+                              parameters:
+                                  storageName: 'obfrontenddev'
+
+    - stage: Test
+      displayName: Test deploy
+      dependsOn:
+          - Build
+      condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'test'))
+      jobs:
+          - deployment:
+            displayName: Test deploy
+            environment: Test
+            strategy:
+                runOnce:
+                    deploy:
+                        steps:
+                            - template: azure-file-copy.yml
+                              parameters:
+                                  storageName: 'obfrontendtest'
+
+    - stage: Acc
+      displayName: Acc deploy
+      dependsOn:
+          - Build
+      condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'acc'))
+      jobs:
+          - deployment:
+            displayName: Acc deploy
+            environment: Acc
+            strategy:
+                runOnce:
+                    deploy:
+                        steps:
+                            - template: azure-file-copy.yml
+                              parameters:
+                                  storageName: 'obfrontendacc'
+
+    - stage: Prod
+      displayName: Prod deploy
+      dependsOn:
+          - Build
+      condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'main'))
+      jobs:
+          - deployment:
+            displayName: Prod deploy
+            environment: Prod
+            strategy:
+                runOnce:
+                    deploy:
+                        steps:
+                            - template: azure-file-copy.yml
+                              parameters:
+                                  storageName: 'obfrontend'

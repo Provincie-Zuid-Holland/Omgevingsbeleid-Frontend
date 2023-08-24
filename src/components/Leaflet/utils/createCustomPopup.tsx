@@ -2,11 +2,11 @@ import { Button } from '@pzh-ui/components'
 import { LatLng, Map, Point } from 'leaflet'
 import Proj from 'proj4leaflet'
 import ReactDOMServer from 'react-dom/server'
-import { toast } from 'react-toastify'
 
 import { getWerkingsGebiedenByArea } from '@/api/axiosGeoJSON'
 import { LoaderSpinner } from '@/components/Loader'
 import { RDProj4, leafletBounds, MAP_SEARCH_PAGE } from '@/constants/leaflet'
+import { toastNotification } from '@/utils/toastNotification'
 
 // @ts-ignore
 const RDProjection = new Proj.Projection('EPSG:28992', RDProj4, leafletBounds)
@@ -65,7 +65,7 @@ const createCustomPopup = async (
                 'geoQuery',
                 `${point.x.toFixed(2)}+${point.y.toFixed(2)}`
             )
-            navigate(`${MAP_SEARCH_PAGE}?${searchParams}`, { replace: true })
+            navigate(`${MAP_SEARCH_PAGE}?${searchParams}`)
         }
 
         callback?.({
@@ -98,9 +98,7 @@ const createCustomPopup = async (
 
                 if (isAdvancedSearch) {
                     searchParams.set('geoQuery', geoQuery)
-                    navigate(`${MAP_SEARCH_PAGE}?${searchParams}`, {
-                        replace: true,
-                    })
+                    navigate(`${MAP_SEARCH_PAGE}?${searchParams}`)
                 }
 
                 callback?.({
@@ -110,7 +108,7 @@ const createCustomPopup = async (
             })
             .catch(function (err) {
                 console.log(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
+                toastNotification('error')
                 callback?.(err)
             })
     }
@@ -123,17 +121,17 @@ const createCustomPopup = async (
             searchParams,
             isAdvancedSearch ? path : undefined
         )
-
-        map.on('popupopen', () =>
-            handlePopupEvents(
-                map,
-                layer,
-                navigate,
-                searchParams,
-                isAdvancedSearch ? path : undefined
-            )
-        )
     }
+
+    map.on('popupopen', () =>
+        handlePopupEvents(
+            map,
+            layer,
+            navigate,
+            searchParams,
+            isAdvancedSearch ? path : undefined
+        )
+    )
 }
 
 const handlePopupEvents = (
@@ -148,16 +146,16 @@ const handlePopupEvents = (
     popupContainer
         .querySelector('.leaflet-close-popup')
         ?.addEventListener('click', () => {
-            map.fireEvent('draw:deleted')
+            map.fireEvent('draw:deletestart')
             map.removeLayer(layer)
-            path && navigate(path, { replace: true })
+            path && navigate(path)
         })
 
     popupContainer
         .querySelector('.advanced-search-button')
         ?.addEventListener('click', () => {
             searchParams.append('searchOpen', 'true')
-            navigate(`${path}?${searchParams}`, { replace: true })
+            navigate(`${path}?${searchParams}`)
         })
 }
 
@@ -185,8 +183,8 @@ export const CreateCustomPopup = ({
     })
 
     return (
-        <div className="text-base custom-popup">
-            <span className="block bold">Locatie</span>
+        <div className="custom-popup text-base">
+            <span className="bold block">Locatie</span>
             <ul className="mt-2 mb-4">
                 {weergavenaam && <li>{weergavenaam}</li>}
                 {type === 'marker' && lat && lng && (
@@ -211,7 +209,7 @@ export const CreateCustomPopup = ({
                         <Button>Bekijk beleid</Button>
                     </a>
                 )}
-                <button className="text-xs underline leaflet-close-popup text-pzh-red">
+                <button className="leaflet-close-popup text-xs text-pzh-red underline">
                     {type === 'marker' ? 'Pin' : 'Gebied'} verwijderen
                 </button>
             </div>
