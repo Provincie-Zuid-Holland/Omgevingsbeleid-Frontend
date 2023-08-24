@@ -26,7 +26,7 @@ stages:
                       restoreKeys: |
                           yarn | $(Agent.OS)
                           yarn
-                      path: .yarn/cache
+                      path: $(Pipeline.Workspace)/.yarn/cache
                   displayName: Cache .yarn/cache
 
                 - task: NodeTool@0
