@@ -1742,14 +1742,16 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
   integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
 
-"@pzh-ui/components@^0.0.373":
-  version "0.0.373"
-  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.373.tgz#867612a0dfa0b9593c4b61083ec3d35a51f6dd03"
-  integrity sha512-ViT0JCVhOu4l/uG97JoK1yCGDc6yRuzq3SP6AGz1J5Y8F4aLFb3GfMkcwY5m03A3Kf3GAmDTeHqB+ytfSKJ3qA==
+"@pzh-ui/components@^0.0.381":
+  version "0.0.381"
+  resolved "https://registry.yarnpkg.com/@pzh-ui/components/-/components-0.0.381.tgz#531031d468b72c52f450259b8ef3611ef7275765"
+  integrity sha512-2xyQkIDYtlBJoxdi51aphehf03uJ5dV/OwbAvRG6bUEJWYnzLhkA5q5n8Or14fwfvEo5AWQH4tYBoek/o3o8qg==
   dependencies:
     "@floating-ui/react" "^0.24.8"
     "@headlessui/react" "^1.5.0"
     "@pzh-ui/icons" "^0.0.33"
+    "@react-aria/utils" "^3.19.0"
+    "@react-types/shared" "^3.19.0"
     "@tiptap/core" "^2.0.4"
     "@tiptap/extension-bold" "^2.0.4"
     "@tiptap/extension-bullet-list" "^2.0.4"
