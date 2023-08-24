@@ -1,4 +1,4 @@
-import { Divider, FieldSelect, Heading, Modal, Text } from '@pzh-ui/components'
+import { Divider, FieldSelect, Heading, OLDModal as Modal, Text } from '@pzh-ui/components'
 import { useMemo, useState } from 'react'
 import { useUpdateEffect } from 'react-use'
 

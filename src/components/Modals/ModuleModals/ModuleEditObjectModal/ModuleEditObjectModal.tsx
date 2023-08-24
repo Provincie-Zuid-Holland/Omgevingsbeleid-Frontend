@@ -3,7 +3,7 @@ import {
     FormikSelect,
     FormikTextArea,
     Heading,
-    Modal,
+    OLDModal as Modal,
     Text,
 } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'

@@ -1,4 +1,4 @@
-import { Heading, Hyperlink, Modal, Text } from '@pzh-ui/components'
+import { Heading, Hyperlink, OLDModal as Modal, Text } from '@pzh-ui/components'
 import { Link } from 'react-router-dom'
 
 import * as models from '@/config/objects'
