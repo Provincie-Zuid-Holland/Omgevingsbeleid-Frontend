@@ -37,8 +37,11 @@ jobs:
                   restore-keys: |
                       ${{ runner.os }}-node-
 
+            - name: Enable corepack
+              run: corepack enable
+
             - name: Install dependencies
-              run: yarn install
+              run: yarn --immutable
 
             - name: Run the tests and generate coverage report
               run: yarn test:coverage
