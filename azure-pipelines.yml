@@ -119,4 +119,4 @@ stages:
                         steps:
                             - template: azure-file-copy.yml
                               parameters:
-                                  storageName: 'obfrontend'
+                                  storageName: 'obfrontendprod'
