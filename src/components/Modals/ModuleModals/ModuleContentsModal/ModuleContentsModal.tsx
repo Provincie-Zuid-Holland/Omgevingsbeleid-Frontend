@@ -174,7 +174,7 @@ const ModuleContentsModal = ({
                 )}
                 enableReinitialize
                 validateOnBlur={false}>
-                {({ values, isValid, isSubmitting }) => (
+                {({ values, isValid, isSubmitting, submitForm }) => (
                     <Form onSubmit={e => e.preventDefault()}>
                         <CurrentStep
                             title={module?.Title}
@@ -189,7 +189,6 @@ const ModuleContentsModal = ({
                                 {step !== 1 && (
                                     <Button
                                         variant="secondary"
-                                        type="button"
                                         size="small"
                                         onPress={() =>
                                             handleWizard(values.state, true)
@@ -201,13 +200,13 @@ const ModuleContentsModal = ({
                                 <Button
                                     variant={isFinalStep ? 'cta' : 'primary'}
                                     size="small"
-                                    type="submit"
                                     isDisabled={
                                         ((isFinalStep && !isValid) ||
                                             (isFinalStep && isSubmitting)) &&
                                         !hasError
                                     }
-                                    isLoading={isSubmitting && !hasError}>
+                                    isLoading={isSubmitting && !hasError}
+                                    onPress={submitForm}>
                                     {isFinalStep
                                         ? 'Toevoegen'
                                         : 'Volgende stap'}
