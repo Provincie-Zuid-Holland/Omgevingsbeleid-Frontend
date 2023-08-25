@@ -21,9 +21,9 @@ stages:
           - job:
             steps:
                 # Cache .yarn/cache for faster installs
-                - task: Yarn@3
+                - task: CmdLine@2
                   inputs:
-                      arguments: 'config set cache-folder $(yarnCacheFolder)'
+                      script: 'yarn config set cache-folder $(yarnCacheFolder)'
                   displayName: Set Yarn cache folder
 
                 - task: Cache@2
@@ -44,10 +44,10 @@ stages:
                 - script: corepack enable
                   displayName: 'Enable Corepack'
 
-                - task: Yarn@3
+                - task: CmdLine@2
                   displayName: 'Install dependencies'
                   inputs:
-                      arguments: '--frozen-lockfile --immutable'
+                      script: 'yarn --frozen-lockfile --immutable'
 
                 - task: CmdLine@2
                   displayName: Run the tests and generate coverage report
