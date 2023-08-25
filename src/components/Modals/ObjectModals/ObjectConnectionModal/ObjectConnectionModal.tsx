@@ -236,7 +236,7 @@ export const ConnectionModal = ({
                 )}
                 enableReinitialize>
                 {({ isValid, isSubmitting, submitForm }) => (
-                    <Form>
+                    <Form onSubmit={e => e.preventDefault()}>
                         <Heading level="2" className="mb-2">
                             {connectionModel?.defaults.singularCapitalize}{' '}
                             koppelen
