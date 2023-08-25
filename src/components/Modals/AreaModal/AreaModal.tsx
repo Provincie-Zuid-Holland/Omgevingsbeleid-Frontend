@@ -1,4 +1,4 @@
-import { Button, Heading, Modal } from '@pzh-ui/components'
+import { Button, Heading, OLDModal as Modal } from '@pzh-ui/components'
 import { Form, Formik } from 'formik'
 import { useMemo, useState } from 'react'
 

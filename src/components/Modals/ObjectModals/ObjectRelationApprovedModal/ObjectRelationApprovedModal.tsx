@@ -1,4 +1,4 @@
-import { Button, Modal } from '@pzh-ui/components'
+import { Button, OLDModal as Modal } from '@pzh-ui/components'
 import { QueryKey, useQueryClient } from '@tanstack/react-query'
 import { Formik, Form } from 'formik'
 import { useState } from 'react'

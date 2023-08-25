@@ -1,4 +1,4 @@
-import { Button, Heading, Modal } from '@pzh-ui/components'
+import { Button, Heading, OLDModal as Modal } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Formik, Form } from 'formik'
 import { useState } from 'react'
@@ -236,7 +236,7 @@ export const ConnectionModal = ({
                 )}
                 enableReinitialize>
                 {({ isValid, isSubmitting, submitForm }) => (
-                    <Form>
+                    <Form onSubmit={e => e.preventDefault()}>
                         <Heading level="2" className="mb-2">
                             {connectionModel?.defaults.singularCapitalize}{' '}
                             koppelen
