@@ -11,6 +11,7 @@ pool:
 
 variables:
     subscription: 'dta-omgevingsbeleid'
+    yarnCacheFolder: $(Pipeline.Workspace)/.yarn/cache
     VITE_API_ENV: $(Build.SourceBranchName)
 
 stages:
@@ -20,13 +21,18 @@ stages:
           - job:
             steps:
                 # Cache .yarn/cache for faster installs
+                - task: Yarn@3
+                  inputs:
+                      arguments: 'config set cache-folder $(yarnCacheFolder)'
+                  displayName: Set Yarn cache folder
+
                 - task: Cache@2
                   inputs:
                       key: 'yarn | $(Agent.OS) | yarn.lock'
                       restoreKeys: |
                           yarn | $(Agent.OS)
                           yarn
-                      path: $(Pipeline.Workspace)/.yarn/cache
+                      path: $(yarnCacheFolder)
                   displayName: Cache .yarn/cache
 
                 - task: NodeTool@0
@@ -38,10 +44,10 @@ stages:
                 - script: corepack enable
                   displayName: 'Enable Corepack'
 
-                - task: CmdLine@2
+                - task: Yarn@3
                   displayName: 'Install dependencies'
                   inputs:
-                      script: yarn --immutable
+                      arguments: '--frozen-lockfile --immutable'
 
                 - task: CmdLine@2
                   displayName: Run the tests and generate coverage report
