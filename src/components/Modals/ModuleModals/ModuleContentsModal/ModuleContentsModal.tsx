@@ -175,7 +175,7 @@ const ModuleContentsModal = ({
                 enableReinitialize
                 validateOnBlur={false}>
                 {({ values, isValid, isSubmitting }) => (
-                    <Form>
+                    <Form onSubmit={e => e.preventDefault()}>
                         <CurrentStep
                             title={module?.Title}
                             existingObject={existingObject}
