@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const ErrorPage = ({ resetErrorBoundary }: FallbackProps) => (
     <>
-        <Helmet title="ErrorPage">
+        <Helmet title="Error pagina">
             <meta
                 property="og:title"
                 content="Error pagina - Omgevingsbeleid Provincie Zuid-Holland"
