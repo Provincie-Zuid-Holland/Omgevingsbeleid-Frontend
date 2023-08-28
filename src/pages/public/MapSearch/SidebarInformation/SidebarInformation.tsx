@@ -31,7 +31,11 @@ const SidebarInformation = ({
     const [werkingsgebied, setWerkingsgebied] =
         useState<Leaflet.Proj.GeoJSON | null>(null)
 
-    const { data, isLoading } = useWerkingsgebiedenGet({ limit: 500 })
+    const { data, isLoading } = useWerkingsgebiedenGet({
+        limit: 500,
+        sort_column: 'Title',
+        sort_order: 'ASC',
+    })
     const selectedVal = useMemo(
         () => data?.results.find(item => item.UUID === paramWerkingsgebied),
         [data, paramWerkingsgebied]

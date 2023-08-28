@@ -31,7 +31,7 @@ export const StepTwo = ({
 
     const { data: items, isLoading } =
         useGetValid?.(
-            { limit: 200 },
+            { limit: 500, sort_column: 'Title', sort_order: 'ASC' },
             {
                 query: { enabled: atemporal },
             }

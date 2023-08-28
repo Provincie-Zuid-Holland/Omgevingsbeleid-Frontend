@@ -157,6 +157,8 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
         {
             limit: PAGE_LIMIT,
             offset: (currPage - 1) * PAGE_LIMIT,
+            sort_column: 'Title',
+            sort_order: 'ASC',
             ...(type === 'latest' && {
                 object_type: singular,
                 action: 'Create',

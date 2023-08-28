@@ -7501,6 +7501,83 @@ export const getObjectGraphGetMock = () => ({
     })),
 })
 
+export const getRevisionsGetMock = () => ({
+    total: faker.datatype.number({ min: undefined, max: undefined }),
+    offset: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    limit: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    results: Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Module_ID: faker.datatype.number({ min: undefined, max: undefined }),
+        Title: faker.random.word(),
+        Status: faker.helpers.arrayElement([
+            {
+                ID: faker.datatype.number({ min: undefined, max: undefined }),
+                Module_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Status: faker.random.word(),
+                Created_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Created_By_UUID: faker.datatype.uuid(),
+            },
+            undefined,
+        ]),
+    })),
+})
+
+export const getRevisionsModuleIdGetMock = () => ({
+    Module: {
+        Module_ID: faker.datatype.number({ min: undefined, max: undefined }),
+        Title: faker.random.word(),
+        Status: faker.helpers.arrayElement([
+            {
+                ID: faker.datatype.number({ min: undefined, max: undefined }),
+                Module_ID: faker.datatype.number({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Status: faker.random.word(),
+                Created_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Created_By_UUID: faker.datatype.uuid(),
+            },
+            undefined,
+        ]),
+    },
+    Objects: Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Module_ID: faker.datatype.number({ min: undefined, max: undefined }),
+        Object_Type: faker.random.word(),
+        Object_ID: faker.datatype.number({ min: undefined, max: undefined }),
+        Code: faker.random.word(),
+        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Title: faker.random.word(),
+        ModuleObjectContext: faker.helpers.arrayElement([
+            {
+                Action: faker.random.word(),
+                Original_Adjust_On: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+            },
+            undefined,
+        ]),
+    })),
+})
+
 export const getModulesGetMock = () => ({
     total: faker.datatype.number({ min: undefined, max: undefined }),
     offset: faker.helpers.arrayElement([
@@ -7853,10 +7930,6 @@ export const getObjectsValidGetMock = () => ({
         Object_ID: faker.datatype.number({ min: undefined, max: undefined }),
         UUID: faker.datatype.uuid(),
         Title: faker.helpers.arrayElement([faker.random.word(), undefined]),
-        Description: faker.helpers.arrayElement([
-            faker.random.word(),
-            undefined,
-        ]),
     })),
 })
 
@@ -8749,6 +8822,20 @@ export const getOmgevingsbeleidAPIMSW = () => [
             ctx.delay(1000),
             ctx.status(200, 'Mocked status'),
             ctx.json(getObjectGraphGetMock())
+        )
+    }),
+    rest.get('*/revisions', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getRevisionsGetMock())
+        )
+    }),
+    rest.get('*/revisions/:moduleId', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getRevisionsModuleIdGetMock())
         )
     }),
     rest.get('*/modules', (_req, res, ctx) => {

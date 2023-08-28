@@ -29,6 +29,8 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
     const { data, isLoading } = useGetValid({
         limit: PAGE_LIMIT,
         offset: (currPage - 1) * PAGE_LIMIT,
+        sort_column: 'Title',
+        sort_order: 'ASC',
     })
 
     /**

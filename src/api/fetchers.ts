@@ -123,6 +123,9 @@ import type {
     SearchValidPostParams,
     GraphResponse,
     ObjectGraphGetParams,
+    PagedResponsePublicModuleShort,
+    RevisionsGetParams,
+    PublicModuleOverview,
     PagedResponseModule,
     ModulesGetParams,
     ModuleCreatedResponse,
@@ -9631,6 +9634,160 @@ export const useObjectGraphGet = <
     }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const queryOptions = getObjectGraphGetQueryOptions(params, options)
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary List the public modules
+ */
+export const revisionsGet = (
+    params?: RevisionsGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponsePublicModuleShort>({
+        url: `/revisions`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getRevisionsGetQueryKey = (params?: RevisionsGetParams) =>
+    [`/revisions`, ...(params ? [params] : [])] as const
+
+export const getRevisionsGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof revisionsGet>>,
+    TError = HTTPValidationError
+>(
+    params?: RevisionsGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof revisionsGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryOptions<Awaited<ReturnType<typeof revisionsGet>>, TError, TData> & {
+    queryKey: QueryKey
+} => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey = queryOptions?.queryKey ?? getRevisionsGetQueryKey(params)
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof revisionsGet>>> = ({
+        signal,
+    }) => revisionsGet(params, signal)
+
+    return { queryKey, queryFn, ...queryOptions }
+}
+
+export type RevisionsGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof revisionsGet>>
+>
+export type RevisionsGetQueryError = HTTPValidationError
+
+/**
+ * @summary List the public modules
+ */
+export const useRevisionsGet = <
+    TData = Awaited<ReturnType<typeof revisionsGet>>,
+    TError = HTTPValidationError
+>(
+    params?: RevisionsGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof revisionsGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getRevisionsGetQueryOptions(params, options)
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get overview of a public module
+ */
+export const revisionsModuleIdGet = (
+    moduleId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<PublicModuleOverview>({
+        url: `/revisions/${moduleId}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getRevisionsModuleIdGetQueryKey = (moduleId: number) =>
+    [`/revisions/${moduleId}`] as const
+
+export const getRevisionsModuleIdGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof revisionsModuleIdGet>>,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof revisionsModuleIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryOptions<
+    Awaited<ReturnType<typeof revisionsModuleIdGet>>,
+    TError,
+    TData
+> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getRevisionsModuleIdGetQueryKey(moduleId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof revisionsModuleIdGet>>
+    > = ({ signal }) => revisionsModuleIdGet(moduleId, signal)
+
+    return { queryKey, queryFn, enabled: !!moduleId, ...queryOptions }
+}
+
+export type RevisionsModuleIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof revisionsModuleIdGet>>
+>
+export type RevisionsModuleIdGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get overview of a public module
+ */
+export const useRevisionsModuleIdGet = <
+    TData = Awaited<ReturnType<typeof revisionsModuleIdGet>>,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof revisionsModuleIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getRevisionsModuleIdGetQueryOptions(moduleId, options)
 
     const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
         queryKey: QueryKey

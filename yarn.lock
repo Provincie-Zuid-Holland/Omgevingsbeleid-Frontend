@@ -2442,9 +2442,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.382":
-  version: 0.0.382
-  resolution: "@pzh-ui/components@npm:0.0.382"
+"@pzh-ui/components@npm:^0.0.386":
+  version: 0.0.386
+  resolution: "@pzh-ui/components@npm:0.0.386"
   dependencies:
     "@floating-ui/react": ^0.24.8
     "@headlessui/react": ^1.5.0
@@ -2468,7 +2468,7 @@ __metadata:
     "@tiptap/extension-underline": ^2.1.7
     "@tiptap/pm": ^2.0.3
     "@tiptap/react": ^2.0.3
-    "@types/react-table": ^7.7.10
+    "@types/react-table": ^7.7.15
     classnames: ^2.3.2
     date-fns: ^2.30.0
     focus-trap-react: ^10.1.1
@@ -2483,10 +2483,10 @@ __metadata:
     react-router-dom: ^6.14.2
     react-select: ^5.7.3
     react-stately: ^3.18.0
-    react-table: ^7.7.0
+    react-table: ^7.8.0
     react-toastify: ^9.1.2
     react-use: ^17.3.2
-  checksum: 95d089118b35e43cc6e0036c4a103c0e2a26fa519bfb9f8f0d2833c29db9a6cb7f96d04163f0d86226fe6580e16d40eab88cc1aec694825631fb8350191c87b1
+  checksum: 092a2fd89f63415f2c458cfd820baddc0c4d64001747d99f12a6e4043d3a12521a70fe792b7a8d94e4b3280152402a0253aa519ee03684fce84a3a9a3badb561
   languageName: node
   linkType: hard
 
@@ -5509,7 +5509,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-table@npm:^7.7.10":
+"@types/react-table@npm:^7.7.15":
   version: 7.7.15
   resolution: "@types/react-table@npm:7.7.15"
   dependencies:
@@ -12798,7 +12798,7 @@ __metadata:
     "@axe-core/react": 4.4.1
     "@faker-js/faker": ^7.6.0
     "@headlessui/react": ^1.5.0
-    "@pzh-ui/components": ^0.0.382
+    "@pzh-ui/components": ^0.0.386
     "@pzh-ui/config": ^0.0.37
     "@pzh-ui/css": ^0.0.66
     "@pzh-ui/icons": ^0.0.31
@@ -13201,7 +13201,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-table@npm:^7.7.0":
+"react-table@npm:^7.8.0":
   version: 7.8.0
   resolution: "react-table@npm:7.8.0"
   peerDependencies:
