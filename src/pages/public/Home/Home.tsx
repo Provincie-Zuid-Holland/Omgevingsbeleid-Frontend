@@ -4,14 +4,12 @@ import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
 import { Container } from '@/components/Container'
-import { releases } from '@/constants/releases'
 import {
     getResponsiveImageHeight,
     getResponsiveImageOffset,
 } from '@/utils/responsiveImage'
 
 import DocumentLink from './DocumentLink'
-import ReleaseItem from './ReleaseItem'
 import SearchSection from './SearchSection'
 
 /**
@@ -288,47 +286,6 @@ const Home = () => {
                     />
                 </ul>
             </Container>
-
-            <div className="w-full bg-pzh-blue-dark">
-                <Container className="py-12">
-                    <div className="col-span-6 lg:col-span-2">
-                        <Heading level="2" color="text-white">
-                            Een digitaal systeem, continu in ontwikkeling
-                        </Heading>
-                        <Text type="body" color="text-white" className="mt-4">
-                            We ontwikkelen zelf een systeem voor het opstellen
-                            van digitaal beleid. Deze raadpleegomgeving is daar
-                            onderdeel van.
-                        </Text>
-                        <Text type="body" color="text-white" className="mt-4">
-                            Hiernaast tonen wij een overzicht met recent
-                            opgeleverde functionaliteiten.
-                        </Text>
-                    </div>
-                    <div className="col-span-6 mt-6 lg:col-span-4 lg:mt-0">
-                        <div className="grid grid-cols-4 gap-3 text-white md:gap-10">
-                            {releases.slice(0, 2).map(release => (
-                                <ReleaseItem
-                                    date={release.date}
-                                    releaseNumber={release.title}
-                                    releaseNote={release.description}
-                                    key={release.title}
-                                />
-                            ))}
-                            <div className="col-span-4 mt-8 md:col-span-3 md:col-start-2 md:mt-0">
-                                <Text
-                                    type="body"
-                                    className="underline"
-                                    color="text-white">
-                                    <Link to="/planning-en-releases">
-                                        Bekijk alle releases & planning
-                                    </Link>
-                                </Text>
-                            </div>
-                        </div>
-                    </div>
-                </Container>
-            </div>
         </>
     )
 }

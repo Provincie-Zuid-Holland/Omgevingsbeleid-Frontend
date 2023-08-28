@@ -172,10 +172,7 @@ interface ReleaseListItemProps {
     title: string
     date: string
     description: string
-    items: {
-        Ontwikkelingen: string[]
-        Bugfixes: string[]
-    }
+    items: Releases[0]['items']
 }
 
 const ReleaseListItem = ({
@@ -200,13 +197,45 @@ const ReleaseListItem = ({
                     <div key={key} className="mt-6">
                         <span className="inline-block font-bold">{key}</span>
                         <ul className="pl-6">
-                            {items[key as keyof typeof items].map(item => (
-                                <li
-                                    key={item}
-                                    className="list-outside list-disc pl-1">
-                                    {item}
-                                </li>
-                            ))}
+                            {items[key as keyof typeof items]?.map(
+                                (item, index) => {
+                                    if (typeof item === 'string') {
+                                        return (
+                                            <li
+                                                key={index}
+                                                className="list-outside list-disc pl-1">
+                                                {item}
+                                            </li>
+                                        )
+                                    } else {
+                                        return (
+                                            <li
+                                                key={index}
+                                                className="list-outside list-disc pl-1">
+                                                {item.item}
+                                                {item.children && (
+                                                    <ul className="pl-6">
+                                                        {item.children.map(
+                                                            (
+                                                                child,
+                                                                childIndex
+                                                            ) => (
+                                                                <li
+                                                                    key={
+                                                                        childIndex
+                                                                    }
+                                                                    className="list-outside list-[circle] pl-1">
+                                                                    {child.item}
+                                                                </li>
+                                                            )
+                                                        )}
+                                                    </ul>
+                                                )}
+                                            </li>
+                                        )
+                                    }
+                                }
+                            )}
                         </ul>
                     </div>
                 ))}
