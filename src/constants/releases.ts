@@ -24,7 +24,7 @@ const releases = [
                     item: 'Zoeken geeft relevantere resultaten terug.',
                 },
                 {
-                    item: 'Omgevingsprogramma uitgebreid met Thematische programma’s en Gebiedsprogramma’s.',
+                    item: 'Mogelijk gemaakt om aan het Omgevingsprogramma “Thematische programma’s” en “Gebiedsprogramma’s” toe te voegen',
                 },
                 {
                     item: 'Als er meer dan 20 resultaten terugkomen, wordt er gebruik gemaakt van paginering. Hierdoor laadt de pagina een stuk sneller!',
