@@ -1,4 +1,4 @@
-import { Divider, FieldSelect, Heading, OLDModal as Modal, Text } from '@pzh-ui/components'
+import { Divider, FieldSelect, Heading, Text } from '@pzh-ui/components'
 import { useMemo, useState } from 'react'
 import { useUpdateEffect } from 'react-use'
 
@@ -7,6 +7,7 @@ import { LoaderSpinner } from '@/components/Loader'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useRevisionStore from '@/store/revisionStore'
 import getRevisionLabel from '@/utils/getRevisionLabel'
+import Modal from '@/Modal'
 
 type Option = {
     label: string
@@ -18,6 +19,7 @@ interface RevisionModalProps {
     onClose: () => void
     model: Model
     revisions?: ModelReturnType[]
+    latestUUID?: string
 }
 
 const RevisionModal = ({
@@ -25,6 +27,7 @@ const RevisionModal = ({
     revisions,
     isOpen,
     onClose,
+    latestUUID,
 }: RevisionModalProps) => {
     const {
         initialObject,
@@ -41,7 +44,7 @@ const RevisionModal = ({
         if (!initialObject) return
 
         return revisions?.map(revision => ({
-            label: getRevisionLabel(revision, initialObject),
+            label: getRevisionLabel(revision, initialObject, latestUUID),
             value: revision.UUID,
         }))
     }, [revisions, initialObject])
@@ -88,15 +91,7 @@ const RevisionModal = ({
     }, [revisionToUuid])
 
     return (
-        <Modal
-            open={isOpen}
-            onClose={onClose}
-            ariaLabel="Revisieoverzicht"
-            maxWidth="sm:max-w-[812px]"
-            closeButton>
-            <Heading level="2" className="mb-4">
-                Revisieoverzicht
-            </Heading>
+        <Modal id="revision" title="Revisieoverzicht" size="m">
             <Text className="mb-4">
                 Vergelijk de versies van {prefixSingular} {singularReadable} “
                 {initialObject?.Title}”.
@@ -130,7 +125,7 @@ const RevisionModal = ({
             />
             <Divider className="my-4" />
 
-            <div className="min-h-[120px] inline-block">
+            <div className="inline-block min-h-[120px]">
                 {revisionFromFetching || revisionToFetching ? (
                     <LoaderSpinner />
                 ) : (
@@ -140,6 +135,7 @@ const RevisionModal = ({
                             model={model}
                             revisionFrom={revisionFrom}
                             revisionTo={revisionTo}
+                            latestUUID={latestUUID}
                         />
                     )
                 )}

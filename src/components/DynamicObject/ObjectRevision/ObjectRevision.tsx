@@ -7,25 +7,48 @@ import useBreakpoint from '@/hooks/useBreakpoint'
 import useRevisionStore from '@/store/revisionStore'
 
 import { fields } from '../ObjectContent/ObjectContent'
+import { useMemo } from 'react'
 
 interface ObjectRevisionProps {
     model: Model
     revisionFrom: ModelReturnType
     revisionTo: ModelReturnType
+    latestUUID?: string
 }
 
 const ObjectRevision = ({
     model,
     revisionFrom,
     revisionTo,
+    latestUUID,
 }: ObjectRevisionProps) => {
     const { isMobile } = useBreakpoint()
 
     const initialObject = useRevisionStore(state => state.initialObject)
 
+    const { compareA, compareB } = useMemo(() => {
+        if (!latestUUID)
+            return {
+                compareA: revisionTo,
+                compareB: revisionFrom,
+            }
+
+        if (revisionFrom.UUID === latestUUID) {
+            return {
+                compareA: revisionTo,
+                compareB: revisionFrom,
+            }
+        }
+
+        return {
+            compareA: revisionFrom,
+            compareB: revisionTo,
+        }
+    }, [revisionFrom, revisionTo])
+
     const { singularCapitalize, singularReadable } = model.defaults
 
-    const titleDiff = htmlDiff(revisionFrom.Title || '', revisionTo.Title || '')
+    const titleDiff = htmlDiff(compareA.Title || '', compareB.Title || '')
 
     return (
         <div>
@@ -40,8 +63,8 @@ const ObjectRevision = ({
             />
 
             {fields.map(field => {
-                const contentTo = revisionFrom[field.value]
-                const contentFrom = revisionTo[field.value]
+                const contentFrom = compareA[field.value]
+                const contentTo = compareB[field.value]
 
                 if (
                     (typeof contentFrom !== 'string' && contentFrom !== null) ||
@@ -59,7 +82,7 @@ const ObjectRevision = ({
                 )
             })}
 
-            {(!!revisionFrom.Gebied || !!revisionTo.Gebied) && (
+            {(!!compareA.Gebied || !!compareB.Gebied) && (
                 <>
                     <Divider className="mb-6 mt-0" />
 
@@ -68,9 +91,13 @@ const ObjectRevision = ({
                     </Heading>
 
                     <Text className="mb-3">
-                        {revisionFrom.Gebied?.UUID === revisionTo.Gebied?.UUID
-                            ? `Het gebied '${revisionFrom.Gebied?.Title}' in ${singularReadable} '${revisionFrom.Title}' is ongewijzigd.`
-                            : `${singularCapitalize} '${revisionFrom.Title}' is gewijzigd van gebied '${revisionTo.Gebied?.Title}' naar gebied '${revisionFrom.Gebied?.Title}'`}
+                        {compareA.Gebied?.UUID === compareB.Gebied?.UUID
+                            ? `Het gebied '${compareA.Gebied?.Title}' in ${singularReadable} '${compareA.Title}' is ongewijzigd.`
+                            : !!compareA.Gebied?.UUID && !!compareB.Gebied?.UUID
+                            ? `${singularCapitalize} '${compareA.Title}' is gewijzigd van gebied '${compareA.Gebied?.Title}' naar gebied '${compareB.Gebied?.Title}'`
+                            : !!compareA.Gebied?.UUID
+                            ? `Het gebied '${compareA.Gebied?.Title}' in ${singularReadable} '${compareA.Title}' is verwijderd.`
+                            : `Het gebied '${compareB.Gebied?.Title}' in ${singularReadable} '${compareA.Title}' is toegevoegd.`}
                     </Text>
 
                     <div className="h-[320px] overflow-hidden rounded-lg">
@@ -78,8 +105,8 @@ const ObjectRevision = ({
                             id={`revision-map-${initialObject?.UUID}`}
                             area={{
                                 type: 'Werkingsgebieden',
-                                old: revisionFrom.Gebied?.UUID,
-                                new: revisionTo.Gebied?.UUID,
+                                old: compareB.Gebied?.UUID,
+                                new: compareA.Gebied?.UUID,
                             }}
                         />
                     </div>

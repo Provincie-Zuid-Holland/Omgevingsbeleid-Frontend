@@ -2442,9 +2442,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.386":
-  version: 0.0.386
-  resolution: "@pzh-ui/components@npm:0.0.386"
+"@pzh-ui/components@npm:^0.0.387":
+  version: 0.0.387
+  resolution: "@pzh-ui/components@npm:0.0.387"
   dependencies:
     "@floating-ui/react": ^0.24.8
     "@headlessui/react": ^1.5.0
@@ -2486,7 +2486,7 @@ __metadata:
     react-table: ^7.8.0
     react-toastify: ^9.1.2
     react-use: ^17.3.2
-  checksum: 092a2fd89f63415f2c458cfd820baddc0c4d64001747d99f12a6e4043d3a12521a70fe792b7a8d94e4b3280152402a0253aa519ee03684fce84a3a9a3badb561
+  checksum: fa778f2620a46bdd52c4db68efb163d01d00ae5bd885f4385ef8d223e2792eade6db10dd15caeba79f97d6c22b239cacce244064ff7b6a17a556b975492c2c90
   languageName: node
   linkType: hard
 
@@ -2516,9 +2516,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/css@npm:^0.0.66":
-  version: 0.0.66
-  resolution: "@pzh-ui/css@npm:0.0.66"
+"@pzh-ui/css@npm:^0.0.67":
+  version: 0.0.67
+  resolution: "@pzh-ui/css@npm:0.0.67"
   dependencies:
     "@rollup/plugin-typescript": ^8.3.1
     "@tailwindcss/custom-forms": ^0.2.1
@@ -2527,7 +2527,7 @@ __metadata:
     "@tailwindcss/typography": ^0.5.9
     react-datepicker: ^4.7.0
     react-toastify: ^9.1.2
-  checksum: 1a4c50202328381c8d76a84fa980479451f061cf057baced1c5971890bd3982c303b48183e904a36c8c9eaa0aaf2737520474ce6bd3883b8953fa959e8516a15
+  checksum: 6c43611bebcfe801ae3ed6f32a588b620df7cd3e4722f5bdf4c28c1092fee7ceab418fb27e6510fcf25c6bc2b62132aa09b3cb1683259517c0e8641a16e8176c
   languageName: node
   linkType: hard
 
@@ -12798,9 +12798,9 @@ __metadata:
     "@axe-core/react": 4.4.1
     "@faker-js/faker": ^7.6.0
     "@headlessui/react": ^1.5.0
-    "@pzh-ui/components": ^0.0.386
+    "@pzh-ui/components": ^0.0.387
     "@pzh-ui/config": ^0.0.37
-    "@pzh-ui/css": ^0.0.66
+    "@pzh-ui/css": ^0.0.67
     "@pzh-ui/icons": ^0.0.31
     "@tanstack/react-query": ^4.32.0
     "@testing-library/dom": ^9.3.1

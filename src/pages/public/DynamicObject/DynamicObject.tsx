@@ -16,6 +16,7 @@ import { Model, ModelReturnType } from '@/config/objects/types'
 import useRevisionStore from '@/store/revisionStore'
 
 import NotFoundPage from '../NotFoundPage'
+import useModalStore from '@/store/modalStore'
 
 interface DynamicObjectProps {
     model: Model
@@ -27,6 +28,7 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
 
     const { setInitialObject, setRevisionFrom, setRevisionTo } =
         useRevisionStore(state => ({ ...state }))
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const [revisionModalOpen, setRevisionModalOpen] = useState(false)
 
@@ -103,7 +105,7 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
                     <Sidebar
                         revisions={amountOfRevisions}
                         plural={plural}
-                        handleModal={() => setRevisionModalOpen(true)}
+                        handleModal={() => setActiveModal('revision')}
                         {...data}
                     />
                 </div>
@@ -195,6 +197,7 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
                     revisions={revisions?.results}
                     isOpen={revisionModalOpen}
                     onClose={() => setRevisionModalOpen(false)}
+                    latestUUID={latest?.UUID}
                 />
             )}
         </>
