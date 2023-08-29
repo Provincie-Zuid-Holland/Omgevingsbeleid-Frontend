@@ -1,4 +1,4 @@
-import { FieldSelect, FieldSelectProps } from '@pzh-ui/components'
+import { FieldSelect } from '@pzh-ui/components'
 import { MagnifyingGlass, Xmark } from '@pzh-ui/icons'
 import { useMemo } from 'react'
 

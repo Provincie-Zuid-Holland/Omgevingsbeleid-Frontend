@@ -36,6 +36,7 @@ import {
 } from '@/pages/public'
 
 import ProtectedRoute from './ProtectedRoute'
+import Revisions from '@/pages/public/Revisions/Revisions'
 
 const AppRoutes = () => {
     const routes = useRoutes([
@@ -64,6 +65,10 @@ const AppRoutes = () => {
         {
             path: 'beleidsnetwerk',
             element: <Network />,
+        },
+        {
+            path: 'herzieningen',
+            element: <Revisions />,
         },
         // {
         //     path: 'verordening',

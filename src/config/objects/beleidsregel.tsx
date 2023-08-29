@@ -61,6 +61,7 @@ const beleidsregel: DynamicObject<
         description:
             'De beleidsregels geven aan waar de provincie zich minimaal voor moet inspannen. De beleidsregels zijn individuele regels die de provincie zelf vaststelt.',
         icon: FileLines,
+        parentType: 'Overig',
     },
     staticData: [
         'Client_1_UUID',

@@ -1,5 +1,6 @@
 import * as models from '@/config/objects'
 import { ModelType, ModelPatchStaticType } from '@/config/objects/types'
+import { Pencil, Plus, Xmark } from '@pzh-ui/icons'
 
 export const getStaticDataLabel = (key: keyof ModelPatchStaticType) => {
     switch (key) {
@@ -83,6 +84,34 @@ export const getObjectActionText = (action?: string) => {
             return 'Wijzigen'
         case 'Terminate':
             return 'Vervallen'
+        default:
+            break
+    }
+}
+
+export const getPublicObjectActionText = (action?: string) => {
+    switch (action) {
+        case 'Toevoegen':
+        case 'Create':
+            return 'Wordt toegevoegd'
+        case 'Edit':
+            return 'Wordt gewijzigd'
+        case 'Terminate':
+            return 'Wordt ingetrokken'
+        default:
+            break
+    }
+}
+
+export const getPublicObjectActionIcon = (action?: string) => {
+    switch (action) {
+        case 'Toevoegen':
+        case 'Create':
+            return Plus
+        case 'Edit':
+            return Pencil
+        case 'Terminate':
+            return Xmark
         default:
             break
     }

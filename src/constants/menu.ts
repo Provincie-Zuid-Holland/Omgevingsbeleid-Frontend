@@ -38,13 +38,36 @@ export const menuGroups = [
         title: 'Omgevingsverordening',
         items: [
             {
+                text: 'Verordening',
+                to: 'https://www.ruimtelijkeplannen.nl/web-roo/transform/NL.IMRO.9928.OVerordening2019-GC10/pt_NL.IMRO.9928.OVerordening2019-GC10.xml',
+                targetBlank: true,
+            },
+        ],
+    },
+    {
+        title: 'Actueel',
+        items: [
+            {
+                text: 'Herzieningen',
+                to: '/herzieningen',
+            },
+            {
+                text: 'Lange termijn agenda',
+                to: 'https://lta.zuid-holland.nl/',
+                targetBlank: true,
+            },
+        ],
+    },
+    {
+        title: 'Overig Omgevingsbeleid',
+        items: [
+            {
                 text: 'Beleidsregels',
                 to: '/omgevingsverordening/beleidsregels',
             },
             {
-                text: 'Verordening',
-                to: 'https://www.ruimtelijkeplannen.nl/web-roo/transform/NL.IMRO.9928.OVerordening2019-GC10/pt_NL.IMRO.9928.OVerordening2019-GC10.xml',
-                targetBlank: true,
+                text: 'Beleidsnetwerk',
+                to: '/beleidsnetwerk',
             },
         ],
     },

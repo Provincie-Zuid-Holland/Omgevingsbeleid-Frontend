@@ -62,6 +62,7 @@ const gebiedsprogramma: DynamicObject<
         description:
             'De ambities geven aan waar de provincie naar wil streven. De ambities komen voort uit het coalitieakkoord en worden vastgesteld in de Omgevingsvisie.',
         icon: LocationDot,
+        parentType: 'Programma',
     },
     staticData: [
         'Client_1_UUID',

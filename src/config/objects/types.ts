@@ -67,6 +67,8 @@ export interface DynamicObject<
         atemporal?: boolean
         /** Icon of object */
         icon: any
+        /** Parent of object */
+        parentType?: ParentType
     }
     /** Array containing static data fields of object */
     staticData?: StaticData
@@ -117,3 +119,11 @@ export type ModelPatchStaticType = BeleidsdoelStaticPostStatics &
     BeleidsregelStaticPostStatics
 
 export type Model = (typeof models)[ModelType]
+
+export const parentTypes = [
+    'Visie',
+    'Programma',
+    'Verordening',
+    'Overig',
+] as const
+export type ParentType = (typeof parentTypes)[number]
