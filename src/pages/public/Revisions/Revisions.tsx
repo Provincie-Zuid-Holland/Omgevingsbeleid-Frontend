@@ -316,11 +316,11 @@ const Module = ({ Module_ID, Title, Status }: PublicModuleShort) => {
                                 in RES’en (Regionale Energiestrategieën).
                             </Text>
 
-                            <div className="mt-3">
+                            <div className="mt-[8px]">
                                 <Tabs disabledKeys={disabledKeys}>
                                     {parentTypes.map(type => (
                                         <TabItem title={type} key={type}>
-                                            <div className="mt-3 grid gap-[8px]">
+                                            <div className="mt-3 table border-spacing-y-[8px]">
                                                 {groupedObjects[type].map(
                                                     object => (
                                                         <RevisionItem
@@ -361,31 +361,37 @@ const RevisionItem = ({
     const Icon = getPublicObjectActionIcon(ModuleObjectContext?.Action)
 
     return (
-        <div className="flex items-center gap-[8px]">
+        <div className="table-row">
             {Icon && (
-                <Tooltip label={action || ''}>
-                    <div
-                        className={classNames(
-                            '-mt-1 flex h-4 w-4 cursor-help items-center justify-center rounded-[4px]',
-                            {
-                                'bg-pzh-green':
-                                    ModuleObjectContext?.Action === 'Create',
-                                'bg-pzh-red':
-                                    ModuleObjectContext?.Action === 'Terminate',
-                                'bg-pzh-blue':
-                                    ModuleObjectContext?.Action === 'Edit',
-                            }
-                        )}>
-                        <Icon
-                            size={
-                                ModuleObjectContext?.Action === 'Edit' ? 10 : 14
-                            }
-                            className="text-pzh-white"
-                        />
-                    </div>
-                </Tooltip>
+                <div className="table-cell">
+                    <Tooltip label={action || ''}>
+                        <div
+                            className={classNames(
+                                '-mt-1 flex h-4 w-4 cursor-help items-center justify-center rounded-[4px]',
+                                {
+                                    'bg-pzh-green':
+                                        ModuleObjectContext?.Action ===
+                                        'Create',
+                                    'bg-pzh-red':
+                                        ModuleObjectContext?.Action ===
+                                        'Terminate',
+                                    'bg-pzh-blue':
+                                        ModuleObjectContext?.Action === 'Edit',
+                                }
+                            )}>
+                            <Icon
+                                size={
+                                    ModuleObjectContext?.Action === 'Edit'
+                                        ? 10
+                                        : 14
+                                }
+                                className="text-pzh-white"
+                            />
+                        </div>
+                    </Tooltip>
+                </div>
             )}
-            <span>{singularCapitalize}</span>
+            <span className="table-cell px-[8px]">{singularCapitalize}</span>
             <Hyperlink to="/" text={Title} />
         </div>
     )
