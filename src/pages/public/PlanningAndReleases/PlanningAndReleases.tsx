@@ -1,3 +1,5 @@
+import { ReactNode, useState } from 'react'
+
 import { Divider, Heading, Text } from '@pzh-ui/components'
 import {
     ArrowUpRightFromSquare,
@@ -8,7 +10,6 @@ import {
     FileLines,
     UniversalAccess,
 } from '@pzh-ui/icons'
-import { ReactNode, useState } from 'react'
 
 import { Container } from '@/components/Container'
 import { releases } from '@/constants/releases'
@@ -19,10 +20,8 @@ type Releases = typeof releases
 const PlanningAndReleases = () => (
     <div>
         <Container className="overflow-hidden">
-            <div className="col-span-6 mb-0 sm:mb-16 lg:col-span-3 lg:mb-0">
-                <Heading level="1" className="mt-1 sm:mt-8 md:mt-12 lg:mt-16">
-                    Planning & Releases
-                </Heading>
+            <div className="col-span-6 mb-0 pt-8 sm:mb-16 lg:col-span-3 lg:mb-0 lg:pt-16">
+                <Heading level="1">Planning & Releases</Heading>
                 <Text type="introduction-paragraph" className="mt-3">
                     Digitaal Omgevingsbeleid is altijd in ontwikkeling, benieuwd
                     waar we aan werken? Op deze pagina vind je de recent
@@ -54,7 +53,7 @@ const PlanningAndReleases = () => (
         <img
             src={imagePlanningAndReleases}
             alt=""
-            className="image-home-1 mt-6 block h-64 w-full bg-pzh-blue bg-cover bg-center bg-no-repeat lg:hidden"
+            className="mt-6 block h-64 w-full object-cover lg:hidden"
         />
         <Container className="pb-8 lg:pb-12">
             <Heading className="col-span-6 mt-6 sm:mt-8" level="2">

@@ -1,7 +1,8 @@
-import { FormikSelect, Text } from '@pzh-ui/components'
-import { MagnifyingGlass } from '@pzh-ui/icons'
 import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
+
+import { FormikSelect, Text } from '@pzh-ui/components'
+import { MagnifyingGlass } from '@pzh-ui/icons'
 
 import { ReadRelation } from '@/api/fetchers.schemas'
 import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
@@ -60,7 +61,7 @@ export const StepTwo = ({
             </Text>
             {atemporal ? (
                 <FormikSelect
-                    optimized={false}
+                    key={isLoading?.toString()}
                     name="items"
                     options={options}
                     placeholder={`Zoek in de ${plural?.replaceAll('-', ' ')}`}

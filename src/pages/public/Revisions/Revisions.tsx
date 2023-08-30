@@ -40,10 +40,8 @@ const Revisions = () => {
                 <title>Omgevingsbeleid - Herzieningen</title>
             </Helmet>
             <Container className="overflow-hidden">
-                <div className="col-span-3">
-                    <Heading level="1" className="mt-16">
-                        Herzieningen
-                    </Heading>
+                <div className="col-span-6 pt-8 lg:col-span-3 lg:pt-16">
+                    <Heading level="1">Herzieningen</Heading>
                     <Text type="introduction-paragraph" className="my-[16px]">
                         “Welk beleid gaat binnenkort worden gewijzigd?” is een
                         veel gehoorde vraag. Op deze pagina laten wij zien welk
@@ -73,30 +71,20 @@ const Revisions = () => {
                         zienswijze kunt indienen.
                     </Text>
                 </div>
-                <div
-                    className="relative col-span-3"
-                    style={{ minHeight: '480px' }} // To mimick the height of the 480px div with the absolute position
-                >
-                    <div
-                        style={{
-                            height: '480px',
-                            width: 'calc(50vw - 1rem)',
-                        }}
-                        className="absolute left-0 top-0 h-full bg-gray-100 text-center sm:inline-block">
-                        <img
-                            alt=""
-                            className="h-full w-full object-cover"
-                            src={imageRevisions}
-                        />
-                    </div>
+                <div className="relative col-span-3 hidden lg:block">
+                    <img
+                        src={imageRevisions}
+                        alt=""
+                        className="absolute left-0 top-0 inline-block h-[480px] min-w-[50vw] object-cover"
+                    />
                 </div>
             </Container>
-            <Divider className="my-12" />
+            <Divider className="pzh-container mx-auto my-12" />
             {!isLoading ? (
                 data?.results.map(module => (
                     <Fragment key={module.Module_ID}>
                         <Module {...module} />
-                        <Divider className="my-12" />
+                        <Divider className="pzh-container mx-auto my-12" />
                     </Fragment>
                 ))
             ) : (
@@ -105,10 +93,7 @@ const Revisions = () => {
                 </div>
             )}
             <Container className="pb-12">
-                <Heading
-                    id="besluitvormingsproces"
-                    className="col-span-6"
-                    level="2">
+                <Heading className="col-span-6" level="2">
                     Besluitvormingsproces
                 </Heading>
                 <Text className="col-span-6 mt-4" type="body">
@@ -121,7 +106,7 @@ const Revisions = () => {
                     <strong>participatie</strong> en sommige{' '}
                     <strong>ter inzage</strong>.
                 </Text>
-                <div className="col-span-2 mt-8">
+                <div className="col-span-6 mt-8 lg:col-span-2">
                     <Heading level="3">Bevoegdheid GS & PS</Heading>
                     <Text className="mt-4">
                         Wanneer de Omgevingsvisie of Omgevingsverordening wordt
@@ -130,45 +115,37 @@ const Revisions = () => {
                         Het proces ziet er dan als volgt uit.
                     </Text>
                 </div>
-                <div className="col-span-4 mt-8">
-                    {/* Hidden heading to keep the whitespace consistent */}
-                    <Heading
-                        level="3"
-                        className="pointer-events-none opacity-0">
-                        -
-                    </Heading>
-                    <div className="mt-4">
-                        <Dropdown
-                            buttonText="Concept ontwerp"
-                            panelText="Een beleidsmedewerker van de provincie maakt een concept van het nieuwe beleid of de wijziging van het beleid. Dit concept wordt met verschillende collega’s besproken, waaronder met de desbetreffende portefeuillehouder."
-                        />
-                        <Dropdown
-                            buttonText="Ontwerp Gedeputeerde Staten (GS)"
-                            panelText="Als de portefeuillehouder het eens is met het concept wordt het verzonden naar de GS-vergadering. Zij besluiten vervolgens of het concept akkoord is of dat er nog iets moet worden aangepast."
-                        />
-                        <Dropdown
-                            buttonText="Ontwerp Provinciale Staten (PS)"
-                            panelText="Vervolgens wordt het ontwerp in een vergadering van de Provinciale Staten besproken. Zij kunnen vervolgens besluiten om het open te stellen voor inspraak."
-                        />
-                        <Dropdown
-                            buttonText="Inspraak"
-                            panelText="De provincie legt haar beleid vervolgens ter inzage voor een periode van zes weken. Tijdens deze periode kan iedereen officieel een reactie geven op de wijzigingen in het provinciaal beleid. Die reactie noemen we een zienswijze. Zienswijzen worden meestal ingediend door andere gemeenten, waterschappen, bedrijven en belangenorganisaties, maar ook inwoners kunnen hun mening geven."
-                        />
-                        <Dropdown
-                            buttonText="Definitief ontwerp Gedeputeerde Staten (GS)"
-                            panelText="Na de terinzagelegging wordt antwoord gegeven op alle binnengekomen zienswijzen. De zienswijzen kunnen daarnaast aanleiding zijn om de wijzigingen in het provinciaal beleid nogmaals tegen het licht te houden of eventuele fouten te corrigeren. De definitieve versie wordt vervolgens besproken in de vergadering van de Gedeputeerde Staten."
-                        />
-                        <Dropdown
-                            buttonText="Definitief ontwerp Provinciale Staten (PS)"
-                            panelText="Wanneer de Gedeputeerde Staten de definitieve wijzigingen goedkeuren wordt het voor de laatste keer voorgelegd aan de Provinciale Staten. Zij kunnen de definitieve versie vervolgens vaststellen of besluiten om niet akkoord te gaan met de wijzigingen."
-                        />
-                        <Dropdown
-                            buttonText="Vastgesteld"
-                            panelText="Het beleid is vastgesteld; de wijzigingen worden doorgevoerd in het Omgevingsbeleid van de provincie. De wijzigingen worden gepubliceerd in het provinciaal blad en treden daarna officieel in werking."
-                        />
-                    </div>
+                <div className="col-span-6 mt-4 lg:col-span-4 lg:mt-[92px]">
+                    <Dropdown
+                        buttonText="Concept ontwerp"
+                        panelText="Een beleidsmedewerker van de provincie maakt een concept van het nieuwe beleid of de wijziging van het beleid. Dit concept wordt met verschillende collega’s besproken, waaronder met de desbetreffende portefeuillehouder."
+                    />
+                    <Dropdown
+                        buttonText="Ontwerp Gedeputeerde Staten (GS)"
+                        panelText="Als de portefeuillehouder het eens is met het concept wordt het verzonden naar de GS-vergadering. Zij besluiten vervolgens of het concept akkoord is of dat er nog iets moet worden aangepast."
+                    />
+                    <Dropdown
+                        buttonText="Ontwerp Provinciale Staten (PS)"
+                        panelText="Vervolgens wordt het ontwerp in een vergadering van de Provinciale Staten besproken. Zij kunnen vervolgens besluiten om het open te stellen voor inspraak."
+                    />
+                    <Dropdown
+                        buttonText="Inspraak"
+                        panelText="De provincie legt haar beleid vervolgens ter inzage voor een periode van zes weken. Tijdens deze periode kan iedereen officieel een reactie geven op de wijzigingen in het provinciaal beleid. Die reactie noemen we een zienswijze. Zienswijzen worden meestal ingediend door andere gemeenten, waterschappen, bedrijven en belangenorganisaties, maar ook inwoners kunnen hun mening geven."
+                    />
+                    <Dropdown
+                        buttonText="Definitief ontwerp Gedeputeerde Staten (GS)"
+                        panelText="Na de terinzagelegging wordt antwoord gegeven op alle binnengekomen zienswijzen. De zienswijzen kunnen daarnaast aanleiding zijn om de wijzigingen in het provinciaal beleid nogmaals tegen het licht te houden of eventuele fouten te corrigeren. De definitieve versie wordt vervolgens besproken in de vergadering van de Gedeputeerde Staten."
+                    />
+                    <Dropdown
+                        buttonText="Definitief ontwerp Provinciale Staten (PS)"
+                        panelText="Wanneer de Gedeputeerde Staten de definitieve wijzigingen goedkeuren wordt het voor de laatste keer voorgelegd aan de Provinciale Staten. Zij kunnen de definitieve versie vervolgens vaststellen of besluiten om niet akkoord te gaan met de wijzigingen."
+                    />
+                    <Dropdown
+                        buttonText="Vastgesteld"
+                        panelText="Het beleid is vastgesteld; de wijzigingen worden doorgevoerd in het Omgevingsbeleid van de provincie. De wijzigingen worden gepubliceerd in het provinciaal blad en treden daarna officieel in werking."
+                    />
                 </div>
-                <div className="col-span-2 mt-8">
+                <div className="col-span-6 mt-8 lg:col-span-2">
                     <Heading level="3">Bevoegdheid GS</Heading>
                     <Text className="mt-4">
                         Gedeputeerde Staten zijn bevoegd om zelf het
@@ -180,35 +157,27 @@ const Revisions = () => {
                         Omgevingsverordening, maar niet helemaal hetzelfde.
                     </Text>
                 </div>
-                <div className="col-span-4 mt-8">
-                    {/* Hidden heading to keep the whitespace consistent */}
-                    <Heading
-                        level="3"
-                        className="pointer-events-none opacity-0">
-                        -
-                    </Heading>
-                    <div className="mt-4">
-                        <Dropdown
-                            buttonText="Concept ontwerp"
-                            panelText="Een beleidsmedewerker van de provincie maakt een concept van het nieuwe beleid of de wijziging van het beleid. Dit concept wordt met verschillende collega’s besproken, waaronder met de desbetreffende portefeuillehouder."
-                        />
-                        <Dropdown
-                            buttonText="Ontwerp Gedeputeerde Staten (GS)"
-                            panelText="Als de portefeuillehouder het eens is met het concept wordt het verzonden naar de GS-vergadering. Zij besluiten vervolgens of het concept akkoord is of dat er nog iets moet worden aangepast."
-                        />
-                        <Dropdown
-                            buttonText="Inspraak"
-                            panelText="De provincie legt haar beleid vervolgens ter inzage voor een periode van zes weken. Tijdens deze periode kan iedereen officieel een reactie geven over de wijzigingen in het provinciaal beleid. Die reactie noemen we een zienswijze. Zienswijzen worden meestal ingediend door andere gemeenten, waterschappen, bedrijven en belangenorganisaties, maar ook inwoners kunnen hun mening geven."
-                        />
-                        <Dropdown
-                            buttonText="Definitief ontwerp Gedeputeerde Staten (GS)"
-                            panelText="Na de terinzagelegging wordt antwoord gegeven op eventuele vragen die in de zienswijzen zijn gesteld. De zienswijzen kunnen daarnaast aanleiding zijn om de wijzigingen in het provinciaal beleid nogmaals tegen het licht te houden of eventuele fouten te corrigeren. De definitieve versie wordt vervolgens besproken in de vergadering van de Gedeputeerde Staten."
-                        />
-                        <Dropdown
-                            buttonText="Vastgesteld"
-                            panelText="Het beleid is vastgesteld; de wijzigingen worden doorgevoerd in het Omgevingsbeleid van de provincie. De wijzigingen worden gepubliceerd in het provinciaal blad en treden daarna officieel in werking."
-                        />
-                    </div>
+                <div className="col-span-6 mt-4 lg:col-span-4 lg:mt-[92px]">
+                    <Dropdown
+                        buttonText="Concept ontwerp"
+                        panelText="Een beleidsmedewerker van de provincie maakt een concept van het nieuwe beleid of de wijziging van het beleid. Dit concept wordt met verschillende collega’s besproken, waaronder met de desbetreffende portefeuillehouder."
+                    />
+                    <Dropdown
+                        buttonText="Ontwerp Gedeputeerde Staten (GS)"
+                        panelText="Als de portefeuillehouder het eens is met het concept wordt het verzonden naar de GS-vergadering. Zij besluiten vervolgens of het concept akkoord is of dat er nog iets moet worden aangepast."
+                    />
+                    <Dropdown
+                        buttonText="Inspraak"
+                        panelText="De provincie legt haar beleid vervolgens ter inzage voor een periode van zes weken. Tijdens deze periode kan iedereen officieel een reactie geven over de wijzigingen in het provinciaal beleid. Die reactie noemen we een zienswijze. Zienswijzen worden meestal ingediend door andere gemeenten, waterschappen, bedrijven en belangenorganisaties, maar ook inwoners kunnen hun mening geven."
+                    />
+                    <Dropdown
+                        buttonText="Definitief ontwerp Gedeputeerde Staten (GS)"
+                        panelText="Na de terinzagelegging wordt antwoord gegeven op eventuele vragen die in de zienswijzen zijn gesteld. De zienswijzen kunnen daarnaast aanleiding zijn om de wijzigingen in het provinciaal beleid nogmaals tegen het licht te houden of eventuele fouten te corrigeren. De definitieve versie wordt vervolgens besproken in de vergadering van de Gedeputeerde Staten."
+                    />
+                    <Dropdown
+                        buttonText="Vastgesteld"
+                        panelText="Het beleid is vastgesteld; de wijzigingen worden doorgevoerd in het Omgevingsbeleid van de provincie. De wijzigingen worden gepubliceerd in het provinciaal blad en treden daarna officieel in werking."
+                    />
                 </div>
             </Container>
         </div>
@@ -293,7 +262,7 @@ const Module = ({ Module_ID, Title, Status }: PublicModuleShort) => {
 
     return (
         <Container>
-            <div className="col-span-4">
+            <div className="col-span-6 lg:col-span-4">
                 <span className="text-pzh-gray-600">Module</span>
                 <div className="flex items-center">
                     <Heading level="2">{Title}</Heading>
@@ -316,7 +285,7 @@ const Module = ({ Module_ID, Title, Status }: PublicModuleShort) => {
                                 in RES’en (Regionale Energiestrategieën).
                             </Text>
 
-                            <div className="mt-[8px]">
+                            <div className="mt-[16px]">
                                 <Tabs disabledKeys={disabledKeys}>
                                     {parentTypes.map(type => (
                                         <TabItem title={type} key={type}>
@@ -362,36 +331,39 @@ const RevisionItem = ({
 
     return (
         <div className="table-row">
-            {Icon && (
-                <div className="table-cell">
-                    <Tooltip label={action || ''}>
-                        <div
-                            className={classNames(
-                                '-mt-1 flex h-4 w-4 cursor-help items-center justify-center rounded-[4px]',
-                                {
-                                    'bg-pzh-green':
-                                        ModuleObjectContext?.Action ===
-                                        'Create',
-                                    'bg-pzh-red':
-                                        ModuleObjectContext?.Action ===
-                                        'Terminate',
-                                    'bg-pzh-blue':
-                                        ModuleObjectContext?.Action === 'Edit',
-                                }
-                            )}>
-                            <Icon
-                                size={
-                                    ModuleObjectContext?.Action === 'Edit'
-                                        ? 10
-                                        : 14
-                                }
-                                className="text-pzh-white"
-                            />
-                        </div>
-                    </Tooltip>
+            <div className="table-cell">
+                <div className="flex items-baseline">
+                    {Icon && (
+                        <Tooltip label={action || ''}>
+                            <div
+                                className={classNames(
+                                    'flex h-4 w-4 cursor-help items-center justify-center rounded-[4px]',
+                                    {
+                                        'bg-pzh-green':
+                                            ModuleObjectContext?.Action ===
+                                            'Create',
+                                        'bg-pzh-red':
+                                            ModuleObjectContext?.Action ===
+                                            'Terminate',
+                                        'bg-pzh-blue':
+                                            ModuleObjectContext?.Action ===
+                                            'Edit',
+                                    }
+                                )}>
+                                <Icon
+                                    size={
+                                        ModuleObjectContext?.Action === 'Edit'
+                                            ? 10
+                                            : 14
+                                    }
+                                    className="text-pzh-white"
+                                />
+                            </div>
+                        </Tooltip>
+                    )}
+                    <span className="px-[8px]">{singularCapitalize}</span>
                 </div>
-            )}
-            <span className="table-cell px-[8px]">{singularCapitalize}</span>
+            </div>
             <Hyperlink to="/" text={Title} />
         </div>
     )
