@@ -1,7 +1,8 @@
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import { useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useUpdateEffect } from 'react-use'
+
+import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 
 import { Container } from '@/components/Container'
 import ObjectList from '@/components/ObjectList'
@@ -23,8 +24,14 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
     const [currPage, setCurrPage] = useState(parseInt(page || '1'))
 
     const { useGetValid } = model.fetchers
-    const { singular, plural, pluralCapitalize, description, slugOverview } =
-        model.defaults
+    const {
+        singular,
+        plural,
+        pluralCapitalize,
+        description,
+        slugOverview,
+        atemporal,
+    } = model.defaults
 
     const { data, isLoading } = useGetValid({
         limit: PAGE_LIMIT,
@@ -38,7 +45,12 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
      * sort data by Title
      */
     const allObjects = useMemo(
-        () => data?.results?.map(({ Title, UUID }) => ({ Title, UUID })),
+        () =>
+            data?.results?.map(({ Title, UUID, Object_ID }) => ({
+                Title,
+                UUID,
+                Object_ID,
+            })),
         [data]
     )
 
@@ -77,8 +89,9 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
                             data={allObjects || []}
                             isLoading={isLoading}
                             objectSlug={slugOverview || ''}
-                            objectType={plural}
+                            objectType={pluralCapitalize.toLowerCase()}
                             objectSingular={singular}
+                            objectKey={atemporal ? 'id' : 'uuid'}
                             limit={PAGE_LIMIT}
                             onPageChange={handlePageChange}
                             total={data?.total}

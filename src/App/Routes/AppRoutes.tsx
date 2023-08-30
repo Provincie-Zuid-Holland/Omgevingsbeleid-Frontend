@@ -8,35 +8,36 @@ import ObjectProvider from '@/context/ObjectContext'
 import useAuth from '@/hooks/useAuth'
 import {
     Dashboard,
-    ObjectEdit,
     DynamicOverview,
     ModuleCreate,
     ModuleDetail,
     ModuleEdit,
     ObjectCreate,
     ObjectDetail,
+    ObjectEdit,
     ObjectWrite,
 } from '@/pages/protected'
 import {
+    Accessibility,
     AreaDetail,
     AreaOverview,
-    Accessibility,
+    DynamicObject as DynamicObjectPublic,
+    DynamicOverview as DynamicOverviewPublic,
     EnvironmentProgram,
     Home,
     Login,
-    PlanningAndReleases,
-    DynamicOverview as DynamicOverviewPublic,
-    DynamicObject as DynamicObjectPublic,
+    MapSearch,
     Network,
+    NotFoundPage,
+    PlanningAndReleases,
+    SearchResults,
     ThemeDetail,
     ThemeOverview,
-    MapSearch,
-    SearchResults,
-    NotFoundPage,
 } from '@/pages/public'
+import AtemportalObject from '@/pages/public/AtemportalObject/AtemportalObject'
+import Revisions from '@/pages/public/Revisions/Revisions'
 
 import ProtectedRoute from './ProtectedRoute'
-import Revisions from '@/pages/public/Revisions/Revisions'
 
 const AppRoutes = () => {
     const routes = useRoutes([
@@ -133,9 +134,16 @@ const AppRoutes = () => {
                         ),
                     },
                     {
-                        path: ':uuid',
-                        element: (
+                        path: !models[model as ModelType].defaults.atemporal
+                            ? ':uuid'
+                            : ':id',
+                        element: !models[model as ModelType].defaults
+                            .atemporal ? (
                             <DynamicObjectPublic
+                                model={models[model as ModelType]}
+                            />
+                        ) : (
+                            <AtemportalObject
                                 model={models[model as ModelType]}
                             />
                         ),

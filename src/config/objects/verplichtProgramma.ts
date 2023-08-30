@@ -20,7 +20,7 @@ import { DynamicObject } from './types'
 
 const fetchers = {
     useGetValid: useVerplichtProgrammaValidGet,
-    useGetValidLineage: null,
+    useGetValidLineage: useVerplichtProgrammaLatestLineageIdGet,
     useGetVersion: null,
     useGetLatestLineage: useVerplichtProgrammaLatestLineageIdGet,
     useGetRelations: useVerplichtProgrammaRelationsLineageIdGet,
@@ -53,10 +53,12 @@ const verplichtProgramma: DynamicObject<
         prefixNewObject: 'Nieuw',
         demonstrative: 'dit',
         demonstrativeSingular: 'verplichte programma',
+        slugOverview: 'omgevingsprogramma/verplichte-programmas',
         atemporal: true,
         icon: CircleExclamation,
     },
     fetchers,
+    allowedConnections: [{ key: 'Maatregelen', type: 'maatregel' }],
     dynamicSections: [
         {
             title: 'Algemene informatie',

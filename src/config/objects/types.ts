@@ -19,13 +19,11 @@ import {
     MaatregelPatch,
     MaatregelStaticPostStatics,
     NationaalBelangFull,
-    VerplichtProgrammaFull,
     WettelijkeTaakFull,
 } from '@/api/fetchers.schemas'
 
-import { DynamicSection } from '../types'
-
 import * as models from '.'
+import { DynamicSection } from '../types'
 
 export interface DynamicObject<
     Fetchers = {
@@ -35,7 +33,7 @@ export interface DynamicObject<
     StaticData = any,
     QueryKeys = {
         [key: string]: any
-    }
+    },
 > {
     /** Default information of object */
     defaults: {
@@ -101,8 +99,7 @@ export type ModelReturnType = BeleidsdoelFull &
     MaatregelFull &
     GebiedsprogrammaFull &
     NationaalBelangFull &
-    WettelijkeTaakFull &
-    VerplichtProgrammaFull
+    WettelijkeTaakFull
 
 export type ModelPatchType = BeleidsdoelPatch &
     AmbitiePatch &

@@ -21,6 +21,10 @@ export const menuGroups = [
         to: '/omgevingsprogramma',
         items: [
             {
+                text: 'Verplichte programma’s',
+                to: '/omgevingsprogramma/verplichte-programmas',
+            },
+            {
                 text: 'Thematische programma’s',
                 to: '/omgevingsprogramma/thematische-programmas',
             },
