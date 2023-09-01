@@ -78,12 +78,13 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
 
     const { data = {}, isLoading, isError } = objectData || {}
 
-    const { data: latest, isLoading: latestIsLoading } = useGetLatestLineage(
-        data!.Object_ID!,
-        {
-            query: { enabled: !!data?.Object_ID },
-        }
-    )
+    const {
+        data: latest,
+        isLoading: latestIsLoading,
+        isError: latestIsError,
+    } = useGetLatestLineage(data!.Object_ID!, {
+        query: { enabled: !!data?.Object_ID, onError: () => {} },
+    })
     const { data: revisions } =
         useGetValidLineage?.<{ results?: ModelReturnType[] }>(
             data!.Object_ID!,
@@ -107,12 +108,14 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
     const breadcrumbPaths = [
         { name: 'Omgevingsbeleid', path: '/' },
         { name: slugOverview?.split('/')[0] || '', path: '/' },
-        { name: pluralCapitalize, path: `/${slugOverview}` || '' },
+        { name: pluralCapitalize, path: `/${slugOverview}` },
         ...(isRevision
             ? [
                   {
                       name: 'Ontwerpversie',
-                      path: `/${slugOverview}/${latest?.UUID}` || '',
+                      path: !latestIsError
+                          ? `/${slugOverview}/${latest?.UUID}`
+                          : `/${slugOverview}`,
                   },
               ]
             : []),

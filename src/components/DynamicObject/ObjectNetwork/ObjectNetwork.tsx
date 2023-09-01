@@ -1,8 +1,9 @@
-import { Heading, Text } from '@pzh-ui/components'
-import { Triangle } from '@pzh-ui/icons'
 import groupBy from 'lodash.groupby'
 import { useCallback, useMemo } from 'react'
 import { Link } from 'react-router-dom'
+
+import { Heading, Text } from '@pzh-ui/components'
+import { Triangle } from '@pzh-ui/icons'
 
 import { useObjectGraphGet } from '@/api/fetchers'
 import { GraphVertice } from '@/api/fetchers.schemas'
@@ -20,7 +21,7 @@ interface ObjectNetworkProps {
 const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
     const { data: graph } = useObjectGraphGet(
         { uuid: data.UUID! },
-        { query: { enabled: !!data.UUID } }
+        { query: { enabled: !!data.UUID, onError: () => {} } }
     )
 
     /**
@@ -61,7 +62,7 @@ const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
     if (Object.keys(relations).length === 0) return null
 
     return (
-        <div className="grid grid-cols-4 py-4 px-6 border border-pzh-gray-500 rounded-[4px] ">
+        <div className="grid grid-cols-4 rounded-[4px] border border-pzh-gray-500 px-6 py-4 ">
             <div className="col-span-6">
                 <Heading level="3" className="text-pzh-green">
                     Beleidsnetwerk
@@ -130,19 +131,19 @@ const getObjectIcon = (key: ModelType) => {
     switch (key) {
         case 'ambitie':
             return (
-                <Triangle size={12} className="text-pzh-apple-green mt-[2px]" />
+                <Triangle size={12} className="mt-[2px] text-pzh-apple-green" />
             )
         case 'beleidsdoel':
             return (
-                <div className="w-[12px] h-[12px] bg-pzh-orange rounded-[2px] mt-[2px]" />
+                <div className="mt-[2px] h-[12px] w-[12px] rounded-[2px] bg-pzh-orange" />
             )
         case 'beleidskeuze':
             return (
-                <div className="w-[12px] h-[12px] bg-pzh-yellow rounded-full mt-[2px]" />
+                <div className="mt-[2px] h-[12px] w-[12px] rounded-full bg-pzh-yellow" />
             )
         case 'maatregel':
             return (
-                <div className="w-[10px] h-[10px] bg-pzh-green rounded-[2px] mt-[2px] mr-[2px] rotate-45" />
+                <div className="mr-[2px] mt-[2px] h-[10px] w-[10px] rotate-45 rounded-[2px] bg-pzh-green" />
             )
     }
 }
