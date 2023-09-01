@@ -12,6 +12,7 @@ import {
     useModulesModuleIdObjectGebiedsprogrammasLatestLineageIdGet,
     useModulesModuleIdObjectGebiedsprogrammasLineageIdPatch,
     useModulesObjectsGebiedsprogrammaActiveLineageIdGet,
+    useRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGet,
 } from '@/api/fetchers'
 import {
     GebiedsprogrammaPatch,
@@ -27,6 +28,7 @@ const fetchers = {
     useGetValidLineage: useGebiedsprogrammasValidLineageIdGet,
     useGetVersion: useGebiedsprogrammasVersionObjectUuidGet,
     useGetLatestLineage: useGebiedsprogrammasLatestLineageIdGet,
+    useGetRevision: useRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGet,
     useGetRelations: useGebiedsprogrammasRelationsLineageIdGet,
     usePutRelations: useGebiedsprogrammasRelationsLineageIdPut,
     useGetLatestLineageInModule:

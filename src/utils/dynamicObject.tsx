@@ -1,6 +1,10 @@
-import * as models from '@/config/objects'
-import { ModelType, ModelPatchStaticType } from '@/config/objects/types'
+import { Hyperlink } from '@pzh-ui/components'
 import { Pencil, Plus, Xmark } from '@pzh-ui/icons'
+
+import * as models from '@/config/objects'
+import { ModelPatchStaticType, ModelType } from '@/config/objects/types'
+
+import { PublicModuleObjectRevision } from '../api/fetchers.schemas'
 
 export const getStaticDataLabel = (key: keyof ModelPatchStaticType) => {
     switch (key) {
@@ -114,6 +118,46 @@ export const getPublicObjectActionIcon = (action?: string) => {
             return Xmark
         default:
             break
+    }
+}
+
+export const getObjectRevisionBannerText = (
+    revision: PublicModuleObjectRevision,
+    type: ModelType
+) => {
+    const model = models[type]
+    const path = `/${model.defaults.slugOverview}/ontwerpversie/${revision.Module_ID}/${revision.Module_Object_UUID}`
+
+    switch (revision.Module_Status) {
+        case 'Ontwerp GS':
+            return 'Er wordt aan gewerkt.'
+        case 'Ontwerp in inspraak':
+            return (
+                <>
+                    Op dit moment ligt er in de module '{revision.Module_Title}'
+                    een nieuwe versie van deze beleidskeuze ter inzage,{' '}
+                    <Hyperlink to={path} text="bekijk deze versie hier" />.
+                </>
+            )
+        case 'Definitief ontwerp GS':
+            return (
+                <>
+                    Is in inspraak geweest,{' '}
+                    <Hyperlink to={path} text="bekijk deze versie hier" />.
+                </>
+            )
+        case 'Ontwerp PS':
+        case 'Definitief ontwerp PS':
+        case 'Vastgesteld':
+            return (
+                <>
+                    Op dit moment wordt er in module '{revision.Module_Title}'
+                    gewerkt aan een nieuwe versie van deze beleidskeuze,{' '}
+                    <Hyperlink to={path} text="bekijk deze versie hier" />.
+                </>
+            )
+        default:
+            return ''
     }
 }
 

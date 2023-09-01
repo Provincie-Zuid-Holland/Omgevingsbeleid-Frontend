@@ -2,16 +2,17 @@ import { Hyperlink } from '@pzh-ui/components'
 import { CalendarCheck } from '@pzh-ui/icons'
 
 import {
+    useMaatregelStaticLineageIdPost,
     useMaatregelenLatestLineageIdGet,
     useMaatregelenRelationsLineageIdGet,
     useMaatregelenRelationsLineageIdPut,
     useMaatregelenValidGet,
     useMaatregelenValidLineageIdGet,
     useMaatregelenVersionObjectUuidGet,
-    useMaatregelStaticLineageIdPost,
     useModulesModuleIdObjectMaatregelLatestLineageIdGet,
     useModulesModuleIdObjectMaatregelLineageIdPatch,
     useModulesObjectsMaatregelActiveLineageIdGet,
+    useRevisionsModuleIdMaatregelVersionObjectUuidGet,
 } from '@/api/fetchers'
 import {
     MaatregelPatch,
@@ -27,6 +28,7 @@ const fetchers = {
     useGetValidLineage: useMaatregelenValidLineageIdGet,
     useGetVersion: useMaatregelenVersionObjectUuidGet,
     useGetLatestLineage: useMaatregelenLatestLineageIdGet,
+    useGetRevision: useRevisionsModuleIdMaatregelVersionObjectUuidGet,
     useGetRelations: useMaatregelenRelationsLineageIdGet,
     usePutRelations: useMaatregelenRelationsLineageIdPut,
     useGetLatestLineageInModule:

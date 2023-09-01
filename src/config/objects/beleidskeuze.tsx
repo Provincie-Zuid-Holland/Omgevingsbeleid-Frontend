@@ -6,16 +6,17 @@ import {
     useBeleidskeuzeAcknowledgedRelationsLineageIdEditPost,
     useBeleidskeuzeAcknowledgedRelationsLineageIdGet,
     useBeleidskeuzeAcknowledgedRelationsLineageIdPost,
+    useBeleidskeuzeStaticLineageIdPost,
     useBeleidskeuzesLatestLineageIdGet,
     useBeleidskeuzesRelationsLineageIdGet,
     useBeleidskeuzesRelationsLineageIdPut,
-    useBeleidskeuzeStaticLineageIdPost,
     useBeleidskeuzesValidGet,
     useBeleidskeuzesValidLineageIdGet,
     useBeleidskeuzesVersionObjectUuidGet,
     useModulesModuleIdObjectBeleidskeuzeLatestLineageIdGet,
     useModulesModuleIdObjectBeleidskeuzeLineageIdPatch,
     useModulesObjectsBeleidskeuzeActiveLineageIdGet,
+    useRevisionsModuleIdBeleidskeuzeVersionObjectUuidGet,
 } from '@/api/fetchers'
 import {
     BeleidskeuzePatch,
@@ -31,6 +32,7 @@ const fetchers = {
     useGetValidLineage: useBeleidskeuzesValidLineageIdGet,
     useGetVersion: useBeleidskeuzesVersionObjectUuidGet,
     useGetLatestLineage: useBeleidskeuzesLatestLineageIdGet,
+    useGetRevision: useRevisionsModuleIdBeleidskeuzeVersionObjectUuidGet,
     useGetRelations: useBeleidskeuzesRelationsLineageIdGet,
     usePutRelations: useBeleidskeuzesRelationsLineageIdPut,
     useGetLatestLineageInModule:

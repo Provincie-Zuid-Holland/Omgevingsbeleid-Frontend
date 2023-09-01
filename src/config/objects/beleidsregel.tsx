@@ -2,16 +2,17 @@ import { Hyperlink } from '@pzh-ui/components'
 import { FileLines } from '@pzh-ui/icons'
 
 import {
+    useBeleidsregelStaticLineageIdPost,
     useBeleidsregelsLatestLineageIdGet,
     useBeleidsregelsRelationsLineageIdGet,
     useBeleidsregelsRelationsLineageIdPut,
-    useBeleidsregelStaticLineageIdPost,
     useBeleidsregelsValidGet,
     useBeleidsregelsValidLineageIdGet,
     useBeleidsregelsVersionObjectUuidGet,
     useModulesModuleIdObjectBeleidsregelLatestLineageIdGet,
     useModulesModuleIdObjectBeleidsregelLineageIdPatch,
     useModulesObjectsBeleidsregelActiveLineageIdGet,
+    useRevisionsModuleIdBeleidsregelVersionObjectUuidGet,
 } from '@/api/fetchers'
 import {
     BeleidsregelPatch,
@@ -27,6 +28,7 @@ const fetchers = {
     useGetValidLineage: useBeleidsregelsValidLineageIdGet,
     useGetVersion: useBeleidsregelsVersionObjectUuidGet,
     useGetLatestLineage: useBeleidsregelsLatestLineageIdGet,
+    useGetRevision: useRevisionsModuleIdBeleidsregelVersionObjectUuidGet,
     useGetRelations: useBeleidsregelsRelationsLineageIdGet,
     usePutRelations: useBeleidsregelsRelationsLineageIdPut,
     useGetLatestLineageInModule:

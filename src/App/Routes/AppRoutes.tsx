@@ -148,6 +148,26 @@ const AppRoutes = () => {
                             />
                         ),
                     },
+                    ...(!models[model as ModelType].defaults.atemporal
+                        ? [
+                              {
+                                  path: 'ontwerpversie',
+                                  children: [
+                                      {
+                                          path: ':moduleId/:uuid',
+                                          element: (
+                                              <DynamicObjectPublic
+                                                  model={
+                                                      models[model as ModelType]
+                                                  }
+                                                  isRevision
+                                              />
+                                          ),
+                                      },
+                                  ],
+                              },
+                          ]
+                        : []),
                 ],
             })),
         /**
