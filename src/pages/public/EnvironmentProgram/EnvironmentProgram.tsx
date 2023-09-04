@@ -1,5 +1,6 @@
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import { Link } from 'react-router-dom'
+
+import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 
 import { Container } from '@/components/Container'
 import imgEnvironmentProgram from '@/images/environment-program.webp'
@@ -13,12 +14,12 @@ function EnvironmentProgram() {
     return (
         <div>
             <div
-                className="hidden w-full h-[288px] bg-center bg-no-repeat bg-cover bg-pzh-blue md:block"
+                className="hidden h-[288px] w-full bg-pzh-blue bg-cover bg-center bg-no-repeat md:block"
                 style={{
                     backgroundImage: `url(${imgEnvironmentProgram})`,
                 }}
             />
-            <Container className="pb-20 overflow-hidden">
+            <Container className="overflow-hidden pb-20">
                 <div className="col-span-6 lg:col-span-4">
                     <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
                     <Heading level="1" className="mt-4">
@@ -34,6 +35,17 @@ function EnvironmentProgram() {
                         inclusief de onderliggende activiteiten.
                     </Text>
                     <Heading level="2" className="mt-8">
+                        Verplichte programma’s
+                    </Heading>
+                    <Text type="body" className="mt-3">
+                        Tekst aanleveren door Tom
+                    </Text>
+                    <Link
+                        className="mt-3 block text-pzh-green underline hover:text-pzh-green-dark"
+                        to="/omgevingsprogramma/verplichte-programmas">
+                        Bekijk de verplichte programma’s
+                    </Link>
+                    <Heading level="2" className="mt-8">
                         Thematische programma’s
                     </Heading>
                     <Text type="body" className="mt-3">
@@ -43,7 +55,7 @@ function EnvironmentProgram() {
                         beleidsdoelen vindt u hier.
                     </Text>
                     <Link
-                        className="block mt-3 underline text-pzh-green hover:text-pzh-green-dark"
+                        className="mt-3 block text-pzh-green underline hover:text-pzh-green-dark"
                         to="/omgevingsprogramma/thematische-programmas">
                         Bekijk de thematische programma’s
                     </Link>
@@ -57,7 +69,7 @@ function EnvironmentProgram() {
                         gebieden (welke soms overlappen) is hieronder te vinden.
                     </Text>
                     <Link
-                        className="block mt-3 underline text-pzh-green hover:text-pzh-green-dark"
+                        className="mt-3 block text-pzh-green underline hover:text-pzh-green-dark"
                         to="/omgevingsprogramma/gebiedsprogrammas">
                         Bekijk de gebiedsprogramma’s
                     </Link>
@@ -71,7 +83,7 @@ function EnvironmentProgram() {
                         Omgevingsprogramma.
                     </Text>
                     <Link
-                        className="block mt-3 underline text-pzh-green hover:text-pzh-green-dark"
+                        className="mt-3 block text-pzh-green underline hover:text-pzh-green-dark"
                         to="/omgevingsprogramma/maatregelen">
                         Bekijk de maatregelen
                     </Link>

@@ -1,9 +1,11 @@
-import { Heading, Hyperlink, Text } from '@pzh-ui/components'
-import { ArrowUpRightFromSquare, FilePdf } from '@pzh-ui/icons'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
+import { Heading, Hyperlink, Text } from '@pzh-ui/components'
+import { ArrowUpRightFromSquare, FilePdf } from '@pzh-ui/icons'
+
 import { Container } from '@/components/Container'
+import imageLanding from '@/images/landing-1.webp'
 import {
     getResponsiveImageHeight,
     getResponsiveImageOffset,
@@ -60,11 +62,19 @@ const Home = () => {
                     </Text>
                 </div>
                 <div className="relative col-span-3 hidden lg:block">
-                    <div className="image-home-1 absolute left-0 top-0 inline-block h-[480px] w-[50vw] bg-gray-100 bg-cover bg-center bg-no-repeat text-white" />
+                    <img
+                        src={imageLanding}
+                        alt=""
+                        className="absolute left-0 top-0 inline-block h-[480px] min-w-[50vw] object-cover"
+                    />
                 </div>
             </Container>
 
-            <div className="image-home-1 block h-64 w-full bg-pzh-blue bg-cover bg-center bg-no-repeat lg:hidden" />
+            <img
+                src={imageLanding}
+                alt=""
+                className="left-0 top-0 block h-64 w-full object-cover lg:hidden"
+            />
 
             <Container className="border-t border-gray-300 py-6 md:py-8 lg:py-16">
                 <div className="col-span-6 lg:col-span-2">

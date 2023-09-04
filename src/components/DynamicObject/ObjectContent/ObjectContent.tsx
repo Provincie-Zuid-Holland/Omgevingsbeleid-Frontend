@@ -145,6 +145,14 @@ export const fields: {
         hidden: true,
     },
     {
+        title: 'Rolkeuze',
+        value: 'Role',
+    },
+    {
+        title: 'Uitwerking',
+        value: 'Effect',
+    },
+    {
         value: 'Weblink',
         hidden: true,
     },

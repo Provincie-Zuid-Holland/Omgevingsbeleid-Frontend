@@ -1,8 +1,9 @@
-import { Badge } from '@pzh-ui/components'
-import { ArrowRightFromBracket, Eye } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { ReactNode, useState } from 'react'
 import { Link } from 'react-router-dom'
+
+import { Badge } from '@pzh-ui/components'
+import { ArrowRightFromBracket, Eye } from '@pzh-ui/icons'
 
 import { environment } from '@/api/instance'
 import useAuth from '@/hooks/useAuth'
@@ -32,7 +33,7 @@ const Navigation = () => {
     return (
         <header
             className={classNames(
-                'top-0 z-[10000] h-[96px] w-full border-b border-b-pzh-gray-200',
+                'top-0 z-[99] h-[96px] w-full border-b border-b-pzh-gray-200',
                 {
                     sticky: !isAdvancedSearchPage,
                     relative: isAdvancedSearchPage,

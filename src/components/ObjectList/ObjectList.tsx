@@ -1,8 +1,9 @@
-import { FieldInput, Heading, ListLink, Pagination } from '@pzh-ui/components'
-import { MagnifyingGlass } from '@pzh-ui/icons'
 import { KeyboardEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUpdateEffect } from 'react-use'
+
+import { FieldInput, Heading, ListLink, Pagination } from '@pzh-ui/components'
+import { MagnifyingGlass } from '@pzh-ui/icons'
 
 import { LoaderCard, LoaderSpinner } from '@/components/Loader'
 
@@ -13,10 +14,13 @@ interface ObjectListProps {
     objectSlug: string
     /** Singular of the object */
     objectSingular?: string
+    /** Key of object */
+    objectKey?: 'uuid' | 'id'
     /** Array of objects */
     data: {
-        Title?: string
+        Title?: string | null
         UUID?: string
+        Object_ID?: number
     }[]
     /** Is data loading */
     isLoading?: boolean
@@ -39,6 +43,7 @@ const ObjectList = ({
     objectType,
     objectSlug,
     objectSingular,
+    objectKey = 'uuid',
     isLoading,
     hasSearch = true,
     title,
@@ -130,7 +135,11 @@ const ObjectList = ({
                         <li key={index} className="py-0.5">
                             <ListLink
                                 text={obj.Title || ''}
-                                to={`/${objectSlug}/${obj.UUID}`}
+                                to={`/${objectSlug}/${
+                                    objectKey === 'uuid'
+                                        ? obj.UUID
+                                        : obj.Object_ID
+                                }`}
                             />
                         </li>
                     ))
