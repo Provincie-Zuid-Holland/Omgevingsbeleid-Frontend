@@ -38,18 +38,22 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
     }) || {}
 
     const formattedRelations = useMemo(() => {
-        const connections = model.allowedConnections?.flatMap(connection => {
-            const items = data[connection.key]
+        const connections = model.allowedConnections
+            ?.flatMap(connection => {
+                const items = data[connection.key]
 
-            if (Array.isArray(items) && items.length > 0) {
-                return (items as any[]).map(({ Object }) => ({ ...Object }))
-            }
+                if (Array.isArray(items) && items.length > 0) {
+                    return (items as any[]).map(({ Object }) => ({ ...Object }))
+                }
 
-            return null
-        })
+                return
+            })
+            .filter(Boolean)
 
         return groupBy(connections, 'Object_Type')
     }, [data, model.allowedConnections])
+
+    console.log(formattedRelations)
 
     const breadcrumbPaths = [
         { name: 'Omgevingsbeleid', path: '/' },
