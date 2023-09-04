@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import {
@@ -13,7 +12,6 @@ import { useBeleidsdoelenVersionObjectUuidGet } from '@/api/fetchers'
 import { ReadRelationShortBeleidskeuzeMinimal } from '@/api/fetchers.schemas'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
-import ObjectList from '@/components/ObjectList'
 import * as models from '@/config/objects'
 import { ModelReturnType, ModelType } from '@/config/objects/types'
 
@@ -21,15 +19,6 @@ function ThemeDetail() {
     const { uuid } = useParams<{ uuid: string }>()
 
     const { data, isLoading } = useBeleidsdoelenVersionObjectUuidGet(uuid!)
-
-    const transformedMaatregelen = useMemo(
-        () =>
-            data?.Maatregelen?.map(item => ({
-                Title: item.Object.Title,
-                UUID: item.Object.UUID,
-            })),
-        [data?.Maatregelen]
-    )
 
     const breadcrumbPaths = [
         { name: 'Home', path: '/' },
@@ -62,19 +51,6 @@ function ThemeDetail() {
                     to={`/omgevingsvisie/beleidsdoelen/${data?.UUID}`}
                     text="Lees meer informatie over dit beleidsdoel"
                 />
-
-                {!!transformedMaatregelen?.length && (
-                    <div className="mt-8">
-                        <ObjectList
-                            data={transformedMaatregelen}
-                            isLoading={isLoading}
-                            objectType="maatregelen"
-                            objectSlug="omgevingsprogramma/maatregelen"
-                            hasSearch={false}
-                            title="Maatregelen in dit thematische programma"
-                        />
-                    </div>
-                )}
 
                 {data?.Beleidskeuzes?.map(object => (
                     <ConnectedObject key={object.Object.UUID} {...object} />
