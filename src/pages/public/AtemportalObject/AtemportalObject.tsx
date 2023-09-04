@@ -53,8 +53,6 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
         return groupBy(connections, 'Object_Type')
     }, [data, model.allowedConnections])
 
-    console.log(formattedRelations)
-
     const breadcrumbPaths = [
         { name: 'Omgevingsbeleid', path: '/' },
         {
