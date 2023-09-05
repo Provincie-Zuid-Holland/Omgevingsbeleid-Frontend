@@ -215,7 +215,12 @@ const Dropdown = ({
     </Disclosure>
 )
 
-const Module = ({ Module_ID, Title, Status }: PublicModuleShort) => {
+const Module = ({
+    Module_ID,
+    Title,
+    Description,
+    Status,
+}: PublicModuleShort) => {
     const { data, isLoading } = useRevisionsModuleIdGet(Module_ID)
 
     /**
@@ -262,51 +267,39 @@ const Module = ({ Module_ID, Title, Status }: PublicModuleShort) => {
 
     return (
         <Container>
-            <div className="col-span-6 lg:col-span-4">
-                <span className="text-pzh-gray-600">Module</span>
-                <div className="flex items-center">
-                    <Heading level="2">{Title}</Heading>
-                    <Badge
-                        text={Status?.Status.replace('-', ' ') || ''}
-                        variant={getModuleStatusColor(Status?.Status)}
-                        upperCase={false}
-                        className="-mt-[8px] ml-3 whitespace-nowrap"
-                    />
+            <div className="col-span-6 grid gap-[16px] lg:col-span-4">
+                <div>
+                    <span className="text-pzh-gray-600">Module</span>
+                    <div className="flex items-center">
+                        <Heading level="2">{Title}</Heading>
+                        <Badge
+                            text={Status?.Status.replace('-', ' ') || ''}
+                            variant={getModuleStatusColor(Status?.Status)}
+                            upperCase={false}
+                            className="-mt-[8px] ml-3 whitespace-nowrap"
+                        />
+                    </div>
                 </div>
-                <div className="mt-3">
+                {Description && <Text>{Description}</Text>}
+                <div>
                     {!isLoading ? (
-                        <>
-                            <Text>
-                                Waaronder uitwerking Klimaatakkoord en Regionale
-                                Energiestrategieën Betreft de onderdelen
-                                industrie, elektriciteit en gebouwde omgeving.
-                                Voor de onderdelen gebouwde omgeving en
-                                elektriciteit is het Klimaatakkoord uitgewerkt
-                                in RES’en (Regionale Energiestrategieën).
-                            </Text>
-
-                            <div className="mt-[16px]">
-                                <Tabs disabledKeys={disabledKeys}>
-                                    {parentTypes.map(type => (
-                                        <TabItem title={type} key={type}>
-                                            <div className="mt-3 table border-spacing-y-[8px]">
-                                                {groupedObjects[type].map(
-                                                    object => (
-                                                        <RevisionItem
-                                                            key={
-                                                                object.Object_Type +
-                                                                object.Object_ID
-                                                            }
-                                                            {...object}
-                                                        />
-                                                    )
-                                                )}
-                                            </div>
-                                        </TabItem>
-                                    ))}
-                                </Tabs>
-                            </div>
-                        </>
+                        <Tabs disabledKeys={disabledKeys}>
+                            {parentTypes.map(type => (
+                                <TabItem title={type} key={type}>
+                                    <div className="mt-3 table border-spacing-y-[8px]">
+                                        {groupedObjects[type].map(object => (
+                                            <RevisionItem
+                                                key={
+                                                    object.Object_Type +
+                                                    object.Object_ID
+                                                }
+                                                {...object}
+                                            />
+                                        ))}
+                                    </div>
+                                </TabItem>
+                            ))}
+                        </Tabs>
                     ) : (
                         <div className="flex justify-center">
                             <LoaderSpinner />
@@ -321,10 +314,12 @@ const Module = ({ Module_ID, Title, Status }: PublicModuleShort) => {
 const RevisionItem = ({
     Title,
     Object_Type,
+    Module_ID,
+    UUID,
     ModuleObjectContext,
 }: PublicModuleObjectShort) => {
     const model = models[Object_Type as ModelType]
-    const { singularCapitalize } = model.defaults
+    const { singularCapitalize, slugOverview } = model.defaults
 
     const action = getPublicObjectActionText(ModuleObjectContext?.Action)
     const Icon = getPublicObjectActionIcon(ModuleObjectContext?.Action)
@@ -364,7 +359,10 @@ const RevisionItem = ({
                     <span className="px-[8px]">{singularCapitalize}</span>
                 </div>
             </div>
-            <Hyperlink to="/" text={Title} />
+            <Hyperlink
+                to={`/${slugOverview}/ontwerpversie/${Module_ID}/${UUID}`}
+                text={Title}
+            />
         </div>
     )
 }

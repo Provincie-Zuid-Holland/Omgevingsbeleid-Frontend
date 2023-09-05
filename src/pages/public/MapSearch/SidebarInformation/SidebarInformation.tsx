@@ -1,9 +1,10 @@
 import { Transition } from '@headlessui/react'
-import { FieldSelect, Heading, Text } from '@pzh-ui/components'
-import { ArrowLeft, DrawPolygon, LocationDot } from '@pzh-ui/icons'
-import Leaflet, { latLng, Map } from 'leaflet'
+import Leaflet, { Map, latLng } from 'leaflet'
 import { ReactNode, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import { FieldSelect, Heading, Text } from '@pzh-ui/components'
+import { ArrowLeft, DrawPolygon, LocationDot } from '@pzh-ui/icons'
 
 import { useWerkingsgebiedenGet } from '@/api/fetchers'
 import { LeafletSearchInput } from '@/components/Leaflet'
