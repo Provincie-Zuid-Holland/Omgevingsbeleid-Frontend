@@ -2,6 +2,7 @@ import { BookBookmark } from '@pzh-ui/icons'
 
 import {
     useWettelijkeTaakLatestLineageIdGet,
+    useWettelijkeTaakLineageIdDelete,
     useWettelijkeTaakLineageIdPost,
     useWettelijkeTaakPost,
     useWettelijkeTaakRelationsLineageIdGet,
@@ -22,11 +23,13 @@ const fetchers = {
     useGetValidLineage: null,
     useGetVersion: null,
     useGetLatestLineage: useWettelijkeTaakLatestLineageIdGet,
+    useGetRevision: null,
     useGetRelations: useWettelijkeTaakRelationsLineageIdGet,
     usePutRelations: useWettelijkeTaakRelationsLineageIdPut,
     useGetLatestLineageInModule: null,
     usePatchObjectInModule: null,
     usePatchObject: useWettelijkeTaakLineageIdPost,
+    useDeleteObject: useWettelijkeTaakLineageIdDelete,
     usePostStatic: null,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,

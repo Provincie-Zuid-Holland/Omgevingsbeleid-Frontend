@@ -13,7 +13,7 @@ const getApiUrl = (): string => {
         case 'main':
             return import.meta.env.VITE_API_URL_PROD
         default:
-            return import.meta.env.VITE_API_URL_DEV
+            return ''
     }
 }
 

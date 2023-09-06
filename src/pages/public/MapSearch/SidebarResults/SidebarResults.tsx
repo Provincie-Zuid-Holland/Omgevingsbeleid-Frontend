@@ -1,8 +1,9 @@
 import { Transition } from '@headlessui/react'
-import { Heading, Pagination, Text } from '@pzh-ui/components'
 import { Map } from 'leaflet'
 import { useMemo, useRef, useState } from 'react'
 import { useUpdateEffect } from 'react-use'
+
+import { Heading, Pagination, Text } from '@pzh-ui/components'
 
 import { useSearchGeoPost } from '@/api/fetchers'
 import Filter from '@/components/Filter'
@@ -53,8 +54,8 @@ const SidebarResults = ({
             selectedFilters: {
                 ...state.selectedFilters,
                 mapSearch: filter?.split(',') || [],
-            }.mapSearch,
-            amountOfFilters: filter?.split(',')?.length || 0,
+            }.mapSearch.filter(Boolean),
+            amountOfFilters: filter?.split(',')?.filter(Boolean)?.length || 0,
         }))
 
     const { data, mutate, isLoading } = useSearchGeoPost({
@@ -108,14 +109,9 @@ const SidebarResults = ({
         setCurrPage(1)
         remove('page')
 
-        const selected =
-            val.length === 0
-                ? filters.flatMap(filter =>
-                      filter.options.map(option => option.value)
-                  )
-                : (val as { label: string; value: ModelType }[])?.map(
-                      e => e.value
-                  )
+        const selected = (val as { label: string; value: ModelType }[])?.map(
+            e => e.value
+        )
 
         setSelectedFilters('mapSearch', selected)
         set('filter', selected)
@@ -127,11 +123,22 @@ const SidebarResults = ({
     const defaultValue = useMemo(
         () =>
             filters.flatMap(filter =>
-                filter.options.filter(option =>
-                    selectedFilters?.includes(option.value)
+                filter.options.filter(
+                    option => selectedFilters?.includes(option.value)
                 )
             ),
         [filters, selectedFilters]
+    )
+
+    /**
+     * Get all possible filter options
+     */
+    const allFilterOptions = useMemo(
+        () =>
+            filters.flatMap(filter =>
+                filter.options.map(option => option.value)
+            ),
+        [filters]
     )
 
     /**
@@ -146,7 +153,9 @@ const SidebarResults = ({
             mutate({
                 data: {
                     Area_List: UUIDs,
-                    Object_Types: selectedFilters,
+                    Object_Types: !!selectedFilters.length
+                        ? selectedFilters
+                        : allFilterOptions,
                 },
                 params: {
                     limit: PAGE_LIMIT,
@@ -159,7 +168,9 @@ const SidebarResults = ({
             mutate({
                 data: {
                     Area_List: [paramWerkingsgebied],
-                    Object_Types: selectedFilters,
+                    Object_Types: !!selectedFilters.length
+                        ? selectedFilters
+                        : allFilterOptions,
                 },
                 params: {
                     limit: PAGE_LIMIT,
@@ -186,13 +197,13 @@ const SidebarResults = ({
             leave="transition-all ease-in duration-300 transform"
             leaveFrom="mr-0"
             leaveTo="-mr-840"
-            className="relative w-full max-w-2xl px-4 pt-4 pb-4 overflow-hidden lg:px-20 md:px-10 md:pb-0 md:shadow-pane z-1">
-            <div className="pb-3 border-b">
+            className="relative z-1 w-full max-w-2xl overflow-hidden px-4 pb-4 pt-4 md:px-10 md:pb-0 md:shadow-pane lg:px-20">
+            <div className="border-b pb-3">
                 <div className="flex items-start justify-between">
                     <div>
                         <Heading level="3">Resultaten</Heading>
                         {!isLoading && !geoLoading ? (
-                            <span className="block text-sm text-opacity-50 text-pzh-blue-dark">
+                            <span className="block text-sm text-pzh-blue-dark text-opacity-50">
                                 {!data?.total
                                     ? 'Er zijn geen resultaten'
                                     : data.total === 1
@@ -216,10 +227,10 @@ const SidebarResults = ({
                     />
                 </div>
             </div>
-            <div className="h-full mt-2">
+            <div className="mt-2 h-full">
                 <div
                     ref={resultsContainer}
-                    className="h-full pb-8 md:pb-24 pt-4 md:overflow-auto">
+                    className="h-full pb-8 pt-4 md:overflow-auto md:pb-24">
                     {!isLoading && !geoLoading ? (
                         <>
                             {data?.results.length ? (

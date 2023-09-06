@@ -12,6 +12,7 @@ import {
     useModulesModuleIdObjectGebiedsprogrammasLatestLineageIdGet,
     useModulesModuleIdObjectGebiedsprogrammasLineageIdPatch,
     useModulesObjectsGebiedsprogrammaActiveLineageIdGet,
+    useRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGet,
 } from '@/api/fetchers'
 import {
     GebiedsprogrammaPatch,
@@ -27,6 +28,7 @@ const fetchers = {
     useGetValidLineage: useGebiedsprogrammasValidLineageIdGet,
     useGetVersion: useGebiedsprogrammasVersionObjectUuidGet,
     useGetLatestLineage: useGebiedsprogrammasLatestLineageIdGet,
+    useGetRevision: useRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGet,
     useGetRelations: useGebiedsprogrammasRelationsLineageIdGet,
     usePutRelations: useGebiedsprogrammasRelationsLineageIdPut,
     useGetLatestLineageInModule:
@@ -34,6 +36,7 @@ const fetchers = {
     usePatchObjectInModule:
         useModulesModuleIdObjectGebiedsprogrammasLineageIdPatch,
     usePatchObject: null,
+    useDeleteObject: null,
     usePostStatic: useGebiedsprogrammasStaticLineageIdPost,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
@@ -61,6 +64,7 @@ const gebiedsprogramma: DynamicObject<
         description:
             'De ambities geven aan waar de provincie naar wil streven. De ambities komen voort uit het coalitieakkoord en worden vastgesteld in de Omgevingsvisie.',
         icon: LocationDot,
+        parentType: 'Programma',
     },
     staticData: [
         'Client_1_UUID',

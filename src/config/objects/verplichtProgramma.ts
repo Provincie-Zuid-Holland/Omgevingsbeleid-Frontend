@@ -2,6 +2,7 @@ import { CircleExclamation } from '@pzh-ui/icons'
 
 import {
     useVerplichtProgrammaLatestLineageIdGet,
+    useVerplichtProgrammaLineageIdDelete,
     useVerplichtProgrammaLineageIdPost,
     useVerplichtProgrammaPost,
     useVerplichtProgrammaRelationsLineageIdGet,
@@ -19,14 +20,16 @@ import { DynamicObject } from './types'
 
 const fetchers = {
     useGetValid: useVerplichtProgrammaValidGet,
-    useGetValidLineage: null,
+    useGetValidLineage: useVerplichtProgrammaLatestLineageIdGet,
     useGetVersion: null,
     useGetLatestLineage: useVerplichtProgrammaLatestLineageIdGet,
+    useGetRevision: null,
     useGetRelations: useVerplichtProgrammaRelationsLineageIdGet,
     usePutRelations: useVerplichtProgrammaRelationsLineageIdPut,
     useGetLatestLineageInModule: null,
     usePatchObjectInModule: null,
     usePatchObject: useVerplichtProgrammaLineageIdPost,
+    useDeleteObject: useVerplichtProgrammaLineageIdDelete,
     usePostStatic: null,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
@@ -51,10 +54,12 @@ const verplichtProgramma: DynamicObject<
         prefixNewObject: 'Nieuw',
         demonstrative: 'dit',
         demonstrativeSingular: 'verplichte programma',
+        slugOverview: 'omgevingsprogramma/verplichte-programmas',
         atemporal: true,
         icon: CircleExclamation,
     },
     fetchers,
+    allowedConnections: [{ key: 'Maatregelen', type: 'maatregel' }],
     dynamicSections: [
         {
             title: 'Algemene informatie',

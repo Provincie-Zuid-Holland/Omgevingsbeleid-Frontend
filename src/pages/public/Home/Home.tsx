@@ -1,17 +1,17 @@
-import { Heading, Hyperlink, Text } from '@pzh-ui/components'
-import { ArrowUpRightFromSquare, FilePdf } from '@pzh-ui/icons'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
+import { Heading, Hyperlink, Text } from '@pzh-ui/components'
+import { ArrowUpRightFromSquare, FilePdf } from '@pzh-ui/icons'
+
 import { Container } from '@/components/Container'
-import { releases } from '@/constants/releases'
+import imageLanding from '@/images/landing-1.webp'
 import {
     getResponsiveImageHeight,
     getResponsiveImageOffset,
 } from '@/utils/responsiveImage'
 
 import DocumentLink from './DocumentLink'
-import ReleaseItem from './ReleaseItem'
 import SearchSection from './SearchSection'
 
 /**
@@ -62,11 +62,19 @@ const Home = () => {
                     </Text>
                 </div>
                 <div className="relative col-span-3 hidden lg:block">
-                    <div className="image-home-1 absolute left-0 top-0 inline-block h-[480px] w-[50vw] bg-gray-100 bg-cover bg-center bg-no-repeat text-white" />
+                    <img
+                        src={imageLanding}
+                        alt=""
+                        className="absolute left-0 top-0 inline-block h-[480px] min-w-[50vw] object-cover"
+                    />
                 </div>
             </Container>
 
-            <div className="image-home-1 block h-64 w-full bg-pzh-blue bg-cover bg-center bg-no-repeat lg:hidden" />
+            <img
+                src={imageLanding}
+                alt=""
+                className="left-0 top-0 block h-64 w-full object-cover lg:hidden"
+            />
 
             <Container className="border-t border-gray-300 py-6 md:py-8 lg:py-16">
                 <div className="col-span-6 lg:col-span-2">
@@ -288,47 +296,6 @@ const Home = () => {
                     />
                 </ul>
             </Container>
-
-            <div className="w-full bg-pzh-blue-dark">
-                <Container className="py-12">
-                    <div className="col-span-6 lg:col-span-2">
-                        <Heading level="2" color="text-white">
-                            Een digitaal systeem, continu in ontwikkeling
-                        </Heading>
-                        <Text type="body" color="text-white" className="mt-4">
-                            We ontwikkelen zelf een systeem voor het opstellen
-                            van digitaal beleid. Deze raadpleegomgeving is daar
-                            onderdeel van.
-                        </Text>
-                        <Text type="body" color="text-white" className="mt-4">
-                            Hiernaast tonen wij een overzicht met recent
-                            opgeleverde functionaliteiten.
-                        </Text>
-                    </div>
-                    <div className="col-span-6 mt-6 lg:col-span-4 lg:mt-0">
-                        <div className="grid grid-cols-4 gap-3 text-white md:gap-10">
-                            {releases.slice(0, 2).map(release => (
-                                <ReleaseItem
-                                    date={release.date}
-                                    releaseNumber={release.title}
-                                    releaseNote={release.description}
-                                    key={release.title}
-                                />
-                            ))}
-                            <div className="col-span-4 mt-8 md:col-span-3 md:col-start-2 md:mt-0">
-                                <Text
-                                    type="body"
-                                    className="underline"
-                                    color="text-white">
-                                    <Link to="/planning-en-releases">
-                                        Bekijk alle releases & planning
-                                    </Link>
-                                </Text>
-                            </div>
-                        </div>
-                    </div>
-                </Container>
-            </div>
         </>
     )
 }

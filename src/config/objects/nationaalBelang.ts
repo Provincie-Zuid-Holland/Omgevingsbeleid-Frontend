@@ -2,6 +2,7 @@ import { Flag } from '@pzh-ui/icons'
 
 import {
     useNationaalBelangLatestLineageIdGet,
+    useNationaalBelangLineageIdDelete,
     useNationaalBelangLineageIdPost,
     useNationaalBelangPost,
     useNationaalBelangRelationsLineageIdGet,
@@ -22,11 +23,13 @@ const fetchers = {
     useGetValidLineage: null,
     useGetVersion: null,
     useGetLatestLineage: useNationaalBelangLatestLineageIdGet,
+    useGetRevision: null,
     useGetRelations: useNationaalBelangRelationsLineageIdGet,
     usePutRelations: useNationaalBelangRelationsLineageIdPut,
     useGetLatestLineageInModule: null,
     usePatchObjectInModule: null,
     usePatchObject: useNationaalBelangLineageIdPost,
+    useDeleteObject: useNationaalBelangLineageIdDelete,
     usePostStatic: null,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,

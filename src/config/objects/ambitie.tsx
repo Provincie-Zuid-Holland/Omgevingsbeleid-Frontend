@@ -2,16 +2,17 @@ import { Hyperlink } from '@pzh-ui/components'
 import { ArrowTrendUp } from '@pzh-ui/icons'
 
 import {
+    useAmbitieStaticLineageIdPost,
     useAmbitiesLatestLineageIdGet,
     useAmbitiesRelationsLineageIdGet,
     useAmbitiesRelationsLineageIdPut,
-    useAmbitieStaticLineageIdPost,
     useAmbitiesValidGet,
     useAmbitiesValidLineageIdGet,
     useAmbitiesVersionObjectUuidGet,
     useModulesModuleIdObjectAmbitieLatestLineageIdGet,
     useModulesModuleIdObjectAmbitieLineageIdPatch,
     useModulesObjectAmbitieActiveLineageIdGet,
+    useRevisionsModuleIdAmbitieVersionObjectUuidGet,
 } from '@/api/fetchers'
 import { AmbitiePatch, AmbitieStaticPostStatics } from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
@@ -24,12 +25,14 @@ const fetchers = {
     useGetValidLineage: useAmbitiesValidLineageIdGet,
     useGetVersion: useAmbitiesVersionObjectUuidGet,
     useGetLatestLineage: useAmbitiesLatestLineageIdGet,
+    useGetRevision: useRevisionsModuleIdAmbitieVersionObjectUuidGet,
     useGetRelations: useAmbitiesRelationsLineageIdGet,
     usePutRelations: useAmbitiesRelationsLineageIdPut,
     useGetLatestLineageInModule:
         useModulesModuleIdObjectAmbitieLatestLineageIdGet,
     usePatchObjectInModule: useModulesModuleIdObjectAmbitieLineageIdPatch,
     usePatchObject: null,
+    useDeleteObject: null,
     usePostStatic: useAmbitieStaticLineageIdPost,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
@@ -57,6 +60,7 @@ const ambitie: DynamicObject<
         description:
             'De ambities geven aan waar de provincie naar wil streven. De ambities komen voort uit het coalitieakkoord en worden vastgesteld in de Omgevingsvisie.',
         icon: ArrowTrendUp,
+        parentType: 'Visie',
     },
     staticData: [
         'Client_1_UUID',

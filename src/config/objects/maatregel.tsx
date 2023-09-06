@@ -2,16 +2,17 @@ import { Hyperlink } from '@pzh-ui/components'
 import { CalendarCheck } from '@pzh-ui/icons'
 
 import {
+    useMaatregelStaticLineageIdPost,
     useMaatregelenLatestLineageIdGet,
     useMaatregelenRelationsLineageIdGet,
     useMaatregelenRelationsLineageIdPut,
     useMaatregelenValidGet,
     useMaatregelenValidLineageIdGet,
     useMaatregelenVersionObjectUuidGet,
-    useMaatregelStaticLineageIdPost,
     useModulesModuleIdObjectMaatregelLatestLineageIdGet,
     useModulesModuleIdObjectMaatregelLineageIdPatch,
     useModulesObjectsMaatregelActiveLineageIdGet,
+    useRevisionsModuleIdMaatregelVersionObjectUuidGet,
 } from '@/api/fetchers'
 import {
     MaatregelPatch,
@@ -27,12 +28,14 @@ const fetchers = {
     useGetValidLineage: useMaatregelenValidLineageIdGet,
     useGetVersion: useMaatregelenVersionObjectUuidGet,
     useGetLatestLineage: useMaatregelenLatestLineageIdGet,
+    useGetRevision: useRevisionsModuleIdMaatregelVersionObjectUuidGet,
     useGetRelations: useMaatregelenRelationsLineageIdGet,
     usePutRelations: useMaatregelenRelationsLineageIdPut,
     useGetLatestLineageInModule:
         useModulesModuleIdObjectMaatregelLatestLineageIdGet,
     usePatchObjectInModule: useModulesModuleIdObjectMaatregelLineageIdPatch,
     usePatchObject: null,
+    useDeleteObject: null,
     usePostStatic: useMaatregelStaticLineageIdPost,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
@@ -60,6 +63,7 @@ const maatregel: DynamicObject<
         description:
             'De maatregelen geven aan wat de provincie gaat doen om de keuzes uit te voeren. De maatregelen zijn een uitwerking van de beleidskeuzes en komen voort uit het Omgevingsprogramma.',
         icon: CalendarCheck,
+        parentType: 'Programma',
     },
     staticData: [
         'Client_1_UUID',

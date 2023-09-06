@@ -1,9 +1,10 @@
 import { Transition } from '@headlessui/react'
-import { FieldSelect, Heading, Text } from '@pzh-ui/components'
-import { ArrowLeft, DrawPolygon, LocationDot } from '@pzh-ui/icons'
-import Leaflet, { latLng, Map } from 'leaflet'
+import Leaflet, { Map, latLng } from 'leaflet'
 import { ReactNode, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import { FieldSelect, Heading, Text } from '@pzh-ui/components'
+import { ArrowLeft, DrawPolygon, LocationDot } from '@pzh-ui/icons'
 
 import { useWerkingsgebiedenGet } from '@/api/fetchers'
 import { LeafletSearchInput } from '@/components/Leaflet'
@@ -31,7 +32,11 @@ const SidebarInformation = ({
     const [werkingsgebied, setWerkingsgebied] =
         useState<Leaflet.Proj.GeoJSON | null>(null)
 
-    const { data, isLoading } = useWerkingsgebiedenGet()
+    const { data, isLoading } = useWerkingsgebiedenGet({
+        limit: 500,
+        sort_column: 'Title',
+        sort_order: 'ASC',
+    })
     const selectedVal = useMemo(
         () => data?.results.find(item => item.UUID === paramWerkingsgebied),
         [data, paramWerkingsgebied]
@@ -65,7 +70,7 @@ const SidebarInformation = ({
     }, [paramWerkingsgebied, mapInstance])
 
     return (
-        <div className="flex md:shadow-pane relative z-1 md:px-0 px-4">
+        <div className="relative z-1 flex px-4 md:px-0 md:shadow-pane">
             <Transition
                 show={!searchOpen}
                 enter="transition-all ease-out duration-300 transform"
@@ -74,7 +79,7 @@ const SidebarInformation = ({
                 leave="transition-all ease-in duration-300 transform"
                 leaveFrom="ml-0"
                 leaveTo="-ml-570"
-                className="pb-8 lg:pb-16 pt-4 md:pt-12 lg:pt-16 lg:px-20 md:px-10 md:max-w-570 md:min-w-570 overflow-auto">
+                className="overflow-auto pb-8 pt-4 md:min-w-570 md:max-w-570 md:px-10 md:pt-12 lg:px-20 lg:pb-16 lg:pt-16">
                 <Heading level="1">Zoeken op de kaart</Heading>
                 <Text type="introduction-paragraph" className="mt-3">
                     Via deze pagina kun je uitgebreid zoeken welk beleid op
@@ -113,7 +118,7 @@ const SidebarInformation = ({
                             title="Zoek op adres"
                             description="Geef een adres op, om te zoeken op die locatie."
                         />
-                        <div className="mt-2 relative">
+                        <div className="relative mt-2">
                             <LeafletSearchInput
                                 mapInstance={mapInstance}
                                 drawCallback={onDraw}
@@ -175,15 +180,15 @@ const SidebarInformation = ({
                 leave="transition-all ease-in duration-0 transform"
                 leaveFrom="opacity-100 ml-0"
                 leaveTo="opacity-0 -ml-12"
-                className="w-12 h-full">
+                className="h-full w-12">
                 <button
                     onClick={() => goBack()}
-                    className="h-full w-full md:block flex items-center md:py-0 py-4">
+                    className="flex h-full w-full items-center py-4 md:block md:py-0">
                     <div className="flex justify-center md:pt-4">
                         <ArrowLeft size={18} />
                     </div>
-                    <div className="flex flex-col h-full justify-center md:ml-0 ml-2">
-                        <p className="md:-mt-8 md:transform md:-rotate-90 whitespace-nowrap">
+                    <div className="ml-2 flex h-full flex-col justify-center md:ml-0">
+                        <p className="whitespace-nowrap md:-mt-8 md:-rotate-90 md:transform">
                             Terug naar zoeken
                         </p>
                     </div>

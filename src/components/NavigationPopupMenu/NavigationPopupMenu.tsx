@@ -139,47 +139,6 @@ const NavigationPopupMenu = ({
                                     </ul>
                                 </div>
                             ))}
-                            <div className="col-span-6 mt-6 md:col-span-2">
-                                <Heading level="3">Actueel</Heading>
-                                <ul className="mt-1">
-                                    <ListItem
-                                        targetBlank
-                                        text="Lange Termijn Agenda"
-                                        setIsOpen={setIsOpen}
-                                        to="https://lta.zuid-holland.nl/"
-                                    />
-                                </ul>
-                            </div>
-                            <div className="col-span-6 mb-10 md:col-span-2 md:mb-0 md:mt-6">
-                                <ul
-                                    className={classNames({
-                                        'mt-[32px]': !isMobile,
-                                    })}>
-                                    <ListItem
-                                        text="Beleidsnetwerk"
-                                        setIsOpen={setIsOpen}
-                                        to="/beleidsnetwerk"
-                                        state={{
-                                            from:
-                                                location.pathname +
-                                                location.search,
-                                        }}
-                                        onKeyDown={(e: KeyboardEvent) => {
-                                            if (
-                                                e.key === 'Tab' &&
-                                                !e.shiftKey
-                                            ) {
-                                                e.preventDefault()
-                                                document
-                                                    .getElementById(
-                                                        'popup-menu-toggle'
-                                                    )
-                                                    ?.focus()
-                                            }
-                                        }}
-                                    />
-                                </ul>
-                            </div>
                         </Container>
                     </nav>
                 </>

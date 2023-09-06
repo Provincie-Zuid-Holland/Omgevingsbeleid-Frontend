@@ -1,1 +1,1 @@
-export type ModalType = 'regulationAdd' | 'regulationDelete'
+export type ModalType = 'regulationAdd' | 'regulationDelete' | 'revision'

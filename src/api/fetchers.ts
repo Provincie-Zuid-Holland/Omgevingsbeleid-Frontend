@@ -8,143 +8,146 @@
         
  * OpenAPI spec version: 3.0-alpha
  */
-import { useQuery, useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import type {
-    UseQueryOptions,
-    UseMutationOptions,
-    QueryFunction,
     MutationFunction,
-    UseQueryResult,
+    QueryFunction,
     QueryKey,
+    UseMutationOptions,
+    UseQueryOptions,
+    UseQueryResult,
 } from '@tanstack/react-query'
 
 import type {
-    PagedResponseAmbitieBasic,
-    HTTPValidationError,
+    AcknowledgedRelation,
+    ActiveModuleObjectWrapper,
+    AmbitieFull,
+    AmbitiePatch,
+    AmbitieStaticPostStatics,
+    AmbitieUUID,
     AmbitiesValidGetParams,
     AmbitiesValidLineageIdGetParams,
-    AmbitieFull,
-    ReadRelation,
-    ResponseOK,
-    WriteRelation,
-    AmbitieStaticPostStatics,
-    PagedResponseAmbitieExtended,
-    ModulesModuleIdObjectAmbitieLineageIdGetParams,
-    AmbitieUUID,
-    AmbitiePatch,
-    ActiveModuleObjectWrapper,
-    ModulesObjectAmbitieActiveLineageIdGetParams,
-    PagedResponseBeleidsdoelBasic,
+    AuthToken,
+    BeleidsdoelFull,
+    BeleidsdoelPatch,
+    BeleidsdoelStaticPostStatics,
+    BeleidsdoelUUID,
     BeleidsdoelenValidGetParams,
     BeleidsdoelenValidLineageIdGetParams,
-    BeleidsdoelFull,
-    BeleidsdoelStaticPostStatics,
-    PagedResponseBeleidsdoelExtended,
-    ModulesModuleIdObjectBeleidsdoelLineageIdGetParams,
-    BeleidsdoelUUID,
-    BeleidsdoelPatch,
-    ModulesObjectBeleidsdoelActiveLineageIdGetParams,
-    PagedResponseBeleidskeuzeBasic,
+    BeleidskeuzeAcknowledgedRelationsLineageIdGetParams,
+    BeleidskeuzeFull,
+    BeleidskeuzePatch,
+    BeleidskeuzeStaticPostStatics,
+    BeleidskeuzeUUID,
     BeleidskeuzesValidGetParams,
     BeleidskeuzesValidLineageIdGetParams,
-    BeleidskeuzeFull,
-    BeleidskeuzeStaticPostStatics,
-    AcknowledgedRelation,
-    BeleidskeuzeAcknowledgedRelationsLineageIdGetParams,
-    RequestAcknowledgedRelation,
-    EditAcknowledgedRelation,
-    PagedResponseBeleidskeuzeExtended,
-    ModulesModuleIdObjectBeleidskeuzeLineageIdGetParams,
-    BeleidskeuzeUUID,
-    BeleidskeuzePatch,
-    ModulesObjectsBeleidskeuzeActiveLineageIdGetParams,
-    PagedResponseBeleidsregelBasic,
+    BeleidsregelFull,
+    BeleidsregelPatch,
+    BeleidsregelStaticPostStatics,
+    BeleidsregelUUID,
     BeleidsregelsValidGetParams,
     BeleidsregelsValidLineageIdGetParams,
-    BeleidsregelFull,
-    BeleidsregelStaticPostStatics,
-    PagedResponseBeleidsregelExtended,
-    ModulesModuleIdObjectBeleidsregelLineageIdGetParams,
-    BeleidsregelUUID,
-    BeleidsregelPatch,
-    ModulesObjectsBeleidsregelActiveLineageIdGetParams,
-    PagedResponseGebiedsprogrammaBasic,
+    BodyFastapiHandlerLoginAccessTokenPost,
+    CompleteModule,
+    EditAcknowledgedRelation,
+    GebiedsprogrammaFull,
+    GebiedsprogrammaPatch,
+    GebiedsprogrammaStaticPostStatics,
+    GebiedsprogrammaUUID,
     GebiedsprogrammasValidGetParams,
     GebiedsprogrammasValidLineageIdGetParams,
-    GebiedsprogrammaFull,
-    GebiedsprogrammaStaticPostStatics,
-    PagedResponseGebiedsprogrammaExtended,
-    ModulesModuleIdObjectGebiedsprogrammasLineageIdGetParams,
-    GebiedsprogrammaUUID,
-    GebiedsprogrammaPatch,
-    ModulesObjectsGebiedsprogrammaActiveLineageIdGetParams,
-    PagedResponseMaatregelBasic,
+    GraphResponse,
+    HTTPValidationError,
+    MaatregelFull,
+    MaatregelPatch,
+    MaatregelStaticPostStatics,
+    MaatregelUUID,
     MaatregelenValidGetParams,
     MaatregelenValidLineageIdGetParams,
-    MaatregelFull,
-    MaatregelStaticPostStatics,
-    PagedResponseMaatregelExtended,
+    ModuleAddExistingObject,
+    ModuleAddNewObject,
+    ModuleCreate,
+    ModuleCreatedResponse,
+    ModuleEdit,
+    ModuleEditObjectContext,
+    ModuleObjectContext,
+    ModuleOverview,
+    ModulePatchStatus,
+    ModuleSnapshot,
+    ModuleStatus,
+    ModulesGetParams,
+    ModulesModuleIdObjectAmbitieLineageIdGetParams,
+    ModulesModuleIdObjectBeleidsdoelLineageIdGetParams,
+    ModulesModuleIdObjectBeleidskeuzeLineageIdGetParams,
+    ModulesModuleIdObjectBeleidsregelLineageIdGetParams,
+    ModulesModuleIdObjectGebiedsprogrammasLineageIdGetParams,
     ModulesModuleIdObjectMaatregelLineageIdGetParams,
-    MaatregelUUID,
-    MaatregelPatch,
+    ModulesObjectAmbitieActiveLineageIdGetParams,
+    ModulesObjectBeleidsdoelActiveLineageIdGetParams,
+    ModulesObjectsBeleidskeuzeActiveLineageIdGetParams,
+    ModulesObjectsBeleidsregelActiveLineageIdGetParams,
+    ModulesObjectsGebiedsprogrammaActiveLineageIdGetParams,
+    ModulesObjectsLatestGetParams,
     ModulesObjectsMaatregelActiveLineageIdGetParams,
-    NationaalBelangUUID,
     NationaalBelangCreate,
     NationaalBelangEdit,
-    PagedResponseNationaalBelangBasic,
-    NationaalBelangValidGetParams,
     NationaalBelangFull,
     NationaalBelangStaticPostStatics,
-    VerplichtProgrammaUUID,
+    NationaalBelangUUID,
+    NationaalBelangValidGetParams,
+    NewObjectStaticResponse,
+    ObjectGraphGetParams,
+    ObjectsValidGetParams,
+    PagedResponseAmbitieBasic,
+    PagedResponseAmbitieExtended,
+    PagedResponseBeleidsdoelBasic,
+    PagedResponseBeleidsdoelExtended,
+    PagedResponseBeleidskeuzeBasic,
+    PagedResponseBeleidskeuzeExtended,
+    PagedResponseBeleidsregelBasic,
+    PagedResponseBeleidsregelExtended,
+    PagedResponseGebiedsprogrammaBasic,
+    PagedResponseGebiedsprogrammaExtended,
+    PagedResponseGenericObjectShort,
+    PagedResponseGeoSearchResult,
+    PagedResponseMaatregelBasic,
+    PagedResponseMaatregelExtended,
+    PagedResponseModule,
+    PagedResponseModuleObjectShortStatus,
+    PagedResponseNationaalBelangBasic,
+    PagedResponsePublicModuleShort,
+    PagedResponseSearchObject,
+    PagedResponseUserShort,
+    PagedResponseValidSearchObject,
+    PagedResponseVerplichtProgrammaBasic,
+    PagedResponseWerkingsgebied,
+    PagedResponseWettelijkeTaakBasic,
+    PasswordResetPostParams,
+    PublicModuleOverview,
+    ReadRelation,
+    RequestAcknowledgedRelation,
+    ResponseOK,
+    RevisionsGetParams,
+    SearchGeoPostParams,
+    SearchGeoRequestData,
+    SearchPostParams,
+    SearchRequestData,
+    SearchValidPostParams,
+    UsersGetParams,
     VerplichtProgrammaCreate,
     VerplichtProgrammaEdit,
-    PagedResponseVerplichtProgrammaBasic,
-    VerplichtProgrammaValidGetParams,
     VerplichtProgrammaFull,
     VerplichtProgrammaStaticPostStatics,
-    WettelijkeTaakUUID,
+    VerplichtProgrammaUUID,
+    VerplichtProgrammaValidGetParams,
+    WerkingsgebiedenGetParams,
     WettelijkeTaakCreate,
     WettelijkeTaakEdit,
-    PagedResponseWettelijkeTaakBasic,
-    WettelijkeTaakValidGetParams,
     WettelijkeTaakFull,
     WettelijkeTaakStaticPostStatics,
-    PagedResponseUserShort,
-    UsersGetParams,
-    PagedResponseWerkingsgebied,
-    WerkingsgebiedenGetParams,
-    PagedResponseGeoSearchResult,
-    SearchGeoRequestData,
-    SearchGeoPostParams,
-    PagedResponseSearchObject,
-    SearchRequestData,
-    SearchPostParams,
-    PagedResponseValidSearchObject,
-    SearchValidPostParams,
-    GraphResponse,
-    ObjectGraphGetParams,
-    PagedResponseModule,
-    ModulesGetParams,
-    ModuleCreatedResponse,
-    ModuleCreate,
-    ModuleOverview,
-    ModuleEdit,
-    CompleteModule,
-    ModuleStatus,
-    ModulePatchStatus,
-    NewObjectStaticResponse,
-    ModuleAddNewObject,
-    ModuleAddExistingObject,
-    ModuleObjectContext,
-    ModuleEditObjectContext,
-    ModuleSnapshot,
-    PagedResponseModuleObjectShortStatus,
-    ModulesObjectsLatestGetParams,
-    PagedResponseGenericObjectShort,
-    ObjectsValidGetParams,
-    AuthToken,
-    BodyFastapiHandlerLoginAccessTokenPost,
-    PasswordResetPostParams,
+    WettelijkeTaakUUID,
+    WettelijkeTaakValidGetParams,
+    WriteRelation,
 } from './fetchers.schemas'
 import { customInstance } from './instance'
 
@@ -172,7 +175,7 @@ export const getAmbitiesValidGetQueryKey = (params?: AmbitiesValidGetParams) =>
 
 export const getAmbitiesValidGetQueryOptions = <
     TData = Awaited<ReturnType<typeof ambitiesValidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: AmbitiesValidGetParams,
     options?: {
@@ -209,7 +212,7 @@ export type AmbitiesValidGetQueryError = HTTPValidationError
  */
 export const useAmbitiesValidGet = <
     TData = Awaited<ReturnType<typeof ambitiesValidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: AmbitiesValidGetParams,
     options?: {
@@ -254,7 +257,7 @@ export const getAmbitiesValidLineageIdGetQueryKey = (
 
 export const getAmbitiesValidLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof ambitiesValidLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: AmbitiesValidLineageIdGetParams,
@@ -293,7 +296,7 @@ export type AmbitiesValidLineageIdGetQueryError = HTTPValidationError
  */
 export const useAmbitiesValidLineageIdGet = <
     TData = Awaited<ReturnType<typeof ambitiesValidLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: AmbitiesValidLineageIdGetParams,
@@ -339,7 +342,7 @@ export const getAmbitiesVersionObjectUuidGetQueryKey = (objectUuid: string) =>
 
 export const getAmbitiesVersionObjectUuidGetQueryOptions = <
     TData = Awaited<ReturnType<typeof ambitiesVersionObjectUuidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     objectUuid: string,
     options?: {
@@ -377,7 +380,7 @@ export type AmbitiesVersionObjectUuidGetQueryError = HTTPValidationError
  */
 export const useAmbitiesVersionObjectUuidGet = <
     TData = Awaited<ReturnType<typeof ambitiesVersionObjectUuidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     objectUuid: string,
     options?: {
@@ -421,7 +424,7 @@ export const getAmbitiesLatestLineageIdGetQueryKey = (lineageId: number) =>
 
 export const getAmbitiesLatestLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof ambitiesLatestLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -459,7 +462,7 @@ export type AmbitiesLatestLineageIdGetQueryError = HTTPValidationError
  */
 export const useAmbitiesLatestLineageIdGet = <
     TData = Awaited<ReturnType<typeof ambitiesLatestLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -503,7 +506,7 @@ export const getAmbitiesRelationsLineageIdGetQueryKey = (lineageId: number) =>
 
 export const getAmbitiesRelationsLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof ambitiesRelationsLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -541,7 +544,7 @@ export type AmbitiesRelationsLineageIdGetQueryError = HTTPValidationError
  */
 export const useAmbitiesRelationsLineageIdGet = <
     TData = Awaited<ReturnType<typeof ambitiesRelationsLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -583,7 +586,7 @@ export const ambitiesRelationsLineageIdPut = (
 
 export const getAmbitiesRelationsLineageIdPutMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof ambitiesRelationsLineageIdPut>>,
@@ -622,7 +625,7 @@ export type AmbitiesRelationsLineageIdPutMutationError = HTTPValidationError
  */
 export const useAmbitiesRelationsLineageIdPut = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof ambitiesRelationsLineageIdPut>>,
@@ -654,7 +657,7 @@ export const ambitieStaticLineageIdPost = (
 
 export const getAmbitieStaticLineageIdPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof ambitieStaticLineageIdPost>>,
@@ -693,7 +696,7 @@ export type AmbitieStaticLineageIdPostMutationError = HTTPValidationError
  */
 export const useAmbitieStaticLineageIdPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof ambitieStaticLineageIdPost>>,
@@ -739,7 +742,7 @@ export const getModulesModuleIdObjectAmbitieLineageIdGetQueryOptions = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectAmbitieLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     lineageId: number,
@@ -799,7 +802,7 @@ export const useModulesModuleIdObjectAmbitieLineageIdGet = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectAmbitieLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     lineageId: number,
@@ -849,7 +852,7 @@ export const modulesModuleIdObjectAmbitieLineageIdPatch = (
 
 export const getModulesModuleIdObjectAmbitieLineageIdPatchMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof modulesModuleIdObjectAmbitieLineageIdPatch>>,
@@ -895,7 +898,7 @@ export type ModulesModuleIdObjectAmbitieLineageIdPatchMutationError =
  */
 export const useModulesModuleIdObjectAmbitieLineageIdPatch = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof modulesModuleIdObjectAmbitieLineageIdPatch>>,
@@ -934,7 +937,7 @@ export const getModulesModuleIdObjectAmbitieLatestLineageIdGetQueryOptions = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectAmbitieLatestLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     lineageId: number,
@@ -998,7 +1001,7 @@ export const useModulesModuleIdObjectAmbitieLatestLineageIdGet = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectAmbitieLatestLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     lineageId: number,
@@ -1054,7 +1057,7 @@ export const getModulesModuleIdObjectAmbitieVersionObjectUuidGetQueryOptions = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectAmbitieVersionObjectUuidGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     objectUuid: string,
@@ -1120,7 +1123,7 @@ export const useModulesModuleIdObjectAmbitieVersionObjectUuidGet = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectAmbitieVersionObjectUuidGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     objectUuid: string,
@@ -1179,7 +1182,7 @@ export const getModulesObjectAmbitieActiveLineageIdGetQueryKey = (
 
 export const getModulesObjectAmbitieActiveLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof modulesObjectAmbitieActiveLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: ModulesObjectAmbitieActiveLineageIdGetParams,
@@ -1220,7 +1223,7 @@ export type ModulesObjectAmbitieActiveLineageIdGetQueryError =
  */
 export const useModulesObjectAmbitieActiveLineageIdGet = <
     TData = Awaited<ReturnType<typeof modulesObjectAmbitieActiveLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: ModulesObjectAmbitieActiveLineageIdGetParams,
@@ -1237,6 +1240,118 @@ export const useModulesObjectAmbitieActiveLineageIdGet = <
         params,
         options
     )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific ambitie by uuid in a module
+ */
+export const revisionsModuleIdAmbitieVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<AmbitieFull>({
+        url: `/revisions/${moduleId}/ambitie/version/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getRevisionsModuleIdAmbitieVersionObjectUuidGetQueryKey = (
+    moduleId: number,
+    objectUuid: string
+) => [`/revisions/${moduleId}/ambitie/version/${objectUuid}`] as const
+
+export const getRevisionsModuleIdAmbitieVersionObjectUuidGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdAmbitieVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<typeof revisionsModuleIdAmbitieVersionObjectUuidGet>
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryOptions<
+    Awaited<ReturnType<typeof revisionsModuleIdAmbitieVersionObjectUuidGet>>,
+    TError,
+    TData
+> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getRevisionsModuleIdAmbitieVersionObjectUuidGetQueryKey(
+            moduleId,
+            objectUuid
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof revisionsModuleIdAmbitieVersionObjectUuidGet>>
+    > = ({ signal }) =>
+        revisionsModuleIdAmbitieVersionObjectUuidGet(
+            moduleId,
+            objectUuid,
+            signal
+        )
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && objectUuid),
+        ...queryOptions,
+    }
+}
+
+export type RevisionsModuleIdAmbitieVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<ReturnType<typeof revisionsModuleIdAmbitieVersionObjectUuidGet>>
+    >
+export type RevisionsModuleIdAmbitieVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific ambitie by uuid in a module
+ */
+export const useRevisionsModuleIdAmbitieVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdAmbitieVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<typeof revisionsModuleIdAmbitieVersionObjectUuidGet>
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getRevisionsModuleIdAmbitieVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
+            options
+        )
 
     const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
         queryKey: QueryKey
@@ -1268,7 +1383,7 @@ export const getBeleidsdoelenValidGetQueryKey = (
 
 export const getBeleidsdoelenValidGetQueryOptions = <
     TData = Awaited<ReturnType<typeof beleidsdoelenValidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: BeleidsdoelenValidGetParams,
     options?: {
@@ -1305,7 +1420,7 @@ export type BeleidsdoelenValidGetQueryError = HTTPValidationError
  */
 export const useBeleidsdoelenValidGet = <
     TData = Awaited<ReturnType<typeof beleidsdoelenValidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: BeleidsdoelenValidGetParams,
     options?: {
@@ -1350,7 +1465,7 @@ export const getBeleidsdoelenValidLineageIdGetQueryKey = (
 
 export const getBeleidsdoelenValidLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof beleidsdoelenValidLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: BeleidsdoelenValidLineageIdGetParams,
@@ -1390,7 +1505,7 @@ export type BeleidsdoelenValidLineageIdGetQueryError = HTTPValidationError
  */
 export const useBeleidsdoelenValidLineageIdGet = <
     TData = Awaited<ReturnType<typeof beleidsdoelenValidLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: BeleidsdoelenValidLineageIdGetParams,
@@ -1437,7 +1552,7 @@ export const getBeleidsdoelenVersionObjectUuidGetQueryKey = (
 
 export const getBeleidsdoelenVersionObjectUuidGetQueryOptions = <
     TData = Awaited<ReturnType<typeof beleidsdoelenVersionObjectUuidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     objectUuid: string,
     options?: {
@@ -1475,7 +1590,7 @@ export type BeleidsdoelenVersionObjectUuidGetQueryError = HTTPValidationError
  */
 export const useBeleidsdoelenVersionObjectUuidGet = <
     TData = Awaited<ReturnType<typeof beleidsdoelenVersionObjectUuidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     objectUuid: string,
     options?: {
@@ -1519,7 +1634,7 @@ export const getBeleidsdoelenLatestLineageIdGetQueryKey = (lineageId: number) =>
 
 export const getBeleidsdoelenLatestLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof beleidsdoelenLatestLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -1557,7 +1672,7 @@ export type BeleidsdoelenLatestLineageIdGetQueryError = HTTPValidationError
  */
 export const useBeleidsdoelenLatestLineageIdGet = <
     TData = Awaited<ReturnType<typeof beleidsdoelenLatestLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -1602,7 +1717,7 @@ export const getBeleidsdoelenRelationsLineageIdGetQueryKey = (
 
 export const getBeleidsdoelenRelationsLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof beleidsdoelenRelationsLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -1640,7 +1755,7 @@ export type BeleidsdoelenRelationsLineageIdGetQueryError = HTTPValidationError
  */
 export const useBeleidsdoelenRelationsLineageIdGet = <
     TData = Awaited<ReturnType<typeof beleidsdoelenRelationsLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -1682,7 +1797,7 @@ export const beleidsdoelenRelationsLineageIdPut = (
 
 export const getBeleidsdoelenRelationsLineageIdPutMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsdoelenRelationsLineageIdPut>>,
@@ -1722,7 +1837,7 @@ export type BeleidsdoelenRelationsLineageIdPutMutationError =
  */
 export const useBeleidsdoelenRelationsLineageIdPut = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsdoelenRelationsLineageIdPut>>,
@@ -1754,7 +1869,7 @@ export const beleidsdoelStaticLineageIdPost = (
 
 export const getBeleidsdoelStaticLineageIdPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsdoelStaticLineageIdPost>>,
@@ -1794,7 +1909,7 @@ export type BeleidsdoelStaticLineageIdPostMutationError = HTTPValidationError
  */
 export const useBeleidsdoelStaticLineageIdPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsdoelStaticLineageIdPost>>,
@@ -1840,7 +1955,7 @@ export const getModulesModuleIdObjectBeleidsdoelLineageIdGetQueryOptions = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectBeleidsdoelLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     lineageId: number,
@@ -1901,7 +2016,7 @@ export const useModulesModuleIdObjectBeleidsdoelLineageIdGet = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectBeleidsdoelLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     lineageId: number,
@@ -2007,7 +2122,7 @@ export type ModulesModuleIdObjectBeleidsdoelLineageIdPatchMutationError =
  */
 export const useModulesModuleIdObjectBeleidsdoelLineageIdPatch = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<
@@ -2053,7 +2168,7 @@ export const getModulesModuleIdObjectBeleidsdoelLatestLineageIdGetQueryOptions =
                 typeof modulesModuleIdObjectBeleidsdoelLatestLineageIdGet
             >
         >,
-        TError = HTTPValidationError
+        TError = HTTPValidationError,
     >(
         moduleId: number,
         lineageId: number,
@@ -2125,7 +2240,7 @@ export const useModulesModuleIdObjectBeleidsdoelLatestLineageIdGet = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectBeleidsdoelLatestLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     lineageId: number,
@@ -2184,7 +2299,7 @@ export const getModulesModuleIdObjectBeleidsdoelVersionObjectUuidGetQueryOptions
                 typeof modulesModuleIdObjectBeleidsdoelVersionObjectUuidGet
             >
         >,
-        TError = HTTPValidationError
+        TError = HTTPValidationError,
     >(
         moduleId: number,
         objectUuid: string,
@@ -2256,7 +2371,7 @@ export const useModulesModuleIdObjectBeleidsdoelVersionObjectUuidGet = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectBeleidsdoelVersionObjectUuidGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     objectUuid: string,
@@ -2317,7 +2432,7 @@ export const getModulesObjectBeleidsdoelActiveLineageIdGetQueryOptions = <
     TData = Awaited<
         ReturnType<typeof modulesObjectBeleidsdoelActiveLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: ModulesObjectBeleidsdoelActiveLineageIdGetParams,
@@ -2362,7 +2477,7 @@ export const useModulesObjectBeleidsdoelActiveLineageIdGet = <
     TData = Awaited<
         ReturnType<typeof modulesObjectBeleidsdoelActiveLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: ModulesObjectBeleidsdoelActiveLineageIdGetParams,
@@ -2380,6 +2495,128 @@ export const useModulesObjectBeleidsdoelActiveLineageIdGet = <
         getModulesObjectBeleidsdoelActiveLineageIdGetQueryOptions(
             lineageId,
             params,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific beleidsdoel by uuid in a module
+ */
+export const revisionsModuleIdBeleidsdoelVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<BeleidsdoelFull>({
+        url: `/revisions/${moduleId}/beleidsdoel/version/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getRevisionsModuleIdBeleidsdoelVersionObjectUuidGetQueryKey = (
+    moduleId: number,
+    objectUuid: string
+) => [`/revisions/${moduleId}/beleidsdoel/version/${objectUuid}`] as const
+
+export const getRevisionsModuleIdBeleidsdoelVersionObjectUuidGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdBeleidsdoelVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdBeleidsdoelVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryOptions<
+    Awaited<
+        ReturnType<typeof revisionsModuleIdBeleidsdoelVersionObjectUuidGet>
+    >,
+    TError,
+    TData
+> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getRevisionsModuleIdBeleidsdoelVersionObjectUuidGetQueryKey(
+            moduleId,
+            objectUuid
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<typeof revisionsModuleIdBeleidsdoelVersionObjectUuidGet>
+        >
+    > = ({ signal }) =>
+        revisionsModuleIdBeleidsdoelVersionObjectUuidGet(
+            moduleId,
+            objectUuid,
+            signal
+        )
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && objectUuid),
+        ...queryOptions,
+    }
+}
+
+export type RevisionsModuleIdBeleidsdoelVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof revisionsModuleIdBeleidsdoelVersionObjectUuidGet>
+        >
+    >
+export type RevisionsModuleIdBeleidsdoelVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific beleidsdoel by uuid in a module
+ */
+export const useRevisionsModuleIdBeleidsdoelVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdBeleidsdoelVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdBeleidsdoelVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getRevisionsModuleIdBeleidsdoelVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
             options
         )
 
@@ -2413,7 +2650,7 @@ export const getBeleidskeuzesValidGetQueryKey = (
 
 export const getBeleidskeuzesValidGetQueryOptions = <
     TData = Awaited<ReturnType<typeof beleidskeuzesValidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: BeleidskeuzesValidGetParams,
     options?: {
@@ -2450,7 +2687,7 @@ export type BeleidskeuzesValidGetQueryError = HTTPValidationError
  */
 export const useBeleidskeuzesValidGet = <
     TData = Awaited<ReturnType<typeof beleidskeuzesValidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: BeleidskeuzesValidGetParams,
     options?: {
@@ -2495,7 +2732,7 @@ export const getBeleidskeuzesValidLineageIdGetQueryKey = (
 
 export const getBeleidskeuzesValidLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof beleidskeuzesValidLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: BeleidskeuzesValidLineageIdGetParams,
@@ -2535,7 +2772,7 @@ export type BeleidskeuzesValidLineageIdGetQueryError = HTTPValidationError
  */
 export const useBeleidskeuzesValidLineageIdGet = <
     TData = Awaited<ReturnType<typeof beleidskeuzesValidLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: BeleidskeuzesValidLineageIdGetParams,
@@ -2582,7 +2819,7 @@ export const getBeleidskeuzesVersionObjectUuidGetQueryKey = (
 
 export const getBeleidskeuzesVersionObjectUuidGetQueryOptions = <
     TData = Awaited<ReturnType<typeof beleidskeuzesVersionObjectUuidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     objectUuid: string,
     options?: {
@@ -2620,7 +2857,7 @@ export type BeleidskeuzesVersionObjectUuidGetQueryError = HTTPValidationError
  */
 export const useBeleidskeuzesVersionObjectUuidGet = <
     TData = Awaited<ReturnType<typeof beleidskeuzesVersionObjectUuidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     objectUuid: string,
     options?: {
@@ -2664,7 +2901,7 @@ export const getBeleidskeuzesLatestLineageIdGetQueryKey = (lineageId: number) =>
 
 export const getBeleidskeuzesLatestLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof beleidskeuzesLatestLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -2702,7 +2939,7 @@ export type BeleidskeuzesLatestLineageIdGetQueryError = HTTPValidationError
  */
 export const useBeleidskeuzesLatestLineageIdGet = <
     TData = Awaited<ReturnType<typeof beleidskeuzesLatestLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -2747,7 +2984,7 @@ export const getBeleidskeuzesRelationsLineageIdGetQueryKey = (
 
 export const getBeleidskeuzesRelationsLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof beleidskeuzesRelationsLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -2785,7 +3022,7 @@ export type BeleidskeuzesRelationsLineageIdGetQueryError = HTTPValidationError
  */
 export const useBeleidskeuzesRelationsLineageIdGet = <
     TData = Awaited<ReturnType<typeof beleidskeuzesRelationsLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -2827,7 +3064,7 @@ export const beleidskeuzesRelationsLineageIdPut = (
 
 export const getBeleidskeuzesRelationsLineageIdPutMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidskeuzesRelationsLineageIdPut>>,
@@ -2867,7 +3104,7 @@ export type BeleidskeuzesRelationsLineageIdPutMutationError =
  */
 export const useBeleidskeuzesRelationsLineageIdPut = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidskeuzesRelationsLineageIdPut>>,
@@ -2899,7 +3136,7 @@ export const beleidskeuzeStaticLineageIdPost = (
 
 export const getBeleidskeuzeStaticLineageIdPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidskeuzeStaticLineageIdPost>>,
@@ -2939,7 +3176,7 @@ export type BeleidskeuzeStaticLineageIdPostMutationError = HTTPValidationError
  */
 export const useBeleidskeuzeStaticLineageIdPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidskeuzeStaticLineageIdPost>>,
@@ -2983,7 +3220,7 @@ export const getBeleidskeuzeAcknowledgedRelationsLineageIdGetQueryOptions = <
     TData = Awaited<
         ReturnType<typeof beleidskeuzeAcknowledgedRelationsLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: BeleidskeuzeAcknowledgedRelationsLineageIdGetParams,
@@ -3036,7 +3273,7 @@ export const useBeleidskeuzeAcknowledgedRelationsLineageIdGet = <
     TData = Awaited<
         ReturnType<typeof beleidskeuzeAcknowledgedRelationsLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: BeleidskeuzeAcknowledgedRelationsLineageIdGetParams,
@@ -3138,7 +3375,7 @@ export type BeleidskeuzeAcknowledgedRelationsLineageIdPostMutationError =
  */
 export const useBeleidskeuzeAcknowledgedRelationsLineageIdPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<
@@ -3233,7 +3470,7 @@ export type BeleidskeuzeAcknowledgedRelationsLineageIdEditPostMutationError =
  */
 export const useBeleidskeuzeAcknowledgedRelationsLineageIdEditPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<
@@ -3285,7 +3522,7 @@ export const getModulesModuleIdObjectBeleidskeuzeLineageIdGetQueryOptions = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectBeleidskeuzeLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     lineageId: number,
@@ -3350,7 +3587,7 @@ export const useModulesModuleIdObjectBeleidskeuzeLineageIdGet = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectBeleidskeuzeLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     lineageId: number,
@@ -3456,7 +3693,7 @@ export type ModulesModuleIdObjectBeleidskeuzeLineageIdPatchMutationError =
  */
 export const useModulesModuleIdObjectBeleidskeuzeLineageIdPatch = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<
@@ -3502,7 +3739,7 @@ export const getModulesModuleIdObjectBeleidskeuzeLatestLineageIdGetQueryOptions 
                 typeof modulesModuleIdObjectBeleidskeuzeLatestLineageIdGet
             >
         >,
-        TError = HTTPValidationError
+        TError = HTTPValidationError,
     >(
         moduleId: number,
         lineageId: number,
@@ -3574,7 +3811,7 @@ export const useModulesModuleIdObjectBeleidskeuzeLatestLineageIdGet = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectBeleidskeuzeLatestLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     lineageId: number,
@@ -3634,7 +3871,7 @@ export const getModulesModuleIdObjectBeleidskeuzeVersionObjectUuidGetQueryOption
                 typeof modulesModuleIdObjectBeleidskeuzeVersionObjectUuidGet
             >
         >,
-        TError = HTTPValidationError
+        TError = HTTPValidationError,
     >(
         moduleId: number,
         objectUuid: string,
@@ -3706,7 +3943,7 @@ export const useModulesModuleIdObjectBeleidskeuzeVersionObjectUuidGet = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectBeleidskeuzeVersionObjectUuidGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     objectUuid: string,
@@ -3767,7 +4004,7 @@ export const getModulesObjectsBeleidskeuzeActiveLineageIdGetQueryOptions = <
     TData = Awaited<
         ReturnType<typeof modulesObjectsBeleidskeuzeActiveLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: ModulesObjectsBeleidskeuzeActiveLineageIdGetParams,
@@ -3816,7 +4053,7 @@ export const useModulesObjectsBeleidskeuzeActiveLineageIdGet = <
     TData = Awaited<
         ReturnType<typeof modulesObjectsBeleidskeuzeActiveLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: ModulesObjectsBeleidskeuzeActiveLineageIdGetParams,
@@ -3834,6 +4071,131 @@ export const useModulesObjectsBeleidskeuzeActiveLineageIdGet = <
         getModulesObjectsBeleidskeuzeActiveLineageIdGetQueryOptions(
             lineageId,
             params,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific beleidskeuze by uuid in a module
+ */
+export const revisionsModuleIdBeleidskeuzeVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<BeleidskeuzeFull>({
+        url: `/revisions/${moduleId}/beleidskeuze/version/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getRevisionsModuleIdBeleidskeuzeVersionObjectUuidGetQueryKey = (
+    moduleId: number,
+    objectUuid: string
+) => [`/revisions/${moduleId}/beleidskeuze/version/${objectUuid}`] as const
+
+export const getRevisionsModuleIdBeleidskeuzeVersionObjectUuidGetQueryOptions =
+    <
+        TData = Awaited<
+            ReturnType<typeof revisionsModuleIdBeleidskeuzeVersionObjectUuidGet>
+        >,
+        TError = HTTPValidationError,
+    >(
+        moduleId: number,
+        objectUuid: string,
+        options?: {
+            query?: UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof revisionsModuleIdBeleidskeuzeVersionObjectUuidGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        }
+    ): UseQueryOptions<
+        Awaited<
+            ReturnType<typeof revisionsModuleIdBeleidskeuzeVersionObjectUuidGet>
+        >,
+        TError,
+        TData
+    > & { queryKey: QueryKey } => {
+        const { query: queryOptions } = options ?? {}
+
+        const queryKey =
+            queryOptions?.queryKey ??
+            getRevisionsModuleIdBeleidskeuzeVersionObjectUuidGetQueryKey(
+                moduleId,
+                objectUuid
+            )
+
+        const queryFn: QueryFunction<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdBeleidskeuzeVersionObjectUuidGet
+                >
+            >
+        > = ({ signal }) =>
+            revisionsModuleIdBeleidskeuzeVersionObjectUuidGet(
+                moduleId,
+                objectUuid,
+                signal
+            )
+
+        return {
+            queryKey,
+            queryFn,
+            enabled: !!(moduleId && objectUuid),
+            ...queryOptions,
+        }
+    }
+
+export type RevisionsModuleIdBeleidskeuzeVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof revisionsModuleIdBeleidskeuzeVersionObjectUuidGet>
+        >
+    >
+export type RevisionsModuleIdBeleidskeuzeVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific beleidskeuze by uuid in a module
+ */
+export const useRevisionsModuleIdBeleidskeuzeVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdBeleidskeuzeVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdBeleidskeuzeVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getRevisionsModuleIdBeleidskeuzeVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
             options
         )
 
@@ -3867,7 +4229,7 @@ export const getBeleidsregelsValidGetQueryKey = (
 
 export const getBeleidsregelsValidGetQueryOptions = <
     TData = Awaited<ReturnType<typeof beleidsregelsValidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: BeleidsregelsValidGetParams,
     options?: {
@@ -3904,7 +4266,7 @@ export type BeleidsregelsValidGetQueryError = HTTPValidationError
  */
 export const useBeleidsregelsValidGet = <
     TData = Awaited<ReturnType<typeof beleidsregelsValidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: BeleidsregelsValidGetParams,
     options?: {
@@ -3949,7 +4311,7 @@ export const getBeleidsregelsValidLineageIdGetQueryKey = (
 
 export const getBeleidsregelsValidLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof beleidsregelsValidLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: BeleidsregelsValidLineageIdGetParams,
@@ -3989,7 +4351,7 @@ export type BeleidsregelsValidLineageIdGetQueryError = HTTPValidationError
  */
 export const useBeleidsregelsValidLineageIdGet = <
     TData = Awaited<ReturnType<typeof beleidsregelsValidLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: BeleidsregelsValidLineageIdGetParams,
@@ -4036,7 +4398,7 @@ export const getBeleidsregelsVersionObjectUuidGetQueryKey = (
 
 export const getBeleidsregelsVersionObjectUuidGetQueryOptions = <
     TData = Awaited<ReturnType<typeof beleidsregelsVersionObjectUuidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     objectUuid: string,
     options?: {
@@ -4074,7 +4436,7 @@ export type BeleidsregelsVersionObjectUuidGetQueryError = HTTPValidationError
  */
 export const useBeleidsregelsVersionObjectUuidGet = <
     TData = Awaited<ReturnType<typeof beleidsregelsVersionObjectUuidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     objectUuid: string,
     options?: {
@@ -4118,7 +4480,7 @@ export const getBeleidsregelsLatestLineageIdGetQueryKey = (lineageId: number) =>
 
 export const getBeleidsregelsLatestLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof beleidsregelsLatestLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -4156,7 +4518,7 @@ export type BeleidsregelsLatestLineageIdGetQueryError = HTTPValidationError
  */
 export const useBeleidsregelsLatestLineageIdGet = <
     TData = Awaited<ReturnType<typeof beleidsregelsLatestLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -4201,7 +4563,7 @@ export const getBeleidsregelsRelationsLineageIdGetQueryKey = (
 
 export const getBeleidsregelsRelationsLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -4239,7 +4601,7 @@ export type BeleidsregelsRelationsLineageIdGetQueryError = HTTPValidationError
  */
 export const useBeleidsregelsRelationsLineageIdGet = <
     TData = Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -4281,7 +4643,7 @@ export const beleidsregelsRelationsLineageIdPut = (
 
 export const getBeleidsregelsRelationsLineageIdPutMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdPut>>,
@@ -4321,7 +4683,7 @@ export type BeleidsregelsRelationsLineageIdPutMutationError =
  */
 export const useBeleidsregelsRelationsLineageIdPut = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsregelsRelationsLineageIdPut>>,
@@ -4353,7 +4715,7 @@ export const beleidsregelStaticLineageIdPost = (
 
 export const getBeleidsregelStaticLineageIdPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsregelStaticLineageIdPost>>,
@@ -4393,7 +4755,7 @@ export type BeleidsregelStaticLineageIdPostMutationError = HTTPValidationError
  */
 export const useBeleidsregelStaticLineageIdPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsregelStaticLineageIdPost>>,
@@ -4439,7 +4801,7 @@ export const getModulesModuleIdObjectBeleidsregelLineageIdGetQueryOptions = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectBeleidsregelLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     lineageId: number,
@@ -4504,7 +4866,7 @@ export const useModulesModuleIdObjectBeleidsregelLineageIdGet = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectBeleidsregelLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     lineageId: number,
@@ -4610,7 +4972,7 @@ export type ModulesModuleIdObjectBeleidsregelLineageIdPatchMutationError =
  */
 export const useModulesModuleIdObjectBeleidsregelLineageIdPatch = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<
@@ -4656,7 +5018,7 @@ export const getModulesModuleIdObjectBeleidsregelLatestLineageIdGetQueryOptions 
                 typeof modulesModuleIdObjectBeleidsregelLatestLineageIdGet
             >
         >,
-        TError = HTTPValidationError
+        TError = HTTPValidationError,
     >(
         moduleId: number,
         lineageId: number,
@@ -4728,7 +5090,7 @@ export const useModulesModuleIdObjectBeleidsregelLatestLineageIdGet = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectBeleidsregelLatestLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     lineageId: number,
@@ -4788,7 +5150,7 @@ export const getModulesModuleIdObjectBeleidsregelVersionObjectUuidGetQueryOption
                 typeof modulesModuleIdObjectBeleidsregelVersionObjectUuidGet
             >
         >,
-        TError = HTTPValidationError
+        TError = HTTPValidationError,
     >(
         moduleId: number,
         objectUuid: string,
@@ -4860,7 +5222,7 @@ export const useModulesModuleIdObjectBeleidsregelVersionObjectUuidGet = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectBeleidsregelVersionObjectUuidGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     objectUuid: string,
@@ -4921,7 +5283,7 @@ export const getModulesObjectsBeleidsregelActiveLineageIdGetQueryOptions = <
     TData = Awaited<
         ReturnType<typeof modulesObjectsBeleidsregelActiveLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: ModulesObjectsBeleidsregelActiveLineageIdGetParams,
@@ -4970,7 +5332,7 @@ export const useModulesObjectsBeleidsregelActiveLineageIdGet = <
     TData = Awaited<
         ReturnType<typeof modulesObjectsBeleidsregelActiveLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: ModulesObjectsBeleidsregelActiveLineageIdGetParams,
@@ -4988,6 +5350,131 @@ export const useModulesObjectsBeleidsregelActiveLineageIdGet = <
         getModulesObjectsBeleidsregelActiveLineageIdGetQueryOptions(
             lineageId,
             params,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific beleidsregel by uuid in a module
+ */
+export const revisionsModuleIdBeleidsregelVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<BeleidsregelFull>({
+        url: `/revisions/${moduleId}/beleidsregel/version/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getRevisionsModuleIdBeleidsregelVersionObjectUuidGetQueryKey = (
+    moduleId: number,
+    objectUuid: string
+) => [`/revisions/${moduleId}/beleidsregel/version/${objectUuid}`] as const
+
+export const getRevisionsModuleIdBeleidsregelVersionObjectUuidGetQueryOptions =
+    <
+        TData = Awaited<
+            ReturnType<typeof revisionsModuleIdBeleidsregelVersionObjectUuidGet>
+        >,
+        TError = HTTPValidationError,
+    >(
+        moduleId: number,
+        objectUuid: string,
+        options?: {
+            query?: UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof revisionsModuleIdBeleidsregelVersionObjectUuidGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        }
+    ): UseQueryOptions<
+        Awaited<
+            ReturnType<typeof revisionsModuleIdBeleidsregelVersionObjectUuidGet>
+        >,
+        TError,
+        TData
+    > & { queryKey: QueryKey } => {
+        const { query: queryOptions } = options ?? {}
+
+        const queryKey =
+            queryOptions?.queryKey ??
+            getRevisionsModuleIdBeleidsregelVersionObjectUuidGetQueryKey(
+                moduleId,
+                objectUuid
+            )
+
+        const queryFn: QueryFunction<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdBeleidsregelVersionObjectUuidGet
+                >
+            >
+        > = ({ signal }) =>
+            revisionsModuleIdBeleidsregelVersionObjectUuidGet(
+                moduleId,
+                objectUuid,
+                signal
+            )
+
+        return {
+            queryKey,
+            queryFn,
+            enabled: !!(moduleId && objectUuid),
+            ...queryOptions,
+        }
+    }
+
+export type RevisionsModuleIdBeleidsregelVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof revisionsModuleIdBeleidsregelVersionObjectUuidGet>
+        >
+    >
+export type RevisionsModuleIdBeleidsregelVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific beleidsregel by uuid in a module
+ */
+export const useRevisionsModuleIdBeleidsregelVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdBeleidsregelVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdBeleidsregelVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getRevisionsModuleIdBeleidsregelVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
             options
         )
 
@@ -5021,7 +5508,7 @@ export const getGebiedsprogrammasValidGetQueryKey = (
 
 export const getGebiedsprogrammasValidGetQueryOptions = <
     TData = Awaited<ReturnType<typeof gebiedsprogrammasValidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: GebiedsprogrammasValidGetParams,
     options?: {
@@ -5058,7 +5545,7 @@ export type GebiedsprogrammasValidGetQueryError = HTTPValidationError
  */
 export const useGebiedsprogrammasValidGet = <
     TData = Awaited<ReturnType<typeof gebiedsprogrammasValidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: GebiedsprogrammasValidGetParams,
     options?: {
@@ -5110,7 +5597,7 @@ export const getGebiedsprogrammasValidLineageIdGetQueryKey = (
 
 export const getGebiedsprogrammasValidLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof gebiedsprogrammasValidLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: GebiedsprogrammasValidLineageIdGetParams,
@@ -5150,7 +5637,7 @@ export type GebiedsprogrammasValidLineageIdGetQueryError = HTTPValidationError
  */
 export const useGebiedsprogrammasValidLineageIdGet = <
     TData = Awaited<ReturnType<typeof gebiedsprogrammasValidLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: GebiedsprogrammasValidLineageIdGetParams,
@@ -5197,7 +5684,7 @@ export const getGebiedsprogrammasVersionObjectUuidGetQueryKey = (
 
 export const getGebiedsprogrammasVersionObjectUuidGetQueryOptions = <
     TData = Awaited<ReturnType<typeof gebiedsprogrammasVersionObjectUuidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     objectUuid: string,
     options?: {
@@ -5237,7 +5724,7 @@ export type GebiedsprogrammasVersionObjectUuidGetQueryError =
  */
 export const useGebiedsprogrammasVersionObjectUuidGet = <
     TData = Awaited<ReturnType<typeof gebiedsprogrammasVersionObjectUuidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     objectUuid: string,
     options?: {
@@ -5282,7 +5769,7 @@ export const getGebiedsprogrammasLatestLineageIdGetQueryKey = (
 
 export const getGebiedsprogrammasLatestLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof gebiedsprogrammasLatestLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -5320,7 +5807,7 @@ export type GebiedsprogrammasLatestLineageIdGetQueryError = HTTPValidationError
  */
 export const useGebiedsprogrammasLatestLineageIdGet = <
     TData = Awaited<ReturnType<typeof gebiedsprogrammasLatestLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -5365,7 +5852,7 @@ export const getGebiedsprogrammasRelationsLineageIdGetQueryKey = (
 
 export const getGebiedsprogrammasRelationsLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -5405,7 +5892,7 @@ export type GebiedsprogrammasRelationsLineageIdGetQueryError =
  */
 export const useGebiedsprogrammasRelationsLineageIdGet = <
     TData = Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -5447,7 +5934,7 @@ export const gebiedsprogrammasRelationsLineageIdPut = (
 
 export const getGebiedsprogrammasRelationsLineageIdPutMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdPut>>,
@@ -5487,7 +5974,7 @@ export type GebiedsprogrammasRelationsLineageIdPutMutationError =
  */
 export const useGebiedsprogrammasRelationsLineageIdPut = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof gebiedsprogrammasRelationsLineageIdPut>>,
@@ -5519,7 +6006,7 @@ export const gebiedsprogrammasStaticLineageIdPost = (
 
 export const getGebiedsprogrammasStaticLineageIdPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof gebiedsprogrammasStaticLineageIdPost>>,
@@ -5560,7 +6047,7 @@ export type GebiedsprogrammasStaticLineageIdPostMutationError =
  */
 export const useGebiedsprogrammasStaticLineageIdPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof gebiedsprogrammasStaticLineageIdPost>>,
@@ -5609,7 +6096,7 @@ export const getModulesModuleIdObjectGebiedsprogrammasLineageIdGetQueryOptions =
                 typeof modulesModuleIdObjectGebiedsprogrammasLineageIdGet
             >
         >,
-        TError = HTTPValidationError
+        TError = HTTPValidationError,
     >(
         moduleId: number,
         lineageId: number,
@@ -5684,7 +6171,7 @@ export const useModulesModuleIdObjectGebiedsprogrammasLineageIdGet = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectGebiedsprogrammasLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     lineageId: number,
@@ -5800,7 +6287,7 @@ export type ModulesModuleIdObjectGebiedsprogrammasLineageIdPatchMutationError =
  */
 export const useModulesModuleIdObjectGebiedsprogrammasLineageIdPatch = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<
@@ -5849,7 +6336,7 @@ export const getModulesModuleIdObjectGebiedsprogrammasLatestLineageIdGetQueryOpt
                 typeof modulesModuleIdObjectGebiedsprogrammasLatestLineageIdGet
             >
         >,
-        TError = HTTPValidationError
+        TError = HTTPValidationError,
     >(
         moduleId: number,
         lineageId: number,
@@ -5923,7 +6410,7 @@ export const useModulesModuleIdObjectGebiedsprogrammasLatestLineageIdGet = <
             typeof modulesModuleIdObjectGebiedsprogrammasLatestLineageIdGet
         >
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     lineageId: number,
@@ -5983,7 +6470,7 @@ export const getModulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGetQueryO
                 typeof modulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGet
             >
         >,
-        TError = HTTPValidationError
+        TError = HTTPValidationError,
     >(
         moduleId: number,
         objectUuid: string,
@@ -6057,7 +6544,7 @@ export const useModulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGet = <
             typeof modulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGet
         >
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     objectUuid: string,
@@ -6118,7 +6605,7 @@ export const getModulesObjectsGebiedsprogrammaActiveLineageIdGetQueryOptions = <
     TData = Awaited<
         ReturnType<typeof modulesObjectsGebiedsprogrammaActiveLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: ModulesObjectsGebiedsprogrammaActiveLineageIdGetParams,
@@ -6179,7 +6666,7 @@ export const useModulesObjectsGebiedsprogrammaActiveLineageIdGet = <
     TData = Awaited<
         ReturnType<typeof modulesObjectsGebiedsprogrammaActiveLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: ModulesObjectsGebiedsprogrammaActiveLineageIdGetParams,
@@ -6199,6 +6686,138 @@ export const useModulesObjectsGebiedsprogrammaActiveLineageIdGet = <
         getModulesObjectsGebiedsprogrammaActiveLineageIdGetQueryOptions(
             lineageId,
             params,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific gebiedsprogramma by uuid in a module
+ */
+export const revisionsModuleIdGebiedsprogrammaVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<GebiedsprogrammaFull>({
+        url: `/revisions/${moduleId}/gebiedsprogramma/version/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGetQueryKey =
+    (moduleId: number, objectUuid: string) =>
+        [
+            `/revisions/${moduleId}/gebiedsprogramma/version/${objectUuid}`,
+        ] as const
+
+export const getRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGetQueryOptions =
+    <
+        TData = Awaited<
+            ReturnType<
+                typeof revisionsModuleIdGebiedsprogrammaVersionObjectUuidGet
+            >
+        >,
+        TError = HTTPValidationError,
+    >(
+        moduleId: number,
+        objectUuid: string,
+        options?: {
+            query?: UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof revisionsModuleIdGebiedsprogrammaVersionObjectUuidGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        }
+    ): UseQueryOptions<
+        Awaited<
+            ReturnType<
+                typeof revisionsModuleIdGebiedsprogrammaVersionObjectUuidGet
+            >
+        >,
+        TError,
+        TData
+    > & { queryKey: QueryKey } => {
+        const { query: queryOptions } = options ?? {}
+
+        const queryKey =
+            queryOptions?.queryKey ??
+            getRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGetQueryKey(
+                moduleId,
+                objectUuid
+            )
+
+        const queryFn: QueryFunction<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdGebiedsprogrammaVersionObjectUuidGet
+                >
+            >
+        > = ({ signal }) =>
+            revisionsModuleIdGebiedsprogrammaVersionObjectUuidGet(
+                moduleId,
+                objectUuid,
+                signal
+            )
+
+        return {
+            queryKey,
+            queryFn,
+            enabled: !!(moduleId && objectUuid),
+            ...queryOptions,
+        }
+    }
+
+export type RevisionsModuleIdGebiedsprogrammaVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof revisionsModuleIdGebiedsprogrammaVersionObjectUuidGet
+            >
+        >
+    >
+export type RevisionsModuleIdGebiedsprogrammaVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific gebiedsprogramma by uuid in a module
+ */
+export const useRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdGebiedsprogrammaVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdGebiedsprogrammaVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
             options
         )
 
@@ -6232,7 +6851,7 @@ export const getMaatregelenValidGetQueryKey = (
 
 export const getMaatregelenValidGetQueryOptions = <
     TData = Awaited<ReturnType<typeof maatregelenValidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: MaatregelenValidGetParams,
     options?: {
@@ -6269,7 +6888,7 @@ export type MaatregelenValidGetQueryError = HTTPValidationError
  */
 export const useMaatregelenValidGet = <
     TData = Awaited<ReturnType<typeof maatregelenValidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: MaatregelenValidGetParams,
     options?: {
@@ -6314,7 +6933,7 @@ export const getMaatregelenValidLineageIdGetQueryKey = (
 
 export const getMaatregelenValidLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof maatregelenValidLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: MaatregelenValidLineageIdGetParams,
@@ -6353,7 +6972,7 @@ export type MaatregelenValidLineageIdGetQueryError = HTTPValidationError
  */
 export const useMaatregelenValidLineageIdGet = <
     TData = Awaited<ReturnType<typeof maatregelenValidLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: MaatregelenValidLineageIdGetParams,
@@ -6400,7 +7019,7 @@ export const getMaatregelenVersionObjectUuidGetQueryKey = (
 
 export const getMaatregelenVersionObjectUuidGetQueryOptions = <
     TData = Awaited<ReturnType<typeof maatregelenVersionObjectUuidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     objectUuid: string,
     options?: {
@@ -6438,7 +7057,7 @@ export type MaatregelenVersionObjectUuidGetQueryError = HTTPValidationError
  */
 export const useMaatregelenVersionObjectUuidGet = <
     TData = Awaited<ReturnType<typeof maatregelenVersionObjectUuidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     objectUuid: string,
     options?: {
@@ -6482,7 +7101,7 @@ export const getMaatregelenLatestLineageIdGetQueryKey = (lineageId: number) =>
 
 export const getMaatregelenLatestLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof maatregelenLatestLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -6520,7 +7139,7 @@ export type MaatregelenLatestLineageIdGetQueryError = HTTPValidationError
  */
 export const useMaatregelenLatestLineageIdGet = <
     TData = Awaited<ReturnType<typeof maatregelenLatestLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -6565,7 +7184,7 @@ export const getMaatregelenRelationsLineageIdGetQueryKey = (
 
 export const getMaatregelenRelationsLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof maatregelenRelationsLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -6603,7 +7222,7 @@ export type MaatregelenRelationsLineageIdGetQueryError = HTTPValidationError
  */
 export const useMaatregelenRelationsLineageIdGet = <
     TData = Awaited<ReturnType<typeof maatregelenRelationsLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -6645,7 +7264,7 @@ export const maatregelenRelationsLineageIdPut = (
 
 export const getMaatregelenRelationsLineageIdPutMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof maatregelenRelationsLineageIdPut>>,
@@ -6684,7 +7303,7 @@ export type MaatregelenRelationsLineageIdPutMutationError = HTTPValidationError
  */
 export const useMaatregelenRelationsLineageIdPut = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof maatregelenRelationsLineageIdPut>>,
@@ -6716,7 +7335,7 @@ export const maatregelStaticLineageIdPost = (
 
 export const getMaatregelStaticLineageIdPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof maatregelStaticLineageIdPost>>,
@@ -6756,7 +7375,7 @@ export type MaatregelStaticLineageIdPostMutationError = HTTPValidationError
  */
 export const useMaatregelStaticLineageIdPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof maatregelStaticLineageIdPost>>,
@@ -6802,7 +7421,7 @@ export const getModulesModuleIdObjectMaatregelLineageIdGetQueryOptions = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectMaatregelLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     lineageId: number,
@@ -6862,7 +7481,7 @@ export const useModulesModuleIdObjectMaatregelLineageIdGet = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectMaatregelLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     lineageId: number,
@@ -6912,7 +7531,7 @@ export const modulesModuleIdObjectMaatregelLineageIdPatch = (
 
 export const getModulesModuleIdObjectMaatregelLineageIdPatchMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<
@@ -6962,7 +7581,7 @@ export type ModulesModuleIdObjectMaatregelLineageIdPatchMutationError =
  */
 export const useModulesModuleIdObjectMaatregelLineageIdPatch = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<
@@ -7003,7 +7622,7 @@ export const getModulesModuleIdObjectMaatregelLatestLineageIdGetQueryOptions = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectMaatregelLatestLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     lineageId: number,
@@ -7069,7 +7688,7 @@ export const useModulesModuleIdObjectMaatregelLatestLineageIdGet = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectMaatregelLatestLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     lineageId: number,
@@ -7128,7 +7747,7 @@ export const getModulesModuleIdObjectMaatregelVersionObjectUuidGetQueryOptions =
                 typeof modulesModuleIdObjectMaatregelVersionObjectUuidGet
             >
         >,
-        TError = HTTPValidationError
+        TError = HTTPValidationError,
     >(
         moduleId: number,
         objectUuid: string,
@@ -7200,7 +7819,7 @@ export const useModulesModuleIdObjectMaatregelVersionObjectUuidGet = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectMaatregelVersionObjectUuidGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     objectUuid: string,
@@ -7261,7 +7880,7 @@ export const getModulesObjectsMaatregelActiveLineageIdGetQueryOptions = <
     TData = Awaited<
         ReturnType<typeof modulesObjectsMaatregelActiveLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: ModulesObjectsMaatregelActiveLineageIdGetParams,
@@ -7306,7 +7925,7 @@ export const useModulesObjectsMaatregelActiveLineageIdGet = <
     TData = Awaited<
         ReturnType<typeof modulesObjectsMaatregelActiveLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     params?: ModulesObjectsMaatregelActiveLineageIdGetParams,
@@ -7337,6 +7956,126 @@ export const useModulesObjectsMaatregelActiveLineageIdGet = <
 }
 
 /**
+ * @summary Get specific maatregel by uuid in a module
+ */
+export const revisionsModuleIdMaatregelVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<MaatregelFull>({
+        url: `/revisions/${moduleId}/maatregel/version/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getRevisionsModuleIdMaatregelVersionObjectUuidGetQueryKey = (
+    moduleId: number,
+    objectUuid: string
+) => [`/revisions/${moduleId}/maatregel/version/${objectUuid}`] as const
+
+export const getRevisionsModuleIdMaatregelVersionObjectUuidGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdMaatregelVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdMaatregelVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryOptions<
+    Awaited<ReturnType<typeof revisionsModuleIdMaatregelVersionObjectUuidGet>>,
+    TError,
+    TData
+> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getRevisionsModuleIdMaatregelVersionObjectUuidGetQueryKey(
+            moduleId,
+            objectUuid
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<typeof revisionsModuleIdMaatregelVersionObjectUuidGet>
+        >
+    > = ({ signal }) =>
+        revisionsModuleIdMaatregelVersionObjectUuidGet(
+            moduleId,
+            objectUuid,
+            signal
+        )
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && objectUuid),
+        ...queryOptions,
+    }
+}
+
+export type RevisionsModuleIdMaatregelVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof revisionsModuleIdMaatregelVersionObjectUuidGet>
+        >
+    >
+export type RevisionsModuleIdMaatregelVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific maatregel by uuid in a module
+ */
+export const useRevisionsModuleIdMaatregelVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdMaatregelVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdMaatregelVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getRevisionsModuleIdMaatregelVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
  * @summary Add new object
  */
 export const nationaalBelangPost = (
@@ -7352,7 +8091,7 @@ export const nationaalBelangPost = (
 
 export const getNationaalBelangPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof nationaalBelangPost>>,
@@ -7391,7 +8130,7 @@ export type NationaalBelangPostMutationError = HTTPValidationError
  */
 export const useNationaalBelangPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof nationaalBelangPost>>,
@@ -7422,7 +8161,7 @@ export const nationaalBelangLineageIdPost = (
 
 export const getNationaalBelangLineageIdPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof nationaalBelangLineageIdPost>>,
@@ -7461,7 +8200,7 @@ export type NationaalBelangLineageIdPostMutationError = HTTPValidationError
  */
 export const useNationaalBelangLineageIdPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof nationaalBelangLineageIdPost>>,
@@ -7472,6 +8211,72 @@ export const useNationaalBelangLineageIdPost = <
 }) => {
     const mutationOptions =
         getNationaalBelangLineageIdPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Delete atemporal object
+ */
+export const nationaalBelangLineageIdDelete = (lineageId: number) => {
+    return customInstance<ResponseOK>({
+        url: `/nationaal-belang/${lineageId}`,
+        method: 'delete',
+    })
+}
+
+export const getNationaalBelangLineageIdDeleteMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof nationaalBelangLineageIdDelete>>,
+        TError,
+        { lineageId: number },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof nationaalBelangLineageIdDelete>>,
+    TError,
+    { lineageId: number },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof nationaalBelangLineageIdDelete>>,
+        { lineageId: number }
+    > = props => {
+        const { lineageId } = props ?? {}
+
+        return nationaalBelangLineageIdDelete(lineageId)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type NationaalBelangLineageIdDeleteMutationResult = NonNullable<
+    Awaited<ReturnType<typeof nationaalBelangLineageIdDelete>>
+>
+
+export type NationaalBelangLineageIdDeleteMutationError = HTTPValidationError
+
+/**
+ * @summary Delete atemporal object
+ */
+export const useNationaalBelangLineageIdDelete = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof nationaalBelangLineageIdDelete>>,
+        TError,
+        { lineageId: number },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getNationaalBelangLineageIdDeleteMutationOptions(options)
 
     return useMutation(mutationOptions)
 }
@@ -7497,7 +8302,7 @@ export const getNationaalBelangValidGetQueryKey = (
 
 export const getNationaalBelangValidGetQueryOptions = <
     TData = Awaited<ReturnType<typeof nationaalBelangValidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: NationaalBelangValidGetParams,
     options?: {
@@ -7534,7 +8339,7 @@ export type NationaalBelangValidGetQueryError = HTTPValidationError
  */
 export const useNationaalBelangValidGet = <
     TData = Awaited<ReturnType<typeof nationaalBelangValidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: NationaalBelangValidGetParams,
     options?: {
@@ -7576,7 +8381,7 @@ export const getNationaalBelangLatestLineageIdGetQueryKey = (
 
 export const getNationaalBelangLatestLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof nationaalBelangLatestLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -7614,7 +8419,7 @@ export type NationaalBelangLatestLineageIdGetQueryError = HTTPValidationError
  */
 export const useNationaalBelangLatestLineageIdGet = <
     TData = Awaited<ReturnType<typeof nationaalBelangLatestLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -7659,7 +8464,7 @@ export const getNationaalBelangRelationsLineageIdGetQueryKey = (
 
 export const getNationaalBelangRelationsLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -7697,7 +8502,7 @@ export type NationaalBelangRelationsLineageIdGetQueryError = HTTPValidationError
  */
 export const useNationaalBelangRelationsLineageIdGet = <
     TData = Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -7739,7 +8544,7 @@ export const nationaalBelangRelationsLineageIdPut = (
 
 export const getNationaalBelangRelationsLineageIdPutMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdPut>>,
@@ -7779,7 +8584,7 @@ export type NationaalBelangRelationsLineageIdPutMutationError =
  */
 export const useNationaalBelangRelationsLineageIdPut = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof nationaalBelangRelationsLineageIdPut>>,
@@ -7811,7 +8616,7 @@ export const nationaalBelangStaticLineageIdPost = (
 
 export const getNationaalBelangStaticLineageIdPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof nationaalBelangStaticLineageIdPost>>,
@@ -7852,7 +8657,7 @@ export type NationaalBelangStaticLineageIdPostMutationError =
  */
 export const useNationaalBelangStaticLineageIdPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof nationaalBelangStaticLineageIdPost>>,
@@ -7883,7 +8688,7 @@ export const verplichtProgrammaPost = (
 
 export const getVerplichtProgrammaPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof verplichtProgrammaPost>>,
@@ -7922,7 +8727,7 @@ export type VerplichtProgrammaPostMutationError = HTTPValidationError
  */
 export const useVerplichtProgrammaPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof verplichtProgrammaPost>>,
@@ -7953,7 +8758,7 @@ export const verplichtProgrammaLineageIdPost = (
 
 export const getVerplichtProgrammaLineageIdPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof verplichtProgrammaLineageIdPost>>,
@@ -7992,7 +8797,7 @@ export type VerplichtProgrammaLineageIdPostMutationError = HTTPValidationError
  */
 export const useVerplichtProgrammaLineageIdPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof verplichtProgrammaLineageIdPost>>,
@@ -8003,6 +8808,72 @@ export const useVerplichtProgrammaLineageIdPost = <
 }) => {
     const mutationOptions =
         getVerplichtProgrammaLineageIdPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Delete atemporal object
+ */
+export const verplichtProgrammaLineageIdDelete = (lineageId: number) => {
+    return customInstance<ResponseOK>({
+        url: `/verplicht-programma/${lineageId}`,
+        method: 'delete',
+    })
+}
+
+export const getVerplichtProgrammaLineageIdDeleteMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof verplichtProgrammaLineageIdDelete>>,
+        TError,
+        { lineageId: number },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof verplichtProgrammaLineageIdDelete>>,
+    TError,
+    { lineageId: number },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof verplichtProgrammaLineageIdDelete>>,
+        { lineageId: number }
+    > = props => {
+        const { lineageId } = props ?? {}
+
+        return verplichtProgrammaLineageIdDelete(lineageId)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type VerplichtProgrammaLineageIdDeleteMutationResult = NonNullable<
+    Awaited<ReturnType<typeof verplichtProgrammaLineageIdDelete>>
+>
+
+export type VerplichtProgrammaLineageIdDeleteMutationError = HTTPValidationError
+
+/**
+ * @summary Delete atemporal object
+ */
+export const useVerplichtProgrammaLineageIdDelete = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof verplichtProgrammaLineageIdDelete>>,
+        TError,
+        { lineageId: number },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getVerplichtProgrammaLineageIdDeleteMutationOptions(options)
 
     return useMutation(mutationOptions)
 }
@@ -8028,7 +8899,7 @@ export const getVerplichtProgrammaValidGetQueryKey = (
 
 export const getVerplichtProgrammaValidGetQueryOptions = <
     TData = Awaited<ReturnType<typeof verplichtProgrammaValidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: VerplichtProgrammaValidGetParams,
     options?: {
@@ -8065,7 +8936,7 @@ export type VerplichtProgrammaValidGetQueryError = HTTPValidationError
  */
 export const useVerplichtProgrammaValidGet = <
     TData = Awaited<ReturnType<typeof verplichtProgrammaValidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: VerplichtProgrammaValidGetParams,
     options?: {
@@ -8110,7 +8981,7 @@ export const getVerplichtProgrammaLatestLineageIdGetQueryKey = (
 
 export const getVerplichtProgrammaLatestLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof verplichtProgrammaLatestLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -8148,7 +9019,7 @@ export type VerplichtProgrammaLatestLineageIdGetQueryError = HTTPValidationError
  */
 export const useVerplichtProgrammaLatestLineageIdGet = <
     TData = Awaited<ReturnType<typeof verplichtProgrammaLatestLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -8193,7 +9064,7 @@ export const getVerplichtProgrammaRelationsLineageIdGetQueryKey = (
 
 export const getVerplichtProgrammaRelationsLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -8233,7 +9104,7 @@ export type VerplichtProgrammaRelationsLineageIdGetQueryError =
  */
 export const useVerplichtProgrammaRelationsLineageIdGet = <
     TData = Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -8275,7 +9146,7 @@ export const verplichtProgrammaRelationsLineageIdPut = (
 
 export const getVerplichtProgrammaRelationsLineageIdPutMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdPut>>,
@@ -8316,7 +9187,7 @@ export type VerplichtProgrammaRelationsLineageIdPutMutationError =
  */
 export const useVerplichtProgrammaRelationsLineageIdPut = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof verplichtProgrammaRelationsLineageIdPut>>,
@@ -8348,7 +9219,7 @@ export const verplichtProgrammaStaticLineageIdPost = (
 
 export const getVerplichtProgrammaStaticLineageIdPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof verplichtProgrammaStaticLineageIdPost>>,
@@ -8389,7 +9260,7 @@ export type VerplichtProgrammaStaticLineageIdPostMutationError =
  */
 export const useVerplichtProgrammaStaticLineageIdPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof verplichtProgrammaStaticLineageIdPost>>,
@@ -8420,7 +9291,7 @@ export const wettelijkeTaakPost = (
 
 export const getWettelijkeTaakPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof wettelijkeTaakPost>>,
@@ -8459,7 +9330,7 @@ export type WettelijkeTaakPostMutationError = HTTPValidationError
  */
 export const useWettelijkeTaakPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof wettelijkeTaakPost>>,
@@ -8490,7 +9361,7 @@ export const wettelijkeTaakLineageIdPost = (
 
 export const getWettelijkeTaakLineageIdPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof wettelijkeTaakLineageIdPost>>,
@@ -8529,7 +9400,7 @@ export type WettelijkeTaakLineageIdPostMutationError = HTTPValidationError
  */
 export const useWettelijkeTaakLineageIdPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof wettelijkeTaakLineageIdPost>>,
@@ -8540,6 +9411,72 @@ export const useWettelijkeTaakLineageIdPost = <
 }) => {
     const mutationOptions =
         getWettelijkeTaakLineageIdPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Delete atemporal object
+ */
+export const wettelijkeTaakLineageIdDelete = (lineageId: number) => {
+    return customInstance<ResponseOK>({
+        url: `/wettelijke-taak/${lineageId}`,
+        method: 'delete',
+    })
+}
+
+export const getWettelijkeTaakLineageIdDeleteMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof wettelijkeTaakLineageIdDelete>>,
+        TError,
+        { lineageId: number },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof wettelijkeTaakLineageIdDelete>>,
+    TError,
+    { lineageId: number },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof wettelijkeTaakLineageIdDelete>>,
+        { lineageId: number }
+    > = props => {
+        const { lineageId } = props ?? {}
+
+        return wettelijkeTaakLineageIdDelete(lineageId)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type WettelijkeTaakLineageIdDeleteMutationResult = NonNullable<
+    Awaited<ReturnType<typeof wettelijkeTaakLineageIdDelete>>
+>
+
+export type WettelijkeTaakLineageIdDeleteMutationError = HTTPValidationError
+
+/**
+ * @summary Delete atemporal object
+ */
+export const useWettelijkeTaakLineageIdDelete = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof wettelijkeTaakLineageIdDelete>>,
+        TError,
+        { lineageId: number },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getWettelijkeTaakLineageIdDeleteMutationOptions(options)
 
     return useMutation(mutationOptions)
 }
@@ -8565,7 +9502,7 @@ export const getWettelijkeTaakValidGetQueryKey = (
 
 export const getWettelijkeTaakValidGetQueryOptions = <
     TData = Awaited<ReturnType<typeof wettelijkeTaakValidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: WettelijkeTaakValidGetParams,
     options?: {
@@ -8602,7 +9539,7 @@ export type WettelijkeTaakValidGetQueryError = HTTPValidationError
  */
 export const useWettelijkeTaakValidGet = <
     TData = Awaited<ReturnType<typeof wettelijkeTaakValidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: WettelijkeTaakValidGetParams,
     options?: {
@@ -8644,7 +9581,7 @@ export const getWettelijkeTaakLatestLineageIdGetQueryKey = (
 
 export const getWettelijkeTaakLatestLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof wettelijkeTaakLatestLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -8682,7 +9619,7 @@ export type WettelijkeTaakLatestLineageIdGetQueryError = HTTPValidationError
  */
 export const useWettelijkeTaakLatestLineageIdGet = <
     TData = Awaited<ReturnType<typeof wettelijkeTaakLatestLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -8727,7 +9664,7 @@ export const getWettelijkeTaakRelationsLineageIdGetQueryKey = (
 
 export const getWettelijkeTaakRelationsLineageIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -8765,7 +9702,7 @@ export type WettelijkeTaakRelationsLineageIdGetQueryError = HTTPValidationError
  */
 export const useWettelijkeTaakRelationsLineageIdGet = <
     TData = Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     lineageId: number,
     options?: {
@@ -8807,7 +9744,7 @@ export const wettelijkeTaakRelationsLineageIdPut = (
 
 export const getWettelijkeTaakRelationsLineageIdPutMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdPut>>,
@@ -8847,7 +9784,7 @@ export type WettelijkeTaakRelationsLineageIdPutMutationError =
  */
 export const useWettelijkeTaakRelationsLineageIdPut = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof wettelijkeTaakRelationsLineageIdPut>>,
@@ -8879,7 +9816,7 @@ export const wettelijkeTaakStaticLineageIdPost = (
 
 export const getWettelijkeTaakStaticLineageIdPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof wettelijkeTaakStaticLineageIdPost>>,
@@ -8919,7 +9856,7 @@ export type WettelijkeTaakStaticLineageIdPostMutationError = HTTPValidationError
  */
 export const useWettelijkeTaakStaticLineageIdPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof wettelijkeTaakStaticLineageIdPost>>,
@@ -8951,7 +9888,7 @@ export const getUsersGetQueryKey = (params?: UsersGetParams) =>
 
 export const getUsersGetQueryOptions = <
     TData = Awaited<ReturnType<typeof usersGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: UsersGetParams,
     options?: {
@@ -8985,7 +9922,7 @@ export type UsersGetQueryError = HTTPValidationError
  */
 export const useUsersGet = <
     TData = Awaited<ReturnType<typeof usersGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: UsersGetParams,
     options?: {
@@ -9028,7 +9965,7 @@ export const getWerkingsgebiedenGetQueryKey = (
 
 export const getWerkingsgebiedenGetQueryOptions = <
     TData = Awaited<ReturnType<typeof werkingsgebiedenGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: WerkingsgebiedenGetParams,
     options?: {
@@ -9065,7 +10002,7 @@ export type WerkingsgebiedenGetQueryError = HTTPValidationError
  */
 export const useWerkingsgebiedenGet = <
     TData = Awaited<ReturnType<typeof werkingsgebiedenGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: WerkingsgebiedenGetParams,
     options?: {
@@ -9105,7 +10042,7 @@ export const searchGeoPost = (
 
 export const getSearchGeoPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof searchGeoPost>>,
@@ -9144,7 +10081,7 @@ export type SearchGeoPostMutationError = HTTPValidationError
  */
 export const useSearchGeoPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof searchGeoPost>>,
@@ -9176,7 +10113,7 @@ export const searchPost = (
 
 export const getSearchPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof searchPost>>,
@@ -9215,7 +10152,7 @@ export type SearchPostMutationError = HTTPValidationError
  */
 export const useSearchPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof searchPost>>,
@@ -9247,7 +10184,7 @@ export const searchValidPost = (
 
 export const getSearchValidPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof searchValidPost>>,
@@ -9286,7 +10223,7 @@ export type SearchValidPostMutationError = HTTPValidationError
  */
 export const useSearchValidPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof searchValidPost>>,
@@ -9315,7 +10252,7 @@ export const getFullGraphGetQueryKey = () => [`/full-graph`] as const
 
 export const getFullGraphGetQueryOptions = <
     TData = Awaited<ReturnType<typeof fullGraphGet>>,
-    TError = unknown
+    TError = unknown,
 >(options?: {
     query?: UseQueryOptions<
         Awaited<ReturnType<typeof fullGraphGet>>,
@@ -9346,7 +10283,7 @@ export type FullGraphGetQueryError = unknown
  */
 export const useFullGraphGet = <
     TData = Awaited<ReturnType<typeof fullGraphGet>>,
-    TError = unknown
+    TError = unknown,
 >(options?: {
     query?: UseQueryOptions<
         Awaited<ReturnType<typeof fullGraphGet>>,
@@ -9385,7 +10322,7 @@ export const getObjectGraphGetQueryKey = (params: ObjectGraphGetParams) =>
 
 export const getObjectGraphGetQueryOptions = <
     TData = Awaited<ReturnType<typeof objectGraphGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params: ObjectGraphGetParams,
     options?: {
@@ -9421,7 +10358,7 @@ export type ObjectGraphGetQueryError = HTTPValidationError
  */
 export const useObjectGraphGet = <
     TData = Awaited<ReturnType<typeof objectGraphGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params: ObjectGraphGetParams,
     options?: {
@@ -9433,6 +10370,160 @@ export const useObjectGraphGet = <
     }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const queryOptions = getObjectGraphGetQueryOptions(params, options)
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary List the public modules
+ */
+export const revisionsGet = (
+    params?: RevisionsGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponsePublicModuleShort>({
+        url: `/revisions`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getRevisionsGetQueryKey = (params?: RevisionsGetParams) =>
+    [`/revisions`, ...(params ? [params] : [])] as const
+
+export const getRevisionsGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof revisionsGet>>,
+    TError = HTTPValidationError,
+>(
+    params?: RevisionsGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof revisionsGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryOptions<Awaited<ReturnType<typeof revisionsGet>>, TError, TData> & {
+    queryKey: QueryKey
+} => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey = queryOptions?.queryKey ?? getRevisionsGetQueryKey(params)
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof revisionsGet>>> = ({
+        signal,
+    }) => revisionsGet(params, signal)
+
+    return { queryKey, queryFn, ...queryOptions }
+}
+
+export type RevisionsGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof revisionsGet>>
+>
+export type RevisionsGetQueryError = HTTPValidationError
+
+/**
+ * @summary List the public modules
+ */
+export const useRevisionsGet = <
+    TData = Awaited<ReturnType<typeof revisionsGet>>,
+    TError = HTTPValidationError,
+>(
+    params?: RevisionsGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof revisionsGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getRevisionsGetQueryOptions(params, options)
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get overview of a public module
+ */
+export const revisionsModuleIdGet = (
+    moduleId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<PublicModuleOverview>({
+        url: `/revisions/${moduleId}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getRevisionsModuleIdGetQueryKey = (moduleId: number) =>
+    [`/revisions/${moduleId}`] as const
+
+export const getRevisionsModuleIdGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof revisionsModuleIdGet>>,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof revisionsModuleIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryOptions<
+    Awaited<ReturnType<typeof revisionsModuleIdGet>>,
+    TError,
+    TData
+> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getRevisionsModuleIdGetQueryKey(moduleId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof revisionsModuleIdGet>>
+    > = ({ signal }) => revisionsModuleIdGet(moduleId, signal)
+
+    return { queryKey, queryFn, enabled: !!moduleId, ...queryOptions }
+}
+
+export type RevisionsModuleIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof revisionsModuleIdGet>>
+>
+export type RevisionsModuleIdGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get overview of a public module
+ */
+export const useRevisionsModuleIdGet = <
+    TData = Awaited<ReturnType<typeof revisionsModuleIdGet>>,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof revisionsModuleIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getRevisionsModuleIdGetQueryOptions(moduleId, options)
 
     const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
         queryKey: QueryKey
@@ -9460,7 +10551,7 @@ export const getModulesGetQueryKey = (params?: ModulesGetParams) =>
 
 export const getModulesGetQueryOptions = <
     TData = Awaited<ReturnType<typeof modulesGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: ModulesGetParams,
     options?: {
@@ -9494,7 +10585,7 @@ export type ModulesGetQueryError = HTTPValidationError
  */
 export const useModulesGet = <
     TData = Awaited<ReturnType<typeof modulesGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: ModulesGetParams,
     options?: {
@@ -9530,7 +10621,7 @@ export const modulesPost = (moduleCreate: ModuleCreate) => {
 
 export const getModulesPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof modulesPost>>,
@@ -9569,7 +10660,7 @@ export type ModulesPostMutationError = HTTPValidationError
  */
 export const useModulesPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof modulesPost>>,
@@ -9599,7 +10690,7 @@ export const getModulesModuleIdGetQueryKey = (moduleId: number) =>
 
 export const getModulesModuleIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof modulesModuleIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     options?: {
@@ -9636,7 +10727,7 @@ export type ModulesModuleIdGetQueryError = HTTPValidationError
  */
 export const useModulesModuleIdGet = <
     TData = Awaited<ReturnType<typeof modulesModuleIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     options?: {
@@ -9675,7 +10766,7 @@ export const modulesModuleIdPost = (
 
 export const getModulesModuleIdPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof modulesModuleIdPost>>,
@@ -9714,7 +10805,7 @@ export type ModulesModuleIdPostMutationError = HTTPValidationError
  */
 export const useModulesModuleIdPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof modulesModuleIdPost>>,
@@ -9740,7 +10831,7 @@ export const modulesModuleIdActivatePost = (moduleId: number) => {
 
 export const getModulesModuleIdActivatePostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof modulesModuleIdActivatePost>>,
@@ -9779,7 +10870,7 @@ export type ModulesModuleIdActivatePostMutationError = HTTPValidationError
  */
 export const useModulesModuleIdActivatePost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof modulesModuleIdActivatePost>>,
@@ -9811,7 +10902,7 @@ export const modulesModuleIdCompletePost = (
 
 export const getModulesModuleIdCompletePostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof modulesModuleIdCompletePost>>,
@@ -9850,7 +10941,7 @@ export type ModulesModuleIdCompletePostMutationError = HTTPValidationError
  */
 export const useModulesModuleIdCompletePost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof modulesModuleIdCompletePost>>,
@@ -9877,7 +10968,7 @@ export const modulesModuleIdClosePost = (moduleId: number) => {
 
 export const getModulesModuleIdClosePostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof modulesModuleIdClosePost>>,
@@ -9916,7 +11007,7 @@ export type ModulesModuleIdClosePostMutationError = HTTPValidationError
  */
 export const useModulesModuleIdClosePost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof modulesModuleIdClosePost>>,
@@ -9949,7 +11040,7 @@ export const getModulesModuleIdStatusGetQueryKey = (moduleId: number) =>
 
 export const getModulesModuleIdStatusGetQueryOptions = <
     TData = Awaited<ReturnType<typeof modulesModuleIdStatusGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     options?: {
@@ -9986,7 +11077,7 @@ export type ModulesModuleIdStatusGetQueryError = HTTPValidationError
  */
 export const useModulesModuleIdStatusGet = <
     TData = Awaited<ReturnType<typeof modulesModuleIdStatusGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     options?: {
@@ -10028,7 +11119,7 @@ export const modulesModuleIdStatusPatch = (
 
 export const getModulesModuleIdStatusPatchMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof modulesModuleIdStatusPatch>>,
@@ -10067,7 +11158,7 @@ export type ModulesModuleIdStatusPatchMutationError = HTTPValidationError
  */
 export const useModulesModuleIdStatusPatch = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof modulesModuleIdStatusPatch>>,
@@ -10099,7 +11190,7 @@ export const modulesModuleIdAddNewObjectPost = (
 
 export const getModulesModuleIdAddNewObjectPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof modulesModuleIdAddNewObjectPost>>,
@@ -10138,7 +11229,7 @@ export type ModulesModuleIdAddNewObjectPostMutationError = HTTPValidationError
  */
 export const useModulesModuleIdAddNewObjectPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof modulesModuleIdAddNewObjectPost>>,
@@ -10170,7 +11261,7 @@ export const modulesModuleIdAddExistingObjectPost = (
 
 export const getModulesModuleIdAddExistingObjectPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof modulesModuleIdAddExistingObjectPost>>,
@@ -10211,7 +11302,7 @@ export type ModulesModuleIdAddExistingObjectPostMutationError =
  */
 export const useModulesModuleIdAddExistingObjectPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof modulesModuleIdAddExistingObjectPost>>,
@@ -10255,7 +11346,7 @@ export const getModulesModuleIdObjectContextObjectTypeLineageIdGetQueryOptions =
                 typeof modulesModuleIdObjectContextObjectTypeLineageIdGet
             >
         >,
-        TError = HTTPValidationError
+        TError = HTTPValidationError,
     >(
         moduleId: number,
         objectType: string,
@@ -10330,7 +11421,7 @@ export const useModulesModuleIdObjectContextObjectTypeLineageIdGet = <
     TData = Awaited<
         ReturnType<typeof modulesModuleIdObjectContextObjectTypeLineageIdGet>
     >,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     objectType: string,
@@ -10459,7 +11550,7 @@ export type ModulesModuleIdObjectContextObjectTypeLineageIdPostMutationError =
  */
 export const useModulesModuleIdObjectContextObjectTypeLineageIdPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<
@@ -10556,7 +11647,7 @@ export type ModulesModuleIdRemoveObjectTypeLineageIdDeleteMutationError =
  */
 export const useModulesModuleIdRemoveObjectTypeLineageIdDelete = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<
@@ -10597,7 +11688,7 @@ export const getModulesModuleIdSnapshotStatusIdGetQueryKey = (
 
 export const getModulesModuleIdSnapshotStatusIdGetQueryOptions = <
     TData = Awaited<ReturnType<typeof modulesModuleIdSnapshotStatusIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     statusId: number,
@@ -10642,7 +11733,7 @@ export type ModulesModuleIdSnapshotStatusIdGetQueryError = HTTPValidationError
  */
 export const useModulesModuleIdSnapshotStatusIdGet = <
     TData = Awaited<ReturnType<typeof modulesModuleIdSnapshotStatusIdGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     moduleId: number,
     statusId: number,
@@ -10690,7 +11781,7 @@ export const getModulesObjectsLatestGetQueryKey = (
 
 export const getModulesObjectsLatestGetQueryOptions = <
     TData = Awaited<ReturnType<typeof modulesObjectsLatestGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: ModulesObjectsLatestGetParams,
     options?: {
@@ -10727,7 +11818,7 @@ export type ModulesObjectsLatestGetQueryError = HTTPValidationError
  */
 export const useModulesObjectsLatestGet = <
     TData = Awaited<ReturnType<typeof modulesObjectsLatestGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: ModulesObjectsLatestGetParams,
     options?: {
@@ -10769,7 +11860,7 @@ export const getObjectsValidGetQueryKey = (params?: ObjectsValidGetParams) =>
 
 export const getObjectsValidGetQueryOptions = <
     TData = Awaited<ReturnType<typeof objectsValidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: ObjectsValidGetParams,
     options?: {
@@ -10806,7 +11897,7 @@ export type ObjectsValidGetQueryError = HTTPValidationError
  */
 export const useObjectsValidGet = <
     TData = Awaited<ReturnType<typeof objectsValidGet>>,
-    TError = HTTPValidationError
+    TError = HTTPValidationError,
 >(
     params?: ObjectsValidGetParams,
     options?: {
@@ -10878,7 +11969,7 @@ export const loginAccessTokenPost = (
 
 export const getLoginAccessTokenPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof loginAccessTokenPost>>,
@@ -10918,7 +12009,7 @@ export type LoginAccessTokenPostMutationError = HTTPValidationError
  */
 export const useLoginAccessTokenPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof loginAccessTokenPost>>,
@@ -10945,7 +12036,7 @@ export const passwordResetPost = (params: PasswordResetPostParams) => {
 
 export const getPasswordResetPostMutationOptions = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof passwordResetPost>>,
@@ -10984,7 +12075,7 @@ export type PasswordResetPostMutationError = HTTPValidationError
  */
 export const usePasswordResetPost = <
     TError = HTTPValidationError,
-    TContext = unknown
+    TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof passwordResetPost>>,
@@ -11009,7 +12100,7 @@ export const getHealthCheckHealthGetQueryKey = () => [`/health`] as const
 
 export const getHealthCheckHealthGetQueryOptions = <
     TData = Awaited<ReturnType<typeof healthCheckHealthGet>>,
-    TError = unknown
+    TError = unknown,
 >(options?: {
     query?: UseQueryOptions<
         Awaited<ReturnType<typeof healthCheckHealthGet>>,
@@ -11042,7 +12133,7 @@ export type HealthCheckHealthGetQueryError = unknown
  */
 export const useHealthCheckHealthGet = <
     TData = Awaited<ReturnType<typeof healthCheckHealthGet>>,
-    TError = unknown
+    TError = unknown,
 >(options?: {
     query?: UseQueryOptions<
         Awaited<ReturnType<typeof healthCheckHealthGet>>,

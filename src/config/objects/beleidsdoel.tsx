@@ -2,16 +2,17 @@ import { Hyperlink } from '@pzh-ui/components'
 import { BullseyeArrow } from '@pzh-ui/icons'
 
 import {
+    useBeleidsdoelStaticLineageIdPost,
     useBeleidsdoelenLatestLineageIdGet,
     useBeleidsdoelenRelationsLineageIdGet,
     useBeleidsdoelenRelationsLineageIdPut,
     useBeleidsdoelenValidGet,
     useBeleidsdoelenValidLineageIdGet,
     useBeleidsdoelenVersionObjectUuidGet,
-    useBeleidsdoelStaticLineageIdPost,
     useModulesModuleIdObjectBeleidsdoelLatestLineageIdGet,
     useModulesModuleIdObjectBeleidsdoelLineageIdPatch,
     useModulesObjectBeleidsdoelActiveLineageIdGet,
+    useRevisionsModuleIdBeleidsdoelVersionObjectUuidGet,
 } from '@/api/fetchers'
 import {
     BeleidsdoelPatch,
@@ -27,12 +28,14 @@ const fetchers = {
     useGetValidLineage: useBeleidsdoelenValidLineageIdGet,
     useGetVersion: useBeleidsdoelenVersionObjectUuidGet,
     useGetLatestLineage: useBeleidsdoelenLatestLineageIdGet,
+    useGetRevision: useRevisionsModuleIdBeleidsdoelVersionObjectUuidGet,
     useGetRelations: useBeleidsdoelenRelationsLineageIdGet,
     usePutRelations: useBeleidsdoelenRelationsLineageIdPut,
     useGetLatestLineageInModule:
         useModulesModuleIdObjectBeleidsdoelLatestLineageIdGet,
     usePatchObjectInModule: useModulesModuleIdObjectBeleidsdoelLineageIdPatch,
     usePatchObject: null,
+    useDeleteObject: null,
     usePostStatic: useBeleidsdoelStaticLineageIdPost,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
@@ -60,6 +63,7 @@ const beleidsdoel: DynamicObject<
         description:
             'De beleidsdoelen geven aan wat de provincie wil bereiken. De beleidsdoelen zijn een uitwerking van de ambities en komen voort uit de begroting.',
         icon: BullseyeArrow,
+        parentType: 'Visie',
     },
     fetchers,
     staticData: [

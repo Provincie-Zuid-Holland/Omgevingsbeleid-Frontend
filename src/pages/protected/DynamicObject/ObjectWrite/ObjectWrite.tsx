@@ -6,7 +6,7 @@ import { useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
-import ObjectDeleteModal from '@/components/Modals/ObjectModals/ObjectDeleteModal/ObjectDeleteModal'
+import ObjectDeleteModal from '@/components/Modals/ObjectModals/ObjectDeleteModal'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 import MutateLayout from '@/templates/MutateLayout'

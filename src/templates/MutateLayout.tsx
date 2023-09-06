@@ -1,7 +1,8 @@
-import { Breadcrumbs } from '@pzh-ui/components'
 import classNames from 'classnames'
 import { ReactNode, useMemo } from 'react'
 import { Helmet } from 'react-helmet'
+
+import { Breadcrumbs } from '@pzh-ui/components'
 
 import { Container } from '@/components/Container'
 import RegulationSidebar from '@/components/Regulations/Sidebar'

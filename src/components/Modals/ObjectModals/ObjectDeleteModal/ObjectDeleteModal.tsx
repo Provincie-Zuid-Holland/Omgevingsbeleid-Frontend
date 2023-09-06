@@ -5,11 +5,13 @@ import {
     OLDModal as Modal,
     Text,
 } from '@pzh-ui/components'
+import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik } from 'formik'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import * as models from '@/config/objects'
 import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
+import { toastNotification } from '@/utils/toastNotification'
 
 interface ObjectDeleteModalProps {
     object?: ModelReturnType
@@ -24,6 +26,9 @@ const ObjectDeleteModal = ({
     isOpen,
     onClose,
 }: ObjectDeleteModalProps) => {
+    const queryClient = useQueryClient()
+    const navigate = useNavigate()
+
     const { objectId } = useParams()
 
     const {
@@ -31,8 +36,11 @@ const ObjectDeleteModal = ({
         singularReadable,
         demonstrative,
         demonstrativeSingular,
+        plural,
     } = model.defaults
-    const { useGetRelations } = model.fetchers
+    const { useGetValid, useGetRelations, useDeleteObject } = model.fetchers
+
+    const { queryKey } = useGetValid(undefined, { query: { enabled: false } })
 
     const { data: relations } = useGetRelations(parseInt(objectId!), {
         query: {
@@ -40,7 +48,22 @@ const ObjectDeleteModal = ({
         },
     })
 
-    const handleDeletion = () => {}
+    const deleteObject = useDeleteObject?.({
+        mutation: {
+            onSuccess: () => {
+                queryClient
+                    .invalidateQueries(queryKey, {
+                        refetchType: 'all',
+                    })
+                    .then(() => navigate(`/muteer/${plural}`))
+
+                toastNotification('objectRemoved')
+            },
+        },
+    })
+
+    const handleDeletion = () =>
+        deleteObject?.mutate({ lineageId: parseInt(objectId!) })
 
     return (
         <Modal
