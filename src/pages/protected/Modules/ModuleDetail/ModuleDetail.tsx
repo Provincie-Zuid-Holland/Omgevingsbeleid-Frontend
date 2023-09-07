@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import {
     Badge,
     Breadcrumbs,
@@ -7,7 +9,6 @@ import {
     Hyperlink,
     Text,
 } from '@pzh-ui/components'
-import { useState } from 'react'
 
 import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
 import Avatar from '@/components/Avatar'
@@ -72,7 +73,7 @@ const ModuleDetail = () => {
     return (
         <MutateLayout title={module.Title} hasOwnBreadcrumbs>
             <div className="col-span-6 mb-6">
-                <div className="flex items-center justify-between mb-4 whitespace-nowrap">
+                <div className="mb-4 flex items-center justify-between whitespace-nowrap">
                     <Breadcrumbs items={breadcrumbPaths} />
                     {(canEditModule || isModuleManager) && (
                         <Hyperlink
@@ -82,23 +83,25 @@ const ModuleDetail = () => {
                     )}
                 </div>
                 <div className="flex items-center justify-between">
-                    <div className="flex-1 w-[85%]">
+                    <div className="w-[85%] flex-1">
                         <div className="flex items-center">
-                            <Heading level="1">{module.Title}</Heading>
+                            <Heading level="1" size="xxl">
+                                {module.Title}
+                            </Heading>
                             <Badge
                                 text={
                                     module.Status?.Status.replace('-', ' ') ||
                                     ''
                                 }
                                 upperCase={false}
-                                className="-mt-2 ml-2"
+                                className="-mt-2 ml-3"
                                 variant={getModuleStatusColor(
                                     module.Status?.Status
                                 )}
                             />
                         </div>
                         <div>
-                            <Text type="body" className="truncate">
+                            <Text className="truncate">
                                 {module.Description}
                             </Text>
                         </div>

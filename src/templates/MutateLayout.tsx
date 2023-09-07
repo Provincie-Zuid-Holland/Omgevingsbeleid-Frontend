@@ -55,7 +55,7 @@ const MutateLayout = ({
 
             <div
                 className={classNames('w-full', {
-                    '-ml-[56px]': hasSidebar,
+                    '-ml-14': hasSidebar,
                 })}>
                 {!!breadcrumbPaths?.length && (
                     <Container>

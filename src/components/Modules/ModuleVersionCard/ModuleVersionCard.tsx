@@ -1,8 +1,9 @@
-import { Button, FormikSelect, Text } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
+
+import { Button, FormikSelect, Text } from '@pzh-ui/components'
 
 import {
     getModulesGetQueryKey,
@@ -86,11 +87,11 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
     )
 
     return (
-        <div className="mb-5 py-4 px-6 bg-pzh-gray-100">
-            <Text type="body" className="mb-2 font-bold text-pzh-blue">
+        <div className="mb-5 bg-pzh-gray-100 px-6 py-4">
+            <Text bold color="text-pzh-blue" className="mb-2">
                 Versie aanmaken
             </Text>
-            <Text type="body" className="mb-3">
+            <Text className="mb-2">
                 Geef aan welke versie de objecten moeten krijgen.
             </Text>
             <Formik
@@ -110,7 +111,7 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
                         <Button
                             type="submit"
                             variant="cta"
-                            className="mt-1"
+                            className="mt-2"
                             isLoading={isSubmitting}
                             isDisabled={isSubmitting}
                             data-testid="module-version-create">

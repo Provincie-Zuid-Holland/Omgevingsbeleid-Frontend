@@ -1,3 +1,7 @@
+import { useFormikContext } from 'formik'
+import debounce from 'lodash.debounce'
+import { useMemo, useState } from 'react'
+
 import {
     FieldInput,
     FieldLabel,
@@ -5,9 +9,6 @@ import {
     Text,
 } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
-import { useFormikContext } from 'formik'
-import debounce from 'lodash.debounce'
-import { useMemo, useState } from 'react'
 
 import AreaPreview from '@/components/AreaPreview'
 import { LoaderSpinner } from '@/components/Loader'
@@ -93,9 +94,9 @@ export const StepOne = ({ data, isLoading }: StepProps) => {
                         />
                     </div>
 
-                    <div className="h-[460px] p-4 border border-pzh-gray-200 rounded-[4px] overflow-y-auto">
+                    <div className="h-[460px] overflow-y-auto rounded border border-pzh-gray-200 p-4">
                         {isLoading ? (
-                            <div className="w-full h-full flex items-center justify-center">
+                            <div className="flex h-full w-full items-center justify-center">
                                 <LoaderSpinner />
                             </div>
                         ) : (
@@ -109,7 +110,7 @@ export const StepOne = ({ data, isLoading }: StepProps) => {
                     </div>
                 </div>
                 <div className="col-span-4 flex flex-col">
-                    <Text type="body-bold" className="mb-2">
+                    <Text bold className="mb-2">
                         Voorbeeld
                     </Text>
 

@@ -1,6 +1,7 @@
+import classNames from 'classnames'
+
 import { Text, Tooltip } from '@pzh-ui/components'
 import { TrashCan } from '@pzh-ui/icons'
-import classNames from 'classnames'
 
 import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import { getObjectActionText } from '@/utils/dynamicObject'
@@ -21,14 +22,14 @@ const ModulePart = ({
 }: ModulePartProps) => (
     <div
         className={classNames(
-            'grid grid-cols-12 px-4 py-1 border-t border-pzh-gray-300',
+            'grid grid-cols-12 border-t border-pzh-gray-300 px-4 py-1',
             {
                 'border-b': isLast,
             }
         )}
         data-testid="module-part">
-        <span className="col-span-3 capitalize truncate">{Object_Type}</span>
-        <Text type="body" className="font-bold col-span-7 truncate">
+        <span className="col-span-3 truncate capitalize">{Object_Type}</span>
+        <Text bold className="col-span-7 truncate">
             {Title}
         </Text>
         <span className="col-span-1 italic">

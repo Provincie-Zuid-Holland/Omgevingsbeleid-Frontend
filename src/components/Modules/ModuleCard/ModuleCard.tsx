@@ -34,8 +34,10 @@ const ModuleCard = (props: Module | ModuleShort) => {
                     )}
                 </div>
             </div>
-            <Heading level="3">{Title}</Heading>
-            <Text className="mb-4 line-clamp-2 text-[16px]">{Description}</Text>
+            <Heading level="3" size="m">
+                {Title}
+            </Heading>
+            <Text className="mb-4 line-clamp-2 text-s">{Description}</Text>
             <div className="mt-auto">
                 {!Closed && (
                     <Button

@@ -1,6 +1,7 @@
+import { useMemo } from 'react'
+
 import { Divider, Heading, Text } from '@pzh-ui/components'
 import { LinkSlash } from '@pzh-ui/icons'
-import { useMemo } from 'react'
 
 import ObjectAcknowledgedRelationPart from '@/components/DynamicObject/ObjectAcknowledgedRelationPart'
 
@@ -30,14 +31,14 @@ export const StepOne = ({
 
             <Divider className="mb-5" />
 
-            <Text type="body-bold">
+            <Text bold>
                 {amount} {amount !== 1 ? pluralCapitalize : singularCapitalize}
             </Text>
 
             {relations?.map((relation, index) => (
                 <div
                     key={`approved-relation-${index}`}
-                    className="flex items-center mt-3">
+                    className="mt-3 flex items-center">
                     <ObjectAcknowledgedRelationPart
                         type="approved"
                         {...relation}

@@ -1,5 +1,6 @@
-import { PenToSquare, Plus, Spinner } from '@pzh-ui/icons'
 import { useMemo } from 'react'
+
+import { PenToSquare, Plus, Spinner } from '@pzh-ui/icons'
 
 import { ReadRelation } from '@/api/fetchers.schemas'
 import { ObjectConnectionModalActions } from '@/components/Modals/ObjectModals/types'
@@ -53,14 +54,12 @@ const ObjectConnectionPart = ({
     )
 
     return (
-        <div className="relative flex justify-between items-center mt-3 pb-4 border-b border-pzh-gray-300">
+        <div className="relative mt-3 flex items-center justify-between border-b border-pzh-gray-300 pb-4">
             <div className="flex items-center">
-                <div className="flex justify-center items-center h-[24px] w-[24px] rounded-full bg-pzh-blue-light/50 text-pzh-blue">
-                    <span className="-mb-[4px] text-[16px] font-bold">
-                        {amount}
-                    </span>
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-pzh-blue-light/50 text-pzh-blue">
+                    <span className="-mb-1 text-s font-bold">{amount}</span>
                 </div>
-                <span className="-mb-[4px] ml-3">
+                <span className="-mb-1 ml-3">
                     {model.defaults.pluralCapitalize}
                 </span>
             </div>
@@ -75,15 +74,15 @@ const ObjectConnectionPart = ({
                 onClick={() => handleButtonClick(amount)}
                 disabled={!canEdit}
                 aria-label={amount === 0 ? 'Toevoegen' : 'Wijzigen'}
-                className="after:content-[' '] after:absolute after:left-0 after:top-0 after:w-full after:h-full">
+                className="after:content-[' '] after:absolute after:left-0 after:top-0 after:h-full after:w-full">
                 {canEdit &&
                     (isLoading ? (
                         <Spinner
                             size={14}
-                            className="text-pzh-gray-600 animate-spin"
+                            className="animate-spin text-pzh-gray-600"
                         />
                     ) : amount === 0 ? (
-                        <div className="w-[18px] h-[18px] bg-pzh-green rounded-full flex items-center justify-center">
+                        <div className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-pzh-green">
                             <Plus size={14} className="text-pzh-white" />
                         </div>
                     ) : (

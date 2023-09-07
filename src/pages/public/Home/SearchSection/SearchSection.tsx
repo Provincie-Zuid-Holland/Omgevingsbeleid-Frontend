@@ -16,7 +16,7 @@ const SearchSection = () => (
             </TabItem>
             <TabItem title="Zoeken op de kaart">
                 <>
-                    <Text type="body" className="mt-4">
+                    <Text className="mt-4">
                         Wil je het beleid en de regelgeving van de provincie op
                         een specifieke locatie raadplegen? Zoek hieronder op een
                         locatie of markeer een punt of vorm op de kaart.
@@ -27,7 +27,7 @@ const SearchSection = () => (
                                 showSearch: false,
                                 showDraw: true,
                             }}
-                            className="w-full rounded border border-gray-300"
+                            className="w-full rounded border border-pzh-gray-300"
                         />
                     </div>
                     <div className="mt-4">

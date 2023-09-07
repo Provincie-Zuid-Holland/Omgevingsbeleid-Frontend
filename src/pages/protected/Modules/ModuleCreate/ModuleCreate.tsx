@@ -1,8 +1,9 @@
-import { Heading } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
+
+import { Heading } from '@pzh-ui/components'
 
 import { getModulesGetQueryKey, useModulesPost } from '@/api/fetchers'
 import { ModuleCreate as ModuleCreateSchema } from '@/api/fetchers.schemas'
@@ -59,7 +60,9 @@ const ModuleCreate = () => {
                         <Form>
                             <div className="grid grid-cols-6 gap-x-10 gap-y-0">
                                 <div className="col-span-6 mb-8">
-                                    <Heading level="1">Module aanmaken</Heading>
+                                    <Heading level="1" size="xxl">
+                                        Module aanmaken
+                                    </Heading>
                                 </div>
                             </div>
 

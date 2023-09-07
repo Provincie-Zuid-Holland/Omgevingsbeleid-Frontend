@@ -1,6 +1,7 @@
-import { FieldLabel, formatDate, FormikRadio, Text } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
+
+import { FieldLabel, FormikRadio, Text, formatDate } from '@pzh-ui/components'
 
 import AreaPreview from '@/components/AreaPreview'
 
@@ -51,7 +52,7 @@ export const StepTwo = ({ data }: StepProps) => {
                 <div className="col-span-5">
                     <FieldLabel name="version" label="Versie" />
 
-                    <div className="h-[460px] p-4 border border-pzh-gray-200 rounded-[4px] overflow-y-auto">
+                    <div className="h-[460px] overflow-y-auto rounded border border-pzh-gray-200 p-4">
                         {options?.map((version, index) => (
                             <div
                                 key={version.UUID}
@@ -66,7 +67,7 @@ export const StepTwo = ({ data }: StepProps) => {
                                     }>
                                     {version.Title}
                                 </FormikRadio>
-                                <span className="text-[16px] ml-[34px]">
+                                <span className="ml-[34px] block text-s">
                                     Laatste update van{' '}
                                     {formatDate(
                                         new Date(version.Modified_Date),
@@ -79,7 +80,7 @@ export const StepTwo = ({ data }: StepProps) => {
                 </div>
 
                 <div className="col-span-4 flex flex-col">
-                    <Text type="body-bold" className="mb-2">
+                    <Text bold className="mb-2">
                         Voorbeeld
                     </Text>
 

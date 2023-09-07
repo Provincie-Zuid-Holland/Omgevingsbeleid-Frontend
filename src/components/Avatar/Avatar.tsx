@@ -1,5 +1,6 @@
-import { Tooltip } from '@pzh-ui/components'
 import classNames from 'classnames'
+
+import { Tooltip } from '@pzh-ui/components'
 
 interface AvatarProps {
     name: string
@@ -20,7 +21,7 @@ const Avatar = ({ name, prefix, className, isSmall }: AvatarProps) => {
             label={
                 prefix ? (
                     <p>
-                        <span className="text-sm font-bold">{prefix}:</span>
+                        <span className="text-s font-bold">{prefix}:</span>
                         <br />
                         {name}
                     </p>
@@ -30,16 +31,14 @@ const Avatar = ({ name, prefix, className, isSmall }: AvatarProps) => {
             }>
             <div
                 className={classNames(
-                    'flex items-center justify-center rounded-full bg-pzh-blue cursor-pointer',
+                    'flex cursor-pointer items-center justify-center rounded-full bg-pzh-blue',
                     {
-                        'w-8 h-8 text-[16px]': isSmall,
-                        'w-[46px] h-[46px]': !isSmall,
+                        'h-8 w-8 text-s': isSmall,
+                        'h-[46px] w-[46px]': !isSmall,
                     },
                     className
                 )}>
-                <span className="-mb-[4px] font-bold text-white">
-                    {initials}
-                </span>
+                <span className="-mb-1 font-bold text-white">{initials}</span>
             </div>
         </Tooltip>
     )

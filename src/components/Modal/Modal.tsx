@@ -22,7 +22,7 @@ const Modal = ({ id, title, children, ...rest }: ModalProps) => {
             onOpenChange={isOpen => !isOpen && setActiveModal(null)}
             title={title}
             {...rest}>
-            <div className="px-8 py-[24px]">
+            <div className="px-8 py-6">
                 {title && (
                     <Heading level="2" className="mb-4">
                         {title}

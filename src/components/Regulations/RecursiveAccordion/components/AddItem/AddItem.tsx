@@ -27,8 +27,8 @@ const AddItem = ({
     }
 
     return (
-        <div className="flex items-center">
-            <span className="text-[16px] text-pzh-blue">
+        <div className="flex items-center gap-4">
+            <span className="text-s text-pzh-blue">
                 Invoegen in {section.defaults.demonstrative}{' '}
                 {section.defaults.singular}:
             </span>
@@ -38,7 +38,6 @@ const AddItem = ({
                 return (
                     <PillButton
                         key={childSection.type}
-                        className="ml-[16px]"
                         onPress={() =>
                             handleAddItem(type, [...parentIndices, index])
                         }>

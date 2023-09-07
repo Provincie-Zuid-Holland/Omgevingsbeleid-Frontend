@@ -1,7 +1,8 @@
-import { Button, Heading, PillButton } from '@pzh-ui/components'
-import { AngleRight, Plus } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useCallback, useState } from 'react'
+
+import { Button, Heading, PillButton } from '@pzh-ui/components'
+import { AngleRight, Plus } from '@pzh-ui/icons'
 
 import regulation from '@/config/regulations'
 import * as sections from '@/config/regulations/sections'
@@ -51,7 +52,7 @@ const Sidebar = () => {
                 <Button
                     variant="default"
                     onPress={toggleSidebar}
-                    className="absolute -right-[12px] top-8 z-10 flex h-[24px] w-[24px] items-center justify-center rounded-full bg-pzh-blue-dark">
+                    className="absolute -right-3 top-8 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-pzh-blue-dark">
                     <span className="sr-only">{`Zijbalk ${
                         expanded ? 'sluiten' : 'openen'
                     }`}</span>
@@ -64,12 +65,12 @@ const Sidebar = () => {
                 </Button>
 
                 <div
-                    className={classNames('overflow-hidden px-4 pb-[96px]', {
-                        'pt-[96px]': !expanded,
+                    className={classNames('overflow-hidden px-4 pb-24', {
+                        'pt-24': !expanded,
                         'pt-[44px]': expanded,
                     })}>
                     {expanded && (
-                        <Heading level="3" className="mb-4">
+                        <Heading level="3" size="s" className="mb-4">
                             {regulation.title}
                         </Heading>
                     )}

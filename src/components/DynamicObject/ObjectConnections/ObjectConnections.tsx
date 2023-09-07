@@ -1,6 +1,7 @@
-import { Heading } from '@pzh-ui/components'
 import { useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom'
+
+import { Heading } from '@pzh-ui/components'
 
 import { ReadRelation } from '@/api/fetchers.schemas'
 import ObjectConnectionModal from '@/components/Modals/ObjectModals/ObjectConnectionModal'
@@ -58,8 +59,10 @@ const ObjectConnections = ({ model }: ObjectConnectionsProps) => {
 
     return (
         <>
-            <div className="mt-8 mb-5">
-                <Heading level="3">Koppelingen</Heading>
+            <div className="mb-5 mt-8">
+                <Heading level="3" size="m">
+                    Koppelingen
+                </Heading>
             </div>
 
             {model.allowedConnections?.map(connection => (

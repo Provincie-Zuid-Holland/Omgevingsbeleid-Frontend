@@ -19,10 +19,10 @@ const DropArea = ({ onDrop, position }: DropAreaProps) => {
             }}
             onDragOver={ev => ev.preventDefault()}
             className={classNames(
-                'after:content-[` `] absolute left-0 z-1 h-2 w-full py-2 transition-[opacity] after:absolute after:h-[4px] after:w-full after:animate-pulse after:bg-pzh-blue-light',
+                'after:content-[` `] absolute left-0 z-1 h-2 w-full py-2 transition-[opacity] after:absolute after:h-1 after:w-full after:animate-pulse after:bg-pzh-blue-light',
                 {
-                    '-top-2 after:top-[8px]': position === 'top',
-                    '-bottom-2 after:bottom-[8px]': position === 'bottom',
+                    '-top-2 after:top-2': position === 'top',
+                    '-bottom-2 after:bottom-2': position === 'bottom',
                     'opacity-100': isVisible,
                     'opacity-0': !isVisible,
                 }

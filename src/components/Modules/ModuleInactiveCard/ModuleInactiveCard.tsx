@@ -8,11 +8,11 @@ interface ModuleInactiveCardProps {
 }
 
 const ModuleInactiveCard = ({ setModuleModal }: ModuleInactiveCardProps) => (
-    <div className="py-4 px-6 bg-pzh-ui-light-blue">
-        <Text type="body" className="mb-2 font-bold">
+    <div className="bg-pzh-ui-light-blue px-8 py-6">
+        <Text bold className="mb-2">
             Module inactief
         </Text>
-        <Text type="body" className="mb-3">
+        <Text className="mb-4">
             Deze module is nog niet actief. Andere gebruikers kunnen deze module
             nog niet zien en kunnen nog geen onderdelen uit deze module
             bewerken.

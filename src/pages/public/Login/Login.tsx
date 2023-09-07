@@ -1,7 +1,8 @@
-import { Heading, Text } from '@pzh-ui/components'
 import classNames from 'classnames'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
+
+import { Heading, Text } from '@pzh-ui/components'
 
 import { Container } from '@/components/Container'
 import LoginForm from '@/components/LoginForm'
@@ -24,10 +25,13 @@ const Login = () => {
                     'min-h-[576px]': !isMobile,
                 })}>
                 <div className="col-span-6 lg:col-span-3 lg:pb-12">
-                    <Heading level="1" className="mt-4 sm:mt-12 lg:mt-16">
+                    <Heading
+                        level="1"
+                        size="xxl"
+                        className="mt-4 sm:mt-12 lg:mt-16">
                         Inloggen
                     </Heading>
-                    <Text type="introduction-paragraph" className="mb-8 mt-3">
+                    <Text size="l" className="mb-8 mt-3">
                         Als beleidsmedewerker van provincie Zuid-Holland kun je
                         hier inloggen om te werken aan het Omgevingsbeleid.
                     </Text>
@@ -39,12 +43,12 @@ const Login = () => {
             </Container>
             <div className="image-login-1 block h-64 w-full bg-pzh-blue bg-cover bg-center bg-no-repeat lg:hidden" />
 
-            <Container className="border-t border-gray-300">
+            <Container className="border-t border-pzh-gray-300">
                 <div className="col-span-6 mt-4 py-4 lg:col-span-3 lg:mt-0 lg:py-12">
-                    <Heading as="2" level="3">
+                    <Heading level="2" size="m">
                         Digitaal Omgevingsbeleid
                     </Heading>
-                    <Text type="body" className="mt-3">
+                    <Text className="mt-3">
                         Provincie Zuid-Holland heeft haar beleid eenvoudiger,
                         transparanter en toegankelijker gemaakt. Via deze
                         website kan je al het Omgevingsbeleid van de provincie
@@ -57,10 +61,10 @@ const Login = () => {
                     </Link>
                 </div>
                 <div className="col-span-6 mb-4 mt-4 py-4 lg:col-span-3 lg:mt-0 lg:py-12">
-                    <Heading as="2" level="3">
+                    <Heading level="2" size="m">
                         Hulp bij het inloggen
                     </Heading>
-                    <Text type="body" className="mt-3">
+                    <Text className="mt-3">
                         Lukt het niet om in te loggen? Neem contact op met de
                         afdeling omgevingsbeleid via{' '}
                         <a

@@ -21,14 +21,16 @@ const PlanningAndReleases = () => (
     <div>
         <Container className="overflow-hidden">
             <div className="col-span-6 mb-0 pt-8 sm:mb-16 lg:col-span-3 lg:mb-0 lg:pt-16">
-                <Heading level="1">Planning & Releases</Heading>
-                <Text type="introduction-paragraph" className="mt-3">
+                <Heading level="1" size="xxl">
+                    Planning & Releases
+                </Heading>
+                <Text size="l" className="mt-3">
                     Digitaal Omgevingsbeleid is altijd in ontwikkeling, benieuwd
                     waar we aan werken? Op deze pagina vind je de recent
                     opgeleverde functionaliteiten en een planning voor de
                     langere termijn.
                 </Text>
-                <Text type="body" className="mt-4 sm:mt-8">
+                <Text className="mt-4 sm:mt-8">
                     Uiteraard vinden wij het fijn om feedback en input te
                     ontvangen. Heb je vragen, ideeën of suggesties? Neem gerust
                     contact op met ons via{' '}
@@ -41,7 +43,7 @@ const PlanningAndReleases = () => (
                 </Text>
             </div>
             <div className="relative col-span-3 hidden min-h-[480px] lg:block">
-                <div className="absolute left-0 top-0 h-[480px] w-[50vw] bg-gray-100 text-center sm:inline-block">
+                <div className="bg-gray-100 absolute left-0 top-0 h-[480px] w-[50vw] text-center sm:inline-block">
                     <img
                         alt=""
                         className="h-full w-full object-cover"
@@ -59,7 +61,7 @@ const PlanningAndReleases = () => (
             <Heading className="col-span-6 mt-6 sm:mt-8" level="2">
                 Belangrijke ontwikkelingen
             </Heading>
-            <Text type="body" className="col-span-6 mt-4">
+            <Text className="col-span-6 mt-4">
                 Ons ontwikkelteam werkt volgens de Agile methodiek, korte
                 iteraties (sprints) waar na elke iteratie iets wordt opgeleverd.
                 Na een aantal sprints wordt er een groter geheel opgeleverd.
@@ -117,7 +119,7 @@ const PlanningAndReleases = () => (
             <Heading className="col-span-6" level="2">
                 Releases
             </Heading>
-            <Text type="body" className="col-span-6 mt-4">
+            <Text className="col-span-6 mt-4">
                 Wanneer er onderdelen ontwikkeld en getest zijn door ons team,
                 dan zetten wij deze nieuwe onderdelen online. Hieronder zie je
                 een overzicht van de releases inclusief de onmschrijving wat er
@@ -180,18 +182,20 @@ const ReleaseListItem = ({
     date,
     items,
 }: ReleaseListItemProps) => (
-    <li className="relative col-span-6 mt-4 border-b border-gray-300 pb-8 sm:mt-8">
+    <li className="relative col-span-6 mt-4 border-b border-pzh-gray-300 pb-8 sm:mt-8">
         <div className="col-span-6 grid grid-cols-6 gap-x-10 gap-y-0">
             <div className="col-span-6 text-pzh-gray-600 lg:col-span-1">
                 {date}
             </div>
             <div className="col-span-6 lg:col-span-5">
-                <Heading className="mt-4 text-pzh-pink-dark lg:mt-0" level="3">
+                <Heading
+                    color="text-pzh-pink-dark"
+                    className="mt-4 lg:mt-0"
+                    level="3"
+                    size="m">
                     {title}
                 </Heading>
-                <Text className="mt-3" type="body">
-                    {description}
-                </Text>
+                <Text className="mt-3">{description}</Text>
                 {Object.keys(items).map(key => (
                     <div key={key} className="mt-6">
                         <span className="inline-block font-bold">{key}</span>
@@ -257,7 +261,7 @@ const OntwikkelingenListItem = ({
             {icon ? icon : <ArrowUpRightFromSquare size={22} />}
         </span>
         <div>
-            <Heading level="3" className="text-pzh-pink-dark">
+            <Heading level="3" size="m" color="text-pzh-pink-dark">
                 {title}
             </Heading>
             <p className="mt-2">{children}</p>

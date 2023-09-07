@@ -95,7 +95,7 @@ const RevisionModal = ({
                 Vergelijk de versies van {prefixSingular} {singularReadable} “
                 {initialObject?.Title}”.
             </Text>
-            <Text type="body-bold" className="mb-2">
+            <Text bold className="mb-2">
                 Welke versies wil je vergelijken?
             </Text>
             <div className="mb-2">

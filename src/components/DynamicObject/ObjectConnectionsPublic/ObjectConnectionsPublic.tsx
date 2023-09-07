@@ -14,7 +14,7 @@ const ObjectConnectionsPublic = ({
     data,
 }: ObjectConnectionsPublicProps) => (
     <div data-section="Koppelingen">
-        <Heading level="2" className="mb-4 text-pzh-blue">
+        <Heading level="2" className="mb-4">
             Koppelingen
         </Heading>
         <Text className="first-letter:capitalize">
@@ -27,7 +27,7 @@ const ObjectConnectionsPublic = ({
 
             return (
                 <div key={connection.type} className="mt-6">
-                    <Heading level="3" className="mb-2">
+                    <Heading level="3" size="m" className="mb-2">
                         {model.defaults.pluralCapitalize}
                     </Heading>
 
@@ -47,7 +47,7 @@ const ObjectConnectionsPublic = ({
                             ))}
                         </ul>
                     ) : (
-                        <span className="text-pzh-gray-600 italic">
+                        <span className="italic text-pzh-gray-600">
                             Er zijn nog geen {model.defaults.plural} gekoppeld
                         </span>
                     )}

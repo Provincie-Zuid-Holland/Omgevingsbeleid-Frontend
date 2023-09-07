@@ -22,10 +22,10 @@ function EnvironmentProgram() {
             <Container className="overflow-hidden pb-20">
                 <div className="col-span-6 lg:col-span-4">
                     <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
-                    <Heading level="1" className="mt-4">
+                    <Heading level="1" size="xxl" className="mt-4">
                         Omgevingsprogramma
                     </Heading>
-                    <Text type="introduction-paragraph" className="mt-3">
+                    <Text size="l" className="mt-3">
                         In het Omgevingsprogramma staat beschreven welke
                         maatregelen de provincie treft om de visie waar te
                         maken. Het Omgevingsprogramma geeft bijvoorbeeld aan
@@ -37,9 +37,7 @@ function EnvironmentProgram() {
                     <Heading level="2" className="mt-8">
                         Verplichte programma’s
                     </Heading>
-                    <Text type="body" className="mt-3">
-                        Tekst aanleveren door Tom
-                    </Text>
+                    <Text className="mt-3">Tekst aanleveren door Tom</Text>
                     <Link
                         className="mt-3 block text-pzh-green underline hover:text-pzh-green-dark"
                         to="/omgevingsprogramma/verplichte-programmas">
@@ -48,7 +46,7 @@ function EnvironmentProgram() {
                     <Heading level="2" className="mt-8">
                         Thematische programma’s
                     </Heading>
-                    <Text type="body" className="mt-3">
+                    <Text className="mt-3">
                         De provincie heeft een aantal beleidsdoelen
                         geformuleerd. Deze beleidsdoelen zijn direct de thema’s
                         voor de thematische programma’s. Een overzicht van alle
@@ -62,7 +60,7 @@ function EnvironmentProgram() {
                     <Heading level="2" className="mt-8">
                         Gebiedsprogramma’s
                     </Heading>
-                    <Text type="body" className="mt-3">
+                    <Text className="mt-3">
                         Maatregelen worden vaak genomen voor een specifieke
                         regio of een gebied. Hierdoor is het mogelijk om een
                         gebiedsprogramma op te stellen. Een lijstje van deze
@@ -76,7 +74,7 @@ function EnvironmentProgram() {
                     <Heading level="2" className="mt-8">
                         Maatregelen
                     </Heading>
-                    <Text type="body" className="mt-3">
+                    <Text className="mt-3">
                         De maatregelen geven aan wat de provincie gaat doen om
                         de keuzes uit te voeren. De maatregelen zijn een
                         uitwerking van de beleidskeuzes en komen voort uit het

@@ -1,6 +1,7 @@
-import { Badge, Text } from '@pzh-ui/components'
 import classNames from 'classnames'
 import { useMemo } from 'react'
+
+import { Badge, Text } from '@pzh-ui/components'
 
 import { ModuleStatus } from '@/api/fetchers.schemas'
 import formatDate from '@/utils/formatDate'
@@ -18,10 +19,12 @@ const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
     )
 
     return (
-        <div data-testid="module-timeline" className="mt-4 sm:mt-0">
-            <Text className="font-bold text-pzh-blue">Tijdlijn</Text>
+        <div data-testid="module-timeline" className="mt-6 sm:mt-0">
+            <Text bold color="text-pzh-blue">
+                Tijdlijn
+            </Text>
 
-            <div className="mt-3">
+            <div className="mt-4">
                 {filteredHistory.map((status, index) => {
                     const hasPeer =
                         index + 1 !== filteredHistory.length &&
@@ -31,9 +34,9 @@ const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
                         <div
                             key={status.ID}
                             className={classNames('flex items-center', {
-                                'mb-4': hasPeer,
+                                'mb-5': hasPeer,
                             })}>
-                            <span className="-mb-[4px] w-[84px] text-[16px]">
+                            <span className="-mb-1 w-[84px] text-s">
                                 {formatDate(
                                     new Date(status.Created_Date + 'Z'),
                                     'dd-MM-yyyy'
@@ -41,7 +44,7 @@ const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
                             </span>
                             <div className="relative mx-2 h-[13px] w-[13px] rounded-full border-2 border-pzh-blue">
                                 {hasPeer && (
-                                    <div className="absolute left-[4px] top-[11px] h-[36px] w-px bg-pzh-blue" />
+                                    <div className="absolute left-1 top-[11px] h-8 w-px bg-pzh-blue" />
                                 )}
                             </div>
 

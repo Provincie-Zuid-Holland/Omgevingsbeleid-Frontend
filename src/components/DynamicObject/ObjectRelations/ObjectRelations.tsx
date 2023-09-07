@@ -1,7 +1,8 @@
-import { Heading } from '@pzh-ui/components'
-import { Plus } from '@pzh-ui/icons'
 import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
+
+import { Heading } from '@pzh-ui/components'
+import { Plus } from '@pzh-ui/icons'
 
 import { RequestAcknowledgedRelation } from '@/api/fetchers.schemas'
 import ObjectRelationApprovedModal from '@/components/Modals/ObjectModals/ObjectRelationApprovedModal'
@@ -91,8 +92,10 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
 
     return (
         <>
-            <div className="mt-8 mb-5 flex justify-between items-center">
-                <Heading level="3">Beleidsrelaties</Heading>
+            <div className="mb-5 mt-8 flex items-center justify-between">
+                <Heading level="3" size="m">
+                    Beleidsrelaties
+                </Heading>
                 {userCanEdit && (
                     <button
                         data-testid="object-relation-add"
@@ -103,7 +106,7 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
                                 isOpen: true,
                             })
                         }
-                        className="w-[18px] h-[18px] bg-pzh-green rounded-full flex items-center justify-center">
+                        className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-pzh-green">
                         <span className="sr-only">
                             Beleidsrelatie toevoegen
                         </span>

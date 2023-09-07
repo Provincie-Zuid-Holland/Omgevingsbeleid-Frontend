@@ -33,7 +33,7 @@ const Navigation = () => {
     return (
         <header
             className={classNames(
-                'top-0 z-[99] h-[96px] w-full border-b border-b-pzh-gray-200',
+                'top-0 z-[99] h-24 w-full border-b border-b-pzh-gray-200',
                 {
                     sticky: !isAdvancedSearchPage,
                     relative: isAdvancedSearchPage,
@@ -54,7 +54,7 @@ const Navigation = () => {
                         }
                         className={classNames('relative', {
                             '-ml-8': !isDesktop,
-                            '-ml-[96px]': isDesktop,
+                            '-ml-24': isDesktop,
                         })}
                         onClick={() => {
                             setIsOpen(false)
@@ -171,7 +171,7 @@ interface LogoProps {
 
 const Logo = ({ type }: LogoProps) => (
     <img
-        className="inline-block h-[96px] object-contain"
+        className="inline-block h-24 object-contain"
         title="Provincie Zuid-Holland, naar de homepage"
         src={type === 'white' ? logoWhite : logoSVG}
         alt="Provincie Zuid-Holland, naar de homepage"

@@ -1,5 +1,6 @@
-import { Text } from '@pzh-ui/components'
 import { useMemo } from 'react'
+
+import { Text } from '@pzh-ui/components'
 
 import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
 import { ModuleModalActions } from '@/components/Modals/ModuleModals/types'
@@ -107,7 +108,7 @@ const ItemList = ({
     hasEditButton,
 }: ItemListProps) => (
     <>
-        <Text type="body" className="font-bold text-pzh-blue">
+        <Text bold color="text-pzh-blue">
             {title}
         </Text>
         {!!objects?.length ? (
@@ -150,7 +151,7 @@ const ItemList = ({
                 })}
             </div>
         ) : (
-            <p className="italic mb-4">{noResultsText}</p>
+            <p className="mb-4 italic">{noResultsText}</p>
         )}
     </>
 )

@@ -9,12 +9,12 @@ interface ModuleCompleteCardProps {
 
 const ModuleCompleteCard = ({ setModuleModal }: ModuleCompleteCardProps) => (
     <div
-        className="mb-5 py-4 px-6 bg-pzh-gray-100"
+        className="mb-5 bg-pzh-gray-100 px-6 py-4"
         data-testid="module-complete-card">
-        <Text type="body" className="mb-2 font-bold text-pzh-blue">
+        <Text className="mb-2" bold color="text-pzh-blue">
             Module afsluiten
         </Text>
-        <Text type="body" className="mb-3">
+        <Text className="mb-3">
             Is er een besluit vastgesteld? Sluit dan de module af.
         </Text>
         <Button

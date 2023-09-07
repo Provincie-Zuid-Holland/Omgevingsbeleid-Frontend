@@ -2500,9 +2500,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.388":
-  version: 0.0.388
-  resolution: "@pzh-ui/components@npm:0.0.388"
+"@pzh-ui/components@npm:^0.0.402":
+  version: 0.0.402
+  resolution: "@pzh-ui/components@npm:0.0.402"
   dependencies:
     "@floating-ui/react": ^0.24.8
     "@headlessui/react": ^1.5.0
@@ -2544,13 +2544,13 @@ __metadata:
     react-table: ^7.8.0
     react-toastify: ^9.1.2
     react-use: ^17.3.2
-  checksum: 4a32407900d1329546f25366ddd78a6c10a18cadf8bf5dc3a6b9d57cdd2af5cdab1fdb5d45dd689476efe86e97cc4dfb65a12a439a4f775eea801ff789cdfa70
+  checksum: ba130b5de87725b2338edd0396a8e797bec5f551f5f521c624b9a2bcbaae18e9aba10d4ca08959f17d9b34a7da4d9aa7d096516b51121d9372e704f9e9dc0cce
   languageName: node
   linkType: hard
 
-"@pzh-ui/config@npm:^0.0.42":
-  version: 0.0.42
-  resolution: "@pzh-ui/config@npm:0.0.42"
+"@pzh-ui/config@npm:^0.0.44":
+  version: 0.0.44
+  resolution: "@pzh-ui/config@npm:0.0.44"
   dependencies:
     "@babel/eslint-parser": ^7.17.0
     "@babel/preset-env": ^7.16.11
@@ -2570,15 +2570,15 @@ __metadata:
     eslint-plugin-react: ^7.29.3
     eslint-plugin-react-hooks: ^4.3.0
     prettier: ^3.0.3
-    prettier-plugin-tailwindcss: ^0.4.1
+    prettier-plugin-tailwindcss: ^0.5.4
     react-toastify: ^9.1.2
-  checksum: bb187e81d4907b693cd2d1d7b028fd149006735ca556583f3ccdc34f3a380c777ca947b58a8b6a2e61260dab1d5ab577a183ffaedb91c048b204bdc2e37ab43d
+  checksum: 2401156ce743022945d5b01bc902a82c2ae88cda86b3f3f7ac23c145e01479177df6affb0c58ec663fd9df8f2788942885e36641bb3935994f833e8b4801843a
   languageName: node
   linkType: hard
 
-"@pzh-ui/css@npm:^0.0.68":
-  version: 0.0.68
-  resolution: "@pzh-ui/css@npm:0.0.68"
+"@pzh-ui/css@npm:^0.0.71":
+  version: 0.0.71
+  resolution: "@pzh-ui/css@npm:0.0.71"
   dependencies:
     "@rollup/plugin-typescript": ^8.3.1
     "@tailwindcss/custom-forms": ^0.2.1
@@ -2587,7 +2587,7 @@ __metadata:
     "@tailwindcss/typography": ^0.5.9
     react-datepicker: ^4.7.0
     react-toastify: ^9.1.2
-  checksum: a6071263e5550ef407b985ad8a03d5bd53fa85ac63b1585c0ec9d2c1ce2d26c217e863d59866d5d4a743fc1b962ccda8ebed10fb08525b529386efb312c8cd0b
+  checksum: f6edbdcba02e6f46407f095ebfdfa5720bb96de798b23d31ba0791a43fd0c6a5159f9522c734bfa0a7ea99f48687f773acfc3e85875b83db8930169dc958cd90
   languageName: node
   linkType: hard
 
@@ -5681,6 +5681,13 @@ __metadata:
   version: 1.19.20
   resolution: "@types/urijs@npm:1.19.20"
   checksum: 9e2e0e5ba19a27bdb5bdd258518082e555500d7efe957f9b09d68d98d99c472d0efa7616ec6e55262514189d8e22e482175576229cbbcf539a72f1e1c20d1df1
+  languageName: node
+  linkType: hard
+
+"@types/uuid@npm:^9.0.3":
+  version: 9.0.3
+  resolution: "@types/uuid@npm:9.0.3"
+  checksum: 3dde198defd71c067dd14b3050a8fe6d1ead5fe94ec318472e2c30a399d13f18941fe66cffabdcac7267177c9de2f975fdee6f0cc87cde610a2578e1ce4cc3af
   languageName: node
   linkType: hard
 
@@ -12521,26 +12528,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-plugin-tailwindcss@npm:^0.4.1":
-  version: 0.4.1
-  resolution: "prettier-plugin-tailwindcss@npm:0.4.1"
+"prettier-plugin-tailwindcss@npm:^0.5.4":
+  version: 0.5.4
+  resolution: "prettier-plugin-tailwindcss@npm:0.5.4"
   peerDependencies:
     "@ianvs/prettier-plugin-sort-imports": "*"
     "@prettier/plugin-pug": "*"
     "@shopify/prettier-plugin-liquid": "*"
     "@shufo/prettier-plugin-blade": "*"
     "@trivago/prettier-plugin-sort-imports": "*"
-    prettier: ^2.2 || ^3.0
+    prettier: ^3.0
     prettier-plugin-astro: "*"
     prettier-plugin-css-order: "*"
     prettier-plugin-import-sort: "*"
     prettier-plugin-jsdoc: "*"
-    prettier-plugin-marko: "*"
     prettier-plugin-organize-attributes: "*"
     prettier-plugin-organize-imports: "*"
     prettier-plugin-style-order: "*"
     prettier-plugin-svelte: "*"
-    prettier-plugin-twig-melody: "*"
   peerDependenciesMeta:
     "@ianvs/prettier-plugin-sort-imports":
       optional: true
@@ -12572,7 +12577,7 @@ __metadata:
       optional: true
     prettier-plugin-twig-melody:
       optional: true
-  checksum: 9bdf3b7c270cc544f6bc38bbb869d3a97afc93de5005eee7272a36f374488731349c9362d2bbe4c83bd2a14b8a7c96cd25b9b682d1bea6dccc5bf08b2d02096c
+  checksum: b4380e03a9f7aaf25f5d352fd145618497b5e9281bbd8c1a43e90a9a72daaf0585f8ac8bf5608e41481441caa4eb568c74556164a384de6a5533a196edab52b0
   languageName: node
   linkType: hard
 
@@ -12897,9 +12902,9 @@ __metadata:
     "@axe-core/react": 4.4.1
     "@faker-js/faker": ^7.6.0
     "@headlessui/react": ^1.5.0
-    "@pzh-ui/components": ^0.0.388
-    "@pzh-ui/config": ^0.0.42
-    "@pzh-ui/css": ^0.0.68
+    "@pzh-ui/components": ^0.0.402
+    "@pzh-ui/config": ^0.0.44
+    "@pzh-ui/css": ^0.0.71
     "@pzh-ui/icons": ^0.0.33
     "@tanstack/react-query": ^4.32.0
     "@testing-library/dom": ^9.3.1
@@ -12923,6 +12928,7 @@ __metadata:
     "@types/react-leaflet": ^2.8.2
     "@types/react-router-dom": ^5.3.2
     "@types/smoothscroll-polyfill": ^0.3.1
+    "@types/uuid": ^9.0.3
     "@vitejs/plugin-react": ^4.0.3
     "@vitest/coverage-v8": ^0.33.0
     add: ^2.0.6

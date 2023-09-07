@@ -1,6 +1,7 @@
+import classNames from 'classnames'
+
 import { Button, Text } from '@pzh-ui/components'
 import { GripDotsVertical, PenToSquare, TrashCan } from '@pzh-ui/icons'
-import classNames from 'classnames'
 
 import { Section, SectionType } from '@/config/regulations/sections/types'
 import useModalStore from '@/store/modalStore'
@@ -40,8 +41,8 @@ const Handle = ({
     }
 
     return (
-        <div className="flex w-full justify-between pr-[16px]">
-            <div className="flex items-center gap-[16px]">
+        <div className="flex w-full justify-between pr-4">
+            <div className="flex items-center gap-4">
                 {isDraggable && expanded && (
                     <GripDotsVertical
                         size={16}
@@ -51,7 +52,7 @@ const Handle = ({
                 <Button
                     variant="default"
                     className={classNames(
-                        'flex h-[24px] min-w-[24px] items-center justify-center rounded-[4px]',
+                        'min-w-6 flex h-6 items-center justify-center rounded',
                         GROUP_VARIANTS[type][1],
                         {
                             'cursor-pointer': !expanded,
@@ -85,7 +86,7 @@ const Handle = ({
                     {section.defaults.singularCapitalize} {index}: {title}
                 </Text>
             </div>
-            <div className="relative z-1 flex items-center gap-[16px]">
+            <div className="relative z-1 flex items-center gap-4">
                 <Button
                     variant="default"
                     onPress={handleDelete}

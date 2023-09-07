@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import htmlDiff from 'node-htmldiff'
 import { useMemo } from 'react'
 
@@ -5,7 +6,6 @@ import { Divider, Heading, Text, getHeadingStyles } from '@pzh-ui/components'
 
 import { LeafletRevisionOverview } from '@/components/Leaflet'
 import { Model, ModelReturnType } from '@/config/objects/types'
-import useBreakpoint from '@/hooks/useBreakpoint'
 import useRevisionStore from '@/store/revisionStore'
 
 import { fields } from '../ObjectContent/ObjectContent'
@@ -23,8 +23,6 @@ const ObjectRevision = ({
     revisionTo,
     latestUUID,
 }: ObjectRevisionProps) => {
-    const { isMobile } = useBreakpoint()
-
     const initialObject = useRevisionStore(state => state.initialObject)
 
     const { compareA, compareB } = useMemo(() => {
@@ -53,13 +51,15 @@ const ObjectRevision = ({
 
     return (
         <div>
-            <Text type="body-bold" className="block">
+            <Text bold className="block">
                 {singularCapitalize}
             </Text>
 
             <h2
-                style={getHeadingStyles('2', isMobile)}
-                className="mb-4 text-pzh-blue"
+                className={classNames(
+                    'mb-4 text-pzh-blue',
+                    getHeadingStyles('l')
+                )}
                 dangerouslySetInnerHTML={{ __html: titleDiff }}
             />
 
@@ -87,7 +87,7 @@ const ObjectRevision = ({
                 <>
                     <Divider className="mb-6 mt-0" />
 
-                    <Heading level="3" className="mb-2">
+                    <Heading level="3" size="m" className="mb-2">
                         Werkingsgebied
                     </Heading>
 
@@ -142,7 +142,7 @@ const Content = ({ title, htmlFrom, htmlTo }: ContentProps) => {
 
     return (
         <>
-            <Text type="body-bold" className="mb-2">
+            <Text bold className="mb-2">
                 {title}
             </Text>
             <p

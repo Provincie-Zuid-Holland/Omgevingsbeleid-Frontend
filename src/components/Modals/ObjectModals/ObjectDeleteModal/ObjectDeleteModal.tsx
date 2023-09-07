@@ -1,3 +1,7 @@
+import { useQueryClient } from '@tanstack/react-query'
+import { Form, Formik } from 'formik'
+import { useNavigate, useParams } from 'react-router-dom'
+
 import {
     Button,
     FormikCheckbox,
@@ -5,9 +9,6 @@ import {
     OLDModal as Modal,
     Text,
 } from '@pzh-ui/components'
-import { useQueryClient } from '@tanstack/react-query'
-import { Form, Formik } from 'formik'
-import { useNavigate, useParams } from 'react-router-dom'
 
 import * as models from '@/config/objects'
 import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
@@ -97,16 +98,17 @@ const ObjectDeleteModal = ({
                                     models[relation.Object_Type as ModelType]
 
                                 return (
-                                    <li
+                                    <Text
+                                        as="li"
                                         key={
                                             relation.Object_Type +
                                             relation.Object_ID
                                         }>
                                         {model.defaults.singularCapitalize}:{' '}
-                                        <span className="font-bold">
+                                        <Text as="span" bold>
                                             {relation.Title}
-                                        </span>
-                                    </li>
+                                        </Text>
+                                    </Text>
                                 )
                             })}
                         </ul>

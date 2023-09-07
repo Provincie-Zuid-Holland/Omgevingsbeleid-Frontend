@@ -1,7 +1,8 @@
-import { Button, FormikInput, Heading } from '@pzh-ui/components'
 import { Form, Formik } from 'formik'
 import { useMemo } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+
+import { Button, FormikInput, Heading } from '@pzh-ui/components'
 
 import Modal from '@/components/Modal'
 import { calculateNewIndex } from '@/components/Regulations/utils'
@@ -50,12 +51,13 @@ const RegulationAddSectionModal = () => {
                 <Form>
                     <Heading
                         level="3"
+                        size="m"
                         className="mb-3"
                         color="text-pzh-blue-dark">
                         Kop van {prefixSingular} {singular}
                     </Heading>
 
-                    <div className="flex gap-[16px]">
+                    <div className="flex gap-4">
                         <div className="w-[160px]">
                             <FormikInput name="label" label="Label" disabled />
                         </div>
@@ -67,7 +69,7 @@ const RegulationAddSectionModal = () => {
                         </div>
                     </div>
 
-                    <div className="mt-6 flex items-center justify-between border-t border-pzh-gray-600 pt-[16px]">
+                    <div className="mt-6 flex items-center justify-between border-t border-pzh-gray-600 pt-4">
                         <Button
                             variant="link"
                             onPress={() => setActiveModal(null)}>

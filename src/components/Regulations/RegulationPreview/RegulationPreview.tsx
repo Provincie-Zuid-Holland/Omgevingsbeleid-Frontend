@@ -1,5 +1,6 @@
-import { Heading, Text } from '@pzh-ui/components'
 import { useMemo } from 'react'
+
+import { Heading, Text } from '@pzh-ui/components'
 
 import * as sections from '@/config/regulations/sections'
 import { Structure } from '@/config/regulations/types'
@@ -48,7 +49,7 @@ const Preview = ({
                     {section.defaults.singularCapitalize} {parentIndex}: {title}
                 </Heading>
             ) : (
-                <Text type="body-bold" color="text-pzh-blue" className="mb-3">
+                <Text bold color="text-pzh-blue" className="mb-3">
                     {section.defaults.singularCapitalize} {index}: {title}
                 </Text>
             )}

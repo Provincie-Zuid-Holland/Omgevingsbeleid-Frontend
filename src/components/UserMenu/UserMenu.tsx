@@ -1,8 +1,9 @@
-import { Divider, Text } from '@pzh-ui/components'
-import { AngleDown, AngleRight, User } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import { Divider, Text } from '@pzh-ui/components'
+import { AngleDown, AngleRight, User } from '@pzh-ui/icons'
 
 import useAuth from '@/hooks/useAuth'
 
@@ -36,7 +37,7 @@ const UserMenu = () => {
                 </button>
                 {isOpen && (
                     <>
-                        <div className="fixed left-0 top-0 z-1 block h-screen w-screen bg-gray-900/40" />
+                        <div className="bg-gray-900/40 fixed left-0 top-0 z-1 block h-screen w-screen" />
                         <DropdownContainer
                             isOpen={isOpen}
                             setIsOpen={setIsOpen}
@@ -45,7 +46,7 @@ const UserMenu = () => {
                                 <strong className="font-bold">
                                     {user?.Gebruikersnaam}
                                 </strong>
-                                <Text type="body-small" className="block">
+                                <Text size="s" className="block">
                                     {user?.Rol}
                                 </Text>
                             </div>
@@ -58,13 +59,13 @@ const UserMenu = () => {
                                         setIsOpen(false)
                                     }}>
                                     <AngleRight className="-mt-1 mr-1" />
-                                    <Text type="body">Wachtwoord wijzigen</Text>
+                                    <Text>Wachtwoord wijzigen</Text>
                                 </button>
                                 <button
                                     onClick={() => signout(() => navigate('/'))}
                                     className="flex items-center">
                                     <AngleRight className="-mt-1 mr-1" />
-                                    <Text type="body">Uitloggen</Text>
+                                    <Text>Uitloggen</Text>
                                 </button>
                             </div>
                         </DropdownContainer>

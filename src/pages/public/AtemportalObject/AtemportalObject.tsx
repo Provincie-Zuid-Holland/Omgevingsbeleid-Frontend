@@ -79,10 +79,7 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
                     />
                 </div>
                 <div className="col-span-6 pt-10 xl:col-span-4 xl:col-start-2">
-                    <Heading
-                        level="1"
-                        color="text-pzh-blue"
-                        className="mb-2 md:mb-4">
+                    <Heading level="1" size="xxl" className="mb-2 md:mb-4">
                         {data.Title}
                     </Heading>
                     <Text className="mb-4 whitespace-pre-line break-words">

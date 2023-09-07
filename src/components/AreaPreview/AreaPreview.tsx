@@ -1,7 +1,8 @@
-import { Text } from '@pzh-ui/components'
 import classNames from 'classnames'
 import { useCallback, useState } from 'react'
 import { useUpdateEffect } from 'react-use'
+
+import { Text } from '@pzh-ui/components'
 
 import { Werkingsgebied } from '@/api/fetchers.schemas'
 
@@ -36,7 +37,7 @@ const AreaPreview = ({ area }: AreaPreviewProps) => {
     useUpdateEffect(() => setAreadLoaded(false), [area?.UUID])
 
     return (
-        <div className="relative z-0 flex w-full items-center justify-center overflow-hidden rounded-[4px] bg-pzh-gray-100 text-center">
+        <div className="relative z-0 flex w-full items-center justify-center overflow-hidden rounded bg-pzh-gray-100 text-center">
             {!area ? (
                 <Text className="text-pzh-gray-600">
                     Selecteer een werkingsgebied

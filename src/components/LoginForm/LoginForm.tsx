@@ -1,3 +1,8 @@
+import { Form, Formik } from 'formik'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
+
 import {
     Button,
     FormikInput,
@@ -5,10 +10,6 @@ import {
     OLDModal as Modal,
     Notification,
 } from '@pzh-ui/components'
-import { Form, Formik } from 'formik'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import useAuth from '@/hooks/useAuth'
 import * as loginForm from '@/validation/loginForm'
@@ -81,7 +82,7 @@ const LoginForm = () => {
                             </Button>
                             <button
                                 type="button"
-                                className="mt-4 cursor-pointer text-sm text-pzh-green underline hover:text-pzh-green-dark sm:ml-4 sm:mt-0"
+                                className="mt-4 cursor-pointer text-s text-pzh-green underline hover:text-pzh-green-dark sm:ml-4 sm:mt-0"
                                 onClick={() =>
                                     setPasswordResetPopup(!passwordResetPopup)
                                 }
@@ -120,7 +121,9 @@ const PopupPasswordForgot = ({
         onClose={togglePopup}
         closeButton
         ariaLabel="Wachtwoord vergeten">
-        <Heading level="3">Wachtwoord vergeten</Heading>
+        <Heading level="3" size="m">
+            Wachtwoord vergeten
+        </Heading>
 
         <Notification className="mb-4 mt-2">
             Binnenkort willen wij het mogelijk maken dat medewerkers van

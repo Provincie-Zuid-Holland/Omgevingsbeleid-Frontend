@@ -1,6 +1,7 @@
-import { Heading, TabItem, Tabs, Text } from '@pzh-ui/components'
 import groupBy from 'lodash.groupby'
 import { useMemo } from 'react'
+
+import { Heading, TabItem, Tabs, Text } from '@pzh-ui/components'
 
 import { useModulesGet, useObjectsValidGet } from '@/api/fetchers'
 import {
@@ -51,7 +52,7 @@ const DashboardUser = () => {
     return (
         <div className="col-span-6">
             <div>
-                <Heading as="2" level="3" className="mb-3">
+                <Heading level="2" size="m" className="mb-4">
                     Modules
                 </Heading>
 
@@ -61,12 +62,12 @@ const DashboardUser = () => {
                     type="module"
                 />
 
-                <div className="grid grid-cols-6 mt-8">
-                    <div className="col-span-6 lg:col-span-3 mb-6">
-                        <Heading level="3" className="mb-4">
+                <div className="mt-8 grid grid-cols-6">
+                    <div className="col-span-6 mb-6 lg:col-span-3">
+                        <Heading level="3" size="m" className="mb-4">
                             Mijn beleid
                         </Heading>
-                        <Text type="body">
+                        <Text>
                             Binnen het digitaal omgevingsbeleid ben jij eigenaar
                             van een aantal beleidsobjecten, hieronder vind je
                             een overzicht van deze onderdelen.
@@ -123,7 +124,7 @@ interface ItemListProps {
 const ItemList = ({ isLoading, items, type }: ItemListProps) => (
     <>
         {isLoading ? (
-            <div className="mt-5 grid gap-9 lg:grid-cols-3 grid-cols-1">
+            <div className="mt-5 grid grid-cols-1 gap-9 lg:grid-cols-3">
                 <LoaderCard height="180" />
                 <LoaderCard height="180" />
                 <LoaderCard height="180" />
@@ -131,7 +132,7 @@ const ItemList = ({ isLoading, items, type }: ItemListProps) => (
         ) : (
             <>
                 {items?.length ? (
-                    <ul className="mt-5 grid gap-9 lg:grid-cols-3 grid-cols-1">
+                    <ul className="mt-5 grid grid-cols-1 gap-9 lg:grid-cols-3">
                         {items.map(item =>
                             'Module_ID' in item &&
                             'Status' in item &&

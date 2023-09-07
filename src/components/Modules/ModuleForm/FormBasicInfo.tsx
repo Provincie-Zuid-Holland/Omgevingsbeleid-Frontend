@@ -1,3 +1,6 @@
+import { useFormikContext } from 'formik'
+import { useMemo } from 'react'
+
 import {
     FormikInput,
     FormikSelect,
@@ -5,8 +8,6 @@ import {
     Heading,
     Text,
 } from '@pzh-ui/components'
-import { useFormikContext } from 'formik'
-import { useMemo } from 'react'
 
 import { useUsersGet } from '@/api/fetchers'
 import { ModuleCreate } from '@/api/fetchers.schemas'
@@ -44,16 +45,16 @@ const FormBasicInfo = () => {
     return (
         <>
             <div className="col-span-6 sm:col-span-2">
-                <Heading as="2" level="3" className="mb-3">
+                <Heading level="2" size="m" className="mb-3">
                     Algemene informatie
                 </Heading>
-                <Text type="body">
+                <Text>
                     De algemene informatie bevat een duidelijke titel en
                     moduletrekkers.
                 </Text>
             </div>
 
-            <div className="col-span-6 pt-[48px] sm:col-span-4">
+            <div className="col-span-6 pt-[42px] sm:col-span-4">
                 <FormikInput
                     name="Title"
                     label="Titel"

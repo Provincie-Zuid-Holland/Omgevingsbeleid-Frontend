@@ -82,7 +82,9 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
                     <Breadcrumbs items={breadcrumbPaths} />
                 </div>
                 <div className="col-span-6 xl:col-span-4 xl:col-start-2">
-                    <Heading level="1">{pluralCapitalize}</Heading>
+                    <Heading level="1" size="xxl">
+                        {pluralCapitalize}
+                    </Heading>
                     <Text className="mt-3 md:mt-4">{description}</Text>
                     <div className="mt-8">
                         <ObjectList

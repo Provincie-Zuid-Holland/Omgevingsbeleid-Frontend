@@ -1,6 +1,7 @@
+import { useMemo, useState } from 'react'
+
 import { Heading, Text } from '@pzh-ui/components'
 import { PenToSquare, Plus, Spinner } from '@pzh-ui/icons'
-import { useMemo, useState } from 'react'
 
 import { UserShort } from '@/api/fetchers.schemas'
 import { LoaderCard } from '@/components/Loader'
@@ -49,7 +50,7 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
     return (
         <>
             <div>
-                <Heading as="2" level="3" className="mb-4">
+                <Heading level="3" size="m" className="mb-4">
                     Algemene informatie
                 </Heading>
 
@@ -104,8 +105,8 @@ interface ItemProps {
 }
 
 const Item = ({ label, user, handleClick, isLoading, canEdit }: ItemProps) => (
-    <div className="mt-3 pb-2 border-b border-pzh-gray-300">
-        <Text type="body-bold">{label}</Text>
+    <div className="mt-3 border-b border-pzh-gray-300 pb-2">
+        <Text bold>{label}</Text>
         <div className="relative flex items-center justify-between">
             {!isLoading ? (
                 <Text className={!user ? 'text-pzh-gray-600' : ''}>
@@ -128,8 +129,8 @@ const Item = ({ label, user, handleClick, isLoading, canEdit }: ItemProps) => (
                         data-testid="object-person-add"
                         aria-label={`${label} toevoegen`}
                         onClick={handleClick}
-                        className="after:content-[' '] after:absolute after:left-0 after:top-0 after:w-full after:h-full">
-                        <div className="w-[18px] h-[18px] bg-pzh-green rounded-full flex items-center justify-center">
+                        className="after:content-[' '] after:absolute after:left-0 after:top-0 after:h-full after:w-full">
+                        <div className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-pzh-green">
                             <Plus size={14} className="text-pzh-white" />
                         </div>
                     </button>
@@ -139,7 +140,7 @@ const Item = ({ label, user, handleClick, isLoading, canEdit }: ItemProps) => (
                         data-testid="object-person-edit"
                         aria-label={`${label} wijzigen`}
                         onClick={handleClick}
-                        className="after:content-[' '] after:absolute after:left-0 after:top-0 after:w-full after:h-full">
+                        className="after:content-[' '] after:absolute after:left-0 after:top-0 after:h-full after:w-full">
                         <PenToSquare size={18} className="text-pzh-green" />
                     </button>
                 ))}

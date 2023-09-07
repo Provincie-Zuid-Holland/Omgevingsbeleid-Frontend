@@ -1,6 +1,7 @@
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
+
+import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 
 import { useGebiedsprogrammasVersionObjectUuidGet } from '@/api/fetchers'
 import { Container } from '@/components/Container'
@@ -37,21 +38,21 @@ function AreaDetail() {
 
     return (
         <div>
-            <Container className="pb-20 overflow-hidden">
+            <Container className="overflow-hidden pb-20">
                 <div className="col-span-6">
                     <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
                 </div>
                 <div className="col-span-6 xl:col-span-4 xl:col-start-2">
-                    <Heading level="1" className="mt-10 mb-3">
+                    <Heading level="1" size="xxl" className="mb-3 mt-10">
                         {data?.Title}
                     </Heading>
-                    <Text className="mb-8 break-words whitespace-pre-line">
+                    <Text className="mb-8 whitespace-pre-line break-words">
                         {data?.Description}
                     </Text>
                     {data?.Image && (
                         <figure>
                             <img src={data.Image} alt={data?.Title} />
-                            <figcaption className="mt-2 text-sm text-pzh-blue-dark">
+                            <figcaption className="mt-2 text-s text-pzh-blue-dark">
                                 Indicatieve weergave gebied ‘{data?.Title}’.
                             </figcaption>
                         </figure>

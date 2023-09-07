@@ -1,3 +1,6 @@
+import { Form, Formik } from 'formik'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
+
 import {
     Button,
     FormikInput,
@@ -5,8 +8,6 @@ import {
     OLDModal as Modal,
     Notification,
 } from '@pzh-ui/components'
-import { Form, Formik } from 'formik'
-import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { usePasswordResetPost } from '@/api/fetchers'
 import { toastNotification } from '@/utils/toastNotification'
@@ -116,6 +117,7 @@ export default function PasswordChangeModal({
                             <Button
                                 type="button"
                                 variant="link"
+                                onPress={() => setOpen(false)}
                                 data-testid="close-password-forget-popup">
                                 Annuleren
                             </Button>
