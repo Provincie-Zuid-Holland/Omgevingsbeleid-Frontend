@@ -11,6 +11,7 @@ pool:
 
 variables:
     subscription: 'dta-omgevingsbeleid'
+    VITE_API_ENV: $(Build.SourceBranchName)
 
 stages:
     - stage: Build
@@ -18,15 +19,29 @@ stages:
       jobs:
           - job:
             steps:
+                # Cache .yarn/cache for faster installs
+                - task: Cache@2
+                  inputs:
+                      key: 'yarn | $(Agent.OS) | yarn.lock'
+                      restoreKeys: |
+                          yarn | $(Agent.OS)
+                          yarn
+                      path: $(Pipeline.Workspace)/.yarn/cache
+                  displayName: Cache dependencies
+
                 - task: NodeTool@0
                   inputs:
-                      versionSpec: '16.x'
+                      versionSpec: '18.x'
                   displayName: Install Node.js
+
+                  # Enable Corepack
+                - script: corepack enable
+                  displayName: 'Enable Corepack'
 
                 - task: CmdLine@2
                   displayName: 'Install dependencies'
                   inputs:
-                      script: yarn install
+                      script: 'yarn --immutable'
 
                 - task: CmdLine@2
                   displayName: Run the tests and generate coverage report
@@ -37,11 +52,6 @@ stages:
                   inputs:
                       codeCoverageTool: Cobertura
                       summaryFileLocation: $(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml
-
-                - task: CmdLine@2
-                  displayName: Set environment variable
-                  inputs:
-                      script: set VITE_API_ENV=$(Build.SourceBranchName)
 
                 - task: CmdLine@2
                   displayName: Build

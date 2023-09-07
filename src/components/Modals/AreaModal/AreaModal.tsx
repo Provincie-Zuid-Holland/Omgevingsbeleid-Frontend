@@ -31,7 +31,7 @@ const AreaModal = ({
 }: AreaModalProps) => {
     const [step, setStep] = useState(initialStep)
 
-    const { data, isLoading } = useWerkingsgebiedenGet(undefined, {
+    const { data, isLoading } = useWerkingsgebiedenGet({ limit: 500 }, {
         query: { enabled: isOpen },
     })
 
