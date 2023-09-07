@@ -46,10 +46,8 @@
     "scripts": {
         "build:css": "npx tailwindcss -i node_modules/@pzh-ui/css/src/tailwind.src.css -o src/css/tailwind.css",
         "watch:css": "npx tailwindcss -i node_modules/@pzh-ui/css/src/tailwind.src.css -o src/css/tailwind.css --watch",
-        "prestart": "npm run-script build:css",
-        "prebuild": "npm run-script build:css --minify",
-        "start": "concurrently \"npm run-script watch:css\" \"vite\"",
-        "build": "tsc && vite build",
+        "start": "npm run-script build:css && concurrently \"npm run-script watch:css\" \"vite\"",
+        "build": "npm run-script build:css --minify && tsc && vite build",
         "serve": "vite preview",
         "format": "prettier --write './src/**/*'",
         "test": "vitest watch",
