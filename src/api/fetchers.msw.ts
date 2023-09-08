@@ -2675,6 +2675,14 @@ export const getBeleidskeuzesVersionObjectUuidGetMock = () => ({
             Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Title: faker.random.word(),
+            Start_Validity: faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                undefined,
+            ]),
+            End_Validity: faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -3017,6 +3025,14 @@ export const getBeleidskeuzesLatestLineageIdGetMock = () => ({
             Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Title: faker.random.word(),
+            Start_Validity: faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                undefined,
+            ]),
+            End_Validity: faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -3582,6 +3598,14 @@ export const getModulesModuleIdObjectBeleidskeuzeLatestLineageIdGetMock =
                     faker.date.past().toISOString().split('.')[0]
                 }Z`,
                 Title: faker.random.word(),
+                Start_Validity: faker.helpers.arrayElement([
+                    `${faker.date.past().toISOString().split('.')[0]}Z`,
+                    undefined,
+                ]),
+                End_Validity: faker.helpers.arrayElement([
+                    `${faker.date.past().toISOString().split('.')[0]}Z`,
+                    undefined,
+                ]),
             },
             undefined,
         ]),
@@ -3950,6 +3974,14 @@ export const getModulesModuleIdObjectBeleidskeuzeVersionObjectUuidGetMock =
                     faker.date.past().toISOString().split('.')[0]
                 }Z`,
                 Title: faker.random.word(),
+                Start_Validity: faker.helpers.arrayElement([
+                    `${faker.date.past().toISOString().split('.')[0]}Z`,
+                    undefined,
+                ]),
+                End_Validity: faker.helpers.arrayElement([
+                    `${faker.date.past().toISOString().split('.')[0]}Z`,
+                    undefined,
+                ]),
             },
             undefined,
         ]),
@@ -4366,6 +4398,14 @@ export const getRevisionsModuleIdBeleidskeuzeVersionObjectUuidGetMock = () => ({
             Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Title: faker.random.word(),
+            Start_Validity: faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                undefined,
+            ]),
+            End_Validity: faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -6990,6 +7030,14 @@ export const getMaatregelenVersionObjectUuidGetMock = () => ({
             Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Title: faker.random.word(),
+            Start_Validity: faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                undefined,
+            ]),
+            End_Validity: faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -7226,6 +7274,14 @@ export const getMaatregelenLatestLineageIdGetMock = () => ({
             Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Title: faker.random.word(),
+            Start_Validity: faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                undefined,
+            ]),
+            End_Validity: faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -7501,6 +7557,14 @@ export const getModulesModuleIdObjectMaatregelLineageIdGetMock = () => ({
                     faker.date.past().toISOString().split('.')[0]
                 }Z`,
                 Title: faker.random.word(),
+                Start_Validity: faker.helpers.arrayElement([
+                    `${faker.date.past().toISOString().split('.')[0]}Z`,
+                    undefined,
+                ]),
+                End_Validity: faker.helpers.arrayElement([
+                    `${faker.date.past().toISOString().split('.')[0]}Z`,
+                    undefined,
+                ]),
             },
             undefined,
         ]),
@@ -7620,6 +7684,14 @@ export const getModulesModuleIdObjectMaatregelLatestLineageIdGetMock = () => ({
             Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Title: faker.random.word(),
+            Start_Validity: faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                undefined,
+            ]),
+            End_Validity: faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -7864,6 +7936,14 @@ export const getModulesModuleIdObjectMaatregelVersionObjectUuidGetMock =
                     faker.date.past().toISOString().split('.')[0]
                 }Z`,
                 Title: faker.random.word(),
+                Start_Validity: faker.helpers.arrayElement([
+                    `${faker.date.past().toISOString().split('.')[0]}Z`,
+                    undefined,
+                ]),
+                End_Validity: faker.helpers.arrayElement([
+                    `${faker.date.past().toISOString().split('.')[0]}Z`,
+                    undefined,
+                ]),
             },
             undefined,
         ]),
@@ -8168,6 +8248,14 @@ export const getRevisionsModuleIdMaatregelVersionObjectUuidGetMock = () => ({
             Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Title: faker.random.word(),
+            Start_Validity: faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                undefined,
+            ]),
+            End_Validity: faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -9000,6 +9088,14 @@ export const getWerkingsgebiedenGetMock = () => ({
         Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
         Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
         Title: faker.random.word(),
+        Start_Validity: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
     })),
 })
 

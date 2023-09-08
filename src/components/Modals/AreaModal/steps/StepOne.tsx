@@ -27,11 +27,12 @@ export const StepOne = ({ data, isLoading }: StepProps) => {
             data &&
             Object.keys(data).map(item => {
                 const amount = data[item].length
-                const firstItem = data[item][0]
-                const label = `${firstItem.Title} (${amount} ${
+                const label = `${item} (${amount} ${
                     amount === 1 ? 'versie' : 'versies'
                 })`
-                const value = firstItem.ID.toString()
+
+                const sortedData = data[item].sort((a, b) => new Date(b.Modified_Date).getTime() - new Date(a.Modified_Date).getTime())
+                const value = sortedData[0].UUID
 
                 return { label, value }
             }),
@@ -62,7 +63,7 @@ export const StepOne = ({ data, isLoading }: StepProps) => {
 
         const selected = Object.keys(data).find(item =>
             data[item].some(
-                item => values.area && item.ID === parseInt(values.area)
+                item => values.area && item.UUID === values.area
             )
         )
 

@@ -391,6 +391,8 @@ export interface Werkingsgebied {
     Created_Date: string
     Modified_Date: string
     Title: string
+    Start_Validity?: string
+    End_Validity?: string
 }
 
 export interface VerplichtProgrammaUUID {
