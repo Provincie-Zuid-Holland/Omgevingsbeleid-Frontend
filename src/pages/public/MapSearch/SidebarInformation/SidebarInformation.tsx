@@ -12,6 +12,7 @@ import useSearchParam from '@/hooks/useSearchParam'
 
 import { MAP_OPTIONS } from '../MapSearch'
 import { handleWerkingsgebiedSelect } from '../utils'
+import groupBy from 'lodash.groupby'
 
 interface SidebarInformationProps {
     mapInstance: Map | null
@@ -36,6 +37,33 @@ const SidebarInformation = ({
         () => data?.results.find(item => item.UUID === paramWerkingsgebied),
         [data, paramWerkingsgebied]
     )
+
+    const options = useMemo(() => {
+        const filteredData = data?.results.filter(
+            item =>
+                !!item.Start_Validity &&
+                !!item.End_Validity &&
+                new Date(item.Start_Validity).getTime() <
+                    new Date().getTime() &&
+                new Date(item.End_Validity).getTime() > new Date().getTime()
+        )
+
+        const grouped = groupBy(filteredData, 'Title')
+        const newest = Object.keys(grouped).map(item => {
+            const label = item
+
+            const sortedData = grouped[item].sort(
+                (a, b) =>
+                    new Date(b.Modified_Date).getTime() -
+                    new Date(a.Modified_Date).getTime()
+            )
+            const value = sortedData[0].UUID
+
+            return { label, value }
+        })
+
+        return newest
+    }, [data])
 
     const goBack = () => {
         navigate(MAP_SEARCH_PAGE)
@@ -132,12 +160,7 @@ const SidebarInformation = ({
                         className="mt-2"
                         id="select-werkingsgebied"
                         name="werkingsgebied"
-                        options={
-                            data.results?.map(item => ({
-                                label: item.Title || '',
-                                value: item.UUID || '',
-                            })) || []
-                        }
+                        options={options}
                         value={
                             (selectedVal && {
                                 label: selectedVal.Title || '',

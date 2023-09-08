@@ -18,13 +18,13 @@ export const StepTwo = ({ data }: StepProps) => {
 
         const selected = Object.keys(data).find(item =>
             data[item].some(
-                item => values.area && item.ID === parseInt(values.area)
+                item => values.area && item.UUID === values.area
             )
         )
 
         if (!selected) return
 
-        return data[selected]
+        return data[selected].sort((a, b) => new Date(b.Modified_Date).getTime() - new Date(a.Modified_Date).getTime())
     }, [data, values.area])
 
     /**
@@ -66,7 +66,7 @@ export const StepTwo = ({ data }: StepProps) => {
                                     }>
                                     {version.Title}
                                 </FormikRadio>
-                                <span className="text-[16px] ml-[34px]">
+                                <span className="text-[16px] ml-[34px] block">
                                     Laatste update van{' '}
                                     {formatDate(
                                         new Date(version.Modified_Date),

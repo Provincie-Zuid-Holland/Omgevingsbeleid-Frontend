@@ -17,7 +17,6 @@ import type {
     UseQueryResult,
     QueryKey,
 } from '@tanstack/react-query'
-
 import type {
     PagedResponseAmbitieBasic,
     HTTPValidationError,
@@ -123,6 +122,9 @@ import type {
     SearchValidPostParams,
     GraphResponse,
     ObjectGraphGetParams,
+    PagedResponsePublicModuleShort,
+    RevisionsGetParams,
+    PublicModuleOverview,
     PagedResponseModule,
     ModulesGetParams,
     ModuleCreatedResponse,
@@ -1237,6 +1239,118 @@ export const useModulesObjectAmbitieActiveLineageIdGet = <
         params,
         options
     )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific ambitie by uuid in a module
+ */
+export const revisionsModuleIdAmbitieVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<AmbitieFull>({
+        url: `/revisions/${moduleId}/ambitie/version/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getRevisionsModuleIdAmbitieVersionObjectUuidGetQueryKey = (
+    moduleId: number,
+    objectUuid: string
+) => [`/revisions/${moduleId}/ambitie/version/${objectUuid}`] as const
+
+export const getRevisionsModuleIdAmbitieVersionObjectUuidGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdAmbitieVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<typeof revisionsModuleIdAmbitieVersionObjectUuidGet>
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryOptions<
+    Awaited<ReturnType<typeof revisionsModuleIdAmbitieVersionObjectUuidGet>>,
+    TError,
+    TData
+> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getRevisionsModuleIdAmbitieVersionObjectUuidGetQueryKey(
+            moduleId,
+            objectUuid
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof revisionsModuleIdAmbitieVersionObjectUuidGet>>
+    > = ({ signal }) =>
+        revisionsModuleIdAmbitieVersionObjectUuidGet(
+            moduleId,
+            objectUuid,
+            signal
+        )
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && objectUuid),
+        ...queryOptions,
+    }
+}
+
+export type RevisionsModuleIdAmbitieVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<ReturnType<typeof revisionsModuleIdAmbitieVersionObjectUuidGet>>
+    >
+export type RevisionsModuleIdAmbitieVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific ambitie by uuid in a module
+ */
+export const useRevisionsModuleIdAmbitieVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdAmbitieVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<typeof revisionsModuleIdAmbitieVersionObjectUuidGet>
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getRevisionsModuleIdAmbitieVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
+            options
+        )
 
     const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
         queryKey: QueryKey
@@ -2380,6 +2494,128 @@ export const useModulesObjectBeleidsdoelActiveLineageIdGet = <
         getModulesObjectBeleidsdoelActiveLineageIdGetQueryOptions(
             lineageId,
             params,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific beleidsdoel by uuid in a module
+ */
+export const revisionsModuleIdBeleidsdoelVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<BeleidsdoelFull>({
+        url: `/revisions/${moduleId}/beleidsdoel/version/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getRevisionsModuleIdBeleidsdoelVersionObjectUuidGetQueryKey = (
+    moduleId: number,
+    objectUuid: string
+) => [`/revisions/${moduleId}/beleidsdoel/version/${objectUuid}`] as const
+
+export const getRevisionsModuleIdBeleidsdoelVersionObjectUuidGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdBeleidsdoelVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdBeleidsdoelVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryOptions<
+    Awaited<
+        ReturnType<typeof revisionsModuleIdBeleidsdoelVersionObjectUuidGet>
+    >,
+    TError,
+    TData
+> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getRevisionsModuleIdBeleidsdoelVersionObjectUuidGetQueryKey(
+            moduleId,
+            objectUuid
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<typeof revisionsModuleIdBeleidsdoelVersionObjectUuidGet>
+        >
+    > = ({ signal }) =>
+        revisionsModuleIdBeleidsdoelVersionObjectUuidGet(
+            moduleId,
+            objectUuid,
+            signal
+        )
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && objectUuid),
+        ...queryOptions,
+    }
+}
+
+export type RevisionsModuleIdBeleidsdoelVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof revisionsModuleIdBeleidsdoelVersionObjectUuidGet>
+        >
+    >
+export type RevisionsModuleIdBeleidsdoelVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific beleidsdoel by uuid in a module
+ */
+export const useRevisionsModuleIdBeleidsdoelVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdBeleidsdoelVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdBeleidsdoelVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getRevisionsModuleIdBeleidsdoelVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
             options
         )
 
@@ -3847,6 +4083,131 @@ export const useModulesObjectsBeleidskeuzeActiveLineageIdGet = <
 }
 
 /**
+ * @summary Get specific beleidskeuze by uuid in a module
+ */
+export const revisionsModuleIdBeleidskeuzeVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<BeleidskeuzeFull>({
+        url: `/revisions/${moduleId}/beleidskeuze/version/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getRevisionsModuleIdBeleidskeuzeVersionObjectUuidGetQueryKey = (
+    moduleId: number,
+    objectUuid: string
+) => [`/revisions/${moduleId}/beleidskeuze/version/${objectUuid}`] as const
+
+export const getRevisionsModuleIdBeleidskeuzeVersionObjectUuidGetQueryOptions =
+    <
+        TData = Awaited<
+            ReturnType<typeof revisionsModuleIdBeleidskeuzeVersionObjectUuidGet>
+        >,
+        TError = HTTPValidationError
+    >(
+        moduleId: number,
+        objectUuid: string,
+        options?: {
+            query?: UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof revisionsModuleIdBeleidskeuzeVersionObjectUuidGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        }
+    ): UseQueryOptions<
+        Awaited<
+            ReturnType<typeof revisionsModuleIdBeleidskeuzeVersionObjectUuidGet>
+        >,
+        TError,
+        TData
+    > & { queryKey: QueryKey } => {
+        const { query: queryOptions } = options ?? {}
+
+        const queryKey =
+            queryOptions?.queryKey ??
+            getRevisionsModuleIdBeleidskeuzeVersionObjectUuidGetQueryKey(
+                moduleId,
+                objectUuid
+            )
+
+        const queryFn: QueryFunction<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdBeleidskeuzeVersionObjectUuidGet
+                >
+            >
+        > = ({ signal }) =>
+            revisionsModuleIdBeleidskeuzeVersionObjectUuidGet(
+                moduleId,
+                objectUuid,
+                signal
+            )
+
+        return {
+            queryKey,
+            queryFn,
+            enabled: !!(moduleId && objectUuid),
+            ...queryOptions,
+        }
+    }
+
+export type RevisionsModuleIdBeleidskeuzeVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof revisionsModuleIdBeleidskeuzeVersionObjectUuidGet>
+        >
+    >
+export type RevisionsModuleIdBeleidskeuzeVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific beleidskeuze by uuid in a module
+ */
+export const useRevisionsModuleIdBeleidskeuzeVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdBeleidskeuzeVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdBeleidskeuzeVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getRevisionsModuleIdBeleidskeuzeVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
  * @summary Get all the valid beleidsregel lineages and shows the latest object of each
  */
 export const beleidsregelsValidGet = (
@@ -4988,6 +5349,131 @@ export const useModulesObjectsBeleidsregelActiveLineageIdGet = <
         getModulesObjectsBeleidsregelActiveLineageIdGetQueryOptions(
             lineageId,
             params,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific beleidsregel by uuid in a module
+ */
+export const revisionsModuleIdBeleidsregelVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<BeleidsregelFull>({
+        url: `/revisions/${moduleId}/beleidsregel/version/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getRevisionsModuleIdBeleidsregelVersionObjectUuidGetQueryKey = (
+    moduleId: number,
+    objectUuid: string
+) => [`/revisions/${moduleId}/beleidsregel/version/${objectUuid}`] as const
+
+export const getRevisionsModuleIdBeleidsregelVersionObjectUuidGetQueryOptions =
+    <
+        TData = Awaited<
+            ReturnType<typeof revisionsModuleIdBeleidsregelVersionObjectUuidGet>
+        >,
+        TError = HTTPValidationError
+    >(
+        moduleId: number,
+        objectUuid: string,
+        options?: {
+            query?: UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof revisionsModuleIdBeleidsregelVersionObjectUuidGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        }
+    ): UseQueryOptions<
+        Awaited<
+            ReturnType<typeof revisionsModuleIdBeleidsregelVersionObjectUuidGet>
+        >,
+        TError,
+        TData
+    > & { queryKey: QueryKey } => {
+        const { query: queryOptions } = options ?? {}
+
+        const queryKey =
+            queryOptions?.queryKey ??
+            getRevisionsModuleIdBeleidsregelVersionObjectUuidGetQueryKey(
+                moduleId,
+                objectUuid
+            )
+
+        const queryFn: QueryFunction<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdBeleidsregelVersionObjectUuidGet
+                >
+            >
+        > = ({ signal }) =>
+            revisionsModuleIdBeleidsregelVersionObjectUuidGet(
+                moduleId,
+                objectUuid,
+                signal
+            )
+
+        return {
+            queryKey,
+            queryFn,
+            enabled: !!(moduleId && objectUuid),
+            ...queryOptions,
+        }
+    }
+
+export type RevisionsModuleIdBeleidsregelVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof revisionsModuleIdBeleidsregelVersionObjectUuidGet>
+        >
+    >
+export type RevisionsModuleIdBeleidsregelVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific beleidsregel by uuid in a module
+ */
+export const useRevisionsModuleIdBeleidsregelVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdBeleidsregelVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdBeleidsregelVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getRevisionsModuleIdBeleidsregelVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
             options
         )
 
@@ -6212,6 +6698,138 @@ export const useModulesObjectsGebiedsprogrammaActiveLineageIdGet = <
 }
 
 /**
+ * @summary Get specific gebiedsprogramma by uuid in a module
+ */
+export const revisionsModuleIdGebiedsprogrammaVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<GebiedsprogrammaFull>({
+        url: `/revisions/${moduleId}/gebiedsprogramma/version/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGetQueryKey =
+    (moduleId: number, objectUuid: string) =>
+        [
+            `/revisions/${moduleId}/gebiedsprogramma/version/${objectUuid}`,
+        ] as const
+
+export const getRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGetQueryOptions =
+    <
+        TData = Awaited<
+            ReturnType<
+                typeof revisionsModuleIdGebiedsprogrammaVersionObjectUuidGet
+            >
+        >,
+        TError = HTTPValidationError
+    >(
+        moduleId: number,
+        objectUuid: string,
+        options?: {
+            query?: UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof revisionsModuleIdGebiedsprogrammaVersionObjectUuidGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        }
+    ): UseQueryOptions<
+        Awaited<
+            ReturnType<
+                typeof revisionsModuleIdGebiedsprogrammaVersionObjectUuidGet
+            >
+        >,
+        TError,
+        TData
+    > & { queryKey: QueryKey } => {
+        const { query: queryOptions } = options ?? {}
+
+        const queryKey =
+            queryOptions?.queryKey ??
+            getRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGetQueryKey(
+                moduleId,
+                objectUuid
+            )
+
+        const queryFn: QueryFunction<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdGebiedsprogrammaVersionObjectUuidGet
+                >
+            >
+        > = ({ signal }) =>
+            revisionsModuleIdGebiedsprogrammaVersionObjectUuidGet(
+                moduleId,
+                objectUuid,
+                signal
+            )
+
+        return {
+            queryKey,
+            queryFn,
+            enabled: !!(moduleId && objectUuid),
+            ...queryOptions,
+        }
+    }
+
+export type RevisionsModuleIdGebiedsprogrammaVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof revisionsModuleIdGebiedsprogrammaVersionObjectUuidGet
+            >
+        >
+    >
+export type RevisionsModuleIdGebiedsprogrammaVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific gebiedsprogramma by uuid in a module
+ */
+export const useRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdGebiedsprogrammaVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdGebiedsprogrammaVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
  * @summary Get all the valid maatregel lineages and shows the latest object of each
  */
 export const maatregelenValidGet = (
@@ -7324,6 +7942,126 @@ export const useModulesObjectsMaatregelActiveLineageIdGet = <
         getModulesObjectsMaatregelActiveLineageIdGetQueryOptions(
             lineageId,
             params,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific maatregel by uuid in a module
+ */
+export const revisionsModuleIdMaatregelVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<MaatregelFull>({
+        url: `/revisions/${moduleId}/maatregel/version/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getRevisionsModuleIdMaatregelVersionObjectUuidGetQueryKey = (
+    moduleId: number,
+    objectUuid: string
+) => [`/revisions/${moduleId}/maatregel/version/${objectUuid}`] as const
+
+export const getRevisionsModuleIdMaatregelVersionObjectUuidGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdMaatregelVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdMaatregelVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryOptions<
+    Awaited<ReturnType<typeof revisionsModuleIdMaatregelVersionObjectUuidGet>>,
+    TError,
+    TData
+> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getRevisionsModuleIdMaatregelVersionObjectUuidGetQueryKey(
+            moduleId,
+            objectUuid
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<typeof revisionsModuleIdMaatregelVersionObjectUuidGet>
+        >
+    > = ({ signal }) =>
+        revisionsModuleIdMaatregelVersionObjectUuidGet(
+            moduleId,
+            objectUuid,
+            signal
+        )
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && objectUuid),
+        ...queryOptions,
+    }
+}
+
+export type RevisionsModuleIdMaatregelVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof revisionsModuleIdMaatregelVersionObjectUuidGet>
+        >
+    >
+export type RevisionsModuleIdMaatregelVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific maatregel by uuid in a module
+ */
+export const useRevisionsModuleIdMaatregelVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdMaatregelVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdMaatregelVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getRevisionsModuleIdMaatregelVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
             options
         )
 
@@ -9631,6 +10369,160 @@ export const useObjectGraphGet = <
     }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const queryOptions = getObjectGraphGetQueryOptions(params, options)
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary List the public modules
+ */
+export const revisionsGet = (
+    params?: RevisionsGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponsePublicModuleShort>({
+        url: `/revisions`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getRevisionsGetQueryKey = (params?: RevisionsGetParams) =>
+    [`/revisions`, ...(params ? [params] : [])] as const
+
+export const getRevisionsGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof revisionsGet>>,
+    TError = HTTPValidationError
+>(
+    params?: RevisionsGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof revisionsGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryOptions<Awaited<ReturnType<typeof revisionsGet>>, TError, TData> & {
+    queryKey: QueryKey
+} => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey = queryOptions?.queryKey ?? getRevisionsGetQueryKey(params)
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof revisionsGet>>> = ({
+        signal,
+    }) => revisionsGet(params, signal)
+
+    return { queryKey, queryFn, ...queryOptions }
+}
+
+export type RevisionsGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof revisionsGet>>
+>
+export type RevisionsGetQueryError = HTTPValidationError
+
+/**
+ * @summary List the public modules
+ */
+export const useRevisionsGet = <
+    TData = Awaited<ReturnType<typeof revisionsGet>>,
+    TError = HTTPValidationError
+>(
+    params?: RevisionsGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof revisionsGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getRevisionsGetQueryOptions(params, options)
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get overview of a public module
+ */
+export const revisionsModuleIdGet = (
+    moduleId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<PublicModuleOverview>({
+        url: `/revisions/${moduleId}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getRevisionsModuleIdGetQueryKey = (moduleId: number) =>
+    [`/revisions/${moduleId}`] as const
+
+export const getRevisionsModuleIdGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof revisionsModuleIdGet>>,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof revisionsModuleIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryOptions<
+    Awaited<ReturnType<typeof revisionsModuleIdGet>>,
+    TError,
+    TData
+> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getRevisionsModuleIdGetQueryKey(moduleId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof revisionsModuleIdGet>>
+    > = ({ signal }) => revisionsModuleIdGet(moduleId, signal)
+
+    return { queryKey, queryFn, enabled: !!moduleId, ...queryOptions }
+}
+
+export type RevisionsModuleIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof revisionsModuleIdGet>>
+>
+export type RevisionsModuleIdGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get overview of a public module
+ */
+export const useRevisionsModuleIdGet = <
+    TData = Awaited<ReturnType<typeof revisionsModuleIdGet>>,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof revisionsModuleIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getRevisionsModuleIdGetQueryOptions(moduleId, options)
 
     const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
         queryKey: QueryKey
