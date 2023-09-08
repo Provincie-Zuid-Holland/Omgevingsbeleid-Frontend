@@ -1,16 +1,13 @@
-import { render, screen, fireEvent } from '@testing-library/react'
-import '@testing-library/jest-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import '@testing-library/jest-dom'
+import { fireEvent, render, screen } from '@testing-library/react'
 
 import PasswordChangeModal from './PasswordChangeModal'
 
 describe('PasswordChangeModal', () => {
     const queryClient = new QueryClient()
 
-    const defaultProps = {
-        isOpen: true,
-        setOpen: vi.fn,
-    }
+    const defaultProps = {}
 
     const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }

@@ -148,7 +148,7 @@ const ModelTile = ({ model }: { model: Model }) => {
         <Link to={`/muteer/${plural}`} data-testid="dashboard-model-tile">
             <div className="group flex items-center justify-between rounded border border-pzh-gray-200 px-6 py-7">
                 <div className="flex items-center">
-                    <Icon size={20} className="mr-3 text-pzh-blue" />
+                    <Icon size={20} className="mr-4 text-pzh-blue" />
                     <Heading level="3" size="s" className="-mb-1.5">
                         {pluralCapitalize}
                     </Heading>

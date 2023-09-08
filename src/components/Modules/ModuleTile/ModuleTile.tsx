@@ -14,7 +14,7 @@ const ModuleTile = ({ Title, Status, Module_ID, Closed }: Module) => {
             to={!Closed ? `/muteer/modules/${Module_ID}` : ''}
             data-testid="dashboard-module-tile">
             <div className="group grid grid-cols-8 rounded border border-pzh-gray-200 p-4">
-                <div className="order-1 col-span-7 sm:col-span-5">
+                <div className="order-1 col-span-7 flex items-center sm:col-span-5">
                     <Heading level="3" size="s">
                         {Title}
                     </Heading>

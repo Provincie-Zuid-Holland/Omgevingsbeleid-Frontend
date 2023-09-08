@@ -154,7 +154,7 @@ const Home = () => {
                 className="pb-3 pt-0 md:pb-6 md:pt-12 lg:flex-col lg:pb-8 lg:pt-16"
                 id="omgevingsvisie-section">
                 <div
-                    className="image-home-2 bg-gray-100 absolute left-0 col-span-6 mb-8 inline-block w-screen bg-cover bg-center bg-no-repeat text-white md:relative md:w-auto lg:col-span-4 lg:hidden"
+                    className="image-home-2 absolute left-0 col-span-6 mb-8 inline-block w-screen bg-pzh-gray-100 bg-cover bg-center bg-no-repeat text-white md:relative md:w-auto lg:col-span-4 lg:hidden"
                     style={responsiveImageHeight}
                 />
                 <div
@@ -187,7 +187,7 @@ const Home = () => {
                     </Text>
                 </div>
                 <div
-                    className="image-home-2 bg-gray-100 col-span-6 hidden bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:inline-block"
+                    className="image-home-2 col-span-6 hidden bg-pzh-gray-100 bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:inline-block"
                     style={responsiveImageHeight}
                 />
             </Container>
@@ -196,7 +196,7 @@ const Home = () => {
                 className="md:py-6 lg:py-8"
                 id="omgevingsprogramma-section">
                 <div
-                    className="image-home-3 bg-gray-100 col-span-6 mb-8 inline-block bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:mb-0"
+                    className="image-home-3 col-span-6 mb-8 inline-block bg-pzh-gray-100 bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:mb-0"
                     style={responsiveImageHeight}
                 />
                 <div className="col-span-6 flex flex-col justify-center lg:col-span-2 ">
@@ -231,7 +231,7 @@ const Home = () => {
                 className="pb-8 lg:pt-16"
                 id="omgevingsverordening-section">
                 <div
-                    className="image-home-4 bg-gray-100 col-span-6 mb-8 inline-block bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:hidden"
+                    className="image-home-4 col-span-6 mb-8 inline-block bg-pzh-gray-100 bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:hidden"
                     style={responsiveImageHeight}
                 />
                 <div className="col-span-6 flex flex-col justify-center lg:col-span-2">
@@ -262,7 +262,7 @@ const Home = () => {
                     </Text>
                 </div>
                 <div
-                    className="image-home-4 bg-gray-100 col-span-6 hidden bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:inline-block"
+                    className="image-home-4 col-span-6 hidden bg-pzh-gray-100 bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:inline-block"
                     style={responsiveImageHeight}
                 />
             </Container>

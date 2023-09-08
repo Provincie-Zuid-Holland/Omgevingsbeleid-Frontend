@@ -1,37 +1,25 @@
 import { Form, Formik } from 'formik'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
-import {
-    Button,
-    FormikInput,
-    Heading,
-    OLDModal as Modal,
-    Notification,
-} from '@pzh-ui/components'
+import { Button, FormikInput, Notification } from '@pzh-ui/components'
 
+import Modal from '@/Modal'
 import { usePasswordResetPost } from '@/api/fetchers'
+import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as passwordReset from '@/validation/passwordReset'
 
 /**
  * A modal to change the users password
- * @param {object} props
- * @param {function} props.setOpen - Function to set the open state of the modal
  */
 
-interface PasswordChangeModalProps {
-    isOpen: boolean
-    setOpen: (state: boolean) => void
-}
+export default function PasswordChangeModal() {
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
-export default function PasswordChangeModal({
-    isOpen,
-    setOpen,
-}: PasswordChangeModalProps) {
     const { isLoading, mutate } = usePasswordResetPost({
         mutation: {
             onSuccess: () => {
-                setOpen(false)
+                setActiveModal(null)
 
                 toastNotification('passwordReset')
             },
@@ -54,16 +42,7 @@ export default function PasswordChangeModal({
     }
 
     return (
-        <Modal
-            open={isOpen}
-            onClose={() => setOpen(false)}
-            ariaLabel="Wachtwoord wijzigen"
-            maxWidth="sm:max-w-[600px]"
-            closeButton>
-            <Heading level="2" className="mb-4">
-                Wachtwoord wijzigen
-            </Heading>
-
+        <Modal id="passwordReset" size="s" title="Wachtwoord wijzigen">
             <Formik
                 initialValues={{
                     currentPassword: '',
@@ -117,7 +96,7 @@ export default function PasswordChangeModal({
                             <Button
                                 type="button"
                                 variant="link"
-                                onPress={() => setOpen(false)}
+                                onPress={() => setActiveModal(null)}
                                 data-testid="close-password-forget-popup">
                                 Annuleren
                             </Button>

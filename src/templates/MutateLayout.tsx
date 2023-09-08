@@ -59,17 +59,17 @@ const MutateLayout = ({
                 })}>
                 {!!breadcrumbPaths?.length && (
                     <Container>
-                        <div className="col-span-6 pb-5 pt-6">
+                        <div className="col-span-6 pb-5 pt-10">
                             <Breadcrumbs items={breadcrumbPaths} />
                         </div>
                     </Container>
                 )}
 
                 <Container
-                    className={classNames('pb-20', {
-                        'pt-10':
+                    className={classNames('pb-20 pt-10', {
+                        'pt-12':
                             !!!breadcrumbPaths?.length && !hasOwnBreadcrumbs,
-                        'pt-6': hasOwnBreadcrumbs,
+                        'pt-10': hasOwnBreadcrumbs,
                     })}>
                     {children}
                 </Container>

@@ -43,7 +43,7 @@ const PlanningAndReleases = () => (
                 </Text>
             </div>
             <div className="relative col-span-3 hidden min-h-[480px] lg:block">
-                <div className="bg-gray-100 absolute left-0 top-0 h-[480px] w-[50vw] text-center sm:inline-block">
+                <div className="absolute left-0 top-0 h-[480px] w-[50vw] bg-pzh-gray-100 text-center sm:inline-block">
                     <img
                         alt=""
                         className="h-full w-full object-cover"

@@ -6,6 +6,7 @@ import { Divider, Text } from '@pzh-ui/components'
 import { AngleDown, AngleRight, User } from '@pzh-ui/icons'
 
 import useAuth from '@/hooks/useAuth'
+import useModalStore from '@/store/modalStore'
 
 import { DropdownContainer } from '../Dropdown'
 import PasswordChangeModal from '../Modals/PasswordChangeModal'
@@ -14,8 +15,9 @@ const UserMenu = () => {
     const { user, signout } = useAuth()
     const navigate = useNavigate()
 
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
     const [isOpen, setIsOpen] = useState(false)
-    const [openModal, setOpenModal] = useState(false)
 
     return (
         <>
@@ -37,7 +39,7 @@ const UserMenu = () => {
                 </button>
                 {isOpen && (
                     <>
-                        <div className="bg-gray-900/40 fixed left-0 top-0 z-1 block h-screen w-screen" />
+                        <div className="fixed left-0 top-0 z-1 block h-screen w-screen bg-pzh-gray-800/30" />
                         <DropdownContainer
                             isOpen={isOpen}
                             setIsOpen={setIsOpen}
@@ -55,7 +57,7 @@ const UserMenu = () => {
                                 <button
                                     className="flex items-center"
                                     onClick={() => {
-                                        setOpenModal(true)
+                                        setActiveModal('passwordReset')
                                         setIsOpen(false)
                                     }}>
                                     <AngleRight className="-mt-1 mr-1" />
@@ -73,7 +75,7 @@ const UserMenu = () => {
                 )}
             </div>
 
-            <PasswordChangeModal isOpen={openModal} setOpen={setOpenModal} />
+            <PasswordChangeModal />
         </>
     )
 }

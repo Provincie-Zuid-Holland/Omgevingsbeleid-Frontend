@@ -42,7 +42,7 @@ const Sidebar = () => {
                 )}>
                 <div
                     className={classNames(
-                        'grid grid-cols-1 gap-2 overflow-hidden px-2 py-10'
+                        'grid grid-cols-1 gap-2 overflow-hidden px-2 py-12'
                     )}>
                     <MenuItem
                         name="Home"

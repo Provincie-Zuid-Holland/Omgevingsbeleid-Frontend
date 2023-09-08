@@ -7,7 +7,7 @@ import {
 import { ModalType } from '@/components/Modals/types'
 import useModalStore from '@/store/modalStore'
 
-interface ModalProps extends ProvidedModalProps {
+interface ModalProps extends Omit<ProvidedModalProps, 'id'> {
     id: ModalType
 }
 

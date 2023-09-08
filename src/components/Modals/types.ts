@@ -1,1 +1,6 @@
-export type ModalType = 'regulationAdd' | 'regulationDelete' | 'revision'
+export type ModalType =
+    | 'regulationAdd'
+    | 'regulationDelete'
+    | 'revision'
+    | 'passwordForget'
+    | 'passwordReset'
