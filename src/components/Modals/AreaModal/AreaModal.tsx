@@ -1,9 +1,9 @@
 import { Button, Heading, OLDModal as Modal } from '@pzh-ui/components'
 import { Form, Formik } from 'formik'
+import groupBy from 'lodash.groupby'
 import { useMemo, useState } from 'react'
 
 import { useWerkingsgebiedenGet } from '@/api/fetchers'
-import { Werkingsgebied } from '@/api/fetchers.schemas'
 
 import { StepOne, StepTwo } from './steps'
 
@@ -31,24 +31,17 @@ const AreaModal = ({
 }: AreaModalProps) => {
     const [step, setStep] = useState(initialStep)
 
-    const { data, isLoading } = useWerkingsgebiedenGet(undefined, {
-        query: { enabled: isOpen },
-    })
+    const { data, isLoading } = useWerkingsgebiedenGet(
+        { limit: 500 },
+        {
+            query: { enabled: isOpen },
+        }
+    )
 
     /**
-     * Group data by ID
+     * Group data by Title
      */
-    const groupedData = useMemo(
-        () =>
-            data?.results.reduce((r, a) => {
-                r[a.ID] = r[a.ID] || []
-                r[a.ID].push(a)
-                return r
-            }, Object.create(null)) as
-                | { [key: number]: Werkingsgebied[] }
-                | undefined,
-        [data]
-    )
+    const groupedData = useMemo(() => groupBy(data?.results, 'Title'), [data])
 
     const CurrentStep = steps[step - 1]
     const isFinalStep = step === 2
