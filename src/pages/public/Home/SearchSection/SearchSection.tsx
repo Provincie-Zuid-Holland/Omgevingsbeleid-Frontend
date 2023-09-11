@@ -7,7 +7,7 @@ import SearchBar from '@/components/SearchBar'
 import { MAP_SEARCH_PAGE } from '@/constants/leaflet'
 
 const SearchSection = () => (
-    <div className="col-span-6 mt-4 bg-pzh-gray-200 px-3 pb-6 pt-3 sm:px-6 lg:col-span-4 lg:mt-0">
+    <div className="col-span-6 mt-4 bg-pzh-gray-200 px-4 pb-8 pt-4 sm:px-6 lg:col-span-4 lg:mt-0">
         <Tabs>
             <TabItem title="Zoeken op tekst">
                 <div className="mt-4">

@@ -5,6 +5,7 @@ import { PenToSquare, Plus, Spinner } from '@pzh-ui/icons'
 import { ReadRelation } from '@/api/fetchers.schemas'
 import { ObjectConnectionModalActions } from '@/components/Modals/ObjectModals/types'
 import { Model } from '@/config/objects/types'
+import useModalStore from '@/store/modalStore'
 
 interface ObjectConnectionPartProps {
     /** Model of relation */
@@ -26,6 +27,8 @@ const ObjectConnectionPart = ({
     isLoading,
     canEdit,
 }: ObjectConnectionPartProps) => {
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
     const handleButtonClick = (amount?: number) => {
         setModal({
             connectionKey: model.defaults.singular,
@@ -40,9 +43,9 @@ const ObjectConnectionPart = ({
                 : {
                       Object_Type: model.defaults.singular,
                   }) as ReadRelation,
-            isOpen: true,
             connectionModel: model,
         })
+        setActiveModal('objectAddConnection')
     }
 
     /**

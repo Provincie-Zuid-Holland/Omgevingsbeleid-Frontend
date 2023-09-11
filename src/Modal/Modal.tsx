@@ -9,9 +9,10 @@ import useModalStore from '@/store/modalStore'
 
 interface ModalProps extends Omit<ProvidedModalProps, 'id'> {
     id: ModalType
+    hideTitle?: boolean
 }
 
-const Modal = ({ id, title, children, ...rest }: ModalProps) => {
+const Modal = ({ id, title, hideTitle, children, ...rest }: ModalProps) => {
     const isOpen = useModalStore(state => state.activeModal === id)
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
@@ -22,7 +23,7 @@ const Modal = ({ id, title, children, ...rest }: ModalProps) => {
             title={title}
             {...rest}>
             <div className="px-8 py-6">
-                {title && (
+                {title && !hideTitle && (
                     <Heading level="2" className="mb-4">
                         {title}
                     </Heading>

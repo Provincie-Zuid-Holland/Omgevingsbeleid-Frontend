@@ -82,10 +82,10 @@ const FieldSelectArea = ({
             ) : (
                 <div className="mt-4 w-full rounded border border-pzh-gray-600 p-2">
                     <div className="grid grid-cols-9 gap-4">
-                        <div className="col-span-9 p-2 md:col-span-3">
+                        <div className="col-span-9 p-4 md:col-span-3">
                             <Text bold>Gekoppeld werkingsgebied</Text>
 
-                            <div className="mt-5 rounded border border-pzh-gray-200 p-2">
+                            <div className="mt-6 rounded border border-pzh-gray-200 p-2">
                                 <div className="flex items-start justify-between">
                                     <p className="font-bold leading-5">
                                         {area?.Title}

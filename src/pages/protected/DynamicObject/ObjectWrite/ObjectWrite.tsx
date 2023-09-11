@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { FormikHelpers } from 'formik'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { Button, Heading } from '@pzh-ui/components'
@@ -10,6 +10,7 @@ import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import ObjectDeleteModal from '@/components/Modals/ObjectModals/ObjectDeleteModal'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
+import useModalStore from '@/store/modalStore'
 import MutateLayout from '@/templates/MutateLayout'
 import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
@@ -22,8 +23,9 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
     const queryClient = useQueryClient()
     const navigate = useNavigate()
 
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
     const { objectId } = useParams()
-    const [deleteModalOpen, setDeleteModalOpen] = useState(false)
 
     const { singularCapitalize, plural, pluralCapitalize } = model.defaults
     const {
@@ -156,7 +158,7 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
                     <Button
                         variant="secondary"
                         icon={TrashCan}
-                        onPress={() => setDeleteModalOpen(true)}>
+                        onPress={() => setActiveModal('objectDelete')}>
                         {singularCapitalize} verwijderen
                     </Button>
                 </div>
@@ -170,12 +172,7 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
                 />
             </div>
 
-            <ObjectDeleteModal
-                object={data}
-                model={model}
-                isOpen={deleteModalOpen}
-                onClose={() => setDeleteModalOpen(false)}
-            />
+            <ObjectDeleteModal object={data} model={model} />
         </MutateLayout>
     )
 }

@@ -21,8 +21,7 @@ import {
     ModuleLockModal,
     ModuleObjectDeleteConfirmationModal,
 } from '@/components/Modals/ModuleModals'
-import { ModuleModalActions } from '@/components/Modals/ModuleModals/types'
-import ModuleCompleteCard from '@/components/Modules/ModuleCompleteCard/ModuleCompleteCard'
+import ModuleCompleteCard from '@/components/Modules/ModuleCompleteCard'
 import ModuleInactiveCard from '@/components/Modules/ModuleInactiveCard'
 import ModuleItemList from '@/components/Modules/ModuleItemList'
 import ModuleLock from '@/components/Modules/ModuleLock'
@@ -31,11 +30,19 @@ import ModuleVersionCard from '@/components/Modules/ModuleVersionCard'
 import useModule from '@/hooks/useModule'
 import useModuleManagers from '@/hooks/useModuleManagers'
 import usePermissions from '@/hooks/usePermissions'
+import useModalStore from '@/store/modalStore'
 import MutateLayout from '@/templates/MutateLayout'
 import getModuleStatusColor from '@/utils/getModuleStatusColor'
 import * as modules from '@/validation/modules'
 
+export interface ModuleContext {
+    object?: ModuleObjectShort
+    module?: Module
+}
+
 const ModuleDetail = () => {
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
     const {
         canEditModule,
         canPatchModuleStatus,
@@ -44,9 +51,7 @@ const ModuleDetail = () => {
     } = usePermissions()
     const pathName = location.pathname || ''
 
-    const [moduleModal, setModuleModal] = useState<ModuleModalActions>({
-        isOpen: false,
-    })
+    const [moduleContext, setModuleContext] = useState<ModuleContext>({})
 
     const {
         data: {
@@ -72,7 +77,7 @@ const ModuleDetail = () => {
 
     return (
         <MutateLayout title={module.Title} hasOwnBreadcrumbs>
-            <div className="col-span-6 mb-6">
+            <div className="col-span-6 mb-8">
                 <div className="mb-4 flex items-center justify-between whitespace-nowrap">
                     <Breadcrumbs items={breadcrumbPaths} />
                     {(canEditModule || isModuleManager) && (
@@ -83,7 +88,7 @@ const ModuleDetail = () => {
                     )}
                 </div>
                 <div className="flex items-center justify-between">
-                    <div className="w-[85%] flex-1">
+                    <div className="w-[85%] flex-1 pr-4">
                         <div className="flex items-center">
                             <Heading level="1" size="xxl">
                                 {module.Title}
@@ -94,7 +99,7 @@ const ModuleDetail = () => {
                                     ''
                                 }
                                 upperCase={false}
-                                className="-mt-2 ml-3"
+                                className="-mt-2 ml-3 truncate"
                                 variant={getModuleStatusColor(
                                     module.Status?.Status
                                 )}
@@ -119,9 +124,9 @@ const ModuleDetail = () => {
                     </div>
                 </div>
                 {module.Activated ? (
-                    <ModuleLock setModuleModal={setModuleModal} />
+                    <ModuleLock />
                 ) : (
-                    <Divider className="mt-3" />
+                    <Divider className="mt-4" />
                 )}
             </div>
 
@@ -129,19 +134,14 @@ const ModuleDetail = () => {
                 <ModuleItemList
                     objects={objects}
                     module={module}
-                    setModuleModal={setModuleModal}
+                    setModuleContext={setModuleContext}
                 />
 
                 {(canAddExistingObjectToModule || canAddNewObjectToModule) &&
                     !isLocked && (
                         <Button
                             variant="link"
-                            onPress={() =>
-                                setModuleModal({
-                                    isOpen: true,
-                                    action: 'addContents',
-                                })
-                            }
+                            onPress={() => setActiveModal('moduleAddObject')}
                             className="block text-pzh-green hover:text-pzh-green-dark">
                             Onderdeel toevoegen
                         </Button>
@@ -151,7 +151,7 @@ const ModuleDetail = () => {
             <div className="col-span-6 lg:col-span-2">
                 {!module.Activated &&
                     (canPatchModuleStatus || isModuleManager) && (
-                        <ModuleInactiveCard setModuleModal={setModuleModal} />
+                        <ModuleInactiveCard />
                     )}
 
                 {module.Activated &&
@@ -162,7 +162,7 @@ const ModuleDetail = () => {
                     )}
 
                 {canComplete && isLocked && canPatchModuleStatus && (
-                    <ModuleCompleteCard setModuleModal={setModuleModal} />
+                    <ModuleCompleteCard />
                 )}
 
                 {module.Activated && statusHistory && (
@@ -170,26 +170,19 @@ const ModuleDetail = () => {
                 )}
             </div>
 
-            <Modals
-                moduleModal={moduleModal}
-                setModuleModal={setModuleModal}
-                module={module}
-            />
+            <Modals moduleContext={moduleContext} module={module} />
         </MutateLayout>
     )
 }
 
 interface ModalsProps {
     module: Module
-    moduleModal: ModuleModalActions
-    setModuleModal: (e: ModuleModalActions) => void
+    moduleContext: ModuleContext
 }
 
-const Modals = ({ moduleModal, setModuleModal, module }: ModalsProps) => (
+const Modals = ({ moduleContext, module }: ModalsProps) => (
     <>
         <ModuleContentsModal
-            isOpen={moduleModal.isOpen && moduleModal.action === 'addContents'}
-            onClose={() => setModuleModal({ isOpen: false })}
             initialStep={1}
             initialValues={{
                 ...modules.EMPTY_MODULE_OBJECT,
@@ -198,35 +191,20 @@ const Modals = ({ moduleModal, setModuleModal, module }: ModalsProps) => (
             module={module}
         />
 
-        <ModuleActivateModal
-            isOpen={moduleModal.isOpen && moduleModal.action === 'activate'}
-            onClose={() => setModuleModal({ isOpen: false })}
-        />
+        <ModuleActivateModal />
 
-        <ModuleLockModal
-            isOpen={moduleModal.isOpen && moduleModal.action === 'lock'}
-            onClose={() => setModuleModal({ isOpen: false })}
-        />
+        <ModuleLockModal />
 
         <ModuleEditObjectModal
-            isOpen={moduleModal.isOpen && moduleModal.action === 'editObject'}
-            onClose={() => setModuleModal({ ...moduleModal, isOpen: false })}
-            object={moduleModal.object || ({} as ModuleObjectShort)}
+            object={moduleContext.object || ({} as ModuleObjectShort)}
         />
 
         <ModuleObjectDeleteConfirmationModal
-            isOpen={moduleModal.isOpen && moduleModal.action === 'deleteObject'}
-            onClose={() => setModuleModal({ ...moduleModal, isOpen: false })}
-            object={moduleModal.object || ({} as ModuleObjectShort)}
+            object={moduleContext.object || ({} as ModuleObjectShort)}
             module={module}
         />
 
-        <ModuleCompleteModal
-            isOpen={
-                moduleModal.isOpen && moduleModal.action === 'completeModule'
-            }
-            onClose={() => setModuleModal({ ...moduleModal, isOpen: false })}
-        />
+        <ModuleCompleteModal />
     </>
 )
 

@@ -1,22 +1,22 @@
-import { Button, Heading, OLDModal as Modal, Text } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 
+import { Button, Text } from '@pzh-ui/components'
+
+import Modal from '@/Modal'
 import {
     getModulesGetQueryKey,
     getModulesModuleIdGetQueryKey,
     useModulesModuleIdActivatePost,
 } from '@/api/fetchers'
+import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 
-interface ModuleActivateModalProps {
-    isOpen: boolean
-    onClose: () => void
-}
-
-const ModuleActivateModal = ({ isOpen, onClose }: ModuleActivateModalProps) => {
+const ModuleActivateModal = () => {
     const queryClient = useQueryClient()
     const { moduleId } = useParams()
+
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     /**
      * Activate module
@@ -31,7 +31,7 @@ const ModuleActivateModal = ({ isOpen, onClose }: ModuleActivateModalProps) => {
                     queryClient.invalidateQueries(
                         getModulesModuleIdGetQueryKey(parseInt(moduleId!))
                     ),
-                ]).then(() => onClose())
+                ]).then(() => setActiveModal(null))
 
                 toastNotification('moduleActivate')
             },
@@ -39,15 +39,7 @@ const ModuleActivateModal = ({ isOpen, onClose }: ModuleActivateModalProps) => {
     })
 
     return (
-        <Modal
-            open={isOpen}
-            onClose={onClose}
-            ariaLabel="Module activeren"
-            maxWidth="sm:max-w-[812px]">
-            <Heading level="2" className="mb-4">
-                Module activeren
-            </Heading>
-
+        <Modal id="moduleActivate" title="Module activeren">
             <Text>
                 Wanneer je de module activeert, zal de module zichtbaar worden
                 voor alle behandelend ambtenaren die zijn aangewezen als
@@ -55,7 +47,7 @@ const ModuleActivateModal = ({ isOpen, onClose }: ModuleActivateModalProps) => {
             </Text>
 
             <div className="mt-6 flex items-center justify-between">
-                <Button variant="link" onPress={onClose}>
+                <Button variant="link" onPress={() => setActiveModal(null)}>
                     Annuleren
                 </Button>
                 <Button

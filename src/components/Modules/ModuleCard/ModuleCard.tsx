@@ -14,7 +14,7 @@ const ModuleCard = (props: Module | ModuleShort) => {
         <li
             className="flex h-full flex-col rounded border border-pzh-gray-200 p-5"
             data-testid="module-card">
-            <div className="mb-3 flex flex-wrap items-center justify-between">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                 <Badge
                     text={Status?.Status.replace('-', ' ') || ''}
                     variant={getModuleStatusColor(Status?.Status)}

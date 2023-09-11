@@ -78,7 +78,7 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
         <MutateLayout title={pluralCapitalize} breadcrumbs={breadcrumbPaths}>
             <div className="col-span-6">
                 <div className="mb-6 flex items-center justify-between">
-                    <Heading>{pluralCapitalize}</Heading>
+                    <Heading size="xxl">{pluralCapitalize}</Heading>
                     {atemporal && canCreateModule ? (
                         <Button
                             as="a"

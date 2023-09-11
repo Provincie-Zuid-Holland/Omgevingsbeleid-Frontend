@@ -13,6 +13,7 @@ import { ObjectRelationModalActions } from '@/components/Modals/ObjectModals/typ
 import { Model } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import usePermissions from '@/hooks/usePermissions'
+import useModalStore from '@/store/modalStore'
 
 import ObjectRelationPart from '../ObjectRelationPart'
 
@@ -23,9 +24,9 @@ interface ObjectRelationsProps {
 const ObjectRelations = ({ model }: ObjectRelationsProps) => {
     const { objectId } = useParams()
 
-    const [modal, setModal] = useState<ObjectRelationModalActions>({
-        isOpen: false,
-    })
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
+    const [modal, setModal] = useState<ObjectRelationModalActions>({})
 
     const { canCreateModule, canPatchObjectInModule } = usePermissions()
     const { isOwner, data: objectData } = useObject()
@@ -99,13 +100,13 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
                 {userCanEdit && (
                     <button
                         data-testid="object-relation-add"
-                        onClick={() =>
+                        onClick={() => {
                             setModal({
                                 ...modal,
                                 action: 'add',
-                                isOpen: true,
                             })
-                        }
+                            setActiveModal('objectRelationAdd')
+                        }}
                         className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-pzh-green">
                         <span className="sr-only">
                             Beleidsrelatie toevoegen
@@ -120,13 +121,13 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
                 isLoading={isLoading}
                 canEdit={userCanEdit}
                 amount={approved?.length}
-                onClick={() =>
+                onClick={() => {
                     setModal({
                         ...modal,
                         action: 'approved',
-                        isOpen: true,
                     })
-                }
+                    setActiveModal('objectRelationApproved')
+                }}
             />
 
             <ObjectRelationPart
@@ -134,13 +135,13 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
                 isLoading={isLoading}
                 canEdit={userCanEdit}
                 amount={sent?.length}
-                onClick={() =>
+                onClick={() => {
                     setModal({
                         ...modal,
                         action: 'sent',
-                        isOpen: true,
                     })
-                }
+                    setActiveModal('objectRelationSent')
+                }}
             />
 
             <ObjectRelationPart
@@ -149,18 +150,17 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
                 canEdit={userCanEdit}
                 amount={received?.length}
                 hasNotification={received && received.length > 0}
-                onClick={() =>
+                onClick={() => {
                     setModal({
                         ...modal,
                         action: 'received',
-                        isOpen: true,
                     })
-                }
+                    setActiveModal('objectRelationReceived')
+                }}
             />
 
             <ObjectRelationNewModal
                 model={model}
-                onClose={() => setModal({ ...modal, isOpen: false })}
                 queryKey={queryKey}
                 relations={approved}
                 {...modal}
@@ -169,36 +169,29 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
                         Object_Type: model.defaults.singular,
                     } as RequestAcknowledgedRelation
                 }
-                isOpen={modal.isOpen && modal.action === 'add'}
             />
 
             <ObjectRelationApprovedModal
                 model={model}
-                onClose={() => setModal({ ...modal, isOpen: false })}
                 queryKey={queryKey}
                 relations={approved}
                 {...modal}
-                isOpen={modal.isOpen && modal.action === 'approved'}
             />
 
             <ObjectRelationSentModal
                 model={model}
-                onClose={() => setModal({ ...modal, isOpen: false })}
                 queryKey={queryKey}
                 relations={sent}
                 history={history.sent}
                 {...modal}
-                isOpen={modal.isOpen && modal.action === 'sent'}
             />
 
             <ObjectRelationReceivedModal
                 model={model}
-                onClose={() => setModal({ ...modal, isOpen: false })}
                 queryKey={queryKey}
                 relations={received}
                 history={history.received}
                 {...modal}
-                isOpen={modal.isOpen && modal.action === 'received'}
             />
         </>
     )

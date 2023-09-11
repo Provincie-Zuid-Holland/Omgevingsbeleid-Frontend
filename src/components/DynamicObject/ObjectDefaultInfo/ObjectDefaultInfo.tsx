@@ -10,6 +10,7 @@ import { ObjectPersonModalActions } from '@/components/Modals/ObjectModals/types
 import { Model, ModelPatchStaticType } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import usePermissions from '@/hooks/usePermissions'
+import useModalStore from '@/store/modalStore'
 import {
     getStaticDataFilterProperty,
     getStaticDataLabel,
@@ -24,8 +25,9 @@ interface ObjectDefaultInfoProps {
 const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
     const { canCreateModule, canPatchObjectInModule } = usePermissions()
 
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
     const [modal, setModal] = useState<ObjectPersonModalActions>({
-        isOpen: false,
         initialValues: {} as ModelPatchStaticType,
     })
 
@@ -41,8 +43,8 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
         setModal({
             ...modal,
             person,
-            isOpen: true,
         })
+        setActiveModal('objectPerson')
     }
 
     if (!!!staticData?.length) return null
@@ -88,10 +90,7 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
                 })}
             </div>
 
-            <ObjectPersonModal
-                onClose={() => setModal({ ...modal, isOpen: false })}
-                {...modal}
-            />
+            <ObjectPersonModal {...modal} />
         </>
     )
 }

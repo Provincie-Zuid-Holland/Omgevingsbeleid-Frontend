@@ -49,6 +49,7 @@ const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
                             </div>
 
                             <Badge
+                                className="truncate"
                                 text={status.Status}
                                 variant={getModuleStatusColor(status.Status)}
                                 upperCase={false}

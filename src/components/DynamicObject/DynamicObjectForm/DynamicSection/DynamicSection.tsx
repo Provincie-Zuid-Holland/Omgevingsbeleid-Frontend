@@ -19,7 +19,11 @@ const DynamicSection = ({
 }) => (
     <>
         <div className="col-span-6 md:col-span-2">
-            <Heading level="2" size="s" className="mb-3">
+            <Heading
+                level="2"
+                size="s"
+                className="mb-3"
+                color="text-pzh-blue-dark">
                 {title}
             </Heading>
 

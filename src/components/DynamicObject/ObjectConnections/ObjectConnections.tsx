@@ -34,7 +34,6 @@ const ObjectConnections = ({ model }: ObjectConnectionsProps) => {
     const { useGetRelations } = model.fetchers
 
     const [modal, setModal] = useState<ObjectConnectionModalActions>({
-        isOpen: false,
         initialStep: 1,
         initialValues: {} as ReadRelation,
         connectionModel: {} as Model,
@@ -79,10 +78,8 @@ const ObjectConnections = ({ model }: ObjectConnectionsProps) => {
             ))}
 
             <ObjectConnectionModal
-                onClose={() => setModal({ ...modal, isOpen: false })}
                 model={model}
                 {...(modal as ObjectConnectionModalActions)}
-                isOpen={modal.isOpen}
             />
         </>
     )

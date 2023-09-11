@@ -33,7 +33,7 @@ const Avatar = ({ name, prefix, className, isSmall }: AvatarProps) => {
                 className={classNames(
                     'flex cursor-pointer items-center justify-center rounded-full bg-pzh-blue',
                     {
-                        'h-8 w-8 text-s': isSmall,
+                        'h-10 w-10 text-s': isSmall,
                         'h-[46px] w-[46px]': !isSmall,
                     },
                     className
