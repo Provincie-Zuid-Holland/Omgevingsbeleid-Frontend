@@ -23,7 +23,7 @@ function Footer() {
                     'py-10': userIsInMuteerEnvironment,
                 })}>
                 <div className="col-span-6 md:col-span-3 lg:col-span-2">
-                    <Heading level="3" color="text-pzh-blue">
+                    <Heading level="3" size="m" color="text-pzh-blue">
                         Krachtig Zuid-Holland
                     </Heading>
                 </div>
@@ -60,7 +60,7 @@ function Footer() {
                             </ul>
                         </div>
                         <div className="col-span-6 mt-4 lg:col-span-2 lg:mt-0">
-                            <Text type="body">
+                            <Text>
                                 Mocht je aan- of opmerkingen hebben, dan horen
                                 wij dat graag via{' '}
                                 <a

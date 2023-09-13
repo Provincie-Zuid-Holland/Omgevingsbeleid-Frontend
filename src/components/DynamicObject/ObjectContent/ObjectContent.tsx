@@ -1,6 +1,7 @@
-import { Heading } from '@pzh-ui/components'
 import classNames from 'classnames'
 import DOMPurify from 'dompurify'
+
+import { Heading } from '@pzh-ui/components'
 
 import {
     ReadRelationShortNationaalBelangMinimal,
@@ -73,8 +74,8 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
         <>
             {title && (
                 <Heading
-                    as="2"
-                    level="3"
+                    level="2"
+                    size="m"
                     className={classNames('mb-4', {
                         'sr-only': hidden && !customTitle?.[value],
                     })}>
@@ -82,7 +83,7 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
                 </Heading>
             )}
             <Wrapper
-                className="prose prose-neutral mb-4 max-w-full whitespace-pre-line leading-6 text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0 md:mb-8"
+                className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0 md:mb-8"
                 dangerouslySetInnerHTML={{ __html: cleanHtml }}
             />
         </>
@@ -102,14 +103,14 @@ interface ListProps {
 const List = ({ title, description, items, hidden }: ListProps) => (
     <div
         data-section={title}
-        className="prose prose-neutral mb-4 max-w-full whitespace-pre-line leading-6 text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0 md:mb-8">
+        className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0 md:mb-8">
         <Heading
             level="2"
             className={classNames('mb-4', { 'sr-only': hidden })}>
             {title}
         </Heading>
         {description && <p>{description}</p>}
-        <Heading level="3" className="my-4">
+        <Heading level="3" size="m" className="my-4">
             Gekoppelde ‘{title}’
         </Heading>
         <ul>

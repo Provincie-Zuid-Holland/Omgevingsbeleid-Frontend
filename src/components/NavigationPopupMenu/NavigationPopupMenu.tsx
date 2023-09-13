@@ -1,9 +1,9 @@
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useKey, useWindowSize } from 'react-use'
+
 import { Heading, Text } from '@pzh-ui/components'
 import { AngleRight, Bars, Xmark } from '@pzh-ui/icons'
-import classNames from 'classnames'
-import { KeyboardEvent, useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { useKey, useWindowSize } from 'react-use'
 
 import { menuGroups } from '@/constants/menu'
 import useBreakpoint from '@/hooks/useBreakpoint'
@@ -27,7 +27,6 @@ const NavigationPopupMenu = ({
     isOpen,
     setIsOpen,
 }: NavigationPopupMenuProps) => {
-    const location = useLocation()
     const windowSize = useWindowSize()
 
     const { isMobile } = useBreakpoint()
@@ -78,10 +77,10 @@ const NavigationPopupMenu = ({
             ) : null}
             {isOpen ? (
                 <>
-                    <div className="pointer-events-none fixed left-0 top-[96px] z-0 block h-screen w-screen bg-gray-900/40" />
+                    <div className="pointer-events-none fixed left-0 top-24 z-0 block h-screen w-screen bg-pzh-gray-800/30" />
                     <nav
                         id="popup-menu"
-                        className="fixed left-0 top-[96px] z-10 w-full bg-white pb-8"
+                        className="fixed left-0 top-24 z-10 w-full bg-white pb-8"
                         aria-label="primary">
                         <Container
                             className="h-full overflow-y-auto"
@@ -114,12 +113,12 @@ const NavigationPopupMenu = ({
                                         <Link
                                             to={group.to}
                                             onClick={() => setIsOpen(false)}>
-                                            <Heading level="3">
+                                            <Heading level="3" size="m">
                                                 {group.title}
                                             </Heading>
                                         </Link>
                                     ) : (
-                                        <Heading level="3">
+                                        <Heading level="3" size="m">
                                             {group.title}
                                         </Heading>
                                     )}
@@ -168,8 +167,8 @@ const ToggleMenuButton = ({
         id="popup-menu-toggle"
         className={`relative mb-1 flex items-center justify-center rounded px-2 pb-1 pt-2 transition-colors duration-100 ease-in lg:-mr-6 ${
             isOpen
-                ? 'text-white hover:bg-gray-100 hover:text-pzh-blue'
-                : 'text-pzh-blue hover:bg-gray-100 hover:text-pzh-blue-dark'
+                ? 'text-white hover:bg-pzh-gray-100 hover:text-pzh-blue'
+                : 'text-pzh-blue hover:bg-pzh-gray-100 hover:text-pzh-blue-dark'
         } ${isMobile ? 'hidden' : ''}`}
         aria-expanded={isOpen}
         onClick={() => setIsOpen(!isOpen)}>

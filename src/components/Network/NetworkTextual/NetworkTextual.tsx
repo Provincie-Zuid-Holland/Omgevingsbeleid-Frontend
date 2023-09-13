@@ -1,12 +1,14 @@
+import { useCallback, useMemo } from 'react'
+import { useUpdateEffect } from 'react-use'
+
 import { Table } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
-import { useCallback, useMemo, useState } from 'react'
-import { useUpdateEffect } from 'react-use'
 
 import { GraphVertice } from '@/api/fetchers.schemas'
 import NetworkModal from '@/components/Modals/NetworkModal'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
+import useModalStore from '@/store/modalStore'
 import useNetworkStore from '@/store/networkStore'
 import { filterConnections, formatGraphData } from '@/utils/d3'
 
@@ -20,8 +22,7 @@ const NetworkTextual = ({ graph }: NetworkTextualProps) => {
             ...state,
         })
     )
-
-    const [open, setOpen] = useState(false)
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     /**
      * Function to sort column by Object_Type
@@ -58,9 +59,9 @@ const NetworkTextual = ({ graph }: NetworkTextualProps) => {
             setActiveConnections(nodes)
 
             setActiveNode(node)
-            setOpen(true)
+            setActiveModal('objectDetails')
         },
-        [graph, setActiveConnections, setActiveNode]
+        [graph, setActiveConnections, setActiveNode, setActiveModal]
     )
 
     /**
@@ -84,7 +85,7 @@ const NetworkTextual = ({ graph }: NetworkTextualProps) => {
             ) as GraphVertice[]
 
             setActiveConnections(nodes)
-            setOpen(true)
+            setActiveModal('objectDetails')
         }
     }, [activeNode])
 
@@ -137,7 +138,7 @@ const NetworkTextual = ({ graph }: NetworkTextualProps) => {
                 }}
             />
 
-            <NetworkModal isOpen={open} onClose={() => setOpen(false)} />
+            <NetworkModal />
         </div>
     )
 }

@@ -7,7 +7,6 @@ import { Model, ModelPatchStaticType, ModelType } from '@/config/objects/types'
 
 export interface ObjectConnectionModalActions {
     connectionKey?: ModelType
-    isOpen: boolean
     connectionModel: Model
     initialStep?: number
     initialValues:
@@ -23,14 +22,12 @@ export interface ObjectPersonModalActions {
         required?: boolean
         filter?: string | null
     }
-    isOpen: boolean
     isEdit?: boolean
     initialValues: ModelPatchStaticType
 }
 
 export interface ObjectRelationModalActions {
     action?: 'add' | 'approved' | 'sent' | 'received'
-    isOpen: boolean
     relations?: AcknowledgedRelation[]
     history?: AcknowledgedRelation[]
 }

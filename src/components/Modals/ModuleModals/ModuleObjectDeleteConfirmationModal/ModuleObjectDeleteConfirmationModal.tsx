@@ -1,25 +1,25 @@
-import { Button, Heading, OLDModal as Modal, Text } from '@pzh-ui/components'
+import { Button, Text } from '@pzh-ui/components'
 
+import Modal from '@/Modal'
 import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 import useModule from '@/hooks/useModule'
+import useModalStore from '@/store/modalStore'
 
 interface ModuleObjectDeleteConfirmationModalProps {
-    isOpen: boolean
-    onClose: () => void
     object: ModuleObjectShort
     module: Module
 }
 
 const ModuleObjectDeleteConfirmationModal = ({
-    isOpen,
-    onClose,
     object,
     module,
 }: ModuleObjectDeleteConfirmationModalProps) => {
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
     const { useRemoveObjectFromModule } = useModule()
-    const { mutate } = useRemoveObjectFromModule(() => onClose())
+    const { mutate } = useRemoveObjectFromModule(() => setActiveModal(null))
 
     const handleDeletion = () =>
         mutate({
@@ -31,15 +31,7 @@ const ModuleObjectDeleteConfirmationModal = ({
     const model = models[object.Object_Type as ModelType]
 
     return (
-        <Modal
-            open={isOpen}
-            onClose={onClose}
-            ariaLabel="Onderdeel verwijderen"
-            maxWidth="sm:max-w-[812px]">
-            <Heading level="2" className="mb-4">
-                Onderdeel verwijderen
-            </Heading>
-
+        <Modal id="moduleDeleteObject" title="Onderdeel verwijderen">
             <Text>
                 Wanneer je {model?.defaults.prefixSingular} {object.Object_Type}{' '}
                 ‘{object.Title}’ uit de module ‘{module.Title}’ verwijdert, zal
@@ -50,7 +42,7 @@ const ModuleObjectDeleteConfirmationModal = ({
             </Text>
 
             <div className="mt-6 flex items-center justify-between">
-                <Button variant="link" onPress={onClose}>
+                <Button variant="link" onPress={() => setActiveModal(null)}>
                     Annuleren
                 </Button>
                 <Button onPress={handleDeletion}>Ja, verwijder</Button>

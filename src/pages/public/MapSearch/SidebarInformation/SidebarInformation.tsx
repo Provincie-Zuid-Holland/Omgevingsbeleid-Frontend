@@ -102,14 +102,16 @@ const SidebarInformation = ({
             <Transition
                 show={!searchOpen}
                 enter="transition-all ease-out duration-300 transform"
-                enterFrom="-ml-570"
+                enterFrom="-ml-[570px]"
                 enterTo="ml-0"
                 leave="transition-all ease-in duration-300 transform"
                 leaveFrom="ml-0"
-                leaveTo="-ml-570"
-                className="overflow-auto pb-8 pt-4 md:min-w-570 md:max-w-570 md:px-10 md:pt-12 lg:px-20 lg:pb-16 lg:pt-16">
-                <Heading level="1">Zoeken op de kaart</Heading>
-                <Text type="introduction-paragraph" className="mt-3">
+                leaveTo="-ml-[570px]"
+                className="overflow-auto pb-8 pt-4 md:min-w-[570px] md:max-w-[570px] md:px-10 md:pt-12 lg:px-20 lg:pb-16 lg:pt-16">
+                <Heading level="1" size="xxl">
+                    Zoeken op de kaart
+                </Heading>
+                <Text size="l" className="mt-3">
                     Via deze pagina kun je uitgebreid zoeken welk beleid op
                     welke locatie van toepassing is. Hiermee wordt duidelijk wat
                     de provincie Zuid-Holland in een bepaald gebied wil
@@ -230,9 +232,7 @@ const InfoText = ({
 }) => (
     <div className="mt-8 ">
         <span className="block font-bold">{title}</span>
-        <Text type="body" className="mt-1 block">
-            {description}
-        </Text>
+        <Text className="mt-1 block">{description}</Text>
     </div>
 )
 

@@ -1,33 +1,33 @@
-import { Button, OLDModal as Modal } from '@pzh-ui/components'
 import { QueryKey, useQueryClient } from '@tanstack/react-query'
-import { Formik, Form } from 'formik'
+import { Form, Formik } from 'formik'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
+import { Button } from '@pzh-ui/components'
+
+import Modal from '@/Modal'
 import {
     AcknowledgedRelation,
     EditAcknowledgedRelation,
 } from '@/api/fetchers.schemas'
 import { Model } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
+import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as objectRelation from '@/validation/objectRelation'
 
-import { StepOne, StepTwo } from './steps'
 import { ObjectRelationModalActions } from '../types'
+import { StepOne, StepTwo } from './steps'
 
 const steps = [StepOne, StepTwo]
 
 interface ObjectRelationSentModalProps extends ObjectRelationModalActions {
     model: Model
-    onClose: () => void
     queryKey?: QueryKey
 }
 
 const ObjectRelationSentModal = ({
-    isOpen,
-    onClose,
     model,
     queryKey,
     relations,
@@ -35,6 +35,8 @@ const ObjectRelationSentModal = ({
 }: ObjectRelationSentModalProps) => {
     const queryClient = useQueryClient()
     const { objectId } = useParams()
+
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const [initialValues, setInitialValues] = useState({
         Object_Type: model.defaults.singular,
@@ -49,7 +51,7 @@ const ObjectRelationSentModal = ({
      * Handle modal close
      */
     const handleClose = () => {
-        onClose()
+        setActiveModal(null)
 
         // Wait for modal animation to finish before resetting step
         setTimeout(() => setStep(1), 300)
@@ -117,11 +119,10 @@ const ObjectRelationSentModal = ({
 
     return (
         <Modal
-            open={isOpen}
-            onClose={handleClose}
-            ariaLabel="Gelegde beleidsrelaties"
-            maxWidth="sm:max-w-[1200px]"
-            closeButton>
+            id="objectRelationSent"
+            title="Gelegde beleidsrelaties"
+            hideTitle
+            size="xl">
             <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}

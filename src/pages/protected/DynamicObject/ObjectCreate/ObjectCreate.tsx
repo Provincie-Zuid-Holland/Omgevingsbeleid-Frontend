@@ -1,8 +1,9 @@
-import { Heading } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { FormikHelpers } from 'formik'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import { Heading } from '@pzh-ui/components'
 
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import * as models from '@/config/objects'
@@ -12,7 +13,7 @@ import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
 
 interface ObjectCreateProps {
-    model: typeof models[ModelType]
+    model: (typeof models)[ModelType]
 }
 
 const ObjectCreate = ({ model }: ObjectCreateProps) => {
@@ -36,7 +37,7 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
             section.fields.map(field => field.name)
         )
 
-        const objectData = {} as { [key in typeof fields[number]]: any }
+        const objectData = {} as { [key in (typeof fields)[number]]: any }
 
         fields?.forEach(field => {
             return (objectData[field] = null)
@@ -112,7 +113,7 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
             title={`${singularCapitalize} toevoegen`}
             breadcrumbs={breadcrumbPaths}>
             <div className="col-span-6">
-                <Heading level="1" className="mb-8">
+                <Heading level="1" size="xxl" className="mb-8">
                     {singularCapitalize} toevoegen
                 </Heading>
 

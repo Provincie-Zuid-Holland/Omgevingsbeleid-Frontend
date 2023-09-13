@@ -156,10 +156,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                 </div>
 
                 <div className="order-2 col-span-6 mt-6 flex flex-col xl:col-span-4 xl:mt-0">
-                    <Heading
-                        level="3"
-                        color="text-pzh-blue"
-                        className="order-1">
+                    <Heading level="3" size="m" className="order-1">
                         {singularCapitalize}
                     </Heading>
 
@@ -194,7 +191,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
 
                     <Heading
                         level="1"
-                        color="text-pzh-blue"
+                        size="xxl"
                         className="order-2 mb-2 mt-4 md:order-3 md:mb-4">
                         {data?.Title}
                     </Heading>

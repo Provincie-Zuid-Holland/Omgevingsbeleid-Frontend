@@ -1,43 +1,37 @@
-import { z } from 'zod'
+import { string, number, instanceof as instanceOf } from 'zod'
 
 export const schemaDefaults = {
     requiredString: (msg = 'Dit veld is verplicht.') =>
-        z.string({
+        string({
             required_error: msg,
             invalid_type_error: msg,
         }),
-    optionalString: z.string().optional().nullable(),
+    optionalString: string().optional().nullable(),
     requiredNumber: (msg = 'Dit veld is verplicht.') =>
-        z.number({
+        number({
             required_error: msg,
             invalid_type_error: msg,
         }),
     email: (msg = 'Dit veld is verplicht.') =>
-        z
-            .string({
-                required_error: msg,
-                invalid_type_error: msg,
-            })
-            .email('Onjuist e-mailadres'),
+        string({
+            required_error: msg,
+            invalid_type_error: msg,
+        }).email('Onjuist e-mailadres'),
     url: (msg = 'Dit veld is verplicht.') =>
-        z
-            .string({
-                required_error: msg,
-                invalid_type_error: msg,
-            })
-            .url('Onjuiste link'),
-    optionalUrl: z.string().url('Onjuiste link').optional().nullable(),
-    title: z
-        .string({
-            required_error: 'Vul een titel in',
-            invalid_type_error: 'Vul een titel in',
-        })
+        string({
+            required_error: msg,
+            invalid_type_error: msg,
+        }).url('Onjuiste link'),
+    optionalUrl: string().url('Onjuiste link').optional().nullable(),
+    title: string({
+        required_error: 'Vul een titel in',
+        invalid_type_error: 'Vul een titel in',
+    })
         .min(4, 'Vul een titel in van minimaal 4 karakters')
         .max(220, 'Vul een titel in van maximaal 220 karakters'),
-    date: z
-        .string({ required_error: 'Selecteer een datum' })
+    date: string({ required_error: 'Selecteer een datum' })
         .datetime('Onjuiste datum'),
-    file: z.instanceof(File),
+    file: instanceOf(File),
 }
 
 export type Validation = {

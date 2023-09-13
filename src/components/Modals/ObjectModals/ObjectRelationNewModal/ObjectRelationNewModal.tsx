@@ -1,31 +1,31 @@
-import { Button, Heading, OLDModal as Modal } from '@pzh-ui/components'
 import { QueryKey, useQueryClient } from '@tanstack/react-query'
-import { Formik, Form } from 'formik'
+import { Form, Formik } from 'formik'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
+import { Button } from '@pzh-ui/components'
+
+import Modal from '@/Modal'
 import { RequestAcknowledgedRelation } from '@/api/fetchers.schemas'
 import { Model } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
+import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as objectRelation from '@/validation/objectRelation'
 
-import { StepOne, StepTwo } from './steps'
 import { ObjectRelationModalActions } from '../types'
+import { StepOne, StepTwo } from './steps'
 
 const steps = [StepOne, StepTwo]
 
 interface ObjectRelationNewModalProps extends ObjectRelationModalActions {
     model: Model
-    onClose: () => void
     queryKey?: QueryKey
     initialValues: RequestAcknowledgedRelation
 }
 
 const ObjectRelationNewModal = ({
-    isOpen,
-    onClose,
     model,
     queryKey,
     initialValues,
@@ -33,6 +33,8 @@ const ObjectRelationNewModal = ({
 }: ObjectRelationNewModalProps) => {
     const queryClient = useQueryClient()
     const { objectId } = useParams()
+
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const [step, setStep] = useState(1)
 
@@ -43,7 +45,7 @@ const ObjectRelationNewModal = ({
      * Handle modal close
      */
     const handleClose = () => {
-        onClose()
+        setActiveModal(null)
 
         // Wait for modal animation to finish before resetting step
         setTimeout(() => setStep(1), 300)
@@ -81,11 +83,9 @@ const ObjectRelationNewModal = ({
 
     return (
         <Modal
-            open={isOpen}
-            onClose={handleClose}
-            ariaLabel="Verzoek tot beleidsrelatie"
-            maxWidth="sm:max-w-[1200px]"
-            closeButton>
+            id="objectRelationAdd"
+            title="Verzoek tot beleidsrelatie"
+            size="xl">
             <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
@@ -95,9 +95,6 @@ const ObjectRelationNewModal = ({
                 enableReinitialize>
                 {({ isValid, isSubmitting, submitForm }) => (
                     <Form>
-                        <Heading level="2" className="mb-2">
-                            Verzoek tot beleidsrelatie
-                        </Heading>
                         <CurrentStep
                             model={model}
                             title={data?.Title}

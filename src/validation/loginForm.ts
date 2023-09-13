@@ -1,8 +1,8 @@
-import { z } from 'zod'
+import { object } from 'zod'
 
 import { schemaDefaults } from '@/validation/zodSchema'
 
-export const SCHEMA = z.object({
+export const SCHEMA = object({
     email: schemaDefaults.email(),
     password: schemaDefaults.requiredString(),
 })

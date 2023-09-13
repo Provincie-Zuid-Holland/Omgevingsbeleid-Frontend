@@ -1,30 +1,31 @@
-import { Button, Heading, OLDModal as Modal } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
-import { Formik, Form } from 'formik'
+import { Form, Formik } from 'formik'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useUpdateEffect } from 'react-use'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
+import { Button } from '@pzh-ui/components'
+
+import Modal from '@/Modal'
 import { ReadRelation, WriteRelation } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
+import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as objectConnection from '@/validation/objectConnection'
 
-import { StepOne, StepTwo, StepThree } from './steps'
 import { ObjectConnectionModalActions } from '../types'
+import { StepOne, StepThree, StepTwo } from './steps'
 
 const steps = [StepOne, StepTwo, StepThree]
 
 interface ObjectConnectionModalProps extends ObjectConnectionModalActions {
     model: Model
-    onClose: () => void
 }
 
 const ObjectConnectionModal = ({
-    onClose,
     initialValues,
     model,
     connectionModel,
@@ -32,6 +33,8 @@ const ObjectConnectionModal = ({
 }: ObjectConnectionModalProps) => {
     const queryClient = useQueryClient()
     const { objectId } = useParams()
+
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const { data, queryKey: objectQueryKey, isFetching } = useObject()
     const { useGetRelations, usePutRelations } = model.fetchers
@@ -106,7 +109,7 @@ const ObjectConnectionModal = ({
                         lineageId: parseInt(objectId!),
                         data: newData,
                     })
-                    .then(onClose)
+                    .then(() => setActiveModal(null))
             }
         })
     }
@@ -156,7 +159,6 @@ const ObjectConnectionModal = ({
             handleDeleteConnection={handleDeleteConnection}
             isFetching={isFetching}
             relations={relations}
-            onClose={onClose}
             {...rest}
         />
     )
@@ -175,8 +177,6 @@ interface ConnectionModalProps extends ObjectConnectionModalProps {
 }
 
 export const ConnectionModal = ({
-    isOpen,
-    onClose,
     isFetching,
     handleFormSubmit,
     initialValues,
@@ -188,6 +188,9 @@ export const ConnectionModal = ({
     connectionKey,
     initialStep = 1,
 }: ConnectionModalProps) => {
+    const activeModal = useModalStore(state => state.activeModal)
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
     const [step, setStep] = useState(initialStep)
 
     const CurrentStep = steps[step - 1]
@@ -199,18 +202,18 @@ export const ConnectionModal = ({
     useUpdateEffect(() => setStep(initialStep), [initialStep])
 
     /**
-     * Update step if isOpen has changed
+     * Update step if activeModal has changed
      */
     useUpdateEffect(() => {
         // Wait for modal animation to finish before resetting step
         setTimeout(() => setStep(initialStep), 300)
-    }, [isOpen])
+    }, [activeModal === 'objectAddConnection'])
 
     /**
      * Handle modal close
      */
     const handleClose = () => {
-        onClose()
+        setActiveModal(null)
 
         // Wait for modal animation to finish before resetting step
         setTimeout(() => setStep(initialStep), 300)
@@ -218,11 +221,9 @@ export const ConnectionModal = ({
 
     return (
         <Modal
-            open={isOpen}
-            onClose={handleClose}
-            ariaLabel="Nieuwe koppeling"
-            maxWidth="sm:max-w-[1200px]"
-            closeButton>
+            id="objectAddConnection"
+            title={`${connectionModel?.defaults?.singularCapitalize} koppelen`}
+            size="xl">
             {isFetching && (
                 <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black/20">
                     <LoaderSpinner />
@@ -237,10 +238,6 @@ export const ConnectionModal = ({
                 enableReinitialize>
                 {({ isValid, isSubmitting, submitForm }) => (
                     <Form onSubmit={e => e.preventDefault()}>
-                        <Heading level="2" className="mb-2">
-                            {connectionModel?.defaults.singularCapitalize}{' '}
-                            koppelen
-                        </Heading>
                         <CurrentStep
                             title={data?.Title}
                             connectionModel={connectionModel}

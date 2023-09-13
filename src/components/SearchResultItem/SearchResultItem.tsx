@@ -1,5 +1,6 @@
-import { Heading } from '@pzh-ui/components'
 import { Link } from 'react-router-dom'
+
+import { Heading } from '@pzh-ui/components'
 
 import { ValidSearchObject } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
@@ -54,10 +55,13 @@ const SearchResultItem = ({
             <Link
                 to={`/${model.defaults.slugOverview}/${UUID}`}
                 className="group">
-                <span className="text-pzh-gray-600">
+                <span className="text-s text-pzh-gray-600">
                     {model.defaults.singularCapitalize}
                 </span>
-                <Heading level="3" className="mb-2 group-hover:text-pzh-green">
+                <Heading
+                    level="3"
+                    size="m"
+                    className="mb-2 group-hover:text-pzh-green">
                     <span
                         dangerouslySetInnerHTML={{ __html: highlightedTitle }}
                     />

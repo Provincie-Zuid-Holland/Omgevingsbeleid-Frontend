@@ -1,8 +1,9 @@
-import { Text } from '@pzh-ui/components'
-import { House } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+
+import { Text } from '@pzh-ui/components'
+import { House } from '@pzh-ui/icons'
 
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
@@ -25,7 +26,7 @@ const Sidebar = () => {
 
     return (
         <div
-            className="sticky top-[97px] h-full w-[56px] whitespace-nowrap"
+            className="sticky top-[97px] h-full w-14 whitespace-nowrap"
             onMouseLeave={() => {
                 window.clearTimeout(timer)
                 expanded && setExpanded(false)
@@ -41,7 +42,7 @@ const Sidebar = () => {
                 )}>
                 <div
                     className={classNames(
-                        'grid grid-cols-1 gap-2 overflow-hidden px-[8px] py-10'
+                        'grid grid-cols-1 gap-2 overflow-hidden px-2 py-12'
                     )}>
                     <MenuItem
                         name="Home"
@@ -102,10 +103,10 @@ const MenuItem = ({
         <Link
             to={path}
             className={classNames(
-                'group flex h-8 items-center rounded-[4px] px-2 hover:text-pzh-green',
+                'group flex h-10 items-center rounded px-2.5 hover:text-pzh-green',
                 {
                     'bg-pzh-gray-200 text-pzh-green': path === pathname,
-                    'w-8': !expanded,
+                    'w-10': !expanded,
                 }
             )}
             onMouseEnter={!expanded ? onHover : undefined}

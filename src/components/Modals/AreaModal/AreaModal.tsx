@@ -1,9 +1,12 @@
-import { Button, Heading, OLDModal as Modal } from '@pzh-ui/components'
 import { Form, Formik } from 'formik'
 import groupBy from 'lodash.groupby'
 import { useMemo, useState } from 'react'
 
+import { Button } from '@pzh-ui/components'
+
+import Modal from '@/Modal'
 import { useWerkingsgebiedenGet } from '@/api/fetchers'
+import useModalStore from '@/store/modalStore'
 
 import { StepOne, StepTwo } from './steps'
 
@@ -17,26 +20,19 @@ export interface AreaProps {
 }
 
 interface AreaModalProps {
-    isOpen: boolean
-    onClose: () => void
     initialStep?: number
     handleFormSubmit: (payload: AreaProps) => void
 }
 
-const AreaModal = ({
-    isOpen,
-    onClose,
-    initialStep = 1,
-    handleFormSubmit,
-}: AreaModalProps) => {
+const AreaModal = ({ initialStep = 1, handleFormSubmit }: AreaModalProps) => {
+    const activeModal = useModalStore(state => state.activeModal)
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
     const [step, setStep] = useState(initialStep)
 
-    const { data, isLoading } = useWerkingsgebiedenGet(
-        { limit: 500 },
-        {
-            query: { enabled: isOpen },
-        }
-    )
+    const { data, isLoading } = useWerkingsgebiedenGet({ limit: 500 }, {
+        query: { enabled: activeModal === 'areaAdd' },
+    })
 
     /**
      * Group data by Title
@@ -50,7 +46,7 @@ const AreaModal = ({
      * Handle modal close
      */
     const handleClose = () => {
-        onClose()
+        setActiveModal(null)
 
         // Wait for modal animation to finish before resetting step
         setTimeout(() => setStep(initialStep), 300)
@@ -62,21 +58,13 @@ const AreaModal = ({
     }
 
     return (
-        <Modal
-            open={isOpen}
-            onClose={handleClose}
-            ariaLabel="Werkingsgebied koppelen"
-            maxWidth="sm:max-w-[1200px]">
+        <Modal id="areaAdd" title="Werkingsgebied koppelen" size="xl">
             <Formik
                 onSubmit={handleSubmit}
                 initialValues={{}}
                 enableReinitialize>
                 {({ isSubmitting, submitForm }) => (
                     <Form>
-                        <Heading level="2" className="mb-4">
-                            Werkingsgebied koppelen
-                        </Heading>
-
                         <CurrentStep data={groupedData} isLoading={isLoading} />
 
                         <div className="mt-6 flex items-center justify-between">

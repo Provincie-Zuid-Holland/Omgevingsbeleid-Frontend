@@ -1,6 +1,7 @@
-import { FieldLabel } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
 import { useCallback, useState } from 'react'
+
+import { FieldLabel } from '@pzh-ui/components'
 
 import { ReadRelation, WriteRelation } from '@/api/fetchers.schemas'
 import ObjectConnectionPart from '@/components/DynamicObject/ObjectConnectionPart/'
@@ -9,6 +10,7 @@ import { ObjectConnectionModalActions } from '@/components/Modals/ObjectModals/t
 import * as models from '@/config/objects'
 import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
 import { DynamicField } from '@/config/types'
+import useModalStore from '@/store/modalStore'
 
 const FieldConnections = ({
     name,
@@ -25,8 +27,9 @@ const FieldConnections = ({
     >()
     const value = values['connections']
 
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
     const [modal, setModal] = useState<ObjectConnectionModalActions>({
-        isOpen: false,
         initialStep: 1,
         initialValues: {} as ReadRelation,
         connectionModel: {} as Model,
@@ -79,7 +82,7 @@ const FieldConnections = ({
         }
 
         setFieldValue('connections', newData)
-        setModal({ ...modal, isOpen: false })
+        setActiveModal(null)
     }
 
     const handleDelete = (connection: WriteRelation) => {
@@ -119,10 +122,8 @@ const FieldConnections = ({
             </div>
 
             <ConnectionModal
-                onClose={() => setModal({ ...modal, isOpen: false })}
                 model={model}
                 {...(modal as ObjectConnectionModalActions)}
-                isOpen={modal.isOpen}
                 handleDeleteConnection={handleDelete}
                 handleFormSubmit={handleSubmit}
                 relations={value}

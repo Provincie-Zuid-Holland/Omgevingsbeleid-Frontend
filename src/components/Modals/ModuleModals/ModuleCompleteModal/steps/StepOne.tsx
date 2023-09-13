@@ -1,12 +1,12 @@
 import { FormikDate, FormikInput, Text } from '@pzh-ui/components'
 
 export const StepOne = () => (
-    <div>
-        <Text className="mb-4">
+    <div className="flex flex-col gap-4">
+        <Text>
             Voordat de module kan worden afgesloten, hebben we de volgende
             gegevens nodig.
         </Text>
-        <div className="mt-3">
+        <div>
             <FormikInput
                 type="url"
                 name="IDMS_Link"
@@ -16,7 +16,7 @@ export const StepOne = () => (
                 required
             />
         </div>
-        <div className="mt-3">
+        <div>
             <FormikInput
                 name="Decision_Number"
                 label="Besluitnummer"
@@ -24,7 +24,7 @@ export const StepOne = () => (
                 required
             />
         </div>
-        <div className="mt-3">
+        <div>
             <FormikInput
                 type="url"
                 name="Link_To_Decision_Document"
@@ -34,7 +34,7 @@ export const StepOne = () => (
                 required
             />
         </div>
-        <div className="mt-3">
+        <div>
             <FormikDate
                 name="Publicatiedatum"
                 label="Publicatiedatum"
@@ -43,7 +43,7 @@ export const StepOne = () => (
                 required
             />
         </div>
-        <div className="mt-3">
+        <div>
             <FormikDate
                 name="Default_Start_Validity"
                 label="Datum van wijziging"

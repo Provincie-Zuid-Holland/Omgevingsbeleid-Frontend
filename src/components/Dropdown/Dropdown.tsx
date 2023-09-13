@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { ReactNode, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useClickAway } from 'react-use'
@@ -66,7 +66,7 @@ const DropdownContainer = ({
                 <motion.div
                     data-testid="dropdown"
                     className={classNames(
-                        'absolute top-0 text-left right-0 z-50 min-w-[200px] mt-12 text-gray-700 bg-white rounded shadow-[0_0_15px_5px_rgba(0,0,0,0.1)] tooltip-right tooltip-triangle',
+                        'tooltip-right tooltip-triangle absolute right-0 top-0 z-50 mt-12 min-w-[200px] rounded bg-white text-left text-pzh-gray-700 shadow-[0_0_15px_5px_rgba(0,0,0,0.1)]',
                         className
                     )}
                     ref={innerContainer}
@@ -74,7 +74,9 @@ const DropdownContainer = ({
                     animate={{ scale: 1, top: 0 }}
                     exit={{ scale: 1 }}>
                     <div className="relative h-full">
-                        <ul className="py-1 w-max text-gray-800">{children}</ul>
+                        <ul className="w-max py-1 text-pzh-gray-800">
+                            {children}
+                        </ul>
                     </div>
                 </motion.div>
             )}
@@ -97,9 +99,9 @@ const DropdownLinkElement = ({
         <li key={item.text}>
             <Link
                 className={classNames(
-                    'block px-4 pb-[2px] pt-[6px] hover:bg-pzh-gray-100 hover:bg-opacity-25 hover:underline w-full',
+                    'block w-full px-4 pb-0.5 pt-1.5 hover:bg-pzh-gray-100 hover:bg-opacity-25 hover:underline',
                     {
-                        'border-t border-gray-300': index !== 0,
+                        'border-t border-pzh-gray-300': index !== 0,
                     }
                 )}
                 to={item.link || ''}
@@ -122,9 +124,9 @@ const DropdownTextElement = ({
         <li
             key={item.text}
             className={classNames(
-                'hover:bg-pzh-gray-100 hover:bg-opacity-50 hover:underline w-full px-4 hover-pzh-gray-100 cursor-pointer pb-[2px] pt-[6px]',
+                'hover-pzh-gray-100 w-full cursor-pointer px-4 pb-0.5 pt-1.5 hover:bg-pzh-gray-100 hover:bg-opacity-50 hover:underline',
                 {
-                    'border-t border-gray-300': index !== 0,
+                    'border-t border-pzh-gray-300': index !== 0,
                 },
                 item.className
             )}>

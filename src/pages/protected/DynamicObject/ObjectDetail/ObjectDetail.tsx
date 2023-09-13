@@ -44,11 +44,11 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
             title={`${singularCapitalize}: ${object?.Title}`}
             breadcrumbs={breadcrumbPaths}>
             <div className="col-span-6 sm:col-span-4">
-                <Heading level="3" as="2" className="mb-2">
+                <Heading level="2" size="m" className="mb-2">
                     {singularCapitalize}
                 </Heading>
                 {isLoading && <LoaderCard height="56" className="w-auto" />}
-                <Heading level="1" className="mb-2">
+                <Heading level="1" size="xxl" className="mb-2">
                     {object?.Title}
                 </Heading>
                 <Link

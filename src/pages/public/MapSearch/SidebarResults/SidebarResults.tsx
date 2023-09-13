@@ -198,12 +198,14 @@ const SidebarResults = ({
             leaveFrom="mr-0"
             leaveTo="-mr-840"
             className="relative z-1 w-full max-w-2xl overflow-hidden px-4 pb-4 pt-4 md:px-10 md:pb-0 md:shadow-pane lg:px-20">
-            <div className="border-b pb-3">
+            <div className="border-b border-pzh-gray-300 pb-3">
                 <div className="flex items-start justify-between">
                     <div>
-                        <Heading level="3">Resultaten</Heading>
+                        <Heading level="3" size="m">
+                            Resultaten
+                        </Heading>
                         {!isLoading && !geoLoading ? (
-                            <span className="block text-sm text-pzh-blue-dark text-opacity-50">
+                            <span className="block text-s text-pzh-blue-dark text-opacity-50">
                                 {!data?.total
                                     ? 'Er zijn geen resultaten'
                                     : data.total === 1

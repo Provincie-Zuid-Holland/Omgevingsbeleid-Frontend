@@ -99,7 +99,7 @@ const ObjectList = ({
     return (
         <>
             <div className="flex flex-col justify-between sm:flex-row">
-                <Heading as="2" level="3" className="mb-3">
+                <Heading size="m" level="2" className="mb-3">
                     {title
                         ? title
                         : !pagination.isLoaded && isLoading
