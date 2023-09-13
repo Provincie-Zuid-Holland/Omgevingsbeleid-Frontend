@@ -1,9 +1,10 @@
-import { Button, Heading } from '@pzh-ui/components'
-import { TrashCan } from '@pzh-ui/icons'
 import { useQueryClient } from '@tanstack/react-query'
 import { FormikHelpers } from 'formik'
 import { useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+
+import { Button, Heading } from '@pzh-ui/components'
+import { TrashCan } from '@pzh-ui/icons'
 
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import ObjectDeleteModal from '@/components/Modals/ObjectModals/ObjectDeleteModal'
@@ -148,7 +149,7 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
             title={`${singularCapitalize} bewerken`}
             breadcrumbs={breadcrumbPaths}>
             <div className="col-span-6">
-                <div className="mb-8 flex justify-between align-middle">
+                <div className="mb-8 flex flex-wrap justify-between gap-2 align-middle">
                     <Heading level="1">{singularCapitalize} bewerken</Heading>
                     <Button
                         variant="secondary"
