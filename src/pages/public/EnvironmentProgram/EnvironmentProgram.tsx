@@ -38,7 +38,17 @@ function EnvironmentProgram() {
                         Verplichte programma’s
                     </Heading>
                     <Text type="body" className="mt-3">
-                        Tekst aanleveren door Tom
+                        Verplichte programma's zijn meestal een voortzetting van
+                        de al bestaande plannen en programma's die volgen uit
+                        Europese regelgeving. Het gaat onder meer om de
+                        Richtlijn omgevingslawaai, de Kaderrichtlijn Water, de
+                        Europese Richtlijn Overstromingsrisico's en de Richtlijn
+                        luchtkwaliteit. De artikelen 3.6 tot en met 3.9 van de
+                        Omgevingswet verplichten gemeenten, waterschappen,
+                        provincies en het Rijk om voor deze domeinen programma's
+                        vast te stellen. Voor de provincies (artikel 3.8
+                        Omgevingswet) gaat het om het Regionaal waterprogramma,
+                        het Beheerplan Natura 2000 en het Actieplan geluid.
                     </Text>
                     <Link
                         className="mt-3 block text-pzh-green underline hover:text-pzh-green-dark"
