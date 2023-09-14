@@ -13,10 +13,17 @@ const PAGE_LIMIT = 20
 function ThemeOverview() {
     const [currPage, setCurrPage] = useState(1)
 
-    const { isLoading, data } = useBeleidsdoelenValidGet({
-        limit: PAGE_LIMIT,
-        offset: (currPage - 1) * PAGE_LIMIT,
-    })
+    const { isLoading, data } = useBeleidsdoelenValidGet(
+        {
+            limit: PAGE_LIMIT,
+            offset: (currPage - 1) * PAGE_LIMIT,
+        },
+        {
+            query: {
+                keepPreviousData: true,
+            },
+        }
+    )
 
     const breadcrumbPaths = [
         { name: 'Home', path: '/' },

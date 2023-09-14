@@ -1,21 +1,23 @@
 import { useQueryClient } from '@tanstack/react-query'
 import decode from 'jwt-decode'
-import { createContext, ReactNode, useEffect } from 'react'
+import { ReactNode, createContext, useEffect } from 'react'
 import { useLocalStorage } from 'react-use'
 
 import { loginAccessTokenPost } from '@/api/fetchers'
-import { UserShort, AuthToken } from '@/api/fetchers.schemas'
+import { AuthToken, UserShort } from '@/api/fetchers.schemas'
 
-export type Role =
-    | 'Ambtelijk opdrachtgever'
-    | 'Behandelend Ambtenaar'
-    | 'Functioneel beheerder'
-    | 'Beheerder'
-    | 'Portefeuillehouder'
-    | 'Technisch beheerder'
-    | 'Superuser'
-    | 'Test runner'
-    | 'Tester'
+export const roleTypes = [
+    'Ambtelijk opdrachtgever',
+    'Behandelend Ambtenaar',
+    'Functioneel beheerder',
+    'Beheerder',
+    'Portefeuillehouder',
+    'Technisch beheerder',
+    'Superuser',
+    'Test runner',
+    'Tester',
+] as const
+export type Role = (typeof roleTypes)[number]
 
 interface AuthContextType {
     /** Logged in user object */

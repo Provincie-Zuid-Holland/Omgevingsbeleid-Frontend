@@ -9064,9 +9064,58 @@ export const getUsersGetMock = () => ({
         (_, i) => i + 1
     ).map(() => ({
         UUID: faker.datatype.uuid(),
-        Rol: faker.random.word(),
         Gebruikersnaam: faker.random.word(),
+        Email: faker.random.word(),
+        Rol: faker.random.word(),
+        Status: faker.random.word(),
+        IsActive: faker.datatype.boolean(),
     })),
+})
+
+export const getUsersPostMock = () => ({
+    UUID: faker.datatype.uuid(),
+    Email: faker.random.word(),
+    Rol: faker.random.word(),
+    Password: faker.random.word(),
+})
+
+export const getUsersSearchGetMock = () => ({
+    total: faker.datatype.number({ min: undefined, max: undefined }),
+    offset: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    limit: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    results: Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        UUID: faker.datatype.uuid(),
+        Gebruikersnaam: faker.random.word(),
+        Email: faker.random.word(),
+        Rol: faker.random.word(),
+        Status: faker.random.word(),
+        IsActive: faker.datatype.boolean(),
+    })),
+})
+
+export const getUsersUserUuidGetMock = () => ({
+    UUID: faker.datatype.uuid(),
+    Gebruikersnaam: faker.random.word(),
+    Email: faker.random.word(),
+    Rol: faker.random.word(),
+    Status: faker.random.word(),
+    IsActive: faker.datatype.boolean(),
+})
+
+export const getUsersUserUuidPostMock = () => ({ message: faker.random.word() })
+
+export const getUsersUserUuidResetPasswordPostMock = () => ({
+    UUID: faker.datatype.uuid(),
+    NewPassword: faker.random.word(),
 })
 
 export const getWerkingsgebiedenGetMock = () => ({
@@ -10575,6 +10624,41 @@ export const getOmgevingsbeleidAPIMSW = () => [
             ctx.delay(1000),
             ctx.status(200, 'Mocked status'),
             ctx.json(getUsersGetMock())
+        )
+    }),
+    rest.post('*/users', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getUsersPostMock())
+        )
+    }),
+    rest.get('*/users/search', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getUsersSearchGetMock())
+        )
+    }),
+    rest.get('*/users/:userUuid', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getUsersUserUuidGetMock())
+        )
+    }),
+    rest.post('*/users/:userUuid', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getUsersUserUuidPostMock())
+        )
+    }),
+    rest.post('*/users/:userUuid/reset-password', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getUsersUserUuidResetPasswordPostMock())
         )
     }),
     rest.get('*/werkingsgebieden', (_req, res, ctx) => {

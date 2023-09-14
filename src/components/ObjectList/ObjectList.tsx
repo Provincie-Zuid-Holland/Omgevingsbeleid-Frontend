@@ -1,6 +1,5 @@
-import { KeyboardEvent, useState } from 'react'
+import { KeyboardEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useUpdateEffect } from 'react-use'
 
 import { FieldInput, Heading, ListLink, Pagination } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
@@ -54,12 +53,6 @@ const ObjectList = ({
 }: ObjectListProps) => {
     const navigate = useNavigate()
 
-    const [pagination, setPagination] = useState({
-        isLoaded: false,
-        total,
-        limit,
-    })
-
     /**
      * Handle change of search field
      */
@@ -84,27 +77,15 @@ const ObjectList = ({
         }
     }
 
-    useUpdateEffect(() => {
-        if (!pagination.isLoaded && !!total) {
-            setPagination({ isLoaded: true, total, limit })
-        }
-    }, [total, limit])
-
-    useUpdateEffect(() => {
-        if (pagination.isLoaded) {
-            setPagination({ isLoaded: false, total, limit })
-        }
-    }, [objectType])
-
     return (
         <>
             <div className="flex flex-col justify-between sm:flex-row">
                 <Heading size="m" level="2" className="mb-3">
                     {title
                         ? title
-                        : !pagination.isLoaded && isLoading
+                        : isLoading
                         ? `De ${objectType} worden geladen`
-                        : `De ${pagination.total} ${objectType}`}
+                        : `De ${total} ${objectType}`}
                     {isLoading && <LoaderSpinner className="ml-2" />}
                 </Heading>
             </div>
@@ -112,8 +93,8 @@ const ObjectList = ({
             {hasSearch &&
                 objectSingular &&
                 !isLoading &&
-                !!pagination.total &&
-                pagination.total > pagination.limit && (
+                !!total &&
+                total > limit && (
                     <div className="my-4">
                         <FieldInput
                             name="search"
@@ -145,12 +126,12 @@ const ObjectList = ({
                     ))
                 )}
             </ul>
-            {onPageChange && pagination.total > pagination.limit && (
+            {onPageChange && total > limit && (
                 <div className="mt-8 flex justify-center">
                     <Pagination
                         onChange={onPageChange}
-                        total={pagination.total}
-                        limit={pagination.limit}
+                        total={total}
+                        limit={limit}
                         forcePage={currPage}
                     />
                 </div>

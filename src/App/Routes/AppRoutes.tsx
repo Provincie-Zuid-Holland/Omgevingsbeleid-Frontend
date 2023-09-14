@@ -16,12 +16,14 @@ import {
     ObjectDetail,
     ObjectEdit,
     ObjectWrite,
+    UserDetail,
+    UsersOverview,
 } from '@/pages/protected'
-// import Regulations from '@/pages/protected/Regulations/Regulations'
 import {
     Accessibility,
     AreaDetail,
     AreaOverview,
+    AtemportalObject,
     DynamicObject as DynamicObjectPublic,
     DynamicOverview as DynamicOverviewPublic,
     EnvironmentProgram,
@@ -31,12 +33,11 @@ import {
     Network,
     NotFoundPage,
     PlanningAndReleases,
+    Revisions,
     SearchResults,
     ThemeDetail,
     ThemeOverview,
 } from '@/pages/public'
-import AtemportalObject from '@/pages/public/AtemportalObject/AtemportalObject'
-import Revisions from '@/pages/public/Revisions/Revisions'
 
 import ProtectedRoute from './ProtectedRoute'
 
@@ -340,6 +341,19 @@ const AppRoutes = () => {
                 //     path: 'verordening',
                 //     element: <Regulations />,
                 // },
+                {
+                    path: 'gebruikers',
+                    children: [
+                        {
+                            index: true,
+                            element: <UsersOverview />,
+                        },
+                        {
+                            path: ':uuid',
+                            element: <UserDetail />,
+                        },
+                    ],
+                },
             ],
         },
         {
