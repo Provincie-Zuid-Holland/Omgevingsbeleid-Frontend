@@ -9,6 +9,7 @@ import { Werkingsgebied } from '@/api/fetchers.schemas'
 import { ModelReturnType } from '@/config/objects/types'
 import { DynamicField } from '@/config/types'
 import useObject from '@/hooks/useObject'
+import useModalStore from '@/store/modalStore'
 
 import AreaPreview from '../../AreaPreview'
 import AreaModal from '../../Modals/AreaModal'
@@ -21,6 +22,8 @@ const FieldSelectArea = ({
     description,
     disabled,
 }: Omit<DynamicField, 'type'> & { disabled?: boolean }) => {
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
     const { values, setFieldValue } = useFormikContext<ModelReturnType>()
     const value = values[name as keyof typeof values]
 
@@ -29,7 +32,6 @@ const FieldSelectArea = ({
     const [area, setArea] = useState<Partial<Werkingsgebied | undefined>>(
         data?.Gebied
     )
-    const [isOpen, setOpen] = useState(false)
 
     const modifiedDate = useMemo(
         () =>
@@ -67,7 +69,7 @@ const FieldSelectArea = ({
 
             {!value ? (
                 <button
-                    onClick={() => setOpen(true)}
+                    onClick={() => setActiveModal('areaAdd')}
                     type="button"
                     className={classNames(
                         'mt-4 w-full rounded border border-pzh-gray-600 px-2 py-4 underline',
@@ -119,11 +121,7 @@ const FieldSelectArea = ({
 
             <input name={name} type="hidden" />
 
-            <AreaModal
-                isOpen={isOpen}
-                onClose={() => setOpen(false)}
-                handleFormSubmit={handleFormSubmit}
-            />
+            <AreaModal handleFormSubmit={handleFormSubmit} />
         </>
     )
 }

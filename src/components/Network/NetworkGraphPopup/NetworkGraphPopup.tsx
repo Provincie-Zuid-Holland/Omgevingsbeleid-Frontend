@@ -18,9 +18,7 @@ const NetworkGraphPopup = () => {
                     hidden: !!!activeNode,
                 }
             )}>
-            <Text type="body-small" className="block capitalize">
-                {activeNode?.Object_Type}
-            </Text>
+            <Text className="block capitalize">{activeNode?.Object_Type}</Text>
             <Hyperlink
                 to={
                     (activeNode &&

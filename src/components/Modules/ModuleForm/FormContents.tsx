@@ -6,6 +6,7 @@ import { Button, Heading, Text } from '@pzh-ui/components'
 import { useModulesModuleIdGet } from '@/api/fetchers'
 import { SearchObject } from '@/api/fetchers.schemas'
 import useModule from '@/hooks/useModule'
+import useModalStore from '@/store/modalStore'
 import * as modules from '@/validation/modules'
 
 import DynamicObjectSearch from '../../DynamicObject/DynamicObjectSearch'
@@ -14,8 +15,6 @@ import { ContentsModalForm } from '../../Modals/ModuleModals/ModuleContentsModal
 import ModulePart from '../ModulePart'
 
 interface ModalProps {
-    /** Is modal open */
-    isOpen: boolean
     /** Initial step of contents wizard */
     initialStep: number
     /** Initial values of contents form */
@@ -25,13 +24,14 @@ interface ModalProps {
 }
 
 const initialModalValues: ModalProps = {
-    isOpen: false,
     initialStep: 2,
     initialValues: { ...modules.EMPTY_MODULE_OBJECT, state: 'new' },
 }
 
 const FormContents = () => {
     const { moduleId } = useParams()
+
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const [modal, setModal] = useState<ModalProps>(initialModalValues)
 
@@ -81,7 +81,6 @@ const FormContents = () => {
                         setModal({
                             ...modal,
                             initialStep: 5,
-                            isOpen: true,
                             initialValues: {
                                 ...modules.EMPTY_MODULE_OBJECT,
                                 state: 'existing',
@@ -138,9 +137,10 @@ const FormContents = () => {
 
                     <Button
                         className="mt-4"
-                        onPress={() =>
-                            setModal({ ...initialModalValues, isOpen: true })
-                        }>
+                        onPress={() => {
+                            setActiveModal('moduleAddObject')
+                            setModal({ ...initialModalValues })
+                        }}>
                         Nieuw onderdeel toevoegen
                     </Button>
                 </div>
@@ -148,7 +148,6 @@ const FormContents = () => {
 
             <ModuleContentsModal
                 key={modal.initialValues.state}
-                onClose={() => setModal({ ...modal, isOpen: false })}
                 module={module}
                 {...modal}
             />
