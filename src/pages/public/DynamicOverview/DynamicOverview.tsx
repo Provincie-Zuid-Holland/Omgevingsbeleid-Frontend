@@ -33,12 +33,19 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
         atemporal,
     } = model.defaults
 
-    const { data, isLoading } = useGetValid({
-        limit: PAGE_LIMIT,
-        offset: (currPage - 1) * PAGE_LIMIT,
-        sort_column: 'Title',
-        sort_order: 'ASC',
-    })
+    const { data, isLoading } = useGetValid(
+        {
+            limit: PAGE_LIMIT,
+            offset: (currPage - 1) * PAGE_LIMIT,
+            sort_column: 'Title',
+            sort_order: 'ASC',
+        },
+        {
+            query: {
+                keepPreviousData: true,
+            },
+        }
+    )
 
     /**
      * Create array of returned data with correct format

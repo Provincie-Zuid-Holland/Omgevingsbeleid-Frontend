@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react'
 import { useUpdateEffect } from 'react-use'
 
-import { Table } from '@pzh-ui/components'
+import { OLDTable as Table } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
 
 import { GraphVertice } from '@/api/fetchers.schemas'

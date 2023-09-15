@@ -6,7 +6,6 @@ import {
     Button,
     FieldInput,
     Heading,
-    Pagination,
     TabItem,
     Table,
     Tabs,
@@ -16,7 +15,6 @@ import { AngleRight, MagnifyingGlass } from '@pzh-ui/icons'
 
 import { useModulesObjectsLatestGet, useSearchValidPost } from '@/api/fetchers'
 import { ModuleObjectShortStatus } from '@/api/fetchers.schemas'
-import { LoaderSpinner } from '@/components/Loader'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
@@ -146,7 +144,16 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
     const { atemporal, plural, pluralCapitalize, singular } = model.defaults
     const { useGetValid } = model.fetchers
 
-    const [currPage, setCurrPage] = useState(1)
+    const [{ pageIndex }, setPagination] = useState({
+        pageIndex: 1,
+        pageSize: PAGE_LIMIT,
+    })
+    const [sortBy, setSortBy] = useState([
+        {
+            id: 'Title',
+            desc: false,
+        },
+    ])
 
     /**
      * Get correct data fetcher based on type
@@ -154,12 +161,12 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
     const useGetData =
         type === 'valid' ? useGetValid : useModulesObjectsLatestGet
 
-    const { data, isLoading } = useGetData(
+    const { data, isFetching } = useGetData(
         {
             limit: PAGE_LIMIT,
-            offset: (currPage - 1) * PAGE_LIMIT,
-            sort_column: 'Title',
-            sort_order: 'ASC',
+            offset: (pageIndex - 1) * PAGE_LIMIT,
+            sort_column: sortBy?.[0]?.id || 'Gebruikersnaam',
+            sort_order: sortBy?.[0]?.desc ? 'DESC' : 'ASC',
             ...(type === 'latest' && {
                 object_type: singular,
                 action: 'Create',
@@ -167,6 +174,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
         },
         {
             query: {
+                keepPreviousData: true,
                 enabled:
                     type === 'valid'
                         ? atemporal || (activeTab === 'valid' && !atemporal)
@@ -177,15 +185,9 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
 
     const {
         data: searchData,
-        mutate,
         isLoading: searchLoading,
+        mutate,
     } = useSearchValidPost()
-
-    const [pagination, setPagination] = useState({
-        isLoaded: false,
-        total: data?.total,
-        limit: data?.limit,
-    })
 
     useUpdateEffect(() => {
         if (!query) {
@@ -201,27 +203,13 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                 limit: 50,
             },
         })
-    }, [query, currPage])
+    }, [query, pageIndex])
 
     useUpdateEffect(() => {
-        if (!pagination.isLoaded && !!data?.total) {
-            setPagination({
-                isLoaded: true,
-                total: data?.total,
-                limit: data?.limit,
-            })
-        }
-    }, [data, plural])
-
-    useUpdateEffect(() => {
-        if (pagination.isLoaded) {
-            setPagination({
-                isLoaded: false,
-                total: data?.total,
-                limit: data?.limit,
-            })
-            setCurrPage(1)
-        }
+        setPagination({
+            pageIndex: 1,
+            pageSize: PAGE_LIMIT,
+        })
     }, [plural])
 
     /**
@@ -231,38 +219,25 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
         !!query && activeTab !== 'latest' ? searchData?.results : data?.results
 
     /**
-     * Function to sort column by Modified_Date
-     */
-    const customSortType = (rowA: any, rowB: any, columnId: string) => {
-        let [a, b] = [rowA.values[columnId], rowB.values[columnId]]
-
-        a = a ? a.props['data-value'] : null
-        b = b ? b.props['data-value'] : null
-
-        return a === b ? 0 : a > b ? 1 : -1
-    }
-
-    /**
      * Setup Table columns
      */
     const columns = useMemo(
         () => [
             {
-                Header: 'Titel',
-                accessor: 'Title',
+                header: 'Titel',
+                accessorKey: 'Title',
             },
             ...((!atemporal && [
                 {
-                    Header: 'Status',
-                    accessor: 'Status',
-                    sortType: customSortType,
+                    header: 'Status',
+                    accessorKey: 'Status',
+                    enableSorting: false,
                 },
             ]) ||
                 []),
             {
-                Header: 'Laatst gewijzigd',
-                accessor: 'Modified_Date',
-                sortType: customSortType,
+                header: 'Laatst gewijzigd',
+                accessorKey: 'Modified_Date',
             },
         ],
         [atemporal]
@@ -284,23 +259,13 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                     Title,
                     ...(!atemporal && 'Start_Validity' in props
                         ? {
-                              Status: (
-                                  <span data-value={props.Start_Validity}>
-                                      Vigerend
-                                  </span>
-                              ),
+                              Status: 'Vigerend',
                           }
                         : 'Status' in props && {
-                              Status: (
-                                  <span data-value={props.Status}>
-                                      {props.Status}
-                                  </span>
-                              ),
+                              Status: props.Status,
                           }),
                     Modified_Date: (
-                        <span
-                            data-value={Modified_Date}
-                            className="flex items-center justify-between">
+                        <span className="flex items-center justify-between">
                             {Modified_Date
                                 ? formatDate(
                                       new Date(Modified_Date + 'Z'),
@@ -329,20 +294,22 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
 
     return (
         <div className="mt-6">
-            {isLoading || searchLoading ? (
-                <div className="flex justify-center">
-                    <LoaderSpinner />
-                </div>
-            ) : !!formattedData.length ? (
-                <div data-table>
-                    <Table
-                        columns={columns}
-                        data={formattedData}
-                        // @ts-ignore
-                        disableSortRemove
-                        disableMultiSort
-                    />
-                </div>
+            {!!formattedData?.length ? (
+                <Table
+                    columns={columns}
+                    data={formattedData}
+                    enableSortingRemoval={false}
+                    enableMultiSort={false}
+                    limit={!query ? PAGE_LIMIT : undefined}
+                    total={!query ? data?.total : undefined}
+                    onPaginationChange={setPagination}
+                    state={{
+                        sorting: sortBy,
+                    }}
+                    onSortingChange={setSortBy}
+                    manualSorting
+                    isLoading={isFetching || searchLoading}
+                />
             ) : (
                 <span className="italic">
                     {!!query
@@ -352,19 +319,6 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                         : `Er zijn geen ${pluralCapitalize.toLowerCase()} in ontwerp`}
                 </span>
             )}
-
-            {!query &&
-                !!pagination.total &&
-                !!pagination.limit &&
-                pagination.total > pagination.limit && (
-                    <div className="mt-8 flex justify-center">
-                        <Pagination
-                            onChange={setCurrPage}
-                            initialPage={currPage - 1}
-                            {...pagination}
-                        />
-                    </div>
-                )}
         </div>
     )
 }

@@ -3,12 +3,15 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { Text } from '@pzh-ui/components'
-import { House } from '@pzh-ui/icons'
+import { House, Users } from '@pzh-ui/icons'
 
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
+import usePermissions from '@/hooks/usePermissions'
 
 const Sidebar = () => {
+    const { canEditUser } = usePermissions()
+
     const [expanded, setExpanded] = useState(false)
 
     let timer: number
@@ -26,7 +29,7 @@ const Sidebar = () => {
 
     return (
         <div
-            className="sticky top-[97px] h-full w-14 whitespace-nowrap"
+            className="sticky top-[97px] z-1 h-full w-14 whitespace-nowrap"
             onMouseLeave={() => {
                 window.clearTimeout(timer)
                 expanded && setExpanded(false)
@@ -74,6 +77,21 @@ const Sidebar = () => {
                             />
                         )
                     })}
+
+                    {canEditUser && (
+                        <>
+                            <div className="h-px w-full bg-pzh-blue" />
+                            <MenuItem
+                                name="Gebruikers"
+                                path="/muteer/gebruikers"
+                                icon={Users}
+                                largerIcon
+                                expanded={expanded}
+                                onHover={endAndStartTimer}
+                                onClick={() => window.clearTimeout(timer)}
+                            />
+                        </>
+                    )}
                 </div>
             </div>
         </div>
@@ -84,6 +102,7 @@ interface MenuItemProps {
     name: string
     path: string
     icon: any
+    largerIcon?: boolean
     expanded: boolean
     onHover: () => void
     onClick: () => void
@@ -93,6 +112,7 @@ const MenuItem = ({
     name,
     path,
     icon: Icon,
+    largerIcon,
     expanded,
     onHover,
     onClick,
@@ -103,16 +123,26 @@ const MenuItem = ({
         <Link
             to={path}
             className={classNames(
-                'group flex h-10 items-center rounded px-2.5 hover:text-pzh-green',
+                'group flex h-10 items-center rounded hover:text-pzh-green',
                 {
-                    'bg-pzh-gray-200 text-pzh-green': path === pathname,
+                    'bg-pzh-gray-200 text-pzh-green':
+                        path === pathname ||
+                        (path !== '/muteer' && pathname.startsWith(path)),
                     'w-10': !expanded,
+                    'px-2.5': !largerIcon,
+                    'px-2': largerIcon,
                 }
             )}
             onMouseEnter={!expanded ? onHover : undefined}
             onClick={onClick}
             data-testid="sidebar-item">
-            <Icon size={20} className="min-w-[20px]" />
+            <Icon
+                size={largerIcon ? 25 : 20}
+                className={classNames({
+                    'min-w-[20px]': !largerIcon,
+                    'min-w-[25px]': largerIcon,
+                })}
+            />
             <Text
                 className={classNames(
                     '-mb-0.5 ml-2 group-hover:text-pzh-green',

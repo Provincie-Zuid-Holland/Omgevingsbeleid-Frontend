@@ -7,6 +7,9 @@ import DynamicOverview from './DynamicOverview'
 import ModuleCreate from './Modules/ModuleCreate'
 import ModuleDetail from './Modules/ModuleDetail'
 import ModuleEdit from './Modules/ModuleEdit'
+import Regulations from './Regulations'
+import UserDetail from './Users/UserDetail'
+import UsersOverview from './Users/UsersOverview'
 
 export {
     Dashboard,
@@ -18,4 +21,7 @@ export {
     ModuleCreate,
     ModuleDetail,
     ModuleEdit,
+    Regulations,
+    UsersOverview,
+    UserDetail,
 }
