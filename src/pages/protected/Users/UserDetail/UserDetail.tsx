@@ -4,7 +4,11 @@ import { useParams } from 'react-router-dom'
 import { Badge, Button, Divider, Heading, Text } from '@pzh-ui/components'
 import { Key } from '@pzh-ui/icons'
 
-import { useUsersUserUuidGet, useUsersUserUuidPost } from '@/api/fetchers'
+import {
+    useUsersSearchGet,
+    useUsersUserUuidGet,
+    useUsersUserUuidPost,
+} from '@/api/fetchers'
 import { LoaderCard } from '@/components/Loader'
 import UserEditModal from '@/components/Modals/UserModals/UserEditModal'
 import UserGeneratePasswordModal from '@/components/Modals/UserModals/UserGeneratePasswordModal'
@@ -24,6 +28,10 @@ const UserDetail = () => {
         },
     })
 
+    const { queryKey: queryKeyUsers } = useUsersSearchGet(undefined, {
+        query: { enabled: false },
+    })
+
     const { mutate } = useUsersUserUuidPost({
         mutation: {
             onSuccess: () => {
@@ -37,9 +45,15 @@ const UserDetail = () => {
             { userUuid: uuid!, data: { ...data, IsActive: activate } },
             {
                 onSuccess: () =>
-                    toastNotification(
-                        activate ? 'userActivated' : 'userDeactivated'
-                    ),
+                    queryClient
+                        .invalidateQueries(queryKeyUsers, {
+                            refetchType: 'all',
+                        })
+                        .then(() =>
+                            toastNotification(
+                                activate ? 'userActivated' : 'userDeactivated'
+                            )
+                        ),
             }
         )
     }
