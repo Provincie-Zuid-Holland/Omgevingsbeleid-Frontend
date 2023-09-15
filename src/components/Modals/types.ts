@@ -19,3 +19,6 @@ export type ModalType =
     | 'objectRelationApproved'
     | 'objectRelationReceived'
     | 'objectRelationSent'
+    | 'userAdd'
+    | 'userEdit'
+    | 'userPasswordReset'

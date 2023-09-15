@@ -6,18 +6,22 @@ import { useLocalStorage } from 'react-use'
 import { loginAccessTokenPost } from '@/api/fetchers'
 import { AuthToken, UserShort } from '@/api/fetchers.schemas'
 
-export const roleTypes = [
+export const availableRoleTypes = [
     'Ambtelijk opdrachtgever',
     'Behandelend Ambtenaar',
     'Functioneel beheerder',
-    'Beheerder',
     'Portefeuillehouder',
-    'Technisch beheerder',
-    'Superuser',
-    'Test runner',
-    'Tester',
-] as const
-export type Role = (typeof roleTypes)[number]
+] as Role[]
+export type Role =
+    | 'Ambtelijk opdrachtgever'
+    | 'Behandelend Ambtenaar'
+    | 'Functioneel beheerder'
+    | 'Beheerder'
+    | 'Portefeuillehouder'
+    | 'Technisch beheerder'
+    | 'Superuser'
+    | 'Test runner'
+    | 'Tester'
 
 interface AuthContextType {
     /** Logged in user object */

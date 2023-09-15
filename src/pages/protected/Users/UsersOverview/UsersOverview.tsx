@@ -14,7 +14,9 @@ import {
 import { AngleRight } from '@pzh-ui/icons'
 
 import { useUsersSearchGet } from '@/api/fetchers'
-import { Role, roleTypes } from '@/context/AuthContext'
+import UserAddModal from '@/components/Modals/UserModals/UserAddModal'
+import { Role, availableRoleTypes } from '@/context/AuthContext'
+import useModalStore from '@/store/modalStore'
 import MutateLayout from '@/templates/MutateLayout'
 
 const PAGE_LIMIT = 20
@@ -22,6 +24,8 @@ const PAGE_LIMIT = 20
 type TabType = 'active' | 'inactive'
 
 const UsersOverview = () => {
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
     const [activeTab, setActiveTab] = useState<TabType>('active')
 
     const breadcrumbPaths = [
@@ -30,32 +34,35 @@ const UsersOverview = () => {
     ]
 
     return (
-        <MutateLayout title="Gebruikers" breadcrumbs={breadcrumbPaths}>
-            <div className="col-span-6">
-                <div className="mb-6 flex items-center justify-between">
-                    <Heading size="xxl">Gebruikers</Heading>
-                    <Button
-                        as="a"
-                        href="/muteer/gebruikers/nieuw"
-                        variant="cta">
-                        Gebruiker toevoegen
-                    </Button>
-                </div>
+        <>
+            <MutateLayout title="Gebruikers" breadcrumbs={breadcrumbPaths}>
+                <div className="col-span-6">
+                    <div className="mb-6 flex items-center justify-between">
+                        <Heading size="xxl">Gebruikers</Heading>
+                        <Button
+                            variant="cta"
+                            onPress={() => setActiveModal('userAdd')}>
+                            Gebruiker toevoegen
+                        </Button>
+                    </div>
 
-                <Tabs
-                    selectedKey={activeTab}
-                    onSelectionChange={key =>
-                        setActiveTab(key as typeof activeTab)
-                    }>
-                    <TabItem title="Actieve gebruikers" key="active">
-                        <TabTable type="active" activeTab={activeTab} />
-                    </TabItem>
-                    <TabItem title="Inactieve gebruikers" key="inactive">
-                        <TabTable type="inactive" activeTab={activeTab} />
-                    </TabItem>
-                </Tabs>
-            </div>
-        </MutateLayout>
+                    <Tabs
+                        selectedKey={activeTab}
+                        onSelectionChange={key =>
+                            setActiveTab(key as typeof activeTab)
+                        }>
+                        <TabItem title="Actieve gebruikers" key="active">
+                            <TabTable type="active" activeTab={activeTab} />
+                        </TabItem>
+                        <TabItem title="Inactieve gebruikers" key="inactive">
+                            <TabTable type="inactive" activeTab={activeTab} />
+                        </TabItem>
+                    </Tabs>
+                </div>
+            </MutateLayout>
+
+            <UserAddModal />
+        </>
     )
 }
 
@@ -178,20 +185,20 @@ interface FilterProps {
 
 const Filter = ({ setFilter }: FilterProps) => {
     const roleOptions = useMemo(
-        () => roleTypes.map(role => ({ label: role, value: role })),
+        () => availableRoleTypes.map(role => ({ label: role, value: role })),
         []
     )
 
     return (
         <Formik initialValues={{}} onSubmit={setFilter}>
-            <Form className="flex gap-x-4">
-                <div className="w-[60%]">
+            <Form className="flex flex-col gap-x-4 gap-y-2 sm:flex-row">
+                <div className="sm:w-3/5">
                     <FormikInput
                         name="query"
                         placeholder="Zoek op naam of e-mailadres"
                     />
                 </div>
-                <div className="w-[40%]">
+                <div className="sm:w-2/5">
                     <FormikSelect
                         name="role"
                         placeholder="Kies een rol"
@@ -199,7 +206,9 @@ const Filter = ({ setFilter }: FilterProps) => {
                         isClearable
                     />
                 </div>
-                <Button type="submit">Zoeken</Button>
+                <Button type="submit" className="sm:w-auto">
+                    Zoeken
+                </Button>
             </Form>
         </Formik>
     )
