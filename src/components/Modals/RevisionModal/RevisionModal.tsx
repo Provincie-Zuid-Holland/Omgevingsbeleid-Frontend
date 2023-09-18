@@ -1,13 +1,14 @@
-import { Divider, FieldSelect, Heading, Text } from '@pzh-ui/components'
 import { useMemo, useState } from 'react'
 import { useUpdateEffect } from 'react-use'
 
+import { Divider, FieldSelect, Text } from '@pzh-ui/components'
+
+import Modal from '@/Modal'
 import ObjectRevision from '@/components/DynamicObject/ObjectRevision/ObjectRevision'
 import { LoaderSpinner } from '@/components/Loader'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useRevisionStore from '@/store/revisionStore'
 import getRevisionLabel from '@/utils/getRevisionLabel'
-import Modal from '@/Modal'
 
 type Option = {
     label: string
@@ -25,8 +26,6 @@ interface RevisionModalProps {
 const RevisionModal = ({
     model,
     revisions,
-    isOpen,
-    onClose,
     latestUUID,
 }: RevisionModalProps) => {
     const {
@@ -47,7 +46,7 @@ const RevisionModal = ({
             label: getRevisionLabel(revision, initialObject, latestUUID),
             value: revision.UUID,
         }))
-    }, [revisions, initialObject])
+    }, [revisions, initialObject, latestUUID])
 
     const [revisionFromUuid, setRevisionFromUuid] = useState<
         string | undefined
@@ -96,7 +95,7 @@ const RevisionModal = ({
                 Vergelijk de versies van {prefixSingular} {singularReadable} “
                 {initialObject?.Title}”.
             </Text>
-            <Text type="body-bold" className="mb-2">
+            <Text bold className="mb-2">
                 Welke versies wil je vergelijken?
             </Text>
             <div className="mb-2">

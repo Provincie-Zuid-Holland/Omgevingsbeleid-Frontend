@@ -1,3 +1,5 @@
+import { useFormikContext } from 'formik'
+
 import {
     FormikFileUpload,
     FormikInput,
@@ -5,7 +7,6 @@ import {
     FormikSelect,
     FormikTextArea,
 } from '@pzh-ui/components'
-import { useFormikContext } from 'formik'
 
 import FieldConnections from '@/components/Form/FieldConnections'
 import FieldSelectArea from '@/components/Form/FieldSelectArea'
@@ -68,7 +69,7 @@ const DynamicField = ({
 
     if (type === 'wysiwyg') {
         // @ts-ignore
-        field.menuClassName = 'sticky top-[96px]'
+        field.menuClassName = 'sticky top-24'
     }
 
     const marginTop = isFirst ? '' : 'mt-8'

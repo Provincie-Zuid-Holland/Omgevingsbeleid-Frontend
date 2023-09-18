@@ -33,7 +33,7 @@ const Navigation = () => {
     return (
         <header
             className={classNames(
-                'top-0 z-[99] h-[96px] w-full border-b border-b-pzh-gray-200',
+                'top-0 z-[99] h-24 w-full border-b border-b-pzh-gray-200',
                 {
                     sticky: !isAdvancedSearchPage,
                     relative: isAdvancedSearchPage,
@@ -54,7 +54,7 @@ const Navigation = () => {
                         }
                         className={classNames('relative', {
                             '-ml-8': !isDesktop,
-                            '-ml-[96px]': isDesktop,
+                            '-ml-24': isDesktop,
                         })}
                         onClick={() => {
                             setIsOpen(false)
@@ -77,7 +77,7 @@ const Navigation = () => {
                 </div>
 
                 {/* Buttons to toggle popup menu */}
-                <div className="col-span-2 my-auto flex items-center justify-end sm:col-span-3">
+                <div className="col-span-2 my-auto flex items-center justify-end gap-x-4 sm:col-span-3">
                     {!!user && !isOpen && userIsInMuteerEnvironment ? (
                         <MenuIcon
                             setIsOpen={setIsOpen}
@@ -148,7 +148,7 @@ const MenuIcon = ({
     <Link
         to={to}
         className={classNames(
-            'flex items-center justify-center rounded px-2 py-2 font-bold transition duration-300 ease-in',
+            'flex items-center justify-center rounded font-bold transition duration-300 ease-in',
             {
                 'text-pzh-blue hover:text-pzh-blue-dark': color === 'blue',
                 'text-pzh-white': color === 'white',
@@ -171,7 +171,7 @@ interface LogoProps {
 
 const Logo = ({ type }: LogoProps) => (
     <img
-        className="inline-block h-[96px] object-contain"
+        className="inline-block h-24 object-contain"
         title="Provincie Zuid-Holland, naar de homepage"
         src={type === 'white' ? logoWhite : logoSVG}
         alt="Provincie Zuid-Holland, naar de homepage"

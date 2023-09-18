@@ -7,7 +7,7 @@ import SearchBar from '@/components/SearchBar'
 import { MAP_SEARCH_PAGE } from '@/constants/leaflet'
 
 const SearchSection = () => (
-    <div className="col-span-6 mt-4 bg-pzh-gray-200 px-3 pb-6 pt-3 sm:px-6 lg:col-span-4 lg:mt-0">
+    <div className="col-span-6 mt-4 bg-pzh-gray-200 px-4 pb-8 pt-4 sm:px-6 lg:col-span-4 lg:mt-0">
         <Tabs>
             <TabItem title="Zoeken op tekst">
                 <div className="mt-4">
@@ -16,7 +16,7 @@ const SearchSection = () => (
             </TabItem>
             <TabItem title="Zoeken op de kaart">
                 <>
-                    <Text type="body" className="mt-4">
+                    <Text className="mt-4">
                         Wil je het beleid en de regelgeving van de provincie op
                         een specifieke locatie raadplegen? Zoek hieronder op een
                         locatie of markeer een punt of vorm op de kaart.
@@ -27,7 +27,7 @@ const SearchSection = () => (
                                 showSearch: false,
                                 showDraw: true,
                             }}
-                            className="w-full rounded border border-gray-300"
+                            className="w-full rounded border border-pzh-gray-300"
                         />
                     </div>
                     <div className="mt-4">

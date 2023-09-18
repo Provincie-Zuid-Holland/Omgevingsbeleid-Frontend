@@ -1,10 +1,12 @@
-import { Button, OLDModal as Modal } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
+import { Button } from '@pzh-ui/components'
+
+import Modal from '@/Modal'
 import {
     getModulesModuleIdGetQueryKey,
     useModulesModuleIdAddExistingObjectPost,
@@ -16,6 +18,7 @@ import {
     ModuleAddNewObject,
     SearchObject,
 } from '@/api/fetchers.schemas'
+import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
 
@@ -31,8 +34,6 @@ export type ContentsModalForm = (
 }
 
 interface ModuleContentsModalProps {
-    isOpen: boolean
-    onClose: () => void
     initialStep: number
     initialValues: ContentsModalForm
     module?: Module
@@ -40,8 +41,6 @@ interface ModuleContentsModalProps {
 }
 
 const ModuleContentsModal = ({
-    isOpen,
-    onClose,
     initialStep = 1,
     initialValues,
     module,
@@ -49,6 +48,8 @@ const ModuleContentsModal = ({
 }: ModuleContentsModalProps) => {
     const queryClient = useQueryClient()
     const { moduleId } = useParams()
+
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const [step, setStep] = useState(initialStep)
     const [existingObject, setExistingObject] = useState<
@@ -59,7 +60,7 @@ const ModuleContentsModal = ({
     const isFinalStep = step === 3 || step === 5
 
     const handleClose = () => {
-        onClose()
+        setActiveModal(null)
 
         // Wait for modal animation to finish before resetting step
         setTimeout(() => {
@@ -160,11 +161,9 @@ const ModuleContentsModal = ({
 
     return (
         <Modal
-            open={isOpen}
-            onClose={handleClose}
-            ariaLabel="Onderdeel toevoegen aan een module"
-            maxWidth="sm:max-w-[812px]"
-            closeButton>
+            id="moduleAddObject"
+            title="Onderdeel toevoegen aan een module"
+            hideTitle>
             <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}

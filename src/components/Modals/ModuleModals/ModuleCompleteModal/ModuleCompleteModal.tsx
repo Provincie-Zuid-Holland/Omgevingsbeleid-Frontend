@@ -1,15 +1,18 @@
-import { Button, Heading, OLDModal as Modal } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
+import { Button } from '@pzh-ui/components'
+
+import Modal from '@/Modal'
 import {
     getModulesGetQueryKey,
     useModulesModuleIdCompletePost,
 } from '@/api/fetchers'
 import { CompleteModule } from '@/api/fetchers.schemas'
+import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
 
@@ -17,15 +20,12 @@ import { StepOne, StepTwo } from './steps'
 
 const steps = [StepOne, StepTwo]
 
-interface ModuleCompleteModalProps {
-    isOpen: boolean
-    onClose: () => void
-}
-
-const ModuleCompleteModal = ({ isOpen, onClose }: ModuleCompleteModalProps) => {
+const ModuleCompleteModal = () => {
     const queryClient = useQueryClient()
     const navigate = useNavigate()
     const { moduleId } = useParams()
+
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const [step, setStep] = useState(1)
 
@@ -50,7 +50,7 @@ const ModuleCompleteModal = ({ isOpen, onClose }: ModuleCompleteModalProps) => {
     })
 
     const handleClose = () => {
-        onClose()
+        setActiveModal(null)
 
         // Wait for modal animation to finish before resetting step
         setTimeout(() => {
@@ -75,11 +75,7 @@ const ModuleCompleteModal = ({ isOpen, onClose }: ModuleCompleteModalProps) => {
     }
 
     return (
-        <Modal
-            open={isOpen}
-            onClose={onClose}
-            ariaLabel="Module afsluiten"
-            maxWidth="sm:max-w-[812px]">
+        <Modal id="moduleComplete" title="Module afsluiten">
             <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={modules.EMPTY_SCHEMA_COMPLETE_MODULE}
@@ -90,12 +86,6 @@ const ModuleCompleteModal = ({ isOpen, onClose }: ModuleCompleteModalProps) => {
                 enableReinitialize>
                 {({ isValid, isSubmitting }) => (
                     <Form>
-                        <Heading
-                            level="2"
-                            className="mb-4 first-letter:uppercase">
-                            Module afsluiten
-                        </Heading>
-
                         <CurrentStep />
 
                         <div className="mt-6 flex items-center justify-between">

@@ -1,8 +1,9 @@
-import { Button, Divider, Text } from '@pzh-ui/components'
-import { PenToSquare, TrashCan } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
+
+import { Button, Divider, Text } from '@pzh-ui/components'
+import { PenToSquare, TrashCan } from '@pzh-ui/icons'
 
 import { ReadRelation, WriteRelation } from '@/api/fetchers.schemas'
 
@@ -41,7 +42,7 @@ export const StepOne = ({
                 <span className="font-bold">{title}</span>
             </Text>
             <Divider />
-            <div className="mt-4 flex justify-between items-center">
+            <div className="mt-4 flex items-center justify-between">
                 <span className="font-bold">
                     {amount} Gekoppelde{' '}
                     {amount === 1
@@ -99,14 +100,14 @@ const Connection = ({
         <div className="mt-3">
             <div
                 className={classNames(
-                    'px-3 pt-2 pb-1 flex justify-between items-center bg-pzh-gray-100 border border-pzh-gray-300',
+                    'flex items-center justify-between border border-pzh-gray-300 bg-pzh-gray-100 px-3 pb-1 pt-2',
                     {
-                        'rounded-[4px]': atemporal,
-                        'rounded-tl-[4px] rounded-tr-[4px]': !atemporal,
+                        rounded: atemporal,
+                        'rounded-tl-1 rounded-tr-1': !atemporal,
                     }
                 )}>
                 <span className="font-bold">{Title}</span>
-                <div className="flex items-center -mt-[4px]">
+                <div className="-mt-1 flex items-center">
                     {!atemporal && (
                         <button
                             type="button"
@@ -132,7 +133,7 @@ const Connection = ({
                 </div>
             </div>
             {!atemporal && (
-                <div className="px-3 py-2 border border-t-0 border-pzh-gray-300 rounded-bl-[4px] rounded-br-[4px]">
+                <div className="rounded-bl-1 rounded-br-1 border border-t-0 border-pzh-gray-300 px-3 py-2">
                     <Text>{Description}</Text>
                 </div>
             )}

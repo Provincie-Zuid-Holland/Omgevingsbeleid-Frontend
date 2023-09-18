@@ -64,7 +64,7 @@ const ObjectSidebar = ({
     return (
         <aside className="sticky top-[120px]">
             <div className="mb-6">
-                <Heading level="3" className="mb-2">
+                <Heading level="3" size="m" className="mb-2">
                     Informatie
                 </Heading>
 
@@ -92,7 +92,7 @@ const ObjectSidebar = ({
             </div>
 
             <div className="mb-6">
-                <Heading level="3" className="mb-2">
+                <Heading level="3" size="m" className="mb-2">
                     Inhoudsopgave
                 </Heading>
 
@@ -101,9 +101,7 @@ const ObjectSidebar = ({
 
             {!!user && (
                 <div>
-                    <Text
-                        type="body-small"
-                        className="mb-3 italic text-pzh-blue-dark">
+                    <Text size="s" className="mb-3 italic text-pzh-blue-dark">
                         Onderstaande informatie is alleen inzichtelijk voor
                         gebruikers die zijn ingelogd
                     </Text>

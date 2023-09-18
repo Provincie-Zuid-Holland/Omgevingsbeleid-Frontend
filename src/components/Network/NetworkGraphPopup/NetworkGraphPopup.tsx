@@ -1,6 +1,7 @@
+import classNames from 'classnames'
+
 import { Hyperlink, Text } from '@pzh-ui/components'
 import { Xmark } from '@pzh-ui/icons'
-import classNames from 'classnames'
 
 import { ModelType } from '@/config/objects/types'
 import useNetworkStore from '@/store/networkStore'
@@ -12,14 +13,12 @@ const NetworkGraphPopup = () => {
     return (
         <div
             className={classNames(
-                'absolute left-4 top-4 pt-2 pb-1 px-3 min-w-[300px] bg-pzh-white rounded-[4px] shadow-card',
+                'absolute left-4 top-4 min-w-[300px] rounded bg-pzh-white px-3 pb-1 pt-2 shadow-card',
                 {
                     hidden: !!!activeNode,
                 }
             )}>
-            <Text type="body-small" className="block capitalize">
-                {activeNode?.Object_Type}
-            </Text>
+            <Text className="block capitalize">{activeNode?.Object_Type}</Text>
             <Hyperlink
                 to={
                     (activeNode &&

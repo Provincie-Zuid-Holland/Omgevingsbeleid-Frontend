@@ -14,7 +14,7 @@ const DocumentLink = ({
     className = '',
 }: DocumentLinkProps) => (
     <li
-        className={`pb-2 transition-colors duration-100 ease-in text-pzh-green ${className}`}>
+        className={`pb-2 text-pzh-green transition-colors duration-100 ease-in ${className}`}>
         <a
             href={href}
             target="_blank"
@@ -24,8 +24,7 @@ const DocumentLink = ({
                 <span className="flex items-center">{iconLeft}</span>
                 <Text
                     color="text-pzh-green hover:text-pzh-green-dark"
-                    className="ml-2 underline"
-                    type="body">
+                    className="ml-2 underline">
                     {title}
                 </Text>
             </div>

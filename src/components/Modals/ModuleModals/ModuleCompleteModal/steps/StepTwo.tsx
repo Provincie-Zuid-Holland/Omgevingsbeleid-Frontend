@@ -1,3 +1,6 @@
+import { useFormikContext } from 'formik'
+import { useMemo, useState } from 'react'
+
 import {
     Divider,
     FieldCheckbox,
@@ -5,8 +8,6 @@ import {
     FormikInput,
     Text,
 } from '@pzh-ui/components'
-import { useFormikContext } from 'formik'
-import { useMemo, useState } from 'react'
 
 import { CompleteModule, ModuleObjectShort } from '@/api/fetchers.schemas'
 import useModule from '@/hooks/useModule'
@@ -39,9 +40,7 @@ export const StepTwo = () => {
                 hebben, geef dit per object aan.
             </Text>
 
-            {objects?.map(object => (
-                <Object key={object.UUID} {...object} />
-            ))}
+            {objects?.map(object => <Object key={object.UUID} {...object} />)}
         </div>
     )
 }
@@ -113,12 +112,12 @@ const Object = ({
                         }
                     }}
                 />
-                <div className="w-full ml-2">
+                <div className="ml-2 w-full">
                     <div className="flex justify-between">
-                        <span className="capitalize block text-sm text-pzh-gray-600">
+                        <span className="block text-s capitalize text-pzh-gray-600">
                             {Object_Type}
                         </span>
-                        <span className="capitalize block text-sm text-pzh-gray-600">
+                        <span className="block text-s capitalize text-pzh-gray-600">
                             {getObjectActionText(ModuleObjectContext?.Action)}
                         </span>
                     </div>

@@ -1,16 +1,13 @@
-import { Heading, Hyperlink, OLDModal as Modal, Text } from '@pzh-ui/components'
 import { Link } from 'react-router-dom'
 
+import { Hyperlink, Text } from '@pzh-ui/components'
+
+import Modal from '@/Modal'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 import useNetworkStore from '@/store/networkStore'
 
-interface NetworkModalProps {
-    isOpen: boolean
-    onClose: () => void
-}
-
-const NetworkModal = ({ isOpen, onClose }: NetworkModalProps) => {
+const NetworkModal = () => {
     const { activeNode, activeConnections } = useNetworkStore(state => ({
         ...state,
     }))
@@ -20,15 +17,7 @@ const NetworkModal = ({ isOpen, onClose }: NetworkModalProps) => {
         model.defaults || {}
 
     return (
-        <Modal
-            open={isOpen}
-            onClose={onClose}
-            ariaLabel="Details van object"
-            maxWidth="sm:max-w-[812px]"
-            closeButton>
-            <Heading level="2" className="mb-4">
-                Details van object
-            </Heading>
+        <Modal id="objectDetails" title="Details van object">
             <Text className="mb-4">
                 Een overzicht van de koppelingen van {prefixSingular} {singular}{' '}
                 ‘{activeNode?.Title}’. Er{' '}

@@ -192,7 +192,7 @@ const MapSearch = () => {
     return (
         <>
             <Helmet title="Zoeken op de kaart" />
-            <ContainerMapSearch className="overflow-hidden border-t">
+            <ContainerMapSearch className="overflow-hidden">
                 <SidebarInformation
                     mapInstance={mapInstance}
                     searchOpen={searchOpen}

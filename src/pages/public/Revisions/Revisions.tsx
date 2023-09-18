@@ -41,8 +41,10 @@ const Revisions = () => {
             </Helmet>
             <Container className="overflow-hidden">
                 <div className="col-span-6 pt-8 lg:col-span-3 lg:pt-16">
-                    <Heading level="1">Herzieningen</Heading>
-                    <Text type="introduction-paragraph" className="my-[16px]">
+                    <Heading level="1" size="xxl">
+                        Herzieningen
+                    </Heading>
+                    <Text size="l" className="my-4">
                         “Welk beleid gaat binnenkort worden gewijzigd?” is een
                         veel gehoorde vraag. Op deze pagina laten wij zien welk
                         beleid momenteel herzien wordt en in welke fase van
@@ -96,7 +98,7 @@ const Revisions = () => {
                 <Heading className="col-span-6" level="2">
                     Besluitvormingsproces
                 </Heading>
-                <Text className="col-span-6 mt-4" type="body">
+                <Text className="col-span-6 mt-4">
                     Beleid wordt niet van de ene op de andere dag gevormd, dit
                     gaat volgens een heel proces. Zeker als het gaat om de
                     besluitvorming. Hieronder tonen wij een overzicht van de
@@ -107,7 +109,9 @@ const Revisions = () => {
                     <strong>ter inzage</strong>.
                 </Text>
                 <div className="col-span-6 mt-8 lg:col-span-2">
-                    <Heading level="3">Bevoegdheid GS & PS</Heading>
+                    <Heading level="3" size="m">
+                        Bevoegdheid GS & PS
+                    </Heading>
                     <Text className="mt-4">
                         Wanneer de Omgevingsvisie of Omgevingsverordening wordt
                         gewijzigd moeten zowel Gedeputeerde Staten als de
@@ -146,7 +150,9 @@ const Revisions = () => {
                     />
                 </div>
                 <div className="col-span-6 mt-8 lg:col-span-2">
-                    <Heading level="3">Bevoegdheid GS</Heading>
+                    <Heading level="3" size="m">
+                        Bevoegdheid GS
+                    </Heading>
                     <Text className="mt-4">
                         Gedeputeerde Staten zijn bevoegd om zelf het
                         omgevingsprogramma te wijzigen zonder besluit van de
@@ -267,7 +273,7 @@ const Module = ({
 
     return (
         <Container>
-            <div className="col-span-6 grid gap-[16px] lg:col-span-4">
+            <div className="col-span-6 grid gap-4 lg:col-span-4">
                 <div>
                     <span className="text-pzh-gray-600">Module</span>
                     <div className="flex items-center">
@@ -276,7 +282,7 @@ const Module = ({
                             text={Status?.Status.replace('-', ' ') || ''}
                             variant={getModuleStatusColor(Status?.Status)}
                             upperCase={false}
-                            className="-mt-[8px] ml-3 whitespace-nowrap"
+                            className="-mt-2 ml-3 whitespace-nowrap"
                         />
                     </div>
                 </div>
@@ -286,7 +292,7 @@ const Module = ({
                         <Tabs disabledKeys={disabledKeys}>
                             {parentTypes.map(type => (
                                 <TabItem title={type} key={type}>
-                                    <div className="mt-3 table border-spacing-y-[8px]">
+                                    <div className="mt-3 table border-spacing-y-2">
                                         {groupedObjects[type].map(object => (
                                             <RevisionItem
                                                 key={
@@ -332,7 +338,7 @@ const RevisionItem = ({
                         <Tooltip label={action || ''}>
                             <div
                                 className={classNames(
-                                    'flex h-4 w-4 cursor-help items-center justify-center rounded-[4px]',
+                                    'flex h-4 w-4 cursor-help items-center justify-center rounded',
                                     {
                                         'bg-pzh-green':
                                             ModuleObjectContext?.Action ===
@@ -356,7 +362,7 @@ const RevisionItem = ({
                             </div>
                         </Tooltip>
                     )}
-                    <span className="px-[8px]">{singularCapitalize}</span>
+                    <span className="px-2">{singularCapitalize}</span>
                 </div>
             </div>
             <Hyperlink

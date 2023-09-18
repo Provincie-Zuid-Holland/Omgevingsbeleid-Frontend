@@ -1,7 +1,8 @@
-import { Divider, Heading, Text, formatDate } from '@pzh-ui/components'
-import { Eye } from '@pzh-ui/icons'
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
+
+import { Divider, Heading, Text, formatDate } from '@pzh-ui/components'
+import { Eye } from '@pzh-ui/icons'
 
 import { LoaderSpinner } from '@/components/Loader'
 import { Model } from '@/config/objects/types'
@@ -24,13 +25,17 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
 
     /** Filter out first object which is the valid one */
     const archivedObjects = useMemo(
-        () => data?.results.filter(item => item.UUID !== object?.UUID),
+        () =>
+            (data?.results &&
+                data?.results.length > 1 &&
+                data?.results.filter(item => item.UUID !== object?.UUID)) ||
+            [],
         [data, object]
     )
 
     return (
         <div>
-            <Heading as="2" level="3" className="mb-2">
+            <Heading level="2" size="m" className="mb-2">
                 Vigerend gearchiveerd
             </Heading>
 
@@ -42,13 +47,13 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                 <div>
                     <div className="grid grid-cols-9 px-3 py-2">
                         <div className="col-span-5">
-                            <Text type="body-bold">Naam</Text>
+                            <Text bold>Naam</Text>
                         </div>
                         <div className="col-span-2">
-                            <Text type="body-bold">Van</Text>
+                            <Text bold>Van</Text>
                         </div>
                         <div className="col-span-2">
-                            <Text type="body-bold">Tot</Text>
+                            <Text bold>Tot</Text>
                         </div>
                     </div>
 
@@ -59,7 +64,7 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                             <Link
                                 key={object.UUID}
                                 to={`/${slugOverview}/${object.UUID}`}
-                                className="grid grid-cols-9 px-3 py-2 border-b border-pzh-gray-300 hover:bg-pzh-gray-100">
+                                className="grid grid-cols-9 border-b border-pzh-gray-300 px-3 py-2 hover:bg-pzh-gray-100">
                                 <div className="col-span-5">
                                     <Text>{object.Title}</Text>
                                 </div>

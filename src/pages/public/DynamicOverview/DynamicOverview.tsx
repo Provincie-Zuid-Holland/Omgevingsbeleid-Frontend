@@ -33,12 +33,19 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
         atemporal,
     } = model.defaults
 
-    const { data, isLoading } = useGetValid({
-        limit: PAGE_LIMIT,
-        offset: (currPage - 1) * PAGE_LIMIT,
-        sort_column: 'Title',
-        sort_order: 'ASC',
-    })
+    const { data, isLoading } = useGetValid(
+        {
+            limit: PAGE_LIMIT,
+            offset: (currPage - 1) * PAGE_LIMIT,
+            sort_column: 'Title',
+            sort_order: 'ASC',
+        },
+        {
+            query: {
+                keepPreviousData: true,
+            },
+        }
+    )
 
     /**
      * Create array of returned data with correct format
@@ -82,7 +89,9 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
                     <Breadcrumbs items={breadcrumbPaths} />
                 </div>
                 <div className="col-span-6 xl:col-span-4 xl:col-start-2">
-                    <Heading level="1">{pluralCapitalize}</Heading>
+                    <Heading level="1" size="xxl">
+                        {pluralCapitalize}
+                    </Heading>
                     <Text className="mt-3 md:mt-4">{description}</Text>
                     <div className="mt-8">
                         <ObjectList

@@ -9,7 +9,7 @@ const ObjectActiveModules = () => {
 
     return (
         <div>
-            <Heading as="2" level="3" className="mb-4">
+            <Heading level="3" className="mb-4">
                 Modules
             </Heading>
 
@@ -18,7 +18,7 @@ const ObjectActiveModules = () => {
                     <LoaderSpinner />
                 </div>
             ) : !!activeModules?.length ? (
-                <ul className="grid gap-9 lg:grid-cols-2 grid-cols-1">
+                <ul className="grid grid-cols-1 gap-9 lg:grid-cols-2">
                     {activeModules.map(object => (
                         <ModuleCard
                             key={object.Module_Object.UUID}

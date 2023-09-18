@@ -11,11 +11,11 @@ const Dashboard = () => {
 
     return (
         <MutateLayout title="Dashboard">
-            <div className="col-span-6 lg:col-span-3 mb-8">
-                <Heading level="1" className="mb-3">
+            <div className="col-span-6 mb-8 lg:col-span-3">
+                <Heading level="1" size="xxl" className="mb-3">
                     Welkom {user?.Gebruikersnaam}!
                 </Heading>
-                <Text type="body">
+                <Text>
                     Het digitaal omgevingsbeleid van de provincie Zuid-Holland.
                     Hieronder een overzicht van onderdelen die voor jou relevant
                     zijn als {role?.toLowerCase()}.

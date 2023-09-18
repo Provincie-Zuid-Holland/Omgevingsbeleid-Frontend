@@ -182,7 +182,7 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
                 />
             </div>
             {typeof results === 'number' && (
-                <span className="mt-2 block text-sm">
+                <span className="mt-2 block text-s">
                     Er {results === 1 ? 'is' : 'zijn'} {results}{' '}
                     {results === 1 ? 'resultaat' : 'resultaten'} gevonden
                 </span>

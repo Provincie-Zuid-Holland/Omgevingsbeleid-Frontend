@@ -41,7 +41,7 @@ function ThemeDetail() {
                 <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
             </div>
             <div className="col-span-6 pt-10 xl:col-span-4 xl:col-start-2">
-                <Heading level="1" className="mb-3">
+                <Heading level="1" size="xxl" className="mb-3">
                     {data?.Title}
                 </Heading>
                 <Text className="mb-4 whitespace-pre-line break-words">
@@ -72,7 +72,7 @@ const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
 
     return (
         <div className="mt-6 grid gap-3">
-            <Heading as="2" level="3">
+            <Heading level="2" size="m">
                 {Object.Title}
             </Heading>
 

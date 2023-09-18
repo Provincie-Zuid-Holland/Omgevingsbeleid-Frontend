@@ -62,9 +62,9 @@ const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
     if (Object.keys(relations).length === 0) return null
 
     return (
-        <div className="grid grid-cols-4 rounded-[4px] border border-pzh-gray-500 px-6 py-4 ">
+        <div className="grid grid-cols-4 rounded border border-pzh-gray-500 px-6 py-4 ">
             <div className="col-span-6">
-                <Heading level="3" className="text-pzh-green">
+                <Heading level="3" size="m" color="text-pzh-green">
                     Beleidsnetwerk
                 </Heading>
             </div>
@@ -78,7 +78,7 @@ const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
 
                     return (
                         <div key={index}>
-                            <Text type="body-bold" className="mb-2 mt-4">
+                            <Text bold className="mb-2 mt-4">
                                 {model.defaults.pluralCapitalize}
                             </Text>
 
@@ -107,9 +107,7 @@ const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
                                                 )
                                             }>
                                             {getObjectIcon(index as ModelType)}
-                                            <Text
-                                                type="body-small"
-                                                className="ml-3">
+                                            <Text size="s" className="ml-3">
                                                 {object.Title}
                                             </Text>
                                         </Link>
@@ -131,19 +129,15 @@ const getObjectIcon = (key: ModelType) => {
     switch (key) {
         case 'ambitie':
             return (
-                <Triangle size={12} className="mt-[2px] text-pzh-apple-green" />
+                <Triangle size={12} className="mt-0.5 text-pzh-apple-green" />
             )
         case 'beleidsdoel':
-            return (
-                <div className="mt-[2px] h-[12px] w-[12px] rounded-[2px] bg-pzh-orange" />
-            )
+            return <div className="rounded-0.5 mt-0.5 h-3 w-3 bg-pzh-orange" />
         case 'beleidskeuze':
-            return (
-                <div className="mt-[2px] h-[12px] w-[12px] rounded-full bg-pzh-yellow" />
-            )
+            return <div className="mt-0.5 h-3 w-3 rounded-full bg-pzh-yellow" />
         case 'maatregel':
             return (
-                <div className="mr-[2px] mt-[2px] h-[10px] w-[10px] rotate-45 rounded-[2px] bg-pzh-green" />
+                <div className="rounded-0.5 mr-0.5 mt-0.5 h-2.5 w-2.5 rotate-45 bg-pzh-green" />
             )
     }
 }

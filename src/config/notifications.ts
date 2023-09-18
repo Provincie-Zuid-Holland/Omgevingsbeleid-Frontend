@@ -16,6 +16,10 @@ export type ToastType =
     | 'acknowledgedRelationSaved'
     | 'acknowledgedRelationPatched'
     | 'acknowledgedRelationDisconnected'
+    | 'userCreated'
+    | 'userActivated'
+    | 'userDeactivated'
+    | 'userPasswordGenerated'
 
 type MessageType = 'default' | 'success' | 'error' | 'warning' | 'info'
 
@@ -86,6 +90,22 @@ export const notifications: Record<
     },
     acknowledgedRelationDisconnected: {
         message: 'De beleidsrelatie is verbroken',
+        type: 'success',
+    },
+    userCreated: {
+        message: 'De gebruiker is aangemaakt',
+        type: 'success',
+    },
+    userActivated: {
+        message: 'De gebruiker is geactiveerd',
+        type: 'success',
+    },
+    userDeactivated: {
+        message: 'De gebruiker is gedeactiveerd',
+        type: 'success',
+    },
+    userPasswordGenerated: {
+        message: 'Het nieuwe wachtwoord voor de gebruiker is opgeslagen',
         type: 'success',
     },
 }

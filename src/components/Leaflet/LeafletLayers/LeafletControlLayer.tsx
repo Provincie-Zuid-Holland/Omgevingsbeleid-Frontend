@@ -44,12 +44,12 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                             {layerControlOpen ? (
                                 <AngleRight
                                     size={16}
-                                    className="text-gray-700"
+                                    className="text-pzh-gray-700"
                                 />
                             ) : (
                                 <LayerGroup
                                     size={16}
-                                    className="text-gray-700"
+                                    className="text-pzh-gray-700"
                                 />
                             )}
                         </button>
@@ -78,7 +78,7 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                                         title="Achtergrondlaag"
                                         positionTop>
                                         <ul className="p-2">
-                                            <li className="cursor-pointer px-2 py-1 text-gray-700 hover:bg-gray-50 hover:text-gray-800 focus:text-gray-900">
+                                            <li className="cursor-pointer px-2 py-1 text-pzh-gray-700 hover:bg-pzh-gray-500 hover:text-pzh-gray-800 focus:text-pzh-gray-800">
                                                 <div>
                                                     <input
                                                         className="mr-2"
@@ -101,7 +101,7 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                                                     </label>
                                                 </div>
                                             </li>
-                                            <li className="cursor-pointer px-2 py-1 text-gray-700 hover:bg-gray-50 hover:text-gray-800 focus:text-gray-900">
+                                            <li className="cursor-pointer px-2 py-1 text-pzh-gray-700 hover:bg-pzh-gray-500 hover:text-pzh-gray-800 focus:text-pzh-gray-800">
                                                 <div>
                                                     <input
                                                         className="mr-2"
