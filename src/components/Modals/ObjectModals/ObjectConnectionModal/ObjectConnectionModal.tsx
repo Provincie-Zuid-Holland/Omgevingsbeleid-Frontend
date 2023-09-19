@@ -7,9 +7,9 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { Button } from '@pzh-ui/components'
 
-import Modal from '@/Modal'
 import { ReadRelation, WriteRelation } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
+import Modal from '@/components/Modal'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import useModalStore from '@/store/modalStore'

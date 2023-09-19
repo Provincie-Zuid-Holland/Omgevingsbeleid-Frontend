@@ -4,8 +4,8 @@ import { useParams } from 'react-router-dom'
 
 import { Button, FormikSelect } from '@pzh-ui/components'
 
-import Modal from '@/Modal'
 import { useUsersGet } from '@/api/fetchers'
+import Modal from '@/components/Modal'
 import { ModelPatchStaticType } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import useModalStore from '@/store/modalStore'

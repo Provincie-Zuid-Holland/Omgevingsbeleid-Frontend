@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 import { Hyperlink, Text } from '@pzh-ui/components'
 
-import Modal from '@/Modal'
+import Modal from '@/components/Modal'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 import useNetworkStore from '@/store/networkStore'

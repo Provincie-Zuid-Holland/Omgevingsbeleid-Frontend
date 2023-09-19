@@ -5,10 +5,11 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { Button, FormikInput, Notification } from '@pzh-ui/components'
 
-import Modal from '@/Modal'
 import useAuth from '@/hooks/useAuth'
 import useModalStore from '@/store/modalStore'
 import * as loginForm from '@/validation/loginForm'
+
+import Modal from '../Modal'
 
 interface FormProps {
     email: string
