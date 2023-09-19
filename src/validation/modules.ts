@@ -1,9 +1,9 @@
 import { array, object } from 'zod'
 
 import {
-    ModuleCreate,
-    ModuleAddNewObject,
     CompleteModule,
+    ModuleAddNewObject,
+    ModuleCreate,
 } from '@/api/fetchers.schemas'
 import createEmptyObject from '@/utils/createEmptyObject'
 import { schemaDefaults } from '@/validation/zodSchema'
@@ -29,7 +29,7 @@ export const SCHEMA_ADD_OBJECT_STEPS = [
     }),
     object({ Object_UUID: schemaDefaults.requiredString() }),
     object({
-        Action: schemaDefaults.title,
+        Action: schemaDefaults.requiredString(),
         Explanation: schemaDefaults.optionalString,
         Conclusion: schemaDefaults.optionalString,
     }),
@@ -37,6 +37,7 @@ export const SCHEMA_ADD_OBJECT_STEPS = [
 
 export const SCHEMA_ADD_NEW_OBJECT = object({
     Object_Type: schemaDefaults.requiredString(),
+    Object_UUID: schemaDefaults.requiredString(),
     Title: schemaDefaults.title,
     Owner_1_UUID: schemaDefaults.requiredString(),
     Owner_2_UUID: schemaDefaults.optionalString,

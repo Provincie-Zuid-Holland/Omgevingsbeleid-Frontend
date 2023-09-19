@@ -58,6 +58,7 @@ const ModuleContentsModal = ({
 
     const CurrentStep = steps[step - 1]
     const isFinalStep = step === 3 || step === 5
+    const currentValidationSchema = modules.SCHEMA_ADD_OBJECT_STEPS[step - 1]
 
     const handleClose = () => {
         setActiveModal(null)
@@ -169,7 +170,7 @@ const ModuleContentsModal = ({
                 initialValues={initialValues}
                 validationSchema={toFormikValidationSchema(
                     // @ts-ignore
-                    modules.SCHEMA_ADD_OBJECT_STEPS[step - 1]
+                    currentValidationSchema
                 )}
                 enableReinitialize
                 validateOnBlur={false}>
