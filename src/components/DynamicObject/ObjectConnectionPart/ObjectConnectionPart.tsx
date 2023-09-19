@@ -42,7 +42,8 @@ const ObjectConnectionPart = ({
                   }
                 : {
                       Object_Type: model.defaults.singular,
-                  }) as ReadRelation,
+                      Object_ID: undefined,
+                  }) as Partial<ReadRelation>,
             connectionModel: model,
         })
         setActiveModal('objectAddConnection')
