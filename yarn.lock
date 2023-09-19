@@ -2500,9 +2500,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.420":
-  version: 0.0.420
-  resolution: "@pzh-ui/components@npm:0.0.420"
+"@pzh-ui/components@npm:^0.0.422":
+  version: 0.0.422
+  resolution: "@pzh-ui/components@npm:0.0.422"
   dependencies:
     "@floating-ui/react": ^0.24.8
     "@headlessui/react": ^1.5.0
@@ -2545,7 +2545,7 @@ __metadata:
     react-table: ^7.8.0
     react-toastify: ^9.1.2
     react-use: ^17.3.2
-  checksum: 140a83b71943d8b16957d4b7ffeef78646fc5815ee402bed3ed2ba3108bfc3c26c273d294234386651103acd4a1f41baf1a54381c51afa484bee9b450f911b19
+  checksum: f4a3168d1bb0b784e8514b0f9e3530ea26a7c3c166372695f08f591b807e812ef3ae475ffc373fed3f532d57d41d08589931d00cd24b871d1ba2e0a2ee037b01
   languageName: node
   linkType: hard
 
@@ -12877,7 +12877,7 @@ __metadata:
     "@axe-core/react": 4.4.1
     "@faker-js/faker": ^7.6.0
     "@headlessui/react": ^1.5.0
-    "@pzh-ui/components": ^0.0.420
+    "@pzh-ui/components": ^0.0.422
     "@pzh-ui/config": ^0.0.47
     "@pzh-ui/css": ^0.0.71
     "@pzh-ui/icons": ^0.0.36
