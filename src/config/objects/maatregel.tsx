@@ -117,6 +117,9 @@ const maatregel: DynamicObject<
                     type: 'wysiwyg',
                     required: true,
                     customMenuOptions: ['image'],
+                    imageOptions: {
+                        maxSize: 819200,
+                    },
                 },
                 {
                     name: 'Role',
@@ -138,6 +141,9 @@ const maatregel: DynamicObject<
                     type: 'wysiwyg',
                     required: true,
                     customMenuOptions: ['image'],
+                    imageOptions: {
+                        maxSize: 819200,
+                    },
                 },
             ],
         },
