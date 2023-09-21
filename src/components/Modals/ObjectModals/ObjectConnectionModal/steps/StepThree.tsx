@@ -1,5 +1,6 @@
-import { FormikTextArea, Text } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
+
+import { FormikTextArea, Text } from '@pzh-ui/components'
 
 import { ReadRelation } from '@/api/fetchers.schemas'
 
@@ -9,15 +10,15 @@ export const StepThree = ({ title, connectionModel, model }: StepProps) => {
     const { values } = useFormikContext<ReadRelation>()
 
     const { defaults } = connectionModel || {}
-    const { singular } = defaults || {}
+    const { singularReadable } = defaults || {}
 
     return (
         <>
             <Text className="mb-4">
-                Leg uit waarom je {singular}:{' '}
+                Leg uit waarom je {singularReadable}:{' '}
                 <span className="font-bold">{values.Title}</span>
                 <br />
-                wilt koppelen aan {model.defaults.singular}:{' '}
+                wilt koppelen aan {model.defaults.singularReadable}:{' '}
                 <span className="font-bold">{title}</span>
             </Text>
             <FormikTextArea

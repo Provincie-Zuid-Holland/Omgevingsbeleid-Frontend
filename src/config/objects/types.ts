@@ -19,13 +19,11 @@ import {
     MaatregelPatch,
     MaatregelStaticPostStatics,
     NationaalBelangFull,
-    VerplichtProgrammaFull,
     WettelijkeTaakFull,
 } from '@/api/fetchers.schemas'
 
-import { DynamicSection } from '../types'
-
 import * as models from '.'
+import { DynamicSection } from '../types'
 
 export interface DynamicObject<
     Fetchers = {
@@ -35,7 +33,7 @@ export interface DynamicObject<
     StaticData = any,
     QueryKeys = {
         [key: string]: any
-    }
+    },
 > {
     /** Default information of object */
     defaults: {
@@ -67,6 +65,8 @@ export interface DynamicObject<
         atemporal?: boolean
         /** Icon of object */
         icon: any
+        /** Parent of object */
+        parentType?: ParentType
     }
     /** Array containing static data fields of object */
     staticData?: StaticData
@@ -99,8 +99,7 @@ export type ModelReturnType = BeleidsdoelFull &
     MaatregelFull &
     GebiedsprogrammaFull &
     NationaalBelangFull &
-    WettelijkeTaakFull &
-    VerplichtProgrammaFull
+    WettelijkeTaakFull
 
 export type ModelPatchType = BeleidsdoelPatch &
     AmbitiePatch &
@@ -117,3 +116,11 @@ export type ModelPatchStaticType = BeleidsdoelStaticPostStatics &
     BeleidsregelStaticPostStatics
 
 export type Model = (typeof models)[ModelType]
+
+export const parentTypes = [
+    'Visie',
+    'Programma',
+    'Verordening',
+    'Overig',
+] as const
+export type ParentType = (typeof parentTypes)[number]

@@ -18,7 +18,8 @@ export type ObjectsValidGetParams = {
     object_type?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type ModulesObjectsLatestGetParams = {
@@ -29,7 +30,8 @@ export type ModulesObjectsLatestGetParams = {
     only_active_modules?: boolean
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type ModulesGetParams = {
@@ -37,9 +39,13 @@ export type ModulesGetParams = {
     only_active?: boolean
     offset?: number
     limit?: number
-    sort?: string
     object_type?: string
     lineage_id?: number
+}
+
+export type RevisionsGetParams = {
+    offset?: number
+    limit?: number
 }
 
 export type ObjectGraphGetParams = {
@@ -50,32 +56,43 @@ export type SearchValidPostParams = {
     query: string
     offset?: number
     limit?: number
-    sort?: string
 }
 
 export type SearchPostParams = {
     query: string
     offset?: number
     limit?: number
-    sort?: string
 }
 
 export type SearchGeoPostParams = {
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type WerkingsgebiedenGetParams = {
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
+}
+
+export type UsersSearchGetParams = {
+    role?: string
+    query?: string
+    active?: boolean
+    offset?: number
+    limit?: number
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type UsersGetParams = {
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type WettelijkeTaakValidGetParams = {
@@ -83,7 +100,8 @@ export type WettelijkeTaakValidGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type VerplichtProgrammaValidGetParams = {
@@ -91,7 +109,8 @@ export type VerplichtProgrammaValidGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type NationaalBelangValidGetParams = {
@@ -99,7 +118,8 @@ export type NationaalBelangValidGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type ModulesObjectsMaatregelActiveLineageIdGetParams = {
@@ -111,7 +131,8 @@ export type ModulesModuleIdObjectMaatregelLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type MaatregelenValidLineageIdGetParams = {
@@ -119,7 +140,8 @@ export type MaatregelenValidLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type MaatregelenValidGetParams = {
@@ -127,7 +149,8 @@ export type MaatregelenValidGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type ModulesObjectsGebiedsprogrammaActiveLineageIdGetParams = {
@@ -139,7 +162,8 @@ export type ModulesModuleIdObjectGebiedsprogrammasLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type GebiedsprogrammasValidLineageIdGetParams = {
@@ -147,7 +171,8 @@ export type GebiedsprogrammasValidLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type GebiedsprogrammasValidGetParams = {
@@ -155,7 +180,8 @@ export type GebiedsprogrammasValidGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type ModulesObjectsBeleidsregelActiveLineageIdGetParams = {
@@ -167,7 +193,8 @@ export type ModulesModuleIdObjectBeleidsregelLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type BeleidsregelsValidLineageIdGetParams = {
@@ -175,7 +202,8 @@ export type BeleidsregelsValidLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type BeleidsregelsValidGetParams = {
@@ -183,7 +211,8 @@ export type BeleidsregelsValidGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type ModulesObjectsBeleidskeuzeActiveLineageIdGetParams = {
@@ -195,7 +224,8 @@ export type ModulesModuleIdObjectBeleidskeuzeLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type BeleidskeuzeAcknowledgedRelationsLineageIdGetParams = {
@@ -209,7 +239,8 @@ export type BeleidskeuzesValidLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type BeleidskeuzesValidGetParams = {
@@ -217,7 +248,8 @@ export type BeleidskeuzesValidGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type ModulesObjectBeleidsdoelActiveLineageIdGetParams = {
@@ -229,7 +261,8 @@ export type ModulesModuleIdObjectBeleidsdoelLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type BeleidsdoelenValidLineageIdGetParams = {
@@ -237,7 +270,8 @@ export type BeleidsdoelenValidLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type BeleidsdoelenValidGetParams = {
@@ -245,7 +279,8 @@ export type BeleidsdoelenValidGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type ModulesObjectAmbitieActiveLineageIdGetParams = {
@@ -257,7 +292,8 @@ export type ModulesModuleIdObjectAmbitieLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type AmbitiesValidLineageIdGetParams = {
@@ -265,7 +301,8 @@ export type AmbitiesValidLineageIdGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type AmbitiesValidGetParams = {
@@ -273,7 +310,8 @@ export type AmbitiesValidGetParams = {
     any_filters?: string
     offset?: number
     limit?: number
-    sort?: string
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export interface WriteRelation {
@@ -363,6 +401,8 @@ export interface Werkingsgebied {
     Created_Date: string
     Modified_Date: string
     Title: string
+    Start_Validity?: string
+    End_Validity?: string
 }
 
 export interface VerplichtProgrammaUUID {
@@ -463,6 +503,39 @@ export interface UserShort {
     Gebruikersnaam: string
 }
 
+export interface UserCreateResponse {
+    UUID: string
+    Email: string
+    Rol: string
+    Password: string
+}
+
+export interface UserCreate {
+    Gebruikersnaam: string
+    Email: string
+    Rol: string
+}
+
+export interface User {
+    UUID: string
+    Gebruikersnaam: string
+    Email: string
+    Rol: string
+    Status: string
+    IsActive: boolean
+}
+
+/**
+ * An enumeration.
+ */
+export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SortOrder = {
+    ASC: 'ASC',
+    DESC: 'DESC',
+} as const
+
 export interface SearchRequestData {
     Object_Types?: string[]
 }
@@ -484,6 +557,11 @@ export interface SearchGeoRequestData {
 
 export interface ResponseOK {
     message: string
+}
+
+export interface ResetPasswordResponse {
+    UUID: string
+    NewPassword: string
 }
 
 export interface RequestAcknowledgedRelation {
@@ -545,6 +623,42 @@ export interface ReadRelation {
     Title?: string | null
 }
 
+export interface PublicModuleShort {
+    Module_ID: number
+    Title: string
+    Description: string
+    Status?: ModuleStatus
+}
+
+export interface PublicModuleObjectShort {
+    Module_ID: number
+    UUID: string
+    Object_Type: string
+    Object_ID: number
+    Code: string
+    Description: string
+    Modified_Date: string
+    Title: string
+    ModuleObjectContext?: PublicModuleObjectContextShort
+}
+
+export interface PublicModuleOverview {
+    Module: PublicModuleShort
+    Objects: PublicModuleObjectShort[]
+}
+
+export interface PublicModuleObjectRevision {
+    Module_Object_UUID: string
+    Module_ID: number
+    Module_Title: string
+    Module_Status: string
+}
+
+export interface PublicModuleObjectContextShort {
+    Action: string
+    Original_Adjust_On?: string
+}
+
 /**
  * Wrap any response schema and add pagination metadata.
  */
@@ -588,11 +702,11 @@ export interface PagedResponseValidSearchObject {
 /**
  * Wrap any response schema and add pagination metadata.
  */
-export interface PagedResponseUserShort {
+export interface PagedResponseUser {
     total: number
     offset?: number
     limit?: number
-    results: UserShort[]
+    results: User[]
 }
 
 /**
@@ -603,6 +717,16 @@ export interface PagedResponseSearchObject {
     offset?: number
     limit?: number
     results: SearchObject[]
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
+export interface PagedResponsePublicModuleShort {
+    total: number
+    offset?: number
+    limit?: number
+    results: PublicModuleShort[]
 }
 
 /**
@@ -1111,6 +1235,7 @@ export interface MaatregelFull {
     Beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
     Gebiedsprogrammas?: ReadRelationShortGebiedsprogrammaMinimal[]
     Beleidsdoelen?: ReadRelationShortBeleidsdoelMinimal[]
+    Public_Revisions?: PublicModuleObjectRevision[]
     ObjectStatics?: MaatregelFullObjectStatics
 }
 
@@ -1203,7 +1328,6 @@ export interface GenericObjectShort {
     Object_ID: number
     UUID: string
     Title?: string
-    Description?: string
 }
 
 export interface GebiedsprogrammaUUID {
@@ -1258,6 +1382,7 @@ export interface GebiedsprogrammaFull {
     Created_By?: UserShort
     Modified_By?: UserShort
     Maatregelen?: ReadRelationShortMaatregelMinimal[]
+    Public_Revisions?: PublicModuleObjectRevision[]
     ObjectStatics?: GebiedsprogrammaFullObjectStatics
 }
 
@@ -1299,6 +1424,13 @@ export interface GebiedsprogrammaBasic {
     Start_Validity?: string | null
     End_Validity?: string | null
     Image?: string | null
+}
+
+export interface EditUser {
+    Gebruikersnaam?: string | null
+    Email?: string | null
+    Rol?: string | null
+    IsActive?: boolean | null
 }
 
 export interface EditAcknowledgedRelation {
@@ -1378,6 +1510,7 @@ export interface BeleidsregelFull {
     Created_By?: UserShort
     Modified_By?: UserShort
     Beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
+    Public_Revisions?: PublicModuleObjectRevision[]
     ObjectStatics?: BeleidsregelFullObjectStatics
 }
 
@@ -1482,6 +1615,7 @@ export interface BeleidskeuzeFull {
     Beleidsdoelen?: ReadRelationShortBeleidsdoelMinimal[]
     Beleidsregels?: ReadRelationShortBeleidsregelMinimal[]
     Maatregelen?: ReadRelationShortMaatregelMinimal[]
+    Public_Revisions?: PublicModuleObjectRevision[]
     ObjectStatics?: BeleidskeuzeFullObjectStatics
 }
 
@@ -1574,6 +1708,7 @@ export interface BeleidsdoelFull {
     Ambities?: ReadRelationShortAmbitieMinimal[]
     Beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
     Maatregelen?: ReadRelationShortMaatregelMinimal[]
+    Public_Revisions?: PublicModuleObjectRevision[]
     ObjectStatics?: BeleidsdoelFullObjectStatics
 }
 
@@ -1671,6 +1806,7 @@ export interface AmbitieFull {
     Created_By?: UserShort
     Modified_By?: UserShort
     Beleidsdoelen?: ReadRelationShortBeleidsdoelMinimal[]
+    Public_Revisions?: PublicModuleObjectRevision[]
     ObjectStatics?: AmbitieFullObjectStatics
 }
 

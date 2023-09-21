@@ -1,5 +1,6 @@
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import { Helmet } from 'react-helmet'
+
+import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 
 import { useGebiedsprogrammasValidGet } from '@/api/fetchers'
 import AreaCard from '@/components/AreaCard'
@@ -27,10 +28,10 @@ function AreaOverview() {
             <Container className="overflow-hidden pb-20">
                 <div className="col-span-6 xl:col-span-3">
                     <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
-                    <Heading level="1" className="mt-10">
+                    <Heading level="1" size="xxl" className="mt-10">
                         Gebiedsprogramma’s
                     </Heading>
-                    <Text type="introduction-paragraph" className="mt-3">
+                    <Text size="l" className="mt-3">
                         Maatregelen worden vaak genomen voor een specifieke
                         regio of een gebied. Hierdoor is het mogelijk om een
                         gebiedsprogramma op te stellen. Een lijstje van deze

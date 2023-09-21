@@ -11,6 +11,7 @@ pool:
 
 variables:
     subscription: 'dta-omgevingsbeleid'
+    VITE_API_ENV: $(Build.SourceBranchName)
 
 stages:
     - stage: Build
@@ -18,15 +19,29 @@ stages:
       jobs:
           - job:
             steps:
+                # Cache .yarn/cache for faster installs
+                - task: Cache@2
+                  inputs:
+                      key: 'yarn | $(Agent.OS) | yarn.lock'
+                      restoreKeys: |
+                          yarn | $(Agent.OS)
+                          yarn
+                      path: $(Pipeline.Workspace)/.yarn/cache
+                  displayName: Cache dependencies
+
                 - task: NodeTool@0
                   inputs:
-                      versionSpec: '16.x'
+                      versionSpec: '18.x'
                   displayName: Install Node.js
+
+                  # Enable Corepack
+                - script: corepack enable
+                  displayName: 'Enable Corepack'
 
                 - task: CmdLine@2
                   displayName: 'Install dependencies'
                   inputs:
-                      script: yarn install
+                      script: 'yarn --immutable'
 
                 - task: CmdLine@2
                   displayName: Run the tests and generate coverage report
@@ -41,10 +56,7 @@ stages:
                 - task: CmdLine@2
                   displayName: Build
                   inputs:
-                      script: |
-                          echo "##vso[task.setvariable variable=VITE_API_ENV]$(Build.SourceBranchName)"
-                          echo "Environment: $(VITE_API_ENV)"
-                          yarn build
+                      script: yarn build
 
                 - task: PublishBuildArtifacts@1
                   inputs:
@@ -117,4 +129,4 @@ stages:
                         steps:
                             - template: azure-file-copy.yml
                               parameters:
-                                  storageName: 'obfrontend'
+                                  storageName: 'obfrontendprod'

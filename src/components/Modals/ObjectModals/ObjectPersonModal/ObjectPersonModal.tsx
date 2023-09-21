@@ -1,31 +1,31 @@
-import { Button, FormikSelect, Heading, Modal } from '@pzh-ui/components'
 import { Form, Formik } from 'formik'
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
+import { Button, FormikSelect } from '@pzh-ui/components'
+
+import Modal from '@/Modal'
 import { useUsersGet } from '@/api/fetchers'
 import { ModelPatchStaticType } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
+import useModalStore from '@/store/modalStore'
 
 import { ObjectPersonModalActions } from '../types'
 
-interface ObjectPersonModalProps extends ObjectPersonModalActions {
-    onClose: () => void
-}
-
-const ObjectPersonModal = ({
-    isOpen,
-    onClose,
-    person,
-    isEdit,
-}: ObjectPersonModalProps) => {
+const ObjectPersonModal = ({ person, isEdit }: ObjectPersonModalActions) => {
     const { objectId } = useParams()
+
+    const activeModal = useModalStore(state => state.activeModal)
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const {
         data: users,
         isFetching,
         isLoading: loadingUsers,
-    } = useUsersGet({ limit: 500 }, { query: { enabled: isOpen } })
+    } = useUsersGet(
+        { limit: 500 },
+        { query: { enabled: activeModal === 'objectPerson' } }
+    )
 
     /**
      * Format user options
@@ -42,7 +42,9 @@ const ObjectPersonModal = ({
     )
 
     const { usePostObjectStatic } = useObject()
-    const { mutate, isLoading } = usePostObjectStatic(onClose)
+    const { mutate, isLoading } = usePostObjectStatic(() =>
+        setActiveModal(null)
+    )
 
     /**
      * Update person
@@ -53,19 +55,13 @@ const ObjectPersonModal = ({
 
     return (
         <Modal
-            open={isOpen}
-            onClose={onClose}
-            ariaLabel={`${person?.label} ${isEdit ? 'wijzigen' : 'toevoegen'}`}
-            maxWidth="sm:max-w-[812px]">
+            id="objectPerson"
+            title={`${person?.label} ${isEdit ? 'wijzigen' : 'toevoegen'}`}>
             <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={{}}
                 enableReinitialize>
                 <Form>
-                    <Heading level="2" className="mb-4 first-letter:uppercase">
-                        {person?.label} {isEdit ? 'wijzigen' : 'toevoegen'}
-                    </Heading>
-
                     <FormikSelect
                         name={person?.key || ''}
                         label={person?.label}
@@ -94,7 +90,9 @@ const ObjectPersonModal = ({
                     />
 
                     <div className="mt-6 flex items-center justify-between">
-                        <Button variant="link" onPress={onClose}>
+                        <Button
+                            variant="link"
+                            onPress={() => setActiveModal(null)}>
                             Annuleren
                         </Button>
                         <Button

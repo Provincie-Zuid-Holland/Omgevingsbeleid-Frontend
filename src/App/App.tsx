@@ -1,11 +1,10 @@
-import './appConfig'
-
-import { DNABar, ToastContainer } from '@pzh-ui/components'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet'
 import { useEffectOnce } from 'react-use'
+
+import { DNABar, ToastContainer } from '@pzh-ui/components'
 
 import Axe from '@/Axe'
 import { LoaderContent } from '@/components/Loader'
@@ -16,6 +15,7 @@ import { BaseLayout } from '@/templates/BaseLayout'
 import { toastNotification } from '@/utils/toastNotification'
 
 import AppRoutes from './Routes'
+import './appConfig'
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -78,7 +78,7 @@ const App = () => {
                                 !isNetworkPage && (
                                     <DNABar
                                         blocks={6}
-                                        className="top-[96px] hidden lg:block"
+                                        className="top-24 hidden lg:block"
                                     />
                                 )}
                         </BaseLayout>

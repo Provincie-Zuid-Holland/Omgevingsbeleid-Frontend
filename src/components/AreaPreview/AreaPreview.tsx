@@ -1,7 +1,8 @@
-import { Text } from '@pzh-ui/components'
 import classNames from 'classnames'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useUpdateEffect } from 'react-use'
+
+import { Text } from '@pzh-ui/components'
 
 import { Werkingsgebied } from '@/api/fetchers.schemas'
 
@@ -11,16 +12,32 @@ interface AreaPreviewProps {
     area?: Partial<Werkingsgebied>
 }
 
-const getAreaImage = (uuid: string) =>
-    `https://geo-omgevingsbeleid-test.azurewebsites.net/wms/reflect?format=image/png&layers=OMGEVINGSBELEID:Werkingsgebieden_brt&srs=EPSG:28992&width=500&bbox=43662.62,406692,140586.08,483120&cql_filter=UUID IN ('${uuid}')`
-
 const AreaPreview = ({ area }: AreaPreviewProps) => {
     const [areaLoaded, setAreadLoaded] = useState(false)
+
+    const getAreaImage = useCallback(() => {
+        const baseUrl = `${import.meta.env.VITE_GEOSERVER_API_URL}/wms/reflect`
+
+        const params: Record<string, string | number> = {
+            format: 'image/png',
+            layers: `OMGEVINGSBELEID:Werkingsgebieden_brt`,
+            srs: 'EPSG:28992',
+            width: '500',
+            bbox: '43662.62,406692,140586.08,483120',
+            cql_filter: `UUID IN='${area?.UUID}'`,
+        }
+
+        const queryString = Object.keys(params)
+            .map(key => `${key}=${encodeURIComponent(params[key])}`)
+            .join('&')
+
+        return `${baseUrl}?${queryString}`
+    }, [area?.UUID])
 
     useUpdateEffect(() => setAreadLoaded(false), [area?.UUID])
 
     return (
-        <div className="relative z-0 w-full flex items-center justify-center overflow-hidden text-center rounded-[4px] bg-pzh-gray-100">
+        <div className="relative z-0 flex w-full items-center justify-center overflow-hidden rounded bg-pzh-gray-100 text-center">
             {!area ? (
                 <Text className="text-pzh-gray-600">
                     Selecteer een werkingsgebied
@@ -30,9 +47,9 @@ const AreaPreview = ({ area }: AreaPreviewProps) => {
             ) : (
                 <>
                     <img
-                        src={getAreaImage(area.UUID || '')}
+                        src={getAreaImage()}
                         alt={area.Title}
-                        className={classNames('w-full h-full object-cover', {
+                        className={classNames('h-full w-full object-cover', {
                             hidden: !areaLoaded,
                         })}
                         onLoad={() => setAreadLoaded(true)}

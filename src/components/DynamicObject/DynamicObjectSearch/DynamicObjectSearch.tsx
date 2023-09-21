@@ -84,8 +84,11 @@ const DynamicObjectSearch = ({
 
     const key = objectKey === 'uuid' ? 'Object_UUID' : 'Object_ID'
 
-    const handleChange = (val: SearchObject) => {
-        setFieldValue(key, objectKey === 'uuid' ? val.UUID : val.Object_ID)
+    const handleChange = (val?: SearchObject) => {
+        setFieldValue(
+            key,
+            val ? (objectKey === 'uuid' ? val.UUID : val.Object_ID) : null
+        )
         return onChange(val)
     }
 

@@ -38,7 +38,7 @@ const LeafletSearch = ({ position = 'topleft' }: LeafletSearchProps) => {
             <div className="leaflet-search relative z-10 flex items-center justify-between h-8 bg-white cursor-pointer">
                 <div
                     className={`w-8 h-8 flex justify-center items-center ${
-                        showLeafletSearch ? 'border-r border-gray-300' : null
+                        showLeafletSearch ? 'border-r border-pzh-gray-300' : null
                     }`}
                     onClick={toggleLeafletSearch}>
                     <MagnifyingGlass

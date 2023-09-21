@@ -1,35 +1,27 @@
-import {
-    Button,
-    FormikCheckbox,
-    Heading,
-    Modal,
-    Text,
-} from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik } from 'formik'
 import { useNavigate, useParams } from 'react-router-dom'
 
+import { Button, FormikCheckbox, Text } from '@pzh-ui/components'
+
+import Modal from '@/Modal'
 import * as models from '@/config/objects'
 import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
+import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 
 interface ObjectDeleteModalProps {
     object?: ModelReturnType
     model: Model
-    isOpen: boolean
-    onClose: () => void
 }
 
-const ObjectDeleteModal = ({
-    object,
-    model,
-    isOpen,
-    onClose,
-}: ObjectDeleteModalProps) => {
+const ObjectDeleteModal = ({ object, model }: ObjectDeleteModalProps) => {
     const queryClient = useQueryClient()
     const navigate = useNavigate()
 
     const { objectId } = useParams()
+
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const {
         singularCapitalize,
@@ -67,15 +59,9 @@ const ObjectDeleteModal = ({
 
     return (
         <Modal
-            open={isOpen}
-            onClose={onClose}
-            ariaLabel={`${singularCapitalize} verwijderen`}
-            maxWidth="sm:max-w-[1200px]"
-            closeButton>
-            <Heading level="2" className="mb-4">
-                {singularCapitalize} verwijderen
-            </Heading>
-
+            id="objectDelete"
+            title={`${singularCapitalize} verwijderen`}
+            size="xl">
             <div className="prose prose-neutral mb-4 max-w-full leading-6 text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0">
                 <Text>
                     Weet je zeker dat je {singularReadable}:{' '}
@@ -97,16 +83,17 @@ const ObjectDeleteModal = ({
                                     models[relation.Object_Type as ModelType]
 
                                 return (
-                                    <li
+                                    <Text
+                                        as="li"
                                         key={
                                             relation.Object_Type +
                                             relation.Object_ID
                                         }>
                                         {model.defaults.singularCapitalize}:{' '}
-                                        <span className="font-bold">
+                                        <Text as="span" bold>
                                             {relation.Title}
-                                        </span>
-                                    </li>
+                                        </Text>
+                                    </Text>
                                 )
                             })}
                         </ul>
@@ -130,7 +117,9 @@ const ObjectDeleteModal = ({
                         </FormikCheckbox>
 
                         <div className="mt-6 flex items-center justify-between border-t border-pzh-gray-300 pt-5">
-                            <Button variant="link" onPress={onClose}>
+                            <Button
+                                variant="link"
+                                onPress={() => setActiveModal(null)}>
                                 Annuleren
                             </Button>
                             <Button

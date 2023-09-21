@@ -23,6 +23,7 @@ const fetchers = {
     useGetValidLineage: null,
     useGetVersion: null,
     useGetLatestLineage: useNationaalBelangLatestLineageIdGet,
+    useGetRevision: null,
     useGetRelations: useNationaalBelangRelationsLineageIdGet,
     usePutRelations: useNationaalBelangRelationsLineageIdPut,
     useGetLatestLineageInModule: null,

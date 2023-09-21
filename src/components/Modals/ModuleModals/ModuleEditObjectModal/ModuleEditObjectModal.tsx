@@ -1,15 +1,10 @@
-import {
-    Button,
-    FormikSelect,
-    FormikTextArea,
-    Heading,
-    Modal,
-    Text,
-} from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik } from 'formik'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
+import { Button, FormikSelect, FormikTextArea, Text } from '@pzh-ui/components'
+
+import Modal from '@/Modal'
 import {
     getModulesModuleIdObjectContextObjectTypeLineageIdGetQueryKey,
     useModulesModuleIdObjectContextObjectTypeLineageIdGet,
@@ -22,21 +17,18 @@ import {
 import { LoaderSpinner } from '@/components/Loader'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
+import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
 
 interface ModuleEditObjectModalProps {
-    isOpen: boolean
-    onClose: () => void
     object: ModuleObjectShort
 }
 
-const ModuleEditObjectModal = ({
-    isOpen,
-    onClose,
-    object,
-}: ModuleEditObjectModalProps) => {
+const ModuleEditObjectModal = ({ object }: ModuleEditObjectModalProps) => {
     const queryClient = useQueryClient()
+
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const model = models[object.Object_Type as ModelType] || {}
     const { singularReadable, prefixSingular } = model.defaults || {}
@@ -75,7 +67,7 @@ const ModuleEditObjectModal = ({
                                 object.Object_ID
                             )
                         )
-                        .then(() => onClose()),
+                        .then(() => setActiveModal(null)),
                         toastNotification('saved')
                 },
             },
@@ -97,12 +89,7 @@ const ModuleEditObjectModal = ({
     }
 
     return (
-        <Modal
-            open={isOpen}
-            onClose={onClose}
-            ariaLabel="Object bewerken"
-            maxWidth="sm:max-w-[812px]"
-            closeButton>
+        <Modal id="moduleEditObject" title={`${singularReadable} bewerken`}>
             {isDataLoading && isDataFetching ? (
                 <div className="flex justify-center">
                     <LoaderSpinner />
@@ -116,11 +103,6 @@ const ModuleEditObjectModal = ({
                     )}
                     enableReinitialize>
                     <Form>
-                        <Heading
-                            level="2"
-                            className="mb-4 first-letter:uppercase">
-                            {object.Object_Type} bewerken
-                        </Heading>
                         <Text className="mb-4">
                             Hier kun je de {!isAdded ? 'actie, ' : ''}
                             toelichting en conclusie aanpassen van “
@@ -167,7 +149,9 @@ const ModuleEditObjectModal = ({
                         </div>
 
                         <div className="mt-6 flex items-center justify-between">
-                            <Button variant="link" onPress={onClose}>
+                            <Button
+                                variant="link"
+                                onPress={() => setActiveModal(null)}>
                                 Annuleren
                             </Button>
                             <Button

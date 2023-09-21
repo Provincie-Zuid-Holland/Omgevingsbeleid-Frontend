@@ -35,9 +35,9 @@ const NetworkGraphTooltip = forwardRef<
         className={classNames('fixed z-50 max-w-[calc(100vw-40px-2rem)]', {
             'left-[-100%]': !variables.active,
         })}>
-        <span className="-mt-[10px] block h-[10px] w-full" />
-        <div className="rounded-[4px] bg-black/80 px-3 pt-3 pb-2">
-            <span className="block text-sm capitalize text-pzh-white">
+        <span className="-mt-2.5 block h-2.5 w-full" />
+        <div className="rounded bg-black/80 px-3 pb-2 pt-3">
+            <span className="block text-s capitalize text-pzh-white">
                 {content?.type}
             </span>
             <span className="block max-w-[400px] truncate font-bold text-pzh-white group-hover:underline">

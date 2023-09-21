@@ -1,8 +1,9 @@
-import { Heading, Text } from '@pzh-ui/components'
-import { Triangle } from '@pzh-ui/icons'
 import groupBy from 'lodash.groupby'
 import { useCallback, useMemo } from 'react'
 import { Link } from 'react-router-dom'
+
+import { Heading, Text } from '@pzh-ui/components'
+import { Triangle } from '@pzh-ui/icons'
 
 import { useObjectGraphGet } from '@/api/fetchers'
 import { GraphVertice } from '@/api/fetchers.schemas'
@@ -20,7 +21,7 @@ interface ObjectNetworkProps {
 const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
     const { data: graph } = useObjectGraphGet(
         { uuid: data.UUID! },
-        { query: { enabled: !!data.UUID } }
+        { query: { enabled: !!data.UUID, onError: () => {} } }
     )
 
     /**
@@ -61,9 +62,9 @@ const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
     if (Object.keys(relations).length === 0) return null
 
     return (
-        <div className="grid grid-cols-4 py-4 px-6 border border-pzh-gray-500 rounded-[4px] ">
+        <div className="grid grid-cols-4 rounded border border-pzh-gray-500 px-6 py-4 ">
             <div className="col-span-6">
-                <Heading level="3" className="text-pzh-green">
+                <Heading level="3" size="m" color="text-pzh-green">
                     Beleidsnetwerk
                 </Heading>
             </div>
@@ -77,7 +78,7 @@ const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
 
                     return (
                         <div key={index}>
-                            <Text type="body-bold" className="mb-2 mt-4">
+                            <Text bold className="mb-2 mt-4">
                                 {model.defaults.pluralCapitalize}
                             </Text>
 
@@ -106,9 +107,7 @@ const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
                                                 )
                                             }>
                                             {getObjectIcon(index as ModelType)}
-                                            <Text
-                                                type="body-small"
-                                                className="ml-3">
+                                            <Text size="s" className="ml-3">
                                                 {object.Title}
                                             </Text>
                                         </Link>
@@ -130,19 +129,15 @@ const getObjectIcon = (key: ModelType) => {
     switch (key) {
         case 'ambitie':
             return (
-                <Triangle size={12} className="text-pzh-apple-green mt-[2px]" />
+                <Triangle size={12} className="mt-0.5 text-pzh-apple-green" />
             )
         case 'beleidsdoel':
-            return (
-                <div className="w-[12px] h-[12px] bg-pzh-orange rounded-[2px] mt-[2px]" />
-            )
+            return <div className="rounded-0.5 mt-0.5 h-3 w-3 bg-pzh-orange" />
         case 'beleidskeuze':
-            return (
-                <div className="w-[12px] h-[12px] bg-pzh-yellow rounded-full mt-[2px]" />
-            )
+            return <div className="mt-0.5 h-3 w-3 rounded-full bg-pzh-yellow" />
         case 'maatregel':
             return (
-                <div className="w-[10px] h-[10px] bg-pzh-green rounded-[2px] mt-[2px] mr-[2px] rotate-45" />
+                <div className="rounded-0.5 mr-0.5 mt-0.5 h-2.5 w-2.5 rotate-45 bg-pzh-green" />
             )
     }
 }

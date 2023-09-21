@@ -1,16 +1,13 @@
-import {
-    Button,
-    FormikInput,
-    Heading,
-    Modal,
-    Notification,
-} from '@pzh-ui/components'
 import { Form, Formik } from 'formik'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
+import { Button, FormikInput, Notification } from '@pzh-ui/components'
+
+import Modal from '@/Modal'
 import useAuth from '@/hooks/useAuth'
+import useModalStore from '@/store/modalStore'
 import * as loginForm from '@/validation/loginForm'
 
 interface FormProps {
@@ -26,7 +23,8 @@ const LoginForm = () => {
     const navigate = useNavigate()
     const { signin } = useAuth()
 
-    const [passwordResetPopup, setPasswordResetPopup] = useState(false)
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
 
@@ -46,10 +44,7 @@ const LoginForm = () => {
 
     return (
         <>
-            <PopupPasswordForgot
-                show={passwordResetPopup}
-                togglePopup={() => setPasswordResetPopup(!passwordResetPopup)}
-            />
+            <PopupPasswordForgot onClose={() => setActiveModal(null)} />
             <Formik
                 initialValues={{ email: '', password: '' }}
                 onSubmit={handleFormSubmit}
@@ -81,10 +76,8 @@ const LoginForm = () => {
                             </Button>
                             <button
                                 type="button"
-                                className="mt-4 cursor-pointer text-sm text-pzh-green underline hover:text-pzh-green-dark sm:ml-4 sm:mt-0"
-                                onClick={() =>
-                                    setPasswordResetPopup(!passwordResetPopup)
-                                }
+                                className="mt-4 cursor-pointer text-s text-pzh-green underline hover:text-pzh-green-dark sm:ml-4 sm:mt-0"
+                                onClick={() => setActiveModal('passwordForget')}
                                 tabIndex={0}>
                                 Wachtwoord vergeten?
                             </button>
@@ -106,22 +99,11 @@ const LoginForm = () => {
  */
 
 interface PopupPasswordForgotProps {
-    show: boolean
-    togglePopup: () => void
+    onClose: () => void
 }
 
-const PopupPasswordForgot = ({
-    show,
-    togglePopup,
-}: PopupPasswordForgotProps) => (
-    <Modal
-        maxWidth="max-w-sm"
-        open={show}
-        onClose={togglePopup}
-        closeButton
-        ariaLabel="Wachtwoord vergeten">
-        <Heading level="3">Wachtwoord vergeten</Heading>
-
+const PopupPasswordForgot = ({ onClose }: PopupPasswordForgotProps) => (
+    <Modal id="passwordForget" size="s" title="Wachtwoord vergeten">
         <Notification className="mb-4 mt-2">
             Binnenkort willen wij het mogelijk maken dat medewerkers van
             provincie Zuid-Holland automatisch kunnen inloggen. Tot die tijd
@@ -136,7 +118,7 @@ const PopupPasswordForgot = ({
         <div className="mt-5 flex items-center justify-between">
             <Button
                 variant="link"
-                onPress={togglePopup}
+                onPress={onClose}
                 data-testid="close-password-forget-popup">
                 Annuleren
             </Button>
@@ -147,7 +129,7 @@ const PopupPasswordForgot = ({
                 onPress={() => {
                     window.location.href =
                         'mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten'
-                    togglePopup()
+                    onClose()
                 }}>
                 Mail versturen
             </Button>

@@ -1,6 +1,7 @@
+import { Link, useParams } from 'react-router-dom'
+
 import { Divider, Heading } from '@pzh-ui/components'
 import { ArrowUpRightFromSquare } from '@pzh-ui/icons'
-import { useParams, Link } from 'react-router-dom'
 
 import ObjectActiveModules from '@/components/DynamicObject/ObjectActiveModules'
 import ObjectConnections from '@/components/DynamicObject/ObjectConnections'
@@ -43,15 +44,19 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
             title={`${singularCapitalize}: ${object?.Title}`}
             breadcrumbs={breadcrumbPaths}>
             <div className="col-span-6 sm:col-span-4">
-                <Heading level="3" as="2" className="mb-2">
+                <Heading level="2" size="m" className="mb-2">
                     {singularCapitalize}
                 </Heading>
                 {isLoading && <LoaderCard height="56" className="w-auto" />}
-                <Heading level="1" className="mb-2">
+                <Heading level="1" size="xxl" className="mb-2">
                     {object?.Title}
                 </Heading>
                 <Link
-                    to={`/${slugOverview}/${object?.UUID}`}
+                    to={`/${slugOverview}/${
+                        moduleId
+                            ? `ontwerpversie/${moduleId}/${object?.UUID}`
+                            : object?.UUID
+                    }`}
                     className="flex items-center text-pzh-green underline hover:text-pzh-green-dark">
                     Bekijk in raadpleegomgeving
                     <ArrowUpRightFromSquare className="ml-2" />

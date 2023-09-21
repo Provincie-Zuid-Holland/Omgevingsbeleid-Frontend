@@ -1,8 +1,8 @@
+import { KeyboardEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import { FieldInput, Heading, ListLink, Pagination } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
-import { KeyboardEvent, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useUpdateEffect } from 'react-use'
 
 import { LoaderCard, LoaderSpinner } from '@/components/Loader'
 
@@ -13,10 +13,13 @@ interface ObjectListProps {
     objectSlug: string
     /** Singular of the object */
     objectSingular?: string
+    /** Key of object */
+    objectKey?: 'uuid' | 'id'
     /** Array of objects */
     data: {
-        Title?: string
+        Title?: string | null
         UUID?: string
+        Object_ID?: number
     }[]
     /** Is data loading */
     isLoading?: boolean
@@ -39,6 +42,7 @@ const ObjectList = ({
     objectType,
     objectSlug,
     objectSingular,
+    objectKey = 'uuid',
     isLoading,
     hasSearch = true,
     title,
@@ -48,12 +52,6 @@ const ObjectList = ({
     onPageChange,
 }: ObjectListProps) => {
     const navigate = useNavigate()
-
-    const [pagination, setPagination] = useState({
-        isLoaded: false,
-        total,
-        limit,
-    })
 
     /**
      * Handle change of search field
@@ -79,27 +77,15 @@ const ObjectList = ({
         }
     }
 
-    useUpdateEffect(() => {
-        if (!pagination.isLoaded && !!total) {
-            setPagination({ isLoaded: true, total, limit })
-        }
-    }, [total, limit])
-
-    useUpdateEffect(() => {
-        if (pagination.isLoaded) {
-            setPagination({ isLoaded: false, total, limit })
-        }
-    }, [objectType])
-
     return (
         <>
             <div className="flex flex-col justify-between sm:flex-row">
-                <Heading as="2" level="3" className="mb-3">
+                <Heading size="m" level="2" className="mb-3">
                     {title
                         ? title
-                        : !pagination.isLoaded && isLoading
+                        : isLoading
                         ? `De ${objectType} worden geladen`
-                        : `De ${pagination.total} ${objectType}`}
+                        : `De ${total} ${objectType}`}
                     {isLoading && <LoaderSpinner className="ml-2" />}
                 </Heading>
             </div>
@@ -107,8 +93,8 @@ const ObjectList = ({
             {hasSearch &&
                 objectSingular &&
                 !isLoading &&
-                !!pagination.total &&
-                pagination.total > pagination.limit && (
+                !!total &&
+                total > limit && (
                     <div className="my-4">
                         <FieldInput
                             name="search"
@@ -130,18 +116,22 @@ const ObjectList = ({
                         <li key={index} className="py-0.5">
                             <ListLink
                                 text={obj.Title || ''}
-                                to={`/${objectSlug}/${obj.UUID}`}
+                                to={`/${objectSlug}/${
+                                    objectKey === 'uuid'
+                                        ? obj.UUID
+                                        : obj.Object_ID
+                                }`}
                             />
                         </li>
                     ))
                 )}
             </ul>
-            {onPageChange && pagination.total > pagination.limit && (
+            {onPageChange && total > limit && (
                 <div className="mt-8 flex justify-center">
                     <Pagination
                         onChange={onPageChange}
-                        total={pagination.total}
-                        limit={pagination.limit}
+                        total={total}
+                        limit={limit}
                         forcePage={currPage}
                     />
                 </div>

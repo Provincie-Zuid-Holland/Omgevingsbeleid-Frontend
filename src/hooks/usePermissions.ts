@@ -9,6 +9,9 @@ export interface Permissions {
     canEditModuleObjectContext: boolean
     canRemoveObjectFromModule: boolean
     canPatchObjectInModule: boolean
+    canCreateUser: boolean
+    canEditUser: boolean
+    canResetUserPassword: boolean
 }
 
 const usePermissions = (): Permissions => {
@@ -23,6 +26,9 @@ const usePermissions = (): Permissions => {
         canEditModuleObjectContext: false,
         canRemoveObjectFromModule: false,
         canPatchObjectInModule: false,
+        canCreateUser: false,
+        canEditUser: false,
+        canResetUserPassword: false,
     }
 
     switch (role) {
@@ -42,6 +48,9 @@ const usePermissions = (): Permissions => {
                 canEditModuleObjectContext: true,
                 canRemoveObjectFromModule: true,
                 canPatchObjectInModule: true,
+                canCreateUser: true,
+                canEditUser: true,
+                canResetUserPassword: true,
             }
         case 'Behandelend Ambtenaar':
             return {

@@ -1,5 +1,6 @@
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import { Helmet } from 'react-helmet'
+
+import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 
 import { Container } from '@/components/Container'
 
@@ -20,7 +21,9 @@ const NotFoundPage = () => {
                 </div>
 
                 <div className="col-span-6 xl:col-span-4 xl:col-start-2">
-                    <Heading level="1">Pagina is niet gevonden</Heading>
+                    <Heading level="1" size="xxl">
+                        Pagina is niet gevonden
+                    </Heading>
                     <Text className="mt-4">
                         Helaas, de pagina die je zoekt is niet gevonden. Het kan
                         zijn dat de pagina is verwijderd, of dat de naam is

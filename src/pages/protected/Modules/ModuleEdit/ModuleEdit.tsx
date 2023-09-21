@@ -1,7 +1,8 @@
-import { Divider, Heading } from '@pzh-ui/components'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
+
+import { Divider, Heading } from '@pzh-ui/components'
 
 import { useModulesModuleIdGet } from '@/api/fetchers'
 import { Module } from '@/api/fetchers.schemas'
@@ -68,7 +69,9 @@ const ModuleEdit = () => {
                         <Form>
                             <div className="grid grid-cols-6 gap-x-10 gap-y-0">
                                 <div className="col-span-6 mb-8">
-                                    <Heading level="1">Module bewerken</Heading>
+                                    <Heading level="1" size="xxl">
+                                        Module bewerken
+                                    </Heading>
                                 </div>
                             </div>
 

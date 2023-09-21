@@ -1,7 +1,9 @@
-import { Divider, FieldSelect, Heading, Modal, Text } from '@pzh-ui/components'
 import { useMemo, useState } from 'react'
 import { useUpdateEffect } from 'react-use'
 
+import { Divider, FieldSelect, Text } from '@pzh-ui/components'
+
+import Modal from '@/Modal'
 import ObjectRevision from '@/components/DynamicObject/ObjectRevision/ObjectRevision'
 import { LoaderSpinner } from '@/components/Loader'
 import { Model, ModelReturnType } from '@/config/objects/types'
@@ -18,13 +20,13 @@ interface RevisionModalProps {
     onClose: () => void
     model: Model
     revisions?: ModelReturnType[]
+    latestUUID?: string
 }
 
 const RevisionModal = ({
     model,
     revisions,
-    isOpen,
-    onClose,
+    latestUUID,
 }: RevisionModalProps) => {
     const {
         initialObject,
@@ -41,10 +43,10 @@ const RevisionModal = ({
         if (!initialObject) return
 
         return revisions?.map(revision => ({
-            label: getRevisionLabel(revision, initialObject),
+            label: getRevisionLabel(revision, initialObject, latestUUID),
             value: revision.UUID,
         }))
-    }, [revisions, initialObject])
+    }, [revisions, initialObject, latestUUID])
 
     const [revisionFromUuid, setRevisionFromUuid] = useState<
         string | undefined
@@ -88,20 +90,12 @@ const RevisionModal = ({
     }, [revisionToUuid])
 
     return (
-        <Modal
-            open={isOpen}
-            onClose={onClose}
-            ariaLabel="Revisieoverzicht"
-            maxWidth="sm:max-w-[812px]"
-            closeButton>
-            <Heading level="2" className="mb-4">
-                Revisieoverzicht
-            </Heading>
+        <Modal id="revision" title="Revisieoverzicht" size="m">
             <Text className="mb-4">
                 Vergelijk de versies van {prefixSingular} {singularReadable} “
                 {initialObject?.Title}”.
             </Text>
-            <Text type="body-bold" className="mb-2">
+            <Text bold className="mb-2">
                 Welke versies wil je vergelijken?
             </Text>
             <div className="mb-2">
@@ -130,7 +124,7 @@ const RevisionModal = ({
             />
             <Divider className="my-4" />
 
-            <div className="min-h-[120px] inline-block">
+            <div className="inline-block min-h-[120px]">
                 {revisionFromFetching || revisionToFetching ? (
                     <LoaderSpinner />
                 ) : (
@@ -140,6 +134,7 @@ const RevisionModal = ({
                             model={model}
                             revisionFrom={revisionFrom}
                             revisionTo={revisionTo}
+                            latestUUID={latestUUID}
                         />
                     )
                 )}

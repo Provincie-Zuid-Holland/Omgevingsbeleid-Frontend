@@ -8,31 +8,35 @@ import ObjectProvider from '@/context/ObjectContext'
 import useAuth from '@/hooks/useAuth'
 import {
     Dashboard,
-    ObjectEdit,
     DynamicOverview,
     ModuleCreate,
     ModuleDetail,
     ModuleEdit,
     ObjectCreate,
     ObjectDetail,
+    ObjectEdit,
     ObjectWrite,
+    UserDetail,
+    UsersOverview,
 } from '@/pages/protected'
 import {
+    Accessibility,
     AreaDetail,
     AreaOverview,
-    Accessibility,
+    AtemportalObject,
+    DynamicObject as DynamicObjectPublic,
+    DynamicOverview as DynamicOverviewPublic,
     EnvironmentProgram,
     Home,
     Login,
-    PlanningAndReleases,
-    DynamicOverview as DynamicOverviewPublic,
-    DynamicObject as DynamicObjectPublic,
+    MapSearch,
     Network,
+    NotFoundPage,
+    PlanningAndReleases,
+    Revisions,
+    SearchResults,
     ThemeDetail,
     ThemeOverview,
-    MapSearch,
-    SearchResults,
-    NotFoundPage,
 } from '@/pages/public'
 
 import ProtectedRoute from './ProtectedRoute'
@@ -64,6 +68,10 @@ const AppRoutes = () => {
         {
             path: 'beleidsnetwerk',
             element: <Network />,
+        },
+        {
+            path: 'herzieningen',
+            element: <Revisions />,
         },
         // {
         //     path: 'verordening',
@@ -128,13 +136,40 @@ const AppRoutes = () => {
                         ),
                     },
                     {
-                        path: ':uuid',
-                        element: (
+                        path: !models[model as ModelType].defaults.atemporal
+                            ? ':uuid'
+                            : ':id',
+                        element: !models[model as ModelType].defaults
+                            .atemporal ? (
                             <DynamicObjectPublic
+                                model={models[model as ModelType]}
+                            />
+                        ) : (
+                            <AtemportalObject
                                 model={models[model as ModelType]}
                             />
                         ),
                     },
+                    ...(!models[model as ModelType].defaults.atemporal
+                        ? [
+                              {
+                                  path: 'ontwerpversie',
+                                  children: [
+                                      {
+                                          path: ':moduleId/:uuid',
+                                          element: (
+                                              <DynamicObjectPublic
+                                                  model={
+                                                      models[model as ModelType]
+                                                  }
+                                                  isRevision
+                                              />
+                                          ),
+                                      },
+                                  ],
+                              },
+                          ]
+                        : []),
                 ],
             })),
         /**
@@ -302,6 +337,23 @@ const AppRoutes = () => {
                             []),
                     ],
                 })),
+                // {
+                //     path: 'verordening',
+                //     element: <Regulations />,
+                // },
+                {
+                    path: 'gebruikers',
+                    children: [
+                        {
+                            index: true,
+                            element: <UsersOverview />,
+                        },
+                        {
+                            path: ':uuid',
+                            element: <UserDetail />,
+                        },
+                    ],
+                },
             ],
         },
         {
