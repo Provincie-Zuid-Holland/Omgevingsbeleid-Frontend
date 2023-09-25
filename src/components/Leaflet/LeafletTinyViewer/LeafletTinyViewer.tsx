@@ -50,7 +50,7 @@ const LeafletTinyViewerInner = ({ uuid }: LeafletTinyViewerProps) => {
 
     const initializeMap = () => {
         const defaultLayerOptions = {
-            version: '1.1.1',
+            version: '1.3.0',
             format: 'image/png',
             transparent: true,
             cql_filter: `UUID='${uuid}'`,
