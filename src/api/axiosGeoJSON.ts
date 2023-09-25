@@ -4,7 +4,8 @@ import { Point } from 'leaflet'
 export interface Feature {
     id: string
     properties: {
-        Onderverdeling: string
+        Onderverdeling?: string
+        Gebied?: string
         UUID: string
         symbol: string
     }
@@ -33,7 +34,7 @@ const generateUrl = (
         .map(key => `${key}=${encodeURIComponent(params[key])}`)
         .join('&')
 
-    return `ows?${queryString}`
+    return queryString
 }
 
 // Function to fetch data using a generic template
@@ -44,7 +45,7 @@ const fetchData = async (
     const url = generateUrl(params)
 
     try {
-        const response = await instance.get(url, config)
+        const response = await instance.get(`ows?${url}`, config)
         return response.data
     } catch (error) {
         // Handle error if necessary
@@ -82,6 +83,23 @@ const getOnderverdeling = async (
         outputFormat: 'application/json',
         cql_filter: `UUID='${UUID}'`,
         propertyName: 'Onderverdeling,symbol,UUID',
+    }
+
+    return fetchData(params, config)
+}
+
+const getWerkingsgebied = async (
+    UUID: string,
+    config?: AxiosRequestConfig
+): Promise<FeatureCollection> => {
+    const params = {
+        service: 'wfs',
+        version: api_version,
+        request: 'GetFeature',
+        typeName: 'OMGEVINGSBELEID:Werkingsgebieden',
+        outputFormat: 'application/json',
+        cql_filter: `UUID='${UUID}'`,
+        propertyName: 'Gebied,symbol,UUID',
     }
 
     return fetchData(params, config)
@@ -127,11 +145,29 @@ const getWerkingsGebiedenByArea = async (
     return fetchData(params, config)
 }
 
+const generateImageUrl = (symbol: string) => {
+    const params = {
+        version: api_version,
+        request: 'GetLegendGraphic',
+        format: 'image/png',
+        layer: 'OMGEVINGSBELEID:Werkingsgebieden',
+        width: 20,
+        height: 20,
+        rule: symbol,
+    }
+
+    const path = generateUrl(params)
+
+    return `${import.meta.env.VITE_GEOSERVER_API_URL}/wms?${path}`
+}
+
 export default instance
 export {
     getGeoJsonData,
     getOnderverdeling,
+    getWerkingsgebied,
     getWerkingsGebieden,
     getWerkingsGebiedenByArea,
     api_version,
+    generateImageUrl,
 }
