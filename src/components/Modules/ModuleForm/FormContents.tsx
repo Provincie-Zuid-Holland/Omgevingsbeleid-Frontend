@@ -25,7 +25,10 @@ interface ModalProps {
 
 const initialModalValues: ModalProps = {
     initialStep: 2,
-    initialValues: { ...modules.EMPTY_MODULE_OBJECT, state: 'new' },
+    initialValues: {
+        ...modules.EMPTY_MODULE_OBJECT,
+        state: 'new',
+    },
 }
 
 const FormContents = () => {

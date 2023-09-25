@@ -1,5 +1,6 @@
 import { Transition } from '@headlessui/react'
 import Leaflet, { Map, latLng } from 'leaflet'
+import groupBy from 'lodash.groupby'
 import { ReactNode, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -13,25 +14,28 @@ import useSearchParam from '@/hooks/useSearchParam'
 
 import { MAP_OPTIONS } from '../MapSearch'
 import { handleWerkingsgebiedSelect } from '../utils'
-import groupBy from 'lodash.groupby'
 
 interface SidebarInformationProps {
     mapInstance: Map | null
     searchOpen: boolean
     onDraw: (callback: any) => Promise<void>
+    setAreaLoading: (loading: boolean) => void
 }
 
 const SidebarInformation = ({
     mapInstance,
     searchOpen,
     onDraw,
+    setAreaLoading,
 }: SidebarInformationProps) => {
-    const { get, set } = useSearchParam()
+    const { get, set, remove } = useSearchParam()
     const [paramWerkingsgebied] = get('werkingsgebied')
     const navigate = useNavigate()
 
     const [werkingsgebied, setWerkingsgebied] =
         useState<Leaflet.Proj.GeoJSON | null>(null)
+    const [previousRequestController, setPreviousRequestController] =
+        useState<AbortController | null>(null)
 
     const { data, isLoading } = useWerkingsgebiedenGet({
         limit: 500,
@@ -83,15 +87,33 @@ const SidebarInformation = ({
 
     useEffect(() => {
         if (paramWerkingsgebied && mapInstance) {
+            // Check if there's a previous request and cancel it
+            if (previousRequestController) {
+                previousRequestController.abort() // Cancel the previous request
+            }
+
+            // Create a new AbortController instance for the current request
+            const currentRequestController = new AbortController()
+            setPreviousRequestController(currentRequestController)
+
+            mapInstance.eachLayer((layer: any) => {
+                if (!!layer._latlng || !!layer._svgSize) {
+                    mapInstance.removeLayer(layer)
+                }
+            })
+            setAreaLoading(true)
+
             handleWerkingsgebiedSelect(
                 mapInstance,
                 navigate,
                 werkingsgebied,
                 setWerkingsgebied,
+                setAreaLoading,
                 {
                     label: '',
                     value: paramWerkingsgebied || '',
-                }
+                },
+                currentRequestController.signal
             )
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -188,6 +210,7 @@ const SidebarInformation = ({
                         menuPlacement="auto"
                         isLoading={isLoading}
                         onChange={val => {
+                            remove('geoQuery')
                             set(
                                 'werkingsgebied',
                                 (val as { value: string })?.value || ''
@@ -202,7 +225,7 @@ const SidebarInformation = ({
                 enter="transition-all ease-out duration-300 transform"
                 enterFrom="opacity-0 -ml-12"
                 enterTo="opacity-100 ml-0"
-                leave="transition-all ease-in duration-0 transform"
+                leave="transition-all ease-in duration-[1ms] transform"
                 leaveFrom="opacity-100 ml-0"
                 leaveTo="opacity-0 -ml-12"
                 className="h-full w-12">

@@ -2,7 +2,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet'
-import { useEffectOnce } from 'react-use'
 
 import { DNABar, ToastContainer } from '@pzh-ui/components'
 
@@ -37,20 +36,6 @@ const App = () => {
     const userIsInMuteerEnvironment = usePage('/muteer')
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
     const isNetworkPage = usePage('/beleidsnetwerk')
-
-    useEffectOnce(() => checkForInternetExplorer())
-
-    // Used to check for Internet Explorer on mount and display an alert that we only support modern browsers. We do polyfill functionalities where needed for Internet Explorer.
-    const checkForInternetExplorer = () => {
-        const ua = window.navigator.userAgent
-        const msie = ua.indexOf('MSIE ')
-        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv:11\./)) {
-            // If Internet Explorer, return version number
-            window.alert(
-                'Deze website werkt met moderne browsers als Chrome, Firefox, Safari, etc'
-            )
-        }
-    }
 
     return (
         <>

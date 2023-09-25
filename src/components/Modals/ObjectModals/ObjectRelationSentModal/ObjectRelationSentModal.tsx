@@ -6,11 +6,11 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { Button } from '@pzh-ui/components'
 
-import Modal from '@/Modal'
 import {
     AcknowledgedRelation,
     EditAcknowledgedRelation,
 } from '@/api/fetchers.schemas'
+import Modal from '@/components/Modal'
 import { Model } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import useModalStore from '@/store/modalStore'

@@ -6,12 +6,12 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { Button } from '@pzh-ui/components'
 
-import Modal from '@/Modal'
 import {
     getModulesGetQueryKey,
     useModulesModuleIdCompletePost,
 } from '@/api/fetchers'
 import { CompleteModule } from '@/api/fetchers.schemas'
+import Modal from '@/components/Modal'
 import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'

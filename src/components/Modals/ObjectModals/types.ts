@@ -10,7 +10,7 @@ export interface ObjectConnectionModalActions {
     connectionModel: Model
     initialStep?: number
     initialValues:
-        | ReadRelation
+        | Partial<ReadRelation>
         | { items?: { Object_ID: number; Title: string }[] }
 }
 

@@ -3,9 +3,9 @@ import { useUpdateEffect } from 'react-use'
 
 import { Divider, FieldSelect, Text } from '@pzh-ui/components'
 
-import Modal from '@/Modal'
-import ObjectRevision from '@/components/DynamicObject/ObjectRevision/ObjectRevision'
+import ObjectRevision from '@/components/DynamicObject/ObjectRevision'
 import { LoaderSpinner } from '@/components/Loader'
+import Modal from '@/components/Modal'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useRevisionStore from '@/store/revisionStore'
 import getRevisionLabel from '@/utils/getRevisionLabel'

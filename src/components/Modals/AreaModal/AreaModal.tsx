@@ -4,8 +4,8 @@ import { useMemo, useState } from 'react'
 
 import { Button } from '@pzh-ui/components'
 
-import Modal from '@/Modal'
 import { useWerkingsgebiedenGet } from '@/api/fetchers'
+import Modal from '@/components/Modal'
 import useModalStore from '@/store/modalStore'
 
 import { StepOne, StepTwo } from './steps'
@@ -30,9 +30,12 @@ const AreaModal = ({ initialStep = 1, handleFormSubmit }: AreaModalProps) => {
 
     const [step, setStep] = useState(initialStep)
 
-    const { data, isLoading } = useWerkingsgebiedenGet({ limit: 500 }, {
-        query: { enabled: activeModal === 'areaAdd' },
-    })
+    const { data, isLoading } = useWerkingsgebiedenGet(
+        { limit: 500 },
+        {
+            query: { enabled: activeModal === 'areaAdd' },
+        }
+    )
 
     /**
      * Group data by Title

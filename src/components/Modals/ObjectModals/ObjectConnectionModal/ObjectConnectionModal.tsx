@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query'
-import { Form, Formik } from 'formik'
+import { Form, Formik, FormikHelpers } from 'formik'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useUpdateEffect } from 'react-use'
@@ -7,9 +7,9 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { Button } from '@pzh-ui/components'
 
-import Modal from '@/Modal'
 import { ReadRelation, WriteRelation } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
+import Modal from '@/components/Modal'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import useModalStore from '@/store/modalStore'
@@ -164,14 +164,14 @@ const ObjectConnectionModal = ({
     )
 }
 
+type ConnectionPayload =
+    | WriteRelation
+    | { items?: { Object_ID: number; Title: string }[] }
+
 interface ConnectionModalProps extends ObjectConnectionModalProps {
     isFetching?: boolean
     handleDeleteConnection: (connection: WriteRelation) => void
-    handleFormSubmit: (
-        payload:
-            | WriteRelation
-            | { items?: { Object_ID: number; Title: string }[] }
-    ) => void
+    handleFormSubmit: (payload: ConnectionPayload) => void
     relations?: ReadRelation[]
     data?: ModelReturnType
 }
@@ -195,6 +195,8 @@ export const ConnectionModal = ({
 
     const CurrentStep = steps[step - 1]
     const isFinalStep = step === (connectionModel?.defaults?.atemporal ? 2 : 3)
+    const currentValidationSchema =
+        objectConnection.SCHEMA_CONNECTION_STEPS[step - 1]
 
     /**
      * Update step if initialStep has changed
@@ -219,6 +221,19 @@ export const ConnectionModal = ({
         setTimeout(() => setStep(initialStep), 300)
     }
 
+    const handleSubmit = (
+        payload: ConnectionPayload,
+        helpers: FormikHelpers<ConnectionPayload>
+    ) => {
+        if (isFinalStep) {
+            handleFormSubmit(payload)
+        } else {
+            setStep(step + 1)
+            helpers.setTouched({})
+            helpers.setSubmitting(false)
+        }
+    }
+
     return (
         <Modal
             id="objectAddConnection"
@@ -230,10 +245,10 @@ export const ConnectionModal = ({
                 </div>
             )}
             <Formik
-                onSubmit={handleFormSubmit}
-                initialValues={initialValues}
+                onSubmit={handleSubmit}
+                initialValues={initialValues as ConnectionPayload}
                 validationSchema={toFormikValidationSchema(
-                    objectConnection.SCHEMA
+                    currentValidationSchema
                 )}
                 enableReinitialize>
                 {({ isValid, isSubmitting, submitForm }) => (
@@ -258,6 +273,7 @@ export const ConnectionModal = ({
                                     <Button
                                         variant="secondary"
                                         type="button"
+                                        size="small"
                                         onPress={() => setStep(step - 1)}
                                         className="mr-3">
                                         Vorige stap
@@ -266,16 +282,12 @@ export const ConnectionModal = ({
                                         variant={
                                             isFinalStep ? 'cta' : 'primary'
                                         }
-                                        type="button"
+                                        size="small"
                                         isDisabled={
                                             (isFinalStep && !isValid) ||
                                             (isFinalStep && isSubmitting)
                                         }
-                                        onPress={() => {
-                                            !isFinalStep
-                                                ? setStep(step + 1)
-                                                : submitForm()
-                                        }}
+                                        onPress={submitForm}
                                         isLoading={isSubmitting}>
                                         {isFinalStep
                                             ? 'Opslaan'

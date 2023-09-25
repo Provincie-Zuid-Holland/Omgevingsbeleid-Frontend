@@ -111,7 +111,7 @@ const gebiedsprogramma: DynamicObject<
                     name: 'Image',
                     label: 'Afbeelding van het gebied',
                     type: 'image',
-                    maxSize: 1048576,
+                    maxSize: 819200,
                     maxFiles: 1,
                     preview: true,
                     required: true,

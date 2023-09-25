@@ -1,5 +1,5 @@
 import axios from 'axios'
-import Leaflet, { latLng, Map } from 'leaflet'
+import Leaflet, { Map, latLng } from 'leaflet'
 import ReactDOMServer from 'react-dom/server'
 
 import { getGeoJsonData } from '@/api/axiosGeoJSON'
@@ -16,7 +16,9 @@ const handleWerkingsgebiedSelect = async (
     navigate: any,
     werkingsgebied: Leaflet.Proj.GeoJSON | null,
     setWerkingsgebied: (item: Leaflet.Proj.GeoJSON | null) => void,
-    selected?: SelectedOption | null
+    setAreaLoading: (loading: boolean) => void,
+    selected?: SelectedOption | null,
+    signal?: AbortSignal
 ) => {
     const location = document.location.toString()
     const searchParams = new URL(location).searchParams
@@ -31,7 +33,9 @@ const handleWerkingsgebiedSelect = async (
     let werkingsgebiedLayer: any
     let werkingsgebiedPopup: any
 
-    return await getGeoJsonData('Werkingsgebieden', selected.value)
+    return await getGeoJsonData('Werkingsgebieden', selected.value, {
+        signal,
+    })
         .then(res => {
             const geoJsonLayer = Leaflet.Proj.geoJson(res, {
                 onEachFeature: (feature, layer: any) => {
@@ -58,6 +62,7 @@ const handleWerkingsgebiedSelect = async (
             })
 
             setWerkingsgebied(geoJsonLayer)
+            setAreaLoading(false)
 
             geoJsonLayer.addTo(mapInstance)
             mapInstance.fitBounds(geoJsonLayer.getBounds())
@@ -95,6 +100,7 @@ const handleWerkingsgebiedSelect = async (
             } else {
                 console.log(err)
                 toastNotification('error')
+                setAreaLoading(false)
             }
         })
 }

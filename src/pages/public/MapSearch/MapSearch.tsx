@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { Map, point } from 'leaflet'
 import Proj from 'proj4leaflet'
 import { useEffect, useMemo, useState } from 'react'
@@ -9,6 +10,7 @@ import { getWerkingsGebieden } from '@/api/axiosGeoJSON'
 import { ContainerMapSearch } from '@/components/Container'
 import { LeafletMap } from '@/components/Leaflet'
 import { mapPanTo } from '@/components/Leaflet/utils'
+import { LoaderSpinner } from '@/components/Loader'
 import { RDProj4, leafletBounds } from '@/constants/leaflet'
 import useSearchParam from '@/hooks/useSearchParam'
 
@@ -33,17 +35,30 @@ const MapSearch = () => {
     ])
     const isSmall = useMedia('(max-width: 640px)')
 
+    const [previousRequestController, setPreviousRequestController] =
+        useState<AbortController | null>(null)
+
     const [initialized, setInitialized] = useState(false)
     const [mapInstance, setMapInstance] = useState<Map | null>(null)
     const [UUIDs, setUUIDs] = useState<string[]>([])
     const [searchOpen, setSearchOpen] = useState(paramSearchOpen === 'true')
     const [drawType, setDrawType] = useState('')
     const [geoLoading, setGeoLoading] = useState(false)
+    const [areaLoading, setAreaLoading] = useState(false)
 
     /**
      * Set UUIDs of current location or area
      */
     const onDraw = async (callback: any) => {
+        // Check if there's a previous request and cancel it
+        if (previousRequestController) {
+            previousRequestController.abort() // Cancel the previous request
+        }
+
+        // Create a new AbortController instance for the current request
+        const currentRequestController = new AbortController()
+        setPreviousRequestController(currentRequestController)
+
         setUUIDs([])
         setGeoLoading(true)
 
@@ -63,7 +78,8 @@ const MapSearch = () => {
         } else if (callback.type === 'marker') {
             const werkingsgebieden = await getWerkingsGebieden(
                 callback.point.x,
-                callback.point.y
+                callback.point.y,
+                { signal: currentRequestController.signal }
             ).then(data => {
                 setGeoLoading(false)
                 return data
@@ -197,13 +213,28 @@ const MapSearch = () => {
                     mapInstance={mapInstance}
                     searchOpen={searchOpen}
                     onDraw={onDraw}
+                    setAreaLoading={setAreaLoading}
                 />
 
                 <div
-                    className={`leaflet-advanced-search w-full md:h-auto ${
-                        searchOpen ? 'h-44' : 'h-80'
-                    }`}>
-                    {map}
+                    className={classNames('relative w-full md:h-auto', {
+                        'h-44': searchOpen,
+                        'h-80': !searchOpen,
+                    })}>
+                    {areaLoading && (
+                        <div className="absolute left-0 top-0 z-1 flex h-full w-full items-center justify-center">
+                            <LoaderSpinner />
+                        </div>
+                    )}
+                    <div
+                        className={classNames(
+                            'leaflet-advanced-search h-full w-full',
+                            {
+                                'animate-pulse': areaLoading,
+                            }
+                        )}>
+                        {map}
+                    </div>{' '}
                 </div>
 
                 <SidebarResults

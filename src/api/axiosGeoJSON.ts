@@ -69,7 +69,11 @@ const getOnderverdeling = async (UUID: string, config?: AxiosRequestConfig) => {
     return fetchData(params, config)
 }
 
-const getWerkingsGebieden = async (pointA: string, pointB: string) => {
+const getWerkingsGebieden = async (
+    pointA: string,
+    pointB: string,
+    config?: AxiosRequestConfig
+) => {
     const params = {
         service: 'wfs',
         version: api_version,
@@ -80,7 +84,7 @@ const getWerkingsGebieden = async (pointA: string, pointB: string) => {
         propertyName: 'UUID,Gebied',
     }
 
-    const data = await fetchData(params)
+    const data = await fetchData(params, config)
     return data.features
 }
 

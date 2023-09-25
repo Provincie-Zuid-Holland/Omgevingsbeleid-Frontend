@@ -32,7 +32,7 @@ import useModuleManagers from '@/hooks/useModuleManagers'
 import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
 import MutateLayout from '@/templates/MutateLayout'
-import getModuleStatusColor from '@/utils/getModuleStatusColor'
+import { getModuleStatusColor } from '@/utils/module'
 import * as modules from '@/validation/modules'
 
 export interface ModuleContext {

@@ -2500,13 +2500,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.420":
-  version: 0.0.420
-  resolution: "@pzh-ui/components@npm:0.0.420"
+"@pzh-ui/components@npm:^0.0.428":
+  version: 0.0.428
+  resolution: "@pzh-ui/components@npm:0.0.428"
   dependencies:
     "@floating-ui/react": ^0.24.8
     "@headlessui/react": ^1.5.0
-    "@pzh-ui/icons": ^0.0.36
+    "@pzh-ui/icons": ^0.0.39
     "@react-aria/utils": ^3.19.0
     "@react-types/shared": ^3.19.0
     "@tanstack/react-table": ^8.9.9
@@ -2524,6 +2524,7 @@ __metadata:
     "@tiptap/extension-paragraph": ^2.1.7
     "@tiptap/extension-placeholder": ^2.1.7
     "@tiptap/extension-text": ^2.1.7
+    "@tiptap/extension-text-style": ^2.1.10
     "@tiptap/extension-underline": ^2.1.7
     "@tiptap/pm": ^2.0.3
     "@tiptap/react": ^2.0.3
@@ -2545,7 +2546,7 @@ __metadata:
     react-table: ^7.8.0
     react-toastify: ^9.1.2
     react-use: ^17.3.2
-  checksum: 140a83b71943d8b16957d4b7ffeef78646fc5815ee402bed3ed2ba3108bfc3c26c273d294234386651103acd4a1f41baf1a54381c51afa484bee9b450f911b19
+  checksum: ff3c334c6bc9082697501eccc1bf0973dfd136bad133bc2658a93b7df61156e823aabb80976a3e116645636bdbcffeb18c75ebc6725688c9a069ccdd3a4ad579
   languageName: node
   linkType: hard
 
@@ -2577,9 +2578,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/css@npm:^0.0.71":
-  version: 0.0.71
-  resolution: "@pzh-ui/css@npm:0.0.71"
+"@pzh-ui/css@npm:^0.0.72":
+  version: 0.0.72
+  resolution: "@pzh-ui/css@npm:0.0.72"
   dependencies:
     "@rollup/plugin-typescript": ^8.3.1
     "@tailwindcss/custom-forms": ^0.2.1
@@ -2588,17 +2589,17 @@ __metadata:
     "@tailwindcss/typography": ^0.5.9
     react-datepicker: ^4.7.0
     react-toastify: ^9.1.2
-  checksum: f6edbdcba02e6f46407f095ebfdfa5720bb96de798b23d31ba0791a43fd0c6a5159f9522c734bfa0a7ea99f48687f773acfc3e85875b83db8930169dc958cd90
+  checksum: 06f01c4f8f715a853af5577ef7c5c20d9f07e04d5503d5aab928495c9a945beb6c4c61d57db6c010eeaed51335519469eeca90fd8888a1c393720cb6773cad6d
   languageName: node
   linkType: hard
 
-"@pzh-ui/icons@npm:^0.0.36":
-  version: 0.0.36
-  resolution: "@pzh-ui/icons@npm:0.0.36"
+"@pzh-ui/icons@npm:^0.0.39":
+  version: 0.0.39
+  resolution: "@pzh-ui/icons@npm:0.0.39"
   dependencies:
     react: ^18.0.0
     react-toastify: ^9.1.2
-  checksum: 1121610ea5374cb2c748185d4e2ffd9591ef17478ba214d15174f995e017a9902901867d4e6f51acf0493fcf3f87662c9b910f846ab64571244335c100ced1d9
+  checksum: f270e5c8419542d7b11e943a080708a00013641a59667caedba2d548f23a6179c3858f39ae3c32d72992c75bde22bf925e2588e0f6f0e9c7a3d56b40d2b49887
   languageName: node
   linkType: hard
 
@@ -4896,6 +4897,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tiptap/extension-text-style@npm:^2.1.10":
+  version: 2.1.11
+  resolution: "@tiptap/extension-text-style@npm:2.1.11"
+  peerDependencies:
+    "@tiptap/core": ^2.0.0
+  checksum: 769bd883b51635c59370e07141397c7b26aa95b223145635fee5c188d0e9275c81ce6f1efd1a510e130a474e050f1fe9b98d45c0f2331a079ea02f6047a39195
+  languageName: node
+  linkType: hard
+
 "@tiptap/extension-text@npm:^2.1.7":
   version: 2.1.8
   resolution: "@tiptap/extension-text@npm:2.1.8"
@@ -5389,16 +5399,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^27.0.3":
-  version: 27.5.2
-  resolution: "@types/jest@npm:27.5.2"
-  dependencies:
-    jest-matcher-utils: ^27.0.0
-    pretty-format: ^27.0.0
-  checksum: 7e11c6826aa429ad990dc262e4e4b54aa36573287fddf15773e4137f07d11d3105f0dd9f1baff73252160a057df23f5529bb83b1bf83cd3f45f9460a5ca5c22e
-  languageName: node
-  linkType: hard
-
 "@types/js-cookie@npm:^2.2.6":
   version: 2.2.7
   resolution: "@types/js-cookie@npm:2.2.7"
@@ -5651,13 +5651,6 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 8c0ded364c5a53598dc58f6c668d6fdbefa3bb78fcb1181202b92f4d8495ca33b4317f54ac0fe42824278e789d730ee5cbd2f7f864466e708589ff4eab2bf457
-  languageName: node
-  linkType: hard
-
-"@types/smoothscroll-polyfill@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "@types/smoothscroll-polyfill@npm:0.3.1"
-  checksum: 871a5b556c3be746882ac58b0f936a66a716f4e9b5bd18aaf72fe60aaad42e6ce09e2c639c455ab7655637839bc3a3d923994dd68463c905bd1ecbd1961d8ec1
   languageName: node
   linkType: hard
 
@@ -7828,13 +7821,6 @@ __metadata:
   version: 1.2.2
   resolution: "didyoumean@npm:1.2.2"
   checksum: d5d98719d58b3c2fa59663c4c42ba9716f1fd01245c31d5fce31915bd3aa26e6aac149788e007358f778ebbd68a2256eb5973e8ca6f221df221ba060115acf2e
-  languageName: node
-  linkType: hard
-
-"diff-sequences@npm:^27.5.1":
-  version: 27.5.1
-  resolution: "diff-sequences@npm:27.5.1"
-  checksum: a00db5554c9da7da225db2d2638d85f8e41124eccbd56cbaefb3b276dcbb1c1c2ad851c32defe2055a54a4806f030656cbf6638105fd6ce97bb87b90b32a33ca
   languageName: node
   linkType: hard
 
@@ -10407,18 +10393,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-diff@npm:^27.5.1":
-  version: 27.5.1
-  resolution: "jest-diff@npm:27.5.1"
-  dependencies:
-    chalk: ^4.0.0
-    diff-sequences: ^27.5.1
-    jest-get-type: ^27.5.1
-    pretty-format: ^27.5.1
-  checksum: 8be27c1e1ee57b2bb2bef9c0b233c19621b4c43d53a3c26e2c00a4e805eb4ea11fe1694a06a9fb0e80ffdcfdc0d2b1cb0b85920b3f5c892327ecd1e7bd96b865
-  languageName: node
-  linkType: hard
-
 "jest-diff@npm:^29.7.0":
   version: 29.7.0
   resolution: "jest-diff@npm:29.7.0"
@@ -10431,29 +10405,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-get-type@npm:^27.5.1":
-  version: 27.5.1
-  resolution: "jest-get-type@npm:27.5.1"
-  checksum: 63064ab70195c21007d897c1157bf88ff94a790824a10f8c890392e7d17eda9c3900513cb291ca1c8d5722cad79169764e9a1279f7c8a9c4cd6e9109ff04bbc0
-  languageName: node
-  linkType: hard
-
 "jest-get-type@npm:^29.6.3":
   version: 29.6.3
   resolution: "jest-get-type@npm:29.6.3"
   checksum: 88ac9102d4679d768accae29f1e75f592b760b44277df288ad76ce5bf038c3f5ce3719dea8aa0f035dac30e9eb034b848ce716b9183ad7cc222d029f03e92205
-  languageName: node
-  linkType: hard
-
-"jest-matcher-utils@npm:^27.0.0":
-  version: 27.5.1
-  resolution: "jest-matcher-utils@npm:27.5.1"
-  dependencies:
-    chalk: ^4.0.0
-    jest-diff: ^27.5.1
-    jest-get-type: ^27.5.1
-    pretty-format: ^27.5.1
-  checksum: bb2135fc48889ff3fe73888f6cc7168ddab9de28b51b3148f820c89fdfd2effdcad005f18be67d0b9be80eda208ad47290f62f03d0a33f848db2dd0273c8217a
   languageName: node
   linkType: hard
 
@@ -12627,7 +12582,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pretty-format@npm:^27.0.0, pretty-format@npm:^27.0.2, pretty-format@npm:^27.5.1":
+"pretty-format@npm:^27.0.2":
   version: 27.5.1
   resolution: "pretty-format@npm:27.5.1"
   dependencies:
@@ -12686,13 +12641,6 @@ __metadata:
   version: 1.0.1
   resolution: "promise-inflight@npm:1.0.1"
   checksum: 22749483091d2c594261517f4f80e05226d4d5ecc1fc917e1886929da56e22b5718b7f2a75f3807e7a7d471bc3be2907fe92e6e8f373ddf5c64bae35b5af3981
-  languageName: node
-  linkType: hard
-
-"promise-polyfill@npm:^8.2.0":
-  version: 8.3.0
-  resolution: "promise-polyfill@npm:8.3.0"
-  checksum: 206373802076c77def0805758d0a8ece64120dfa6603f092404a1004211f8f2f67f33cadbc35953fc2a8ed0b0d38c774e88bdf01e20ce7a920723a60df84b7a5
   languageName: node
   linkType: hard
 
@@ -12939,10 +12887,10 @@ __metadata:
     "@axe-core/react": 4.4.1
     "@faker-js/faker": ^7.6.0
     "@headlessui/react": ^1.5.0
-    "@pzh-ui/components": ^0.0.420
+    "@pzh-ui/components": ^0.0.428
     "@pzh-ui/config": ^0.0.47
-    "@pzh-ui/css": ^0.0.71
-    "@pzh-ui/icons": ^0.0.36
+    "@pzh-ui/css": ^0.0.72
+    "@pzh-ui/icons": ^0.0.39
     "@tanstack/react-query": ^4.32.0
     "@testing-library/dom": ^9.3.1
     "@testing-library/jest-dom": ^5.16.5
@@ -12951,7 +12899,6 @@ __metadata:
     "@total-typescript/ts-reset": ^0.4.2
     "@types/d3": ^7.4.0
     "@types/dompurify": ^3.0.2
-    "@types/jest": ^27.0.3
     "@types/leaflet": ^1.7.8
     "@types/leaflet-draw": ^1.0.5
     "@types/lodash.clonedeep": ^4.5.6
@@ -12964,7 +12911,6 @@ __metadata:
     "@types/react-helmet": ^6.1.6
     "@types/react-leaflet": ^2.8.2
     "@types/react-router-dom": ^5.3.2
-    "@types/smoothscroll-polyfill": ^0.3.1
     "@types/uuid": ^9.0.3
     "@vitejs/plugin-react": ^4.0.3
     "@vitest/coverage-v8": ^0.33.0
@@ -12996,7 +12942,6 @@ __metadata:
     orval: ^6.16.0
     prettier: 2.8.8
     proj4leaflet: ^1.0.2
-    promise-polyfill: ^8.2.0
     react: ^18.2.0
     react-content-loader: ^6.2.1
     react-dom: ^18.2.0
@@ -13007,10 +12952,8 @@ __metadata:
     react-use: ^17.3.2
     rollup-plugin-visualizer: ^5.9.2
     sass: ^1.63.6
-    smoothscroll-polyfill: ^0.4.4
     tailwindcss: ^3.2.4
     typescript: ^5.1.6
-    url-search-params-polyfill: ^8.1.1
     uuid: ^9.0.0
     vite: ^4.4.7
     vite-plugin-svgr: ^3.2.0
@@ -14164,13 +14107,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"smoothscroll-polyfill@npm:^0.4.4":
-  version: 0.4.4
-  resolution: "smoothscroll-polyfill@npm:0.4.4"
-  checksum: b99ff7d91689d563ec69cb1d29713b332a24c88ac3dc4ef9ef9fbe4137305336e67253211067c5f786478dbdabd2aa6c2033709d4d8feca327b09eca8d5a0e7b
-  languageName: node
-  linkType: hard
-
 "socks-proxy-agent@npm:^6.0.0":
   version: 6.2.1
   resolution: "socks-proxy-agent@npm:6.2.1"
@@ -15302,13 +15238,6 @@ __metadata:
     querystringify: ^2.1.1
     requires-port: ^1.0.0
   checksum: fbdba6b1d83336aca2216bbdc38ba658d9cfb8fc7f665eb8b17852de638ff7d1a162c198a8e4ed66001ddbf6c9888d41e4798912c62b4fd777a31657989f7bdf
-  languageName: node
-  linkType: hard
-
-"url-search-params-polyfill@npm:^8.1.1":
-  version: 8.2.5
-  resolution: "url-search-params-polyfill@npm:8.2.5"
-  checksum: 6791c3e2d62d415a6ca7d12c0c679c8621e918726ea82407a3cb9fd149060bdf2c17193a7623ac983551eeba34f987e465822f69364d1fd442e7983aea4d568e
   languageName: node
   linkType: hard
 
