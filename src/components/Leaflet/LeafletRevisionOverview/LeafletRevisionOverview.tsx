@@ -181,7 +181,6 @@ const LeafletRevisionOverviewInner = ({
                 <ul className="p-2">
                     {werkingsgebied?.map(layer => (
                         <LeafletAreaLayer
-                            interactive
                             key={layer?.feature?.id}
                             layer={layer}
                             color={layer.options.color}

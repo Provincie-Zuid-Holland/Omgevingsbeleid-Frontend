@@ -9,16 +9,14 @@ import { colors } from '@/constants/leaflet'
 
 interface LeafletAreaLayer {
     index?: string
-    interactive?: boolean
     layer?: any
     color?: string
-    properties?: Feature['properties']
+    context?: Feature
 }
 
 const LeafletAreaLayer = ({
     index,
-    properties,
-    interactive,
+    context,
     layer,
     color,
 }: LeafletAreaLayer) => {
@@ -26,7 +24,7 @@ const LeafletAreaLayer = ({
 
     const [isActive, setIsActive] = useState(layer && map.hasLayer(layer))
 
-    if (interactive) {
+    if (!context) {
         return (
             <li
                 className={classNames(
@@ -69,22 +67,39 @@ const LeafletAreaLayer = ({
     return (
         <li
             className={classNames(
-                'flex items-baseline gap-x-2 px-2 py-1 text-s text-pzh-gray-700',
+                'flex cursor-pointer items-baseline justify-between gap-2 px-2 py-1 text-s text-pzh-gray-700',
                 {
                     'pl-8': parseInt(index || '0') > 0,
                 }
-            )}>
-            <div className="min-w-[20px]">
-                {properties?.symbol && (
-                    <img
-                        src={generateImageUrl(properties.symbol)}
-                        alt={properties.symbol}
-                        className="-mb-1"
-                    />
-                )}
+            )}
+            onClick={() => {
+                setIsActive(!map.hasLayer(layer))
+                map.hasLayer(layer) ? layer.remove() : layer.addTo(map)
+            }}>
+            <div className="flex items-baseline gap-2">
+                <div className="min-w-[20px]">
+                    {context?.properties?.symbol && (
+                        <img
+                            src={generateImageUrl(context?.properties.symbol)}
+                            alt={context?.properties.symbol}
+                            className="-mb-1"
+                        />
+                    )}
+                </div>
+
+                <span className={classNames({ 'line-through': !isActive })}>
+                    {context?.properties?.Onderverdeling ||
+                        context?.properties?.Gebied}
+                </span>
             </div>
 
-            <span>{properties?.Onderverdeling || properties?.Gebied}</span>
+            <div className="w-5">
+                {isActive ? (
+                    <Eye size={18} className="-mb-1" />
+                ) : (
+                    <EyeSlash size={18} className="-mb-1" />
+                )}
+            </div>
         </li>
     )
 }
