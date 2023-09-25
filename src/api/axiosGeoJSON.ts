@@ -1,7 +1,20 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import { Point } from 'leaflet'
 
-const api_version = '1.1.0'
+export interface Feature {
+    id: string
+    properties: {
+        Onderverdeling: string
+        UUID: string
+        symbol: string
+    }
+}
+
+export interface FeatureCollection {
+    features?: Feature[]
+}
+
+const api_version = '1.3.0'
 
 // https://geo-omgevingsbeleid-test.azurewebsites.net/OMGEVINGSBELEID/wms?service=WMS&version=1.1.0&request=GetMap&layers=OMGEVINGSBELEID%3AWerkingsgebieden&bbox=43662.62000000104%2C406692.0%2C138647.9990000017%2C483120.0&width=768&height=617&srs=EPSG%3A28992&format=application/openlayers
 
@@ -13,7 +26,9 @@ const instance = axios.create({
 })
 
 // Function to generate the URL for the request
-const generateUrl = (params: Record<string, string | number>): string => {
+const generateUrl = (
+    params: Record<string, string | number | boolean>
+): string => {
     const queryString = Object.keys(params)
         .map(key => `${key}=${encodeURIComponent(params[key])}`)
         .join('&')
@@ -23,7 +38,7 @@ const generateUrl = (params: Record<string, string | number>): string => {
 
 // Function to fetch data using a generic template
 const fetchData = async (
-    params: Record<string, string | number>,
+    params: Record<string, string | number | boolean>,
     config?: AxiosRequestConfig
 ) => {
     const url = generateUrl(params)
@@ -55,15 +70,18 @@ const getGeoJsonData = async (
     return fetchData(params, config)
 }
 
-const getOnderverdeling = async (UUID: string, config?: AxiosRequestConfig) => {
+const getOnderverdeling = async (
+    UUID: string,
+    config?: AxiosRequestConfig
+): Promise<FeatureCollection> => {
     const params = {
         service: 'wfs',
         version: api_version,
         request: 'GetFeature',
         typeName: 'OMGEVINGSBELEID:Werkingsgebieden_Onderverdeling',
-        maxFeatures: 50,
         outputFormat: 'application/json',
-        cql_filter: `UUID IN ('${UUID}')`,
+        cql_filter: `UUID='${UUID}'`,
+        propertyName: 'Onderverdeling,symbol,UUID',
     }
 
     return fetchData(params, config)

@@ -1,5 +1,4 @@
 import { Transition } from '@headlessui/react'
-import { Map } from 'leaflet'
 import { useMemo, useRef, useState } from 'react'
 import { useUpdateEffect } from 'react-use'
 
@@ -12,33 +11,28 @@ import SearchResultItem from '@/components/SearchResultItem'
 import { ModelType } from '@/config/objects/types'
 import useSearchParam from '@/hooks/useSearchParam'
 import useFilterStore from '@/store/filterStore'
+import useMapStore from '@/store/mapStore'
 
 const PAGE_LIMIT = 20
 
 interface SidebarResultsProps {
-    searchOpen: boolean
-    drawType?: string
     UUIDs: string[]
-    mapInstance: Map | null
-    geoLoading: boolean
 }
 
-const SidebarResults = ({
-    searchOpen,
-    drawType,
-    UUIDs,
-    mapInstance,
-    geoLoading,
-}: SidebarResultsProps) => {
+const SidebarResults = ({ UUIDs }: SidebarResultsProps) => {
     const { get, set, remove } = useSearchParam()
-    const [paramSearchOpen, paramWerkingsgebied, page, filter] = get([
-        'searchOpen',
+    const [paramWerkingsgebied, page, filter, sidebarOpen] = get([
         'werkingsgebied',
         'page',
         'filter',
+        'sidebarOpen',
     ])
 
     const resultsContainer = useRef<HTMLDivElement>(null)
+
+    const mapInstance = useMapStore(state => state.mapInstance)
+    const isLoading = useMapStore(state => state.isDataLoading)
+    const drawType = useMapStore(state => state.drawType)
 
     const { amountOfFilters, filters, selectedFilters, setSelectedFilters } =
         useFilterStore(state => ({
@@ -58,7 +52,12 @@ const SidebarResults = ({
             amountOfFilters: filter?.split(',')?.filter(Boolean)?.length || 0,
         }))
 
-    const { data, mutate, isLoading } = useSearchGeoPost({
+    const {
+        data,
+        mutate,
+        reset,
+        isLoading: geoLoading,
+    } = useSearchGeoPost({
         mutation: {
             onSuccess(data) {
                 if (!!!data.results.length) {
@@ -123,8 +122,8 @@ const SidebarResults = ({
     const defaultValue = useMemo(
         () =>
             filters.flatMap(filter =>
-                filter.options.filter(
-                    option => selectedFilters?.includes(option.value)
+                filter.options.filter(option =>
+                    selectedFilters?.includes(option.value)
                 )
             ),
         [filters, selectedFilters]
@@ -142,14 +141,10 @@ const SidebarResults = ({
     )
 
     /**
-     * If URL contains searchOpen=true open the results sidebar.
+     * If URL contains sidebarOpen=true open the results sidebar.
      */
     useUpdateEffect(() => {
-        if (
-            paramSearchOpen === 'true' &&
-            UUIDs.length &&
-            !paramWerkingsgebied
-        ) {
+        if (sidebarOpen === 'true' && UUIDs.length && !paramWerkingsgebied) {
             mutate({
                 data: {
                     Area_List: UUIDs,
@@ -164,7 +159,7 @@ const SidebarResults = ({
             })
         }
 
-        if (paramSearchOpen === 'true' && paramWerkingsgebied) {
+        if (sidebarOpen === 'true' && paramWerkingsgebied) {
             mutate({
                 data: {
                     Area_List: [paramWerkingsgebied],
@@ -178,19 +173,21 @@ const SidebarResults = ({
                 },
             })
         }
+
+        if (sidebarOpen === 'true' && !paramWerkingsgebied && !!!UUIDs.length) {
+            reset()
+            setPagination({
+                isLoaded: false,
+                total: data?.total,
+                limit: data?.limit,
+            })
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [
-        paramSearchOpen,
-        paramWerkingsgebied,
-        UUIDs,
-        mapInstance,
-        currPage,
-        filter,
-    ])
+    }, [sidebarOpen, paramWerkingsgebied, UUIDs, mapInstance, currPage, filter])
 
     return (
         <Transition
-            show={searchOpen}
+            show={sidebarOpen === 'true'}
             enter="transition-all ease-out duration-300 delay-100 transform"
             enterFrom="-mr-840"
             enterTo="mr-0"
@@ -235,7 +232,7 @@ const SidebarResults = ({
                     className="h-full pb-8 pt-4 md:overflow-auto md:pb-24">
                     {!isLoading && !geoLoading ? (
                         <>
-                            {data?.results.length ? (
+                            {!!data?.results.length ? (
                                 <ul className="mb-4">
                                     {data.results.map(item => (
                                         <SearchResultItem

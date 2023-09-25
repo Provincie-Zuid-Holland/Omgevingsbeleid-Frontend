@@ -1,20 +1,21 @@
-import { Eye, EyeSlash } from '@pzh-ui/icons'
+import { TileLayer } from 'leaflet'
 import { useState } from 'react'
 import { useMap } from 'react-leaflet'
 
-import { colors } from '@/constants/leaflet'
+import { Eye, EyeSlash } from '@pzh-ui/icons'
+
+import { Feature } from '@/api/axiosGeoJSON'
 
 /**
  * Function that sets the state for a certain amount of variables and create a reference for the leafletMap variable and binds the initializeComponent.
  */
 
-interface LeafletAreaLayerProps {
-    layer: any
-    index?: string
-    color?: string
+interface LeafletAreaLayer extends Feature {
+    index: number
+    layer: TileLayer.WMS
 }
 
-const LeafletAreaLayer = ({ layer, index, color }: LeafletAreaLayerProps) => {
+const LeafletAreaLayer = ({ index, layer, properties }: LeafletAreaLayer) => {
     const map = useMap()
 
     const [isActive, setIsActive] = useState(map.hasLayer(layer))
@@ -33,23 +34,19 @@ const LeafletAreaLayer = ({ layer, index, color }: LeafletAreaLayerProps) => {
                     isActive ? 'opacity-100' : 'opacity-50'
                 }`}>
                 <div
-                    className="flex-none inline-block w-4 h-4 mr-2"
-                    style={{
-                        backgroundColor: color
-                            ? color
-                            : index
-                            ? colors[parseInt(index)]
-                            : '#3388ff',
-                    }}
+                    className="mr-2 inline-block h-4 w-4 flex-none"
+                    // style={{
+                    //     backgroundColor: color
+                    //         ? color
+                    //         : index
+                    //         ? colors[parseInt(index)]
+                    //         : '#3388ff',
+                    // }}
                 />
 
-                <span>
-                    {layer.feature.properties.Onderverdeling ||
-                        layer.feature.properties.Gebied ||
-                        ''}
-                </span>
+                <span>{properties.Onderverdeling}</span>
             </div>
-            <div className="flex align-middle w-5 ml-2">
+            <div className="ml-2 flex w-5 align-middle">
                 {isActive ? <Eye size={18} /> : <EyeSlash size={18} />}
             </div>
         </li>

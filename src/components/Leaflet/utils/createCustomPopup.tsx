@@ -30,7 +30,7 @@ const createCustomPopup = async (
 
     const point = RDProjection.project({ lat, lng })
     const searchParams = new URLSearchParams(window.location.search)
-    const searchOpen = searchParams.get('searchOpen')
+    const sidebarOpen = searchParams.get('sidebarOpen')
 
     const popupLoading = `
         <div class="flex">
@@ -45,7 +45,7 @@ const createCustomPopup = async (
         minWidth: 320,
     })
 
-    if (searchOpen !== 'true') {
+    if (sidebarOpen !== 'true') {
         popup.openPopup()
     }
 
@@ -114,7 +114,7 @@ const createCustomPopup = async (
             })
     }
 
-    if (searchOpen !== 'true') {
+    if (sidebarOpen !== 'true') {
         handlePopupEvents(
             map,
             layer,
@@ -155,7 +155,7 @@ const handlePopupEvents = (
     popupContainer
         .querySelector('.advanced-search-button')
         ?.addEventListener('click', () => {
-            searchParams.append('searchOpen', 'true')
+            searchParams.append('sidebarOpen', 'true')
             navigate(`${path}?${searchParams}`)
         })
 }
@@ -189,9 +189,13 @@ export const CreateCustomPopup = ({
                 Locatie
             </Text>
             <ul className="mb-4 mt-2">
-                {weergavenaam && <li>{weergavenaam}</li>}
+                {weergavenaam && (
+                    <Text size="s" as="li" bold>
+                        {weergavenaam}
+                    </Text>
+                )}
                 {type === 'marker' && lat && lng && (
-                    <Text as="li">
+                    <Text size="s" as="li">
                         GPS Locatie:
                         <br />
                         {lat.toFixed(7)}, {lng.toFixed(7)}
@@ -209,7 +213,7 @@ export const CreateCustomPopup = ({
                 ) : (
                     <Button
                         as="a"
-                        href={`${MAP_SEARCH_PAGE}?${searchParams}&searchOpen=true`}>
+                        href={`${MAP_SEARCH_PAGE}?${searchParams}&sidebarOpen=true`}>
                         Bekijk beleid
                     </Button>
                 )}
