@@ -6,7 +6,9 @@ import { schemaDefaults } from '@/validation/zodSchema'
 
 export const SCHEMA_CONNECTION_STEPS = [
     object({}),
-    object({ Object_ID: schemaDefaults.requiredNumber() }),
+    object({
+        Object_ID: schemaDefaults.requiredNumber(),
+    }),
     object({
         Description: schemaDefaults.requiredString(),
     }),

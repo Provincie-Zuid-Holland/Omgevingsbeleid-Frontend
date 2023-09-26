@@ -35,6 +35,7 @@ const ObjectConnectionPart = ({
             initialStep: amount === 0 ? 2 : 1,
             initialValues: (model.defaults.atemporal
                 ? {
+                      Object_ID: 0,
                       items: connections?.map(({ Object_ID, Title }) => ({
                           Object_ID,
                           Title,
