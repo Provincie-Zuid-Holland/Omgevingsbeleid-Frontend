@@ -1,6 +1,6 @@
 import { useQueries } from '@tanstack/react-query'
 import Leaflet, { Layer } from 'leaflet'
-import { useEffect, useState, useMemo, useCallback } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useMap } from 'react-leaflet'
 import { useUpdateEffect } from 'react-use'
 

@@ -1,5 +1,5 @@
 import { Transition } from '@headlessui/react'
-import Leaflet, { Map, latLng } from 'leaflet'
+import Leaflet, { latLng } from 'leaflet'
 import groupBy from 'lodash.groupby'
 import { ReactNode, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -11,31 +11,28 @@ import { useWerkingsgebiedenGet } from '@/api/fetchers'
 import { LeafletSearchInput } from '@/components/Leaflet'
 import { MAP_SEARCH_PAGE } from '@/constants/leaflet'
 import useSearchParam from '@/hooks/useSearchParam'
+import useMapStore from '@/store/mapStore'
 
 import { MAP_OPTIONS } from '../MapSearch'
 import { handleWerkingsgebiedSelect } from '../utils'
 
 interface SidebarInformationProps {
-    mapInstance: Map | null
-    searchOpen: boolean
     onDraw: (callback: any) => Promise<void>
-    setAreaLoading: (loading: boolean) => void
 }
 
-const SidebarInformation = ({
-    mapInstance,
-    searchOpen,
-    onDraw,
-    setAreaLoading,
-}: SidebarInformationProps) => {
+const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
     const { get, set, remove } = useSearchParam()
-    const [paramWerkingsgebied] = get('werkingsgebied')
+    const [paramWerkingsgebied, sidebarOpen] = get([
+        'werkingsgebied',
+        'sidebarOpen',
+    ])
     const navigate = useNavigate()
 
+    const mapInstance = useMapStore(state => state.mapInstance)
+    const setIsAreaLoading = useMapStore(state => state.setIsAreaLoading)
+
     const [werkingsgebied, setWerkingsgebied] =
-        useState<Leaflet.Proj.GeoJSON | null>(null)
-    const [previousRequestController, setPreviousRequestController] =
-        useState<AbortController | null>(null)
+        useState<Leaflet.TileLayer.WMS | null>(null)
 
     const { data, isLoading } = useWerkingsgebiedenGet({
         limit: 500,
@@ -82,39 +79,31 @@ const SidebarInformation = ({
         const coordinates = latLng(MAP_OPTIONS.center[0], MAP_OPTIONS.center[1])
         mapInstance?.setView(coordinates, MAP_OPTIONS.zoom)
 
+        setIsAreaLoading(false)
+
         setTimeout(() => mapInstance?.invalidateSize(true), 350)
     }
 
     useEffect(() => {
         if (paramWerkingsgebied && mapInstance) {
-            // Check if there's a previous request and cancel it
-            if (previousRequestController) {
-                previousRequestController.abort() // Cancel the previous request
-            }
-
-            // Create a new AbortController instance for the current request
-            const currentRequestController = new AbortController()
-            setPreviousRequestController(currentRequestController)
-
             mapInstance.eachLayer((layer: any) => {
                 if (!!layer._latlng || !!layer._svgSize) {
                     mapInstance.removeLayer(layer)
                 }
             })
-            setAreaLoading(true)
 
             handleWerkingsgebiedSelect(
                 mapInstance,
-                navigate,
                 werkingsgebied,
                 setWerkingsgebied,
-                setAreaLoading,
+                setIsAreaLoading,
                 {
                     label: '',
                     value: paramWerkingsgebied || '',
-                },
-                currentRequestController.signal
+                }
             )
+
+            set('sidebarOpen', 'true')
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [paramWerkingsgebied, mapInstance])
@@ -122,7 +111,7 @@ const SidebarInformation = ({
     return (
         <div className="relative z-1 flex px-4 md:px-0 md:shadow-pane">
             <Transition
-                show={!searchOpen}
+                show={!sidebarOpen}
                 enter="transition-all ease-out duration-300 transform"
                 enterFrom="-ml-[570px]"
                 enterTo="ml-0"
@@ -221,7 +210,7 @@ const SidebarInformation = ({
             </Transition>
 
             <Transition
-                show={searchOpen}
+                show={sidebarOpen === 'true'}
                 enter="transition-all ease-out duration-300 transform"
                 enterFrom="opacity-0 -ml-12"
                 enterTo="opacity-100 ml-0"
@@ -230,7 +219,7 @@ const SidebarInformation = ({
                 leaveTo="opacity-0 -ml-12"
                 className="h-full w-12">
                 <button
-                    onClick={() => goBack()}
+                    onClick={goBack}
                     className="flex h-full w-full items-center py-4 md:block md:py-0">
                     <div className="flex justify-center md:pt-4">
                         <ArrowLeft size={18} />
