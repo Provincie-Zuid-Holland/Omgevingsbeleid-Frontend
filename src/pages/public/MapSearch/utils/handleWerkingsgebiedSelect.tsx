@@ -24,6 +24,7 @@ const handleWerkingsgebiedSelect = async (
             transparent: true,
             // @ts-ignore
             cql_filter: `UUID='${selected.value}'`,
+            tiled: true,
         }
     )
     setWerkingsgebied(layerInstance)
