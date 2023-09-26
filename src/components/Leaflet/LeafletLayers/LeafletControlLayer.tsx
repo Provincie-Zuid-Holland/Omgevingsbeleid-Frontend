@@ -5,8 +5,7 @@ import { useUpdateEffect } from 'react-use'
 
 import { AngleRight, LayerGroup } from '@pzh-ui/icons'
 
-import ToggleableSection from '@/components/ToggleableSection'
-import { tileURL, tileURLSattelite } from '@/constants/leaflet'
+import { tileURL } from '@/constants/leaflet'
 
 import LeafletController from '../LeafletController'
 
@@ -18,9 +17,6 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
     const map = useMap()
 
     const [layerControlOpen, setLayerControlOpen] = useState(false)
-    const [activeMapTiles, setActiveMapTiles] = useState<'Map' | 'Satelliet'>(
-        'Map'
-    )
 
     useUpdateEffect(() => {
         if (layerControlOpen) {
@@ -36,7 +32,7 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                 <div className="leaflet-layers-control">
                     <div className="flex">
                         <button
-                            className={`leaflet-layers absolute right-0 top-0 flex h-8 w-8 items-center justify-center bg-white p-2 ${
+                            className={`leaflet-layers z-11 absolute right-0 top-0 flex h-8 w-8 items-center justify-center bg-white p-2 ${
                                 layerControlOpen ? 'hidden' : ''
                             }`}
                             onClick={() =>
@@ -73,83 +69,18 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                                 <AngleRight size={16} />
                             </button>
                             <div
-                                className="relative z-10 h-[500px] w-[375px] max-w-full overflow-y-auto bg-white"
+                                className="relative z-10 h-[500px] w-[375px] max-w-full overflow-y-auto bg-white shadow-pane"
                                 data-testid="leaflet-layers-control-pane">
-                                <div className="w-full">
-                                    {children}
-                                    <ToggleableSection
-                                        title="Achtergrondlaag"
-                                        positionTop>
-                                        <ul className="p-2">
-                                            <li className="cursor-pointer px-2 py-1 text-pzh-gray-700 hover:bg-pzh-gray-500 hover:text-pzh-gray-800 focus:text-pzh-gray-800">
-                                                <div>
-                                                    <input
-                                                        className="mr-2"
-                                                        type="radio"
-                                                        id="Satelliet"
-                                                        name="drone"
-                                                        value="Satelliet"
-                                                        onChange={() =>
-                                                            setActiveMapTiles(
-                                                                'Satelliet'
-                                                            )
-                                                        }
-                                                        checked={
-                                                            activeMapTiles ===
-                                                            'Satelliet'
-                                                        }
-                                                    />
-                                                    <label htmlFor="Satelliet">
-                                                        Satelliet
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li className="cursor-pointer px-2 py-1 text-pzh-gray-700 hover:bg-pzh-gray-500 hover:text-pzh-gray-800 focus:text-pzh-gray-800">
-                                                <div>
-                                                    <input
-                                                        className="mr-2"
-                                                        type="radio"
-                                                        id="Map"
-                                                        name="drone"
-                                                        value="Map"
-                                                        onChange={() =>
-                                                            setActiveMapTiles(
-                                                                'Map'
-                                                            )
-                                                        }
-                                                        checked={
-                                                            activeMapTiles ===
-                                                            'Map'
-                                                        }
-                                                    />
-                                                    <label htmlFor="Map">
-                                                        Map
-                                                    </label>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </ToggleableSection>
-                                </div>
+                                <div className="w-full">{children}</div>
                             </div>
                         </Transition>
                     </div>
                 </div>
             </LeafletController>
             <LayersControl position="topright">
-                <LayersControl.BaseLayer
-                    checked={activeMapTiles === 'Map'}
-                    name="Map">
+                <LayersControl.BaseLayer checked name="Map">
                     <TileLayer
                         url={tileURL}
-                        minZoom={3}
-                        attribution='Map data: <a href="http://www.kadaster.nl">Kadaster</a>'
-                    />
-                </LayersControl.BaseLayer>
-                <LayersControl.BaseLayer
-                    checked={activeMapTiles === 'Satelliet'}
-                    name="Satelliet">
-                    <TileLayer
-                        url={tileURLSattelite}
                         minZoom={3}
                         attribution='Map data: <a href="http://www.kadaster.nl">Kadaster</a>'
                     />

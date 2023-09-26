@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import Leaflet, { TileLayer } from 'leaflet'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useMap } from 'react-leaflet'
 
 import {
@@ -44,16 +44,28 @@ const LeafletTinyViewerInner = ({ uuid }: LeafletTinyViewerProps) => {
         enabled: !!uuid,
     })
 
-    const [layers, setLayers] = useState<
-        { layer: TileLayer.WMS; context?: Feature }[]
-    >([])
+    const [layerIntance, setLayerInstance] = useState<{
+        werkingsgebied?: TileLayer.WMS
+        onderverdeling?: TileLayer.WMS
+    }>()
+    const [layers, setLayers] = useState<Feature[]>([])
+    const [layerFilter, setLayerFilter] = useState<{
+        werkingsgebied?: boolean
+        layers?: string[]
+    }>({ werkingsgebied: true })
 
     const initializeMap = () => {
+        const filters = onderverdeling?.features
+            ?.map(s => s.properties.Onderverdeling)
+            .filter(Boolean)
+        setLayerFilter({ ...layerFilter, layers: filters })
+
         const defaultLayerOptions = {
             version: '1.3.0',
             format: 'image/png',
             transparent: true,
             cql_filter: `UUID='${uuid}'`,
+            tiled: true,
         }
 
         const layerInstance = Leaflet.tileLayer.wms(
@@ -63,32 +75,29 @@ const LeafletTinyViewerInner = ({ uuid }: LeafletTinyViewerProps) => {
                 ...defaultLayerOptions,
             }
         )
+        const subLayerInstance = Leaflet.tileLayer.wms(
+            `${import.meta.env.VITE_GEOSERVER_API_URL}/ows`,
+            {
+                layers: 'OMGEVINGSBELEID:Werkingsgebieden_Onderverdeling',
+                ...defaultLayerOptions,
+                // @ts-ignore
+                cql_filter: `UUID='${uuid}'`,
+            }
+        )
 
         layerInstance.addTo(map)
+        subLayerInstance.addTo(map)
 
-        const layers = [
-            {
-                layer: layerInstance,
-                context: werkingsgebied?.features?.[0],
-            },
-        ]
+        const layers: Feature[] = []
 
         onderverdeling?.features?.forEach(feature => {
-            const layer = Leaflet.tileLayer.wms(
-                `${import.meta.env.VITE_GEOSERVER_API_URL}/ows`,
-                {
-                    layers: 'OMGEVINGSBELEID:Werkingsgebieden_Onderverdeling',
-                    ...defaultLayerOptions,
-                    // @ts-ignore
-                    cql_filter: `UUID='${feature.properties.UUID}' AND Onderverdeling='${feature.properties.Onderverdeling}'`,
-                }
-            )
-
-            layer.addTo(map)
-
-            layers.push({ layer, context: feature })
+            layers.push(feature)
         })
 
+        setLayerInstance({
+            werkingsgebied: layerInstance,
+            onderverdeling: subLayerInstance,
+        })
         setLayers(layers)
     }
 
@@ -98,14 +107,59 @@ const LeafletTinyViewerInner = ({ uuid }: LeafletTinyViewerProps) => {
         [onderverdeling, werkingsgebied]
     )
 
+    const handleFilter = useCallback(
+        (name: string) => {
+            let newFilter: string[]
+
+            if (layerFilter?.layers?.includes(name)) {
+                newFilter = layerFilter?.layers.filter(s => s !== name)
+            } else {
+                newFilter = [...(layerFilter.layers || []), name]
+            }
+
+            setLayerFilter({ ...layerFilter, layers: newFilter })
+
+            layerIntance?.onderverdeling?.setParams({
+                // @ts-ignore
+                cql_filter: `UUID='${uuid}' AND Onderverdeling IN (${newFilter
+                    .map(s => `'${s}'`)
+                    .join(', ')})`,
+            })
+        },
+        [layerFilter, layerIntance?.onderverdeling, uuid]
+    )
+
     return (
         <LeafletControlLayer>
             <ToggleableSection title="Legenda" positionTop>
                 <ul className="flex flex-col gap-1 p-2">
+                    {werkingsgebied?.features?.[0] &&
+                        layerIntance?.werkingsgebied && (
+                            <LeafletAreaLayer
+                                isActive={layerFilter?.werkingsgebied}
+                                onClick={() => {
+                                    map.hasLayer(layerIntance.werkingsgebied!)
+                                        ? layerIntance.werkingsgebied?.remove()
+                                        : layerIntance.werkingsgebied?.addTo(
+                                              map
+                                          )
+                                    setLayerFilter({
+                                        ...layerFilter,
+                                        werkingsgebied:
+                                            !layerFilter.werkingsgebied,
+                                    })
+                                }}
+                                {...werkingsgebied?.features?.[0]}
+                            />
+                        )}
                     {layers?.map((layer, index) => (
                         <LeafletAreaLayer
-                            key={layer.context?.id}
-                            index={index.toString()}
+                            key={layer?.id}
+                            index={(index + 1).toString()}
+                            isActive={layerFilter?.layers?.includes(
+                                layer?.properties.Onderverdeling || ''
+                            )}
+                            onClick={handleFilter}
                             {...layer}
                         />
                     ))}
