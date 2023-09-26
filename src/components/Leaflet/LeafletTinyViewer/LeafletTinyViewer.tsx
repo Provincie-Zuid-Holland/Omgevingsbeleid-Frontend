@@ -66,6 +66,8 @@ const LeafletTinyViewerInner = ({ uuid }: LeafletTinyViewerProps) => {
             transparent: true,
             cql_filter: `UUID='${uuid}'`,
             tiled: true,
+            maxFeatures: 50,
+            updateWhenZooming: false,
         }
 
         const layerInstance = Leaflet.tileLayer.wms(
