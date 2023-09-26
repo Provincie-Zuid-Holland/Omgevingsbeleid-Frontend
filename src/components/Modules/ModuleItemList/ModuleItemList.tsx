@@ -143,7 +143,7 @@ const ItemList = ({
                                 viewCallback={() =>
                                     window
                                         .open(
-                                            `/${slugOverview}/${object.UUID}`,
+                                            `/${slugOverview}/ontwerpversie/${module?.Module_ID}/${object.UUID}`,
                                             '_blank'
                                         )
                                         ?.focus()
