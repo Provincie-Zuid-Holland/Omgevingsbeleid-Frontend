@@ -11,20 +11,24 @@ interface LeafletAreaLayer {
     index?: string
     layer?: any
     color?: string
-    context?: Feature
+    properties?: Feature['properties']
+    isActive?: boolean
+    onClick?: (name: string) => void
 }
 
 const LeafletAreaLayer = ({
     index,
-    context,
+    properties,
     layer,
     color,
+    isActive: providedIsActive,
+    onClick,
 }: LeafletAreaLayer) => {
     const map = useMap()
 
     const [isActive, setIsActive] = useState(layer && map.hasLayer(layer))
 
-    if (!context) {
+    if (!properties) {
         return (
             <li
                 className={classNames(
@@ -73,28 +77,31 @@ const LeafletAreaLayer = ({
                 }
             )}
             onClick={() => {
-                setIsActive(!map.hasLayer(layer))
-                map.hasLayer(layer) ? layer.remove() : layer.addTo(map)
+                onClick?.(
+                    properties?.Onderverdeling || properties?.Gebied || ''
+                )
             }}>
             <div className="flex items-baseline gap-2">
                 <div className="min-w-[20px]">
-                    {context?.properties?.symbol && (
+                    {properties?.symbol && (
                         <img
-                            src={generateImageUrl(context?.properties.symbol)}
-                            alt={context?.properties.symbol}
+                            src={generateImageUrl(properties.symbol)}
+                            alt={properties.symbol}
                             className="-mb-1"
                         />
                     )}
                 </div>
 
-                <span className={classNames({ 'line-through': !isActive })}>
-                    {context?.properties?.Onderverdeling ||
-                        context?.properties?.Gebied}
+                <span
+                    className={classNames({
+                        'line-through': !providedIsActive,
+                    })}>
+                    {properties?.Onderverdeling || properties?.Gebied}
                 </span>
             </div>
 
             <div className="w-5">
-                {isActive ? (
+                {providedIsActive ? (
                     <Eye size={18} className="-mb-1" />
                 ) : (
                     <EyeSlash size={18} className="-mb-1" />

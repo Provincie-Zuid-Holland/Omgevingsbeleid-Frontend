@@ -33,7 +33,7 @@ const ToggleableSection = ({
                 <span className="font-semibold">{title}</span>
                 {open ? <AngleUp /> : <AngleDown />}
             </button>
-            {open ? <div className="py-2">{children}</div> : null}
+            {open ? <div className="pb-6 pt-2">{children}</div> : null}
         </div>
     )
 }
