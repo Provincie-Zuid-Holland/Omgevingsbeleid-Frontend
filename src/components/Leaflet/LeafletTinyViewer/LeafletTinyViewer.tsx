@@ -68,12 +68,14 @@ const LeafletTinyViewerInner = ({ uuid }: LeafletTinyViewerProps) => {
             tiled: true,
             maxFeatures: 50,
             updateWhenZooming: false,
+            tileSize: 512,
         }
 
         const layerInstance = Leaflet.tileLayer.wms(
             `${import.meta.env.VITE_GEOSERVER_API_URL}/ows`,
             {
                 layers: 'OMGEVINGSBELEID:Werkingsgebieden',
+                zIndex: 1,
                 ...defaultLayerOptions,
             }
         )
@@ -81,9 +83,8 @@ const LeafletTinyViewerInner = ({ uuid }: LeafletTinyViewerProps) => {
             `${import.meta.env.VITE_GEOSERVER_API_URL}/ows`,
             {
                 layers: 'OMGEVINGSBELEID:Werkingsgebieden_Onderverdeling',
+                zIndex: 2,
                 ...defaultLayerOptions,
-                // @ts-ignore
-                cql_filter: `UUID='${uuid}'`,
             }
         )
 
