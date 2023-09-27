@@ -118,7 +118,8 @@ const ObjectRelationReceivedModal = ({
             id="objectRelationReceived"
             title="Gelegde beleidsrelaties"
             hideTitle
-            size="xl">
+            size="xl"
+            onClose={handleClose}>
             <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}

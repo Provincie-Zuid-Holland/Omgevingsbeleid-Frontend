@@ -61,7 +61,11 @@ const AreaModal = ({ initialStep = 1, handleFormSubmit }: AreaModalProps) => {
     }
 
     return (
-        <Modal id="areaAdd" title="Werkingsgebied koppelen" size="xl">
+        <Modal
+            id="areaAdd"
+            title="Werkingsgebied koppelen"
+            size="xl"
+            onClose={handleClose}>
             <Formik
                 onSubmit={handleSubmit}
                 initialValues={{}}

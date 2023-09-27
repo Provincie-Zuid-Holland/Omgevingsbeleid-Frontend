@@ -164,7 +164,8 @@ const ModuleContentsModal = ({
         <Modal
             id="moduleAddObject"
             title="Onderdeel toevoegen aan een module"
-            hideTitle>
+            hideTitle
+            onClose={handleClose}>
             <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
