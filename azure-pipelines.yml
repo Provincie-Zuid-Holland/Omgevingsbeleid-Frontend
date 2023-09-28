@@ -12,6 +12,7 @@ pool:
 variables:
     subscription: 'dta-omgevingsbeleid'
     VITE_API_ENV: $(Build.SourceBranchName)
+    YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn/cache
 
 stages:
     - stage: Build
@@ -26,7 +27,7 @@ stages:
                       restoreKeys: |
                           yarn | $(Agent.OS)
                           yarn
-                      path: $(Pipeline.Workspace)/.yarn/cache
+                      path: $(YARN_CACHE_FOLDER)
                   displayName: Cache dependencies
 
                 - task: NodeTool@0
