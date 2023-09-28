@@ -97,6 +97,9 @@ stages:
                             - template: azure-file-copy.yml
                               parameters:
                                   storageName: 'obfrontendtest'
+                            - template: azure-purge-cdn.yml
+                              parameters:
+                                  profileName: 'obzhtest'
 
     - stage: Acc
       displayName: Acc deploy
@@ -114,6 +117,9 @@ stages:
                             - template: azure-file-copy.yml
                               parameters:
                                   storageName: 'obfrontendacc'
+                            - template: azure-purge-cdn.yml
+                              parameters:
+                                  profileName: 'obzhacc'
 
     - stage: Prod
       displayName: Prod deploy
@@ -131,3 +137,6 @@ stages:
                             - template: azure-file-copy.yml
                               parameters:
                                   storageName: 'obfrontendprod'
+                            - template: azure-purge-cdn.yml
+                              parameters:
+                                  profileName: 'obzhprod'
