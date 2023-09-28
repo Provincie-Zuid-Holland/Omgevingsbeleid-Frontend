@@ -62,7 +62,7 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                             leaveTo="transform translate-x-64 opacity-0"
                             className="leaflet-control-layer-container relative">
                             <button
-                                className="hover:text-gray-800 absolute left-0 top-0 mr-8 flex h-8 w-8 -translate-x-8 transform items-center justify-center rounded-l bg-pzh-gray-100 p-2 text-pzh-gray-700 opacity-100"
+                                className="hover:text-gray-800 absolute left-0 top-0 z-[11] mr-8 flex h-8 w-8 -translate-x-8 transform items-center justify-center rounded-l bg-pzh-gray-100 p-2 text-pzh-gray-700 opacity-100"
                                 onClick={() =>
                                     setLayerControlOpen(!layerControlOpen)
                                 }>
