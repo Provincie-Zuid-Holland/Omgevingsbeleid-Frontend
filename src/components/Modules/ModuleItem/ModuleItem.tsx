@@ -1,6 +1,7 @@
+import { useMemo, useState } from 'react'
+
 import { Divider, Hyperlink, Text } from '@pzh-ui/components'
 import { CircleInfo, EllipsisVertical } from '@pzh-ui/icons'
-import { useMemo, useState } from 'react'
 
 import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import Dropdown, { DropdownItem } from '@/components/Dropdown'
@@ -118,18 +119,14 @@ const ModuleItem = ({
     return (
         <div data-test="module-item">
             <Divider />
-            <div className="flex justify-between items-center">
-                <div className="flex-1 pr-2 w-[90%]">
+            <div className="flex items-center justify-between">
+                <div className="w-[90%] flex-1 pr-2">
                     <div className="flex justify-between">
-                        <Text
-                            type="body-small"
-                            className="text-pzh-gray-600 capitalize">
+                        <Text size="s" className="capitalize text-pzh-gray-600">
                             {Object_Type}
                         </Text>
                         <div className="flex items-center">
-                            <Text
-                                type="body-small"
-                                className="mr-1 text-pzh-gray-600">
+                            <Text size="s" className="mr-1 text-pzh-gray-600">
                                 {getObjectActionText(
                                     ModuleObjectContext?.Action
                                 )}
@@ -137,9 +134,7 @@ const ModuleItem = ({
                             <CircleInfo className="-mt-1 text-pzh-gray-600" />
                         </div>
                     </div>
-                    <Text type="body" className="truncate">
-                        {Title}
-                    </Text>
+                    <Text className="truncate">{Title}</Text>
                     {hasEditButton &&
                         ModuleObjectContext?.Action !== 'Terminate' &&
                         hasRights &&
@@ -155,7 +150,7 @@ const ModuleItem = ({
                 {!!dropdownItems.length ? (
                     <div className="relative">
                         <button
-                            className="flex items-center justify-center w-6 h-6 hover:bg-pzh-gray-100 rounded-full"
+                            className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-pzh-gray-100"
                             onClick={() => setIsOpen(!isOpen)}
                             aria-label="Onderdeel menu"
                             data-testid="module-item-menu">

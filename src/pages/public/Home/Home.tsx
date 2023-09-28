@@ -1,17 +1,17 @@
-import { Heading, Hyperlink, Text } from '@pzh-ui/components'
-import { ArrowUpRightFromSquare, FilePdf } from '@pzh-ui/icons'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
+import { Heading, Hyperlink, Text } from '@pzh-ui/components'
+import { ArrowUpRightFromSquare, FilePdf } from '@pzh-ui/icons'
+
 import { Container } from '@/components/Container'
-import { releases } from '@/constants/releases'
+import imageLanding from '@/images/landing-1.webp'
 import {
     getResponsiveImageHeight,
     getResponsiveImageOffset,
 } from '@/utils/responsiveImage'
 
 import DocumentLink from './DocumentLink'
-import ReleaseItem from './ReleaseItem'
 import SearchSection from './SearchSection'
 
 /**
@@ -41,10 +41,11 @@ const Home = () => {
                 <div className="col-span-6 mb-8 lg:col-span-3 lg:mb-16">
                     <Heading
                         level="1"
-                        className="mt-4 text-3xl font-bold text-pzh-blue md:mt-12 lg:mt-16">
+                        size="xxl"
+                        className="mt-4 md:mt-12 lg:mt-16">
                         Omgevingsbeleid
                     </Heading>
-                    <Text type="introduction-paragraph" className="mt-3">
+                    <Text size="l" className="mt-3">
                         Provincie Zuid-Holland heeft haar beleid eenvoudiger,
                         transparanter en toegankelijker gemaakt. Via deze
                         website kan je al het Omgevingsbeleid van de provincie
@@ -54,7 +55,7 @@ const Home = () => {
                         maatregelen die de provincie neemt om natuur te
                         herstellen.
                     </Text>
-                    <Text type="body" className="mt-8">
+                    <Text className="mt-8">
                         Zo wordt voor iedereen zichtbaar waar de provincie aan
                         wil werken en wat binnen de provinciegrenzen is
                         toegestaan. Daarnaast kan het Omgevingsbeleid digitaal
@@ -62,13 +63,21 @@ const Home = () => {
                     </Text>
                 </div>
                 <div className="relative col-span-3 hidden lg:block">
-                    <div className="image-home-1 absolute left-0 top-0 inline-block h-[480px] w-[50vw] bg-gray-100 bg-cover bg-center bg-no-repeat text-white" />
+                    <img
+                        src={imageLanding}
+                        alt=""
+                        className="absolute left-0 top-0 inline-block h-[480px] min-w-[50vw] object-cover"
+                    />
                 </div>
             </Container>
 
-            <div className="image-home-1 block h-64 w-full bg-pzh-blue bg-cover bg-center bg-no-repeat lg:hidden" />
+            <img
+                src={imageLanding}
+                alt=""
+                className="left-0 top-0 block h-64 w-full object-cover lg:hidden"
+            />
 
-            <Container className="border-t border-gray-300 py-6 md:py-8 lg:py-16">
+            <Container className="border-t border-pzh-gray-300 py-6 md:py-8 lg:py-16">
                 <div className="col-span-6 lg:col-span-2">
                     <Heading
                         level="2"
@@ -76,7 +85,7 @@ const Home = () => {
                         className="font-bold">
                         Zoeken in het beleid
                     </Heading>
-                    <Text type="body" className="mt-4">
+                    <Text className="mt-4">
                         Hier kan je zoeken in het Omgevingsbeleid van
                         Zuid-Holland. Je kan zowel zoeken op tekst als op
                         locatie.
@@ -92,7 +101,7 @@ const Home = () => {
                         <Heading level="2" color="text-white">
                             Opbouw van het beleid
                         </Heading>
-                        <Text type="body" color="text-white" className="mt-4">
+                        <Text color="text-white" className="mt-4">
                             De Omgevingswet streeft ernaar om al het beleid over
                             de fysieke leefomgeving te vereenvoudigen zodat het
                             voor iedereen is te begrijpen. Daarom zet de
@@ -145,7 +154,7 @@ const Home = () => {
                 className="pb-3 pt-0 md:pb-6 md:pt-12 lg:flex-col lg:pb-8 lg:pt-16"
                 id="omgevingsvisie-section">
                 <div
-                    className="image-home-2 absolute left-0 col-span-6 mb-8 inline-block w-screen bg-gray-100 bg-cover bg-center bg-no-repeat text-white md:relative md:w-auto lg:col-span-4 lg:hidden"
+                    className="image-home-2 absolute left-0 col-span-6 mb-8 inline-block w-screen bg-pzh-gray-100 bg-cover bg-center bg-no-repeat text-white md:relative md:w-auto lg:col-span-4 lg:hidden"
                     style={responsiveImageHeight}
                 />
                 <div
@@ -155,7 +164,7 @@ const Home = () => {
                         {/* 👇🏻 Contains a soft hyphen */}
                         Omgevings­visie
                     </Heading>
-                    <Text type="body" className="mt-4">
+                    <Text className="mt-4">
                         De visie van de provincie Zuid-Holland geeft aan waar de
                         provincie voor staat. Het beschrijft hoe de provincie de
                         toekomst van Zuid-Holland voor zich ziet. De
@@ -178,7 +187,7 @@ const Home = () => {
                     </Text>
                 </div>
                 <div
-                    className="image-home-2 col-span-6 hidden bg-gray-100 bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:inline-block"
+                    className="image-home-2 col-span-6 hidden bg-pzh-gray-100 bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:inline-block"
                     style={responsiveImageHeight}
                 />
             </Container>
@@ -187,15 +196,15 @@ const Home = () => {
                 className="md:py-6 lg:py-8"
                 id="omgevingsprogramma-section">
                 <div
-                    className="image-home-3 col-span-6 mb-8 inline-block bg-gray-100 bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:mb-0"
+                    className="image-home-3 col-span-6 mb-8 inline-block bg-pzh-gray-100 bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:mb-0"
                     style={responsiveImageHeight}
                 />
                 <div className="col-span-6 flex flex-col justify-center lg:col-span-2 ">
-                    <Heading level="2" color="text-pzh-blue">
+                    <Heading level="2">
                         {/* 👇🏻 Contains a soft hyphen */}
                         Omgevings­programma
                     </Heading>
-                    <Text type="body" className="mt-4">
+                    <Text className="mt-4">
                         In het{' '}
                         <Link
                             className="text-pzh-green underline hover:text-pzh-green-dark"
@@ -222,15 +231,15 @@ const Home = () => {
                 className="pb-8 lg:pt-16"
                 id="omgevingsverordening-section">
                 <div
-                    className="image-home-4 col-span-6 mb-8 inline-block bg-gray-100 bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:hidden"
+                    className="image-home-4 col-span-6 mb-8 inline-block bg-pzh-gray-100 bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:hidden"
                     style={responsiveImageHeight}
                 />
                 <div className="col-span-6 flex flex-col justify-center lg:col-span-2">
-                    <Heading level="2" color="text-pzh-blue">
+                    <Heading level="2">
                         {/* 👇🏻 Contains a soft hyphen */}
                         Omgevings­verordening
                     </Heading>
-                    <Text type="body" className="mt-4">
+                    <Text className="mt-4">
                         Voor het in stand houden van goede omgevingskwaliteit
                         zijn er regels nodig over wat wel en niet is toegestaan
                         binnen de provinciegrenzen. Denk bijvoorbeeld aan regels
@@ -253,21 +262,19 @@ const Home = () => {
                     </Text>
                 </div>
                 <div
-                    className="image-home-4 col-span-6 hidden bg-gray-100 bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:inline-block"
+                    className="image-home-4 col-span-6 hidden bg-pzh-gray-100 bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:inline-block"
                     style={responsiveImageHeight}
                 />
             </Container>
 
-            <Container className="border-t border-gray-300 py-12">
+            <Container className="border-t border-pzh-gray-300 py-12">
                 <div className="col-span-6">
-                    <Heading
-                        level="3"
-                        className="mb-4 text-2xl font-bold text-pzh-blue">
+                    <Heading level="3" size="m" className="mb-4">
                         Documenten & Links
                     </Heading>
                 </div>
                 <div className="col-span-6 lg:col-span-2">
-                    <Text type="body">
+                    <Text>
                         We zijn hard bezig met het vullen van onze database.
                         Sommige onderdelen bieden we op dit moment nog aan als
                         PDF’s of via een externe bron.
@@ -288,47 +295,6 @@ const Home = () => {
                     />
                 </ul>
             </Container>
-
-            <div className="w-full bg-pzh-blue-dark">
-                <Container className="py-12">
-                    <div className="col-span-6 lg:col-span-2">
-                        <Heading level="2" color="text-white">
-                            Een digitaal systeem, continu in ontwikkeling
-                        </Heading>
-                        <Text type="body" color="text-white" className="mt-4">
-                            We ontwikkelen zelf een systeem voor het opstellen
-                            van digitaal beleid. Deze raadpleegomgeving is daar
-                            onderdeel van.
-                        </Text>
-                        <Text type="body" color="text-white" className="mt-4">
-                            Hiernaast tonen wij een overzicht met recent
-                            opgeleverde functionaliteiten.
-                        </Text>
-                    </div>
-                    <div className="col-span-6 mt-6 lg:col-span-4 lg:mt-0">
-                        <div className="grid grid-cols-4 gap-3 text-white md:gap-10">
-                            {releases.slice(0, 2).map(release => (
-                                <ReleaseItem
-                                    date={release.date}
-                                    releaseNumber={release.title}
-                                    releaseNote={release.description}
-                                    key={release.title}
-                                />
-                            ))}
-                            <div className="col-span-4 mt-8 md:col-span-3 md:col-start-2 md:mt-0">
-                                <Text
-                                    type="body"
-                                    className="underline"
-                                    color="text-white">
-                                    <Link to="/planning-en-releases">
-                                        Bekijk alle releases & planning
-                                    </Link>
-                                </Text>
-                            </div>
-                        </div>
-                    </div>
-                </Container>
-            </div>
         </>
     )
 }

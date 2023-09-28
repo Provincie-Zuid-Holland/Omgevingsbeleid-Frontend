@@ -1,9 +1,16 @@
-import { Breadcrumbs, Heading, Notification } from '@pzh-ui/components'
 import classNames from 'classnames'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useParams, Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
+import {
+    Breadcrumbs,
+    Heading,
+    Hyperlink,
+    Notification,
+} from '@pzh-ui/components'
+
+import { PublicModuleObjectRevision } from '@/api/fetchers.schemas'
 import { Container } from '@/components/Container'
 import ObjectArea from '@/components/DynamicObject/ObjectArea'
 import ObjectConnectionsPublic from '@/components/DynamicObject/ObjectConnectionsPublic'
@@ -13,20 +20,24 @@ import Sidebar from '@/components/DynamicObject/ObjectSidebar'
 import { LoaderContent } from '@/components/Loader'
 import RevisionModal from '@/components/Modals/RevisionModal'
 import { Model, ModelReturnType } from '@/config/objects/types'
+import useModalStore from '@/store/modalStore'
 import useRevisionStore from '@/store/revisionStore'
+import { getObjectRevisionBannerText } from '@/utils/dynamicObject'
 
 import NotFoundPage from '../NotFoundPage'
 
 interface DynamicObjectProps {
     model: Model
+    isRevision?: boolean
 }
 
-const DynamicObject = ({ model }: DynamicObjectProps) => {
-    const { uuid } = useParams()
+const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
+    const { moduleId, uuid } = useParams()
     const pathName = location.pathname || ''
 
     const { setInitialObject, setRevisionFrom, setRevisionTo } =
         useRevisionStore(state => ({ ...state }))
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const [revisionModalOpen, setRevisionModalOpen] = useState(false)
 
@@ -39,28 +50,47 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
         singularReadable,
         demonstrative,
     } = model.defaults
-    const { useGetVersion, useGetValidLineage, useGetLatestLineage } =
-        model.fetchers
-
     const {
-        data = {},
-        isLoading,
-        isError,
-    } = useGetVersion?.<ModelReturnType>(uuid!, {
-        query: { enabled: !!uuid },
-    }) || {}
-    const { data: latest, isLoading: latestIsLoading } = useGetLatestLineage(
-        data.Object_ID!,
+        useGetVersion,
+        useGetValidLineage,
+        useGetLatestLineage,
+        useGetRevision,
+    } = model.fetchers
+
+    const versionData = useGetVersion<ModelReturnType>?.(uuid!, {
+        query: { enabled: !!uuid && !moduleId },
+    })
+    const revisionData = useGetRevision<ModelReturnType>?.(
+        parseInt(moduleId!),
+        uuid!,
         {
-            query: { enabled: !!data.Object_ID },
+            query: { enabled: !!uuid && !!moduleId },
         }
     )
+
+    const objectData = useMemo(() => {
+        if (!!moduleId && !!uuid) {
+            return revisionData
+        }
+
+        return versionData
+    }, [moduleId, uuid, versionData, revisionData])
+
+    const { data = {}, isLoading, isError } = objectData || {}
+
+    const {
+        data: latest,
+        isLoading: latestIsLoading,
+        isError: latestIsError,
+    } = useGetLatestLineage(data!.Object_ID!, {
+        query: { enabled: !!data?.Object_ID, onError: () => {} },
+    })
     const { data: revisions } =
         useGetValidLineage?.<{ results?: ModelReturnType[] }>(
-            data.Object_ID!,
+            data!.Object_ID!,
             undefined,
             {
-                query: { enabled: !!data.Object_ID },
+                query: { enabled: !!data?.Object_ID && !isRevision },
             }
         ) || {}
 
@@ -69,11 +99,27 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
         [revisions]
     )
 
+    const getRevisionText = useCallback(
+        (revision: PublicModuleObjectRevision) =>
+            getObjectRevisionBannerText(revision, singular),
+        [singular]
+    )
+
     const breadcrumbPaths = [
         { name: 'Omgevingsbeleid', path: '/' },
         { name: slugOverview?.split('/')[0] || '', path: '/' },
-        { name: pluralCapitalize, path: `/${slugOverview}` || '' },
-        { name: data.Title || '', path: pathName },
+        { name: pluralCapitalize, path: `/${slugOverview}` },
+        ...(isRevision
+            ? [
+                  {
+                      name: 'Ontwerpversie',
+                      path: !latestIsError
+                          ? `/${slugOverview}/${latest?.UUID}`
+                          : `/${slugOverview}`,
+                  },
+              ]
+            : []),
+        { name: data?.Title || '', path: pathName },
     ]
 
     /**
@@ -92,7 +138,7 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
 
     return (
         <>
-            <Helmet title={data.Title} />
+            <Helmet title={data?.Title} />
 
             <Container className="pb-16 pt-4">
                 <div className="col-span-6 mb-8 capitalize">
@@ -103,46 +149,56 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
                     <Sidebar
                         revisions={amountOfRevisions}
                         plural={plural}
-                        handleModal={() => setRevisionModalOpen(true)}
+                        handleModal={() => setActiveModal('revision')}
+                        isRevision={isRevision}
                         {...data}
                     />
                 </div>
 
                 <div className="order-2 col-span-6 mt-6 flex flex-col xl:col-span-4 xl:mt-0">
-                    <Heading
-                        level="3"
-                        color="text-pzh-blue"
-                        className="order-1">
+                    <Heading level="3" size="m" className="order-1">
                         {singularCapitalize}
                     </Heading>
 
-                    {!isLoading &&
-                        !latestIsLoading &&
+                    {!latestIsLoading &&
                         latest &&
-                        data.UUID !== latest.UUID && (
+                        (data?.UUID !== latest.UUID || isRevision) && (
                             <Notification className="order-2 mt-4">
                                 <>
-                                    Let op, dit is een verouderde versie van{' '}
-                                    {demonstrative} {singularReadable},{' '}
-                                    <Link
+                                    Let op, dit is een{' '}
+                                    {isRevision
+                                        ? 'ontwerpversie'
+                                        : 'verouderde'}{' '}
+                                    versie van {demonstrative}{' '}
+                                    {singularReadable},{' '}
+                                    <Hyperlink
                                         to={`/${slugOverview}/${latest.UUID}`}
-                                        className="underline">
-                                        bekijk hier de vigerende versie
-                                    </Link>
+                                        text="bekijk hier de vigerende versie"
+                                    />
                                 </>
                             </Notification>
                         )}
 
+                    {data?.UUID === latest?.UUID &&
+                        !!latest?.Public_Revisions?.length &&
+                        latest.Public_Revisions.map(revision => (
+                            <Notification
+                                key={revision.Module_Object_UUID}
+                                className="order-2 mt-4">
+                                {getRevisionText(revision)}
+                            </Notification>
+                        ))}
+
                     <Heading
                         level="1"
-                        color="text-pzh-blue"
+                        size="xxl"
                         className="order-2 mb-2 mt-4 md:order-3 md:mb-4">
-                        {data.Title}
+                        {data?.Title}
                     </Heading>
 
                     <div className="order-4">
                         <ObjectContent
-                            data={data}
+                            data={data || {}}
                             customTitle={
                                 singular === 'beleidskeuze' ||
                                 singular === 'maatregel'
@@ -155,7 +211,7 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
                         />
                     </div>
 
-                    {data.Gebied && (
+                    {data?.Gebied && (
                         <div className="order-7">
                             <ObjectArea
                                 model={model}
@@ -169,11 +225,11 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
                         !model.acknowledgedRelation && (
                             <div
                                 className={classNames('order-8', {
-                                    'mt-4 md:mt-8': !!data.Gebied,
+                                    'mt-4 md:mt-8': !!data?.Gebied,
                                 })}>
                                 <ObjectConnectionsPublic
                                     model={model}
-                                    data={data}
+                                    data={data || {}}
                                 />
                             </div>
                         )}
@@ -181,9 +237,12 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
                     {model.allowedConnections && model.acknowledgedRelation && (
                         <div
                             className={classNames('order-9', {
-                                'mt-4 md:mt-8': !!data.Gebied,
+                                'mt-4 md:mt-8': !!data?.Gebied,
                             })}>
-                            <ObjectRelationsPublic model={model} data={data} />
+                            <ObjectRelationsPublic
+                                model={model}
+                                data={data || {}}
+                            />
                         </div>
                     )}
                 </div>
@@ -195,6 +254,7 @@ const DynamicObject = ({ model }: DynamicObjectProps) => {
                     revisions={revisions?.results}
                     isOpen={revisionModalOpen}
                     onClose={() => setRevisionModalOpen(false)}
+                    latestUUID={latest?.UUID}
                 />
             )}
         </>

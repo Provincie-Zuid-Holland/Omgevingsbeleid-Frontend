@@ -1,13 +1,15 @@
-import { FieldLabel, Text, formatDate } from '@pzh-ui/components'
-import { TrashCan } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useFormikContext } from 'formik'
 import { useMemo, useState } from 'react'
+
+import { FieldLabel, Text, formatDate } from '@pzh-ui/components'
+import { TrashCan } from '@pzh-ui/icons'
 
 import { Werkingsgebied } from '@/api/fetchers.schemas'
 import { ModelReturnType } from '@/config/objects/types'
 import { DynamicField } from '@/config/types'
 import useObject from '@/hooks/useObject'
+import useModalStore from '@/store/modalStore'
 
 import AreaPreview from '../../AreaPreview'
 import AreaModal from '../../Modals/AreaModal'
@@ -20,6 +22,8 @@ const FieldSelectArea = ({
     description,
     disabled,
 }: Omit<DynamicField, 'type'> & { disabled?: boolean }) => {
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
     const { values, setFieldValue } = useFormikContext<ModelReturnType>()
     const value = values[name as keyof typeof values]
 
@@ -28,7 +32,6 @@ const FieldSelectArea = ({
     const [area, setArea] = useState<Partial<Werkingsgebied | undefined>>(
         data?.Gebied
     )
-    const [isOpen, setOpen] = useState(false)
 
     const modifiedDate = useMemo(
         () =>
@@ -66,10 +69,10 @@ const FieldSelectArea = ({
 
             {!value ? (
                 <button
-                    onClick={() => setOpen(true)}
+                    onClick={() => setActiveModal('areaAdd')}
                     type="button"
                     className={classNames(
-                        'mt-4 w-full rounded-[4px] border border-pzh-gray-600 px-2 py-4 underline',
+                        'mt-4 w-full rounded border border-pzh-gray-600 px-2 py-4 underline',
                         {
                             'text-pzh-green': !disabled,
                             'bg-pzh-gray-100 text-pzh-gray-600': disabled,
@@ -79,14 +82,12 @@ const FieldSelectArea = ({
                     Werkingsgebied koppelen
                 </button>
             ) : (
-                <div className="mt-4 w-full rounded-[4px] border border-pzh-gray-600 p-2">
+                <div className="mt-4 w-full rounded border border-pzh-gray-600 p-2">
                     <div className="grid grid-cols-9 gap-4">
-                        <div className="col-span-9 p-2 md:col-span-3">
-                            <Text type="body-bold">
-                                Gekoppeld werkingsgebied
-                            </Text>
+                        <div className="col-span-9 p-4 md:col-span-3">
+                            <Text bold>Gekoppeld werkingsgebied</Text>
 
-                            <div className="mt-5 rounded-[4px] border border-pzh-gray-200 p-2">
+                            <div className="mt-6 rounded border border-pzh-gray-200 p-2">
                                 <div className="flex items-start justify-between">
                                     <p className="font-bold leading-5">
                                         {area?.Title}
@@ -99,14 +100,14 @@ const FieldSelectArea = ({
                                             Werkingsgebied verwijderen
                                         </span>
                                         <TrashCan
-                                            className={classNames('mt-[4px]', {
+                                            className={classNames('mt-1', {
                                                 'text-pzh-red': !disabled,
                                                 'text-pzh-gray-600': disabled,
                                             })}
                                         />
                                     </button>
                                 </div>
-                                <span className="block text-[16px]">
+                                <span className="block text-s">
                                     Laatste update van {modifiedDate}
                                 </span>
                             </div>
@@ -120,11 +121,7 @@ const FieldSelectArea = ({
 
             <input name={name} type="hidden" />
 
-            <AreaModal
-                isOpen={isOpen}
-                onClose={() => setOpen(false)}
-                handleFormSubmit={handleFormSubmit}
-            />
+            <AreaModal handleFormSubmit={handleFormSubmit} />
         </>
     )
 }

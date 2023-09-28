@@ -21,7 +21,7 @@ const LeafletAreaLayer = ({ layer, index, color }: LeafletAreaLayerProps) => {
 
     return (
         <li
-            className={`flex justify-between px-2 py-1 text-gray-700 hover:text-gray-800 focus:text-gray-900 hover:bg-gray-50${
+            className={`flex justify-between px-2 py-1 text-pzh-gray-700 hover:text-pzh-gray-800 focus:text-pzh-gray-800 hover:bg-pzh-gray-500${
                 index ? ' pl-8' : ''
             }`}
             onClick={() => {

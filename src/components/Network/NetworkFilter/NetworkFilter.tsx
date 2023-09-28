@@ -1,6 +1,7 @@
+import { useMemo } from 'react'
+
 import { FieldSelect, FieldSelectProps } from '@pzh-ui/components'
 import { MagnifyingGlass, Xmark } from '@pzh-ui/icons'
-import { useMemo } from 'react'
 
 import Filter from '@/components/Filter'
 import { ModelType } from '@/config/objects/types'
@@ -61,8 +62,8 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
     const defaultValue = useMemo(
         () =>
             filters.flatMap(filter =>
-                filter.options.filter(option =>
-                    selectedFilters?.network.includes(option.value)
+                filter.options.filter(
+                    option => selectedFilters?.network.includes(option.value)
                 )
             ),
         [filters, selectedFilters]
@@ -124,6 +125,26 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
         resetHighlightConnections()
     }
 
+    /**
+     * Handle filtering of select field
+     */
+    const handleFilter: FieldSelectProps['filterOption'] = (
+        option,
+        inputValue
+    ) => {
+        const data = option.data as (typeof options)[0]
+        const label = data.label.props.children[0].props.children as string
+
+        if (
+            label.toLowerCase().includes(inputValue.toLowerCase()) ||
+            data.value.toLowerCase().includes(inputValue.toLowerCase())
+        ) {
+            return true
+        }
+
+        return false
+    }
+
     return (
         <>
             <div className="flex flex-wrap sm:flex-nowrap">
@@ -149,6 +170,7 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
                             ),
                         }}
                         onChange={e => handleChange(e as (typeof options)[0])}
+                        filterOption={handleFilter}
                     />
                 </div>
                 <Filter
@@ -160,7 +182,7 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
                 />
             </div>
             {typeof results === 'number' && (
-                <span className="mt-2 block text-sm">
+                <span className="mt-2 block text-s">
                     Er {results === 1 ? 'is' : 'zijn'} {results}{' '}
                     {results === 1 ? 'resultaat' : 'resultaten'} gevonden
                 </span>

@@ -1,5 +1,6 @@
-import { Heading, Hyperlink, Text, formatDate } from '@pzh-ui/components'
 import { useMemo } from 'react'
+
+import { Heading, Hyperlink, Text, formatDate } from '@pzh-ui/components'
 
 import Avatar from '@/components/Avatar/Avatar'
 import TableOfContents from '@/components/TableOfContents/TableOfContents'
@@ -12,6 +13,8 @@ interface ObjectSidebarProps extends ModelReturnType {
     plural: string
     /** Amount of revisions */
     revisions?: number
+    /** If object is a revision */
+    isRevision?: boolean
     /** Handle revision modal state */
     handleModal: () => void
 }
@@ -23,6 +26,7 @@ const ObjectSidebar = ({
     Object_ID,
     ObjectStatics,
     plural,
+    isRevision,
     handleModal,
 }: ObjectSidebarProps) => {
     const { user } = useAuth()
@@ -32,7 +36,8 @@ const ObjectSidebar = ({
     const formattedDate = useMemo(() => {
         const today = new Date()
 
-        if (!Start_Validity) return 'Nog niet geldig, versie in bewerking'
+        if (!Start_Validity || isRevision)
+            return 'Nog niet geldig, versie in bewerking'
 
         if (
             (today > new Date(Start_Validity) && !End_Validity) ||
@@ -54,12 +59,12 @@ const ObjectSidebar = ({
                 'd MMMM yyyy'
             )} t/m ${formatDate(new Date(End_Validity), 'd MMMM yyyy')}`
         }
-    }, [Start_Validity, End_Validity])
+    }, [Start_Validity, End_Validity, isRevision])
 
     return (
         <aside className="sticky top-[120px]">
             <div className="mb-6">
-                <Heading level="3" className="mb-2">
+                <Heading level="3" size="m" className="mb-2">
                     Informatie
                 </Heading>
 
@@ -68,24 +73,26 @@ const ObjectSidebar = ({
                     {formattedDate}
                 </Text>
 
-                <div className="mt-2">
-                    {!!revisions && revisions > 0 ? (
-                        <button
-                            className="text-pzh-green underline"
-                            onClick={handleModal}>
-                            Bekijk {revisions}{' '}
-                            {revisions === 1 ? 'revisie' : 'revisies'}
-                        </button>
-                    ) : (
-                        <span className="text-pzh-gray-600 italic">
-                            Geen revisies
-                        </span>
-                    )}
-                </div>
+                {!isRevision && (
+                    <div className="mt-2">
+                        {!!revisions && revisions > 0 ? (
+                            <button
+                                className="text-pzh-green underline"
+                                onClick={handleModal}>
+                                Bekijk {revisions}{' '}
+                                {revisions === 1 ? 'revisie' : 'revisies'}
+                            </button>
+                        ) : (
+                            <span className="italic text-pzh-gray-600">
+                                Geen revisies
+                            </span>
+                        )}
+                    </div>
+                )}
             </div>
 
             <div className="mb-6">
-                <Heading level="3" className="mb-2">
+                <Heading level="3" size="m" className="mb-2">
                     Inhoudsopgave
                 </Heading>
 
@@ -94,9 +101,7 @@ const ObjectSidebar = ({
 
             {!!user && (
                 <div>
-                    <Text
-                        type="body-small"
-                        className="mb-3 italic text-pzh-blue-dark">
+                    <Text size="s" className="mb-3 italic text-pzh-blue-dark">
                         Onderstaande informatie is alleen inzichtelijk voor
                         gebruikers die zijn ingelogd
                     </Text>
@@ -133,7 +138,7 @@ const People = ({
         <div className="mb-3 flex">
             {(ObjectStatics.Portfolio_Holder_1 ||
                 ObjectStatics.Portfolio_Holder_2) && (
-                <div className="flex mr-2">
+                <div className="mr-2 flex">
                     {ObjectStatics.Portfolio_Holder_1 && (
                         <Avatar
                             name={

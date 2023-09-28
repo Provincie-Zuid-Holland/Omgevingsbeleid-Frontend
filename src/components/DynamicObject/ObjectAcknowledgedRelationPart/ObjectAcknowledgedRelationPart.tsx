@@ -1,3 +1,6 @@
+import classNames from 'classnames'
+import { useMemo, useState } from 'react'
+
 import { Button, Text } from '@pzh-ui/components'
 import {
     AngleDown,
@@ -8,8 +11,6 @@ import {
     MessageXmark,
     Share,
 } from '@pzh-ui/icons'
-import classNames from 'classnames'
-import { useMemo, useState } from 'react'
 
 import { AcknowledgedRelation } from '@/api/fetchers.schemas'
 
@@ -55,9 +56,9 @@ const ObjectAcknowledgedRelationPart = ({
         <div className="w-full">
             <div
                 className={classNames(
-                    'relative py-2 px-3 flex items-center justify-between h-10 bg-pzh-gray-100 border border-pzh-gray-300 rounded-t-[4px]',
+                    'rounded-t-1 relative flex h-10 items-center justify-between border border-pzh-gray-300 bg-pzh-gray-100 px-3 py-2',
                     {
-                        'rounded-b-[4px]': !open,
+                        'rounded-b-1': !open,
                     }
                 )}>
                 <div className="flex items-center">
@@ -70,13 +71,13 @@ const ObjectAcknowledgedRelationPart = ({
                             'text-pzh-orange': type === 'received',
                         })}
                     />
-                    <Text type="body-bold">{title}</Text>
+                    <Text bold>{title}</Text>
                 </div>
                 {type !== 'received' ? (
                     <button
                         type="button"
                         onClick={() => setOpen(!open)}
-                        className="after:content-[' '] after:absolute after:left-0 after:top-0 after:w-full after:h-full">
+                        className="after:content-[' '] after:absolute after:left-0 after:top-0 after:h-full after:w-full">
                         <AngleDown
                             size={18}
                             className={classNames('transition', {
@@ -121,9 +122,9 @@ const ObjectAcknowledgedRelationPart = ({
             </div>
             {(open || type === 'received') && (
                 <>
-                    <div className="flex items-start pt-2 pb-3 px-3 rounded-b-[4px] border-l border-r border-b border-pzh-gray-300">
+                    <div className="rounded-b-1 flex items-start border-b border-l border-r border-pzh-gray-300 px-3 pb-3 pt-2">
                         {type !== 'received' && type !== 'awaiting' && (
-                            <div className="w-4 mr-3 mt-1">
+                            <div className="mr-3 mt-1 w-4">
                                 {type === 'approved' || Side_B.Acknowledged ? (
                                     <MessageCheck size={20} />
                                 ) : (
@@ -137,8 +138,8 @@ const ObjectAcknowledgedRelationPart = ({
                         <Text>{description}</Text>
                     </div>
                     {(type === 'approved' || type === 'declined') && (
-                        <div className="mt-2 pt-2 pb-3 px-3 rounded-[4px] border border-pzh-gray-300">
-                            <div className="flex items-center mb-2">
+                        <div className="mt-2 rounded border border-pzh-gray-300 px-3 pb-3 pt-2">
+                            <div className="mb-2 flex items-center">
                                 {type === 'approved' || Side_A.Acknowledged ? (
                                     <MessageCheck size={20} className="mr-3" />
                                 ) : (
@@ -150,7 +151,7 @@ const ObjectAcknowledgedRelationPart = ({
                                         />
                                     )
                                 )}
-                                <Text type="body-bold">{Side_A.Title}</Text>
+                                <Text bold>{Side_A.Title}</Text>
                             </div>
                             <Text className="ml-7">{Side_A.Explanation}</Text>
                         </div>

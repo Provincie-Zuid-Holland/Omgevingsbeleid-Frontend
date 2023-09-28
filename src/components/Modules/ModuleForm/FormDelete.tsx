@@ -1,3 +1,6 @@
+import { Form, Formik } from 'formik'
+import { useNavigate, useParams } from 'react-router-dom'
+
 import {
     Button,
     FieldLabel,
@@ -5,8 +8,6 @@ import {
     Heading,
     Text,
 } from '@pzh-ui/components'
-import { Form, Formik } from 'formik'
-import { useNavigate, useParams } from 'react-router-dom'
 
 import useModule from '@/hooks/useModule'
 
@@ -28,15 +29,15 @@ const FormDelete = () => {
     return (
         <>
             <div className="col-span-6 sm:col-span-2">
-                <Heading as="2" level="3" className="mb-3">
+                <Heading level="2" size="m" className="mb-3">
                     Module verwijderen
                 </Heading>
-                <Text type="body">
+                <Text>
                     Verwijder de module zonder dat deze succesvol is afgesloten.
                 </Text>
             </div>
 
-            <div className="col-span-6 pt-[48px] sm:col-span-4">
+            <div className="col-span-6 pt-[42px] sm:col-span-4">
                 <Formik
                     onSubmit={handleSubmit}
                     initialValues={{ consent: false }}>
@@ -53,7 +54,7 @@ const FormDelete = () => {
                                 type="submit"
                                 isDisabled={!dirty || isSubmitting}
                                 isLoading={isSubmitting}
-                                className="mt-3">
+                                className="mt-4">
                                 Module verwijderen
                             </Button>
                         </Form>

@@ -1,13 +1,15 @@
-import { Text } from '@pzh-ui/components'
 import { useMemo } from 'react'
 
+import { Text } from '@pzh-ui/components'
+
 import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
-import { ModuleModalActions } from '@/components/Modals/ModuleModals/types'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
+import { ModuleContext } from '@/pages/protected/Modules/ModuleDetail'
+import useModalStore from '@/store/modalStore'
 
 import ModuleItem from '../ModuleItem'
 
@@ -16,8 +18,8 @@ interface ModuleItemListProps {
     objects?: ModuleObjectShort[]
     /** Current model object */
     module?: Module
-    /** Set module modal state */
-    setModuleModal: (e: ModuleModalActions) => void
+    /** Set module context */
+    setModuleContext: (e: ModuleContext) => void
 }
 
 const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
@@ -100,59 +102,63 @@ interface ItemListProps extends ModuleItemListProps {
 
 const ItemList = ({
     objects,
-    setModuleModal,
+    setModuleContext,
     module,
     title,
     noResultsText,
     hasEditButton,
-}: ItemListProps) => (
-    <>
-        <Text type="body" className="font-bold text-pzh-blue">
-            {title}
-        </Text>
-        {!!objects?.length ? (
-            <div className="mb-4">
-                {objects.map(object => {
-                    const model =
-                        models[object.Object_Type.toLowerCase() as ModelType]
-                    const { slugOverview } = model?.defaults || {}
+}: ItemListProps) => {
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
-                    return (
-                        <ModuleItem
-                            key={object.UUID}
-                            editCallback={() =>
-                                setModuleModal({
-                                    object,
-                                    action: 'editObject',
-                                    isOpen: true,
-                                })
-                            }
-                            deleteCallback={() =>
-                                setModuleModal({
-                                    object,
-                                    module,
-                                    action: 'deleteObject',
-                                    isOpen: true,
-                                })
-                            }
-                            viewCallback={() =>
-                                window
-                                    .open(
-                                        `/${slugOverview}/${object.UUID}`,
-                                        '_blank'
-                                    )
-                                    ?.focus()
-                            }
-                            hasEditButton={hasEditButton}
-                            {...object}
-                        />
-                    )
-                })}
-            </div>
-        ) : (
-            <p className="italic mb-4">{noResultsText}</p>
-        )}
-    </>
-)
+    return (
+        <>
+            <Text bold color="text-pzh-blue">
+                {title}
+            </Text>
+            {!!objects?.length ? (
+                <div className="mb-4">
+                    {objects.map(object => {
+                        const model =
+                            models[
+                                object.Object_Type.toLowerCase() as ModelType
+                            ]
+                        const { slugOverview } = model?.defaults || {}
+
+                        return (
+                            <ModuleItem
+                                key={object.UUID}
+                                editCallback={() => {
+                                    setModuleContext({
+                                        object,
+                                    })
+                                    setActiveModal('moduleEditObject')
+                                }}
+                                deleteCallback={() => {
+                                    setModuleContext({
+                                        object,
+                                        module,
+                                    })
+                                    setActiveModal('moduleDeleteObject')
+                                }}
+                                viewCallback={() =>
+                                    window
+                                        .open(
+                                            `/${slugOverview}/${object.UUID}`,
+                                            '_blank'
+                                        )
+                                        ?.focus()
+                                }
+                                hasEditButton={hasEditButton}
+                                {...object}
+                            />
+                        )
+                    })}
+                </div>
+            ) : (
+                <p className="mb-4 italic">{noResultsText}</p>
+            )}
+        </>
+    )
+}
 
 export default ModuleItemList

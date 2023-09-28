@@ -1,6 +1,7 @@
+import classNames from 'classnames'
+
 import { Text } from '@pzh-ui/components'
 import { Triangle } from '@pzh-ui/icons'
-import classNames from 'classnames'
 
 import { ModelType } from '@/config/objects/types'
 import useFilterStore from '@/store/filterStore'
@@ -44,12 +45,12 @@ const NetworkLegend = () => {
     }
 
     return (
-        <div className="absolute right-5 bottom-5 py-3 px-4 bg-pzh-white shadow-card">
+        <div className="absolute bottom-5 right-5 bg-pzh-white px-4 py-3 shadow-card">
             {filters.map((group, index) => (
                 <div
                     key={group.label}
                     className={classNames({ 'mt-1': index !== 0 })}>
-                    <Text type="body-bold" className="mb-1 text-pzh-blue">
+                    <Text bold className="mb-1 text-pzh-blue">
                         {group.label}
                     </Text>
 
@@ -58,7 +59,7 @@ const NetworkLegend = () => {
                             key={option.value}
                             onClick={() => handleClick(option.value)}
                             className={classNames('flex items-baseline', {
-                                'opacity-40 line-through':
+                                'line-through opacity-40':
                                     !selectedFilters?.network.includes(
                                         option.value
                                     ),
@@ -76,18 +77,18 @@ const NetworkLegend = () => {
 const getIcon = (type: ModelType) => {
     switch (type) {
         case 'ambitie':
-            return <Triangle className="text-pzh-apple-green mr-2" />
+            return <Triangle className="mr-2 text-pzh-apple-green" />
         case 'beleidsdoel':
             return (
-                <div className="w-[12px] h-[12px] rounded-[2px] bg-pzh-orange mr-[11px]" />
+                <div className="rounded-0.5 mr-[11px] h-3 w-3 bg-pzh-orange" />
             )
         case 'beleidskeuze':
             return (
-                <div className="w-[12px] h-[12px] rounded-full bg-pzh-yellow mr-[11px]" />
+                <div className="mr-[11px] h-3 w-3 rounded-full bg-pzh-yellow" />
             )
         case 'maatregel':
             return (
-                <div className="w-[10px] h-[10px] rounded-[2px] rotate-[45deg] -translate-y-[2px] translate-x-[1px] bg-pzh-green mr-[11px]" />
+                <div className="rounded-0.5 mr-[11px] h-2.5 w-2.5 -translate-y-0.5 translate-x-px rotate-[45deg] bg-pzh-green" />
             )
         default:
             return <div />

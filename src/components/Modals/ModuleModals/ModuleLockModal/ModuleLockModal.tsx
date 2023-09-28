@@ -1,29 +1,21 @@
-import { Button, Heading, Modal, Text } from '@pzh-ui/components'
 import { useParams } from 'react-router-dom'
 
+import { Button, Text } from '@pzh-ui/components'
+
+import Modal from '@/Modal'
 import useModule from '@/hooks/useModule'
+import useModalStore from '@/store/modalStore'
 
-interface ModuleLockModalProps {
-    isOpen: boolean
-    onClose: () => void
-}
-
-const ModuleLockModal = ({ isOpen, onClose }: ModuleLockModalProps) => {
+const ModuleLockModal = () => {
     const { moduleId } = useParams()
 
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
     const { useEditModule } = useModule()
-    const { mutate } = useEditModule('moduleLocked', () => onClose())
+    const { mutate } = useEditModule('moduleLocked', () => setActiveModal(null))
 
     return (
-        <Modal
-            open={isOpen}
-            onClose={onClose}
-            ariaLabel="Module locken"
-            maxWidth="sm:max-w-[812px]">
-            <Heading level="2" className="mb-4">
-                Module locken
-            </Heading>
-
+        <Modal id="moduleLock" title="Module locken">
             <Text>
                 Je staat op het punt om de module te locken. Dit houdt in dat de
                 onderdelen in deze module tijdelijk niet meer kunnen worden
@@ -37,7 +29,7 @@ const ModuleLockModal = ({ isOpen, onClose }: ModuleLockModalProps) => {
             </Text>
 
             <div className="mt-6 flex items-center justify-between">
-                <Button variant="link" onPress={onClose}>
+                <Button variant="link" onPress={() => setActiveModal(null)}>
                     Annuleren
                 </Button>
                 <Button

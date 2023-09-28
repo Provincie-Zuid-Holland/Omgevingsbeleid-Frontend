@@ -1,6 +1,7 @@
-import { Breadcrumbs, Heading, TabItem, Tabs, Text } from '@pzh-ui/components'
 import classNames from 'classnames'
 import { Helmet } from 'react-helmet'
+
+import { Breadcrumbs, Heading, TabItem, Tabs, Text } from '@pzh-ui/components'
 
 import { Container } from '@/components/Container'
 import NetworkGraph from '@/components/Network/NetworkGraph'
@@ -26,7 +27,9 @@ const Network = () => {
                     <Breadcrumbs items={breadcrumbPaths} />
                 </div>
                 <div className="col-span-6">
-                    <Heading level="1">Beleidsnetwerk</Heading>
+                    <Heading level="1" size="xxl">
+                        Beleidsnetwerk
+                    </Heading>
                     <Text className="mt-3 md:mt-4">
                         Het beleid van de provincie Zuid-Holland en de
                         onderliggende koppelingen
@@ -45,7 +48,7 @@ const Network = () => {
                             setActiveTab(key as typeof activeTab)
                         }>
                         <TabItem title="Visueel" key="visual">
-                            <div className="after:content-[' '] after:absolute after:top-[33px] after:left-0 after:-z-1 after:w-full after:h-full after:bg-pzh-gray-100">
+                            <div className="after:content-[' '] after:absolute after:left-0 after:top-[33px] after:-z-1 after:h-full after:w-full after:bg-pzh-gray-100">
                                 <NetworkGraph />
                             </div>
                         </TabItem>

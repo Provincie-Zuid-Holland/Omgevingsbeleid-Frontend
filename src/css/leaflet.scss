@@ -39,13 +39,15 @@
     a {
         background-color: #ffffff;
         color: #2c5282;
-        box-shadow: rgba(0, 0, 0, 0.1) 0 1px 3px 0,
+        box-shadow:
+            rgba(0, 0, 0, 0.1) 0 1px 3px 0,
             rgba(0, 0, 0, 0.06) 0 1px 2px 0;
         &:hover {
             background-color: #ffffff;
             text-decoration: underline;
             color: #2c5282;
-            box-shadow: rgba(0, 0, 0, 0.1) 0 1px 3px 0,
+            box-shadow:
+                rgba(0, 0, 0, 0.1) 0 1px 3px 0,
                 rgba(0, 0, 0, 0.06) 0 1px 2px 0;
         }
     }
@@ -68,9 +70,9 @@
         cursor: pointer;
         display: flex;
         position: relative;
-        height: 2rem;
+        height: 2.5rem;
         justify-content: center;
-        width: 2rem;
+        width: 2.5rem;
         background-position: center;
         border: 0;
 
@@ -125,7 +127,7 @@
                     content: '';
                     position: absolute;
                     top: 0;
-                    left: 0.2rem;
+                    left: 0.4rem;
                     height: 1px;
                     width: 1.6rem;
                     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -197,12 +199,12 @@
         cursor: pointer;
         display: flex;
         position: relative;
-        height: 2rem;
+        height: 2.5rem;
         justify-content: center;
-        min-width: 2rem;
+        min-width: 2.5rem;
         background-image: none !important;
         border: 0;
-        border-radius: 0.2rem;
+        border-radius: 0.4rem;
 
         &:hover {
             color: #4a5568;
@@ -211,7 +213,7 @@
 
     .leaflet-zoom {
         color: #16113b;
-        border-radius: 0.2rem;
+        border-radius: 0.4rem;
 
         &:first-child {
             &:after {

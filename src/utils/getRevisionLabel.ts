@@ -4,7 +4,8 @@ import { ModelReturnType } from '@/config/objects/types'
 
 const getRevisionLabel = (
     object: ModelReturnType,
-    initialObject: ModelReturnType
+    initialObject: ModelReturnType,
+    latest?: string
 ) => {
     let status = 'Vigerend'
     let date = ''
@@ -12,7 +13,10 @@ const getRevisionLabel = (
     if (object.Start_Validity) {
         date = formatDate(new Date(object.Start_Validity), 'd MMMM yyyy')
 
-        if (initialObject.Start_Validity !== object.Start_Validity) {
+        if (
+            initialObject.Start_Validity !== object.Start_Validity ||
+            object.UUID !== latest
+        ) {
             status = 'Gearchiveerd'
         }
     }

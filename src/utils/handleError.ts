@@ -7,7 +7,7 @@ interface Error {
 }
 
 const handleError = <T>(err: Error, helpers: FormikHelpers<T>) => {
-    err.data.detail?.forEach(item =>
+    err.data?.detail?.forEach(item =>
         helpers.setFieldError(item.loc[1].toString(), item.msg)
     )
 

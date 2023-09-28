@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { object } from 'zod'
 
 import { DynamicSection } from '@/config/types'
 import { schemaDefaults } from '@/validation/zodSchema'
@@ -7,7 +7,7 @@ import { schemaDefaults } from '@/validation/zodSchema'
  * Create SCHEMA based on provided dynamic sections
  */
 const generateDynamicSchema = (sections: DynamicSection[]) => {
-    let dynamicSchema = z.object({})
+    let dynamicSchema = object({})
 
     sections.forEach(section => {
         section.fields.forEach(field => {

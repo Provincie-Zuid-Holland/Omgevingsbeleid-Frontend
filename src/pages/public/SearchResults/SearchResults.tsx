@@ -1,13 +1,14 @@
+import classNames from 'classnames'
+import { useEffect, useMemo, useState } from 'react'
+import { Helmet } from 'react-helmet'
+import { useUpdateEffect } from 'react-use'
+
 import {
     FieldCheckboxGroup,
     Heading,
     Pagination,
     Text,
 } from '@pzh-ui/components'
-import classNames from 'classnames'
-import { useEffect, useMemo, useState } from 'react'
-import { Helmet } from 'react-helmet'
-import { useUpdateEffect } from 'react-use'
 
 import { useSearchValidPost } from '@/api/fetchers'
 import { Container } from '@/components/Container'
@@ -30,7 +31,7 @@ const SearchResults = () => {
             ({
                 ...state.selectedFilters,
                 search: (!!filter && filter?.split(',')) || [],
-            }.search)
+            }).search
     )
     const setSelectedFilters = useFilterStore(state => state.setSelectedFilters)
 
@@ -141,9 +142,13 @@ const SearchResults = () => {
             <Helmet title="Zoekresultaten" />
 
             <div className="bg-pzh-blue">
-                <Container className="h-[96px] items-center">
+                <Container className="h-24 items-center">
                     <div className="col-span-2">
-                        <Heading level="2" as="1" color="-mb-1 text-pzh-white">
+                        <Heading
+                            level="1"
+                            size="xxl"
+                            color="text-pzh-white"
+                            className="-mb-1">
                             Zoeken
                         </Heading>
                     </div>
@@ -170,9 +175,7 @@ const SearchResults = () => {
                                 className={classNames({
                                     'mb-6': index + 1 !== filters.length,
                                 })}>
-                                <Text
-                                    type="body-bold"
-                                    className="mb-3 text-pzh-blue">
+                                <Text bold className="mb-3 text-pzh-blue">
                                     {filter.label}
                                 </Text>
 

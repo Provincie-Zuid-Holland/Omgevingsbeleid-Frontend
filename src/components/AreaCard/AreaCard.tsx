@@ -14,7 +14,7 @@ const AreaCard = ({ image, title, link }: AreaCardProps) => (
             <div className="h-40 bg-pzh-gray-200" />
         )}
         <div className="flex flex-1 flex-col rounded-b border border-pzh-gray-400 p-6">
-            <Heading level="3" className="mb-4">
+            <Heading level="3" size="m" className="mb-4">
                 {title}
             </Heading>
             <div className="mt-auto">

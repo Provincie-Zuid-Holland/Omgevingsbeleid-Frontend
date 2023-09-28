@@ -1,10 +1,12 @@
-import { Divider, Text } from '@pzh-ui/components'
-import { AngleDown, AngleRight, User } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { Divider, Text } from '@pzh-ui/components'
+import { AngleDown, AngleRight, User } from '@pzh-ui/icons'
+
 import useAuth from '@/hooks/useAuth'
+import useModalStore from '@/store/modalStore'
 
 import { DropdownContainer } from '../Dropdown'
 import PasswordChangeModal from '../Modals/PasswordChangeModal'
@@ -13,8 +15,9 @@ const UserMenu = () => {
     const { user, signout } = useAuth()
     const navigate = useNavigate()
 
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
     const [isOpen, setIsOpen] = useState(false)
-    const [openModal, setOpenModal] = useState(false)
 
     return (
         <>
@@ -36,7 +39,7 @@ const UserMenu = () => {
                 </button>
                 {isOpen && (
                     <>
-                        <div className="fixed left-0 top-0 z-1 block h-screen w-screen bg-gray-900/40" />
+                        <div className="fixed left-0 top-0 z-1 block h-screen w-screen bg-pzh-gray-800/30" />
                         <DropdownContainer
                             isOpen={isOpen}
                             setIsOpen={setIsOpen}
@@ -45,7 +48,7 @@ const UserMenu = () => {
                                 <strong className="font-bold">
                                     {user?.Gebruikersnaam}
                                 </strong>
-                                <Text type="body-small" className="block">
+                                <Text size="s" className="block">
                                     {user?.Rol}
                                 </Text>
                             </div>
@@ -54,17 +57,17 @@ const UserMenu = () => {
                                 <button
                                     className="flex items-center"
                                     onClick={() => {
-                                        setOpenModal(true)
+                                        setActiveModal('passwordReset')
                                         setIsOpen(false)
                                     }}>
                                     <AngleRight className="-mt-1 mr-1" />
-                                    <Text type="body">Wachtwoord wijzigen</Text>
+                                    <Text>Wachtwoord wijzigen</Text>
                                 </button>
                                 <button
                                     onClick={() => signout(() => navigate('/'))}
                                     className="flex items-center">
                                     <AngleRight className="-mt-1 mr-1" />
-                                    <Text type="body">Uitloggen</Text>
+                                    <Text>Uitloggen</Text>
                                 </button>
                             </div>
                         </DropdownContainer>
@@ -72,7 +75,7 @@ const UserMenu = () => {
                 )}
             </div>
 
-            <PasswordChangeModal isOpen={openModal} setOpen={setOpenModal} />
+            <PasswordChangeModal />
         </>
     )
 }

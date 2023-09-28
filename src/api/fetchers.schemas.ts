@@ -78,6 +78,16 @@ export type WerkingsgebiedenGetParams = {
     sort_order?: SortOrder
 }
 
+export type UsersSearchGetParams = {
+    role?: string
+    query?: string
+    active?: boolean
+    offset?: number
+    limit?: number
+    sort_column?: string
+    sort_order?: SortOrder
+}
+
 export type UsersGetParams = {
     offset?: number
     limit?: number
@@ -493,6 +503,28 @@ export interface UserShort {
     Gebruikersnaam: string
 }
 
+export interface UserCreateResponse {
+    UUID: string
+    Email: string
+    Rol: string
+    Password: string
+}
+
+export interface UserCreate {
+    Gebruikersnaam: string
+    Email: string
+    Rol: string
+}
+
+export interface User {
+    UUID: string
+    Gebruikersnaam: string
+    Email: string
+    Rol: string
+    Status: string
+    IsActive: boolean
+}
+
 /**
  * An enumeration.
  */
@@ -525,6 +557,11 @@ export interface SearchGeoRequestData {
 
 export interface ResponseOK {
     message: string
+}
+
+export interface ResetPasswordResponse {
+    UUID: string
+    NewPassword: string
 }
 
 export interface RequestAcknowledgedRelation {
@@ -665,11 +702,11 @@ export interface PagedResponseValidSearchObject {
 /**
  * Wrap any response schema and add pagination metadata.
  */
-export interface PagedResponseUserShort {
+export interface PagedResponseUser {
     total: number
     offset?: number
     limit?: number
-    results: UserShort[]
+    results: User[]
 }
 
 /**
@@ -1387,6 +1424,13 @@ export interface GebiedsprogrammaBasic {
     Start_Validity?: string | null
     End_Validity?: string | null
     Image?: string | null
+}
+
+export interface EditUser {
+    Gebruikersnaam?: string | null
+    Email?: string | null
+    Rol?: string | null
+    IsActive?: boolean | null
 }
 
 export interface EditAcknowledgedRelation {

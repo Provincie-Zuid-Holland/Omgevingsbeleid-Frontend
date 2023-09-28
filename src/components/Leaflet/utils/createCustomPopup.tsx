@@ -1,11 +1,12 @@
-import { Button } from '@pzh-ui/components'
 import { LatLng, Map, Point } from 'leaflet'
 import Proj from 'proj4leaflet'
 import ReactDOMServer from 'react-dom/server'
 
+import { Button, Text } from '@pzh-ui/components'
+
 import { getWerkingsGebiedenByArea } from '@/api/axiosGeoJSON'
 import { LoaderSpinner } from '@/components/Loader'
-import { RDProj4, leafletBounds, MAP_SEARCH_PAGE } from '@/constants/leaflet'
+import { MAP_SEARCH_PAGE, RDProj4, leafletBounds } from '@/constants/leaflet'
 import { toastNotification } from '@/utils/toastNotification'
 
 // @ts-ignore
@@ -183,33 +184,36 @@ export const CreateCustomPopup = ({
     })
 
     return (
-        <div className="custom-popup text-base">
-            <span className="bold block">Locatie</span>
-            <ul className="mt-2 mb-4">
+        <div className="custom-popup">
+            <Text as="span" className="block font-bold">
+                Locatie
+            </Text>
+            <ul className="mb-4 mt-2">
                 {weergavenaam && <li>{weergavenaam}</li>}
                 {type === 'marker' && lat && lng && (
-                    <li>
+                    <Text as="li">
                         GPS Locatie:
                         <br />
                         {lat.toFixed(7)}, {lng.toFixed(7)}
-                    </li>
+                    </Text>
                 )}
                 {type === 'polygon' && (
-                    <li>{areaName || 'Getekend gebied.'}</li>
+                    <Text as="li">{areaName || 'Getekend gebied.'}</Text>
                 )}
             </ul>
-            <div className="flex justify-between">
+            <div className="flex justify-between text-m">
                 {isAdvancedSearch ? (
                     <Button className="advanced-search-button">
                         Bekijk beleid
                     </Button>
                 ) : (
-                    <a
+                    <Button
+                        as="a"
                         href={`${MAP_SEARCH_PAGE}?${searchParams}&searchOpen=true`}>
-                        <Button>Bekijk beleid</Button>
-                    </a>
+                        Bekijk beleid
+                    </Button>
                 )}
-                <button className="leaflet-close-popup text-xs text-pzh-red underline">
+                <button className="leaflet-close-popup text-s text-pzh-red underline">
                     {type === 'marker' ? 'Pin' : 'Gebied'} verwijderen
                 </button>
             </div>
