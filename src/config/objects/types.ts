@@ -33,7 +33,7 @@ export interface DynamicObject<
     StaticData = any,
     QueryKeys = {
         [key: string]: any
-    },
+    }
 > {
     /** Default information of object */
     defaults: {
@@ -57,6 +57,8 @@ export interface DynamicObject<
         description?: string
         /** Slug overview */
         slugOverview?: string
+        /** If slug overview page is publicly accessible */
+        slugOverviewPublic?: boolean
         /** Demonstrative pronoun of object type */
         demonstrative?: string
         /** If singular is different in combination with demonstrative */

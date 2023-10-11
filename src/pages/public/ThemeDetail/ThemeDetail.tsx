@@ -82,7 +82,8 @@ function ThemeDetail() {
 
 const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
     const model = models[Object.Object_Type as ModelType]
-    const { slugOverview, singularReadable, prefixSingular } = model.defaults
+    const { slugOverview, singularReadable, prefixSingular, plural } =
+        model.defaults
     const { useGetVersion } = model.fetchers
 
     const { data } =
@@ -107,7 +108,7 @@ const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
                             <ListLink
                                 key={item.Object.UUID}
                                 text={item.Object.Title || ''}
-                                to={`/${slugOverview}/${item.Object.UUID}`}
+                                to={`/${slugOverview}/${plural}/${item.Object.UUID}`}
                                 className="text-pzh-green hover:text-pzh-blue"
                             />
                         )
@@ -120,7 +121,7 @@ const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
             )}
 
             <Hyperlink
-                to={`/${slugOverview}/${Object.UUID}`}
+                to={`/${slugOverview}/${plural}/${Object.UUID}`}
                 text={`Lees meer informatie over ${prefixSingular} ${singularReadable} '${Object.Title}'`}
             />
         </div>

@@ -122,7 +122,7 @@ const ItemList = ({
                             models[
                                 object.Object_Type.toLowerCase() as ModelType
                             ]
-                        const { slugOverview } = model?.defaults || {}
+                        const { slugOverview, plural } = model?.defaults || {}
 
                         return (
                             <ModuleItem
@@ -143,7 +143,7 @@ const ItemList = ({
                                 viewCallback={() =>
                                     window
                                         .open(
-                                            `/${slugOverview}/ontwerpversie/${module?.Module_ID}/${object.UUID}`,
+                                            `/${slugOverview}/${plural}/ontwerpversie/${module?.Module_ID}/${object.UUID}`,
                                             '_blank'
                                         )
                                         ?.focus()

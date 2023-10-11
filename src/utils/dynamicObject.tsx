@@ -126,7 +126,7 @@ export const getObjectRevisionBannerText = (
     type: ModelType
 ) => {
     const model = models[type]
-    const path = `/${model.defaults.slugOverview}/ontwerpversie/${revision.Module_ID}/${revision.Module_Object_UUID}`
+    const path = `/${model.defaults.slugOverview}/${model.defaults.plural}/ontwerpversie/${revision.Module_ID}/${revision.Module_Object_UUID}`
 
     switch (revision.Module_Status) {
         case 'Ontwerp GS':
@@ -164,5 +164,5 @@ export const getObjectRevisionBannerText = (
 export const generateObjectPath = (type: ModelType, UUID?: string) => {
     const model = models[type]
 
-    return `/${model.defaults.slugOverview}/${UUID}`
+    return `/${model.defaults.slugOverview}/${model.defaults.plural}/${UUID}`
 }

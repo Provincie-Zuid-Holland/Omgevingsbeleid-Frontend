@@ -46,6 +46,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
         pluralCapitalize,
         plural,
         slugOverview,
+        slugOverviewPublic,
         singular,
         singularReadable,
         demonstrative,
@@ -107,15 +108,18 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
 
     const breadcrumbPaths = [
         { name: 'Omgevingsbeleid', path: '/' },
-        { name: slugOverview?.split('/')[0] || '', path: '/' },
-        { name: pluralCapitalize, path: `/${slugOverview}` },
+        {
+            name: slugOverview || '',
+            path: slugOverviewPublic ? `/${slugOverview}` : '/',
+        },
+        { name: pluralCapitalize, path: `/${slugOverview}/${plural}` },
         ...(isRevision
             ? [
                   {
                       name: 'Ontwerpversie',
                       path: !latestIsError
-                          ? `/${slugOverview}/${latest?.UUID}`
-                          : `/${slugOverview}`,
+                          ? `/${slugOverview}/${plural}/${latest?.UUID}`
+                          : `/${slugOverview}/${plural}`,
                   },
               ]
             : []),
@@ -172,7 +176,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                                     versie van {demonstrative}{' '}
                                     {singularReadable},{' '}
                                     <Hyperlink
-                                        to={`/${slugOverview}/${latest.UUID}`}
+                                        to={`/${slugOverview}/${plural}/${latest.UUID}`}
                                         text="bekijk hier de vigerende versie"
                                     />
                                 </>
