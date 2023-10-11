@@ -40,7 +40,7 @@ const SidebarResults = ({ UUIDs }: SidebarResultsProps) => {
             filters: state.filters
                 .map(filter => {
                     const options = filter.options.filter(
-                        option => option.exclude !== 'mapSearch'
+                        option => !option.exclude?.includes('mapSearch')
                     )
                     return { ...filter, options }
                 })
