@@ -1,6 +1,7 @@
-import { AngleRight } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
+
+import { AngleRight } from '@pzh-ui/icons'
 
 const TableOfContents = () => {
     const path = location.pathname
@@ -56,10 +57,10 @@ const TableOfContents = () => {
                     <li
                         key={el.title}
                         id={el.title}
-                        className={classNames('pt-1 cursor-pointer', {
+                        className={classNames('cursor-pointer pt-1', {
                             'text-pzh-green hover:text-pzh-green-dark':
                                 activeItem !== el.title,
-                            'text-pzh-blue hover:text-pzh-blue-dark font-bold':
+                            'font-bold text-pzh-blue hover:text-pzh-blue-dark':
                                 activeItem === el.title,
                         })}>
                         <AngleRight size={16} className="absolute mt-1" />

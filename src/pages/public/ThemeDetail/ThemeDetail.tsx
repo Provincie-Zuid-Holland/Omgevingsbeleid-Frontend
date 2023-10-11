@@ -12,6 +12,7 @@ import { useBeleidsdoelenVersionObjectUuidGet } from '@/api/fetchers'
 import { ReadRelationShortBeleidskeuzeMinimal } from '@/api/fetchers.schemas'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
+import TableOfContents from '@/components/TableOfContents'
 import * as models from '@/config/objects'
 import { ModelReturnType, ModelType } from '@/config/objects/types'
 
@@ -36,21 +37,40 @@ function ThemeDetail() {
     if (isLoading) return <LoaderContent />
 
     return (
-        <Container className="overflow-hidden pb-20">
-            <div className="col-span-6">
+        <Container className="pb-20">
+            <div className="col-span-6 mb-10">
                 <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
             </div>
-            <div className="col-span-6 pt-10 xl:col-span-4 xl:col-start-2">
-                <Heading level="1" size="xxl" className="mb-3">
-                    {data?.Title}
-                </Heading>
-                <Text className="mb-4 whitespace-pre-line break-words">
-                    {data?.Description}
-                </Text>
-                <Hyperlink
-                    to={`/omgevingsvisie/beleidsdoelen/${data?.UUID}`}
-                    text="Lees meer informatie over dit beleidsdoel"
-                />
+
+            <div className="order-1 col-span-6 xl:col-span-2">
+                <aside className="sticky top-[120px]">
+                    <Heading level="3" size="m" className="mb-2">
+                        Inhoudsopgave
+                    </Heading>
+
+                    <TableOfContents />
+                </aside>
+            </div>
+
+            <div className="order-2 col-span-6 flex flex-col gap-8 xl:col-span-4 xl:mt-0">
+                <div>
+                    <Heading level="3" size="m" className="mb-2">
+                        Thematisch programma
+                    </Heading>
+                    <Heading level="1" size="xxl">
+                        {data?.Title}
+                    </Heading>
+                </div>
+
+                <div data-section="Inhoud">
+                    <Text className="mb-4 whitespace-pre-line break-words">
+                        {data?.Description}
+                    </Text>
+                    <Hyperlink
+                        to={`/omgevingsvisie/beleidsdoelen/${data?.UUID}`}
+                        text="Lees meer informatie over dit beleidsdoel"
+                    />
+                </div>
 
                 {data?.Beleidskeuzes?.map(object => (
                     <ConnectedObject key={object.Object.UUID} {...object} />
@@ -71,12 +91,12 @@ const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
         }) || {}
 
     return (
-        <div className="mt-6 grid gap-3">
+        <div className="grid gap-3" data-section={Object.Title}>
             <Heading level="2" size="m">
                 {Object.Title}
             </Heading>
 
-            {!!data?.Maatregelen?.length && (
+            {!!data?.Maatregelen?.length ? (
                 <div>
                     {data.Maatregelen.map(item => {
                         const model =
@@ -93,6 +113,10 @@ const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
                         )
                     })}
                 </div>
+            ) : (
+                <span className="italic text-pzh-gray-600">
+                    Er zijn geen maatregelen gekoppeld
+                </span>
             )}
 
             <Hyperlink

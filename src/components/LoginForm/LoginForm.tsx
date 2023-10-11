@@ -26,7 +26,7 @@ const LoginForm = () => {
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const [error, setError] = useState(null)
+    const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
 
     const handleFormSubmit = ({ email, password }: FormProps) => {
@@ -39,7 +39,12 @@ const LoginForm = () => {
             })
             .catch(err => {
                 setLoading(false)
-                setError(err?.data?.message || 'Er is iets mis gegaan.')
+                setError(
+                    err?.response?.data?.detail ===
+                        'Incorrect email or password'
+                        ? 'Onjuist e-mailadres of wachtwoord'
+                        : 'Er is iets mis gegaan.'
+                )
             })
     }
 
