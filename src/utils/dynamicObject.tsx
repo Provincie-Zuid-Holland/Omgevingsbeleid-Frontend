@@ -3,6 +3,7 @@ import { Pencil, Plus, Xmark } from '@pzh-ui/icons'
 
 import * as models from '@/config/objects'
 import { ModelPatchStaticType, ModelType } from '@/config/objects/types'
+import { Role } from '@/context/AuthContext'
 
 import { PublicModuleObjectRevision } from '../api/fetchers.schemas'
 
@@ -74,6 +75,27 @@ export const getStaticDataFilterProperty = (
             return 'Portfolio_Holder_2'
         case 'Portfolio_Holder_2_UUID':
             return 'Portfolio_Holder_1'
+        default:
+            break
+    }
+}
+
+export const getStaticDataFilterRoles = (
+    key: keyof ModelPatchStaticType
+): Role[] | undefined => {
+    switch (key) {
+        case 'Owner_1_UUID':
+        case 'Owner_2_UUID':
+            return [
+                'Functioneel beheerder',
+                'Beheerder',
+                'Behandelend Ambtenaar',
+            ]
+        case 'Portfolio_Holder_1_UUID':
+        case 'Portfolio_Holder_2_UUID':
+            return ['Portefeuillehouder']
+        case 'Client_1_UUID':
+            return ['Ambtelijk opdrachtgever']
         default:
             break
     }

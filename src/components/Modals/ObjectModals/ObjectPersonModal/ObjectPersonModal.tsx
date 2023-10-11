@@ -34,11 +34,12 @@ const ObjectPersonModal = ({ person, isEdit }: ObjectPersonModalActions) => {
         () =>
             users?.results
                 ?.filter(user => user.UUID !== person?.filter)
+                ?.filter(user => person?.filterRoles?.includes(user.Rol))
                 ?.map(user => ({
                     label: user.Gebruikersnaam,
                     value: user.UUID,
                 })),
-        [users, person?.filter]
+        [users, person?.filter, person?.filterRoles]
     )
 
     const { usePostObjectStatic } = useObject()
