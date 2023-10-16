@@ -10,5 +10,5 @@ steps:
           scriptLocation: 'inlineScript'
           inlineScript: |
               # Purge all content from the CDN endpoint
-              az cdn endpoint purge --profile-name ${{ parameters.profileName }} --name ${{ parameters.name }} --resource-group $(AZURE_RESOURCE_GROUP) --content-paths "/*" --no-wait
+              az cdn endpoint purge --profile-name ${{ parameters.profileName }} --name ${{ parameters.cdnName }} --resource-group $(AZURE_RESOURCE_GROUP) --content-paths "/*" --no-wait
       displayName: 'Purge CDN Cache'
