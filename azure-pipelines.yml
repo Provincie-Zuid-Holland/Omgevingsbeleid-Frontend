@@ -10,7 +10,6 @@ pool:
     name: 'PZH-Agent'
 
 variables:
-    subscription: 'dta-omgevingsbeleid'
     VITE_API_ENV: $(Build.SourceBranchName)
     YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn/cache
 
@@ -99,7 +98,8 @@ stages:
                                   storageName: 'obfrontendtest'
                             - template: azure-purge-cdn.yml
                               parameters:
-                                  profileName: 'obzhtest'
+                                  name: 'obzhtest'
+                                  profileName: 'dta-obfrontendtest-cdn'
 
     - stage: Acc
       displayName: Acc deploy
@@ -119,7 +119,8 @@ stages:
                                   storageName: 'obfrontendacc'
                             - template: azure-purge-cdn.yml
                               parameters:
-                                  profileName: 'obzhacc'
+                                  name: 'obzhacc'
+                                  profileName: 'dta-obfrontendacc-cdn'
 
     - stage: Prod
       displayName: Prod deploy
@@ -139,4 +140,5 @@ stages:
                                   storageName: 'obfrontendprod'
                             - template: azure-purge-cdn.yml
                               parameters:
-                                  profileName: 'obzhprod'
+                                  name: 'obzhprod'
+                                  profileName: 'dta-obfrontendprod-cdn'
