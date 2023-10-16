@@ -75,7 +75,10 @@ const ModuleCompleteModal = () => {
     }
 
     return (
-        <Modal id="moduleComplete" title="Module afsluiten">
+        <Modal
+            id="moduleComplete"
+            title="Module afsluiten"
+            onClose={handleClose}>
             <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={modules.EMPTY_SCHEMA_COMPLETE_MODULE}

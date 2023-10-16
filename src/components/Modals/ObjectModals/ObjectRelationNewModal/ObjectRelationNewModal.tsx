@@ -85,7 +85,8 @@ const ObjectRelationNewModal = ({
         <Modal
             id="objectRelationAdd"
             title="Verzoek tot beleidsrelatie"
-            size="xl">
+            size="xl"
+            onClose={handleClose}>
             <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}

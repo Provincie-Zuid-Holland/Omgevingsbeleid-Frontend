@@ -13,7 +13,7 @@ const NetworkModal = () => {
     }))
 
     const model = models[activeNode?.Object_Type as ModelType] || {}
-    const { prefixSingular, singular, demonstrative, slugOverview } =
+    const { prefixSingular, singular, demonstrative, plural, slugOverview } =
         model.defaults || {}
 
     return (
@@ -35,7 +35,7 @@ const NetworkModal = () => {
                         return (
                             <li key={connection.UUID}>
                                 <Link
-                                    to={`/${model.defaults.slugOverview}/${connection.UUID}`}
+                                    to={`/${model.defaults.slugOverview}/${plural}/${connection.UUID}`}
                                     className="flex items-center justify-between border-b border-pzh-blue-dark/35 px-2 pb-1 pt-2">
                                     <p className="leading-none underline decoration-1">
                                         {connection.Title}

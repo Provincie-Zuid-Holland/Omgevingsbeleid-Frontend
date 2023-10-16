@@ -13,6 +13,7 @@ import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
 import {
     getStaticDataFilterProperty,
+    getStaticDataFilterRoles,
     getStaticDataLabel,
     getStaticDataPropertyKey,
     getStaticDataPropertyRequired,
@@ -61,6 +62,7 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
                     const key = getStaticDataPropertyKey(item)
                     const required = getStaticDataPropertyRequired(item)
                     const filterProperty = getStaticDataFilterProperty(item)
+                    const filterRoles = getStaticDataFilterRoles(item)
                     const user = data?.[key]
 
                     const filter =
@@ -78,6 +80,7 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
                                     value: user,
                                     required,
                                     filter,
+                                    filterRoles,
                                 })
                             }
                             isLoading={isLoading}

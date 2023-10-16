@@ -73,7 +73,7 @@ const createControlHook = (useElement: any) => {
 
         const onDrawDelete = useCallback(() => {
             context.map.eachLayer((layer: any) => {
-                if (!!layer._latlng || !!layer._svgSize) {
+                if (!!layer._latlng || !!layer._svgSize || !!layer.wmsParams) {
                     context.map.removeLayer(layer)
                 }
             })

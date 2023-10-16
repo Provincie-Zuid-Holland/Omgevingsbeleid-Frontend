@@ -72,7 +72,7 @@ const beleidskeuze: DynamicObject<
         prefixPlural: 'de',
         prefixNewObject: 'Nieuwe',
         demonstrative: 'deze',
-        slugOverview: 'omgevingsvisie/beleidskeuzes',
+        slugOverview: 'omgevingsvisie',
         description:
             'De beleidskeuzes geven aan hoe de provincie haar doelen wil bereiken. De beleidskeuzes zijn een uitwerking van de beleidsdoelen en komen voort uit de Omgevingsvisie.',
         icon: Split,

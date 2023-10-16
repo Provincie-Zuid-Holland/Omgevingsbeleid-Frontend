@@ -52,7 +52,7 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
                     {object?.Title}
                 </Heading>
                 <Link
-                    to={`/${slugOverview}/${
+                    to={`/${slugOverview}/${plural}/${
                         moduleId
                             ? `ontwerpversie/${moduleId}/${object?.UUID}`
                             : object?.UUID

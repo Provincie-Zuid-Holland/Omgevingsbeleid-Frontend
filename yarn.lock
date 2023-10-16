@@ -2500,13 +2500,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.428":
-  version: 0.0.428
-  resolution: "@pzh-ui/components@npm:0.0.428"
+"@pzh-ui/components@npm:^0.0.429":
+  version: 0.0.429
+  resolution: "@pzh-ui/components@npm:0.0.429"
   dependencies:
     "@floating-ui/react": ^0.24.8
     "@headlessui/react": ^1.5.0
-    "@pzh-ui/icons": ^0.0.39
+    "@pzh-ui/icons": ^0.0.40
     "@react-aria/utils": ^3.19.0
     "@react-types/shared": ^3.19.0
     "@tanstack/react-table": ^8.9.9
@@ -2546,7 +2546,7 @@ __metadata:
     react-table: ^7.8.0
     react-toastify: ^9.1.2
     react-use: ^17.3.2
-  checksum: ff3c334c6bc9082697501eccc1bf0973dfd136bad133bc2658a93b7df61156e823aabb80976a3e116645636bdbcffeb18c75ebc6725688c9a069ccdd3a4ad579
+  checksum: 8e98cd3b7b341ee96d1719bd5ec4901f19fc41406bbadb209893f833ae28d86d2bafb5c26b76c0a84ca25d692ed4d0530327a003c456b636106b41da52acfee9
   languageName: node
   linkType: hard
 
@@ -2593,13 +2593,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/icons@npm:^0.0.39":
-  version: 0.0.39
-  resolution: "@pzh-ui/icons@npm:0.0.39"
+"@pzh-ui/icons@npm:^0.0.40":
+  version: 0.0.40
+  resolution: "@pzh-ui/icons@npm:0.0.40"
   dependencies:
     react: ^18.0.0
     react-toastify: ^9.1.2
-  checksum: f270e5c8419542d7b11e943a080708a00013641a59667caedba2d548f23a6179c3858f39ae3c32d72992c75bde22bf925e2588e0f6f0e9c7a3d56b40d2b49887
+  checksum: b0ee922949aab06dd986d1604e612363bdbfa40f809e54de1689584d9259cf02b448e0fd50a3990367378025b1a129ec47968b65dd811a98b0f69e2c821d2c47
   languageName: node
   linkType: hard
 
@@ -12887,10 +12887,10 @@ __metadata:
     "@axe-core/react": 4.4.1
     "@faker-js/faker": ^7.6.0
     "@headlessui/react": ^1.5.0
-    "@pzh-ui/components": ^0.0.428
+    "@pzh-ui/components": ^0.0.429
     "@pzh-ui/config": ^0.0.47
     "@pzh-ui/css": ^0.0.72
-    "@pzh-ui/icons": ^0.0.39
+    "@pzh-ui/icons": ^0.0.40
     "@tanstack/react-query": ^4.32.0
     "@testing-library/dom": ^9.3.1
     "@testing-library/jest-dom": ^5.16.5

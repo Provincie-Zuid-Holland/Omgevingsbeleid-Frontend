@@ -4,6 +4,7 @@ import {
     UserShort,
 } from '@/api/fetchers.schemas'
 import { Model, ModelPatchStaticType, ModelType } from '@/config/objects/types'
+import { Role } from '@/context/AuthContext'
 
 export interface ObjectConnectionModalActions {
     connectionKey?: ModelType
@@ -21,6 +22,7 @@ export interface ObjectPersonModalActions {
         value?: UserShort
         required?: boolean
         filter?: string | null
+        filterRoles?: Role[]
     }
     isEdit?: boolean
     initialValues: ModelPatchStaticType
