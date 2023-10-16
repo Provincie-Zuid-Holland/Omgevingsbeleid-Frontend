@@ -5,10 +5,10 @@ parameters:
 steps:
     - task: AzureCLI@2
       inputs:
-          azureSubscription: $(subscription) # This is the devops service connection name
+          azureSubscription: $(AZURE_SUBSCRIPTION) # This is the devops service connection name
           scriptType: 'bash'
           scriptLocation: 'inlineScript'
           inlineScript: |
               # Purge all content from the CDN endpoint
-              az cdn endpoint purge --profile-name ${{ parameters.profileName }} --name ${{ parameters.profileName }}.azureedge.net --content-paths "/*" --no-wait
+              az cdn endpoint purge --profile-name ${{ parameters.profileName }} --name ${{ parameters.name }} --resource-group $(AZURE_RESOURCE_GROUP) --content-paths "/*" --no-wait
       displayName: 'Purge CDN Cache'
