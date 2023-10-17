@@ -90,6 +90,7 @@ export const getStaticDataFilterRoles = (
                 'Functioneel beheerder',
                 'Beheerder',
                 'Behandelend Ambtenaar',
+                'Ambtelijk opdrachtgever',
             ]
         case 'Portfolio_Holder_1_UUID':
         case 'Portfolio_Holder_2_UUID':
