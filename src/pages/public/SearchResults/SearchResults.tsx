@@ -1,7 +1,7 @@
+import { useUpdateEffect } from '@react-hookz/web'
 import classNames from 'classnames'
 import { useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useUpdateEffect } from 'react-use'
 
 import {
     FieldCheckboxGroup,
@@ -31,7 +31,7 @@ const SearchResults = () => {
             ({
                 ...state.selectedFilters,
                 search: (!!filter && filter?.split(',')) || [],
-            }).search
+            }.search)
     )
     const setSelectedFilters = useFilterStore(state => state.setSelectedFilters)
 

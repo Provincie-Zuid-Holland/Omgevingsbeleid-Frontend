@@ -85,6 +85,9 @@ const ObjectPersonModal = ({ person, isEdit }: ObjectPersonModalActions) => {
                                 boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
                             }),
                         }}
+                        noOptionsMessage={({ inputValue }) =>
+                            !!inputValue && 'Geen resultaten gevonden'
+                        }
                         isClearable={!person?.required}
                         required={person?.required}
                         blurInputOnSelect

@@ -1,5 +1,5 @@
+import { useUpdateEffect } from '@react-hookz/web'
 import { useMemo, useState } from 'react'
-import { useUpdateEffect } from 'react-use'
 
 import { Divider, FieldSelect, Text } from '@pzh-ui/components'
 

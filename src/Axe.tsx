@@ -1,6 +1,6 @@
+import { useUpdateEffect } from '@react-hookz/web'
 import React, { useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
-import { useUpdateEffect } from 'react-use'
 
 const Axe = () => {
     const [mutationCount, setMutationCount] = useState(0) // State variable to track DOM mutations

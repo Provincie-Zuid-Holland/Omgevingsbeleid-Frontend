@@ -1,6 +1,6 @@
+import { useUpdateEffect } from '@react-hookz/web'
 import classNames from 'classnames'
 import { useCallback, useState } from 'react'
-import { useUpdateEffect } from 'react-use'
 
 import { Text } from '@pzh-ui/components'
 

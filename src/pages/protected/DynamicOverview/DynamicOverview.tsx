@@ -1,6 +1,6 @@
+import { useUpdateEffect } from '@react-hookz/web'
 import { ChangeEvent, KeyboardEvent, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useUpdateEffect } from 'react-use'
 
 import {
     Button,

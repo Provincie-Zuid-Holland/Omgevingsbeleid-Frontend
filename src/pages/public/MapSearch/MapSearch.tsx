@@ -1,10 +1,10 @@
+import { useMountEffect, useUpdateEffect } from '@react-hookz/web'
 import classNames from 'classnames'
 import { point } from 'leaflet'
 import Proj from 'proj4leaflet'
 import { useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useNavigate } from 'react-router-dom'
-import { useEffectOnce, useUpdateEffect } from 'react-use'
 
 import { getWerkingsGebieden } from '@/api/axiosGeoJSON'
 import { ContainerMapSearch } from '@/components/Container'
@@ -174,7 +174,7 @@ const MapSearch = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [paramGeoQuery, mapInstance])
 
-    useEffectOnce(() => {
+    useMountEffect(() => {
         const geoQuery = paramGeoQuery?.split(',')
 
         if (!geoQuery) return setInitialized(true)

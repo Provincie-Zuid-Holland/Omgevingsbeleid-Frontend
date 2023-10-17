@@ -79,6 +79,9 @@ export const StepThree = ({}: StepProps) => {
                     placeholder="Kies een eigenaar"
                     isLoading={isLoading && isFetching}
                     options={userOptions1}
+                    noOptionsMessage={({ inputValue }) =>
+                        !!inputValue && 'Geen resultaten gevonden'
+                    }
                     blurInputOnSelect
                     required
                 />
@@ -91,6 +94,9 @@ export const StepThree = ({}: StepProps) => {
                     placeholder="Kies een eigenaar"
                     isLoading={isLoading && isFetching}
                     options={userOptions2}
+                    noOptionsMessage={({ inputValue }) =>
+                        !!inputValue && 'Geen resultaten gevonden'
+                    }
                     blurInputOnSelect
                 />
             </div>

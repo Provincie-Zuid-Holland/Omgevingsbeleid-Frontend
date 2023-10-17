@@ -1,8 +1,8 @@
+import { useClickOutside } from '@react-hookz/web'
 import classNames from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ReactNode, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { useClickAway } from 'react-use'
 
 export type DropdownItem = {
     text: string
@@ -56,7 +56,7 @@ const DropdownContainer = ({
     children,
 }: DropdownContainerProps) => {
     const innerContainer = useRef<HTMLDivElement>(null)
-    useClickAway(innerContainer, () => {
+    useClickOutside(innerContainer, () => {
         setIsOpen(false)
     })
 

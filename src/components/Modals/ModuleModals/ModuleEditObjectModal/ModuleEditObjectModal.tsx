@@ -125,6 +125,9 @@ const ModuleEditObjectModal = ({ object }: ModuleEditObjectModalProps) => {
                                         value: 'Terminate',
                                     },
                                 ]}
+                                noOptionsMessage={({ inputValue }) =>
+                                    !!inputValue && 'Geen resultaten gevonden'
+                                }
                                 blurInputOnSelect
                                 required
                             />

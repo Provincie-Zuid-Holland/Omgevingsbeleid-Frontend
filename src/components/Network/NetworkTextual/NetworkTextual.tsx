@@ -1,5 +1,5 @@
+import { useUpdateEffect } from '@react-hookz/web'
 import { useCallback, useMemo } from 'react'
-import { useUpdateEffect } from 'react-use'
 
 import { OLDTable as Table } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'

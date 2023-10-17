@@ -348,11 +348,27 @@ const AppRoutes = () => {
                     children: [
                         {
                             index: true,
-                            element: <UsersOverview />,
+                            element: (
+                                <ProtectedRoute
+                                    permissions={{
+                                        canCreateUser: true,
+                                    }}
+                                    redirectTo="/muteer">
+                                    <UsersOverview />
+                                </ProtectedRoute>
+                            ),
                         },
                         {
                             path: ':uuid',
-                            element: <UserDetail />,
+                            element: (
+                                <ProtectedRoute
+                                    permissions={{
+                                        canCreateUser: true,
+                                    }}
+                                    redirectTo="/muteer">
+                                    <UserDetail />
+                                </ProtectedRoute>
+                            ),
                         },
                     ],
                 },
