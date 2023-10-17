@@ -1,6 +1,6 @@
+import { useUpdateEffect } from '@react-hookz/web'
 import { useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useUpdateEffect } from 'react-use'
 
 import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 

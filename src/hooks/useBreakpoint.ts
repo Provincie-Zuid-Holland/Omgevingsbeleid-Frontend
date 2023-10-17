@@ -1,8 +1,8 @@
-import { useMedia } from 'react-use'
+import { useMediaQuery } from '@react-hookz/web'
 
 const useBreakpoint = () => {
-    const isMobile = useMedia('(max-width: 640px)')
-    const isDesktop = useMedia('(min-width: 1024px)')
+    const isMobile = useMediaQuery('(max-width: 640px)')
+    const isDesktop = useMediaQuery('(min-width: 1024px)')
 
     return { isMobile, isDesktop }
 }

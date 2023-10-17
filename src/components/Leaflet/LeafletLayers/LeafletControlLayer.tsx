@@ -1,7 +1,7 @@
 import { Transition } from '@headlessui/react'
+import { useUpdateEffect } from '@react-hookz/web'
 import { ReactNode, useState } from 'react'
 import { LayersControl, TileLayer, useMap } from 'react-leaflet'
-import { useUpdateEffect } from 'react-use'
 
 import { AngleRight, LayerGroup } from '@pzh-ui/icons'
 

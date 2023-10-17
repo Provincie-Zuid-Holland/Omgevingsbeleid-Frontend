@@ -106,6 +106,9 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
                             options={options}
                             optimized={false}
                             blurInputOnSelect
+                            noOptionsMessage={({ inputValue }) =>
+                                !!inputValue && 'Geen resultaten gevonden'
+                            }
                         />
 
                         <Button

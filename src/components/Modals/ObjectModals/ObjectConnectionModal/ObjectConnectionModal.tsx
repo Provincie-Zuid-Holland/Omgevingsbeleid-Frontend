@@ -1,8 +1,8 @@
+import { useUpdateEffect } from '@react-hookz/web'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useUpdateEffect } from 'react-use'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { Button } from '@pzh-ui/components'
