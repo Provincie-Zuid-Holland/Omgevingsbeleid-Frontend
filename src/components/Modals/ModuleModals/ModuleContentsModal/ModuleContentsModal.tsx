@@ -199,6 +199,11 @@ const ModuleContentsModal = ({
                                     </Button>
                                 )}
                                 <Button
+                                    data-testid={
+                                        isFinalStep
+                                            ? 'module-add-object-submit'
+                                            : undefined
+                                    }
                                     variant={isFinalStep ? 'cta' : 'primary'}
                                     size="small"
                                     isDisabled={
