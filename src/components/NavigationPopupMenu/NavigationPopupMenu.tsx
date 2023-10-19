@@ -1,6 +1,6 @@
+import { useKeyboardEvent, useWindowSize } from '@react-hookz/web'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useKey, useWindowSize } from 'react-use'
 
 import { Heading, Text } from '@pzh-ui/components'
 import { AngleRight, Bars, Xmark } from '@pzh-ui/icons'
@@ -45,7 +45,9 @@ const NavigationPopupMenu = ({
     }, [windowSize])
 
     /** Handle close on Escape key event */
-    useKey('Escape', () => setIsOpen(false))
+    useKeyboardEvent(true, ev => {
+        ev.key === 'Escape' && setIsOpen(false)
+    })
 
     return (
         <>
@@ -149,7 +151,7 @@ const NavigationPopupMenu = ({
 interface ToggleMenuButtonProps {
     isOpen: boolean
     setIsOpen: (e: boolean) => void
-    isMobile: boolean
+    isMobile?: boolean
 }
 
 const ToggleMenuButton = ({

@@ -45,7 +45,7 @@ const ObjectRevision = ({
         }
     }, [revisionFrom, revisionTo, latestUUID])
 
-    const { singularCapitalize, singularReadable } = model.defaults
+    const { singularCapitalize, singularReadable, singular } = model.defaults
 
     const titleDiff = htmlDiff(compareA.Title || '', compareB.Title || '')
 
@@ -78,6 +78,15 @@ const ObjectRevision = ({
                         key={field.value}
                         htmlFrom={contentFrom || ''}
                         htmlTo={contentTo || ''}
+                        customTitle={
+                            singular === 'beleidskeuze' ||
+                            singular === 'maatregel'
+                                ? {
+                                      Description:
+                                          'Wat wil de provincie bereiken?',
+                                  }
+                                : undefined
+                        }
                         {...field}
                     />
                 )
@@ -133,20 +142,31 @@ const ObjectRevision = ({
 
 interface ContentProps {
     title?: string
+    /** Custom description title */
+    customTitle?: {
+        [K in keyof ModelReturnType]: string
+    }
     htmlFrom: string
     htmlTo: string
+    value: keyof ModelReturnType
 }
 
-const Content = ({ title, htmlFrom, htmlTo }: ContentProps) => {
+const Content = ({
+    title,
+    customTitle,
+    value,
+    htmlFrom,
+    htmlTo,
+}: ContentProps) => {
     const diff = htmlDiff(htmlFrom, htmlTo)
 
     return (
         <>
             <Text bold className="mb-2">
-                {title}
+                {customTitle?.[value] || title}
             </Text>
             <p
-                className="prose prose-neutral mb-4 max-w-full whitespace-pre-line leading-6 text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0 md:mb-8"
+                className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0 md:mb-8"
                 dangerouslySetInnerHTML={{ __html: diff }}
             />
         </>

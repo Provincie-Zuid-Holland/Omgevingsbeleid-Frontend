@@ -13,7 +13,7 @@ const NetworkLegend = () => {
             filters: state.filters
                 .map(filter => {
                     const options = filter.options.filter(
-                        option => option.exclude !== 'network'
+                        option => !option.exclude?.includes('network')
                     )
                     return { ...filter, options }
                 })

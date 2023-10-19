@@ -1,4 +1,4 @@
-import { latLng, Map, marker, polygon } from 'leaflet'
+import { Map, latLng, marker, polygon } from 'leaflet'
 
 import { createCustomPopup } from '.'
 

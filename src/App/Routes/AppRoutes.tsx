@@ -125,7 +125,9 @@ const AppRoutes = () => {
         ...Object.keys(models)
             .filter(model => !!models[model as ModelType].defaults.slugOverview)
             .map(model => ({
-                path: models[model as ModelType].defaults.slugOverview,
+                path: `${models[model as ModelType].defaults.slugOverview}/${
+                    models[model as ModelType].defaults.plural
+                }`,
                 children: [
                     {
                         index: true,
@@ -346,11 +348,27 @@ const AppRoutes = () => {
                     children: [
                         {
                             index: true,
-                            element: <UsersOverview />,
+                            element: (
+                                <ProtectedRoute
+                                    permissions={{
+                                        canCreateUser: true,
+                                    }}
+                                    redirectTo="/muteer">
+                                    <UsersOverview />
+                                </ProtectedRoute>
+                            ),
                         },
                         {
                             path: ':uuid',
-                            element: <UserDetail />,
+                            element: (
+                                <ProtectedRoute
+                                    permissions={{
+                                        canCreateUser: true,
+                                    }}
+                                    redirectTo="/muteer">
+                                    <UserDetail />
+                                </ProtectedRoute>
+                            ),
                         },
                     ],
                 },

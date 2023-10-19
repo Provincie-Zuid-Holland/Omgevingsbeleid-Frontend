@@ -5,10 +5,11 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { Button, FormikInput, Notification } from '@pzh-ui/components'
 
-import Modal from '@/Modal'
 import useAuth from '@/hooks/useAuth'
 import useModalStore from '@/store/modalStore'
 import * as loginForm from '@/validation/loginForm'
+
+import Modal from '../Modal'
 
 interface FormProps {
     email: string
@@ -25,7 +26,7 @@ const LoginForm = () => {
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const [error, setError] = useState(null)
+    const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
 
     const handleFormSubmit = ({ email, password }: FormProps) => {
@@ -38,7 +39,12 @@ const LoginForm = () => {
             })
             .catch(err => {
                 setLoading(false)
-                setError(err?.data?.message || 'Er is iets mis gegaan.')
+                setError(
+                    err?.response?.data?.detail ===
+                        'Incorrect email or password'
+                        ? 'Onjuist e-mailadres of wachtwoord'
+                        : 'Er is iets mis gegaan.'
+                )
             })
     }
 

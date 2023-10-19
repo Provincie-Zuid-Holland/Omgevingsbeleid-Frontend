@@ -5,7 +5,7 @@ export const schemaDefaults = {
         string({
             required_error: msg,
             invalid_type_error: msg,
-        }),
+        }).trim(),
     optionalString: string().optional().nullable(),
     requiredNumber: (msg = 'Dit veld is verplicht.') =>
         number({
@@ -29,6 +29,7 @@ export const schemaDefaults = {
         required_error: 'Vul een titel in',
         invalid_type_error: 'Vul een titel in',
     })
+        .trim()
         .min(4, 'Vul een titel in van minimaal 4 karakters')
         .max(220, 'Vul een titel in van maximaal 220 karakters'),
     date: string({ required_error: 'Selecteer een datum' }).datetime(

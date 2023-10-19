@@ -59,7 +59,7 @@ const beleidsdoel: DynamicObject<
         prefixPlural: 'de',
         prefixNewObject: 'Nieuw',
         demonstrative: 'dit',
-        slugOverview: 'omgevingsvisie/beleidsdoelen',
+        slugOverview: 'omgevingsvisie',
         description:
             'De beleidsdoelen geven aan wat de provincie wil bereiken. De beleidsdoelen zijn een uitwerking van de ambities en komen voort uit de begroting.',
         icon: BullseyeArrow,

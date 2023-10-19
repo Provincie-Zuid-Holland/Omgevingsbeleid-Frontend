@@ -6,7 +6,6 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { Button } from '@pzh-ui/components'
 
-import Modal from '@/Modal'
 import {
     getModulesModuleIdGetQueryKey,
     useModulesModuleIdAddExistingObjectPost,
@@ -18,6 +17,7 @@ import {
     ModuleAddNewObject,
     SearchObject,
 } from '@/api/fetchers.schemas'
+import Modal from '@/components/Modal'
 import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
@@ -58,6 +58,7 @@ const ModuleContentsModal = ({
 
     const CurrentStep = steps[step - 1]
     const isFinalStep = step === 3 || step === 5
+    const currentValidationSchema = modules.SCHEMA_ADD_OBJECT_STEPS[step - 1]
 
     const handleClose = () => {
         setActiveModal(null)
@@ -163,13 +164,14 @@ const ModuleContentsModal = ({
         <Modal
             id="moduleAddObject"
             title="Onderdeel toevoegen aan een module"
-            hideTitle>
+            hideTitle
+            onClose={handleClose}>
             <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
                 validationSchema={toFormikValidationSchema(
                     // @ts-ignore
-                    modules.SCHEMA_ADD_OBJECT_STEPS[step - 1]
+                    currentValidationSchema
                 )}
                 enableReinitialize
                 validateOnBlur={false}>
@@ -197,6 +199,11 @@ const ModuleContentsModal = ({
                                     </Button>
                                 )}
                                 <Button
+                                    data-testid={
+                                        isFinalStep
+                                            ? 'module-add-object-submit'
+                                            : undefined
+                                    }
                                     variant={isFinalStep ? 'cta' : 'primary'}
                                     size="small"
                                     isDisabled={

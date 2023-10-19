@@ -29,7 +29,7 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
             filters: state.filters
                 .map(filter => {
                     const options = filter.options.filter(
-                        option => option.exclude !== 'network'
+                        option => !option.exclude?.includes('network')
                     )
                     return { ...filter, options }
                 })
@@ -62,8 +62,8 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
     const defaultValue = useMemo(
         () =>
             filters.flatMap(filter =>
-                filter.options.filter(
-                    option => selectedFilters?.network.includes(option.value)
+                filter.options.filter(option =>
+                    selectedFilters?.network.includes(option.value)
                 )
             ),
         [filters, selectedFilters]

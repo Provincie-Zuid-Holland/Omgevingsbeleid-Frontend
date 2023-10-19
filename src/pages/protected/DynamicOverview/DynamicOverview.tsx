@@ -1,6 +1,6 @@
+import { useUpdateEffect } from '@react-hookz/web'
 import { ChangeEvent, KeyboardEvent, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useUpdateEffect } from 'react-use'
 
 import {
     Button,
@@ -15,6 +15,7 @@ import { AngleRight, MagnifyingGlass } from '@pzh-ui/icons'
 
 import { useModulesObjectsLatestGet, useSearchValidPost } from '@/api/fetchers'
 import { ModuleObjectShortStatus } from '@/api/fetchers.schemas'
+import { LoaderSpinner } from '@/components/Loader'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
@@ -310,7 +311,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                     manualSorting
                     isLoading={isFetching || searchLoading}
                 />
-            ) : (
+            ) : !isFetching ? (
                 <span className="italic">
                     {!!query
                         ? `Er zijn geen resultaten gevonden voor '${query}'`
@@ -318,6 +319,10 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                         ? `Er zijn geen vigerende ${pluralCapitalize.toLowerCase()} gevonden`
                         : `Er zijn geen ${pluralCapitalize.toLowerCase()} in ontwerp`}
                 </span>
+            ) : (
+                <div className="mt-8 flex justify-center">
+                    <LoaderSpinner />
+                </div>
             )}
         </div>
     )

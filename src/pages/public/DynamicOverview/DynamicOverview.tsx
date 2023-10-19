@@ -1,6 +1,6 @@
+import { useUpdateEffect } from '@react-hookz/web'
 import { useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useUpdateEffect } from 'react-use'
 
 import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 
@@ -30,6 +30,7 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
         pluralCapitalize,
         description,
         slugOverview,
+        slugOverviewPublic,
         atemporal,
     } = model.defaults
 
@@ -76,7 +77,10 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
 
     const breadcrumbPaths = [
         { name: 'Omgevingsbeleid', path: '/' },
-        { name: slugOverview?.split('/')[0] || '', path: '/' },
+        {
+            name: slugOverview || '',
+            path: slugOverviewPublic ? `/${slugOverview}` : '/',
+        },
         { name: pluralCapitalize || '', path: pathName },
     ]
 
@@ -97,7 +101,7 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
                         <ObjectList
                             data={allObjects || []}
                             isLoading={isLoading}
-                            objectSlug={slugOverview || ''}
+                            objectSlug={`${slugOverview}/${plural}`}
                             objectType={pluralCapitalize.toLowerCase()}
                             objectSingular={singular}
                             objectKey={atemporal ? 'id' : 'uuid'}

@@ -73,6 +73,9 @@ const FormBasicInfo = () => {
                             placeholder="Selecteer een moduletrekker"
                             isLoading={isLoading && isFetching}
                             options={userOptions1}
+                            noOptionsMessage={({ inputValue }) =>
+                                !!inputValue && 'Geen resultaten gevonden'
+                            }
                             blurInputOnSelect
                             required
                         />
@@ -88,6 +91,9 @@ const FormBasicInfo = () => {
                             placeholder="Selecteer een moduletrekker"
                             isLoading={isLoading && isFetching}
                             options={userOptions2}
+                            noOptionsMessage={({ inputValue }) =>
+                                !!inputValue && 'Geen resultaten gevonden'
+                            }
                             blurInputOnSelect
                             isClearable
                         />

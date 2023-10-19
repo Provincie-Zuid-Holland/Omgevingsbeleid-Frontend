@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import { Button, FormikCheckbox, Text } from '@pzh-ui/components'
 
-import Modal from '@/Modal'
+import Modal from '@/components/Modal'
 import * as models from '@/config/objects'
 import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
 import useModalStore from '@/store/modalStore'

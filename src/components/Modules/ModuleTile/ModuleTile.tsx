@@ -4,7 +4,7 @@ import { Badge, Heading } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
 
 import { Module } from '@/api/fetchers.schemas'
-import getModuleStatusColor from '@/utils/getModuleStatusColor'
+import { getModuleStatusColor } from '@/utils/module'
 
 const ModuleTile = ({ Title, Status, Module_ID, Closed }: Module) => {
     const Wrapper = Closed ? 'div' : Link

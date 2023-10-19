@@ -1,7 +1,7 @@
+import { useLocalStorageValue } from '@react-hookz/web'
 import { useQueryClient } from '@tanstack/react-query'
 import decode from 'jwt-decode'
 import { ReactNode, createContext, useEffect } from 'react'
-import { useLocalStorage } from 'react-use'
 
 import { loginAccessTokenPost } from '@/api/fetchers'
 import { AuthToken, UserShort } from '@/api/fetchers.schemas'
@@ -44,14 +44,24 @@ export const AuthContext = createContext<AuthContextType>(null!)
 function AuthProvider({ children }: { children: ReactNode }) {
     const queryClient = useQueryClient()
 
-    const [accessToken, setAccessToken, removeAccessToken] =
-        useLocalStorage<string>(
-            import.meta.env.VITE_KEY_API_ACCESS_TOKEN || '',
-            undefined,
-            { raw: true }
-        )
-    const [identifier, setIdentifier, removeIdentifier] =
-        useLocalStorage<UserShort>(import.meta.env.VITE_KEY_IDENTIFIER || '')
+    const {
+        value: accessToken,
+        set: setAccessToken,
+        remove: removeAccessToken,
+    } = useLocalStorageValue<string>(
+        import.meta.env.VITE_KEY_API_ACCESS_TOKEN || '',
+        {
+            parse: data => data,
+            stringify: data => data,
+        }
+    )
+    const {
+        value: identifier,
+        set: setIdentifier,
+        remove: removeIdentifier,
+    } = useLocalStorageValue<UserShort>(
+        import.meta.env.VITE_KEY_IDENTIFIER || ''
+    )
 
     /**
      * Signin to application

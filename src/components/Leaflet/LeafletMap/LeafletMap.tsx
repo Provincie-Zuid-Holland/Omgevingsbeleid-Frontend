@@ -11,8 +11,8 @@ import { RDCrs, leafletCenter, tileURL } from '@/constants/leaflet'
 
 import {
     LeafletControlLayer,
-    LeafletSearch,
     LeafletDraw,
+    LeafletSearch,
     LeafletZoom,
 } from '../LeafletLayers'
 
@@ -62,7 +62,7 @@ const LeafletMap = ({
         () => (
             <MapContainer
                 {...mapOptions}
-                className={`z-0 leaflet-map ${className || ''}`}
+                className={`leaflet-map z-0 ${className || ''}`}
                 id={id}>
                 {mapControllers.showLayers && <LeafletControlLayer />}
 

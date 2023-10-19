@@ -59,7 +59,8 @@ const maatregel: DynamicObject<
         prefixPlural: 'de',
         prefixNewObject: 'Nieuwe',
         demonstrative: 'deze',
-        slugOverview: 'omgevingsprogramma/maatregelen',
+        slugOverview: 'omgevingsprogramma',
+        slugOverviewPublic: true,
         description:
             'De maatregelen geven aan wat de provincie gaat doen om de keuzes uit te voeren. De maatregelen zijn een uitwerking van de beleidskeuzes en komen voort uit het Omgevingsprogramma.',
         icon: CalendarCheck,
@@ -117,6 +118,9 @@ const maatregel: DynamicObject<
                     type: 'wysiwyg',
                     required: true,
                     customMenuOptions: ['image'],
+                    imageOptions: {
+                        maxSize: 819200,
+                    },
                 },
                 {
                     name: 'Role',
@@ -138,6 +142,9 @@ const maatregel: DynamicObject<
                     type: 'wysiwyg',
                     required: true,
                     customMenuOptions: ['image'],
+                    imageOptions: {
+                        maxSize: 819200,
+                    },
                 },
             ],
         },

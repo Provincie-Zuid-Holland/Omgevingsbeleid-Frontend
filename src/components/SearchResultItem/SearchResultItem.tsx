@@ -53,7 +53,7 @@ const SearchResultItem = ({
     return (
         <li className="mb-6">
             <Link
-                to={`/${model.defaults.slugOverview}/${UUID}`}
+                to={`/${model.defaults.slugOverview}/${model.defaults.plural}/${UUID}`}
                 className="group">
                 <span className="text-s text-pzh-gray-600">
                     {model.defaults.singularCapitalize}

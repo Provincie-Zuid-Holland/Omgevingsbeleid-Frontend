@@ -4,7 +4,6 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { Button, FormikSelect, FormikTextArea, Text } from '@pzh-ui/components'
 
-import Modal from '@/Modal'
 import {
     getModulesModuleIdObjectContextObjectTypeLineageIdGetQueryKey,
     useModulesModuleIdObjectContextObjectTypeLineageIdGet,
@@ -15,6 +14,7 @@ import {
     ModuleObjectShort,
 } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
+import Modal from '@/components/Modal'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 import useModalStore from '@/store/modalStore'
@@ -125,6 +125,9 @@ const ModuleEditObjectModal = ({ object }: ModuleEditObjectModalProps) => {
                                         value: 'Terminate',
                                     },
                                 ]}
+                                noOptionsMessage={({ inputValue }) =>
+                                    !!inputValue && 'Geen resultaten gevonden'
+                                }
                                 blurInputOnSelect
                                 required
                             />

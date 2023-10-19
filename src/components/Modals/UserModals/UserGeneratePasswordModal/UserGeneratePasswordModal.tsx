@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import Modal from '@/Modal'
 import {
     useUsersUserUuidGet,
     useUsersUserUuidResetPasswordPost,
 } from '@/api/fetchers'
+import Modal from '@/components/Modal'
 import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 

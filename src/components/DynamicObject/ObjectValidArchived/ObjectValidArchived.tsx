@@ -15,7 +15,7 @@ interface ObjectValidArchivedProps {
 const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
     const { data: object } = useObject()
 
-    const { slugOverview } = model.defaults
+    const { slugOverview, plural } = model.defaults
     const { useGetValidLineage } = model.fetchers
 
     const { data, isLoading } =
@@ -63,7 +63,7 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                         {archivedObjects?.map(object => (
                             <Link
                                 key={object.UUID}
-                                to={`/${slugOverview}/${object.UUID}`}
+                                to={`/${slugOverview}/${plural}/${object.UUID}`}
                                 className="grid grid-cols-9 border-b border-pzh-gray-300 px-3 py-2 hover:bg-pzh-gray-100">
                                 <div className="col-span-5">
                                     <Text>{object.Title}</Text>

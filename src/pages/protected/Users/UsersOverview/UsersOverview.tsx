@@ -204,6 +204,9 @@ const Filter = ({ setFilter }: FilterProps) => {
                         placeholder="Kies een rol"
                         options={roleOptions}
                         isClearable
+                        noOptionsMessage={({ inputValue }) =>
+                            !!inputValue && 'Geen resultaten gevonden'
+                        }
                     />
                 </div>
                 <Button type="submit" className="sm:w-auto">

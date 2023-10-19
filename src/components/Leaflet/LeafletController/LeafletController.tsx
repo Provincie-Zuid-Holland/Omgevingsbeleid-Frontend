@@ -1,5 +1,5 @@
 import { useLeafletContext } from '@react-leaflet/core'
-import { Control, DomUtil, DomEvent, Map } from 'leaflet'
+import { Control, DomEvent, DomUtil, Map } from 'leaflet'
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { LayersControlProps } from 'react-leaflet'

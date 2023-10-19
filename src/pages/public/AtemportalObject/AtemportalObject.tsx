@@ -24,6 +24,7 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
     const {
         demonstrative,
         demonstrativeSingular,
+        plural,
         pluralCapitalize,
         slugOverview,
     } = model.defaults
@@ -56,10 +57,10 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
     const breadcrumbPaths = [
         { name: 'Omgevingsbeleid', path: '/' },
         {
-            name: slugOverview?.split('/')[0] || '',
-            path: `/${slugOverview?.split('/')[0]}`,
+            name: slugOverview || '',
+            path: `/${slugOverview}`,
         },
-        { name: pluralCapitalize, path: `/${slugOverview}` || '' },
+        { name: pluralCapitalize, path: `/${slugOverview}/${plural}` || '' },
         { name: data.Title || '', path: pathName },
     ]
 
@@ -90,15 +91,19 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
                         if (!!!formattedRelations[group].length) return
 
                         const model = models[group as ModelType]
-                        const { pluralCapitalize, singular, slugOverview } =
-                            model.defaults
+                        const {
+                            plural,
+                            pluralCapitalize,
+                            singular,
+                            slugOverview,
+                        } = model.defaults
 
                         return (
                             <div className="mt-8" key={group}>
                                 <ObjectList
                                     data={formattedRelations[group]}
                                     isLoading={isLoading}
-                                    objectSlug={slugOverview || ''}
+                                    objectSlug={`${slugOverview}/${plural}`}
                                     objectType={pluralCapitalize.toLowerCase()}
                                     objectSingular={singular}
                                     hasSearch={false}

@@ -50,6 +50,9 @@ const UserForm = ({
                             label="Rol"
                             placeholder="Kies een rol"
                             options={roleOptions}
+                            noOptionsMessage={({ inputValue }) =>
+                                !!inputValue && 'Geen resultaten gevonden'
+                            }
                             styles={{
                                 menu: base => ({
                                     ...base,
