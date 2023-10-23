@@ -215,7 +215,7 @@ export function calculateNewIndex(
     if (parentIndex === undefined) {
         const parent = structure[itemAction.path[0]]
         const children = [parent, ...flattenNestedArray(parent.children || [])]
-        const childIndex = findChildIndex(children, itemAction.uuid) + 1
+        const childIndex = findChildIndex(children, itemAction.uuid)
         const amount =
             parent.uuid === itemAction.uuid
                 ? children.filter(s => s.type === itemAction.type).length + 1

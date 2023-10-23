@@ -52,7 +52,7 @@ const Handle = ({
                 <Button
                     variant="default"
                     className={classNames(
-                        'min-w-6 flex h-6 items-center justify-center rounded',
+                        'flex h-6 min-w-[24px] items-center justify-center rounded',
                         GROUP_VARIANTS[type][1],
                         {
                             'cursor-pointer': !expanded,
