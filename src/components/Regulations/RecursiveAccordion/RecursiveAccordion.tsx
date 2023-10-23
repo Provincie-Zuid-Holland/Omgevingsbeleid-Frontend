@@ -13,10 +13,10 @@ import useRegulationStore from '@/store/regulationStore'
 import equalArrays from '@/utils/equalArrays'
 import handleViewTransition from '@/utils/handleViewTransition'
 
+import { GROUP_VARIANTS } from '../constants'
 import AddItem from './components/AddItem'
 import DropArea from './components/DropArea'
 import Handle from './components/Handle'
-import { GROUP_VARIANTS } from '../constants'
 
 interface RecursiveAccordionProps {
     structure: Structure[]
@@ -81,7 +81,7 @@ const RecursiveAccordion = ({
                             uuid={uuid}
                             isDisabled={!!!section.children?.length}
                             className={classNames(
-                                'relative',
+                                'relative block',
                                 GROUP_VARIANTS[parentType][0],
                                 {
                                     'border-none': !expanded,
@@ -106,6 +106,7 @@ const RecursiveAccordion = ({
                                 className={classNames('overflow-hidden py-2', {
                                     'active:animate-pulse active:cursor-grabbing active:bg-pzh-blue-light/10':
                                         expanded && structure.length > 1,
+                                    'pr-4': !!!section.children?.length,
                                 })}
                                 classNameButton={classNames({
                                     'after:w-full': structure.length <= 1,

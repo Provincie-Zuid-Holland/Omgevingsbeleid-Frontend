@@ -16,6 +16,7 @@ import {
     ObjectDetail,
     ObjectEdit,
     ObjectWrite,
+    Regulations,
     UserDetail,
     UsersOverview,
 } from '@/pages/protected'
@@ -339,10 +340,10 @@ const AppRoutes = () => {
                             []),
                     ],
                 })),
-                // {
-                //     path: 'verordening',
-                //     element: <Regulations />,
-                // },
+                {
+                    path: 'verordening',
+                    element: <Regulations />,
+                },
                 {
                     path: 'gebruikers',
                     children: [

@@ -63,12 +63,6 @@ Launches the test runner in the interactive watch mode. See the section about [r
 yarn test
 ```
 
-Runs the Cypress integration tests
-
-```
-yarn cy:run
-```
-
 Builds the app for production to the **`\*build**`\*\* folder. It correctly bundles React in production mode and optimizes the build for the best performance.
 
 ```
@@ -166,28 +160,7 @@ Contains the configuration files for all possible policy objects.
 
 ---
 
-Static testing is done via ES Lint. Unit testing is done with Jest and React Testing Library. Integration tests are done with [Cypress.io](http://cypress.io). Right now the focus has mostly been on integration tests using [Cypress.io](http://cypress.io), but we want to equal this with more unit tests.
-
-The cypress test right now consists of testing the dimensions, with test to create, read and update the dimensions. These integration test live inside the /cypress folder. Inside we have the /integration folder, which contains the actual tests.
-
-The API calls to the server are all stubbed. They live inside the /fixtures folder. The fixture files are created automatically by setting the `"RECORD"` environmental variable to `true` and then running the test with `npm run cy:run`. After the fixtures have been created you `"RECORD"` back to `false` and the tests will be stubbed.
-
-To set the environmental variable for Cypress you need a `cypress.json` file in the root of your directory. To be able to run authenticated tests you will also need to provide user credentials:
-
-```JSON
-{
-    "video": false,
-    "baseUrl": "http://localhost:3000",
-    "env": {
-        "env": "dev",
-        "RECORD": true,
-        "API_VERSION": "api-version",
-        "ACCESS_TOKEN": "local-storage-key",
-        "USERNAME": "username@domain.com",
-        "PASSWORD": "password"
-    }
-}
-```
+Static testing is done via ES Lint. Unit testing is done with Vitest and React Testing Library.
 
 ## Contributors ✨
 
