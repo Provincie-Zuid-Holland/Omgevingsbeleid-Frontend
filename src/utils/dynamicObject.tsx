@@ -154,11 +154,12 @@ export const getObjectRevisionBannerText = (
     switch (revision.Module_Status) {
         case 'Ontwerp GS':
             return 'Er wordt aan gewerkt.'
-        case 'Ontwerp in inspraak':
+        case 'Ter Inzage':
             return (
                 <>
                     Op dit moment ligt er in de module '{revision.Module_Title}'
-                    een nieuwe versie van deze beleidskeuze ter inzage,{' '}
+                    een nieuwe versie van {model.defaults.prefixSingular}{' '}
+                    {model.defaults.singularReadable} ter inzage,{' '}
                     <Hyperlink to={path} text="bekijk deze versie hier" />.
                 </>
             )
@@ -175,7 +176,9 @@ export const getObjectRevisionBannerText = (
             return (
                 <>
                     Op dit moment wordt er in module '{revision.Module_Title}'
-                    gewerkt aan een nieuwe versie van deze beleidskeuze,{' '}
+                    gewerkt aan een nieuwe versie van{' '}
+                    {model.defaults.prefixSingular}{' '}
+                    {model.defaults.singularReadable},{' '}
                     <Hyperlink to={path} text="bekijk deze versie hier" />.
                 </>
             )
