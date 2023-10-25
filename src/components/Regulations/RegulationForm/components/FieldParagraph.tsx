@@ -7,10 +7,10 @@ const FieldParagraph = ({
     label,
     ...props
 }: FieldTextAreaProps & RegulationFieldProps) => (
-    <div>
+    <>
         <FieldLabel name={`${name}.${label}`} label={label} {...props} />
         <FormikTextArea name={`${name}.${label}`} {...props} />
-    </div>
+    </>
 )
 
 export default FieldParagraph

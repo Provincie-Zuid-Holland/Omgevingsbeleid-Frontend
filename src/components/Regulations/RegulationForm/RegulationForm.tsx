@@ -1,7 +1,12 @@
+import DropArea from '@/components/DropArea'
 import * as contents from '@/config/regulations/contents'
 import { Section } from '@/config/regulations/sections/types'
 import { Structure } from '@/config/regulations/types'
+import useDrag from '@/hooks/useDrag'
 import useModalStore from '@/store/modalStore'
+import useRegulationStore from '@/store/regulationStore'
+import equalArrays from '@/utils/equalArrays'
+import handleViewTransition from '@/utils/handleViewTransition'
 import {
     Button,
     Divider,
@@ -10,8 +15,14 @@ import {
     PillButton,
 } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
-import { ArrayHelpers, FieldArray, Form, Formik } from 'formik'
-import { Fragment } from 'react'
+import {
+    ArrayHelpers,
+    FieldArray,
+    Form,
+    Formik,
+    useFormikContext,
+} from 'formik'
+import { v4 as uuidv4 } from 'uuid'
 import RegulationField from './components/RegulationField'
 
 interface RegulationFormProps {
@@ -34,124 +45,166 @@ const RegulationForm = ({
             onSubmit={handleFormSubmit}
             initialValues={initialValues}
             enableReinitialize>
-            {({ values }) => (
-                <Form>
-                    <div className="flex flex-col gap-6">
-                        <div>
-                            <Heading
-                                level="3"
-                                size="m"
-                                color="text-pzh-blue-dark"
-                                className="mb-3">
-                                {title}
-                            </Heading>
+            <Form>
+                <div className="mb-6">
+                    <Heading
+                        level="3"
+                        size="m"
+                        color="text-pzh-blue-dark"
+                        className="mb-3">
+                        {title}
+                    </Heading>
 
-                            <div className="flex gap-4">
-                                <div className="w-40">
-                                    <FormikInput
-                                        name="label"
-                                        label="Label"
-                                        disabled
-                                    />
-                                </div>
-                                <div className="w-20">
-                                    <FormikInput
-                                        name="index"
-                                        label="Nummer"
-                                        disabled
-                                    />
-                                </div>
-                                <div className="flex-1">
-                                    <FormikInput
-                                        name="title"
-                                        label="Opschrift"
-                                    />
-                                </div>
-                            </div>
+                    <div className="flex gap-4">
+                        <div className="w-40">
+                            <FormikInput name="label" label="Label" disabled />
                         </div>
-
-                        {section.contents?.length && (
-                            <>
-                                <Divider className="my-0 bg-pzh-gray-600" />
-                                <Heading
-                                    level="3"
-                                    size="m"
-                                    color="text-pzh-blue-dark">
-                                    Inhoud
-                                </Heading>
-
-                                <FieldArray
-                                    name="contents"
-                                    render={(arrayHelpers: ArrayHelpers) => (
-                                        <>
-                                            {values.contents?.map(
-                                                ({ type }, index) => {
-                                                    const content =
-                                                        contents[type]
-
-                                                    return (
-                                                        <Fragment
-                                                            key={type + index}>
-                                                            <RegulationField
-                                                                type={type}
-                                                                index={index}
-                                                                name={`contents[${index}]`}
-                                                                label={
-                                                                    content.name
-                                                                }
-                                                                handleRemove={() =>
-                                                                    arrayHelpers.remove(
-                                                                        index
-                                                                    )
-                                                                }
-                                                            />
-                                                            <Divider className="bg-pzh-gray-300 py-0" />
-                                                        </Fragment>
-                                                    )
-                                                }
-                                            )}
-
-                                            <div className="flex flex-wrap gap-2">
-                                                {section.contents?.map(type => {
-                                                    const content =
-                                                        contents[type]
-
-                                                    return (
-                                                        <PillButton
-                                                            key={type}
-                                                            icon={Plus}
-                                                            onPress={() =>
-                                                                arrayHelpers.push(
-                                                                    {
-                                                                        type,
-                                                                    }
-                                                                )
-                                                            }>
-                                                            {content.name}
-                                                        </PillButton>
-                                                    )
-                                                })}
-                                            </div>
-                                        </>
-                                    )}
-                                />
-                            </>
-                        )}
-
-                        <div className="flex items-center justify-between border-t border-pzh-gray-600 pt-4">
-                            <Button
-                                variant="link"
-                                onPress={() => setActiveModal(null)}>
-                                Annuleren
-                            </Button>
-                            <Button variant="cta" type="submit">
-                                Opslaan
-                            </Button>
+                        <div className="w-20">
+                            <FormikInput name="index" label="Nummer" disabled />
+                        </div>
+                        <div className="flex-1">
+                            <FormikInput name="title" label="Opschrift" />
                         </div>
                     </div>
-                </Form>
-            )}
+                </div>
+
+                {section.contents?.length && (
+                    <>
+                        <Divider className="my-6 bg-pzh-gray-600" />
+                        <Heading level="3" size="m" color="text-pzh-blue-dark">
+                            Inhoud
+                        </Heading>
+
+                        <FormContents section={section} />
+                    </>
+                )}
+
+                <div className="mt-6 flex items-center justify-between border-t border-pzh-gray-600 pt-4">
+                    <Button variant="link" onPress={() => setActiveModal(null)}>
+                        Annuleren
+                    </Button>
+                    <Button variant="cta" type="submit">
+                        Opslaan
+                    </Button>
+                </div>
+            </Form>
         </Formik>
+    )
+}
+
+const FormContents = ({ section }: Pick<RegulationFormProps, 'section'>) => {
+    const { values } = useFormikContext<Structure>()
+
+    const draggingItem = useRegulationStore(state => state.draggingItem)
+    const setDraggingItem = useRegulationStore(state => state.setDraggingItem)
+
+    const { dragProps, isDragging } = useDrag({
+        draggable: values.contents && values.contents.length > 1,
+        onDragStart: setDraggingItem,
+        onDragEnd: () => setDraggingItem(null),
+    })
+
+    return (
+        <FieldArray
+            name="contents"
+            render={(arrayHelpers: ArrayHelpers) => (
+                <>
+                    {values.contents?.map(({ type, uuid }, index) => {
+                        const content = contents[type]
+
+                        const currDragged =
+                            draggingItem &&
+                            draggingItem[draggingItem.length - 1]
+                        const isDraggingAndValid =
+                            isDragging &&
+                            draggingItem &&
+                            !equalArrays(draggingItem, [index])
+
+                        const showTopDropArea =
+                            isDraggingAndValid && index === 0
+                        const showBottomDropArea =
+                            isDraggingAndValid && currDragged !== index + 1
+
+                        return (
+                            <div
+                                key={type + index}
+                                className="relative border-b border-pzh-gray-300 py-6">
+                                {showTopDropArea && draggingItem && (
+                                    <DropArea
+                                        position="top"
+                                        onDrop={() =>
+                                            handleViewTransition(() =>
+                                                arrayHelpers.move(
+                                                    draggingItem[0],
+                                                    index
+                                                )
+                                            )
+                                        }
+                                        className="-top-4 py-4 after:-mt-0.5"
+                                    />
+                                )}
+                                <RegulationField
+                                    type={type}
+                                    index={index}
+                                    name={`contents[${index}]`}
+                                    label={content.name}
+                                    handleRemove={() =>
+                                        arrayHelpers.remove(index)
+                                    }
+                                    isDraggable={
+                                        values.contents &&
+                                        values.contents.length > 1
+                                    }
+                                    style={{
+                                        viewTransitionName: `content-${uuid}`,
+                                        zIndex:
+                                            values.contents &&
+                                            values.contents.length - index,
+                                    }}
+                                    dragOptions={{ ...dragProps([index]) }}
+                                />
+                                {showBottomDropArea && draggingItem && (
+                                    <DropArea
+                                        position="bottom"
+                                        onDrop={() =>
+                                            handleViewTransition(() =>
+                                                arrayHelpers.move(
+                                                    draggingItem[0],
+                                                    (currDragged || 0) > index
+                                                        ? index + 1
+                                                        : index
+                                                )
+                                            )
+                                        }
+                                        className="-bottom-4 py-4 after:-mt-0.5"
+                                    />
+                                )}
+                            </div>
+                        )
+                    })}
+
+                    <div className="mt-3 flex flex-wrap gap-2">
+                        {section.contents?.map(type => {
+                            const content = contents[type]
+
+                            return (
+                                <PillButton
+                                    key={type}
+                                    icon={Plus}
+                                    onPress={() =>
+                                        arrayHelpers.push({
+                                            uuid: uuidv4(),
+                                            type,
+                                        })
+                                    }>
+                                    {content.name}
+                                </PillButton>
+                            )
+                        })}
+                    </div>
+                </>
+            )}
+        />
     )
 }
 

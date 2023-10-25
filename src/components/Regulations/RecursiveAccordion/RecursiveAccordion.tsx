@@ -1,21 +1,20 @@
-import classNames from 'classnames'
-
 import {
     Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
 } from '@/components/Accordion'
+import DropArea from '@/components/DropArea'
 import * as sections from '@/config/regulations/sections'
 import { Structure } from '@/config/regulations/types'
 import useDrag from '@/hooks/useDrag'
+import useModalStore from '@/store/modalStore'
 import useRegulationStore from '@/store/regulationStore'
 import equalArrays from '@/utils/equalArrays'
 import handleViewTransition from '@/utils/handleViewTransition'
-
+import classNames from 'classnames'
 import { GROUP_VARIANTS } from '../constants'
 import AddItem from './components/AddItem'
-import DropArea from './components/DropArea'
 import Handle from './components/Handle'
 
 interface RecursiveAccordionProps {
@@ -36,6 +35,8 @@ const RecursiveAccordion = ({
     const moveItem = useRegulationStore(state => state.moveItem)
     const activeItem = useRegulationStore(state => state.activeItem)
     const setActiveItem = useRegulationStore(state => state.setActiveItem)
+
+    const activeModal = useModalStore(state => state.activeModal)
 
     const { dragProps, isDragging } = useDrag({
         draggable: structure.length > 1 && expanded,
@@ -87,10 +88,14 @@ const RecursiveAccordion = ({
                                     'border-none': !expanded,
                                 }
                             )}
-                            style={{
-                                viewTransitionName: `card-${uuid}`,
-                                zIndex: structure.length - index,
-                            }}>
+                            style={
+                                !!!activeModal
+                                    ? {
+                                          viewTransitionName: `card-${uuid}`,
+                                          zIndex: structure.length - index,
+                                      }
+                                    : undefined
+                            }>
                             {showTopDropArea && draggingItem && (
                                 <DropArea
                                     position="top"

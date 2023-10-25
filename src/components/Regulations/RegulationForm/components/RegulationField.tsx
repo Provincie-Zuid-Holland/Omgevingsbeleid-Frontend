@@ -26,6 +26,7 @@ const inputFieldMap = {
 
 const RegulationField = ({
     type,
+    style,
     ...field
 }: RegulationFieldProps & Omit<Content, 'children'>) => {
     const InputField = inputFieldMap[type]
@@ -33,7 +34,11 @@ const RegulationField = ({
         throw new Error(`Oh no! No field found for type: ${type}..`)
     }
 
-    return <InputField {...field} />
+    return (
+        <div style={style}>
+            <InputField {...field} />
+        </div>
+    )
 }
 
 export default RegulationField
