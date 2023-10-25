@@ -204,6 +204,8 @@ const SidebarResults = () => {
                 total: data?.total,
                 limit: data?.limit,
             })
+        } else if (sidebarOpen !== 'true') {
+            setCurrPage(1)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
