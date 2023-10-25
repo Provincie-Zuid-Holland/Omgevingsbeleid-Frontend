@@ -4,7 +4,7 @@ import { useMemo, useRef, useState } from 'react'
 
 import { Heading, Pagination, Text } from '@pzh-ui/components'
 
-import { useSearchGeometryPost } from '@/api/fetchers'
+import { useSearchGeoPost, useSearchGeometryPost } from '@/api/fetchers'
 import Filter from '@/components/Filter'
 import { LoaderCard } from '@/components/Loader'
 import SearchResultItem from '@/components/SearchResultItem'
@@ -45,12 +45,15 @@ const SidebarResults = () => {
             amountOfFilters: filter?.split(',')?.filter(Boolean)?.length || 0,
         }))
 
+    const useSearch =
+        drawType === 'werkingsgebied' ? useSearchGeoPost : useSearchGeometryPost
+
     const {
         data,
         mutate,
         reset,
         isLoading: geoLoading,
-    } = useSearchGeometryPost({
+    } = useSearch({
         mutation: {
             onSuccess(data) {
                 if (!!!data.results.length) {
@@ -139,9 +142,14 @@ const SidebarResults = () => {
     useUpdateEffect(() => {
         const geoQuery = paramGeoQuery?.split(',')
 
-        if (!geoQuery || !drawType) return
+        if ((!geoQuery && !paramWerkingsgebied) || !drawType) return
 
-        if (sidebarOpen === 'true' && paramGeoQuery && !paramWerkingsgebied) {
+        if (
+            sidebarOpen === 'true' &&
+            paramGeoQuery &&
+            !paramWerkingsgebied &&
+            !!geoQuery
+        ) {
             let latLng
 
             if (drawType === 'marker') {
@@ -155,6 +163,7 @@ const SidebarResults = () => {
             }
 
             mutate({
+                // @ts-ignore
                 data: {
                     Geometry:
                         drawType === 'marker'
@@ -174,8 +183,9 @@ const SidebarResults = () => {
 
         if (sidebarOpen === 'true' && paramWerkingsgebied) {
             mutate({
+                // @ts-ignore
                 data: {
-                    Geometry: '',
+                    Area_List: [paramWerkingsgebied],
                     Object_Types: !!selectedFilters.length
                         ? selectedFilters
                         : allFilterOptions,
