@@ -1,6 +1,7 @@
 export type ModalType =
     | 'regulationAdd'
     | 'regulationDelete'
+    | 'regulationEdit'
     | 'revision'
     | 'passwordForget'
     | 'passwordReset'

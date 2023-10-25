@@ -186,7 +186,7 @@ export function calculateNewIndex(
 
     // If itemAction doesn't have a UUID, add a new item at the end of the structure
     if (!itemAction.uuid) {
-        return structure.length + 1
+        return (structure.length + 1).toString()
     }
 
     // Get the parent index from the section defaults
@@ -206,9 +206,11 @@ export function calculateNewIndex(
     const findParentTotal = (uuid: string) => {
         const parent = findObjectByUUID(uuid, structure)
         if (!!parent?.children?.length) {
-            return findItemsByType(parent.children, itemAction).total + 1
+            return (
+                findItemsByType(parent.children, itemAction).total + 1
+            ).toString()
         }
-        return 1
+        return '1'
     }
 
     // Calculate the new index based on different scenarios

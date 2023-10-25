@@ -1,4 +1,5 @@
 import * as sections from '.'
+import { ContentType } from '../contents/types'
 
 export type SectionType = keyof typeof sections
 
@@ -22,4 +23,6 @@ export interface Section {
     }
     /** Children of section */
     children?: SectionType[]
+    /** Contents of section */
+    contents?: ContentType[]
 }
