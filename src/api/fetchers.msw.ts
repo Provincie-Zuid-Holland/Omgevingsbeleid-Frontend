@@ -10,8 +10,7 @@
  */
 import { faker } from '@faker-js/faker'
 import { rest } from 'msw'
-
-import { GraphEdgeType, ModuleStatusCode } from './fetchers.schemas'
+import { GraphEdgeType } from './fetchers.schemas'
 
 export const getAmbitiesValidGetMock = () => ({
     total: faker.datatype.number({ min: undefined, max: undefined }),
@@ -9179,6 +9178,37 @@ export const getSearchGeoPostMock = () => ({
     })),
 })
 
+export const getSearchGeometryPostMock = () => ({
+    total: faker.datatype.number({ min: undefined, max: undefined }),
+    offset: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    limit: faker.helpers.arrayElement([
+        faker.datatype.number({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    results: Array.from(
+        { length: faker.datatype.number({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        UUID: faker.helpers.arrayElement([
+            faker.random.word(),
+            faker.datatype.uuid(),
+        ]),
+        Gebied: faker.helpers.arrayElement([
+            faker.random.word(),
+            faker.datatype.uuid(),
+        ]),
+        Type: faker.random.word(),
+        Titel: faker.helpers.arrayElement([faker.random.word(), undefined]),
+        Omschrijving: faker.helpers.arrayElement([
+            faker.random.word(),
+            undefined,
+        ]),
+    })),
+})
+
 export const getSearchPostMock = () => ({
     total: faker.datatype.number({ min: undefined, max: undefined }),
     offset: faker.helpers.arrayElement([
@@ -9682,7 +9712,7 @@ export const getModulesObjectsLatestGetMock = () => ({
             },
             undefined,
         ]),
-        Status: faker.helpers.arrayElement(Object.values(ModuleStatusCode)),
+        Status: faker.random.word(),
     })),
 })
 
@@ -10673,6 +10703,13 @@ export const getOmgevingsbeleidAPIMSW = () => [
             ctx.delay(1000),
             ctx.status(200, 'Mocked status'),
             ctx.json(getSearchGeoPostMock())
+        )
+    }),
+    rest.post('*/search/geometry', (_req, res, ctx) => {
+        return res(
+            ctx.delay(1000),
+            ctx.status(200, 'Mocked status'),
+            ctx.json(getSearchGeometryPostMock())
         )
     }),
     rest.post('*/search', (_req, res, ctx) => {

@@ -4,7 +4,7 @@ import { useMemo, useRef, useState } from 'react'
 
 import { Heading, Pagination, Text } from '@pzh-ui/components'
 
-import { useSearchGeoPost } from '@/api/fetchers'
+import { useSearchGeometryPost } from '@/api/fetchers'
 import Filter from '@/components/Filter'
 import { LoaderCard } from '@/components/Loader'
 import SearchResultItem from '@/components/SearchResultItem'
@@ -15,18 +15,11 @@ import useMapStore from '@/store/mapStore'
 
 const PAGE_LIMIT = 20
 
-interface SidebarResultsProps {
-    UUIDs: string[]
-}
-
-const SidebarResults = ({ UUIDs }: SidebarResultsProps) => {
+const SidebarResults = () => {
     const { get, set, remove } = useSearchParam()
-    const [paramWerkingsgebied, page, filter, sidebarOpen] = get([
-        'werkingsgebied',
-        'page',
-        'filter',
-        'sidebarOpen',
-    ])
+    const [paramWerkingsgebied, paramGeoQuery, page, filter, sidebarOpen] = get(
+        ['werkingsgebied', 'geoQuery', 'page', 'filter', 'sidebarOpen']
+    )
 
     const resultsContainer = useRef<HTMLDivElement>(null)
 
@@ -57,7 +50,7 @@ const SidebarResults = ({ UUIDs }: SidebarResultsProps) => {
         mutate,
         reset,
         isLoading: geoLoading,
-    } = useSearchGeoPost({
+    } = useSearchGeometryPost({
         mutation: {
             onSuccess(data) {
                 if (!!!data.results.length) {
@@ -144,10 +137,30 @@ const SidebarResults = ({ UUIDs }: SidebarResultsProps) => {
      * If URL contains sidebarOpen=true open the results sidebar.
      */
     useUpdateEffect(() => {
-        if (sidebarOpen === 'true' && UUIDs.length && !paramWerkingsgebied) {
+        const geoQuery = paramGeoQuery?.split(',')
+
+        if (!geoQuery || !drawType) return
+
+        if (sidebarOpen === 'true' && paramGeoQuery && !paramWerkingsgebied) {
+            let latLng
+
+            if (drawType === 'marker') {
+                const [x, y] = geoQuery[0].split('+')
+
+                latLng = `${x} ${y}`
+            } else {
+                latLng = geoQuery
+                    .flatMap(val => val.split('+').join(' '))
+                    .join(',')
+            }
+
             mutate({
                 data: {
-                    Area_List: UUIDs,
+                    Geometry:
+                        drawType === 'marker'
+                            ? `POINT (${latLng})`
+                            : `POLYGON ((${latLng}))`,
+                    Function: 'CONTAINS',
                     Object_Types: !!selectedFilters.length
                         ? selectedFilters
                         : allFilterOptions,
@@ -162,7 +175,7 @@ const SidebarResults = ({ UUIDs }: SidebarResultsProps) => {
         if (sidebarOpen === 'true' && paramWerkingsgebied) {
             mutate({
                 data: {
-                    Area_List: [paramWerkingsgebied],
+                    Geometry: '',
                     Object_Types: !!selectedFilters.length
                         ? selectedFilters
                         : allFilterOptions,
@@ -174,7 +187,7 @@ const SidebarResults = ({ UUIDs }: SidebarResultsProps) => {
             })
         }
 
-        if (sidebarOpen === 'true' && !paramWerkingsgebied && !!!UUIDs.length) {
+        if (sidebarOpen === 'true' && !paramWerkingsgebied && !paramGeoQuery) {
             reset()
             setPagination({
                 isLoaded: false,
@@ -183,7 +196,15 @@ const SidebarResults = ({ UUIDs }: SidebarResultsProps) => {
             })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [sidebarOpen, paramWerkingsgebied, UUIDs, mapInstance, currPage, filter])
+    }, [
+        sidebarOpen,
+        paramWerkingsgebied,
+        paramGeoQuery,
+        drawType,
+        mapInstance,
+        currPage,
+        filter,
+    ])
 
     return (
         <Transition
