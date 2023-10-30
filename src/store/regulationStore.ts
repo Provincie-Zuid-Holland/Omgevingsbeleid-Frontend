@@ -42,9 +42,7 @@ const useRegulationStore = create<RegulationState>(set => ({
         set(state => {
             const updateChildren = (nodes: Structure[], levels: number[]) => {
                 if (levels.length === 0) {
-                    if (!!!nodes.length) {
-                        return [newItem]
-                    }
+                    if (!!!nodes.length) return [newItem]
 
                     return [...nodes, newItem]
                 }
@@ -52,7 +50,7 @@ const useRegulationStore = create<RegulationState>(set => ({
                 const [currentLevel, ...remainingLevels] = levels
                 const currentNode = nodes[currentLevel]
 
-                if (currentNode && currentNode.children) {
+                if (currentNode?.children) {
                     currentNode.children = updateChildren(
                         currentNode.children,
                         remainingLevels
@@ -73,15 +71,15 @@ const useRegulationStore = create<RegulationState>(set => ({
         set(state => {
             const editRecursive = (nodes: Structure[]): Structure[] => {
                 return nodes.map(node => {
-                    if (node.uuid === uuid) {
-                        return updatedItem
-                    }
+                    if (node.uuid === uuid) return updatedItem
+
                     if (node.children) {
                         return {
                             ...node,
                             children: editRecursive(node.children),
                         }
                     }
+
                     return node
                 })
             }
@@ -101,9 +99,7 @@ const useRegulationStore = create<RegulationState>(set => ({
                 const [fromIndex, ...fromRest] = fromPath
                 const [toIndex, ...toRest] = toPath
 
-                if (fromIndex === undefined) {
-                    return nodes
-                }
+                if (fromIndex === undefined) return nodes
 
                 const [movedNode] = nodes.splice(fromIndex, 1)
 
@@ -114,14 +110,14 @@ const useRegulationStore = create<RegulationState>(set => ({
                         movedNode
                     )
                 } else {
-                    if (!movedNode.children) {
-                        movedNode.children = []
-                    }
+                    if (!movedNode.children) movedNode.children = []
+
                     movedNode.children = moveRecursive(
                         movedNode.children,
                         fromRest,
                         toRest
                     )
+
                     nodes.splice(fromIndex, 0, movedNode)
                 }
 

@@ -2,7 +2,7 @@ import * as contents from '.'
 
 export type ContentType = keyof typeof contents
 
-export interface Content {
+export type Content = {
     /** uuid of content */
     uuid?: string
     /** Type of content */
@@ -11,4 +11,13 @@ export interface Content {
     name: string
     /** Children of content */
     children?: Content[]
-}
+} & ListProps
+
+type ListProps =
+    | {
+          type: 'list' | 'listItem'
+          numbering?: 'numeral' | 'alphabetical' | 'roman'
+      }
+    | {
+          type: Exclude<ContentType, 'list' | 'listItem'>
+      }
