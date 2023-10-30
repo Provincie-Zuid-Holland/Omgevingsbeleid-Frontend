@@ -4,7 +4,7 @@ import { SectionType } from '@/config/regulations/sections/types'
 import { Structure } from '@/config/regulations/types'
 
 export type RegulationAction = {
-    action: 'add' | 'delete'
+    action: 'add' | 'delete' | 'edit'
     type: SectionType
     path?: number[]
     uuid?: string
@@ -16,6 +16,8 @@ interface RegulationState {
     structure: Structure[]
     /** Add an item at a specific location */
     addItem: (path: number[], newItem: Structure) => void
+    /** Edit an item by it's UUID */
+    editItem: (uuid: string, updatedItem: Structure) => void
     /** Move an item to a specific location */
     moveItem: (fromPath: number[], toPath: number[]) => void
     /** Delete an item */
@@ -65,6 +67,28 @@ const useRegulationStore = create<RegulationState>(set => ({
             return {
                 ...state,
                 structure: updateChildren([...state.structure], path),
+            }
+        }),
+    editItem: (uuid, updatedItem) =>
+        set(state => {
+            const editRecursive = (nodes: Structure[]): Structure[] => {
+                return nodes.map(node => {
+                    if (node.uuid === uuid) {
+                        return updatedItem
+                    }
+                    if (node.children) {
+                        return {
+                            ...node,
+                            children: editRecursive(node.children),
+                        }
+                    }
+                    return node
+                })
+            }
+
+            return {
+                ...state,
+                structure: editRecursive(state.structure),
             }
         }),
     moveItem: (fromPath, toPath) =>

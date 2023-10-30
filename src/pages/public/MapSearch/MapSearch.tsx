@@ -6,7 +6,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useNavigate } from 'react-router-dom'
 
-import { getWerkingsGebieden } from '@/api/axiosGeoJSON'
 import { ContainerMapSearch } from '@/components/Container'
 import { LeafletMap } from '@/components/Leaflet'
 import { mapPanTo } from '@/components/Leaflet/utils'
@@ -44,63 +43,17 @@ const MapSearch = () => {
     )
     const isAreaLoading = useMapStore(state => state.isAreaLoading)
     const setSidebarOpen = useMapStore(state => state.setSidebarOpen)
-    const setIsDataLoading = useMapStore(state => state.setIsDataLoading)
     const setDrawType = useMapStore(state => state.setDrawType)
 
-    const [previousRequestController, setPreviousRequestController] =
-        useState<AbortController | null>(null)
-
     const [initialized, setInitialized] = useState(false)
-    const [UUIDs, setUUIDs] = useState<string[]>([])
 
     /**
      * Set UUIDs of current location or area
      */
     const onDraw = async (callback: any) => {
-        // Check if there's a previous request and cancel it
-        if (previousRequestController) {
-            previousRequestController.abort() // Cancel the previous request
-        }
-
-        // Create a new AbortController instance for the current request
-        const currentRequestController = new AbortController()
-        setPreviousRequestController(currentRequestController)
-
-        setUUIDs([])
-        setIsDataLoading(true)
-
         if (callback.type === 'polygon') {
             setDrawType(callback.type)
-
-            if (callback.features?.length) {
-                const werkingsgebiedenUUIDS = callback.features.map(
-                    (item: any) => item.properties.UUID
-                )
-
-                setUUIDs(werkingsgebiedenUUIDS)
-                setIsDataLoading(false)
-            } else {
-                setIsDataLoading(false)
-            }
         } else if (callback.type === 'marker') {
-            const werkingsgebieden = await getWerkingsGebieden(
-                callback.point.x,
-                callback.point.y,
-                { signal: currentRequestController.signal }
-            ).then(data => {
-                setIsDataLoading(false)
-                return data
-            })
-
-            const werkingsgebiedenUUIDS = werkingsgebieden.map(
-                (item: any) => item.properties.UUID
-            )
-
-            if (!werkingsgebieden.length) {
-                setIsDataLoading(false)
-            }
-
-            setUUIDs(werkingsgebiedenUUIDS)
             setDrawType(callback.type)
         }
     }
@@ -239,7 +192,7 @@ const MapSearch = () => {
                     </div>{' '}
                 </div>
 
-                <SidebarResults UUIDs={UUIDs} />
+                <SidebarResults />
             </ContainerMapSearch>
 
             <div id="select-werkingsgebied-portal" />

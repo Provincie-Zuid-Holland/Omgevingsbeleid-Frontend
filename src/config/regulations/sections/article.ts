@@ -12,6 +12,18 @@ const article: Section = {
         icon: Font,
     },
     children: ['member'],
+    contents: [
+        'paragraph',
+        'group',
+        'list',
+        'figure',
+        'subheading',
+        'formula',
+        'quote',
+        'table',
+        'boxtext',
+        'glossary',
+    ],
 }
 
 export default article
