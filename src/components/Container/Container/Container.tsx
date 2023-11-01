@@ -1,11 +1,11 @@
-import { CSSProperties, ReactNode } from 'react'
+import { CSSProperties, MutableRefObject, ReactNode } from 'react'
 
-interface ContainerProps {
+interface ContainerProps<T = any> {
     children: ReactNode
     style?: CSSProperties
     id?: string
     className?: string
-    reference?: string
+    reference?: MutableRefObject<T>
 }
 
 const Container = ({

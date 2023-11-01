@@ -79,10 +79,9 @@ const NavigationPopupMenu = ({
             ) : null}
             {isOpen ? (
                 <>
-                    <div className="pointer-events-none fixed left-0 top-24 z-0 block h-screen w-screen bg-pzh-gray-800/30" />
                     <nav
                         id="popup-menu"
-                        className="fixed left-0 top-24 z-10 w-full bg-white pb-8"
+                        className="absolute left-0 top-24 z-10 w-full bg-white pb-8"
                         aria-label="primary">
                         <Container
                             className="h-full overflow-y-auto"
