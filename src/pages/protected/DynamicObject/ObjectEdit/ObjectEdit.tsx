@@ -90,7 +90,9 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                         : []),
                 ]).then(() => navigate(`/muteer/modules/${moduleId}`))
             })
-            .catch(err => handleError<typeof initialData>(err, helpers))
+            .catch(err =>
+                handleError<typeof initialData>(err.response, helpers)
+            )
     }
 
     const breadcrumbPaths = [

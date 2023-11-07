@@ -65,7 +65,7 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
                 {
                     onSuccess: data => {
                         if (!!connections && !!data.Object_ID) {
-                            putRelations.mutateAsync(
+                            putRelations?.mutateAsync(
                                 {
                                     lineageId: data.Object_ID,
                                     data: connections,
@@ -96,7 +96,9 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
                     },
                 }
             )
-            .catch(err => handleError<typeof initialData>(err, helpers))
+            .catch(err =>
+                handleError<typeof initialData>(err.response, helpers)
+            )
     }
 
     const breadcrumbPaths = [

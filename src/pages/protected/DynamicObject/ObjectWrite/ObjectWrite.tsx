@@ -43,12 +43,10 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
         }
     )
 
-    const { data: relations, queryKey: relationsQueryKey } = useGetRelations(
-        parseInt(objectId!),
-        {
+    const { data: relations, queryKey: relationsQueryKey } =
+        useGetRelations?.(parseInt(objectId!), {
             query: { enabled: !!objectId },
-        }
-    )
+        }) || {}
 
     const { queryKey: validQueryKey } = useGetValid(undefined, {
         query: { enabled: false },
@@ -98,7 +96,7 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
                 {
                     onSuccess: () => {
                         if (!!connections) {
-                            putRelations.mutateAsync(
+                            putRelations?.mutateAsync(
                                 {
                                     lineageId: parseInt(objectId!),
                                     data: connections,
@@ -134,7 +132,9 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
                     },
                 }
             )
-            .catch(err => handleError<typeof initialData>(err, helpers))
+            .catch(err =>
+                handleError<typeof initialData>(err.response, helpers)
+            )
     }
 
     const breadcrumbPaths = [

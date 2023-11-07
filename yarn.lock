@@ -2461,13 +2461,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.433":
-  version: 0.0.433
-  resolution: "@pzh-ui/components@npm:0.0.433"
+"@pzh-ui/components@npm:^0.0.440":
+  version: 0.0.440
+  resolution: "@pzh-ui/components@npm:0.0.440"
   dependencies:
     "@floating-ui/react": ^0.24.8
     "@headlessui/react": ^1.5.0
-    "@pzh-ui/icons": ^0.0.40
+    "@pzh-ui/icons": ^0.0.46
     "@react-aria/utils": ^3.19.0
     "@react-hookz/web": ^23.1.0
     "@react-types/shared": ^3.19.0
@@ -2477,6 +2477,7 @@ __metadata:
     "@tiptap/extension-bullet-list": ^2.1.7
     "@tiptap/extension-document": ^2.1.7
     "@tiptap/extension-hard-break": ^2.1.7
+    "@tiptap/extension-heading": ^2.1.12
     "@tiptap/extension-history": ^2.1.7
     "@tiptap/extension-image": ^2.1.7
     "@tiptap/extension-italic": ^2.1.7
@@ -2485,6 +2486,8 @@ __metadata:
     "@tiptap/extension-ordered-list": ^2.1.12
     "@tiptap/extension-paragraph": ^2.1.7
     "@tiptap/extension-placeholder": ^2.1.7
+    "@tiptap/extension-subscript": ^2.1.12
+    "@tiptap/extension-superscript": ^2.1.12
     "@tiptap/extension-text": ^2.1.7
     "@tiptap/extension-text-style": ^2.1.10
     "@tiptap/extension-underline": ^2.1.7
@@ -2507,7 +2510,7 @@ __metadata:
     react-stately: ^3.18.0
     react-table: ^7.8.0
     react-toastify: ^9.1.2
-  checksum: cb30a482f956983a03e8b31154711fbbe50eeedd1fc3f6f178abbb3ddb5de8f466ee516db4aa963d71c7df31e128fe6eb3786cb04e9a3e555509ad779c906dcd
+  checksum: 81e8b7cabbed47e09f3ce315b3b8652df2dc7499cf56720599c1263cdac8f1f7f71cb258cd836de1590b79aa622fd9eba87cf47928acddb8caa0483f0737e41b
   languageName: node
   linkType: hard
 
@@ -2554,13 +2557,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/icons@npm:^0.0.40":
-  version: 0.0.40
-  resolution: "@pzh-ui/icons@npm:0.0.40"
+"@pzh-ui/icons@npm:^0.0.46":
+  version: 0.0.46
+  resolution: "@pzh-ui/icons@npm:0.0.46"
   dependencies:
     react: ^18.0.0
     react-toastify: ^9.1.2
-  checksum: b0ee922949aab06dd986d1604e612363bdbfa40f809e54de1689584d9259cf02b448e0fd50a3990367378025b1a129ec47968b65dd811a98b0f69e2c821d2c47
+  checksum: 2a7f30a9228e946606f208ad3a4a718c1c532120339f3443e46cfbf061606baed2a9e4b4df93566e60acf56c4893fab2ae5929e00605e75e7f7c59e9ba9f6589
   languageName: node
   linkType: hard
 
@@ -4804,6 +4807,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tiptap/extension-heading@npm:^2.1.12":
+  version: 2.1.12
+  resolution: "@tiptap/extension-heading@npm:2.1.12"
+  peerDependencies:
+    "@tiptap/core": ^2.0.0
+  checksum: c22fae649630203c79b39a8d7f31e647c1f753c22591fc684479d693d2fb12618685fb773428ae644cab37184660a8653faf852960f958643e5ea5d0b8eb6bc6
+  languageName: node
+  linkType: hard
+
 "@tiptap/extension-history@npm:^2.1.7":
   version: 2.1.8
   resolution: "@tiptap/extension-history@npm:2.1.8"
@@ -4878,6 +4890,24 @@ __metadata:
     "@tiptap/core": ^2.0.0
     "@tiptap/pm": ^2.0.0
   checksum: 22b88f6fbc14d92d271a05ac52f1c129d739529841f0deceb9b02ca0ef0faa0fa1cb134d4460c06ab2a1d882164882a601efc91e1e7f90eb649119f0450e6658
+  languageName: node
+  linkType: hard
+
+"@tiptap/extension-subscript@npm:^2.1.12":
+  version: 2.1.12
+  resolution: "@tiptap/extension-subscript@npm:2.1.12"
+  peerDependencies:
+    "@tiptap/core": ^2.0.0
+  checksum: 006b58e81cff113585fad07864195994b6aabc989d9a464e09a163fde45621d1066bbb0ba8136512df5533c7f10244071a01e457494361b2896131d357331203
+  languageName: node
+  linkType: hard
+
+"@tiptap/extension-superscript@npm:^2.1.12":
+  version: 2.1.12
+  resolution: "@tiptap/extension-superscript@npm:2.1.12"
+  peerDependencies:
+    "@tiptap/core": ^2.0.0
+  checksum: 54f1a04af88f55c11f988d7ed1010e7b2fa4d4e34a436f755b0a1a928fac9410c484470b0fab42f49a0f2acb9bd30fdd4f7a4b40cd252b17def4c068ad902e18
   languageName: node
   linkType: hard
 
@@ -12739,10 +12769,10 @@ __metadata:
     "@axe-core/react": 4.4.1
     "@faker-js/faker": ^7.6.0
     "@headlessui/react": ^1.5.0
-    "@pzh-ui/components": ^0.0.433
+    "@pzh-ui/components": ^0.0.440
     "@pzh-ui/config": ^0.0.49
     "@pzh-ui/css": ^0.0.72
-    "@pzh-ui/icons": ^0.0.40
+    "@pzh-ui/icons": ^0.0.46
     "@react-hookz/web": ^23.1.0
     "@tanstack/react-query": ^4.32.0
     "@testing-library/dom": ^9.3.1

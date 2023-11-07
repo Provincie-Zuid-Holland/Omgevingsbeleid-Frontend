@@ -5,12 +5,15 @@ import { CircleInfo, EllipsisVertical } from '@pzh-ui/icons'
 
 import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import Dropdown, { DropdownItem } from '@/components/Dropdown'
+import { Model } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
 import { getObjectActionText } from '@/utils/dynamicObject'
 
 interface ModuleItemProps extends ModuleObjectShort {
+    /** Model */
+    model: Model
     /** Has edit button */
     hasEditButton?: boolean
     /** Function which gets called on edit click */
@@ -22,6 +25,7 @@ interface ModuleItemProps extends ModuleObjectShort {
 }
 
 const ModuleItem = ({
+    model,
     Object_ID,
     Object_Type,
     Module_ID,
@@ -43,6 +47,8 @@ const ModuleItem = ({
     const [isOpen, setIsOpen] = useState(false)
 
     const { isModuleManager, isLocked, isActive } = useModule()
+
+    const { singularCapitalize } = model.defaults
 
     /**
      * Check if user has owner rights in object
@@ -122,8 +128,8 @@ const ModuleItem = ({
             <div className="flex items-center justify-between">
                 <div className="w-[90%] flex-1 pr-2">
                     <div className="flex justify-between">
-                        <Text size="s" className="capitalize text-pzh-gray-600">
-                            {Object_Type}
+                        <Text size="s" className="text-pzh-gray-600">
+                            {singularCapitalize}
                         </Text>
                         <div className="flex items-center">
                             <Text size="s" className="mr-1 text-pzh-gray-600">
