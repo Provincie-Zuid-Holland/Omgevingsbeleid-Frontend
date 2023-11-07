@@ -80,7 +80,12 @@ const visie: DynamicObject<
                     label: 'Inhoud',
                     type: 'wysiwyg',
                     required: true,
-                    customMenuOptions: ['heading', 'subscript', 'superscript'],
+                    customMenuOptions: [
+                        'image',
+                        'heading',
+                        'subscript',
+                        'superscript',
+                    ],
                 },
             ],
         },
