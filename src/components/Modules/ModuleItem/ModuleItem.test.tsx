@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom'
 import AuthProvider from '@/context/AuthContext'
 import ModuleProvider from '@/context/ModuleContext'
 
+import { beleidskeuze } from '@/config/objects'
 import ModuleItem from './ModuleItem'
 
 describe('ModuleItem', () => {
@@ -30,6 +31,7 @@ describe('ModuleItem', () => {
                                 deleteCallback={() => {}}
                                 viewCallback={() => {}}
                                 ModuleObjectContext={{ Action: 'Toevoegen' }}
+                                model={beleidskeuze}
                             />
                         </ModuleProvider>
                     </AuthProvider>
@@ -37,7 +39,7 @@ describe('ModuleItem', () => {
             </QueryClientProvider>
         )
 
-        expect(screen.getByText('beleidskeuze')).toBeInTheDocument()
+        expect(screen.getByText('Beleidskeuze')).toBeInTheDocument()
         expect(screen.getByText('Toevoegen')).toHaveClass('text-pzh-gray-600')
         expect(screen.getByText('My Policy')).toBeInTheDocument()
     })
