@@ -1,6 +1,6 @@
+import { Transition } from '@headlessui/react'
 import { useClickOutside } from '@react-hookz/web'
 import classNames from 'classnames'
-import { AnimatePresence, motion } from 'framer-motion'
 import { ReactNode, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -47,6 +47,7 @@ type DropdownContainerProps = {
     isOpen: boolean
     setIsOpen: (isOpen: boolean) => void
     className?: string
+    hasBackdrop?: boolean
 }
 
 const DropdownContainer = ({
@@ -54,6 +55,7 @@ const DropdownContainer = ({
     setIsOpen,
     className,
     children,
+    hasBackdrop,
 }: DropdownContainerProps) => {
     const innerContainer = useRef<HTMLDivElement>(null)
     useClickOutside(innerContainer, () => {
@@ -61,26 +63,29 @@ const DropdownContainer = ({
     })
 
     return (
-        <AnimatePresence>
-            {isOpen && (
-                <motion.div
-                    data-testid="dropdown"
-                    className={classNames(
-                        'tooltip-right tooltip-triangle absolute right-0 top-0 z-50 mt-12 min-w-[200px] rounded bg-white text-left text-pzh-gray-700 shadow-[0_0_15px_5px_rgba(0,0,0,0.1)]',
-                        className
-                    )}
-                    ref={innerContainer}
-                    initial={{ scale: 0.9, top: -5 }}
-                    animate={{ scale: 1, top: 0 }}
-                    exit={{ scale: 1 }}>
-                    <div className="relative h-full">
-                        <ul className="w-max py-1 text-pzh-gray-800">
-                            {children}
-                        </ul>
-                    </div>
-                </motion.div>
+        <>
+            <Transition
+                data-testid="dropdown"
+                show={isOpen}
+                enter="transition-all ease-out duration-100 transform"
+                enterFrom="scale-90 -top-1"
+                enterTo="scale-100 top-0"
+                leave="transition-all ease-in duration-100 transform"
+                leaveFrom="scale-100 top-0"
+                leaveTo="scale-90 -top-1"
+                className={classNames(
+                    'tooltip-right tooltip-triangle absolute right-0 top-0 z-50 mt-12 min-w-[200px] rounded bg-white text-left text-pzh-gray-700 shadow-[0_0_15px_5px_rgba(0,0,0,0.1)]',
+                    className
+                )}
+                ref={innerContainer}>
+                <div className="relative h-full">
+                    <ul className="w-max py-1 text-pzh-gray-800">{children}</ul>
+                </div>
+            </Transition>
+            {hasBackdrop && isOpen && (
+                <div className="fixed left-0 top-0 z-1 block h-screen w-screen bg-pzh-gray-800/30" />
             )}
-        </AnimatePresence>
+        </>
     )
 }
 

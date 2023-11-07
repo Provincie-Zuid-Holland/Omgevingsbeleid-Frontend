@@ -1587,22 +1587,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/is-prop-valid@npm:^0.8.2":
-  version: 0.8.8
-  resolution: "@emotion/is-prop-valid@npm:0.8.8"
-  dependencies:
-    "@emotion/memoize": 0.7.4
-  checksum: bb7ec6d48c572c540e24e47cc94fc2f8dec2d6a342ae97bc9c8b6388d9b8d283862672172a1bb62d335c02662afe6291e10c71e9b8642664a8b43416cdceffac
-  languageName: node
-  linkType: hard
-
-"@emotion/memoize@npm:0.7.4":
-  version: 0.7.4
-  resolution: "@emotion/memoize@npm:0.7.4"
-  checksum: 4e3920d4ec95995657a37beb43d3f4b7d89fed6caa2b173a4c04d10482d089d5c3ea50bbc96618d918b020f26ed6e9c4026bbd45433566576c1f7b056c3271dc
-  languageName: node
-  linkType: hard
-
 "@emotion/memoize@npm:^0.8.1":
   version: 0.8.1
   resolution: "@emotion/memoize@npm:0.8.1"
@@ -2461,9 +2445,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.440":
-  version: 0.0.440
-  resolution: "@pzh-ui/components@npm:0.0.440"
+"@pzh-ui/components@npm:^0.0.442":
+  version: 0.0.442
+  resolution: "@pzh-ui/components@npm:0.0.442"
   dependencies:
     "@floating-ui/react": ^0.24.8
     "@headlessui/react": ^1.5.0
@@ -2498,7 +2482,6 @@ __metadata:
     date-fns: ^2.30.0
     focus-trap-react: ^10.1.1
     formik: ^2.4.2
-    framer-motion: ^10.13.1
     react: ^18.2.0
     react-aria: ^3.26.0
     react-datepicker: ^4.16.0
@@ -2510,7 +2493,7 @@ __metadata:
     react-stately: ^3.18.0
     react-table: ^7.8.0
     react-toastify: ^9.1.2
-  checksum: 81e8b7cabbed47e09f3ce315b3b8652df2dc7499cf56720599c1263cdac8f1f7f71cb258cd836de1590b79aa622fd9eba87cf47928acddb8caa0483f0737e41b
+  checksum: 6135d179267283539e9ae665a664ec0735fc3025d666e6461663fd702d8d11fca13b4ed4605c2a17038b00e64250a707d674029c85344b41f849e8c6f25b5988
   languageName: node
   linkType: hard
 
@@ -9079,27 +9062,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^10.13.1":
-  version: 10.16.4
-  resolution: "framer-motion@npm:10.16.4"
-  dependencies:
-    "@emotion/is-prop-valid": ^0.8.2
-    tslib: ^2.4.0
-  peerDependencies:
-    react: ^18.0.0
-    react-dom: ^18.0.0
-  dependenciesMeta:
-    "@emotion/is-prop-valid":
-      optional: true
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
-  checksum: 57eb252f25a2c4ee14b024295c6a1162a53a05e0321bdb9c8a22ec266fbe777832823eaa0309e42854170fcde16c42915c6c5d0208b628fd000d6fab013c501f
-  languageName: node
-  linkType: hard
-
 "fs-extra@npm:^10.1.0":
   version: 10.1.0
   resolution: "fs-extra@npm:10.1.0"
@@ -12769,7 +12731,7 @@ __metadata:
     "@axe-core/react": 4.4.1
     "@faker-js/faker": ^7.6.0
     "@headlessui/react": ^1.5.0
-    "@pzh-ui/components": ^0.0.440
+    "@pzh-ui/components": ^0.0.442
     "@pzh-ui/config": ^0.0.53
     "@pzh-ui/css": ^0.0.72
     "@pzh-ui/icons": ^0.0.46
@@ -12811,7 +12773,6 @@ __metadata:
     eslint: ^8.48.0
     eslint-plugin-prettier: ^5.0.0
     formik: ^2.4.2
-    framer-motion: ^10.13.1
     jsdom: ^22.1.0
     jwt-decode: ^3.1.2
     leaflet: ^1.7.1
