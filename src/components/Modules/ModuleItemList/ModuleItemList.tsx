@@ -149,6 +149,7 @@ const ItemList = ({
                                         ?.focus()
                                 }
                                 hasEditButton={hasEditButton}
+                                model={model}
                                 {...object}
                             />
                         )

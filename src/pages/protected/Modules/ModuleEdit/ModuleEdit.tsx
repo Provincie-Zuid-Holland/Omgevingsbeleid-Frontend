@@ -39,7 +39,7 @@ const ModuleEdit = () => {
         const data = formatEditModuleData(payload)
 
         mutateAsync({ moduleId: parseInt(moduleId!), data }).catch(err =>
-            handleError<Module>(err, helpers)
+            handleError<Module>(err.response, helpers)
         )
     }
 

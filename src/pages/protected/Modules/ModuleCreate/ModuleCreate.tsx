@@ -38,7 +38,7 @@ const ModuleCreate = () => {
         helpers: FormikHelpers<ModuleCreateSchema>
     ) => {
         mutateAsync({ data: payload }).catch(err =>
-            handleError<ModuleCreateSchema>(err, helpers)
+            handleError<ModuleCreateSchema>(err.response, helpers)
         )
     }
 

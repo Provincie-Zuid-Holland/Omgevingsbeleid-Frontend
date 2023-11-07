@@ -50,6 +50,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
         singular,
         singularReadable,
         demonstrative,
+        hideBreadcrumbs,
     } = model.defaults
     const {
         useGetVersion,
@@ -144,15 +145,21 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
         <>
             <Helmet title={data?.Title} />
 
-            <Container className="pb-16 pt-4">
-                <div className="col-span-6 mb-8 capitalize">
-                    <Breadcrumbs items={breadcrumbPaths} />
-                </div>
+            <Container
+                className={classNames('pb-16', {
+                    'pt-10': hideBreadcrumbs,
+                    'pt-4': !hideBreadcrumbs,
+                })}>
+                {!hideBreadcrumbs && (
+                    <div className="col-span-6 mb-8 capitalize">
+                        <Breadcrumbs items={breadcrumbPaths} />
+                    </div>
+                )}
 
                 <div className="order-1 col-span-6 xl:col-span-2">
                     <Sidebar
                         revisions={amountOfRevisions}
-                        plural={plural}
+                        model={model}
                         handleModal={() => setActiveModal('revision')}
                         isRevision={isRevision}
                         {...data}

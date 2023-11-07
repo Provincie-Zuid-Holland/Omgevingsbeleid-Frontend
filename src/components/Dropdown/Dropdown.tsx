@@ -121,20 +121,19 @@ const DropdownTextElement = ({
     setIsOpen,
 }: DropdownElementProps) => {
     return (
-        <li
-            key={item.text}
-            className={classNames(
-                'hover-pzh-gray-100 w-full cursor-pointer px-4 pb-0.5 pt-1.5 hover:bg-pzh-gray-100 hover:bg-opacity-50 hover:underline',
-                {
-                    'border-t border-pzh-gray-300': index !== 0,
-                },
-                item.className
-            )}>
+        <li key={item.text}>
             <button
                 onClick={() => {
                     item.callback?.()
                     setIsOpen(false)
-                }}>
+                }}
+                className={classNames(
+                    'hover-pzh-gray-100 w-full cursor-pointer px-4 pb-0.5 pt-1.5 text-left hover:bg-pzh-gray-100 hover:bg-opacity-50 hover:underline',
+                    {
+                        'border-t border-pzh-gray-300': index !== 0,
+                    },
+                    item.className
+                )}>
                 {item.text}
             </button>
         </li>
