@@ -34,11 +34,12 @@ const ObjectDeleteModal = ({ object, model }: ObjectDeleteModalProps) => {
 
     const { queryKey } = useGetValid(undefined, { query: { enabled: false } })
 
-    const { data: relations } = useGetRelations(parseInt(objectId!), {
-        query: {
-            enabled: !!objectId,
-        },
-    })
+    const { data: relations } =
+        useGetRelations?.(parseInt(objectId!), {
+            query: {
+                enabled: !!objectId,
+            },
+        }) || {}
 
     const deleteObject = useDeleteObject?.({
         mutation: {
