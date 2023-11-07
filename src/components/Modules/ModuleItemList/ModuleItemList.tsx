@@ -1,6 +1,5 @@
-import { useMemo } from 'react'
-
 import { Text } from '@pzh-ui/components'
+import { useMemo } from 'react'
 
 import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'

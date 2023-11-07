@@ -1,7 +1,6 @@
+import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import { useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
-
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 
 import { useBeleidsdoelenValidGet } from '@/api/fetchers'
 import { Container } from '@/components/Container'

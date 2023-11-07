@@ -25,8 +25,9 @@ import {
     WettelijkeTaakFull,
 } from '@/api/fetchers.schemas'
 
-import * as models from '.'
 import { DynamicSection } from '../types'
+
+import * as models from '.'
 
 export interface DynamicObject<
     Fetchers = {

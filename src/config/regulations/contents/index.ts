@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 // organize-imports-ignore
 import { default as boxtext } from './boxtext'
 import { default as figure } from './figure'

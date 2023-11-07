@@ -1,8 +1,7 @@
+import { Button, FormikCheckbox, Text } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik } from 'formik'
 import { useNavigate, useParams } from 'react-router-dom'
-
-import { Button, FormikCheckbox, Text } from '@pzh-ui/components'
 
 import Modal from '@/components/Modal'
 import * as models from '@/config/objects'

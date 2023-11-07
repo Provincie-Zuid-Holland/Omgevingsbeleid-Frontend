@@ -1,13 +1,12 @@
-import { useMemo } from 'react'
-
 import { Heading, Hyperlink, Text, formatDate } from '@pzh-ui/components'
+import { useMemo } from 'react'
+import { useParams } from 'react-router-dom'
 
 import Avatar from '@/components/Avatar/Avatar'
 import TableOfContents from '@/components/TableOfContents/TableOfContents'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import { getStaticDataLabel } from '@/utils/dynamicObject'
-import { useParams } from 'react-router-dom'
 
 interface ObjectSidebarProps extends ModelReturnType {
     /** Model of object */

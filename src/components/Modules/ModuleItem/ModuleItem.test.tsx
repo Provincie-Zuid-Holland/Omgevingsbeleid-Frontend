@@ -2,10 +2,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 
+import { beleidskeuze } from '@/config/objects'
 import AuthProvider from '@/context/AuthContext'
 import ModuleProvider from '@/context/ModuleContext'
 
-import { beleidskeuze } from '@/config/objects'
 import ModuleItem from './ModuleItem'
 
 describe('ModuleItem', () => {
