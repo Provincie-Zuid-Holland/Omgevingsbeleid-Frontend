@@ -101,6 +101,15 @@ const AppRoutes = () => {
                                 },
                             ],
                         },
+                        {
+                            path: 'ontwerpversie',
+                            children: [
+                                {
+                                    path: ':moduleId/:uuid',
+                                    element: <AreaDetail />,
+                                },
+                            ],
+                        },
                     ],
                 },
                 {
