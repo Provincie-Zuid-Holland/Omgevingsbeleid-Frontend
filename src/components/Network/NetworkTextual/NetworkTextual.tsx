@@ -1,8 +1,7 @@
-import { useUpdateEffect } from '@react-hookz/web'
-import { useCallback, useMemo } from 'react'
-
 import { OLDTable as Table } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
+import { useUpdateEffect } from '@react-hookz/web'
+import { useCallback, useMemo } from 'react'
 
 import { GraphVertice } from '@/api/fetchers.schemas'
 import NetworkModal from '@/components/Modals/NetworkModal'
