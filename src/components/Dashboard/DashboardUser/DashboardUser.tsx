@@ -88,7 +88,7 @@ const DashboardUser = () => {
                                                 model.defaults.pluralCapitalize
                                             } (${objects?.length || 0})`}>
                                             <ItemList
-                                                items={objects || []}
+                                                items={objects}
                                                 isLoading={isLoading}
                                                 type="object"
                                             />

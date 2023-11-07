@@ -1,6 +1,5 @@
-import classNames from 'classnames'
-
 import { Tooltip } from '@pzh-ui/components'
+import classNames from 'classnames'
 
 interface AvatarProps {
     name: string

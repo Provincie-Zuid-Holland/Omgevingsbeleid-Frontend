@@ -1,7 +1,3 @@
-import { useFormikContext } from 'formik'
-import debounce from 'lodash.debounce'
-import { useMemo, useState } from 'react'
-
 import {
     FieldInput,
     FieldLabel,
@@ -9,6 +5,9 @@ import {
     Text,
 } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
+import { useFormikContext } from 'formik'
+import debounce from 'lodash.debounce'
+import { useMemo, useState } from 'react'
 
 import AreaPreview from '@/components/AreaPreview'
 import { LoaderSpinner } from '@/components/Loader'
@@ -32,7 +31,11 @@ export const StepOne = ({ data, isLoading }: StepProps) => {
                     amount === 1 ? 'versie' : 'versies'
                 })`
 
-                const sortedData = data[item].sort((a, b) => new Date(b.Modified_Date).getTime() - new Date(a.Modified_Date).getTime())
+                const sortedData = data[item].sort(
+                    (a, b) =>
+                        new Date(b.Modified_Date).getTime() -
+                        new Date(a.Modified_Date).getTime()
+                )
                 const value = sortedData[0].UUID
 
                 return { label, value }
@@ -63,9 +66,7 @@ export const StepOne = ({ data, isLoading }: StepProps) => {
         if (!data) return
 
         const selected = Object.keys(data).find(item =>
-            data[item].some(
-                item => values.area && item.UUID === values.area
-            )
+            data[item].some(item => values.area && item.UUID === values.area)
         )
 
         if (!selected) return
@@ -101,12 +102,14 @@ export const StepOne = ({ data, isLoading }: StepProps) => {
                                 <LoaderSpinner />
                             </div>
                         ) : (
-                            <FormikRadioGroup
-                                name="area"
-                                options={filteredOptions || []}
-                                required
-                                optimized={false}
-                            />
+                            !!filteredOptions?.length && (
+                                <FormikRadioGroup
+                                    name="area"
+                                    options={filteredOptions}
+                                    required
+                                    optimized={false}
+                                />
+                            )
                         )}
                     </div>
                 </div>
