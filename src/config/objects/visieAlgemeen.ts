@@ -86,6 +86,9 @@ const visie: DynamicObject<
                         'subscript',
                         'superscript',
                     ],
+                    imageOptions: {
+                        maxSize: 819200,
+                    },
                 },
             ],
         },
