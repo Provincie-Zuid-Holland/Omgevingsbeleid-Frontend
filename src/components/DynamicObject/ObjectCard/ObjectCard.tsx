@@ -9,10 +9,10 @@ const ObjectCard = ({ Object_Type, Object_ID, Title }: ModelReturnType) => {
 
     return (
         <li
-            className="p-5 border border-pzh-gray-200 rounded h-full flex flex-col"
+            className="flex h-full flex-col rounded border border-pzh-gray-200 p-5"
             data-testid="object-card">
             <span className="block">{singularCapitalize}</span>
-            <Heading level="4" className="mb-4">
+            <Heading level="4" size="m" className="mb-4">
                 {Title}
             </Heading>
             <div className="mt-auto">

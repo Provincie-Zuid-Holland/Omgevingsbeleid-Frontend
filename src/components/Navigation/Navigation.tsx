@@ -1,9 +1,9 @@
+import { Badge } from '@pzh-ui/components'
+import { ArrowRightFromBracket, Eye } from '@pzh-ui/icons'
+import { useClickOutside } from '@react-hookz/web'
 import classNames from 'classnames'
 import { ReactNode, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-
-import { Badge } from '@pzh-ui/components'
-import { ArrowRightFromBracket, Eye } from '@pzh-ui/icons'
 
 import { environment } from '@/api/instance'
 import useAuth from '@/hooks/useAuth'
@@ -13,7 +13,6 @@ import logoSVG from '@/images/PZH_Basislogo.svg'
 import logoWhite from '@/images/PZH_Basislogo_white.svg'
 import getEnvironmentText from '@/utils/getEnvironmentName'
 
-import { useClickOutside } from '@react-hookz/web'
 import { Container } from '../Container'
 import NavigationPopupMenu from '../NavigationPopupMenu'
 import UserMenu from '../UserMenu'

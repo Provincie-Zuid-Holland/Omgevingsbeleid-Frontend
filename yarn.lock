@@ -2514,9 +2514,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/config@npm:^0.0.49":
-  version: 0.0.49
-  resolution: "@pzh-ui/config@npm:0.0.49"
+"@pzh-ui/config@npm:^0.0.53":
+  version: 0.0.53
+  resolution: "@pzh-ui/config@npm:0.0.53"
   dependencies:
     "@babel/eslint-parser": ^7.17.0
     "@babel/preset-env": ^7.16.11
@@ -2538,7 +2538,7 @@ __metadata:
     prettier-plugin-organize-imports: ^3.2.3
     prettier-plugin-tailwindcss: ^0.4.1
     react-toastify: ^9.1.2
-  checksum: a5b38f21bad953934ee8217d72ec57e523df732930d1036345b4f834259719fa98bac35411903c2b6b9960929a988098f01dfb7000a25639f1f1f360eba96659
+  checksum: 7d21052cdf7e026781da04fe83fd95c3b9c73428e24901622fd4e78bf2742fd526273b482833c3b89ec0f9013516852e3487e6cf866de60a052872144d47008c
   languageName: node
   linkType: hard
 
@@ -12770,7 +12770,7 @@ __metadata:
     "@faker-js/faker": ^7.6.0
     "@headlessui/react": ^1.5.0
     "@pzh-ui/components": ^0.0.440
-    "@pzh-ui/config": ^0.0.49
+    "@pzh-ui/config": ^0.0.53
     "@pzh-ui/css": ^0.0.72
     "@pzh-ui/icons": ^0.0.46
     "@react-hookz/web": ^23.1.0

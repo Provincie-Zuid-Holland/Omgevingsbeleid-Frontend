@@ -1,3 +1,4 @@
+import { Button } from '@pzh-ui/components'
 import { useUpdateEffect } from '@react-hookz/web'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers } from 'formik'
@@ -5,18 +6,16 @@ import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
-import { Button } from '@pzh-ui/components'
-
 import { ReadRelation, WriteRelation } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
+import { ObjectConnectionModalActions } from '@/components/Modals/ObjectModals/types'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as objectConnection from '@/validation/objectConnection'
 
-import { ObjectConnectionModalActions } from '../types'
 import { StepOne, StepThree, StepTwo } from './steps'
 
 const steps = [StepOne, StepTwo, StepThree]

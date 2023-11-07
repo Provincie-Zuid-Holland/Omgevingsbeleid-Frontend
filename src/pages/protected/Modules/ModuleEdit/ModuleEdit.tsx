@@ -1,8 +1,7 @@
+import { Divider, Heading } from '@pzh-ui/components'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
-
-import { Divider, Heading } from '@pzh-ui/components'
 
 import { useModulesModuleIdGet } from '@/api/fetchers'
 import { Module } from '@/api/fetchers.schemas'
