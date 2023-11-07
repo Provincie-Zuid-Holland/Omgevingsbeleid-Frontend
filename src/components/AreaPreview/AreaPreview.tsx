@@ -1,10 +1,10 @@
+import { Text } from '@pzh-ui/components'
 import { useUpdateEffect } from '@react-hookz/web'
 import classNames from 'classnames'
 import { useCallback, useState } from 'react'
 
-import { Text } from '@pzh-ui/components'
-
 import { Werkingsgebied } from '@/api/fetchers.schemas'
+import generateQueryString from '@/utils/queryString'
 
 import { LoaderSpinner } from '../Loader'
 
@@ -18,7 +18,7 @@ const AreaPreview = ({ area }: AreaPreviewProps) => {
     const getAreaImage = useCallback(() => {
         const baseUrl = `${import.meta.env.VITE_GEOSERVER_API_URL}/wms/reflect`
 
-        const params: Record<string, string | number> = {
+        const params = {
             format: 'image/png',
             layers: `OMGEVINGSBELEID:Werkingsgebieden_brt`,
             srs: 'EPSG:28992',
@@ -27,9 +27,7 @@ const AreaPreview = ({ area }: AreaPreviewProps) => {
             cql_filter: `UUID IN='${area?.UUID}'`,
         }
 
-        const queryString = Object.keys(params)
-            .map(key => `${key}=${encodeURIComponent(params[key])}`)
-            .join('&')
+        const queryString = generateQueryString(params)
 
         return `${baseUrl}?${queryString}`
     }, [area?.UUID])

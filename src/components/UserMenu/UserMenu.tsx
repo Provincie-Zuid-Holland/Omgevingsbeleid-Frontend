@@ -1,9 +1,8 @@
+import { Divider, Text } from '@pzh-ui/components'
+import { AngleDown, AngleRight, User } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
-import { Divider, Text } from '@pzh-ui/components'
-import { AngleDown, AngleRight, User } from '@pzh-ui/icons'
 
 import useAuth from '@/hooks/useAuth'
 import useModalStore from '@/store/modalStore'
@@ -37,42 +36,36 @@ const UserMenu = () => {
                         )}
                     />
                 </button>
-                {isOpen && (
-                    <>
-                        <div className="fixed left-0 top-0 z-1 block h-screen w-screen bg-pzh-gray-800/30" />
-                        <DropdownContainer
-                            isOpen={isOpen}
-                            setIsOpen={setIsOpen}
-                            className="mt-8">
-                            <div className="px-4 py-2">
-                                <strong className="font-bold">
-                                    {user?.Gebruikersnaam}
-                                </strong>
-                                <Text size="s" className="block">
-                                    {user?.Rol}
-                                </Text>
-                            </div>
-                            <Divider className="mt-0" />
-                            <div className="px-4 py-2">
-                                <button
-                                    className="flex items-center"
-                                    onClick={() => {
-                                        setActiveModal('passwordReset')
-                                        setIsOpen(false)
-                                    }}>
-                                    <AngleRight className="-mt-1 mr-1" />
-                                    <Text>Wachtwoord wijzigen</Text>
-                                </button>
-                                <button
-                                    onClick={() => signout(() => navigate('/'))}
-                                    className="flex items-center">
-                                    <AngleRight className="-mt-1 mr-1" />
-                                    <Text>Uitloggen</Text>
-                                </button>
-                            </div>
-                        </DropdownContainer>
-                    </>
-                )}
+                <DropdownContainer
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
+                    className="mt-8"
+                    hasBackdrop>
+                    <div className="px-4 py-2">
+                        <Text bold>{user?.Gebruikersnaam}</Text>
+                        <Text size="s" className="block">
+                            {user?.Rol}
+                        </Text>
+                    </div>
+                    <Divider className="mt-0" />
+                    <div className="px-4 py-2">
+                        <button
+                            className="flex items-center"
+                            onClick={() => {
+                                setActiveModal('passwordReset')
+                                setIsOpen(false)
+                            }}>
+                            <AngleRight className="-mt-1 mr-1" />
+                            <Text>Wachtwoord wijzigen</Text>
+                        </button>
+                        <button
+                            onClick={() => signout(() => navigate('/'))}
+                            className="flex items-center">
+                            <AngleRight className="-mt-1 mr-1" />
+                            <Text>Uitloggen</Text>
+                        </button>
+                    </div>
+                </DropdownContainer>
             </div>
 
             <PasswordChangeModal />

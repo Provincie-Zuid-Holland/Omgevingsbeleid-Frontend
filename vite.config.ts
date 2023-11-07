@@ -37,7 +37,6 @@ export default defineConfig({
                         '@tiptap/react',
                     ],
                     'react-select': ['react-select'],
-                    framer: ['framer-motion'],
                     leaflet: [
                         'leaflet',
                         'leaflet-draw',

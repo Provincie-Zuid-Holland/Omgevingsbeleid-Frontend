@@ -1,6 +1,7 @@
 import { Heading, Text } from '@pzh-ui/components'
 import { AngleRight, Bars, Xmark } from '@pzh-ui/icons'
 import { useKeyboardEvent, useWindowSize } from '@react-hookz/web'
+import classNames from 'classnames'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -12,13 +13,12 @@ import SearchBar from '../SearchBar'
 
 /**
  * A popup menu that can be used to navigate the application.
- *
- * @param {boolean} isOpen - Parameter that if set to true, will show the menu.
- * @param {boolean} setIsOpen - Open/close the menu.
  */
 
 interface NavigationPopupMenuProps {
+    /* Parameter that if set to true, will show the menu. */
     isOpen: boolean
+    /* Open/close the menu. */
     setIsOpen: (e: boolean) => void
 }
 
@@ -30,11 +30,11 @@ const NavigationPopupMenu = ({
 
     const { isMobile } = useBreakpoint()
 
+    /** State for responsiveness */
     const [containerHeightStyle, setContainerHeightStyle] = useState<
         { maxHeight: string } | undefined
     >(undefined)
 
-    /** State for responsiveness */
     useEffect(() => {
         setContainerHeightStyle({
             maxHeight: `calc(100vh - ${
@@ -165,11 +165,15 @@ const ToggleMenuButton = ({
             }
         }}
         id="popup-menu-toggle"
-        className={`relative mb-1 flex items-center justify-center rounded px-2 pb-1 pt-2 transition-colors duration-100 ease-in lg:-mr-6 ${
-            isOpen
-                ? 'text-white hover:bg-pzh-gray-100 hover:text-pzh-blue'
-                : 'text-pzh-blue hover:bg-pzh-gray-100 hover:text-pzh-blue-dark'
-        } ${isMobile ? 'hidden' : ''}`}
+        className={classNames(
+            'relative mb-1 flex items-center justify-center rounded px-2 pb-1 pt-2 transition-colors duration-100 ease-in lg:-mr-6',
+            {
+                hidden: isMobile,
+                'text-white hover:bg-pzh-gray-100 hover:text-pzh-blue': isOpen,
+                'text-pzh-blue hover:bg-pzh-gray-100 hover:text-pzh-blue-dark':
+                    !isOpen,
+            }
+        )}
         aria-expanded={isOpen}
         onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? (
