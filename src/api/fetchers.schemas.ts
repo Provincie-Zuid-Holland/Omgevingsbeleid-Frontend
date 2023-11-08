@@ -1024,6 +1024,9 @@ export interface PagedResponseAmbitieBasic {
 export interface ObjectStaticShort {
     Owner_1_UUID?: string
     Owner_2_UUID?: string
+    Portfolio_Holder_1_UUID?: string
+    Portfolio_Holder_2_UUID?: string
+    Client_1_UUID?: string
 }
 
 export interface ObjectSpecifiekeGeldigheid {

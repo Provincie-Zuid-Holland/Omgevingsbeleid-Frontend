@@ -51,6 +51,8 @@ interface ObjectContextType extends QueryObserverBaseResult<ModelReturnType> {
     >
     /** Is user owner of object */
     isOwner?: boolean
+    /** Is user client of object */
+    isClient?: boolean
     /** List the last modified module object grouped per module ID */
     activeModules?: ActiveModuleObjectWrapper[]
     /** Active modules loading */
@@ -162,11 +164,24 @@ function ObjectProvider({
         ]
     )
 
+    /**
+     * Check if logged in user is set as client
+     */
+    const isClient = useMemo(
+        () =>
+            data?.data?.ObjectStatics?.Client_1?.UUID === user?.UUID,
+        [
+            user?.UUID,
+            data?.data?.ObjectStatics?.Client_1?.UUID,
+        ]
+    )
+
     const value = {
         ...data,
         usePatchObject,
         usePostObjectStatic,
         isOwner,
+        isClient,
         activeModules,
         activeModulesLoading,
     }
