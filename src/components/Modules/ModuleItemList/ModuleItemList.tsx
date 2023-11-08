@@ -23,7 +23,7 @@ interface ModuleItemListProps {
 
 const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
     const { user } = useAuth()
-    const { canEditModule, canPatchObjectInModule } = usePermissions()
+    const { canEditModule, canPatchObjectInModule, canAddNewObjectToModule } = usePermissions()
     const { isLocked } = useModule()
 
     /**
@@ -35,7 +35,8 @@ const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
             objects?.filter(
                 object =>
                     object.ObjectStatics?.Owner_1_UUID === user?.UUID ||
-                    object.ObjectStatics?.Owner_2_UUID === user?.UUID
+                    object.ObjectStatics?.Owner_2_UUID === user?.UUID ||
+                    object.ObjectStatics?.Client_1_UUID === user?.UUID
             ),
         [objects, user?.UUID]
     )
@@ -65,6 +66,7 @@ const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
                     title="Jouw onderdelen in deze module"
                     noResultsText="Je hebt nog geen onderdelen in deze module"
                     hasEditButton={canPatchObjectInModule && !isLocked}
+                    hasViewButton={canPatchObjectInModule && !canAddNewObjectToModule}
                     {...rest}
                 />
 
@@ -97,6 +99,8 @@ interface ItemListProps extends ModuleItemListProps {
     noResultsText: string
     /** Has edit button */
     hasEditButton?: boolean
+    /** Has view button */
+    hasViewButton?: boolean
 }
 
 const ItemList = ({
@@ -106,6 +110,7 @@ const ItemList = ({
     title,
     noResultsText,
     hasEditButton,
+    hasViewButton,
 }: ItemListProps) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
@@ -148,6 +153,7 @@ const ItemList = ({
                                         ?.focus()
                                 }
                                 hasEditButton={hasEditButton}
+                                hasViewButton={hasViewButton}
                                 model={model}
                                 {...object}
                             />

@@ -15,6 +15,8 @@ interface ModuleItemProps extends ModuleObjectShort {
     model: Model
     /** Has edit button */
     hasEditButton?: boolean
+    /** Has view button */
+    hasViewButton?: boolean
     /** Function which gets called on edit click */
     editCallback: () => void
     /** Function which gets called on delete click */
@@ -32,6 +34,7 @@ const ModuleItem = ({
     Title,
     ObjectStatics,
     hasEditButton,
+    hasViewButton,
     editCallback,
     deleteCallback,
     viewCallback,
@@ -149,6 +152,12 @@ const ModuleItem = ({
                             <Hyperlink
                                 to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}/bewerk`}
                                 text="Bewerken"
+                            />
+                        )}
+                        {hasViewButton && (
+                            <Hyperlink
+                                to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`}
+                                text="Bekijken"
                             />
                         )}
                 </div>
