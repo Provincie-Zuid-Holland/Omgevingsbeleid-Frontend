@@ -1,49 +1,42 @@
-import { useMemo } from 'react'
-import { v4 as uuidv4 } from 'uuid'
-
 import Modal from '@/components/Modal'
 import RegulationForm from '@/components/Regulations/RegulationForm'
-import { calculateNewIndex } from '@/components/Regulations/utils'
+import { findObjectByUUID } from '@/components/Regulations/utils'
 import * as sections from '@/config/regulations/sections'
 import { Structure } from '@/config/regulations/types'
 import useModalStore from '@/store/modalStore'
 import useRegulationStore from '@/store/regulationStore'
 
-const RegulationAddSectionModal = () => {
+const RegulationEditSectionModal = () => {
     const structure = useRegulationStore(state => state.structure)
     const itemAction = useRegulationStore(state => state.itemAction)
-    const addItem = useRegulationStore(state => state.addItem)
+    const editItem = useRegulationStore(state => state.editItem)
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const index = useMemo(
-        () => calculateNewIndex(structure, itemAction),
-        [itemAction, structure]
-    )
-
-    if (!itemAction?.type || !itemAction?.path || itemAction.action !== 'add')
+    if (!itemAction?.type || itemAction.action !== 'edit' || !itemAction.uuid)
         return null
+
+    const context = findObjectByUUID(itemAction.uuid, structure)
+
+    if (!context) return null
 
     const section = sections[itemAction.type]
     const { singular, singularCapitalize, prefixSingular } = section.defaults
 
     const handleFormSubmit = (payload: Structure) => {
-        addItem(itemAction.path || [], {
-            uuid: uuidv4(),
-            ...payload,
-        })
+        editItem(itemAction.uuid!, payload)
         setActiveModal(null)
     }
 
     return (
         <Modal
             size="l"
-            id="regulationAdd"
-            title={`${singularCapitalize} toevoegen`}>
+            id="regulationEdit"
+            title={`${singularCapitalize} ${itemAction.index} wijzigen`}>
             <RegulationForm
                 initialValues={{
-                    type: itemAction.type,
                     label: singularCapitalize,
-                    index,
+                    index: itemAction.index,
+                    ...context,
                 }}
                 handleFormSubmit={handleFormSubmit}
                 title={`Kop van ${prefixSingular} ${singular}`}
@@ -53,4 +46,4 @@ const RegulationAddSectionModal = () => {
     )
 }
 
-export default RegulationAddSectionModal
+export default RegulationEditSectionModal

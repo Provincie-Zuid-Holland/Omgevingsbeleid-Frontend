@@ -1,22 +1,21 @@
-import classNames from 'classnames'
-
 import {
     Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
 } from '@/components/Accordion'
+import DropArea from '@/components/DropArea'
 import * as sections from '@/config/regulations/sections'
 import { Structure } from '@/config/regulations/types'
 import useDrag from '@/hooks/useDrag'
+import useModalStore from '@/store/modalStore'
 import useRegulationStore from '@/store/regulationStore'
 import equalArrays from '@/utils/equalArrays'
 import handleViewTransition from '@/utils/handleViewTransition'
-
-import AddItem from './components/AddItem'
-import DropArea from './components/DropArea'
-import Handle from './components/Handle'
+import classNames from 'classnames'
 import { GROUP_VARIANTS } from '../constants'
+import AddItem from './components/AddItem'
+import Handle from './components/Handle'
 
 interface RecursiveAccordionProps {
     structure: Structure[]
@@ -36,6 +35,8 @@ const RecursiveAccordion = ({
     const moveItem = useRegulationStore(state => state.moveItem)
     const activeItem = useRegulationStore(state => state.activeItem)
     const setActiveItem = useRegulationStore(state => state.setActiveItem)
+
+    const activeModal = useModalStore(state => state.activeModal)
 
     const { dragProps, isDragging } = useDrag({
         draggable: structure.length > 1 && expanded,
@@ -81,16 +82,20 @@ const RecursiveAccordion = ({
                             uuid={uuid}
                             isDisabled={!!!section.children?.length}
                             className={classNames(
-                                'relative',
+                                'relative block',
                                 GROUP_VARIANTS[parentType][0],
                                 {
                                     'border-none': !expanded,
                                 }
                             )}
-                            style={{
-                                viewTransitionName: `card-${uuid}`,
-                                zIndex: structure.length - index,
-                            }}>
+                            style={
+                                !!!activeModal
+                                    ? {
+                                          viewTransitionName: `card-${uuid}`,
+                                          zIndex: structure.length - index,
+                                      }
+                                    : undefined
+                            }>
                             {showTopDropArea && draggingItem && (
                                 <DropArea
                                     position="top"
@@ -106,6 +111,7 @@ const RecursiveAccordion = ({
                                 className={classNames('overflow-hidden py-2', {
                                     'active:animate-pulse active:cursor-grabbing active:bg-pzh-blue-light/10':
                                         expanded && structure.length > 1,
+                                    'pr-4': !!!section.children?.length,
                                 })}
                                 classNameButton={classNames({
                                     'after:w-full': structure.length <= 1,

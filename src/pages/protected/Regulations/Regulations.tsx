@@ -1,6 +1,7 @@
 import {
     RegulationAddSectionModal,
     RegulationDeleteSectionModal,
+    RegulationEditSectionModal,
 } from '@/components/Modals/RegulationModals'
 import RegulationPreview from '@/components/Regulations/RegulationPreview'
 import MutateLayout from '@/templates/MutateLayout'
@@ -14,6 +15,7 @@ const Regulations = () => {
 
             <RegulationAddSectionModal />
             <RegulationDeleteSectionModal />
+            <RegulationEditSectionModal />
         </MutateLayout>
     )
 }

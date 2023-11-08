@@ -186,7 +186,7 @@ export function calculateNewIndex(
 
     // If itemAction doesn't have a UUID, add a new item at the end of the structure
     if (!itemAction.uuid) {
-        return structure.length + 1
+        return (structure.length + 1).toString()
     }
 
     // Get the parent index from the section defaults
@@ -206,16 +206,18 @@ export function calculateNewIndex(
     const findParentTotal = (uuid: string) => {
         const parent = findObjectByUUID(uuid, structure)
         if (!!parent?.children?.length) {
-            return findItemsByType(parent.children, itemAction).total + 1
+            return (
+                findItemsByType(parent.children, itemAction).total + 1
+            ).toString()
         }
-        return 1
+        return '1'
     }
 
     // Calculate the new index based on different scenarios
     if (parentIndex === undefined) {
         const parent = structure[itemAction.path[0]]
         const children = [parent, ...flattenNestedArray(parent.children || [])]
-        const childIndex = findChildIndex(children, itemAction.uuid) + 1
+        const childIndex = findChildIndex(children, itemAction.uuid)
         const amount =
             parent.uuid === itemAction.uuid
                 ? children.filter(s => s.type === itemAction.type).length + 1

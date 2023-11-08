@@ -10,14 +10,14 @@ export const SCHEMA_CONNECTION_STEPS = [
         Object_ID: schemaDefaults.requiredNumber(),
     }),
     object({
-        Description: schemaDefaults.requiredString(),
+        Description: schemaDefaults.optionalString,
     }),
 ]
 
 export const SCHEMA = object({
     Object_Type: schemaDefaults.requiredString(),
     Object_ID: schemaDefaults.requiredNumber(),
-    Description: schemaDefaults.requiredString(),
+    Description: schemaDefaults.optionalString,
 }).or(
     array(
         object({
