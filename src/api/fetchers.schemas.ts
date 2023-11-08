@@ -64,6 +64,13 @@ export type SearchPostParams = {
     limit?: number
 }
 
+export type SearchGeometryPostParams = {
+    offset?: number
+    limit?: number
+    sort_column?: string
+    sort_order?: SortOrder
+}
+
 export type SearchGeoPostParams = {
     offset?: number
     limit?: number
@@ -96,6 +103,37 @@ export type UsersGetParams = {
 }
 
 export type WettelijkeTaakValidGetParams = {
+    all_filters?: string
+    any_filters?: string
+    offset?: number
+    limit?: number
+    sort_column?: string
+    sort_order?: SortOrder
+}
+
+export type ModulesObjectVisieAlgemeenActiveLineageIdGetParams = {
+    minimum_status?: ModuleStatusCode
+}
+
+export type ModulesModuleIdObjectVisieAlgemeenLineageIdGetParams = {
+    all_filters?: string
+    any_filters?: string
+    offset?: number
+    limit?: number
+    sort_column?: string
+    sort_order?: SortOrder
+}
+
+export type VisiesAlgemeenValidLineageIdGetParams = {
+    all_filters?: string
+    any_filters?: string
+    offset?: number
+    limit?: number
+    sort_column?: string
+    sort_order?: SortOrder
+}
+
+export type VisiesAlgemeenValidGetParams = {
     all_filters?: string
     any_filters?: string
     offset?: number
@@ -405,6 +443,80 @@ export interface Werkingsgebied {
     End_Validity?: string
 }
 
+export interface VisieAlgemeenUUID {
+    Object_ID?: number
+    UUID?: string
+}
+
+export interface VisieAlgemeenStaticPostStatics {
+    Owner_1_UUID?: string | null
+    Owner_2_UUID?: string | null
+}
+
+export interface VisieAlgemeenPatch {
+    Title?: string | null
+    Description?: string | null
+}
+
+export interface VisieAlgemeenFullStatics {
+    Owner_1?: UserShort
+    Owner_2?: UserShort
+}
+
+export type VisieAlgemeenFullObjectStatics = VisieAlgemeenFullStatics | null
+
+export interface VisieAlgemeenFull {
+    Object_ID?: number
+    Code?: string
+    UUID?: string
+    Adjust_On?: string | null
+    Created_Date?: string
+    Modified_Date?: string
+    Title?: string
+    Description?: string
+    Start_Validity?: string | null
+    End_Validity?: string | null
+    Created_By?: UserShort
+    Modified_By?: UserShort
+    Public_Revisions?: PublicModuleObjectRevision[]
+    ObjectStatics?: VisieAlgemeenFullObjectStatics
+}
+
+export interface VisieAlgemeenExtendedStatics {
+    Owner_1?: UserShort
+    Owner_2?: UserShort
+}
+
+export type VisieAlgemeenExtendedObjectStatics =
+    VisieAlgemeenExtendedStatics | null
+
+export interface VisieAlgemeenExtended {
+    Object_ID?: number
+    Code?: string
+    UUID?: string
+    Adjust_On?: string | null
+    Created_Date?: string
+    Modified_Date?: string
+    Title?: string
+    Start_Validity?: string | null
+    End_Validity?: string | null
+    Created_By?: UserShort
+    Modified_By?: UserShort
+    ObjectStatics?: VisieAlgemeenExtendedObjectStatics
+}
+
+export interface VisieAlgemeenBasic {
+    Object_ID?: number
+    Code?: string
+    UUID?: string
+    Adjust_On?: string | null
+    Created_Date?: string
+    Modified_Date?: string
+    Title?: string
+    Start_Validity?: string | null
+    End_Validity?: string | null
+}
+
 export interface VerplichtProgrammaUUID {
     Object_ID?: number
     UUID?: string
@@ -682,6 +794,26 @@ export interface PagedResponseWerkingsgebied {
 /**
  * Wrap any response schema and add pagination metadata.
  */
+export interface PagedResponseVisieAlgemeenExtended {
+    total: number
+    offset?: number
+    limit?: number
+    results: VisieAlgemeenExtended[]
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
+export interface PagedResponseVisieAlgemeenBasic {
+    total: number
+    offset?: number
+    limit?: number
+    results: VisieAlgemeenBasic[]
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
 export interface PagedResponseVerplichtProgrammaBasic {
     total: number
     offset?: number
@@ -822,16 +954,6 @@ export interface PagedResponseGebiedsprogrammaBasic {
 /**
  * Wrap any response schema and add pagination metadata.
  */
-export interface PagedResponseBeleidsregelExtended {
-    total: number
-    offset?: number
-    limit?: number
-    results: BeleidsregelExtended[]
-}
-
-/**
- * Wrap any response schema and add pagination metadata.
- */
 export interface PagedResponseBeleidsregelBasic {
     total: number
     offset?: number
@@ -902,6 +1024,9 @@ export interface PagedResponseAmbitieBasic {
 export interface ObjectStaticShort {
     Owner_1_UUID?: string
     Owner_2_UUID?: string
+    Portfolio_Holder_1_UUID?: string
+    Portfolio_Holder_2_UUID?: string
+    Client_1_UUID?: string
 }
 
 export interface ObjectSpecifiekeGeldigheid {
@@ -999,12 +1124,12 @@ export type ModuleStatusCode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ModuleStatusCode = {
-    'Niet-Actief': 'Niet-Actief',
     Ontwerp_GS_Concept: 'Ontwerp GS Concept',
     Ontwerp_GS: 'Ontwerp GS',
-    Definitief_ontwerp_GS: 'Definitief ontwerp GS',
-    Ontwerp_PS_Concept: 'Ontwerp PS Concept',
     Ontwerp_PS: 'Ontwerp PS',
+    Ter_Inzage: 'Ter Inzage',
+    Definitief_ontwerp_GS_Concept: 'Definitief ontwerp GS Concept',
+    Definitief_ontwerp_GS: 'Definitief ontwerp GS',
     Definitief_ontwerp_PS: 'Definitief ontwerp PS',
     Vastgesteld: 'Vastgesteld',
 } as const
@@ -1052,7 +1177,7 @@ export interface ModuleObjectShortStatus {
     Title: string
     ObjectStatics?: ObjectStaticShort
     ModuleObjectContext?: ModuleObjectContextShort
-    Status: ModuleStatusCode
+    Status: string
 }
 
 export interface ModuleObjectShort {
@@ -1311,6 +1436,25 @@ export interface GraphResponse {
     Edges: GraphEdge[]
 }
 
+/**
+ * An enumeration.
+ */
+export type GeometryFunctions =
+    (typeof GeometryFunctions)[keyof typeof GeometryFunctions]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GeometryFunctions = {
+    CONTAINS: 'CONTAINS',
+    WITHIN: 'WITHIN',
+    OVERLAPS: 'OVERLAPS',
+} as const
+
+export interface ListObjectsByGeometryRequestData {
+    Geometry: string
+    Function?: GeometryFunctions
+    Object_Types?: string[]
+}
+
 export type GeoSearchResultGebied = string | string
 
 export type GeoSearchResultUUID = string | string
@@ -1539,6 +1683,16 @@ export interface BeleidsregelExtended {
     Created_By?: UserShort
     Modified_By?: UserShort
     ObjectStatics?: BeleidsregelExtendedObjectStatics
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
+export interface PagedResponseBeleidsregelExtended {
+    total: number
+    offset?: number
+    limit?: number
+    results: BeleidsregelExtended[]
 }
 
 export interface BeleidsregelBasic {

@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react'
 
 import { Heading, Text } from '@pzh-ui/components'
 import { PenToSquare, Plus, Spinner } from '@pzh-ui/icons'
+import { useMemo, useState } from 'react'
 
 import { UserShort } from '@/api/fetchers.schemas'
 import { LoaderCard } from '@/components/Loader'
@@ -33,7 +33,7 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
 
     const { staticData } = model
 
-    const { data: object, isLoading, isOwner } = useObject()
+    const { data: object, isLoading, isOwner, isClient } = useObject()
     const data = useMemo(() => object?.ObjectStatics, [object?.ObjectStatics])
 
     /**
@@ -82,7 +82,7 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
                             }
                             isLoading={isLoading}
                             canEdit={
-                                (canPatchObjectInModule && isOwner) ||
+                                (canPatchObjectInModule && (isOwner || isClient)) ||
                                 canCreateModule
                             }
                         />

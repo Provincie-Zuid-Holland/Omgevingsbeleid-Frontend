@@ -59,6 +59,7 @@ import type {
     GebiedsprogrammasValidLineageIdGetParams,
     GraphResponse,
     HTTPValidationError,
+    ListObjectsByGeometryRequestData,
     MaatregelFull,
     MaatregelPatch,
     MaatregelStaticPostStatics,
@@ -83,8 +84,10 @@ import type {
     ModulesModuleIdObjectBeleidsregelLineageIdGetParams,
     ModulesModuleIdObjectGebiedsprogrammasLineageIdGetParams,
     ModulesModuleIdObjectMaatregelLineageIdGetParams,
+    ModulesModuleIdObjectVisieAlgemeenLineageIdGetParams,
     ModulesObjectAmbitieActiveLineageIdGetParams,
     ModulesObjectBeleidsdoelActiveLineageIdGetParams,
+    ModulesObjectVisieAlgemeenActiveLineageIdGetParams,
     ModulesObjectsBeleidskeuzeActiveLineageIdGetParams,
     ModulesObjectsBeleidsregelActiveLineageIdGetParams,
     ModulesObjectsGebiedsprogrammaActiveLineageIdGetParams,
@@ -121,6 +124,8 @@ import type {
     PagedResponseUser,
     PagedResponseValidSearchObject,
     PagedResponseVerplichtProgrammaBasic,
+    PagedResponseVisieAlgemeenBasic,
+    PagedResponseVisieAlgemeenExtended,
     PagedResponseWerkingsgebied,
     PagedResponseWettelijkeTaakBasic,
     PasswordResetPostParams,
@@ -132,6 +137,7 @@ import type {
     RevisionsGetParams,
     SearchGeoPostParams,
     SearchGeoRequestData,
+    SearchGeometryPostParams,
     SearchPostParams,
     SearchRequestData,
     SearchValidPostParams,
@@ -146,6 +152,12 @@ import type {
     VerplichtProgrammaStaticPostStatics,
     VerplichtProgrammaUUID,
     VerplichtProgrammaValidGetParams,
+    VisieAlgemeenFull,
+    VisieAlgemeenPatch,
+    VisieAlgemeenStaticPostStatics,
+    VisieAlgemeenUUID,
+    VisiesAlgemeenValidGetParams,
+    VisiesAlgemeenValidLineageIdGetParams,
     WerkingsgebiedenGetParams,
     WettelijkeTaakCreate,
     WettelijkeTaakEdit,
@@ -9282,6 +9294,1147 @@ export const useVerplichtProgrammaStaticLineageIdPost = <
 }
 
 /**
+ * @summary Get all the valid visie_algemeen lineages and shows the latest object of each
+ */
+export const visiesAlgemeenValidGet = (
+    params?: VisiesAlgemeenValidGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseVisieAlgemeenBasic>({
+        url: `/visies-algemeen/valid`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getVisiesAlgemeenValidGetQueryKey = (
+    params?: VisiesAlgemeenValidGetParams
+) => [`/visies-algemeen/valid`, ...(params ? [params] : [])] as const
+
+export const getVisiesAlgemeenValidGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof visiesAlgemeenValidGet>>,
+    TError = HTTPValidationError
+>(
+    params?: VisiesAlgemeenValidGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof visiesAlgemeenValidGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryOptions<
+    Awaited<ReturnType<typeof visiesAlgemeenValidGet>>,
+    TError,
+    TData
+> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getVisiesAlgemeenValidGetQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof visiesAlgemeenValidGet>>
+    > = ({ signal }) => visiesAlgemeenValidGet(params, signal)
+
+    return { queryKey, queryFn, ...queryOptions }
+}
+
+export type VisiesAlgemeenValidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof visiesAlgemeenValidGet>>
+>
+export type VisiesAlgemeenValidGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get all the valid visie_algemeen lineages and shows the latest object of each
+ */
+export const useVisiesAlgemeenValidGet = <
+    TData = Awaited<ReturnType<typeof visiesAlgemeenValidGet>>,
+    TError = HTTPValidationError
+>(
+    params?: VisiesAlgemeenValidGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof visiesAlgemeenValidGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getVisiesAlgemeenValidGetQueryOptions(params, options)
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get all the valid visie_algemeen of a single lineage
+ */
+export const visiesAlgemeenValidLineageIdGet = (
+    lineageId: number,
+    params?: VisiesAlgemeenValidLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseVisieAlgemeenBasic>({
+        url: `/visies-algemeen/valid/${lineageId}`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getVisiesAlgemeenValidLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: VisiesAlgemeenValidLineageIdGetParams
+) =>
+    [
+        `/visies-algemeen/valid/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+
+export const getVisiesAlgemeenValidLineageIdGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof visiesAlgemeenValidLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: VisiesAlgemeenValidLineageIdGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof visiesAlgemeenValidLineageIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryOptions<
+    Awaited<ReturnType<typeof visiesAlgemeenValidLineageIdGet>>,
+    TError,
+    TData
+> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getVisiesAlgemeenValidLineageIdGetQueryKey(lineageId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof visiesAlgemeenValidLineageIdGet>>
+    > = ({ signal }) =>
+        visiesAlgemeenValidLineageIdGet(lineageId, params, signal)
+
+    return { queryKey, queryFn, enabled: !!lineageId, ...queryOptions }
+}
+
+export type VisiesAlgemeenValidLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof visiesAlgemeenValidLineageIdGet>>
+>
+export type VisiesAlgemeenValidLineageIdGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get all the valid visie_algemeen of a single lineage
+ */
+export const useVisiesAlgemeenValidLineageIdGet = <
+    TData = Awaited<ReturnType<typeof visiesAlgemeenValidLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: VisiesAlgemeenValidLineageIdGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof visiesAlgemeenValidLineageIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getVisiesAlgemeenValidLineageIdGetQueryOptions(
+        lineageId,
+        params,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific visie_algemeen by uuid
+ */
+export const visiesAlgemeenVersionObjectUuidGet = (
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<VisieAlgemeenFull>({
+        url: `/visies-algemeen/version/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getVisiesAlgemeenVersionObjectUuidGetQueryKey = (
+    objectUuid: string
+) => [`/visies-algemeen/version/${objectUuid}`] as const
+
+export const getVisiesAlgemeenVersionObjectUuidGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof visiesAlgemeenVersionObjectUuidGet>>,
+    TError = HTTPValidationError
+>(
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof visiesAlgemeenVersionObjectUuidGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryOptions<
+    Awaited<ReturnType<typeof visiesAlgemeenVersionObjectUuidGet>>,
+    TError,
+    TData
+> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getVisiesAlgemeenVersionObjectUuidGetQueryKey(objectUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof visiesAlgemeenVersionObjectUuidGet>>
+    > = ({ signal }) => visiesAlgemeenVersionObjectUuidGet(objectUuid, signal)
+
+    return { queryKey, queryFn, enabled: !!objectUuid, ...queryOptions }
+}
+
+export type VisiesAlgemeenVersionObjectUuidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof visiesAlgemeenVersionObjectUuidGet>>
+>
+export type VisiesAlgemeenVersionObjectUuidGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get specific visie_algemeen by uuid
+ */
+export const useVisiesAlgemeenVersionObjectUuidGet = <
+    TData = Awaited<ReturnType<typeof visiesAlgemeenVersionObjectUuidGet>>,
+    TError = HTTPValidationError
+>(
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof visiesAlgemeenVersionObjectUuidGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getVisiesAlgemeenVersionObjectUuidGetQueryOptions(
+        objectUuid,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get latest lineage record for visie_algemeen by their lineage id
+ */
+export const visiesAlgemeenLatestLineageIdGet = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<VisieAlgemeenFull>({
+        url: `/visies-algemeen/latest/${lineageId}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getVisiesAlgemeenLatestLineageIdGetQueryKey = (
+    lineageId: number
+) => [`/visies-algemeen/latest/${lineageId}`] as const
+
+export const getVisiesAlgemeenLatestLineageIdGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof visiesAlgemeenLatestLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof visiesAlgemeenLatestLineageIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryOptions<
+    Awaited<ReturnType<typeof visiesAlgemeenLatestLineageIdGet>>,
+    TError,
+    TData
+> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getVisiesAlgemeenLatestLineageIdGetQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof visiesAlgemeenLatestLineageIdGet>>
+    > = ({ signal }) => visiesAlgemeenLatestLineageIdGet(lineageId, signal)
+
+    return { queryKey, queryFn, enabled: !!lineageId, ...queryOptions }
+}
+
+export type VisiesAlgemeenLatestLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof visiesAlgemeenLatestLineageIdGet>>
+>
+export type VisiesAlgemeenLatestLineageIdGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get latest lineage record for visie_algemeen by their lineage id
+ */
+export const useVisiesAlgemeenLatestLineageIdGet = <
+    TData = Awaited<ReturnType<typeof visiesAlgemeenLatestLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<ReturnType<typeof visiesAlgemeenLatestLineageIdGet>>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getVisiesAlgemeenLatestLineageIdGetQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Edit static data of an object
+ */
+export const visieAlgemeenStaticLineageIdPost = (
+    lineageId: number,
+    visieAlgemeenStaticPostStatics: VisieAlgemeenStaticPostStatics
+) => {
+    return customInstance<ResponseOK>({
+        url: `/visie-algemeen/static/${lineageId}`,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: visieAlgemeenStaticPostStatics,
+    })
+}
+
+export const getVisieAlgemeenStaticLineageIdPostMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof visieAlgemeenStaticLineageIdPost>>,
+        TError,
+        { lineageId: number; data: VisieAlgemeenStaticPostStatics },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof visieAlgemeenStaticLineageIdPost>>,
+    TError,
+    { lineageId: number; data: VisieAlgemeenStaticPostStatics },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof visieAlgemeenStaticLineageIdPost>>,
+        { lineageId: number; data: VisieAlgemeenStaticPostStatics }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return visieAlgemeenStaticLineageIdPost(lineageId, data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type VisieAlgemeenStaticLineageIdPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof visieAlgemeenStaticLineageIdPost>>
+>
+export type VisieAlgemeenStaticLineageIdPostMutationBody =
+    VisieAlgemeenStaticPostStatics
+export type VisieAlgemeenStaticLineageIdPostMutationError = HTTPValidationError
+
+/**
+ * @summary Edit static data of an object
+ */
+export const useVisieAlgemeenStaticLineageIdPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof visieAlgemeenStaticLineageIdPost>>,
+        TError,
+        { lineageId: number; data: VisieAlgemeenStaticPostStatics },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getVisieAlgemeenStaticLineageIdPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get all the visie_algemeen of a single lineage in a module
+ */
+export const modulesModuleIdObjectVisieAlgemeenLineageIdGet = (
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectVisieAlgemeenLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseVisieAlgemeenExtended>({
+        url: `/modules/${moduleId}/object/visie-algemeen/${lineageId}`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectVisieAlgemeenLineageIdGetQueryKey = (
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectVisieAlgemeenLineageIdGetParams
+) =>
+    [
+        `/modules/${moduleId}/object/visie-algemeen/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+
+export const getModulesModuleIdObjectVisieAlgemeenLineageIdGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof modulesModuleIdObjectVisieAlgemeenLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectVisieAlgemeenLineageIdGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectVisieAlgemeenLineageIdGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryOptions<
+    Awaited<ReturnType<typeof modulesModuleIdObjectVisieAlgemeenLineageIdGet>>,
+    TError,
+    TData
+> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesModuleIdObjectVisieAlgemeenLineageIdGetQueryKey(
+            moduleId,
+            lineageId,
+            params
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectVisieAlgemeenLineageIdGet>
+        >
+    > = ({ signal }) =>
+        modulesModuleIdObjectVisieAlgemeenLineageIdGet(
+            moduleId,
+            lineageId,
+            params,
+            signal
+        )
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && lineageId),
+        ...queryOptions,
+    }
+}
+
+export type ModulesModuleIdObjectVisieAlgemeenLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectVisieAlgemeenLineageIdGet>
+        >
+    >
+export type ModulesModuleIdObjectVisieAlgemeenLineageIdGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get all the visie_algemeen of a single lineage in a module
+ */
+export const useModulesModuleIdObjectVisieAlgemeenLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesModuleIdObjectVisieAlgemeenLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectVisieAlgemeenLineageIdGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectVisieAlgemeenLineageIdGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getModulesModuleIdObjectVisieAlgemeenLineageIdGetQueryOptions(
+            moduleId,
+            lineageId,
+            params,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Add a new version to the visie_algemeen lineage in a module
+ */
+export const modulesModuleIdObjectVisieAlgemeenLineageIdPatch = (
+    moduleId: number,
+    lineageId: number,
+    visieAlgemeenPatch: VisieAlgemeenPatch
+) => {
+    return customInstance<VisieAlgemeenUUID>({
+        url: `/modules/${moduleId}/object/visie-algemeen/${lineageId}`,
+        method: 'patch',
+        headers: { 'Content-Type': 'application/json' },
+        data: visieAlgemeenPatch,
+    })
+}
+
+export const getModulesModuleIdObjectVisieAlgemeenLineageIdPatchMutationOptions =
+    <TError = HTTPValidationError, TContext = unknown>(options?: {
+        mutation?: UseMutationOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectVisieAlgemeenLineageIdPatch
+                >
+            >,
+            TError,
+            { moduleId: number; lineageId: number; data: VisieAlgemeenPatch },
+            TContext
+        >
+    }): UseMutationOptions<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectVisieAlgemeenLineageIdPatch>
+        >,
+        TError,
+        { moduleId: number; lineageId: number; data: VisieAlgemeenPatch },
+        TContext
+    > => {
+        const { mutation: mutationOptions } = options ?? {}
+
+        const mutationFn: MutationFunction<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectVisieAlgemeenLineageIdPatch
+                >
+            >,
+            { moduleId: number; lineageId: number; data: VisieAlgemeenPatch }
+        > = props => {
+            const { moduleId, lineageId, data } = props ?? {}
+
+            return modulesModuleIdObjectVisieAlgemeenLineageIdPatch(
+                moduleId,
+                lineageId,
+                data
+            )
+        }
+
+        return { mutationFn, ...mutationOptions }
+    }
+
+export type ModulesModuleIdObjectVisieAlgemeenLineageIdPatchMutationResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectVisieAlgemeenLineageIdPatch>
+        >
+    >
+export type ModulesModuleIdObjectVisieAlgemeenLineageIdPatchMutationBody =
+    VisieAlgemeenPatch
+export type ModulesModuleIdObjectVisieAlgemeenLineageIdPatchMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Add a new version to the visie_algemeen lineage in a module
+ */
+export const useModulesModuleIdObjectVisieAlgemeenLineageIdPatch = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectVisieAlgemeenLineageIdPatch>
+        >,
+        TError,
+        { moduleId: number; lineageId: number; data: VisieAlgemeenPatch },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getModulesModuleIdObjectVisieAlgemeenLineageIdPatchMutationOptions(
+            options
+        )
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get latest lineage record for visie_algemeen by their lineage id in a module
+ */
+export const modulesModuleIdObjectVisieAlgemeenLatestLineageIdGet = (
+    moduleId: number,
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<VisieAlgemeenFull>({
+        url: `/modules/${moduleId}/object/visie-algemeen/latest/${lineageId}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectVisieAlgemeenLatestLineageIdGetQueryKey = (
+    moduleId: number,
+    lineageId: number
+) => [`/modules/${moduleId}/object/visie-algemeen/latest/${lineageId}`] as const
+
+export const getModulesModuleIdObjectVisieAlgemeenLatestLineageIdGetQueryOptions =
+    <
+        TData = Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectVisieAlgemeenLatestLineageIdGet
+            >
+        >,
+        TError = HTTPValidationError
+    >(
+        moduleId: number,
+        lineageId: number,
+        options?: {
+            query?: UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesModuleIdObjectVisieAlgemeenLatestLineageIdGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        }
+    ): UseQueryOptions<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectVisieAlgemeenLatestLineageIdGet
+            >
+        >,
+        TError,
+        TData
+    > & { queryKey: QueryKey } => {
+        const { query: queryOptions } = options ?? {}
+
+        const queryKey =
+            queryOptions?.queryKey ??
+            getModulesModuleIdObjectVisieAlgemeenLatestLineageIdGetQueryKey(
+                moduleId,
+                lineageId
+            )
+
+        const queryFn: QueryFunction<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectVisieAlgemeenLatestLineageIdGet
+                >
+            >
+        > = ({ signal }) =>
+            modulesModuleIdObjectVisieAlgemeenLatestLineageIdGet(
+                moduleId,
+                lineageId,
+                signal
+            )
+
+        return {
+            queryKey,
+            queryFn,
+            enabled: !!(moduleId && lineageId),
+            ...queryOptions,
+        }
+    }
+
+export type ModulesModuleIdObjectVisieAlgemeenLatestLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectVisieAlgemeenLatestLineageIdGet
+            >
+        >
+    >
+export type ModulesModuleIdObjectVisieAlgemeenLatestLineageIdGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get latest lineage record for visie_algemeen by their lineage id in a module
+ */
+export const useModulesModuleIdObjectVisieAlgemeenLatestLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesModuleIdObjectVisieAlgemeenLatestLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    lineageId: number,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectVisieAlgemeenLatestLineageIdGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getModulesModuleIdObjectVisieAlgemeenLatestLineageIdGetQueryOptions(
+            moduleId,
+            lineageId,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific visie_algemeen by uuid in a module
+ */
+export const modulesModuleIdObjectVisieAlgemeenVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<VisieAlgemeenFull>({
+        url: `/modules/${moduleId}/object/visie-algemeen/version/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectVisieAlgemeenVersionObjectUuidGetQueryKey =
+    (moduleId: number, objectUuid: string) =>
+        [
+            `/modules/${moduleId}/object/visie-algemeen/version/${objectUuid}`,
+        ] as const
+
+export const getModulesModuleIdObjectVisieAlgemeenVersionObjectUuidGetQueryOptions =
+    <
+        TData = Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectVisieAlgemeenVersionObjectUuidGet
+            >
+        >,
+        TError = HTTPValidationError
+    >(
+        moduleId: number,
+        objectUuid: string,
+        options?: {
+            query?: UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesModuleIdObjectVisieAlgemeenVersionObjectUuidGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        }
+    ): UseQueryOptions<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectVisieAlgemeenVersionObjectUuidGet
+            >
+        >,
+        TError,
+        TData
+    > & { queryKey: QueryKey } => {
+        const { query: queryOptions } = options ?? {}
+
+        const queryKey =
+            queryOptions?.queryKey ??
+            getModulesModuleIdObjectVisieAlgemeenVersionObjectUuidGetQueryKey(
+                moduleId,
+                objectUuid
+            )
+
+        const queryFn: QueryFunction<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectVisieAlgemeenVersionObjectUuidGet
+                >
+            >
+        > = ({ signal }) =>
+            modulesModuleIdObjectVisieAlgemeenVersionObjectUuidGet(
+                moduleId,
+                objectUuid,
+                signal
+            )
+
+        return {
+            queryKey,
+            queryFn,
+            enabled: !!(moduleId && objectUuid),
+            ...queryOptions,
+        }
+    }
+
+export type ModulesModuleIdObjectVisieAlgemeenVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectVisieAlgemeenVersionObjectUuidGet
+            >
+        >
+    >
+export type ModulesModuleIdObjectVisieAlgemeenVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific visie_algemeen by uuid in a module
+ */
+export const useModulesModuleIdObjectVisieAlgemeenVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<
+            typeof modulesModuleIdObjectVisieAlgemeenVersionObjectUuidGet
+        >
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectVisieAlgemeenVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getModulesModuleIdObjectVisieAlgemeenVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const modulesObjectVisieAlgemeenActiveLineageIdGet = (
+    lineageId: number,
+    params?: ModulesObjectVisieAlgemeenActiveLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<ActiveModuleObjectWrapper[]>({
+        url: `/modules/object/visie-algemeen/active/${lineageId}`,
+        method: 'get',
+        params,
+        signal,
+    })
+}
+
+export const getModulesObjectVisieAlgemeenActiveLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: ModulesObjectVisieAlgemeenActiveLineageIdGetParams
+) =>
+    [
+        `/modules/object/visie-algemeen/active/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+
+export const getModulesObjectVisieAlgemeenActiveLineageIdGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof modulesObjectVisieAlgemeenActiveLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ModulesObjectVisieAlgemeenActiveLineageIdGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<typeof modulesObjectVisieAlgemeenActiveLineageIdGet>
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryOptions<
+    Awaited<ReturnType<typeof modulesObjectVisieAlgemeenActiveLineageIdGet>>,
+    TError,
+    TData
+> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesObjectVisieAlgemeenActiveLineageIdGetQueryKey(
+            lineageId,
+            params
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof modulesObjectVisieAlgemeenActiveLineageIdGet>>
+    > = ({ signal }) =>
+        modulesObjectVisieAlgemeenActiveLineageIdGet(lineageId, params, signal)
+
+    return { queryKey, queryFn, enabled: !!lineageId, ...queryOptions }
+}
+
+export type ModulesObjectVisieAlgemeenActiveLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<ReturnType<typeof modulesObjectVisieAlgemeenActiveLineageIdGet>>
+    >
+export type ModulesObjectVisieAlgemeenActiveLineageIdGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const useModulesObjectVisieAlgemeenActiveLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesObjectVisieAlgemeenActiveLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ModulesObjectVisieAlgemeenActiveLineageIdGetParams,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<typeof modulesObjectVisieAlgemeenActiveLineageIdGet>
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getModulesObjectVisieAlgemeenActiveLineageIdGetQueryOptions(
+            lineageId,
+            params,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific visie_algemeen by uuid in a module
+ */
+export const revisionsModuleIdVisieAlgemeenVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<VisieAlgemeenFull>({
+        url: `/revisions/${moduleId}/visie-algemeen/version/${objectUuid}`,
+        method: 'get',
+        signal,
+    })
+}
+
+export const getRevisionsModuleIdVisieAlgemeenVersionObjectUuidGetQueryKey = (
+    moduleId: number,
+    objectUuid: string
+) => [`/revisions/${moduleId}/visie-algemeen/version/${objectUuid}`] as const
+
+export const getRevisionsModuleIdVisieAlgemeenVersionObjectUuidGetQueryOptions =
+    <
+        TData = Awaited<
+            ReturnType<
+                typeof revisionsModuleIdVisieAlgemeenVersionObjectUuidGet
+            >
+        >,
+        TError = HTTPValidationError
+    >(
+        moduleId: number,
+        objectUuid: string,
+        options?: {
+            query?: UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof revisionsModuleIdVisieAlgemeenVersionObjectUuidGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        }
+    ): UseQueryOptions<
+        Awaited<
+            ReturnType<
+                typeof revisionsModuleIdVisieAlgemeenVersionObjectUuidGet
+            >
+        >,
+        TError,
+        TData
+    > & { queryKey: QueryKey } => {
+        const { query: queryOptions } = options ?? {}
+
+        const queryKey =
+            queryOptions?.queryKey ??
+            getRevisionsModuleIdVisieAlgemeenVersionObjectUuidGetQueryKey(
+                moduleId,
+                objectUuid
+            )
+
+        const queryFn: QueryFunction<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdVisieAlgemeenVersionObjectUuidGet
+                >
+            >
+        > = ({ signal }) =>
+            revisionsModuleIdVisieAlgemeenVersionObjectUuidGet(
+                moduleId,
+                objectUuid,
+                signal
+            )
+
+        return {
+            queryKey,
+            queryFn,
+            enabled: !!(moduleId && objectUuid),
+            ...queryOptions,
+        }
+    }
+
+export type RevisionsModuleIdVisieAlgemeenVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof revisionsModuleIdVisieAlgemeenVersionObjectUuidGet
+            >
+        >
+    >
+export type RevisionsModuleIdVisieAlgemeenVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific visie_algemeen by uuid in a module
+ */
+export const useRevisionsModuleIdVisieAlgemeenVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdVisieAlgemeenVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdVisieAlgemeenVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getRevisionsModuleIdVisieAlgemeenVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
  * @summary Add new object
  */
 export const wettelijkeTaakPost = (
@@ -10450,6 +11603,89 @@ export const useSearchGeoPost = <
     >
 }) => {
     const mutationOptions = getSearchGeoPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary List the objects in werkingsgebieden by a geometry
+ */
+export const searchGeometryPost = (
+    listObjectsByGeometryRequestData: ListObjectsByGeometryRequestData,
+    params?: SearchGeometryPostParams
+) => {
+    return customInstance<PagedResponseGeoSearchResult>({
+        url: `/search/geometry`,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: listObjectsByGeometryRequestData,
+        params,
+    })
+}
+
+export const getSearchGeometryPostMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof searchGeometryPost>>,
+        TError,
+        {
+            data: ListObjectsByGeometryRequestData
+            params?: SearchGeometryPostParams
+        },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof searchGeometryPost>>,
+    TError,
+    {
+        data: ListObjectsByGeometryRequestData
+        params?: SearchGeometryPostParams
+    },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof searchGeometryPost>>,
+        {
+            data: ListObjectsByGeometryRequestData
+            params?: SearchGeometryPostParams
+        }
+    > = props => {
+        const { data, params } = props ?? {}
+
+        return searchGeometryPost(data, params)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type SearchGeometryPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof searchGeometryPost>>
+>
+export type SearchGeometryPostMutationBody = ListObjectsByGeometryRequestData
+export type SearchGeometryPostMutationError = HTTPValidationError
+
+/**
+ * @summary List the objects in werkingsgebieden by a geometry
+ */
+export const useSearchGeometryPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof searchGeometryPost>>,
+        TError,
+        {
+            data: ListObjectsByGeometryRequestData
+            params?: SearchGeometryPostParams
+        },
+        TContext
+    >
+}) => {
+    const mutationOptions = getSearchGeometryPostMutationOptions(options)
 
     return useMutation(mutationOptions)
 }

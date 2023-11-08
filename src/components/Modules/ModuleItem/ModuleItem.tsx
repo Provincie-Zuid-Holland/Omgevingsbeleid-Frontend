@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react'
 
 import { Divider, Hyperlink, Text } from '@pzh-ui/components'
 import { CircleInfo, EllipsisVertical } from '@pzh-ui/icons'
+import { useMemo, useState } from 'react'
 
 import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import Dropdown, { DropdownItem } from '@/components/Dropdown'
@@ -13,6 +13,8 @@ import { getObjectActionText } from '@/utils/dynamicObject'
 interface ModuleItemProps extends ModuleObjectShort {
     /** Has edit button */
     hasEditButton?: boolean
+    /** Has view button */
+    hasViewButton?: boolean
     /** Function which gets called on edit click */
     editCallback: () => void
     /** Function which gets called on delete click */
@@ -29,6 +31,7 @@ const ModuleItem = ({
     Title,
     ObjectStatics,
     hasEditButton,
+    hasViewButton,
     editCallback,
     deleteCallback,
     viewCallback,
@@ -144,6 +147,12 @@ const ModuleItem = ({
                             <Hyperlink
                                 to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}/bewerk`}
                                 text="Bewerken"
+                            />
+                        )}
+                        {hasViewButton && (
+                            <Hyperlink
+                                to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`}
+                                text="Bekijken"
                             />
                         )}
                 </div>
