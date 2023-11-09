@@ -10278,6 +10278,18 @@ export const getModulesModuleIdGetMock = () => ({
                     faker.datatype.uuid(),
                     undefined,
                 ]),
+                Portfolio_Holder_1_UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Portfolio_Holder_2_UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Client_1_UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
             },
             undefined,
         ]),
@@ -10411,6 +10423,18 @@ export const getModulesObjectsLatestGetMock = () => ({
                     undefined,
                 ]),
                 Owner_2_UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Portfolio_Holder_1_UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Portfolio_Holder_2_UUID: faker.helpers.arrayElement([
+                    faker.datatype.uuid(),
+                    undefined,
+                ]),
+                Client_1_UUID: faker.helpers.arrayElement([
                     faker.datatype.uuid(),
                     undefined,
                 ]),
