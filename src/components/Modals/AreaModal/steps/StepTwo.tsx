@@ -4,8 +4,8 @@ import { useMemo } from 'react'
 
 import AreaPreview from '@/components/AreaPreview'
 
-import { StepProps } from './types'
 import { AreaProps } from '../AreaModal'
+import { StepProps } from './types'
 
 export const StepTwo = ({ data }: StepProps) => {
     const { values, setFieldValue } = useFormikContext<AreaProps>()

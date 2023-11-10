@@ -135,7 +135,7 @@ const LeafletTinyViewerInner = ({ uuid }: LeafletTinyViewerProps) => {
     return (
         <LeafletControlLayer>
             <ToggleableSection title="Legenda" positionTop>
-                <ul className="flex flex-col gap-1 p-2">
+                <ul className="flex flex-col gap-1 p-2 text-left">
                     {werkingsgebied?.features?.[0] &&
                         layerIntance?.werkingsgebied && (
                             <LeafletAreaLayer
