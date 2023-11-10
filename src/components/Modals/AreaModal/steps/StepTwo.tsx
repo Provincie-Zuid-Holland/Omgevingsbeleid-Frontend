@@ -1,12 +1,11 @@
+import { FieldLabel, FormikRadio, Text, formatDate } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
 
-import { FieldLabel, FormikRadio, Text, formatDate } from '@pzh-ui/components'
-
 import AreaPreview from '@/components/AreaPreview'
 
-import { AreaProps } from '../AreaModal'
 import { StepProps } from './types'
+import { AreaProps } from '../AreaModal'
 
 export const StepTwo = ({ data }: StepProps) => {
     const { values, setFieldValue } = useFormikContext<AreaProps>()
