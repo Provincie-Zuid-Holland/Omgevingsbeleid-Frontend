@@ -96,7 +96,7 @@ export const StepOne = ({ data, isLoading }: StepProps) => {
                         />
                     </div>
 
-                    <div className="h-[460px] overflow-y-auto rounded border border-pzh-gray-200 p-4">
+                    <div className="h-[444px] overflow-y-auto rounded border border-pzh-gray-200 p-4">
                         {isLoading ? (
                             <div className="flex h-full w-full items-center justify-center">
                                 <LoaderSpinner />
@@ -119,7 +119,10 @@ export const StepOne = ({ data, isLoading }: StepProps) => {
                     </Text>
 
                     <div className="flex flex-1">
-                        <AreaPreview area={selectedArea} />
+                        <AreaPreview
+                            key={selectedArea?.UUID}
+                            area={selectedArea}
+                        />
                     </div>
                 </div>
             </div>
