@@ -32,7 +32,11 @@ export const StepOne = ({ data, isLoading }: StepProps) => {
                     amount === 1 ? 'versie' : 'versies'
                 })`
 
-                const sortedData = data[item].sort((a, b) => new Date(b.Modified_Date).getTime() - new Date(a.Modified_Date).getTime())
+                const sortedData = data[item].sort(
+                    (a, b) =>
+                        new Date(b.Modified_Date).getTime() -
+                        new Date(a.Modified_Date).getTime()
+                )
                 const value = sortedData[0].UUID
 
                 return { label, value }
@@ -63,9 +67,7 @@ export const StepOne = ({ data, isLoading }: StepProps) => {
         if (!data) return
 
         const selected = Object.keys(data).find(item =>
-            data[item].some(
-                item => values.area && item.UUID === values.area
-            )
+            data[item].some(item => values.area && item.UUID === values.area)
         )
 
         if (!selected) return
@@ -95,7 +97,7 @@ export const StepOne = ({ data, isLoading }: StepProps) => {
                         />
                     </div>
 
-                    <div className="h-[460px] overflow-y-auto rounded border border-pzh-gray-200 p-4">
+                    <div className="h-[444px] overflow-y-auto rounded border border-pzh-gray-200 p-4">
                         {isLoading ? (
                             <div className="flex h-full w-full items-center justify-center">
                                 <LoaderSpinner />
@@ -116,7 +118,10 @@ export const StepOne = ({ data, isLoading }: StepProps) => {
                     </Text>
 
                     <div className="flex flex-1">
-                        <AreaPreview area={selectedArea} />
+                        <AreaPreview
+                            key={selectedArea?.UUID}
+                            area={selectedArea}
+                        />
                     </div>
                 </div>
             </div>

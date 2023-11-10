@@ -1,8 +1,9 @@
 import { Transition } from '@headlessui/react'
-import { AngleRight, LayerGroup } from '@pzh-ui/icons'
 import { ReactNode, useState } from 'react'
-import { TileLayer, LayersControl, useMap } from 'react-leaflet'
+import { LayersControl, TileLayer, useMap } from 'react-leaflet'
 import { useUpdateEffect } from 'react-use'
+
+import { AngleRight, LayerGroup } from '@pzh-ui/icons'
 
 import ToggleableSection from '@/components/ToggleableSection'
 import { tileURL, tileURLSattelite } from '@/constants/leaflet'
@@ -39,7 +40,8 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                             onClick={() =>
                                 setLayerControlOpen(!layerControlOpen)
                             }
-                            data-testid="leaflet-layers-control-toggle">
+                            data-testid="leaflet-layers-control-toggle"
+                            type="button">
                             <span className="sr-only">Kaartlagen</span>
                             {layerControlOpen ? (
                                 <AngleRight
@@ -63,10 +65,11 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                             leaveTo="transform translate-x-64 opacity-0"
                             className="leaflet-control-layer-container relative">
                             <button
-                                className="absolute left-0 top-0 mr-8 flex h-8 w-8 -translate-x-8 transform items-center justify-center rounded-l bg-gray-100 p-2 text-gray-700 opacity-100 hover:text-gray-800"
+                                className="bg-gray-100 text-gray-700 hover:text-gray-800 absolute left-0 top-0 mr-8 flex h-8 w-8 -translate-x-8 transform items-center justify-center rounded-l p-2 opacity-100"
                                 onClick={() =>
                                     setLayerControlOpen(!layerControlOpen)
-                                }>
+                                }
+                                type="button">
                                 <AngleRight size={16} />
                             </button>
                             <div
