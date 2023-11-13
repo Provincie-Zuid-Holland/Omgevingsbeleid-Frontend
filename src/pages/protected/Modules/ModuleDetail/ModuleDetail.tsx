@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import {
     Badge,
     Breadcrumbs,
@@ -9,6 +7,7 @@ import {
     Hyperlink,
     Text,
 } from '@pzh-ui/components'
+import { useState } from 'react'
 
 import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
 import Avatar from '@/components/Avatar'

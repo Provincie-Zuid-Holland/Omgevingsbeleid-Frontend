@@ -1,16 +1,16 @@
-import { useMemo } from 'react'
-
 import { Heading, Hyperlink, Text, formatDate } from '@pzh-ui/components'
+import { useMemo } from 'react'
+import { useParams } from 'react-router-dom'
 
 import Avatar from '@/components/Avatar/Avatar'
 import TableOfContents from '@/components/TableOfContents/TableOfContents'
-import { ModelReturnType } from '@/config/objects/types'
+import { Model, ModelReturnType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import { getStaticDataLabel } from '@/utils/dynamicObject'
 
 interface ObjectSidebarProps extends ModelReturnType {
-    /** Plural of object */
-    plural: string
+    /** Model of object */
+    model: Model
     /** Amount of revisions */
     revisions?: number
     /** If object is a revision */
@@ -25,11 +25,14 @@ const ObjectSidebar = ({
     revisions,
     Object_ID,
     ObjectStatics,
-    plural,
+    model,
     isRevision,
     handleModal,
 }: ObjectSidebarProps) => {
     const { user } = useAuth()
+    const { moduleId } = useParams()
+
+    const { plural, singular } = model.defaults
 
     const today = useMemo(() => formatDate(new Date(), 'd MMMM yyyy'), [])
 
@@ -121,7 +124,11 @@ const ObjectSidebar = ({
                     )} */}
                     <Hyperlink
                         text="Open in beheeromgeving"
-                        to={`/muteer/${plural}/${Object_ID}`}
+                        to={
+                            isRevision && !!moduleId
+                                ? `/muteer/modules/${moduleId}/${singular}/${Object_ID}`
+                                : `/muteer/${plural}/${Object_ID}`
+                        }
                     />
                 </div>
             )}

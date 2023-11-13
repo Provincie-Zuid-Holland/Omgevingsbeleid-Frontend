@@ -59,7 +59,7 @@ const UserAddModal = () => {
                     toastNotification('userCreated')
                 },
             }
-        ).catch(err => handleError<UserCreate>(err, helpers))
+        ).catch(err => handleError<UserCreate>(err.response, helpers))
     }
 
     return (

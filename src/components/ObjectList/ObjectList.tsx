@@ -1,8 +1,7 @@
-import { KeyboardEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
-
 import { FieldInput, Heading, ListLink, Pagination } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
+import { KeyboardEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { LoaderCard, LoaderSpinner } from '@/components/Loader'
 
@@ -16,7 +15,7 @@ interface ObjectListProps {
     /** Key of object */
     objectKey?: 'uuid' | 'id'
     /** Array of objects */
-    data: {
+    data?: {
         Title?: string | null
         UUID?: string
         Object_ID?: number

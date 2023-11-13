@@ -1,9 +1,8 @@
+import { Heading } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { FormikHelpers } from 'formik'
 import { useMemo } from 'react'
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
-
-import { Heading } from '@pzh-ui/components'
 
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import { LockedNotification } from '@/components/Modules/ModuleLock/ModuleLock'
@@ -85,12 +84,12 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
             .then(() => {
                 Promise.all([
                     queryClient.invalidateQueries(objectQueryKey),
-                    ...(initialData.Title !== payload.Title
-                        ? [queryClient.invalidateQueries(queryKey)]
-                        : []),
+                    queryClient.invalidateQueries(queryKey),
                 ]).then(() => navigate(`/muteer/modules/${moduleId}`))
             })
-            .catch(err => handleError<typeof initialData>(err, helpers))
+            .catch(err =>
+                handleError<typeof initialData>(err.response, helpers)
+            )
     }
 
     const breadcrumbPaths = [

@@ -1,9 +1,8 @@
+import { DNABar, ToastContainer } from '@pzh-ui/components'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet'
-
-import { DNABar, ToastContainer } from '@pzh-ui/components'
 
 import Axe from '@/Axe'
 import { LoaderContent } from '@/components/Loader'

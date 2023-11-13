@@ -10,7 +10,7 @@ const FieldLabel = ({
     isGroup,
     isDraggable,
     dragOptions,
-}: Omit<RegulationFieldProps, 'index'>) => (
+}: Omit<RegulationFieldProps, 'index' | 'name'> & { name?: string }) => (
     <div
         className={classNames('flex justify-between', {
             'active:animate-pulse active:cursor-grabbing active:bg-pzh-blue-light/10':

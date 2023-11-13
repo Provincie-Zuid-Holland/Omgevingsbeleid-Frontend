@@ -5,6 +5,7 @@ import FieldFormula from './FieldFormula'
 import FieldGlossary from './FieldGlossary'
 import FieldGroup from './FieldGroup'
 import FieldList from './FieldList'
+import FieldListItem from './FieldListItem'
 import FieldParagraph from './FieldParagraph'
 import FieldQuote from './FieldQuote'
 import FieldSubheading from './FieldSubheading'
@@ -18,6 +19,7 @@ const inputFieldMap = {
     glossary: FieldGlossary,
     group: FieldGroup,
     list: FieldList,
+    listItem: FieldListItem,
     paragraph: FieldParagraph,
     quote: FieldQuote,
     subheading: FieldSubheading,
@@ -27,15 +29,17 @@ const inputFieldMap = {
 const RegulationField = ({
     type,
     style,
+    className,
     ...field
-}: RegulationFieldProps & Omit<Content, 'children'>) => {
+}: RegulationFieldProps &
+    Omit<Content, 'children'> & { className?: string }) => {
     const InputField = inputFieldMap[type]
     if (!InputField) {
         throw new Error(`Oh no! No field found for type: ${type}..`)
     }
 
     return (
-        <div style={style}>
+        <div style={style} className={className}>
             <InputField {...field} />
         </div>
     )

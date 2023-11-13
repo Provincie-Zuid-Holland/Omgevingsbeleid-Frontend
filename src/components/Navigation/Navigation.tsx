@@ -1,9 +1,9 @@
-import classNames from 'classnames'
-import { ReactNode, useState } from 'react'
-import { Link } from 'react-router-dom'
-
 import { Badge } from '@pzh-ui/components'
 import { ArrowRightFromBracket, Eye } from '@pzh-ui/icons'
+import { useClickOutside } from '@react-hookz/web'
+import classNames from 'classnames'
+import { ReactNode, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { environment } from '@/api/instance'
 import useAuth from '@/hooks/useAuth'
@@ -26,9 +26,16 @@ const Navigation = () => {
     const userIsInMuteerEnvironment = usePage('/muteer')
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
 
+    const headerRef = useRef<HTMLElement>(null)
+
     // State for popup menu
     const [isOpen, setIsOpen] = useState(false)
     const { isDesktop, isMobile } = useBreakpoint()
+
+    /** Handle close on click outside */
+    useClickOutside(headerRef, () => {
+        setIsOpen(false)
+    })
 
     return (
         <header
@@ -42,7 +49,7 @@ const Navigation = () => {
                 }
             )}
             id="top-navigation">
-            <Container>
+            <Container reference={headerRef}>
                 {/* Logo */}
                 <div className="col-span-4 my-auto sm:col-span-3">
                     <Link
@@ -123,6 +130,9 @@ const Navigation = () => {
                     {!!user && userIsInMuteerEnvironment && <UserMenu />}
                 </div>
             </Container>
+            {isOpen && (
+                <div className="fixed left-0 top-24 z-0 block h-screen w-screen bg-pzh-gray-800/30" />
+            )}
         </header>
     )
 }

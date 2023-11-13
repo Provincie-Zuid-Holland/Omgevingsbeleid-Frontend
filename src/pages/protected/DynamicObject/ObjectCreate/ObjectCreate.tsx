@@ -1,9 +1,8 @@
+import { Heading } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { FormikHelpers } from 'formik'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-
-import { Heading } from '@pzh-ui/components'
 
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import * as models from '@/config/objects'
@@ -65,7 +64,7 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
                 {
                     onSuccess: data => {
                         if (!!connections && !!data.Object_ID) {
-                            putRelations.mutateAsync(
+                            putRelations?.mutateAsync(
                                 {
                                     lineageId: data.Object_ID,
                                     data: connections,
@@ -96,7 +95,9 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
                     },
                 }
             )
-            .catch(err => handleError<typeof initialData>(err, helpers))
+            .catch(err =>
+                handleError<typeof initialData>(err.response, helpers)
+            )
     }
 
     const breadcrumbPaths = [

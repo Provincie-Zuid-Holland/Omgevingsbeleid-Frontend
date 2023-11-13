@@ -1,7 +1,6 @@
+import { Heading, TabItem, Tabs, Text } from '@pzh-ui/components'
 import groupBy from 'lodash.groupby'
 import { useMemo } from 'react'
-
-import { Heading, TabItem, Tabs, Text } from '@pzh-ui/components'
 
 import { useModulesGet, useObjectsValidGet } from '@/api/fetchers'
 import {
@@ -89,7 +88,7 @@ const DashboardUser = () => {
                                                 model.defaults.pluralCapitalize
                                             } (${objects?.length || 0})`}>
                                             <ItemList
-                                                items={objects || []}
+                                                items={objects}
                                                 isLoading={isLoading}
                                                 type="object"
                                             />

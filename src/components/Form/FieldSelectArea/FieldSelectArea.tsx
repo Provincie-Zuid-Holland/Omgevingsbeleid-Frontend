@@ -1,9 +1,8 @@
+import { FieldLabel, Text, formatDate } from '@pzh-ui/components'
+import { TrashCan } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useFormikContext } from 'formik'
 import { useMemo, useState } from 'react'
-
-import { FieldLabel, Text, formatDate } from '@pzh-ui/components'
-import { TrashCan } from '@pzh-ui/icons'
 
 import { Werkingsgebied } from '@/api/fetchers.schemas'
 import { ModelReturnType } from '@/config/objects/types'
@@ -52,6 +51,7 @@ const FieldSelectArea = ({
         setArea({
             Title: payload.Title || '',
             Modified_Date: payload.Modified_Date || '',
+            UUID: payload.version
         })
         setFieldValue(name, payload.version)
     }

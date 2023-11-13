@@ -1,7 +1,6 @@
+import { FieldLabel, FormikRadio, Text, formatDate } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
-
-import { FieldLabel, FormikRadio, Text, formatDate } from '@pzh-ui/components'
 
 import AreaPreview from '@/components/AreaPreview'
 
@@ -18,14 +17,16 @@ export const StepTwo = ({ data }: StepProps) => {
         if (!data) return
 
         const selected = Object.keys(data).find(item =>
-            data[item].some(
-                item => values.area && item.UUID === values.area
-            )
+            data[item].some(item => values.area && item.UUID === values.area)
         )
 
         if (!selected) return
 
-        return data[selected].sort((a, b) => new Date(b.Modified_Date).getTime() - new Date(a.Modified_Date).getTime())
+        return data[selected].sort(
+            (a, b) =>
+                new Date(b.Modified_Date).getTime() -
+                new Date(a.Modified_Date).getTime()
+        )
     }, [data, values.area])
 
     /**
@@ -52,7 +53,7 @@ export const StepTwo = ({ data }: StepProps) => {
                 <div className="col-span-5">
                     <FieldLabel name="version" label="Versie" />
 
-                    <div className="h-[460px] overflow-y-auto rounded border border-pzh-gray-200 p-4">
+                    <div className="h-[444px] overflow-y-auto rounded border border-pzh-gray-200 p-4">
                         {options?.map((version, index) => (
                             <div
                                 key={version.UUID}
@@ -85,7 +86,10 @@ export const StepTwo = ({ data }: StepProps) => {
                     </Text>
 
                     <div className="flex flex-1">
-                        <AreaPreview area={selectedArea} />
+                        <AreaPreview
+                            key={selectedArea?.UUID}
+                            area={selectedArea}
+                        />
                     </div>
                 </div>
             </div>
