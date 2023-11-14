@@ -6609,7 +6609,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.4.0":
+"axios@npm:^1.6.1":
   version: 1.6.1
   resolution: "axios@npm:1.6.1"
   dependencies:
@@ -12710,7 +12710,7 @@ __metadata:
     "@vitest/coverage-v8": "npm:^0.33.0"
     add: "npm:^2.0.6"
     autoprefixer: "npm:^10.4.4"
-    axios: "npm:^1.4.0"
+    axios: "npm:^1.6.1"
     c8: "npm:^8.0.0"
     classnames: "npm:^2.3.2"
     concurrently: "npm:^7.2.1"
