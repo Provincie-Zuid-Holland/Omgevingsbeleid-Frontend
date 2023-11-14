@@ -29,11 +29,8 @@ export const MAP_OPTIONS = {
 const MapSearch = () => {
     const navigate = useNavigate()
     const { get, remove } = useSearchParam()
-    const [paramGeoQuery, paramSidebarOpen, paramWerkingsgebied] = get([
-        'geoQuery',
-        'sidebarOpen',
-        'werkingsgebied',
-    ])
+    const [paramGeoQuery, paramSidebarOpen, paramWerkingsgebied, paramPage] =
+        get(['geoQuery', 'sidebarOpen', 'werkingsgebied', 'page'])
     const { isMobile } = useBreakpoint()
 
     const mapInstance = useMapStore(state => state.mapInstance)
@@ -51,11 +48,13 @@ const MapSearch = () => {
     const [initialized, setInitialized] = useState(false)
 
     const paginationRef = useRef(pagination)
+    const pageRef = useRef(paramPage)
 
     // Update the paginationRef when pagination changes
     useEffect(() => {
         paginationRef.current = pagination
-    }, [pagination])
+        pageRef.current = paramPage
+    }, [pagination, paramPage])
 
     /**
      * Set UUIDs of current location or area
@@ -69,8 +68,10 @@ const MapSearch = () => {
 
         if (paginationRef.current.isLoaded) {
             setCurrPage(1)
-            remove('page')
-            setPagination({ isLoaded: false })
+            if (!!pageRef.current) {
+                remove('page')
+                setPagination({ isLoaded: false })
+            }
         }
     }
 

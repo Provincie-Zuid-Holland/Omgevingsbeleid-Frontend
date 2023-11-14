@@ -1447,6 +1447,7 @@ export const GeometryFunctions = {
     CONTAINS: 'CONTAINS',
     WITHIN: 'WITHIN',
     OVERLAPS: 'OVERLAPS',
+    INTERSECTS: 'INTERSECTS',
 } as const
 
 export interface ListObjectsByGeometryRequestData {

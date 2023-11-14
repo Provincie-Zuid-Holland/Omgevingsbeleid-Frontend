@@ -165,7 +165,6 @@ const SidebarResults = () => {
                         drawType === 'marker'
                             ? `POINT (${latLng})`
                             : `POLYGON ((${latLng}))`,
-                    Function: drawType === 'marker' ? 'CONTAINS' : 'OVERLAPS',
                     Object_Types: !!selectedFilters.length
                         ? selectedFilters
                         : allFilterOptions,
