@@ -11,11 +11,17 @@ import {
 
 import { useUsersGet } from '@/api/fetchers'
 import { ModuleCreate } from '@/api/fetchers.schemas'
+import { Role } from '@/context/AuthContext'
 
 const FormBasicInfo = () => {
     const { values } = useFormikContext<ModuleCreate>()
 
     const { data: users, isFetching, isLoading } = useUsersGet({ limit: 500 })
+
+    const allowedUserRoles: Role[] = [
+        'Functioneel beheerder',
+        'Behandelend Ambtenaar',
+    ]
 
     /**
      * Format user options
@@ -23,6 +29,7 @@ const FormBasicInfo = () => {
     const userOptions1 = useMemo(
         () =>
             users?.results
+                .filter(user => allowedUserRoles.includes(user.Rol))
                 .filter(user => user.UUID !== values.Module_Manager_2_UUID)
                 .map(user => ({
                     label: user.Gebruikersnaam,
@@ -34,6 +41,7 @@ const FormBasicInfo = () => {
     const userOptions2 = useMemo(
         () =>
             users?.results
+                .filter(user => allowedUserRoles.includes(user.Rol))
                 .filter(user => user.UUID !== values.Module_Manager_1_UUID)
                 .map(user => ({
                     label: user.Gebruikersnaam,

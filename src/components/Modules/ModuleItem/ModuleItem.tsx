@@ -149,12 +149,12 @@ const ModuleItem = ({
                                 text="Bewerken"
                             />
                         )}
-                        {hasViewButton && (
-                            <Hyperlink
-                                to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`}
-                                text="Bekijken"
-                            />
-                        )}
+                    {hasViewButton && !hasRights && (
+                        <Hyperlink
+                            to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`}
+                            text="Bekijken"
+                        />
+                    )}
                 </div>
                 {!!dropdownItems.length ? (
                     <div className="relative">
