@@ -1,7 +1,7 @@
 import { Transition } from '@headlessui/react'
 import { Heading, Pagination, Text } from '@pzh-ui/components'
 import { useUpdateEffect } from '@react-hookz/web'
-import { useMemo, useRef, useState } from 'react'
+import { useMemo, useRef } from 'react'
 
 import { useSearchGeoPost, useSearchGeometryPost } from '@/api/fetchers'
 import Filter from '@/components/Filter'
@@ -25,6 +25,10 @@ const SidebarResults = () => {
     const mapInstance = useMapStore(state => state.mapInstance)
     const isLoading = useMapStore(state => state.isDataLoading)
     const drawType = useMapStore(state => state.drawType)
+    const pagination = useMapStore(state => state.pagination)
+    const setPagination = useMapStore(state => state.setPagination)
+    const currPage = useMapStore(() => parseInt(page || '1'))
+    const setCurrPage = useMapStore(state => state.setCurrPage)
 
     const { amountOfFilters, filters, selectedFilters, setSelectedFilters } =
         useFilterStore(state => ({
@@ -76,12 +80,7 @@ const SidebarResults = () => {
         },
     })
 
-    const [currPage, setCurrPage] = useState(parseInt(page || '1'))
-    const [pagination, setPagination] = useState({
-        isLoaded: false,
-        total: data?.total,
-        limit: data?.limit,
-    })
+    //const [currPage, setCurrPage] = useState(parseInt(page || '1'))
 
     /**
      * Handle pagination

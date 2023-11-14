@@ -2,7 +2,7 @@ import { useMountEffect, useUpdateEffect } from '@react-hookz/web'
 import classNames from 'classnames'
 import { point } from 'leaflet'
 import Proj from 'proj4leaflet'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useNavigate } from 'react-router-dom'
 
@@ -28,7 +28,7 @@ export const MAP_OPTIONS = {
 
 const MapSearch = () => {
     const navigate = useNavigate()
-    const { get } = useSearchParam()
+    const { get, remove } = useSearchParam()
     const [paramGeoQuery, paramSidebarOpen, paramWerkingsgebied] = get([
         'geoQuery',
         'sidebarOpen',
@@ -44,8 +44,18 @@ const MapSearch = () => {
     const isAreaLoading = useMapStore(state => state.isAreaLoading)
     const setSidebarOpen = useMapStore(state => state.setSidebarOpen)
     const setDrawType = useMapStore(state => state.setDrawType)
+    const pagination = useMapStore(state => state.pagination)
+    const setPagination = useMapStore(state => state.setPagination)
+    const setCurrPage = useMapStore(state => state.setCurrPage)
 
     const [initialized, setInitialized] = useState(false)
+
+    const paginationRef = useRef(pagination)
+
+    // Update the paginationRef when pagination changes
+    useEffect(() => {
+        paginationRef.current = pagination
+    }, [pagination])
 
     /**
      * Set UUIDs of current location or area
@@ -55,6 +65,12 @@ const MapSearch = () => {
             setDrawType(callback.type)
         } else if (callback.type === 'marker') {
             setDrawType(callback.type)
+        }
+
+        if (paginationRef.current.isLoaded) {
+            setCurrPage(1)
+            remove('page')
+            setPagination({ isLoaded: false })
         }
     }
 
