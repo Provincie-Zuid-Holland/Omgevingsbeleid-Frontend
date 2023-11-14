@@ -4,8 +4,8 @@ import { useParams } from 'react-router-dom'
 
 import { Button, FormikSelect } from '@pzh-ui/components'
 
-import Modal from '@/Modal'
 import { useUsersGet } from '@/api/fetchers'
+import Modal from '@/components/Modal'
 import { ModelPatchStaticType } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import useModalStore from '@/store/modalStore'
@@ -34,11 +34,12 @@ const ObjectPersonModal = ({ person, isEdit }: ObjectPersonModalActions) => {
         () =>
             users?.results
                 ?.filter(user => user.UUID !== person?.filter)
+                ?.filter(user => person?.filterRoles?.includes(user.Rol))
                 ?.map(user => ({
                     label: user.Gebruikersnaam,
                     value: user.UUID,
                 })),
-        [users, person?.filter]
+        [users, person?.filter, person?.filterRoles]
     )
 
     const { usePostObjectStatic } = useObject()
@@ -84,6 +85,9 @@ const ObjectPersonModal = ({ person, isEdit }: ObjectPersonModalActions) => {
                                 boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
                             }),
                         }}
+                        noOptionsMessage={({ inputValue }) =>
+                            !!inputValue && 'Geen resultaten gevonden'
+                        }
                         isClearable={!person?.required}
                         required={person?.required}
                         blurInputOnSelect

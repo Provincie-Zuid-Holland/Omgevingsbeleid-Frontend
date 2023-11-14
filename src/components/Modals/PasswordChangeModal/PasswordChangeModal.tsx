@@ -3,8 +3,8 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { Button, FormikInput, Notification } from '@pzh-ui/components'
 
-import Modal from '@/Modal'
 import { usePasswordResetPost } from '@/api/fetchers'
+import Modal from '@/components/Modal'
 import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as passwordReset from '@/validation/passwordReset'

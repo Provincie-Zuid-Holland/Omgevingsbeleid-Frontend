@@ -4,8 +4,8 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { Button, FormikSelect, FormikTextArea, Text } from '@pzh-ui/components'
 
-import Modal from '@/Modal'
 import {
+    getModulesModuleIdGetQueryKey,
     getModulesModuleIdObjectContextObjectTypeLineageIdGetQueryKey,
     useModulesModuleIdObjectContextObjectTypeLineageIdGet,
     useModulesModuleIdObjectContextObjectTypeLineageIdPost,
@@ -15,6 +15,7 @@ import {
     ModuleObjectShort,
 } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
+import Modal from '@/components/Modal'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 import useModalStore from '@/store/modalStore'
@@ -31,7 +32,8 @@ const ModuleEditObjectModal = ({ object }: ModuleEditObjectModalProps) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const model = models[object.Object_Type as ModelType] || {}
-    const { singularReadable, prefixSingular } = model.defaults || {}
+    const { singularReadable, singularCapitalize, prefixSingular } =
+        model.defaults || {}
 
     const isAdded =
         object.ModuleObjectContext?.Action === 'Create' ||
@@ -59,15 +61,18 @@ const ModuleEditObjectModal = ({ object }: ModuleEditObjectModalProps) => {
         useModulesModuleIdObjectContextObjectTypeLineageIdPost({
             mutation: {
                 onSuccess: () => {
-                    queryClient
-                        .invalidateQueries(
+                    Promise.all([
+                        queryClient.invalidateQueries(
                             getModulesModuleIdObjectContextObjectTypeLineageIdGetQueryKey(
                                 object.Module_ID,
                                 object.Object_Type,
                                 object.Object_ID
                             )
-                        )
-                        .then(() => setActiveModal(null)),
+                        ),
+                        queryClient.invalidateQueries(
+                            getModulesModuleIdGetQueryKey(object.Module_ID)
+                        ),
+                    ]).then(() => setActiveModal(null)),
                         toastNotification('saved')
                 },
             },
@@ -89,7 +94,7 @@ const ModuleEditObjectModal = ({ object }: ModuleEditObjectModalProps) => {
     }
 
     return (
-        <Modal id="moduleEditObject" title={`${singularReadable} bewerken`}>
+        <Modal id="moduleEditObject" title={`${singularCapitalize} bewerken`}>
             {isDataLoading && isDataFetching ? (
                 <div className="flex justify-center">
                     <LoaderSpinner />
@@ -125,6 +130,9 @@ const ModuleEditObjectModal = ({ object }: ModuleEditObjectModalProps) => {
                                         value: 'Terminate',
                                     },
                                 ]}
+                                noOptionsMessage={({ inputValue }) =>
+                                    !!inputValue && 'Geen resultaten gevonden'
+                                }
                                 blurInputOnSelect
                                 required
                             />

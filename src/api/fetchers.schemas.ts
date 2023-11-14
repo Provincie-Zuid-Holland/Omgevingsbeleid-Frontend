@@ -64,6 +64,13 @@ export type SearchPostParams = {
     limit?: number
 }
 
+export type SearchGeometryPostParams = {
+    offset?: number
+    limit?: number
+    sort_column?: string
+    sort_order?: SortOrder
+}
+
 export type SearchGeoPostParams = {
     offset?: number
     limit?: number
@@ -999,12 +1006,12 @@ export type ModuleStatusCode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ModuleStatusCode = {
-    'Niet-Actief': 'Niet-Actief',
     Ontwerp_GS_Concept: 'Ontwerp GS Concept',
     Ontwerp_GS: 'Ontwerp GS',
-    Definitief_ontwerp_GS: 'Definitief ontwerp GS',
-    Ontwerp_PS_Concept: 'Ontwerp PS Concept',
     Ontwerp_PS: 'Ontwerp PS',
+    Ter_Inzage: 'Ter Inzage',
+    Definitief_ontwerp_GS_Concept: 'Definitief ontwerp GS Concept',
+    Definitief_ontwerp_GS: 'Definitief ontwerp GS',
     Definitief_ontwerp_PS: 'Definitief ontwerp PS',
     Vastgesteld: 'Vastgesteld',
 } as const
@@ -1052,7 +1059,7 @@ export interface ModuleObjectShortStatus {
     Title: string
     ObjectStatics?: ObjectStaticShort
     ModuleObjectContext?: ModuleObjectContextShort
-    Status: ModuleStatusCode
+    Status: string
 }
 
 export interface ModuleObjectShort {
@@ -1277,6 +1284,12 @@ export interface MaatregelBasic {
     Title?: string
 }
 
+export interface ListObjectsByGeometryRequestData {
+    Geometry: string
+    Function?: GeometryFunctions
+    Object_Types?: string[]
+}
+
 export interface HTTPValidationError {
     detail?: ValidationError[]
 }
@@ -1310,6 +1323,19 @@ export interface GraphResponse {
     Vertices: GraphVertice[]
     Edges: GraphEdge[]
 }
+
+/**
+ * An enumeration.
+ */
+export type GeometryFunctions =
+    (typeof GeometryFunctions)[keyof typeof GeometryFunctions]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GeometryFunctions = {
+    CONTAINS: 'CONTAINS',
+    WITHIN: 'WITHIN',
+    OVERLAPS: 'OVERLAPS',
+} as const
 
 export type GeoSearchResultGebied = string | string
 

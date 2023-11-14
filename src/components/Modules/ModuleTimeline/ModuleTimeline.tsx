@@ -5,7 +5,7 @@ import { Badge, Text } from '@pzh-ui/components'
 
 import { ModuleStatus } from '@/api/fetchers.schemas'
 import formatDate from '@/utils/formatDate'
-import getModuleStatusColor from '@/utils/getModuleStatusColor'
+import { getModuleStatusColor } from '@/utils/module'
 
 interface ModuleTimelineProps {
     /** Array containing module history */

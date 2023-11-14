@@ -29,7 +29,7 @@ import {
     getPublicObjectActionIcon,
     getPublicObjectActionText,
 } from '@/utils/dynamicObject'
-import getModuleStatusColor from '@/utils/getModuleStatusColor'
+import { getModuleStatusColor } from '@/utils/module'
 
 const Revisions = () => {
     const { data, isLoading } = useRevisionsGet()

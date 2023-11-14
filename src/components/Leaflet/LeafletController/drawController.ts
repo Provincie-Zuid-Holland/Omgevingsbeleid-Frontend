@@ -1,10 +1,12 @@
 import {
-    useLeafletContext,
     createElementHook,
     createLeafComponent,
+    useLeafletContext,
 } from '@react-leaflet/core'
 import leaflet, { Control } from 'leaflet'
 import { useCallback, useEffect, useRef } from 'react'
+
+import useSearchParam from '@/hooks/useSearchParam'
 
 export const createControlComponent = (createInstance: any) => {
     function createElement(
@@ -29,6 +31,8 @@ export const createControlComponent = (createInstance: any) => {
 
 const createControlHook = (useElement: any) => {
     return function useLeafletControl(props: any) {
+        const { remove } = useSearchParam()
+
         const context = useLeafletContext()
         const elementRef = useElement(props, context)
         const { instance } = elementRef.current
@@ -37,6 +41,8 @@ const createControlHook = (useElement: any) => {
 
         const onDrawCreate = useCallback(
             (e: any) => {
+                remove('werkingsgebied')
+
                 instance._toolbars.edit._toolbarContainer.classList.remove(
                     'hidden'
                 )
@@ -57,6 +63,7 @@ const createControlHook = (useElement: any) => {
                 onCreated(e)
             },
             [
+                remove,
                 context.layerContainer,
                 context.map,
                 onCreated,
@@ -66,7 +73,7 @@ const createControlHook = (useElement: any) => {
 
         const onDrawDelete = useCallback(() => {
             context.map.eachLayer((layer: any) => {
-                if (!!layer._latlng || !!layer._svgSize) {
+                if (!!layer._latlng || !!layer._svgSize || !!layer.wmsParams) {
                     context.map.removeLayer(layer)
                 }
             })

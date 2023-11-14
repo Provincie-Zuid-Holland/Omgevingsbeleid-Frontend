@@ -60,7 +60,8 @@ const gebiedsprogramma: DynamicObject<
         prefixPlural: 'de',
         prefixNewObject: 'Nieuw',
         demonstrative: 'dit',
-        slugOverview: 'omgevingsprogramma/gebiedsprogrammas',
+        slugOverview: 'omgevingsprogramma',
+        slugOverviewPublic: true,
         description:
             'De ambities geven aan waar de provincie naar wil streven. De ambities komen voort uit het coalitieakkoord en worden vastgesteld in de Omgevingsvisie.',
         icon: LocationDot,
@@ -111,7 +112,7 @@ const gebiedsprogramma: DynamicObject<
                     name: 'Image',
                     label: 'Afbeelding van het gebied',
                     type: 'image',
-                    maxSize: 1048576,
+                    maxSize: 819200,
                     maxFiles: 1,
                     preview: true,
                     required: true,

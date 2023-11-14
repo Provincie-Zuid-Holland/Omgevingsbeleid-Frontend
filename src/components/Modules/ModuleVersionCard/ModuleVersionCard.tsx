@@ -67,22 +67,15 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
      */
     const options = useMemo(
         () =>
-            Object.keys(ModuleStatusCode)
-                .filter(
-                    code =>
-                        code !== 'Niet-Actief' &&
-                        ModuleStatusCode[
-                            code as keyof typeof ModuleStatusCode
-                        ] !== currentStatus?.Status
-                )
-                .map(code => ({
-                    label: ModuleStatusCode[
-                        code as keyof typeof ModuleStatusCode
-                    ],
-                    value: ModuleStatusCode[
-                        code as keyof typeof ModuleStatusCode
-                    ],
-                })),
+            Object.keys(ModuleStatusCode).map((code, index) => ({
+                label: `${index + 1}. ${
+                    ModuleStatusCode[code as keyof typeof ModuleStatusCode]
+                }`,
+                value: ModuleStatusCode[code as keyof typeof ModuleStatusCode],
+                isDisabled:
+                    ModuleStatusCode[code as keyof typeof ModuleStatusCode] ===
+                    currentStatus?.Status,
+            })),
         [currentStatus?.Status]
     )
 
@@ -106,6 +99,9 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
                             options={options}
                             optimized={false}
                             blurInputOnSelect
+                            noOptionsMessage={({ inputValue }) =>
+                                !!inputValue && 'Geen resultaten gevonden'
+                            }
                         />
 
                         <Button

@@ -28,17 +28,14 @@ const ObjectArea = ({ objectTitle, model, UUID, Title }: ObjectAreaProps) => {
                     Tip! Gebruik het icoon{' '}
                     <LayerGroup
                         size={18}
-                        className="inline -mt-1 mx-1 text-pzh-blue-dark"
+                        className="mx-1 -mt-1 inline text-pzh-blue-dark"
                     />{' '}
                     om de kaartlagen binnen dit werkingsgebied te bekijken
                 </>
             </Notification>
 
             <div className="h-[500px] overflow-hidden rounded-lg">
-                <LeafletTinyViewer
-                    gebiedType="Werkingsgebieden"
-                    gebiedUUID={UUID}
-                />
+                <LeafletTinyViewer uuid={UUID} />
             </div>
         </div>
     )

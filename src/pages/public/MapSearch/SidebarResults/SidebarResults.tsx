@@ -1,44 +1,31 @@
 import { Transition } from '@headlessui/react'
-import { Map } from 'leaflet'
+import { useUpdateEffect } from '@react-hookz/web'
 import { useMemo, useRef, useState } from 'react'
-import { useUpdateEffect } from 'react-use'
 
 import { Heading, Pagination, Text } from '@pzh-ui/components'
 
-import { useSearchGeoPost } from '@/api/fetchers'
+import { useSearchGeoPost, useSearchGeometryPost } from '@/api/fetchers'
 import Filter from '@/components/Filter'
 import { LoaderCard } from '@/components/Loader'
 import SearchResultItem from '@/components/SearchResultItem'
 import { ModelType } from '@/config/objects/types'
 import useSearchParam from '@/hooks/useSearchParam'
 import useFilterStore from '@/store/filterStore'
+import useMapStore from '@/store/mapStore'
 
 const PAGE_LIMIT = 20
 
-interface SidebarResultsProps {
-    searchOpen: boolean
-    drawType?: string
-    UUIDs: string[]
-    mapInstance: Map | null
-    geoLoading: boolean
-}
-
-const SidebarResults = ({
-    searchOpen,
-    drawType,
-    UUIDs,
-    mapInstance,
-    geoLoading,
-}: SidebarResultsProps) => {
+const SidebarResults = () => {
     const { get, set, remove } = useSearchParam()
-    const [paramSearchOpen, paramWerkingsgebied, page, filter] = get([
-        'searchOpen',
-        'werkingsgebied',
-        'page',
-        'filter',
-    ])
+    const [paramWerkingsgebied, paramGeoQuery, page, filter, sidebarOpen] = get(
+        ['werkingsgebied', 'geoQuery', 'page', 'filter', 'sidebarOpen']
+    )
 
     const resultsContainer = useRef<HTMLDivElement>(null)
+
+    const mapInstance = useMapStore(state => state.mapInstance)
+    const isLoading = useMapStore(state => state.isDataLoading)
+    const drawType = useMapStore(state => state.drawType)
 
     const { amountOfFilters, filters, selectedFilters, setSelectedFilters } =
         useFilterStore(state => ({
@@ -46,7 +33,7 @@ const SidebarResults = ({
             filters: state.filters
                 .map(filter => {
                     const options = filter.options.filter(
-                        option => option.exclude !== 'mapSearch'
+                        option => !option.exclude?.includes('mapSearch')
                     )
                     return { ...filter, options }
                 })
@@ -58,7 +45,15 @@ const SidebarResults = ({
             amountOfFilters: filter?.split(',')?.filter(Boolean)?.length || 0,
         }))
 
-    const { data, mutate, isLoading } = useSearchGeoPost({
+    const useSearch =
+        drawType === 'werkingsgebied' ? useSearchGeoPost : useSearchGeometryPost
+
+    const {
+        data,
+        mutate,
+        reset,
+        isLoading: geoLoading,
+    } = useSearch({
         mutation: {
             onSuccess(data) {
                 if (!!!data.results.length) {
@@ -123,8 +118,8 @@ const SidebarResults = ({
     const defaultValue = useMemo(
         () =>
             filters.flatMap(filter =>
-                filter.options.filter(
-                    option => selectedFilters?.includes(option.value)
+                filter.options.filter(option =>
+                    selectedFilters?.includes(option.value)
                 )
             ),
         [filters, selectedFilters]
@@ -142,17 +137,39 @@ const SidebarResults = ({
     )
 
     /**
-     * If URL contains searchOpen=true open the results sidebar.
+     * If URL contains sidebarOpen=true open the results sidebar.
      */
     useUpdateEffect(() => {
+        const geoQuery = paramGeoQuery?.split(',')
+
+        if ((!geoQuery && !paramWerkingsgebied) || !drawType) return
+
         if (
-            paramSearchOpen === 'true' &&
-            UUIDs.length &&
-            !paramWerkingsgebied
+            sidebarOpen === 'true' &&
+            paramGeoQuery &&
+            !paramWerkingsgebied &&
+            !!geoQuery
         ) {
+            let latLng
+
+            if (drawType === 'marker') {
+                const [x, y] = geoQuery[0].split('+')
+
+                latLng = `${x} ${y}`
+            } else {
+                latLng = geoQuery
+                    .flatMap(val => val.split('+').join(' '))
+                    .join(',')
+            }
+
             mutate({
+                // @ts-ignore
                 data: {
-                    Area_List: UUIDs,
+                    Geometry:
+                        drawType === 'marker'
+                            ? `POINT (${latLng})`
+                            : `POLYGON ((${latLng}))`,
+                    Function: 'CONTAINS',
                     Object_Types: !!selectedFilters.length
                         ? selectedFilters
                         : allFilterOptions,
@@ -164,8 +181,9 @@ const SidebarResults = ({
             })
         }
 
-        if (paramSearchOpen === 'true' && paramWerkingsgebied) {
+        if (sidebarOpen === 'true' && paramWerkingsgebied) {
             mutate({
+                // @ts-ignore
                 data: {
                     Area_List: [paramWerkingsgebied],
                     Object_Types: !!selectedFilters.length
@@ -178,11 +196,23 @@ const SidebarResults = ({
                 },
             })
         }
+
+        if (sidebarOpen === 'true' && !paramWerkingsgebied && !paramGeoQuery) {
+            reset()
+            setPagination({
+                isLoaded: false,
+                total: data?.total,
+                limit: data?.limit,
+            })
+        } else if (sidebarOpen !== 'true') {
+            setCurrPage(1)
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
-        paramSearchOpen,
+        sidebarOpen,
         paramWerkingsgebied,
-        UUIDs,
+        paramGeoQuery,
+        drawType,
         mapInstance,
         currPage,
         filter,
@@ -190,7 +220,7 @@ const SidebarResults = ({
 
     return (
         <Transition
-            show={searchOpen}
+            show={sidebarOpen === 'true'}
             enter="transition-all ease-out duration-300 delay-100 transform"
             enterFrom="-mr-840"
             enterTo="mr-0"
@@ -235,7 +265,7 @@ const SidebarResults = ({
                     className="h-full pb-8 pt-4 md:overflow-auto md:pb-24">
                     {!isLoading && !geoLoading ? (
                         <>
-                            {data?.results.length ? (
+                            {!!data?.results.length ? (
                                 <ul className="mb-4">
                                     {data.results.map(item => (
                                         <SearchResultItem

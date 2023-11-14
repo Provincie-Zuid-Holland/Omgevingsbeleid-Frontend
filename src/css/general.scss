@@ -1,20 +1,3 @@
-::-webkit-input-placeholder {
-    /* Chrome/Opera/Safari */
-    font-size: 18px;
-}
-::-moz-placeholder {
-    /* Firefox 19+ */
-    font-size: 18px;
-}
-:-ms-input-placeholder {
-    /* IE 10+ */
-    font-size: 18px;
-}
-:-moz-placeholder {
-    /* Firefox 18- */
-    font-size: 18px;
-}
-
 // Image urls
 .image-login-1 {
     background-image: url('../images/login-1.webp');
@@ -110,12 +93,6 @@ mark {
         .text-6xl
     ) {
     font-size: 14px;
-}
-
-.pzh-btn {
-    font-size: 1rem;
-    font-family: 'Karbon Medium', sans-serif;
-    font-weight: 700;
 }
 
 ins {

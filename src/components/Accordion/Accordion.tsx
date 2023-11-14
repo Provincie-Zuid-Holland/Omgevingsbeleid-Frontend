@@ -1,4 +1,4 @@
-import { AngleDown } from '@pzh-ui/icons'
+import { useUpdateEffect } from '@react-hookz/web'
 import classNames from 'classnames'
 import {
     Children,
@@ -8,7 +8,8 @@ import {
     isValidElement,
     useState,
 } from 'react'
-import { useUpdateEffect } from 'react-use'
+
+import { AngleDown } from '@pzh-ui/icons'
 
 interface AccordionProps {
     className?: string

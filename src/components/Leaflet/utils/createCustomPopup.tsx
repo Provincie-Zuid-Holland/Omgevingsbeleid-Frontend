@@ -4,10 +4,8 @@ import ReactDOMServer from 'react-dom/server'
 
 import { Button, Text } from '@pzh-ui/components'
 
-import { getWerkingsGebiedenByArea } from '@/api/axiosGeoJSON'
 import { LoaderSpinner } from '@/components/Loader'
 import { MAP_SEARCH_PAGE, RDProj4, leafletBounds } from '@/constants/leaflet'
-import { toastNotification } from '@/utils/toastNotification'
 
 // @ts-ignore
 const RDProjection = new Proj.Projection('EPSG:28992', RDProj4, leafletBounds)
@@ -15,7 +13,7 @@ const RDProjection = new Proj.Projection('EPSG:28992', RDProj4, leafletBounds)
 /**
  * Function that creates a custom popup with the parameters lat, lng and layer.
  */
-const createCustomPopup = async (
+const createCustomPopup = (
     map: Map,
     navigate: any,
     lat: number,
@@ -30,7 +28,7 @@ const createCustomPopup = async (
 
     const point = RDProjection.project({ lat, lng })
     const searchParams = new URLSearchParams(window.location.search)
-    const searchOpen = searchParams.get('searchOpen')
+    const sidebarOpen = searchParams.get('sidebarOpen')
 
     const popupLoading = `
         <div class="flex">
@@ -45,7 +43,7 @@ const createCustomPopup = async (
         minWidth: 320,
     })
 
-    if (searchOpen !== 'true') {
+    if (sidebarOpen !== 'true') {
         popup.openPopup()
     }
 
@@ -56,7 +54,7 @@ const createCustomPopup = async (
                 lat={lat}
                 lng={lng}
                 geoQuery={`${point.x.toFixed(2)}+${point.y.toFixed(2)}`}
-                weergavenaam={locationName}
+                locationName={locationName}
             />
         )}</div>`
         layer._popup.setContent(customPopupHTML)
@@ -85,36 +83,27 @@ const createCustomPopup = async (
             )
             .join(',')
 
-        await getWerkingsGebiedenByArea(pointsArray)
-            .then(data => {
-                const customPopupHTML = `<div>${ReactDOMServer.renderToString(
-                    <CreateCustomPopup
-                        type="polygon"
-                        lat={lat}
-                        lng={lng}
-                        geoQuery={geoQuery}
-                    />
-                )}</div>`
-                layer._popup.setContent(customPopupHTML)
+        const customPopupHTML = `<div>${ReactDOMServer.renderToString(
+            <CreateCustomPopup
+                type="polygon"
+                lat={lat}
+                lng={lng}
+                geoQuery={geoQuery}
+            />
+        )}</div>`
+        layer._popup.setContent(customPopupHTML)
 
-                if (isAdvancedSearch) {
-                    searchParams.set('geoQuery', geoQuery)
-                    navigate(`${MAP_SEARCH_PAGE}?${searchParams}`)
-                }
+        if (isAdvancedSearch) {
+            searchParams.set('geoQuery', geoQuery)
+            navigate(`${MAP_SEARCH_PAGE}?${searchParams}`)
+        }
 
-                callback?.({
-                    ...data,
-                    type: 'polygon',
-                })
-            })
-            .catch(function (err) {
-                console.log(err)
-                toastNotification('error')
-                callback?.(err)
-            })
+        callback?.({
+            type: 'polygon',
+        })
     }
 
-    if (searchOpen !== 'true') {
+    if (sidebarOpen !== 'true') {
         handlePopupEvents(
             map,
             layer,
@@ -145,7 +134,7 @@ const handlePopupEvents = (
     const popupContainer = layer.getPopup().getElement()
 
     popupContainer
-        .querySelector('.leaflet-close-popup')
+        ?.querySelector('.leaflet-close-popup')
         ?.addEventListener('click', () => {
             map.fireEvent('draw:deletestart')
             map.removeLayer(layer)
@@ -153,16 +142,16 @@ const handlePopupEvents = (
         })
 
     popupContainer
-        .querySelector('.advanced-search-button')
+        ?.querySelector('.advanced-search-button')
         ?.addEventListener('click', () => {
-            searchParams.append('searchOpen', 'true')
+            searchParams.append('sidebarOpen', 'true')
             navigate(`${path}?${searchParams}`)
         })
 }
 
 interface CreateCustomPopupProps {
     type: 'marker' | 'polygon'
-    weergavenaam?: string
+    locationName?: string
     areaName?: string
     lat?: number
     lng?: number
@@ -171,7 +160,7 @@ interface CreateCustomPopupProps {
 
 export const CreateCustomPopup = ({
     type,
-    weergavenaam,
+    locationName,
     areaName,
     lat,
     lng,
@@ -189,9 +178,13 @@ export const CreateCustomPopup = ({
                 Locatie
             </Text>
             <ul className="mb-4 mt-2">
-                {weergavenaam && <li>{weergavenaam}</li>}
+                {locationName && (
+                    <Text size="s" as="li" bold>
+                        {locationName}
+                    </Text>
+                )}
                 {type === 'marker' && lat && lng && (
-                    <Text as="li">
+                    <Text size="s" as="li">
                         GPS Locatie:
                         <br />
                         {lat.toFixed(7)}, {lng.toFixed(7)}
@@ -207,11 +200,10 @@ export const CreateCustomPopup = ({
                         Bekijk beleid
                     </Button>
                 ) : (
-                    <Button
-                        as="a"
-                        href={`${MAP_SEARCH_PAGE}?${searchParams}&searchOpen=true`}>
-                        Bekijk beleid
-                    </Button>
+                    <a
+                        href={`${MAP_SEARCH_PAGE}?${searchParams}&sidebarOpen=true`}>
+                        <Button as="span">Bekijk beleid</Button>
+                    </a>
                 )}
                 <button className="leaflet-close-popup text-s text-pzh-red underline">
                     {type === 'marker' ? 'Pin' : 'Gebied'} verwijderen

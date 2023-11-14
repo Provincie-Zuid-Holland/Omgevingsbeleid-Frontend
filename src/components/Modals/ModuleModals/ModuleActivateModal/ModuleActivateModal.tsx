@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom'
 
 import { Button, Text } from '@pzh-ui/components'
 
-import Modal from '@/Modal'
 import {
     getModulesGetQueryKey,
     getModulesModuleIdGetQueryKey,
     useModulesModuleIdActivatePost,
 } from '@/api/fetchers'
+import Modal from '@/components/Modal'
 import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 

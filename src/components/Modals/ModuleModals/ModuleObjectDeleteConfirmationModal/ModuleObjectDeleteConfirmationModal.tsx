@@ -1,7 +1,7 @@
 import { Button, Text } from '@pzh-ui/components'
 
-import Modal from '@/Modal'
 import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
+import Modal from '@/components/Modal'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 import useModule from '@/hooks/useModule'

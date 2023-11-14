@@ -1,5 +1,6 @@
 import { Transition } from '@headlessui/react'
-import Leaflet, { Map, latLng } from 'leaflet'
+import Leaflet, { latLng } from 'leaflet'
+import groupBy from 'lodash.groupby'
 import { ReactNode, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -10,28 +11,28 @@ import { useWerkingsgebiedenGet } from '@/api/fetchers'
 import { LeafletSearchInput } from '@/components/Leaflet'
 import { MAP_SEARCH_PAGE } from '@/constants/leaflet'
 import useSearchParam from '@/hooks/useSearchParam'
+import useMapStore from '@/store/mapStore'
 
 import { MAP_OPTIONS } from '../MapSearch'
 import { handleWerkingsgebiedSelect } from '../utils'
-import groupBy from 'lodash.groupby'
 
 interface SidebarInformationProps {
-    mapInstance: Map | null
-    searchOpen: boolean
     onDraw: (callback: any) => Promise<void>
 }
 
-const SidebarInformation = ({
-    mapInstance,
-    searchOpen,
-    onDraw,
-}: SidebarInformationProps) => {
-    const { get, set } = useSearchParam()
-    const [paramWerkingsgebied] = get('werkingsgebied')
+const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
+    const { get, set, remove } = useSearchParam()
+    const [paramWerkingsgebied, sidebarOpen] = get([
+        'werkingsgebied',
+        'sidebarOpen',
+    ])
     const navigate = useNavigate()
 
+    const mapInstance = useMapStore(state => state.mapInstance)
+    const setIsAreaLoading = useMapStore(state => state.setIsAreaLoading)
+
     const [werkingsgebied, setWerkingsgebied] =
-        useState<Leaflet.Proj.GeoJSON | null>(null)
+        useState<Leaflet.TileLayer.WMS | null>(null)
 
     const { data, isLoading } = useWerkingsgebiedenGet({
         limit: 500,
@@ -78,21 +79,31 @@ const SidebarInformation = ({
         const coordinates = latLng(MAP_OPTIONS.center[0], MAP_OPTIONS.center[1])
         mapInstance?.setView(coordinates, MAP_OPTIONS.zoom)
 
+        setIsAreaLoading(false)
+
         setTimeout(() => mapInstance?.invalidateSize(true), 350)
     }
 
     useEffect(() => {
         if (paramWerkingsgebied && mapInstance) {
+            mapInstance.eachLayer((layer: any) => {
+                if (!!layer._latlng || !!layer._svgSize) {
+                    mapInstance.removeLayer(layer)
+                }
+            })
+
             handleWerkingsgebiedSelect(
                 mapInstance,
-                navigate,
                 werkingsgebied,
                 setWerkingsgebied,
+                setIsAreaLoading,
                 {
                     label: '',
                     value: paramWerkingsgebied || '',
                 }
             )
+
+            set('sidebarOpen', 'true')
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [paramWerkingsgebied, mapInstance])
@@ -100,7 +111,7 @@ const SidebarInformation = ({
     return (
         <div className="relative z-1 flex px-4 md:px-0 md:shadow-pane">
             <Transition
-                show={!searchOpen}
+                show={!sidebarOpen}
                 enter="transition-all ease-out duration-300 transform"
                 enterFrom="-ml-[570px]"
                 enterTo="ml-0"
@@ -188,6 +199,7 @@ const SidebarInformation = ({
                         menuPlacement="auto"
                         isLoading={isLoading}
                         onChange={val => {
+                            remove('geoQuery')
                             set(
                                 'werkingsgebied',
                                 (val as { value: string })?.value || ''
@@ -198,16 +210,16 @@ const SidebarInformation = ({
             </Transition>
 
             <Transition
-                show={searchOpen}
+                show={sidebarOpen === 'true'}
                 enter="transition-all ease-out duration-300 transform"
                 enterFrom="opacity-0 -ml-12"
                 enterTo="opacity-100 ml-0"
-                leave="transition-all ease-in duration-0 transform"
+                leave="transition-all ease-in duration-[1ms] transform"
                 leaveFrom="opacity-100 ml-0"
                 leaveTo="opacity-0 -ml-12"
                 className="h-full w-12">
                 <button
-                    onClick={() => goBack()}
+                    onClick={goBack}
                     className="flex h-full w-full items-center py-4 md:block md:py-0">
                     <div className="flex justify-center md:pt-4">
                         <ArrowLeft size={18} />

@@ -36,14 +36,14 @@ $ yarn
 Create a .env file in the root of the project.
 
 ```jsx
-VITE_API_URL_DEV = 'https://api-obzh-dev.azurewebsites.net'
-VITE_API_URL_TEST = 'https://api-obzh-test.azurewebsites.net'
-VITE_API_URL_ACC = 'https://api-obzh-acc.azurewebsites.net'
-VITE_API_URL_PROD = 'https://api-obzh.azurewebsites.net'
-VITE_GEOSERVER_API_URL = 'https://geo-omgevingsbeleid-test.azurewebsites.net' // Used in the Geoserver API url (in axiosGeoJSON.ts)
+VITE_API_URL_DEV = ''
+VITE_API_URL_TEST = ''
+VITE_API_URL_ACC = ''
+VITE_API_URL_PROD = ''
+VITE_GEOSERVER_API_URL = '' // Used in the Geoserver API url (in axiosGeoJSON.ts)
 VITE_API_ENV = 'dev' // Used to get correct API url (in instance.ts)
-VITE_KEY_API_ACCESS_TOKEN = 'OB_access_token' // Used to set login token
-VITE_KEY_IDENTIFIER = 'OB_identifier' // Used to set login identifier
+VITE_KEY_API_ACCESS_TOKEN = '' // Used to set login token
+VITE_KEY_IDENTIFIER = '' // Used to set login identifier
 VITE_ENABLE_AXE = true // Used to see accessibility issues in the console
 ```
 
@@ -61,12 +61,6 @@ Launches the test runner in the interactive watch mode. See the section about [r
 
 ```
 yarn test
-```
-
-Runs the Cypress integration tests
-
-```
-yarn cy:run
 ```
 
 Builds the app for production to the **`\*build**`\*\* folder. It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -104,7 +98,7 @@ The project uses the following structure:
 
 The api folder holds our API Functionality. We use [Axios](https://github.com/axios/axios) as the HTTP client in combination with [React-query](https://tanstack.com/query/latest/). In the /api folder there are three files for the different API's. It contains:
 
--   `instance.ts` - Which is our general API (check [API docs](https://api-obzh-dev.azurewebsites.net/docs) for more information about the different endpoints)
+-   `instance.ts` - Which is our general API (check [API docs](https://api-obzh.azurewebsites.net/docs) for more information about the different endpoints)
 -   `axiosGeoJSON.ts` - Which is our API to connect to the GEO Server
 -   `axiosLocatieserver.ts` - Which is our API to connect to PDOK Location server
 
@@ -166,28 +160,7 @@ Contains the configuration files for all possible policy objects.
 
 ---
 
-Static testing is done via ES Lint. Unit testing is done with Jest and React Testing Library. Integration tests are done with [Cypress.io](http://cypress.io). Right now the focus has mostly been on integration tests using [Cypress.io](http://cypress.io), but we want to equal this with more unit tests.
-
-The cypress test right now consists of testing the dimensions, with test to create, read and update the dimensions. These integration test live inside the /cypress folder. Inside we have the /integration folder, which contains the actual tests.
-
-The API calls to the server are all stubbed. They live inside the /fixtures folder. The fixture files are created automatically by setting the `"RECORD"` environmental variable to `true` and then running the test with `npm run cy:run`. After the fixtures have been created you `"RECORD"` back to `false` and the tests will be stubbed.
-
-To set the environmental variable for Cypress you need a `cypress.json` file in the root of your directory. To be able to run authenticated tests you will also need to provide user credentials:
-
-```JSON
-{
-    "video": false,
-    "baseUrl": "http://localhost:3000",
-    "env": {
-        "env": "dev",
-        "RECORD": true,
-        "API_VERSION": "api-version",
-        "ACCESS_TOKEN": "local-storage-key",
-        "USERNAME": "username@domain.com",
-        "PASSWORD": "password"
-    }
-}
-```
+Static testing is done via ES Lint. Unit testing is done with Vitest and React Testing Library.
 
 ## Contributors ✨
 

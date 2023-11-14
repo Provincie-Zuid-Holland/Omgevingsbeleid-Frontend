@@ -1,13 +1,13 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 
-import Modal from '@/Modal'
 import {
     useUsersSearchGet,
     useUsersUserUuidGet,
     useUsersUserUuidPost,
 } from '@/api/fetchers'
 import { EditUser } from '@/api/fetchers.schemas'
+import Modal from '@/components/Modal'
 import UserForm from '@/components/Users/UserForm'
 import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'

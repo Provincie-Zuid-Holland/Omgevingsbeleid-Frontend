@@ -40,6 +40,11 @@ const Handle = ({
         setActiveModal('regulationDelete')
     }
 
+    const handleEdit = () => {
+        setItemAction({ action: 'edit', type, uuid, index })
+        setActiveModal('regulationEdit')
+    }
+
     return (
         <div className="flex w-full justify-between pr-4">
             <div className="flex items-center gap-4">
@@ -52,7 +57,7 @@ const Handle = ({
                 <Button
                     variant="default"
                     className={classNames(
-                        'min-w-6 flex h-6 items-center justify-center rounded',
+                        'flex h-6 min-w-[24px] items-center justify-center rounded',
                         GROUP_VARIANTS[type][1],
                         {
                             'cursor-pointer': !expanded,
@@ -93,7 +98,10 @@ const Handle = ({
                     isDisabled={!expanded}>
                     <TrashCan size={16} color="text-pzh-blue" />
                 </Button>
-                <Button variant="default" isDisabled={!expanded}>
+                <Button
+                    variant="default"
+                    onPress={handleEdit}
+                    isDisabled={!expanded}>
                     <PenToSquare size={16} color="text-pzh-blue" />
                 </Button>
             </div>

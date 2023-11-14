@@ -8,7 +8,6 @@
         
  * OpenAPI spec version: 3.0-alpha
  */
-import { useMutation, useQuery } from '@tanstack/react-query'
 import type {
     MutationFunction,
     QueryFunction,
@@ -17,7 +16,7 @@ import type {
     UseQueryOptions,
     UseQueryResult,
 } from '@tanstack/react-query'
-
+import { useMutation, useQuery } from '@tanstack/react-query'
 import type {
     AcknowledgedRelation,
     ActiveModuleObjectWrapper,
@@ -59,6 +58,7 @@ import type {
     GebiedsprogrammasValidLineageIdGetParams,
     GraphResponse,
     HTTPValidationError,
+    ListObjectsByGeometryRequestData,
     MaatregelFull,
     MaatregelPatch,
     MaatregelStaticPostStatics,
@@ -132,6 +132,7 @@ import type {
     RevisionsGetParams,
     SearchGeoPostParams,
     SearchGeoRequestData,
+    SearchGeometryPostParams,
     SearchPostParams,
     SearchRequestData,
     SearchValidPostParams,
@@ -10450,6 +10451,89 @@ export const useSearchGeoPost = <
     >
 }) => {
     const mutationOptions = getSearchGeoPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary List the objects in werkingsgebieden by a geometry
+ */
+export const searchGeometryPost = (
+    listObjectsByGeometryRequestData: ListObjectsByGeometryRequestData,
+    params?: SearchGeometryPostParams
+) => {
+    return customInstance<PagedResponseGeoSearchResult>({
+        url: `/search/geometry`,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: listObjectsByGeometryRequestData,
+        params,
+    })
+}
+
+export const getSearchGeometryPostMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof searchGeometryPost>>,
+        TError,
+        {
+            data: ListObjectsByGeometryRequestData
+            params?: SearchGeometryPostParams
+        },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof searchGeometryPost>>,
+    TError,
+    {
+        data: ListObjectsByGeometryRequestData
+        params?: SearchGeometryPostParams
+    },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof searchGeometryPost>>,
+        {
+            data: ListObjectsByGeometryRequestData
+            params?: SearchGeometryPostParams
+        }
+    > = props => {
+        const { data, params } = props ?? {}
+
+        return searchGeometryPost(data, params)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type SearchGeometryPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof searchGeometryPost>>
+>
+export type SearchGeometryPostMutationBody = ListObjectsByGeometryRequestData
+export type SearchGeometryPostMutationError = HTTPValidationError
+
+/**
+ * @summary List the objects in werkingsgebieden by a geometry
+ */
+export const useSearchGeometryPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof searchGeometryPost>>,
+        TError,
+        {
+            data: ListObjectsByGeometryRequestData
+            params?: SearchGeometryPostParams
+        },
+        TContext
+    >
+}) => {
+    const mutationOptions = getSearchGeometryPostMutationOptions(options)
 
     return useMutation(mutationOptions)
 }

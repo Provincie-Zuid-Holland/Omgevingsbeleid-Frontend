@@ -1,3 +1,6 @@
+import { useFormikContext } from 'formik'
+import { useMemo } from 'react'
+
 import {
     FormikInput,
     FormikSelect,
@@ -5,13 +8,12 @@ import {
     Heading,
     Text,
 } from '@pzh-ui/components'
-import { useFormikContext } from 'formik'
-import { useMemo } from 'react'
 
 import { useUsersGet } from '@/api/fetchers'
 import { ModuleAddNewObject } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
+import { getStaticDataFilterRoles } from '@/utils/dynamicObject'
 
 import { StepProps } from './types'
 
@@ -24,6 +26,8 @@ export const StepThree = ({}: StepProps) => {
         {}
     const { singularReadable, prefixSingular } = model.defaults || {}
 
+    const filterRoles = getStaticDataFilterRoles('Owner_1_UUID')
+
     /**
      * Format user options
      */
@@ -31,22 +35,24 @@ export const StepThree = ({}: StepProps) => {
         () =>
             users?.results
                 .filter(user => user.UUID !== values.Owner_2_UUID)
+                .filter(user => filterRoles?.includes(user.Rol))
                 .map(user => ({
                     label: user.Gebruikersnaam,
                     value: user.UUID,
                 })),
-        [users, values.Owner_2_UUID]
+        [users, values.Owner_2_UUID, filterRoles]
     )
 
     const userOptions2 = useMemo(
         () =>
             users?.results
                 .filter(user => user.UUID !== values.Owner_1_UUID)
+                .filter(user => filterRoles?.includes(user.Rol))
                 .map(user => ({
                     label: user.Gebruikersnaam,
                     value: user.UUID,
                 })),
-        [users, values.Owner_1_UUID]
+        [users, values.Owner_1_UUID, filterRoles]
     )
 
     return (
@@ -73,6 +79,9 @@ export const StepThree = ({}: StepProps) => {
                     placeholder="Kies een eigenaar"
                     isLoading={isLoading && isFetching}
                     options={userOptions1}
+                    noOptionsMessage={({ inputValue }) =>
+                        !!inputValue && 'Geen resultaten gevonden'
+                    }
                     blurInputOnSelect
                     required
                 />
@@ -85,6 +94,9 @@ export const StepThree = ({}: StepProps) => {
                     placeholder="Kies een eigenaar"
                     isLoading={isLoading && isFetching}
                     options={userOptions2}
+                    noOptionsMessage={({ inputValue }) =>
+                        !!inputValue && 'Geen resultaten gevonden'
+                    }
                     blurInputOnSelect
                 />
             </div>

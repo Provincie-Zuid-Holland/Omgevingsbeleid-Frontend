@@ -143,7 +143,8 @@ const UserDetail = () => {
                             iconSize={20}
                             data-testid="user-generate-password"
                             onPress={() => setActiveModal('userPasswordReset')}
-                            className="whitespace-nowrap">
+                            className="whitespace-nowrap"
+                            isDisabled={!!!data?.IsActive}>
                             Genereer nieuw wachtwoord
                         </Button>
                     </div>

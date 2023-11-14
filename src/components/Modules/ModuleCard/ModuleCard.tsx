@@ -3,7 +3,7 @@ import { Badge, Button, Heading, Text } from '@pzh-ui/components'
 import { Module, ModuleShort } from '@/api/fetchers.schemas'
 import Avatar from '@/components/Avatar'
 import useModuleManagers from '@/hooks/useModuleManagers'
-import getModuleStatusColor from '@/utils/getModuleStatusColor'
+import { getModuleStatusColor } from '@/utils/module'
 
 const ModuleCard = (props: Module | ModuleShort) => {
     const managers = useModuleManagers(props)

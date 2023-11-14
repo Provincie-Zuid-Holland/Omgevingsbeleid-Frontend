@@ -1,12 +1,11 @@
-import { Form, Formik } from 'formik'
 import { useMemo } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
-import { Button, FormikInput, Heading } from '@pzh-ui/components'
-
 import Modal from '@/components/Modal'
+import RegulationForm from '@/components/Regulations/RegulationForm'
 import { calculateNewIndex } from '@/components/Regulations/utils'
 import * as sections from '@/config/regulations/sections'
+import { Structure } from '@/config/regulations/types'
 import useModalStore from '@/store/modalStore'
 import useRegulationStore from '@/store/regulationStore'
 
@@ -27,11 +26,10 @@ const RegulationAddSectionModal = () => {
     const section = sections[itemAction.type]
     const { singular, singularCapitalize, prefixSingular } = section.defaults
 
-    const handleFormSubmit = (payload: any) => {
+    const handleFormSubmit = (payload: Structure) => {
         addItem(itemAction.path || [], {
-            type: itemAction.type,
             uuid: uuidv4(),
-            title: payload.title,
+            ...payload,
         })
         setActiveModal(null)
     }
@@ -41,46 +39,16 @@ const RegulationAddSectionModal = () => {
             size="l"
             id="regulationAdd"
             title={`${singularCapitalize} toevoegen`}>
-            <Formik
-                onSubmit={handleFormSubmit}
+            <RegulationForm
                 initialValues={{
+                    type: itemAction.type,
                     label: singularCapitalize,
                     index,
                 }}
-                enableReinitialize>
-                <Form>
-                    <Heading
-                        level="3"
-                        size="m"
-                        className="mb-3"
-                        color="text-pzh-blue-dark">
-                        Kop van {prefixSingular} {singular}
-                    </Heading>
-
-                    <div className="flex gap-4">
-                        <div className="w-[160px]">
-                            <FormikInput name="label" label="Label" disabled />
-                        </div>
-                        <div className="w-[80px]">
-                            <FormikInput name="index" label="Nummer" disabled />
-                        </div>
-                        <div className="flex-1">
-                            <FormikInput name="title" label="Opschrift" />
-                        </div>
-                    </div>
-
-                    <div className="mt-6 flex items-center justify-between border-t border-pzh-gray-600 pt-4">
-                        <Button
-                            variant="link"
-                            onPress={() => setActiveModal(null)}>
-                            Annuleren
-                        </Button>
-                        <Button variant="cta" type="submit">
-                            Opslaan
-                        </Button>
-                    </div>
-                </Form>
-            </Formik>
+                handleFormSubmit={handleFormSubmit}
+                title={`Kop van ${prefixSingular} ${singular}`}
+                section={section}
+            />
         </Modal>
     )
 }

@@ -1,10 +1,11 @@
-const getModuleStatusColor = (status?: string) => {
+export const getModuleStatusColor = (status?: string) => {
     switch (status) {
         case 'Ontwerp GS Concept':
         case 'Ontwerp GS':
-        case 'Ontwerp PS Concept':
         case 'Ontwerp PS':
+        case 'Ter Inzage':
             return 'lightRed'
+        case 'Definitief ontwerp GS Concept':
         case 'Definitief ontwerp GS':
         case 'Definitief ontwerp PS':
             return 'purple'
@@ -16,5 +17,3 @@ const getModuleStatusColor = (status?: string) => {
             return 'gray'
     }
 }
-
-export default getModuleStatusColor

@@ -1,16 +1,19 @@
-import { Map, point } from 'leaflet'
+import { useMountEffect, useUpdateEffect } from '@react-hookz/web'
+import classNames from 'classnames'
+import { point } from 'leaflet'
 import Proj from 'proj4leaflet'
 import { useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useNavigate } from 'react-router-dom'
-import { useEffectOnce, useMedia, useUpdateEffect } from 'react-use'
 
-import { getWerkingsGebieden } from '@/api/axiosGeoJSON'
 import { ContainerMapSearch } from '@/components/Container'
 import { LeafletMap } from '@/components/Leaflet'
 import { mapPanTo } from '@/components/Leaflet/utils'
+import { LoaderSpinner } from '@/components/Loader'
 import { RDProj4, leafletBounds } from '@/constants/leaflet'
+import useBreakpoint from '@/hooks/useBreakpoint'
 import useSearchParam from '@/hooks/useSearchParam'
+import useMapStore from '@/store/mapStore'
 
 import SidebarInformation from './SidebarInformation'
 import SidebarResults from './SidebarResults'
@@ -26,78 +29,51 @@ export const MAP_OPTIONS = {
 const MapSearch = () => {
     const navigate = useNavigate()
     const { get } = useSearchParam()
-    const [paramGeoQuery, paramSearchOpen, paramWerkingsgebied] = get([
+    const [paramGeoQuery, paramSidebarOpen, paramWerkingsgebied] = get([
         'geoQuery',
-        'searchOpen',
+        'sidebarOpen',
         'werkingsgebied',
     ])
-    const isSmall = useMedia('(max-width: 640px)')
+    const { isMobile } = useBreakpoint()
+
+    const mapInstance = useMapStore(state => state.mapInstance)
+    const setMapInstance = useMapStore(state => state.setMapInstance)
+    const sidebarOpen = useMapStore(
+        state => (state.sidebarOpen = paramSidebarOpen === 'true')
+    )
+    const isAreaLoading = useMapStore(state => state.isAreaLoading)
+    const setSidebarOpen = useMapStore(state => state.setSidebarOpen)
+    const setDrawType = useMapStore(state => state.setDrawType)
 
     const [initialized, setInitialized] = useState(false)
-    const [mapInstance, setMapInstance] = useState<Map | null>(null)
-    const [UUIDs, setUUIDs] = useState<string[]>([])
-    const [searchOpen, setSearchOpen] = useState(paramSearchOpen === 'true')
-    const [drawType, setDrawType] = useState('')
-    const [geoLoading, setGeoLoading] = useState(false)
 
     /**
      * Set UUIDs of current location or area
      */
     const onDraw = async (callback: any) => {
-        setUUIDs([])
-        setGeoLoading(true)
-
         if (callback.type === 'polygon') {
             setDrawType(callback.type)
-
-            if (callback.features?.length) {
-                const werkingsgebiedenUUIDS = callback.features.map(
-                    (item: any) => item.properties.UUID
-                )
-
-                setUUIDs(werkingsgebiedenUUIDS)
-                setGeoLoading(false)
-            } else {
-                setGeoLoading(false)
-            }
         } else if (callback.type === 'marker') {
-            const werkingsgebieden = await getWerkingsGebieden(
-                callback.point.x,
-                callback.point.y
-            ).then(data => {
-                setGeoLoading(false)
-                return data
-            })
-
-            const werkingsgebiedenUUIDS = werkingsgebieden.map(
-                (item: any) => item.properties.UUID
-            )
-
-            if (!werkingsgebieden.length) {
-                setGeoLoading(false)
-            }
-
-            setUUIDs(werkingsgebiedenUUIDS)
             setDrawType(callback.type)
         }
     }
 
     /**
-     * If URL contains searchOpen=true open the results sidebar.
+     * If URL contains sidebarOpen=true open the results sidebar.
      */
     useUpdateEffect(() => {
-        if (paramSearchOpen === 'true') {
-            setSearchOpen(true)
+        if (paramSidebarOpen === 'true') {
+            setSidebarOpen(true)
             mapInstance?.closePopup()
         } else {
-            setSearchOpen(false)
+            setSidebarOpen(false)
         }
 
-        if (paramSearchOpen === 'true' && paramWerkingsgebied) {
+        if (sidebarOpen && paramWerkingsgebied) {
             setDrawType('werkingsgebied')
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [paramSearchOpen, paramWerkingsgebied, mapInstance])
+    }, [paramSidebarOpen, paramWerkingsgebied, mapInstance])
 
     /**
      * If URL contains geoQuery, create marker or polygon.
@@ -151,18 +127,18 @@ const MapSearch = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [paramGeoQuery, mapInstance])
 
-    useEffectOnce(() => {
+    useMountEffect(() => {
         const geoQuery = paramGeoQuery?.split(',')
 
         if (!geoQuery) return setInitialized(true)
     })
 
     useEffect(() => {
-        if (searchOpen && isSmall) {
+        if (sidebarOpen && isMobile) {
             mapInstance?.invalidateSize()
             window.scrollTo(0, 0)
         }
-    }, [searchOpen, isSmall, mapInstance])
+    }, [sidebarOpen, isMobile, mapInstance])
 
     /**
      * Memoize LeafletMap component so it won't rerender on changes
@@ -172,8 +148,8 @@ const MapSearch = () => {
             <LeafletMap
                 controllers={{
                     showLayers: false,
-                    showDraw: isSmall ? !searchOpen : true,
-                    showZoom: isSmall ? !searchOpen : true,
+                    showDraw: isMobile ? !sidebarOpen : true,
+                    showZoom: isMobile ? !sidebarOpen : true,
                     showSearch: false,
                 }}
                 callbacks={{
@@ -186,33 +162,37 @@ const MapSearch = () => {
             />
         ),
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [searchOpen && isSmall]
+        [sidebarOpen && isMobile]
     )
 
     return (
         <>
             <Helmet title="Zoeken op de kaart" />
             <ContainerMapSearch className="overflow-hidden">
-                <SidebarInformation
-                    mapInstance={mapInstance}
-                    searchOpen={searchOpen}
-                    onDraw={onDraw}
-                />
+                <SidebarInformation onDraw={onDraw} />
 
                 <div
-                    className={`leaflet-advanced-search w-full md:h-auto ${
-                        searchOpen ? 'h-44' : 'h-80'
-                    }`}>
-                    {map}
+                    className={classNames('relative w-full md:h-auto', {
+                        'h-44': sidebarOpen,
+                        'h-80': !sidebarOpen,
+                    })}>
+                    {isAreaLoading && (
+                        <div className="absolute left-0 top-0 z-1 flex h-full w-full items-center justify-center">
+                            <LoaderSpinner />
+                        </div>
+                    )}
+                    <div
+                        className={classNames(
+                            'leaflet-advanced-search h-full w-full',
+                            {
+                                'animate-pulse': isAreaLoading,
+                            }
+                        )}>
+                        {map}
+                    </div>{' '}
                 </div>
 
-                <SidebarResults
-                    searchOpen={searchOpen}
-                    drawType={drawType}
-                    UUIDs={UUIDs}
-                    mapInstance={mapInstance}
-                    geoLoading={geoLoading}
-                />
+                <SidebarResults />
             </ContainerMapSearch>
 
             <div id="select-werkingsgebied-portal" />

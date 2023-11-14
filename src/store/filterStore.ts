@@ -5,7 +5,7 @@ import { ModelType } from '@/config/objects/types'
 
 type Filter = {
     label: string
-    options: { label: string; value: ModelType; exclude?: FilterKey }[]
+    options: { label: string; value: ModelType; exclude?: FilterKey[] }[]
 }[]
 
 type FilterKey = 'network' | 'search' | 'mapSearch'
@@ -29,12 +29,14 @@ const useFilterStore = create<FilterState>(set => ({
                 {
                     label: models['ambitie']['defaults']['pluralCapitalize'],
                     value: 'ambitie',
+                    exclude: ['mapSearch'],
                 },
                 {
                     label: models['beleidsdoel']['defaults'][
                         'pluralCapitalize'
                     ],
                     value: 'beleidsdoel',
+                    exclude: ['mapSearch'],
                 },
                 {
                     label: models['beleidskeuze']['defaults'][
@@ -56,7 +58,7 @@ const useFilterStore = create<FilterState>(set => ({
                         'pluralCapitalize'
                     ],
                     value: 'gebiedsprogramma',
-                    exclude: 'network',
+                    exclude: ['network', 'mapSearch'],
                 },
             ],
         },
@@ -68,7 +70,7 @@ const useFilterStore = create<FilterState>(set => ({
                         'pluralCapitalize'
                     ],
                     value: 'beleidsregel',
-                    exclude: 'network',
+                    exclude: ['network', 'mapSearch'],
                 },
             ],
         },

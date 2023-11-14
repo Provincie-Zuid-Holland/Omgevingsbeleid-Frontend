@@ -3,6 +3,7 @@ import { Pencil, Plus, Xmark } from '@pzh-ui/icons'
 
 import * as models from '@/config/objects'
 import { ModelPatchStaticType, ModelType } from '@/config/objects/types'
+import { Role } from '@/context/AuthContext'
 
 import { PublicModuleObjectRevision } from '../api/fetchers.schemas'
 
@@ -79,6 +80,28 @@ export const getStaticDataFilterProperty = (
     }
 }
 
+export const getStaticDataFilterRoles = (
+    key: keyof ModelPatchStaticType
+): Role[] | undefined => {
+    switch (key) {
+        case 'Owner_1_UUID':
+        case 'Owner_2_UUID':
+            return [
+                'Functioneel beheerder',
+                'Beheerder',
+                'Behandelend Ambtenaar',
+                'Ambtelijk opdrachtgever',
+            ]
+        case 'Portfolio_Holder_1_UUID':
+        case 'Portfolio_Holder_2_UUID':
+            return ['Portefeuillehouder']
+        case 'Client_1_UUID':
+            return ['Ambtelijk opdrachtgever']
+        default:
+            break
+    }
+}
+
 export const getObjectActionText = (action?: string) => {
     switch (action) {
         case 'Toevoegen':
@@ -126,16 +149,17 @@ export const getObjectRevisionBannerText = (
     type: ModelType
 ) => {
     const model = models[type]
-    const path = `/${model.defaults.slugOverview}/ontwerpversie/${revision.Module_ID}/${revision.Module_Object_UUID}`
+    const path = `/${model.defaults.slugOverview}/${model.defaults.plural}/ontwerpversie/${revision.Module_ID}/${revision.Module_Object_UUID}`
 
     switch (revision.Module_Status) {
         case 'Ontwerp GS':
             return 'Er wordt aan gewerkt.'
-        case 'Ontwerp in inspraak':
+        case 'Ter Inzage':
             return (
                 <>
                     Op dit moment ligt er in de module '{revision.Module_Title}'
-                    een nieuwe versie van deze beleidskeuze ter inzage,{' '}
+                    een nieuwe versie van {model.defaults.prefixSingular}{' '}
+                    {model.defaults.singularReadable} ter inzage,{' '}
                     <Hyperlink to={path} text="bekijk deze versie hier" />.
                 </>
             )
@@ -152,7 +176,9 @@ export const getObjectRevisionBannerText = (
             return (
                 <>
                     Op dit moment wordt er in module '{revision.Module_Title}'
-                    gewerkt aan een nieuwe versie van deze beleidskeuze,{' '}
+                    gewerkt aan een nieuwe versie van{' '}
+                    {model.defaults.prefixSingular}{' '}
+                    {model.defaults.singularReadable},{' '}
                     <Hyperlink to={path} text="bekijk deze versie hier" />.
                 </>
             )
@@ -164,5 +190,5 @@ export const getObjectRevisionBannerText = (
 export const generateObjectPath = (type: ModelType, UUID?: string) => {
     const model = models[type]
 
-    return `/${model.defaults.slugOverview}/${UUID}`
+    return `/${model.defaults.slugOverview}/${model.defaults.plural}/${UUID}`
 }

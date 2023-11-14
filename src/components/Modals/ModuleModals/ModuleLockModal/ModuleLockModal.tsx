@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom'
 
 import { Button, Text } from '@pzh-ui/components'
 
-import Modal from '@/Modal'
+import Modal from '@/components/Modal'
 import useModule from '@/hooks/useModule'
 import useModalStore from '@/store/modalStore'
 
