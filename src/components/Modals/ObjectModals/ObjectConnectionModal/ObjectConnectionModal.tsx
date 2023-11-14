@@ -51,8 +51,10 @@ const ObjectConnectionModal = ({
             mutation: {
                 onSuccess: () => {
                     Promise.all([
-                        queryClient.invalidateQueries(queryKey),
-                        queryClient.invalidateQueries(objectQueryKey),
+                        queryClient.invalidateQueries({ queryKey }),
+                        queryClient.invalidateQueries({
+                            queryKey: objectQueryKey,
+                        }),
                     ])
 
                     toastNotification('saved')

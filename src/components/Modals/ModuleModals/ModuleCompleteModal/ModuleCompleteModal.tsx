@@ -1,10 +1,9 @@
+import { Button } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
-
-import { Button } from '@pzh-ui/components'
 
 import {
     getModulesGetQueryKey,
@@ -36,7 +35,8 @@ const ModuleCompleteModal = () => {
         mutation: {
             onSuccess: () => {
                 queryClient
-                    .invalidateQueries(getModulesGetQueryKey(), {
+                    .invalidateQueries({
+                        queryKey: getModulesGetQueryKey(),
                         refetchType: 'all',
                     })
                     .then(() => {

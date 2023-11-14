@@ -27,7 +27,7 @@ const UserGeneratePasswordModal = () => {
         query: { enabled: !!uuid },
     })
 
-    const { mutateAsync, isLoading } = useUsersUserUuidResetPasswordPost({
+    const { mutateAsync, isPending } = useUsersUserUuidResetPasswordPost({
         mutation: {
             onSuccess: res => {
                 setNewPassword(res.NewPassword)
@@ -64,7 +64,7 @@ const UserGeneratePasswordModal = () => {
                 handleClose={handleClose}
                 newPassword={newPassword}
                 user={data}
-                isLoading={isLoading}
+                isLoading={isPending}
             />
         </Modal>
     )

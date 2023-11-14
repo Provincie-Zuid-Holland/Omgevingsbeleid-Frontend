@@ -1,4 +1,5 @@
 import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
+import { keepPreviousData } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
 
@@ -19,7 +20,7 @@ function ThemeOverview() {
         },
         {
             query: {
-                keepPreviousData: true,
+                placeholderData: keepPreviousData,
             },
         }
     )

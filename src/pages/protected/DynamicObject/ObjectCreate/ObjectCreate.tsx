@@ -72,7 +72,8 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
                                 {
                                     onSuccess: () => {
                                         queryClient
-                                            .invalidateQueries(queryKey, {
+                                            .invalidateQueries({
+                                                queryKey,
                                                 refetchType: 'all',
                                             })
                                             .then(() =>
@@ -85,7 +86,8 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
                             )
                         } else {
                             queryClient
-                                .invalidateQueries(queryKey, {
+                                .invalidateQueries({
+                                    queryKey,
                                     refetchType: 'all',
                                 })
                                 .then(() => navigate(`/muteer/${plural}`))

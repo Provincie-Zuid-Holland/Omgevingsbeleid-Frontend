@@ -23,7 +23,6 @@ const queryClient = new QueryClient({
             staleTime: 1000 * 60 * 60 * 24,
             retry: false,
             retryOnMount: true,
-            onError: () => toastNotification('error'),
         },
         mutations: {
             onError: () => toastNotification('error'),

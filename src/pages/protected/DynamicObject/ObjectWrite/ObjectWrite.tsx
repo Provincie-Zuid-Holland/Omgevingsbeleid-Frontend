@@ -103,15 +103,15 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
                                 {
                                     onSuccess: () => {
                                         Promise.all([
-                                            queryClient.invalidateQueries(
-                                                queryKey
-                                            ),
-                                            queryClient.invalidateQueries(
-                                                validQueryKey
-                                            ),
-                                            queryClient.invalidateQueries(
-                                                relationsQueryKey
-                                            ),
+                                            queryClient.invalidateQueries({
+                                                queryKey,
+                                            }),
+                                            queryClient.invalidateQueries({
+                                                queryKey: validQueryKey,
+                                            }),
+                                            queryClient.invalidateQueries({
+                                                queryKey: relationsQueryKey,
+                                            }),
                                         ]).then(() =>
                                             navigate(`/muteer/${plural}`)
                                         )
@@ -122,8 +122,10 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
                             )
                         } else {
                             Promise.all([
-                                queryClient.invalidateQueries(queryKey),
-                                queryClient.invalidateQueries(validQueryKey),
+                                queryClient.invalidateQueries({ queryKey }),
+                                queryClient.invalidateQueries({
+                                    queryKey: validQueryKey,
+                                }),
                             ]).then(() => navigate(`/muteer/${plural}`))
 
                             toastNotification('saved')

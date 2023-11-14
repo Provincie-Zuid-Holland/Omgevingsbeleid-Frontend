@@ -18,11 +18,12 @@ const ModuleCreate = () => {
 
     const navigate = useNavigate()
 
-    const { mutateAsync, isLoading } = useModulesPost({
+    const { mutateAsync, isPending } = useModulesPost({
         mutation: {
             onSuccess: res => {
                 queryClient
-                    .invalidateQueries(getModulesGetQueryKey(), {
+                    .invalidateQueries({
+                        queryKey: getModulesGetQueryKey(),
                         refetchType: 'all',
                     })
                     .then(() => navigate(`/muteer/modules/${res.Module_ID}`))
@@ -71,8 +72,8 @@ const ModuleCreate = () => {
 
                             <ButtonSubmitFixed
                                 onCancel={() => navigate('/muteer')}
-                                disabled={isSubmitting || isLoading}
-                                isLoading={isLoading}
+                                disabled={isSubmitting || isPending}
+                                isLoading={isPending}
                             />
                         </Form>
                     )}

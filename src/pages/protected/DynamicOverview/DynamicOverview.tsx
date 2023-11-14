@@ -9,6 +9,7 @@ import {
 } from '@pzh-ui/components'
 import { AngleRight, MagnifyingGlass } from '@pzh-ui/icons'
 import { useUpdateEffect } from '@react-hookz/web'
+import { keepPreviousData } from '@tanstack/react-query'
 import { ChangeEvent, KeyboardEvent, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -174,7 +175,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
         },
         {
             query: {
-                keepPreviousData: true,
+                placeholderData: keepPreviousData,
                 enabled:
                     type === 'valid'
                         ? atemporal || (activeTab === 'valid' && !atemporal)
@@ -185,7 +186,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
 
     const {
         data: searchData,
-        isLoading: searchLoading,
+        isPending: searchLoading,
         mutate,
     } = useSearchValidPost()
 

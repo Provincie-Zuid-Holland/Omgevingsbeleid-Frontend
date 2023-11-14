@@ -1,10 +1,9 @@
+import { Button } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
-
-import { Button } from '@pzh-ui/components'
 
 import {
     getModulesModuleIdGetQueryKey,
@@ -100,9 +99,11 @@ const ModuleContentsModal = ({
         mutation: {
             onSuccess: () => {
                 queryClient
-                    .invalidateQueries(
-                        getModulesModuleIdGetQueryKey(parseInt(moduleId!))
-                    )
+                    .invalidateQueries({
+                        queryKey: getModulesModuleIdGetQueryKey(
+                            parseInt(moduleId!)
+                        ),
+                    })
                     .then(handleClose)
 
                 toastNotification('saved')
@@ -117,9 +118,11 @@ const ModuleContentsModal = ({
         mutation: {
             onSuccess: () => {
                 queryClient
-                    .invalidateQueries(
-                        getModulesModuleIdGetQueryKey(parseInt(moduleId!))
-                    )
+                    .invalidateQueries({
+                        queryKey: getModulesModuleIdGetQueryKey(
+                            parseInt(moduleId!)
+                        ),
+                    })
                     .then(handleClose)
 
                 toastNotification('saved')

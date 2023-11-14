@@ -49,7 +49,8 @@ const UserAddModal = () => {
             { data: user },
             {
                 onSuccess: res => {
-                    queryClient.invalidateQueries(queryKeyUsers, {
+                    queryClient.invalidateQueries({
+                        queryKey: queryKeyUsers,
                         refetchType: 'all',
                     })
 

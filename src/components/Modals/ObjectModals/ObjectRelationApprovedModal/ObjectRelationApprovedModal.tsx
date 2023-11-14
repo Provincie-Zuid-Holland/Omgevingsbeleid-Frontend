@@ -1,10 +1,9 @@
+import { Button } from '@pzh-ui/components'
 import { QueryKey, useQueryClient } from '@tanstack/react-query'
 import { Form, Formik } from 'formik'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
-
-import { Button } from '@pzh-ui/components'
 
 import { EditAcknowledgedRelation } from '@/api/fetchers.schemas'
 import Modal from '@/components/Modal'
@@ -70,8 +69,8 @@ const ObjectRelationApprovedModal = ({
         mutation: {
             onSuccess: () => {
                 Promise.all([
-                    queryClient.invalidateQueries(queryKey),
-                    queryClient.invalidateQueries(objectQueryKey),
+                    queryClient.invalidateQueries({ queryKey }),
+                    queryClient.invalidateQueries({ queryKey: objectQueryKey }),
                 ]).then(handleClose)
 
                 toastNotification('acknowledgedRelationDisconnected')

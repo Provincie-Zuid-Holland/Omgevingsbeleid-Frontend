@@ -51,7 +51,7 @@ const SidebarResults = () => {
         data,
         mutate,
         reset,
-        isLoading: geoLoading,
+        isPending: geoLoading,
     } = useSearch({
         mutation: {
             onSuccess(data) {
@@ -168,7 +168,7 @@ const SidebarResults = () => {
                         drawType === 'marker'
                             ? `POINT (${latLng})`
                             : `POLYGON ((${latLng}))`,
-                    Function: 'CONTAINS',
+                    Function: drawType === 'marker' ? 'CONTAINS' : 'OVERLAPS',
                     Object_Types: !!selectedFilters.length
                         ? selectedFilters
                         : allFilterOptions,

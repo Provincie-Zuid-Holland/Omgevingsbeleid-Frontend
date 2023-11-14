@@ -1,8 +1,7 @@
+import { Button, FormikSelect, FormikTextArea, Text } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik } from 'formik'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
-
-import { Button, FormikSelect, FormikTextArea, Text } from '@pzh-ui/components'
 
 import {
     getModulesModuleIdGetQueryKey,
@@ -57,21 +56,24 @@ const ModuleEditObjectModal = ({ object }: ModuleEditObjectModalProps) => {
     /**
      * Edit object
      */
-    const { mutate, isLoading, isError } =
+    const { mutate, isPending, isError } =
         useModulesModuleIdObjectContextObjectTypeLineageIdPost({
             mutation: {
                 onSuccess: () => {
                     Promise.all([
-                        queryClient.invalidateQueries(
-                            getModulesModuleIdObjectContextObjectTypeLineageIdGetQueryKey(
-                                object.Module_ID,
-                                object.Object_Type,
-                                object.Object_ID
-                            )
-                        ),
-                        queryClient.invalidateQueries(
-                            getModulesModuleIdGetQueryKey(object.Module_ID)
-                        ),
+                        queryClient.invalidateQueries({
+                            queryKey:
+                                getModulesModuleIdObjectContextObjectTypeLineageIdGetQueryKey(
+                                    object.Module_ID,
+                                    object.Object_Type,
+                                    object.Object_ID
+                                ),
+                        }),
+                        queryClient.invalidateQueries({
+                            queryKey: getModulesModuleIdGetQueryKey(
+                                object.Module_ID
+                            ),
+                        }),
                     ]).then(() => setActiveModal(null)),
                         toastNotification('saved')
                 },
@@ -165,8 +167,8 @@ const ModuleEditObjectModal = ({ object }: ModuleEditObjectModalProps) => {
                             <Button
                                 variant="cta"
                                 type="submit"
-                                isDisabled={isLoading && !isError}
-                                isLoading={isLoading && !isError}>
+                                isDisabled={isPending && !isError}
+                                isLoading={isPending && !isError}>
                                 Opslaan
                             </Button>
                         </div>

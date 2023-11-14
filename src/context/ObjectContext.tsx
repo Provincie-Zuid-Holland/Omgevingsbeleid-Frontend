@@ -5,7 +5,7 @@ import {
     useQueryClient,
 } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
-import { createContext, ReactNode, useMemo } from 'react'
+import { ReactNode, createContext, useEffect, useMemo } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
 import {
@@ -88,24 +88,12 @@ function ObjectProvider({
         {
             query: {
                 enabled: !!objectId && !!moduleId,
-                onError: error => {
-                    if ((error as AxiosError).response?.status === 404) {
-                        navigate(`/muteer/modules/${moduleId}`)
-                        toastNotification('notAllowed')
-                    }
-                },
             },
         }
     )
     const latest = useGetLatestLineage!<ModelReturnType>(parseInt(objectId!), {
         query: {
             enabled: !!objectId && !moduleId,
-            onError: error => {
-                if ((error as AxiosError).response?.status === 404) {
-                    navigate('/muteer')
-                    toastNotification('notAllowed')
-                }
-            },
         },
     })
 
@@ -114,7 +102,7 @@ function ObjectProvider({
             parseInt(objectId!),
             { minimum_status: 'Ontwerp GS Concept' },
             {
-                query: { enabled: !!objectId, onError: () => {} },
+                query: { enabled: !!objectId },
             }
         ) || {}
 
@@ -142,7 +130,7 @@ function ObjectProvider({
             mutation: {
                 onSuccess: () => {
                     queryClient
-                        .invalidateQueries(data?.queryKey)
+                        .invalidateQueries({ queryKey: data?.queryKey })
                         .then(onSuccess)
 
                     toastNotification('saved')
@@ -168,12 +156,8 @@ function ObjectProvider({
      * Check if logged in user is set as client
      */
     const isClient = useMemo(
-        () =>
-            data?.data?.ObjectStatics?.Client_1?.UUID === user?.UUID,
-        [
-            user?.UUID,
-            data?.data?.ObjectStatics?.Client_1?.UUID,
-        ]
+        () => data?.data?.ObjectStatics?.Client_1?.UUID === user?.UUID,
+        [user?.UUID, data?.data?.ObjectStatics?.Client_1?.UUID]
     )
 
     const value = {
@@ -185,6 +169,26 @@ function ObjectProvider({
         activeModules,
         activeModulesLoading,
     }
+
+    useEffect(() => {
+        if (
+            latestInModule?.isError &&
+            (latestInModule?.error as AxiosError).response?.status === 404
+        ) {
+            navigate(`/muteer/modules/${moduleId}`)
+            toastNotification('notAllowed')
+        }
+    }, [latestInModule?.isError, latestInModule?.error, moduleId, navigate])
+
+    useEffect(() => {
+        if (
+            latest?.isError &&
+            (latest?.error as AxiosError).response?.status === 404
+        ) {
+            navigate('/muteer')
+            toastNotification('notAllowed')
+        }
+    }, [latest?.isError, latest?.error, moduleId, navigate])
 
     return (
         // @ts-ignore

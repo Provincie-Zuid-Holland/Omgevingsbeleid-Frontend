@@ -1,9 +1,8 @@
+import { Heading, Text } from '@pzh-ui/components'
+import { Triangle } from '@pzh-ui/icons'
 import groupBy from 'lodash.groupby'
 import { useCallback, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-
-import { Heading, Text } from '@pzh-ui/components'
-import { Triangle } from '@pzh-ui/icons'
 
 import { useObjectGraphGet } from '@/api/fetchers'
 import { GraphVertice } from '@/api/fetchers.schemas'
@@ -21,7 +20,7 @@ interface ObjectNetworkProps {
 const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
     const { data: graph } = useObjectGraphGet(
         { uuid: data.UUID! },
-        { query: { enabled: !!data.UUID, onError: () => {} } }
+        { query: { enabled: !!data.UUID } }
     )
 
     /**

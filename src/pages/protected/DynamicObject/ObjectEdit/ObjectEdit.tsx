@@ -83,8 +83,8 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
             })
             .then(() => {
                 Promise.all([
-                    queryClient.invalidateQueries(objectQueryKey),
-                    queryClient.invalidateQueries(queryKey),
+                    queryClient.invalidateQueries({ queryKey: objectQueryKey }),
+                    queryClient.invalidateQueries({ queryKey }),
                 ]).then(() => navigate(`/muteer/modules/${moduleId}`))
             })
             .catch(err =>

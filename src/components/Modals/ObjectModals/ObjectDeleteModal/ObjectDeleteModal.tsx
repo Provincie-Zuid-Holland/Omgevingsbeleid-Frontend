@@ -44,9 +44,7 @@ const ObjectDeleteModal = ({ object, model }: ObjectDeleteModalProps) => {
         mutation: {
             onSuccess: () => {
                 queryClient
-                    .invalidateQueries(queryKey, {
-                        refetchType: 'all',
-                    })
+                    .invalidateQueries({ queryKey, refetchType: 'all' })
                     .then(() => navigate(`/muteer/${plural}`))
 
                 toastNotification('objectRemoved')
