@@ -86,7 +86,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
     } = useGetLatestLineage(data!.Object_ID!, {
         query: { enabled: !!data?.Object_ID },
     })
-    const { data: revisions } =
+    const { data: revisions, isPending: revisionsLoading } =
         useGetValidLineage?.<{ results?: ModelReturnType[] }>(
             data!.Object_ID!,
             undefined,
@@ -158,6 +158,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                 <div className="order-1 col-span-6 xl:col-span-2">
                     <Sidebar
                         revisions={amountOfRevisions}
+                        revisionsLoading={revisionsLoading}
                         model={model}
                         handleModal={() => setActiveModal('revision')}
                         isRevision={isRevision}
