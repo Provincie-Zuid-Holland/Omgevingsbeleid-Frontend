@@ -62,13 +62,11 @@ const SidebarResults = () => {
                         limit: data?.limit,
                     })
                 } else {
-                    if (!pagination.isLoaded) {
-                        setPagination({
-                            isLoaded: true,
-                            total: data?.total,
-                            limit: data?.limit,
-                        })
-                    }
+                    setPagination({
+                        isLoaded: true,
+                        total: data?.total,
+                        limit: data?.limit,
+                    })
 
                     if (resultsContainer.current) {
                         resultsContainer.current.scrollTo(0, 0)
