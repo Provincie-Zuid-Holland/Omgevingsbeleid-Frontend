@@ -21,6 +21,7 @@ const FormBasicInfo = () => {
     const allowedUserRoles: Role[] = [
         'Functioneel beheerder',
         'Behandelend Ambtenaar',
+        'Ambtelijk opdrachtgever',
     ]
 
     /**
