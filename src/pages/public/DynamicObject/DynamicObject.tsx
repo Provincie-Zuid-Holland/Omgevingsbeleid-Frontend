@@ -172,8 +172,8 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                                     Let op, dit is een{' '}
                                     {isRevision
                                         ? 'ontwerpversie'
-                                        : 'verouderde'}{' '}
-                                    versie van {demonstrative}{' '}
+                                        : 'verouderde versie'}{' '}
+                                    van {demonstrative}{' '}
                                     {singularReadable},{' '}
                                     <Hyperlink
                                         to={`/${slugOverview}/${plural}/${latest.UUID}`}

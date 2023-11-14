@@ -153,7 +153,7 @@ export const getObjectRevisionBannerText = (
 
     switch (revision.Module_Status) {
         case 'Ontwerp GS':
-            return 'Er wordt aan gewerkt.'
+            return `Op dit moment wordt er in module '${revision.Module_Title}' gewerkt aan een nieuwe versie van ${model.defaults.prefixSingular} ${model.defaults.singularReadable}`
         case 'Ter Inzage':
             return (
                 <>
@@ -166,7 +166,7 @@ export const getObjectRevisionBannerText = (
         case 'Definitief ontwerp GS':
             return (
                 <>
-                    Is in inspraak geweest,{' '}
+                    Is in inspraak geweest in module '{revision.Module_Title}',{' '}
                     <Hyperlink to={path} text="bekijk deze versie hier" />.
                 </>
             )
