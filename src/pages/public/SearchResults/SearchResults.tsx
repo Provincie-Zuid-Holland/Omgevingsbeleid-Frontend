@@ -84,7 +84,7 @@ const SearchResults = () => {
         set('page', page.toString())
     }
 
-    const { data, mutate, isLoading, isError } = useSearchValidPost({
+    const { data, mutate, isPending, isError } = useSearchValidPost({
         mutation: {
             onSuccess(data) {
                 if (!!!data.results.length) {
@@ -189,7 +189,7 @@ const SearchResults = () => {
                     </div>
                 </div>
                 <div className="col-span-4">
-                    {isLoading ? (
+                    {isPending ? (
                         <div className="flex justify-center">
                             <LoaderSpinner />
                         </div>

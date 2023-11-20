@@ -325,7 +325,7 @@ const RevisionItem = ({
     ModuleObjectContext,
 }: PublicModuleObjectShort) => {
     const model = models[Object_Type as ModelType]
-    const { singularCapitalize, slugOverview } = model.defaults
+    const { singularCapitalize, slugOverview, plural } = model.defaults
 
     const action = getPublicObjectActionText(ModuleObjectContext?.Action)
     const Icon = getPublicObjectActionIcon(ModuleObjectContext?.Action)
@@ -366,7 +366,7 @@ const RevisionItem = ({
                 </div>
             </div>
             <Hyperlink
-                to={`/${slugOverview}/ontwerpversie/${Module_ID}/${UUID}`}
+                to={`/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${UUID}`}
                 text={Title}
             />
         </div>

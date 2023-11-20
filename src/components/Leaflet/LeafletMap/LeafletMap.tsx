@@ -45,6 +45,7 @@ const LeafletMap = ({
         center: leafletCenter,
         zoom: 4,
         maxZoom: 12,
+        minZoom: 3,
         zoomControl: false,
         scrollWheelZoom: true,
         ...options,

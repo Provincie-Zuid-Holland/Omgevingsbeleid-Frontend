@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import Avatar from '@/components/Avatar/Avatar'
+import { LoaderCard } from '@/components/Loader'
 import TableOfContents from '@/components/TableOfContents/TableOfContents'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
@@ -13,6 +14,8 @@ interface ObjectSidebarProps extends ModelReturnType {
     model: Model
     /** Amount of revisions */
     revisions?: number
+    /** Revisions loading */
+    revisionsLoading?: boolean
     /** If object is a revision */
     isRevision?: boolean
     /** Handle revision modal state */
@@ -23,6 +26,7 @@ const ObjectSidebar = ({
     Start_Validity,
     End_Validity,
     revisions,
+    revisionsLoading,
     Object_ID,
     ObjectStatics,
     model,
@@ -78,7 +82,9 @@ const ObjectSidebar = ({
 
                 {!isRevision && (
                     <div className="mt-2">
-                        {!!revisions && revisions > 0 ? (
+                        {revisionsLoading ? (
+                            <LoaderCard height="30" mb="" className="w-28" />
+                        ) : !!revisions && revisions > 0 ? (
                             <button
                                 className="text-pzh-green underline"
                                 onClick={handleModal}>

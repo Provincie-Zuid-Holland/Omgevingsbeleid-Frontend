@@ -1,7 +1,6 @@
+import { Button, Text } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
-
-import { Button, Text } from '@pzh-ui/components'
 
 import {
     getModulesGetQueryKey,
@@ -21,16 +20,19 @@ const ModuleActivateModal = () => {
     /**
      * Activate module
      */
-    const { mutate, isLoading } = useModulesModuleIdActivatePost({
+    const { mutate, isPending } = useModulesModuleIdActivatePost({
         mutation: {
             onSuccess: () => {
                 Promise.all([
-                    queryClient.invalidateQueries(getModulesGetQueryKey(), {
+                    queryClient.invalidateQueries({
+                        queryKey: getModulesGetQueryKey(),
                         refetchType: 'all',
                     }),
-                    queryClient.invalidateQueries(
-                        getModulesModuleIdGetQueryKey(parseInt(moduleId!))
-                    ),
+                    queryClient.invalidateQueries({
+                        queryKey: getModulesModuleIdGetQueryKey(
+                            parseInt(moduleId!)
+                        ),
+                    }),
                 ]).then(() => setActiveModal(null))
 
                 toastNotification('moduleActivate')
@@ -53,8 +55,8 @@ const ModuleActivateModal = () => {
                 <Button
                     variant="cta"
                     onPress={() => mutate({ moduleId: parseInt(moduleId!) })}
-                    isDisabled={isLoading}
-                    isLoading={isLoading}>
+                    isDisabled={isPending}
+                    isLoading={isPending}>
                     Activeren
                 </Button>
             </div>

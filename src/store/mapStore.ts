@@ -22,6 +22,22 @@ interface MapState {
     drawType?: 'polygon' | 'marker' | 'werkingsgebied'
     /** Set type of drawn object */
     setDrawType: (drawType: 'polygon' | 'marker' | 'werkingsgebied') => void
+    /** Pagination */
+    pagination: {
+        isLoaded: boolean
+        total?: number
+        limit?: number
+    }
+    /** Function to set pagination */
+    setPagination: (pagination: {
+        isLoaded: boolean
+        total?: number
+        limit?: number
+    }) => void
+    /** Current page */
+    currPage: number
+    /** Set current page */
+    setCurrPage: (currPage: number) => void
 }
 
 const useMapStore = create<MapState>(set => ({
@@ -36,6 +52,12 @@ const useMapStore = create<MapState>(set => ({
     setIsAreaLoading: isAreaLoading =>
         set(state => ({ ...state, isAreaLoading })),
     setDrawType: drawType => set(state => ({ ...state, drawType })),
+    pagination: {
+        isLoaded: false,
+    },
+    setPagination: pagination => set(state => ({ ...state, pagination })),
+    currPage: 1,
+    setCurrPage: currPage => set(state => ({ ...state, currPage })),
 }))
 
 export default useMapStore

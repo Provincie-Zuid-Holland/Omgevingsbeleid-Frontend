@@ -1,9 +1,8 @@
+import { Button, FormikSelect, Text } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
-
-import { Button, FormikSelect, Text } from '@pzh-ui/components'
 
 import {
     getModulesGetQueryKey,
@@ -29,10 +28,13 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
     const createVersion = useModulesModuleIdStatusPatch({
         mutation: {
             onSuccess: () => {
-                queryClient.invalidateQueries(
-                    getModulesModuleIdGetQueryKey(parseInt(moduleId!))
-                )
-                queryClient.invalidateQueries(getModulesGetQueryKey(), {
+                queryClient.invalidateQueries({
+                    queryKey: getModulesModuleIdGetQueryKey(
+                        parseInt(moduleId!)
+                    ),
+                })
+                queryClient.invalidateQueries({
+                    queryKey: getModulesGetQueryKey(),
                     refetchType: 'all',
                 })
 

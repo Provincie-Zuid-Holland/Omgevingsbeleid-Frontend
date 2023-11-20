@@ -1,8 +1,7 @@
-import { useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
-
 import { Button, Heading, Pagination, Text } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
+import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { useModulesGet } from '@/api/fetchers'
 import { LoaderCard } from '@/components/Loader'
@@ -15,35 +14,16 @@ const PAGE_LIMIT = 20
 const DashboardAdmin = () => {
     const [currPage, setCurrPage] = useState(1)
 
-    const { data: modules, isLoading: modulesLoading } = useModulesGet(
-        {
-            only_active: false,
-            only_mine: false,
-            limit: PAGE_LIMIT,
-            offset: (currPage - 1) * PAGE_LIMIT,
-        },
-        {
-            query: {
-                onSuccess(data) {
-                    if (!!!data.results.length) {
-                        setPagination({
-                            isLoaded: false,
-                            total: data?.total,
-                            limit: data?.limit,
-                        })
-                    } else {
-                        if (!pagination.isLoaded) {
-                            setPagination({
-                                isLoaded: true,
-                                total: data?.total,
-                                limit: data?.limit,
-                            })
-                        }
-                    }
-                },
-            },
-        }
-    )
+    const {
+        data: modules,
+        isLoading: modulesLoading,
+        isSuccess,
+    } = useModulesGet({
+        only_active: false,
+        only_mine: false,
+        limit: PAGE_LIMIT,
+        offset: (currPage - 1) * PAGE_LIMIT,
+    })
 
     const [pagination, setPagination] = useState({
         isLoaded: false,
@@ -58,6 +38,26 @@ const DashboardAdmin = () => {
             ),
         [modules]
     )
+
+    useEffect(() => {
+        if (isSuccess) {
+            if (!!!modules.results.length) {
+                setPagination({
+                    isLoaded: false,
+                    total: modules?.total,
+                    limit: modules?.limit,
+                })
+            } else {
+                if (!pagination.isLoaded) {
+                    setPagination({
+                        isLoaded: true,
+                        total: modules?.total,
+                        limit: modules?.limit,
+                    })
+                }
+            }
+        }
+    }, [isSuccess, modules, pagination.isLoaded])
 
     return (
         <div className="grid grid-cols-6">

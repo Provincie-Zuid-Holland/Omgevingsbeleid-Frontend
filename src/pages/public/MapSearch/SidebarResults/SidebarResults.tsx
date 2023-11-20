@@ -1,7 +1,7 @@
 import { Transition } from '@headlessui/react'
 import { Heading, Pagination, Text } from '@pzh-ui/components'
 import { useUpdateEffect } from '@react-hookz/web'
-import { useMemo, useRef, useState } from 'react'
+import { useMemo, useRef } from 'react'
 
 import { useSearchGeoPost, useSearchGeometryPost } from '@/api/fetchers'
 import Filter from '@/components/Filter'
@@ -25,6 +25,10 @@ const SidebarResults = () => {
     const mapInstance = useMapStore(state => state.mapInstance)
     const isLoading = useMapStore(state => state.isDataLoading)
     const drawType = useMapStore(state => state.drawType)
+    const pagination = useMapStore(state => state.pagination)
+    const setPagination = useMapStore(state => state.setPagination)
+    const currPage = useMapStore(() => parseInt(page || '1'))
+    const setCurrPage = useMapStore(state => state.setCurrPage)
 
     const { amountOfFilters, filters, selectedFilters, setSelectedFilters } =
         useFilterStore(state => ({
@@ -51,7 +55,7 @@ const SidebarResults = () => {
         data,
         mutate,
         reset,
-        isLoading: geoLoading,
+        isPending: geoLoading,
     } = useSearch({
         mutation: {
             onSuccess(data) {
@@ -62,13 +66,11 @@ const SidebarResults = () => {
                         limit: data?.limit,
                     })
                 } else {
-                    if (!pagination.isLoaded) {
-                        setPagination({
-                            isLoaded: true,
-                            total: data?.total,
-                            limit: data?.limit,
-                        })
-                    }
+                    setPagination({
+                        isLoaded: true,
+                        total: data?.total,
+                        limit: data?.limit,
+                    })
 
                     if (resultsContainer.current) {
                         resultsContainer.current.scrollTo(0, 0)
@@ -78,12 +80,7 @@ const SidebarResults = () => {
         },
     })
 
-    const [currPage, setCurrPage] = useState(parseInt(page || '1'))
-    const [pagination, setPagination] = useState({
-        isLoaded: false,
-        total: data?.total,
-        limit: data?.limit,
-    })
+    //const [currPage, setCurrPage] = useState(parseInt(page || '1'))
 
     /**
      * Handle pagination
@@ -168,7 +165,6 @@ const SidebarResults = () => {
                         drawType === 'marker'
                             ? `POINT (${latLng})`
                             : `POLYGON ((${latLng}))`,
-                    Function: 'CONTAINS',
                     Object_Types: !!selectedFilters.length
                         ? selectedFilters
                         : allFilterOptions,

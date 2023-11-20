@@ -1,7 +1,3 @@
-import { Form, Formik } from 'formik'
-import { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-
 import {
     Button,
     FormikInput,
@@ -12,6 +8,10 @@ import {
     Tabs,
 } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
+import { keepPreviousData } from '@tanstack/react-query'
+import { Form, Formik } from 'formik'
+import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { useUsersSearchGet } from '@/api/fetchers'
 import UserAddModal from '@/components/Modals/UserModals/UserAddModal'
@@ -97,7 +97,7 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
         },
         {
             query: {
-                keepPreviousData: true,
+                placeholderData: keepPreviousData,
             },
         }
     )
