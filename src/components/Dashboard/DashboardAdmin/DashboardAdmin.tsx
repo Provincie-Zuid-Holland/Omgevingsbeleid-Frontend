@@ -1,6 +1,6 @@
 import { Button, Heading, Pagination, Text } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { useModulesGet } from '@/api/fetchers'
@@ -19,7 +19,7 @@ const DashboardAdmin = () => {
         isLoading: modulesLoading,
         isSuccess,
     } = useModulesGet({
-        only_active: false,
+        only_active: true,
         only_mine: false,
         limit: PAGE_LIMIT,
         offset: (currPage - 1) * PAGE_LIMIT,
@@ -30,14 +30,6 @@ const DashboardAdmin = () => {
         total: modules?.total,
         limit: modules?.limit,
     })
-
-    const sortedModules = useMemo(
-        () =>
-            modules?.results.sort(
-                (a, b) => Number(a.Closed) - Number(b.Closed)
-            ),
-        [modules]
-    )
 
     useEffect(() => {
         if (isSuccess) {
@@ -115,7 +107,7 @@ const DashboardAdmin = () => {
                                 <LoaderCard height="62" mb="" />
                             </>
                         ) : (
-                            sortedModules?.map(module => (
+                            modules?.results?.map(module => (
                                 <ModuleTile
                                     key={`module-${module.Module_ID}`}
                                     {...module}
