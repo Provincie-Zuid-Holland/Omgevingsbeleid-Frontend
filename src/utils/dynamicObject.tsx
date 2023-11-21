@@ -163,13 +163,10 @@ export const getObjectRevisionBannerText = (
                     <Hyperlink to={path} text="bekijk deze versie hier" />.
                 </>
             )
+        case 'Definitief ontwerp GS Concept':
         case 'Definitief ontwerp GS':
-            return (
-                <>
-                    Is in inspraak geweest in module '{revision.Module_Title}',{' '}
-                    <Hyperlink to={path} text="bekijk deze versie hier" />.
-                </>
-            )
+            return `Is in inspraak geweest in module '${revision.Module_Title}'.`
+
         case 'Ontwerp PS':
         case 'Definitief ontwerp PS':
         case 'Vastgesteld':

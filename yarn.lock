@@ -87,13 +87,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@axe-core/react@npm:4.4.1":
-  version: 4.4.1
-  resolution: "@axe-core/react@npm:4.4.1"
+"@axe-core/react@npm:^4.8.1":
+  version: 4.8.1
+  resolution: "@axe-core/react@npm:4.8.1"
   dependencies:
-    axe-core: "npm:^4.4.1"
+    axe-core: "npm:~4.8.2"
     requestidlecallback: "npm:^0.3.0"
-  checksum: 75d3a2598fe81814f8912b0f63fa6261f46fa855afacb60b84fdf56bdac205689e85578c310ef80af62f535dca988031b2bf2414d48e772ab8cc67f5338b3ea6
+  checksum: 878530239eaa2c4dae7efcb40c1e31e87f93154fcc4465a09f87470573190b918370a91f1c3eea67c95e56ba07e9e7567d707461bc7e5ae7599fb1490b73570c
   languageName: node
   linkType: hard
 
@@ -4991,10 +4991,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@total-typescript/ts-reset@npm:^0.4.2":
-  version: 0.4.2
-  resolution: "@total-typescript/ts-reset@npm:0.4.2"
-  checksum: 76bd3f7cde18985d08c156a7e1d49b5be40d899f46ffb210ad2d487bce3a371637effd2b2e2b278580efcdda533909b654052fa302405624331e1e96422c350a
+"@total-typescript/ts-reset@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "@total-typescript/ts-reset@npm:0.5.1"
+  checksum: f773a2b91707fab677c361837ef7855522d470e8a3abc0b9209a04832715feb0aa1ef0d10db880c1232acbd2c84222ec7c1bbf3f92d1d34d18c18ce08d304e45
   languageName: node
   linkType: hard
 
@@ -6448,7 +6448,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axe-core@npm:^4.4.1":
+"axe-core@npm:~4.8.2":
   version: 4.8.2
   resolution: "axe-core@npm:4.8.2"
   checksum: 3e8dbf264a57767713daa77fe04bbabd71a956b08b99c2eb0ec61b75852f21190653f557d2da623dea9e0a7555460deaac71d9f6a9125c0b52576f8581bfbe52
@@ -12446,7 +12446,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "pzh@workspace:."
   dependencies:
-    "@axe-core/react": "npm:4.4.1"
+    "@axe-core/react": "npm:^4.8.1"
     "@faker-js/faker": "npm:^8.2.0"
     "@headlessui/react": "npm:^1.5.0"
     "@pzh-ui/components": "npm:^0.0.442"
@@ -12459,7 +12459,7 @@ __metadata:
     "@testing-library/jest-dom": "npm:^5.16.5"
     "@testing-library/react": "npm:^14.0.0"
     "@testing-library/user-event": "npm:^14.4.3"
-    "@total-typescript/ts-reset": "npm:^0.4.2"
+    "@total-typescript/ts-reset": "npm:^0.5.1"
     "@types/d3": "npm:^7.4.0"
     "@types/dompurify": "npm:^3.0.2"
     "@types/leaflet": "npm:^1.7.8"
