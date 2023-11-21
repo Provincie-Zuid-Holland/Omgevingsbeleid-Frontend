@@ -8,12006 +8,1827 @@
         
  * OpenAPI spec version: 3.0-alpha
  */
-import { faker } from '@faker-js/faker'
-import { HttpResponse, delay, http } from 'msw'
-import { GraphEdgeType } from './fetchers.schemas'
-
-export const getAmbitiesValidGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getAmbitiesValidLineageIdGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getAmbitiesVersionObjectUuidGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Beleidsdoelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Client_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getAmbitiesLatestLineageIdGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Beleidsdoelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Client_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getAmbitiesRelationsLineageIdGetMock = () =>
-    Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Description: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Object_ID: faker.number.int({ min: undefined, max: undefined }),
-        Object_Type: faker.word.sample(),
-        Title: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-    }))
-
-export const getAmbitiesRelationsLineageIdPutMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getAmbitieStaticLineageIdPostMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getModulesModuleIdObjectAmbitieLineageIdGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Client_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getModulesModuleIdObjectAmbitieLineageIdPatchMock = () => ({
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getModulesModuleIdObjectAmbitieLatestLineageIdGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Beleidsdoelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Client_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getModulesModuleIdObjectAmbitieVersionObjectUuidGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Beleidsdoelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Client_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getModulesObjectAmbitieActiveLineageIdGetMock = () =>
-    Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Module: {
-            Closed: faker.datatype.boolean(),
-            Description: faker.word.sample(),
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Manager_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Module_Manager_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Status: faker.helpers.arrayElement([
-                {
-                    Created_By_UUID: faker.string.uuid(),
-                    Created_Date: `${
-                        faker.date.past().toISOString().split('.')[0]
-                    }Z`,
-                    ID: faker.number.int({ min: undefined, max: undefined }),
-                    Module_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Status: faker.word.sample(),
-                },
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-        },
-        Module_Object: {
-            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Module_ID: faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-    }))
-
-export const getRevisionsModuleIdAmbitieVersionObjectUuidGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Beleidsdoelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Client_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getBeleidsdoelenValidGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Description: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getBeleidsdoelenValidLineageIdGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Description: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getBeleidsdoelenVersionObjectUuidGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Ambities: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Beleidskeuzes: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Maatregelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Client_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getBeleidsdoelenLatestLineageIdGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Ambities: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Beleidskeuzes: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Maatregelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Client_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getBeleidsdoelenRelationsLineageIdGetMock = () =>
-    Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Description: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Object_ID: faker.number.int({ min: undefined, max: undefined }),
-        Object_Type: faker.word.sample(),
-        Title: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-    }))
-
-export const getBeleidsdoelenRelationsLineageIdPutMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getBeleidsdoelStaticLineageIdPostMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getModulesModuleIdObjectBeleidsdoelLineageIdGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Description: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Client_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getModulesModuleIdObjectBeleidsdoelLineageIdPatchMock = () => ({
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getModulesModuleIdObjectBeleidsdoelLatestLineageIdGetMock =
-    () => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Ambities: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Beleidskeuzes: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Description: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Maatregelen: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Client_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Public_Revisions: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Module_ID: faker.number.int({ min: undefined, max: undefined }),
-                Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
-                Module_Title: faker.word.sample(),
-            })),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })
-
-export const getModulesModuleIdObjectBeleidsdoelVersionObjectUuidGetMock =
-    () => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Ambities: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Beleidskeuzes: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Description: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Maatregelen: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Client_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Public_Revisions: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Module_ID: faker.number.int({ min: undefined, max: undefined }),
-                Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
-                Module_Title: faker.word.sample(),
-            })),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })
-
-export const getModulesObjectBeleidsdoelActiveLineageIdGetMock = () =>
-    Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Module: {
-            Closed: faker.datatype.boolean(),
-            Description: faker.word.sample(),
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Manager_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Module_Manager_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Status: faker.helpers.arrayElement([
-                {
-                    Created_By_UUID: faker.string.uuid(),
-                    Created_Date: `${
-                        faker.date.past().toISOString().split('.')[0]
-                    }Z`,
-                    ID: faker.number.int({ min: undefined, max: undefined }),
-                    Module_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Status: faker.word.sample(),
-                },
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-        },
-        Module_Object: {
-            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Module_ID: faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-    }))
-
-export const getRevisionsModuleIdBeleidsdoelVersionObjectUuidGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Ambities: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Beleidskeuzes: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Maatregelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Client_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getBeleidskeuzesValidGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getBeleidskeuzesValidLineageIdGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getBeleidskeuzesVersionObjectUuidGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Beleidsdoelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Beleidsregels: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Cause: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Explanation: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Gebied: faker.helpers.arrayElement([
-        {
-            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            End_Validity: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            ID: faker.number.int({ min: undefined, max: undefined }),
-            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Start_Validity: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Maatregelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    NationaleBelangen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Code: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Created_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Modified_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-                Weblink: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Client_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Provincial_Interest: faker.helpers.arrayElement([
-        faker.word.sample(),
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    WettelijkeTaken: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Code: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Created_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Modified_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-})
-
-export const getBeleidskeuzesLatestLineageIdGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Beleidsdoelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Beleidsregels: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Cause: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Explanation: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Gebied: faker.helpers.arrayElement([
-        {
-            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            End_Validity: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            ID: faker.number.int({ min: undefined, max: undefined }),
-            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Start_Validity: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Maatregelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    NationaleBelangen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Code: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Created_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Modified_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-                Weblink: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Client_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Provincial_Interest: faker.helpers.arrayElement([
-        faker.word.sample(),
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    WettelijkeTaken: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Code: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Created_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Modified_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-})
-
-export const getBeleidskeuzesRelationsLineageIdGetMock = () =>
-    Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Description: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Object_ID: faker.number.int({ min: undefined, max: undefined }),
-        Object_Type: faker.word.sample(),
-        Title: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-    }))
-
-export const getBeleidskeuzesRelationsLineageIdPutMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getBeleidskeuzeStaticLineageIdPostMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getBeleidskeuzeAcknowledgedRelationsLineageIdGetMock = () =>
-    Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Created_By_UUID: faker.string.uuid(),
-        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Deleted_At: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Denied: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Modified_By_UUID: faker.string.uuid(),
-        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Requested_By_Code: faker.word.sample(),
-        Side_A: {
-            Acknowledged: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            Acknowledged_By_UUID: faker.helpers.arrayElement([
-                faker.string.uuid(),
-                undefined,
-            ]),
-            Explanation: faker.helpers.arrayElement([
-                faker.word.sample(),
-                undefined,
-            ]),
-            Object_ID: faker.number.int({ min: undefined, max: undefined }),
-            Object_Type: faker.word.sample(),
-            Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        },
-        Side_B: {
-            Acknowledged: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            Acknowledged_By_UUID: faker.helpers.arrayElement([
-                faker.string.uuid(),
-                undefined,
-            ]),
-            Explanation: faker.helpers.arrayElement([
-                faker.word.sample(),
-                undefined,
-            ]),
-            Object_ID: faker.number.int({ min: undefined, max: undefined }),
-            Object_Type: faker.word.sample(),
-            Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        },
-        Version: faker.number.int({ min: undefined, max: undefined }),
-    }))
-
-export const getBeleidskeuzeAcknowledgedRelationsLineageIdPostMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getBeleidskeuzeAcknowledgedRelationsLineageIdEditPostMock =
-    () => ({ message: faker.word.sample() })
-
-export const getModulesModuleIdObjectBeleidskeuzeLineageIdGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Client_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getModulesModuleIdObjectBeleidskeuzeLineageIdPatchMock = () => ({
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getModulesModuleIdObjectBeleidskeuzeLatestLineageIdGetMock =
-    () => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Beleidsdoelen: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Beleidsregels: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Cause: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Description: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Explanation: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        Gebied: faker.helpers.arrayElement([
-            {
-                Created_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                End_Validity: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                ID: faker.number.int({ min: undefined, max: undefined }),
-                Modified_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                Start_Validity: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Title: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Maatregelen: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        NationaleBelangen: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Code: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Created_Date: faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        undefined,
-                    ]),
-                    Modified_Date: faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        undefined,
-                    ]),
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                    Weblink: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Client_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Provincial_Interest: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        Public_Revisions: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Module_ID: faker.number.int({ min: undefined, max: undefined }),
-                Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
-                Module_Title: faker.word.sample(),
-            })),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-        WettelijkeTaken: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Code: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Created_Date: faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        undefined,
-                    ]),
-                    Modified_Date: faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        undefined,
-                    ]),
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-    })
-
-export const getModulesModuleIdObjectBeleidskeuzeVersionObjectUuidGetMock =
-    () => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Beleidsdoelen: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Beleidsregels: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Cause: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Description: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Explanation: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        Gebied: faker.helpers.arrayElement([
-            {
-                Created_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                End_Validity: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                ID: faker.number.int({ min: undefined, max: undefined }),
-                Modified_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                Start_Validity: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Title: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Maatregelen: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        NationaleBelangen: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Code: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Created_Date: faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        undefined,
-                    ]),
-                    Modified_Date: faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        undefined,
-                    ]),
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                    Weblink: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Client_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Provincial_Interest: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        Public_Revisions: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Module_ID: faker.number.int({ min: undefined, max: undefined }),
-                Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
-                Module_Title: faker.word.sample(),
-            })),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-        WettelijkeTaken: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Code: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Created_Date: faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        undefined,
-                    ]),
-                    Modified_Date: faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        undefined,
-                    ]),
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-    })
-
-export const getModulesObjectsBeleidskeuzeActiveLineageIdGetMock = () =>
-    Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Module: {
-            Closed: faker.datatype.boolean(),
-            Description: faker.word.sample(),
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Manager_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Module_Manager_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Status: faker.helpers.arrayElement([
-                {
-                    Created_By_UUID: faker.string.uuid(),
-                    Created_Date: `${
-                        faker.date.past().toISOString().split('.')[0]
-                    }Z`,
-                    ID: faker.number.int({ min: undefined, max: undefined }),
-                    Module_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Status: faker.word.sample(),
-                },
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-        },
-        Module_Object: {
-            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Module_ID: faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-    }))
-
-export const getRevisionsModuleIdBeleidskeuzeVersionObjectUuidGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Beleidsdoelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Beleidsregels: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Cause: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Explanation: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Gebied: faker.helpers.arrayElement([
-        {
-            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            End_Validity: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            ID: faker.number.int({ min: undefined, max: undefined }),
-            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Start_Validity: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Maatregelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    NationaleBelangen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Code: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Created_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Modified_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-                Weblink: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Client_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Provincial_Interest: faker.helpers.arrayElement([
-        faker.word.sample(),
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    WettelijkeTaken: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Code: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Created_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Modified_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-})
-
-export const getBeleidsregelsValidGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-        Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getBeleidsregelsValidLineageIdGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-        Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getBeleidsregelsVersionObjectUuidGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Beleidskeuzes: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Client_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-})
-
-export const getBeleidsregelsLatestLineageIdGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Beleidskeuzes: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Client_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-})
-
-export const getBeleidsregelsRelationsLineageIdGetMock = () =>
-    Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Description: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Object_ID: faker.number.int({ min: undefined, max: undefined }),
-        Object_Type: faker.word.sample(),
-        Title: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-    }))
-
-export const getBeleidsregelsRelationsLineageIdPutMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getBeleidsregelStaticLineageIdPostMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getModulesModuleIdObjectBeleidsregelLineageIdGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Client_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-        Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getModulesModuleIdObjectBeleidsregelLineageIdPatchMock = () => ({
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getModulesModuleIdObjectBeleidsregelLatestLineageIdGetMock =
-    () => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Beleidskeuzes: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Description: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Client_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Public_Revisions: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Module_ID: faker.number.int({ min: undefined, max: undefined }),
-                Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
-                Module_Title: faker.word.sample(),
-            })),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-        Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    })
-
-export const getModulesModuleIdObjectBeleidsregelVersionObjectUuidGetMock =
-    () => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Beleidskeuzes: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Description: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Client_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Public_Revisions: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Module_ID: faker.number.int({ min: undefined, max: undefined }),
-                Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
-                Module_Title: faker.word.sample(),
-            })),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-        Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    })
-
-export const getModulesObjectsBeleidsregelActiveLineageIdGetMock = () =>
-    Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Module: {
-            Closed: faker.datatype.boolean(),
-            Description: faker.word.sample(),
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Manager_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Module_Manager_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Status: faker.helpers.arrayElement([
-                {
-                    Created_By_UUID: faker.string.uuid(),
-                    Created_Date: `${
-                        faker.date.past().toISOString().split('.')[0]
-                    }Z`,
-                    ID: faker.number.int({ min: undefined, max: undefined }),
-                    Module_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Status: faker.word.sample(),
-                },
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-        },
-        Module_Object: {
-            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Module_ID: faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-    }))
-
-export const getRevisionsModuleIdBeleidsregelVersionObjectUuidGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Beleidskeuzes: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Client_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-})
-
-export const getGebiedsprogrammasValidGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Image: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getGebiedsprogrammasValidLineageIdGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Image: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getGebiedsprogrammasVersionObjectUuidGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Image: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.word.sample(), null]),
-        undefined,
-    ]),
-    Maatregelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Client_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getGebiedsprogrammasLatestLineageIdGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Image: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.word.sample(), null]),
-        undefined,
-    ]),
-    Maatregelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Client_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getGebiedsprogrammasRelationsLineageIdGetMock = () =>
-    Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Description: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Object_ID: faker.number.int({ min: undefined, max: undefined }),
-        Object_Type: faker.word.sample(),
-        Title: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-    }))
-
-export const getGebiedsprogrammasRelationsLineageIdPutMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getGebiedsprogrammasStaticLineageIdPostMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getModulesModuleIdObjectGebiedsprogrammasLineageIdGetMock =
-    () => ({
-        limit: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        offset: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        results: Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Adjust_On: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([faker.string.uuid(), null]),
-                undefined,
-            ]),
-            Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            Created_By: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Created_Date: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            End_Validity: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    null,
-                ]),
-                undefined,
-            ]),
-            Image: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([faker.word.sample(), null]),
-                undefined,
-            ]),
-            Modified_By: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Modified_Date: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            Object_ID: faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                undefined,
-            ]),
-            ObjectStatics: faker.helpers.arrayElement([
-                {
-                    Client_1: faker.helpers.arrayElement([
-                        {
-                            Gebruikersnaam: faker.word.sample(),
-                            Rol: faker.word.sample(),
-                            UUID: faker.string.uuid(),
-                        },
-                        undefined,
-                    ]),
-                    Owner_1: faker.helpers.arrayElement([
-                        {
-                            Gebruikersnaam: faker.word.sample(),
-                            Rol: faker.word.sample(),
-                            UUID: faker.string.uuid(),
-                        },
-                        undefined,
-                    ]),
-                    Owner_2: faker.helpers.arrayElement([
-                        {
-                            Gebruikersnaam: faker.word.sample(),
-                            Rol: faker.word.sample(),
-                            UUID: faker.string.uuid(),
-                        },
-                        undefined,
-                    ]),
-                    Portfolio_Holder_1: faker.helpers.arrayElement([
-                        {
-                            Gebruikersnaam: faker.word.sample(),
-                            Rol: faker.word.sample(),
-                            UUID: faker.string.uuid(),
-                        },
-                        undefined,
-                    ]),
-                    Portfolio_Holder_2: faker.helpers.arrayElement([
-                        {
-                            Gebruikersnaam: faker.word.sample(),
-                            Rol: faker.word.sample(),
-                            UUID: faker.string.uuid(),
-                        },
-                        undefined,
-                    ]),
-                },
-                undefined,
-            ]),
-            Start_Validity: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    null,
-                ]),
-                undefined,
-            ]),
-            Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-        })),
-        total: faker.number.int({ min: undefined, max: undefined }),
-    })
-
-export const getModulesModuleIdObjectGebiedsprogrammasLineageIdPatchMock =
-    () => ({
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })
-
-export const getModulesModuleIdObjectGebiedsprogrammasLatestLineageIdGetMock =
-    () => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Description: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Image: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Maatregelen: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Client_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Public_Revisions: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Module_ID: faker.number.int({ min: undefined, max: undefined }),
-                Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
-                Module_Title: faker.word.sample(),
-            })),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })
-
-export const getModulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGetMock =
-    () => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Description: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Image: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Maatregelen: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Client_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Public_Revisions: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Module_ID: faker.number.int({ min: undefined, max: undefined }),
-                Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
-                Module_Title: faker.word.sample(),
-            })),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })
-
-export const getModulesObjectsGebiedsprogrammaActiveLineageIdGetMock = () =>
-    Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Module: {
-            Closed: faker.datatype.boolean(),
-            Description: faker.word.sample(),
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Manager_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Module_Manager_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Status: faker.helpers.arrayElement([
-                {
-                    Created_By_UUID: faker.string.uuid(),
-                    Created_Date: `${
-                        faker.date.past().toISOString().split('.')[0]
-                    }Z`,
-                    ID: faker.number.int({ min: undefined, max: undefined }),
-                    Module_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Status: faker.word.sample(),
-                },
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-        },
-        Module_Object: {
-            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Module_ID: faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-    }))
-
-export const getRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGetMock =
-    () => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Description: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Image: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Maatregelen: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Client_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Public_Revisions: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Module_ID: faker.number.int({ min: undefined, max: undefined }),
-                Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
-                Module_Title: faker.word.sample(),
-            })),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })
-
-export const getMaatregelenValidGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getMaatregelenValidLineageIdGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getMaatregelenVersionObjectUuidGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Beleidsdoelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Beleidskeuzes: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Effect: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Gebied: faker.helpers.arrayElement([
-        {
-            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            End_Validity: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            ID: faker.number.int({ min: undefined, max: undefined }),
-            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Start_Validity: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Gebiedsprogrammas: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Client_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Role: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getMaatregelenLatestLineageIdGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Beleidsdoelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Beleidskeuzes: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Effect: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Gebied: faker.helpers.arrayElement([
-        {
-            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            End_Validity: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            ID: faker.number.int({ min: undefined, max: undefined }),
-            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Start_Validity: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Gebiedsprogrammas: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Client_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Role: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getMaatregelenRelationsLineageIdGetMock = () =>
-    Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Description: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Object_ID: faker.number.int({ min: undefined, max: undefined }),
-        Object_Type: faker.word.sample(),
-        Title: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-    }))
-
-export const getMaatregelenRelationsLineageIdPutMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getMaatregelStaticLineageIdPostMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getModulesModuleIdObjectMaatregelLineageIdGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Gebied: faker.helpers.arrayElement([
-            {
-                Created_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                End_Validity: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                ID: faker.number.int({ min: undefined, max: undefined }),
-                Modified_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                Start_Validity: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Title: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Client_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getModulesModuleIdObjectMaatregelLineageIdPatchMock = () => ({
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getModulesModuleIdObjectMaatregelLatestLineageIdGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Beleidsdoelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Beleidskeuzes: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Effect: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Gebied: faker.helpers.arrayElement([
-        {
-            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            End_Validity: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            ID: faker.number.int({ min: undefined, max: undefined }),
-            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Start_Validity: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Gebiedsprogrammas: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Client_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Role: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getModulesModuleIdObjectMaatregelVersionObjectUuidGetMock =
-    () => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Beleidsdoelen: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Beleidskeuzes: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Description: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        Effect: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Gebied: faker.helpers.arrayElement([
-            {
-                Created_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                End_Validity: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                ID: faker.number.int({ min: undefined, max: undefined }),
-                Modified_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                Start_Validity: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Title: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Gebiedsprogrammas: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Object: {
-                    Object_ID: faker.helpers.arrayElement([
-                        faker.number.int({ min: undefined, max: undefined }),
-                        undefined,
-                    ]),
-                    Object_Type: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    Title: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    UUID: faker.helpers.arrayElement([
-                        faker.string.uuid(),
-                        undefined,
-                    ]),
-                },
-                Relation: {
-                    Description: faker.helpers.arrayElement([
-                        faker.helpers.arrayElement([faker.word.sample(), null]),
-                        undefined,
-                    ]),
-                    Object_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Object_Type: faker.word.sample(),
-                },
-            })),
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Client_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Public_Revisions: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Module_ID: faker.number.int({ min: undefined, max: undefined }),
-                Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
-                Module_Title: faker.word.sample(),
-            })),
-            undefined,
-        ]),
-        Role: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })
-
-export const getModulesObjectsMaatregelActiveLineageIdGetMock = () =>
-    Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Module: {
-            Closed: faker.datatype.boolean(),
-            Description: faker.word.sample(),
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Manager_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Module_Manager_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Status: faker.helpers.arrayElement([
-                {
-                    Created_By_UUID: faker.string.uuid(),
-                    Created_Date: `${
-                        faker.date.past().toISOString().split('.')[0]
-                    }Z`,
-                    ID: faker.number.int({ min: undefined, max: undefined }),
-                    Module_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Status: faker.word.sample(),
-                },
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-        },
-        Module_Object: {
-            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Module_ID: faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-    }))
-
-export const getRevisionsModuleIdMaatregelVersionObjectUuidGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Beleidsdoelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Beleidskeuzes: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Effect: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Gebied: faker.helpers.arrayElement([
-        {
-            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            End_Validity: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            ID: faker.number.int({ min: undefined, max: undefined }),
-            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Start_Validity: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Gebiedsprogrammas: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Client_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Role: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getNationaalBelangPostMock = () => ({
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getNationaalBelangLineageIdPostMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getNationaalBelangLineageIdDeleteMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getNationaalBelangValidGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        Object_Type: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-        Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getNationaalBelangLatestLineageIdGetMock = () => ({
-    Beleidskeuzes: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object_ID: faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                undefined,
-            ]),
-            Object_Type: faker.helpers.arrayElement([
-                faker.word.sample(),
-                undefined,
-            ]),
-            Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-        })),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-})
-
-export const getNationaalBelangRelationsLineageIdGetMock = () =>
-    Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Description: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Object_ID: faker.number.int({ min: undefined, max: undefined }),
-        Object_Type: faker.word.sample(),
-        Title: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-    }))
-
-export const getNationaalBelangRelationsLineageIdPutMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getNationaalBelangStaticLineageIdPostMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getVerplichtProgrammaPostMock = () => ({
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getVerplichtProgrammaLineageIdPostMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getVerplichtProgrammaLineageIdDeleteMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getVerplichtProgrammaValidGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        Object_Type: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getVerplichtProgrammaLatestLineageIdGetMock = () => ({
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Maatregelen: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    WettelijkeTaken: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            Created_Date: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            Modified_Date: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            Object_ID: faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                undefined,
-            ]),
-            Object_Type: faker.helpers.arrayElement([
-                faker.word.sample(),
-                undefined,
-            ]),
-            Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-        })),
-        undefined,
-    ]),
-})
-
-export const getVerplichtProgrammaRelationsLineageIdGetMock = () =>
-    Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Description: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Object_ID: faker.number.int({ min: undefined, max: undefined }),
-        Object_Type: faker.word.sample(),
-        Title: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-    }))
-
-export const getVerplichtProgrammaRelationsLineageIdPutMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getVerplichtProgrammaStaticLineageIdPostMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getVisiesAlgemeenValidGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getVisiesAlgemeenValidLineageIdGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getVisiesAlgemeenVersionObjectUuidGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getVisiesAlgemeenLatestLineageIdGetMock = () => ({
-    Adjust_On: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Description: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Public_Revisions: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Object_UUID: faker.string.uuid(),
-            Module_Status: faker.word.sample(),
-            Module_Title: faker.word.sample(),
-        })),
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getVisieAlgemeenStaticLineageIdPostMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getModulesModuleIdObjectVisieAlgemeenLineageIdGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Owner_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getModulesModuleIdObjectVisieAlgemeenLineageIdPatchMock = () => ({
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getModulesModuleIdObjectVisieAlgemeenLatestLineageIdGetMock =
-    () => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Description: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Owner_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Public_Revisions: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Module_ID: faker.number.int({ min: undefined, max: undefined }),
-                Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
-                Module_Title: faker.word.sample(),
-            })),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })
-
-export const getModulesModuleIdObjectVisieAlgemeenVersionObjectUuidGetMock =
-    () => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Description: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Owner_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Public_Revisions: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Module_ID: faker.number.int({ min: undefined, max: undefined }),
-                Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
-                Module_Title: faker.word.sample(),
-            })),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })
-
-export const getModulesObjectVisieAlgemeenActiveLineageIdGetMock = () =>
-    Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Module: {
-            Closed: faker.datatype.boolean(),
-            Description: faker.word.sample(),
-            Module_ID: faker.number.int({ min: undefined, max: undefined }),
-            Module_Manager_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Module_Manager_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Status: faker.helpers.arrayElement([
-                {
-                    Created_By_UUID: faker.string.uuid(),
-                    Created_Date: `${
-                        faker.date.past().toISOString().split('.')[0]
-                    }Z`,
-                    ID: faker.number.int({ min: undefined, max: undefined }),
-                    Module_ID: faker.number.int({
-                        min: undefined,
-                        max: undefined,
-                    }),
-                    Status: faker.word.sample(),
-                },
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-        },
-        Module_Object: {
-            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Module_ID: faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                undefined,
-            ]),
-            Title: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-    }))
-
-export const getRevisionsModuleIdVisieAlgemeenVersionObjectUuidGetMock =
-    () => ({
-        Adjust_On: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Description: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        End_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Owner_1: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-                Owner_2: faker.helpers.arrayElement([
-                    {
-                        Gebruikersnaam: faker.word.sample(),
-                        Rol: faker.word.sample(),
-                        UUID: faker.string.uuid(),
-                    },
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Public_Revisions: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Module_ID: faker.number.int({ min: undefined, max: undefined }),
-                Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
-                Module_Title: faker.word.sample(),
-            })),
-            undefined,
-        ]),
-        Start_Validity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                null,
-            ]),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    })
-
-export const getWettelijkeTaakPostMock = () => ({
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-})
-
-export const getWettelijkeTaakLineageIdPostMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getWettelijkeTaakLineageIdDeleteMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getWettelijkeTaakValidGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Created_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        Object_Type: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-        Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getWettelijkeTaakLatestLineageIdGetMock = () => ({
-    Beleidskeuzes: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Object: {
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Object_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            Relation: {
-                Description: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.word.sample(), null]),
-                    undefined,
-                ]),
-                Object_ID: faker.number.int({ min: undefined, max: undefined }),
-                Object_Type: faker.word.sample(),
-            },
-        })),
-        undefined,
-    ]),
-    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Created_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Created_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    End_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Modified_By: faker.helpers.arrayElement([
-        {
-            Gebruikersnaam: faker.word.sample(),
-            Rol: faker.word.sample(),
-            UUID: faker.string.uuid(),
-        },
-        undefined,
-    ]),
-    Modified_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Object_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    ObjectStatics: faker.helpers.arrayElement([
-        {
-            Owner_1: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-            Owner_2: faker.helpers.arrayElement([
-                {
-                    Gebruikersnaam: faker.word.sample(),
-                    Rol: faker.word.sample(),
-                    UUID: faker.string.uuid(),
-                },
-                undefined,
-            ]),
-        },
-        undefined,
-    ]),
-    Start_Validity: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            null,
-        ]),
-        undefined,
-    ]),
-    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    VerplichtProgrammas: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            Created_Date: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            Modified_Date: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            Object_ID: faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                undefined,
-            ]),
-            Object_Type: faker.helpers.arrayElement([
-                faker.word.sample(),
-                undefined,
-            ]),
-            Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-        })),
-        undefined,
-    ]),
-    Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-})
-
-export const getWettelijkeTaakRelationsLineageIdGetMock = () =>
-    Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Description: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Object_ID: faker.number.int({ min: undefined, max: undefined }),
-        Object_Type: faker.word.sample(),
-        Title: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-    }))
-
-export const getWettelijkeTaakRelationsLineageIdPutMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getWettelijkeTaakStaticLineageIdPostMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getUsersGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Email: faker.word.sample(),
-        Gebruikersnaam: faker.word.sample(),
-        IsActive: faker.datatype.boolean(),
-        Rol: faker.word.sample(),
-        Status: faker.word.sample(),
-        UUID: faker.string.uuid(),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getUsersPostMock = () => ({
-    Email: faker.word.sample(),
-    Password: faker.word.sample(),
-    Rol: faker.word.sample(),
-    UUID: faker.string.uuid(),
-})
-
-export const getUsersSearchGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Email: faker.word.sample(),
-        Gebruikersnaam: faker.word.sample(),
-        IsActive: faker.datatype.boolean(),
-        Rol: faker.word.sample(),
-        Status: faker.word.sample(),
-        UUID: faker.string.uuid(),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getUsersUserUuidGetMock = () => ({
-    Email: faker.word.sample(),
-    Gebruikersnaam: faker.word.sample(),
-    IsActive: faker.datatype.boolean(),
-    Rol: faker.word.sample(),
-    Status: faker.word.sample(),
-    UUID: faker.string.uuid(),
-})
-
-export const getUsersUserUuidPostMock = () => ({ message: faker.word.sample() })
-
-export const getUsersUserUuidResetPasswordPostMock = () => ({
-    NewPassword: faker.word.sample(),
-    UUID: faker.string.uuid(),
-})
-
-export const getWerkingsgebiedenGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        End_Validity: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        ID: faker.number.int({ min: undefined, max: undefined }),
-        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Start_Validity: faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split('.')[0]}Z`,
-            undefined,
-        ]),
-        Title: faker.word.sample(),
-        UUID: faker.string.uuid(),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getSearchGeoPostMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Gebied: faker.helpers.arrayElement([
-            faker.word.sample(),
-            faker.string.uuid(),
-        ]),
-        Omschrijving: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        Titel: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Type: faker.word.sample(),
-        UUID: faker.helpers.arrayElement([
-            faker.word.sample(),
-            faker.string.uuid(),
-        ]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getSearchGeometryPostMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Gebied: faker.helpers.arrayElement([
-            faker.word.sample(),
-            faker.string.uuid(),
-        ]),
-        Omschrijving: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        Titel: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        Type: faker.word.sample(),
-        UUID: faker.helpers.arrayElement([
-            faker.word.sample(),
-            faker.string.uuid(),
-        ]),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getSearchPostMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Description: faker.word.sample(),
-        Module_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            undefined,
-        ]),
-        Object_ID: faker.number.int({ min: undefined, max: undefined }),
-        Object_Type: faker.word.sample(),
-        Score: faker.number.int({ min: undefined, max: undefined }),
-        Title: faker.word.sample(),
-        UUID: faker.string.uuid(),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getSearchValidPostMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Description: faker.word.sample(),
-        Object_ID: faker.number.int({ min: undefined, max: undefined }),
-        Object_Type: faker.word.sample(),
-        Score: faker.number.int({ min: undefined, max: undefined }),
-        Title: faker.word.sample(),
-        UUID: faker.string.uuid(),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getFullGraphGetMock = () => ({
-    Edges: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Type: faker.helpers.arrayElement(Object.values(GraphEdgeType)),
-        Vertice_A_Code: faker.word.sample(),
-        Vertice_B_Code: faker.word.sample(),
-    })),
-    Vertices: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Code: faker.word.sample(),
-        Object_ID: faker.number.int({ min: undefined, max: undefined }),
-        Object_Type: faker.word.sample(),
-        Title: faker.word.sample(),
-        UUID: faker.string.uuid(),
-    })),
-})
-
-export const getObjectGraphGetMock = () => ({
-    Edges: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Type: faker.helpers.arrayElement(Object.values(GraphEdgeType)),
-        Vertice_A_Code: faker.word.sample(),
-        Vertice_B_Code: faker.word.sample(),
-    })),
-    Vertices: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Code: faker.word.sample(),
-        Object_ID: faker.number.int({ min: undefined, max: undefined }),
-        Object_Type: faker.word.sample(),
-        Title: faker.word.sample(),
-        UUID: faker.string.uuid(),
-    })),
-})
-
-export const getRevisionsGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Description: faker.word.sample(),
-        Module_ID: faker.number.int({ min: undefined, max: undefined }),
-        Status: faker.helpers.arrayElement([
-            {
-                Created_By_UUID: faker.string.uuid(),
-                Created_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                ID: faker.number.int({ min: undefined, max: undefined }),
-                Module_ID: faker.number.int({ min: undefined, max: undefined }),
-                Status: faker.word.sample(),
-            },
-            undefined,
-        ]),
-        Title: faker.word.sample(),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getRevisionsModuleIdGetMock = () => ({
-    Module: {
-        Description: faker.word.sample(),
-        Module_ID: faker.number.int({ min: undefined, max: undefined }),
-        Status: faker.helpers.arrayElement([
-            {
-                Created_By_UUID: faker.string.uuid(),
-                Created_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                ID: faker.number.int({ min: undefined, max: undefined }),
-                Module_ID: faker.number.int({ min: undefined, max: undefined }),
-                Status: faker.word.sample(),
-            },
-            undefined,
-        ]),
-        Title: faker.word.sample(),
-    },
-    Objects: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Code: faker.word.sample(),
-        Description: faker.word.sample(),
-        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Module_ID: faker.number.int({ min: undefined, max: undefined }),
-        ModuleObjectContext: faker.helpers.arrayElement([
-            {
-                Action: faker.word.sample(),
-                Original_Adjust_On: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Object_ID: faker.number.int({ min: undefined, max: undefined }),
-        Object_Type: faker.word.sample(),
-        Title: faker.word.sample(),
-        UUID: faker.string.uuid(),
-    })),
-})
-
-export const getModulesGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Activated: faker.datatype.boolean(),
-        Closed: faker.datatype.boolean(),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_By_UUID: faker.string.uuid(),
-        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Description: faker.word.sample(),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_By_UUID: faker.string.uuid(),
-        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Module_ID: faker.number.int({ min: undefined, max: undefined }),
-        Module_Manager_1: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Module_Manager_1_UUID: faker.string.uuid(),
-        Module_Manager_2: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Module_Manager_2_UUID: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Status: faker.helpers.arrayElement([
-            {
-                Created_By_UUID: faker.string.uuid(),
-                Created_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                ID: faker.number.int({ min: undefined, max: undefined }),
-                Module_ID: faker.number.int({ min: undefined, max: undefined }),
-                Status: faker.word.sample(),
-            },
-            undefined,
-        ]),
-        Successful: faker.datatype.boolean(),
-        Temporary_Locked: faker.datatype.boolean(),
-        Title: faker.word.sample(),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getModulesPostMock = () => ({
-    Module_ID: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getModulesModuleIdGetMock = () => ({
-    Module: {
-        Activated: faker.datatype.boolean(),
-        Closed: faker.datatype.boolean(),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_By_UUID: faker.string.uuid(),
-        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Description: faker.word.sample(),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_By_UUID: faker.string.uuid(),
-        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Module_ID: faker.number.int({ min: undefined, max: undefined }),
-        Module_Manager_1: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Module_Manager_1_UUID: faker.string.uuid(),
-        Module_Manager_2: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Module_Manager_2_UUID: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.uuid(), null]),
-            undefined,
-        ]),
-        Status: faker.helpers.arrayElement([
-            {
-                Created_By_UUID: faker.string.uuid(),
-                Created_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                ID: faker.number.int({ min: undefined, max: undefined }),
-                Module_ID: faker.number.int({ min: undefined, max: undefined }),
-                Status: faker.word.sample(),
-            },
-            undefined,
-        ]),
-        Successful: faker.datatype.boolean(),
-        Temporary_Locked: faker.datatype.boolean(),
-        Title: faker.word.sample(),
-    },
-    Objects: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Code: faker.word.sample(),
-        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Module_ID: faker.number.int({ min: undefined, max: undefined }),
-        ModuleObjectContext: faker.helpers.arrayElement([
-            {
-                Action: faker.word.sample(),
-                Original_Adjust_On: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Object_ID: faker.number.int({ min: undefined, max: undefined }),
-        Object_Type: faker.word.sample(),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Client_1_UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-                Owner_1_UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-                Owner_2_UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-                Portfolio_Holder_1_UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-                Portfolio_Holder_2_UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Title: faker.word.sample(),
-        UUID: faker.string.uuid(),
-    })),
-    StatusHistory: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Created_By_UUID: faker.string.uuid(),
-        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        ID: faker.number.int({ min: undefined, max: undefined }),
-        Module_ID: faker.number.int({ min: undefined, max: undefined }),
-        Status: faker.word.sample(),
-    })),
-})
-
-export const getModulesModuleIdPostMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getModulesModuleIdActivatePostMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getModulesModuleIdCompletePostMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getModulesModuleIdClosePostMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getModulesModuleIdStatusGetMock = () =>
-    Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Created_By_UUID: faker.string.uuid(),
-        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        ID: faker.number.int({ min: undefined, max: undefined }),
-        Module_ID: faker.number.int({ min: undefined, max: undefined }),
-        Status: faker.word.sample(),
-    }))
-
-export const getModulesModuleIdStatusPatchMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getModulesModuleIdAddNewObjectPostMock = () => ({
-    Code: faker.word.sample(),
-    Object_ID: faker.number.int({ min: undefined, max: undefined }),
-    Object_Type: faker.word.sample(),
-})
-
-export const getModulesModuleIdAddExistingObjectPostMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getModulesModuleIdObjectContextObjectTypeLineageIdGetMock =
-    () => ({
-        Action: faker.word.sample(),
-        Code: faker.word.sample(),
-        Conclusion: faker.word.sample(),
-        Created_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Explanation: faker.word.sample(),
-        Modified_By: faker.helpers.arrayElement([
-            {
-                Gebruikersnaam: faker.word.sample(),
-                Rol: faker.word.sample(),
-                UUID: faker.string.uuid(),
-            },
-            undefined,
-        ]),
-        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Module_ID: faker.number.int({ min: undefined, max: undefined }),
-        Object_ID: faker.number.int({ min: undefined, max: undefined }),
-        Object_Type: faker.word.sample(),
-        Original_Adjust_On: faker.helpers.arrayElement([
-            faker.string.uuid(),
-            undefined,
-        ]),
-    })
-
-export const getModulesModuleIdObjectContextObjectTypeLineageIdPostMock =
-    () => ({ message: faker.word.sample() })
-
-export const getModulesModuleIdRemoveObjectTypeLineageIdDeleteMock = () => ({
-    message: faker.word.sample(),
-})
-
-export const getModulesModuleIdSnapshotStatusIdGetMock = () => ({
-    Objects: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({})),
-})
-
-export const getModulesObjectsLatestGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Code: faker.word.sample(),
-        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Module_ID: faker.number.int({ min: undefined, max: undefined }),
-        ModuleObjectContext: faker.helpers.arrayElement([
-            {
-                Action: faker.word.sample(),
-                Original_Adjust_On: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Object_ID: faker.number.int({ min: undefined, max: undefined }),
-        Object_Type: faker.word.sample(),
-        ObjectStatics: faker.helpers.arrayElement([
-            {
-                Client_1_UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-                Owner_1_UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-                Owner_2_UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-                Portfolio_Holder_1_UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-                Portfolio_Holder_2_UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
-            },
-            undefined,
-        ]),
-        Status: faker.word.sample(),
-        Title: faker.word.sample(),
-        UUID: faker.string.uuid(),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getObjectsValidGetMock = () => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Object_ID: faker.number.int({ min: undefined, max: undefined }),
-        Object_Type: faker.word.sample(),
-        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        UUID: faker.string.uuid(),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-})
-
-export const getLoginAccessTokenPostMock = () => ({
-    access_token: faker.word.sample(),
-    identifier: {
-        Gebruikersnaam: faker.word.sample(),
-        Rol: faker.word.sample(),
-        UUID: faker.string.uuid(),
-    },
-    token_type: faker.word.sample(),
-})
-
-export const getPasswordResetPostMock = () => ({ message: faker.word.sample() })
+import {
+  faker
+} from '@faker-js/faker'
+import {
+  HttpResponse,
+  delay,
+  http
+} from 'msw'
+import {
+  GraphEdgeType
+} from './fetchers.schemas'
+
+export const getAmbitiesValidGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getAmbitiesValidLineageIdGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getAmbitiesVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Beleidsdoelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getAmbitiesLatestLineageIdGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Beleidsdoelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getAmbitiesRelationsLineageIdGetMock = () => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample(), Title: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined])})))
+
+export const getAmbitiesRelationsLineageIdPutMock = () => ({message: faker.word.sample()})
+
+export const getAmbitieStaticLineageIdPostMock = () => ({message: faker.word.sample()})
+
+export const getModulesModuleIdObjectAmbitieLineageIdGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getModulesModuleIdObjectAmbitieLineageIdPatchMock = () => ({Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getModulesModuleIdObjectAmbitieLatestLineageIdGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Beleidsdoelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getModulesModuleIdObjectAmbitieVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Beleidsdoelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getModulesObjectAmbitieActiveLineageIdGetMock = () => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module: {Closed: faker.datatype.boolean(), Description: faker.word.sample(), Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Manager_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Module_Manager_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Status: faker.helpers.arrayElement([{Created_By_UUID: faker.string.uuid(), Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, ID: faker.number.int({min: undefined, max: undefined}), Module_ID: faker.number.int({min: undefined, max: undefined}), Status: faker.word.sample()}, undefined]), Title: faker.word.sample()}, Module_Object: {Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Module_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Title: faker.word.sample(), UUID: faker.string.uuid()}})))
+
+export const getRevisionsModuleIdAmbitieVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Beleidsdoelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getBeleidsdoelenValidGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getBeleidsdoelenValidLineageIdGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getBeleidsdoelenVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Ambities: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Beleidskeuzes: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Maatregelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getBeleidsdoelenLatestLineageIdGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Ambities: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Beleidskeuzes: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Maatregelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getBeleidsdoelenRelationsLineageIdGetMock = () => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample(), Title: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined])})))
+
+export const getBeleidsdoelenRelationsLineageIdPutMock = () => ({message: faker.word.sample()})
+
+export const getBeleidsdoelStaticLineageIdPostMock = () => ({message: faker.word.sample()})
+
+export const getModulesModuleIdObjectBeleidsdoelLineageIdGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getModulesModuleIdObjectBeleidsdoelLineageIdPatchMock = () => ({Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getModulesModuleIdObjectBeleidsdoelLatestLineageIdGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Ambities: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Beleidskeuzes: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Maatregelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getModulesModuleIdObjectBeleidsdoelVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Ambities: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Beleidskeuzes: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Maatregelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getModulesObjectBeleidsdoelActiveLineageIdGetMock = () => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module: {Closed: faker.datatype.boolean(), Description: faker.word.sample(), Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Manager_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Module_Manager_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Status: faker.helpers.arrayElement([{Created_By_UUID: faker.string.uuid(), Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, ID: faker.number.int({min: undefined, max: undefined}), Module_ID: faker.number.int({min: undefined, max: undefined}), Status: faker.word.sample()}, undefined]), Title: faker.word.sample()}, Module_Object: {Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Module_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Title: faker.word.sample(), UUID: faker.string.uuid()}})))
+
+export const getRevisionsModuleIdBeleidsdoelVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Ambities: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Beleidskeuzes: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Maatregelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getBeleidskeuzesValidGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getBeleidskeuzesValidLineageIdGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getBeleidskeuzesVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Beleidsdoelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Beleidsregels: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Cause: faker.helpers.arrayElement([faker.word.sample(), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Explanation: faker.helpers.arrayElement([faker.word.sample(), undefined]), Gebied: faker.helpers.arrayElement([{Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, End_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), ID: faker.number.int({min: undefined, max: undefined}), Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Start_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Title: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Maatregelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), NationaleBelangen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Provincial_Interest: faker.helpers.arrayElement([faker.word.sample(), undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), WettelijkeTaken: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined])})
+
+export const getBeleidskeuzesLatestLineageIdGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Beleidsdoelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Beleidsregels: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Cause: faker.helpers.arrayElement([faker.word.sample(), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Explanation: faker.helpers.arrayElement([faker.word.sample(), undefined]), Gebied: faker.helpers.arrayElement([{Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, End_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), ID: faker.number.int({min: undefined, max: undefined}), Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Start_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Title: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Maatregelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), NationaleBelangen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Provincial_Interest: faker.helpers.arrayElement([faker.word.sample(), undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), WettelijkeTaken: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined])})
+
+export const getBeleidskeuzesRelationsLineageIdGetMock = () => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample(), Title: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined])})))
+
+export const getBeleidskeuzesRelationsLineageIdPutMock = () => ({message: faker.word.sample()})
+
+export const getBeleidskeuzeStaticLineageIdPostMock = () => ({message: faker.word.sample()})
+
+export const getBeleidskeuzeAcknowledgedRelationsLineageIdGetMock = () => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Created_By_UUID: faker.string.uuid(), Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Deleted_At: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Denied: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Modified_By_UUID: faker.string.uuid(), Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Requested_By_Code: faker.word.sample(), Side_A: {Acknowledged: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Acknowledged_By_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Explanation: faker.helpers.arrayElement([faker.word.sample(), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample(), Title: faker.helpers.arrayElement([faker.word.sample(), undefined])}, Side_B: {Acknowledged: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Acknowledged_By_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Explanation: faker.helpers.arrayElement([faker.word.sample(), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample(), Title: faker.helpers.arrayElement([faker.word.sample(), undefined])}, Version: faker.number.int({min: undefined, max: undefined})})))
+
+export const getBeleidskeuzeAcknowledgedRelationsLineageIdPostMock = () => ({message: faker.word.sample()})
+
+export const getBeleidskeuzeAcknowledgedRelationsLineageIdEditPostMock = () => ({message: faker.word.sample()})
+
+export const getModulesModuleIdObjectBeleidskeuzeLineageIdGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getModulesModuleIdObjectBeleidskeuzeLineageIdPatchMock = () => ({Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getModulesModuleIdObjectBeleidskeuzeLatestLineageIdGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Beleidsdoelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Beleidsregels: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Cause: faker.helpers.arrayElement([faker.word.sample(), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Explanation: faker.helpers.arrayElement([faker.word.sample(), undefined]), Gebied: faker.helpers.arrayElement([{Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, End_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), ID: faker.number.int({min: undefined, max: undefined}), Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Start_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Title: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Maatregelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), NationaleBelangen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Provincial_Interest: faker.helpers.arrayElement([faker.word.sample(), undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), WettelijkeTaken: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined])})
+
+export const getModulesModuleIdObjectBeleidskeuzeVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Beleidsdoelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Beleidsregels: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Cause: faker.helpers.arrayElement([faker.word.sample(), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Explanation: faker.helpers.arrayElement([faker.word.sample(), undefined]), Gebied: faker.helpers.arrayElement([{Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, End_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), ID: faker.number.int({min: undefined, max: undefined}), Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Start_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Title: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Maatregelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), NationaleBelangen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Provincial_Interest: faker.helpers.arrayElement([faker.word.sample(), undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), WettelijkeTaken: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined])})
+
+export const getModulesObjectsBeleidskeuzeActiveLineageIdGetMock = () => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module: {Closed: faker.datatype.boolean(), Description: faker.word.sample(), Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Manager_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Module_Manager_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Status: faker.helpers.arrayElement([{Created_By_UUID: faker.string.uuid(), Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, ID: faker.number.int({min: undefined, max: undefined}), Module_ID: faker.number.int({min: undefined, max: undefined}), Status: faker.word.sample()}, undefined]), Title: faker.word.sample()}, Module_Object: {Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Module_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Title: faker.word.sample(), UUID: faker.string.uuid()}})))
+
+export const getRevisionsModuleIdBeleidskeuzeVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Beleidsdoelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Beleidsregels: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Cause: faker.helpers.arrayElement([faker.word.sample(), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Explanation: faker.helpers.arrayElement([faker.word.sample(), undefined]), Gebied: faker.helpers.arrayElement([{Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, End_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), ID: faker.number.int({min: undefined, max: undefined}), Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Start_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Title: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Maatregelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), NationaleBelangen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Provincial_Interest: faker.helpers.arrayElement([faker.word.sample(), undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), WettelijkeTaken: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined])})
+
+export const getBeleidsregelsValidGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getBeleidsregelsValidLineageIdGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getBeleidsregelsVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Beleidskeuzes: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined])})
+
+export const getBeleidsregelsLatestLineageIdGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Beleidskeuzes: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined])})
+
+export const getBeleidsregelsRelationsLineageIdGetMock = () => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample(), Title: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined])})))
+
+export const getBeleidsregelsRelationsLineageIdPutMock = () => ({message: faker.word.sample()})
+
+export const getBeleidsregelStaticLineageIdPostMock = () => ({message: faker.word.sample()})
+
+export const getModulesModuleIdObjectBeleidsregelLineageIdGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getModulesModuleIdObjectBeleidsregelLineageIdPatchMock = () => ({Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getModulesModuleIdObjectBeleidsregelLatestLineageIdGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Beleidskeuzes: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined])})
+
+export const getModulesModuleIdObjectBeleidsregelVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Beleidskeuzes: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined])})
+
+export const getModulesObjectsBeleidsregelActiveLineageIdGetMock = () => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module: {Closed: faker.datatype.boolean(), Description: faker.word.sample(), Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Manager_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Module_Manager_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Status: faker.helpers.arrayElement([{Created_By_UUID: faker.string.uuid(), Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, ID: faker.number.int({min: undefined, max: undefined}), Module_ID: faker.number.int({min: undefined, max: undefined}), Status: faker.word.sample()}, undefined]), Title: faker.word.sample()}, Module_Object: {Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Module_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Title: faker.word.sample(), UUID: faker.string.uuid()}})))
+
+export const getRevisionsModuleIdBeleidsregelVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Beleidskeuzes: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined])})
+
+export const getGebiedsprogrammasValidGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Image: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getGebiedsprogrammasValidLineageIdGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Image: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getGebiedsprogrammasVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Image: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Maatregelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getGebiedsprogrammasLatestLineageIdGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Image: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Maatregelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getGebiedsprogrammasRelationsLineageIdGetMock = () => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample(), Title: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined])})))
+
+export const getGebiedsprogrammasRelationsLineageIdPutMock = () => ({message: faker.word.sample()})
+
+export const getGebiedsprogrammasStaticLineageIdPostMock = () => ({message: faker.word.sample()})
+
+export const getModulesModuleIdObjectGebiedsprogrammasLineageIdGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Image: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getModulesModuleIdObjectGebiedsprogrammasLineageIdPatchMock = () => ({Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getModulesModuleIdObjectGebiedsprogrammasLatestLineageIdGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Image: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Maatregelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getModulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Image: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Maatregelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getModulesObjectsGebiedsprogrammaActiveLineageIdGetMock = () => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module: {Closed: faker.datatype.boolean(), Description: faker.word.sample(), Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Manager_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Module_Manager_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Status: faker.helpers.arrayElement([{Created_By_UUID: faker.string.uuid(), Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, ID: faker.number.int({min: undefined, max: undefined}), Module_ID: faker.number.int({min: undefined, max: undefined}), Status: faker.word.sample()}, undefined]), Title: faker.word.sample()}, Module_Object: {Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Module_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Title: faker.word.sample(), UUID: faker.string.uuid()}})))
+
+export const getRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Image: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Maatregelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getMaatregelenValidGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getMaatregelenValidLineageIdGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getMaatregelenVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Beleidsdoelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Beleidskeuzes: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), Effect: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Gebied: faker.helpers.arrayElement([{Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, End_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), ID: faker.number.int({min: undefined, max: undefined}), Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Start_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Title: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Gebiedsprogrammas: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Role: faker.helpers.arrayElement([faker.word.sample(), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getMaatregelenLatestLineageIdGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Beleidsdoelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Beleidskeuzes: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), Effect: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Gebied: faker.helpers.arrayElement([{Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, End_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), ID: faker.number.int({min: undefined, max: undefined}), Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Start_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Title: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Gebiedsprogrammas: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Role: faker.helpers.arrayElement([faker.word.sample(), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getMaatregelenRelationsLineageIdGetMock = () => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample(), Title: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined])})))
+
+export const getMaatregelenRelationsLineageIdPutMock = () => ({message: faker.word.sample()})
+
+export const getMaatregelStaticLineageIdPostMock = () => ({message: faker.word.sample()})
+
+export const getModulesModuleIdObjectMaatregelLineageIdGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Gebied: faker.helpers.arrayElement([{Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, End_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), ID: faker.number.int({min: undefined, max: undefined}), Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Start_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Title: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getModulesModuleIdObjectMaatregelLineageIdPatchMock = () => ({Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getModulesModuleIdObjectMaatregelLatestLineageIdGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Beleidsdoelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Beleidskeuzes: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), Effect: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Gebied: faker.helpers.arrayElement([{Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, End_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), ID: faker.number.int({min: undefined, max: undefined}), Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Start_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Title: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Gebiedsprogrammas: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Role: faker.helpers.arrayElement([faker.word.sample(), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getModulesModuleIdObjectMaatregelVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Beleidsdoelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Beleidskeuzes: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), Effect: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Gebied: faker.helpers.arrayElement([{Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, End_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), ID: faker.number.int({min: undefined, max: undefined}), Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Start_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Title: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Gebiedsprogrammas: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Role: faker.helpers.arrayElement([faker.word.sample(), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getModulesObjectsMaatregelActiveLineageIdGetMock = () => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module: {Closed: faker.datatype.boolean(), Description: faker.word.sample(), Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Manager_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Module_Manager_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Status: faker.helpers.arrayElement([{Created_By_UUID: faker.string.uuid(), Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, ID: faker.number.int({min: undefined, max: undefined}), Module_ID: faker.number.int({min: undefined, max: undefined}), Status: faker.word.sample()}, undefined]), Title: faker.word.sample()}, Module_Object: {Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Module_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Title: faker.word.sample(), UUID: faker.string.uuid()}})))
+
+export const getRevisionsModuleIdMaatregelVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Beleidsdoelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Beleidskeuzes: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), Effect: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Gebied: faker.helpers.arrayElement([{Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, End_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), ID: faker.number.int({min: undefined, max: undefined}), Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Start_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Title: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Gebiedsprogrammas: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Client_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Portfolio_Holder_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Role: faker.helpers.arrayElement([faker.word.sample(), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getNationaalBelangPostMock = () => ({Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getNationaalBelangLineageIdPostMock = () => ({message: faker.word.sample()})
+
+export const getNationaalBelangLineageIdDeleteMock = () => ({message: faker.word.sample()})
+
+export const getNationaalBelangValidGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getNationaalBelangLatestLineageIdGetMock = () => ({Beleidskeuzes: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), ObjectStatics: faker.helpers.arrayElement([{Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined])})
+
+export const getNationaalBelangRelationsLineageIdGetMock = () => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample(), Title: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined])})))
+
+export const getNationaalBelangRelationsLineageIdPutMock = () => ({message: faker.word.sample()})
+
+export const getNationaalBelangStaticLineageIdPostMock = () => ({message: faker.word.sample()})
+
+export const getVerplichtProgrammaPostMock = () => ({Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getVerplichtProgrammaLineageIdPostMock = () => ({message: faker.word.sample()})
+
+export const getVerplichtProgrammaLineageIdDeleteMock = () => ({message: faker.word.sample()})
+
+export const getVerplichtProgrammaValidGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getVerplichtProgrammaLatestLineageIdGetMock = () => ({Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Maatregelen: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), ObjectStatics: faker.helpers.arrayElement([{Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), WettelijkeTaken: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), undefined])})
+
+export const getVerplichtProgrammaRelationsLineageIdGetMock = () => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample(), Title: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined])})))
+
+export const getVerplichtProgrammaRelationsLineageIdPutMock = () => ({message: faker.word.sample()})
+
+export const getVerplichtProgrammaStaticLineageIdPostMock = () => ({message: faker.word.sample()})
+
+export const getVisiesAlgemeenValidGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getVisiesAlgemeenValidLineageIdGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getVisiesAlgemeenVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getVisiesAlgemeenLatestLineageIdGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getVisieAlgemeenStaticLineageIdPostMock = () => ({message: faker.word.sample()})
+
+export const getModulesModuleIdObjectVisieAlgemeenLineageIdGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getModulesModuleIdObjectVisieAlgemeenLineageIdPatchMock = () => ({Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getModulesModuleIdObjectVisieAlgemeenLatestLineageIdGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getModulesModuleIdObjectVisieAlgemeenVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getModulesObjectVisieAlgemeenActiveLineageIdGetMock = () => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module: {Closed: faker.datatype.boolean(), Description: faker.word.sample(), Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Manager_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Module_Manager_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Status: faker.helpers.arrayElement([{Created_By_UUID: faker.string.uuid(), Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, ID: faker.number.int({min: undefined, max: undefined}), Module_ID: faker.number.int({min: undefined, max: undefined}), Status: faker.word.sample()}, undefined]), Title: faker.word.sample()}, Module_Object: {Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Module_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Title: faker.word.sample(), UUID: faker.string.uuid()}})))
+
+export const getRevisionsModuleIdVisieAlgemeenVersionObjectUuidGetMock = () => ({Adjust_On: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Description: faker.helpers.arrayElement([faker.word.sample(), undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ObjectStatics: faker.helpers.arrayElement([{Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Public_Revisions: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Object_UUID: faker.string.uuid(), Module_Status: faker.word.sample(), Module_Title: faker.word.sample()})), undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getWettelijkeTaakPostMock = () => ({Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getWettelijkeTaakLineageIdPostMock = () => ({message: faker.word.sample()})
+
+export const getWettelijkeTaakLineageIdDeleteMock = () => ({message: faker.word.sample()})
+
+export const getWettelijkeTaakValidGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getWettelijkeTaakLatestLineageIdGetMock = () => ({Beleidskeuzes: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object: {Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, Relation: {Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()}})), undefined]), Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), End_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), ObjectStatics: faker.helpers.arrayElement([{Owner_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Owner_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined])}, undefined]), Start_Validity: faker.helpers.arrayElement([faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, null]), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), VerplichtProgrammas: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Code: faker.helpers.arrayElement([faker.word.sample(), undefined]), Created_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Modified_Date: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Object_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])})), undefined]), Weblink: faker.helpers.arrayElement([faker.word.sample(), undefined])})
+
+export const getWettelijkeTaakRelationsLineageIdGetMock = () => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Description: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample(), Title: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.word.sample(), null]), undefined])})))
+
+export const getWettelijkeTaakRelationsLineageIdPutMock = () => ({message: faker.word.sample()})
+
+export const getWettelijkeTaakStaticLineageIdPostMock = () => ({message: faker.word.sample()})
+
+export const getUsersGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Email: faker.word.sample(), Gebruikersnaam: faker.word.sample(), IsActive: faker.datatype.boolean(), Rol: faker.word.sample(), Status: faker.word.sample(), UUID: faker.string.uuid()})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getUsersPostMock = () => ({Email: faker.word.sample(), Password: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()})
+
+export const getUsersSearchGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Email: faker.word.sample(), Gebruikersnaam: faker.word.sample(), IsActive: faker.datatype.boolean(), Rol: faker.word.sample(), Status: faker.word.sample(), UUID: faker.string.uuid()})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getUsersUserUuidGetMock = () => ({Email: faker.word.sample(), Gebruikersnaam: faker.word.sample(), IsActive: faker.datatype.boolean(), Rol: faker.word.sample(), Status: faker.word.sample(), UUID: faker.string.uuid()})
+
+export const getUsersUserUuidPostMock = () => ({message: faker.word.sample()})
+
+export const getUsersUserUuidResetPasswordPostMock = () => ({NewPassword: faker.word.sample(), UUID: faker.string.uuid()})
+
+export const getWerkingsgebiedenGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, End_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), ID: faker.number.int({min: undefined, max: undefined}), Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Start_Validity: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), Title: faker.word.sample(), UUID: faker.string.uuid()})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getSearchGeoPostMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Gebied: faker.helpers.arrayElement([faker.word.sample(),faker.string.uuid()]), Omschrijving: faker.helpers.arrayElement([faker.word.sample(), undefined]), Titel: faker.helpers.arrayElement([faker.word.sample(), undefined]), Type: faker.word.sample(), UUID: faker.helpers.arrayElement([faker.word.sample(),faker.string.uuid()])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getSearchGeometryPostMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Gebied: faker.helpers.arrayElement([faker.word.sample(),faker.string.uuid()]), Omschrijving: faker.helpers.arrayElement([faker.word.sample(), undefined]), Titel: faker.helpers.arrayElement([faker.word.sample(), undefined]), Type: faker.word.sample(), UUID: faker.helpers.arrayElement([faker.word.sample(),faker.string.uuid()])})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getSearchPostMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Description: faker.word.sample(), Module_ID: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample(), Score: faker.number.int({min: undefined, max: undefined}), Title: faker.word.sample(), UUID: faker.string.uuid()})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getSearchValidPostMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Description: faker.word.sample(), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample(), Score: faker.number.int({min: undefined, max: undefined}), Title: faker.word.sample(), UUID: faker.string.uuid()})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getFullGraphGetMock = () => ({Edges: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Type: faker.helpers.arrayElement(Object.values(GraphEdgeType)), Vertice_A_Code: faker.word.sample(), Vertice_B_Code: faker.word.sample()})), Vertices: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Code: faker.word.sample(), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample(), Title: faker.word.sample(), UUID: faker.string.uuid()}))})
+
+export const getObjectGraphGetMock = () => ({Edges: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Type: faker.helpers.arrayElement(Object.values(GraphEdgeType)), Vertice_A_Code: faker.word.sample(), Vertice_B_Code: faker.word.sample()})), Vertices: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Code: faker.word.sample(), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample(), Title: faker.word.sample(), UUID: faker.string.uuid()}))})
+
+export const getRevisionsGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Description: faker.word.sample(), Module_ID: faker.number.int({min: undefined, max: undefined}), Status: faker.helpers.arrayElement([{Created_By_UUID: faker.string.uuid(), Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, ID: faker.number.int({min: undefined, max: undefined}), Module_ID: faker.number.int({min: undefined, max: undefined}), Status: faker.word.sample()}, undefined]), Title: faker.word.sample()})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getRevisionsModuleIdGetMock = () => ({Module: {Description: faker.word.sample(), Module_ID: faker.number.int({min: undefined, max: undefined}), Status: faker.helpers.arrayElement([{Created_By_UUID: faker.string.uuid(), Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, ID: faker.number.int({min: undefined, max: undefined}), Module_ID: faker.number.int({min: undefined, max: undefined}), Status: faker.word.sample()}, undefined]), Title: faker.word.sample()}, Objects: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Code: faker.word.sample(), Description: faker.word.sample(), Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Module_ID: faker.number.int({min: undefined, max: undefined}), ModuleObjectContext: faker.helpers.arrayElement([{Action: faker.word.sample(), Original_Adjust_On: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample(), Title: faker.word.sample(), UUID: faker.string.uuid()}))})
+
+export const getModulesGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Activated: faker.datatype.boolean(), Closed: faker.datatype.boolean(), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_By_UUID: faker.string.uuid(), Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Description: faker.word.sample(), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_By_UUID: faker.string.uuid(), Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Manager_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Module_Manager_1_UUID: faker.string.uuid(), Module_Manager_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Module_Manager_2_UUID: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Status: faker.helpers.arrayElement([{Created_By_UUID: faker.string.uuid(), Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, ID: faker.number.int({min: undefined, max: undefined}), Module_ID: faker.number.int({min: undefined, max: undefined}), Status: faker.word.sample()}, undefined]), Successful: faker.datatype.boolean(), Temporary_Locked: faker.datatype.boolean(), Title: faker.word.sample()})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getModulesPostMock = () => ({Module_ID: faker.number.int({min: undefined, max: undefined})})
+
+export const getModulesModuleIdGetMock = () => ({Module: {Activated: faker.datatype.boolean(), Closed: faker.datatype.boolean(), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_By_UUID: faker.string.uuid(), Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Description: faker.word.sample(), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_By_UUID: faker.string.uuid(), Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Module_ID: faker.number.int({min: undefined, max: undefined}), Module_Manager_1: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Module_Manager_1_UUID: faker.string.uuid(), Module_Manager_2: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Module_Manager_2_UUID: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.uuid(), null]), undefined]), Status: faker.helpers.arrayElement([{Created_By_UUID: faker.string.uuid(), Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, ID: faker.number.int({min: undefined, max: undefined}), Module_ID: faker.number.int({min: undefined, max: undefined}), Status: faker.word.sample()}, undefined]), Successful: faker.datatype.boolean(), Temporary_Locked: faker.datatype.boolean(), Title: faker.word.sample()}, Objects: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Code: faker.word.sample(), Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Module_ID: faker.number.int({min: undefined, max: undefined}), ModuleObjectContext: faker.helpers.arrayElement([{Action: faker.word.sample(), Original_Adjust_On: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample(), ObjectStatics: faker.helpers.arrayElement([{Client_1_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Owner_1_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Owner_2_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Portfolio_Holder_1_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Portfolio_Holder_2_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, undefined]), Title: faker.word.sample(), UUID: faker.string.uuid()})), StatusHistory: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Created_By_UUID: faker.string.uuid(), Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, ID: faker.number.int({min: undefined, max: undefined}), Module_ID: faker.number.int({min: undefined, max: undefined}), Status: faker.word.sample()}))})
+
+export const getModulesModuleIdPostMock = () => ({message: faker.word.sample()})
+
+export const getModulesModuleIdActivatePostMock = () => ({message: faker.word.sample()})
+
+export const getModulesModuleIdCompletePostMock = () => ({message: faker.word.sample()})
+
+export const getModulesModuleIdClosePostMock = () => ({message: faker.word.sample()})
+
+export const getModulesModuleIdStatusGetMock = () => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Created_By_UUID: faker.string.uuid(), Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, ID: faker.number.int({min: undefined, max: undefined}), Module_ID: faker.number.int({min: undefined, max: undefined}), Status: faker.word.sample()})))
+
+export const getModulesModuleIdStatusPatchMock = () => ({message: faker.word.sample()})
+
+export const getModulesModuleIdAddNewObjectPostMock = () => ({Code: faker.word.sample(), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample()})
+
+export const getModulesModuleIdAddExistingObjectPostMock = () => ({message: faker.word.sample()})
+
+export const getModulesModuleIdObjectContextObjectTypeLineageIdGetMock = () => ({Action: faker.word.sample(), Code: faker.word.sample(), Conclusion: faker.word.sample(), Created_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Explanation: faker.word.sample(), Modified_By: faker.helpers.arrayElement([{Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, undefined]), Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Module_ID: faker.number.int({min: undefined, max: undefined}), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample(), Original_Adjust_On: faker.helpers.arrayElement([faker.string.uuid(), undefined])})
+
+export const getModulesModuleIdObjectContextObjectTypeLineageIdPostMock = () => ({message: faker.word.sample()})
+
+export const getModulesModuleIdRemoveObjectTypeLineageIdDeleteMock = () => ({message: faker.word.sample()})
+
+export const getModulesModuleIdSnapshotStatusIdGetMock = () => ({Objects: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({}))})
+
+export const getModulesObjectsLatestGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Code: faker.word.sample(), Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`, Module_ID: faker.number.int({min: undefined, max: undefined}), ModuleObjectContext: faker.helpers.arrayElement([{Action: faker.word.sample(), Original_Adjust_On: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, undefined]), Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample(), ObjectStatics: faker.helpers.arrayElement([{Client_1_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Owner_1_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Owner_2_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Portfolio_Holder_1_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]), Portfolio_Holder_2_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined])}, undefined]), Status: faker.word.sample(), Title: faker.word.sample(), UUID: faker.string.uuid()})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getObjectsValidGetMock = () => ({limit: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), offset: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({Object_ID: faker.number.int({min: undefined, max: undefined}), Object_Type: faker.word.sample(), Title: faker.helpers.arrayElement([faker.word.sample(), undefined]), UUID: faker.string.uuid()})), total: faker.number.int({min: undefined, max: undefined})})
+
+export const getLoginAccessTokenPostMock = () => ({access_token: faker.word.sample(), identifier: {Gebruikersnaam: faker.word.sample(), Rol: faker.word.sample(), UUID: faker.string.uuid()}, token_type: faker.word.sample()})
+
+export const getPasswordResetPostMock = () => ({message: faker.word.sample()})
 
 export const getOmgevingsbeleidAPIMSW = () => [
-    http.get('*/ambities/valid', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getAmbitiesValidGetMock()), {
+http.get('*/ambities/valid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getAmbitiesValidGetMock()),
+          { 
             status: 200,
             headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.get('*/ambities/valid/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getAmbitiesValidLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+              'Content-Type': 'application/json',
             }
+          }
         )
-    }),
-    http.get('*/ambities/version/:objectUuid', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getAmbitiesVersionObjectUuidGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/ambities/latest/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getAmbitiesLatestLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/ambities/relations/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getAmbitiesRelationsLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.put('*/ambities/relations/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getAmbitiesRelationsLineageIdPutMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.post('*/ambitie/static/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getAmbitieStaticLineageIdPostMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/modules/:moduleId/object/ambitie/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getModulesModuleIdObjectAmbitieLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.patch('*/modules/:moduleId/object/ambitie/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getModulesModuleIdObjectAmbitieLineageIdPatchMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get(
-        '*/modules/:moduleId/object/ambitie/latest/:lineageId',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectAmbitieLatestLineageIdGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get(
-        '*/modules/:moduleId/object/ambitie/version/:objectUuid',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectAmbitieVersionObjectUuidGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get('*/modules/object/ambitie/active/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getModulesObjectAmbitieActiveLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/revisions/:moduleId/ambitie/version/:objectUuid', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(
-                getRevisionsModuleIdAmbitieVersionObjectUuidGetMock()
-            ),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/beleidsdoelen/valid', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidsdoelenValidGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/beleidsdoelen/valid/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidsdoelenValidLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/beleidsdoelen/version/:objectUuid', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidsdoelenVersionObjectUuidGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/beleidsdoelen/latest/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidsdoelenLatestLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/beleidsdoelen/relations/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidsdoelenRelationsLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.put('*/beleidsdoelen/relations/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidsdoelenRelationsLineageIdPutMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.post('*/beleidsdoel/static/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidsdoelStaticLineageIdPostMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/modules/:moduleId/object/beleidsdoel/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(
-                getModulesModuleIdObjectBeleidsdoelLineageIdGetMock()
-            ),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.patch(
-        '*/modules/:moduleId/object/beleidsdoel/:lineageId',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectBeleidsdoelLineageIdPatchMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get(
-        '*/modules/:moduleId/object/beleidsdoel/latest/:lineageId',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectBeleidsdoelLatestLineageIdGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get(
-        '*/modules/:moduleId/object/beleidsdoel/version/:objectUuid',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectBeleidsdoelVersionObjectUuidGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get('*/modules/object/beleidsdoel/active/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getModulesObjectBeleidsdoelActiveLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get(
-        '*/revisions/:moduleId/beleidsdoel/version/:objectUuid',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getRevisionsModuleIdBeleidsdoelVersionObjectUuidGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get('*/beleidskeuzes/valid', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidskeuzesValidGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/beleidskeuzes/valid/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidskeuzesValidLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/beleidskeuzes/version/:objectUuid', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidskeuzesVersionObjectUuidGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/beleidskeuzes/latest/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidskeuzesLatestLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/beleidskeuzes/relations/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidskeuzesRelationsLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.put('*/beleidskeuzes/relations/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidskeuzesRelationsLineageIdPutMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.post('*/beleidskeuze/static/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidskeuzeStaticLineageIdPostMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/beleidskeuze/acknowledged-relations/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(
-                getBeleidskeuzeAcknowledgedRelationsLineageIdGetMock()
-            ),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.post('*/beleidskeuze/acknowledged-relations/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(
-                getBeleidskeuzeAcknowledgedRelationsLineageIdPostMock()
-            ),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.post(
-        '*/beleidskeuze/acknowledged-relations/:lineageId/edit',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getBeleidskeuzeAcknowledgedRelationsLineageIdEditPostMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get('*/modules/:moduleId/object/beleidskeuze/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(
-                getModulesModuleIdObjectBeleidskeuzeLineageIdGetMock()
-            ),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.patch(
-        '*/modules/:moduleId/object/beleidskeuze/:lineageId',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectBeleidskeuzeLineageIdPatchMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get(
-        '*/modules/:moduleId/object/beleidskeuze/latest/:lineageId',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectBeleidskeuzeLatestLineageIdGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get(
-        '*/modules/:moduleId/object/beleidskeuze/version/:objectUuid',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectBeleidskeuzeVersionObjectUuidGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get('*/modules/objects/beleidskeuze/active/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(
-                getModulesObjectsBeleidskeuzeActiveLineageIdGetMock()
-            ),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get(
-        '*/revisions/:moduleId/beleidskeuze/version/:objectUuid',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getRevisionsModuleIdBeleidskeuzeVersionObjectUuidGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get('*/beleidsregels/valid', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidsregelsValidGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/beleidsregels/valid/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidsregelsValidLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/beleidsregels/version/:objectUuid', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidsregelsVersionObjectUuidGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/beleidsregels/latest/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidsregelsLatestLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/beleidsregels/relations/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidsregelsRelationsLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.put('*/beleidsregels/relations/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidsregelsRelationsLineageIdPutMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.post('*/beleidsregel/static/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getBeleidsregelStaticLineageIdPostMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/modules/:moduleId/object/beleidsregel/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(
-                getModulesModuleIdObjectBeleidsregelLineageIdGetMock()
-            ),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.patch(
-        '*/modules/:moduleId/object/beleidsregel/:lineageId',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectBeleidsregelLineageIdPatchMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get(
-        '*/modules/:moduleId/object/beleidsregel/latest/:lineageId',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectBeleidsregelLatestLineageIdGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get(
-        '*/modules/:moduleId/object/beleidsregel/version/:objectUuid',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectBeleidsregelVersionObjectUuidGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get('*/modules/objects/beleidsregel/active/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(
-                getModulesObjectsBeleidsregelActiveLineageIdGetMock()
-            ),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get(
-        '*/revisions/:moduleId/beleidsregel/version/:objectUuid',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getRevisionsModuleIdBeleidsregelVersionObjectUuidGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get('*/gebiedsprogrammas/valid', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getGebiedsprogrammasValidGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/gebiedsprogrammas/valid/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getGebiedsprogrammasValidLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/gebiedsprogrammas/version/:objectUuid', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getGebiedsprogrammasVersionObjectUuidGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/gebiedsprogrammas/latest/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getGebiedsprogrammasLatestLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/gebiedsprogrammas/relations/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getGebiedsprogrammasRelationsLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.put('*/gebiedsprogrammas/relations/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getGebiedsprogrammasRelationsLineageIdPutMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.post('*/gebiedsprogrammas/static/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getGebiedsprogrammasStaticLineageIdPostMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get(
-        '*/modules/:moduleId/object/gebiedsprogrammas/:lineageId',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectGebiedsprogrammasLineageIdGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.patch(
-        '*/modules/:moduleId/object/gebiedsprogrammas/:lineageId',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectGebiedsprogrammasLineageIdPatchMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get(
-        '*/modules/:moduleId/object/gebiedsprogrammas/latest/:lineageId',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectGebiedsprogrammasLatestLineageIdGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get(
-        '*/modules/:moduleId/object/gebiedsprogrammas/version/:objectUuid',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get(
-        '*/modules/objects/gebiedsprogramma/active/:lineageId',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesObjectsGebiedsprogrammaActiveLineageIdGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get(
-        '*/revisions/:moduleId/gebiedsprogramma/version/:objectUuid',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get('*/maatregelen/valid', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getMaatregelenValidGetMock()), {
+      }),http.get('*/ambities/valid/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getAmbitiesValidLineageIdGetMock()),
+          { 
             status: 200,
             headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.get('*/maatregelen/valid/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getMaatregelenValidLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+              'Content-Type': 'application/json',
             }
+          }
         )
-    }),
-    http.get('*/maatregelen/version/:objectUuid', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getMaatregelenVersionObjectUuidGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/maatregelen/latest/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getMaatregelenLatestLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/maatregelen/relations/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getMaatregelenRelationsLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.put('*/maatregelen/relations/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getMaatregelenRelationsLineageIdPutMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.post('*/maatregel/static/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getMaatregelStaticLineageIdPostMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/modules/:moduleId/object/maatregel/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getModulesModuleIdObjectMaatregelLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.patch('*/modules/:moduleId/object/maatregel/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(
-                getModulesModuleIdObjectMaatregelLineageIdPatchMock()
-            ),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get(
-        '*/modules/:moduleId/object/maatregel/latest/:lineageId',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectMaatregelLatestLineageIdGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get(
-        '*/modules/:moduleId/object/maatregel/version/:objectUuid',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectMaatregelVersionObjectUuidGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get('*/modules/objects/maatregel/active/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getModulesObjectsMaatregelActiveLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get(
-        '*/revisions/:moduleId/maatregel/version/:objectUuid',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getRevisionsModuleIdMaatregelVersionObjectUuidGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.post('*/nationaal-belang', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getNationaalBelangPostMock()), {
+      }),http.get('*/ambities/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getAmbitiesVersionObjectUuidGetMock()),
+          { 
             status: 200,
             headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.post('*/nationaal-belang/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getNationaalBelangLineageIdPostMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+              'Content-Type': 'application/json',
             }
+          }
         )
-    }),
-    http.delete('*/nationaal-belang/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getNationaalBelangLineageIdDeleteMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/nationaal-belang/valid', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getNationaalBelangValidGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/nationaal-belang/latest/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getNationaalBelangLatestLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/nationaal-belang/relations/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getNationaalBelangRelationsLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.put('*/nationaal-belang/relations/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getNationaalBelangRelationsLineageIdPutMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.post('*/nationaal-belang/static/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getNationaalBelangStaticLineageIdPostMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.post('*/verplicht-programma', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getVerplichtProgrammaPostMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.post('*/verplicht-programma/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getVerplichtProgrammaLineageIdPostMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.delete('*/verplicht-programma/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getVerplichtProgrammaLineageIdDeleteMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/verplicht-programma/valid', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getVerplichtProgrammaValidGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/verplicht-programma/latest/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getVerplichtProgrammaLatestLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/verplicht-programma/relations/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getVerplichtProgrammaRelationsLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.put('*/verplicht-programma/relations/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getVerplichtProgrammaRelationsLineageIdPutMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.post('*/verplicht-programma/static/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getVerplichtProgrammaStaticLineageIdPostMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/visies-algemeen/valid', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getVisiesAlgemeenValidGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/visies-algemeen/valid/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getVisiesAlgemeenValidLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/visies-algemeen/version/:objectUuid', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getVisiesAlgemeenVersionObjectUuidGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/visies-algemeen/latest/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getVisiesAlgemeenLatestLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.post('*/visie-algemeen/static/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getVisieAlgemeenStaticLineageIdPostMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get(
-        '*/modules/:moduleId/object/visie-algemeen/:lineageId',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectVisieAlgemeenLineageIdGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.patch(
-        '*/modules/:moduleId/object/visie-algemeen/:lineageId',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectVisieAlgemeenLineageIdPatchMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get(
-        '*/modules/:moduleId/object/visie-algemeen/latest/:lineageId',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectVisieAlgemeenLatestLineageIdGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get(
-        '*/modules/:moduleId/object/visie-algemeen/version/:objectUuid',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectVisieAlgemeenVersionObjectUuidGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get('*/modules/object/visie-algemeen/active/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(
-                getModulesObjectVisieAlgemeenActiveLineageIdGetMock()
-            ),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get(
-        '*/revisions/:moduleId/visie-algemeen/version/:objectUuid',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getRevisionsModuleIdVisieAlgemeenVersionObjectUuidGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.post('*/wettelijke-taak', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getWettelijkeTaakPostMock()), {
+      }),http.get('*/ambities/latest/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getAmbitiesLatestLineageIdGetMock()),
+          { 
             status: 200,
             headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.post('*/wettelijke-taak/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getWettelijkeTaakLineageIdPostMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+              'Content-Type': 'application/json',
             }
+          }
         )
-    }),
-    http.delete('*/wettelijke-taak/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getWettelijkeTaakLineageIdDeleteMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+      }),http.get('*/ambities/relations/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getAmbitiesRelationsLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
             }
+          }
         )
-    }),
-    http.get('*/wettelijke-taak/valid', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getWettelijkeTaakValidGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+      }),http.put('*/ambities/relations/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getAmbitiesRelationsLineageIdPutMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
             }
+          }
         )
-    }),
-    http.get('*/wettelijke-taak/latest/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getWettelijkeTaakLatestLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+      }),http.post('*/ambitie/static/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getAmbitieStaticLineageIdPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
             }
+          }
         )
-    }),
-    http.get('*/wettelijke-taak/relations/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getWettelijkeTaakRelationsLineageIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+      }),http.get('*/modules/:moduleId/object/ambitie/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectAmbitieLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
             }
+          }
         )
-    }),
-    http.put('*/wettelijke-taak/relations/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getWettelijkeTaakRelationsLineageIdPutMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+      }),http.patch('*/modules/:moduleId/object/ambitie/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectAmbitieLineageIdPatchMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
             }
+          }
         )
-    }),
-    http.post('*/wettelijke-taak/static/:lineageId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getWettelijkeTaakStaticLineageIdPostMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+      }),http.get('*/modules/:moduleId/object/ambitie/latest/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectAmbitieLatestLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
             }
+          }
         )
-    }),
-    http.get('*/users', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getUsersGetMock()), {
+      }),http.get('*/modules/:moduleId/object/ambitie/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectAmbitieVersionObjectUuidGetMock()),
+          { 
             status: 200,
             headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.post('*/users', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getUsersPostMock()), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.get('*/users/search', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getUsersSearchGetMock()), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.get('*/users/:userUuid', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getUsersUserUuidGetMock()), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.post('*/users/:userUuid', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getUsersUserUuidPostMock()), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.post('*/users/:userUuid/reset-password', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getUsersUserUuidResetPasswordPostMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+              'Content-Type': 'application/json',
             }
+          }
         )
-    }),
-    http.get('*/werkingsgebieden', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getWerkingsgebiedenGetMock()), {
+      }),http.get('*/modules/object/ambitie/active/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesObjectAmbitieActiveLineageIdGetMock()),
+          { 
             status: 200,
             headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.post('*/search/geo', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getSearchGeoPostMock()), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.post('*/search/geometry', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getSearchGeometryPostMock()), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.post('*/search', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getSearchPostMock()), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.post('*/search/valid', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getSearchValidPostMock()), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.get('*/full-graph', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getFullGraphGetMock()), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.get('*/object-graph', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getObjectGraphGetMock()), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.get('*/revisions', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getRevisionsGetMock()), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.get('*/revisions/:moduleId', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getRevisionsModuleIdGetMock()), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.get('*/modules', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getModulesGetMock()), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.post('*/modules', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getModulesPostMock()), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.get('*/modules/:moduleId', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getModulesModuleIdGetMock()), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.post('*/modules/:moduleId', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getModulesModuleIdPostMock()), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.post('*/modules/:moduleId/activate', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getModulesModuleIdActivatePostMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+              'Content-Type': 'application/json',
             }
+          }
         )
-    }),
-    http.post('*/modules/:moduleId/complete', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getModulesModuleIdCompletePostMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.post('*/modules/:moduleId/close', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getModulesModuleIdClosePostMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/modules/:moduleId/status', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getModulesModuleIdStatusGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.patch('*/modules/:moduleId/status', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getModulesModuleIdStatusPatchMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.post('*/modules/:moduleId/add-new-object', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getModulesModuleIdAddNewObjectPostMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.post('*/modules/:moduleId/add-existing-object', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getModulesModuleIdAddExistingObjectPostMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get(
-        '*/modules/:moduleId/object-context/:objectType/:lineageId',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectContextObjectTypeLineageIdGetMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.post(
-        '*/modules/:moduleId/object-context/:objectType/:lineageId',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdObjectContextObjectTypeLineageIdPostMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.delete(
-        '*/modules/:moduleId/remove/:objectType/:lineageId',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    getModulesModuleIdRemoveObjectTypeLineageIdDeleteMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    ),
-    http.get('*/modules/:moduleId/snapshot/:statusId', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getModulesModuleIdSnapshotStatusIdGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/modules/objects/latest', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(getModulesObjectsLatestGetMock()),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    }),
-    http.get('*/objects/valid', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getObjectsValidGetMock()), {
+      }),http.get('*/revisions/:moduleId/ambitie/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getRevisionsModuleIdAmbitieVersionObjectUuidGetMock()),
+          { 
             status: 200,
             headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.post('*/login/access-token', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getLoginAccessTokenPostMock()), {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/beleidsdoelen/valid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidsdoelenValidGetMock()),
+          { 
             status: 200,
             headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.post('*/password-reset', async () => {
-        await delay(1000)
-        return new HttpResponse(JSON.stringify(getPasswordResetPostMock()), {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/beleidsdoelen/valid/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidsdoelenValidLineageIdGetMock()),
+          { 
             status: 200,
             headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-    http.get('*/health', async () => {
-        await delay(1000)
-        return new HttpResponse(null, {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/beleidsdoelen/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidsdoelenVersionObjectUuidGetMock()),
+          { 
             status: 200,
             headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    }),
-]
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/beleidsdoelen/latest/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidsdoelenLatestLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/beleidsdoelen/relations/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidsdoelenRelationsLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.put('*/beleidsdoelen/relations/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidsdoelenRelationsLineageIdPutMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/beleidsdoel/static/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidsdoelStaticLineageIdPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/object/beleidsdoel/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectBeleidsdoelLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.patch('*/modules/:moduleId/object/beleidsdoel/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectBeleidsdoelLineageIdPatchMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/object/beleidsdoel/latest/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectBeleidsdoelLatestLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/object/beleidsdoel/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectBeleidsdoelVersionObjectUuidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/object/beleidsdoel/active/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesObjectBeleidsdoelActiveLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/revisions/:moduleId/beleidsdoel/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getRevisionsModuleIdBeleidsdoelVersionObjectUuidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/beleidskeuzes/valid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidskeuzesValidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/beleidskeuzes/valid/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidskeuzesValidLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/beleidskeuzes/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidskeuzesVersionObjectUuidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/beleidskeuzes/latest/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidskeuzesLatestLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/beleidskeuzes/relations/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidskeuzesRelationsLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.put('*/beleidskeuzes/relations/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidskeuzesRelationsLineageIdPutMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/beleidskeuze/static/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidskeuzeStaticLineageIdPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/beleidskeuze/acknowledged-relations/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidskeuzeAcknowledgedRelationsLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/beleidskeuze/acknowledged-relations/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidskeuzeAcknowledgedRelationsLineageIdPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/beleidskeuze/acknowledged-relations/:lineageId/edit', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidskeuzeAcknowledgedRelationsLineageIdEditPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/object/beleidskeuze/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectBeleidskeuzeLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.patch('*/modules/:moduleId/object/beleidskeuze/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectBeleidskeuzeLineageIdPatchMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/object/beleidskeuze/latest/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectBeleidskeuzeLatestLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/object/beleidskeuze/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectBeleidskeuzeVersionObjectUuidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/objects/beleidskeuze/active/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesObjectsBeleidskeuzeActiveLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/revisions/:moduleId/beleidskeuze/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getRevisionsModuleIdBeleidskeuzeVersionObjectUuidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/beleidsregels/valid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidsregelsValidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/beleidsregels/valid/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidsregelsValidLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/beleidsregels/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidsregelsVersionObjectUuidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/beleidsregels/latest/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidsregelsLatestLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/beleidsregels/relations/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidsregelsRelationsLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.put('*/beleidsregels/relations/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidsregelsRelationsLineageIdPutMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/beleidsregel/static/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getBeleidsregelStaticLineageIdPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/object/beleidsregel/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectBeleidsregelLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.patch('*/modules/:moduleId/object/beleidsregel/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectBeleidsregelLineageIdPatchMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/object/beleidsregel/latest/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectBeleidsregelLatestLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/object/beleidsregel/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectBeleidsregelVersionObjectUuidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/objects/beleidsregel/active/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesObjectsBeleidsregelActiveLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/revisions/:moduleId/beleidsregel/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getRevisionsModuleIdBeleidsregelVersionObjectUuidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/gebiedsprogrammas/valid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getGebiedsprogrammasValidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/gebiedsprogrammas/valid/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getGebiedsprogrammasValidLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/gebiedsprogrammas/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getGebiedsprogrammasVersionObjectUuidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/gebiedsprogrammas/latest/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getGebiedsprogrammasLatestLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/gebiedsprogrammas/relations/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getGebiedsprogrammasRelationsLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.put('*/gebiedsprogrammas/relations/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getGebiedsprogrammasRelationsLineageIdPutMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/gebiedsprogrammas/static/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getGebiedsprogrammasStaticLineageIdPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/object/gebiedsprogrammas/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectGebiedsprogrammasLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.patch('*/modules/:moduleId/object/gebiedsprogrammas/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectGebiedsprogrammasLineageIdPatchMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/object/gebiedsprogrammas/latest/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectGebiedsprogrammasLatestLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/object/gebiedsprogrammas/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/objects/gebiedsprogramma/active/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesObjectsGebiedsprogrammaActiveLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/revisions/:moduleId/gebiedsprogramma/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/maatregelen/valid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getMaatregelenValidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/maatregelen/valid/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getMaatregelenValidLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/maatregelen/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getMaatregelenVersionObjectUuidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/maatregelen/latest/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getMaatregelenLatestLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/maatregelen/relations/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getMaatregelenRelationsLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.put('*/maatregelen/relations/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getMaatregelenRelationsLineageIdPutMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/maatregel/static/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getMaatregelStaticLineageIdPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/object/maatregel/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectMaatregelLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.patch('*/modules/:moduleId/object/maatregel/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectMaatregelLineageIdPatchMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/object/maatregel/latest/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectMaatregelLatestLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/object/maatregel/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectMaatregelVersionObjectUuidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/objects/maatregel/active/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesObjectsMaatregelActiveLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/revisions/:moduleId/maatregel/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getRevisionsModuleIdMaatregelVersionObjectUuidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/nationaal-belang', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getNationaalBelangPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/nationaal-belang/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getNationaalBelangLineageIdPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.delete('*/nationaal-belang/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getNationaalBelangLineageIdDeleteMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/nationaal-belang/valid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getNationaalBelangValidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/nationaal-belang/latest/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getNationaalBelangLatestLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/nationaal-belang/relations/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getNationaalBelangRelationsLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.put('*/nationaal-belang/relations/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getNationaalBelangRelationsLineageIdPutMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/nationaal-belang/static/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getNationaalBelangStaticLineageIdPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/verplicht-programma', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getVerplichtProgrammaPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/verplicht-programma/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getVerplichtProgrammaLineageIdPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.delete('*/verplicht-programma/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getVerplichtProgrammaLineageIdDeleteMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/verplicht-programma/valid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getVerplichtProgrammaValidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/verplicht-programma/latest/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getVerplichtProgrammaLatestLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/verplicht-programma/relations/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getVerplichtProgrammaRelationsLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.put('*/verplicht-programma/relations/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getVerplichtProgrammaRelationsLineageIdPutMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/verplicht-programma/static/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getVerplichtProgrammaStaticLineageIdPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/visies-algemeen/valid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getVisiesAlgemeenValidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/visies-algemeen/valid/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getVisiesAlgemeenValidLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/visies-algemeen/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getVisiesAlgemeenVersionObjectUuidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/visies-algemeen/latest/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getVisiesAlgemeenLatestLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/visie-algemeen/static/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getVisieAlgemeenStaticLineageIdPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/object/visie-algemeen/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectVisieAlgemeenLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.patch('*/modules/:moduleId/object/visie-algemeen/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectVisieAlgemeenLineageIdPatchMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/object/visie-algemeen/latest/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectVisieAlgemeenLatestLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/object/visie-algemeen/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectVisieAlgemeenVersionObjectUuidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/object/visie-algemeen/active/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesObjectVisieAlgemeenActiveLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/revisions/:moduleId/visie-algemeen/version/:objectUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getRevisionsModuleIdVisieAlgemeenVersionObjectUuidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/wettelijke-taak', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getWettelijkeTaakPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/wettelijke-taak/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getWettelijkeTaakLineageIdPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.delete('*/wettelijke-taak/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getWettelijkeTaakLineageIdDeleteMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/wettelijke-taak/valid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getWettelijkeTaakValidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/wettelijke-taak/latest/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getWettelijkeTaakLatestLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/wettelijke-taak/relations/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getWettelijkeTaakRelationsLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.put('*/wettelijke-taak/relations/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getWettelijkeTaakRelationsLineageIdPutMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/wettelijke-taak/static/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getWettelijkeTaakStaticLineageIdPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/users', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getUsersGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/users', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getUsersPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/users/search', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getUsersSearchGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/users/:userUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getUsersUserUuidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/users/:userUuid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getUsersUserUuidPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/users/:userUuid/reset-password', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getUsersUserUuidResetPasswordPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/werkingsgebieden', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getWerkingsgebiedenGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/search/geo', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getSearchGeoPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/search/geometry', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getSearchGeometryPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/search', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getSearchPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/search/valid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getSearchValidPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/full-graph', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getFullGraphGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/object-graph', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getObjectGraphGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/revisions', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getRevisionsGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/revisions/:moduleId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getRevisionsModuleIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/modules', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/modules/:moduleId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/modules/:moduleId/activate', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdActivatePostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/modules/:moduleId/complete', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdCompletePostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/modules/:moduleId/close', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdClosePostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/status', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdStatusGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.patch('*/modules/:moduleId/status', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdStatusPatchMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/modules/:moduleId/add-new-object', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdAddNewObjectPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/modules/:moduleId/add-existing-object', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdAddExistingObjectPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/object-context/:objectType/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectContextObjectTypeLineageIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/modules/:moduleId/object-context/:objectType/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdObjectContextObjectTypeLineageIdPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.delete('*/modules/:moduleId/remove/:objectType/:lineageId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdRemoveObjectTypeLineageIdDeleteMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/:moduleId/snapshot/:statusId', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesModuleIdSnapshotStatusIdGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/modules/objects/latest', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getModulesObjectsLatestGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/objects/valid', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getObjectsValidGetMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/login/access-token', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getLoginAccessTokenPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.post('*/password-reset', async () => {
+        await delay(1000);
+        return new HttpResponse(JSON.stringify(getPasswordResetPostMock()),
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),http.get('*/health', async () => {
+        await delay(1000);
+        return new HttpResponse(null,
+          { 
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+      }),]

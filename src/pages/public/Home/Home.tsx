@@ -107,41 +107,23 @@ const Home = () => {
                             voor iedereen is te begrijpen. Daarom zet de
                             provincie drie instrumenten in waar al het
                             Omgevingsbeleid in staat: de{' '}
-                            <button
-                                className="cursor-pointer underline"
-                                onClick={() =>
-                                    document
-                                        .querySelector(
-                                            '#omgevingsvisie-section'
-                                        )
-                                        ?.scrollIntoView({ behavior: 'smooth' })
-                                }>
+                            <a
+                                href="#omgevingsvisie-section"
+                                className="cursor-pointer underline">
                                 Omgevingsvisie
-                            </button>
+                            </a>
                             , het{' '}
-                            <button
-                                className="cursor-pointer underline"
-                                onClick={() =>
-                                    document
-                                        .querySelector(
-                                            '#omgevingsprogramma-section'
-                                        )
-                                        ?.scrollIntoView({ behavior: 'smooth' })
-                                }>
+                            <a
+                                href="#omgevingsprogramma-section"
+                                className="cursor-pointer underline">
                                 Omgevingsprogramma
-                            </button>{' '}
+                            </a>{' '}
                             en de{' '}
-                            <button
-                                className="cursor-pointer underline"
-                                onClick={() =>
-                                    document
-                                        .querySelector(
-                                            '#omgevingsverordening-section'
-                                        )
-                                        ?.scrollIntoView({ behavior: 'smooth' })
-                                }>
+                            <a
+                                href="#omgevingsverordening-section"
+                                className="cursor-pointer underline">
                                 Omgevingsverordening
-                            </button>
+                            </a>
                             . Zo staat het beleid niet meer in tientallen
                             documenten, maar in één systeem bij elkaar. Dit
                             maakt het allemaal een stuk overzichtelijker.
