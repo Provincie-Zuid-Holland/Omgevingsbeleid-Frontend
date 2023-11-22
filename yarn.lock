@@ -12520,9 +12520,9 @@ __metadata:
     vite-plugin-svgr: "npm:^4.2.0"
     vite-tsconfig-paths: "npm:^4.2.1"
     vitest: "npm:^0.34.6"
-    zod: "npm:^3.21.4"
+    zod: "npm:^3.22.4"
     zod-formik-adapter: "npm:^1.2.0"
-    zustand: "npm:^4.3.9"
+    zustand: "npm:^4.4.6"
   languageName: unknown
   linkType: soft
 
@@ -15286,14 +15286,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:^3.21.4":
+"zod@npm:^3.22.4":
   version: 3.22.4
   resolution: "zod@npm:3.22.4"
   checksum: 73622ca36a916f785cf528fe612a884b3e0f183dbe6b33365a7d0fc92abdbedf7804c5e2bd8df0a278e1472106d46674281397a3dd800fa9031dc3429758c6ac
   languageName: node
   linkType: hard
 
-"zustand@npm:^4.3.9":
+"zustand@npm:^4.4.6":
   version: 4.4.6
   resolution: "zustand@npm:4.4.6"
   dependencies:
