@@ -18,7 +18,7 @@ export default defineConfig({
             output: {
                 dir: 'build',
                 manualChunks: {
-                    d3: ['d3', 'd3-symbol-extra'],
+                    d3: ['d3'],
                     tiptap: [
                         '@tiptap/core',
                         '@tiptap/extension-bold',
@@ -45,13 +45,6 @@ export default defineConfig({
                     ],
                     zod: ['zod', 'zod-formik-adapter'],
                     dompurify: ['dompurify'],
-                    lodash: [
-                        'lodash',
-                        'lodash-es',
-                        'lodash.groupby',
-                        'lodash.clonedeep',
-                        'lodash.debounce',
-                    ],
                     formik: ['formik'],
                     'date-fns': ['date-fns/esm'],
                     pzh: ['@pzh-ui/components', '@pzh-ui/icons'],

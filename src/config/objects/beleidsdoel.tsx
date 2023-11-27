@@ -106,7 +106,7 @@ const beleidsdoel: DynamicObject<
                     label: 'Omschrijving',
                     description:
                         'Geef een korte omschrijving van dit beleidsdoel.',
-                    type: 'textarea',
+                    type: 'wysiwyg',
                     required: true,
                 },
             ],
