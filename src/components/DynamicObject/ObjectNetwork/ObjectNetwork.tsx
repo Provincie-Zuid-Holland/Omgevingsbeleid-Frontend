@@ -89,7 +89,7 @@ const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
                                                 index as ModelType,
                                                 object.UUID
                                             )}
-                                            className="flex items-start"
+                                            className="flex items-baseline"
                                             data-code-link={object.Code}
                                             onMouseEnter={el =>
                                                 handleMouseInteraction(
@@ -136,7 +136,7 @@ const getObjectIcon = (key: ModelType) => {
             return <div className="mt-0.5 h-3 w-3 rounded-full bg-pzh-yellow" />
         case 'maatregel':
             return (
-                <div className="rounded-0.5 mr-0.5 mt-0.5 h-2.5 w-2.5 rotate-45 bg-pzh-green" />
+                <div className="rounded-0.5 mr-0.5 mt-0.5 h-2.5 w-2.5 min-w-[10px] rotate-45 bg-pzh-green" />
             )
     }
 }
