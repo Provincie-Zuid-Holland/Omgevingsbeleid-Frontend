@@ -1,5 +1,3 @@
-import { useParams } from 'react-router-dom'
-
 import {
     Breadcrumbs,
     Heading,
@@ -7,6 +5,7 @@ import {
     ListLink,
     Text,
 } from '@pzh-ui/components'
+import { useParams } from 'react-router-dom'
 
 import { useBeleidsdoelenVersionObjectUuidGet } from '@/api/fetchers'
 import { ReadRelationShortBeleidskeuzeMinimal } from '@/api/fetchers.schemas'

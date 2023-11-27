@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom'
 import useAuth from '@/hooks/useAuth'
 import useModalStore from '@/store/modalStore'
 
-import { DropdownContainer } from '../Dropdown'
-import PasswordChangeModal from '../Modals/PasswordChangeModal'
+import { DropdownContainer } from '../../Dropdown'
+import PasswordChangeModal from '../../Modals/PasswordChangeModal'
 
 const UserMenu = () => {
     const { user, signout } = useAuth()

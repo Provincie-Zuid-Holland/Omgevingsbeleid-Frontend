@@ -1,6 +1,5 @@
-import { useMemo } from 'react'
-
 import { PenToSquare, Plus, Spinner } from '@pzh-ui/icons'
+import { useMemo } from 'react'
 
 import { ReadRelation } from '@/api/fetchers.schemas'
 import { ObjectConnectionModalActions } from '@/components/Modals/ObjectModals/types'

@@ -1,9 +1,8 @@
+import { Text } from '@pzh-ui/components'
+import { House, Users } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-
-import { Text } from '@pzh-ui/components'
-import { House, Users } from '@pzh-ui/icons'
 
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
