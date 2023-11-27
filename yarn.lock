@@ -12513,7 +12513,7 @@ __metadata:
     react-router-dom: "npm:^6.14.2"
     rollup-plugin-visualizer: "npm:^5.9.2"
     sass: "npm:^1.63.6"
-    tailwindcss: "npm:^3.2.4"
+    tailwindcss: "npm:^3.3.5"
     typescript: "npm:^5.1.6"
     uuid: "npm:^9.0.0"
     vite: "npm:^5.0.0"
@@ -14094,7 +14094,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.2.4":
+"tailwindcss@npm:^3.3.5":
   version: 3.3.5
   resolution: "tailwindcss@npm:3.3.5"
   dependencies:
