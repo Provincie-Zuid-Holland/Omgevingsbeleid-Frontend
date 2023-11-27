@@ -102,29 +102,12 @@ const UserObject = () => {
         }
     )
 
-    /**
-     * Format objects
-     */
-    // const userObjects = useMemo(() => {
-    //     const grouped = groupBy(objects?.results, 'Object_Type')
-    //     const sorted = Object.keys(grouped)
-    //         .sort()
-    //         .reduce((obj: any, key) => {
-    //             obj[key] = grouped[key]
-    //             return obj
-    //         }, {})
-
-    //     return sorted
-    // }, [objects?.results]) as {
-    //     [key in ModelType]: PagedResponseGenericObjectShort[]
-    // }
-
     return (
         <>
             {!!objects?.results ? (
                 <div className="col-span-6">
                     <Tabs>
-                        <TabItem title="Tab">
+                        <TabItem title="Objecten">
                             <ItemList
                                 items={objects?.results}
                                 isLoading={isFetching}
@@ -143,35 +126,6 @@ const UserObject = () => {
                                     </div>
                                 )}
                         </TabItem>
-                        {/* {Object.keys(userObjects).map(type => {
-                            const objects = userObjects[type as ModelType]
-                            const model = models[type as ModelType]
-
-                            return (
-                                <TabItem
-                                    key={type}
-                                    title={`${
-                                        model.defaults.pluralCapitalize
-                                    } (${objects?.length || 0})`}>
-                                    <ItemList
-                                        items={objects}
-                                        isLoading={isLoading}
-                                        type="object"
-                                    />
-                                    {!!objects?.total &&
-                                        !!objects?.limit &&
-                                        objects.total > objects.limit && (
-                                            <div className="mt-8 flex justify-center">
-                                                <Pagination
-                                                    onChange={setCurrPage}
-                                                    forcePage={currPage - 1}
-                                                    {...pagination}
-                                                />
-                                            </div>
-                                        )}
-                                </TabItem>
-                            )
-                        })} */}
                     </Tabs>
                 </div>
             ) : (
