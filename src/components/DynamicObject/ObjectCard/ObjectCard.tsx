@@ -1,4 +1,4 @@
-import { Button, Heading } from '@pzh-ui/components'
+import { Button, Heading, Text } from '@pzh-ui/components'
 
 import * as models from '@/config/objects'
 import { ModelReturnType, ModelType } from '@/config/objects/types'
@@ -11,7 +11,9 @@ const ObjectCard = ({ Object_Type, Object_ID, Title }: ModelReturnType) => {
         <li
             className="flex h-full flex-col rounded border border-pzh-gray-200 p-5"
             data-testid="object-card">
-            <span className="block">{singularCapitalize}</span>
+            <Text as="span" size="s" className="block">
+                {singularCapitalize}
+            </Text>
             <Heading level="4" size="m" className="mb-4">
                 {Title}
             </Heading>

@@ -1,6 +1,7 @@
 import { Button, Heading, Pagination, Text } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
-import { useEffect, useState } from 'react'
+import { keepPreviousData } from '@tanstack/react-query'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { useModulesGet } from '@/api/fetchers'
@@ -14,42 +15,19 @@ const PAGE_LIMIT = 20
 const DashboardAdmin = () => {
     const [currPage, setCurrPage] = useState(1)
 
-    const {
-        data: modules,
-        isLoading: modulesLoading,
-        isSuccess,
-    } = useModulesGet({
-        only_active: true,
-        only_mine: false,
-        limit: PAGE_LIMIT,
-        offset: (currPage - 1) * PAGE_LIMIT,
-    })
-
-    const [pagination, setPagination] = useState({
-        isLoaded: false,
-        total: modules?.total,
-        limit: modules?.limit,
-    })
-
-    useEffect(() => {
-        if (isSuccess) {
-            if (!!!modules.results.length) {
-                setPagination({
-                    isLoaded: false,
-                    total: modules?.total,
-                    limit: modules?.limit,
-                })
-            } else {
-                if (!pagination.isLoaded) {
-                    setPagination({
-                        isLoaded: true,
-                        total: modules?.total,
-                        limit: modules?.limit,
-                    })
-                }
-            }
+    const { data: modules, isFetching: modulesLoading } = useModulesGet(
+        {
+            only_active: true,
+            only_mine: false,
+            limit: PAGE_LIMIT,
+            offset: (currPage - 1) * PAGE_LIMIT,
+        },
+        {
+            query: {
+                placeholderData: keepPreviousData,
+            },
         }
-    }, [isSuccess, modules, pagination.isLoaded])
+    )
 
     return (
         <div className="grid grid-cols-6">
@@ -116,14 +94,15 @@ const DashboardAdmin = () => {
                         )}
                     </div>
 
-                    {!!pagination.total &&
-                        !!pagination.limit &&
-                        pagination.total > pagination.limit && (
+                    {!!modules?.total &&
+                        !!modules?.limit &&
+                        modules.total > modules.limit && (
                             <div className="mt-8 flex justify-center">
                                 <Pagination
                                     onChange={setCurrPage}
                                     forcePage={currPage - 1}
-                                    {...pagination}
+                                    total={modules.total}
+                                    limit={modules.limit}
                                 />
                             </div>
                         )}
