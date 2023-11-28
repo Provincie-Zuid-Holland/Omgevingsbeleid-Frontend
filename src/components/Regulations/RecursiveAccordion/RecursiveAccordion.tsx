@@ -1,3 +1,5 @@
+import classNames from 'classnames'
+
 import {
     Accordion,
     AccordionContent,
@@ -12,7 +14,7 @@ import useModalStore from '@/store/modalStore'
 import useRegulationStore from '@/store/regulationStore'
 import equalArrays from '@/utils/equalArrays'
 import handleViewTransition from '@/utils/handleViewTransition'
-import classNames from 'classnames'
+
 import { GROUP_VARIANTS } from '../constants'
 import AddItem from './components/AddItem'
 import Handle from './components/Handle'

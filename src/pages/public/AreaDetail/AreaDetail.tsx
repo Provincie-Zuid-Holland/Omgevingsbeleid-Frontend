@@ -63,9 +63,14 @@ function AreaDetail() {
                     <Heading level="1" size="xxl" className="mb-3 mt-10">
                         {data?.Title}
                     </Heading>
-                    <Text className="mb-8 whitespace-pre-line break-words">
-                        {data?.Description}
-                    </Text>
+                    {data?.Description && (
+                        <Text
+                            className="prose prose-neutral mb-8 max-w-full whitespace-pre-line text-m text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0"
+                            dangerouslySetInnerHTML={{
+                                __html: data.Description,
+                            }}
+                        />
+                    )}
                     {data?.Image && (
                         <figure>
                             <img src={data.Image} alt={data?.Title} />

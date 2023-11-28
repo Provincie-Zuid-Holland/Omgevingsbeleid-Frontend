@@ -15,7 +15,7 @@ import getEnvironmentText from '@/utils/getEnvironmentName'
 
 import { Container } from '../Container'
 import NavigationPopupMenu from '../NavigationPopupMenu'
-import UserMenu from '../UserMenu'
+import UserMenu from '../Users/UserMenu'
 
 /**
  * Displays a navbar on top of the page which the user can use to login, logout and search within the omgevingsbeleid.

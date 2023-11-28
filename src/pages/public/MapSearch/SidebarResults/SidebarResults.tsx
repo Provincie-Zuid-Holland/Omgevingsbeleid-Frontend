@@ -217,11 +217,11 @@ const SidebarResults = () => {
         <Transition
             show={sidebarOpen === 'true'}
             enter="transition-all ease-out duration-300 delay-100 transform"
-            enterFrom="-mr-840"
+            enterFrom="-mr-[840px]"
             enterTo="mr-0"
             leave="transition-all ease-in duration-300 transform"
             leaveFrom="mr-0"
-            leaveTo="-mr-840"
+            leaveTo="-mr-[840px]"
             className="relative z-1 w-full max-w-2xl overflow-hidden px-4 pb-4 pt-4 md:px-10 md:pb-0 md:shadow-pane lg:px-20">
             <div className="border-b border-pzh-gray-300 pb-3">
                 <div className="flex items-start justify-between">

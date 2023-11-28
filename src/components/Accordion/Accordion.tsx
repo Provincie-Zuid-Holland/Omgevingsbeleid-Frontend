@@ -1,3 +1,4 @@
+import { AngleDown } from '@pzh-ui/icons'
 import { useUpdateEffect } from '@react-hookz/web'
 import classNames from 'classnames'
 import {
@@ -8,8 +9,6 @@ import {
     isValidElement,
     useState,
 } from 'react'
-
-import { AngleDown } from '@pzh-ui/icons'
 
 interface AccordionProps {
     className?: string
@@ -152,4 +151,4 @@ const AccordionContent = ({
     return <div className={classNames('py-2', className)}>{children}</div>
 }
 
-export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger }

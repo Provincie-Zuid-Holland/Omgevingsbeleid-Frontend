@@ -1,4 +1,5 @@
 import { Content } from '@/config/regulations/contents/types'
+
 import FieldBoxtext from './FieldBoxtext'
 import FieldFigure from './FieldFigure'
 import FieldFormula from './FieldFormula'

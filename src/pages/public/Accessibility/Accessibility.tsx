@@ -1,7 +1,6 @@
+import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import { useRef } from 'react'
 import { Helmet } from 'react-helmet'
-
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 
 import { Container } from '@/components/Container'
 import imgDigiToegankelijkheid from '@/images/digi-toegankelijkheid.webp'

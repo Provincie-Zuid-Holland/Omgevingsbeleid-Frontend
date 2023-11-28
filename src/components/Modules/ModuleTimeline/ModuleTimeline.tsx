@@ -1,7 +1,6 @@
+import { Badge, Text } from '@pzh-ui/components'
 import classNames from 'classnames'
 import { useMemo } from 'react'
-
-import { Badge, Text } from '@pzh-ui/components'
 
 import { ModuleStatus } from '@/api/fetchers.schemas'
 import formatDate from '@/utils/formatDate'

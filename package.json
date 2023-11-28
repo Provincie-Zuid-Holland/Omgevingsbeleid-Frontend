@@ -1,6 +1,6 @@
 {
     "name": "pzh",
-    "version": "0.1.0",
+    "version": "2.0.0",
     "private": true,
     "homepage": "https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend",
     "type": "module",
@@ -102,8 +102,8 @@
         "prettier": "2.8.8",
         "rollup-plugin-visualizer": "^5.9.2",
         "sass": "^1.63.6",
-        "tailwindcss": "^3.2.4",
-        "typescript": "^5.1.6",
+        "tailwindcss": "^3.3.5",
+        "typescript": "^5.3.2",
         "vite": "^5.0.0",
         "vite-plugin-svgr": "^4.2.0",
         "vite-tsconfig-paths": "^4.2.1",

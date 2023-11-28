@@ -1,9 +1,8 @@
+import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import groupBy from 'lodash.groupby'
 import { useMemo } from 'react'
 import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
-
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
@@ -83,9 +82,14 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
                     <Heading level="1" size="xxl" className="mb-2 md:mb-4">
                         {data.Title}
                     </Heading>
-                    <Text className="mb-4 whitespace-pre-line break-words">
-                        {data?.Description}
-                    </Text>
+                    {data?.Description && (
+                        <Text
+                            className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0"
+                            dangerouslySetInnerHTML={{
+                                __html: data.Description,
+                            }}
+                        />
+                    )}
 
                     {Object.keys(formattedRelations)?.map(group => {
                         if (!!!formattedRelations[group].length) return
