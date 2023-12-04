@@ -85,6 +85,7 @@ const visie: DynamicObject<
                         'heading',
                         'subscript',
                         'superscript',
+                        'table',
                     ],
                     imageOptions: {
                         maxSize: 819200,

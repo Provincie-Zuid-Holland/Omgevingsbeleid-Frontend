@@ -9,6 +9,7 @@ import {
     getModulesModuleIdGetQueryKey,
     useModulesModuleIdAddExistingObjectPost,
     useModulesModuleIdAddNewObjectPost,
+    useModulesObjectsLatestGet,
 } from '@/api/fetchers'
 import {
     Module,
@@ -47,6 +48,11 @@ const ModuleContentsModal = ({
 }: ModuleContentsModalProps) => {
     const queryClient = useQueryClient()
     const { moduleId } = useParams()
+
+    const { queryKey: moduleObjectsQueryKey } = useModulesObjectsLatestGet(
+        undefined,
+        { query: { enabled: false } }
+    )
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
@@ -98,13 +104,18 @@ const ModuleContentsModal = ({
     const addNewObjectToModule = useModulesModuleIdAddNewObjectPost({
         mutation: {
             onSuccess: () => {
-                queryClient
-                    .invalidateQueries({
+                Promise.all([
+                    queryClient.invalidateQueries({
                         queryKey: getModulesModuleIdGetQueryKey(
                             parseInt(moduleId!)
                         ),
-                    })
-                    .then(handleClose)
+                    }),
+                    queryClient.invalidateQueries({
+                        queryKey: moduleObjectsQueryKey,
+                        refetchType: 'all',
+                        exact: false,
+                    }),
+                ]).then(handleClose)
 
                 toastNotification('saved')
             },
@@ -117,13 +128,18 @@ const ModuleContentsModal = ({
     const addExistingObjectToModule = useModulesModuleIdAddExistingObjectPost({
         mutation: {
             onSuccess: () => {
-                queryClient
-                    .invalidateQueries({
+                Promise.all([
+                    queryClient.invalidateQueries({
                         queryKey: getModulesModuleIdGetQueryKey(
                             parseInt(moduleId!)
                         ),
-                    })
-                    .then(handleClose)
+                    }),
+                    queryClient.invalidateQueries({
+                        queryKey: moduleObjectsQueryKey,
+                        refetchType: 'all',
+                        exact: false,
+                    }),
+                ]).then(handleClose)
 
                 toastNotification('saved')
             },

@@ -13,6 +13,7 @@ import {
     useModulesModuleIdGet,
     useModulesModuleIdPost,
     useModulesModuleIdRemoveObjectTypeLineageIdDelete,
+    useModulesObjectsLatestGet,
 } from '@/api/fetchers'
 import {
     HTTPValidationError,
@@ -88,6 +89,11 @@ function ModuleProvider({ children }: { children?: ReactNode }) {
         },
     })
 
+    const { queryKey: moduleObjectsQueryKey } = useModulesObjectsLatestGet(
+        undefined,
+        { query: { enabled: false } }
+    )
+
     const useEditModule = (
         toastType = 'moduleEdit' as ToastType,
         onSuccess?: () => void
@@ -132,13 +138,18 @@ function ModuleProvider({ children }: { children?: ReactNode }) {
         useModulesModuleIdRemoveObjectTypeLineageIdDelete({
             mutation: {
                 onSuccess: () => {
-                    queryClient
-                        .invalidateQueries({
+                    Promise.all([
+                        queryClient.invalidateQueries({
                             queryKey: getModulesModuleIdGetQueryKey(
                                 parseInt(moduleId!)
                             ),
-                        })
-                        .then(onSuccess)
+                        }),
+                        queryClient.invalidateQueries({
+                            queryKey: moduleObjectsQueryKey,
+                            refetchType: 'all',
+                            exact: false,
+                        }),
+                    ]).then(onSuccess)
 
                     toastNotification('objectRemoved')
                 },

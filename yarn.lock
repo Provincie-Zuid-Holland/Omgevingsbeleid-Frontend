@@ -2501,13 +2501,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.442":
-  version: 0.0.442
-  resolution: "@pzh-ui/components@npm:0.0.442"
+"@pzh-ui/components@npm:^0.0.451":
+  version: 0.0.451
+  resolution: "@pzh-ui/components@npm:0.0.451"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
-    "@pzh-ui/icons": "npm:^0.0.46"
+    "@pzh-ui/icons": "npm:^0.0.47"
     "@react-aria/utils": "npm:^3.19.0"
     "@react-hookz/web": "npm:^23.1.0"
     "@react-types/shared": "npm:^3.19.0"
@@ -2528,6 +2528,10 @@ __metadata:
     "@tiptap/extension-placeholder": "npm:^2.1.7"
     "@tiptap/extension-subscript": "npm:^2.1.12"
     "@tiptap/extension-superscript": "npm:^2.1.12"
+    "@tiptap/extension-table": "npm:^2.1.12"
+    "@tiptap/extension-table-cell": "npm:^2.1.12"
+    "@tiptap/extension-table-header": "npm:^2.1.12"
+    "@tiptap/extension-table-row": "npm:^2.1.12"
     "@tiptap/extension-text": "npm:^2.1.7"
     "@tiptap/extension-text-style": "npm:^2.1.10"
     "@tiptap/extension-underline": "npm:^2.1.7"
@@ -2549,13 +2553,13 @@ __metadata:
     react-stately: "npm:^3.18.0"
     react-table: "npm:^7.8.0"
     react-toastify: "npm:^9.1.2"
-  checksum: 2d22017cee5502dbb2b75528549e3e691c511a9746afe58ab1b0c5d4fef73347bcfcb4aeb637fba77c641949b27652ee50699833e6a6364f285c4bbcde9a7bfe
+  checksum: f4cabb36c298e3a901df4d4f3994a1accfe2061f1c952d520a64f28809a3d9f090ff1987b5164b091cb85a23a35975f04307e59f562e083dd83bab83cecffe8d
   languageName: node
   linkType: hard
 
-"@pzh-ui/config@npm:^0.0.55":
-  version: 0.0.55
-  resolution: "@pzh-ui/config@npm:0.0.55"
+"@pzh-ui/config@npm:^0.0.56":
+  version: 0.0.56
+  resolution: "@pzh-ui/config@npm:0.0.56"
   dependencies:
     "@babel/eslint-parser": "npm:^7.17.0"
     "@babel/preset-env": "npm:^7.16.11"
@@ -2577,13 +2581,13 @@ __metadata:
     prettier-plugin-organize-imports: "npm:^3.2.3"
     prettier-plugin-tailwindcss: "npm:^0.4.1"
     react-toastify: "npm:^9.1.2"
-  checksum: b073d61288518f60704b155df4b8cf2f492dbb22b77c08f02de110b235ca2f9d5b25230bb61ba0f6c1fcaff886f831ed494f80795032745ef81498f4ef6300c0
+  checksum: ef96b60953f637613c949ce05a7f51c9ac1fc5a01a8603fbdb06e84eeb4a4af750dc47f705ff4740a16177c2e43f5d5b212adeb1a7c658352b4bb1fc1f8046ec
   languageName: node
   linkType: hard
 
-"@pzh-ui/css@npm:^0.0.72":
-  version: 0.0.72
-  resolution: "@pzh-ui/css@npm:0.0.72"
+"@pzh-ui/css@npm:^0.0.75":
+  version: 0.0.75
+  resolution: "@pzh-ui/css@npm:0.0.75"
   dependencies:
     "@rollup/plugin-typescript": "npm:^8.3.1"
     "@tailwindcss/custom-forms": "npm:^0.2.1"
@@ -2592,17 +2596,17 @@ __metadata:
     "@tailwindcss/typography": "npm:^0.5.9"
     react-datepicker: "npm:^4.7.0"
     react-toastify: "npm:^9.1.2"
-  checksum: d47e50c39bbfbf1498ce887a7c87c5a9564e00926e16397b02354d8dce8fdcb7c05ec77447ee52e61d0966d7d6c7da92c86e8eda212655739a2195a3cf566b79
+  checksum: 98534c48dbaafe7f7a0c2b2cb5e57c374763e4279b1882f29cd094744fd5f2c827adfc53a60cdcde4524a70451d4a0021fa761133633c29492ba5a586f131358
   languageName: node
   linkType: hard
 
-"@pzh-ui/icons@npm:^0.0.46":
-  version: 0.0.46
-  resolution: "@pzh-ui/icons@npm:0.0.46"
+"@pzh-ui/icons@npm:^0.0.47":
+  version: 0.0.47
+  resolution: "@pzh-ui/icons@npm:0.0.47"
   dependencies:
     react: "npm:^18.0.0"
     react-toastify: "npm:^9.1.2"
-  checksum: f0e17d960cfa780f20177dabc92efcdd902ef408320df35d5e4040d970c80467f8857d6f4bafaafcebe1107021b92daef99d9406fbe71eb40b3e982155232c24
+  checksum: 1d677dd9d1d36cf9608d2778fcf1efff423e9c2e1fc0324d750b7c1541c3aca3e61cf459810aa300d9d4fde0ebd8fe8526ec852a22f8f9a8987ab7758f18f4ca
   languageName: node
   linkType: hard
 
@@ -4906,6 +4910,43 @@ __metadata:
   peerDependencies:
     "@tiptap/core": ^2.0.0
   checksum: c39484d8480e2614009e3fdb43ee13ae883b3b9b8d21314f1ca996e27eecba3e337f12b37dd836618c1e664b7650ce63382d6245138322a73ba04701d5e28bff
+  languageName: node
+  linkType: hard
+
+"@tiptap/extension-table-cell@npm:^2.1.12":
+  version: 2.1.12
+  resolution: "@tiptap/extension-table-cell@npm:2.1.12"
+  peerDependencies:
+    "@tiptap/core": ^2.0.0
+  checksum: 5cfef54d3e4574eda1d7e5dc8f63ca8a6b9a9687518d23d71fb3ebff39381b8746f5223abbb63440b32cfb42692ee76da60ea3aec8eef4cc8be0a3f141ef6a7e
+  languageName: node
+  linkType: hard
+
+"@tiptap/extension-table-header@npm:^2.1.12":
+  version: 2.1.12
+  resolution: "@tiptap/extension-table-header@npm:2.1.12"
+  peerDependencies:
+    "@tiptap/core": ^2.0.0
+  checksum: f7ee634aac7cb292c44f1f8feb3d57b48cc1a5df3b766918dfb32569ef17b1871b8f995efc12c9433c60e814fba608b21b5cba44c6cbd0952f6dbc17541cf860
+  languageName: node
+  linkType: hard
+
+"@tiptap/extension-table-row@npm:^2.1.12":
+  version: 2.1.12
+  resolution: "@tiptap/extension-table-row@npm:2.1.12"
+  peerDependencies:
+    "@tiptap/core": ^2.0.0
+  checksum: f41263d72b1335942678d68bb1fe871acb022823bdeb060fb1de5d3fc1e0c3293b811e1279adc789791fa50aeb57a09ef8dddca12b806c2770a702aeeb5b914b
+  languageName: node
+  linkType: hard
+
+"@tiptap/extension-table@npm:^2.1.12":
+  version: 2.1.12
+  resolution: "@tiptap/extension-table@npm:2.1.12"
+  peerDependencies:
+    "@tiptap/core": ^2.0.0
+    "@tiptap/pm": ^2.0.0
+  checksum: 3d3235e22cc2091ece1cf30a918f3c760e798e00531ebda1dfd41f0df61a94a333fb1eb0cdba0a233a2e8e4c588acff28b481d78efd662daf17bee35a06c128c
   languageName: node
   linkType: hard
 
@@ -12449,10 +12490,10 @@ __metadata:
     "@axe-core/react": "npm:^4.8.1"
     "@faker-js/faker": "npm:^8.2.0"
     "@headlessui/react": "npm:^1.5.0"
-    "@pzh-ui/components": "npm:^0.0.442"
-    "@pzh-ui/config": "npm:^0.0.55"
-    "@pzh-ui/css": "npm:^0.0.72"
-    "@pzh-ui/icons": "npm:^0.0.46"
+    "@pzh-ui/components": "npm:^0.0.451"
+    "@pzh-ui/config": "npm:^0.0.56"
+    "@pzh-ui/css": "npm:^0.0.75"
+    "@pzh-ui/icons": "npm:^0.0.47"
     "@react-hookz/web": "npm:^23.1.0"
     "@tanstack/react-query": "npm:^5.8.3"
     "@testing-library/dom": "npm:^9.3.1"
