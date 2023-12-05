@@ -1231,6 +1231,10 @@ export const getBeleidsdoelenVersionObjectUuidGetMock = () => ({
         ]),
         undefined,
     ]),
+    Hierarchy_Code: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
     Maatregelen: faker.helpers.arrayElement([
         Array.from(
             { length: faker.number.int({ min: 1, max: 10 }) },
@@ -1443,6 +1447,10 @@ export const getBeleidsdoelenLatestLineageIdGetMock = () => ({
         ]),
         undefined,
     ]),
+    Hierarchy_Code: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
     Maatregelen: faker.helpers.arrayElement([
         Array.from(
             { length: faker.number.int({ min: 1, max: 10 }) },
@@ -1625,6 +1633,10 @@ export const getModulesModuleIdObjectBeleidsdoelLineageIdGetMock = () => ({
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
                 null,
             ]),
+            undefined,
+        ]),
+        Hierarchy_Code: faker.helpers.arrayElement([
+            faker.word.sample(),
             undefined,
         ]),
         Modified_By: faker.helpers.arrayElement([
@@ -1811,6 +1823,10 @@ export const getModulesModuleIdObjectBeleidsdoelLatestLineageIdGetMock =
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
                 null,
             ]),
+            undefined,
+        ]),
+        Hierarchy_Code: faker.helpers.arrayElement([
+            faker.word.sample(),
             undefined,
         ]),
         Maatregelen: faker.helpers.arrayElement([
@@ -2036,6 +2052,10 @@ export const getModulesModuleIdObjectBeleidsdoelVersionObjectUuidGetMock =
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
                 null,
             ]),
+            undefined,
+        ]),
+        Hierarchy_Code: faker.helpers.arrayElement([
+            faker.word.sample(),
             undefined,
         ]),
         Maatregelen: faker.helpers.arrayElement([
@@ -2304,6 +2324,10 @@ export const getRevisionsModuleIdBeleidsdoelVersionObjectUuidGetMock = () => ({
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             null,
         ]),
+        undefined,
+    ]),
+    Hierarchy_Code: faker.helpers.arrayElement([
+        faker.word.sample(),
         undefined,
     ]),
     Maatregelen: faker.helpers.arrayElement([
@@ -2638,6 +2662,10 @@ export const getBeleidskeuzesVersionObjectUuidGetMock = () => ({
         },
         undefined,
     ]),
+    Hierarchy_Code: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
     Maatregelen: faker.helpers.arrayElement([
         Array.from(
             { length: faker.number.int({ min: 1, max: 10 }) },
@@ -2968,6 +2996,10 @@ export const getBeleidskeuzesLatestLineageIdGetMock = () => ({
             Title: faker.word.sample(),
             UUID: faker.string.uuid(),
         },
+        undefined,
+    ]),
+    Hierarchy_Code: faker.helpers.arrayElement([
+        faker.word.sample(),
         undefined,
     ]),
     Maatregelen: faker.helpers.arrayElement([
@@ -3312,6 +3344,10 @@ export const getModulesModuleIdObjectBeleidskeuzeLineageIdGetMock = () => ({
             ]),
             undefined,
         ]),
+        Hierarchy_Code: faker.helpers.arrayElement([
+            faker.word.sample(),
+            undefined,
+        ]),
         Modified_By: faker.helpers.arrayElement([
             {
                 Gebruikersnaam: faker.word.sample(),
@@ -3523,6 +3559,10 @@ export const getModulesModuleIdObjectBeleidskeuzeLatestLineageIdGetMock =
                 Title: faker.word.sample(),
                 UUID: faker.string.uuid(),
             },
+            undefined,
+        ]),
+        Hierarchy_Code: faker.helpers.arrayElement([
+            faker.word.sample(),
             undefined,
         ]),
         Maatregelen: faker.helpers.arrayElement([
@@ -3881,6 +3921,10 @@ export const getModulesModuleIdObjectBeleidskeuzeVersionObjectUuidGetMock =
                 Title: faker.word.sample(),
                 UUID: faker.string.uuid(),
             },
+            undefined,
+        ]),
+        Hierarchy_Code: faker.helpers.arrayElement([
+            faker.word.sample(),
             undefined,
         ]),
         Maatregelen: faker.helpers.arrayElement([
@@ -4275,6 +4319,10 @@ export const getRevisionsModuleIdBeleidskeuzeVersionObjectUuidGetMock = () => ({
             Title: faker.word.sample(),
             UUID: faker.string.uuid(),
         },
+        undefined,
+    ]),
+    Hierarchy_Code: faker.helpers.arrayElement([
+        faker.word.sample(),
         undefined,
     ]),
     Maatregelen: faker.helpers.arrayElement([
@@ -6853,6 +6901,10 @@ export const getMaatregelenVersionObjectUuidGetMock = () => ({
         })),
         undefined,
     ]),
+    Hierarchy_Code: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
     Modified_By: faker.helpers.arrayElement([
         {
             Gebruikersnaam: faker.word.sample(),
@@ -7085,6 +7137,10 @@ export const getMaatregelenLatestLineageIdGetMock = () => ({
         })),
         undefined,
     ]),
+    Hierarchy_Code: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
     Modified_By: faker.helpers.arrayElement([
         {
             Gebruikersnaam: faker.word.sample(),
@@ -7252,6 +7308,10 @@ export const getModulesModuleIdObjectMaatregelLineageIdGetMock = () => ({
                 Title: faker.word.sample(),
                 UUID: faker.string.uuid(),
             },
+            undefined,
+        ]),
+        Hierarchy_Code: faker.helpers.arrayElement([
+            faker.word.sample(),
             undefined,
         ]),
         Modified_By: faker.helpers.arrayElement([
@@ -7481,6 +7541,10 @@ export const getModulesModuleIdObjectMaatregelLatestLineageIdGetMock = () => ({
                 Object_Type: faker.word.sample(),
             },
         })),
+        undefined,
+    ]),
+    Hierarchy_Code: faker.helpers.arrayElement([
+        faker.word.sample(),
         undefined,
     ]),
     Modified_By: faker.helpers.arrayElement([
@@ -7730,6 +7794,10 @@ export const getModulesModuleIdObjectMaatregelVersionObjectUuidGetMock =
                     Object_Type: faker.word.sample(),
                 },
             })),
+            undefined,
+        ]),
+        Hierarchy_Code: faker.helpers.arrayElement([
+            faker.word.sample(),
             undefined,
         ]),
         Modified_By: faker.helpers.arrayElement([
@@ -8015,6 +8083,10 @@ export const getRevisionsModuleIdMaatregelVersionObjectUuidGetMock = () => ({
                 Object_Type: faker.word.sample(),
             },
         })),
+        undefined,
+    ]),
+    Hierarchy_Code: faker.helpers.arrayElement([
+        faker.word.sample(),
         undefined,
     ]),
     Modified_By: faker.helpers.arrayElement([
