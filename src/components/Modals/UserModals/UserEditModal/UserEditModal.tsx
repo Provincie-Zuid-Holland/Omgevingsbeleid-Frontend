@@ -29,8 +29,9 @@ const UserEditModal = () => {
     const { mutateAsync } = useUsersUserUuidPost({
         mutation: {
             onSuccess: () => {
-                queryClient.invalidateQueries(queryKey)
-                queryClient.invalidateQueries(queryKeyUsers, {
+                queryClient.invalidateQueries({ queryKey })
+                queryClient.invalidateQueries({
+                    queryKey: queryKeyUsers,
                     refetchType: 'all',
                 })
 

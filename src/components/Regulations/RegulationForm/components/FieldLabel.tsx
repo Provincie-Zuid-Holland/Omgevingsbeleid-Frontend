@@ -1,6 +1,7 @@
 import { Text } from '@pzh-ui/components'
 import { GripDotsVertical, Xmark } from '@pzh-ui/icons'
 import classNames from 'classnames'
+
 import { RegulationFieldProps } from './types'
 
 const FieldLabel = ({
@@ -10,7 +11,7 @@ const FieldLabel = ({
     isGroup,
     isDraggable,
     dragOptions,
-}: Omit<RegulationFieldProps, 'index'>) => (
+}: Omit<RegulationFieldProps, 'index' | 'name'> & { name?: string }) => (
     <div
         className={classNames('flex justify-between', {
             'active:animate-pulse active:cursor-grabbing active:bg-pzh-blue-light/10':

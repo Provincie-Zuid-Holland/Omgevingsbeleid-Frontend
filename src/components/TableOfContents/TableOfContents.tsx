@@ -1,7 +1,6 @@
+import { AngleRight } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
-
-import { AngleRight } from '@pzh-ui/icons'
 
 const TableOfContents = () => {
     const path = location.pathname

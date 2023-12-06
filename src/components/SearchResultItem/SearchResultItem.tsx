@@ -1,6 +1,5 @@
-import { Link } from 'react-router-dom'
-
 import { Heading } from '@pzh-ui/components'
+import { Link } from 'react-router-dom'
 
 import { ValidSearchObject } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'

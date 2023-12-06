@@ -1,3 +1,4 @@
+import { Button } from '@pzh-ui/components'
 import { useUpdateEffect } from '@react-hookz/web'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers } from 'formik'
@@ -5,18 +6,16 @@ import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
-import { Button } from '@pzh-ui/components'
-
 import { ReadRelation, WriteRelation } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
+import { ObjectConnectionModalActions } from '@/components/Modals/ObjectModals/types'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as objectConnection from '@/validation/objectConnection'
 
-import { ObjectConnectionModalActions } from '../types'
 import { StepOne, StepThree, StepTwo } from './steps'
 
 const steps = [StepOne, StepTwo, StepThree]
@@ -43,20 +42,25 @@ const ObjectConnectionModal = ({
         data: relations,
         refetch: refetchRelations,
         queryKey,
-    } = useGetRelations(parseInt(objectId!), { query: { enabled: !!objectId } })
+    } = useGetRelations?.(parseInt(objectId!), {
+        query: { enabled: !!objectId },
+    }) || {}
 
-    const putRelations = usePutRelations({
-        mutation: {
-            onSuccess: () => {
-                Promise.all([
-                    queryClient.invalidateQueries(queryKey),
-                    queryClient.invalidateQueries(objectQueryKey),
-                ])
+    const { mutateAsync } =
+        usePutRelations?.({
+            mutation: {
+                onSuccess: () => {
+                    Promise.all([
+                        queryClient.invalidateQueries({ queryKey }),
+                        queryClient.invalidateQueries({
+                            queryKey: objectQueryKey,
+                        }),
+                    ])
 
-                toastNotification('saved')
+                    toastNotification('saved')
+                },
             },
-        },
-    })
+        }) || {}
 
     /**
      * Handle for submit
@@ -66,7 +70,7 @@ const ObjectConnectionModal = ({
             | WriteRelation
             | { items?: { Object_ID: number; Title: string }[] }
     ) => {
-        refetchRelations().then(({ data, isSuccess }) => {
+        refetchRelations?.().then(({ data, isSuccess }) => {
             if (isSuccess && !!data) {
                 let newData = data as WriteRelation[]
 
@@ -104,12 +108,10 @@ const ObjectConnectionModal = ({
                     ]
                 }
 
-                putRelations
-                    .mutateAsync({
-                        lineageId: parseInt(objectId!),
-                        data: newData,
-                    })
-                    .then(() => setActiveModal(null))
+                mutateAsync?.({
+                    lineageId: parseInt(objectId!),
+                    data: newData,
+                }).then(() => setActiveModal(null))
             }
         })
     }
@@ -118,7 +120,7 @@ const ObjectConnectionModal = ({
      * Handle delete connection
      */
     const handleDeleteConnection = (connection: WriteRelation) => {
-        refetchRelations().then(({ data, isSuccess }) => {
+        refetchRelations?.().then(({ data, isSuccess }) => {
             if (isSuccess && !!data) {
                 data.splice(
                     data.findIndex(
@@ -129,22 +131,19 @@ const ObjectConnectionModal = ({
                     1
                 )
 
-                putRelations
-                    .mutateAsync({
-                        lineageId: parseInt(objectId!),
-                        data,
-                    })
-                    .then(() => {
-                        if ('items' in initialValues) {
-                            initialValues.items?.splice(
-                                initialValues.items.findIndex(
-                                    item =>
-                                        item.Object_ID === connection.Object_ID
-                                ),
-                                1
-                            )
-                        }
-                    })
+                mutateAsync?.({
+                    lineageId: parseInt(objectId!),
+                    data,
+                }).then(() => {
+                    if ('items' in initialValues) {
+                        initialValues.items?.splice(
+                            initialValues.items.findIndex(
+                                item => item.Object_ID === connection.Object_ID
+                            ),
+                            1
+                        )
+                    }
+                })
             }
         })
     }

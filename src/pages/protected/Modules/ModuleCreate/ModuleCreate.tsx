@@ -1,9 +1,8 @@
+import { Heading } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
-
-import { Heading } from '@pzh-ui/components'
 
 import { getModulesGetQueryKey, useModulesPost } from '@/api/fetchers'
 import { ModuleCreate as ModuleCreateSchema } from '@/api/fetchers.schemas'
@@ -19,11 +18,12 @@ const ModuleCreate = () => {
 
     const navigate = useNavigate()
 
-    const { mutateAsync, isLoading } = useModulesPost({
+    const { mutateAsync, isPending } = useModulesPost({
         mutation: {
             onSuccess: res => {
                 queryClient
-                    .invalidateQueries(getModulesGetQueryKey(), {
+                    .invalidateQueries({
+                        queryKey: getModulesGetQueryKey(),
                         refetchType: 'all',
                     })
                     .then(() => navigate(`/muteer/modules/${res.Module_ID}`))
@@ -38,7 +38,7 @@ const ModuleCreate = () => {
         helpers: FormikHelpers<ModuleCreateSchema>
     ) => {
         mutateAsync({ data: payload }).catch(err =>
-            handleError<ModuleCreateSchema>(err, helpers)
+            handleError<ModuleCreateSchema>(err.response, helpers)
         )
     }
 
@@ -72,8 +72,8 @@ const ModuleCreate = () => {
 
                             <ButtonSubmitFixed
                                 onCancel={() => navigate('/muteer')}
-                                disabled={isSubmitting || isLoading}
-                                isLoading={isLoading}
+                                disabled={isSubmitting || isPending}
+                                isLoading={isPending}
                             />
                         </Form>
                     )}

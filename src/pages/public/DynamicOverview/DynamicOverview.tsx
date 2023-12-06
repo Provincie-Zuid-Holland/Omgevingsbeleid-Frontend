@@ -1,8 +1,8 @@
+import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import { useUpdateEffect } from '@react-hookz/web'
+import { keepPreviousData } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
-
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 
 import { Container } from '@/components/Container'
 import ObjectList from '@/components/ObjectList'
@@ -43,7 +43,7 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
         },
         {
             query: {
-                keepPreviousData: true,
+                placeholderData: keepPreviousData,
             },
         }
     )
@@ -99,7 +99,7 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
                     <Text className="mt-3 md:mt-4">{description}</Text>
                     <div className="mt-8">
                         <ObjectList
-                            data={allObjects || []}
+                            data={allObjects}
                             isLoading={isLoading}
                             objectSlug={`${slugOverview}/${plural}`}
                             objectType={pluralCapitalize.toLowerCase()}

@@ -1,9 +1,8 @@
 import { Transition } from '@headlessui/react'
+import { AngleRight, LayerGroup } from '@pzh-ui/icons'
 import { useUpdateEffect } from '@react-hookz/web'
 import { ReactNode, useState } from 'react'
 import { LayersControl, TileLayer, useMap } from 'react-leaflet'
-
-import { AngleRight, LayerGroup } from '@pzh-ui/icons'
 
 import { tileURL } from '@/constants/leaflet'
 
@@ -38,7 +37,8 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                             onClick={() =>
                                 setLayerControlOpen(!layerControlOpen)
                             }
-                            data-testid="leaflet-layers-control-toggle">
+                            data-testid="leaflet-layers-control-toggle"
+                            type="button">
                             <span className="sr-only">Kaartlagen</span>
                             {layerControlOpen ? (
                                 <AngleRight
@@ -65,7 +65,8 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                                 className="hover:text-gray-800 absolute left-0 top-0 z-[11] mr-8 flex h-8 w-8 -translate-x-8 transform items-center justify-center rounded-l bg-pzh-gray-100 p-2 text-pzh-gray-700 opacity-100"
                                 onClick={() =>
                                     setLayerControlOpen(!layerControlOpen)
-                                }>
+                                }
+                                type="button">
                                 <AngleRight size={16} />
                             </button>
                             <div

@@ -1,9 +1,8 @@
+import { Heading, Text } from '@pzh-ui/components'
+import { Triangle } from '@pzh-ui/icons'
 import groupBy from 'lodash.groupby'
 import { useCallback, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-
-import { Heading, Text } from '@pzh-ui/components'
-import { Triangle } from '@pzh-ui/icons'
 
 import { useObjectGraphGet } from '@/api/fetchers'
 import { GraphVertice } from '@/api/fetchers.schemas'
@@ -21,7 +20,7 @@ interface ObjectNetworkProps {
 const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
     const { data: graph } = useObjectGraphGet(
         { uuid: data.UUID! },
-        { query: { enabled: !!data.UUID, onError: () => {} } }
+        { query: { enabled: !!data.UUID } }
     )
 
     /**
@@ -90,7 +89,7 @@ const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
                                                 index as ModelType,
                                                 object.UUID
                                             )}
-                                            className="flex items-start"
+                                            className="flex items-baseline"
                                             data-code-link={object.Code}
                                             onMouseEnter={el =>
                                                 handleMouseInteraction(
@@ -137,7 +136,7 @@ const getObjectIcon = (key: ModelType) => {
             return <div className="mt-0.5 h-3 w-3 rounded-full bg-pzh-yellow" />
         case 'maatregel':
             return (
-                <div className="rounded-0.5 mr-0.5 mt-0.5 h-2.5 w-2.5 rotate-45 bg-pzh-green" />
+                <div className="rounded-0.5 mr-0.5 mt-0.5 h-2.5 w-2.5 min-w-[10px] rotate-45 bg-pzh-green" />
             )
     }
 }

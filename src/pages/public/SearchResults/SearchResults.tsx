@@ -1,14 +1,13 @@
-import { useUpdateEffect } from '@react-hookz/web'
-import classNames from 'classnames'
-import { useEffect, useMemo, useState } from 'react'
-import { Helmet } from 'react-helmet'
-
 import {
     FieldCheckboxGroup,
     Heading,
     Pagination,
     Text,
 } from '@pzh-ui/components'
+import { useUpdateEffect } from '@react-hookz/web'
+import classNames from 'classnames'
+import { useEffect, useMemo, useState } from 'react'
+import { Helmet } from 'react-helmet'
 
 import { useSearchValidPost } from '@/api/fetchers'
 import { Container } from '@/components/Container'
@@ -85,7 +84,7 @@ const SearchResults = () => {
         set('page', page.toString())
     }
 
-    const { data, mutate, isLoading, isError } = useSearchValidPost({
+    const { data, mutate, isPending, isError } = useSearchValidPost({
         mutation: {
             onSuccess(data) {
                 if (!!!data.results.length) {
@@ -190,7 +189,7 @@ const SearchResults = () => {
                     </div>
                 </div>
                 <div className="col-span-4">
-                    {isLoading ? (
+                    {isPending ? (
                         <div className="flex justify-center">
                             <LoaderSpinner />
                         </div>

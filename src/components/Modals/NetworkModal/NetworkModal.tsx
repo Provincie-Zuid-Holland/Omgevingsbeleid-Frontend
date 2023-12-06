@@ -1,6 +1,5 @@
-import { Link } from 'react-router-dom'
-
 import { Hyperlink, Text } from '@pzh-ui/components'
+import { Link } from 'react-router-dom'
 
 import Modal from '@/components/Modal'
 import * as models from '@/config/objects'

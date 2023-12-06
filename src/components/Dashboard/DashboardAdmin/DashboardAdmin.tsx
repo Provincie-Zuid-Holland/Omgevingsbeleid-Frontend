@@ -1,8 +1,8 @@
-import { useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
-
 import { Button, Heading, Pagination, Text } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
+import { keepPreviousData } from '@tanstack/react-query'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { useModulesGet } from '@/api/fetchers'
 import { LoaderCard } from '@/components/Loader'
@@ -15,48 +15,18 @@ const PAGE_LIMIT = 20
 const DashboardAdmin = () => {
     const [currPage, setCurrPage] = useState(1)
 
-    const { data: modules, isLoading: modulesLoading } = useModulesGet(
+    const { data: modules, isFetching: modulesLoading } = useModulesGet(
         {
-            only_active: false,
+            only_active: true,
             only_mine: false,
             limit: PAGE_LIMIT,
             offset: (currPage - 1) * PAGE_LIMIT,
         },
         {
             query: {
-                onSuccess(data) {
-                    if (!!!data.results.length) {
-                        setPagination({
-                            isLoaded: false,
-                            total: data?.total,
-                            limit: data?.limit,
-                        })
-                    } else {
-                        if (!pagination.isLoaded) {
-                            setPagination({
-                                isLoaded: true,
-                                total: data?.total,
-                                limit: data?.limit,
-                            })
-                        }
-                    }
-                },
+                placeholderData: keepPreviousData,
             },
         }
-    )
-
-    const [pagination, setPagination] = useState({
-        isLoaded: false,
-        total: modules?.total,
-        limit: modules?.limit,
-    })
-
-    const sortedModules = useMemo(
-        () =>
-            modules?.results.sort(
-                (a, b) => Number(a.Closed) - Number(b.Closed)
-            ),
-        [modules]
     )
 
     return (
@@ -115,7 +85,7 @@ const DashboardAdmin = () => {
                                 <LoaderCard height="62" mb="" />
                             </>
                         ) : (
-                            sortedModules?.map(module => (
+                            modules?.results?.map(module => (
                                 <ModuleTile
                                     key={`module-${module.Module_ID}`}
                                     {...module}
@@ -124,14 +94,15 @@ const DashboardAdmin = () => {
                         )}
                     </div>
 
-                    {!!pagination.total &&
-                        !!pagination.limit &&
-                        pagination.total > pagination.limit && (
+                    {!!modules?.total &&
+                        !!modules?.limit &&
+                        modules.total > modules.limit && (
                             <div className="mt-8 flex justify-center">
                                 <Pagination
                                     onChange={setCurrPage}
                                     forcePage={currPage - 1}
-                                    {...pagination}
+                                    total={modules.total}
+                                    limit={modules.limit}
                                 />
                             </div>
                         )}

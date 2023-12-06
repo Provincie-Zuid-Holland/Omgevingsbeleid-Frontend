@@ -9,7 +9,7 @@ interface DragOptions {
     onDragEnd?: () => void
 }
 
-interface DragResult {
+export interface DragResult {
     /** Props for the draggable element. */
     dragProps: (id: number[] | null) => HTMLAttributes<HTMLElement>
     /** Whether the element is currently being dragged. */

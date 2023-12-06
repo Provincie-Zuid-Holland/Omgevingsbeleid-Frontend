@@ -1,7 +1,7 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import '@testing-library/jest-dom'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import AuthProvider from '@/context/AuthContext'
 

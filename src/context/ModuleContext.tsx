@@ -3,7 +3,7 @@ import {
     UseMutationResult,
     useQueryClient,
 } from '@tanstack/react-query'
-import { ReactNode, createContext, useMemo } from 'react'
+import { ReactNode, createContext, useEffect, useMemo } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
 import {
@@ -13,6 +13,7 @@ import {
     useModulesModuleIdGet,
     useModulesModuleIdPost,
     useModulesModuleIdRemoveObjectTypeLineageIdDelete,
+    useModulesObjectsLatestGet,
 } from '@/api/fetchers'
 import {
     HTTPValidationError,
@@ -85,12 +86,13 @@ function ModuleProvider({ children }: { children?: ReactNode }) {
     const module = useModulesModuleIdGet(parseInt(moduleId!), {
         query: {
             enabled: !!moduleId,
-            onError: () => {
-                toastNotification('notAllowed')
-                navigate('/muteer')
-            },
         },
     })
+
+    const { queryKey: moduleObjectsQueryKey } = useModulesObjectsLatestGet(
+        undefined,
+        { query: { enabled: false } }
+    )
 
     const useEditModule = (
         toastType = 'moduleEdit' as ToastType,
@@ -100,10 +102,13 @@ function ModuleProvider({ children }: { children?: ReactNode }) {
             mutation: {
                 onSuccess: () => {
                     Promise.all([
-                        queryClient.invalidateQueries(
-                            getModulesModuleIdGetQueryKey(parseInt(moduleId!))
-                        ),
-                        queryClient.invalidateQueries(getModulesGetQueryKey(), {
+                        queryClient.invalidateQueries({
+                            queryKey: getModulesModuleIdGetQueryKey(
+                                parseInt(moduleId!)
+                            ),
+                        }),
+                        queryClient.invalidateQueries({
+                            queryKey: getModulesGetQueryKey(),
                             refetchType: 'all',
                         }),
                     ]).then(onSuccess)
@@ -118,7 +123,8 @@ function ModuleProvider({ children }: { children?: ReactNode }) {
             mutation: {
                 onSuccess: () => {
                     queryClient
-                        .invalidateQueries(getModulesGetQueryKey(), {
+                        .invalidateQueries({
+                            queryKey: getModulesGetQueryKey(),
                             refetchType: 'all',
                         })
                         .then(onSuccess)
@@ -132,11 +138,18 @@ function ModuleProvider({ children }: { children?: ReactNode }) {
         useModulesModuleIdRemoveObjectTypeLineageIdDelete({
             mutation: {
                 onSuccess: () => {
-                    queryClient
-                        .invalidateQueries(
-                            getModulesModuleIdGetQueryKey(parseInt(moduleId!))
-                        )
-                        .then(onSuccess)
+                    Promise.all([
+                        queryClient.invalidateQueries({
+                            queryKey: getModulesModuleIdGetQueryKey(
+                                parseInt(moduleId!)
+                            ),
+                        }),
+                        queryClient.invalidateQueries({
+                            queryKey: moduleObjectsQueryKey,
+                            refetchType: 'all',
+                            exact: false,
+                        }),
+                    ]).then(onSuccess)
 
                     toastNotification('objectRemoved')
                 },
@@ -183,6 +196,13 @@ function ModuleProvider({ children }: { children?: ReactNode }) {
         isLocked,
         canComplete,
     }
+
+    useEffect(() => {
+        if (module.isError) {
+            toastNotification('notAllowed')
+            navigate('/muteer')
+        }
+    }, [module.isError, navigate])
 
     return (
         <ModuleContext.Provider value={value}>

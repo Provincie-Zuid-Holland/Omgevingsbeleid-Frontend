@@ -1,7 +1,6 @@
-import { Link } from 'react-router-dom'
-
 import { Badge, Heading } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
+import { Link } from 'react-router-dom'
 
 import { Module } from '@/api/fetchers.schemas'
 import { getModuleStatusColor } from '@/utils/module'

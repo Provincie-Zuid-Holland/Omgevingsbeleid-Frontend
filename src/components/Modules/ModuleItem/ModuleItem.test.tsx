@@ -1,9 +1,8 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, screen } from '@testing-library/react'
-
-import '@testing-library/jest-dom/extend-expect'
 import { BrowserRouter } from 'react-router-dom'
 
+import { beleidskeuze } from '@/config/objects'
 import AuthProvider from '@/context/AuthContext'
 import ModuleProvider from '@/context/ModuleContext'
 
@@ -30,6 +29,7 @@ describe('ModuleItem', () => {
                                 deleteCallback={() => {}}
                                 viewCallback={() => {}}
                                 ModuleObjectContext={{ Action: 'Toevoegen' }}
+                                model={beleidskeuze}
                             />
                         </ModuleProvider>
                     </AuthProvider>
@@ -37,7 +37,7 @@ describe('ModuleItem', () => {
             </QueryClientProvider>
         )
 
-        expect(screen.getByText('beleidskeuze')).toBeInTheDocument()
+        expect(screen.getByText('Beleidskeuze')).toBeInTheDocument()
         expect(screen.getByText('Toevoegen')).toHaveClass('text-pzh-gray-600')
         expect(screen.getByText('My Policy')).toBeInTheDocument()
     })

@@ -1,14 +1,13 @@
-import classNames from 'classnames'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Helmet } from 'react-helmet'
-import { useParams } from 'react-router-dom'
-
 import {
     Breadcrumbs,
     Heading,
     Hyperlink,
     Notification,
 } from '@pzh-ui/components'
+import classNames from 'classnames'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Helmet } from 'react-helmet'
+import { useParams } from 'react-router-dom'
 
 import { PublicModuleObjectRevision } from '@/api/fetchers.schemas'
 import { Container } from '@/components/Container'
@@ -50,6 +49,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
         singular,
         singularReadable,
         demonstrative,
+        hideBreadcrumbs,
     } = model.defaults
     const {
         useGetVersion,
@@ -84,9 +84,9 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
         isLoading: latestIsLoading,
         isError: latestIsError,
     } = useGetLatestLineage(data!.Object_ID!, {
-        query: { enabled: !!data?.Object_ID, onError: () => {} },
+        query: { enabled: !!data?.Object_ID },
     })
-    const { data: revisions } =
+    const { data: revisions, isPending: revisionsLoading } =
         useGetValidLineage?.<{ results?: ModelReturnType[] }>(
             data!.Object_ID!,
             undefined,
@@ -144,15 +144,22 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
         <>
             <Helmet title={data?.Title} />
 
-            <Container className="pb-16 pt-4">
-                <div className="col-span-6 mb-8 capitalize">
-                    <Breadcrumbs items={breadcrumbPaths} />
-                </div>
+            <Container
+                className={classNames('pb-16', {
+                    'pt-10': hideBreadcrumbs,
+                    'pt-4': !hideBreadcrumbs,
+                })}>
+                {!hideBreadcrumbs && (
+                    <div className="col-span-6 mb-8 capitalize">
+                        <Breadcrumbs items={breadcrumbPaths} />
+                    </div>
+                )}
 
                 <div className="order-1 col-span-6 xl:col-span-2">
                     <Sidebar
                         revisions={amountOfRevisions}
-                        plural={plural}
+                        revisionsLoading={revisionsLoading}
+                        model={model}
                         handleModal={() => setActiveModal('revision')}
                         isRevision={isRevision}
                         {...data}
@@ -172,8 +179,8 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                                     Let op, dit is een{' '}
                                     {isRevision
                                         ? 'ontwerpversie'
-                                        : 'verouderde'}{' '}
-                                    versie van {demonstrative}{' '}
+                                        : 'verouderde versie'}{' '}
+                                    van {demonstrative}{' '}
                                     {singularReadable},{' '}
                                     <Hyperlink
                                         to={`/${slugOverview}/${plural}/${latest.UUID}`}

@@ -1,8 +1,7 @@
-import { useQueryClient } from '@tanstack/react-query'
-import { useParams } from 'react-router-dom'
-
 import { Badge, Button, Divider, Heading, Text } from '@pzh-ui/components'
 import { Key } from '@pzh-ui/icons'
+import { useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'react-router-dom'
 
 import {
     useUsersSearchGet,
@@ -35,7 +34,7 @@ const UserDetail = () => {
     const { mutate } = useUsersUserUuidPost({
         mutation: {
             onSuccess: () => {
-                queryClient.invalidateQueries(queryKey)
+                queryClient.invalidateQueries({ queryKey })
             },
         },
     })
@@ -46,7 +45,8 @@ const UserDetail = () => {
             {
                 onSuccess: () =>
                     queryClient
-                        .invalidateQueries(queryKeyUsers, {
+                        .invalidateQueries({
+                            queryKey: queryKeyUsers,
                             refetchType: 'all',
                         })
                         .then(() =>

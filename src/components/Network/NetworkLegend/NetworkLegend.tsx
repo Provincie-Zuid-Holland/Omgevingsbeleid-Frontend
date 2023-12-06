@@ -1,7 +1,6 @@
-import classNames from 'classnames'
-
 import { Text } from '@pzh-ui/components'
 import { Triangle } from '@pzh-ui/icons'
+import classNames from 'classnames'
 
 import { ModelType } from '@/config/objects/types'
 import useFilterStore from '@/store/filterStore'

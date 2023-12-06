@@ -1,5 +1,3 @@
-import { useParams } from 'react-router-dom'
-
 import {
     Breadcrumbs,
     Heading,
@@ -7,6 +5,7 @@ import {
     ListLink,
     Text,
 } from '@pzh-ui/components'
+import { useParams } from 'react-router-dom'
 
 import { useBeleidsdoelenVersionObjectUuidGet } from '@/api/fetchers'
 import { ReadRelationShortBeleidskeuzeMinimal } from '@/api/fetchers.schemas'
@@ -63,9 +62,14 @@ function ThemeDetail() {
                 </div>
 
                 <div data-section="Inhoud">
-                    <Text className="mb-4 whitespace-pre-line break-words">
-                        {data?.Description}
-                    </Text>
+                    {data?.Description && (
+                        <Text
+                            className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0"
+                            dangerouslySetInnerHTML={{
+                                __html: data.Description,
+                            }}
+                        />
+                    )}
                     <Hyperlink
                         to={`/omgevingsvisie/beleidsdoelen/${data?.UUID}`}
                         text="Lees meer informatie over dit beleidsdoel"

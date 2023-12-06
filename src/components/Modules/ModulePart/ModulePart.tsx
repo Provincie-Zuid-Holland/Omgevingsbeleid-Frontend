@@ -1,7 +1,6 @@
-import classNames from 'classnames'
-
 import { Text, Tooltip } from '@pzh-ui/components'
 import { TrashCan } from '@pzh-ui/icons'
+import classNames from 'classnames'
 
 import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import { getObjectActionText } from '@/utils/dynamicObject'
