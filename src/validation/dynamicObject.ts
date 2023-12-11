@@ -17,6 +17,7 @@ const generateDynamicSchema = (sections: DynamicSection[]) => {
                 case 'wysiwyg':
                 case 'select':
                 case 'image':
+                case 'search':
                     return (dynamicSchema = dynamicSchema.extend({
                         [field.name]:
                             field.validation ||

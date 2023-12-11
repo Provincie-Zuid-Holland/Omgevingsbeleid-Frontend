@@ -1,8 +1,7 @@
-import { useFormikContext } from 'formik'
-import { useMemo } from 'react'
-
 import { FormikSelect, Text } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
+import { useFormikContext } from 'formik'
+import { useMemo } from 'react'
 
 import { ReadRelation } from '@/api/fetchers.schemas'
 import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
@@ -101,7 +100,7 @@ export const StepTwo = ({
             ) : (
                 <DynamicObjectSearch
                     onChange={object => setFieldValue('Title', object?.Title)}
-                    objectKey="id"
+                    objectKey="Object_ID"
                     filter={selected}
                     filterType={singular && [singular]}
                     placeholder={`Zoek in de ${plural}`}

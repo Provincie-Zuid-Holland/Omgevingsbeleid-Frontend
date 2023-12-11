@@ -9633,6 +9633,7 @@ export const getSearchPostMock = () => ({
             faker.number.int({ min: undefined, max: undefined }),
             undefined,
         ]),
+        Object_Code: faker.word.sample(),
         Object_ID: faker.number.int({ min: undefined, max: undefined }),
         Object_Type: faker.word.sample(),
         Score: faker.number.int({ min: undefined, max: undefined }),
@@ -9656,6 +9657,7 @@ export const getSearchValidPostMock = () => ({
         (_, i) => i + 1
     ).map(() => ({
         Description: faker.word.sample(),
+        Object_Code: faker.word.sample(),
         Object_ID: faker.number.int({ min: undefined, max: undefined }),
         Object_Type: faker.word.sample(),
         Score: faker.number.int({ min: undefined, max: undefined }),

@@ -1,5 +1,5 @@
 import { Hyperlink } from '@pzh-ui/components'
-import { CalendarCheck } from '@pzh-ui/icons'
+import { AngleDown, CalendarCheck } from '@pzh-ui/icons'
 
 import {
     useMaatregelStaticLineageIdPost,
@@ -171,6 +171,27 @@ const maatregel: DynamicObject<
                         </>
                     ),
                     type: 'area',
+                },
+            ],
+        },
+        {
+            title: 'Primaire koppeling',
+            fields: [
+                {
+                    name: 'Hierarchy_Code',
+                    label: 'Beleidskeuze',
+                    type: 'search',
+                    required: true,
+                    objectKey: 'Hierarchy_Code',
+                    filterType: ['beleidskeuze'],
+                    placeholder: 'Kies de beleidskeuze',
+                    components: {
+                        DropdownIndicator: () => (
+                            <div className="mr-4">
+                                <AngleDown className="text-pzh-blue-dark" />
+                            </div>
+                        ),
+                    },
                 },
             ],
         },

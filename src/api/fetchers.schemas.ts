@@ -26,6 +26,7 @@ export type ModulesObjectsLatestGetParams = {
     object_type?: string
     owner_uuid?: string
     minimum_status?: ModuleStatusCode
+    actions?: ModuleObjectActionFilter[]
     action?: ModuleObjectActionFilter
     only_active_modules?: boolean
     offset?: number
@@ -602,6 +603,7 @@ export interface ValidationError {
 
 export interface ValidSearchObject {
     Description: string
+    Object_Code: string
     Object_ID: number
     Object_Type: string
     Score: number
@@ -655,6 +657,7 @@ export interface SearchRequestData {
 export interface SearchObject {
     Description: string
     Module_ID?: number
+    Object_Code: string
     Object_ID: number
     Object_Type: string
     Score: number
