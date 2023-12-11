@@ -1,5 +1,4 @@
 import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
-import { useRef } from 'react'
 import { Helmet } from 'react-helmet'
 
 import { Container } from '@/components/Container'
@@ -10,17 +9,17 @@ function Accessibility() {
         { name: 'Home', path: '/' },
         { name: 'Digitale toegankelijkheid', path: '/digi-toegankelijkheid' },
     ]
-    const svgContainer = useRef<HTMLDivElement>(null)
 
     return (
         <div>
             <Helmet title="Digitale toegankelijkheid" />
-            <div
-                className="hidden h-[288px] w-full bg-pzh-blue bg-cover bg-center bg-no-repeat md:block"
-                style={{
-                    backgroundImage: `url(${imgDigiToegankelijkheid})`,
-                }}
+
+            <img
+                src={imgDigiToegankelijkheid}
+                alt=""
+                className="hidden h-[288px] w-full bg-pzh-blue object-cover md:block"
             />
+
             <Container className="overflow-hidden pb-20">
                 <div className="col-span-6 md:col-span-4">
                     <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
@@ -69,9 +68,7 @@ function Accessibility() {
                         .
                     </Text>
                 </div>
-                <div
-                    className="col-span-6 mt-12 overflow-x-auto"
-                    ref={svgContainer}>
+                <div className="col-span-6 mt-12 overflow-x-auto">
                     <a
                         href="https://www.toegankelijkheidsverklaring.nl/register/6339"
                         target="_blank"

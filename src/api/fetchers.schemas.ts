@@ -1320,6 +1320,7 @@ export interface MaatregelPatch {
     Description?: string | null
     Effect?: string | null
     Gebied_UUID?: string | null
+    Hierarchy_Code?: string | null
     Role?: string | null
     Title?: string | null
 }
@@ -1353,6 +1354,7 @@ export interface MaatregelFull {
     End_Validity?: string | null
     Gebied?: Werkingsgebied
     Gebiedsprogrammas?: ReadRelationShortGebiedsprogrammaMinimal[]
+    Hierarchy_Code?: string
     Modified_By?: UserShort
     Modified_Date?: string
     Object_ID?: number
@@ -1381,6 +1383,7 @@ export interface MaatregelExtended {
     Created_Date?: string
     End_Validity?: string | null
     Gebied?: Werkingsgebied
+    Hierarchy_Code?: string
     Modified_By?: UserShort
     Modified_Date?: string
     Object_ID?: number
@@ -1727,6 +1730,7 @@ export interface BeleidskeuzePatch {
     Description?: string | null
     Explanation?: string | null
     Gebied_UUID?: string | null
+    Hierarchy_Code?: string | null
     Provincial_Interest?: string | null
     Title?: string | null
 }
@@ -1760,6 +1764,7 @@ export interface BeleidskeuzeFull {
     End_Validity?: string | null
     Explanation?: string
     Gebied?: Werkingsgebied
+    Hierarchy_Code?: string
     Maatregelen?: ReadRelationShortMaatregelMinimal[]
     Modified_By?: UserShort
     Modified_Date?: string
@@ -1791,6 +1796,7 @@ export interface BeleidskeuzeExtended {
     Created_By?: UserShort
     Created_Date?: string
     End_Validity?: string | null
+    Hierarchy_Code?: string
     Modified_By?: UserShort
     Modified_Date?: string
     Object_ID?: number
@@ -1827,6 +1833,7 @@ export interface BeleidsdoelStaticPostStatics {
 
 export interface BeleidsdoelPatch {
     Description?: string | null
+    Hierarchy_Code?: string | null
     Title?: string | null
 }
 
@@ -1856,6 +1863,7 @@ export interface BeleidsdoelFull {
     Created_Date?: string
     Description?: string
     End_Validity?: string | null
+    Hierarchy_Code?: string
     Maatregelen?: ReadRelationShortMaatregelMinimal[]
     Modified_By?: UserShort
     Modified_Date?: string
@@ -1884,6 +1892,7 @@ export interface BeleidsdoelExtended {
     Created_Date?: string
     Description?: string
     End_Validity?: string | null
+    Hierarchy_Code?: string
     Modified_By?: UserShort
     Modified_Date?: string
     Object_ID?: number
