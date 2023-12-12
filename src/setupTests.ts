@@ -75,3 +75,11 @@ afterEach(() => server.resetHandlers())
 
 // Clean up after the tests are finished.
 afterAll(() => server.close())
+
+/**
+ * Mock helmet module
+ */
+vi.mock('react-helmet-async', () => ({
+    Helmet: () => vi.fn(),
+    HelmetProvider: () => vi.fn(),
+}))

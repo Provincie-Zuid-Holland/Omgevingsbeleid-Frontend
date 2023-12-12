@@ -12,7 +12,7 @@ import {
 import { Plus } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { Fragment, useMemo } from 'react'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 
 import { useRevisionsGet, useRevisionsModuleIdGet } from '@/api/fetchers'
 import {

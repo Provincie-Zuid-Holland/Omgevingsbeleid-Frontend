@@ -1,6 +1,6 @@
 import { Divider, Heading, Hyperlink, Text } from '@pzh-ui/components'
 import { ArrowUpRightFromSquare, FilePdf } from '@pzh-ui/icons'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
 import { Container } from '@/components/Container'

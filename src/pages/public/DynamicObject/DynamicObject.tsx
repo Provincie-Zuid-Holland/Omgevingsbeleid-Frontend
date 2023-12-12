@@ -6,7 +6,7 @@ import {
 } from '@pzh-ui/components'
 import classNames from 'classnames'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router-dom'
 
 import { PublicModuleObjectRevision } from '@/api/fetchers.schemas'
@@ -180,8 +180,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                                     {isRevision
                                         ? 'ontwerpversie'
                                         : 'verouderde versie'}{' '}
-                                    van {demonstrative}{' '}
-                                    {singularReadable},{' '}
+                                    van {demonstrative} {singularReadable},{' '}
                                     <Hyperlink
                                         to={`/${slugOverview}/${plural}/${latest.UUID}`}
                                         text="bekijk hier de vigerende versie"

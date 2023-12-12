@@ -2,7 +2,7 @@ import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import { useUpdateEffect } from '@react-hookz/web'
 import { keepPreviousData } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 
 import { Container } from '@/components/Container'
 import ObjectList from '@/components/ObjectList'

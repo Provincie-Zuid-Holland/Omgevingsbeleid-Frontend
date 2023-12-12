@@ -1,7 +1,7 @@
 import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import { keepPreviousData } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 
 import { useBeleidsdoelenValidGet } from '@/api/fetchers'
 import { Container } from '@/components/Container'
