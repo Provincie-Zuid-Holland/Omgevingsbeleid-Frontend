@@ -16,9 +16,9 @@ import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as objectConnection from '@/validation/objectConnection'
 
-import { StepOne, StepThree, StepTwo } from './steps'
+import { StepFour, StepOne, StepThree, StepTwo } from './steps'
 
-const steps = [StepOne, StepTwo, StepThree]
+const steps = [StepOne, StepTwo, StepThree, StepFour]
 
 interface ObjectConnectionModalProps extends ObjectConnectionModalActions {
     model: Model
@@ -143,6 +143,8 @@ const ObjectConnectionModal = ({
                             1
                         )
                     }
+
+                    setActiveModal(null)
                 })
             }
         })
@@ -194,6 +196,7 @@ export const ConnectionModal = ({
 
     const CurrentStep = steps[step - 1]
     const isFinalStep = step === (connectionModel?.defaults?.atemporal ? 2 : 3)
+    const isDeleteStep = step === 4
     const currentValidationSchema =
         objectConnection.SCHEMA_CONNECTION_STEPS[step - 1]
 
@@ -226,6 +229,8 @@ export const ConnectionModal = ({
     ) => {
         if (isFinalStep) {
             handleFormSubmit(payload)
+        } else if (isDeleteStep && 'Object_ID' in payload) {
+            handleDeleteConnection(payload)
         } else {
             setStep(step + 1)
             helpers.setTouched({})
@@ -237,6 +242,7 @@ export const ConnectionModal = ({
         <Modal
             id="objectAddConnection"
             title={`${connectionModel?.defaults?.singularCapitalize} koppelen`}
+            hideTitle
             size="xl"
             onClose={handleClose}>
             {isFetching && (
@@ -262,7 +268,6 @@ export const ConnectionModal = ({
                                     relation.Object_Type === connectionKey
                             )}
                             setStep={setStep}
-                            handleDeleteConnection={handleDeleteConnection}
                         />
                         <div className="mt-6 flex items-center justify-between">
                             <Button variant="link" onPress={handleClose}>
@@ -270,27 +275,34 @@ export const ConnectionModal = ({
                             </Button>
                             {step !== 1 && (
                                 <div>
-                                    <Button
-                                        variant="secondary"
-                                        type="button"
-                                        size="small"
-                                        onPress={() => setStep(step - 1)}
-                                        className="mr-3">
-                                        Vorige stap
-                                    </Button>
+                                    {!isDeleteStep && (
+                                        <Button
+                                            variant="secondary"
+                                            type="button"
+                                            size="small"
+                                            onPress={() => setStep(step - 1)}
+                                            className="mr-3">
+                                            Vorige stap
+                                        </Button>
+                                    )}
                                     <Button
                                         variant={
-                                            isFinalStep ? 'cta' : 'primary'
+                                            isFinalStep || isDeleteStep
+                                                ? 'cta'
+                                                : 'primary'
                                         }
                                         size="small"
                                         isDisabled={
                                             (isFinalStep && !isValid) ||
-                                            (isFinalStep && isSubmitting)
+                                            ((isFinalStep || isDeleteStep) &&
+                                                isSubmitting)
                                         }
                                         onPress={submitForm}
                                         isLoading={isSubmitting}>
                                         {isFinalStep
                                             ? 'Opslaan'
+                                            : isDeleteStep
+                                            ? 'Koppeling verbreken'
                                             : 'Volgende stap'}
                                     </Button>
                                 </div>

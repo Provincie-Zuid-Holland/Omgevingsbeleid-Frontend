@@ -1,11 +1,10 @@
+import { Button, Divider, Heading, Text } from '@pzh-ui/components'
+import { PenToSquare, TrashCan } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
 
-import { Button, Divider, Text } from '@pzh-ui/components'
-import { PenToSquare, TrashCan } from '@pzh-ui/icons'
-
-import { ReadRelation, WriteRelation } from '@/api/fetchers.schemas'
+import { ReadRelation } from '@/api/fetchers.schemas'
 
 import { StepProps } from './types'
 
@@ -15,7 +14,6 @@ export const StepOne = ({
     connectionModel,
     connections,
     setStep,
-    handleDeleteConnection,
 }: StepProps) => {
     const { defaults } = connectionModel || {}
     const {
@@ -24,6 +22,7 @@ export const StepOne = ({
         plural,
         prefixNewObject,
         singularReadable,
+        singularCapitalize,
     } = defaults || {}
 
     /**
@@ -36,6 +35,10 @@ export const StepOne = ({
 
     return (
         <>
+            <Heading level="2" className="mb-2">
+                {singularCapitalize} koppelen
+            </Heading>
+
             <Text className="mb-4">
                 {pluralCapitalize} koppelen aan{' '}
                 {model.defaults.singularReadable}:{' '}
@@ -69,7 +72,6 @@ export const StepOne = ({
                                 }
                                 atemporal={atemporal}
                                 setStep={setStep!}
-                                handleDeleteConnection={handleDeleteConnection!}
                                 {...connection}
                             />
                         ))}
@@ -82,7 +84,6 @@ export const StepOne = ({
 interface ConnectionProps extends ReadRelation {
     atemporal?: boolean
     setStep: (step: number) => void
-    handleDeleteConnection: (connection: WriteRelation) => void
 }
 
 const Connection = ({
@@ -92,7 +93,6 @@ const Connection = ({
     Title,
     Description,
     setStep,
-    handleDeleteConnection,
 }: ConnectionProps) => {
     const { setFieldValue } = useFormikContext<ReadRelation>()
 
@@ -125,9 +125,12 @@ const Connection = ({
                     )}
                     <button
                         type="button"
-                        onClick={() =>
-                            handleDeleteConnection({ Object_ID, Object_Type })
-                        }
+                        onClick={() => {
+                            setFieldValue('Title', Title)
+                            setFieldValue('Object_ID', Object_ID)
+                            setFieldValue('Object_Type', Object_Type)
+                            setStep(4)
+                        }}
                         aria-label="Verwijderen">
                         <TrashCan size={16} className="text-pzh-red" />
                     </button>

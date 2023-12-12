@@ -1,4 +1,4 @@
-import { FormikSelect, Text } from '@pzh-ui/components'
+import { FormikSelect, Heading, Text } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
 import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
@@ -26,6 +26,7 @@ export const StepTwo = ({
         prefixSingular,
         singular,
         singularReadable,
+        singularCapitalize,
     } = defaults || {}
     const { useGetValid } = fetchers || {}
 
@@ -53,6 +54,10 @@ export const StepTwo = ({
 
     return (
         <>
+            <Heading level="2" className="mb-2">
+                {singularCapitalize} koppelen
+            </Heading>
+
             <Text className="mb-4">
                 Selecteer {prefixSingular} {singularReadable} waarmee je een
                 koppeling wilt maken vanuit {model.defaults.singularReadable}:{' '}
