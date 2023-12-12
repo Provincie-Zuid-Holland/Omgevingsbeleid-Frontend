@@ -163,6 +163,7 @@ const MapSearch = () => {
     const map = useMemo(
         () => (
             <LeafletMap
+                ref={setMapInstance}
                 controllers={{
                     showLayers: false,
                     showDraw: isMobile ? !sidebarOpen : true,
@@ -174,7 +175,6 @@ const MapSearch = () => {
                 }}
                 options={{
                     ...MAP_OPTIONS,
-                    whenCreated: setMapInstance,
                 }}
             />
         ),
