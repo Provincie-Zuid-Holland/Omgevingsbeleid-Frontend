@@ -90,7 +90,7 @@ const ObjectAcknowledgedRelationPart = ({
                         </span>
                     </button>
                 ) : (
-                    handleAction && (
+                    !!handleAction && (
                         <div className="flex">
                             <Button
                                 variant="secondary"

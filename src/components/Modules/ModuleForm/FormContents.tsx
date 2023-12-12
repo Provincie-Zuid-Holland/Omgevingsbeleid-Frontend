@@ -4,13 +4,13 @@ import { useParams } from 'react-router-dom'
 
 import { useModulesModuleIdGet } from '@/api/fetchers'
 import { SearchObject } from '@/api/fetchers.schemas'
+import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
+import ModuleContentsModal from '@/components/Modals/ModuleModals/ModuleContentsModal'
+import { ContentsModalForm } from '@/components/Modals/ModuleModals/ModuleContentsModal/ModuleContentsModal'
 import useModule from '@/hooks/useModule'
 import useModalStore from '@/store/modalStore'
 import * as modules from '@/validation/modules'
 
-import DynamicObjectSearch from '../../DynamicObject/DynamicObjectSearch'
-import ModuleContentsModal from '../../Modals/ModuleModals/ModuleContentsModal'
-import { ContentsModalForm } from '../../Modals/ModuleModals/ModuleContentsModal/ModuleContentsModal'
 import ModulePart from '../ModulePart'
 
 interface ModalProps {
