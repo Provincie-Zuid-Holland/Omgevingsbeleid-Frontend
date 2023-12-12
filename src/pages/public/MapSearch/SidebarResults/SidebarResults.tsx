@@ -80,8 +80,6 @@ const SidebarResults = () => {
         },
     })
 
-    //const [currPage, setCurrPage] = useState(parseInt(page || '1'))
-
     /**
      * Handle pagination
      */
