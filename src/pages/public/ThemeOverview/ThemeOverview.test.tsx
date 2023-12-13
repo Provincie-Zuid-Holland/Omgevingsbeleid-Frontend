@@ -1,6 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, screen, waitFor } from '@testing-library/react'
-import '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 
 import ThemeOverview from './ThemeOverview'

@@ -7594,13 +7594,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3-symbol-extra@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "d3-symbol-extra@npm:0.1.0"
-  checksum: 8a15d905f99f4c3134eda44ba2db4af42454180c927568c29ecf067186b0e18cc4da435ff7ff1da600e7ea9ccaebd878a02bf54bcab3b6520c3406fdb2f96cb5
-  languageName: node
-  linkType: hard
-
 "d3-time-format@npm:2 - 4, d3-time-format@npm:4":
   version: 4.1.0
   resolution: "d3-time-format@npm:4.1.0"
@@ -12654,7 +12647,6 @@ __metadata:
     classnames: "npm:^2.3.2"
     concurrently: "npm:^8.2.2"
     d3: "npm:^7.8.5"
-    d3-symbol-extra: "npm:^0.1.0"
     date-fns: "npm:^2.23.0"
     dompurify: "npm:^3.0.5"
     dotenv: "npm:^16.3.1"
