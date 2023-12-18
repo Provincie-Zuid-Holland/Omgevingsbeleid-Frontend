@@ -12,12 +12,12 @@ type Option = {
     value: SearchObject
 }
 
-interface DynamicObjectSearchProps
+export interface DynamicObjectSearchProps
     extends Omit<FieldSelectProps, 'onChange' | 'name'> {
     /** Gets called when selecting an option */
-    onChange: (object?: SearchObject) => void
+    onChange?: (object?: SearchObject) => void
     /** Key of model */
-    objectKey?: 'uuid' | 'id'
+    objectKey?: 'Object_UUID' | 'Object_ID' | 'Hierarchy_Code'
     /** Placeholder of field (optional) */
     placeholder?: string
     /** Label of field (optional) */
@@ -30,7 +30,7 @@ interface DynamicObjectSearchProps
 
 const DynamicObjectSearch = ({
     onChange,
-    objectKey = 'uuid',
+    objectKey = 'Object_UUID',
     placeholder = 'Zoek op titel van beleidskeuze, maatregel, etc.',
     filter,
     filterType,
@@ -49,12 +49,12 @@ const DynamicObjectSearch = ({
                 if (filter) {
                     filteredObject = data.results.filter(object =>
                         Array.isArray(filter)
-                            ? objectKey === 'uuid'
+                            ? objectKey === 'Object_UUID'
                                 ? !(filter as string[]).includes(object.UUID)
                                 : !(filter as number[]).includes(
                                       object.Object_ID
                                   )
-                            : objectKey === 'uuid'
+                            : objectKey === 'Object_UUID'
                             ? object.UUID !== filter
                             : object.Object_ID !== filter
                     )
@@ -82,20 +82,24 @@ const DynamicObjectSearch = ({
 
     const handleSuggestions = debounce(loadSuggestions, 500)
 
-    const key = objectKey === 'uuid' ? 'Object_UUID' : 'Object_ID'
-
     const handleChange = (val?: SearchObject) => {
         setFieldValue(
-            key,
-            val ? (objectKey === 'uuid' ? val.UUID : val.Object_ID) : null
+            objectKey,
+            val
+                ? objectKey === 'Object_UUID'
+                    ? val.UUID
+                    : objectKey === 'Hierarchy_Code'
+                    ? val.Object_Code
+                    : val.Object_ID
+                : null
         )
-        return onChange(val)
+        return onChange?.(val)
     }
 
     return (
         <FormikSelect
-            key={key}
-            name={key}
+            key={objectKey}
+            name={objectKey}
             placeholder={placeholder}
             loadOptions={handleSuggestions}
             onChange={val => handleChange(val as SearchObject)}

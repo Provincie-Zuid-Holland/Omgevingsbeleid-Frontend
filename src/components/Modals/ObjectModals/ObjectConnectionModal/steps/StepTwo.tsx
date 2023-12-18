@@ -1,8 +1,7 @@
+import { FormikSelect, Heading, Text } from '@pzh-ui/components'
+import { MagnifyingGlass } from '@pzh-ui/icons'
 import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
-
-import { FormikSelect, Text } from '@pzh-ui/components'
-import { MagnifyingGlass } from '@pzh-ui/icons'
 
 import { ReadRelation } from '@/api/fetchers.schemas'
 import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
@@ -27,6 +26,7 @@ export const StepTwo = ({
         prefixSingular,
         singular,
         singularReadable,
+        singularCapitalize,
     } = defaults || {}
     const { useGetValid } = fetchers || {}
 
@@ -54,6 +54,10 @@ export const StepTwo = ({
 
     return (
         <>
+            <Heading level="2" className="mb-2">
+                {singularCapitalize} koppelen
+            </Heading>
+
             <Text className="mb-4">
                 Selecteer {prefixSingular} {singularReadable} waarmee je een
                 koppeling wilt maken vanuit {model.defaults.singularReadable}:{' '}
@@ -101,7 +105,7 @@ export const StepTwo = ({
             ) : (
                 <DynamicObjectSearch
                     onChange={object => setFieldValue('Title', object?.Title)}
-                    objectKey="id"
+                    objectKey="Object_ID"
                     filter={selected}
                     filterType={singular && [singular]}
                     placeholder={`Zoek in de ${plural}`}

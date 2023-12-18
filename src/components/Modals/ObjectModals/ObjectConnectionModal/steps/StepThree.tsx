@@ -1,6 +1,5 @@
+import { FormikTextArea, Heading, Text } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
-
-import { FormikTextArea, Text } from '@pzh-ui/components'
 
 import { ReadRelation } from '@/api/fetchers.schemas'
 
@@ -10,10 +9,14 @@ export const StepThree = ({ title, connectionModel, model }: StepProps) => {
     const { values } = useFormikContext<ReadRelation>()
 
     const { defaults } = connectionModel || {}
-    const { singularReadable } = defaults || {}
+    const { singularReadable, singularCapitalize } = defaults || {}
 
     return (
         <>
+            <Heading level="2" className="mb-2">
+                {singularCapitalize} koppelen
+            </Heading>
+
             <Text className="mb-4">
                 Leg uit waarom je {singularReadable}:{' '}
                 <span className="font-bold">{values.Title}</span>

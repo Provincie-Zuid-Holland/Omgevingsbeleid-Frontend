@@ -1,13 +1,13 @@
 /* istanbul ignore file */
 import { HttpResponse, http } from 'msw'
 
-import { getOmgevingsbeleidAPIMSW } from '@/api/fetchers.msw'
+import { getOmgevingsbeleidAPIMock } from '@/api/fetchers.msw'
 
 import { geoLookup } from './data/geoLookup'
 import { geoSuggest } from './data/geoSuggest'
 
 export const handlers = [
-    ...getOmgevingsbeleidAPIMSW(),
+    ...getOmgevingsbeleidAPIMock(),
     http.get(
         'https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest',
         async () => {

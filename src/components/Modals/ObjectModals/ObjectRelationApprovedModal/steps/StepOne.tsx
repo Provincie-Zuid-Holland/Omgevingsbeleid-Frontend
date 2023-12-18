@@ -1,7 +1,6 @@
-import { useMemo } from 'react'
-
 import { Divider, Heading, Text } from '@pzh-ui/components'
 import { LinkSlash } from '@pzh-ui/icons'
+import { useMemo } from 'react'
 
 import ObjectAcknowledgedRelationPart from '@/components/DynamicObject/ObjectAcknowledgedRelationPart'
 

@@ -7,9 +7,9 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import {
     getModulesModuleIdGetQueryKey,
+    getModulesObjectsLatestGetQueryKey,
     useModulesModuleIdAddExistingObjectPost,
     useModulesModuleIdAddNewObjectPost,
-    useModulesObjectsLatestGet,
 } from '@/api/fetchers'
 import {
     Module,
@@ -48,11 +48,6 @@ const ModuleContentsModal = ({
 }: ModuleContentsModalProps) => {
     const queryClient = useQueryClient()
     const { moduleId } = useParams()
-
-    const { queryKey: moduleObjectsQueryKey } = useModulesObjectsLatestGet(
-        undefined,
-        { query: { enabled: false } }
-    )
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
@@ -111,7 +106,7 @@ const ModuleContentsModal = ({
                         ),
                     }),
                     queryClient.invalidateQueries({
-                        queryKey: moduleObjectsQueryKey,
+                        queryKey: getModulesObjectsLatestGetQueryKey(),
                         refetchType: 'all',
                         exact: false,
                     }),
@@ -135,7 +130,7 @@ const ModuleContentsModal = ({
                         ),
                     }),
                     queryClient.invalidateQueries({
-                        queryKey: moduleObjectsQueryKey,
+                        queryKey: getModulesObjectsLatestGetQueryKey(),
                         refetchType: 'all',
                         exact: false,
                     }),

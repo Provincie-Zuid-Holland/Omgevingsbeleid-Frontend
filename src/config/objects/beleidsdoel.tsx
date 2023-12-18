@@ -1,5 +1,5 @@
 import { Hyperlink } from '@pzh-ui/components'
-import { BullseyeArrow } from '@pzh-ui/icons'
+import { AngleDown, BullseyeArrow } from '@pzh-ui/icons'
 
 import {
     useBeleidsdoelStaticLineageIdPost,
@@ -108,6 +108,27 @@ const beleidsdoel: DynamicObject<
                         'Geef een korte omschrijving van dit beleidsdoel.',
                     type: 'wysiwyg',
                     required: true,
+                },
+            ],
+        },
+        {
+            title: 'Primaire koppeling',
+            fields: [
+                {
+                    name: 'Hierarchy_Code',
+                    label: 'Ambitie',
+                    type: 'search',
+                    required: true,
+                    objectKey: 'Hierarchy_Code',
+                    filterType: ['ambitie'],
+                    placeholder: 'Kies de ambitie',
+                    components: {
+                        DropdownIndicator: () => (
+                            <div className="mr-4">
+                                <AngleDown className="text-pzh-blue-dark" />
+                            </div>
+                        ),
+                    },
                 },
             ],
         },
