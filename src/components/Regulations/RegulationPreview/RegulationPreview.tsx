@@ -1,6 +1,5 @@
-import { useMemo } from 'react'
-
 import { Heading, Text } from '@pzh-ui/components'
+import { useMemo } from 'react'
 
 import * as sections from '@/config/regulations/sections'
 import { Structure } from '@/config/regulations/types'

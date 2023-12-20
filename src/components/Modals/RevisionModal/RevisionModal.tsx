@@ -1,7 +1,6 @@
+import { Divider, FieldSelect, Text } from '@pzh-ui/components'
 import { useUpdateEffect } from '@react-hookz/web'
 import { useMemo, useState } from 'react'
-
-import { Divider, FieldSelect, Text } from '@pzh-ui/components'
 
 import ObjectRevision from '@/components/DynamicObject/ObjectRevision'
 import { LoaderSpinner } from '@/components/Loader'

@@ -1,6 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import { Point } from 'leaflet'
 
+import generateQueryString from '@/utils/queryString'
+
 export interface Feature {
     id: string
     properties: {
@@ -26,26 +28,15 @@ const instance = axios.create({
     },
 })
 
-// Function to generate the URL for the request
-const generateUrl = (
-    params: Record<string, string | number | boolean>
-): string => {
-    const queryString = Object.keys(params)
-        .map(key => `${key}=${encodeURIComponent(params[key])}`)
-        .join('&')
-
-    return queryString
-}
-
 // Function to fetch data using a generic template
 const fetchData = async (
     params: Record<string, string | number | boolean>,
     config?: AxiosRequestConfig
 ) => {
-    const url = generateUrl(params)
+    const queryString = generateQueryString(params)
 
     try {
-        const response = await instance.get(`ows?${url}`, config)
+        const response = await instance.get(`ows?${queryString}`, config)
         return response.data
     } catch (error) {
         // Handle error if necessary
@@ -156,18 +147,18 @@ const generateImageUrl = (symbol: string) => {
         rule: symbol,
     }
 
-    const path = generateUrl(params)
+    const path = generateQueryString(params)
 
     return `${import.meta.env.VITE_GEOSERVER_API_URL}/wms?${path}`
 }
 
 export default instance
 export {
-    getGeoJsonData,
-    getOnderverdeling,
-    getWerkingsgebied,
-    getWerkingsGebieden,
-    getWerkingsGebiedenByArea,
     api_version,
     generateImageUrl,
+    getGeoJsonData,
+    getOnderverdeling,
+    getWerkingsGebieden,
+    getWerkingsGebiedenByArea,
+    getWerkingsgebied,
 }

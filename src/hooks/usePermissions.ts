@@ -60,6 +60,11 @@ const usePermissions = (): Permissions => {
                 canEditModuleObjectContext: true,
                 canPatchObjectInModule: true,
             }
+        case 'Ambtelijk opdrachtgever':
+            return {
+                ...initialPermissions,
+                canPatchObjectInModule: true,
+            }
         default:
             return { ...initialPermissions }
     }

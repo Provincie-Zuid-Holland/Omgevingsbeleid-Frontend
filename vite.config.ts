@@ -2,7 +2,7 @@
 
 import react from '@vitejs/plugin-react'
 import { visualizer } from 'rollup-plugin-visualizer'
-import { PluginOption, defineConfig } from 'vite'
+import { defineConfig } from 'vite'
 import svgrPlugin from 'vite-plugin-svgr'
 import viteTsconfigPaths from 'vite-tsconfig-paths'
 
@@ -18,7 +18,7 @@ export default defineConfig({
             output: {
                 dir: 'build',
                 manualChunks: {
-                    d3: ['d3', 'd3-symbol-extra'],
+                    d3: ['d3'],
                     tiptap: [
                         '@tiptap/core',
                         '@tiptap/extension-bold',
@@ -37,7 +37,6 @@ export default defineConfig({
                         '@tiptap/react',
                     ],
                     'react-select': ['react-select'],
-                    framer: ['framer-motion'],
                     leaflet: [
                         'leaflet',
                         'leaflet-draw',
@@ -46,13 +45,6 @@ export default defineConfig({
                     ],
                     zod: ['zod', 'zod-formik-adapter'],
                     dompurify: ['dompurify'],
-                    lodash: [
-                        'lodash',
-                        'lodash-es',
-                        'lodash.groupby',
-                        'lodash.clonedeep',
-                        'lodash.debounce',
-                    ],
                     formik: ['formik'],
                     'date-fns': ['date-fns/esm'],
                     pzh: ['@pzh-ui/components', '@pzh-ui/icons'],
@@ -72,8 +64,9 @@ export default defineConfig({
             gzipSize: true,
             brotliSize: true,
             filename: 'analyse.html', // will be saved in project's root
-        }) as PluginOption,
+        }),
     ],
+    // @ts-ignore
     test: {
         globals: true,
         environment: 'jsdom',

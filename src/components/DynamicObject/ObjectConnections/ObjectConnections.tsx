@@ -1,7 +1,6 @@
+import { Heading } from '@pzh-ui/components'
 import { useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom'
-
-import { Heading } from '@pzh-ui/components'
 
 import { ReadRelation } from '@/api/fetchers.schemas'
 import ObjectConnectionModal from '@/components/Modals/ObjectModals/ObjectConnectionModal'
@@ -39,11 +38,12 @@ const ObjectConnections = ({ model }: ObjectConnectionsProps) => {
         connectionModel: {} as Model,
     })
 
-    const { data: relations } = useGetRelations(parseInt(objectId!), {
-        query: {
-            enabled: !!objectId,
-        },
-    })
+    const { data: relations } =
+        useGetRelations?.(parseInt(objectId!), {
+            query: {
+                enabled: !!objectId,
+            },
+        }) || {}
 
     /**
      * Get connections of Object_Type

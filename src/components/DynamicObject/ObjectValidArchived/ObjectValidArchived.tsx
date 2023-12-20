@@ -1,8 +1,7 @@
-import { useMemo } from 'react'
-import { Link } from 'react-router-dom'
-
 import { Divider, Heading, Text, formatDate } from '@pzh-ui/components'
 import { Eye } from '@pzh-ui/icons'
+import { useMemo } from 'react'
+import { Link } from 'react-router-dom'
 
 import { LoaderSpinner } from '@/components/Loader'
 import { Model } from '@/config/objects/types'

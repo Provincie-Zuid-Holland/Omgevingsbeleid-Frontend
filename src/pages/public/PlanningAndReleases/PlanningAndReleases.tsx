@@ -1,5 +1,3 @@
-import { ReactNode, useState } from 'react'
-
 import { Divider, Heading, Text } from '@pzh-ui/components'
 import {
     ArrowUpRightFromSquare,
@@ -10,6 +8,7 @@ import {
     FileLines,
     UniversalAccess,
 } from '@pzh-ui/icons'
+import { ReactNode, useState } from 'react'
 
 import { Container } from '@/components/Container'
 import { releases } from '@/constants/releases'

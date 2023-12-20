@@ -17,7 +17,8 @@ const instance = axios.create({
 })
 
 instance.interceptors.request.use(async config => {
-    config.headers && !!getAccessToken() &&
+    config.headers &&
+        !!getAccessToken() &&
         (config.headers.Authorization = `Bearer ${getAccessToken()}`)
 
     return config
@@ -45,5 +46,5 @@ export const customInstance = <T>(config: AxiosRequestConfig): Promise<T> => {
     return promise
 }
 
-export { environment, baseURL }
+export { baseURL, environment }
 export default instance

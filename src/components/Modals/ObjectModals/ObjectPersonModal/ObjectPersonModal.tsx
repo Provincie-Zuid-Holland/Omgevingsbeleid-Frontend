@@ -1,8 +1,7 @@
+import { Button, FormikSelect } from '@pzh-ui/components'
 import { Form, Formik } from 'formik'
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
-
-import { Button, FormikSelect } from '@pzh-ui/components'
 
 import { useUsersGet } from '@/api/fetchers'
 import Modal from '@/components/Modal'
@@ -43,7 +42,7 @@ const ObjectPersonModal = ({ person, isEdit }: ObjectPersonModalActions) => {
     )
 
     const { usePostObjectStatic } = useObject()
-    const { mutate, isLoading } = usePostObjectStatic(() =>
+    const { mutate, isPending } = usePostObjectStatic(() =>
         setActiveModal(null)
     )
 
@@ -102,8 +101,8 @@ const ObjectPersonModal = ({ person, isEdit }: ObjectPersonModalActions) => {
                         <Button
                             variant="cta"
                             type="submit"
-                            isDisabled={isLoading}
-                            isLoading={isLoading}>
+                            isDisabled={isPending}
+                            isLoading={isPending}>
                             Opslaan
                         </Button>
                     </div>

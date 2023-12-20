@@ -1,7 +1,6 @@
+import { Button, Heading, Text } from '@pzh-ui/components'
 import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
-
-import { Button, Heading, Text } from '@pzh-ui/components'
 
 import { useModulesModuleIdGet } from '@/api/fetchers'
 import { SearchObject } from '@/api/fetchers.schemas'

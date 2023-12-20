@@ -1,12 +1,3 @@
-import DropArea from '@/components/DropArea'
-import * as contents from '@/config/regulations/contents'
-import { Section } from '@/config/regulations/sections/types'
-import { Structure } from '@/config/regulations/types'
-import useDrag from '@/hooks/useDrag'
-import useModalStore from '@/store/modalStore'
-import useRegulationStore from '@/store/regulationStore'
-import equalArrays from '@/utils/equalArrays'
-import handleViewTransition from '@/utils/handleViewTransition'
 import {
     Button,
     Divider,
@@ -23,6 +14,17 @@ import {
     useFormikContext,
 } from 'formik'
 import { v4 as uuidv4 } from 'uuid'
+
+import DropArea from '@/components/DropArea'
+import * as contents from '@/config/regulations/contents'
+import { Section } from '@/config/regulations/sections/types'
+import { Structure } from '@/config/regulations/types'
+import useDrag from '@/hooks/useDrag'
+import useModalStore from '@/store/modalStore'
+import useRegulationStore from '@/store/regulationStore'
+import equalArrays from '@/utils/equalArrays'
+import handleViewTransition from '@/utils/handleViewTransition'
+
 import RegulationField from './components/RegulationField'
 
 interface RegulationFormProps {

@@ -1,4 +1,4 @@
-require('dotenv').config()
+import 'dotenv/config'
 
 const getApiUrl = (): string | undefined => {
     const environment = process.env.VITE_API_ENV

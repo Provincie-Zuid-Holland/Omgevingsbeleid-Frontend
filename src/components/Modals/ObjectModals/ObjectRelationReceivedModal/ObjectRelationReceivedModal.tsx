@@ -1,10 +1,9 @@
+import { Button } from '@pzh-ui/components'
 import { QueryKey, useQueryClient } from '@tanstack/react-query'
 import { Form, Formik } from 'formik'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
-
-import { Button } from '@pzh-ui/components'
 
 import {
     AcknowledgedRelation,
@@ -79,14 +78,14 @@ const ObjectRelationReceivedModal = ({
         mutation: {
             onSuccess: () => {
                 Promise.all([
-                    queryClient.invalidateQueries(queryKey),
-                    queryClient.invalidateQueries(
-                        getAcknowledgedRelations?.(initialValues.Object_ID),
-                        {
-                            refetchType: 'all',
-                        }
-                    ),
-                    queryClient.invalidateQueries(objectQueryKey),
+                    queryClient.invalidateQueries({ queryKey }),
+                    queryClient.invalidateQueries({
+                        queryKey: getAcknowledgedRelations?.(
+                            initialValues.Object_ID
+                        ),
+                        refetchType: 'all',
+                    }),
+                    queryClient.invalidateQueries({ queryKey: objectQueryKey }),
                 ]).then(handleClose)
 
                 toastNotification('acknowledgedRelationPatched')

@@ -1,7 +1,6 @@
-import { Link, useParams } from 'react-router-dom'
-
 import { Divider, Heading } from '@pzh-ui/components'
 import { ArrowUpRightFromSquare } from '@pzh-ui/icons'
+import { Link, useParams } from 'react-router-dom'
 
 import ObjectActiveModules from '@/components/DynamicObject/ObjectActiveModules'
 import ObjectConnections from '@/components/DynamicObject/ObjectConnections'

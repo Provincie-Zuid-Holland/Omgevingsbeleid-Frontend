@@ -1,7 +1,6 @@
+import { Heading } from '@pzh-ui/components'
 import classNames from 'classnames'
 import DOMPurify from 'dompurify'
-
-import { Heading } from '@pzh-ui/components'
 
 import {
     ReadRelationShortNationaalBelangMinimal,

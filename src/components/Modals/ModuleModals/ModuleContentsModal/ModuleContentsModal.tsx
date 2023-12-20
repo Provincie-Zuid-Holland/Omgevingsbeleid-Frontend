@@ -1,15 +1,15 @@
+import { Button } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
-import { Button } from '@pzh-ui/components'
-
 import {
     getModulesModuleIdGetQueryKey,
     useModulesModuleIdAddExistingObjectPost,
     useModulesModuleIdAddNewObjectPost,
+    useModulesObjectsLatestGet,
 } from '@/api/fetchers'
 import {
     Module,
@@ -48,6 +48,11 @@ const ModuleContentsModal = ({
 }: ModuleContentsModalProps) => {
     const queryClient = useQueryClient()
     const { moduleId } = useParams()
+
+    const { queryKey: moduleObjectsQueryKey } = useModulesObjectsLatestGet(
+        undefined,
+        { query: { enabled: false } }
+    )
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
@@ -99,11 +104,18 @@ const ModuleContentsModal = ({
     const addNewObjectToModule = useModulesModuleIdAddNewObjectPost({
         mutation: {
             onSuccess: () => {
-                queryClient
-                    .invalidateQueries(
-                        getModulesModuleIdGetQueryKey(parseInt(moduleId!))
-                    )
-                    .then(handleClose)
+                Promise.all([
+                    queryClient.invalidateQueries({
+                        queryKey: getModulesModuleIdGetQueryKey(
+                            parseInt(moduleId!)
+                        ),
+                    }),
+                    queryClient.invalidateQueries({
+                        queryKey: moduleObjectsQueryKey,
+                        refetchType: 'all',
+                        exact: false,
+                    }),
+                ]).then(handleClose)
 
                 toastNotification('saved')
             },
@@ -116,11 +128,18 @@ const ModuleContentsModal = ({
     const addExistingObjectToModule = useModulesModuleIdAddExistingObjectPost({
         mutation: {
             onSuccess: () => {
-                queryClient
-                    .invalidateQueries(
-                        getModulesModuleIdGetQueryKey(parseInt(moduleId!))
-                    )
-                    .then(handleClose)
+                Promise.all([
+                    queryClient.invalidateQueries({
+                        queryKey: getModulesModuleIdGetQueryKey(
+                            parseInt(moduleId!)
+                        ),
+                    }),
+                    queryClient.invalidateQueries({
+                        queryKey: moduleObjectsQueryKey,
+                        refetchType: 'all',
+                        exact: false,
+                    }),
+                ]).then(handleClose)
 
                 toastNotification('saved')
             },

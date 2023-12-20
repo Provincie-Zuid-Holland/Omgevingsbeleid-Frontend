@@ -1,8 +1,7 @@
+import { Divider, Heading, Text, getHeadingStyles } from '@pzh-ui/components'
 import classNames from 'classnames'
 import htmlDiff from 'node-htmldiff'
 import { useMemo } from 'react'
-
-import { Divider, Heading, Text, getHeadingStyles } from '@pzh-ui/components'
 
 import { LeafletRevisionOverview } from '@/components/Leaflet'
 import { Model, ModelReturnType } from '@/config/objects/types'

@@ -1,8 +1,7 @@
-import classNames from 'classnames'
-import { useCallback, useState } from 'react'
-
 import { Button, Heading, PillButton } from '@pzh-ui/components'
 import { AngleRight, Plus } from '@pzh-ui/icons'
+import classNames from 'classnames'
+import { useCallback, useState } from 'react'
 
 import regulation from '@/config/regulations'
 import * as sections from '@/config/regulations/sections'

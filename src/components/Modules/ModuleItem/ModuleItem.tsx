@@ -1,18 +1,22 @@
-import { useMemo, useState } from 'react'
-
 import { Divider, Hyperlink, Text } from '@pzh-ui/components'
 import { CircleInfo, EllipsisVertical } from '@pzh-ui/icons'
+import { useMemo, useState } from 'react'
 
 import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import Dropdown, { DropdownItem } from '@/components/Dropdown'
+import { Model } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
 import { getObjectActionText } from '@/utils/dynamicObject'
 
 interface ModuleItemProps extends ModuleObjectShort {
+    /** Model */
+    model: Model
     /** Has edit button */
     hasEditButton?: boolean
+    /** Has view button */
+    hasViewButton?: boolean
     /** Function which gets called on edit click */
     editCallback: () => void
     /** Function which gets called on delete click */
@@ -22,6 +26,7 @@ interface ModuleItemProps extends ModuleObjectShort {
 }
 
 const ModuleItem = ({
+    model,
     Object_ID,
     Object_Type,
     Module_ID,
@@ -29,6 +34,7 @@ const ModuleItem = ({
     Title,
     ObjectStatics,
     hasEditButton,
+    hasViewButton,
     editCallback,
     deleteCallback,
     viewCallback,
@@ -43,6 +49,8 @@ const ModuleItem = ({
     const [isOpen, setIsOpen] = useState(false)
 
     const { isModuleManager, isLocked, isActive } = useModule()
+
+    const { singularCapitalize } = model.defaults
 
     /**
      * Check if user has owner rights in object
@@ -122,8 +130,8 @@ const ModuleItem = ({
             <div className="flex items-center justify-between">
                 <div className="w-[90%] flex-1 pr-2">
                     <div className="flex justify-between">
-                        <Text size="s" className="capitalize text-pzh-gray-600">
-                            {Object_Type}
+                        <Text size="s" className="text-pzh-gray-600">
+                            {singularCapitalize}
                         </Text>
                         <div className="flex items-center">
                             <Text size="s" className="mr-1 text-pzh-gray-600">
@@ -146,6 +154,12 @@ const ModuleItem = ({
                                 text="Bewerken"
                             />
                         )}
+                    {hasViewButton && !hasRights && (
+                        <Hyperlink
+                            to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`}
+                            text="Bekijken"
+                        />
+                    )}
                 </div>
                 {!!dropdownItems.length ? (
                     <div className="relative">

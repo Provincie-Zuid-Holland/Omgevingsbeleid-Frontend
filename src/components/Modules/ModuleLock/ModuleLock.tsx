@@ -1,7 +1,6 @@
-import { useParams } from 'react-router-dom'
-
 import { Divider, Notification, Text } from '@pzh-ui/components'
 import { Lock, LockOpen } from '@pzh-ui/icons'
+import { useParams } from 'react-router-dom'
 
 import ToggleSwitch from '@/components/ToggleSwitch'
 import useModule from '@/hooks/useModule'

@@ -1,11 +1,10 @@
 import { Transition } from '@headlessui/react'
+import { FieldSelect, Heading, Text } from '@pzh-ui/components'
+import { ArrowLeft, DrawPolygon, LocationDot } from '@pzh-ui/icons'
 import Leaflet, { latLng } from 'leaflet'
 import groupBy from 'lodash.groupby'
 import { ReactNode, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
-import { FieldSelect, Heading, Text } from '@pzh-ui/components'
-import { ArrowLeft, DrawPolygon, LocationDot } from '@pzh-ui/icons'
 
 import { useWerkingsgebiedenGet } from '@/api/fetchers'
 import { LeafletSearchInput } from '@/components/Leaflet'
@@ -181,8 +180,8 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
                         options={options}
                         value={
                             (selectedVal && {
-                                label: selectedVal.Title || '',
-                                value: selectedVal.UUID || '',
+                                label: selectedVal.Title,
+                                value: selectedVal.UUID,
                             }) ||
                             null
                         }
@@ -202,7 +201,7 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
                             remove('geoQuery')
                             set(
                                 'werkingsgebied',
-                                (val as { value: string })?.value || ''
+                                (val as { value: string })?.value
                             )
                         }}
                     />

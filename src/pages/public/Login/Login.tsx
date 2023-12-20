@@ -1,8 +1,7 @@
+import { Heading, Text } from '@pzh-ui/components'
 import classNames from 'classnames'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
-
-import { Heading, Text } from '@pzh-ui/components'
 
 import { Container } from '@/components/Container'
 import LoginForm from '@/components/LoginForm'

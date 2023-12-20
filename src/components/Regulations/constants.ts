@@ -17,3 +17,9 @@ export const GROUP_VARIANTS = {
         'group-data-[expanded=true]/paragraph:bg-pzh-blue',
     ],
 }
+
+export const ORDERED_LIST = {
+    alphabetical: 'before:content-[counter(list,lower-alpha)]', // "before:[content:counters(list, '.', lower-alpha)]",
+    numeral: 'before:content-[counter(list,decimal)]', // "before:[content:counters(list, '.', decimal)]",
+    roman: 'before:content-[counter(list,upper-roman)]', // "before:[content:counters(list, '.', upper-roman)]",
+}

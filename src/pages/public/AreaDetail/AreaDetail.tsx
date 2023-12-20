@@ -1,16 +1,33 @@
+import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
-
-import { useGebiedsprogrammasVersionObjectUuidGet } from '@/api/fetchers'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import ObjectList from '@/components/ObjectList'
+import { gebiedsprogramma } from '@/config/objects'
 
 function AreaDetail() {
-    const { uuid } = useParams<{ uuid: string }>()
-    const { data, isLoading } = useGebiedsprogrammasVersionObjectUuidGet(uuid!)
+    const { moduleId, uuid } = useParams()
+
+    const { useGetVersion, useGetRevision } = gebiedsprogramma.fetchers
+
+    const versionData = useGetVersion(uuid!, {
+        query: { enabled: !!uuid && !moduleId },
+    })
+    const revisionData = useGetRevision(parseInt(moduleId!), uuid!, {
+        query: { enabled: !!uuid && !!moduleId },
+    })
+
+    const objectData = useMemo(() => {
+        if (!!moduleId && !!uuid) {
+            return revisionData
+        }
+
+        return versionData
+    }, [moduleId, uuid, versionData, revisionData])
+
+    const { data, isLoading } = objectData
 
     const transformedMaatregelen = useMemo(
         () =>
@@ -46,9 +63,14 @@ function AreaDetail() {
                     <Heading level="1" size="xxl" className="mb-3 mt-10">
                         {data?.Title}
                     </Heading>
-                    <Text className="mb-8 whitespace-pre-line break-words">
-                        {data?.Description}
-                    </Text>
+                    {data?.Description && (
+                        <Text
+                            className="prose prose-neutral mb-8 max-w-full whitespace-pre-line text-m text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0"
+                            dangerouslySetInnerHTML={{
+                                __html: data.Description,
+                            }}
+                        />
+                    )}
                     {data?.Image && (
                         <figure>
                             <img src={data.Image} alt={data?.Title} />
