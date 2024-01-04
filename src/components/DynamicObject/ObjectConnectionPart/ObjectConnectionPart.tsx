@@ -60,7 +60,7 @@ const ObjectConnectionPart = ({
     return (
         <div className="relative mt-3 flex items-center justify-between border-b border-pzh-gray-300 pb-4">
             <div className="flex items-center">
-                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-pzh-blue-light/50 text-pzh-blue">
+                <div className="size-6 flex items-center justify-center rounded-full bg-pzh-blue-light/50 text-pzh-blue">
                     <span className="-mb-1 text-s font-bold">{amount}</span>
                 </div>
                 <span className="-mb-1 ml-3">

@@ -29,7 +29,7 @@ const FieldListItem = ({
             bold
             htmlFor={`${name}.item`}
             className={classNames(
-                'w-4 min-w-[16px] [counter-increment:list] before:font-bold',
+                'min-w-4 w-4 [counter-increment:list] before:font-bold',
                 'numbering' in props &&
                     ORDERED_LIST[props.numbering as keyof typeof ORDERED_LIST]
             )}

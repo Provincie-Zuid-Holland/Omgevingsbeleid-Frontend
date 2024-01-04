@@ -184,10 +184,10 @@ interface FilterProps {
 }
 
 const Filter = ({ setFilter }: FilterProps) => {
-    const roleOptions = useMemo(
-        () => availableRoleTypes.map(role => ({ label: role, value: role })),
-        []
-    )
+    const roleOptions = availableRoleTypes.map(role => ({
+        label: role,
+        value: role,
+    }))
 
     return (
         <Formik initialValues={{}} onSubmit={setFilter}>

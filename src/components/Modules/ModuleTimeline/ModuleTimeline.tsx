@@ -41,7 +41,7 @@ const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
                                     'dd-MM-yyyy'
                                 )}
                             </span>
-                            <div className="relative mx-2 h-[13px] w-[13px] rounded-full border-2 border-pzh-blue">
+                            <div className="size-[13px] relative mx-2 rounded-full border-2 border-pzh-blue">
                                 {hasPeer && (
                                     <div className="absolute left-1 top-[11px] h-8 w-px bg-pzh-blue" />
                                 )}

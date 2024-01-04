@@ -38,20 +38,20 @@ const Sidebar = () => {
 
     return (
         <div
-            className="sticky top-[97px] h-full w-[64px] whitespace-nowrap"
+            className="sticky top-[97px] h-full w-16 whitespace-nowrap"
             data-testid="sidebar">
             <div
                 className={classNames(
                     'after:content-[" "] relative bg-pzh-gray-100 transition-[min-width] duration-200 after:absolute after:left-0 after:top-0 after:-z-1 after:h-[calc(100vh-97px)] after:w-full after:bg-pzh-gray-100 after:shadow-[0px_18px_60px_rgba(0,0,0,0.07),0px_4px_13px_rgba(0,0,0,0.04),0px_2px_6px_rgba(0,0,0,0.03)]',
                     {
-                        'min-w-[64px]': !expanded,
+                        'min-w-16': !expanded,
                         'min-w-[80vw]': expanded,
                     }
                 )}>
                 <Button
                     variant="default"
                     onPress={toggleSidebar}
-                    className="absolute -right-3 top-8 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-pzh-blue-dark">
+                    className="size-6 absolute -right-3 top-8 z-10 flex items-center justify-center rounded-full bg-pzh-blue-dark">
                     <span className="sr-only">{`Zijbalk ${
                         expanded ? 'sluiten' : 'openen'
                     }`}</span>

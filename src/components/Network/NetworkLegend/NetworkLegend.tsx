@@ -79,15 +79,15 @@ const getIcon = (type: ModelType) => {
             return <Triangle className="mr-2 text-pzh-apple-green" />
         case 'beleidsdoel':
             return (
-                <div className="rounded-0.5 mr-[11px] h-3 w-3 bg-pzh-orange" />
+                <div className="rounded-0.5 size-3 mr-[11px] bg-pzh-orange" />
             )
         case 'beleidskeuze':
             return (
-                <div className="mr-[11px] h-3 w-3 rounded-full bg-pzh-yellow" />
+                <div className="size-3 mr-[11px] rounded-full bg-pzh-yellow" />
             )
         case 'maatregel':
             return (
-                <div className="rounded-0.5 mr-[11px] h-2.5 w-2.5 -translate-y-0.5 translate-x-px rotate-[45deg] bg-pzh-green" />
+                <div className="rounded-0.5 size-2.5 mr-[11px] -translate-y-0.5 translate-x-px rotate-[45deg] bg-pzh-green" />
             )
         default:
             return <div />

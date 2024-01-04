@@ -28,9 +28,9 @@ const ObjectRelationPart = ({
         <div className="flex items-center">
             <div
                 className={classNames(
-                    'relative flex h-6 w-6 items-center justify-center rounded-full',
+                    'size-6 relative flex items-center justify-center rounded-full',
                     {
-                        'after:content-[" "] bg-pzh-blue text-pzh-white after:absolute after:-left-1 after:-top-1 after:h-3 after:w-3 after:rounded-full after:border after:border-pzh-white after:bg-pzh-red':
+                        'after:content-[" "] after:size-3 bg-pzh-blue text-pzh-white after:absolute after:-left-1 after:-top-1 after:rounded-full after:border after:border-pzh-white after:bg-pzh-red':
                             hasNotification,
                         'bg-pzh-blue-light/50 text-pzh-blue': !hasNotification,
                     }

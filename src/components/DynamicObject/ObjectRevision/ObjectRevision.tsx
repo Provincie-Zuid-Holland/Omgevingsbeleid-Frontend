@@ -121,15 +121,15 @@ const ObjectRevision = ({
                     </div>
                     <div className="mt-3">
                         <span className="flex items-center">
-                            <div className="-mt-1 mr-2 h-[14px] w-[14px] rounded-full bg-pzh-red" />{' '}
+                            <div className="size-[14px] -mt-1 mr-2 rounded-full bg-pzh-red" />{' '}
                             Verwijderd werkingsgebied
                         </span>
                         <span className="flex items-center">
-                            <div className="-mt-1 mr-2 h-[14px] w-[14px] rounded-full bg-pzh-green" />{' '}
+                            <div className="size-[14px] -mt-1 mr-2 rounded-full bg-pzh-green" />{' '}
                             Toegevoegd werkingsgebied
                         </span>
                         <span className="flex items-center">
-                            <div className="-mt-1 mr-2 h-[14px] w-[14px] rounded-full bg-pzh-blue-light" />{' '}
+                            <div className="size-[14px] -mt-1 mr-2 rounded-full bg-pzh-blue-light" />{' '}
                             Ongewijzigd werkingsgebied
                         </span>
                     </div>

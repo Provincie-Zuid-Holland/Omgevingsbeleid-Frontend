@@ -133,7 +133,7 @@ const getObjectIcon = (key: ModelType) => {
         case 'beleidsdoel':
             return <div className="rounded-0.5 mt-0.5 h-3 w-3 bg-pzh-orange" />
         case 'beleidskeuze':
-            return <div className="mt-0.5 h-3 w-3 rounded-full bg-pzh-yellow" />
+            return <div className="size-3 mt-0.5 rounded-full bg-pzh-yellow" />
         case 'maatregel':
             return (
                 <div className="rounded-0.5 mr-0.5 mt-0.5 h-2.5 w-2.5 min-w-[10px] rotate-45 bg-pzh-green" />

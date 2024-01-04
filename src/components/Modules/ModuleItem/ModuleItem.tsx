@@ -164,7 +164,7 @@ const ModuleItem = ({
                 {!!dropdownItems.length ? (
                     <div className="relative">
                         <button
-                            className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-pzh-gray-100"
+                            className="size-8 flex items-center justify-center rounded-full hover:bg-pzh-gray-100"
                             onClick={() => setIsOpen(!isOpen)}
                             aria-label="Onderdeel menu"
                             data-testid="module-item-menu">

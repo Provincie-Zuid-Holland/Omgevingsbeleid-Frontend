@@ -1,8 +1,7 @@
+import { Eye, EyeSlash } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useState } from 'react'
 import { useMap } from 'react-leaflet'
-
-import { Eye, EyeSlash } from '@pzh-ui/icons'
 
 import { Feature, generateImageUrl } from '@/api/axiosGeoJSON'
 import { colors } from '@/constants/leaflet'
@@ -82,7 +81,7 @@ const LeafletAreaLayer = ({
                 )
             }}>
             <div className="flex items-baseline gap-2">
-                <div className="min-w-[20px]">
+                <div className="min-w-5">
                     {properties?.symbol && (
                         <img
                             src={generateImageUrl(properties.symbol)}

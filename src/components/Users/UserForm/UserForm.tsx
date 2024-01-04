@@ -1,6 +1,5 @@
 import { Button, FormikInput, FormikSelect } from '@pzh-ui/components'
 import { Form, Formik, FormikConfig } from 'formik'
-import { useMemo } from 'react'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { UserCreate } from '@/api/fetchers.schemas'
@@ -17,10 +16,10 @@ const UserForm = ({
     handleClose,
     ...rest
 }: UserFormProps) => {
-    const roleOptions = useMemo(
-        () => availableRoleTypes.map(role => ({ label: role, value: role })),
-        []
-    )
+    const roleOptions = availableRoleTypes.map(role => ({
+        label: role,
+        value: role,
+    }))
 
     return (
         <Formik

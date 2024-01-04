@@ -1514,6 +1514,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.16.7":
+  version: 7.23.7
+  resolution: "@babel/runtime@npm:7.23.7"
+  dependencies:
+    regenerator-runtime: "npm:^0.14.0"
+  checksum: b29cf3ca6277aea8c5c823d9b86e7f7153757f07eaaa81d726f125de00ac0e7451c90845770f919826a94ade8f71a6bda9c0421410dfcc285ee17a40f8f8ca00
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.22.15":
   version: 7.22.15
   resolution: "@babel/template@npm:7.22.15"
@@ -4641,6 +4650,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/history@npm:1.0.6":
+  version: 1.0.6
+  resolution: "@tanstack/history@npm:1.0.6"
+  checksum: 2310516a16b7786d10ca84756b80a4e4b0a72e83188eeea00dba35c080528fa2033c96d4a279794d87b175ddbba113b6eda476e59d58c58d71ddf9c4cba987d1
+  languageName: node
+  linkType: hard
+
 "@tanstack/query-core@npm:5.14.2":
   version: 5.14.2
   resolution: "@tanstack/query-core@npm:5.14.2"
@@ -4659,6 +4675,36 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/react-router@npm:^1.0.6":
+  version: 1.0.6
+  resolution: "@tanstack/react-router@npm:1.0.6"
+  dependencies:
+    "@babel/runtime": "npm:^7.16.7"
+    "@tanstack/history": "npm:1.0.6"
+    "@tanstack/react-store": "npm:^0.2.1"
+    "@tanstack/store": "npm:^0.1.3"
+    tiny-invariant: "npm:^1.3.1"
+    tiny-warning: "npm:^1.0.3"
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: 66320fdff8ddf52f4d940cb1d56279341354f0bd80f36cf0a1a12ba88bcb7e6d8f983003c6f9758a3bbfb8b66b2cb9b70dd0346bf0766db1bc94f8e6605683c9
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-store@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "@tanstack/react-store@npm:0.2.1"
+  dependencies:
+    "@tanstack/store": "npm:0.1.3"
+    use-sync-external-store: "npm:^1.2.0"
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: bda3c394e0a2eac08d5c0545a18826ac52fd6d1dd6d142e27bf3a0005aa289015d9b28c25015c1954af410481b50b1a8e811144354fb3bae3b87b547ad32cc25
+  languageName: node
+  linkType: hard
+
 "@tanstack/react-table@npm:^8.9.9":
   version: 8.11.0
   resolution: "@tanstack/react-table@npm:8.11.0"
@@ -4668,6 +4714,13 @@ __metadata:
     react: ">=16"
     react-dom: ">=16"
   checksum: 37e7ba9eead0720f28d33823ce67475f8037d2ba8bbd554ac881ccba96af1576132e7a2c71833f4dac699dfe44d3810d70d08dc1c7df85904bcb040ede6aa658
+  languageName: node
+  linkType: hard
+
+"@tanstack/store@npm:0.1.3, @tanstack/store@npm:^0.1.3":
+  version: 0.1.3
+  resolution: "@tanstack/store@npm:0.1.3"
+  checksum: 90a528e004553538be099b61d357e9dd1af7c0fb35f37b3c50a8a17462c5cd8c8d269d912f60c6dfcc18387a961f8c5a48e0b1e848db7f9d6ad357e45529294b
   languageName: node
   linkType: hard
 
@@ -12458,6 +12511,7 @@ __metadata:
     "@pzh-ui/icons": "npm:^0.0.47"
     "@react-hookz/web": "npm:^24.0.2"
     "@tanstack/react-query": "npm:^5.14.2"
+    "@tanstack/react-router": "npm:^1.0.6"
     "@testing-library/dom": "npm:^9.3.3"
     "@testing-library/jest-dom": "npm:^6.1.5"
     "@testing-library/react": "npm:^14.1.2"
@@ -12514,7 +12568,7 @@ __metadata:
     react-router-dom: "npm:^6.14.2"
     rollup-plugin-visualizer: "npm:^5.11.0"
     sass: "npm:^1.63.6"
-    tailwindcss: "npm:^3.3.6"
+    tailwindcss: "npm:^3.4.0"
     typescript: "npm:^5.3.3"
     uuid: "npm:^9.0.1"
     vite: "npm:^5.0.7"
@@ -14087,9 +14141,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.3.6":
-  version: 3.3.6
-  resolution: "tailwindcss@npm:3.3.6"
+"tailwindcss@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "tailwindcss@npm:3.4.0"
   dependencies:
     "@alloc/quick-lru": "npm:^5.2.0"
     arg: "npm:^5.0.2"
@@ -14116,7 +14170,7 @@ __metadata:
   bin:
     tailwind: lib/cli.js
     tailwindcss: lib/cli.js
-  checksum: 7cca9ce2d49696a9025f3426fcf1b2ca5c6bba4c8abad50c36d3dc0b87a09b2b89976a2053bab5c50b7d488d5e54fd7865b4d0bbe5cc82a829986b901715fb27
+  checksum: e69de4856308b3a6bcd084cc6745b6e3dcf6623553414f042d0365adceb70d79e41ec97a2a38c3aea0d5a875aa1eb4e84e04ad35ea1f0f7debcb7150779eae52
   languageName: node
   linkType: hard
 
@@ -14184,7 +14238,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tiny-warning@npm:^1.0.2":
+"tiny-invariant@npm:^1.3.1":
+  version: 1.3.1
+  resolution: "tiny-invariant@npm:1.3.1"
+  checksum: 872dbd1ff20a21303a2fd20ce3a15602cfa7fcf9b228bd694a52e2938224313b5385a1078cb667ed7375d1612194feaca81c4ecbe93121ca1baebe344de4f84c
+  languageName: node
+  linkType: hard
+
+"tiny-warning@npm:^1.0.2, tiny-warning@npm:^1.0.3":
   version: 1.0.3
   resolution: "tiny-warning@npm:1.0.3"
   checksum: da62c4acac565902f0624b123eed6dd3509bc9a8d30c06e017104bedcf5d35810da8ff72864400ad19c5c7806fc0a8323c68baf3e326af7cb7d969f846100d71
@@ -14692,7 +14753,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-sync-external-store@npm:1.2.0":
+"use-sync-external-store@npm:1.2.0, use-sync-external-store@npm:^1.2.0":
   version: 1.2.0
   resolution: "use-sync-external-store@npm:1.2.0"
   peerDependencies:
