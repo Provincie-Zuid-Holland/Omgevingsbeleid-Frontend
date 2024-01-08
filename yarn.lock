@@ -3344,6 +3344,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-hookz/web@npm:^24.0.2":
+  version: 24.0.2
+  resolution: "@react-hookz/web@npm:24.0.2"
+  dependencies:
+    "@react-hookz/deep-equal": "npm:^1.0.4"
+  peerDependencies:
+    js-cookie: ^3.0.5
+    react: ^16.8 || ^17 || ^18
+    react-dom: ^16.8 || ^17 || ^18
+  peerDependenciesMeta:
+    js-cookie:
+      optional: true
+  checksum: 90ee7d03a81944cc5ee4b36762baecf4853b6e09dfb12a4c3f84b0444f3696d5a616173ae3e4e75efeb15e867248e5afc8660223d75fa938c1c96ddb142c8236
+  languageName: node
+  linkType: hard
+
 "@react-leaflet/core@npm:^2.1.0":
   version: 2.1.0
   resolution: "@react-leaflet/core@npm:2.1.0"
@@ -4625,21 +4641,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.14.1":
-  version: 5.14.1
-  resolution: "@tanstack/query-core@npm:5.14.1"
-  checksum: adc723ac6c8730a091b612fe913b5b319526c2a9c83358baee4f37b769a514cc052dbdd3752ea7ad98d969a736fc1e1337052da4f215bfd68f154eb190d501a5
+"@tanstack/query-core@npm:5.14.2":
+  version: 5.14.2
+  resolution: "@tanstack/query-core@npm:5.14.2"
+  checksum: 089ea0f82547efefa142a41e82a960d1a578bf54ebae058f9e7b62d0e1fe921612ac98f79c82e3cb6601df86d18f2ccbcbeed5fd48e4ce8ce15775852869b78f
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.13.4":
-  version: 5.14.1
-  resolution: "@tanstack/react-query@npm:5.14.1"
+"@tanstack/react-query@npm:^5.14.2":
+  version: 5.14.2
+  resolution: "@tanstack/react-query@npm:5.14.2"
   dependencies:
-    "@tanstack/query-core": "npm:5.14.1"
+    "@tanstack/query-core": "npm:5.14.2"
   peerDependencies:
     react: ^18.0.0
-  checksum: a3c202a8fa65e72b8a8ade1b75afca3ba9c8cb80cc2bb0628bac2d52fd1ecaf42d9e29540bf3eb0e114f4a2fc15a7320e86e71fa1bbc625a2d9b7bca1f4757d0
+  checksum: 4b6496b10f3cfe55dd1b5c8d96a3e224cb8161da1b3039cd4dcd9c24adc66564b42f56165cc406c9ef80c5b605f16b07be38c8ad1caf636499d924573cfd2d27
   languageName: node
   linkType: hard
 
@@ -5516,19 +5532,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
+"@types/node@npm:*, @types/node@npm:^20.10.5":
   version: 20.10.5
   resolution: "@types/node@npm:20.10.5"
   dependencies:
     undici-types: "npm:~5.26.4"
   checksum: 4a378428d2c9f692b19801a5a3d20dc4c0ad5d4a3d103350f8b401af439941a9aa5efeadc8eb9db13c66c620318bc7f336abfc8934f82fd32c4a689d85068c6f
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^17.0.0":
-  version: 17.0.45
-  resolution: "@types/node@npm:17.0.45"
-  checksum: b45fff7270b5e81be19ef91a66b764a8b21473a97a8d211218a52e3426b79ad48f371819ab9153370756b33ba284e5c875463de4d2cf48a472e9098d7f09e8a2
   languageName: node
   linkType: hard
 
@@ -10241,10 +10250,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jwt-decode@npm:^3.1.2":
-  version: 3.1.2
-  resolution: "jwt-decode@npm:3.1.2"
-  checksum: 20a4b072d44ce3479f42d0d2c8d3dabeb353081ba4982e40b83a779f2459a70be26441be6c160bfc8c3c6eadf9f6380a036fbb06ac5406b5674e35d8c4205eeb
+"jwt-decode@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "jwt-decode@npm:4.0.0"
+  checksum: 87b569e4a9a0067fb0d592bcf3b2ac3e638e49beee28620eeb07bef1b4470f4077dea68c15d191dd68e076846c3af8394be3bcaecffedc6e97433b221fdbbcf3
   languageName: node
   linkType: hard
 
@@ -12447,8 +12456,8 @@ __metadata:
     "@pzh-ui/config": "npm:^0.0.56"
     "@pzh-ui/css": "npm:^0.0.75"
     "@pzh-ui/icons": "npm:^0.0.47"
-    "@react-hookz/web": "npm:^23.1.0"
-    "@tanstack/react-query": "npm:^5.13.4"
+    "@react-hookz/web": "npm:^24.0.2"
+    "@tanstack/react-query": "npm:^5.14.2"
     "@testing-library/dom": "npm:^9.3.3"
     "@testing-library/jest-dom": "npm:^6.1.5"
     "@testing-library/react": "npm:^14.1.2"
@@ -12461,7 +12470,7 @@ __metadata:
     "@types/lodash.clonedeep": "npm:^4.5.6"
     "@types/lodash.debounce": "npm:^4.0.7"
     "@types/lodash.groupby": "npm:^4.6.7"
-    "@types/node": "npm:^17.0.0"
+    "@types/node": "npm:^20.10.5"
     "@types/proj4leaflet": "npm:^1.0.10"
     "@types/react": "npm:^18.2.15"
     "@types/react-dom": "npm:^18.2.7"
@@ -12484,7 +12493,7 @@ __metadata:
     eslint-plugin-prettier: "npm:^5.0.0"
     formik: "npm:^2.4.2"
     jsdom: "npm:^22.1.0"
-    jwt-decode: "npm:^3.1.2"
+    jwt-decode: "npm:^4.0.0"
     leaflet: "npm:^1.9.4"
     leaflet-draw: "npm:^1.0.4"
     lodash.clonedeep: "npm:^4.5.0"

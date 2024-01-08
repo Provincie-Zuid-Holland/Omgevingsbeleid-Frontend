@@ -18,7 +18,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(async config => {
     config.headers &&
-        getAccessToken() &&
+        !!getAccessToken() &&
         (config.headers.Authorization = `Bearer ${getAccessToken()}`)
 
     return config
