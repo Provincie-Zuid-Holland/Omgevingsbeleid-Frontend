@@ -84,9 +84,11 @@ import type {
     ModulesModuleIdObjectBeleidsregelLineageIdGetParams,
     ModulesModuleIdObjectGebiedsprogrammasLineageIdGetParams,
     ModulesModuleIdObjectMaatregelLineageIdGetParams,
+    ModulesModuleIdObjectProgrammaAlgemeenLineageIdGetParams,
     ModulesModuleIdObjectVisieAlgemeenLineageIdGetParams,
     ModulesObjectAmbitieActiveLineageIdGetParams,
     ModulesObjectBeleidsdoelActiveLineageIdGetParams,
+    ModulesObjectProgrammaAlgemeenActiveLineageIdGetParams,
     ModulesObjectVisieAlgemeenActiveLineageIdGetParams,
     ModulesObjectsBeleidskeuzeActiveLineageIdGetParams,
     ModulesObjectsBeleidsregelActiveLineageIdGetParams,
@@ -119,6 +121,8 @@ import type {
     PagedResponseModule,
     PagedResponseModuleObjectShortStatus,
     PagedResponseNationaalBelangBasic,
+    PagedResponseProgrammaAlgemeenBasic,
+    PagedResponseProgrammaAlgemeenExtended,
     PagedResponsePublicModuleShort,
     PagedResponseSearchObject,
     PagedResponseUser,
@@ -129,6 +133,12 @@ import type {
     PagedResponseWerkingsgebied,
     PagedResponseWettelijkeTaakBasic,
     PasswordResetPostParams,
+    ProgrammaAlgemeenFull,
+    ProgrammaAlgemeenPatch,
+    ProgrammaAlgemeenStaticPostStatics,
+    ProgrammaAlgemeenUUID,
+    ProgrammasAlgemeenValidGetParams,
+    ProgrammasAlgemeenValidLineageIdGetParams,
     PublicModuleOverview,
     ReadRelation,
     RequestAcknowledgedRelation,
@@ -9321,6 +9331,1274 @@ export const useNationaalBelangStaticLineageIdPost = <
         getNationaalBelangStaticLineageIdPostMutationOptions(options)
 
     return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get all the valid programma_algemeen lineages and shows the latest object of each
+ */
+export const programmasAlgemeenValidGet = (
+    params?: ProgrammasAlgemeenValidGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseProgrammaAlgemeenBasic>({
+        url: `/programmas-algemeen/valid`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getProgrammasAlgemeenValidGetQueryKey = (
+    params?: ProgrammasAlgemeenValidGetParams
+) => {
+    return [`/programmas-algemeen/valid`, ...(params ? [params] : [])] as const
+}
+
+export const getProgrammasAlgemeenValidGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof programmasAlgemeenValidGet>>,
+    TError = HTTPValidationError
+>(
+    params?: ProgrammasAlgemeenValidGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof programmasAlgemeenValidGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getProgrammasAlgemeenValidGetQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof programmasAlgemeenValidGet>>
+    > = ({ signal }) => programmasAlgemeenValidGet(params, signal)
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof programmasAlgemeenValidGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type ProgrammasAlgemeenValidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof programmasAlgemeenValidGet>>
+>
+export type ProgrammasAlgemeenValidGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get all the valid programma_algemeen lineages and shows the latest object of each
+ */
+export const useProgrammasAlgemeenValidGet = <
+    TData = Awaited<ReturnType<typeof programmasAlgemeenValidGet>>,
+    TError = HTTPValidationError
+>(
+    params?: ProgrammasAlgemeenValidGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof programmasAlgemeenValidGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getProgrammasAlgemeenValidGetQueryOptions(
+        params,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get all the valid programma_algemeen of a single lineage
+ */
+export const programmasAlgemeenValidLineageIdGet = (
+    lineageId: number,
+    params?: ProgrammasAlgemeenValidLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseProgrammaAlgemeenBasic>({
+        url: `/programmas-algemeen/valid/${lineageId}`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getProgrammasAlgemeenValidLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: ProgrammasAlgemeenValidLineageIdGetParams
+) => {
+    return [
+        `/programmas-algemeen/valid/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getProgrammasAlgemeenValidLineageIdGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof programmasAlgemeenValidLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ProgrammasAlgemeenValidLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof programmasAlgemeenValidLineageIdGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getProgrammasAlgemeenValidLineageIdGetQueryKey(lineageId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof programmasAlgemeenValidLineageIdGet>>
+    > = ({ signal }) =>
+        programmasAlgemeenValidLineageIdGet(lineageId, params, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof programmasAlgemeenValidLineageIdGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type ProgrammasAlgemeenValidLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof programmasAlgemeenValidLineageIdGet>>
+>
+export type ProgrammasAlgemeenValidLineageIdGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get all the valid programma_algemeen of a single lineage
+ */
+export const useProgrammasAlgemeenValidLineageIdGet = <
+    TData = Awaited<ReturnType<typeof programmasAlgemeenValidLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ProgrammasAlgemeenValidLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof programmasAlgemeenValidLineageIdGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getProgrammasAlgemeenValidLineageIdGetQueryOptions(
+        lineageId,
+        params,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific programma_algemeen by uuid
+ */
+export const programmasAlgemeenVersionObjectUuidGet = (
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<ProgrammaAlgemeenFull>({
+        url: `/programmas-algemeen/version/${objectUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getProgrammasAlgemeenVersionObjectUuidGetQueryKey = (
+    objectUuid: string
+) => {
+    return [`/programmas-algemeen/version/${objectUuid}`] as const
+}
+
+export const getProgrammasAlgemeenVersionObjectUuidGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof programmasAlgemeenVersionObjectUuidGet>>,
+    TError = HTTPValidationError
+>(
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof programmasAlgemeenVersionObjectUuidGet>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getProgrammasAlgemeenVersionObjectUuidGetQueryKey(objectUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof programmasAlgemeenVersionObjectUuidGet>>
+    > = ({ signal }) =>
+        programmasAlgemeenVersionObjectUuidGet(objectUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!objectUuid,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof programmasAlgemeenVersionObjectUuidGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type ProgrammasAlgemeenVersionObjectUuidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof programmasAlgemeenVersionObjectUuidGet>>
+>
+export type ProgrammasAlgemeenVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific programma_algemeen by uuid
+ */
+export const useProgrammasAlgemeenVersionObjectUuidGet = <
+    TData = Awaited<ReturnType<typeof programmasAlgemeenVersionObjectUuidGet>>,
+    TError = HTTPValidationError
+>(
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof programmasAlgemeenVersionObjectUuidGet>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getProgrammasAlgemeenVersionObjectUuidGetQueryOptions(
+        objectUuid,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get latest lineage record for programma_algemeen by their lineage id
+ */
+export const programmasAlgemeenLatestLineageIdGet = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<ProgrammaAlgemeenFull>({
+        url: `/programmas-algemeen/latest/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getProgrammasAlgemeenLatestLineageIdGetQueryKey = (
+    lineageId: number
+) => {
+    return [`/programmas-algemeen/latest/${lineageId}`] as const
+}
+
+export const getProgrammasAlgemeenLatestLineageIdGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof programmasAlgemeenLatestLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof programmasAlgemeenLatestLineageIdGet>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getProgrammasAlgemeenLatestLineageIdGetQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof programmasAlgemeenLatestLineageIdGet>>
+    > = ({ signal }) => programmasAlgemeenLatestLineageIdGet(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof programmasAlgemeenLatestLineageIdGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type ProgrammasAlgemeenLatestLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof programmasAlgemeenLatestLineageIdGet>>
+>
+export type ProgrammasAlgemeenLatestLineageIdGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get latest lineage record for programma_algemeen by their lineage id
+ */
+export const useProgrammasAlgemeenLatestLineageIdGet = <
+    TData = Awaited<ReturnType<typeof programmasAlgemeenLatestLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof programmasAlgemeenLatestLineageIdGet>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getProgrammasAlgemeenLatestLineageIdGetQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Edit static data of an object
+ */
+export const programmaAlgemeenStaticLineageIdPost = (
+    lineageId: number,
+    programmaAlgemeenStaticPostStatics: ProgrammaAlgemeenStaticPostStatics
+) => {
+    return customInstance<ResponseOK>({
+        url: `/programma-algemeen/static/${lineageId}`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: programmaAlgemeenStaticPostStatics,
+    })
+}
+
+export const getProgrammaAlgemeenStaticLineageIdPostMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof programmaAlgemeenStaticLineageIdPost>>,
+        TError,
+        { lineageId: number; data: ProgrammaAlgemeenStaticPostStatics },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof programmaAlgemeenStaticLineageIdPost>>,
+    TError,
+    { lineageId: number; data: ProgrammaAlgemeenStaticPostStatics },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof programmaAlgemeenStaticLineageIdPost>>,
+        { lineageId: number; data: ProgrammaAlgemeenStaticPostStatics }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return programmaAlgemeenStaticLineageIdPost(lineageId, data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type ProgrammaAlgemeenStaticLineageIdPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof programmaAlgemeenStaticLineageIdPost>>
+>
+export type ProgrammaAlgemeenStaticLineageIdPostMutationBody =
+    ProgrammaAlgemeenStaticPostStatics
+export type ProgrammaAlgemeenStaticLineageIdPostMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Edit static data of an object
+ */
+export const useProgrammaAlgemeenStaticLineageIdPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof programmaAlgemeenStaticLineageIdPost>>,
+        TError,
+        { lineageId: number; data: ProgrammaAlgemeenStaticPostStatics },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getProgrammaAlgemeenStaticLineageIdPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get all the programma_algemeen of a single lineage in a module
+ */
+export const modulesModuleIdObjectProgrammaAlgemeenLineageIdGet = (
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectProgrammaAlgemeenLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseProgrammaAlgemeenExtended>({
+        url: `/modules/${moduleId}/object/programma-algemeen/${lineageId}`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectProgrammaAlgemeenLineageIdGetQueryKey = (
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectProgrammaAlgemeenLineageIdGetParams
+) => {
+    return [
+        `/modules/${moduleId}/object/programma-algemeen/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getModulesModuleIdObjectProgrammaAlgemeenLineageIdGetQueryOptions =
+    <
+        TData = Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectProgrammaAlgemeenLineageIdGet
+            >
+        >,
+        TError = HTTPValidationError
+    >(
+        moduleId: number,
+        lineageId: number,
+        params?: ModulesModuleIdObjectProgrammaAlgemeenLineageIdGetParams,
+        options?: {
+            query?: Partial<
+                UseQueryOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof modulesModuleIdObjectProgrammaAlgemeenLineageIdGet
+                        >
+                    >,
+                    TError,
+                    TData
+                >
+            >
+        }
+    ) => {
+        const { query: queryOptions } = options ?? {}
+
+        const queryKey =
+            queryOptions?.queryKey ??
+            getModulesModuleIdObjectProgrammaAlgemeenLineageIdGetQueryKey(
+                moduleId,
+                lineageId,
+                params
+            )
+
+        const queryFn: QueryFunction<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectProgrammaAlgemeenLineageIdGet
+                >
+            >
+        > = ({ signal }) =>
+            modulesModuleIdObjectProgrammaAlgemeenLineageIdGet(
+                moduleId,
+                lineageId,
+                params,
+                signal
+            )
+
+        return {
+            queryKey,
+            queryFn,
+            enabled: !!(moduleId && lineageId),
+            ...queryOptions,
+        } as UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectProgrammaAlgemeenLineageIdGet
+                >
+            >,
+            TError,
+            TData
+        > & { queryKey: QueryKey }
+    }
+
+export type ModulesModuleIdObjectProgrammaAlgemeenLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectProgrammaAlgemeenLineageIdGet
+            >
+        >
+    >
+export type ModulesModuleIdObjectProgrammaAlgemeenLineageIdGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get all the programma_algemeen of a single lineage in a module
+ */
+export const useModulesModuleIdObjectProgrammaAlgemeenLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesModuleIdObjectProgrammaAlgemeenLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectProgrammaAlgemeenLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesModuleIdObjectProgrammaAlgemeenLineageIdGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getModulesModuleIdObjectProgrammaAlgemeenLineageIdGetQueryOptions(
+            moduleId,
+            lineageId,
+            params,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Add a new version to the programma_algemeen lineage in a module
+ */
+export const modulesModuleIdObjectProgrammaAlgemeenLineageIdPatch = (
+    moduleId: number,
+    lineageId: number,
+    programmaAlgemeenPatch: ProgrammaAlgemeenPatch
+) => {
+    return customInstance<ProgrammaAlgemeenUUID>({
+        url: `/modules/${moduleId}/object/programma-algemeen/${lineageId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: programmaAlgemeenPatch,
+    })
+}
+
+export const getModulesModuleIdObjectProgrammaAlgemeenLineageIdPatchMutationOptions =
+    <TError = HTTPValidationError, TContext = unknown>(options?: {
+        mutation?: UseMutationOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectProgrammaAlgemeenLineageIdPatch
+                >
+            >,
+            TError,
+            {
+                moduleId: number
+                lineageId: number
+                data: ProgrammaAlgemeenPatch
+            },
+            TContext
+        >
+    }): UseMutationOptions<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectProgrammaAlgemeenLineageIdPatch
+            >
+        >,
+        TError,
+        { moduleId: number; lineageId: number; data: ProgrammaAlgemeenPatch },
+        TContext
+    > => {
+        const { mutation: mutationOptions } = options ?? {}
+
+        const mutationFn: MutationFunction<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectProgrammaAlgemeenLineageIdPatch
+                >
+            >,
+            {
+                moduleId: number
+                lineageId: number
+                data: ProgrammaAlgemeenPatch
+            }
+        > = props => {
+            const { moduleId, lineageId, data } = props ?? {}
+
+            return modulesModuleIdObjectProgrammaAlgemeenLineageIdPatch(
+                moduleId,
+                lineageId,
+                data
+            )
+        }
+
+        return { mutationFn, ...mutationOptions }
+    }
+
+export type ModulesModuleIdObjectProgrammaAlgemeenLineageIdPatchMutationResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectProgrammaAlgemeenLineageIdPatch
+            >
+        >
+    >
+export type ModulesModuleIdObjectProgrammaAlgemeenLineageIdPatchMutationBody =
+    ProgrammaAlgemeenPatch
+export type ModulesModuleIdObjectProgrammaAlgemeenLineageIdPatchMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Add a new version to the programma_algemeen lineage in a module
+ */
+export const useModulesModuleIdObjectProgrammaAlgemeenLineageIdPatch = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectProgrammaAlgemeenLineageIdPatch
+            >
+        >,
+        TError,
+        { moduleId: number; lineageId: number; data: ProgrammaAlgemeenPatch },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getModulesModuleIdObjectProgrammaAlgemeenLineageIdPatchMutationOptions(
+            options
+        )
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get latest lineage record for programma_algemeen by their lineage id in a module
+ */
+export const modulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGet = (
+    moduleId: number,
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<ProgrammaAlgemeenFull>({
+        url: `/modules/${moduleId}/object/programma-algemeen/latest/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGetQueryKey =
+    (moduleId: number, lineageId: number) => {
+        return [
+            `/modules/${moduleId}/object/programma-algemeen/latest/${lineageId}`,
+        ] as const
+    }
+
+export const getModulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGetQueryOptions =
+    <
+        TData = Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGet
+            >
+        >,
+        TError = HTTPValidationError
+    >(
+        moduleId: number,
+        lineageId: number,
+        options?: {
+            query?: Partial<
+                UseQueryOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof modulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGet
+                        >
+                    >,
+                    TError,
+                    TData
+                >
+            >
+        }
+    ) => {
+        const { query: queryOptions } = options ?? {}
+
+        const queryKey =
+            queryOptions?.queryKey ??
+            getModulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGetQueryKey(
+                moduleId,
+                lineageId
+            )
+
+        const queryFn: QueryFunction<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGet
+                >
+            >
+        > = ({ signal }) =>
+            modulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGet(
+                moduleId,
+                lineageId,
+                signal
+            )
+
+        return {
+            queryKey,
+            queryFn,
+            enabled: !!(moduleId && lineageId),
+            ...queryOptions,
+        } as UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGet
+                >
+            >,
+            TError,
+            TData
+        > & { queryKey: QueryKey }
+    }
+
+export type ModulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGet
+            >
+        >
+    >
+export type ModulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get latest lineage record for programma_algemeen by their lineage id in a module
+ */
+export const useModulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGet = <
+    TData = Awaited<
+        ReturnType<
+            typeof modulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGet
+        >
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getModulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGetQueryOptions(
+            moduleId,
+            lineageId,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific programma_algemeen by uuid in a module
+ */
+export const modulesModuleIdObjectProgrammaAlgemeenVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<ProgrammaAlgemeenFull>({
+        url: `/modules/${moduleId}/object/programma-algemeen/version/${objectUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectProgrammaAlgemeenVersionObjectUuidGetQueryKey =
+    (moduleId: number, objectUuid: string) => {
+        return [
+            `/modules/${moduleId}/object/programma-algemeen/version/${objectUuid}`,
+        ] as const
+    }
+
+export const getModulesModuleIdObjectProgrammaAlgemeenVersionObjectUuidGetQueryOptions =
+    <
+        TData = Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectProgrammaAlgemeenVersionObjectUuidGet
+            >
+        >,
+        TError = HTTPValidationError
+    >(
+        moduleId: number,
+        objectUuid: string,
+        options?: {
+            query?: Partial<
+                UseQueryOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof modulesModuleIdObjectProgrammaAlgemeenVersionObjectUuidGet
+                        >
+                    >,
+                    TError,
+                    TData
+                >
+            >
+        }
+    ) => {
+        const { query: queryOptions } = options ?? {}
+
+        const queryKey =
+            queryOptions?.queryKey ??
+            getModulesModuleIdObjectProgrammaAlgemeenVersionObjectUuidGetQueryKey(
+                moduleId,
+                objectUuid
+            )
+
+        const queryFn: QueryFunction<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectProgrammaAlgemeenVersionObjectUuidGet
+                >
+            >
+        > = ({ signal }) =>
+            modulesModuleIdObjectProgrammaAlgemeenVersionObjectUuidGet(
+                moduleId,
+                objectUuid,
+                signal
+            )
+
+        return {
+            queryKey,
+            queryFn,
+            enabled: !!(moduleId && objectUuid),
+            ...queryOptions,
+        } as UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectProgrammaAlgemeenVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        > & { queryKey: QueryKey }
+    }
+
+export type ModulesModuleIdObjectProgrammaAlgemeenVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectProgrammaAlgemeenVersionObjectUuidGet
+            >
+        >
+    >
+export type ModulesModuleIdObjectProgrammaAlgemeenVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific programma_algemeen by uuid in a module
+ */
+export const useModulesModuleIdObjectProgrammaAlgemeenVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<
+            typeof modulesModuleIdObjectProgrammaAlgemeenVersionObjectUuidGet
+        >
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesModuleIdObjectProgrammaAlgemeenVersionObjectUuidGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getModulesModuleIdObjectProgrammaAlgemeenVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const modulesObjectProgrammaAlgemeenActiveLineageIdGet = (
+    lineageId: number,
+    params?: ModulesObjectProgrammaAlgemeenActiveLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<ActiveModuleObjectWrapper[]>({
+        url: `/modules/object/programma-algemeen/active/${lineageId}`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getModulesObjectProgrammaAlgemeenActiveLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: ModulesObjectProgrammaAlgemeenActiveLineageIdGetParams
+) => {
+    return [
+        `/modules/object/programma-algemeen/active/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getModulesObjectProgrammaAlgemeenActiveLineageIdGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof modulesObjectProgrammaAlgemeenActiveLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ModulesObjectProgrammaAlgemeenActiveLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesObjectProgrammaAlgemeenActiveLineageIdGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesObjectProgrammaAlgemeenActiveLineageIdGetQueryKey(
+            lineageId,
+            params
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<typeof modulesObjectProgrammaAlgemeenActiveLineageIdGet>
+        >
+    > = ({ signal }) =>
+        modulesObjectProgrammaAlgemeenActiveLineageIdGet(
+            lineageId,
+            params,
+            signal
+        )
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<
+            ReturnType<typeof modulesObjectProgrammaAlgemeenActiveLineageIdGet>
+        >,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type ModulesObjectProgrammaAlgemeenActiveLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof modulesObjectProgrammaAlgemeenActiveLineageIdGet>
+        >
+    >
+export type ModulesObjectProgrammaAlgemeenActiveLineageIdGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const useModulesObjectProgrammaAlgemeenActiveLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesObjectProgrammaAlgemeenActiveLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ModulesObjectProgrammaAlgemeenActiveLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesObjectProgrammaAlgemeenActiveLineageIdGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getModulesObjectProgrammaAlgemeenActiveLineageIdGetQueryOptions(
+            lineageId,
+            params,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific programma_algemeen by uuid in a module
+ */
+export const revisionsModuleIdProgrammaAlgemeenVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<ProgrammaAlgemeenFull>({
+        url: `/revisions/${moduleId}/programma-algemeen/version/${objectUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getRevisionsModuleIdProgrammaAlgemeenVersionObjectUuidGetQueryKey =
+    (moduleId: number, objectUuid: string) => {
+        return [
+            `/revisions/${moduleId}/programma-algemeen/version/${objectUuid}`,
+        ] as const
+    }
+
+export const getRevisionsModuleIdProgrammaAlgemeenVersionObjectUuidGetQueryOptions =
+    <
+        TData = Awaited<
+            ReturnType<
+                typeof revisionsModuleIdProgrammaAlgemeenVersionObjectUuidGet
+            >
+        >,
+        TError = HTTPValidationError
+    >(
+        moduleId: number,
+        objectUuid: string,
+        options?: {
+            query?: Partial<
+                UseQueryOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof revisionsModuleIdProgrammaAlgemeenVersionObjectUuidGet
+                        >
+                    >,
+                    TError,
+                    TData
+                >
+            >
+        }
+    ) => {
+        const { query: queryOptions } = options ?? {}
+
+        const queryKey =
+            queryOptions?.queryKey ??
+            getRevisionsModuleIdProgrammaAlgemeenVersionObjectUuidGetQueryKey(
+                moduleId,
+                objectUuid
+            )
+
+        const queryFn: QueryFunction<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdProgrammaAlgemeenVersionObjectUuidGet
+                >
+            >
+        > = ({ signal }) =>
+            revisionsModuleIdProgrammaAlgemeenVersionObjectUuidGet(
+                moduleId,
+                objectUuid,
+                signal
+            )
+
+        return {
+            queryKey,
+            queryFn,
+            enabled: !!(moduleId && objectUuid),
+            ...queryOptions,
+        } as UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdProgrammaAlgemeenVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        > & { queryKey: QueryKey }
+    }
+
+export type RevisionsModuleIdProgrammaAlgemeenVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof revisionsModuleIdProgrammaAlgemeenVersionObjectUuidGet
+            >
+        >
+    >
+export type RevisionsModuleIdProgrammaAlgemeenVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific programma_algemeen by uuid in a module
+ */
+export const useRevisionsModuleIdProgrammaAlgemeenVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<
+            typeof revisionsModuleIdProgrammaAlgemeenVersionObjectUuidGet
+        >
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof revisionsModuleIdProgrammaAlgemeenVersionObjectUuidGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getRevisionsModuleIdProgrammaAlgemeenVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
 }
 
 /**
