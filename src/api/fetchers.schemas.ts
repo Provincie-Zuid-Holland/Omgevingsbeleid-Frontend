@@ -152,6 +152,37 @@ export type VerplichtProgrammaValidGetParams = {
     sort_order?: SortOrder
 }
 
+export type ModulesObjectProgrammaAlgemeenActiveLineageIdGetParams = {
+    minimum_status?: ModuleStatusCode
+}
+
+export type ModulesModuleIdObjectProgrammaAlgemeenLineageIdGetParams = {
+    all_filters?: string
+    any_filters?: string
+    offset?: number
+    limit?: number
+    sort_column?: string
+    sort_order?: SortOrder
+}
+
+export type ProgrammasAlgemeenValidLineageIdGetParams = {
+    all_filters?: string
+    any_filters?: string
+    offset?: number
+    limit?: number
+    sort_column?: string
+    sort_order?: SortOrder
+}
+
+export type ProgrammasAlgemeenValidGetParams = {
+    all_filters?: string
+    any_filters?: string
+    offset?: number
+    limit?: number
+    sort_column?: string
+    sort_order?: SortOrder
+}
+
 export type NationaalBelangValidGetParams = {
     all_filters?: string
     any_filters?: string
@@ -483,28 +514,8 @@ export interface VisieAlgemeenFull {
     UUID?: string
 }
 
-export interface VisieAlgemeenExtendedStatics {
-    Owner_1?: UserShort
-    Owner_2?: UserShort
-}
-
 export type VisieAlgemeenExtendedObjectStatics =
     VisieAlgemeenExtendedStatics | null
-
-export interface VisieAlgemeenExtended {
-    Adjust_On?: string | null
-    Code?: string
-    Created_By?: UserShort
-    Created_Date?: string
-    End_Validity?: string | null
-    Modified_By?: UserShort
-    Modified_Date?: string
-    Object_ID?: number
-    ObjectStatics?: VisieAlgemeenExtendedObjectStatics
-    Start_Validity?: string | null
-    Title?: string
-    UUID?: string
-}
 
 export interface VisieAlgemeenBasic {
     Adjust_On?: string | null
@@ -615,6 +626,26 @@ export interface UserShort {
     Gebruikersnaam: string
     Rol: string
     UUID: string
+}
+
+export interface VisieAlgemeenExtendedStatics {
+    Owner_1?: UserShort
+    Owner_2?: UserShort
+}
+
+export interface VisieAlgemeenExtended {
+    Adjust_On?: string | null
+    Code?: string
+    Created_By?: UserShort
+    Created_Date?: string
+    End_Validity?: string | null
+    Modified_By?: UserShort
+    Modified_Date?: string
+    Object_ID?: number
+    ObjectStatics?: VisieAlgemeenExtendedObjectStatics
+    Start_Validity?: string | null
+    Title?: string
+    UUID?: string
 }
 
 export interface UserCreateResponse {
@@ -745,18 +776,6 @@ export interface PublicModuleShort {
     Title: string
 }
 
-export interface PublicModuleObjectShort {
-    Code: string
-    Description: string
-    Modified_Date: string
-    Module_ID: number
-    ModuleObjectContext?: PublicModuleObjectContextShort
-    Object_ID: number
-    Object_Type: string
-    Title: string
-    UUID: string
-}
-
 export interface PublicModuleOverview {
     Module: PublicModuleShort
     Objects: PublicModuleObjectShort[]
@@ -772,6 +791,93 @@ export interface PublicModuleObjectRevision {
 export interface PublicModuleObjectContextShort {
     Action: string
     Original_Adjust_On?: string
+}
+
+export interface PublicModuleObjectShort {
+    Code: string
+    Description: string
+    Modified_Date: string
+    Module_ID: number
+    ModuleObjectContext?: PublicModuleObjectContextShort
+    Object_ID: number
+    Object_Type: string
+    Title: string
+    UUID: string
+}
+
+export interface ProgrammaAlgemeenUUID {
+    Object_ID?: number
+    UUID?: string
+}
+
+export interface ProgrammaAlgemeenStaticPostStatics {
+    Owner_1_UUID?: string | null
+    Owner_2_UUID?: string | null
+}
+
+export interface ProgrammaAlgemeenPatch {
+    Description?: string | null
+    Title?: string | null
+}
+
+export interface ProgrammaAlgemeenFullStatics {
+    Owner_1?: UserShort
+    Owner_2?: UserShort
+}
+
+export type ProgrammaAlgemeenFullObjectStatics =
+    ProgrammaAlgemeenFullStatics | null
+
+export interface ProgrammaAlgemeenFull {
+    Adjust_On?: string | null
+    Code?: string
+    Created_By?: UserShort
+    Created_Date?: string
+    Description?: string
+    End_Validity?: string | null
+    Modified_By?: UserShort
+    Modified_Date?: string
+    Object_ID?: number
+    ObjectStatics?: ProgrammaAlgemeenFullObjectStatics
+    Public_Revisions?: PublicModuleObjectRevision[]
+    Start_Validity?: string | null
+    Title?: string
+    UUID?: string
+}
+
+export interface ProgrammaAlgemeenExtendedStatics {
+    Owner_1?: UserShort
+    Owner_2?: UserShort
+}
+
+export type ProgrammaAlgemeenExtendedObjectStatics =
+    ProgrammaAlgemeenExtendedStatics | null
+
+export interface ProgrammaAlgemeenExtended {
+    Adjust_On?: string | null
+    Code?: string
+    Created_By?: UserShort
+    Created_Date?: string
+    End_Validity?: string | null
+    Modified_By?: UserShort
+    Modified_Date?: string
+    Object_ID?: number
+    ObjectStatics?: ProgrammaAlgemeenExtendedObjectStatics
+    Start_Validity?: string | null
+    Title?: string
+    UUID?: string
+}
+
+export interface ProgrammaAlgemeenBasic {
+    Adjust_On?: string | null
+    Code?: string
+    Created_Date?: string
+    End_Validity?: string | null
+    Modified_Date?: string
+    Object_ID?: number
+    Start_Validity?: string | null
+    Title?: string
+    UUID?: string
 }
 
 /**
@@ -867,6 +973,26 @@ export interface PagedResponsePublicModuleShort {
 /**
  * Wrap any response schema and add pagination metadata.
  */
+export interface PagedResponseProgrammaAlgemeenExtended {
+    limit?: number
+    offset?: number
+    results: ProgrammaAlgemeenExtended[]
+    total: number
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
+export interface PagedResponseProgrammaAlgemeenBasic {
+    limit?: number
+    offset?: number
+    results: ProgrammaAlgemeenBasic[]
+    total: number
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
 export interface PagedResponseNationaalBelangBasic {
     limit?: number
     offset?: number
@@ -951,6 +1077,16 @@ export interface PagedResponseGebiedsprogrammaBasic {
     limit?: number
     offset?: number
     results: GebiedsprogrammaBasic[]
+    total: number
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
+export interface PagedResponseBeleidsregelExtended {
+    limit?: number
+    offset?: number
+    results: BeleidsregelExtended[]
     total: number
 }
 
@@ -1345,30 +1481,6 @@ export interface MaatregelFullStatics {
 
 export type MaatregelFullObjectStatics = MaatregelFullStatics | null
 
-export interface MaatregelFull {
-    Adjust_On?: string | null
-    Beleidsdoelen?: ReadRelationShortBeleidsdoelMinimal[]
-    Beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
-    Code?: string
-    Created_By?: UserShort
-    Created_Date?: string
-    Description?: string
-    Effect?: string
-    End_Validity?: string | null
-    Gebied?: Werkingsgebied
-    Gebiedsprogrammas?: ReadRelationShortGebiedsprogrammaMinimal[]
-    Hierarchy_Code?: string
-    Modified_By?: UserShort
-    Modified_Date?: string
-    Object_ID?: number
-    ObjectStatics?: MaatregelFullObjectStatics
-    Public_Revisions?: PublicModuleObjectRevision[]
-    Role?: string
-    Start_Validity?: string | null
-    Title?: string
-    UUID?: string
-}
-
 export interface MaatregelExtendedStatics {
     Client_1?: UserShort
     Owner_1?: UserShort
@@ -1408,6 +1520,44 @@ export interface MaatregelBasic {
     UUID?: string
 }
 
+export interface ListObjectsByGeometryRequestData {
+    Function?: GeometryFunctions
+    Geometry: string
+    Object_Types?: string[]
+}
+
+export interface HierarchyStatics {
+    Cached_Title: string
+    Code: string
+    Object_ID: number
+    Object_Type: string
+}
+
+export interface MaatregelFull {
+    Adjust_On?: string | null
+    Beleidsdoelen?: ReadRelationShortBeleidsdoelMinimal[]
+    Beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
+    Code?: string
+    Created_By?: UserShort
+    Created_Date?: string
+    Description?: string
+    Effect?: string
+    End_Validity?: string | null
+    Gebied?: Werkingsgebied
+    Gebiedsprogrammas?: ReadRelationShortGebiedsprogrammaMinimal[]
+    Hierarchy_Code?: string
+    Hierarchy_Statics?: HierarchyStatics
+    Modified_By?: UserShort
+    Modified_Date?: string
+    Object_ID?: number
+    ObjectStatics?: MaatregelFullObjectStatics
+    Public_Revisions?: PublicModuleObjectRevision[]
+    Role?: string
+    Start_Validity?: string | null
+    Title?: string
+    UUID?: string
+}
+
 export interface HTTPValidationError {
     detail?: ValidationError[]
 }
@@ -1418,6 +1568,11 @@ export interface GraphVertice {
     Object_Type: string
     Title: string
     UUID: string
+}
+
+export interface GraphResponse {
+    Edges: GraphEdge[]
+    Vertices: GraphVertice[]
 }
 
 /**
@@ -1437,11 +1592,6 @@ export interface GraphEdge {
     Vertice_B_Code: string
 }
 
-export interface GraphResponse {
-    Edges: GraphEdge[]
-    Vertices: GraphVertice[]
-}
-
 /**
  * An enumeration.
  */
@@ -1455,12 +1605,6 @@ export const GeometryFunctions = {
     OVERLAPS: 'OVERLAPS',
     INTERSECTS: 'INTERSECTS',
 } as const
-
-export interface ListObjectsByGeometryRequestData {
-    Function?: GeometryFunctions
-    Geometry: string
-    Object_Types?: string[]
-}
 
 export type GeoSearchResultUUID = string | string
 
@@ -1692,16 +1836,6 @@ export interface BeleidsregelExtended {
     Weblink?: string
 }
 
-/**
- * Wrap any response schema and add pagination metadata.
- */
-export interface PagedResponseBeleidsregelExtended {
-    limit?: number
-    offset?: number
-    results: BeleidsregelExtended[]
-    total: number
-}
-
 export interface BeleidsregelBasic {
     Adjust_On?: string | null
     Code?: string
@@ -1768,6 +1902,7 @@ export interface BeleidskeuzeFull {
     Explanation?: string
     Gebied?: Werkingsgebied
     Hierarchy_Code?: string
+    Hierarchy_Statics?: HierarchyStatics
     Maatregelen?: ReadRelationShortMaatregelMinimal[]
     Modified_By?: UserShort
     Modified_Date?: string
@@ -1867,6 +2002,7 @@ export interface BeleidsdoelFull {
     Description?: string
     End_Validity?: string | null
     Hierarchy_Code?: string
+    Hierarchy_Statics?: HierarchyStatics
     Maatregelen?: ReadRelationShortMaatregelMinimal[]
     Modified_By?: UserShort
     Modified_Date?: string
