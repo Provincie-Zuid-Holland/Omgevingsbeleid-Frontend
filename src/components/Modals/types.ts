@@ -11,6 +11,7 @@ export type ModalType =
     | 'moduleAddObject'
     | 'moduleEditObject'
     | 'moduleDeleteObject'
+    | 'moduleDecision'
     | 'areaAdd'
     | 'objectDetails'
     | 'objectAddConnection'

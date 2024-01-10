@@ -5,9 +5,13 @@ import {
     Divider,
     Heading,
     Hyperlink,
+    Notification,
+    TabItem,
+    Tabs,
     Text,
 } from '@pzh-ui/components'
-import { useState } from 'react'
+import { Plus } from '@pzh-ui/icons'
+import { useMemo, useState } from 'react'
 
 import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
 import Avatar from '@/components/Avatar'
@@ -20,6 +24,7 @@ import {
     ModuleLockModal,
     ModuleObjectDeleteConfirmationModal,
 } from '@/components/Modals/ModuleModals'
+import ModuleDecisionModal from '@/components/Modals/ModuleModals/ModuleDecisionModal'
 import ModuleCompleteCard from '@/components/Modules/ModuleCompleteCard'
 import ModuleInactiveCard from '@/components/Modules/ModuleInactiveCard'
 import ModuleItemList from '@/components/Modules/ModuleItemList'
@@ -40,31 +45,21 @@ export interface ModuleContext {
 }
 
 const ModuleDetail = () => {
-    const setActiveModal = useModalStore(state => state.setActiveModal)
-
-    const {
-        canEditModule,
-        canPatchModuleStatus,
-        canAddExistingObjectToModule,
-        canAddNewObjectToModule,
-    } = usePermissions()
+    const { canEditModule } = usePermissions()
     const pathName = location.pathname || ''
 
-    const [moduleContext, setModuleContext] = useState<ModuleContext>({})
-
     const {
-        data: {
-            Module: module,
-            Objects: objects,
-            StatusHistory: statusHistory,
-        } = {},
+        data: { Module: module } = {},
         isLoading,
         isModuleManager,
-        isLocked,
-        canComplete,
     } = useModule()
 
     const managers = useModuleManagers(module)
+
+    const disabledTabs = useMemo(() => {
+        if (!module?.Activated || (!canEditModule && !isModuleManager))
+            return ['decisions']
+    }, [module?.Activated, canEditModule, isModuleManager])
 
     const breadcrumbPaths = [
         { name: 'Dashboard', path: '/muteer' },
@@ -76,7 +71,7 @@ const ModuleDetail = () => {
 
     return (
         <MutateLayout title={module.Title} hasOwnBreadcrumbs>
-            <div className="col-span-6 mb-8">
+            <div className="col-span-6 mb-4">
                 <div className="mb-4 flex items-center justify-between whitespace-nowrap">
                     <Breadcrumbs items={breadcrumbPaths} />
                     {(canEditModule || isModuleManager) && (
@@ -122,13 +117,54 @@ const ModuleDetail = () => {
                         )}
                     </div>
                 </div>
-                {module.Activated ? (
-                    <ModuleLock />
-                ) : (
-                    <Divider className="mt-4" />
-                )}
             </div>
 
+            <div className="col-span-6">
+                <Tabs disabledKeys={disabledTabs}>
+                    <TabItem title="Onderdelen" key="objects">
+                        {module.Activated && <ModuleLock />}
+                        <div className="grid grid-cols-6 gap-x-10 gap-y-0 pt-4">
+                            <TabObjects />
+                        </div>
+                    </TabItem>
+                    <TabItem title="Besluiten" key="decisions">
+                        <div className="grid grid-cols-6 gap-x-10 gap-y-0 pt-4">
+                            <TabDecisions />
+                        </div>
+                    </TabItem>
+                </Tabs>
+            </div>
+        </MutateLayout>
+    )
+}
+
+const TabObjects = () => {
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
+    const {
+        canPatchModuleStatus,
+        canAddExistingObjectToModule,
+        canAddNewObjectToModule,
+    } = usePermissions()
+
+    const {
+        data: {
+            Module: module,
+            Objects: objects,
+            StatusHistory: statusHistory,
+        } = {},
+        isLoading,
+        isModuleManager,
+        isLocked,
+        canComplete,
+    } = useModule()
+
+    const [moduleContext, setModuleContext] = useState<ModuleContext>({})
+
+    if (isLoading || !module) return <LoaderContent />
+
+    return (
+        <>
             <div className="col-span-6 lg:col-span-4">
                 <ModuleItemList
                     objects={objects}
@@ -169,42 +205,93 @@ const ModuleDetail = () => {
                 )}
             </div>
 
-            <Modals moduleContext={moduleContext} module={module} />
-        </MutateLayout>
+            <ModuleContentsModal
+                initialStep={1}
+                initialValues={{
+                    ...modules.EMPTY_MODULE_OBJECT,
+                    state: 'existing',
+                }}
+                module={module}
+            />
+
+            <ModuleActivateModal />
+
+            <ModuleLockModal />
+
+            <ModuleEditObjectModal
+                object={moduleContext.object || ({} as ModuleObjectShort)}
+            />
+
+            <ModuleObjectDeleteConfirmationModal
+                object={moduleContext.object || ({} as ModuleObjectShort)}
+                module={module}
+            />
+
+            <ModuleCompleteModal />
+        </>
     )
 }
 
-interface ModalsProps {
-    module: Module
-    moduleContext: ModuleContext
+const TabDecisions = () => {
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
+    return (
+        <>
+            <div className="col-span-6">
+                <Notification title="Werking versies" className="mb-6">
+                    Voor elke (interne en officiële) publicatie moet een nieuwe
+                    versie van een besluit worden aangemaakt. Een besluit is te
+                    bewerken tot het moment dat er op ‘Maak levering’ wordt
+                    geklikt. Iets niet goed gedaan? Maak dan een nieuwe versie
+                    aan. Standaard worden de gegevens overgenomen van de vorige
+                    versie, maar deze zijn uiteraard aan te passen. Voor alle
+                    leveringen zie leveringen.
+                </Notification>
+
+                <div>
+                    <Heading level="2" className="mb-4">
+                        Visie
+                    </Heading>
+                    <Button
+                        icon={Plus}
+                        size="small"
+                        onPress={() => setActiveModal('moduleDecision')}>
+                        Nieuwe versie aanmaken
+                    </Button>
+                </div>
+
+                <Divider className="my-10" />
+
+                <div>
+                    <Heading level="2" className="mb-4">
+                        Programma
+                    </Heading>
+                    <Button
+                        icon={Plus}
+                        size="small"
+                        onPress={() => setActiveModal('moduleDecision')}>
+                        Nieuwe versie aanmaken
+                    </Button>
+                </div>
+
+                <Divider className="my-10" />
+
+                <div>
+                    <Heading level="2" className="mb-4">
+                        Verordening
+                    </Heading>
+                    <Button
+                        icon={Plus}
+                        size="small"
+                        onPress={() => setActiveModal('moduleDecision')}
+                        isDisabled>
+                        Nieuwe versie aanmaken
+                    </Button>
+                </div>
+            </div>
+            <ModuleDecisionModal />
+        </>
+    )
 }
-
-const Modals = ({ moduleContext, module }: ModalsProps) => (
-    <>
-        <ModuleContentsModal
-            initialStep={1}
-            initialValues={{
-                ...modules.EMPTY_MODULE_OBJECT,
-                state: 'existing',
-            }}
-            module={module}
-        />
-
-        <ModuleActivateModal />
-
-        <ModuleLockModal />
-
-        <ModuleEditObjectModal
-            object={moduleContext.object || ({} as ModuleObjectShort)}
-        />
-
-        <ModuleObjectDeleteConfirmationModal
-            object={moduleContext.object || ({} as ModuleObjectShort)}
-            module={module}
-        />
-
-        <ModuleCompleteModal />
-    </>
-)
 
 export default ModuleDetail
