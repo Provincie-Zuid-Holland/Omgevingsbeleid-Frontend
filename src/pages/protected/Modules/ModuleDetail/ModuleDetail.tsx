@@ -12,7 +12,7 @@ import {
 } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
 import classNames from 'classnames'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
 import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
 import Avatar from '@/components/Avatar'
@@ -56,11 +56,6 @@ const ModuleDetail = () => {
     } = useModule()
 
     const managers = useModuleManagers(module)
-
-    const disabledTabs = useMemo(() => {
-        if (!module?.Activated || (!canEditModule && !isModuleManager))
-            return ['decisions']
-    }, [module?.Activated, canEditModule, isModuleManager])
 
     const breadcrumbPaths = [
         { name: 'Dashboard', path: '/muteer' },
@@ -123,15 +118,15 @@ const ModuleDetail = () => {
             <div
                 className={classNames('col-span-6', {
                     '[&_[role=tablist]]:hidden':
-                        !module?.Activated ||
-                        (!canEditModule && !isModuleManager),
+                        !canEditModule && !isModuleManager,
                 })}>
-                <Tabs disabledKeys={disabledTabs}>
+                <Tabs>
                     <TabItem title="Onderdelen" key="objects">
                         {module.Activated ? (
                             <ModuleLock />
                         ) : (
-                            <Divider className="mb-4" />
+                            !canEditModule &&
+                            !isModuleManager && <Divider className="mb-4" />
                         )}
                         <div className="grid grid-cols-6 gap-x-10 gap-y-0 pt-4">
                             <TabObjects />
