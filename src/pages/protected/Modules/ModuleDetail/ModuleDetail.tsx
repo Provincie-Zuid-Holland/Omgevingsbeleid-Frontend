@@ -11,6 +11,7 @@ import {
     Text,
 } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
+import classNames from 'classnames'
 import { useMemo, useState } from 'react'
 
 import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
@@ -119,10 +120,19 @@ const ModuleDetail = () => {
                 </div>
             </div>
 
-            <div className="col-span-6">
+            <div
+                className={classNames('col-span-6', {
+                    '[&_[role=tablist]]:hidden':
+                        !module?.Activated ||
+                        (!canEditModule && !isModuleManager),
+                })}>
                 <Tabs disabledKeys={disabledTabs}>
                     <TabItem title="Onderdelen" key="objects">
-                        {module.Activated && <ModuleLock />}
+                        {module.Activated ? (
+                            <ModuleLock />
+                        ) : (
+                            <Divider className="mb-4" />
+                        )}
                         <div className="grid grid-cols-6 gap-x-10 gap-y-0 pt-4">
                             <TabObjects />
                         </div>
