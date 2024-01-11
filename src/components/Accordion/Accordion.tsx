@@ -7,33 +7,46 @@ import {
     ReactNode,
     cloneElement,
     isValidElement,
+    useEffect,
     useState,
 } from 'react'
 
 interface AccordionProps {
     className?: string
     children: ReactNode | ReactNode[]
-    activeItem?: string
-    onClickCallback?: (item: string) => void
+    activeItem?: string | null
+    multipleOpen?: boolean
+    onClickCallback?: (item: string | null) => void
 }
 
 const Accordion = ({
     className,
     children,
     activeItem,
+    multipleOpen = false,
     onClickCallback,
 }: AccordionProps) => {
-    const [openItemId, setOpenItemId] = useState<string | null>(
-        activeItem || null
+    const [openItemIds, setOpenItemIds] = useState<string[]>(
+        activeItem ? [activeItem] : []
     )
 
     const handleItemClick = (itemId: string) => {
-        setOpenItemId(prevItemId => (prevItemId === itemId ? null : itemId))
+        setOpenItemIds(prevItemIds => {
+            if (prevItemIds.includes(itemId)) {
+                // Item is already open, close it
+                return multipleOpen
+                    ? prevItemIds.filter(id => id !== itemId)
+                    : []
+            } else {
+                // Item is not open, open it
+                return multipleOpen ? [...prevItemIds, itemId] : [itemId]
+            }
+        })
         onClickCallback?.(itemId)
     }
 
     useUpdateEffect(() => {
-        if (activeItem && activeItem !== openItemId) {
+        if (activeItem && activeItem !== openItemIds[0]) {
             handleItemClick(activeItem)
         }
     }, [activeItem])
@@ -43,7 +56,7 @@ const Accordion = ({
             const itemId = child.props.uuid
             const itemProps = {
                 ...(child.props as AccordionItemProps),
-                isOpen: itemId === openItemId,
+                isOpen: openItemIds.includes(itemId),
                 onToggle: () =>
                     !child.props.isDisabled && handleItemClick(itemId),
             }
@@ -55,28 +68,49 @@ const Accordion = ({
     return <ul className={className}>{processedChildren}</ul>
 }
 
-interface AccordionItemProps extends AccordionProps {
+interface AccordionItemProps extends HTMLAttributes<HTMLLIElement> {
     uuid?: string
     isOpen?: boolean
     isDisabled?: boolean
     onToggle?: () => void
+    defaultOpen?: boolean
 }
 
 const AccordionItem = ({
     className,
     children,
     isOpen,
-    isDisabled,
-    onToggle,
+    defaultOpen = false,
     ...rest
-}: AccordionItemProps & HTMLAttributes<HTMLLIElement>) => {
+}: AccordionItemProps) => {
+    const [itemOpen, setItemOpen] = useState(defaultOpen)
+
+    useUpdateEffect(() => {
+        if (isOpen !== undefined && isOpen !== itemOpen) {
+            setItemOpen(isOpen)
+        }
+    }, [isOpen])
+
+    const toggleItem = () => {
+        setItemOpen(prevItemOpen => !prevItemOpen)
+        if (isOpen !== undefined && isOpen !== itemOpen) {
+            setItemOpen(isOpen)
+        }
+    }
+
+    useEffect(() => {
+        if (defaultOpen !== itemOpen) {
+            setItemOpen(defaultOpen)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [defaultOpen])
+
     const processedChildren = Children.map(children, child => {
         if (isValidElement(child)) {
             const itemProps = {
                 ...(child.props as AccordionProps),
-                isOpen,
-                isDisabled,
-                onToggle,
+                isOpen: itemOpen,
+                onToggle: toggleItem,
             }
             return cloneElement(child, itemProps)
         }
@@ -86,7 +120,7 @@ const AccordionItem = ({
     return (
         <li
             className={classNames('border-b border-pzh-gray-200', className)}
-            data-expanded={isOpen}
+            data-expanded={itemOpen}
             {...rest}>
             {processedChildren}
         </li>
@@ -128,7 +162,8 @@ const AccordionTrigger = ({
                     className={classNames(
                         "after:content-[' '] ml-auto after:absolute after:right-0 after:top-0 after:h-full",
                         classNameButton
-                    )}>
+                    )}
+                    type="button">
                     <AngleDown
                         size={16}
                         className={classNames('text-pzh-blue transition', {

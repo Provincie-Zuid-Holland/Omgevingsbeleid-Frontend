@@ -6,9 +6,16 @@ import {
     FormikRadioGroup,
     FormikRte,
     FormikSelect,
+    Text,
 } from '@pzh-ui/components'
 import { Form, Formik } from 'formik'
 
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from '@/components/Accordion'
 import Modal from '@/components/Modal/Modal'
 import useModalStore from '@/store/modalStore'
 
@@ -82,6 +89,10 @@ const ModuleDecisionModal = () => {
                             placeholder="Regeling opschrift"
                         />
                         <FormikRte name="salutation" label="Aanhef" />
+                        <div>
+                            <Text bold>Artikelen</Text>
+                            <Articles />
+                        </div>
                         <FormikRte name="signature" label="Ondertekening" />
                         <div className="flex space-x-4 [&_>div]:flex-1">
                             <FormikDate
@@ -115,12 +126,54 @@ const ModuleDecisionModal = () => {
                             onPress={() => setActiveModal(null)}>
                             Annuleren
                         </Button>
-                        <Button variant="cta">Versie maken</Button>
+                        <Button variant="cta" type="submit">
+                            Versie maken
+                        </Button>
                     </div>
                 </Form>
             </Formik>
         </Modal>
     )
 }
+
+const Articles = () => (
+    <Accordion multipleOpen>
+        <AccordionItem
+            uuid="article-1"
+            className="data-[expanded=true]:bg-pzh-gray-100"
+            defaultOpen>
+            <AccordionTrigger className="p-4" classNameButton="after:w-full">
+                Artikel I - Genomen besluit ( wat het bestuursorgaan besluit
+                vast te stellen of te wijzigen )
+            </AccordionTrigger>
+            <AccordionContent className="mb-4 px-4 pt-0">
+                <FormikRte name="article-1" label="Inhoud" />
+            </AccordionContent>
+        </AccordionItem>
+        <AccordionItem
+            uuid="article-2"
+            className="data-[expanded=true]:bg-pzh-gray-100"
+            defaultOpen>
+            <AccordionTrigger className="p-4" classNameButton="after:w-full">
+                Artikel II - Wijzigingen ( opsomming van gewijzigde artikelen )
+            </AccordionTrigger>
+            <AccordionContent className="mb-4 px-4 pt-0">
+                <FormikRte name="article-2" label="Inhoud" />
+            </AccordionContent>
+        </AccordionItem>
+        <AccordionItem
+            uuid="article-3"
+            className="data-[expanded=true]:bg-pzh-gray-100"
+            defaultOpen>
+            <AccordionTrigger className="p-4" classNameButton="after:w-full">
+                Artikel III - Inwerkingtreding ( datum waarop het
+                wijzigingsbesluit geldig is )
+            </AccordionTrigger>
+            <AccordionContent className="mb-4 px-4 pt-0">
+                <FormikRte name="article-3" label="Inhoud" />
+            </AccordionContent>
+        </AccordionItem>
+    </Accordion>
+)
 
 export default ModuleDecisionModal

@@ -2479,9 +2479,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.457":
-  version: 0.0.457
-  resolution: "@pzh-ui/components@npm:0.0.457"
+"@pzh-ui/components@npm:^0.0.459":
+  version: 0.0.459
+  resolution: "@pzh-ui/components@npm:0.0.459"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
@@ -2531,7 +2531,7 @@ __metadata:
     react-stately: "npm:^3.18.0"
     react-table: "npm:^7.8.0"
     react-toastify: "npm:^9.1.2"
-  checksum: 50eee49a4a9aef8c0445ea2322a7fa7d686a5b8f3dd23e9acc536ef538afb6fcfe1b801476c9c05a4ec73806dbf95506c291fb22873bd2428c873a38fb317ac1
+  checksum: 700ff962764841047f63476856deb60e0664c95b467e2d91b128da58b0873b5eefc5ca9c03a250861afeb1b3d7ce50ae2862593914eaf6b0bcea0343d9eda04d
   languageName: node
   linkType: hard
 
@@ -2563,9 +2563,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/css@npm:^0.0.78":
-  version: 0.0.78
-  resolution: "@pzh-ui/css@npm:0.0.78"
+"@pzh-ui/css@npm:^0.0.79":
+  version: 0.0.79
+  resolution: "@pzh-ui/css@npm:0.0.79"
   dependencies:
     "@rollup/plugin-typescript": "npm:^8.3.1"
     "@tailwindcss/custom-forms": "npm:^0.2.1"
@@ -2574,7 +2574,7 @@ __metadata:
     "@tailwindcss/typography": "npm:^0.5.9"
     react-datepicker: "npm:^4.7.0"
     react-toastify: "npm:^9.1.2"
-  checksum: 7f6df890f0ef4e1be1b814d9cb2424a076938e0eacc6eb84acb0fde6458b165cc03b09151900c122dfcd0ff78c396e47d8fab0b7020671a73ef376aecb2c65a3
+  checksum: 65f08cd2a33108adf63a83cbe680f6f72733385cff6608d082a7c47d93f5457cb595a15d90c8057553877737be658a21c670ca1693f96a8595c03da232b00614
   languageName: node
   linkType: hard
 
@@ -12452,9 +12452,9 @@ __metadata:
     "@axe-core/react": "npm:^4.8.2"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-    "@pzh-ui/components": "npm:^0.0.457"
+    "@pzh-ui/components": "npm:^0.0.459"
     "@pzh-ui/config": "npm:^0.0.56"
-    "@pzh-ui/css": "npm:^0.0.78"
+    "@pzh-ui/css": "npm:^0.0.79"
     "@pzh-ui/icons": "npm:^0.0.47"
     "@react-hookz/web": "npm:^24.0.2"
     "@tanstack/react-query": "npm:^5.14.2"

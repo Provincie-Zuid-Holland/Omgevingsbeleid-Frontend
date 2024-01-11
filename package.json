@@ -6,9 +6,9 @@
     "type": "module",
     "dependencies": {
         "@headlessui/react": "^1.7.17",
-        "@pzh-ui/components": "^0.0.457",
+        "@pzh-ui/components": "^0.0.459",
         "@pzh-ui/config": "^0.0.56",
-        "@pzh-ui/css": "^0.0.78",
+        "@pzh-ui/css": "^0.0.79",
         "@pzh-ui/icons": "^0.0.47",
         "@react-hookz/web": "^24.0.2",
         "@tanstack/react-query": "^5.14.2",
