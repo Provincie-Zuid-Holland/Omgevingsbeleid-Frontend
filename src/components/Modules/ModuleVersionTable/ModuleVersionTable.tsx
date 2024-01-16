@@ -16,7 +16,7 @@ interface ModuleVersionTableProps {
 
 const ModuleVersionTable = ({ versions }: ModuleVersionTableProps) => (
     <table className="mb-6 w-full table-auto text-left text-s">
-        <thead className="h-8 border-b border-pzh-gray-400 text-pzh-blue-500">
+        <thead className="h-8 border-b border-pzh-gray-400 font-bold text-pzh-blue-500">
             <tr>
                 <th className="pl-2">Versie</th>
                 <th>Gebaseerd op Modulestatus</th>
