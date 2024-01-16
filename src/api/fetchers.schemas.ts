@@ -514,8 +514,28 @@ export interface VisieAlgemeenFull {
     UUID?: string
 }
 
+export interface VisieAlgemeenExtendedStatics {
+    Owner_1?: UserShort
+    Owner_2?: UserShort
+}
+
 export type VisieAlgemeenExtendedObjectStatics =
     VisieAlgemeenExtendedStatics | null
+
+export interface VisieAlgemeenExtended {
+    Adjust_On?: string | null
+    Code?: string
+    Created_By?: UserShort
+    Created_Date?: string
+    End_Validity?: string | null
+    Modified_By?: UserShort
+    Modified_Date?: string
+    Object_ID?: number
+    ObjectStatics?: VisieAlgemeenExtendedObjectStatics
+    Start_Validity?: string | null
+    Title?: string
+    UUID?: string
+}
 
 export interface VisieAlgemeenBasic {
     Adjust_On?: string | null
@@ -626,26 +646,6 @@ export interface UserShort {
     Gebruikersnaam: string
     Rol: string
     UUID: string
-}
-
-export interface VisieAlgemeenExtendedStatics {
-    Owner_1?: UserShort
-    Owner_2?: UserShort
-}
-
-export interface VisieAlgemeenExtended {
-    Adjust_On?: string | null
-    Code?: string
-    Created_By?: UserShort
-    Created_Date?: string
-    End_Validity?: string | null
-    Modified_By?: UserShort
-    Modified_Date?: string
-    Object_ID?: number
-    ObjectStatics?: VisieAlgemeenExtendedObjectStatics
-    Start_Validity?: string | null
-    Title?: string
-    UUID?: string
 }
 
 export interface UserCreateResponse {
@@ -1174,6 +1174,11 @@ export interface ObjectSpecifiekeGeldigheid {
     Start_Validity?: string | null
 }
 
+export interface ObjectCount {
+    Count: number
+    Object_Type: string
+}
+
 export interface NewObjectStaticResponse {
     Code: string
     Object_ID: number
@@ -1301,6 +1306,12 @@ export interface ModulePatchStatus {
     Status: ModuleStatusCode
 }
 
+export interface ModuleOverview {
+    Module: Module
+    Objects: ModuleObjectShort[]
+    StatusHistory: ModuleStatus[]
+}
+
 export interface ModuleObjectContextShort {
     Action: string
     Original_Adjust_On?: string
@@ -1329,12 +1340,6 @@ export interface ModuleObjectShort {
     ObjectStatics?: ObjectStaticShort
     Title: string
     UUID: string
-}
-
-export interface ModuleOverview {
-    Module: Module
-    Objects: ModuleObjectShort[]
-    StatusHistory: ModuleStatus[]
 }
 
 export interface ModuleObjectContext {
@@ -1481,6 +1486,31 @@ export interface MaatregelFullStatics {
 
 export type MaatregelFullObjectStatics = MaatregelFullStatics | null
 
+export interface MaatregelFull {
+    Adjust_On?: string | null
+    Beleidsdoelen?: ReadRelationShortBeleidsdoelMinimal[]
+    Beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
+    Code?: string
+    Created_By?: UserShort
+    Created_Date?: string
+    Description?: string
+    Effect?: string
+    End_Validity?: string | null
+    Gebied?: Werkingsgebied
+    Gebiedsprogrammas?: ReadRelationShortGebiedsprogrammaMinimal[]
+    Hierarchy_Code?: string
+    Hierarchy_Statics?: HierarchyStatics
+    Modified_By?: UserShort
+    Modified_Date?: string
+    Object_ID?: number
+    ObjectStatics?: MaatregelFullObjectStatics
+    Public_Revisions?: PublicModuleObjectRevision[]
+    Role?: string
+    Start_Validity?: string | null
+    Title?: string
+    UUID?: string
+}
+
 export interface MaatregelExtendedStatics {
     Client_1?: UserShort
     Owner_1?: UserShort
@@ -1531,31 +1561,6 @@ export interface HierarchyStatics {
     Code: string
     Object_ID: number
     Object_Type: string
-}
-
-export interface MaatregelFull {
-    Adjust_On?: string | null
-    Beleidsdoelen?: ReadRelationShortBeleidsdoelMinimal[]
-    Beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
-    Code?: string
-    Created_By?: UserShort
-    Created_Date?: string
-    Description?: string
-    Effect?: string
-    End_Validity?: string | null
-    Gebied?: Werkingsgebied
-    Gebiedsprogrammas?: ReadRelationShortGebiedsprogrammaMinimal[]
-    Hierarchy_Code?: string
-    Hierarchy_Statics?: HierarchyStatics
-    Modified_By?: UserShort
-    Modified_Date?: string
-    Object_ID?: number
-    ObjectStatics?: MaatregelFullObjectStatics
-    Public_Revisions?: PublicModuleObjectRevision[]
-    Role?: string
-    Start_Validity?: string | null
-    Title?: string
-    UUID?: string
 }
 
 export interface HTTPValidationError {

@@ -10967,6 +10967,15 @@ export const getModulesObjectsLatestGetMock = () => ({
     total: faker.number.int({ min: undefined, max: undefined }),
 })
 
+export const getObjectsValidCountGetMock = () =>
+    Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Count: faker.number.int({ min: undefined, max: undefined }),
+        Object_Type: faker.word.sample(),
+    }))
+
 export const getObjectsValidGetMock = () => ({
     limit: faker.helpers.arrayElement([
         faker.number.int({ min: undefined, max: undefined }),
@@ -13040,6 +13049,15 @@ export const getOmgevingsbeleidAPIMock = () => [
                 },
             }
         )
+    }),
+    http.get('*/objects/valid/count', async () => {
+        await delay(1000)
+        return new HttpResponse(JSON.stringify(getObjectsValidCountGetMock()), {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
     }),
     http.get('*/objects/valid', async () => {
         await delay(1000)
