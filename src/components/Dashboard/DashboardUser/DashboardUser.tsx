@@ -2,7 +2,11 @@ import { Heading, Pagination, TabItem, Tabs, Text } from '@pzh-ui/components'
 import { keepPreviousData } from '@tanstack/react-query'
 import { useState } from 'react'
 
-import { useModulesGet, useObjectsValidGet } from '@/api/fetchers'
+import {
+    useModulesGet,
+    useObjectsValidCountGet,
+    useObjectsValidGet,
+} from '@/api/fetchers'
 import {
     Module,
     ModuleObjectShort,
@@ -11,7 +15,8 @@ import {
 import ObjectCard from '@/components/DynamicObject/ObjectCard'
 import { LoaderCard } from '@/components/Loader'
 import ModuleCard from '@/components/Modules/ModuleCard'
-import { ModelReturnType } from '@/config/objects/types'
+import * as models from '@/config/objects'
+import { ModelReturnType, ModelType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 
 const PAGE_LIMIT = 9
@@ -86,17 +91,21 @@ const UserModules = () => {
 const UserObject = () => {
     const { user } = useAuth()
 
+    const [activeTab, setActiveTab] = useState<ModelType>()
     const [currPage, setCurrPage] = useState(1)
+
+    const { data: availableObjectTypes } = useObjectsValidCountGet()
 
     const { data: objects, isFetching } = useObjectsValidGet(
         {
             owner_uuid: user?.UUID,
+            object_type: activeTab,
             limit: PAGE_LIMIT,
             offset: (currPage - 1) * PAGE_LIMIT,
         },
         {
             query: {
-                enabled: !!user?.UUID,
+                enabled: !!user?.UUID && !!activeTab,
                 placeholderData: keepPreviousData,
             },
         }
@@ -104,28 +113,41 @@ const UserObject = () => {
 
     return (
         <>
-            {!!objects?.results ? (
+            {!!availableObjectTypes?.length ? (
                 <div className="col-span-6">
-                    <Tabs>
-                        <TabItem title="Objecten">
-                            <ItemList
-                                items={objects?.results}
-                                isLoading={isFetching}
-                                type="object"
-                            />
-                            {!!objects?.total &&
-                                !!objects?.limit &&
-                                objects.total > objects.limit && (
-                                    <div className="mt-8 flex justify-center">
-                                        <Pagination
-                                            onChange={setCurrPage}
-                                            forcePage={currPage - 1}
-                                            total={objects.total}
-                                            limit={objects.limit}
-                                        />
-                                    </div>
-                                )}
-                        </TabItem>
+                    <Tabs
+                        selectedKey={activeTab}
+                        onSelectionChange={key => {
+                            setActiveTab(key as ModelType)
+                            setCurrPage(1)
+                        }}>
+                        {availableObjectTypes?.map(type => {
+                            const model = models[type.Object_Type as ModelType]
+
+                            return (
+                                <TabItem
+                                    key={type.Object_Type}
+                                    title={`${model.defaults.pluralCapitalize} (${type.Count})`}>
+                                    <ItemList
+                                        items={objects?.results}
+                                        isLoading={isFetching}
+                                        type="object"
+                                    />
+                                    {!!objects?.total &&
+                                        !!objects?.limit &&
+                                        objects.total > objects.limit && (
+                                            <div className="mt-8 flex justify-center">
+                                                <Pagination
+                                                    onChange={setCurrPage}
+                                                    forcePage={currPage - 1}
+                                                    total={objects.total}
+                                                    limit={objects.limit}
+                                                />
+                                            </div>
+                                        )}
+                                </TabItem>
+                            )
+                        })}
                     </Tabs>
                 </div>
             ) : (
