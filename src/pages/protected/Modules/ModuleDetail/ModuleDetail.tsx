@@ -10,7 +10,7 @@ import {
     Tabs,
     Text,
 } from '@pzh-ui/components'
-import { Plus } from '@pzh-ui/icons'
+import { Check, Plus, Xmark } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useState } from 'react'
 
@@ -257,6 +257,58 @@ const TabDecisions = () => {
                     <Heading level="2" className="mb-4">
                         Visie
                     </Heading>
+
+                    <table className="mb-6 w-full table-auto text-left text-s">
+                        <thead className="h-8 border-b border-pzh-gray-400 text-pzh-blue-500">
+                            <tr>
+                                <th className="pl-2">Versie</th>
+                                <th>Gebaseerd op Modulestatus</th>
+                                <th>Type besluit</th>
+                                <th>Doel</th>
+                                <th className="pr-2">Actie</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr className="h-14 odd:bg-pzh-gray-100">
+                                <td className="pl-2">1</td>
+                                <td>Ontwerp GS</td>
+                                <td>Ontwerp</td>
+                                <td>Interne publicatie</td>
+                                <td className="pr-2">
+                                    Levering succesvol geüpload op 03-01-2024
+                                </td>
+                            </tr>
+                            <tr className="h-14 odd:bg-pzh-gray-100">
+                                <td className="pl-2">2</td>
+                                <td>Ontwerp GS</td>
+                                <td>Ontwerp</td>
+                                <td>Officiële publicatie</td>
+                                <td className="pr-2">
+                                    <div className="flex gap-4">
+                                        <Button
+                                            variant="link"
+                                            size="small"
+                                            className="text-pzh-green-500">
+                                            Bewerken
+                                        </Button>
+                                        <Button
+                                            variant="link"
+                                            size="small"
+                                            className="text-pzh-green-500">
+                                            Maak levering
+                                        </Button>
+                                        <Button
+                                            variant="link"
+                                            size="small"
+                                            className="text-pzh-green-500">
+                                            Download Word
+                                        </Button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
                     <Button
                         icon={Plus}
                         size="small"
@@ -271,6 +323,55 @@ const TabDecisions = () => {
                     <Heading level="2" className="mb-4">
                         Programma
                     </Heading>
+
+                    <table className="mb-6 w-full table-auto text-left text-s">
+                        <thead className="h-8 border-b border-pzh-gray-400 text-pzh-blue-500">
+                            <tr>
+                                <th className="pl-2">Versie</th>
+                                <th>Gebaseerd op Modulestatus</th>
+                                <th>Type besluit</th>
+                                <th>Doel</th>
+                                <th className="pr-2">Actie</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr className="h-14 odd:bg-pzh-gray-100">
+                                <td className="pl-2">1</td>
+                                <td>Ontwerp GS</td>
+                                <td>Ontwerp</td>
+                                <td>Officiële publicatie</td>
+                                <td className="pr-2">
+                                    <div className="flex gap-4">
+                                        <Button
+                                            variant="link"
+                                            size="small"
+                                            className="text-pzh-green-500">
+                                            Download levering (voor publicatie)
+                                        </Button>
+                                        <Button
+                                            variant="link"
+                                            size="small"
+                                            className="text-pzh-green-500">
+                                            Download Word
+                                        </Button>
+                                        <div className="flex gap-2">
+                                            <Button
+                                                icon={Check}
+                                                size="small"
+                                                iconSize={16}
+                                            />
+                                            <Button
+                                                icon={Xmark}
+                                                size="small"
+                                                iconSize={16}
+                                            />
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
                     <Button
                         icon={Plus}
                         size="small"

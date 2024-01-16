@@ -142,7 +142,9 @@ const Articles = () => (
             uuid="article-1"
             className="data-[expanded=true]:bg-pzh-gray-100"
             defaultOpen>
-            <AccordionTrigger className="p-4" classNameButton="after:w-full">
+            <AccordionTrigger
+                className="p-4 text-pzh-blue-500"
+                classNameButton="after:w-full">
                 Artikel I - Genomen besluit ( wat het bestuursorgaan besluit
                 vast te stellen of te wijzigen )
             </AccordionTrigger>
@@ -154,7 +156,9 @@ const Articles = () => (
             uuid="article-2"
             className="data-[expanded=true]:bg-pzh-gray-100"
             defaultOpen>
-            <AccordionTrigger className="p-4" classNameButton="after:w-full">
+            <AccordionTrigger
+                className="p-4 text-pzh-blue-500"
+                classNameButton="after:w-full">
                 Artikel II - Wijzigingen ( opsomming van gewijzigde artikelen )
             </AccordionTrigger>
             <AccordionContent className="mb-4 px-4 pt-0">
@@ -165,7 +169,9 @@ const Articles = () => (
             uuid="article-3"
             className="data-[expanded=true]:bg-pzh-gray-100"
             defaultOpen>
-            <AccordionTrigger className="p-4" classNameButton="after:w-full">
+            <AccordionTrigger
+                className="p-4 text-pzh-blue-500"
+                classNameButton="after:w-full">
                 Artikel III - Inwerkingtreding ( datum waarop het
                 wijzigingsbesluit geldig is )
             </AccordionTrigger>
