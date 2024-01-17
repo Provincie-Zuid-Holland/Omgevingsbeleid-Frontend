@@ -1,6 +1,6 @@
 import { Button, Heading, Text } from '@pzh-ui/components'
 import { FallbackProps } from 'react-error-boundary'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
 
 const ErrorPage = ({ resetErrorBoundary }: FallbackProps) => {

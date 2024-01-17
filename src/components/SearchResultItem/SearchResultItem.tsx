@@ -6,7 +6,7 @@ import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 
 interface SearchResultItem
-    extends Omit<ValidSearchObject, 'Object_ID' | 'Score'> {
+    extends Omit<ValidSearchObject, 'Object_ID' | 'Score' | 'Object_Code'> {
     query?: string
 }
 

@@ -9,11 +9,11 @@ import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import {
     getModulesGetQueryKey,
     getModulesModuleIdGetQueryKey,
+    getModulesObjectsLatestGetQueryKey,
     useModulesModuleIdClosePost,
     useModulesModuleIdGet,
     useModulesModuleIdPost,
     useModulesModuleIdRemoveObjectTypeLineageIdDelete,
-    useModulesObjectsLatestGet,
 } from '@/api/fetchers'
 import {
     HTTPValidationError,
@@ -89,11 +89,6 @@ function ModuleProvider({ children }: { children?: ReactNode }) {
         },
     })
 
-    const { queryKey: moduleObjectsQueryKey } = useModulesObjectsLatestGet(
-        undefined,
-        { query: { enabled: false } }
-    )
-
     const useEditModule = (
         toastType = 'moduleEdit' as ToastType,
         onSuccess?: () => void
@@ -145,7 +140,7 @@ function ModuleProvider({ children }: { children?: ReactNode }) {
                             ),
                         }),
                         queryClient.invalidateQueries({
-                            queryKey: moduleObjectsQueryKey,
+                            queryKey: getModulesObjectsLatestGetQueryKey(),
                             refetchType: 'all',
                             exact: false,
                         }),

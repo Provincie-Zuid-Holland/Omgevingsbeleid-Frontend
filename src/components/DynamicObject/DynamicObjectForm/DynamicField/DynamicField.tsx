@@ -13,6 +13,8 @@ import { Model } from '@/config/objects/types'
 import { DynamicField as DynamicFieldProps } from '@/config/types'
 import { fileToBase64 } from '@/utils/file'
 
+import DynamicObjectSearch from '../../DynamicObjectSearch'
+
 const inputFieldMap = {
     text: FormikInput,
     textarea: FormikTextArea,
@@ -22,6 +24,7 @@ const inputFieldMap = {
     url: FormikInput,
     image: FormikFileUpload,
     connections: FieldConnections,
+    search: DynamicObjectSearch,
 }
 
 const DynamicField = ({
@@ -64,9 +67,7 @@ const DynamicField = ({
 
         // @ts-ignore
         if (!!values[field.name]) field.defaultValue = [values[field.name]]
-    }
-
-    if (type === 'wysiwyg') {
+    } else if (type === 'wysiwyg') {
         // @ts-ignore
         field.menuClassName = 'sticky top-24'
     }

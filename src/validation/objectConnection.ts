@@ -12,6 +12,7 @@ export const SCHEMA_CONNECTION_STEPS = [
     object({
         Description: schemaDefaults.optionalString,
     }),
+    object({}),
 ]
 
 export const SCHEMA = object({

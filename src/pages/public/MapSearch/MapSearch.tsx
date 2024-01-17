@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { point } from 'leaflet'
 import Proj from 'proj4leaflet'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
 
 import { ContainerMapSearch } from '@/components/Container'
@@ -163,6 +163,7 @@ const MapSearch = () => {
     const map = useMemo(
         () => (
             <LeafletMap
+                ref={setMapInstance}
                 controllers={{
                     showLayers: false,
                     showDraw: isMobile ? !sidebarOpen : true,
@@ -174,7 +175,6 @@ const MapSearch = () => {
                 }}
                 options={{
                     ...MAP_OPTIONS,
-                    whenCreated: setMapInstance,
                 }}
             />
         ),

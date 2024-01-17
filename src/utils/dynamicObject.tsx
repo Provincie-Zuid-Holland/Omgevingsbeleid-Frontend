@@ -152,6 +152,7 @@ export const getObjectRevisionBannerText = (
     const path = `/${model.defaults.slugOverview}/${model.defaults.plural}/ontwerpversie/${revision.Module_ID}/${revision.Module_Object_UUID}`
 
     switch (revision.Module_Status) {
+        case 'Ontwerp GS Concept':
         case 'Ontwerp GS':
             return `Op dit moment wordt er in module '${revision.Module_Title}' gewerkt aan een nieuwe versie van ${model.defaults.demonstrative} ${model.defaults.singularReadable}`
         case 'Ter Inzage':

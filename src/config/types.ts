@@ -1,5 +1,6 @@
 import { FieldFileUploadProps, FieldRteProps } from '@pzh-ui/components'
 
+import { DynamicObjectSearchProps } from '@/components/DynamicObject/DynamicObjectSearch'
 import { Validation } from '@/validation/zodSchema'
 
 import { ModelReturnType, ModelType } from './objects/types'
@@ -13,6 +14,7 @@ type DynamicFieldType =
     | 'url'
     | 'image'
     | 'connections'
+    | 'search'
 
 export type DynamicSection<FieldType = string> = {
     /** Title of section */
@@ -43,7 +45,8 @@ export type DynamicField<FieldType = string> = {
 } & SelectProps &
     ImageProps &
     WysiwygProps &
-    ConnectionsProps
+    ConnectionsProps &
+    SearchProps
 
 type SelectProps =
     | { type: 'select'; options: { label: string; value: string }[] }
@@ -79,4 +82,12 @@ type ConnectionsProps =
       }
     | {
           type: Exclude<DynamicFieldType, 'connections'>
+      }
+
+type SearchProps =
+    | ({
+          type: 'search'
+      } & DynamicObjectSearchProps)
+    | {
+          type: Exclude<DynamicFieldType, 'search'>
       }

@@ -115,7 +115,7 @@ const NetworkTextual = ({ graph }: NetworkTextualProps) => {
                             models[node.Object_Type as ModelType].defaults
                                 .singularCapitalize
                         }
-                        <AngleRight />
+                        <AngleRight className="ml-8" />
                     </span>
                 ),
                 onClick: () => handleClick(node),

@@ -1,5 +1,5 @@
-import { MapOptions } from 'leaflet'
-import { ReactNode, useMemo } from 'react'
+import { Map, MapOptions } from 'leaflet'
+import { ReactNode, forwardRef, useMemo } from 'react'
 import {
     LayersControl,
     MapContainer,
@@ -32,69 +32,65 @@ export interface LeafletMapProps {
     children?: ReactNode
 }
 
-const LeafletMap = ({
-    options,
-    controllers,
-    callbacks,
-    className,
-    id,
-    children,
-}: LeafletMapProps) => {
-    const mapOptions = {
-        crs: RDCrs,
-        center: leafletCenter,
-        zoom: 4,
-        maxZoom: 12,
-        minZoom: 3,
-        zoomControl: false,
-        scrollWheelZoom: true,
-        ...options,
+const LeafletMap = forwardRef<Map, LeafletMapProps>(
+    ({ options, controllers, callbacks, className, id, children }, ref) => {
+        const mapOptions = {
+            crs: RDCrs,
+            center: leafletCenter,
+            zoom: 4,
+            maxZoom: 12,
+            minZoom: 3,
+            zoomControl: false,
+            scrollWheelZoom: true,
+            ...options,
+        }
+
+        const mapControllers = {
+            showZoom: true,
+            showSearch: false,
+            showDraw: false,
+            showLayers: true,
+            ...controllers,
+        }
+
+        const leafletMap = useMemo(
+            () => (
+                <MapContainer
+                    {...mapOptions}
+                    className={`leaflet-map z-0 ${className || ''}`}
+                    id={id}
+                    ref={ref}>
+                    {mapControllers.showLayers && <LeafletControlLayer />}
+
+                    {mapControllers.showDraw && (
+                        <LeafletDraw onDraw={callbacks?.onDraw} />
+                    )}
+
+                    {mapControllers.showSearch && <LeafletSearch />}
+
+                    {mapControllers.showZoom && <LeafletZoom />}
+
+                    {!mapControllers.showLayers && (
+                        <LayersControl position="topright">
+                            <LayersControl.BaseLayer checked name="Map">
+                                <TileLayer
+                                    url={tileURL}
+                                    minZoom={3}
+                                    attribution='Map data: <a href="http://www.kadaster.nl">Kadaster</a>'
+                                />
+                            </LayersControl.BaseLayer>
+                        </LayersControl>
+                    )}
+
+                    {children}
+                </MapContainer>
+            ),
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            [id]
+        )
+
+        return leafletMap
     }
-
-    const mapControllers = {
-        showZoom: true,
-        showSearch: false,
-        showDraw: false,
-        showLayers: true,
-        ...controllers,
-    }
-
-    const leafletMap = useMemo(
-        () => (
-            <MapContainer
-                {...mapOptions}
-                className={`leaflet-map z-0 ${className || ''}`}
-                id={id}>
-                {mapControllers.showLayers && <LeafletControlLayer />}
-
-                {mapControllers.showDraw && (
-                    <LeafletDraw onDraw={callbacks?.onDraw} />
-                )}
-
-                {mapControllers.showSearch && <LeafletSearch />}
-
-                {mapControllers.showZoom && <LeafletZoom />}
-
-                {!mapControllers.showLayers && (
-                    <LayersControl position="topright">
-                        <LayersControl.BaseLayer checked name="Map">
-                            <TileLayer
-                                url={tileURL}
-                                minZoom={3}
-                                attribution='Map data: <a href="http://www.kadaster.nl">Kadaster</a>'
-                            />
-                        </LayersControl.BaseLayer>
-                    </LayersControl>
-                )}
-
-                {children}
-            </MapContainer>
-        ),
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [id]
-    )
-
-    return leafletMap
-}
+)
 
 export default LeafletMap

@@ -55,14 +55,14 @@ const ObjectAcknowledgedRelationPart = ({
         <div className="w-full">
             <div
                 className={classNames(
-                    'rounded-t-1 relative flex h-10 items-center justify-between border border-pzh-gray-300 bg-pzh-gray-100 px-3 py-2',
+                    'relative flex items-center justify-between rounded-t border border-pzh-gray-300 bg-pzh-gray-100 px-3 py-2',
                     {
-                        'rounded-b-1': !open,
+                        'rounded-b': !open && type !== 'received',
                     }
                 )}>
                 <div className="flex items-center">
                     <Icon
-                        size={20}
+                        size={16}
                         className={classNames('mr-3', {
                             'text-pzh-yellow-dark': type === 'awaiting',
                             'text-pzh-green': type === 'approved',
@@ -70,7 +70,9 @@ const ObjectAcknowledgedRelationPart = ({
                             'text-pzh-orange': type === 'received',
                         })}
                     />
-                    <Text bold>{title}</Text>
+                    <Text bold className="-mb-1">
+                        {title}
+                    </Text>
                 </div>
                 {type !== 'received' ? (
                     <button
@@ -88,7 +90,7 @@ const ObjectAcknowledgedRelationPart = ({
                         </span>
                     </button>
                 ) : (
-                    handleAction && (
+                    !!handleAction && (
                         <div className="flex">
                             <Button
                                 variant="secondary"
@@ -121,7 +123,7 @@ const ObjectAcknowledgedRelationPart = ({
             </div>
             {(open || type === 'received') && (
                 <>
-                    <div className="rounded-b-1 flex items-start border-b border-l border-r border-pzh-gray-300 px-3 pb-3 pt-2">
+                    <div className="flex items-start rounded-b border-b border-l border-r border-pzh-gray-300 px-3 pb-3 pt-2">
                         {type !== 'received' && type !== 'awaiting' && (
                             <div className="mr-3 mt-1 w-4">
                                 {type === 'approved' || Side_B.Acknowledged ? (

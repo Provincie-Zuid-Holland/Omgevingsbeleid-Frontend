@@ -1,7 +1,7 @@
 import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
 import groupBy from 'lodash.groupby'
 import { useMemo } from 'react'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router-dom'
 
 import { Container } from '@/components/Container'

@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { FormikHelpers } from 'formik'
 import { useState } from 'react'
 
-import { useUsersPost, useUsersSearchGet } from '@/api/fetchers'
+import { getUsersSearchGetQueryKey, useUsersPost } from '@/api/fetchers'
 import { UserCreate, UserCreateResponse } from '@/api/fetchers.schemas'
 import Modal from '@/components/Modal'
 import useModalStore from '@/store/modalStore'
@@ -25,10 +25,6 @@ const UserAddModal = () => {
 
     const CurrentStep = steps[step - 1]
 
-    const { queryKey: queryKeyUsers } = useUsersSearchGet(undefined, {
-        query: { enabled: false },
-    })
-
     const { mutateAsync } = useUsersPost()
 
     /**
@@ -50,7 +46,7 @@ const UserAddModal = () => {
             {
                 onSuccess: res => {
                     queryClient.invalidateQueries({
-                        queryKey: queryKeyUsers,
+                        queryKey: getUsersSearchGetQueryKey(),
                         refetchType: 'all',
                     })
 

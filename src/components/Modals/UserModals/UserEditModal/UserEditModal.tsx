@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 
 import {
-    useUsersSearchGet,
+    getUsersSearchGetQueryKey,
     useUsersUserUuidGet,
     useUsersUserUuidPost,
 } from '@/api/fetchers'
@@ -22,16 +22,12 @@ const UserEditModal = () => {
         query: { enabled: !!uuid },
     })
 
-    const { queryKey: queryKeyUsers } = useUsersSearchGet(undefined, {
-        query: { enabled: false },
-    })
-
     const { mutateAsync } = useUsersUserUuidPost({
         mutation: {
             onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey })
                 queryClient.invalidateQueries({
-                    queryKey: queryKeyUsers,
+                    queryKey: getUsersSearchGetQueryKey(),
                     refetchType: 'all',
                 })
 

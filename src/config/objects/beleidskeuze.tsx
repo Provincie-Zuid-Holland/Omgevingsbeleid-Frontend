@@ -1,5 +1,5 @@
 import { Hyperlink } from '@pzh-ui/components'
-import { Split } from '@pzh-ui/icons'
+import { AngleDown, Split } from '@pzh-ui/icons'
 
 import {
     getBeleidskeuzeAcknowledgedRelationsLineageIdGetQueryKey,
@@ -181,6 +181,27 @@ const beleidskeuze: DynamicObject<
                         </>
                     ),
                     type: 'area',
+                },
+            ],
+        },
+        {
+            title: 'Primaire koppeling',
+            fields: [
+                {
+                    name: 'Hierarchy_Code',
+                    label: 'Beleidsdoel',
+                    type: 'search',
+                    required: true,
+                    objectKey: 'Hierarchy_Code',
+                    filterType: ['beleidsdoel'],
+                    placeholder: 'Kies het beleidsdoel',
+                    components: {
+                        DropdownIndicator: () => (
+                            <div className="mr-4">
+                                <AngleDown className="text-pzh-blue-dark" />
+                            </div>
+                        ),
+                    },
                 },
             ],
         },

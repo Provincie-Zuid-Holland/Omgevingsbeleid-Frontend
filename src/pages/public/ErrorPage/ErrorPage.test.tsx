@@ -1,4 +1,3 @@
-import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { MemoryRouter } from 'react-router-dom'
