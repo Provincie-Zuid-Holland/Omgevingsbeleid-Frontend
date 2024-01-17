@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 
 import {
-    useUsersSearchGet,
+    getUsersSearchGetQueryKey,
     useUsersUserUuidGet,
     useUsersUserUuidPost,
 } from '@/api/fetchers'
@@ -27,10 +27,6 @@ const UserDetail = () => {
         },
     })
 
-    const { queryKey: queryKeyUsers } = useUsersSearchGet(undefined, {
-        query: { enabled: false },
-    })
-
     const { mutate } = useUsersUserUuidPost({
         mutation: {
             onSuccess: () => {
@@ -46,7 +42,7 @@ const UserDetail = () => {
                 onSuccess: () =>
                     queryClient
                         .invalidateQueries({
-                            queryKey: queryKeyUsers,
+                            queryKey: getUsersSearchGetQueryKey(),
                             refetchType: 'all',
                         })
                         .then(() =>

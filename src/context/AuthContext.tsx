@@ -1,6 +1,6 @@
 import { useLocalStorageValue } from '@react-hookz/web'
 import { useQueryClient } from '@tanstack/react-query'
-import decode from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 import { ReactNode, createContext, useEffect } from 'react'
 
 import { loginAccessTokenPost } from '@/api/fetchers'
@@ -51,8 +51,8 @@ function AuthProvider({ children }: { children: ReactNode }) {
     } = useLocalStorageValue<string>(
         import.meta.env.VITE_KEY_API_ACCESS_TOKEN || '',
         {
-            parse: data => data,
-            stringify: data => data,
+            parse: (data: string) => data,
+            stringify: (data: unknown) => data,
         }
     )
     const {
@@ -97,7 +97,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         if (accessToken) {
-            const { exp } = decode(accessToken) as JWTToken
+            const { exp } = jwtDecode(accessToken) as JWTToken
 
             if (Date.now() >= exp * 1000) {
                 /**

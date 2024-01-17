@@ -2,7 +2,7 @@ import { DNABar, ToastContainer } from '@pzh-ui/components'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-import { Helmet } from 'react-helmet'
+import { Helmet, HelmetProvider } from 'react-helmet-async'
 
 import Axe from '@/Axe'
 import { LoaderContent } from '@/components/Loader'
@@ -36,7 +36,7 @@ const App = () => {
     const isNetworkPage = usePage('/beleidsnetwerk')
 
     return (
-        <>
+        <HelmetProvider>
             <QueryClientProvider client={queryClient}>
                 <AuthProvider>
                     <div
@@ -71,7 +71,7 @@ const App = () => {
             {!import.meta.env.PROD &&
                 !import.meta.env.JEST_WORKER_ID &&
                 import.meta.env.VITE_ENABLE_AXE === 'true' && <Axe />}
-        </>
+        </HelmetProvider>
     )
 }
 

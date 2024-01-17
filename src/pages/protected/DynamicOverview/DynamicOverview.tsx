@@ -170,7 +170,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
             sort_order: sortBy?.[0]?.desc ? 'DESC' : 'ASC',
             ...(type === 'latest' && {
                 object_type: singular,
-                action: 'Create',
+                actions: ['Create', 'Edit'],
             }),
         },
         {

@@ -1,14 +1,13 @@
-import { Heading, Hyperlink, Text } from '@pzh-ui/components'
+import { Divider, Heading, Hyperlink, Text } from '@pzh-ui/components'
 import { ArrowUpRightFromSquare, FilePdf } from '@pzh-ui/icons'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
 import { Container } from '@/components/Container'
 import imageLanding from '@/images/landing-1.webp'
-import {
-    getResponsiveImageHeight,
-    getResponsiveImageOffset,
-} from '@/utils/responsiveImage'
+import imageVisie from '@/images/landing-2.webp'
+import imageProgramma from '@/images/landing-3.webp'
+import imageVerordening from '@/images/landing-4.webp'
 
 import DocumentLink from './DocumentLink'
 import SearchSection from './SearchSection'
@@ -16,16 +15,12 @@ import SearchSection from './SearchSection'
 /**
  * Landing page component.
  */
-const Home = () => {
-    const responsiveImageHeight = getResponsiveImageHeight()
-    const responsiveImageOffset = getResponsiveImageOffset()
-
-    return (
-        <>
-            <Helmet>
-                <meta
-                    name="description"
-                    content="Provincie Zuid-Holland heeft haar beleid eenvoudiger,
+const Home = () => (
+    <>
+        <Helmet>
+            <meta
+                name="description"
+                content="Provincie Zuid-Holland heeft haar beleid eenvoudiger,
                         transparanter en toegankelijker gemaakt. Via deze
                         website kan je al het Omgevingsbeleid van de provincie
                         Zuid-Holland inzien. Denk bijvoorbeeld aan de
@@ -33,114 +28,105 @@ const Home = () => {
                         regelgeving rondom gevaarlijke gassen of aan de
                         maatregelen die de provincie neemt om natuur te
                         herstellen."
-                />
-            </Helmet>
-
-            <Container className="overflow-hidden lg:min-h-[576px]">
-                <div className="col-span-6 mb-8 lg:col-span-3 lg:mb-16">
-                    <Heading
-                        level="1"
-                        size="xxl"
-                        className="mt-4 md:mt-12 lg:mt-16">
-                        Omgevingsbeleid
-                    </Heading>
-                    <Text size="l" className="mt-3">
-                        Provincie Zuid-Holland heeft haar beleid eenvoudiger,
-                        transparanter en toegankelijker gemaakt. Via deze
-                        website kan je al het Omgevingsbeleid van de provincie
-                        Zuid-Holland inzien. Denk bijvoorbeeld aan de
-                        provinciale ambities voor een duurzame economie, de
-                        regelgeving rondom gevaarlijke gassen of aan de
-                        maatregelen die de provincie neemt om natuur te
-                        herstellen.
-                    </Text>
-                    <Text className="mt-8">
-                        Zo wordt voor iedereen zichtbaar waar de provincie aan
-                        wil werken en wat binnen de provinciegrenzen is
-                        toegestaan. Daarnaast kan het Omgevingsbeleid digitaal
-                        worden aangepast zodat het altijd up-to-date is.
-                    </Text>
-                </div>
-                <div className="relative col-span-3 hidden lg:block">
-                    <img
-                        src={imageLanding}
-                        alt=""
-                        className="absolute left-0 top-0 inline-block h-[480px] min-w-[50vw] object-cover"
-                    />
-                </div>
-            </Container>
-
-            <img
-                src={imageLanding}
-                alt=""
-                className="left-0 top-0 block h-64 w-full object-cover lg:hidden"
             />
+        </Helmet>
 
-            <Container className="border-t border-pzh-gray-300 py-6 md:py-8 lg:py-16">
-                <div className="col-span-6 lg:col-span-2">
-                    <Heading
-                        level="2"
-                        id="homepage-zoeken"
-                        className="font-bold">
-                        Zoeken in het beleid
-                    </Heading>
-                    <Text className="mt-4">
-                        Hier kan je zoeken in het Omgevingsbeleid van
-                        Zuid-Holland. Je kan zowel zoeken op tekst als op
-                        locatie.
-                    </Text>
-                </div>
+        <Container className="overflow-hidden lg:min-h-[576px]">
+            <div className="col-span-6 mb-8 lg:col-span-3 lg:mb-16">
+                <Heading
+                    level="1"
+                    size="xxl"
+                    className="mt-4 md:mt-12 lg:mt-16">
+                    Omgevingsbeleid
+                </Heading>
+                <Text size="l" className="mt-3">
+                    Provincie Zuid-Holland heeft haar beleid eenvoudiger,
+                    transparanter en toegankelijker gemaakt. Via deze website
+                    kan je al het Omgevingsbeleid van de provincie Zuid-Holland
+                    inzien. Denk bijvoorbeeld aan de provinciale ambities voor
+                    een duurzame economie, de regelgeving rondom gevaarlijke
+                    gassen of aan de maatregelen die de provincie neemt om
+                    natuur te herstellen.
+                </Text>
+                <Text className="mt-8">
+                    Zo wordt voor iedereen zichtbaar waar de provincie aan wil
+                    werken en wat binnen de provinciegrenzen is toegestaan.
+                    Daarnaast kan het Omgevingsbeleid digitaal worden aangepast
+                    zodat het altijd up-to-date is.
+                </Text>
+            </div>
+            <div className="relative col-span-3 hidden lg:block">
+                <img
+                    src={imageLanding}
+                    alt=""
+                    className="absolute left-0 top-0 inline-block h-[480px] min-w-[50vw] object-cover"
+                />
+            </div>
+        </Container>
 
-                <SearchSection />
-            </Container>
+        <img
+            src={imageLanding}
+            alt=""
+            className="left-0 top-0 block h-64 w-full object-cover lg:hidden"
+        />
 
-            <div className="w-full bg-pzh-blue">
-                <Container className="py-12">
-                    <div className="col-span-6">
-                        <Heading level="2" color="text-white">
-                            Opbouw van het beleid
-                        </Heading>
-                        <Text color="text-white" className="mt-4">
-                            De Omgevingswet streeft ernaar om al het beleid over
-                            de fysieke leefomgeving te vereenvoudigen zodat het
-                            voor iedereen is te begrijpen. Daarom zet de
-                            provincie drie instrumenten in waar al het
-                            Omgevingsbeleid in staat: de{' '}
-                            <a
-                                href="#omgevingsvisie-section"
-                                className="cursor-pointer underline">
-                                Omgevingsvisie
-                            </a>
-                            , het{' '}
-                            <a
-                                href="#omgevingsprogramma-section"
-                                className="cursor-pointer underline">
-                                Omgevingsprogramma
-                            </a>{' '}
-                            en de{' '}
-                            <a
-                                href="#omgevingsverordening-section"
-                                className="cursor-pointer underline">
-                                Omgevingsverordening
-                            </a>
-                            . Zo staat het beleid niet meer in tientallen
-                            documenten, maar in één systeem bij elkaar. Dit
-                            maakt het allemaal een stuk overzichtelijker.
-                        </Text>
-                    </div>
-                </Container>
+        <Divider className="my-0" />
+
+        <Container className="py-6 md:py-8 lg:py-16">
+            <div className="col-span-6 lg:col-span-2">
+                <Heading level="2" id="homepage-zoeken" className="font-bold">
+                    Zoeken in het beleid
+                </Heading>
+                <Text className="mt-4">
+                    Hier kan je zoeken in het Omgevingsbeleid van Zuid-Holland.
+                    Je kan zowel zoeken op tekst als op locatie.
+                </Text>
             </div>
 
+            <SearchSection />
+        </Container>
+
+        <div className="bg-pzh-blue">
+            <Container className="py-12">
+                <div className="col-span-6">
+                    <Heading level="2" color="text-white">
+                        Opbouw van het beleid
+                    </Heading>
+                    <Text color="text-white" className="mt-4">
+                        De Omgevingswet streeft ernaar om al het beleid over de
+                        fysieke leefomgeving te vereenvoudigen zodat het voor
+                        iedereen is te begrijpen. Daarom zet de provincie drie
+                        instrumenten in waar al het Omgevingsbeleid in staat: de{' '}
+                        <a
+                            href="#omgevingsvisie-section"
+                            className="cursor-pointer underline">
+                            Omgevingsvisie
+                        </a>
+                        , het{' '}
+                        <a
+                            href="#omgevingsprogramma-section"
+                            className="cursor-pointer underline">
+                            Omgevingsprogramma
+                        </a>{' '}
+                        en de{' '}
+                        <a
+                            href="#omgevingsverordening-section"
+                            className="cursor-pointer underline">
+                            Omgevingsverordening
+                        </a>
+                        . Zo staat het beleid niet meer in tientallen
+                        documenten, maar in één systeem bij elkaar. Dit maakt
+                        het allemaal een stuk overzichtelijker.
+                    </Text>
+                </div>
+            </Container>
+        </div>
+
+        <div className="flex flex-col gap-5 pb-8 md:gap-12 md:py-12 lg:gap-20 lg:py-20">
             <Container
-                className="pb-3 pt-0 md:pb-6 md:pt-12 lg:flex-col lg:pb-8 lg:pt-16"
+                className="flex items-center"
                 id="omgevingsvisie-section">
-                <div
-                    className="image-home-2 absolute left-0 col-span-6 mb-8 inline-block w-screen bg-pzh-gray-100 bg-cover bg-center bg-no-repeat text-white md:relative md:w-auto lg:col-span-4 lg:hidden"
-                    style={responsiveImageHeight}
-                />
-                <div
-                    className="col-span-6 flex flex-col justify-center pt-6 md:pt-0 lg:col-span-2"
-                    style={responsiveImageOffset}>
+                <div className="order-2 col-span-6 lg:order-1 lg:col-span-2">
                     <Heading level="2">
                         {/* 👇🏻 Contains a soft hyphen */}
                         Omgevings­visie
@@ -167,20 +153,19 @@ const Home = () => {
                         bepalen hoe de ambities bereikt dienen te worden.
                     </Text>
                 </div>
-                <div
-                    className="image-home-2 col-span-6 hidden bg-pzh-gray-100 bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:inline-block"
-                    style={responsiveImageHeight}
-                />
+                <div className="order-1 col-span-6 -mx-5 mb-8 md:mx-0 lg:order-2 lg:col-span-4 lg:mb-0">
+                    <img
+                        src={imageVisie}
+                        alt=""
+                        className="h-[250px] w-full object-cover md:h-[300px] lg:h-[522px]"
+                    />
+                </div>
             </Container>
 
             <Container
-                className="md:py-6 lg:py-8"
+                className="flex items-center"
                 id="omgevingsprogramma-section">
-                <div
-                    className="image-home-3 col-span-6 mb-8 inline-block bg-pzh-gray-100 bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:mb-0"
-                    style={responsiveImageHeight}
-                />
-                <div className="col-span-6 flex flex-col justify-center lg:col-span-2 ">
+                <div className="order-2 col-span-6 lg:col-span-2">
                     <Heading level="2">
                         {/* 👇🏻 Contains a soft hyphen */}
                         Omgevings­programma
@@ -206,16 +191,19 @@ const Home = () => {
                         onderliggende activiteiten.
                     </Text>
                 </div>
+                <div className="order-1 col-span-6 -mx-5 mb-8 md:mx-0 lg:col-span-4 lg:mb-0">
+                    <img
+                        src={imageProgramma}
+                        alt=""
+                        className="h-[250px] w-full object-cover md:h-[300px] lg:h-[522px]"
+                    />
+                </div>
             </Container>
 
             <Container
-                className="pb-8 lg:pt-16"
+                className="flex items-center"
                 id="omgevingsverordening-section">
-                <div
-                    className="image-home-4 col-span-6 mb-8 inline-block bg-pzh-gray-100 bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:hidden"
-                    style={responsiveImageHeight}
-                />
-                <div className="col-span-6 flex flex-col justify-center lg:col-span-2">
+                <div className="order-2 col-span-6 lg:order-1 lg:col-span-2">
                     <Heading level="2">
                         {/* 👇🏻 Contains a soft hyphen */}
                         Omgevings­verordening
@@ -242,42 +230,47 @@ const Home = () => {
                         .
                     </Text>
                 </div>
-                <div
-                    className="image-home-4 col-span-6 hidden bg-pzh-gray-100 bg-cover bg-center bg-no-repeat text-white lg:col-span-4 lg:inline-block"
-                    style={responsiveImageHeight}
-                />
+                <div className="order-1 col-span-6 -mx-5 mb-8 md:mx-0 lg:order-2 lg:col-span-4 lg:mb-0">
+                    <img
+                        src={imageVerordening}
+                        alt=""
+                        className="h-[250px] w-full object-cover md:h-[300px] lg:h-[522px]"
+                    />
+                </div>
             </Container>
+        </div>
 
-            <Container className="border-t border-pzh-gray-300 py-12">
-                <div className="col-span-6">
-                    <Heading level="3" size="m" className="mb-4">
-                        Documenten & Links
-                    </Heading>
-                </div>
-                <div className="col-span-6 lg:col-span-2">
-                    <Text>
-                        We zijn hard bezig met het vullen van onze database.
-                        Sommige onderdelen bieden we op dit moment nog aan als
-                        PDF’s of via een externe bron.
-                    </Text>
-                </div>
-                <ul className="col-span-6 grid grid-cols-6 lg:col-span-4">
-                    <DocumentLink
-                        href="docs/Omgevingsvisie_Zuid-Holland_Deel_1.pdf"
-                        iconLeft={<FilePdf />}
-                        title="Omgevingsvisie Zuid-Holland Deel 1"
-                        className="col-span-6 mt-2 lg:col-span-3 lg:mt-0"
-                    />
-                    <DocumentLink
-                        href="https://lta.zuid-holland.nl/"
-                        iconLeft={<ArrowUpRightFromSquare />}
-                        title="De Lange Termijn Agenda Omgevingsbeleid"
-                        className="col-span-6 mt-2 lg:col-span-3 lg:mt-0"
-                    />
-                </ul>
-            </Container>
-        </>
-    )
-}
+        <Divider className="my-0" />
+
+        <Container className="py-12">
+            <div className="col-span-6">
+                <Heading level="3" size="m" className="mb-4">
+                    Documenten & Links
+                </Heading>
+            </div>
+            <div className="col-span-6 lg:col-span-2">
+                <Text>
+                    We zijn hard bezig met het vullen van onze database. Sommige
+                    onderdelen bieden we op dit moment nog aan als PDF’s of via
+                    een externe bron.
+                </Text>
+            </div>
+            <ul className="col-span-6 grid grid-cols-6 lg:col-span-4">
+                <DocumentLink
+                    href="docs/Omgevingsvisie_Zuid-Holland_Deel_1.pdf"
+                    iconLeft={<FilePdf />}
+                    title="Omgevingsvisie Zuid-Holland Deel 1"
+                    className="col-span-6 mt-2 lg:col-span-3 lg:mt-0"
+                />
+                <DocumentLink
+                    href="https://lta.zuid-holland.nl/"
+                    iconLeft={<ArrowUpRightFromSquare />}
+                    title="De Lange Termijn Agenda Omgevingsbeleid"
+                    className="col-span-6 mt-2 lg:col-span-3 lg:mt-0"
+                />
+            </ul>
+        </Container>
+    </>
+)
 
 export default Home

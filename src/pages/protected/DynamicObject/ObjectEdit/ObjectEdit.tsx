@@ -140,6 +140,14 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                     onCancel={() => navigate(`/muteer/modules/${moduleId}`)}
                     isLocked={isLocked}
                     isLoading={isLoading || moduleIsLoading}
+                    defaultValues={
+                        object?.Hierarchy_Statics && {
+                            Hierarchy_Code: {
+                                label: object?.Hierarchy_Statics?.Cached_Title,
+                                value: object?.Hierarchy_Statics?.Code,
+                            },
+                        }
+                    }
                 />
             </div>
         </MutateLayout>

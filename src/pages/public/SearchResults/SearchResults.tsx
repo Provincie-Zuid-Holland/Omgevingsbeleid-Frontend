@@ -7,7 +7,7 @@ import {
 import { useUpdateEffect } from '@react-hookz/web'
 import classNames from 'classnames'
 import { useEffect, useMemo, useState } from 'react'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 
 import { useSearchValidPost } from '@/api/fetchers'
 import { Container } from '@/components/Container'

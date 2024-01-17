@@ -1,20 +1,10 @@
-import { render, screen, fireEvent } from '@testing-library/react'
-import '@testing-library/jest-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 
 import AuthProvider from '@/context/AuthContext'
 
 import LoginForm from './LoginForm'
-
-vi.mock('react-router-dom', async () => {
-    const actual = (await vi.importActual('react-router-dom')) as any
-
-    return {
-        ...actual,
-        useNavigate: vi.fn(),
-    }
-})
 
 const queryClient = new QueryClient()
 

@@ -64,6 +64,7 @@ const usePermissions = (): Permissions => {
             return {
                 ...initialPermissions,
                 canPatchObjectInModule: true,
+                canEditModuleObjectContext: true,
             }
         default:
             return { ...initialPermissions }

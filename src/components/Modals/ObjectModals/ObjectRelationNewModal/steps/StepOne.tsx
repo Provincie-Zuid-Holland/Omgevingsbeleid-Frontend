@@ -29,7 +29,7 @@ export const StepOne = ({ title, id, model, relations }: StepProps) => {
             </Text>
             <DynamicObjectSearch
                 onChange={object => setFieldValue('Title', object?.Title)}
-                objectKey="id"
+                objectKey="Object_ID"
                 filter={filter}
                 filterType={[singular]}
                 placeholder={`Zoek in de ${plural}`}

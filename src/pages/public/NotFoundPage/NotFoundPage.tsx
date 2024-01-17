@@ -1,5 +1,5 @@
 import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 
 import { Container } from '@/components/Container'
 

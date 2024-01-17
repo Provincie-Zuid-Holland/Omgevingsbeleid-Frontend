@@ -12,10 +12,14 @@ const DynamicSection = ({
     isLast,
     isLocked,
     model,
+    defaultValues,
 }: DynamicSectionProps & {
     isLast?: boolean
     isLocked?: boolean
     model: Model
+    defaultValues?: {
+        [key: string]: any
+    }
 }) => (
     <>
         <div className="col-span-6 md:col-span-2">
@@ -37,6 +41,9 @@ const DynamicSection = ({
                     isFirst={index === 0}
                     isLocked={isLocked}
                     model={model}
+                    {...(field.type === 'search' && {
+                        defaultValue: defaultValues?.[field.name],
+                    })}
                     {...field}
                 />
             ))}

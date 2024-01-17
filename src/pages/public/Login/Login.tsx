@@ -1,6 +1,6 @@
 import { Heading, Text } from '@pzh-ui/components'
 import classNames from 'classnames'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
 import { Container } from '@/components/Container'

@@ -1,3 +1,4 @@
+import { FieldSelectProps } from '@pzh-ui/components'
 import { Form, Formik, FormikHelpers, FormikProps, FormikValues } from 'formik'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
@@ -16,6 +17,9 @@ interface DynamicObjectFormProps<TData> {
     onCancel: () => void
     isLocked?: boolean
     isLoading?: boolean
+    defaultValues?: {
+        [key: string]: FieldSelectProps['defaultValue']
+    }
 }
 
 const DynamicObjectForm = <TData extends FormikValues>({
@@ -60,6 +64,7 @@ const ObjectForm = <TData extends FormikValues>({
     isLoading,
     isSubmitting,
     dirty,
+    defaultValues,
 }: Omit<DynamicObjectFormProps<TData>, 'initialData' | 'handleSubmit'> &
     FormikProps<TData>) => {
     const sections = model.dynamicSections
@@ -81,6 +86,7 @@ const ObjectForm = <TData extends FormikValues>({
                         isLast={index + 1 === sections.length}
                         isLocked={isLocked}
                         model={model}
+                        defaultValues={defaultValues}
                         {...section}
                     />
                 ))}

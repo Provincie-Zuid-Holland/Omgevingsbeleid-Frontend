@@ -34,7 +34,7 @@ const NetworkModal = () => {
                         return (
                             <li key={connection.UUID}>
                                 <Link
-                                    to={`/${model.defaults.slugOverview}/${plural}/${connection.UUID}`}
+                                    to={`/${model.defaults.slugOverview}/${model.defaults.plural}/${connection.UUID}`}
                                     className="flex items-center justify-between border-b border-pzh-blue-dark/35 px-2 pb-1 pt-2">
                                     <p className="leading-none underline decoration-1">
                                         {connection.Title}
@@ -50,7 +50,7 @@ const NetworkModal = () => {
             )}
 
             <Hyperlink
-                to={`/${slugOverview}/${activeNode?.UUID}`}
+                to={`/${slugOverview}/${plural}/${activeNode?.UUID}`}
                 text={`Bekijk de detailpagina van ${demonstrative} ${singular} in het digitaal omgevingsbeleid`}
             />
         </Modal>
