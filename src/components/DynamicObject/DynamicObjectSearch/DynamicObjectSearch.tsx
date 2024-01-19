@@ -3,8 +3,8 @@ import { MagnifyingGlass } from '@pzh-ui/icons'
 import { useFormikContext } from 'formik'
 import debounce from 'lodash.debounce'
 
-import { searchValidPost } from '@/api/fetchers'
-import { SearchObject } from '@/api/fetchers.schemas'
+import { searchPost, searchValidPost } from '@/api/fetchers'
+import { SearchObject, ValidSearchObject } from '@/api/fetchers.schemas'
 import { ModelType } from '@/config/objects/types'
 
 type Option = {
@@ -26,6 +26,8 @@ export interface DynamicObjectSearchProps
     filter?: number | string | number[] | string[]
     /** Filter items by Object_Type */
     filterType?: ModelType[]
+    /** Status of object */
+    status?: 'valid' | 'all'
 }
 
 const DynamicObjectSearch = ({
@@ -34,15 +36,18 @@ const DynamicObjectSearch = ({
     placeholder = 'Zoek op titel van beleidskeuze, maatregel, etc.',
     filter,
     filterType,
+    status = 'valid',
     ...rest
 }: DynamicObjectSearchProps) => {
     const { setFieldValue } = useFormikContext()
+
+    const searchEndpoint = status === 'valid' ? searchValidPost : searchPost
 
     const loadSuggestions = (
         query: string,
         callback: (options: Option[]) => void
     ) => {
-        searchValidPost({ Object_Types: filterType }, { query, limit: 50 })
+        searchEndpoint({ Object_Types: filterType }, { query, limit: 50 })
             .then(data => {
                 let filteredObject = data.results
 
@@ -60,17 +65,29 @@ const DynamicObjectSearch = ({
                     )
                 }
 
-                const options = filteredObject.map(object => ({
-                    label: (
-                        <div className="flex justify-between">
-                            <span>{object.Title}</span>
-                            <span className="capitalize opacity-50">
-                                {object.Object_Type.replace('_', ' ')}
-                            </span>
-                        </div>
-                    ),
-                    value: object,
-                }))
+                const options = filteredObject.map(
+                    (object: SearchObject | ValidSearchObject) => ({
+                        label: (
+                            <div className="flex justify-between">
+                                <span>
+                                    {object.Title}
+
+                                    {'Module_ID' in object &&
+                                        object.Module_ID && (
+                                            <span className="italic">
+                                                {' '}
+                                                (nog niet vigerend)
+                                            </span>
+                                        )}
+                                </span>
+                                <span className="capitalize opacity-50">
+                                    {object.Object_Type.replace('_', ' ')}
+                                </span>
+                            </div>
+                        ),
+                        value: object,
+                    })
+                )
 
                 callback(options)
             })

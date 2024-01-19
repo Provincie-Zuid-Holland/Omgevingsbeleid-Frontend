@@ -184,6 +184,7 @@ const maatregel: DynamicObject<
                     required: true,
                     objectKey: 'Hierarchy_Code',
                     filterType: ['beleidskeuze'],
+                    status: 'all',
                     placeholder: 'Kies de beleidskeuze',
                     components: {
                         DropdownIndicator: () => (
