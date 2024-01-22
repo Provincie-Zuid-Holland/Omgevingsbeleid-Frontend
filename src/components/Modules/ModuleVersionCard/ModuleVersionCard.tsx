@@ -9,15 +9,10 @@ import {
     getModulesModuleIdGetQueryKey,
     useModulesModuleIdStatusPatch,
 } from '@/api/fetchers'
-import { ModuleStatus, ModuleStatusCode } from '@/api/fetchers.schemas'
+import { ModuleStatusCode } from '@/api/fetchers.schemas'
 import { toastNotification } from '@/utils/toastNotification'
 
-interface ModuleVersionCardProps {
-    /** Current status of the module (optional) */
-    currentStatus?: ModuleStatus
-}
-
-const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
+const ModuleVersionCard = () => {
     const queryClient = useQueryClient()
 
     const { moduleId } = useParams()
@@ -74,11 +69,8 @@ const ModuleVersionCard = ({ currentStatus }: ModuleVersionCardProps) => {
                     ModuleStatusCode[code as keyof typeof ModuleStatusCode]
                 }`,
                 value: ModuleStatusCode[code as keyof typeof ModuleStatusCode],
-                isDisabled:
-                    ModuleStatusCode[code as keyof typeof ModuleStatusCode] ===
-                    currentStatus?.Status,
             })),
-        [currentStatus?.Status]
+        []
     )
 
     return (
