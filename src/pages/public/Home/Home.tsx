@@ -222,7 +222,7 @@ const Home = () => (
                         leefomgeving zijn ondergebracht in de{' '}
                         <a
                             className="text-pzh-green underline hover:text-pzh-green-dark"
-                            href="https://www.ruimtelijkeplannen.nl/web-roo/transform/NL.IMRO.9928.OVerordening2019-GC10/pt_NL.IMRO.9928.OVerordening2019-GC10.xml"
+                            href="https://www.zuid-holland.nl/onderwerpen/omgevingsbeleid/zuid-hollandse-omgevingsverordening/"
                             rel="noopener noreferrer"
                             target="_blank">
                             Omgevingsverordening
