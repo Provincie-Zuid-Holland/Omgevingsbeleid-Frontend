@@ -52,7 +52,7 @@ export default function PasswordChangeModal() {
                 validationSchema={toFormikValidationSchema(
                     passwordReset.SCHEMA
                 )}>
-                {({ values, handleSubmit, isValid, isSubmitting }) => (
+                {({ handleSubmit, isValid, isSubmitting }) => (
                     <Form onSubmit={handleSubmit}>
                         <div className="">
                             <FormikInput
@@ -62,7 +62,6 @@ export default function PasswordChangeModal() {
                                 name="currentPassword"
                                 type="password"
                                 placeholder="Voer hier je huidig wachtwoord in"
-                                value={values.currentPassword}
                             />
                         </div>
                         <Notification className="my-4">
@@ -77,7 +76,6 @@ export default function PasswordChangeModal() {
                             name="newPassword"
                             type="password"
                             placeholder="Geef hier het nieuwe wachtwoord op"
-                            value={values.newPassword}
                         />
                         <div className="mt-4">
                             <FormikInput
@@ -87,7 +85,6 @@ export default function PasswordChangeModal() {
                                 name="newPasswordCopy"
                                 type="password"
                                 placeholder="Herhaal het nieuwe wachtwoord"
-                                value={values.newPasswordCopy}
                             />
                         </div>
 
