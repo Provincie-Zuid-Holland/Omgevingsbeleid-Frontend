@@ -803,6 +803,7 @@ export const SortOrder = {
 } as const
 
 export interface SearchRequestData {
+    Like?: boolean
     Object_Types?: string[]
 }
 

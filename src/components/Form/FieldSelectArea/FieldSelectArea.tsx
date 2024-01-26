@@ -32,9 +32,12 @@ const FieldSelectArea = ({
 
     const modifiedDate = useMemo(
         () =>
-            area?.Created_Date &&
-            formatDate(new Date(area.Created_Date + 'Z'), 'd MMMM yyyy'),
-        [area?.Created_Date]
+            area?.Source_Modified_Date &&
+            formatDate(
+                new Date(area.Source_Modified_Date + 'Z'),
+                'd MMMM yyyy'
+            ),
+        [area?.Source_Modified_Date]
     )
 
     /**
