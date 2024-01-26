@@ -803,6 +803,7 @@ export const SortOrder = {
 } as const
 
 export interface SearchRequestData {
+    Like?: boolean
     Object_Types?: string[]
 }
 
@@ -2231,6 +2232,7 @@ export interface AuthToken {
 export interface AreaBasic {
     Created_By_UUID: string
     Created_Date: string
+    Source_Modified_Date: string
     Source_Title: string
     Source_UUID: string
     UUID: string

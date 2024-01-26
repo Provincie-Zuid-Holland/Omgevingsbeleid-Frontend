@@ -10324,6 +10324,9 @@ export const getWerkingsgebiedenVersionObjectUuidGetMock = () => ({
         {
             Created_By_UUID: faker.string.uuid(),
             Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            Source_Modified_Date: `${
+                faker.date.past().toISOString().split('.')[0]
+            }Z`,
             Source_Title: faker.word.sample(),
             Source_UUID: faker.string.uuid(),
             UUID: faker.string.uuid(),
@@ -10409,6 +10412,9 @@ export const getWerkingsgebiedenLatestLineageIdGetMock = () => ({
         {
             Created_By_UUID: faker.string.uuid(),
             Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            Source_Modified_Date: `${
+                faker.date.past().toISOString().split('.')[0]
+            }Z`,
             Source_Title: faker.word.sample(),
             Source_UUID: faker.string.uuid(),
             UUID: faker.string.uuid(),
@@ -10597,6 +10603,9 @@ export const getModulesModuleIdObjectWerkingsgebiedLatestLineageIdGetMock =
                 Created_Date: `${
                     faker.date.past().toISOString().split('.')[0]
                 }Z`,
+                Source_Modified_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
                 Source_Title: faker.word.sample(),
                 Source_UUID: faker.string.uuid(),
                 UUID: faker.string.uuid(),
@@ -10686,6 +10695,9 @@ export const getModulesModuleIdObjectWerkingsgebiedVersionObjectUuidGetMock =
             {
                 Created_By_UUID: faker.string.uuid(),
                 Created_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Source_Modified_Date: `${
                     faker.date.past().toISOString().split('.')[0]
                 }Z`,
                 Source_Title: faker.word.sample(),
@@ -10830,6 +10842,9 @@ export const getRevisionsModuleIdWerkingsgebiedVersionObjectUuidGetMock =
             {
                 Created_By_UUID: faker.string.uuid(),
                 Created_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Source_Modified_Date: `${
                     faker.date.past().toISOString().split('.')[0]
                 }Z`,
                 Source_Title: faker.word.sample(),
