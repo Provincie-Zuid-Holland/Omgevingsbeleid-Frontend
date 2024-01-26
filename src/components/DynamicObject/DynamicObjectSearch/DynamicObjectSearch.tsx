@@ -17,7 +17,11 @@ export interface DynamicObjectSearchProps
     /** Gets called when selecting an option */
     onChange?: (object?: SearchObject) => void
     /** Key of model */
-    objectKey?: 'Object_UUID' | 'Object_ID' | 'Hierarchy_Code'
+    objectKey?:
+        | 'Object_UUID'
+        | 'Object_ID'
+        | 'Hierarchy_Code'
+        | 'Werkingsgebied_Code'
     /** Placeholder of field (optional) */
     placeholder?: string
     /** Label of field (optional) */
@@ -105,7 +109,8 @@ const DynamicObjectSearch = ({
             val
                 ? objectKey === 'Object_UUID'
                     ? val.UUID
-                    : objectKey === 'Hierarchy_Code'
+                    : objectKey === 'Hierarchy_Code' ||
+                      objectKey === 'Werkingsgebied_Code'
                     ? val.Object_Code
                     : val.Object_ID
                 : null

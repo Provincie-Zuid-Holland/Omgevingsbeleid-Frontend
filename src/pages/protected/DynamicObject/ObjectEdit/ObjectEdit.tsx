@@ -56,10 +56,6 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
         const objectData = {} as { [key in (typeof fields)[number]]: any }
 
         fields?.forEach(field => {
-            if (field === 'Gebied_UUID') {
-                return (objectData[field] = object?.['Gebied']?.UUID)
-            }
-
             return (objectData[field] = object?.[field as keyof typeof data])
         })
 
@@ -74,6 +70,12 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
         helpers: FormikHelpers<typeof initialData>
     ) => {
         if (!payload) return
+
+        Object.keys(payload).forEach(key => {
+            if (!(key in initialData)) {
+                delete (payload as any)[key]
+            }
+        })
 
         patchObject
             ?.mutateAsync({
