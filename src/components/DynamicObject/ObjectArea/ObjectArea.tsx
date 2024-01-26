@@ -1,17 +1,53 @@
 import { Heading, Notification, Text } from '@pzh-ui/components'
 import { LayerGroup, Lightbulb } from '@pzh-ui/icons'
 
-import { Werkingsgebied } from '@/api/fetchers.schemas'
+import {
+    useModulesModuleIdObjectWerkingsgebiedLatestLineageIdGet,
+    useWerkingsgebiedenLatestLineageIdGet,
+} from '@/api/fetchers'
+import { WerkingsgebiedStatics } from '@/api/fetchers.schemas'
 import { LeafletTinyViewer } from '@/components/Leaflet'
 import { Model } from '@/config/objects/types'
 
-interface ObjectAreaProps extends Werkingsgebied {
+interface ObjectAreaProps extends WerkingsgebiedStatics {
     objectTitle?: string
+    moduleId?: string
     model: Model
 }
 
-const ObjectArea = ({ objectTitle, model, UUID, Title }: ObjectAreaProps) => {
+const ObjectArea = ({
+    objectTitle,
+    moduleId,
+    model,
+    Object_ID,
+}: ObjectAreaProps) => {
     const { singular, prefixSingular } = model.defaults
+
+    const { data: moduleData, isSuccess } =
+        useModulesModuleIdObjectWerkingsgebiedLatestLineageIdGet(
+            parseInt(moduleId!),
+            Object_ID,
+            {
+                query: {
+                    enabled: !!moduleId && !!Object_ID,
+                },
+            }
+        )
+
+    const { data: validData } = useWerkingsgebiedenLatestLineageIdGet(
+        Object_ID,
+        {
+            query: {
+                enabled:
+                    (!moduleId && !!Object_ID) ||
+                    (!!moduleId && !!Object_ID && !moduleData && isSuccess),
+            },
+        }
+    )
+
+    const data = moduleId && isSuccess ? moduleData : validData
+
+    if (!data) return null
 
     return (
         <div data-section="Werkingsgebied">
@@ -20,7 +56,7 @@ const ObjectArea = ({ objectTitle, model, UUID, Title }: ObjectAreaProps) => {
             </Heading>
             <Text className="mb-4 first-letter:capitalize">
                 {prefixSingular} {singular} ‘{objectTitle}’ heeft als
-                werkingsgebied ‘{Title}’.
+                werkingsgebied ‘{data.Title}’.
             </Text>
 
             <Notification icon={Lightbulb} className="mb-3">
@@ -35,7 +71,7 @@ const ObjectArea = ({ objectTitle, model, UUID, Title }: ObjectAreaProps) => {
             </Notification>
 
             <div className="h-[500px] overflow-hidden rounded-lg">
-                <LeafletTinyViewer uuid={UUID} />
+                <LeafletTinyViewer uuid={data.Area?.Source_UUID || ''} />
             </div>
         </div>
     )
