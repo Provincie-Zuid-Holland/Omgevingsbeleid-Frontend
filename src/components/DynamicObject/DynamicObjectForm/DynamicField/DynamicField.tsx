@@ -7,6 +7,7 @@ import {
 } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
 
+import FieldArray from '@/components/Form/FieldArray'
 import FieldConnections from '@/components/Form/FieldConnections'
 import FieldSelectArea from '@/components/Form/FieldSelectArea'
 import { Model } from '@/config/objects/types'
@@ -25,6 +26,7 @@ const inputFieldMap = {
     image: FormikFileUpload,
     connections: FieldConnections,
     search: DynamicObjectSearch,
+    array: FieldArray,
 }
 
 const DynamicField = ({
