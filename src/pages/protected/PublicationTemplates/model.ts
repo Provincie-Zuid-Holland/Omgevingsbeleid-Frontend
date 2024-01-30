@@ -1,6 +1,4 @@
 // @ts-nocheck
-import { CalendarCheck } from '@pzh-ui/icons'
-
 import { Model } from '@/config/objects/types'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
@@ -16,7 +14,6 @@ const model: Model = {
         prefixPlural: 'de',
         prefixNewObject: 'Nieuwe',
         demonstrative: 'deze',
-        icon: CalendarCheck,
     },
     dynamicSections: [
         {
