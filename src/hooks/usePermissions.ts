@@ -12,6 +12,7 @@ export interface Permissions {
     canCreateUser: boolean
     canEditUser: boolean
     canResetUserPassword: boolean
+    canCreatePublicationTemplates: boolean
 }
 
 const usePermissions = (): Permissions => {
@@ -29,6 +30,7 @@ const usePermissions = (): Permissions => {
         canCreateUser: false,
         canEditUser: false,
         canResetUserPassword: false,
+        canCreatePublicationTemplates: false,
     }
 
     switch (role) {
@@ -51,6 +53,7 @@ const usePermissions = (): Permissions => {
                 canCreateUser: true,
                 canEditUser: true,
                 canResetUserPassword: true,
+                canCreatePublicationTemplates: true,
             }
         case 'Behandelend Ambtenaar':
             return {

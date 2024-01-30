@@ -1,5 +1,5 @@
 import { Text } from '@pzh-ui/components'
-import { House, Users } from '@pzh-ui/icons'
+import { FileInvoice, House, Users } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -9,7 +9,7 @@ import { ModelType } from '@/config/objects/types'
 import usePermissions from '@/hooks/usePermissions'
 
 const Sidebar = () => {
-    const { canEditUser } = usePermissions()
+    const { canEditUser, canCreatePublicationTemplates } = usePermissions()
 
     const [expanded, setExpanded] = useState(false)
 
@@ -90,6 +90,17 @@ const Sidebar = () => {
                                 onClick={() => window.clearTimeout(timer)}
                             />
                         </>
+                    )}
+
+                    {canCreatePublicationTemplates && (
+                        <MenuItem
+                            name="Publicatietemplates"
+                            path="/muteer/publicatietemplates"
+                            icon={FileInvoice}
+                            expanded={expanded}
+                            onHover={endAndStartTimer}
+                            onClick={() => window.clearTimeout(timer)}
+                        />
                     )}
                 </div>
             </div>
