@@ -2,9 +2,10 @@
 import { CalendarCheck } from '@pzh-ui/icons'
 
 import { Model } from '@/config/objects/types'
+import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
-export const model: Model = {
+const model: Model = {
     defaults: {
         singular: 'publicatietemplate',
         singularReadable: 'publicatietemplate',
@@ -86,3 +87,7 @@ export const model: Model = {
         },
     ],
 }
+
+model.validationSchema = generateDynamicSchema(model.dynamicSections)
+
+export default model
