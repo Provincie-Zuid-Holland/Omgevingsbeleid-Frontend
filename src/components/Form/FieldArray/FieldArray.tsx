@@ -49,17 +49,16 @@ const FieldArray = ({
                                     {!!arrayLabel && (
                                         <Text bold>{arrayLabel}</Text>
                                     )}
-                                    <button
-                                        className="text-s text-pzh-green underline"
-                                        onClick={() =>
+                                    <Button
+                                        variant="default"
+                                        onPress={() =>
                                             arrayHelpers.remove(childIndex)
-                                        }
-                                        type="button">
+                                        }>
                                         <Xmark
                                             className="text-pzh-blue-dark"
                                             size={16}
                                         />
-                                    </button>
+                                    </Button>
                                 </div>
                                 {fields.map(field => (
                                     <DynamicObjectField

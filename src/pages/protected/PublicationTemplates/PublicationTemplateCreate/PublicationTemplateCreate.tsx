@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import MutateLayout from '@/templates/MutateLayout'
 
-import { model } from '../model'
+import model from '../model'
 
 const PublicationTemplateCreate = () => {
     const navigate = useNavigate()

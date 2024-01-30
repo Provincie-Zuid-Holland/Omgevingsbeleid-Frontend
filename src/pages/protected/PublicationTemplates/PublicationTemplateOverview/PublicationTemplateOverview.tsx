@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { LoaderSpinner } from '@/components/Loader'
 import MutateLayout from '@/templates/MutateLayout'
 
-import { model } from '../model'
+import model from '../model'
 
 const PublicationTemplateOverview = () => {
     const navigate = useNavigate()
