@@ -102,6 +102,7 @@ import type {
     NationaalBelangUUID,
     NationaalBelangValidGetParams,
     NewObjectStaticResponse,
+    ObjectCount,
     ObjectGraphGetParams,
     ObjectsValidGetParams,
     PagedResponseAmbitieBasic,
@@ -15571,6 +15572,79 @@ export const useModulesObjectsLatestGet = <
     }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const queryOptions = getModulesObjectsLatestGetQueryOptions(params, options)
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary List object types with counts for loggedin user
+ */
+export const objectsValidCountGet = (signal?: AbortSignal) => {
+    return customInstance<ObjectCount[]>({
+        url: `/objects/valid/count`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getObjectsValidCountGetQueryKey = () => {
+    return [`/objects/valid/count`] as const
+}
+
+export const getObjectsValidCountGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof objectsValidCountGet>>,
+    TError = unknown
+>(options?: {
+    query?: Partial<
+        UseQueryOptions<
+            Awaited<ReturnType<typeof objectsValidCountGet>>,
+            TError,
+            TData
+        >
+    >
+}) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey = queryOptions?.queryKey ?? getObjectsValidCountGetQueryKey()
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof objectsValidCountGet>>
+    > = ({ signal }) => objectsValidCountGet(signal)
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof objectsValidCountGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type ObjectsValidCountGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof objectsValidCountGet>>
+>
+export type ObjectsValidCountGetQueryError = unknown
+
+/**
+ * @summary List object types with counts for loggedin user
+ */
+export const useObjectsValidCountGet = <
+    TData = Awaited<ReturnType<typeof objectsValidCountGet>>,
+    TError = unknown
+>(options?: {
+    query?: Partial<
+        UseQueryOptions<
+            Awaited<ReturnType<typeof objectsValidCountGet>>,
+            TError,
+            TData
+        >
+    >
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getObjectsValidCountGetQueryOptions(options)
 
     const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
         queryKey: QueryKey
