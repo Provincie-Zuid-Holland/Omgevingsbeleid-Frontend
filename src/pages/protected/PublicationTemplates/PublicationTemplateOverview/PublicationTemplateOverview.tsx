@@ -4,9 +4,8 @@ import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { LoaderSpinner } from '@/components/Loader'
+import model from '@/config/publicationTemplates'
 import MutateLayout from '@/templates/MutateLayout'
-
-import model from '../model'
 
 const PublicationTemplateOverview = () => {
     const navigate = useNavigate()

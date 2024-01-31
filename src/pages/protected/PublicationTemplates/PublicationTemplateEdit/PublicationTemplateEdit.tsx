@@ -3,9 +3,8 @@ import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
+import model from '@/config/publicationTemplates'
 import MutateLayout from '@/templates/MutateLayout'
-
-import model from '../model'
 
 const PublicationTemplateEdit = () => {
     const navigate = useNavigate()
