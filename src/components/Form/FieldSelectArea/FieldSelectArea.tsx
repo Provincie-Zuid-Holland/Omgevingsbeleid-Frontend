@@ -55,6 +55,7 @@ const FieldSelectArea = ({
         setArea({
             Source_Title: payload.Title || '',
             UUID: payload.version,
+            Source_Modified_Date: payload.Modified_Date,
         })
         setFieldValue(name, payload.version)
         setFieldValue('Source_Title', payload.Title)
