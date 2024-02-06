@@ -3,7 +3,7 @@ import { Form, Formik } from 'formik'
 import groupBy from 'lodash.groupby'
 import { useMemo, useState } from 'react'
 
-import { useWerkingsgebiedenGet } from '@/api/fetchers'
+import { useSourceWerkingsgebiedenGet } from '@/api/fetchers'
 import Modal from '@/components/Modal'
 import useModalStore from '@/store/modalStore'
 
@@ -29,7 +29,7 @@ const AreaModal = ({ initialStep = 1, handleFormSubmit }: AreaModalProps) => {
 
     const [step, setStep] = useState(initialStep)
 
-    const { data, isLoading } = useWerkingsgebiedenGet(
+    const { data, isLoading } = useSourceWerkingsgebiedenGet(
         { limit: 500 },
         {
             query: { enabled: activeModal === 'areaAdd' },

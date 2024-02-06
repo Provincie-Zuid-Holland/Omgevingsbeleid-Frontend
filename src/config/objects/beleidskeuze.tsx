@@ -162,7 +162,7 @@ const beleidskeuze: DynamicObject<
                 'Het werkingsgebied geeft het gebied weer waar de beleidskeuze betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld, toegestaan of juist verboden.',
             fields: [
                 {
-                    name: 'Gebied_UUID',
+                    name: 'Werkingsgebied_Code',
                     label: 'Selecteer werkingsgebied',
                     description: (
                         <>
@@ -179,7 +179,18 @@ const beleidskeuze: DynamicObject<
                             .
                         </>
                     ),
-                    type: 'area',
+                    type: 'search',
+                    status: 'all',
+                    placeholder: 'Kies het werkingsgebied',
+                    filterType: ['werkingsgebied'],
+                    objectKey: 'Werkingsgebied_Code',
+                    components: {
+                        DropdownIndicator: () => (
+                            <div className="mr-4">
+                                <AngleDown className="text-pzh-blue-dark" />
+                            </div>
+                        ),
+                    },
                 },
             ],
         },

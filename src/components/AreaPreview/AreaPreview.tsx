@@ -1,16 +1,16 @@
 import { Text } from '@pzh-ui/components'
 
-import { Werkingsgebied } from '@/api/fetchers.schemas'
+import { AreaBasic, Werkingsgebied } from '@/api/fetchers.schemas'
 
 import { LeafletTinyViewer } from '../Leaflet'
 
 interface AreaPreviewProps {
-    area?: Partial<Werkingsgebied>
+    area?: Partial<AreaBasic | Werkingsgebied>
 }
 
 const AreaPreview = ({ area }: AreaPreviewProps) => (
     <div className="relative z-0 flex w-full items-center justify-center overflow-hidden rounded bg-pzh-gray-100 text-center">
-        {!area?.UUID ? (
+        {(area && 'Source_UUID' in area && !area.Source_UUID) || !area?.UUID ? (
             <Text className="text-pzh-gray-600">
                 Selecteer een werkingsgebied
                 <br />
@@ -19,7 +19,11 @@ const AreaPreview = ({ area }: AreaPreviewProps) => (
         ) : (
             <div className="h-[500px] w-full overflow-hidden rounded-lg">
                 <LeafletTinyViewer
-                    uuid={area.UUID}
+                    uuid={
+                        area && 'Source_UUID' in area && area.Source_UUID
+                            ? area.Source_UUID
+                            : area?.UUID || ''
+                    }
                 />
             </div>
         )}
