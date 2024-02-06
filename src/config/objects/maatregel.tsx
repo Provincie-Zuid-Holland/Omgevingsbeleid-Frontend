@@ -137,10 +137,9 @@ const maatregel: DynamicObject<
                 },
                 {
                     name: 'Effect',
-                    label: 'Uitwerking',
+                    label: 'Nadere uitwerking',
                     description: 'Beschrijf de uitwerking van de maatregel.',
                     type: 'wysiwyg',
-                    required: true,
                     customMenuOptions: ['image', 'table'],
                     imageOptions: {
                         maxSize: 819200,
