@@ -121,6 +121,7 @@ const beleidsdoel: DynamicObject<
                     required: true,
                     objectKey: 'Hierarchy_Code',
                     filterType: ['ambitie'],
+                    status: 'all',
                     placeholder: 'Kies de ambitie',
                     components: {
                         DropdownIndicator: () => (

@@ -221,12 +221,13 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                         />
                     </div>
 
-                    {data?.Gebied && (
+                    {data?.Werkingsgebied_Statics && (
                         <div className="order-7">
                             <ObjectArea
                                 model={model}
                                 objectTitle={data.Title}
-                                {...data.Gebied}
+                                moduleId={moduleId}
+                                {...data.Werkingsgebied_Statics}
                             />
                         </div>
                     )}

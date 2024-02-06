@@ -6,7 +6,7 @@ import groupBy from 'lodash.groupby'
 import { ReactNode, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useWerkingsgebiedenGet } from '@/api/fetchers'
+import { useSourceWerkingsgebiedenGet } from '@/api/fetchers'
 import { LeafletSearchInput } from '@/components/Leaflet'
 import { MAP_SEARCH_PAGE } from '@/constants/leaflet'
 import useSearchParam from '@/hooks/useSearchParam'
@@ -33,7 +33,7 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
     const [werkingsgebied, setWerkingsgebied] =
         useState<Leaflet.TileLayer.WMS | null>(null)
 
-    const { data, isLoading } = useWerkingsgebiedenGet({
+    const { data, isLoading } = useSourceWerkingsgebiedenGet({
         limit: 500,
         sort_column: 'Title',
         sort_order: 'ASC',

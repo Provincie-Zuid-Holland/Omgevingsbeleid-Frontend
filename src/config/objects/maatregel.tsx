@@ -154,14 +154,15 @@ const maatregel: DynamicObject<
                 'Het werkingsgebied geeft het gebied weer waar de maatregel betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld, toegestaan of juist verboden.',
             fields: [
                 {
-                    name: 'Gebied_UUID',
+                    name: 'Werkingsgebied_Code',
                     label: 'Selecteer werkingsgebied',
                     description: (
                         <>
-                            Selecteer het werkingsgebied wat bij deze maatregel
-                            van toepassing is. Heeft jouw maatregel nog geen
-                            geschikt werkingsgebied, of moet het huidige gebied
-                            aangepast worden? Neem dan contact op via{' '}
+                            Selecteer het werkingsgebied wat bij deze
+                            beleidskeuze van toepassing is. Heeft jouw
+                            beleidskeuze nog geen geschikt werkingsgebied, of
+                            moet het huidige gebied aangepast worden? Neem dan
+                            contact op via{' '}
                             <a
                                 href="mailto:omgevingsbeleid@pzh.nl"
                                 className="underline">
@@ -170,7 +171,18 @@ const maatregel: DynamicObject<
                             .
                         </>
                     ),
-                    type: 'area',
+                    type: 'search',
+                    status: 'all',
+                    placeholder: 'Kies het werkingsgebied',
+                    filterType: ['werkingsgebied'],
+                    objectKey: 'Werkingsgebied_Code',
+                    components: {
+                        DropdownIndicator: () => (
+                            <div className="mr-4">
+                                <AngleDown className="text-pzh-blue-dark" />
+                            </div>
+                        ),
+                    },
                 },
             ],
         },
@@ -184,6 +196,7 @@ const maatregel: DynamicObject<
                     required: true,
                     objectKey: 'Hierarchy_Code',
                     filterType: ['beleidskeuze'],
+                    status: 'all',
                     placeholder: 'Kies de beleidskeuze',
                     components: {
                         DropdownIndicator: () => (

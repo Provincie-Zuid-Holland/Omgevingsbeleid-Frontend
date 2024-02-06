@@ -56,10 +56,6 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
         const objectData = {} as { [key in (typeof fields)[number]]: any }
 
         fields?.forEach(field => {
-            if (field === 'Gebied_UUID') {
-                return (objectData[field] = object?.['Gebied']?.UUID)
-            }
-
             return (objectData[field] = object?.[field as keyof typeof data])
         })
 
@@ -74,6 +70,12 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
         helpers: FormikHelpers<typeof initialData>
     ) => {
         if (!payload) return
+
+        Object.keys(payload).forEach(key => {
+            if (!(key in initialData)) {
+                delete (payload as any)[key]
+            }
+        })
 
         patchObject
             ?.mutateAsync({
@@ -140,14 +142,21 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                     onCancel={() => navigate(`/muteer/modules/${moduleId}`)}
                     isLocked={isLocked}
                     isLoading={isLoading || moduleIsLoading}
-                    defaultValues={
-                        object?.Hierarchy_Statics && {
+                    defaultValues={{
+                        ...(object?.Hierarchy_Statics && {
                             Hierarchy_Code: {
                                 label: object?.Hierarchy_Statics?.Cached_Title,
                                 value: object?.Hierarchy_Statics?.Code,
                             },
-                        }
-                    }
+                        }),
+                        ...(object?.Werkingsgebied_Statics && {
+                            Werkingsgebied_Code: {
+                                label: object?.Werkingsgebied_Statics
+                                    ?.Cached_Title,
+                                value: object?.Werkingsgebied_Statics?.Code,
+                            },
+                        }),
+                    }}
                 />
             </div>
         </MutateLayout>

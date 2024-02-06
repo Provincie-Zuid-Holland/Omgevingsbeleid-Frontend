@@ -22,6 +22,9 @@ import {
     VisieAlgemeenFull,
     VisieAlgemeenPatch,
     VisieAlgemeenStaticPostStatics,
+    WerkingsgebiedFull,
+    WerkingsgebiedPatch,
+    WerkingsgebiedStaticPostStatics,
     WettelijkeTaakFull,
 } from '@/api/fetchers.schemas'
 
@@ -108,7 +111,8 @@ export type ModelReturnType = BeleidsdoelFull &
     GebiedsprogrammaFull &
     NationaalBelangFull &
     WettelijkeTaakFull &
-    VisieAlgemeenFull
+    VisieAlgemeenFull &
+    WerkingsgebiedFull
 
 export type ModelPatchType = BeleidsdoelPatch &
     AmbitiePatch &
@@ -116,7 +120,8 @@ export type ModelPatchType = BeleidsdoelPatch &
     MaatregelPatch &
     GebiedsprogrammaPatch &
     BeleidsregelPatch &
-    VisieAlgemeenPatch
+    VisieAlgemeenPatch &
+    WerkingsgebiedPatch
 
 export type ModelPatchStaticType = BeleidsdoelStaticPostStatics &
     AmbitieStaticPostStatics &
@@ -124,7 +129,8 @@ export type ModelPatchStaticType = BeleidsdoelStaticPostStatics &
     MaatregelStaticPostStatics &
     GebiedsprogrammaStaticPostStatics &
     BeleidsregelStaticPostStatics &
-    VisieAlgemeenStaticPostStatics
+    VisieAlgemeenStaticPostStatics &
+    WerkingsgebiedStaticPostStatics
 
 export type Model = (typeof models)[ModelType]
 
