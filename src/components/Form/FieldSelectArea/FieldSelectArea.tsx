@@ -1,4 +1,4 @@
-import { FieldLabel, Text, formatDate } from '@pzh-ui/components'
+import { FieldLabel, FormikError, Text, formatDate } from '@pzh-ui/components'
 import { TrashCan } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useFormikContext } from 'formik'
@@ -129,6 +129,8 @@ const FieldSelectArea = ({
 
             <input name={name} type="hidden" />
             <input name="Source_Title" type="hidden" />
+
+            <FormikError name={name} />
 
             <AreaModal handleFormSubmit={handleFormSubmit} />
         </>

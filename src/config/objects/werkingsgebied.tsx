@@ -94,6 +94,7 @@ const werkingsgebied: DynamicObject<
                     type: 'area',
                     placeholder:
                         'Zoek een werkingsgebied op naam of de naam van een versie',
+                    required: true,
                 },
             ],
         },

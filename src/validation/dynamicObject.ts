@@ -35,6 +35,11 @@ const generateDynamicSchema = (sections: DynamicSection[]) => {
                     }))
                 case 'area':
                     return (dynamicSchema = dynamicSchema.extend({
+                        [field.name]:
+                            field.validation ||
+                            ((field.required
+                                ? schemaDefaults.requiredString()
+                                : schemaDefaults.optionalString) as any),
                         Source_Title:
                             field.validation ||
                             ((field.required
