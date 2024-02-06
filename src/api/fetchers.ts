@@ -48,6 +48,7 @@ import type {
     BeleidsregelsValidGetParams,
     BeleidsregelsValidLineageIdGetParams,
     BodyFastapiHandlerLoginAccessTokenPost,
+    BodyFastapiHandlerPublicationPackagesPackageUuidReportPost,
     CompleteModule,
     EditAcknowledgedRelation,
     EditUser,
@@ -78,6 +79,7 @@ import type {
     ModuleSnapshot,
     ModuleStatus,
     ModulesGetParams,
+    ModulesModuleIdDiffGetParams,
     ModulesModuleIdObjectAmbitieLineageIdGetParams,
     ModulesModuleIdObjectBeleidsdoelLineageIdGetParams,
     ModulesModuleIdObjectBeleidskeuzeLineageIdGetParams,
@@ -86,10 +88,12 @@ import type {
     ModulesModuleIdObjectMaatregelLineageIdGetParams,
     ModulesModuleIdObjectProgrammaAlgemeenLineageIdGetParams,
     ModulesModuleIdObjectVisieAlgemeenLineageIdGetParams,
+    ModulesModuleIdObjectWerkingsgebiedLineageIdGetParams,
     ModulesObjectAmbitieActiveLineageIdGetParams,
     ModulesObjectBeleidsdoelActiveLineageIdGetParams,
     ModulesObjectProgrammaAlgemeenActiveLineageIdGetParams,
     ModulesObjectVisieAlgemeenActiveLineageIdGetParams,
+    ModulesObjectWerkingsgebiedActiveLineageIdGetParams,
     ModulesObjectsBeleidskeuzeActiveLineageIdGetParams,
     ModulesObjectsBeleidsregelActiveLineageIdGetParams,
     ModulesObjectsGebiedsprogrammaActiveLineageIdGetParams,
@@ -102,6 +106,7 @@ import type {
     NationaalBelangUUID,
     NationaalBelangValidGetParams,
     NewObjectStaticResponse,
+    ObjectCount,
     ObjectGraphGetParams,
     ObjectsValidGetParams,
     PagedResponseAmbitieBasic,
@@ -124,6 +129,9 @@ import type {
     PagedResponseProgrammaAlgemeenBasic,
     PagedResponseProgrammaAlgemeenExtended,
     PagedResponsePublicModuleShort,
+    PagedResponsePublication,
+    PagedResponsePublicationBillShort,
+    PagedResponsePublicationPackage,
     PagedResponseSearchObject,
     PagedResponseUser,
     PagedResponseValidSearchObject,
@@ -131,8 +139,11 @@ import type {
     PagedResponseVisieAlgemeenBasic,
     PagedResponseVisieAlgemeenExtended,
     PagedResponseWerkingsgebied,
+    PagedResponseWerkingsgebiedBasic,
+    PagedResponseWerkingsgebiedExtended,
     PagedResponseWettelijkeTaakBasic,
     PasswordResetPostParams,
+    PlaygroundDoDsoModuleIdPostParams,
     ProgrammaAlgemeenFull,
     ProgrammaAlgemeenPatch,
     ProgrammaAlgemeenStaticPostStatics,
@@ -140,17 +151,30 @@ import type {
     ProgrammasAlgemeenValidGetParams,
     ProgrammasAlgemeenValidLineageIdGetParams,
     PublicModuleOverview,
+    Publication,
+    PublicationBill,
+    PublicationBillCreate,
+    PublicationBillEdit,
+    PublicationBillsBillUuidPackagesGetParams,
+    PublicationCreate,
+    PublicationEdit,
+    PublicationPackage,
+    PublicationPackageCreate,
+    PublicationPackageReport,
+    PublicationsGetParams,
+    PublicationsPublicationUuidBillsGetParams,
     ReadRelation,
     RequestAcknowledgedRelation,
     ResetPasswordResponse,
     ResponseOK,
     RevisionsGetParams,
-    SearchGeoPostParams,
     SearchGeoRequestData,
-    SearchGeometryPostParams,
     SearchPostParams,
     SearchRequestData,
+    SearchSourceGeoPostParams,
+    SearchSourceGeometryPostParams,
     SearchValidPostParams,
+    SourceWerkingsgebiedenGetParams,
     User,
     UserCreate,
     UserCreateResponse,
@@ -168,7 +192,12 @@ import type {
     VisieAlgemeenUUID,
     VisiesAlgemeenValidGetParams,
     VisiesAlgemeenValidLineageIdGetParams,
-    WerkingsgebiedenGetParams,
+    WerkingsgebiedFull,
+    WerkingsgebiedPatch,
+    WerkingsgebiedStaticPostStatics,
+    WerkingsgebiedUUID,
+    WerkingsgebiedenValidGetParams,
+    WerkingsgebiedenValidLineageIdGetParams,
     WettelijkeTaakCreate,
     WettelijkeTaakEdit,
     WettelijkeTaakFull,
@@ -12464,6 +12493,1238 @@ export const useRevisionsModuleIdVisieAlgemeenVersionObjectUuidGet = <
 }
 
 /**
+ * @summary Get all the valid werkingsgebied lineages and shows the latest object of each
+ */
+export const werkingsgebiedenValidGet = (
+    params?: WerkingsgebiedenValidGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseWerkingsgebiedBasic>({
+        url: `/werkingsgebieden/valid`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getWerkingsgebiedenValidGetQueryKey = (
+    params?: WerkingsgebiedenValidGetParams
+) => {
+    return [`/werkingsgebieden/valid`, ...(params ? [params] : [])] as const
+}
+
+export const getWerkingsgebiedenValidGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof werkingsgebiedenValidGet>>,
+    TError = HTTPValidationError
+>(
+    params?: WerkingsgebiedenValidGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof werkingsgebiedenValidGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getWerkingsgebiedenValidGetQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof werkingsgebiedenValidGet>>
+    > = ({ signal }) => werkingsgebiedenValidGet(params, signal)
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof werkingsgebiedenValidGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type WerkingsgebiedenValidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof werkingsgebiedenValidGet>>
+>
+export type WerkingsgebiedenValidGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get all the valid werkingsgebied lineages and shows the latest object of each
+ */
+export const useWerkingsgebiedenValidGet = <
+    TData = Awaited<ReturnType<typeof werkingsgebiedenValidGet>>,
+    TError = HTTPValidationError
+>(
+    params?: WerkingsgebiedenValidGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof werkingsgebiedenValidGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getWerkingsgebiedenValidGetQueryOptions(
+        params,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get all the valid werkingsgebied of a single lineage
+ */
+export const werkingsgebiedenValidLineageIdGet = (
+    lineageId: number,
+    params?: WerkingsgebiedenValidLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseWerkingsgebiedBasic>({
+        url: `/werkingsgebieden/valid/${lineageId}`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getWerkingsgebiedenValidLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: WerkingsgebiedenValidLineageIdGetParams
+) => {
+    return [
+        `/werkingsgebieden/valid/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getWerkingsgebiedenValidLineageIdGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof werkingsgebiedenValidLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: WerkingsgebiedenValidLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof werkingsgebiedenValidLineageIdGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getWerkingsgebiedenValidLineageIdGetQueryKey(lineageId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof werkingsgebiedenValidLineageIdGet>>
+    > = ({ signal }) =>
+        werkingsgebiedenValidLineageIdGet(lineageId, params, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof werkingsgebiedenValidLineageIdGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type WerkingsgebiedenValidLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof werkingsgebiedenValidLineageIdGet>>
+>
+export type WerkingsgebiedenValidLineageIdGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get all the valid werkingsgebied of a single lineage
+ */
+export const useWerkingsgebiedenValidLineageIdGet = <
+    TData = Awaited<ReturnType<typeof werkingsgebiedenValidLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: WerkingsgebiedenValidLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof werkingsgebiedenValidLineageIdGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getWerkingsgebiedenValidLineageIdGetQueryOptions(
+        lineageId,
+        params,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific werkingsgebied by uuid
+ */
+export const werkingsgebiedenVersionObjectUuidGet = (
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<WerkingsgebiedFull>({
+        url: `/werkingsgebieden/version/${objectUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getWerkingsgebiedenVersionObjectUuidGetQueryKey = (
+    objectUuid: string
+) => {
+    return [`/werkingsgebieden/version/${objectUuid}`] as const
+}
+
+export const getWerkingsgebiedenVersionObjectUuidGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof werkingsgebiedenVersionObjectUuidGet>>,
+    TError = HTTPValidationError
+>(
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof werkingsgebiedenVersionObjectUuidGet>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getWerkingsgebiedenVersionObjectUuidGetQueryKey(objectUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof werkingsgebiedenVersionObjectUuidGet>>
+    > = ({ signal }) => werkingsgebiedenVersionObjectUuidGet(objectUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!objectUuid,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof werkingsgebiedenVersionObjectUuidGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type WerkingsgebiedenVersionObjectUuidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof werkingsgebiedenVersionObjectUuidGet>>
+>
+export type WerkingsgebiedenVersionObjectUuidGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get specific werkingsgebied by uuid
+ */
+export const useWerkingsgebiedenVersionObjectUuidGet = <
+    TData = Awaited<ReturnType<typeof werkingsgebiedenVersionObjectUuidGet>>,
+    TError = HTTPValidationError
+>(
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof werkingsgebiedenVersionObjectUuidGet>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getWerkingsgebiedenVersionObjectUuidGetQueryOptions(
+        objectUuid,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get latest lineage record for werkingsgebied by their lineage id
+ */
+export const werkingsgebiedenLatestLineageIdGet = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<WerkingsgebiedFull>({
+        url: `/werkingsgebieden/latest/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getWerkingsgebiedenLatestLineageIdGetQueryKey = (
+    lineageId: number
+) => {
+    return [`/werkingsgebieden/latest/${lineageId}`] as const
+}
+
+export const getWerkingsgebiedenLatestLineageIdGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof werkingsgebiedenLatestLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof werkingsgebiedenLatestLineageIdGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getWerkingsgebiedenLatestLineageIdGetQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof werkingsgebiedenLatestLineageIdGet>>
+    > = ({ signal }) => werkingsgebiedenLatestLineageIdGet(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof werkingsgebiedenLatestLineageIdGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type WerkingsgebiedenLatestLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof werkingsgebiedenLatestLineageIdGet>>
+>
+export type WerkingsgebiedenLatestLineageIdGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get latest lineage record for werkingsgebied by their lineage id
+ */
+export const useWerkingsgebiedenLatestLineageIdGet = <
+    TData = Awaited<ReturnType<typeof werkingsgebiedenLatestLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof werkingsgebiedenLatestLineageIdGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getWerkingsgebiedenLatestLineageIdGetQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Edit static data of an object
+ */
+export const werkingsgebiedStaticLineageIdPost = (
+    lineageId: number,
+    werkingsgebiedStaticPostStatics: WerkingsgebiedStaticPostStatics
+) => {
+    return customInstance<ResponseOK>({
+        url: `/werkingsgebied/static/${lineageId}`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: werkingsgebiedStaticPostStatics,
+    })
+}
+
+export const getWerkingsgebiedStaticLineageIdPostMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof werkingsgebiedStaticLineageIdPost>>,
+        TError,
+        { lineageId: number; data: WerkingsgebiedStaticPostStatics },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof werkingsgebiedStaticLineageIdPost>>,
+    TError,
+    { lineageId: number; data: WerkingsgebiedStaticPostStatics },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof werkingsgebiedStaticLineageIdPost>>,
+        { lineageId: number; data: WerkingsgebiedStaticPostStatics }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return werkingsgebiedStaticLineageIdPost(lineageId, data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type WerkingsgebiedStaticLineageIdPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof werkingsgebiedStaticLineageIdPost>>
+>
+export type WerkingsgebiedStaticLineageIdPostMutationBody =
+    WerkingsgebiedStaticPostStatics
+export type WerkingsgebiedStaticLineageIdPostMutationError = HTTPValidationError
+
+/**
+ * @summary Edit static data of an object
+ */
+export const useWerkingsgebiedStaticLineageIdPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof werkingsgebiedStaticLineageIdPost>>,
+        TError,
+        { lineageId: number; data: WerkingsgebiedStaticPostStatics },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getWerkingsgebiedStaticLineageIdPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get all the werkingsgebied of a single lineage in a module
+ */
+export const modulesModuleIdObjectWerkingsgebiedLineageIdGet = (
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectWerkingsgebiedLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseWerkingsgebiedExtended>({
+        url: `/modules/${moduleId}/object/werkingsgebied/${lineageId}`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectWerkingsgebiedLineageIdGetQueryKey = (
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectWerkingsgebiedLineageIdGetParams
+) => {
+    return [
+        `/modules/${moduleId}/object/werkingsgebied/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getModulesModuleIdObjectWerkingsgebiedLineageIdGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof modulesModuleIdObjectWerkingsgebiedLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectWerkingsgebiedLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesModuleIdObjectWerkingsgebiedLineageIdGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesModuleIdObjectWerkingsgebiedLineageIdGetQueryKey(
+            moduleId,
+            lineageId,
+            params
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectWerkingsgebiedLineageIdGet>
+        >
+    > = ({ signal }) =>
+        modulesModuleIdObjectWerkingsgebiedLineageIdGet(
+            moduleId,
+            lineageId,
+            params,
+            signal
+        )
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && lineageId),
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectWerkingsgebiedLineageIdGet>
+        >,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type ModulesModuleIdObjectWerkingsgebiedLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectWerkingsgebiedLineageIdGet>
+        >
+    >
+export type ModulesModuleIdObjectWerkingsgebiedLineageIdGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get all the werkingsgebied of a single lineage in a module
+ */
+export const useModulesModuleIdObjectWerkingsgebiedLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesModuleIdObjectWerkingsgebiedLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectWerkingsgebiedLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesModuleIdObjectWerkingsgebiedLineageIdGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getModulesModuleIdObjectWerkingsgebiedLineageIdGetQueryOptions(
+            moduleId,
+            lineageId,
+            params,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Add a new version to the werkingsgebied lineage in a module
+ */
+export const modulesModuleIdObjectWerkingsgebiedLineageIdPatch = (
+    moduleId: number,
+    lineageId: number,
+    werkingsgebiedPatch: WerkingsgebiedPatch
+) => {
+    return customInstance<WerkingsgebiedUUID>({
+        url: `/modules/${moduleId}/object/werkingsgebied/${lineageId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: werkingsgebiedPatch,
+    })
+}
+
+export const getModulesModuleIdObjectWerkingsgebiedLineageIdPatchMutationOptions =
+    <TError = HTTPValidationError, TContext = unknown>(options?: {
+        mutation?: UseMutationOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectWerkingsgebiedLineageIdPatch
+                >
+            >,
+            TError,
+            { moduleId: number; lineageId: number; data: WerkingsgebiedPatch },
+            TContext
+        >
+    }): UseMutationOptions<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectWerkingsgebiedLineageIdPatch>
+        >,
+        TError,
+        { moduleId: number; lineageId: number; data: WerkingsgebiedPatch },
+        TContext
+    > => {
+        const { mutation: mutationOptions } = options ?? {}
+
+        const mutationFn: MutationFunction<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectWerkingsgebiedLineageIdPatch
+                >
+            >,
+            { moduleId: number; lineageId: number; data: WerkingsgebiedPatch }
+        > = props => {
+            const { moduleId, lineageId, data } = props ?? {}
+
+            return modulesModuleIdObjectWerkingsgebiedLineageIdPatch(
+                moduleId,
+                lineageId,
+                data
+            )
+        }
+
+        return { mutationFn, ...mutationOptions }
+    }
+
+export type ModulesModuleIdObjectWerkingsgebiedLineageIdPatchMutationResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectWerkingsgebiedLineageIdPatch>
+        >
+    >
+export type ModulesModuleIdObjectWerkingsgebiedLineageIdPatchMutationBody =
+    WerkingsgebiedPatch
+export type ModulesModuleIdObjectWerkingsgebiedLineageIdPatchMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Add a new version to the werkingsgebied lineage in a module
+ */
+export const useModulesModuleIdObjectWerkingsgebiedLineageIdPatch = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectWerkingsgebiedLineageIdPatch>
+        >,
+        TError,
+        { moduleId: number; lineageId: number; data: WerkingsgebiedPatch },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getModulesModuleIdObjectWerkingsgebiedLineageIdPatchMutationOptions(
+            options
+        )
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get latest lineage record for werkingsgebied by their lineage id in a module
+ */
+export const modulesModuleIdObjectWerkingsgebiedLatestLineageIdGet = (
+    moduleId: number,
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<WerkingsgebiedFull>({
+        url: `/modules/${moduleId}/object/werkingsgebied/latest/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectWerkingsgebiedLatestLineageIdGetQueryKey =
+    (moduleId: number, lineageId: number) => {
+        return [
+            `/modules/${moduleId}/object/werkingsgebied/latest/${lineageId}`,
+        ] as const
+    }
+
+export const getModulesModuleIdObjectWerkingsgebiedLatestLineageIdGetQueryOptions =
+    <
+        TData = Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectWerkingsgebiedLatestLineageIdGet
+            >
+        >,
+        TError = HTTPValidationError
+    >(
+        moduleId: number,
+        lineageId: number,
+        options?: {
+            query?: Partial<
+                UseQueryOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof modulesModuleIdObjectWerkingsgebiedLatestLineageIdGet
+                        >
+                    >,
+                    TError,
+                    TData
+                >
+            >
+        }
+    ) => {
+        const { query: queryOptions } = options ?? {}
+
+        const queryKey =
+            queryOptions?.queryKey ??
+            getModulesModuleIdObjectWerkingsgebiedLatestLineageIdGetQueryKey(
+                moduleId,
+                lineageId
+            )
+
+        const queryFn: QueryFunction<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectWerkingsgebiedLatestLineageIdGet
+                >
+            >
+        > = ({ signal }) =>
+            modulesModuleIdObjectWerkingsgebiedLatestLineageIdGet(
+                moduleId,
+                lineageId,
+                signal
+            )
+
+        return {
+            queryKey,
+            queryFn,
+            enabled: !!(moduleId && lineageId),
+            ...queryOptions,
+        } as UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectWerkingsgebiedLatestLineageIdGet
+                >
+            >,
+            TError,
+            TData
+        > & { queryKey: QueryKey }
+    }
+
+export type ModulesModuleIdObjectWerkingsgebiedLatestLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectWerkingsgebiedLatestLineageIdGet
+            >
+        >
+    >
+export type ModulesModuleIdObjectWerkingsgebiedLatestLineageIdGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get latest lineage record for werkingsgebied by their lineage id in a module
+ */
+export const useModulesModuleIdObjectWerkingsgebiedLatestLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesModuleIdObjectWerkingsgebiedLatestLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesModuleIdObjectWerkingsgebiedLatestLineageIdGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getModulesModuleIdObjectWerkingsgebiedLatestLineageIdGetQueryOptions(
+            moduleId,
+            lineageId,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific werkingsgebied by uuid in a module
+ */
+export const modulesModuleIdObjectWerkingsgebiedVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<WerkingsgebiedFull>({
+        url: `/modules/${moduleId}/object/werkingsgebied/version/${objectUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectWerkingsgebiedVersionObjectUuidGetQueryKey =
+    (moduleId: number, objectUuid: string) => {
+        return [
+            `/modules/${moduleId}/object/werkingsgebied/version/${objectUuid}`,
+        ] as const
+    }
+
+export const getModulesModuleIdObjectWerkingsgebiedVersionObjectUuidGetQueryOptions =
+    <
+        TData = Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectWerkingsgebiedVersionObjectUuidGet
+            >
+        >,
+        TError = HTTPValidationError
+    >(
+        moduleId: number,
+        objectUuid: string,
+        options?: {
+            query?: Partial<
+                UseQueryOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof modulesModuleIdObjectWerkingsgebiedVersionObjectUuidGet
+                        >
+                    >,
+                    TError,
+                    TData
+                >
+            >
+        }
+    ) => {
+        const { query: queryOptions } = options ?? {}
+
+        const queryKey =
+            queryOptions?.queryKey ??
+            getModulesModuleIdObjectWerkingsgebiedVersionObjectUuidGetQueryKey(
+                moduleId,
+                objectUuid
+            )
+
+        const queryFn: QueryFunction<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectWerkingsgebiedVersionObjectUuidGet
+                >
+            >
+        > = ({ signal }) =>
+            modulesModuleIdObjectWerkingsgebiedVersionObjectUuidGet(
+                moduleId,
+                objectUuid,
+                signal
+            )
+
+        return {
+            queryKey,
+            queryFn,
+            enabled: !!(moduleId && objectUuid),
+            ...queryOptions,
+        } as UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectWerkingsgebiedVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        > & { queryKey: QueryKey }
+    }
+
+export type ModulesModuleIdObjectWerkingsgebiedVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectWerkingsgebiedVersionObjectUuidGet
+            >
+        >
+    >
+export type ModulesModuleIdObjectWerkingsgebiedVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific werkingsgebied by uuid in a module
+ */
+export const useModulesModuleIdObjectWerkingsgebiedVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<
+            typeof modulesModuleIdObjectWerkingsgebiedVersionObjectUuidGet
+        >
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesModuleIdObjectWerkingsgebiedVersionObjectUuidGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getModulesModuleIdObjectWerkingsgebiedVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const modulesObjectWerkingsgebiedActiveLineageIdGet = (
+    lineageId: number,
+    params?: ModulesObjectWerkingsgebiedActiveLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<ActiveModuleObjectWrapper[]>({
+        url: `/modules/object/werkingsgebied/active/${lineageId}`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getModulesObjectWerkingsgebiedActiveLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: ModulesObjectWerkingsgebiedActiveLineageIdGetParams
+) => {
+    return [
+        `/modules/object/werkingsgebied/active/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getModulesObjectWerkingsgebiedActiveLineageIdGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof modulesObjectWerkingsgebiedActiveLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ModulesObjectWerkingsgebiedActiveLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesObjectWerkingsgebiedActiveLineageIdGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesObjectWerkingsgebiedActiveLineageIdGetQueryKey(
+            lineageId,
+            params
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<typeof modulesObjectWerkingsgebiedActiveLineageIdGet>
+        >
+    > = ({ signal }) =>
+        modulesObjectWerkingsgebiedActiveLineageIdGet(lineageId, params, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<
+            ReturnType<typeof modulesObjectWerkingsgebiedActiveLineageIdGet>
+        >,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type ModulesObjectWerkingsgebiedActiveLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof modulesObjectWerkingsgebiedActiveLineageIdGet>
+        >
+    >
+export type ModulesObjectWerkingsgebiedActiveLineageIdGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const useModulesObjectWerkingsgebiedActiveLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesObjectWerkingsgebiedActiveLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ModulesObjectWerkingsgebiedActiveLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesObjectWerkingsgebiedActiveLineageIdGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getModulesObjectWerkingsgebiedActiveLineageIdGetQueryOptions(
+            lineageId,
+            params,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific werkingsgebied by uuid in a module
+ */
+export const revisionsModuleIdWerkingsgebiedVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<WerkingsgebiedFull>({
+        url: `/revisions/${moduleId}/werkingsgebied/version/${objectUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getRevisionsModuleIdWerkingsgebiedVersionObjectUuidGetQueryKey = (
+    moduleId: number,
+    objectUuid: string
+) => {
+    return [
+        `/revisions/${moduleId}/werkingsgebied/version/${objectUuid}`,
+    ] as const
+}
+
+export const getRevisionsModuleIdWerkingsgebiedVersionObjectUuidGetQueryOptions =
+    <
+        TData = Awaited<
+            ReturnType<
+                typeof revisionsModuleIdWerkingsgebiedVersionObjectUuidGet
+            >
+        >,
+        TError = HTTPValidationError
+    >(
+        moduleId: number,
+        objectUuid: string,
+        options?: {
+            query?: Partial<
+                UseQueryOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof revisionsModuleIdWerkingsgebiedVersionObjectUuidGet
+                        >
+                    >,
+                    TError,
+                    TData
+                >
+            >
+        }
+    ) => {
+        const { query: queryOptions } = options ?? {}
+
+        const queryKey =
+            queryOptions?.queryKey ??
+            getRevisionsModuleIdWerkingsgebiedVersionObjectUuidGetQueryKey(
+                moduleId,
+                objectUuid
+            )
+
+        const queryFn: QueryFunction<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdWerkingsgebiedVersionObjectUuidGet
+                >
+            >
+        > = ({ signal }) =>
+            revisionsModuleIdWerkingsgebiedVersionObjectUuidGet(
+                moduleId,
+                objectUuid,
+                signal
+            )
+
+        return {
+            queryKey,
+            queryFn,
+            enabled: !!(moduleId && objectUuid),
+            ...queryOptions,
+        } as UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdWerkingsgebiedVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        > & { queryKey: QueryKey }
+    }
+
+export type RevisionsModuleIdWerkingsgebiedVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof revisionsModuleIdWerkingsgebiedVersionObjectUuidGet
+            >
+        >
+    >
+export type RevisionsModuleIdWerkingsgebiedVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific werkingsgebied by uuid in a module
+ */
+export const useRevisionsModuleIdWerkingsgebiedVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdWerkingsgebiedVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof revisionsModuleIdWerkingsgebiedVersionObjectUuidGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getRevisionsModuleIdWerkingsgebiedVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
  * @summary Add new object
  */
 export const wettelijkeTaakPost = (
@@ -13088,6 +14349,150 @@ export const useWettelijkeTaakStaticLineageIdPost = <
 }
 
 /**
+ * @summary Download DSO
+ */
+export const playgroundDoDsoModuleIdPost = (
+    moduleId: number,
+    params: PlaygroundDoDsoModuleIdPostParams
+) => {
+    return customInstance<unknown>({
+        url: `/playground/do-dso/${moduleId}`,
+        method: 'POST',
+        params,
+    })
+}
+
+export const getPlaygroundDoDsoModuleIdPostMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof playgroundDoDsoModuleIdPost>>,
+        TError,
+        { moduleId: number; params: PlaygroundDoDsoModuleIdPostParams },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof playgroundDoDsoModuleIdPost>>,
+    TError,
+    { moduleId: number; params: PlaygroundDoDsoModuleIdPostParams },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof playgroundDoDsoModuleIdPost>>,
+        { moduleId: number; params: PlaygroundDoDsoModuleIdPostParams }
+    > = props => {
+        const { moduleId, params } = props ?? {}
+
+        return playgroundDoDsoModuleIdPost(moduleId, params)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type PlaygroundDoDsoModuleIdPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof playgroundDoDsoModuleIdPost>>
+>
+
+export type PlaygroundDoDsoModuleIdPostMutationError = HTTPValidationError
+
+/**
+ * @summary Download DSO
+ */
+export const usePlaygroundDoDsoModuleIdPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof playgroundDoDsoModuleIdPost>>,
+        TError,
+        { moduleId: number; params: PlaygroundDoDsoModuleIdPostParams },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getPlaygroundDoDsoModuleIdPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Check GEO
+ */
+export const playgroundCheckGeoGet = (signal?: AbortSignal) => {
+    return customInstance<unknown>({
+        url: `/playground/check-geo`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getPlaygroundCheckGeoGetQueryKey = () => {
+    return [`/playground/check-geo`] as const
+}
+
+export const getPlaygroundCheckGeoGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof playgroundCheckGeoGet>>,
+    TError = unknown
+>(options?: {
+    query?: Partial<
+        UseQueryOptions<
+            Awaited<ReturnType<typeof playgroundCheckGeoGet>>,
+            TError,
+            TData
+        >
+    >
+}) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getPlaygroundCheckGeoGetQueryKey()
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof playgroundCheckGeoGet>>
+    > = ({ signal }) => playgroundCheckGeoGet(signal)
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof playgroundCheckGeoGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PlaygroundCheckGeoGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof playgroundCheckGeoGet>>
+>
+export type PlaygroundCheckGeoGetQueryError = unknown
+
+/**
+ * @summary Check GEO
+ */
+export const usePlaygroundCheckGeoGet = <
+    TData = Awaited<ReturnType<typeof playgroundCheckGeoGet>>,
+    TError = unknown
+>(options?: {
+    query?: Partial<
+        UseQueryOptions<
+            Awaited<ReturnType<typeof playgroundCheckGeoGet>>,
+            TError,
+            TData
+        >
+    >
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getPlaygroundCheckGeoGetQueryOptions(options)
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
  * @summary List the users
  */
 export const usersGet = (params?: UsersGetParams, signal?: AbortSignal) => {
@@ -13530,33 +14935,33 @@ export const useUsersUserUuidResetPasswordPost = <
 /**
  * @summary List the werkingsgebieden
  */
-export const werkingsgebiedenGet = (
-    params?: WerkingsgebiedenGetParams,
+export const sourceWerkingsgebiedenGet = (
+    params?: SourceWerkingsgebiedenGetParams,
     signal?: AbortSignal
 ) => {
     return customInstance<PagedResponseWerkingsgebied>({
-        url: `/werkingsgebieden`,
+        url: `/source-werkingsgebieden`,
         method: 'GET',
         params,
         signal,
     })
 }
 
-export const getWerkingsgebiedenGetQueryKey = (
-    params?: WerkingsgebiedenGetParams
+export const getSourceWerkingsgebiedenGetQueryKey = (
+    params?: SourceWerkingsgebiedenGetParams
 ) => {
-    return [`/werkingsgebieden`, ...(params ? [params] : [])] as const
+    return [`/source-werkingsgebieden`, ...(params ? [params] : [])] as const
 }
 
-export const getWerkingsgebiedenGetQueryOptions = <
-    TData = Awaited<ReturnType<typeof werkingsgebiedenGet>>,
+export const getSourceWerkingsgebiedenGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof sourceWerkingsgebiedenGet>>,
     TError = HTTPValidationError
 >(
-    params?: WerkingsgebiedenGetParams,
+    params?: SourceWerkingsgebiedenGetParams,
     options?: {
         query?: Partial<
             UseQueryOptions<
-                Awaited<ReturnType<typeof werkingsgebiedenGet>>,
+                Awaited<ReturnType<typeof sourceWerkingsgebiedenGet>>,
                 TError,
                 TData
             >
@@ -13566,43 +14971,46 @@ export const getWerkingsgebiedenGetQueryOptions = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ?? getWerkingsgebiedenGetQueryKey(params)
+        queryOptions?.queryKey ?? getSourceWerkingsgebiedenGetQueryKey(params)
 
     const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof werkingsgebiedenGet>>
-    > = ({ signal }) => werkingsgebiedenGet(params, signal)
+        Awaited<ReturnType<typeof sourceWerkingsgebiedenGet>>
+    > = ({ signal }) => sourceWerkingsgebiedenGet(params, signal)
 
     return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-        Awaited<ReturnType<typeof werkingsgebiedenGet>>,
+        Awaited<ReturnType<typeof sourceWerkingsgebiedenGet>>,
         TError,
         TData
     > & { queryKey: QueryKey }
 }
 
-export type WerkingsgebiedenGetQueryResult = NonNullable<
-    Awaited<ReturnType<typeof werkingsgebiedenGet>>
+export type SourceWerkingsgebiedenGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof sourceWerkingsgebiedenGet>>
 >
-export type WerkingsgebiedenGetQueryError = HTTPValidationError
+export type SourceWerkingsgebiedenGetQueryError = HTTPValidationError
 
 /**
  * @summary List the werkingsgebieden
  */
-export const useWerkingsgebiedenGet = <
-    TData = Awaited<ReturnType<typeof werkingsgebiedenGet>>,
+export const useSourceWerkingsgebiedenGet = <
+    TData = Awaited<ReturnType<typeof sourceWerkingsgebiedenGet>>,
     TError = HTTPValidationError
 >(
-    params?: WerkingsgebiedenGetParams,
+    params?: SourceWerkingsgebiedenGetParams,
     options?: {
         query?: Partial<
             UseQueryOptions<
-                Awaited<ReturnType<typeof werkingsgebiedenGet>>,
+                Awaited<ReturnType<typeof sourceWerkingsgebiedenGet>>,
                 TError,
                 TData
             >
         >
     }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-    const queryOptions = getWerkingsgebiedenGetQueryOptions(params, options)
+    const queryOptions = getSourceWerkingsgebiedenGetQueryOptions(
+        params,
+        options
+    )
 
     const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
         queryKey: QueryKey
@@ -13616,12 +15024,12 @@ export const useWerkingsgebiedenGet = <
 /**
  * @summary List the objects active in werkingsgebieden
  */
-export const searchGeoPost = (
+export const searchSourceGeoPost = (
     searchGeoRequestData: SearchGeoRequestData,
-    params?: SearchGeoPostParams
+    params?: SearchSourceGeoPostParams
 ) => {
     return customInstance<PagedResponseGeoSearchResult>({
-        url: `/search/geo`,
+        url: `/search/source-geo`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: searchGeoRequestData,
@@ -13629,57 +15037,57 @@ export const searchGeoPost = (
     })
 }
 
-export const getSearchGeoPostMutationOptions = <
+export const getSearchSourceGeoPostMutationOptions = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof searchGeoPost>>,
+        Awaited<ReturnType<typeof searchSourceGeoPost>>,
         TError,
-        { data: SearchGeoRequestData; params?: SearchGeoPostParams },
+        { data: SearchGeoRequestData; params?: SearchSourceGeoPostParams },
         TContext
     >
 }): UseMutationOptions<
-    Awaited<ReturnType<typeof searchGeoPost>>,
+    Awaited<ReturnType<typeof searchSourceGeoPost>>,
     TError,
-    { data: SearchGeoRequestData; params?: SearchGeoPostParams },
+    { data: SearchGeoRequestData; params?: SearchSourceGeoPostParams },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof searchGeoPost>>,
-        { data: SearchGeoRequestData; params?: SearchGeoPostParams }
+        Awaited<ReturnType<typeof searchSourceGeoPost>>,
+        { data: SearchGeoRequestData; params?: SearchSourceGeoPostParams }
     > = props => {
         const { data, params } = props ?? {}
 
-        return searchGeoPost(data, params)
+        return searchSourceGeoPost(data, params)
     }
 
     return { mutationFn, ...mutationOptions }
 }
 
-export type SearchGeoPostMutationResult = NonNullable<
-    Awaited<ReturnType<typeof searchGeoPost>>
+export type SearchSourceGeoPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof searchSourceGeoPost>>
 >
-export type SearchGeoPostMutationBody = SearchGeoRequestData
-export type SearchGeoPostMutationError = HTTPValidationError
+export type SearchSourceGeoPostMutationBody = SearchGeoRequestData
+export type SearchSourceGeoPostMutationError = HTTPValidationError
 
 /**
  * @summary List the objects active in werkingsgebieden
  */
-export const useSearchGeoPost = <
+export const useSearchSourceGeoPost = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof searchGeoPost>>,
+        Awaited<ReturnType<typeof searchSourceGeoPost>>,
         TError,
-        { data: SearchGeoRequestData; params?: SearchGeoPostParams },
+        { data: SearchGeoRequestData; params?: SearchSourceGeoPostParams },
         TContext
     >
 }) => {
-    const mutationOptions = getSearchGeoPostMutationOptions(options)
+    const mutationOptions = getSearchSourceGeoPostMutationOptions(options)
 
     return useMutation(mutationOptions)
 }
@@ -13687,12 +15095,12 @@ export const useSearchGeoPost = <
 /**
  * @summary List the objects in werkingsgebieden by a geometry
  */
-export const searchGeometryPost = (
+export const searchSourceGeometryPost = (
     listObjectsByGeometryRequestData: ListObjectsByGeometryRequestData,
-    params?: SearchGeometryPostParams
+    params?: SearchSourceGeometryPostParams
 ) => {
     return customInstance<PagedResponseGeoSearchResult>({
-        url: `/search/geometry`,
+        url: `/search/source-geometry`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: listObjectsByGeometryRequestData,
@@ -13700,69 +15108,70 @@ export const searchGeometryPost = (
     })
 }
 
-export const getSearchGeometryPostMutationOptions = <
+export const getSearchSourceGeometryPostMutationOptions = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof searchGeometryPost>>,
+        Awaited<ReturnType<typeof searchSourceGeometryPost>>,
         TError,
         {
             data: ListObjectsByGeometryRequestData
-            params?: SearchGeometryPostParams
+            params?: SearchSourceGeometryPostParams
         },
         TContext
     >
 }): UseMutationOptions<
-    Awaited<ReturnType<typeof searchGeometryPost>>,
+    Awaited<ReturnType<typeof searchSourceGeometryPost>>,
     TError,
     {
         data: ListObjectsByGeometryRequestData
-        params?: SearchGeometryPostParams
+        params?: SearchSourceGeometryPostParams
     },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof searchGeometryPost>>,
+        Awaited<ReturnType<typeof searchSourceGeometryPost>>,
         {
             data: ListObjectsByGeometryRequestData
-            params?: SearchGeometryPostParams
+            params?: SearchSourceGeometryPostParams
         }
     > = props => {
         const { data, params } = props ?? {}
 
-        return searchGeometryPost(data, params)
+        return searchSourceGeometryPost(data, params)
     }
 
     return { mutationFn, ...mutationOptions }
 }
 
-export type SearchGeometryPostMutationResult = NonNullable<
-    Awaited<ReturnType<typeof searchGeometryPost>>
+export type SearchSourceGeometryPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof searchSourceGeometryPost>>
 >
-export type SearchGeometryPostMutationBody = ListObjectsByGeometryRequestData
-export type SearchGeometryPostMutationError = HTTPValidationError
+export type SearchSourceGeometryPostMutationBody =
+    ListObjectsByGeometryRequestData
+export type SearchSourceGeometryPostMutationError = HTTPValidationError
 
 /**
  * @summary List the objects in werkingsgebieden by a geometry
  */
-export const useSearchGeometryPost = <
+export const useSearchSourceGeometryPost = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof searchGeometryPost>>,
+        Awaited<ReturnType<typeof searchSourceGeometryPost>>,
         TError,
         {
             data: ListObjectsByGeometryRequestData
-            params?: SearchGeometryPostParams
+            params?: SearchSourceGeometryPostParams
         },
         TContext
     >
 }) => {
-    const mutationOptions = getSearchGeometryPostMutationOptions(options)
+    const mutationOptions = getSearchSourceGeometryPostMutationOptions(options)
 
     return useMutation(mutationOptions)
 }
@@ -14895,6 +16304,106 @@ export const useModulesModuleIdStatusPatch = <
 }
 
 /**
+ * @summary Get difference of module to Vigerend
+ */
+export const modulesModuleIdDiffGet = (
+    moduleId: number,
+    params?: ModulesModuleIdDiffGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<void>({
+        url: `/modules/${moduleId}/diff`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getModulesModuleIdDiffGetQueryKey = (
+    moduleId: number,
+    params?: ModulesModuleIdDiffGetParams
+) => {
+    return [`/modules/${moduleId}/diff`, ...(params ? [params] : [])] as const
+}
+
+export const getModulesModuleIdDiffGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof modulesModuleIdDiffGet>>,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    params?: ModulesModuleIdDiffGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof modulesModuleIdDiffGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesModuleIdDiffGetQueryKey(moduleId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof modulesModuleIdDiffGet>>
+    > = ({ signal }) => modulesModuleIdDiffGet(moduleId, params, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!moduleId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof modulesModuleIdDiffGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type ModulesModuleIdDiffGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof modulesModuleIdDiffGet>>
+>
+export type ModulesModuleIdDiffGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get difference of module to Vigerend
+ */
+export const useModulesModuleIdDiffGet = <
+    TData = Awaited<ReturnType<typeof modulesModuleIdDiffGet>>,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    params?: ModulesModuleIdDiffGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof modulesModuleIdDiffGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getModulesModuleIdDiffGetQueryOptions(
+        moduleId,
+        params,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
  * @summary Add new object to the module
  */
 export const modulesModuleIdAddNewObjectPost = (
@@ -15582,6 +17091,79 @@ export const useModulesObjectsLatestGet = <
 }
 
 /**
+ * @summary List object types with counts for loggedin user
+ */
+export const objectsValidCountGet = (signal?: AbortSignal) => {
+    return customInstance<ObjectCount[]>({
+        url: `/objects/valid/count`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getObjectsValidCountGetQueryKey = () => {
+    return [`/objects/valid/count`] as const
+}
+
+export const getObjectsValidCountGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof objectsValidCountGet>>,
+    TError = unknown
+>(options?: {
+    query?: Partial<
+        UseQueryOptions<
+            Awaited<ReturnType<typeof objectsValidCountGet>>,
+            TError,
+            TData
+        >
+    >
+}) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey = queryOptions?.queryKey ?? getObjectsValidCountGetQueryKey()
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof objectsValidCountGet>>
+    > = ({ signal }) => objectsValidCountGet(signal)
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof objectsValidCountGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type ObjectsValidCountGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof objectsValidCountGet>>
+>
+export type ObjectsValidCountGetQueryError = unknown
+
+/**
+ * @summary List object types with counts for loggedin user
+ */
+export const useObjectsValidCountGet = <
+    TData = Awaited<ReturnType<typeof objectsValidCountGet>>,
+    TError = unknown
+>(options?: {
+    query?: Partial<
+        UseQueryOptions<
+            Awaited<ReturnType<typeof objectsValidCountGet>>,
+            TError,
+            TData
+        >
+    >
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getObjectsValidCountGetQueryOptions(options)
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
  * @summary List all objects filterable in short format
  */
 export const objectsValidGet = (
@@ -15655,6 +17237,1206 @@ export const useObjectsValidGet = <
     }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const queryOptions = getObjectsValidGetQueryOptions(params, options)
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary List the existing Publication
+ */
+export const publicationsGet = (
+    params?: PublicationsGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponsePublication>({
+        url: `/publications`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getPublicationsGetQueryKey = (params?: PublicationsGetParams) => {
+    return [`/publications`, ...(params ? [params] : [])] as const
+}
+
+export const getPublicationsGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof publicationsGet>>,
+    TError = HTTPValidationError
+>(
+    params?: PublicationsGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof publicationsGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getPublicationsGetQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof publicationsGet>>
+    > = ({ signal }) => publicationsGet(params, signal)
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof publicationsGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PublicationsGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof publicationsGet>>
+>
+export type PublicationsGetQueryError = HTTPValidationError
+
+/**
+ * @summary List the existing Publication
+ */
+export const usePublicationsGet = <
+    TData = Awaited<ReturnType<typeof publicationsGet>>,
+    TError = HTTPValidationError
+>(
+    params?: PublicationsGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof publicationsGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getPublicationsGetQueryOptions(params, options)
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Create a new publication
+ */
+export const publicationsPost = (publicationCreate: PublicationCreate) => {
+    return customInstance<Publication>({
+        url: `/publications`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: publicationCreate,
+    })
+}
+
+export const getPublicationsPostMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationsPost>>,
+        TError,
+        { data: PublicationCreate },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof publicationsPost>>,
+    TError,
+    { data: PublicationCreate },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof publicationsPost>>,
+        { data: PublicationCreate }
+    > = props => {
+        const { data } = props ?? {}
+
+        return publicationsPost(data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type PublicationsPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof publicationsPost>>
+>
+export type PublicationsPostMutationBody = PublicationCreate
+export type PublicationsPostMutationError = HTTPValidationError
+
+/**
+ * @summary Create a new publication
+ */
+export const usePublicationsPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationsPost>>,
+        TError,
+        { data: PublicationCreate },
+        TContext
+    >
+}) => {
+    const mutationOptions = getPublicationsPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get details of a publication
+ */
+export const publicationsPublicationUuidGet = (
+    publicationUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<Publication>({
+        url: `/publications/${publicationUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getPublicationsPublicationUuidGetQueryKey = (
+    publicationUuid: string
+) => {
+    return [`/publications/${publicationUuid}`] as const
+}
+
+export const getPublicationsPublicationUuidGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof publicationsPublicationUuidGet>>,
+    TError = HTTPValidationError
+>(
+    publicationUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof publicationsPublicationUuidGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getPublicationsPublicationUuidGetQueryKey(publicationUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof publicationsPublicationUuidGet>>
+    > = ({ signal }) => publicationsPublicationUuidGet(publicationUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!publicationUuid,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof publicationsPublicationUuidGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PublicationsPublicationUuidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof publicationsPublicationUuidGet>>
+>
+export type PublicationsPublicationUuidGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get details of a publication
+ */
+export const usePublicationsPublicationUuidGet = <
+    TData = Awaited<ReturnType<typeof publicationsPublicationUuidGet>>,
+    TError = HTTPValidationError
+>(
+    publicationUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof publicationsPublicationUuidGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getPublicationsPublicationUuidGetQueryOptions(
+        publicationUuid,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Edit an existing publication
+ */
+export const publicationsPublicationUuidPatch = (
+    publicationUuid: string,
+    publicationEdit: PublicationEdit
+) => {
+    return customInstance<Publication>({
+        url: `/publications/${publicationUuid}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: publicationEdit,
+    })
+}
+
+export const getPublicationsPublicationUuidPatchMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationsPublicationUuidPatch>>,
+        TError,
+        { publicationUuid: string; data: PublicationEdit },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof publicationsPublicationUuidPatch>>,
+    TError,
+    { publicationUuid: string; data: PublicationEdit },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof publicationsPublicationUuidPatch>>,
+        { publicationUuid: string; data: PublicationEdit }
+    > = props => {
+        const { publicationUuid, data } = props ?? {}
+
+        return publicationsPublicationUuidPatch(publicationUuid, data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type PublicationsPublicationUuidPatchMutationResult = NonNullable<
+    Awaited<ReturnType<typeof publicationsPublicationUuidPatch>>
+>
+export type PublicationsPublicationUuidPatchMutationBody = PublicationEdit
+export type PublicationsPublicationUuidPatchMutationError = HTTPValidationError
+
+/**
+ * @summary Edit an existing publication
+ */
+export const usePublicationsPublicationUuidPatch = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationsPublicationUuidPatch>>,
+        TError,
+        { publicationUuid: string; data: PublicationEdit },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getPublicationsPublicationUuidPatchMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary List the existing Publication Bills
+ */
+export const publicationsPublicationUuidBillsGet = (
+    publicationUuid: string,
+    params?: PublicationsPublicationUuidBillsGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponsePublicationBillShort>({
+        url: `/publications/${publicationUuid}/bills`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getPublicationsPublicationUuidBillsGetQueryKey = (
+    publicationUuid: string,
+    params?: PublicationsPublicationUuidBillsGetParams
+) => {
+    return [
+        `/publications/${publicationUuid}/bills`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getPublicationsPublicationUuidBillsGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof publicationsPublicationUuidBillsGet>>,
+    TError = HTTPValidationError
+>(
+    publicationUuid: string,
+    params?: PublicationsPublicationUuidBillsGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof publicationsPublicationUuidBillsGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getPublicationsPublicationUuidBillsGetQueryKey(publicationUuid, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof publicationsPublicationUuidBillsGet>>
+    > = ({ signal }) =>
+        publicationsPublicationUuidBillsGet(publicationUuid, params, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!publicationUuid,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof publicationsPublicationUuidBillsGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PublicationsPublicationUuidBillsGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof publicationsPublicationUuidBillsGet>>
+>
+export type PublicationsPublicationUuidBillsGetQueryError = HTTPValidationError
+
+/**
+ * @summary List the existing Publication Bills
+ */
+export const usePublicationsPublicationUuidBillsGet = <
+    TData = Awaited<ReturnType<typeof publicationsPublicationUuidBillsGet>>,
+    TError = HTTPValidationError
+>(
+    publicationUuid: string,
+    params?: PublicationsPublicationUuidBillsGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof publicationsPublicationUuidBillsGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getPublicationsPublicationUuidBillsGetQueryOptions(
+        publicationUuid,
+        params,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Create new publication Bill or version
+ */
+export const publicationsPublicationUuidBillsPost = (
+    publicationUuid: string,
+    publicationBillCreate: PublicationBillCreate
+) => {
+    return customInstance<PublicationBill>({
+        url: `/publications/${publicationUuid}/bills`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: publicationBillCreate,
+    })
+}
+
+export const getPublicationsPublicationUuidBillsPostMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationsPublicationUuidBillsPost>>,
+        TError,
+        { publicationUuid: string; data: PublicationBillCreate },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof publicationsPublicationUuidBillsPost>>,
+    TError,
+    { publicationUuid: string; data: PublicationBillCreate },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof publicationsPublicationUuidBillsPost>>,
+        { publicationUuid: string; data: PublicationBillCreate }
+    > = props => {
+        const { publicationUuid, data } = props ?? {}
+
+        return publicationsPublicationUuidBillsPost(publicationUuid, data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type PublicationsPublicationUuidBillsPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof publicationsPublicationUuidBillsPost>>
+>
+export type PublicationsPublicationUuidBillsPostMutationBody =
+    PublicationBillCreate
+export type PublicationsPublicationUuidBillsPostMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Create new publication Bill or version
+ */
+export const usePublicationsPublicationUuidBillsPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationsPublicationUuidBillsPost>>,
+        TError,
+        { publicationUuid: string; data: PublicationBillCreate },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getPublicationsPublicationUuidBillsPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get details of a publication bill
+ */
+export const publicationsPublicationUuidBillsBillUuidGet = (
+    publicationUuid: string,
+    billUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<PublicationBill>({
+        url: `/publications/${publicationUuid}/bills/${billUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getPublicationsPublicationUuidBillsBillUuidGetQueryKey = (
+    publicationUuid: string,
+    billUuid: string
+) => {
+    return [`/publications/${publicationUuid}/bills/${billUuid}`] as const
+}
+
+export const getPublicationsPublicationUuidBillsBillUuidGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof publicationsPublicationUuidBillsBillUuidGet>
+    >,
+    TError = HTTPValidationError
+>(
+    publicationUuid: string,
+    billUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof publicationsPublicationUuidBillsBillUuidGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getPublicationsPublicationUuidBillsBillUuidGetQueryKey(
+            publicationUuid,
+            billUuid
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof publicationsPublicationUuidBillsBillUuidGet>>
+    > = ({ signal }) =>
+        publicationsPublicationUuidBillsBillUuidGet(
+            publicationUuid,
+            billUuid,
+            signal
+        )
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(publicationUuid && billUuid),
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof publicationsPublicationUuidBillsBillUuidGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PublicationsPublicationUuidBillsBillUuidGetQueryResult =
+    NonNullable<
+        Awaited<ReturnType<typeof publicationsPublicationUuidBillsBillUuidGet>>
+    >
+export type PublicationsPublicationUuidBillsBillUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get details of a publication bill
+ */
+export const usePublicationsPublicationUuidBillsBillUuidGet = <
+    TData = Awaited<
+        ReturnType<typeof publicationsPublicationUuidBillsBillUuidGet>
+    >,
+    TError = HTTPValidationError
+>(
+    publicationUuid: string,
+    billUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof publicationsPublicationUuidBillsBillUuidGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getPublicationsPublicationUuidBillsBillUuidGetQueryOptions(
+            publicationUuid,
+            billUuid,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Edit an existing publication Bill or version
+ */
+export const publicationsPublicationUuidBillsBillUuidPatch = (
+    publicationUuid: string,
+    billUuid: string,
+    publicationBillEdit: PublicationBillEdit
+) => {
+    return customInstance<PublicationBill>({
+        url: `/publications/${publicationUuid}/bills/${billUuid}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: publicationBillEdit,
+    })
+}
+
+export const getPublicationsPublicationUuidBillsBillUuidPatchMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<
+            ReturnType<typeof publicationsPublicationUuidBillsBillUuidPatch>
+        >,
+        TError,
+        {
+            publicationUuid: string
+            billUuid: string
+            data: PublicationBillEdit
+        },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof publicationsPublicationUuidBillsBillUuidPatch>>,
+    TError,
+    { publicationUuid: string; billUuid: string; data: PublicationBillEdit },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<
+            ReturnType<typeof publicationsPublicationUuidBillsBillUuidPatch>
+        >,
+        { publicationUuid: string; billUuid: string; data: PublicationBillEdit }
+    > = props => {
+        const { publicationUuid, billUuid, data } = props ?? {}
+
+        return publicationsPublicationUuidBillsBillUuidPatch(
+            publicationUuid,
+            billUuid,
+            data
+        )
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type PublicationsPublicationUuidBillsBillUuidPatchMutationResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof publicationsPublicationUuidBillsBillUuidPatch>
+        >
+    >
+export type PublicationsPublicationUuidBillsBillUuidPatchMutationBody =
+    PublicationBillEdit
+export type PublicationsPublicationUuidBillsBillUuidPatchMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Edit an existing publication Bill or version
+ */
+export const usePublicationsPublicationUuidBillsBillUuidPatch = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<
+            ReturnType<typeof publicationsPublicationUuidBillsBillUuidPatch>
+        >,
+        TError,
+        {
+            publicationUuid: string
+            billUuid: string
+            data: PublicationBillEdit
+        },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getPublicationsPublicationUuidBillsBillUuidPatchMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary List the existing publication Packages
+ */
+export const publicationBillsBillUuidPackagesGet = (
+    billUuid: string,
+    params?: PublicationBillsBillUuidPackagesGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponsePublicationPackage>({
+        url: `/publication-bills/${billUuid}/packages`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getPublicationBillsBillUuidPackagesGetQueryKey = (
+    billUuid: string,
+    params?: PublicationBillsBillUuidPackagesGetParams
+) => {
+    return [
+        `/publication-bills/${billUuid}/packages`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getPublicationBillsBillUuidPackagesGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof publicationBillsBillUuidPackagesGet>>,
+    TError = HTTPValidationError
+>(
+    billUuid: string,
+    params?: PublicationBillsBillUuidPackagesGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof publicationBillsBillUuidPackagesGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getPublicationBillsBillUuidPackagesGetQueryKey(billUuid, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof publicationBillsBillUuidPackagesGet>>
+    > = ({ signal }) =>
+        publicationBillsBillUuidPackagesGet(billUuid, params, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!billUuid,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof publicationBillsBillUuidPackagesGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PublicationBillsBillUuidPackagesGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof publicationBillsBillUuidPackagesGet>>
+>
+export type PublicationBillsBillUuidPackagesGetQueryError = HTTPValidationError
+
+/**
+ * @summary List the existing publication Packages
+ */
+export const usePublicationBillsBillUuidPackagesGet = <
+    TData = Awaited<ReturnType<typeof publicationBillsBillUuidPackagesGet>>,
+    TError = HTTPValidationError
+>(
+    billUuid: string,
+    params?: PublicationBillsBillUuidPackagesGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof publicationBillsBillUuidPackagesGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getPublicationBillsBillUuidPackagesGetQueryOptions(
+        billUuid,
+        params,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Create new Publication Package
+ */
+export const publicationBillsBillUuidPackagesPost = (
+    billUuid: string,
+    publicationPackageCreate: PublicationPackageCreate
+) => {
+    return customInstance<PublicationPackage>({
+        url: `/publication-bills/${billUuid}/packages`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: publicationPackageCreate,
+    })
+}
+
+export const getPublicationBillsBillUuidPackagesPostMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationBillsBillUuidPackagesPost>>,
+        TError,
+        { billUuid: string; data: PublicationPackageCreate },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof publicationBillsBillUuidPackagesPost>>,
+    TError,
+    { billUuid: string; data: PublicationPackageCreate },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof publicationBillsBillUuidPackagesPost>>,
+        { billUuid: string; data: PublicationPackageCreate }
+    > = props => {
+        const { billUuid, data } = props ?? {}
+
+        return publicationBillsBillUuidPackagesPost(billUuid, data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type PublicationBillsBillUuidPackagesPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof publicationBillsBillUuidPackagesPost>>
+>
+export type PublicationBillsBillUuidPackagesPostMutationBody =
+    PublicationPackageCreate
+export type PublicationBillsBillUuidPackagesPostMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Create new Publication Package
+ */
+export const usePublicationBillsBillUuidPackagesPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationBillsBillUuidPackagesPost>>,
+        TError,
+        { billUuid: string; data: PublicationPackageCreate },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getPublicationBillsBillUuidPackagesPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Record the submission response from lvbb of a publication package
+ */
+export const publicationPackagesPackageUuidReportPost = (
+    packageUuid: string,
+    bodyFastapiHandlerPublicationPackagesPackageUuidReportPost: BodyFastapiHandlerPublicationPackagesPackageUuidReportPost
+) => {
+    const formData = new FormData()
+    formData.append(
+        'xml_file',
+        bodyFastapiHandlerPublicationPackagesPackageUuidReportPost.xml_file
+    )
+
+    return customInstance<PublicationPackageReport>({
+        url: `/publication-packages/${packageUuid}/report`,
+        method: 'POST',
+        headers: { 'Content-Type': 'multipart/form-data' },
+        data: formData,
+    })
+}
+
+export const getPublicationPackagesPackageUuidReportPostMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationPackagesPackageUuidReportPost>>,
+        TError,
+        {
+            packageUuid: string
+            data: BodyFastapiHandlerPublicationPackagesPackageUuidReportPost
+        },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof publicationPackagesPackageUuidReportPost>>,
+    TError,
+    {
+        packageUuid: string
+        data: BodyFastapiHandlerPublicationPackagesPackageUuidReportPost
+    },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof publicationPackagesPackageUuidReportPost>>,
+        {
+            packageUuid: string
+            data: BodyFastapiHandlerPublicationPackagesPackageUuidReportPost
+        }
+    > = props => {
+        const { packageUuid, data } = props ?? {}
+
+        return publicationPackagesPackageUuidReportPost(packageUuid, data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type PublicationPackagesPackageUuidReportPostMutationResult =
+    NonNullable<
+        Awaited<ReturnType<typeof publicationPackagesPackageUuidReportPost>>
+    >
+export type PublicationPackagesPackageUuidReportPostMutationBody =
+    BodyFastapiHandlerPublicationPackagesPackageUuidReportPost
+export type PublicationPackagesPackageUuidReportPostMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Record the submission response from lvbb of a publication package
+ */
+export const usePublicationPackagesPackageUuidReportPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationPackagesPackageUuidReportPost>>,
+        TError,
+        {
+            packageUuid: string
+            data: BodyFastapiHandlerPublicationPackagesPackageUuidReportPost
+        },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getPublicationPackagesPackageUuidReportPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Download package reports
+ */
+export const publicationPackagesPackageUuidReportDownloadGet = (
+    packageUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<unknown>({
+        url: `/publication-packages/${packageUuid}/report/download`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getPublicationPackagesPackageUuidReportDownloadGetQueryKey = (
+    packageUuid: string
+) => {
+    return [`/publication-packages/${packageUuid}/report/download`] as const
+}
+
+export const getPublicationPackagesPackageUuidReportDownloadGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof publicationPackagesPackageUuidReportDownloadGet>
+    >,
+    TError = HTTPValidationError
+>(
+    packageUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof publicationPackagesPackageUuidReportDownloadGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getPublicationPackagesPackageUuidReportDownloadGetQueryKey(packageUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<typeof publicationPackagesPackageUuidReportDownloadGet>
+        >
+    > = ({ signal }) =>
+        publicationPackagesPackageUuidReportDownloadGet(packageUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!packageUuid,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<
+            ReturnType<typeof publicationPackagesPackageUuidReportDownloadGet>
+        >,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PublicationPackagesPackageUuidReportDownloadGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof publicationPackagesPackageUuidReportDownloadGet>
+        >
+    >
+export type PublicationPackagesPackageUuidReportDownloadGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Download package reports
+ */
+export const usePublicationPackagesPackageUuidReportDownloadGet = <
+    TData = Awaited<
+        ReturnType<typeof publicationPackagesPackageUuidReportDownloadGet>
+    >,
+    TError = HTTPValidationError
+>(
+    packageUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof publicationPackagesPackageUuidReportDownloadGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getPublicationPackagesPackageUuidReportDownloadGetQueryOptions(
+            packageUuid,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Download a generated publication package ZIP file
+ */
+export const publicationPackagesPackageUuidDownloadGet = (
+    packageUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<unknown>({
+        url: `/publication-packages/${packageUuid}/download`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getPublicationPackagesPackageUuidDownloadGetQueryKey = (
+    packageUuid: string
+) => {
+    return [`/publication-packages/${packageUuid}/download`] as const
+}
+
+export const getPublicationPackagesPackageUuidDownloadGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof publicationPackagesPackageUuidDownloadGet>
+    >,
+    TError = HTTPValidationError
+>(
+    packageUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof publicationPackagesPackageUuidDownloadGet>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getPublicationPackagesPackageUuidDownloadGetQueryKey(packageUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof publicationPackagesPackageUuidDownloadGet>>
+    > = ({ signal }) =>
+        publicationPackagesPackageUuidDownloadGet(packageUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!packageUuid,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof publicationPackagesPackageUuidDownloadGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PublicationPackagesPackageUuidDownloadGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof publicationPackagesPackageUuidDownloadGet>>
+>
+export type PublicationPackagesPackageUuidDownloadGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Download a generated publication package ZIP file
+ */
+export const usePublicationPackagesPackageUuidDownloadGet = <
+    TData = Awaited<
+        ReturnType<typeof publicationPackagesPackageUuidDownloadGet>
+    >,
+    TError = HTTPValidationError
+>(
+    packageUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof publicationPackagesPackageUuidDownloadGet>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getPublicationPackagesPackageUuidDownloadGetQueryOptions(
+            packageUuid,
+            options
+        )
 
     const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
         queryKey: QueryKey
