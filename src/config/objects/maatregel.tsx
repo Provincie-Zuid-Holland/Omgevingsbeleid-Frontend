@@ -172,6 +172,7 @@ const maatregel: DynamicObject<
                         </>
                     ),
                     type: 'search',
+                    required: true,
                     status: 'all',
                     placeholder: 'Kies het werkingsgebied',
                     filterType: ['werkingsgebied'],
