@@ -10,11 +10,10 @@ import {
     Tabs,
     Text,
 } from '@pzh-ui/components'
-import { Plus } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useState } from 'react'
 
-import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
+import { DocumentType, Module, ModuleObjectShort } from '@/api/fetchers.schemas'
 import Avatar from '@/components/Avatar'
 import { LoaderContent } from '@/components/Loader'
 import {
@@ -32,7 +31,7 @@ import ModuleItemList from '@/components/Modules/ModuleItemList'
 import ModuleLock from '@/components/Modules/ModuleLock'
 import ModuleTimeline from '@/components/Modules/ModuleTimeline'
 import ModuleVersionCard from '@/components/Modules/ModuleVersionCard'
-import ModuleVersionTable from '@/components/Modules/ModuleVersionTable'
+import Publication from '@/components/Publications/Publication'
 import useModule from '@/hooks/useModule'
 import useModuleManagers from '@/hooks/useModuleManagers'
 import usePermissions from '@/hooks/usePermissions'
@@ -239,7 +238,7 @@ const TabObjects = () => {
 }
 
 const TabDecisions = () => {
-    const setActiveModal = useModalStore(state => state.setActiveModal)
+    const documentTypes = Object.keys(DocumentType) as Array<DocumentType>
 
     return (
         <>
@@ -254,7 +253,17 @@ const TabDecisions = () => {
                     leveringen zie leveringen.
                 </Notification>
 
-                <div>
+                {documentTypes.map((type, index) => (
+                    <>
+                        <Publication type={type} />
+
+                        {index + 1 !== documentTypes.length && (
+                            <Divider className="my-10" />
+                        )}
+                    </>
+                ))}
+
+                {/* <div>
                     <Heading level="2" className="mb-4">
                         Visie
                     </Heading>
@@ -325,7 +334,7 @@ const TabDecisions = () => {
                         isDisabled>
                         Nieuwe versie aanmaken
                     </Button>
-                </div>
+                </div> */}
             </div>
             <ModuleDecisionModal />
         </>

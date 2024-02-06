@@ -2192,17 +2192,6 @@ export const DocumentType = {
     Omgevingsverordening: 'Omgevingsverordening',
 } as const
 
-/**
- * An enumeration.
- */
-export type DocumentType = (typeof DocumentType)[keyof typeof DocumentType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DocumentType = {
-    Programma: 'Programma',
-    Omgevingsvisie: 'Omgevingsvisie',
-} as const
-
 export interface CompleteModule {
     Decision_Number: string
     Default_Start_Validity?: string | null
