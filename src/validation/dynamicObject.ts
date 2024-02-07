@@ -33,6 +33,19 @@ const generateDynamicSchema = (sections: DynamicSection[]) => {
                                 ? schemaDefaults.url()
                                 : schemaDefaults.optionalUrl) as any),
                     }))
+                case 'area':
+                    return (dynamicSchema = dynamicSchema.extend({
+                        [field.name]:
+                            field.validation ||
+                            ((field.required
+                                ? schemaDefaults.requiredString()
+                                : schemaDefaults.optionalString) as any),
+                        Source_Title:
+                            field.validation ||
+                            ((field.required
+                                ? schemaDefaults.requiredString()
+                                : schemaDefaults.optionalString) as any),
+                    }))
                 default:
                     return dynamicSchema
             }

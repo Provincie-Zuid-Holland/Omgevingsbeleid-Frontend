@@ -153,7 +153,7 @@ export const fields: {
         value: 'Role',
     },
     {
-        title: 'Uitwerking',
+        title: 'Nadere uitwerking',
         value: 'Effect',
     },
     {
@@ -169,7 +169,7 @@ export const fields: {
         value: 'Provincial_Interest',
     },
     {
-        title: 'Toelichting',
+        title: 'Nadere uitwerking',
         value: 'Explanation',
     },
     {

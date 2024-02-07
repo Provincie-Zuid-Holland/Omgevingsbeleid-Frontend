@@ -3,7 +3,10 @@ import { Heading, Pagination, Text } from '@pzh-ui/components'
 import { useUpdateEffect } from '@react-hookz/web'
 import { useMemo, useRef } from 'react'
 
-import { useSearchGeoPost, useSearchGeometryPost } from '@/api/fetchers'
+import {
+    useSearchSourceGeoPost,
+    useSearchSourceGeometryPost,
+} from '@/api/fetchers'
 import Filter from '@/components/Filter'
 import { LoaderCard } from '@/components/Loader'
 import SearchResultItem from '@/components/SearchResultItem'
@@ -49,7 +52,9 @@ const SidebarResults = () => {
         }))
 
     const useSearch =
-        drawType === 'werkingsgebied' ? useSearchGeoPost : useSearchGeometryPost
+        drawType === 'werkingsgebied'
+            ? useSearchSourceGeoPost
+            : useSearchSourceGeometryPost
 
     const {
         data,

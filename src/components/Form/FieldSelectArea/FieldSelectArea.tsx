@@ -1,10 +1,10 @@
-import { FieldLabel, Text, formatDate } from '@pzh-ui/components'
+import { FieldLabel, FormikError, Text, formatDate } from '@pzh-ui/components'
 import { TrashCan } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useFormikContext } from 'formik'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
-import { Werkingsgebied } from '@/api/fetchers.schemas'
+import { AreaBasic } from '@/api/fetchers.schemas'
 import { ModelReturnType } from '@/config/objects/types'
 import { DynamicField } from '@/config/types'
 import useObject from '@/hooks/useObject'
@@ -28,33 +28,42 @@ const FieldSelectArea = ({
 
     const { data } = useObject()
 
-    const [area, setArea] = useState<Partial<Werkingsgebied | undefined>>(
-        data?.Gebied
-    )
+    const [area, setArea] = useState<Partial<AreaBasic | undefined>>(data?.Area)
 
     const modifiedDate = useMemo(
         () =>
-            area?.Modified_Date &&
-            formatDate(new Date(area.Modified_Date + 'Z'), 'd MMMM yyyy'),
-        [area?.Modified_Date]
+            area?.Source_Modified_Date &&
+            formatDate(
+                new Date(area.Source_Modified_Date + 'Z'),
+                'd MMMM yyyy'
+            ),
+        [area?.Source_Modified_Date]
     )
 
     /**
      * On delete clear Formik value
      */
-    const handleDeleteArea = () => setFieldValue(name, null)
+    const handleDeleteArea = () => {
+        setFieldValue(name, null)
+        setFieldValue('Source_Title', null)
+    }
 
     /**
      * Handle form submit, set Formik value
      */
     const handleFormSubmit = (payload: AreaProps) => {
         setArea({
-            Title: payload.Title || '',
-            Modified_Date: payload.Modified_Date || '',
-            UUID: payload.version
+            Source_Title: payload.Title || '',
+            UUID: payload.version,
+            Source_Modified_Date: payload.Modified_Date,
         })
         setFieldValue(name, payload.version)
+        setFieldValue('Source_Title', payload.Title)
     }
+
+    useEffect(() => {
+        setFieldValue('Source_Title', area?.Source_Title)
+    }, [area?.Source_Title, setFieldValue])
 
     return (
         <>
@@ -90,7 +99,7 @@ const FieldSelectArea = ({
                             <div className="mt-6 rounded border border-pzh-gray-200 p-2">
                                 <div className="flex items-start justify-between">
                                     <p className="font-bold leading-5">
-                                        {area?.Title}
+                                        {area?.Source_Title}
                                     </p>
                                     <button
                                         type="button"
@@ -120,6 +129,9 @@ const FieldSelectArea = ({
             )}
 
             <input name={name} type="hidden" />
+            <input name="Source_Title" type="hidden" />
+
+            <FormikError name={name} />
 
             <AreaModal handleFormSubmit={handleFormSubmit} />
         </>
