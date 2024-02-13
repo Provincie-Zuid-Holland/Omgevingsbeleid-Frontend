@@ -13,6 +13,27 @@ export type PasswordResetPostParams = {
     new_password: string
 }
 
+export type PublicationBillsBillUuidPackagesGetParams = {
+    package_event_type?: PackageEventType
+    is_successful?: boolean
+    offset?: number
+    limit?: number
+}
+
+export type PublicationsPublicationUuidBillsGetParams = {
+    version_id?: number
+    module_status?: ModuleStatusCode
+    offset?: number
+    limit?: number
+}
+
+export type PublicationsGetParams = {
+    document_type?: AppExtensionsPublicationsEnumsDocumentType
+    module_ID?: number
+    offset?: number
+    limit?: number
+}
+
 export type ObjectsValidGetParams = {
     owner_uuid?: string
     object_type?: string
@@ -106,6 +127,13 @@ export type UsersGetParams = {
     limit?: number
     sort_column?: string
     sort_order?: SortOrder
+}
+
+export type PlaygroundDoDsoModuleIdPostParams = {
+    work_version: string
+    document_type: DsoModelsDocumentType
+    geo_new?: boolean
+    opdracht_type?: OpdrachtType
 }
 
 export type WettelijkeTaakValidGetParams = {
@@ -419,6 +447,31 @@ export type AmbitiesValidGetParams = {
     sort_column?: string
     sort_order?: SortOrder
 }
+
+/**
+ * An enumeration.
+ */
+export type DsoModelsDocumentType =
+    (typeof DsoModelsDocumentType)[keyof typeof DsoModelsDocumentType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DsoModelsDocumentType = {
+    Programma: 'Programma',
+    Omgevingsvisie: 'Omgevingsvisie',
+} as const
+
+/**
+ * An enumeration.
+ */
+export type AppExtensionsPublicationsEnumsDocumentType =
+    (typeof AppExtensionsPublicationsEnumsDocumentType)[keyof typeof AppExtensionsPublicationsEnumsDocumentType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AppExtensionsPublicationsEnumsDocumentType = {
+    Omgevingsvisie: 'Omgevingsvisie',
+    Omgevingsprogramma: 'Omgevingsprogramma',
+    Omgevingsverordening: 'Omgevingsverordening',
+} as const
 
 export interface WriteRelation {
     Description?: string | null
@@ -792,6 +845,15 @@ export interface User {
 }
 
 /**
+ * tijd_artikel
+ */
+export interface TimeArticle {
+    Content: string
+    Label: string
+    Number?: string
+}
+
+/**
  * An enumeration.
  */
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
@@ -889,6 +951,156 @@ export interface ReadRelation {
     Object_ID: number
     Object_Type: string
     Title?: string | null
+}
+
+export interface PublicationPackageReport {
+    Created_By_UUID: string
+    Created_Date: string
+    ID: number
+    Messages?: string
+    Package_UUID: string
+    Report_Timestamp?: string
+    Report_Type?: string
+    Result?: string
+}
+
+export interface PublicationPackageCreate {
+    Announcement_Date?: string
+    Config_ID?: number
+    Package_Event_Type: PackageEventType
+}
+
+export interface PublicationFRBR {
+    act_expression_date: string
+    act_expression_lang: string
+    act_expression_misc?: string
+    act_expression_version: string
+    act_work_country: string
+    act_work_date: string
+    act_work_misc?: string
+    bill_expression_date: string
+    bill_expression_lang: string
+    bill_expression_misc?: string
+    bill_expression_version: string
+    bill_work_country: string
+    bill_work_date: string
+    bill_work_misc?: string
+    Created_Date: string
+    ID: number
+}
+
+export interface PublicationPackage {
+    Announcement_Date: string
+    Bill_UUID: string
+    Config_ID: number
+    Created_By_UUID: string
+    Created_Date: string
+    FRBR_ID: number
+    FRBR_Info?: PublicationFRBR
+    Modified_By_UUID: string
+    Modified_Date: string
+    Package_Event_Type: PackageEventType
+    Publication_Bill?: PublicationBill
+    Publication_Config?: PublicationConfig
+    Publication_Filename?: string
+    Reports?: PublicationPackageReport[]
+    UUID: string
+    Validation_Status?: string
+    ZIP_File_Checksum?: string
+    ZIP_File_Name?: string
+}
+
+export interface PublicationEdit {
+    Official_Title?: string
+    Regulation_Title?: string
+    Template_ID?: number
+}
+
+export interface PublicationCreate {
+    Document_Type: AppExtensionsPublicationsEnumsDocumentType
+    Module_ID: number
+    Official_Title: string
+    Regulation_Title: string
+    Template_ID?: number
+}
+
+export interface PublicationConfig {
+    Act_Componentname: string
+    Authority_ID: string
+    Created_Date: string
+    DSO_BHKV_VERSION: string
+    DSO_STOP_VERSION: string
+    DSO_TPOD_VERSION: string
+    Governing_Body_Type: string
+    ID: number
+    Jurisdiction: string
+    Province_ID: string
+    Subjects: string
+    Submitter_ID: string
+}
+
+export interface PublicationBillShort {
+    Created_Date: string
+    Is_Official: boolean
+    Modified_Date: string
+    Module_Status_ID: number
+    Procedure_Type: ProcedureType
+    Publication_UUID: string
+    UUID: string
+    Version_ID?: number
+}
+
+export interface PublicationBillEdit {
+    Announcement_Date?: string
+    Bill_Data?: BillData
+    Effective_Date?: string
+    Procedure_Data?: ProcedureData
+}
+
+export interface PublicationBillCreate {
+    Announcement_Date?: string
+    Bill_Data?: BillData
+    Effective_Date?: string
+    Is_Official: boolean
+    Module_Status_ID: number
+    Procedure_Data?: ProcedureData
+    Procedure_Type: ProcedureType
+    PZH_Bill_Identifier?: string
+}
+
+/**
+ * STOP Besluit
+ */
+export interface PublicationBill {
+    Announcement_Date: string
+    Bill_Data?: BillData
+    Created_By_UUID: string
+    Created_Date: string
+    Effective_Date: string
+    Is_Official: boolean
+    Modified_By_UUID: string
+    Modified_Date: string
+    Module_Status_ID: number
+    Procedure_Data?: ProcedureData
+    Procedure_Type: ProcedureType
+    Publication_UUID: string
+    PZH_Bill_Identifier?: string
+    UUID: string
+    Version_ID?: number
+}
+
+export interface Publication {
+    Created_By_UUID: string
+    Created_Date: string
+    Document_Type: AppExtensionsPublicationsEnumsDocumentType
+    Modified_By_UUID: string
+    Modified_Date: string
+    Module_ID: number
+    Official_Title: string
+    Regulation_Title: string
+    Template_ID?: number
+    UUID: string
+    Work_ID: number
 }
 
 export interface PublicModuleShort {
@@ -1003,6 +1215,52 @@ export interface ProgrammaAlgemeenBasic {
 }
 
 /**
+ * An enumeration.
+ */
+export type ProcedureType = (typeof ProcedureType)[keyof typeof ProcedureType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ProcedureType = {
+    Ontwerp: 'Ontwerp',
+    Definitief: 'Definitief',
+} as const
+
+/**
+ * STOP ProcedureStappenDefinitief
+ */
+export type ProcedureStepType =
+    (typeof ProcedureStepType)[keyof typeof ProcedureStepType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ProcedureStepType = {
+    Vaststelling: 'Vaststelling',
+    Ondertekening: 'Ondertekening',
+    Publicatie: 'Publicatie',
+    Einde_bezwaartermijn: 'Einde_bezwaartermijn',
+    Einde_beroepstermijn: 'Einde_beroepstermijn',
+    Start_beroepsprocedures: 'Start_beroepsprocedures',
+    Schorsing: 'Schorsing',
+    Opheffing_Schorsing: 'Opheffing_Schorsing',
+    Einde_beroepsprocedures: 'Einde_beroepsprocedures',
+} as const
+
+/**
+ * STOP Procedurestap
+ */
+export interface ProcedureStep {
+    Conclusion_Date: string
+    Step_Type: ProcedureStepType
+}
+
+/**
+ * STOP Procedureverloop
+ */
+export interface ProcedureData {
+    Announcement_Date: string
+    Steps: ProcedureStep[]
+}
+
+/**
  * Wrap any response schema and add pagination metadata.
  */
 export interface PagedResponseWettelijkeTaakBasic {
@@ -1105,6 +1363,36 @@ export interface PagedResponseSearchObject {
 /**
  * Wrap any response schema and add pagination metadata.
  */
+export interface PagedResponsePublication {
+    limit?: number
+    offset?: number
+    results: Publication[]
+    total: number
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
+export interface PagedResponsePublicationPackage {
+    limit?: number
+    offset?: number
+    results: PublicationPackage[]
+    total: number
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
+export interface PagedResponsePublicationBillShort {
+    limit?: number
+    offset?: number
+    results: PublicationBillShort[]
+    total: number
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
 export interface PagedResponsePublicModuleShort {
     limit?: number
     offset?: number
@@ -1130,17 +1418,6 @@ export interface PagedResponseProgrammaAlgemeenBasic {
     offset?: number
     results: ProgrammaAlgemeenBasic[]
     total: number
-}
-
-export interface NationaalBelangBasic {
-    Code?: string
-    Created_Date?: string
-    Modified_Date?: string
-    Object_ID?: number
-    Object_Type?: string
-    Title?: string
-    UUID?: string
-    Weblink?: string
 }
 
 /**
@@ -1313,6 +1590,30 @@ export interface PagedResponseAmbitieBasic {
     total: number
 }
 
+/**
+ * An enumeration.
+ */
+export type PackageEventType =
+    (typeof PackageEventType)[keyof typeof PackageEventType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PackageEventType = {
+    Validatie: 'Validatie',
+    Publicatie: 'Publicatie',
+    Afbreken: 'Afbreken',
+} as const
+
+/**
+ * An enumeration.
+ */
+export type OpdrachtType = (typeof OpdrachtType)[keyof typeof OpdrachtType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OpdrachtType = {
+    PUBLICATIE: 'PUBLICATIE',
+    VALIDATIE: 'VALIDATIE',
+} as const
+
 export interface ObjectStaticShort {
     Client_1_UUID?: string
     Owner_1_UUID?: string
@@ -1400,6 +1701,17 @@ export interface NationaalBelangCreate {
     ObjectStatics?: NationaalBelangCreateObjectStatics
     Title?: string
     Weblink?: string | null
+}
+
+export interface NationaalBelangBasic {
+    Code?: string
+    Created_Date?: string
+    Modified_Date?: string
+    Object_ID?: number
+    Object_Type?: string
+    Title?: string
+    UUID?: string
+    Weblink?: string
 }
 
 /**
@@ -1910,6 +2222,10 @@ export interface CompleteModule {
     ObjectSpecifiekeGeldigheden?: ObjectSpecifiekeGeldigheid[]
 }
 
+export interface BodyFastapiHandlerPublicationPackagesPackageUuidReportPost {
+    xml_file: Blob
+}
+
 export interface BodyFastapiHandlerLoginAccessTokenPost {
     client_id?: string
     client_secret?: string
@@ -1917,6 +2233,26 @@ export interface BodyFastapiHandlerLoginAccessTokenPost {
     password: string
     scope?: string
     username: string
+}
+
+/**
+ * tekst_artikel
+ */
+export interface BillArticle {
+    Content: string
+    Label: string
+    Number?: string
+}
+
+export interface BillData {
+    Amendment_Article?: AmendmentArticle
+    Articles?: BillArticle[]
+    Bill_Title: string
+    Closing: string
+    Preamble?: string
+    Regulation_Title: string
+    Signature: string
+    Time_Article?: TimeArticle
 }
 
 export interface BeleidsregelUUID {
@@ -2236,6 +2572,15 @@ export interface AreaBasic {
     Source_Title: string
     Source_UUID: string
     UUID: string
+}
+
+/**
+ * STOP WijzigingArtikel
+ */
+export interface AmendmentArticle {
+    Content: string
+    Label: string
+    Number?: string
 }
 
 export interface AmbitieUUID {

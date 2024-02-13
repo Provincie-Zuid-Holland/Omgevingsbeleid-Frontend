@@ -1,3 +1,8 @@
+import {
+    AppExtensionsPublicationsEnumsDocumentType,
+    Publication,
+} from '@/api/fetchers.schemas'
+
 export type ModalType =
     | 'regulationAdd'
     | 'regulationDelete'
@@ -11,7 +16,6 @@ export type ModalType =
     | 'moduleAddObject'
     | 'moduleEditObject'
     | 'moduleDeleteObject'
-    | 'moduleDecision'
     | 'areaAdd'
     | 'objectDetails'
     | 'objectAddConnection'
@@ -24,3 +28,12 @@ export type ModalType =
     | 'userAdd'
     | 'userEdit'
     | 'userPasswordReset'
+    | 'publicationAdd'
+    | 'publicationVersionAdd'
+    | 'publicationVersionEdit'
+
+export interface ModalStateMap {
+    publicationAdd: { type: AppExtensionsPublicationsEnumsDocumentType }
+    publicationVersionAdd: { publication: Publication; prevUUID?: string }
+    publicationVersionEdit: { publication: Publication; UUID: string }
+}

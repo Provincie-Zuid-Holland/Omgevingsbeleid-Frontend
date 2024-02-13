@@ -10,11 +10,14 @@ import {
     Tabs,
     Text,
 } from '@pzh-ui/components'
-import { Plus } from '@pzh-ui/icons'
 import classNames from 'classnames'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 
-import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
+import {
+    AppExtensionsPublicationsEnumsDocumentType,
+    Module,
+    ModuleObjectShort,
+} from '@/api/fetchers.schemas'
 import Avatar from '@/components/Avatar'
 import { LoaderContent } from '@/components/Loader'
 import {
@@ -25,14 +28,18 @@ import {
     ModuleLockModal,
     ModuleObjectDeleteConfirmationModal,
 } from '@/components/Modals/ModuleModals'
-import ModuleDecisionModal from '@/components/Modals/ModuleModals/ModuleDecisionModal'
+import {
+    PublicationAddModal,
+    PublicationVersionAddModal,
+    PublicationVersionEditModal,
+} from '@/components/Modals/PublicationModals'
 import ModuleCompleteCard from '@/components/Modules/ModuleCompleteCard'
 import ModuleInactiveCard from '@/components/Modules/ModuleInactiveCard'
 import ModuleItemList from '@/components/Modules/ModuleItemList'
 import ModuleLock from '@/components/Modules/ModuleLock'
 import ModuleTimeline from '@/components/Modules/ModuleTimeline'
 import ModuleVersionCard from '@/components/Modules/ModuleVersionCard'
-import ModuleVersionTable from '@/components/Modules/ModuleVersionTable'
+import Publication from '@/components/Publications/Publication'
 import useModule from '@/hooks/useModule'
 import useModuleManagers from '@/hooks/useModuleManagers'
 import usePermissions from '@/hooks/usePermissions'
@@ -239,7 +246,9 @@ const TabObjects = () => {
 }
 
 const TabDecisions = () => {
-    const setActiveModal = useModalStore(state => state.setActiveModal)
+    const documentTypes = Object.keys(
+        AppExtensionsPublicationsEnumsDocumentType
+    ) as Array<AppExtensionsPublicationsEnumsDocumentType>
 
     return (
         <>
@@ -254,80 +263,20 @@ const TabDecisions = () => {
                     leveringen zie leveringen.
                 </Notification>
 
-                <div>
-                    <Heading level="2" className="mb-4">
-                        Visie
-                    </Heading>
+                {documentTypes.map((type, index) => (
+                    <Fragment key={type}>
+                        <Publication type={type} />
 
-                    <ModuleVersionTable
-                        versions={[
-                            {
-                                version: 1,
-                                status: 'Ontwerp GS',
-                                type: 'Ontwerp',
-                                purpose: 'Interne publicatie',
-                                uploadDate: '03-01-2024',
-                            },
-                            {
-                                version: 2,
-                                status: 'Ontwerp GS',
-                                type: 'Ontwerp',
-                                purpose: 'Officiële publicatie',
-                            },
-                        ]}
-                    />
-
-                    <Button
-                        icon={Plus}
-                        size="small"
-                        onPress={() => setActiveModal('moduleDecision')}>
-                        Nieuwe versie aanmaken
-                    </Button>
-                </div>
-
-                <Divider className="my-10" />
-
-                <div>
-                    <Heading level="2" className="mb-4">
-                        Programma
-                    </Heading>
-
-                    <ModuleVersionTable
-                        versions={[
-                            {
-                                version: 1,
-                                status: 'Ontwerp GS',
-                                type: 'Ontwerp',
-                                purpose: 'Officiële publicatie',
-                                isPending: true,
-                            },
-                        ]}
-                    />
-
-                    <Button
-                        icon={Plus}
-                        size="small"
-                        onPress={() => setActiveModal('moduleDecision')}>
-                        Nieuwe versie aanmaken
-                    </Button>
-                </div>
-
-                <Divider className="my-10" />
-
-                <div>
-                    <Heading level="2" className="mb-4">
-                        Verordening
-                    </Heading>
-                    <Button
-                        icon={Plus}
-                        size="small"
-                        onPress={() => setActiveModal('moduleDecision')}
-                        isDisabled>
-                        Nieuwe versie aanmaken
-                    </Button>
-                </div>
+                        {index + 1 !== documentTypes.length && (
+                            <Divider className="my-10" />
+                        )}
+                    </Fragment>
+                ))}
             </div>
-            <ModuleDecisionModal />
+
+            <PublicationAddModal />
+            <PublicationVersionAddModal />
+            <PublicationVersionEditModal />
         </>
     )
 }

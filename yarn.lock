@@ -1542,7 +1542,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/types@npm:^7.0.0, @babel/types@npm:^7.20.7, @babel/types@npm:^7.21.3, @babel/types@npm:^7.22.15, @babel/types@npm:^7.22.19, @babel/types@npm:^7.22.5, @babel/types@npm:^7.23.0, @babel/types@npm:^7.23.4, @babel/types@npm:^7.23.6, @babel/types@npm:^7.23.9, @babel/types@npm:^7.4.4, @babel/types@npm:^7.8.3":
+"@babel/types@npm:^7.0.0, @babel/types@npm:^7.20.7, @babel/types@npm:^7.21.3, @babel/types@npm:^7.22.15, @babel/types@npm:^7.22.19, @babel/types@npm:^7.22.5, @babel/types@npm:^7.23.0, @babel/types@npm:^7.23.4, @babel/types@npm:^7.23.6, @babel/types@npm:^7.4.4, @babel/types@npm:^7.8.3":
+  version: 7.23.6
+  resolution: "@babel/types@npm:7.23.6"
+  dependencies:
+    "@babel/helper-string-parser": "npm:^7.23.4"
+    "@babel/helper-validator-identifier": "npm:^7.22.20"
+    to-fast-properties: "npm:^2.0.0"
+  checksum: 07e70bb94d30b0231396b5e9a7726e6d9227a0a62e0a6830c0bd3232f33b024092e3d5a7d1b096a65bbf2bb43a9ab4c721bf618e115bfbb87b454fa060f88cbf
+  languageName: node
+  linkType: hard
+
+"@babel/types@npm:^7.23.9":
   version: 7.23.9
   resolution: "@babel/types@npm:7.23.9"
   dependencies:
@@ -2470,9 +2481,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.463":
-  version: 0.0.463
-  resolution: "@pzh-ui/components@npm:0.0.463"
+"@pzh-ui/components@npm:^0.0.465":
+  version: 0.0.465
+  resolution: "@pzh-ui/components@npm:0.0.465"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
@@ -2522,7 +2533,7 @@ __metadata:
     react-stately: "npm:^3.18.0"
     react-table: "npm:^7.8.0"
     react-toastify: "npm:^9.1.2"
-  checksum: c7afdde70501bc6ff443757fc0b6d8f15adf7f91c8d2cd3bfa80c9086773562f5b19a2890b86425243a6691f0d042f332fd43881324676cf0d9acd5ddf61f8f8
+  checksum: c58dc32aa107819994b6240749e9871c0288a18c3d8baa30cc1714501f82a08c92481c8ce874bb2e0a5cb21055bc0041a939856c7a3cda22ff70cc7cb78e714c
   languageName: node
   linkType: hard
 
@@ -2554,9 +2565,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/css@npm:^0.0.79":
-  version: 0.0.79
-  resolution: "@pzh-ui/css@npm:0.0.79"
+"@pzh-ui/css@npm:^0.0.80":
+  version: 0.0.80
+  resolution: "@pzh-ui/css@npm:0.0.80"
   dependencies:
     "@rollup/plugin-typescript": "npm:^8.3.1"
     "@tailwindcss/custom-forms": "npm:^0.2.1"
@@ -2565,7 +2576,7 @@ __metadata:
     "@tailwindcss/typography": "npm:^0.5.9"
     react-datepicker: "npm:^4.7.0"
     react-toastify: "npm:^9.1.2"
-  checksum: 65f08cd2a33108adf63a83cbe680f6f72733385cff6608d082a7c47d93f5457cb595a15d90c8057553877737be658a21c670ca1693f96a8595c03da232b00614
+  checksum: f33cfa8697ac1840659461e1bc574a74d7ce26a6194bd4c159c7256073734c5f72e20c6a19535e5d767f0997902bd632ecce8a95342aafff32177effc70a9211
   languageName: node
   linkType: hard
 
@@ -12352,9 +12363,9 @@ __metadata:
     "@axe-core/react": "npm:^4.8.2"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-    "@pzh-ui/components": "npm:^0.0.463"
+    "@pzh-ui/components": "npm:^0.0.465"
     "@pzh-ui/config": "npm:^0.0.56"
-    "@pzh-ui/css": "npm:^0.0.79"
+    "@pzh-ui/css": "npm:^0.0.80"
     "@pzh-ui/icons": "npm:^0.0.50"
     "@react-hookz/web": "npm:^24.0.2"
     "@tanstack/react-query": "npm:^5.14.2"

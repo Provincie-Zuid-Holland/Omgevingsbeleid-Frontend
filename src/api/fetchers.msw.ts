@@ -10,7 +10,13 @@
  */
 import { faker } from '@faker-js/faker'
 import { HttpResponse, delay, http } from 'msw'
-import { GraphEdgeType } from './fetchers.schemas'
+import {
+    AppExtensionsPublicationsEnumsDocumentType,
+    GraphEdgeType,
+    PackageEventType,
+    ProcedureStepType,
+    ProcedureType,
+} from './fetchers.schemas'
 
 export const getAmbitiesValidGetMock = () => ({
     limit: faker.helpers.arrayElement([
@@ -11848,6 +11854,849 @@ export const getObjectsValidGetMock = () => ({
     total: faker.number.int({ min: undefined, max: undefined }),
 })
 
+export const getPublicationsGetMock = () => ({
+    limit: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    offset: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    results: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Created_By_UUID: faker.string.uuid(),
+        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Document_Type: faker.helpers.arrayElement(
+            Object.values(AppExtensionsPublicationsEnumsDocumentType)
+        ),
+        Modified_By_UUID: faker.string.uuid(),
+        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Module_ID: faker.number.int({ min: undefined, max: undefined }),
+        Official_Title: faker.word.sample(),
+        Regulation_Title: faker.word.sample(),
+        Template_ID: faker.helpers.arrayElement([
+            faker.number.int({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        UUID: faker.string.uuid(),
+        Work_ID: faker.number.int({ min: undefined, max: undefined }),
+    })),
+    total: faker.number.int({ min: undefined, max: undefined }),
+})
+
+export const getPublicationsPostMock = () => ({
+    Created_By_UUID: faker.string.uuid(),
+    Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Document_Type: faker.helpers.arrayElement(
+        Object.values(AppExtensionsPublicationsEnumsDocumentType)
+    ),
+    Modified_By_UUID: faker.string.uuid(),
+    Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Module_ID: faker.number.int({ min: undefined, max: undefined }),
+    Official_Title: faker.word.sample(),
+    Regulation_Title: faker.word.sample(),
+    Template_ID: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    UUID: faker.string.uuid(),
+    Work_ID: faker.number.int({ min: undefined, max: undefined }),
+})
+
+export const getPublicationsPublicationUuidGetMock = () => ({
+    Created_By_UUID: faker.string.uuid(),
+    Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Document_Type: faker.helpers.arrayElement(
+        Object.values(AppExtensionsPublicationsEnumsDocumentType)
+    ),
+    Modified_By_UUID: faker.string.uuid(),
+    Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Module_ID: faker.number.int({ min: undefined, max: undefined }),
+    Official_Title: faker.word.sample(),
+    Regulation_Title: faker.word.sample(),
+    Template_ID: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    UUID: faker.string.uuid(),
+    Work_ID: faker.number.int({ min: undefined, max: undefined }),
+})
+
+export const getPublicationsPublicationUuidPatchMock = () => ({
+    Created_By_UUID: faker.string.uuid(),
+    Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Document_Type: faker.helpers.arrayElement(
+        Object.values(AppExtensionsPublicationsEnumsDocumentType)
+    ),
+    Modified_By_UUID: faker.string.uuid(),
+    Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Module_ID: faker.number.int({ min: undefined, max: undefined }),
+    Official_Title: faker.word.sample(),
+    Regulation_Title: faker.word.sample(),
+    Template_ID: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    UUID: faker.string.uuid(),
+    Work_ID: faker.number.int({ min: undefined, max: undefined }),
+})
+
+export const getPublicationsPublicationUuidBillsGetMock = () => ({
+    limit: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    offset: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    results: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Is_Official: faker.datatype.boolean(),
+        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Module_Status_ID: faker.number.int({ min: undefined, max: undefined }),
+        Procedure_Type: faker.helpers.arrayElement(
+            Object.values(ProcedureType)
+        ),
+        Publication_UUID: faker.string.uuid(),
+        UUID: faker.string.uuid(),
+        Version_ID: faker.helpers.arrayElement([
+            faker.number.int({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+    })),
+    total: faker.number.int({ min: undefined, max: undefined }),
+})
+
+export const getPublicationsPublicationUuidBillsPostMock = () => ({
+    Announcement_Date: faker.date.past().toISOString().split('T')[0],
+    Bill_Data: faker.helpers.arrayElement([
+        {
+            Amendment_Article: faker.helpers.arrayElement([
+                {
+                    Content: faker.word.sample(),
+                    Label: faker.word.sample(),
+                    Number: faker.helpers.arrayElement([
+                        faker.word.sample(),
+                        undefined,
+                    ]),
+                },
+                undefined,
+            ]),
+            Articles: faker.helpers.arrayElement([
+                Array.from(
+                    { length: faker.number.int({ min: 1, max: 10 }) },
+                    (_, i) => i + 1
+                ).map(() => ({
+                    Content: faker.word.sample(),
+                    Label: faker.word.sample(),
+                    Number: faker.helpers.arrayElement([
+                        faker.word.sample(),
+                        undefined,
+                    ]),
+                })),
+                undefined,
+            ]),
+            Bill_Title: faker.word.sample(),
+            Closing: faker.word.sample(),
+            Preamble: faker.helpers.arrayElement([
+                faker.word.sample(),
+                undefined,
+            ]),
+            Regulation_Title: faker.word.sample(),
+            Signature: faker.word.sample(),
+            Time_Article: faker.helpers.arrayElement([
+                {
+                    Content: faker.word.sample(),
+                    Label: faker.word.sample(),
+                    Number: faker.helpers.arrayElement([
+                        faker.word.sample(),
+                        undefined,
+                    ]),
+                },
+                undefined,
+            ]),
+        },
+        undefined,
+    ]),
+    Created_By_UUID: faker.string.uuid(),
+    Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Effective_Date: faker.date.past().toISOString().split('T')[0],
+    Is_Official: faker.datatype.boolean(),
+    Modified_By_UUID: faker.string.uuid(),
+    Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Module_Status_ID: faker.number.int({ min: undefined, max: undefined }),
+    Procedure_Data: faker.helpers.arrayElement([
+        {
+            Announcement_Date: faker.date.past().toISOString().split('T')[0],
+            Steps: Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Conclusion_Date: faker.date.past().toISOString().split('T')[0],
+                Step_Type: faker.helpers.arrayElement(
+                    Object.values(ProcedureStepType)
+                ),
+            })),
+        },
+        undefined,
+    ]),
+    Procedure_Type: faker.helpers.arrayElement(Object.values(ProcedureType)),
+    Publication_UUID: faker.string.uuid(),
+    PZH_Bill_Identifier: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
+    UUID: faker.string.uuid(),
+    Version_ID: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+})
+
+export const getPublicationsPublicationUuidBillsBillUuidGetMock = () => ({
+    Announcement_Date: faker.date.past().toISOString().split('T')[0],
+    Bill_Data: faker.helpers.arrayElement([
+        {
+            Amendment_Article: faker.helpers.arrayElement([
+                {
+                    Content: faker.word.sample(),
+                    Label: faker.word.sample(),
+                    Number: faker.helpers.arrayElement([
+                        faker.word.sample(),
+                        undefined,
+                    ]),
+                },
+                undefined,
+            ]),
+            Articles: faker.helpers.arrayElement([
+                Array.from(
+                    { length: faker.number.int({ min: 1, max: 10 }) },
+                    (_, i) => i + 1
+                ).map(() => ({
+                    Content: faker.word.sample(),
+                    Label: faker.word.sample(),
+                    Number: faker.helpers.arrayElement([
+                        faker.word.sample(),
+                        undefined,
+                    ]),
+                })),
+                undefined,
+            ]),
+            Bill_Title: faker.word.sample(),
+            Closing: faker.word.sample(),
+            Preamble: faker.helpers.arrayElement([
+                faker.word.sample(),
+                undefined,
+            ]),
+            Regulation_Title: faker.word.sample(),
+            Signature: faker.word.sample(),
+            Time_Article: faker.helpers.arrayElement([
+                {
+                    Content: faker.word.sample(),
+                    Label: faker.word.sample(),
+                    Number: faker.helpers.arrayElement([
+                        faker.word.sample(),
+                        undefined,
+                    ]),
+                },
+                undefined,
+            ]),
+        },
+        undefined,
+    ]),
+    Created_By_UUID: faker.string.uuid(),
+    Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Effective_Date: faker.date.past().toISOString().split('T')[0],
+    Is_Official: faker.datatype.boolean(),
+    Modified_By_UUID: faker.string.uuid(),
+    Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Module_Status_ID: faker.number.int({ min: undefined, max: undefined }),
+    Procedure_Data: faker.helpers.arrayElement([
+        {
+            Announcement_Date: faker.date.past().toISOString().split('T')[0],
+            Steps: Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Conclusion_Date: faker.date.past().toISOString().split('T')[0],
+                Step_Type: faker.helpers.arrayElement(
+                    Object.values(ProcedureStepType)
+                ),
+            })),
+        },
+        undefined,
+    ]),
+    Procedure_Type: faker.helpers.arrayElement(Object.values(ProcedureType)),
+    Publication_UUID: faker.string.uuid(),
+    PZH_Bill_Identifier: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
+    UUID: faker.string.uuid(),
+    Version_ID: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+})
+
+export const getPublicationsPublicationUuidBillsBillUuidPatchMock = () => ({
+    Announcement_Date: faker.date.past().toISOString().split('T')[0],
+    Bill_Data: faker.helpers.arrayElement([
+        {
+            Amendment_Article: faker.helpers.arrayElement([
+                {
+                    Content: faker.word.sample(),
+                    Label: faker.word.sample(),
+                    Number: faker.helpers.arrayElement([
+                        faker.word.sample(),
+                        undefined,
+                    ]),
+                },
+                undefined,
+            ]),
+            Articles: faker.helpers.arrayElement([
+                Array.from(
+                    { length: faker.number.int({ min: 1, max: 10 }) },
+                    (_, i) => i + 1
+                ).map(() => ({
+                    Content: faker.word.sample(),
+                    Label: faker.word.sample(),
+                    Number: faker.helpers.arrayElement([
+                        faker.word.sample(),
+                        undefined,
+                    ]),
+                })),
+                undefined,
+            ]),
+            Bill_Title: faker.word.sample(),
+            Closing: faker.word.sample(),
+            Preamble: faker.helpers.arrayElement([
+                faker.word.sample(),
+                undefined,
+            ]),
+            Regulation_Title: faker.word.sample(),
+            Signature: faker.word.sample(),
+            Time_Article: faker.helpers.arrayElement([
+                {
+                    Content: faker.word.sample(),
+                    Label: faker.word.sample(),
+                    Number: faker.helpers.arrayElement([
+                        faker.word.sample(),
+                        undefined,
+                    ]),
+                },
+                undefined,
+            ]),
+        },
+        undefined,
+    ]),
+    Created_By_UUID: faker.string.uuid(),
+    Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Effective_Date: faker.date.past().toISOString().split('T')[0],
+    Is_Official: faker.datatype.boolean(),
+    Modified_By_UUID: faker.string.uuid(),
+    Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Module_Status_ID: faker.number.int({ min: undefined, max: undefined }),
+    Procedure_Data: faker.helpers.arrayElement([
+        {
+            Announcement_Date: faker.date.past().toISOString().split('T')[0],
+            Steps: Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Conclusion_Date: faker.date.past().toISOString().split('T')[0],
+                Step_Type: faker.helpers.arrayElement(
+                    Object.values(ProcedureStepType)
+                ),
+            })),
+        },
+        undefined,
+    ]),
+    Procedure_Type: faker.helpers.arrayElement(Object.values(ProcedureType)),
+    Publication_UUID: faker.string.uuid(),
+    PZH_Bill_Identifier: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
+    UUID: faker.string.uuid(),
+    Version_ID: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+})
+
+export const getPublicationBillsBillUuidPackagesGetMock = () => ({
+    limit: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    offset: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    results: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Announcement_Date: faker.date.past().toISOString().split('T')[0],
+        Bill_UUID: faker.string.uuid(),
+        Config_ID: faker.number.int({ min: undefined, max: undefined }),
+        Created_By_UUID: faker.string.uuid(),
+        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        FRBR_ID: faker.number.int({ min: undefined, max: undefined }),
+        FRBR_Info: faker.helpers.arrayElement([
+            {
+                act_expression_date: faker.date
+                    .past()
+                    .toISOString()
+                    .split('T')[0],
+                act_expression_lang: faker.word.sample(),
+                act_expression_misc: faker.helpers.arrayElement([
+                    faker.word.sample(),
+                    undefined,
+                ]),
+                act_expression_version: faker.word.sample(),
+                act_work_country: faker.word.sample(),
+                act_work_date: faker.word.sample(),
+                act_work_misc: faker.helpers.arrayElement([
+                    faker.word.sample(),
+                    undefined,
+                ]),
+                bill_expression_date: faker.date
+                    .past()
+                    .toISOString()
+                    .split('T')[0],
+                bill_expression_lang: faker.word.sample(),
+                bill_expression_misc: faker.helpers.arrayElement([
+                    faker.word.sample(),
+                    undefined,
+                ]),
+                bill_expression_version: faker.word.sample(),
+                bill_work_country: faker.word.sample(),
+                bill_work_date: faker.word.sample(),
+                bill_work_misc: faker.helpers.arrayElement([
+                    faker.word.sample(),
+                    undefined,
+                ]),
+                Created_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                ID: faker.number.int({ min: undefined, max: undefined }),
+            },
+            undefined,
+        ]),
+        Modified_By_UUID: faker.string.uuid(),
+        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Package_Event_Type: faker.helpers.arrayElement(
+            Object.values(PackageEventType)
+        ),
+        Publication_Bill: faker.helpers.arrayElement([
+            {
+                Announcement_Date: faker.date
+                    .past()
+                    .toISOString()
+                    .split('T')[0],
+                Bill_Data: faker.helpers.arrayElement([
+                    {
+                        Amendment_Article: faker.helpers.arrayElement([
+                            {
+                                Content: faker.word.sample(),
+                                Label: faker.word.sample(),
+                                Number: faker.helpers.arrayElement([
+                                    faker.word.sample(),
+                                    undefined,
+                                ]),
+                            },
+                            undefined,
+                        ]),
+                        Articles: faker.helpers.arrayElement([
+                            Array.from(
+                                {
+                                    length: faker.number.int({
+                                        min: 1,
+                                        max: 10,
+                                    }),
+                                },
+                                (_, i) => i + 1
+                            ).map(() => ({
+                                Content: faker.word.sample(),
+                                Label: faker.word.sample(),
+                                Number: faker.helpers.arrayElement([
+                                    faker.word.sample(),
+                                    undefined,
+                                ]),
+                            })),
+                            undefined,
+                        ]),
+                        Bill_Title: faker.word.sample(),
+                        Closing: faker.word.sample(),
+                        Preamble: faker.helpers.arrayElement([
+                            faker.word.sample(),
+                            undefined,
+                        ]),
+                        Regulation_Title: faker.word.sample(),
+                        Signature: faker.word.sample(),
+                        Time_Article: faker.helpers.arrayElement([
+                            {
+                                Content: faker.word.sample(),
+                                Label: faker.word.sample(),
+                                Number: faker.helpers.arrayElement([
+                                    faker.word.sample(),
+                                    undefined,
+                                ]),
+                            },
+                            undefined,
+                        ]),
+                    },
+                    undefined,
+                ]),
+                Created_By_UUID: faker.string.uuid(),
+                Created_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Effective_Date: faker.date.past().toISOString().split('T')[0],
+                Is_Official: faker.datatype.boolean(),
+                Modified_By_UUID: faker.string.uuid(),
+                Modified_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Module_Status_ID: faker.number.int({
+                    min: undefined,
+                    max: undefined,
+                }),
+                Procedure_Data: faker.helpers.arrayElement([
+                    {
+                        Announcement_Date: faker.date
+                            .past()
+                            .toISOString()
+                            .split('T')[0],
+                        Steps: Array.from(
+                            { length: faker.number.int({ min: 1, max: 10 }) },
+                            (_, i) => i + 1
+                        ).map(() => ({
+                            Conclusion_Date: faker.date
+                                .past()
+                                .toISOString()
+                                .split('T')[0],
+                            Step_Type: faker.helpers.arrayElement(
+                                Object.values(ProcedureStepType)
+                            ),
+                        })),
+                    },
+                    undefined,
+                ]),
+                Procedure_Type: faker.helpers.arrayElement(
+                    Object.values(ProcedureType)
+                ),
+                Publication_UUID: faker.string.uuid(),
+                PZH_Bill_Identifier: faker.helpers.arrayElement([
+                    faker.word.sample(),
+                    undefined,
+                ]),
+                UUID: faker.string.uuid(),
+                Version_ID: faker.helpers.arrayElement([
+                    faker.number.int({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+            },
+            undefined,
+        ]),
+        Publication_Config: faker.helpers.arrayElement([
+            {
+                Act_Componentname: faker.word.sample(),
+                Authority_ID: faker.word.sample(),
+                Created_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                DSO_BHKV_VERSION: faker.word.sample(),
+                DSO_STOP_VERSION: faker.word.sample(),
+                DSO_TPOD_VERSION: faker.word.sample(),
+                Governing_Body_Type: faker.word.sample(),
+                ID: faker.number.int({ min: undefined, max: undefined }),
+                Jurisdiction: faker.word.sample(),
+                Province_ID: faker.word.sample(),
+                Subjects: faker.word.sample(),
+                Submitter_ID: faker.word.sample(),
+            },
+            undefined,
+        ]),
+        Publication_Filename: faker.helpers.arrayElement([
+            faker.word.sample(),
+            undefined,
+        ]),
+        Reports: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Created_By_UUID: faker.string.uuid(),
+                Created_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                ID: faker.number.int({ min: undefined, max: undefined }),
+                Messages: faker.helpers.arrayElement([
+                    faker.word.sample(),
+                    undefined,
+                ]),
+                Package_UUID: faker.string.uuid(),
+                Report_Timestamp: faker.helpers.arrayElement([
+                    `${faker.date.past().toISOString().split('.')[0]}Z`,
+                    undefined,
+                ]),
+                Report_Type: faker.helpers.arrayElement([
+                    faker.word.sample(),
+                    undefined,
+                ]),
+                Result: faker.helpers.arrayElement([
+                    faker.word.sample(),
+                    undefined,
+                ]),
+            })),
+            undefined,
+        ]),
+        UUID: faker.string.uuid(),
+        Validation_Status: faker.helpers.arrayElement([
+            faker.word.sample(),
+            undefined,
+        ]),
+        ZIP_File_Checksum: faker.helpers.arrayElement([
+            faker.word.sample(),
+            undefined,
+        ]),
+        ZIP_File_Name: faker.helpers.arrayElement([
+            faker.word.sample(),
+            undefined,
+        ]),
+    })),
+    total: faker.number.int({ min: undefined, max: undefined }),
+})
+
+export const getPublicationBillsBillUuidPackagesPostMock = () => ({
+    Announcement_Date: faker.date.past().toISOString().split('T')[0],
+    Bill_UUID: faker.string.uuid(),
+    Config_ID: faker.number.int({ min: undefined, max: undefined }),
+    Created_By_UUID: faker.string.uuid(),
+    Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    FRBR_ID: faker.number.int({ min: undefined, max: undefined }),
+    FRBR_Info: faker.helpers.arrayElement([
+        {
+            act_expression_date: faker.date.past().toISOString().split('T')[0],
+            act_expression_lang: faker.word.sample(),
+            act_expression_misc: faker.helpers.arrayElement([
+                faker.word.sample(),
+                undefined,
+            ]),
+            act_expression_version: faker.word.sample(),
+            act_work_country: faker.word.sample(),
+            act_work_date: faker.word.sample(),
+            act_work_misc: faker.helpers.arrayElement([
+                faker.word.sample(),
+                undefined,
+            ]),
+            bill_expression_date: faker.date.past().toISOString().split('T')[0],
+            bill_expression_lang: faker.word.sample(),
+            bill_expression_misc: faker.helpers.arrayElement([
+                faker.word.sample(),
+                undefined,
+            ]),
+            bill_expression_version: faker.word.sample(),
+            bill_work_country: faker.word.sample(),
+            bill_work_date: faker.word.sample(),
+            bill_work_misc: faker.helpers.arrayElement([
+                faker.word.sample(),
+                undefined,
+            ]),
+            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            ID: faker.number.int({ min: undefined, max: undefined }),
+        },
+        undefined,
+    ]),
+    Modified_By_UUID: faker.string.uuid(),
+    Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Package_Event_Type: faker.helpers.arrayElement(
+        Object.values(PackageEventType)
+    ),
+    Publication_Bill: faker.helpers.arrayElement([
+        {
+            Announcement_Date: faker.date.past().toISOString().split('T')[0],
+            Bill_Data: faker.helpers.arrayElement([
+                {
+                    Amendment_Article: faker.helpers.arrayElement([
+                        {
+                            Content: faker.word.sample(),
+                            Label: faker.word.sample(),
+                            Number: faker.helpers.arrayElement([
+                                faker.word.sample(),
+                                undefined,
+                            ]),
+                        },
+                        undefined,
+                    ]),
+                    Articles: faker.helpers.arrayElement([
+                        Array.from(
+                            { length: faker.number.int({ min: 1, max: 10 }) },
+                            (_, i) => i + 1
+                        ).map(() => ({
+                            Content: faker.word.sample(),
+                            Label: faker.word.sample(),
+                            Number: faker.helpers.arrayElement([
+                                faker.word.sample(),
+                                undefined,
+                            ]),
+                        })),
+                        undefined,
+                    ]),
+                    Bill_Title: faker.word.sample(),
+                    Closing: faker.word.sample(),
+                    Preamble: faker.helpers.arrayElement([
+                        faker.word.sample(),
+                        undefined,
+                    ]),
+                    Regulation_Title: faker.word.sample(),
+                    Signature: faker.word.sample(),
+                    Time_Article: faker.helpers.arrayElement([
+                        {
+                            Content: faker.word.sample(),
+                            Label: faker.word.sample(),
+                            Number: faker.helpers.arrayElement([
+                                faker.word.sample(),
+                                undefined,
+                            ]),
+                        },
+                        undefined,
+                    ]),
+                },
+                undefined,
+            ]),
+            Created_By_UUID: faker.string.uuid(),
+            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            Effective_Date: faker.date.past().toISOString().split('T')[0],
+            Is_Official: faker.datatype.boolean(),
+            Modified_By_UUID: faker.string.uuid(),
+            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            Module_Status_ID: faker.number.int({
+                min: undefined,
+                max: undefined,
+            }),
+            Procedure_Data: faker.helpers.arrayElement([
+                {
+                    Announcement_Date: faker.date
+                        .past()
+                        .toISOString()
+                        .split('T')[0],
+                    Steps: Array.from(
+                        { length: faker.number.int({ min: 1, max: 10 }) },
+                        (_, i) => i + 1
+                    ).map(() => ({
+                        Conclusion_Date: faker.date
+                            .past()
+                            .toISOString()
+                            .split('T')[0],
+                        Step_Type: faker.helpers.arrayElement(
+                            Object.values(ProcedureStepType)
+                        ),
+                    })),
+                },
+                undefined,
+            ]),
+            Procedure_Type: faker.helpers.arrayElement(
+                Object.values(ProcedureType)
+            ),
+            Publication_UUID: faker.string.uuid(),
+            PZH_Bill_Identifier: faker.helpers.arrayElement([
+                faker.word.sample(),
+                undefined,
+            ]),
+            UUID: faker.string.uuid(),
+            Version_ID: faker.helpers.arrayElement([
+                faker.number.int({ min: undefined, max: undefined }),
+                undefined,
+            ]),
+        },
+        undefined,
+    ]),
+    Publication_Config: faker.helpers.arrayElement([
+        {
+            Act_Componentname: faker.word.sample(),
+            Authority_ID: faker.word.sample(),
+            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            DSO_BHKV_VERSION: faker.word.sample(),
+            DSO_STOP_VERSION: faker.word.sample(),
+            DSO_TPOD_VERSION: faker.word.sample(),
+            Governing_Body_Type: faker.word.sample(),
+            ID: faker.number.int({ min: undefined, max: undefined }),
+            Jurisdiction: faker.word.sample(),
+            Province_ID: faker.word.sample(),
+            Subjects: faker.word.sample(),
+            Submitter_ID: faker.word.sample(),
+        },
+        undefined,
+    ]),
+    Publication_Filename: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
+    Reports: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Created_By_UUID: faker.string.uuid(),
+            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            ID: faker.number.int({ min: undefined, max: undefined }),
+            Messages: faker.helpers.arrayElement([
+                faker.word.sample(),
+                undefined,
+            ]),
+            Package_UUID: faker.string.uuid(),
+            Report_Timestamp: faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                undefined,
+            ]),
+            Report_Type: faker.helpers.arrayElement([
+                faker.word.sample(),
+                undefined,
+            ]),
+            Result: faker.helpers.arrayElement([
+                faker.word.sample(),
+                undefined,
+            ]),
+        })),
+        undefined,
+    ]),
+    UUID: faker.string.uuid(),
+    Validation_Status: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
+    ZIP_File_Checksum: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
+    ZIP_File_Name: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+})
+
+export const getPublicationPackagesPackageUuidReportPostMock = () => ({
+    Created_By_UUID: faker.string.uuid(),
+    Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    ID: faker.number.int({ min: undefined, max: undefined }),
+    Messages: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    Package_UUID: faker.string.uuid(),
+    Report_Timestamp: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split('.')[0]}Z`,
+        undefined,
+    ]),
+    Report_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    Result: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+})
+
 export const getLoginAccessTokenPostMock = () => ({
     access_token: faker.word.sample(),
     identifier: {
@@ -13727,6 +14576,24 @@ export const getOmgevingsbeleidAPIMock = () => [
             }
         )
     }),
+    http.post('*/playground/do-dso/:moduleId', async () => {
+        await delay(1000)
+        return new HttpResponse(null, {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+    }),
+    http.get('*/playground/check-geo', async () => {
+        await delay(1000)
+        return new HttpResponse(null, {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+    }),
     http.get('*/users', async () => {
         await delay(1000)
         return new HttpResponse(JSON.stringify(getUsersGetMock()), {
@@ -14087,6 +14954,157 @@ export const getOmgevingsbeleidAPIMock = () => [
     http.get('*/objects/valid', async () => {
         await delay(1000)
         return new HttpResponse(JSON.stringify(getObjectsValidGetMock()), {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+    }),
+    http.get('*/publications', async () => {
+        await delay(1000)
+        return new HttpResponse(JSON.stringify(getPublicationsGetMock()), {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+    }),
+    http.post('*/publications', async () => {
+        await delay(1000)
+        return new HttpResponse(JSON.stringify(getPublicationsPostMock()), {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+    }),
+    http.get('*/publications/:publicationUuid', async () => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(getPublicationsPublicationUuidGetMock()),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    }),
+    http.patch('*/publications/:publicationUuid', async () => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(getPublicationsPublicationUuidPatchMock()),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    }),
+    http.get('*/publications/:publicationUuid/bills', async () => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(getPublicationsPublicationUuidBillsGetMock()),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    }),
+    http.post('*/publications/:publicationUuid/bills', async () => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(getPublicationsPublicationUuidBillsPostMock()),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    }),
+    http.get('*/publications/:publicationUuid/bills/:billUuid', async () => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                getPublicationsPublicationUuidBillsBillUuidGetMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    }),
+    http.patch('*/publications/:publicationUuid/bills/:billUuid', async () => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                getPublicationsPublicationUuidBillsBillUuidPatchMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    }),
+    http.get('*/publication-bills/:billUuid/packages', async () => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(getPublicationBillsBillUuidPackagesGetMock()),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    }),
+    http.post('*/publication-bills/:billUuid/packages', async () => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(getPublicationBillsBillUuidPackagesPostMock()),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    }),
+    http.post('*/publication-packages/:packageUuid/report', async () => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(getPublicationPackagesPackageUuidReportPostMock()),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    }),
+    http.get(
+        '*/publication-packages/:packageUuid/report/download',
+        async () => {
+            await delay(1000)
+            return new HttpResponse(null, {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+        }
+    ),
+    http.get('*/publication-packages/:packageUuid/download', async () => {
+        await delay(1000)
+        return new HttpResponse(null, {
             status: 200,
             headers: {
                 'Content-Type': 'application/json',
