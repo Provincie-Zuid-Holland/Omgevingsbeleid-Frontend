@@ -20,6 +20,7 @@ export type ToastType =
     | 'userActivated'
     | 'userDeactivated'
     | 'userPasswordGenerated'
+    | 'downloadStarted'
 
 type MessageType = 'default' | 'success' | 'error' | 'warning' | 'info'
 
@@ -107,5 +108,9 @@ export const notifications: Record<
     userPasswordGenerated: {
         message: 'Het nieuwe wachtwoord voor de gebruiker is opgeslagen',
         type: 'success',
+    },
+    downloadStarted: {
+        message: 'De download wordt gegeneerd, dit kan even duren',
+        type: 'info',
     },
 }

@@ -1,22 +1,40 @@
 import { Button, Heading } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
-import { useMemo } from 'react'
+import { useParams } from 'react-router-dom'
 
-import { usePublicationsGet } from '@/api/fetchers'
-import { DocumentType } from '@/api/fetchers.schemas'
-import ModuleVersionTable from '@/components/Modules/ModuleVersionTable'
+import {
+    usePublicationsGet,
+    usePublicationsPublicationUuidBillsGet,
+} from '@/api/fetchers'
+import { AppExtensionsPublicationsEnumsDocumentType } from '@/api/fetchers.schemas'
+import { LoaderSpinner } from '@/components/Loader'
 import useModalStore from '@/store/modalStore'
 
+import PublicationVersions from '../PublicationVersions'
+
 interface PublicationProps {
-    type: DocumentType
+    type: AppExtensionsPublicationsEnumsDocumentType
 }
 
 const Publication = ({ type }: PublicationProps) => {
+    const { moduleId } = useParams()
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { data } = usePublicationsGet({ document_type: type })
+    const { data: publication, isPending } = usePublicationsGet(
+        { document_type: type, module_ID: parseInt(moduleId!) },
+        { query: { enabled: !!moduleId, select: data => data.results?.[0] } }
+    )
 
-    const isEmpty = useMemo(() => !data?.results.length, [data])
+    const { data: latest } = usePublicationsPublicationUuidBillsGet(
+        publication?.UUID || '',
+        undefined,
+        {
+            query: {
+                enabled: !!publication?.UUID,
+                select: data => data.results?.slice(-1)[0],
+            },
+        }
+    )
 
     return (
         <div>
@@ -24,41 +42,38 @@ const Publication = ({ type }: PublicationProps) => {
                 {type}
             </Heading>
 
-            {!isEmpty && (
-                <ModuleVersionTable
-                    versions={[
-                        {
-                            version: 1,
-                            status: 'Ontwerp GS',
-                            type: 'Ontwerp',
-                            purpose: 'Interne publicatie',
-                            uploadDate: '03-01-2024',
-                        },
-                        {
-                            version: 2,
-                            status: 'Ontwerp GS',
-                            type: 'Ontwerp',
-                            purpose: 'Officiële publicatie',
-                        },
-                    ]}
-                />
-            )}
-
-            {isEmpty ? (
-                <Button
-                    icon={Plus}
-                    size="small"
-                    onPress={() => setActiveModal('moduleDecision')}
-                    isDisabled={type === 'Omgevingsverordening'}>
-                    Nieuwe publicatie
-                </Button>
+            {isPending ? (
+                <LoaderSpinner />
             ) : (
-                <Button
-                    icon={Plus}
-                    size="small"
-                    onPress={() => setActiveModal('moduleDecision')}>
-                    Nieuwe versie aanmaken
-                </Button>
+                <>
+                    {!!publication && (
+                        <PublicationVersions publication={publication} />
+                    )}
+
+                    {!!!publication ? (
+                        <Button
+                            icon={Plus}
+                            size="small"
+                            onPress={() =>
+                                setActiveModal('publicationAdd', { type })
+                            }
+                            isDisabled={type === 'Omgevingsverordening'}>
+                            Nieuwe publicatie
+                        </Button>
+                    ) : (
+                        <Button
+                            icon={Plus}
+                            size="small"
+                            onPress={() =>
+                                setActiveModal('publicationVersionAdd', {
+                                    publication,
+                                    prevUUID: latest?.UUID,
+                                })
+                            }>
+                            Nieuwe versie aanmaken
+                        </Button>
+                    )}
+                </>
             )}
         </div>
     )

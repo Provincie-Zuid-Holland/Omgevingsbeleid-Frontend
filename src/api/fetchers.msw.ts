@@ -11,10 +11,10 @@
 import { faker } from '@faker-js/faker'
 import { HttpResponse, delay, http } from 'msw'
 import {
-    DocumentType,
+    AppExtensionsPublicationsEnumsDocumentType,
     GraphEdgeType,
     PackageEventType,
-    ProcedureStepTypeEnum,
+    ProcedureStepType,
     ProcedureType,
 } from './fetchers.schemas'
 
@@ -11867,8 +11867,12 @@ export const getPublicationsGetMock = () => ({
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
+        Created_By_UUID: faker.string.uuid(),
         Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Document_Type: faker.helpers.arrayElement(Object.values(DocumentType)),
+        Document_Type: faker.helpers.arrayElement(
+            Object.values(AppExtensionsPublicationsEnumsDocumentType)
+        ),
+        Modified_By_UUID: faker.string.uuid(),
         Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
         Module_ID: faker.number.int({ min: undefined, max: undefined }),
         Official_Title: faker.word.sample(),
@@ -11884,8 +11888,12 @@ export const getPublicationsGetMock = () => ({
 })
 
 export const getPublicationsPostMock = () => ({
+    Created_By_UUID: faker.string.uuid(),
     Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-    Document_Type: faker.helpers.arrayElement(Object.values(DocumentType)),
+    Document_Type: faker.helpers.arrayElement(
+        Object.values(AppExtensionsPublicationsEnumsDocumentType)
+    ),
+    Modified_By_UUID: faker.string.uuid(),
     Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
     Module_ID: faker.number.int({ min: undefined, max: undefined }),
     Official_Title: faker.word.sample(),
@@ -11899,8 +11907,12 @@ export const getPublicationsPostMock = () => ({
 })
 
 export const getPublicationsPublicationUuidGetMock = () => ({
+    Created_By_UUID: faker.string.uuid(),
     Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-    Document_Type: faker.helpers.arrayElement(Object.values(DocumentType)),
+    Document_Type: faker.helpers.arrayElement(
+        Object.values(AppExtensionsPublicationsEnumsDocumentType)
+    ),
+    Modified_By_UUID: faker.string.uuid(),
     Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
     Module_ID: faker.number.int({ min: undefined, max: undefined }),
     Official_Title: faker.word.sample(),
@@ -11914,8 +11926,12 @@ export const getPublicationsPublicationUuidGetMock = () => ({
 })
 
 export const getPublicationsPublicationUuidPatchMock = () => ({
+    Created_By_UUID: faker.string.uuid(),
     Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-    Document_Type: faker.helpers.arrayElement(Object.values(DocumentType)),
+    Document_Type: faker.helpers.arrayElement(
+        Object.values(AppExtensionsPublicationsEnumsDocumentType)
+    ),
+    Modified_By_UUID: faker.string.uuid(),
     Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
     Module_ID: faker.number.int({ min: undefined, max: undefined }),
     Official_Title: faker.word.sample(),
@@ -11959,7 +11975,7 @@ export const getPublicationsPublicationUuidBillsGetMock = () => ({
 })
 
 export const getPublicationsPublicationUuidBillsPostMock = () => ({
-    Announcement_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Announcement_Date: faker.date.past().toISOString().split('T')[0],
     Bill_Data: faker.helpers.arrayElement([
         {
             Amendment_Article: faker.helpers.arrayElement([
@@ -12009,9 +12025,11 @@ export const getPublicationsPublicationUuidBillsPostMock = () => ({
         },
         undefined,
     ]),
+    Created_By_UUID: faker.string.uuid(),
     Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-    Effective_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Effective_Date: faker.date.past().toISOString().split('T')[0],
     Is_Official: faker.datatype.boolean(),
+    Modified_By_UUID: faker.string.uuid(),
     Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
     Module_Status_ID: faker.number.int({ min: undefined, max: undefined }),
     Procedure_Data: faker.helpers.arrayElement([
@@ -12023,7 +12041,7 @@ export const getPublicationsPublicationUuidBillsPostMock = () => ({
             ).map(() => ({
                 Conclusion_Date: faker.date.past().toISOString().split('T')[0],
                 Step_Type: faker.helpers.arrayElement(
-                    Object.values(ProcedureStepTypeEnum)
+                    Object.values(ProcedureStepType)
                 ),
             })),
         },
@@ -12031,6 +12049,10 @@ export const getPublicationsPublicationUuidBillsPostMock = () => ({
     ]),
     Procedure_Type: faker.helpers.arrayElement(Object.values(ProcedureType)),
     Publication_UUID: faker.string.uuid(),
+    PZH_Bill_Identifier: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
     UUID: faker.string.uuid(),
     Version_ID: faker.helpers.arrayElement([
         faker.number.int({ min: undefined, max: undefined }),
@@ -12039,7 +12061,7 @@ export const getPublicationsPublicationUuidBillsPostMock = () => ({
 })
 
 export const getPublicationsPublicationUuidBillsBillUuidGetMock = () => ({
-    Announcement_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Announcement_Date: faker.date.past().toISOString().split('T')[0],
     Bill_Data: faker.helpers.arrayElement([
         {
             Amendment_Article: faker.helpers.arrayElement([
@@ -12089,9 +12111,11 @@ export const getPublicationsPublicationUuidBillsBillUuidGetMock = () => ({
         },
         undefined,
     ]),
+    Created_By_UUID: faker.string.uuid(),
     Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-    Effective_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Effective_Date: faker.date.past().toISOString().split('T')[0],
     Is_Official: faker.datatype.boolean(),
+    Modified_By_UUID: faker.string.uuid(),
     Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
     Module_Status_ID: faker.number.int({ min: undefined, max: undefined }),
     Procedure_Data: faker.helpers.arrayElement([
@@ -12103,7 +12127,7 @@ export const getPublicationsPublicationUuidBillsBillUuidGetMock = () => ({
             ).map(() => ({
                 Conclusion_Date: faker.date.past().toISOString().split('T')[0],
                 Step_Type: faker.helpers.arrayElement(
-                    Object.values(ProcedureStepTypeEnum)
+                    Object.values(ProcedureStepType)
                 ),
             })),
         },
@@ -12111,6 +12135,10 @@ export const getPublicationsPublicationUuidBillsBillUuidGetMock = () => ({
     ]),
     Procedure_Type: faker.helpers.arrayElement(Object.values(ProcedureType)),
     Publication_UUID: faker.string.uuid(),
+    PZH_Bill_Identifier: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
     UUID: faker.string.uuid(),
     Version_ID: faker.helpers.arrayElement([
         faker.number.int({ min: undefined, max: undefined }),
@@ -12119,7 +12147,7 @@ export const getPublicationsPublicationUuidBillsBillUuidGetMock = () => ({
 })
 
 export const getPublicationsPublicationUuidBillsBillUuidPatchMock = () => ({
-    Announcement_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Announcement_Date: faker.date.past().toISOString().split('T')[0],
     Bill_Data: faker.helpers.arrayElement([
         {
             Amendment_Article: faker.helpers.arrayElement([
@@ -12169,9 +12197,11 @@ export const getPublicationsPublicationUuidBillsBillUuidPatchMock = () => ({
         },
         undefined,
     ]),
+    Created_By_UUID: faker.string.uuid(),
     Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-    Effective_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Effective_Date: faker.date.past().toISOString().split('T')[0],
     Is_Official: faker.datatype.boolean(),
+    Modified_By_UUID: faker.string.uuid(),
     Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
     Module_Status_ID: faker.number.int({ min: undefined, max: undefined }),
     Procedure_Data: faker.helpers.arrayElement([
@@ -12183,7 +12213,7 @@ export const getPublicationsPublicationUuidBillsBillUuidPatchMock = () => ({
             ).map(() => ({
                 Conclusion_Date: faker.date.past().toISOString().split('T')[0],
                 Step_Type: faker.helpers.arrayElement(
-                    Object.values(ProcedureStepTypeEnum)
+                    Object.values(ProcedureStepType)
                 ),
             })),
         },
@@ -12191,6 +12221,10 @@ export const getPublicationsPublicationUuidBillsBillUuidPatchMock = () => ({
     ]),
     Procedure_Type: faker.helpers.arrayElement(Object.values(ProcedureType)),
     Publication_UUID: faker.string.uuid(),
+    PZH_Bill_Identifier: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
     UUID: faker.string.uuid(),
     Version_ID: faker.helpers.arrayElement([
         faker.number.int({ min: undefined, max: undefined }),
@@ -12211,16 +12245,18 @@ export const getPublicationBillsBillUuidPackagesGetMock = () => ({
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Announcement_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Announcement_Date: faker.date.past().toISOString().split('T')[0],
         Bill_UUID: faker.string.uuid(),
         Config_ID: faker.number.int({ min: undefined, max: undefined }),
+        Created_By_UUID: faker.string.uuid(),
         Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
         FRBR_ID: faker.number.int({ min: undefined, max: undefined }),
         FRBR_Info: faker.helpers.arrayElement([
             {
-                act_expression_date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
+                act_expression_date: faker.date
+                    .past()
+                    .toISOString()
+                    .split('T')[0],
                 act_expression_lang: faker.word.sample(),
                 act_expression_misc: faker.helpers.arrayElement([
                     faker.word.sample(),
@@ -12233,9 +12269,10 @@ export const getPublicationBillsBillUuidPackagesGetMock = () => ({
                     faker.word.sample(),
                     undefined,
                 ]),
-                bill_expression_date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
+                bill_expression_date: faker.date
+                    .past()
+                    .toISOString()
+                    .split('T')[0],
                 bill_expression_lang: faker.word.sample(),
                 bill_expression_misc: faker.helpers.arrayElement([
                     faker.word.sample(),
@@ -12255,15 +12292,17 @@ export const getPublicationBillsBillUuidPackagesGetMock = () => ({
             },
             undefined,
         ]),
+        Modified_By_UUID: faker.string.uuid(),
         Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
         Package_Event_Type: faker.helpers.arrayElement(
             Object.values(PackageEventType)
         ),
         Publication_Bill: faker.helpers.arrayElement([
             {
-                Announcement_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
+                Announcement_Date: faker.date
+                    .past()
+                    .toISOString()
+                    .split('T')[0],
                 Bill_Data: faker.helpers.arrayElement([
                     {
                         Amendment_Article: faker.helpers.arrayElement([
@@ -12318,13 +12357,13 @@ export const getPublicationBillsBillUuidPackagesGetMock = () => ({
                     },
                     undefined,
                 ]),
+                Created_By_UUID: faker.string.uuid(),
                 Created_Date: `${
                     faker.date.past().toISOString().split('.')[0]
                 }Z`,
-                Effective_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
+                Effective_Date: faker.date.past().toISOString().split('T')[0],
                 Is_Official: faker.datatype.boolean(),
+                Modified_By_UUID: faker.string.uuid(),
                 Modified_Date: `${
                     faker.date.past().toISOString().split('.')[0]
                 }Z`,
@@ -12347,7 +12386,7 @@ export const getPublicationBillsBillUuidPackagesGetMock = () => ({
                                 .toISOString()
                                 .split('T')[0],
                             Step_Type: faker.helpers.arrayElement(
-                                Object.values(ProcedureStepTypeEnum)
+                                Object.values(ProcedureStepType)
                             ),
                         })),
                     },
@@ -12357,6 +12396,10 @@ export const getPublicationBillsBillUuidPackagesGetMock = () => ({
                     Object.values(ProcedureType)
                 ),
                 Publication_UUID: faker.string.uuid(),
+                PZH_Bill_Identifier: faker.helpers.arrayElement([
+                    faker.word.sample(),
+                    undefined,
+                ]),
                 UUID: faker.string.uuid(),
                 Version_ID: faker.helpers.arrayElement([
                     faker.number.int({ min: undefined, max: undefined }),
@@ -12393,6 +12436,7 @@ export const getPublicationBillsBillUuidPackagesGetMock = () => ({
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
+                Created_By_UUID: faker.string.uuid(),
                 Created_Date: `${
                     faker.date.past().toISOString().split('.')[0]
                 }Z`,
@@ -12435,16 +12479,15 @@ export const getPublicationBillsBillUuidPackagesGetMock = () => ({
 })
 
 export const getPublicationBillsBillUuidPackagesPostMock = () => ({
-    Announcement_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Announcement_Date: faker.date.past().toISOString().split('T')[0],
     Bill_UUID: faker.string.uuid(),
     Config_ID: faker.number.int({ min: undefined, max: undefined }),
+    Created_By_UUID: faker.string.uuid(),
     Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
     FRBR_ID: faker.number.int({ min: undefined, max: undefined }),
     FRBR_Info: faker.helpers.arrayElement([
         {
-            act_expression_date: `${
-                faker.date.past().toISOString().split('.')[0]
-            }Z`,
+            act_expression_date: faker.date.past().toISOString().split('T')[0],
             act_expression_lang: faker.word.sample(),
             act_expression_misc: faker.helpers.arrayElement([
                 faker.word.sample(),
@@ -12457,9 +12500,7 @@ export const getPublicationBillsBillUuidPackagesPostMock = () => ({
                 faker.word.sample(),
                 undefined,
             ]),
-            bill_expression_date: `${
-                faker.date.past().toISOString().split('.')[0]
-            }Z`,
+            bill_expression_date: faker.date.past().toISOString().split('T')[0],
             bill_expression_lang: faker.word.sample(),
             bill_expression_misc: faker.helpers.arrayElement([
                 faker.word.sample(),
@@ -12477,15 +12518,14 @@ export const getPublicationBillsBillUuidPackagesPostMock = () => ({
         },
         undefined,
     ]),
+    Modified_By_UUID: faker.string.uuid(),
     Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
     Package_Event_Type: faker.helpers.arrayElement(
         Object.values(PackageEventType)
     ),
     Publication_Bill: faker.helpers.arrayElement([
         {
-            Announcement_Date: `${
-                faker.date.past().toISOString().split('.')[0]
-            }Z`,
+            Announcement_Date: faker.date.past().toISOString().split('T')[0],
             Bill_Data: faker.helpers.arrayElement([
                 {
                     Amendment_Article: faker.helpers.arrayElement([
@@ -12535,9 +12575,11 @@ export const getPublicationBillsBillUuidPackagesPostMock = () => ({
                 },
                 undefined,
             ]),
+            Created_By_UUID: faker.string.uuid(),
             Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            Effective_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            Effective_Date: faker.date.past().toISOString().split('T')[0],
             Is_Official: faker.datatype.boolean(),
+            Modified_By_UUID: faker.string.uuid(),
             Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Module_Status_ID: faker.number.int({
                 min: undefined,
@@ -12558,7 +12600,7 @@ export const getPublicationBillsBillUuidPackagesPostMock = () => ({
                             .toISOString()
                             .split('T')[0],
                         Step_Type: faker.helpers.arrayElement(
-                            Object.values(ProcedureStepTypeEnum)
+                            Object.values(ProcedureStepType)
                         ),
                     })),
                 },
@@ -12568,6 +12610,10 @@ export const getPublicationBillsBillUuidPackagesPostMock = () => ({
                 Object.values(ProcedureType)
             ),
             Publication_UUID: faker.string.uuid(),
+            PZH_Bill_Identifier: faker.helpers.arrayElement([
+                faker.word.sample(),
+                undefined,
+            ]),
             UUID: faker.string.uuid(),
             Version_ID: faker.helpers.arrayElement([
                 faker.number.int({ min: undefined, max: undefined }),
@@ -12602,6 +12648,7 @@ export const getPublicationBillsBillUuidPackagesPostMock = () => ({
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Created_By_UUID: faker.string.uuid(),
             Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             ID: faker.number.int({ min: undefined, max: undefined }),
             Messages: faker.helpers.arrayElement([
@@ -12637,6 +12684,7 @@ export const getPublicationBillsBillUuidPackagesPostMock = () => ({
 })
 
 export const getPublicationPackagesPackageUuidReportPostMock = () => ({
+    Created_By_UUID: faker.string.uuid(),
     Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
     ID: faker.number.int({ min: undefined, max: undefined }),
     Messages: faker.helpers.arrayElement([faker.word.sample(), undefined]),

@@ -6,7 +6,7 @@ export type Environment = 'dev' | 'test' | 'acc' | 'main'
 
 const environment = import.meta.env.VITE_API_ENV as Environment
 
-const getAccessToken = () =>
+export const getAccessToken = () =>
     localStorage.getItem(import.meta.env.VITE_KEY_API_ACCESS_TOKEN || '')
 
 const instance = axios.create({

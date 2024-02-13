@@ -11,9 +11,13 @@ import {
     Text,
 } from '@pzh-ui/components'
 import classNames from 'classnames'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 
-import { DocumentType, Module, ModuleObjectShort } from '@/api/fetchers.schemas'
+import {
+    AppExtensionsPublicationsEnumsDocumentType,
+    Module,
+    ModuleObjectShort,
+} from '@/api/fetchers.schemas'
 import Avatar from '@/components/Avatar'
 import { LoaderContent } from '@/components/Loader'
 import {
@@ -24,7 +28,11 @@ import {
     ModuleLockModal,
     ModuleObjectDeleteConfirmationModal,
 } from '@/components/Modals/ModuleModals'
-import ModuleDecisionModal from '@/components/Modals/ModuleModals/ModuleDecisionModal'
+import {
+    PublicationAddModal,
+    PublicationVersionAddModal,
+    PublicationVersionEditModal,
+} from '@/components/Modals/PublicationModals'
 import ModuleCompleteCard from '@/components/Modules/ModuleCompleteCard'
 import ModuleInactiveCard from '@/components/Modules/ModuleInactiveCard'
 import ModuleItemList from '@/components/Modules/ModuleItemList'
@@ -238,7 +246,9 @@ const TabObjects = () => {
 }
 
 const TabDecisions = () => {
-    const documentTypes = Object.keys(DocumentType) as Array<DocumentType>
+    const documentTypes = Object.keys(
+        AppExtensionsPublicationsEnumsDocumentType
+    ) as Array<AppExtensionsPublicationsEnumsDocumentType>
 
     return (
         <>
@@ -254,89 +264,19 @@ const TabDecisions = () => {
                 </Notification>
 
                 {documentTypes.map((type, index) => (
-                    <>
+                    <Fragment key={type}>
                         <Publication type={type} />
 
                         {index + 1 !== documentTypes.length && (
                             <Divider className="my-10" />
                         )}
-                    </>
+                    </Fragment>
                 ))}
-
-                {/* <div>
-                    <Heading level="2" className="mb-4">
-                        Visie
-                    </Heading>
-
-                    <ModuleVersionTable
-                        versions={[
-                            {
-                                version: 1,
-                                status: 'Ontwerp GS',
-                                type: 'Ontwerp',
-                                purpose: 'Interne publicatie',
-                                uploadDate: '03-01-2024',
-                            },
-                            {
-                                version: 2,
-                                status: 'Ontwerp GS',
-                                type: 'Ontwerp',
-                                purpose: 'Officiële publicatie',
-                            },
-                        ]}
-                    />
-
-                    <Button
-                        icon={Plus}
-                        size="small"
-                        onPress={() => setActiveModal('moduleDecision')}>
-                        Nieuwe versie aanmaken
-                    </Button>
-                </div>
-
-                <Divider className="my-10" />
-
-                <div>
-                    <Heading level="2" className="mb-4">
-                        Programma
-                    </Heading>
-
-                    <ModuleVersionTable
-                        versions={[
-                            {
-                                version: 1,
-                                status: 'Ontwerp GS',
-                                type: 'Ontwerp',
-                                purpose: 'Officiële publicatie',
-                                isPending: true,
-                            },
-                        ]}
-                    />
-
-                    <Button
-                        icon={Plus}
-                        size="small"
-                        onPress={() => setActiveModal('moduleDecision')}>
-                        Nieuwe versie aanmaken
-                    </Button>
-                </div>
-
-                <Divider className="my-10" />
-
-                <div>
-                    <Heading level="2" className="mb-4">
-                        Verordening
-                    </Heading>
-                    <Button
-                        icon={Plus}
-                        size="small"
-                        onPress={() => setActiveModal('moduleDecision')}
-                        isDisabled>
-                        Nieuwe versie aanmaken
-                    </Button>
-                </div> */}
             </div>
-            <ModuleDecisionModal />
+
+            <PublicationAddModal />
+            <PublicationVersionAddModal />
+            <PublicationVersionEditModal />
         </>
     )
 }

@@ -28,7 +28,7 @@ export type PublicationsPublicationUuidBillsGetParams = {
 }
 
 export type PublicationsGetParams = {
-    document_type?: DocumentType
+    document_type?: AppExtensionsPublicationsEnumsDocumentType
     module_ID?: number
     offset?: number
     limit?: number
@@ -131,7 +131,7 @@ export type UsersGetParams = {
 
 export type PlaygroundDoDsoModuleIdPostParams = {
     work_version: string
-    document_type: DocumentType
+    document_type: DsoModelsDocumentType
     geo_new?: boolean
     opdracht_type?: OpdrachtType
 }
@@ -447,6 +447,31 @@ export type AmbitiesValidGetParams = {
     sort_column?: string
     sort_order?: SortOrder
 }
+
+/**
+ * An enumeration.
+ */
+export type DsoModelsDocumentType =
+    (typeof DsoModelsDocumentType)[keyof typeof DsoModelsDocumentType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DsoModelsDocumentType = {
+    Programma: 'Programma',
+    Omgevingsvisie: 'Omgevingsvisie',
+} as const
+
+/**
+ * An enumeration.
+ */
+export type AppExtensionsPublicationsEnumsDocumentType =
+    (typeof AppExtensionsPublicationsEnumsDocumentType)[keyof typeof AppExtensionsPublicationsEnumsDocumentType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AppExtensionsPublicationsEnumsDocumentType = {
+    Omgevingsvisie: 'Omgevingsvisie',
+    Omgevingsprogramma: 'Omgevingsprogramma',
+    Omgevingsverordening: 'Omgevingsverordening',
+} as const
 
 export interface WriteRelation {
     Description?: string | null
@@ -929,6 +954,7 @@ export interface ReadRelation {
 }
 
 export interface PublicationPackageReport {
+    Created_By_UUID: string
     Created_Date: string
     ID: number
     Messages?: string
@@ -967,9 +993,11 @@ export interface PublicationPackage {
     Announcement_Date: string
     Bill_UUID: string
     Config_ID: number
+    Created_By_UUID: string
     Created_Date: string
     FRBR_ID: number
     FRBR_Info?: PublicationFRBR
+    Modified_By_UUID: string
     Modified_Date: string
     Package_Event_Type: PackageEventType
     Publication_Bill?: PublicationBill
@@ -989,7 +1017,7 @@ export interface PublicationEdit {
 }
 
 export interface PublicationCreate {
-    Document_Type: DocumentType
+    Document_Type: AppExtensionsPublicationsEnumsDocumentType
     Module_ID: number
     Official_Title: string
     Regulation_Title: string
@@ -1037,6 +1065,7 @@ export interface PublicationBillCreate {
     Module_Status_ID: number
     Procedure_Data?: ProcedureData
     Procedure_Type: ProcedureType
+    PZH_Bill_Identifier?: string
 }
 
 /**
@@ -1045,21 +1074,26 @@ export interface PublicationBillCreate {
 export interface PublicationBill {
     Announcement_Date: string
     Bill_Data?: BillData
+    Created_By_UUID: string
     Created_Date: string
     Effective_Date: string
     Is_Official: boolean
+    Modified_By_UUID: string
     Modified_Date: string
     Module_Status_ID: number
     Procedure_Data?: ProcedureData
     Procedure_Type: ProcedureType
     Publication_UUID: string
+    PZH_Bill_Identifier?: string
     UUID: string
     Version_ID?: number
 }
 
 export interface Publication {
+    Created_By_UUID: string
     Created_Date: string
-    Document_Type: DocumentType
+    Document_Type: AppExtensionsPublicationsEnumsDocumentType
+    Modified_By_UUID: string
     Modified_Date: string
     Module_ID: number
     Official_Title: string
@@ -1192,21 +1226,13 @@ export const ProcedureType = {
 } as const
 
 /**
- * STOP Procedureverloop
- */
-export interface ProcedureData {
-    Announcement_Date: string
-    Steps: ProcedureStep[]
-}
-
-/**
  * STOP ProcedureStappenDefinitief
  */
-export type ProcedureStepTypeEnum =
-    (typeof ProcedureStepTypeEnum)[keyof typeof ProcedureStepTypeEnum]
+export type ProcedureStepType =
+    (typeof ProcedureStepType)[keyof typeof ProcedureStepType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ProcedureStepTypeEnum = {
+export const ProcedureStepType = {
     Vaststelling: 'Vaststelling',
     Ondertekening: 'Ondertekening',
     Publicatie: 'Publicatie',
@@ -1223,7 +1249,15 @@ export const ProcedureStepTypeEnum = {
  */
 export interface ProcedureStep {
     Conclusion_Date: string
-    Step_Type: ProcedureStepTypeEnum
+    Step_Type: ProcedureStepType
+}
+
+/**
+ * STOP Procedureverloop
+ */
+export interface ProcedureData {
+    Announcement_Date: string
+    Steps: ProcedureStep[]
 }
 
 /**
@@ -1726,6 +1760,12 @@ export interface ModulePatchStatus {
     Status: ModuleStatusCode
 }
 
+export interface ModuleOverview {
+    Module: Module
+    Objects: ModuleObjectShort[]
+    StatusHistory: ModuleStatus[]
+}
+
 export interface ModuleObjectContextShort {
     Action: string
     Original_Adjust_On?: string
@@ -1859,12 +1899,6 @@ export interface Module {
     Successful: boolean
     Temporary_Locked: boolean
     Title: string
-}
-
-export interface ModuleOverview {
-    Module: Module
-    Objects: ModuleObjectShort[]
-    StatusHistory: ModuleStatus[]
 }
 
 export interface MaatregelUUID {
@@ -2179,18 +2213,6 @@ export interface EditAcknowledgedRelation {
     Object_ID: number
     Object_Type: string
 }
-
-/**
- * An enumeration.
- */
-export type DocumentType = (typeof DocumentType)[keyof typeof DocumentType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DocumentType = {
-    Omgevingsvisie: 'Omgevingsvisie',
-    Omgevingsprogramma: 'Omgevingsprogramma',
-    Omgevingsverordening: 'Omgevingsverordening',
-} as const
 
 export interface CompleteModule {
     Decision_Number: string

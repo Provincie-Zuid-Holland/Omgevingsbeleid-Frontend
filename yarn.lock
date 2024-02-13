@@ -2479,13 +2479,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.461":
-  version: 0.0.461
-  resolution: "@pzh-ui/components@npm:0.0.461"
+"@pzh-ui/components@npm:^0.0.465":
+  version: 0.0.465
+  resolution: "@pzh-ui/components@npm:0.0.465"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
-    "@pzh-ui/icons": "npm:^0.0.48"
+    "@pzh-ui/icons": "npm:^0.0.50"
     "@react-aria/utils": "npm:^3.19.0"
     "@react-hookz/web": "npm:^23.1.0"
     "@react-types/shared": "npm:^3.19.0"
@@ -2531,7 +2531,7 @@ __metadata:
     react-stately: "npm:^3.18.0"
     react-table: "npm:^7.8.0"
     react-toastify: "npm:^9.1.2"
-  checksum: f69dc964ed3cc03cf9e7029286d796af24b0832da7a1e6975665f0ceef87339b1fb4cf049a473610c528612884a685855df604280f15eefd4e56edc01a6edb8c
+  checksum: c58dc32aa107819994b6240749e9871c0288a18c3d8baa30cc1714501f82a08c92481c8ce874bb2e0a5cb21055bc0041a939856c7a3cda22ff70cc7cb78e714c
   languageName: node
   linkType: hard
 
@@ -2563,9 +2563,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/css@npm:^0.0.79":
-  version: 0.0.79
-  resolution: "@pzh-ui/css@npm:0.0.79"
+"@pzh-ui/css@npm:^0.0.80":
+  version: 0.0.80
+  resolution: "@pzh-ui/css@npm:0.0.80"
   dependencies:
     "@rollup/plugin-typescript": "npm:^8.3.1"
     "@tailwindcss/custom-forms": "npm:^0.2.1"
@@ -2574,17 +2574,17 @@ __metadata:
     "@tailwindcss/typography": "npm:^0.5.9"
     react-datepicker: "npm:^4.7.0"
     react-toastify: "npm:^9.1.2"
-  checksum: 65f08cd2a33108adf63a83cbe680f6f72733385cff6608d082a7c47d93f5457cb595a15d90c8057553877737be658a21c670ca1693f96a8595c03da232b00614
+  checksum: f33cfa8697ac1840659461e1bc574a74d7ce26a6194bd4c159c7256073734c5f72e20c6a19535e5d767f0997902bd632ecce8a95342aafff32177effc70a9211
   languageName: node
   linkType: hard
 
-"@pzh-ui/icons@npm:^0.0.48":
-  version: 0.0.48
-  resolution: "@pzh-ui/icons@npm:0.0.48"
+"@pzh-ui/icons@npm:^0.0.50":
+  version: 0.0.50
+  resolution: "@pzh-ui/icons@npm:0.0.50"
   dependencies:
     react: "npm:^18.0.0"
     react-toastify: "npm:^9.1.2"
-  checksum: eb8892be79b09d5df82678ed8272b50973a5f93ea07158235a155044ca94db0caaf508a5001cc70e46142be6d2419dcc5540888d9230944f6cbf5690c0eb17ea
+  checksum: a94a31decee8c7d314e8befbd4139875700729c136704c4f49c1ccad4dc4e1f2190af5f794d98a27b7479b21fea8c7b7b0fda1bd319d1374b34e6defc2f119de
   languageName: node
   linkType: hard
 
@@ -12375,10 +12375,10 @@ __metadata:
     "@axe-core/react": "npm:^4.8.2"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-    "@pzh-ui/components": "npm:^0.0.461"
+    "@pzh-ui/components": "npm:^0.0.465"
     "@pzh-ui/config": "npm:^0.0.56"
-    "@pzh-ui/css": "npm:^0.0.79"
-    "@pzh-ui/icons": "npm:^0.0.48"
+    "@pzh-ui/css": "npm:^0.0.80"
+    "@pzh-ui/icons": "npm:^0.0.50"
     "@react-hookz/web": "npm:^24.0.2"
     "@tanstack/react-query": "npm:^5.14.2"
     "@testing-library/dom": "npm:^9.3.3"
