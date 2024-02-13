@@ -51,8 +51,8 @@ function AuthProvider({ children }: { children: ReactNode }) {
     } = useLocalStorageValue<string>(
         import.meta.env.VITE_KEY_API_ACCESS_TOKEN || '',
         {
-            parse: (data: string) => data,
-            stringify: (data: unknown) => data,
+            parse: (data: string | null) => data,
+            stringify: (data: string) => data,
         }
     )
     const {
