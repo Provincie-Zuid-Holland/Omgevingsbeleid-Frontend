@@ -110,7 +110,7 @@ export const notifications: Record<
         type: 'success',
     },
     downloadStarted: {
-        message: 'De download wordt gegeneerd, dit kan even duren',
+        message: 'De download wordt gegenereerd, dit kan even duren',
         type: 'info',
     },
 }
