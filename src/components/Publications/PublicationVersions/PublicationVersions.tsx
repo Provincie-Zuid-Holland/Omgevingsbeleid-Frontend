@@ -1,4 +1,4 @@
-import { Button } from '@pzh-ui/components'
+import { Button, Tooltip } from '@pzh-ui/components'
 import { FileWord } from '@pzh-ui/icons'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
@@ -127,15 +127,23 @@ const VersionRow = ({
                         }>
                         Bewerken
                     </Button>
-                    <Button
-                        size="small"
-                        icon={FileWord}
-                        iconSize={16}
-                        className="ml-auto"
-                        onPress={() => download()}
-                        isLoading={isFetching}
-                        isDisabled={isFetching}
-                    />
+                    <Tooltip
+                        label={
+                            isFetching
+                                ? 'De download wordt gegeneerd, dit kan even duren'
+                                : 'Download Word export'
+                        }>
+                        <div className="ml-auto">
+                            <Button
+                                size="small"
+                                icon={FileWord}
+                                iconSize={16}
+                                onPress={() => download()}
+                                isLoading={isFetching}
+                                isDisabled={isFetching}
+                            />
+                        </div>
+                    </Tooltip>
                 </div>
             </td>
         </tr>
