@@ -10,7 +10,6 @@ import {
 import { Publication, PublicationBillShort } from '@/api/fetchers.schemas'
 import useModalStore from '@/store/modalStore'
 import downloadFile from '@/utils/downloadFile'
-import { toastNotification } from '@/utils/toastNotification'
 
 interface PublicationVersionsProps {
     publication: Publication
@@ -93,13 +92,10 @@ const VersionRow = ({
     }: {
         moduleId?: string
         Module_Status_ID: number
-    }) => {
-        toastNotification('downloadStarted')
-
-        return downloadFile(
+    }) =>
+        downloadFile(
             `modules/${moduleId}/diff?output_format=doc&status_id=${Module_Status_ID}`
         )
-    }
 
     const { isFetching, refetch: download } = useQuery({
         queryKey: ['downloadDiff', moduleId, Module_Status_ID, UUID],
@@ -130,7 +126,7 @@ const VersionRow = ({
                     <Tooltip
                         label={
                             isFetching
-                                ? 'De download wordt gegeneerd, dit kan even duren'
+                                ? 'De download wordt gegenereerd, dit kan even duren'
                                 : 'Download Word export'
                         }>
                         <div className="ml-auto">
