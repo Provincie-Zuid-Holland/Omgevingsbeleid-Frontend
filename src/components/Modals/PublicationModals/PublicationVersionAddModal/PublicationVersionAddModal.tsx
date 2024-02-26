@@ -1,4 +1,3 @@
-import { formatDate } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 
 import {
@@ -52,35 +51,8 @@ const PublicationVersionAddModal = () => {
     const handleFormSubmit = (payload: PublicationBillCreate) => {
         payload.Is_Official = (payload.Is_Official as unknown) === 'true'
 
-        payload.Effective_Date =
-            payload.Effective_Date &&
-            formatDate(new Date(payload.Effective_Date), 'yyyy-MM-dd')
-
         if (payload.Procedure_Data?.Announcement_Date) {
-            payload.Procedure_Data.Announcement_Date =
-                formatDate(
-                    new Date(payload.Procedure_Data.Announcement_Date),
-                    'yyyy-MM-dd'
-                ) || ''
-            payload.Announcement_Date =
-                formatDate(
-                    new Date(payload.Procedure_Data.Announcement_Date),
-                    'yyyy-MM-dd'
-                ) || ''
-        }
-
-        if (payload.Procedure_Data?.Steps?.[0]?.Conclusion_Date) {
-            payload.Procedure_Data.Steps[0].Conclusion_Date = formatDate(
-                new Date(payload.Procedure_Data.Steps[0].Conclusion_Date),
-                'yyyy-MM-dd'
-            )
-        }
-
-        if (payload.Procedure_Data?.Steps?.[1]?.Conclusion_Date) {
-            payload.Procedure_Data.Steps[1].Conclusion_Date = formatDate(
-                new Date(payload.Procedure_Data.Steps[1].Conclusion_Date),
-                'yyyy-MM-dd'
-            )
+            payload.Announcement_Date = payload.Procedure_Data.Announcement_Date
         }
 
         mutate({ publicationUuid: modalState.publication.UUID, data: payload })
