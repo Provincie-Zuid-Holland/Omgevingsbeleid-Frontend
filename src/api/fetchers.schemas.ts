@@ -1064,6 +1064,7 @@ export interface PublicationBill {
     Created_Date: string
     Effective_Date: string
     Is_Official: boolean
+    Locked: boolean
     Modified_By_UUID: string
     Modified_Date: string
     Module_Status_ID: number
