@@ -30,6 +30,8 @@ import {
 } from '@/components/Modals/ModuleModals'
 import {
     PublicationAddModal,
+    PublicationEditModal,
+    PublicationPackagesModal,
     PublicationVersionAddModal,
     PublicationVersionEditModal,
 } from '@/components/Modals/PublicationModals'
@@ -39,7 +41,7 @@ import ModuleItemList from '@/components/Modules/ModuleItemList'
 import ModuleLock from '@/components/Modules/ModuleLock'
 import ModuleTimeline from '@/components/Modules/ModuleTimeline'
 import ModuleVersionCard from '@/components/Modules/ModuleVersionCard'
-import Publication from '@/components/Publications/Publication'
+import Publications from '@/components/Publications'
 import useModule from '@/hooks/useModule'
 import useModuleManagers from '@/hooks/useModuleManagers'
 import usePermissions from '@/hooks/usePermissions'
@@ -265,7 +267,7 @@ const TabDecisions = () => {
 
                 {documentTypes.map((type, index) => (
                     <Fragment key={type}>
-                        <Publication type={type} />
+                        <Publications type={type} />
 
                         {index + 1 !== documentTypes.length && (
                             <Divider className="my-10" />
@@ -275,8 +277,10 @@ const TabDecisions = () => {
             </div>
 
             <PublicationAddModal />
+            <PublicationEditModal />
             <PublicationVersionAddModal />
             <PublicationVersionEditModal />
+            <PublicationPackagesModal />
         </>
     )
 }

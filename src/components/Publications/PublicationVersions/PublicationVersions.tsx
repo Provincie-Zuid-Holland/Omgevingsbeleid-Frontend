@@ -46,7 +46,7 @@ const PublicationVersions = ({ publication }: PublicationVersionsProps) => {
         <table className="mb-6 w-full table-auto text-left text-s">
             <thead className="h-8 border-b border-pzh-gray-400 font-bold text-pzh-blue-500">
                 <tr>
-                    <th className="pl-2">Versie</th>
+                    <th className="pl-2">#</th>
                     <th>Gebaseerd op Modulestatus</th>
                     <th>Type besluit</th>
                     <th>Doel</th>
@@ -75,12 +75,8 @@ const PublicationVersions = ({ publication }: PublicationVersionsProps) => {
 
 const VersionRow = ({
     publication,
-    Version_ID,
-    Procedure_Type,
-    Is_Official,
     status,
-    UUID,
-    Module_Status_ID,
+    ...bill
 }: PublicationBillShort & { publication: Publication; status?: string }) => {
     const { moduleId } = useParams()
 
@@ -98,30 +94,45 @@ const VersionRow = ({
         )
 
     const { isFetching, refetch: download } = useQuery({
-        queryKey: ['downloadDiff', moduleId, Module_Status_ID, UUID],
-        queryFn: () => downloadDiff({ moduleId, Module_Status_ID }),
+        queryKey: ['downloadDiff', moduleId, bill.Module_Status_ID, bill.UUID],
+        queryFn: () =>
+            downloadDiff({ moduleId, Module_Status_ID: bill.Module_Status_ID }),
         enabled: false,
     })
 
     return (
         <tr className="h-14 odd:bg-pzh-gray-100">
-            <td className="pl-2">{Version_ID}</td>
+            <td className="pl-2">{bill.Version_ID}</td>
             <td>{status}</td>
-            <td>{Procedure_Type}</td>
-            <td>{Is_Official ? 'Officiële' : 'Interne'} publicatie</td>
+            <td>{bill.Procedure_Type}</td>
+            <td>{bill.Is_Official ? 'Officiële' : 'Interne'} publicatie</td>
             <td className="pr-2">
                 <div className="flex items-center gap-4">
+                    {!bill.Locked && (
+                        <Button
+                            variant="link"
+                            size="small"
+                            className="text-pzh-green-500"
+                            onPress={() =>
+                                setActiveModal('publicationVersionEdit', {
+                                    publication,
+                                    UUID: bill.UUID,
+                                })
+                            }>
+                            Bewerken
+                        </Button>
+                    )}
                     <Button
                         variant="link"
                         size="small"
                         className="text-pzh-green-500"
                         onPress={() =>
-                            setActiveModal('publicationVersionEdit', {
+                            setActiveModal('publicationPackages', {
                                 publication,
-                                UUID,
+                                bill,
                             })
                         }>
-                        Bewerken
+                        Leveringen
                     </Button>
                     <Tooltip
                         label={
@@ -132,11 +143,13 @@ const VersionRow = ({
                         <div className="ml-auto">
                             <Button
                                 size="small"
+                                variant="secondary"
                                 icon={FileWord}
                                 iconSize={16}
                                 onPress={() => download()}
                                 isLoading={isFetching}
                                 isDisabled={isFetching}
+                                aria-label="Download Word export"
                             />
                         </div>
                     </Tooltip>

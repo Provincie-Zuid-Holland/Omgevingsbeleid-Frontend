@@ -1,80 +1,65 @@
 import { Button, Heading } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
-import { useParams } from 'react-router-dom'
 
-import {
-    usePublicationsGet,
-    usePublicationsPublicationUuidBillsGet,
-} from '@/api/fetchers'
-import { AppExtensionsPublicationsEnumsDocumentType } from '@/api/fetchers.schemas'
-import { LoaderSpinner } from '@/components/Loader'
+import { usePublicationsPublicationUuidBillsGet } from '@/api/fetchers'
+import { Publication as PublicationType } from '@/api/fetchers.schemas'
 import useModalStore from '@/store/modalStore'
 
 import PublicationVersions from '../PublicationVersions'
 
 interface PublicationProps {
-    type: AppExtensionsPublicationsEnumsDocumentType
+    data: PublicationType
 }
 
-const Publication = ({ type }: PublicationProps) => {
-    const { moduleId } = useParams()
+const Publication = ({ data }: PublicationProps) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { data: publication, isPending } = usePublicationsGet(
-        { document_type: type, module_ID: parseInt(moduleId!) },
-        { query: { enabled: !!moduleId, select: data => data.results?.[0] } }
-    )
-
     const { data: latest } = usePublicationsPublicationUuidBillsGet(
-        publication?.UUID || '',
+        data?.UUID || '',
         undefined,
         {
             query: {
-                enabled: !!publication?.UUID,
+                enabled: !!data?.UUID,
                 select: data => data.results?.slice(-1)[0],
             },
         }
     )
 
     return (
-        <div>
-            <Heading level="2" className="mb-4">
-                {type}
-            </Heading>
+        <div className="mb-6 rounded border border-pzh-gray-200 p-6">
+            <div className="mb-4 flex items-center justify-between">
+                <Heading size="m">{data.Official_Title}</Heading>
+                <Button
+                    variant="link"
+                    className="text-pzh-green"
+                    size="small"
+                    onPress={() =>
+                        setActiveModal('publicationEdit', {
+                            publication: data,
+                        })
+                    }>
+                    Publicatie bewerken
+                </Button>
+            </div>
 
-            {isPending ? (
-                <LoaderSpinner />
-            ) : (
-                <>
-                    {!!publication && (
-                        <PublicationVersions publication={publication} />
-                    )}
+            {!!data && <PublicationVersions publication={data} />}
 
-                    {!!!publication ? (
-                        <Button
-                            icon={Plus}
-                            size="small"
-                            onPress={() =>
-                                setActiveModal('publicationAdd', { type })
-                            }
-                            isDisabled={type === 'Omgevingsverordening'}>
-                            Nieuwe publicatie
-                        </Button>
-                    ) : (
-                        <Button
-                            icon={Plus}
-                            size="small"
-                            onPress={() =>
-                                setActiveModal('publicationVersionAdd', {
-                                    publication,
-                                    prevUUID: latest?.UUID,
-                                })
-                            }>
-                            Nieuwe versie aanmaken
-                        </Button>
-                    )}
-                </>
-            )}
+            <div className="flex gap-2">
+                <Button
+                    icon={Plus}
+                    size="small"
+                    onPress={() =>
+                        setActiveModal('publicationVersionAdd', {
+                            publication: data,
+                            prevUUID: latest?.UUID,
+                        })
+                    }>
+                    Nieuwe versie aanmaken
+                </Button>
+                <Button variant="secondary" size="small">
+                    Publicatie afbreken
+                </Button>
+            </div>
         </div>
     )
 }
