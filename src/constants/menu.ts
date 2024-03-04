@@ -43,7 +43,7 @@ export const menuGroups = [
         items: [
             {
                 text: 'Verordening',
-                to: 'https://www.ruimtelijkeplannen.nl/web-roo/transform/NL.IMRO.9928.OVerordening2019-GC10/pt_NL.IMRO.9928.OVerordening2019-GC10.xml',
+                to: 'https://www.zuid-holland.nl/onderwerpen/omgevingsbeleid/zuid-hollandse-omgevingsverordening/',
                 targetBlank: true,
             },
         ],

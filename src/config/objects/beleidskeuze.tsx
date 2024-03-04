@@ -149,11 +149,10 @@ const beleidskeuze: DynamicObject<
                 },
                 {
                     name: 'Explanation',
-                    label: 'Toelichting',
+                    label: 'Nadere uitwerking',
                     description:
                         'Op welke thema’s, onderwerpen en gebieden gaat de beleidskeuze iets wijzigen, en waarom is dit gewenst? Beschrijf ook de relatie met andere beleidsterreinen.',
                     type: 'wysiwyg',
-                    required: true,
                 },
             ],
         },
@@ -181,6 +180,7 @@ const beleidskeuze: DynamicObject<
                         </>
                     ),
                     type: 'search',
+                    required: true,
                     status: 'all',
                     placeholder: 'Kies het werkingsgebied',
                     filterType: ['werkingsgebied'],

@@ -62,10 +62,14 @@ interface ContentProps {
 }
 
 const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
-    const cleanHtml = DOMPurify.sanitize(html).replace(
-        /\bhttps?:\/\/\S+/gi,
-        '<a class="underline text-pzh-green hover:text-pzh-blue-dark" href="$&" target="_blank" rel="noreferrer noopener">$&</a>'
-    )
+    let cleanHtml = DOMPurify.sanitize(html)
+
+    if (value === 'Weblink') {
+        cleanHtml = cleanHtml.replace(
+            /\bhttps?:\/\/\S+/gi,
+            '<a class="underline text-pzh-green hover:text-pzh-blue-dark" href="$&" target="_blank" rel="noreferrer noopener">$&</a>'
+        )
+    }
 
     const Wrapper = value === 'Description' ? 'p' : 'div'
 
@@ -149,7 +153,7 @@ export const fields: {
         value: 'Role',
     },
     {
-        title: 'Uitwerking',
+        title: 'Nadere uitwerking',
         value: 'Effect',
     },
     {
@@ -165,7 +169,7 @@ export const fields: {
         value: 'Provincial_Interest',
     },
     {
-        title: 'Toelichting',
+        title: 'Nadere uitwerking',
         value: 'Explanation',
     },
     {

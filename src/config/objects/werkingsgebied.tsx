@@ -95,7 +95,6 @@ const werkingsgebied: DynamicObject<
                     type: 'area',
                     placeholder:
                         'Zoek een werkingsgebied op naam of de naam van een versie',
-                    required: true,
                 },
             ],
         },
@@ -105,7 +104,7 @@ const werkingsgebied: DynamicObject<
 werkingsgebied.validationSchema = generateDynamicSchema(
     werkingsgebied.dynamicSections
 ).superRefine(({ Title, Source_Title }: any, ctx) => {
-    if (Title !== Source_Title) {
+    if (!!Source_Title && Title !== Source_Title) {
         ctx.addIssue({
             code: ZodIssueCode.custom,
             message:
