@@ -1,5 +1,5 @@
 import { Heading, Text } from '@pzh-ui/components'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 

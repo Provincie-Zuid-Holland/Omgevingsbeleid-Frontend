@@ -5,7 +5,7 @@ import {
     Text,
 } from '@pzh-ui/components'
 import { useUpdateEffect } from '@react-hookz/web'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 

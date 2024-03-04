@@ -10,7 +10,7 @@ import {
     Tabs,
     Text,
 } from '@pzh-ui/components'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { Fragment, useState } from 'react'
 
 import {
@@ -106,7 +106,9 @@ const ModuleDetail = () => {
                             />
                         </div>
                         <div>
-                            <Text className="truncate">
+                            <Text
+                                className="truncate"
+                                title={module.Description}>
                                 {module.Description}
                             </Text>
                         </div>

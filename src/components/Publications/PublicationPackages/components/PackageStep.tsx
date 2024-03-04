@@ -1,6 +1,6 @@
 import { Text } from '@pzh-ui/components'
 import { Check } from '@pzh-ui/icons'
-import classNames from 'classnames'
+import classNames from 'clsx'
 
 import { usePublicationBillsBillUuidPackagesGet } from '@/api/fetchers'
 import { PublicationBillShort } from '@/api/fetchers.schemas'
@@ -91,7 +91,7 @@ const PackageStep = ({
                     {type === 'upload' && !isSucceeded && (
                         <Text size="s" color="text-pzh-gray-600">
                             Selecteer alle(!) rapporten die zijn teruggekomen
-                            van het DSO, je kunt deze eenmalig uploaden
+                            van het DSO
                         </Text>
                     )}
                 </div>

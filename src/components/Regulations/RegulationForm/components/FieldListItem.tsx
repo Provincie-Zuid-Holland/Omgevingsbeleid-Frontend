@@ -1,6 +1,6 @@
 import { FieldInputProps, FormikInput, Text } from '@pzh-ui/components'
 import { GripDotsVertical, Xmark } from '@pzh-ui/icons'
-import classNames from 'classnames'
+import classNames from 'clsx'
 
 import { ORDERED_LIST } from '../../constants'
 import { RegulationFieldProps } from './types'

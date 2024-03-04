@@ -14,15 +14,13 @@ export interface PublicationPackageProps {
     eventType: PackageEventType
 }
 
-const PublicationPackages = ({ ...bill }: PublicationBillShort) => {
+const PublicationPackages = (bill: PublicationBillShort) => {
     const { data } = usePublicationsPublicationUuidBillsBillUuidGet(
         bill.Publication_UUID,
         bill.UUID
     )
 
-    const { data: packages, refetch } = usePublicationBillsBillUuidPackagesGet(
-        bill.UUID
-    )
+    const { data: packages } = usePublicationBillsBillUuidPackagesGet(bill.UUID)
 
     const { validationPackage, publicationPackage } = useMemo(() => {
         const validationPackage = packages?.results.find(
@@ -46,20 +44,6 @@ const PublicationPackages = ({ ...bill }: PublicationBillShort) => {
 
         return { announcementDate, effectiveDate }
     }, [data])
-
-    // useEffect(() => {
-    //     // Refetch packages every 10 seconds if Validation_Status is 'Pending'
-    //     const intervalId = setInterval(() => {
-    //         if (
-    //             validationPackage?.Validation_Status === 'Pending' ||
-    //             publicationPackage?.Validation_Status === 'Pending'
-    //         ) {
-    //             refetch()
-    //         }
-    //     }, 5000) // 10 seconds in milliseconds
-
-    //     return () => clearInterval(intervalId) // Cleanup the interval on unmount
-    // }, [validationPackage, publicationPackage, refetch])
 
     return (
         <>

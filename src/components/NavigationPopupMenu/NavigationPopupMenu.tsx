@@ -1,7 +1,7 @@
 import { Heading, Text } from '@pzh-ui/components'
 import { AngleRight, Bars, Xmark } from '@pzh-ui/icons'
 import { useKeyboardEvent, useWindowSize } from '@react-hookz/web'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 

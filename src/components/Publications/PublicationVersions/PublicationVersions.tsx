@@ -1,6 +1,8 @@
-import { Button, Tooltip } from '@pzh-ui/components'
+import { Button, Pagination, Tooltip } from '@pzh-ui/components'
 import { FileWord } from '@pzh-ui/icons'
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import classNames from 'clsx'
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import {
@@ -8,8 +10,11 @@ import {
     usePublicationsPublicationUuidBillsGet,
 } from '@/api/fetchers'
 import { Publication, PublicationBillShort } from '@/api/fetchers.schemas'
+import { LoaderSpinner } from '@/components/Loader'
 import useModalStore from '@/store/modalStore'
-import downloadFile from '@/utils/downloadFile'
+import { downloadFile } from '@/utils/file'
+
+const PAGE_LIMIT = 10
 
 interface PublicationVersionsProps {
     publication: Publication
@@ -18,12 +23,18 @@ interface PublicationVersionsProps {
 const PublicationVersions = ({ publication }: PublicationVersionsProps) => {
     const { moduleId } = useParams()
 
-    const { data } = usePublicationsPublicationUuidBillsGet(
+    const [currPage, setCurrPage] = useState(1)
+
+    const { data, isFetching } = usePublicationsPublicationUuidBillsGet(
         publication!.UUID,
-        undefined,
+        {
+            limit: PAGE_LIMIT,
+            offset: (currPage - 1) * PAGE_LIMIT,
+        },
         {
             query: {
                 enabled: !!publication,
+                placeholderData: keepPreviousData,
             },
         }
     )
@@ -43,33 +54,52 @@ const PublicationVersions = ({ publication }: PublicationVersionsProps) => {
     )
 
     return (
-        <table className="mb-6 w-full table-auto text-left text-s">
-            <thead className="h-8 border-b border-pzh-gray-400 font-bold text-pzh-blue-500">
-                <tr>
-                    <th className="pl-2">#</th>
-                    <th>Gebaseerd op Modulestatus</th>
-                    <th>Type besluit</th>
-                    <th>Doel</th>
-                    <th className="pr-2">Actie</th>
-                </tr>
-            </thead>
-            <tbody>
-                {data?.results.map(bill => {
-                    const status = statusOptions?.find(
-                        option => option.value === bill.Module_Status_ID
-                    )
+        <>
+            <div className={classNames({ relative: isFetching })}>
+                {isFetching && (
+                    <div className="absolute left-0 top-0 flex h-full w-full animate-pulse items-center justify-center bg-pzh-gray-600/15">
+                        <LoaderSpinner />
+                    </div>
+                )}
+                <table className="w-full table-auto text-left text-s">
+                    <thead className="h-8 border-b border-pzh-gray-400 font-bold text-pzh-blue-500">
+                        <tr>
+                            <th className="pl-2">#</th>
+                            <th>Gebaseerd op Modulestatus</th>
+                            <th>Type besluit</th>
+                            <th>Doel</th>
+                            <th className="pr-2">Actie</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data?.results.map(bill => {
+                            const status = statusOptions?.find(
+                                option => option.value === bill.Module_Status_ID
+                            )
 
-                    return (
-                        <VersionRow
-                            key={bill.UUID}
-                            publication={publication}
-                            status={status?.label}
-                            {...bill}
-                        />
-                    )
-                })}
-            </tbody>
-        </table>
+                            return (
+                                <VersionRow
+                                    key={bill.UUID}
+                                    publication={publication}
+                                    status={status?.label}
+                                    {...bill}
+                                />
+                            )
+                        })}
+                    </tbody>
+                </table>
+            </div>
+            {!!data?.total && !!data?.limit && data.total > data.limit && (
+                <div className="mt-8 flex justify-center">
+                    <Pagination
+                        onChange={setCurrPage}
+                        forcePage={currPage - 1}
+                        total={data?.total}
+                        limit={data?.limit}
+                    />
+                </div>
+            )}
+        </>
     )
 }
 

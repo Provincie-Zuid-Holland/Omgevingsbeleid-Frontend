@@ -1,5 +1,5 @@
 import { Breadcrumbs, Heading, TabItem, Tabs, Text } from '@pzh-ui/components'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { Helmet } from 'react-helmet-async'
 
 import { Container } from '@/components/Container'

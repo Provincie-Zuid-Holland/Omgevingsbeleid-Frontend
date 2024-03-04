@@ -1,5 +1,5 @@
 import { Divider, Heading, Text, getHeadingStyles } from '@pzh-ui/components'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import htmlDiff from 'node-htmldiff'
 import { useMemo } from 'react'
 

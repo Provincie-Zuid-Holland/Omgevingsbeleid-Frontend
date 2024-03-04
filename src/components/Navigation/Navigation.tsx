@@ -1,7 +1,7 @@
 import { Badge } from '@pzh-ui/components'
 import { ArrowRightFromBracket, Eye } from '@pzh-ui/icons'
 import { useClickOutside } from '@react-hookz/web'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { ReactNode, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 

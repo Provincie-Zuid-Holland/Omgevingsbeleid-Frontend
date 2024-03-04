@@ -71,7 +71,7 @@ export const PUBLICATION_VERSION_SCHEMA = object({
             code: 'custom',
             message:
                 'De bekendmakingsdatum moet eerder zijn dan de inwerkingtredingsdatum',
-            path: ['Procedure_Data.Announcement_Date'],
+            path: ['Announcement_Date'],
         })
     }
 })

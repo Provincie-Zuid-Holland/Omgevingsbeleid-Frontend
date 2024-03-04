@@ -1,9 +1,8 @@
-import { Badge, Text } from '@pzh-ui/components'
-import classNames from 'classnames'
+import { Badge, Text, formatDate } from '@pzh-ui/components'
+import classNames from 'clsx'
 import { useMemo } from 'react'
 
 import { ModuleStatus } from '@/api/fetchers.schemas'
-import formatDate from '@/utils/formatDate'
 import { getModuleStatusColor } from '@/utils/module'
 
 interface ModuleTimelineProps {

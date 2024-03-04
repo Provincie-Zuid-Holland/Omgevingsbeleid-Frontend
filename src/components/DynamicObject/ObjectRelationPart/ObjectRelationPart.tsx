@@ -1,5 +1,5 @@
 import { Eye, Spinner } from '@pzh-ui/icons'
-import classNames from 'classnames'
+import classNames from 'clsx'
 
 interface ObjectRelationPartProps {
     /** Title */

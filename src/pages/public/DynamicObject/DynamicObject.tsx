@@ -4,7 +4,7 @@ import {
     Hyperlink,
     Notification,
 } from '@pzh-ui/components'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router-dom'
@@ -232,7 +232,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                         </div>
                     )}
 
-                    {model.allowedConnections &&
+                    {!!model.allowedConnections &&
                         !model.acknowledgedRelation && (
                             <div
                                 className={classNames('order-8', {
@@ -245,17 +245,18 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                             </div>
                         )}
 
-                    {model.allowedConnections && model.acknowledgedRelation && (
-                        <div
-                            className={classNames('order-9', {
-                                'mt-4 md:mt-8': !!data?.Gebied,
-                            })}>
-                            <ObjectRelationsPublic
-                                model={model}
-                                data={data || {}}
-                            />
-                        </div>
-                    )}
+                    {!!model.allowedConnections &&
+                        !!model.acknowledgedRelation && (
+                            <div
+                                className={classNames('order-9', {
+                                    'mt-4 md:mt-8': !!data?.Gebied,
+                                })}>
+                                <ObjectRelationsPublic
+                                    model={model}
+                                    data={data || {}}
+                                />
+                            </div>
+                        )}
                 </div>
             </Container>
 

@@ -1,5 +1,5 @@
 import { Feedback, Heading, Text } from '@pzh-ui/components'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { Link } from 'react-router-dom'
 
 import usePage from '@/hooks/usePage'

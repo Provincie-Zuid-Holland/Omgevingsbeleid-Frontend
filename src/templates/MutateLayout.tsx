@@ -1,5 +1,5 @@
 import { Breadcrumbs } from '@pzh-ui/components'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { ReactNode, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
 

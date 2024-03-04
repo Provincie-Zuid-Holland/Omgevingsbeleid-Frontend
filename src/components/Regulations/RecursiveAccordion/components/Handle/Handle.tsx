@@ -1,6 +1,6 @@
 import { Button, Text } from '@pzh-ui/components'
 import { GripDotsVertical, PenToSquare, TrashCan } from '@pzh-ui/icons'
-import classNames from 'classnames'
+import classNames from 'clsx'
 
 import { Section, SectionType } from '@/config/regulations/sections/types'
 import useModalStore from '@/store/modalStore'

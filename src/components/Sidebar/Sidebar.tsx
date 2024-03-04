@@ -1,6 +1,6 @@
 import { Text } from '@pzh-ui/components'
 import { House, Users } from '@pzh-ui/icons'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 

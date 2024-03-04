@@ -151,7 +151,7 @@ const PublicationVersionForm = <TData extends FormikValues>({
                         </div>
                         <div>
                             <FormikDate
-                                name="Procedure_Data.Announcement_Date"
+                                name="Announcement_Date"
                                 label="Bekendmakingsdatum"
                                 placeholder="Kies een datum"
                                 required

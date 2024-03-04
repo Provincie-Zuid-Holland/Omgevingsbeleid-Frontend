@@ -1,6 +1,6 @@
 import { Divider } from '@pzh-ui/components'
 import { Minus, Plus, RotateLeft } from '@pzh-ui/icons'
-import classNames from 'classnames'
+import classNames from 'clsx'
 
 import useNetworkStore from '@/store/networkStore'
 
