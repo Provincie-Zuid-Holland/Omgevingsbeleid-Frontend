@@ -42,7 +42,11 @@ const Publication = ({ data }: PublicationProps) => {
                 </Button>
             </div>
 
-            {!!data && <PublicationVersions publication={data} />}
+            {!!data && (
+                <div className="mb-6">
+                    <PublicationVersions publication={data} />
+                </div>
+            )}
 
             <div className="flex gap-2">
                 <Button

@@ -8,7 +8,7 @@ import {
     MessageXmark,
     Share,
 } from '@pzh-ui/icons'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { useMemo, useState } from 'react'
 
 import { AcknowledgedRelation } from '@/api/fetchers.schemas'

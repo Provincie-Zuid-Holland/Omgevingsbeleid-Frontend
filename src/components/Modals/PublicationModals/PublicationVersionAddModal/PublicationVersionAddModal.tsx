@@ -51,8 +51,8 @@ const PublicationVersionAddModal = () => {
     const handleFormSubmit = (payload: PublicationBillCreate) => {
         payload.Is_Official = (payload.Is_Official as unknown) === 'true'
 
-        if (payload.Procedure_Data?.Announcement_Date) {
-            payload.Announcement_Date = payload.Procedure_Data.Announcement_Date
+        if (payload.Announcement_Date && payload.Procedure_Data) {
+            payload.Procedure_Data.Announcement_Date = payload.Announcement_Date
         }
 
         mutate({ publicationUuid: modalState.publication.UUID, data: payload })

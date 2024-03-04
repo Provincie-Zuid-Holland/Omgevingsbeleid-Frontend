@@ -54,8 +54,8 @@ const PublicationVersionEditModal = () => {
     })
 
     const handleFormSubmit = (payload: PublicationBillEdit) => {
-        if (payload.Procedure_Data?.Announcement_Date) {
-            payload.Announcement_Date = payload.Procedure_Data.Announcement_Date
+        if (payload.Announcement_Date && payload.Procedure_Data) {
+            payload.Procedure_Data.Announcement_Date = payload.Announcement_Date
         }
 
         mutate({

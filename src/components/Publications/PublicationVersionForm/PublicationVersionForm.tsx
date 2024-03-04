@@ -11,6 +11,7 @@ import {
 } from '@pzh-ui/components'
 import { Form, Formik, FormikConfig, FormikValues } from 'formik'
 import { useParams } from 'react-router-dom'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { useModulesModuleIdStatusGet } from '@/api/fetchers'
 import {
@@ -20,6 +21,7 @@ import {
     AccordionTrigger,
 } from '@/components/Accordion'
 import useModalStore from '@/store/modalStore'
+import { PUBLICATION_VERSION_SCHEMA } from '@/validation/publication'
 
 interface PublicationVersionFormProps {
     submitLabel: string
@@ -55,7 +57,12 @@ const PublicationVersionForm = <TData extends FormikValues>({
     )
 
     return (
-        <Formik enableReinitialize {...rest}>
+        <Formik
+            enableReinitialize
+            validationSchema={toFormikValidationSchema(
+                PUBLICATION_VERSION_SCHEMA
+            )}
+            {...rest}>
             <Form>
                 <div className="space-y-4">
                     <FormikRadioGroup
@@ -74,6 +81,7 @@ const PublicationVersionForm = <TData extends FormikValues>({
                             },
                         ]}
                         disabled={isEdit}
+                        required
                     />
                     <FormikRadioGroup
                         name="Procedure_Type"
@@ -91,6 +99,7 @@ const PublicationVersionForm = <TData extends FormikValues>({
                             },
                         ]}
                         disabled={isEdit}
+                        required
                     />
                     <div className="flex space-x-4 [&_>div]:flex-1">
                         <FormikSelect
@@ -99,6 +108,7 @@ const PublicationVersionForm = <TData extends FormikValues>({
                             placeholder="Selecteer een module status"
                             options={statusOptions}
                             disabled={isEdit}
+                            required
                         />
                         <FormikInput
                             name="PZH_Bill_Identifier"
@@ -115,36 +125,45 @@ const PublicationVersionForm = <TData extends FormikValues>({
                         name="Bill_Data.Closing"
                         label="Sluiting"
                         placeholder="Bijv. Gegeven te 's-Gravenhage, 27 september 2023"
+                        required
                     />
                     <FormikInput
                         name="Bill_Data.Signature"
                         label="Ondertekening"
+                        required
                     />
                     <div className="flex space-x-4 [&_>div]:flex-1">
-                        <FormikDate
-                            name="Procedure_Data.Steps.0.Conclusion_Date"
-                            label="Vaststellingsdatum"
-                            placeholder="Kies een datum"
-                            required
-                        />
-
-                        <FormikDate
-                            name="Procedure_Data.Steps.1.Conclusion_Date"
-                            label="Datum van ondertekening"
-                            placeholder="Kies een datum"
-                            required
-                        />
-                        <FormikDate
-                            name="Procedure_Data.Announcement_Date"
-                            label="Bekendmakingsdatum"
-                            placeholder="Kies een datum"
-                            required
-                        />
-                        <FormikDate
-                            name="Effective_Date"
-                            label="Inwerkingtredingsdatum"
-                            placeholder="Kies een datum"
-                        />
+                        <div>
+                            <FormikDate
+                                name="Procedure_Data.Steps.0.Conclusion_Date"
+                                label="Vaststellingsdatum"
+                                placeholder="Kies een datum"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <FormikDate
+                                name="Procedure_Data.Steps.1.Conclusion_Date"
+                                label="Datum van ondertekening"
+                                placeholder="Kies een datum"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <FormikDate
+                                name="Announcement_Date"
+                                label="Bekendmakingsdatum"
+                                placeholder="Kies een datum"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <FormikDate
+                                name="Effective_Date"
+                                label="Inwerkingtredingsdatum"
+                                placeholder="Kies een datum"
+                            />
+                        </div>
                     </div>
                 </div>
                 <Divider className="my-6" />

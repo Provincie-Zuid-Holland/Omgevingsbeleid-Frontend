@@ -1,6 +1,6 @@
 import { Button, Divider, Heading, Text } from '@pzh-ui/components'
 import { PenToSquare, TrashCan } from '@pzh-ui/icons'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
 

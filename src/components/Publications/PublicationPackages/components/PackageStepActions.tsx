@@ -13,7 +13,7 @@ import {
     PublicationBillShort,
     PublicationPackage,
 } from '@/api/fetchers.schemas'
-import downloadFile from '@/utils/downloadFile'
+import { downloadFile } from '@/utils/file'
 
 import { PublicationPackageProps } from '../PublicationPackages'
 
@@ -199,66 +199,93 @@ const UploadAction = ({
     }
 
     const date = useMemo(() => {
-        if (!!publicationPackage?.Reports?.[0]) {
+        if (!!publicationPackage?.Reports?.length) {
             return formatDate(
-                new Date(publicationPackage.Reports[0].Created_Date),
+                new Date(publicationPackage.Reports?.slice(-1)[0].Created_Date),
                 'dd-MM-yyyy'
             )
         }
     }, [publicationPackage])
 
+    const allFiles = useMemo(
+        () =>
+            ((!!files?.length || !!publicationPackage?.Reports?.length) && [
+                ...(publicationPackage?.Reports || []),
+                ...(files || []),
+            ]) ||
+            undefined,
+        [files, publicationPackage?.Reports]
+    )
+
     return (
-        <div className="flex items-center gap-2 whitespace-nowrap">
-            {publicationPackage?.Validation_Status !== 'Valid' ? (
-                <>
-                    {!!files?.length && (
-                        <div className="flex flex-wrap justify-end gap-2">
-                            {files.map(file => (
-                                <Tag
-                                    text={file.name}
-                                    onClick={() =>
-                                        setFiles(
-                                            files.filter(
-                                                e => e.name !== file.name
-                                            )
-                                        )
-                                    }
-                                />
-                            ))}
-                        </div>
-                    )}
-                    <FileTrigger
-                        allowsMultiple
-                        onSelect={e => {
-                            if (!e) return
+        <div>
+            <div className="flex items-center gap-4 whitespace-nowrap">
+                {!!allFiles?.length && (
+                    <div className="flex flex-wrap justify-end gap-2">
+                        {allFiles.map(file => (
+                            <Tag
+                                text={
+                                    'name' in file
+                                        ? file.name
+                                        : file.Report_Type || ''
+                                }
+                                onClick={
+                                    'name' in file && !!files?.length
+                                        ? () =>
+                                              setFiles(
+                                                  files.filter(
+                                                      e => e.name !== file.name
+                                                  )
+                                              )
+                                        : undefined
+                                }
+                            />
+                        ))}
+                    </div>
+                )}
+                <FileTrigger
+                    allowsMultiple
+                    onSelect={e => {
+                        if (!e) return
 
-                            const newFiles = Array.from(e)
+                        const newFiles = Array.from(e)
 
-                            setFiles(
-                                !!files?.length
-                                    ? [...files, ...newFiles]
-                                    : newFiles
-                            )
-                        }}>
-                        <Button
-                            variant={!!files?.length ? 'primary' : 'cta'}
-                            icon={!!files?.length && Plus}
-                            isDisabled={!isActive || isPending || isLoading}>
-                            {!!!files?.length && 'Selecteer bestand(en)'}
-                        </Button>
-                    </FileTrigger>
-                    {!!files?.length && (
-                        <Button
-                            variant="cta"
-                            onPress={handleAction}
-                            isLoading={isPending || isLoading}
-                            isDisabled={!isActive || isPending || isLoading}>
-                            Uploaden
-                        </Button>
-                    )}
-                </>
-            ) : (
-                <Text color="text-pzh-gray-600">Geupload op {date}</Text>
+                        setFiles(
+                            !!files?.length ? [...files, ...newFiles] : newFiles
+                        )
+                    }}>
+                    <Button
+                        variant={
+                            !!files?.length ||
+                            !!publicationPackage?.Reports?.length
+                                ? 'primary'
+                                : 'cta'
+                        }
+                        icon={
+                            (!!files?.length ||
+                                !!publicationPackage?.Reports?.length) &&
+                            Plus
+                        }
+                        isDisabled={!isActive || isPending || isLoading}>
+                        {!!!files?.length &&
+                            !!!publicationPackage?.Reports?.length &&
+                            'Selecteer bestand(en)'}
+                    </Button>
+                </FileTrigger>
+                {!!files?.length && (
+                    <Button
+                        variant="cta"
+                        onPress={handleAction}
+                        isLoading={isPending || isLoading}
+                        isDisabled={!isActive || isPending || isLoading}>
+                        Uploaden
+                    </Button>
+                )}
+            </div>
+            {date && (
+                <Text color="text-pzh-gray-600" className="mt-2 text-right">
+                    Geupload op {date}
+                </Text>
             )}
         </div>
     )

@@ -1,5 +1,5 @@
 import { Heading } from '@pzh-ui/components'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import DOMPurify from 'dompurify'
 
 import {

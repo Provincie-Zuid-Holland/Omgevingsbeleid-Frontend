@@ -59,7 +59,7 @@ export const SCHEMA_COMPLETE_MODULE = object({
         object({
             Object_Type: schemaDefaults.requiredString(),
             Object_ID: schemaDefaults.requiredNumber(),
-            Start_Validity: schemaDefaults.date,
+            Start_Validity: schemaDefaults.date(),
         }).partial({
             Start_Validity: true,
         })
@@ -68,7 +68,7 @@ export const SCHEMA_COMPLETE_MODULE = object({
 
 export const SCHEMA_COMPLETE_MODULE_STEPS = [
     object({
-        Default_Start_Validity: schemaDefaults.date,
+        Default_Start_Validity: schemaDefaults.date(),
         IDMS_Link: schemaDefaults.url(),
         Decision_Number: schemaDefaults.requiredString(),
         Link_To_Decision_Document: schemaDefaults.url(),
@@ -78,7 +78,7 @@ export const SCHEMA_COMPLETE_MODULE_STEPS = [
             object({
                 Object_Type: schemaDefaults.requiredString(),
                 Object_ID: schemaDefaults.requiredNumber(),
-                Start_Validity: schemaDefaults.date,
+                Start_Validity: schemaDefaults.date(),
             }).partial({
                 Start_Validity: true,
             })

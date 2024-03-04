@@ -1,6 +1,6 @@
 import { Hyperlink, Text } from '@pzh-ui/components'
 import { Xmark } from '@pzh-ui/icons'
-import classNames from 'classnames'
+import classNames from 'clsx'
 
 import { ModelType } from '@/config/objects/types'
 import useNetworkStore from '@/store/networkStore'

@@ -1,6 +1,6 @@
 import { AngleDown } from '@pzh-ui/icons'
 import { useUpdateEffect } from '@react-hookz/web'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import {
     Children,
     HTMLAttributes,
@@ -163,7 +163,8 @@ const AccordionTrigger = ({
                         "after:content-[' '] ml-auto after:absolute after:right-0 after:top-0 after:h-full",
                         classNameButton
                     )}
-                    type="button">
+                    type="button"
+                    aria-label={isOpen ? 'Inklappen' : 'Uitklappen'}>
                     <AngleDown
                         size={16}
                         className={classNames('text-pzh-blue transition', {

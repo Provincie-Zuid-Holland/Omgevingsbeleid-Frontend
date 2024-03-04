@@ -1,5 +1,5 @@
 import { FieldSelect, FieldSelectProps } from '@pzh-ui/components'
-import classNames from 'classnames'
+import classNames from 'clsx'
 
 import { ModelType } from '@/config/objects/types'
 

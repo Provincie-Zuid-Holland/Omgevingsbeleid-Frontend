@@ -10,7 +10,7 @@ import {
     Tooltip,
 } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { Fragment, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
 
