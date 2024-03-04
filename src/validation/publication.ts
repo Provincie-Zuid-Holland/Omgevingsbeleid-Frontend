@@ -1,4 +1,4 @@
-import { array, object, tuple } from 'zod'
+import { array, object, tuple, ZodIssueCode } from 'zod'
 
 import { schemaDefaults } from '@/validation/zodSchema'
 
@@ -61,14 +61,14 @@ export const PUBLICATION_VERSION_SCHEMA = object({
             }),
         ]),
     }),
-}).superRefine(({ Effective_Date, Announcement_Date }: any, ctx) => {
+}).superRefine(({ Effective_Date, Announcement_Date }, ctx) => {
     if (
         Effective_Date &&
         Announcement_Date &&
         new Date(Announcement_Date) >= new Date(Effective_Date)
     ) {
         ctx.addIssue({
-            code: 'custom',
+            code: ZodIssueCode.custom,
             message:
                 'De bekendmakingsdatum moet eerder zijn dan de inwerkingtredingsdatum',
             path: ['Announcement_Date'],

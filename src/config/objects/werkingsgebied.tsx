@@ -1,4 +1,5 @@
 import { DrawPolygon } from '@pzh-ui/icons'
+import { ZodIssueCode } from 'zod'
 
 import {
     useModulesModuleIdObjectWerkingsgebiedLatestLineageIdGet,
@@ -106,7 +107,7 @@ werkingsgebied.validationSchema = generateDynamicSchema(
 ).superRefine(({ Title, Source_Title }: any, ctx) => {
     if (Title !== Source_Title) {
         ctx.addIssue({
-            code: 'custom',
+            code: ZodIssueCode.custom,
             message:
                 'De titel moet overeen komen met de titel van de gekozen bron',
             path: ['Title'],
