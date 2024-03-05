@@ -1,4 +1,9 @@
-import { FormikSelect, Heading, Text } from '@pzh-ui/components'
+import {
+    FieldSelectProps,
+    FormikSelect,
+    Heading,
+    Text,
+} from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
@@ -80,6 +85,28 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
         model => !!!models[model as ModelType].defaults.atemporal
     ) as ModelType[]
 
+    /**
+     * Handle filtering of select field
+     */
+    const handleFilter: FieldSelectProps['filterOption'] = (
+        option,
+        inputValue
+    ) => {
+        if (!moduleObjects) return false
+
+        const data = option.data as (typeof moduleObjects)[0]
+        const label = data.label.props.children[0].props.children as string
+
+        if (
+            label.toLowerCase().includes(inputValue.toLowerCase()) ||
+            data.value.toLowerCase().includes(inputValue.toLowerCase())
+        ) {
+            return true
+        }
+
+        return false
+    }
+
     return (
         <div className="flex flex-col gap-4">
             <Heading level="2">Wat wil je toevoegen?</Heading>
@@ -151,6 +178,7 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
 
                             setExistingObject(selected?.objectContext)
                         }}
+                        filterOption={handleFilter}
                         styles={{
                             menu: base => ({
                                 ...base,
