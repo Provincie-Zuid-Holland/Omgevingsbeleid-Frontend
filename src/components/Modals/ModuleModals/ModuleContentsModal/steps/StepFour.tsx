@@ -86,7 +86,10 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
             <Text>
                 Je wilt een bestaand onderdeel toevoegen aan deze module. Geef
                 aan vanuit welke bron je een onderdeel wilt toevoegen en
-                selecteer daarna het juiste onderdeel.
+                selecteer daarna het juiste onderdeel. Indien je een onderdeel
+                uit een andere module selecteert, wordt er een kopie gemaakt
+                vanuit die module en worden wijzigingen niet automatisch
+                doorgevoerd in andere modules.
             </Text>
             <FormikSelect
                 key={isFetching?.toString() + String(options.length)}
