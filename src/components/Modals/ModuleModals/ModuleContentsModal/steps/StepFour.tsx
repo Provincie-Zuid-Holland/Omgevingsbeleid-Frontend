@@ -101,6 +101,15 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
                     setFieldValue('Object_UUID', null)
                     setFieldError('Object_UUID', undefined)
                 }}
+                styles={{
+                    menu: base => ({
+                        ...base,
+                        position: 'relative',
+                        zIndex: 9999,
+                        marginTop: 2,
+                        boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                    }),
+                }}
             />
             {values.validOrModule === 'valid' ? (
                 <div>
@@ -141,6 +150,15 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
                             )
 
                             setExistingObject(selected?.objectContext)
+                        }}
+                        styles={{
+                            menu: base => ({
+                                ...base,
+                                position: 'relative',
+                                zIndex: 9999,
+                                marginTop: 2,
+                                boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                            }),
                         }}
                     />
                 </div>
