@@ -227,6 +227,7 @@ const TabObjects = () => {
                 initialValues={{
                     ...modules.EMPTY_MODULE_OBJECT,
                     state: 'existing',
+                    validOrModule: 'valid',
                 }}
                 module={module}
             />

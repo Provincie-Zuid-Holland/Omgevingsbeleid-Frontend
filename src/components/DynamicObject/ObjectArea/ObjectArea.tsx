@@ -8,6 +8,7 @@ import {
 import { WerkingsgebiedStatics } from '@/api/fetchers.schemas'
 import { LeafletTinyViewer } from '@/components/Leaflet'
 import { Model } from '@/config/objects/types'
+import useAuth from '@/hooks/useAuth'
 
 interface ObjectAreaProps extends WerkingsgebiedStatics {
     objectTitle?: string
@@ -20,7 +21,10 @@ const ObjectArea = ({
     moduleId,
     model,
     Object_ID,
+    Cached_Title,
 }: ObjectAreaProps) => {
+    const { user } = useAuth()
+
     const { singular, prefixSingular } = model.defaults
 
     const { data: moduleData, isSuccess } =
@@ -29,7 +33,7 @@ const ObjectArea = ({
             Object_ID,
             {
                 query: {
-                    enabled: !!moduleId && !!Object_ID,
+                    enabled: !!moduleId && !!Object_ID && !!user,
                 },
             }
         )
@@ -47,8 +51,6 @@ const ObjectArea = ({
 
     const data = moduleId && isSuccess ? moduleData : validData
 
-    if (!data) return null
-
     return (
         <div data-section="Werkingsgebied">
             <Heading level="2" className="mb-4">
@@ -56,23 +58,30 @@ const ObjectArea = ({
             </Heading>
             <Text className="mb-4 first-letter:capitalize">
                 {prefixSingular} {singular} ‘{objectTitle}’ heeft als
-                werkingsgebied ‘{data.Title}’.
+                werkingsgebied ‘{data?.Title || Cached_Title}’.
             </Text>
 
-            <Notification icon={Lightbulb} className="mb-3">
+            {!!data && (
                 <>
-                    Tip! Gebruik het icoon{' '}
-                    <LayerGroup
-                        size={18}
-                        className="mx-1 -mt-1 inline text-pzh-blue-dark"
-                    />{' '}
-                    om de kaartlagen binnen dit werkingsgebied te bekijken
-                </>
-            </Notification>
+                    <Notification icon={Lightbulb} className="mb-3">
+                        <>
+                            Tip! Gebruik het icoon{' '}
+                            <LayerGroup
+                                size={18}
+                                className="mx-1 -mt-1 inline text-pzh-blue-dark"
+                            />{' '}
+                            om de kaartlagen binnen dit werkingsgebied te
+                            bekijken
+                        </>
+                    </Notification>
 
-            <div className="h-[500px] overflow-hidden rounded-lg">
-                <LeafletTinyViewer uuid={data.Area?.Source_UUID || ''} />
-            </div>
+                    <div className="h-[500px] overflow-hidden rounded-lg">
+                        <LeafletTinyViewer
+                            uuid={data.Area?.Source_UUID || ''}
+                        />
+                    </div>
+                </>
+            )}
         </div>
     )
 }
