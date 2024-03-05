@@ -27,6 +27,7 @@ const initialModalValues: ModalProps = {
     initialValues: {
         ...modules.EMPTY_MODULE_OBJECT,
         state: 'new',
+        validOrModule: 'valid',
     },
 }
 
