@@ -41,7 +41,14 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
                     !!values.validOrModule && values.validOrModule !== 'valid',
                 select: data =>
                     data.Objects.map(object => ({
-                        label: object.Title,
+                        label: (
+                            <div className="flex justify-between">
+                                <span>{object.Title}</span>
+                                <span className="capitalize opacity-50">
+                                    {object.Object_Type.replace('_', ' ')}
+                                </span>
+                            </div>
+                        ),
                         value: object.UUID,
                         objectContext: object,
                     })),
