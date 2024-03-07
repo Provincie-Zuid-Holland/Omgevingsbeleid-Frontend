@@ -108,7 +108,7 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
     }
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="space-y-4">
             <Heading level="2">Wat wil je toevoegen?</Heading>
             <Text>
                 Je wilt een bestaand onderdeel toevoegen aan deze module. Geef
