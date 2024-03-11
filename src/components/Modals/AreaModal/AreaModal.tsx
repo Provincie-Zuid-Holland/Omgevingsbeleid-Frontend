@@ -30,7 +30,7 @@ const AreaModal = ({ initialStep = 1, handleFormSubmit }: AreaModalProps) => {
     const [step, setStep] = useState(initialStep)
 
     const { data, isLoading } = useSourceWerkingsgebiedenGet(
-        { limit: 500 },
+        { limit: 1000 },
         {
             query: { enabled: activeModal === 'areaAdd' },
         }
