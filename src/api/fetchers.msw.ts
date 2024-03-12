@@ -11,6 +11,7 @@
 import { faker } from '@faker-js/faker'
 import { HttpResponse, delay, http } from 'msw'
 import type {
+    AOJCreatedResponse,
     AcknowledgedRelation,
     ActiveModuleObjectWrapper,
     AmbitieFull,
@@ -22,6 +23,7 @@ import type {
     BeleidskeuzeUUID,
     BeleidsregelFull,
     BeleidsregelUUID,
+    EnvironmentCreatedResponse,
     GebiedsprogrammaFull,
     GebiedsprogrammaUUID,
     GraphResponse,
@@ -57,8 +59,11 @@ import type {
     PagedResponseProgrammaAlgemeenExtended,
     PagedResponsePublicModuleShort,
     PagedResponsePublication,
-    PagedResponsePublicationBillShort,
+    PagedResponsePublicationAOJ,
+    PagedResponsePublicationEnvironment,
     PagedResponsePublicationPackage,
+    PagedResponsePublicationTemplate,
+    PagedResponsePublicationVersionShort,
     PagedResponseSearchObject,
     PagedResponseUser,
     PagedResponseValidSearchObject,
@@ -73,12 +78,15 @@ import type {
     ProgrammaAlgemeenUUID,
     PublicModuleOverview,
     Publication,
-    PublicationBill,
-    PublicationPackage,
-    PublicationPackageReport,
+    PublicationCreatedResponse,
+    PublicationPackageCreatedResponse,
+    PublicationVersion,
+    PublicationVersionCreatedResponse,
+    PublicationVersionEditResponse,
     ReadRelation,
     ResetPasswordResponse,
     ResponseOK,
+    TemplateCreatedResponse,
     User,
     UserCreateResponse,
     VerplichtProgrammaFull,
@@ -12967,6 +12975,133 @@ export const getObjectsValidGetMock = (
     ...overrideResponse,
 })
 
+export const getPublicationAojGetMock = (
+    overrideResponse: any = {}
+): PagedResponsePublicationAOJ => ({
+    limit: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    offset: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    results: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Administrative_Borders_Date: faker.date
+            .past()
+            .toISOString()
+            .split('T')[0],
+        Administrative_Borders_Domain: faker.word.sample(),
+        Administrative_Borders_ID: faker.word.sample(),
+        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        UUID: faker.string.uuid(),
+        ...overrideResponse,
+    })),
+    total: faker.number.int({ min: undefined, max: undefined }),
+    ...overrideResponse,
+})
+
+export const getPublicationAojPostMock = (
+    overrideResponse: any = {}
+): AOJCreatedResponse => ({ UUID: faker.string.uuid(), ...overrideResponse })
+
+export const getPublicationTemplatesGetMock = (
+    overrideResponse: any = {}
+): PagedResponsePublicationTemplate => ({
+    limit: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    offset: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    results: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Description: faker.word.sample(),
+        Document_Type: faker.word.sample(),
+        Is_Active: faker.datatype.boolean(),
+        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Object_Templates: {
+            [faker.string.alphanumeric(5)]: faker.word.sample(),
+        },
+        Object_Types: Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => faker.word.sample()),
+        Text_Template: faker.word.sample(),
+        Title: faker.word.sample(),
+        UUID: faker.string.uuid(),
+        ...overrideResponse,
+    })),
+    total: faker.number.int({ min: undefined, max: undefined }),
+    ...overrideResponse,
+})
+
+export const getPublicationTemplatesPostMock = (
+    overrideResponse: any = {}
+): TemplateCreatedResponse => ({
+    UUID: faker.string.uuid(),
+    ...overrideResponse,
+})
+
+export const getPublicationTemplatesTemplateUuidPostMock = (
+    overrideResponse: any = {}
+): ResponseOK => ({ message: faker.word.sample(), ...overrideResponse })
+
+export const getPublicationEnvironmentsGetMock = (
+    overrideResponse: any = {}
+): PagedResponsePublicationEnvironment => ({
+    limit: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    offset: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    results: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Authority_ID: faker.word.sample(),
+        Can_Publicate: faker.datatype.boolean(),
+        Can_Validate: faker.datatype.boolean(),
+        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Description: faker.word.sample(),
+        Frbr_Country: faker.word.sample(),
+        Frbr_Language: faker.word.sample(),
+        Governing_Body_Type: faker.word.sample(),
+        Has_State: faker.datatype.boolean(),
+        Is_Active: faker.datatype.boolean(),
+        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Province_ID: faker.word.sample(),
+        Submitter_ID: faker.word.sample(),
+        Title: faker.word.sample(),
+        UUID: faker.string.uuid(),
+        ...overrideResponse,
+    })),
+    total: faker.number.int({ min: undefined, max: undefined }),
+    ...overrideResponse,
+})
+
+export const getPublicationEnvironmentsPostMock = (
+    overrideResponse: any = {}
+): EnvironmentCreatedResponse => ({
+    UUID: faker.string.uuid(),
+    ...overrideResponse,
+})
+
+export const getPublicationEnvironmentsEnvironmentUuidPostMock = (
+    overrideResponse: any = {}
+): ResponseOK => ({ message: faker.word.sample(), ...overrideResponse })
+
 export const getPublicationsGetMock = (
     overrideResponse: any = {}
 ): PagedResponsePublication => ({
@@ -12982,22 +13117,15 @@ export const getPublicationsGetMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Created_By_UUID: faker.string.uuid(),
         Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Document_Type: faker.helpers.arrayElement(
-            Object.values(AppExtensionsPublicationsEnumsDocumentType)
-        ),
-        Modified_By_UUID: faker.string.uuid(),
+        Document_Type: faker.helpers.arrayElement(Object.values(DocumentType)),
         Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
         Module_ID: faker.number.int({ min: undefined, max: undefined }),
-        Official_Title: faker.word.sample(),
-        Regulation_Title: faker.word.sample(),
-        Template_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
+        Template_UUID: faker.helpers.arrayElement([
+            faker.string.uuid(),
             undefined,
         ]),
         UUID: faker.string.uuid(),
-        Work_ID: faker.number.int({ min: undefined, max: undefined }),
         ...overrideResponse,
     })),
     total: faker.number.int({ min: undefined, max: undefined }),
@@ -13006,73 +13134,45 @@ export const getPublicationsGetMock = (
 
 export const getPublicationsPostMock = (
     overrideResponse: any = {}
-): Publication => ({
-    Created_By_UUID: faker.string.uuid(),
-    Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-    Document_Type: faker.helpers.arrayElement(
-        Object.values(AppExtensionsPublicationsEnumsDocumentType)
-    ),
-    Modified_By_UUID: faker.string.uuid(),
-    Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-    Module_ID: faker.number.int({ min: undefined, max: undefined }),
-    Official_Title: faker.word.sample(),
-    Regulation_Title: faker.word.sample(),
-    Template_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
+): PublicationCreatedResponse => ({
     UUID: faker.string.uuid(),
-    Work_ID: faker.number.int({ min: undefined, max: undefined }),
     ...overrideResponse,
 })
 
 export const getPublicationsPublicationUuidGetMock = (
     overrideResponse: any = {}
 ): Publication => ({
-    Created_By_UUID: faker.string.uuid(),
     Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-    Document_Type: faker.helpers.arrayElement(
-        Object.values(AppExtensionsPublicationsEnumsDocumentType)
-    ),
-    Modified_By_UUID: faker.string.uuid(),
+    Document_Type: faker.helpers.arrayElement(Object.values(DocumentType)),
     Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
     Module_ID: faker.number.int({ min: undefined, max: undefined }),
-    Official_Title: faker.word.sample(),
-    Regulation_Title: faker.word.sample(),
-    Template_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
+    Template_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
     UUID: faker.string.uuid(),
-    Work_ID: faker.number.int({ min: undefined, max: undefined }),
     ...overrideResponse,
 })
 
 export const getPublicationsPublicationUuidPatchMock = (
     overrideResponse: any = {}
 ): Publication => ({
-    Created_By_UUID: faker.string.uuid(),
     Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-    Document_Type: faker.helpers.arrayElement(
-        Object.values(AppExtensionsPublicationsEnumsDocumentType)
-    ),
-    Modified_By_UUID: faker.string.uuid(),
+    Document_Type: faker.helpers.arrayElement(Object.values(DocumentType)),
     Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
     Module_ID: faker.number.int({ min: undefined, max: undefined }),
-    Official_Title: faker.word.sample(),
-    Regulation_Title: faker.word.sample(),
-    Template_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
+    Template_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
     UUID: faker.string.uuid(),
-    Work_ID: faker.number.int({ min: undefined, max: undefined }),
     ...overrideResponse,
 })
 
-export const getPublicationsPublicationUuidBillsGetMock = (
+export const getPublicationsPublicationUuidVersionPostMock = (
     overrideResponse: any = {}
-): PagedResponsePublicationBillShort => ({
+): PublicationVersionCreatedResponse => ({
+    UUID: faker.string.uuid(),
+    ...overrideResponse,
+})
+
+export const getPublicationsPublicationUuidVersionsGetMock = (
+    overrideResponse: any = {}
+): PagedResponsePublicationVersionShort => ({
     limit: faker.helpers.arrayElement([
         faker.number.int({ min: undefined, max: undefined }),
         undefined,
@@ -13085,315 +13185,113 @@ export const getPublicationsPublicationUuidBillsGetMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Is_Official: faker.datatype.boolean(),
-        Locked: faker.datatype.boolean(),
-        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Module_Status_ID: faker.number.int({ min: undefined, max: undefined }),
-        Procedure_Type: faker.helpers.arrayElement(
-            Object.values(ProcedureType)
-        ),
-        Publication_UUID: faker.string.uuid(),
-        UUID: faker.string.uuid(),
-        Version_ID: faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
+        Announcement_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().split('T')[0],
             undefined,
         ]),
+        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Effective_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().split('T')[0],
+            undefined,
+        ]),
+        Environment_UUID: faker.string.uuid(),
+        Locked: faker.datatype.boolean(),
+        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Module_Status: {
+            Created_By_UUID: faker.string.uuid(),
+            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            ID: faker.number.int({ min: undefined, max: undefined }),
+            Module_ID: faker.number.int({ min: undefined, max: undefined }),
+            Status: faker.word.sample(),
+            ...overrideResponse,
+        },
+        Procedure_Type: faker.word.sample(),
+        Publication_UUID: faker.string.uuid(),
+        UUID: faker.string.uuid(),
         ...overrideResponse,
     })),
     total: faker.number.int({ min: undefined, max: undefined }),
     ...overrideResponse,
 })
 
-export const getPublicationsPublicationUuidBillsPostMock = (
+export const getPublicationVersionsVersionUuidGetMock = (
     overrideResponse: any = {}
-): PublicationBill => ({
-    Announcement_Date: faker.date.past().toISOString().split('T')[0],
-    Bill_Data: faker.helpers.arrayElement([
-        {
-            Amendment_Article: faker.helpers.arrayElement([
-                {
-                    Content: faker.word.sample(),
-                    Label: faker.word.sample(),
-                    Number: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    ...overrideResponse,
-                },
-                undefined,
-            ]),
-            Articles: faker.helpers.arrayElement([
-                Array.from(
-                    { length: faker.number.int({ min: 1, max: 10 }) },
-                    (_, i) => i + 1
-                ).map(() => ({
-                    Content: faker.word.sample(),
-                    Label: faker.word.sample(),
-                    Number: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    ...overrideResponse,
-                })),
-                undefined,
-            ]),
-            Bill_Title: faker.word.sample(),
-            Closing: faker.word.sample(),
-            Preamble: faker.helpers.arrayElement([
-                faker.word.sample(),
-                undefined,
-            ]),
-            Regulation_Title: faker.word.sample(),
-            Signature: faker.word.sample(),
-            Time_Article: faker.helpers.arrayElement([
-                {
-                    Content: faker.word.sample(),
-                    Label: faker.word.sample(),
-                    Number: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    ...overrideResponse,
-                },
-                undefined,
-            ]),
-            ...overrideResponse,
-        },
+): PublicationVersion => ({
+    Act_Metadata: {},
+    Announcement_Date: faker.helpers.arrayElement([
+        faker.date.past().toISOString().split('T')[0],
         undefined,
     ]),
-    Created_By_UUID: faker.string.uuid(),
+    Bill_Compact: {},
+    Bill_Metadata: {},
     Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-    Effective_Date: faker.date.past().toISOString().split('T')[0],
-    Is_Official: faker.datatype.boolean(),
+    Effective_Date: faker.helpers.arrayElement([
+        faker.date.past().toISOString().split('T')[0],
+        undefined,
+    ]),
+    Environment: {
+        Authority_ID: faker.word.sample(),
+        Can_Publicate: faker.datatype.boolean(),
+        Can_Validate: faker.datatype.boolean(),
+        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Description: faker.word.sample(),
+        Frbr_Country: faker.word.sample(),
+        Frbr_Language: faker.word.sample(),
+        Governing_Body_Type: faker.word.sample(),
+        Has_State: faker.datatype.boolean(),
+        Is_Active: faker.datatype.boolean(),
+        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Province_ID: faker.word.sample(),
+        Submitter_ID: faker.word.sample(),
+        Title: faker.word.sample(),
+        UUID: faker.string.uuid(),
+        ...overrideResponse,
+    },
+    Is_Valid: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]),
     Locked: faker.datatype.boolean(),
-    Modified_By_UUID: faker.string.uuid(),
     Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-    Module_Status_ID: faker.number.int({ min: undefined, max: undefined }),
-    Procedure_Data: faker.helpers.arrayElement([
-        {
-            Announcement_Date: faker.date.past().toISOString().split('T')[0],
-            Steps: Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Conclusion_Date: faker.date.past().toISOString().split('T')[0],
-                Step_Type: faker.helpers.arrayElement(
-                    Object.values(ProcedureStepType)
-                ),
-                ...overrideResponse,
-            })),
-            ...overrideResponse,
-        },
-        undefined,
-    ]),
-    Procedure_Type: faker.helpers.arrayElement(Object.values(ProcedureType)),
-    Publication_UUID: faker.string.uuid(),
-    PZH_Bill_Identifier: faker.helpers.arrayElement([
-        faker.word.sample(),
-        undefined,
-    ]),
+    Module_Status: {
+        Created_By_UUID: faker.string.uuid(),
+        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        ID: faker.number.int({ min: undefined, max: undefined }),
+        Module_ID: faker.number.int({ min: undefined, max: undefined }),
+        Status: faker.word.sample(),
+        ...overrideResponse,
+    },
+    Procedural: {},
+    Procedure_Type: faker.word.sample(),
+    Publication: {
+        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Document_Type: faker.word.sample(),
+        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Module_ID: faker.number.int({ min: undefined, max: undefined }),
+        Template_UUID: faker.helpers.arrayElement([
+            faker.string.uuid(),
+            undefined,
+        ]),
+        UUID: faker.string.uuid(),
+        ...overrideResponse,
+    },
     UUID: faker.string.uuid(),
-    Version_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
     ...overrideResponse,
 })
 
-export const getPublicationsPublicationUuidBillsBillUuidGetMock = (
+export const getPublicationVersionsVersionUuidPostMock = (
     overrideResponse: any = {}
-): PublicationBill => ({
-    Announcement_Date: faker.date.past().toISOString().split('T')[0],
-    Bill_Data: faker.helpers.arrayElement([
-        {
-            Amendment_Article: faker.helpers.arrayElement([
-                {
-                    Content: faker.word.sample(),
-                    Label: faker.word.sample(),
-                    Number: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    ...overrideResponse,
-                },
-                undefined,
-            ]),
-            Articles: faker.helpers.arrayElement([
-                Array.from(
-                    { length: faker.number.int({ min: 1, max: 10 }) },
-                    (_, i) => i + 1
-                ).map(() => ({
-                    Content: faker.word.sample(),
-                    Label: faker.word.sample(),
-                    Number: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    ...overrideResponse,
-                })),
-                undefined,
-            ]),
-            Bill_Title: faker.word.sample(),
-            Closing: faker.word.sample(),
-            Preamble: faker.helpers.arrayElement([
-                faker.word.sample(),
-                undefined,
-            ]),
-            Regulation_Title: faker.word.sample(),
-            Signature: faker.word.sample(),
-            Time_Article: faker.helpers.arrayElement([
-                {
-                    Content: faker.word.sample(),
-                    Label: faker.word.sample(),
-                    Number: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    ...overrideResponse,
-                },
-                undefined,
-            ]),
-            ...overrideResponse,
-        },
-        undefined,
-    ]),
-    Created_By_UUID: faker.string.uuid(),
-    Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-    Effective_Date: faker.date.past().toISOString().split('T')[0],
-    Is_Official: faker.datatype.boolean(),
-    Locked: faker.datatype.boolean(),
-    Modified_By_UUID: faker.string.uuid(),
-    Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-    Module_Status_ID: faker.number.int({ min: undefined, max: undefined }),
-    Procedure_Data: faker.helpers.arrayElement([
-        {
-            Announcement_Date: faker.date.past().toISOString().split('T')[0],
-            Steps: Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Conclusion_Date: faker.date.past().toISOString().split('T')[0],
-                Step_Type: faker.helpers.arrayElement(
-                    Object.values(ProcedureStepType)
-                ),
-                ...overrideResponse,
-            })),
-            ...overrideResponse,
-        },
-        undefined,
-    ]),
-    Procedure_Type: faker.helpers.arrayElement(Object.values(ProcedureType)),
-    Publication_UUID: faker.string.uuid(),
-    PZH_Bill_Identifier: faker.helpers.arrayElement([
-        faker.word.sample(),
-        undefined,
-    ]),
-    UUID: faker.string.uuid(),
-    Version_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
+): PublicationVersionEditResponse => ({
+    Is_Valid: faker.datatype.boolean(),
     ...overrideResponse,
 })
 
-export const getPublicationsPublicationUuidBillsBillUuidPatchMock = (
+export const getPublicationVersionsVersionUuidPackagesPostMock = (
     overrideResponse: any = {}
-): PublicationBill => ({
-    Announcement_Date: faker.date.past().toISOString().split('T')[0],
-    Bill_Data: faker.helpers.arrayElement([
-        {
-            Amendment_Article: faker.helpers.arrayElement([
-                {
-                    Content: faker.word.sample(),
-                    Label: faker.word.sample(),
-                    Number: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    ...overrideResponse,
-                },
-                undefined,
-            ]),
-            Articles: faker.helpers.arrayElement([
-                Array.from(
-                    { length: faker.number.int({ min: 1, max: 10 }) },
-                    (_, i) => i + 1
-                ).map(() => ({
-                    Content: faker.word.sample(),
-                    Label: faker.word.sample(),
-                    Number: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    ...overrideResponse,
-                })),
-                undefined,
-            ]),
-            Bill_Title: faker.word.sample(),
-            Closing: faker.word.sample(),
-            Preamble: faker.helpers.arrayElement([
-                faker.word.sample(),
-                undefined,
-            ]),
-            Regulation_Title: faker.word.sample(),
-            Signature: faker.word.sample(),
-            Time_Article: faker.helpers.arrayElement([
-                {
-                    Content: faker.word.sample(),
-                    Label: faker.word.sample(),
-                    Number: faker.helpers.arrayElement([
-                        faker.word.sample(),
-                        undefined,
-                    ]),
-                    ...overrideResponse,
-                },
-                undefined,
-            ]),
-            ...overrideResponse,
-        },
-        undefined,
-    ]),
-    Created_By_UUID: faker.string.uuid(),
-    Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-    Effective_Date: faker.date.past().toISOString().split('T')[0],
-    Is_Official: faker.datatype.boolean(),
-    Locked: faker.datatype.boolean(),
-    Modified_By_UUID: faker.string.uuid(),
-    Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-    Module_Status_ID: faker.number.int({ min: undefined, max: undefined }),
-    Procedure_Data: faker.helpers.arrayElement([
-        {
-            Announcement_Date: faker.date.past().toISOString().split('T')[0],
-            Steps: Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Conclusion_Date: faker.date.past().toISOString().split('T')[0],
-                Step_Type: faker.helpers.arrayElement(
-                    Object.values(ProcedureStepType)
-                ),
-                ...overrideResponse,
-            })),
-            ...overrideResponse,
-        },
-        undefined,
-    ]),
-    Procedure_Type: faker.helpers.arrayElement(Object.values(ProcedureType)),
-    Publication_UUID: faker.string.uuid(),
-    PZH_Bill_Identifier: faker.helpers.arrayElement([
-        faker.word.sample(),
-        undefined,
-    ]),
-    UUID: faker.string.uuid(),
-    Version_ID: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
+): PublicationPackageCreatedResponse => ({
+    Package_UUID: faker.string.uuid(),
+    Zip_UUID: faker.string.uuid(),
     ...overrideResponse,
 })
 
-export const getPublicationBillsBillUuidPackagesGetMock = (
+export const getPublicationPackagesGetMock = (
     overrideResponse: any = {}
 ): PagedResponsePublicationPackage => ({
     limit: faker.helpers.arrayElement([
@@ -13408,54 +13306,8 @@ export const getPublicationBillsBillUuidPackagesGetMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Announcement_Date: faker.date.past().toISOString().split('T')[0],
-        Bill_UUID: faker.string.uuid(),
-        Config_ID: faker.number.int({ min: undefined, max: undefined }),
         Created_By_UUID: faker.string.uuid(),
         Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        FRBR_ID: faker.number.int({ min: undefined, max: undefined }),
-        FRBR_Info: faker.helpers.arrayElement([
-            {
-                act_expression_date: faker.date
-                    .past()
-                    .toISOString()
-                    .split('T')[0],
-                act_expression_lang: faker.word.sample(),
-                act_expression_misc: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                act_expression_version: faker.word.sample(),
-                act_work_country: faker.word.sample(),
-                act_work_date: faker.word.sample(),
-                act_work_misc: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                bill_expression_date: faker.date
-                    .past()
-                    .toISOString()
-                    .split('T')[0],
-                bill_expression_lang: faker.word.sample(),
-                bill_expression_misc: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                bill_expression_version: faker.word.sample(),
-                bill_work_country: faker.word.sample(),
-                bill_work_date: faker.word.sample(),
-                bill_work_misc: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Created_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                ID: faker.number.int({ min: undefined, max: undefined }),
-                ...overrideResponse,
-            },
-            undefined,
-        ]),
         Latest_Download_By_UUID: faker.helpers.arrayElement([
             faker.string.uuid(),
             undefined,
@@ -13466,179 +13318,14 @@ export const getPublicationBillsBillUuidPackagesGetMock = (
         ]),
         Modified_By_UUID: faker.string.uuid(),
         Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Package_Event_Type: faker.helpers.arrayElement(
-            Object.values(PackageEventType)
-        ),
-        Publication_Filename: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        Reports: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => ({
-                Created_By_UUID: faker.string.uuid(),
-                Created_Date: `${
-                    faker.date.past().toISOString().split('.')[0]
-                }Z`,
-                ID: faker.number.int({ min: undefined, max: undefined }),
-                Messages: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Package_UUID: faker.string.uuid(),
-                Report_Timestamp: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Report_Type: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Result: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                ...overrideResponse,
-            })),
-            undefined,
-        ]),
         UUID: faker.string.uuid(),
         Validation_Status: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        ZIP_File_Checksum: faker.helpers.arrayElement([
-            faker.word.sample(),
-            undefined,
-        ]),
-        ZIP_File_Name: faker.helpers.arrayElement([
             faker.word.sample(),
             undefined,
         ]),
         ...overrideResponse,
     })),
     total: faker.number.int({ min: undefined, max: undefined }),
-    ...overrideResponse,
-})
-
-export const getPublicationBillsBillUuidPackagesPostMock = (
-    overrideResponse: any = {}
-): PublicationPackage => ({
-    Announcement_Date: faker.date.past().toISOString().split('T')[0],
-    Bill_UUID: faker.string.uuid(),
-    Config_ID: faker.number.int({ min: undefined, max: undefined }),
-    Created_By_UUID: faker.string.uuid(),
-    Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-    FRBR_ID: faker.number.int({ min: undefined, max: undefined }),
-    FRBR_Info: faker.helpers.arrayElement([
-        {
-            act_expression_date: faker.date.past().toISOString().split('T')[0],
-            act_expression_lang: faker.word.sample(),
-            act_expression_misc: faker.helpers.arrayElement([
-                faker.word.sample(),
-                undefined,
-            ]),
-            act_expression_version: faker.word.sample(),
-            act_work_country: faker.word.sample(),
-            act_work_date: faker.word.sample(),
-            act_work_misc: faker.helpers.arrayElement([
-                faker.word.sample(),
-                undefined,
-            ]),
-            bill_expression_date: faker.date.past().toISOString().split('T')[0],
-            bill_expression_lang: faker.word.sample(),
-            bill_expression_misc: faker.helpers.arrayElement([
-                faker.word.sample(),
-                undefined,
-            ]),
-            bill_expression_version: faker.word.sample(),
-            bill_work_country: faker.word.sample(),
-            bill_work_date: faker.word.sample(),
-            bill_work_misc: faker.helpers.arrayElement([
-                faker.word.sample(),
-                undefined,
-            ]),
-            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            ID: faker.number.int({ min: undefined, max: undefined }),
-            ...overrideResponse,
-        },
-        undefined,
-    ]),
-    Latest_Download_By_UUID: faker.helpers.arrayElement([
-        faker.string.uuid(),
-        undefined,
-    ]),
-    Latest_Download_Date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Modified_By_UUID: faker.string.uuid(),
-    Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-    Package_Event_Type: faker.helpers.arrayElement(
-        Object.values(PackageEventType)
-    ),
-    Publication_Filename: faker.helpers.arrayElement([
-        faker.word.sample(),
-        undefined,
-    ]),
-    Reports: faker.helpers.arrayElement([
-        Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1
-        ).map(() => ({
-            Created_By_UUID: faker.string.uuid(),
-            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-            ID: faker.number.int({ min: undefined, max: undefined }),
-            Messages: faker.helpers.arrayElement([
-                faker.word.sample(),
-                undefined,
-            ]),
-            Package_UUID: faker.string.uuid(),
-            Report_Timestamp: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            Report_Type: faker.helpers.arrayElement([
-                faker.word.sample(),
-                undefined,
-            ]),
-            Result: faker.helpers.arrayElement([
-                faker.word.sample(),
-                undefined,
-            ]),
-            ...overrideResponse,
-        })),
-        undefined,
-    ]),
-    UUID: faker.string.uuid(),
-    Validation_Status: faker.helpers.arrayElement([
-        faker.word.sample(),
-        undefined,
-    ]),
-    ZIP_File_Checksum: faker.helpers.arrayElement([
-        faker.word.sample(),
-        undefined,
-    ]),
-    ZIP_File_Name: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    ...overrideResponse,
-})
-
-export const getPublicationPackagesPackageUuidReportPostMock = (
-    overrideResponse: any = {}
-): PublicationPackageReport => ({
-    Created_By_UUID: faker.string.uuid(),
-    Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-    ID: faker.number.int({ min: undefined, max: undefined }),
-    Messages: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Package_UUID: faker.string.uuid(),
-    Report_Timestamp: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-    ]),
-    Report_Type: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Result: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     ...overrideResponse,
 })
 
@@ -16700,30 +16387,6 @@ export const getWettelijkeTaakStaticLineageIdPostMockHandler = (
     })
 }
 
-export const getPlaygroundDoDsoModuleIdPostMockHandler = () => {
-    return http.post('*/playground/do-dso/:moduleId', async () => {
-        await delay(1000)
-        return new HttpResponse(null, {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    })
-}
-
-export const getPlaygroundCheckGeoGetMockHandler = () => {
-    return http.get('*/playground/check-geo', async () => {
-        await delay(1000)
-        return new HttpResponse(null, {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    })
-}
-
 export const getUsersGetMockHandler = (
     overrideResponse?: PagedResponseUser
 ) => {
@@ -17408,6 +17071,175 @@ export const getObjectsValidGetMockHandler = (
     })
 }
 
+export const getPublicationAojGetMockHandler = (
+    overrideResponse?: PagedResponsePublicationAOJ
+) => {
+    return http.get('*/publication-aoj', async () => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse ? overrideResponse : getPublicationAojGetMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getPublicationAojPostMockHandler = (
+    overrideResponse?: AOJCreatedResponse
+) => {
+    return http.post('*/publication-aoj', async () => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse
+                    ? overrideResponse
+                    : getPublicationAojPostMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getPublicationTemplatesGetMockHandler = (
+    overrideResponse?: PagedResponsePublicationTemplate
+) => {
+    return http.get('*/publication-templates', async () => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse
+                    ? overrideResponse
+                    : getPublicationTemplatesGetMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getPublicationTemplatesPostMockHandler = (
+    overrideResponse?: TemplateCreatedResponse
+) => {
+    return http.post('*/publication-templates', async () => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse
+                    ? overrideResponse
+                    : getPublicationTemplatesPostMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getPublicationTemplatesTemplateUuidPostMockHandler = (
+    overrideResponse?: ResponseOK
+) => {
+    return http.post('*/publication-templates/:templateUuid', async () => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse
+                    ? overrideResponse
+                    : getPublicationTemplatesTemplateUuidPostMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getPublicationEnvironmentsGetMockHandler = (
+    overrideResponse?: PagedResponsePublicationEnvironment
+) => {
+    return http.get('*/publication-environments', async () => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse
+                    ? overrideResponse
+                    : getPublicationEnvironmentsGetMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getPublicationEnvironmentsPostMockHandler = (
+    overrideResponse?: EnvironmentCreatedResponse
+) => {
+    return http.post('*/publication-environments', async () => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse
+                    ? overrideResponse
+                    : getPublicationEnvironmentsPostMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getPublicationEnvironmentsEnvironmentUuidPostMockHandler = (
+    overrideResponse?: ResponseOK
+) => {
+    return http.post(
+        '*/publication-environments/:environmentUuid',
+        async () => {
+            await delay(1000)
+            return new HttpResponse(
+                JSON.stringify(
+                    overrideResponse
+                        ? overrideResponse
+                        : getPublicationEnvironmentsEnvironmentUuidPostMock()
+                ),
+                {
+                    status: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+        }
+    )
+}
+
 export const getPublicationsGetMockHandler = (
     overrideResponse?: PagedResponsePublication
 ) => {
@@ -17428,7 +17260,7 @@ export const getPublicationsGetMockHandler = (
 }
 
 export const getPublicationsPostMockHandler = (
-    overrideResponse?: Publication
+    overrideResponse?: PublicationCreatedResponse
 ) => {
     return http.post('*/publications', async () => {
         await delay(1000)
@@ -17488,16 +17320,16 @@ export const getPublicationsPublicationUuidPatchMockHandler = (
     })
 }
 
-export const getPublicationsPublicationUuidBillsGetMockHandler = (
-    overrideResponse?: PagedResponsePublicationBillShort
+export const getPublicationsPublicationUuidVersionPostMockHandler = (
+    overrideResponse?: PublicationVersionCreatedResponse
 ) => {
-    return http.get('*/publications/:publicationUuid/bills', async () => {
+    return http.post('*/publications/:publicationUuid/version', async () => {
         await delay(1000)
         return new HttpResponse(
             JSON.stringify(
                 overrideResponse
                     ? overrideResponse
-                    : getPublicationsPublicationUuidBillsGetMock()
+                    : getPublicationsPublicationUuidVersionPostMock()
             ),
             {
                 status: 200,
@@ -17509,16 +17341,16 @@ export const getPublicationsPublicationUuidBillsGetMockHandler = (
     })
 }
 
-export const getPublicationsPublicationUuidBillsPostMockHandler = (
-    overrideResponse?: PublicationBill
+export const getPublicationsPublicationUuidVersionsGetMockHandler = (
+    overrideResponse?: PagedResponsePublicationVersionShort
 ) => {
-    return http.post('*/publications/:publicationUuid/bills', async () => {
+    return http.get('*/publications/:publicationUuid/versions', async () => {
         await delay(1000)
         return new HttpResponse(
             JSON.stringify(
                 overrideResponse
                     ? overrideResponse
-                    : getPublicationsPublicationUuidBillsPostMock()
+                    : getPublicationsPublicationUuidVersionsGetMock()
             ),
             {
                 status: 200,
@@ -17530,18 +17362,60 @@ export const getPublicationsPublicationUuidBillsPostMockHandler = (
     })
 }
 
-export const getPublicationsPublicationUuidBillsBillUuidGetMockHandler = (
-    overrideResponse?: PublicationBill
+export const getPublicationVersionsVersionUuidGetMockHandler = (
+    overrideResponse?: PublicationVersion
 ) => {
-    return http.get(
-        '*/publications/:publicationUuid/bills/:billUuid',
+    return http.get('*/publication-versions/:versionUuid', async () => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse
+                    ? overrideResponse
+                    : getPublicationVersionsVersionUuidGetMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getPublicationVersionsVersionUuidPostMockHandler = (
+    overrideResponse?: PublicationVersionEditResponse
+) => {
+    return http.post('*/publication-versions/:versionUuid', async () => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse
+                    ? overrideResponse
+                    : getPublicationVersionsVersionUuidPostMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getPublicationVersionsVersionUuidPackagesPostMockHandler = (
+    overrideResponse?: PublicationPackageCreatedResponse
+) => {
+    return http.post(
+        '*/publication-versions/:versionUuid/packages',
         async () => {
             await delay(1000)
             return new HttpResponse(
                 JSON.stringify(
                     overrideResponse
                         ? overrideResponse
-                        : getPublicationsPublicationUuidBillsBillUuidGetMock()
+                        : getPublicationVersionsVersionUuidPackagesPostMock()
                 ),
                 {
                     status: 200,
@@ -17554,40 +17428,16 @@ export const getPublicationsPublicationUuidBillsBillUuidGetMockHandler = (
     )
 }
 
-export const getPublicationsPublicationUuidBillsBillUuidPatchMockHandler = (
-    overrideResponse?: PublicationBill
-) => {
-    return http.patch(
-        '*/publications/:publicationUuid/bills/:billUuid',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    overrideResponse
-                        ? overrideResponse
-                        : getPublicationsPublicationUuidBillsBillUuidPatchMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    )
-}
-
-export const getPublicationBillsBillUuidPackagesGetMockHandler = (
+export const getPublicationPackagesGetMockHandler = (
     overrideResponse?: PagedResponsePublicationPackage
 ) => {
-    return http.get('*/publication-bills/:billUuid/packages', async () => {
+    return http.get('*/publication-packages', async () => {
         await delay(1000)
         return new HttpResponse(
             JSON.stringify(
                 overrideResponse
                     ? overrideResponse
-                    : getPublicationBillsBillUuidPackagesGetMock()
+                    : getPublicationPackagesGetMock()
             ),
             {
                 status: 200,
@@ -17598,64 +17448,6 @@ export const getPublicationBillsBillUuidPackagesGetMockHandler = (
         )
     })
 }
-
-export const getPublicationBillsBillUuidPackagesPostMockHandler = (
-    overrideResponse?: PublicationPackage
-) => {
-    return http.post('*/publication-bills/:billUuid/packages', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(
-                overrideResponse
-                    ? overrideResponse
-                    : getPublicationBillsBillUuidPackagesPostMock()
-            ),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    })
-}
-
-export const getPublicationPackagesPackageUuidReportPostMockHandler = (
-    overrideResponse?: PublicationPackageReport
-) => {
-    return http.post('*/publication-packages/:packageUuid/report', async () => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(
-                overrideResponse
-                    ? overrideResponse
-                    : getPublicationPackagesPackageUuidReportPostMock()
-            ),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    })
-}
-
-export const getPublicationPackagesPackageUuidReportDownloadGetMockHandler =
-    () => {
-        return http.get(
-            '*/publication-packages/:packageUuid/report/download',
-            async () => {
-                await delay(1000)
-                return new HttpResponse(null, {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                })
-            }
-        )
-    }
 
 export const getPublicationPackagesPackageUuidDownloadGetMockHandler = () => {
     return http.get(
@@ -17862,8 +17654,6 @@ export const getOmgevingsbeleidAPIMock = () => [
     getWettelijkeTaakRelationsLineageIdGetMockHandler(),
     getWettelijkeTaakRelationsLineageIdPutMockHandler(),
     getWettelijkeTaakStaticLineageIdPostMockHandler(),
-    getPlaygroundDoDsoModuleIdPostMockHandler(),
-    getPlaygroundCheckGeoGetMockHandler(),
     getUsersGetMockHandler(),
     getUsersPostMockHandler(),
     getUsersSearchGetMockHandler(),
@@ -17898,18 +17688,24 @@ export const getOmgevingsbeleidAPIMock = () => [
     getModulesObjectsLatestGetMockHandler(),
     getObjectsValidCountGetMockHandler(),
     getObjectsValidGetMockHandler(),
+    getPublicationAojGetMockHandler(),
+    getPublicationAojPostMockHandler(),
+    getPublicationTemplatesGetMockHandler(),
+    getPublicationTemplatesPostMockHandler(),
+    getPublicationTemplatesTemplateUuidPostMockHandler(),
+    getPublicationEnvironmentsGetMockHandler(),
+    getPublicationEnvironmentsPostMockHandler(),
+    getPublicationEnvironmentsEnvironmentUuidPostMockHandler(),
     getPublicationsGetMockHandler(),
     getPublicationsPostMockHandler(),
     getPublicationsPublicationUuidGetMockHandler(),
     getPublicationsPublicationUuidPatchMockHandler(),
-    getPublicationsPublicationUuidBillsGetMockHandler(),
-    getPublicationsPublicationUuidBillsPostMockHandler(),
-    getPublicationsPublicationUuidBillsBillUuidGetMockHandler(),
-    getPublicationsPublicationUuidBillsBillUuidPatchMockHandler(),
-    getPublicationBillsBillUuidPackagesGetMockHandler(),
-    getPublicationBillsBillUuidPackagesPostMockHandler(),
-    getPublicationPackagesPackageUuidReportPostMockHandler(),
-    getPublicationPackagesPackageUuidReportDownloadGetMockHandler(),
+    getPublicationsPublicationUuidVersionPostMockHandler(),
+    getPublicationsPublicationUuidVersionsGetMockHandler(),
+    getPublicationVersionsVersionUuidGetMockHandler(),
+    getPublicationVersionsVersionUuidPostMockHandler(),
+    getPublicationVersionsVersionUuidPackagesPostMockHandler(),
+    getPublicationPackagesGetMockHandler(),
     getPublicationPackagesPackageUuidDownloadGetMockHandler(),
     getLoginAccessTokenPostMockHandler(),
     getPasswordResetPostMockHandler(),

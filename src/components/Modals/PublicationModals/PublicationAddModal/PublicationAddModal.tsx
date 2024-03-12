@@ -20,10 +20,10 @@ const PublicationAddModal = () => {
 
     const { mutate } = usePublicationsPost({
         mutation: {
-            onSuccess: data => {
+            onSuccess: () => {
                 queryClient.invalidateQueries({
                     queryKey: getPublicationsGetQueryKey({
-                        document_type: data.Document_Type,
+                        document_type: modalState?.type,
                     }),
                 })
 

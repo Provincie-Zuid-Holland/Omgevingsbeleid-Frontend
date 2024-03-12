@@ -3,14 +3,14 @@ import { Plus } from '@pzh-ui/icons'
 import { useParams } from 'react-router-dom'
 
 import { usePublicationsGet } from '@/api/fetchers'
-import { AppExtensionsPublicationsEnumsDocumentType } from '@/api/fetchers.schemas'
+import { DocumentType } from '@/api/fetchers.schemas'
 import useModalStore from '@/store/modalStore'
 
 import { LoaderSpinner } from '../Loader'
 import Publication from './Publication'
 
 interface PublicationsProps {
-    type: AppExtensionsPublicationsEnumsDocumentType
+    type: DocumentType
 }
 
 const Publications = ({ type }: PublicationsProps) => {
@@ -19,7 +19,7 @@ const Publications = ({ type }: PublicationsProps) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const { data, isPending } = usePublicationsGet(
-        { document_type: type, module_ID: parseInt(moduleId!) },
+        { document_type: type, module_id: parseInt(moduleId!) },
         { query: { enabled: !!moduleId } }
     )
 
@@ -43,8 +43,7 @@ const Publications = ({ type }: PublicationsProps) => {
                 variant="secondary"
                 icon={Plus}
                 size="small"
-                onPress={() => setActiveModal('publicationAdd', { type })}
-                isDisabled={type === 'Omgevingsverordening'}>
+                onPress={() => setActiveModal('publicationAdd', { type })}>
                 Nieuwe publicatie
             </Button>
         </div>

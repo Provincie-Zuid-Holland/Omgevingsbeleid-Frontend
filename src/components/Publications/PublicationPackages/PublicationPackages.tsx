@@ -5,7 +5,10 @@ import {
     usePublicationBillsBillUuidPackagesGet,
     usePublicationsPublicationUuidBillsBillUuidGet,
 } from '@/api/fetchers'
-import { PackageEventType, PublicationBillShort } from '@/api/fetchers.schemas'
+import {
+    PackageEventType,
+    PublicationVersionShort,
+} from '@/api/fetchers.schemas'
 
 import { PackageStep } from './components'
 
@@ -14,13 +17,15 @@ export interface PublicationPackageProps {
     eventType: PackageEventType
 }
 
-const PublicationPackages = (bill: PublicationBillShort) => {
+const PublicationPackages = (version: PublicationVersionShort) => {
     const { data } = usePublicationsPublicationUuidBillsBillUuidGet(
-        bill.Publication_UUID,
-        bill.UUID
+        version.Publication_UUID,
+        version.UUID
     )
 
-    const { data: packages } = usePublicationBillsBillUuidPackagesGet(bill.UUID)
+    const { data: packages } = usePublicationBillsBillUuidPackagesGet(
+        version.UUID
+    )
 
     const { validationPackage, publicationPackage } = useMemo(() => {
         const validationPackage = packages?.results.find(
@@ -57,10 +62,10 @@ const PublicationPackages = (bill: PublicationBillShort) => {
 
             <div>
                 <Text size="m" bold color="text-pzh-blue-500">
-                    {bill.Is_Official ? 'Validatie' : 'Publicatie'}
+                    {version.Is_Official ? 'Validatie' : 'Publicatie'}
                 </Text>
                 <PackageStep
-                    bill={bill}
+                    version={version}
                     type="create"
                     eventType="Validatie"
                     isActive={!!!validationPackage}
@@ -68,16 +73,16 @@ const PublicationPackages = (bill: PublicationBillShort) => {
                     isFirst
                 />
                 <PackageStep
-                    bill={bill}
+                    version={version}
                     type="download"
                     eventType="Validatie"
                     isActive={!!validationPackage}
-                    isLast={!bill.Is_Official}
+                    isLast={!version.Is_Official}
                     isSucceeded={!!validationPackage?.Latest_Download_Date}
                 />
-                {bill.Is_Official && (
+                {version.Is_Official && (
                     <PackageStep
-                        bill={bill}
+                        version={version}
                         type="upload"
                         eventType="Validatie"
                         isActive={!!validationPackage?.Latest_Download_Date}
@@ -93,7 +98,7 @@ const PublicationPackages = (bill: PublicationBillShort) => {
                 )}
             </div>
 
-            {bill.Is_Official &&
+            {version.Is_Official &&
                 validationPackage?.Validation_Status === 'Valid' &&
                 !!!publicationPackage && (
                     <Notification
@@ -103,13 +108,13 @@ const PublicationPackages = (bill: PublicationBillShort) => {
                     />
                 )}
 
-            {bill.Is_Official && (
+            {version.Is_Official && (
                 <div>
                     <Text size="m" bold color="text-pzh-blue-500">
                         Publicatie
                     </Text>
                     <PackageStep
-                        bill={bill}
+                        version={version}
                         type="create"
                         eventType="Publicatie"
                         isActive={
@@ -119,15 +124,15 @@ const PublicationPackages = (bill: PublicationBillShort) => {
                         isFirst
                     />
                     <PackageStep
-                        bill={bill}
+                        version={version}
                         type="download"
                         eventType="Publicatie"
                         isActive={!!publicationPackage}
-                        isLast={!bill.Is_Official}
+                        isLast={!version.Is_Official}
                         isSucceeded={!!publicationPackage?.Latest_Download_Date}
                     />
                     <PackageStep
-                        bill={bill}
+                        version={version}
                         type="upload"
                         eventType="Publicatie"
                         isActive={!!publicationPackage?.Latest_Download_Date}
@@ -144,7 +149,7 @@ const PublicationPackages = (bill: PublicationBillShort) => {
                 </div>
             )}
 
-            {bill.Is_Official &&
+            {version.Is_Official &&
                 publicationPackage?.Validation_Status === 'Valid' && (
                     <Notification
                         variant="positive"

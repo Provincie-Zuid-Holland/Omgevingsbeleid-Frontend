@@ -4,21 +4,20 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
 
 import {
-    getPublicationBillsBillUuidPackagesGetQueryKey,
-    getPublicationsPublicationUuidBillsGetQueryKey,
-    usePublicationBillsBillUuidPackagesPost,
-    usePublicationPackagesPackageUuidReportPost,
+    getPublicationPackagesGetQueryKey,
+    getPublicationsPublicationUuidVersionsGetQueryKey,
+    usePublicationVersionsVersionUuidPackagesPost,
 } from '@/api/fetchers'
 import {
-    PublicationBillShort,
     PublicationPackage,
+    PublicationVersionShort,
 } from '@/api/fetchers.schemas'
 import { downloadFile } from '@/utils/file'
 
 import { PublicationPackageProps } from '../PublicationPackages'
 
 interface PackageStepActionsProps extends PublicationPackageProps {
-    bill: PublicationBillShort
+    version: PublicationVersionShort
     publicationPackage?: PublicationPackage
     isActive?: boolean
     isSucceeded?: boolean
@@ -37,7 +36,7 @@ const PackageStepActions = ({ type, ...props }: PackageStepActionsProps) => {
 }
 
 const CreateAction = ({
-    bill,
+    version,
     publicationPackage,
     eventType,
     isActive,
@@ -46,19 +45,18 @@ const CreateAction = ({
     const queryClient = useQueryClient()
 
     const { mutate: create, isPending } =
-        usePublicationBillsBillUuidPackagesPost({
+        usePublicationVersionsVersionUuidPackagesPost({
             mutation: {
                 onSuccess: () => {
                     queryClient.invalidateQueries({
-                        queryKey:
-                            getPublicationBillsBillUuidPackagesGetQueryKey(
-                                bill.UUID
-                            ),
+                        queryKey: getPublicationPackagesGetQueryKey({
+                            version_uuid: version.UUID,
+                        }),
                     })
                     queryClient.invalidateQueries({
                         queryKey:
-                            getPublicationsPublicationUuidBillsGetQueryKey(
-                                bill.Publication_UUID
+                            getPublicationsPublicationUuidVersionsGetQueryKey(
+                                version.Publication_UUID
                             ),
                     })
                 },
@@ -67,8 +65,8 @@ const CreateAction = ({
 
     const handleAction = () =>
         create({
-            billUuid: bill.UUID,
-            data: { Package_Event_Type: eventType },
+            versionUuid: version.UUID,
+            data: { Package_Type: eventType },
         })
 
     const date = useMemo(() => {
@@ -106,7 +104,7 @@ const CreateAction = ({
 }
 
 const DownloadAction = ({
-    bill,
+    version,
     publicationPackage,
     eventType,
     isActive,
@@ -117,7 +115,7 @@ const DownloadAction = ({
         queryKey: [
             'downloadPackage',
             publicationPackage?.UUID,
-            bill.UUID,
+            version.UUID,
             eventType,
         ],
         queryFn: async () =>
@@ -130,9 +128,9 @@ const DownloadAction = ({
     const handleAction = () =>
         download().finally(() =>
             queryClient.invalidateQueries({
-                queryKey: getPublicationBillsBillUuidPackagesGetQueryKey(
-                    bill.UUID
-                ),
+                queryKey: getPublicationPackagesGetQueryKey({
+                    version_uuid: version.UUID,
+                }),
             })
         )
 
@@ -168,7 +166,7 @@ const DownloadAction = ({
 }
 
 const UploadAction = ({
-    bill,
+    version,
     publicationPackage,
     isActive,
     isLoading,
@@ -191,9 +189,9 @@ const UploadAction = ({
             )
         ).finally(() => {
             queryClient.invalidateQueries({
-                queryKey: getPublicationBillsBillUuidPackagesGetQueryKey(
-                    bill.UUID
-                ),
+                queryKey: getPublicationPackagesGetQueryKey({
+                    version_uuid: version.UUID,
+                }),
             })
         })
     }

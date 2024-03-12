@@ -7,9 +7,9 @@ import { useParams } from 'react-router-dom'
 
 import {
     useModulesModuleIdStatusGet,
-    usePublicationsPublicationUuidBillsGet,
+    usePublicationsPublicationUuidVersionsGet,
 } from '@/api/fetchers'
-import { Publication, PublicationBillShort } from '@/api/fetchers.schemas'
+import { Publication, PublicationVersionShort } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import useModalStore from '@/store/modalStore'
 import { downloadFile } from '@/utils/file'
@@ -25,7 +25,7 @@ const PublicationVersions = ({ publication }: PublicationVersionsProps) => {
 
     const [currPage, setCurrPage] = useState(1)
 
-    const { data, isFetching } = usePublicationsPublicationUuidBillsGet(
+    const { data, isFetching } = usePublicationsPublicationUuidVersionsGet(
         publication!.UUID,
         {
             limit: PAGE_LIMIT,
@@ -64,7 +64,6 @@ const PublicationVersions = ({ publication }: PublicationVersionsProps) => {
                 <table className="w-full table-auto text-left text-s">
                     <thead className="h-8 border-b border-pzh-gray-400 font-bold text-pzh-blue-500">
                         <tr>
-                            <th className="pl-2">#</th>
                             <th>Gebaseerd op Modulestatus</th>
                             <th>Type besluit</th>
                             <th>Doel</th>
@@ -74,7 +73,7 @@ const PublicationVersions = ({ publication }: PublicationVersionsProps) => {
                     <tbody>
                         {data?.results.map(bill => {
                             const status = statusOptions?.find(
-                                option => option.value === bill.Module_Status_ID
+                                option => option.value === bill.Module_Status.ID
                             )
 
                             return (
@@ -106,8 +105,8 @@ const PublicationVersions = ({ publication }: PublicationVersionsProps) => {
 const VersionRow = ({
     publication,
     status,
-    ...bill
-}: PublicationBillShort & { publication: Publication; status?: string }) => {
+    ...version
+}: PublicationVersionShort & { publication: Publication; status?: string }) => {
     const { moduleId } = useParams()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
@@ -124,21 +123,28 @@ const VersionRow = ({
         )
 
     const { isFetching, refetch: download } = useQuery({
-        queryKey: ['downloadDiff', moduleId, bill.Module_Status_ID, bill.UUID],
+        queryKey: [
+            'downloadDiff',
+            moduleId,
+            version.Module_Status.ID,
+            version.UUID,
+        ],
         queryFn: () =>
-            downloadDiff({ moduleId, Module_Status_ID: bill.Module_Status_ID }),
+            downloadDiff({
+                moduleId,
+                Module_Status_ID: version.Module_Status.ID,
+            }),
         enabled: false,
     })
 
     return (
         <tr className="h-14 odd:bg-pzh-gray-100">
-            <td className="pl-2">{bill.Version_ID}</td>
             <td>{status}</td>
-            <td>{bill.Procedure_Type}</td>
-            <td>{bill.Is_Official ? 'Officiële' : 'Interne'} publicatie</td>
+            <td>{version.Procedure_Type}</td>
+            <td>{version.Is_Official ? 'Officiële' : 'Interne'} publicatie</td>
             <td className="pr-2">
                 <div className="flex items-center gap-4">
-                    {!bill.Locked && (
+                    {!version.Locked && (
                         <Button
                             variant="link"
                             size="small"
@@ -146,7 +152,7 @@ const VersionRow = ({
                             onPress={() =>
                                 setActiveModal('publicationVersionEdit', {
                                     publication,
-                                    UUID: bill.UUID,
+                                    UUID: version.UUID,
                                 })
                             }>
                             Bewerken
@@ -159,7 +165,7 @@ const VersionRow = ({
                         onPress={() =>
                             setActiveModal('publicationPackages', {
                                 publication,
-                                bill,
+                                version,
                             })
                         }>
                         Leveringen

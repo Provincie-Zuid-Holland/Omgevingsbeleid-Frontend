@@ -21,23 +21,20 @@ const PublicationPackagesModal = () => {
             enabled: !!moduleId,
             select: data =>
                 data.find(
-                    item => item.ID === modalState?.bill.Module_Status_ID
+                    item => item.ID === modalState?.version.Module_Status.ID
                 ),
         },
     })
 
     return (
-        <Modal
-            id="publicationPackages"
-            title={`Leveringen Versie ${modalState?.bill.Version_ID}`}
-            size="xl">
+        <Modal id="publicationPackages" title="Leveringen Versie" size="xl">
             <div className="grid gap-4">
                 <Text>
                     {status?.Status} - {modalState?.publication.Official_Title}{' '}
-                    ({modalState?.bill.Is_Official ? 'Officiële' : 'Interne'}{' '}
+                    ({modalState?.version.Is_Official ? 'Officiële' : 'Interne'}{' '}
                     publicatie)
                 </Text>
-                <PublicationPackages {...modalState?.bill} />
+                <PublicationPackages {...modalState?.version} />
             </div>
             <Divider className="my-6" />
             <div className="flex items-center justify-end">

@@ -1,7 +1,7 @@
 import { Button, Heading } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
 
-import { usePublicationsPublicationUuidBillsGet } from '@/api/fetchers'
+import { usePublicationsPublicationUuidVersionsGet } from '@/api/fetchers'
 import { Publication as PublicationType } from '@/api/fetchers.schemas'
 import useModalStore from '@/store/modalStore'
 
@@ -14,7 +14,7 @@ interface PublicationProps {
 const Publication = ({ data }: PublicationProps) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { data: latest } = usePublicationsPublicationUuidBillsGet(
+    const { data: latest } = usePublicationsPublicationUuidVersionsGet(
         data?.UUID || '',
         undefined,
         {

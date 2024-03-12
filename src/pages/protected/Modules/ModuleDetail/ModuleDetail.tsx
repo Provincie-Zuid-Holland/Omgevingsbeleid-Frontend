@@ -13,11 +13,7 @@ import {
 import classNames from 'clsx'
 import { Fragment, useState } from 'react'
 
-import {
-    AppExtensionsPublicationsEnumsDocumentType,
-    Module,
-    ModuleObjectShort,
-} from '@/api/fetchers.schemas'
+import { DocumentType, Module, ModuleObjectShort } from '@/api/fetchers.schemas'
 import Avatar from '@/components/Avatar'
 import { LoaderContent } from '@/components/Loader'
 import {
@@ -250,9 +246,7 @@ const TabObjects = () => {
 }
 
 const TabDecisions = () => {
-    const documentTypes = Object.keys(
-        AppExtensionsPublicationsEnumsDocumentType
-    ) as Array<AppExtensionsPublicationsEnumsDocumentType>
+    const documentTypes = Object.keys(DocumentType) as Array<DocumentType>
 
     return (
         <>
