@@ -2,30 +2,24 @@ import { Notification, Text, formatDate } from '@pzh-ui/components'
 import { useMemo } from 'react'
 
 import {
-    usePublicationBillsBillUuidPackagesGet,
-    usePublicationsPublicationUuidBillsBillUuidGet,
+    usePublicationPackagesGet,
+    usePublicationVersionsVersionUuidGet,
 } from '@/api/fetchers'
-import {
-    PackageEventType,
-    PublicationVersionShort,
-} from '@/api/fetchers.schemas'
+import { PackageType, PublicationVersionShort } from '@/api/fetchers.schemas'
 
 import { PackageStep } from './components'
 
 export interface PublicationPackageProps {
     type: 'create' | 'download' | 'upload'
-    eventType: PackageEventType
+    eventType: PackageType
 }
 
 const PublicationPackages = (version: PublicationVersionShort) => {
-    const { data } = usePublicationsPublicationUuidBillsBillUuidGet(
-        version.Publication_UUID,
-        version.UUID
-    )
+    const { data } = usePublicationVersionsVersionUuidGet(version.UUID)
 
-    const { data: packages } = usePublicationBillsBillUuidPackagesGet(
-        version.UUID
-    )
+    const { data: packages } = usePublicationPackagesGet({
+        version_uuid: version.UUID,
+    })
 
     const { validationPackage, publicationPackage } = useMemo(() => {
         const validationPackage = packages?.results.find(

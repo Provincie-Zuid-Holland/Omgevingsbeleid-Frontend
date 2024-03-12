@@ -2,8 +2,8 @@ import {
     Button,
     Divider,
     FormikDate,
-    FormikInput,
     FormikRadioGroup,
+    FormikRte,
     FormikSelect,
     FormikTextArea,
     Text,
@@ -11,17 +11,13 @@ import {
 } from '@pzh-ui/components'
 import { Form, Formik, FormikConfig, FormikValues } from 'formik'
 import { useParams } from 'react-router-dom'
-import { toFormikValidationSchema } from 'zod-formik-adapter'
 
-import { useModulesModuleIdStatusGet } from '@/api/fetchers'
 import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from '@/components/Accordion'
+    useModulesModuleIdStatusGet,
+    usePublicationEnvironmentsGet,
+} from '@/api/fetchers'
+import FieldArray from '@/components/Form/FieldArray'
 import useModalStore from '@/store/modalStore'
-import { PUBLICATION_VERSION_SCHEMA } from '@/validation/publication'
 
 interface PublicationVersionFormProps {
     submitLabel: string
@@ -36,6 +32,19 @@ const PublicationVersionForm = <TData extends FormikValues>({
     const { moduleId } = useParams()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
+
+    const { data: environmentOptions } = usePublicationEnvironmentsGet(
+        { limit: 100 },
+        {
+            query: {
+                select: data =>
+                    data.results.map(environment => ({
+                        label: environment.Title,
+                        value: environment.UUID,
+                    })),
+            },
+        }
+    )
 
     const { data: statusOptions } = useModulesModuleIdStatusGet(
         parseInt(moduleId!),
@@ -57,182 +66,158 @@ const PublicationVersionForm = <TData extends FormikValues>({
     )
 
     return (
-        <Formik
-            enableReinitialize
-            validationSchema={toFormikValidationSchema(
-                PUBLICATION_VERSION_SCHEMA
+        <Formik enableReinitialize {...rest}>
+            {({ isSubmitting }) => (
+                <Form>
+                    <div className="space-y-4">
+                        {!!environmentOptions?.length && (
+                            <FormikRadioGroup
+                                name="Environment_UUID"
+                                label="Publicatieomgeving"
+                                description="Geef hieronder aan waar deze versie gebruikt gaat worden. Is deze versie voor een Interne publicatie (voor bijvoorbeeld Planoview) of is het een Officiële publicatie?"
+                                optionLayout="horizontal"
+                                options={environmentOptions}
+                                disabled={isEdit}
+                                required
+                            />
+                        )}
+                        <div>
+                            <FormikSelect
+                                name="Module_Status_ID"
+                                label="Module status"
+                                placeholder="Selecteer een module status"
+                                options={statusOptions}
+                                disabled={isEdit}
+                                required
+                                styles={{
+                                    menu: base => ({
+                                        ...base,
+                                        position: 'relative',
+                                        zIndex: 9999,
+                                        marginTop: 2,
+                                        boxShadow:
+                                            '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                                    }),
+                                }}
+                            />
+                        </div>
+                        {isEdit && (
+                            <>
+                                <FormikRte
+                                    name="Bill_Compact.Preamble"
+                                    label="Aanhef"
+                                />
+                                <Articles />
+                                <FormikRte
+                                    name="Bill_Compact.Closing"
+                                    label="Sluiting"
+                                    placeholder="Bijv. Gegeven te 's-Gravenhage, 27 september 2023"
+                                    required
+                                />
+                                <FormikRte
+                                    name="Bill_Compact.Signed"
+                                    label="Ondertekening"
+                                    required
+                                />
+                                <div className="flex space-x-4 [&_>div]:flex-1">
+                                    <div>
+                                        <FormikDate
+                                            name="Procedure_Data.Steps.0.Conclusion_Date"
+                                            label="Vaststellingsdatum"
+                                            placeholder="Kies een datum"
+                                            required
+                                        />
+                                    </div>
+                                    <div>
+                                        <FormikDate
+                                            name="Procedure_Data.Steps.1.Conclusion_Date"
+                                            label="Datum van ondertekening"
+                                            placeholder="Kies een datum"
+                                            required
+                                        />
+                                    </div>
+                                    <div>
+                                        <FormikDate
+                                            name="Announcement_Date"
+                                            label="Bekendmakingsdatum"
+                                            placeholder="Kies een datum"
+                                            required
+                                        />
+                                    </div>
+                                    <div>
+                                        <FormikDate
+                                            name="Effective_Date"
+                                            label="Inwerkingtredingsdatum"
+                                            placeholder="Kies een datum"
+                                        />
+                                    </div>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                    <Divider className="my-6" />
+                    <div className="flex items-center justify-between">
+                        <Button
+                            variant="link"
+                            onPress={() => setActiveModal(null)}>
+                            Annuleren
+                        </Button>
+                        <Button
+                            variant="cta"
+                            type="submit"
+                            isLoading={isSubmitting}
+                            isDisabled={isSubmitting}>
+                            {submitLabel}
+                        </Button>
+                    </div>
+                </Form>
             )}
-            {...rest}>
-            <Form>
-                <div className="space-y-4">
-                    <FormikRadioGroup
-                        name="Is_Official"
-                        label="Doel"
-                        description="Geef hieronder aan waar deze versie gebruikt gaat worden. Is deze versie voor een Interne publicatie (voor bijvoorbeeld Planoview) of is het een Officiële publicatie?"
-                        optionLayout="horizontal"
-                        options={[
-                            {
-                                label: 'Interne publicatie',
-                                value: 'false',
-                            },
-                            {
-                                label: 'Officiële publicatie',
-                                value: 'true',
-                            },
-                        ]}
-                        disabled={isEdit}
-                        required
-                    />
-                    <FormikRadioGroup
-                        name="Procedure_Type"
-                        label="Type"
-                        description="Geef hieronder aan of het gaat om een ontwerp-versie of een definitieve-versie."
-                        optionLayout="horizontal"
-                        options={[
-                            {
-                                label: 'Ontwerp',
-                                value: 'Ontwerp',
-                            },
-                            {
-                                label: 'Definitief',
-                                value: 'Definitief',
-                            },
-                        ]}
-                        disabled={isEdit}
-                        required
-                    />
-                    <div className="flex space-x-4 [&_>div]:flex-1">
-                        <FormikSelect
-                            name="Module_Status_ID"
-                            label="Module status"
-                            placeholder="Selecteer een module status"
-                            options={statusOptions}
-                            disabled={isEdit}
-                            required
-                        />
-                        <FormikInput
-                            name="PZH_Bill_Identifier"
-                            label="Besluitnummer"
-                            placeholder="Indien bekend, geef het besluitnummer op"
-                        />
-                    </div>
-                    <FormikInput name="Bill_Data.Preamble" label="Aanhef" />
-                    <div>
-                        <Text bold>Artikelen</Text>
-                        <Articles />
-                    </div>
-                    <FormikInput
-                        name="Bill_Data.Closing"
-                        label="Sluiting"
-                        placeholder="Bijv. Gegeven te 's-Gravenhage, 27 september 2023"
-                        required
-                    />
-                    <FormikInput
-                        name="Bill_Data.Signature"
-                        label="Ondertekening"
-                        required
-                    />
-                    <div className="flex space-x-4 [&_>div]:flex-1">
-                        <div>
-                            <FormikDate
-                                name="Procedure_Data.Steps.0.Conclusion_Date"
-                                label="Vaststellingsdatum"
-                                placeholder="Kies een datum"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <FormikDate
-                                name="Procedure_Data.Steps.1.Conclusion_Date"
-                                label="Datum van ondertekening"
-                                placeholder="Kies een datum"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <FormikDate
-                                name="Announcement_Date"
-                                label="Bekendmakingsdatum"
-                                placeholder="Kies een datum"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <FormikDate
-                                name="Effective_Date"
-                                label="Inwerkingtredingsdatum"
-                                placeholder="Kies een datum"
-                            />
-                        </div>
-                    </div>
-                </div>
-                <Divider className="my-6" />
-                <div className="flex items-center justify-between">
-                    <Button variant="link" onPress={() => setActiveModal(null)}>
-                        Annuleren
-                    </Button>
-                    <Button variant="cta" type="submit">
-                        {submitLabel}
-                    </Button>
-                </div>
-            </Form>
         </Formik>
     )
 }
 
 const Articles = () => (
-    <Accordion multipleOpen>
-        <AccordionItem
-            uuid="article-1"
-            className="data-[expanded=true]:bg-pzh-gray-100"
-            defaultOpen>
-            <AccordionTrigger
-                className="p-4 text-pzh-blue-500"
-                classNameButton="after:w-full">
-                Artikel I - Genomen besluit ( wat het bestuursorgaan besluit
-                vast te stellen of te wijzigen )
-            </AccordionTrigger>
-            <AccordionContent className="mb-4 px-4 pt-0">
-                <FormikTextArea
-                    name="Bill_Data.Amendment_Article.Content"
-                    label="Inhoud"
-                />
-            </AccordionContent>
-        </AccordionItem>
-        <AccordionItem
-            uuid="article-2"
-            className="data-[expanded=true]:bg-pzh-gray-100"
-            defaultOpen>
-            <AccordionTrigger
-                className="p-4 text-pzh-blue-500"
-                classNameButton="after:w-full">
-                Artikel II - Wijzigingen ( opsomming van gewijzigde artikelen )
-            </AccordionTrigger>
-            <AccordionContent className="mb-4 px-4 pt-0">
-                <FormikTextArea
-                    name="Bill_Data.Articles.0.Content"
-                    label="Inhoud"
-                />
-            </AccordionContent>
-        </AccordionItem>
-        <AccordionItem
-            uuid="article-3"
-            className="data-[expanded=true]:bg-pzh-gray-100"
-            defaultOpen>
-            <AccordionTrigger
-                className="p-4 text-pzh-blue-500"
-                classNameButton="after:w-full">
-                Artikel III - Inwerkingtreding ( datum waarop het
-                wijzigingsbesluit geldig is )
-            </AccordionTrigger>
-            <AccordionContent className="mb-4 px-4 pt-0">
-                <FormikTextArea
-                    name="Bill_Data.Time_Article.Content"
-                    label="Inhoud"
-                />
-            </AccordionContent>
-        </AccordionItem>
-    </Accordion>
+    <div className="space-y-4 bg-pzh-gray-100 p-4">
+        <Text>Artikelen</Text>
+
+        <div>
+            <FormikTextArea
+                name="Bill_Compact.Amendment_Article"
+                label="Wijzigingsartikel"
+            />
+        </div>
+
+        <div>
+            <FormikTextArea
+                name="Bill_Compact.Time_Article"
+                label="Inwerkingstredingartikel"
+            />
+        </div>
+
+        <FieldArray
+            name="Bill_Compact.Custom_Articles"
+            label=""
+            buttonLabel="Artikel toevoegen"
+            buttonOptions={{
+                variant: 'secondary',
+                size: 'small',
+            }}
+            fields={[
+                {
+                    type: 'text',
+                    placeholder: 'key',
+                    name: 'Key',
+                    label: '',
+                },
+                {
+                    type: 'textarea',
+                    placeholder: 'value',
+                    name: 'Value',
+                    label: '',
+                },
+            ]}
+        />
+    </div>
 )
 
 export default PublicationVersionForm

@@ -64,7 +64,7 @@ const PublicationVersions = ({ publication }: PublicationVersionsProps) => {
                 <table className="w-full table-auto text-left text-s">
                     <thead className="h-8 border-b border-pzh-gray-400 font-bold text-pzh-blue-500">
                         <tr>
-                            <th>Gebaseerd op Modulestatus</th>
+                            <th className="pl-2">Gebaseerd op Modulestatus</th>
                             <th>Type besluit</th>
                             <th>Doel</th>
                             <th className="pr-2">Actie</th>
@@ -139,7 +139,7 @@ const VersionRow = ({
 
     return (
         <tr className="h-14 odd:bg-pzh-gray-100">
-            <td>{status}</td>
+            <td className="pl-2">{status}</td>
             <td>{version.Procedure_Type}</td>
             <td>{version.Is_Official ? 'Officiële' : 'Interne'} publicatie</td>
             <td className="pr-2">

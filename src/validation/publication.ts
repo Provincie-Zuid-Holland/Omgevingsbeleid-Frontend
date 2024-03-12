@@ -4,15 +4,17 @@ import { schemaDefaults } from '@/validation/zodSchema'
 
 export const PUBLICATION_SCHEMA = object({
     Document_Type: schemaDefaults.requiredString(),
-    Official_Title: schemaDefaults.requiredString(),
-    Regulation_Title: schemaDefaults.requiredString(),
-    Template_ID: schemaDefaults.optionalNumber,
+    Template_UUID: schemaDefaults.requiredString(),
 })
 
-export const PUBLICATION_VERSION_SCHEMA = object({
+export const PUBLICATION_VERSION_ADD_SCHEMA = object({
+    Module_Status_ID: schemaDefaults.requiredNumber(),
+    Environment_UUID: schemaDefaults.requiredString(),
+})
+
+export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
     Is_Official: schemaDefaults.requiredString(),
     Procedure_Type: schemaDefaults.requiredString(),
-    Module_Status_ID: schemaDefaults.requiredNumber(),
     PZH_Bill_Identifier: schemaDefaults.optionalString,
     Effective_Date: schemaDefaults.optionalString
         .refine(date => {

@@ -16,7 +16,10 @@ const Publication = ({ data }: PublicationProps) => {
 
     const { data: latest } = usePublicationsPublicationUuidVersionsGet(
         data?.UUID || '',
-        undefined,
+        {
+            limit: 10,
+            offset: 0,
+        },
         {
             query: {
                 enabled: !!data?.UUID,
@@ -28,7 +31,7 @@ const Publication = ({ data }: PublicationProps) => {
     return (
         <div className="mb-6 rounded border border-pzh-gray-200 p-6">
             <div className="mb-4 flex items-center justify-between">
-                <Heading size="m">{data.Official_Title}</Heading>
+                <Heading size="m">{data.Document_Type}</Heading>
                 <Button
                     variant="link"
                     className="text-pzh-green"

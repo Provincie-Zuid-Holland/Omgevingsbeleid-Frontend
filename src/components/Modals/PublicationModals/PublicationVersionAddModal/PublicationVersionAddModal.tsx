@@ -1,4 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import {
     getPublicationsPublicationUuidVersionsGetQueryKey,
@@ -8,6 +9,7 @@ import { PublicationVersionCreate } from '@/api/fetchers.schemas'
 import Modal from '@/components/Modal/Modal'
 import PublicationVersionForm from '@/components/Publications/PublicationVersionForm'
 import useModalStore from '@/store/modalStore'
+import { PUBLICATION_VERSION_ADD_SCHEMA } from '@/validation/publication'
 
 import { ModalStateMap } from '../../types'
 
@@ -42,6 +44,9 @@ const PublicationVersionAddModal = () => {
             <PublicationVersionForm
                 onSubmit={handleFormSubmit}
                 initialValues={{} as PublicationVersionCreate}
+                validationSchema={toFormikValidationSchema(
+                    PUBLICATION_VERSION_ADD_SCHEMA
+                )}
                 submitLabel="Versie maken"
             />
         </Modal>

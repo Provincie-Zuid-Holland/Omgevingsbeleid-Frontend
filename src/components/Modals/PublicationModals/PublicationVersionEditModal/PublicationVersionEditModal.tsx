@@ -1,4 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import {
     getPublicationVersionsVersionUuidGetQueryKey,
@@ -11,6 +12,7 @@ import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal/Modal'
 import PublicationVersionForm from '@/components/Publications/PublicationVersionForm'
 import useModalStore from '@/store/modalStore'
+import { PUBLICATION_VERSION_EDIT_SCHEMA } from '@/validation/publication'
 
 import { ModalStateMap } from '../../types'
 
@@ -64,8 +66,9 @@ const PublicationVersionEditModal = () => {
 
     const initialValues = {
         ...data,
-        Is_Official: data?.Is_Official ? 'true' : 'false',
-    }
+        Environment_UUID: data?.Environment.UUID,
+        Module_Status_ID: data?.Module_Status.ID,
+    } as PublicationVersionEdit
 
     return (
         <Modal id="publicationVersionEdit" title="Versie" size="xl">
@@ -77,6 +80,9 @@ const PublicationVersionEditModal = () => {
                 <PublicationVersionForm
                     onSubmit={handleFormSubmit}
                     initialValues={initialValues}
+                    validationSchema={toFormikValidationSchema(
+                        PUBLICATION_VERSION_EDIT_SCHEMA
+                    )}
                     submitLabel="Versie opslaan"
                     isEdit
                 />

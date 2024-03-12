@@ -656,21 +656,6 @@ export interface VisieAlgemeenExtendedStatics {
 export type VisieAlgemeenExtendedObjectStatics =
     VisieAlgemeenExtendedStatics | null
 
-export interface VisieAlgemeenExtended {
-    Adjust_On?: string | null
-    Code?: string
-    Created_By?: UserShort
-    Created_Date?: string
-    End_Validity?: string | null
-    Modified_By?: UserShort
-    Modified_Date?: string
-    Object_ID?: number
-    ObjectStatics?: VisieAlgemeenExtendedObjectStatics
-    Start_Validity?: string | null
-    Title?: string
-    UUID?: string
-}
-
 export interface VisieAlgemeenBasic {
     Adjust_On?: string | null
     Code?: string
@@ -799,6 +784,21 @@ export interface VisieAlgemeenFull {
     Object_ID?: number
     ObjectStatics?: VisieAlgemeenFullObjectStatics
     Public_Revisions?: PublicModuleObjectRevision[]
+    Start_Validity?: string | null
+    Title?: string
+    UUID?: string
+}
+
+export interface VisieAlgemeenExtended {
+    Adjust_On?: string | null
+    Code?: string
+    Created_By?: UserShort
+    Created_Date?: string
+    End_Validity?: string | null
+    Modified_By?: UserShort
+    Modified_Date?: string
+    Object_ID?: number
+    ObjectStatics?: VisieAlgemeenExtendedObjectStatics
     Start_Validity?: string | null
     Title?: string
     UUID?: string
@@ -1223,9 +1223,9 @@ export interface ProgrammaAlgemeenBasic {
 }
 
 export interface Procedural {
-    EnactmentDate?: string
+    Enactment_Date?: string
     Procedural_Announcement_Date?: string
-    SignedDate?: string
+    Signed_Date?: string
 }
 
 /**
@@ -1746,6 +1746,12 @@ export interface ModulePatchStatus {
     Status: ModuleStatusCode
 }
 
+export interface ModuleOverview {
+    Module: Module
+    Objects: ModuleObjectShort[]
+    StatusHistory: ModuleStatus[]
+}
+
 export interface ModuleObjectContextShort {
     Action: string
     Original_Adjust_On?: string
@@ -1879,12 +1885,6 @@ export interface Module {
     Successful: boolean
     Temporary_Locked: boolean
     Title: string
-}
-
-export interface ModuleOverview {
-    Module: Module
-    Objects: ModuleObjectShort[]
-    StatusHistory: ModuleStatus[]
 }
 
 export interface MaatregelUUID {
@@ -2260,16 +2260,17 @@ export interface BodyFastapiHandlerLoginAccessTokenPost {
 
 export interface BillMetadata {
     Jurisdictions?: string[]
-    OfficialTitle?: string
+    Official_Title?: string
     Subjects?: string[]
 }
 
 export interface BillCompact {
-    AmendmentArticle?: string
+    Amendment_Article?: string
     Closing?: string
+    Custom_Articles?: Article[]
     Preamble?: string
     Signed?: string
-    TimeArticle?: string
+    Time_Article?: string
 }
 
 export interface BeleidsregelUUID {
@@ -2582,6 +2583,11 @@ export interface AuthToken {
     token_type: string
 }
 
+export interface Article {
+    Content: string
+    Label: string
+}
+
 export interface AreaBasic {
     Created_By_UUID: string
     Created_Date: string
@@ -2695,8 +2701,8 @@ export interface ActiveModuleObjectWrapper {
 
 export interface ActMetadata {
     Jurisdictions?: string[]
-    OfficialTitle?: string
-    QuoteTitle?: string
+    Official_Title?: string
+    Quote_Title?: string
     Subjects?: string[]
 }
 
