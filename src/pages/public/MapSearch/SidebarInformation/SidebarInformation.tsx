@@ -34,7 +34,7 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
         useState<Leaflet.TileLayer.WMS | null>(null)
 
     const { data, isLoading } = useSourceWerkingsgebiedenGet({
-        limit: 500,
+        limit: 1000,
         sort_column: 'Title',
         sort_order: 'ASC',
     })
