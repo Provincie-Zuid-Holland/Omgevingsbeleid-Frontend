@@ -6,6 +6,7 @@ import {
     FormikValues,
     useFormikContext,
 } from 'formik'
+import { twMerge } from 'tailwind-merge'
 
 import DynamicObjectField from '@/components/DynamicObject/DynamicObjectForm/DynamicField'
 import { Model } from '@/config/objects/types'
@@ -24,14 +25,23 @@ const FieldArray = ({
         variant: 'primary',
         size: 'large',
     },
+    itemClassName,
 }: Omit<Extract<DynamicField, { type: 'array' }>, 'type'> & {
     model?: Model
     buttonLabel?: string
     buttonOptions?: ButtonProps<'button'>
+    itemClassName?: string
 }) => {
     const { values } = useFormikContext<FormikValues>()
+    const nestedProperties = name.split('.') // Split the nested property string
+    let nestedValue = values // Initialize nestedValue with values object
 
-    const groupChildren: any[] = values?.[name]
+    // Traverse through the nested properties
+    for (const prop of nestedProperties) {
+        nestedValue = nestedValue?.[prop] // Access nested property
+    }
+
+    const groupChildren = nestedValue as any[]
 
     return (
         <>
@@ -48,36 +58,44 @@ const FieldArray = ({
                 name={name}
                 render={(arrayHelpers: ArrayHelpers) => (
                     <div className="flex flex-col gap-2">
-                        {groupChildren?.map((child, childIndex) => (
-                            <div
-                                key={name + child.type + childIndex}
-                                className="flex flex-col gap-2 bg-pzh-gray-100 p-4">
-                                <div className="flex justify-between">
-                                    {!!arrayLabel && (
-                                        <Text bold>{arrayLabel}</Text>
-                                    )}
-                                    <Button
-                                        variant="default"
-                                        onPress={() =>
-                                            arrayHelpers.remove(childIndex)
-                                        }>
-                                        <Xmark
-                                            className="text-pzh-blue-dark"
-                                            size={16}
-                                        />
-                                    </Button>
-                                </div>
-                                {fields.map(field => (
-                                    <DynamicObjectField
-                                        key={field.name + childIndex}
-                                        model={model}
-                                        isFirst
-                                        {...field}
-                                        name={`${name}.${childIndex}.${field.name}`}
-                                    />
-                                ))}
-                            </div>
-                        ))}
+                        {Array.isArray(groupChildren) &&
+                            (groupChildren as any[])?.map(
+                                (child, childIndex) => (
+                                    <div
+                                        key={name + child.type + childIndex}
+                                        className={twMerge(
+                                            'flex flex-col gap-2 bg-pzh-gray-100 p-4',
+                                            itemClassName
+                                        )}>
+                                        <div className="flex justify-between">
+                                            {!!arrayLabel && (
+                                                <Text bold>{arrayLabel}</Text>
+                                            )}
+                                            <Button
+                                                variant="default"
+                                                onPress={() =>
+                                                    arrayHelpers.remove(
+                                                        childIndex
+                                                    )
+                                                }>
+                                                <Xmark
+                                                    className="text-pzh-blue-dark"
+                                                    size={16}
+                                                />
+                                            </Button>
+                                        </div>
+                                        {fields.map(field => (
+                                            <DynamicObjectField
+                                                key={field.name + childIndex}
+                                                model={model}
+                                                isFirst
+                                                {...field}
+                                                name={`${name}.${childIndex}.${field.name}`}
+                                            />
+                                        ))}
+                                    </div>
+                                )
+                            )}
 
                         <div className="mt-2">
                             <Button

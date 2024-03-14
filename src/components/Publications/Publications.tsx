@@ -24,10 +24,8 @@ const Publications = ({ type }: PublicationsProps) => {
     )
 
     return (
-        <div>
-            <Heading level="2" className="mb-4">
-                {type}
-            </Heading>
+        <div className="space-y-4">
+            <Heading level="2">{type}</Heading>
 
             {isPending ? (
                 <div>

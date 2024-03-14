@@ -1,7 +1,10 @@
 import { Button, Divider, Text } from '@pzh-ui/components'
 import { useParams } from 'react-router-dom'
 
-import { useModulesModuleIdStatusGet } from '@/api/fetchers'
+import {
+    useModulesModuleIdStatusGet,
+    usePublicationEnvironmentsGet,
+} from '@/api/fetchers'
 import Modal from '@/components/Modal'
 import PublicationPackages from '@/components/Publications/PublicationPackages'
 import useModalStore from '@/store/modalStore'
@@ -26,12 +29,23 @@ const PublicationPackagesModal = () => {
         },
     })
 
+    const { data: environment } = usePublicationEnvironmentsGet(undefined, {
+        query: {
+            select: data =>
+                data.results.find(
+                    environment =>
+                        environment.UUID === modalState.version.Environment_UUID
+                ),
+        },
+    })
+
     return (
-        <Modal id="publicationPackages" title="Leveringen Versie" size="xl">
+        <Modal id="publicationPackages" title="Leveringen" size="xl">
             <div className="grid gap-4">
                 <Text>
-                    {status?.Status} - {modalState?.publication.Official_Title}{' '}
-                    ({modalState?.version.Is_Official ? 'Officiële' : 'Interne'}{' '}
+                    {status?.Status} -{' '}
+                    {modalState?.version.Bill_Metadata.Official_Title} (
+                    {environment?.Can_Publicate ? 'Officiële' : 'Interne'}{' '}
                     publicatie)
                 </Text>
                 <PublicationPackages {...modalState?.version} />

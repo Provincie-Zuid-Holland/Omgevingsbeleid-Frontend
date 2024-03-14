@@ -38,7 +38,7 @@ export type ModalType =
 export interface ModalStateMap {
     publicationAdd: { type: DocumentType }
     publicationEdit: { publication: Publication }
-    publicationVersionAdd: { publication: Publication; prevUUID?: string }
+    publicationVersionAdd: { publication: Publication }
     publicationVersionEdit: { publication: Publication; UUID: string }
     publicationPackages: {
         publication: Publication

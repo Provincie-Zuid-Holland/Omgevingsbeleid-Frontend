@@ -1,12 +1,12 @@
-import { Button, Pagination, Tooltip } from '@pzh-ui/components'
+import { Button, Pagination, Tooltip, formatDate } from '@pzh-ui/components'
 import { FileWord } from '@pzh-ui/icons'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import classNames from 'clsx'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import {
-    useModulesModuleIdStatusGet,
+    usePublicationEnvironmentsGet,
     usePublicationsPublicationUuidVersionsGet,
 } from '@/api/fetchers'
 import { Publication, PublicationVersionShort } from '@/api/fetchers.schemas'
@@ -21,8 +21,6 @@ interface PublicationVersionsProps {
 }
 
 const PublicationVersions = ({ publication }: PublicationVersionsProps) => {
-    const { moduleId } = useParams()
-
     const [currPage, setCurrPage] = useState(1)
 
     const { data, isFetching } = usePublicationsPublicationUuidVersionsGet(
@@ -39,20 +37,6 @@ const PublicationVersions = ({ publication }: PublicationVersionsProps) => {
         }
     )
 
-    const { data: statusOptions } = useModulesModuleIdStatusGet(
-        parseInt(moduleId!),
-        {
-            query: {
-                enabled: !!moduleId,
-                select: data =>
-                    data.map(status => ({
-                        label: status.Status,
-                        value: status.ID,
-                    })),
-            },
-        }
-    )
-
     return (
         <>
             <div className={classNames({ relative: isFetching })}>
@@ -64,27 +48,20 @@ const PublicationVersions = ({ publication }: PublicationVersionsProps) => {
                 <table className="w-full table-auto text-left text-s">
                     <thead className="h-8 border-b border-pzh-gray-400 font-bold text-pzh-blue-500">
                         <tr>
-                            <th className="pl-2">Gebaseerd op Modulestatus</th>
-                            <th>Type besluit</th>
-                            <th>Doel</th>
+                            <th className="pl-2">Datum aangemaakt</th>
+                            <th>Publicatieomgeving</th>
+                            <th>Gebaseerd op Modulestatus</th>
                             <th className="pr-2">Actie</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {data?.results.map(bill => {
-                            const status = statusOptions?.find(
-                                option => option.value === bill.Module_Status.ID
-                            )
-
-                            return (
-                                <VersionRow
-                                    key={bill.UUID}
-                                    publication={publication}
-                                    status={status?.label}
-                                    {...bill}
-                                />
-                            )
-                        })}
+                        {data?.results.map(version => (
+                            <VersionRow
+                                key={version.UUID}
+                                publication={publication}
+                                {...version}
+                            />
+                        ))}
                     </tbody>
                 </table>
             </div>
@@ -104,12 +81,20 @@ const PublicationVersions = ({ publication }: PublicationVersionsProps) => {
 
 const VersionRow = ({
     publication,
-    status,
     ...version
-}: PublicationVersionShort & { publication: Publication; status?: string }) => {
+}: PublicationVersionShort & { publication: Publication }) => {
     const { moduleId } = useParams()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
+
+    const { data: environment } = usePublicationEnvironmentsGet(undefined, {
+        query: {
+            select: data =>
+                data.results.find(
+                    environment => environment.UUID === version.Environment_UUID
+                ),
+        },
+    })
 
     const downloadDiff = async ({
         moduleId,
@@ -137,14 +122,19 @@ const VersionRow = ({
         enabled: false,
     })
 
+    const date = useMemo(
+        () => formatDate(new Date(version.Created_Date), 'dd-MM-yyyy'),
+        [version.Created_Date]
+    )
+
     return (
         <tr className="h-14 odd:bg-pzh-gray-100">
-            <td className="pl-2">{status}</td>
-            <td>{version.Procedure_Type}</td>
-            <td>{version.Is_Official ? 'Officiële' : 'Interne'} publicatie</td>
+            <td className="pl-2">{date}</td>
+            <td>{environment?.Title}</td>
+            <td>{version.Module_Status.Status}</td>
             <td className="pr-2">
                 <div className="flex items-center gap-4">
-                    {!version.Locked && (
+                    {!version.Is_Locked && (
                         <Button
                             variant="link"
                             size="small"
@@ -184,7 +174,8 @@ const VersionRow = ({
                                 iconSize={16}
                                 onPress={() => download()}
                                 isLoading={isFetching}
-                                isDisabled={isFetching}
+                                // Disable Word export untill endpoint is fixed
+                                isDisabled // ={isFetching}
                                 aria-label="Download Word export"
                             />
                         </div>

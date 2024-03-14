@@ -2,6 +2,7 @@ import {
     Button,
     Divider,
     FormikDate,
+    FormikInput,
     FormikRadioGroup,
     FormikRte,
     FormikSelect,
@@ -112,46 +113,71 @@ const PublicationVersionForm = <TData extends FormikValues>({
                                     name="Bill_Compact.Closing"
                                     label="Sluiting"
                                     placeholder="Bijv. Gegeven te 's-Gravenhage, 27 september 2023"
-                                    required
                                 />
                                 <FormikRte
                                     name="Bill_Compact.Signed"
                                     label="Ondertekening"
-                                    required
                                 />
-                                <div className="flex space-x-4 [&_>div]:flex-1">
-                                    <div>
-                                        <FormikDate
-                                            name="Procedure_Data.Steps.0.Conclusion_Date"
-                                            label="Vaststellingsdatum"
-                                            placeholder="Kies een datum"
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <FormikDate
-                                            name="Procedure_Data.Steps.1.Conclusion_Date"
-                                            label="Datum van ondertekening"
-                                            placeholder="Kies een datum"
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <FormikDate
-                                            name="Announcement_Date"
-                                            label="Bekendmakingsdatum"
-                                            placeholder="Kies een datum"
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <FormikDate
-                                            name="Effective_Date"
-                                            label="Inwerkingtredingsdatum"
-                                            placeholder="Kies een datum"
-                                        />
+
+                                <div className="space-y-4 bg-pzh-gray-100 p-4">
+                                    <Text>Procedureverloop</Text>
+
+                                    <div className="flex space-x-4 [&_>div]:flex-1">
+                                        <div>
+                                            <FormikDate
+                                                name="Procedural.Enactment_Date"
+                                                label="Vaststellingsdatum"
+                                                placeholder="Kies een datum"
+                                            />
+                                        </div>
+                                        <div>
+                                            <FormikDate
+                                                name="Procedural.Signed_Date"
+                                                label="Datum van ondertekening"
+                                                placeholder="Kies een datum"
+                                            />
+                                        </div>
+                                        <div>
+                                            <FormikDate
+                                                name="Procedural.Procedural_Announcement_Date"
+                                                label="Bekend op"
+                                                placeholder="Kies een datum"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
+
+                                <div className="space-y-4 bg-pzh-gray-100 p-4">
+                                    <Text>Juridische data</Text>
+
+                                    <div className="flex space-x-4 [&_>div]:flex-1">
+                                        <div>
+                                            <FormikDate
+                                                name="Announcement_Date"
+                                                label="Bekendmakingsdatum"
+                                                placeholder="Kies een datum"
+                                            />
+                                        </div>
+                                        <div>
+                                            <FormikDate
+                                                name="Effective_Date"
+                                                label="Inwerkingtredingsdatum"
+                                                placeholder="Kies een datum"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <FormikInput
+                                    name="Act_Metadata.Official_Title"
+                                    label="Officiële titel van de regeling"
+                                    disabled
+                                />
+                                <FormikInput
+                                    name="Act_Metadata.Quote_Title"
+                                    label="Citeertitel van de regeling"
+                                    disabled
+                                />
                             </>
                         )}
                     </div>
@@ -197,22 +223,22 @@ const Articles = () => (
         <FieldArray
             name="Bill_Compact.Custom_Articles"
             label=""
+            arrayLabel="Artikel"
             buttonLabel="Artikel toevoegen"
             buttonOptions={{
                 variant: 'secondary',
                 size: 'small',
             }}
+            itemClassName="py-4 px-0 border-t border-pzh-gray-600 gap-4"
             fields={[
                 {
                     type: 'text',
-                    placeholder: 'key',
-                    name: 'Key',
+                    name: 'Label',
                     label: '',
                 },
                 {
-                    type: 'textarea',
-                    placeholder: 'value',
-                    name: 'Value',
+                    type: 'wysiwyg',
+                    name: 'Content',
                     label: '',
                 },
             ]}

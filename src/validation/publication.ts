@@ -1,8 +1,9 @@
-import { array, object, tuple, ZodIssueCode } from 'zod'
+import { array, object, ZodIssueCode } from 'zod'
 
 import { schemaDefaults } from '@/validation/zodSchema'
 
 export const PUBLICATION_SCHEMA = object({
+    Title: schemaDefaults.requiredString(),
     Document_Type: schemaDefaults.requiredString(),
     Template_UUID: schemaDefaults.requiredString(),
 })
@@ -13,9 +14,7 @@ export const PUBLICATION_VERSION_ADD_SCHEMA = object({
 })
 
 export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
-    Is_Official: schemaDefaults.requiredString(),
     Procedure_Type: schemaDefaults.requiredString(),
-    PZH_Bill_Identifier: schemaDefaults.optionalString,
     Effective_Date: schemaDefaults.optionalString
         .refine(date => {
             return date && new Date(date) > new Date(Date.now())
@@ -26,42 +25,27 @@ export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
             return date && new Date(date) > new Date(Date.now())
         }, 'De bekendmakingsdatum moet in de toekomst liggen')
         .nullable(),
-    Bill_Data: object({
+    Bill_Compact: object({
         Preamble: schemaDefaults.optionalString,
-        Amendment_Article: object({
-            Label: schemaDefaults.requiredString(),
-            Number: schemaDefaults.optionalString,
-            Content: schemaDefaults.optionalString,
-        }).optional(),
-        Articles: array(
+        Amendment_Article: schemaDefaults.requiredString(),
+        Time_Article: schemaDefaults.requiredString(),
+        Custom_Articles: array(
             object({
                 Label: schemaDefaults.requiredString(),
-                Number: schemaDefaults.optionalString,
-                Content: schemaDefaults.optionalString,
+                Content: schemaDefaults.requiredString(),
             })
         ).optional(),
-        Time_Article: object({
-            Label: schemaDefaults.requiredString(),
-            Number: schemaDefaults.optionalString,
-            Content: schemaDefaults.optionalString,
-        }).optional(),
-        Closing: schemaDefaults.requiredString(),
-        Signature: schemaDefaults.requiredString(),
+        Closing: schemaDefaults.optionalString,
+        Signed: schemaDefaults.optionalString,
     }),
-    Procedure_Data: object({
-        Announcement_Date: schemaDefaults.requiredString().refine(date => {
-            return new Date(date) > new Date(Date.now())
-        }, 'De bekendmakingsdatum moet in de toekomst liggen'),
-        Steps: tuple([
-            object({
-                Step_Type: schemaDefaults.requiredString(),
-                Conclusion_Date: schemaDefaults.requiredString(),
-            }),
-            object({
-                Step_Type: schemaDefaults.requiredString(),
-                Conclusion_Date: schemaDefaults.requiredString(),
-            }),
-        ]),
+    Procedural: object({
+        Enactment_Date: schemaDefaults.optionalString,
+        Signed_Date: schemaDefaults.optionalString,
+        Procedural_Announcement_Date: schemaDefaults.optionalString
+            .refine(date => {
+                return date && new Date(date) > new Date(Date.now())
+            }, 'De bekend op datum moet in de toekomst liggen')
+            .nullable(),
     }),
 }).superRefine(({ Effective_Date, Announcement_Date }, ctx) => {
     if (

@@ -38,9 +38,7 @@ const PackageStep = ({
         {
             query: {
                 select: data =>
-                    data.results.find(
-                        pkg => pkg.Package_Event_Type === eventType
-                    ),
+                    data.results.find(pkg => pkg.Package_Type === eventType),
             },
         }
     )
@@ -79,13 +77,7 @@ const PackageStep = ({
                     <Text
                         color="text-pzh-blue-500"
                         className="whitespace-nowrap">
-                        {STEP_LABEL[type]} (
-                        {`${!version.Is_Official ? 'interne ' : ''}${
-                            eventType === 'Publicatie' || !version.Is_Official
-                                ? 'publicatie'
-                                : 'validatie'
-                        }`}
-                        )
+                        {STEP_LABEL[type]}
                     </Text>
                     {type === 'upload' && !isSucceeded && (
                         <Text size="s" color="text-pzh-gray-600">

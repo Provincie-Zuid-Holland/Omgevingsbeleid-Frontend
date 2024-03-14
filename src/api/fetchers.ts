@@ -50,6 +50,7 @@ import type {
     BeleidsregelsValidGetParams,
     BeleidsregelsValidLineageIdGetParams,
     BodyFastapiHandlerLoginAccessTokenPost,
+    BodyFastapiHandlerPublicationPackagesPackageUuidReportPost,
     CompleteModule,
     EditAcknowledgedRelation,
     EditUser,
@@ -137,6 +138,7 @@ import type {
     PagedResponsePublicationAOJ,
     PagedResponsePublicationEnvironment,
     PagedResponsePublicationPackage,
+    PagedResponsePublicationPackageReportShort,
     PagedResponsePublicationTemplate,
     PagedResponsePublicationVersionShort,
     PagedResponseSearchObject,
@@ -165,7 +167,10 @@ import type {
     PublicationEnvironmentsGetParams,
     PublicationPackageCreate,
     PublicationPackageCreatedResponse,
+    PublicationPackageReport,
     PublicationPackagesGetParams,
+    PublicationReportsGetParams,
+    PublicationTemplate,
     PublicationTemplatesGetParams,
     PublicationVersion,
     PublicationVersionCreate,
@@ -189,6 +194,7 @@ import type {
     TemplateCreate,
     TemplateCreatedResponse,
     TemplateEdit,
+    UploadPackageReportResponse,
     User,
     UserCreate,
     UserCreateResponse,
@@ -17424,6 +17430,101 @@ export const usePublicationTemplatesPost = <
 }
 
 /**
+ * @summary Get details of a publication template
+ */
+export const publicationTemplatesTemplateUuidGet = (
+    templateUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<PublicationTemplate>({
+        url: `/publication-templates/${templateUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getPublicationTemplatesTemplateUuidGetQueryKey = (
+    templateUuid: string
+) => {
+    return [`/publication-templates/${templateUuid}`] as const
+}
+
+export const getPublicationTemplatesTemplateUuidGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof publicationTemplatesTemplateUuidGet>>,
+    TError = HTTPValidationError
+>(
+    templateUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof publicationTemplatesTemplateUuidGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getPublicationTemplatesTemplateUuidGetQueryKey(templateUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof publicationTemplatesTemplateUuidGet>>
+    > = ({ signal }) =>
+        publicationTemplatesTemplateUuidGet(templateUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!templateUuid,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof publicationTemplatesTemplateUuidGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PublicationTemplatesTemplateUuidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof publicationTemplatesTemplateUuidGet>>
+>
+export type PublicationTemplatesTemplateUuidGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get details of a publication template
+ */
+export const usePublicationTemplatesTemplateUuidGet = <
+    TData = Awaited<ReturnType<typeof publicationTemplatesTemplateUuidGet>>,
+    TError = HTTPValidationError
+>(
+    templateUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof publicationTemplatesTemplateUuidGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getPublicationTemplatesTemplateUuidGetQueryOptions(
+        templateUuid,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
  * @summary Edit publication template
  */
 export const publicationTemplatesTemplateUuidPost = (
@@ -17976,30 +18077,30 @@ export const usePublicationsPublicationUuidGet = <
 /**
  * @summary Edit an existing publication
  */
-export const publicationsPublicationUuidPatch = (
+export const publicationsPublicationUuidPost = (
     publicationUuid: string,
     publicationEdit: PublicationEdit
 ) => {
-    return customInstance<Publication>({
+    return customInstance<ResponseOK>({
         url: `/publications/${publicationUuid}`,
-        method: 'PATCH',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: publicationEdit,
     })
 }
 
-export const getPublicationsPublicationUuidPatchMutationOptions = <
+export const getPublicationsPublicationUuidPostMutationOptions = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof publicationsPublicationUuidPatch>>,
+        Awaited<ReturnType<typeof publicationsPublicationUuidPost>>,
         TError,
         { publicationUuid: string; data: PublicationEdit },
         TContext
     >
 }): UseMutationOptions<
-    Awaited<ReturnType<typeof publicationsPublicationUuidPatch>>,
+    Awaited<ReturnType<typeof publicationsPublicationUuidPost>>,
     TError,
     { publicationUuid: string; data: PublicationEdit },
     TContext
@@ -18007,39 +18108,39 @@ export const getPublicationsPublicationUuidPatchMutationOptions = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof publicationsPublicationUuidPatch>>,
+        Awaited<ReturnType<typeof publicationsPublicationUuidPost>>,
         { publicationUuid: string; data: PublicationEdit }
     > = props => {
         const { publicationUuid, data } = props ?? {}
 
-        return publicationsPublicationUuidPatch(publicationUuid, data)
+        return publicationsPublicationUuidPost(publicationUuid, data)
     }
 
     return { mutationFn, ...mutationOptions }
 }
 
-export type PublicationsPublicationUuidPatchMutationResult = NonNullable<
-    Awaited<ReturnType<typeof publicationsPublicationUuidPatch>>
+export type PublicationsPublicationUuidPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof publicationsPublicationUuidPost>>
 >
-export type PublicationsPublicationUuidPatchMutationBody = PublicationEdit
-export type PublicationsPublicationUuidPatchMutationError = HTTPValidationError
+export type PublicationsPublicationUuidPostMutationBody = PublicationEdit
+export type PublicationsPublicationUuidPostMutationError = HTTPValidationError
 
 /**
  * @summary Edit an existing publication
  */
-export const usePublicationsPublicationUuidPatch = <
+export const usePublicationsPublicationUuidPost = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof publicationsPublicationUuidPatch>>,
+        Awaited<ReturnType<typeof publicationsPublicationUuidPost>>,
         TError,
         { publicationUuid: string; data: PublicationEdit },
         TContext
     >
 }) => {
     const mutationOptions =
-        getPublicationsPublicationUuidPatchMutationOptions(options)
+        getPublicationsPublicationUuidPostMutationOptions(options)
 
     return useMutation(mutationOptions)
 }
@@ -18651,6 +18752,377 @@ export const usePublicationPackagesPackageUuidDownloadGet = <
             packageUuid,
             options
         )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Record the submission response from lvbb of a publication package
+ */
+export const publicationPackagesPackageUuidReportPost = (
+    packageUuid: string,
+    bodyFastapiHandlerPublicationPackagesPackageUuidReportPost: BodyFastapiHandlerPublicationPackagesPackageUuidReportPost
+) => {
+    const formData = new FormData()
+    bodyFastapiHandlerPublicationPackagesPackageUuidReportPost.uploaded_files.forEach(
+        value => formData.append('uploaded_files', value)
+    )
+
+    return customInstance<UploadPackageReportResponse>({
+        url: `/publication-packages/${packageUuid}/report`,
+        method: 'POST',
+        headers: { 'Content-Type': 'multipart/form-data' },
+        data: formData,
+    })
+}
+
+export const getPublicationPackagesPackageUuidReportPostMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationPackagesPackageUuidReportPost>>,
+        TError,
+        {
+            packageUuid: string
+            data: BodyFastapiHandlerPublicationPackagesPackageUuidReportPost
+        },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof publicationPackagesPackageUuidReportPost>>,
+    TError,
+    {
+        packageUuid: string
+        data: BodyFastapiHandlerPublicationPackagesPackageUuidReportPost
+    },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof publicationPackagesPackageUuidReportPost>>,
+        {
+            packageUuid: string
+            data: BodyFastapiHandlerPublicationPackagesPackageUuidReportPost
+        }
+    > = props => {
+        const { packageUuid, data } = props ?? {}
+
+        return publicationPackagesPackageUuidReportPost(packageUuid, data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type PublicationPackagesPackageUuidReportPostMutationResult =
+    NonNullable<
+        Awaited<ReturnType<typeof publicationPackagesPackageUuidReportPost>>
+    >
+export type PublicationPackagesPackageUuidReportPostMutationBody =
+    BodyFastapiHandlerPublicationPackagesPackageUuidReportPost
+export type PublicationPackagesPackageUuidReportPostMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Record the submission response from lvbb of a publication package
+ */
+export const usePublicationPackagesPackageUuidReportPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationPackagesPackageUuidReportPost>>,
+        TError,
+        {
+            packageUuid: string
+            data: BodyFastapiHandlerPublicationPackagesPackageUuidReportPost
+        },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getPublicationPackagesPackageUuidReportPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary List the existing Publication reports
+ */
+export const publicationReportsGet = (
+    params?: PublicationReportsGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponsePublicationPackageReportShort>({
+        url: `/publication-reports`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getPublicationReportsGetQueryKey = (
+    params?: PublicationReportsGetParams
+) => {
+    return [`/publication-reports`, ...(params ? [params] : [])] as const
+}
+
+export const getPublicationReportsGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof publicationReportsGet>>,
+    TError = HTTPValidationError
+>(
+    params?: PublicationReportsGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof publicationReportsGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getPublicationReportsGetQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof publicationReportsGet>>
+    > = ({ signal }) => publicationReportsGet(params, signal)
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof publicationReportsGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PublicationReportsGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof publicationReportsGet>>
+>
+export type PublicationReportsGetQueryError = HTTPValidationError
+
+/**
+ * @summary List the existing Publication reports
+ */
+export const usePublicationReportsGet = <
+    TData = Awaited<ReturnType<typeof publicationReportsGet>>,
+    TError = HTTPValidationError
+>(
+    params?: PublicationReportsGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof publicationReportsGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getPublicationReportsGetQueryOptions(params, options)
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get details of a publication report
+ */
+export const publicationReportsReportUuidGet = (
+    reportUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<PublicationPackageReport>({
+        url: `/publication-reports/${reportUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getPublicationReportsReportUuidGetQueryKey = (
+    reportUuid: string
+) => {
+    return [`/publication-reports/${reportUuid}`] as const
+}
+
+export const getPublicationReportsReportUuidGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof publicationReportsReportUuidGet>>,
+    TError = HTTPValidationError
+>(
+    reportUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof publicationReportsReportUuidGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getPublicationReportsReportUuidGetQueryKey(reportUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof publicationReportsReportUuidGet>>
+    > = ({ signal }) => publicationReportsReportUuidGet(reportUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!reportUuid,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof publicationReportsReportUuidGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PublicationReportsReportUuidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof publicationReportsReportUuidGet>>
+>
+export type PublicationReportsReportUuidGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get details of a publication report
+ */
+export const usePublicationReportsReportUuidGet = <
+    TData = Awaited<ReturnType<typeof publicationReportsReportUuidGet>>,
+    TError = HTTPValidationError
+>(
+    reportUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof publicationReportsReportUuidGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getPublicationReportsReportUuidGetQueryOptions(
+        reportUuid,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Download publication package report
+ */
+export const publicationReportsReportUuidDownloadGet = (
+    reportUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<unknown>({
+        url: `/publication-reports/${reportUuid}/download`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getPublicationReportsReportUuidDownloadGetQueryKey = (
+    reportUuid: string
+) => {
+    return [`/publication-reports/${reportUuid}/download`] as const
+}
+
+export const getPublicationReportsReportUuidDownloadGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof publicationReportsReportUuidDownloadGet>>,
+    TError = HTTPValidationError
+>(
+    reportUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof publicationReportsReportUuidDownloadGet>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getPublicationReportsReportUuidDownloadGetQueryKey(reportUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof publicationReportsReportUuidDownloadGet>>
+    > = ({ signal }) =>
+        publicationReportsReportUuidDownloadGet(reportUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!reportUuid,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof publicationReportsReportUuidDownloadGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PublicationReportsReportUuidDownloadGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof publicationReportsReportUuidDownloadGet>>
+>
+export type PublicationReportsReportUuidDownloadGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Download publication package report
+ */
+export const usePublicationReportsReportUuidDownloadGet = <
+    TData = Awaited<ReturnType<typeof publicationReportsReportUuidDownloadGet>>,
+    TError = HTTPValidationError
+>(
+    reportUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof publicationReportsReportUuidDownloadGet>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getPublicationReportsReportUuidDownloadGetQueryOptions(
+        reportUuid,
+        options
+    )
 
     const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
         queryKey: QueryKey

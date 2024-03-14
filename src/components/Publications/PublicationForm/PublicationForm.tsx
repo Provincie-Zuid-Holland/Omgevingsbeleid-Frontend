@@ -1,4 +1,4 @@
-import { Button, Divider, FormikSelect } from '@pzh-ui/components'
+import { Button, Divider, FormikInput, FormikSelect } from '@pzh-ui/components'
 import { Form, Formik, FormikConfig, FormikValues } from 'formik'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
@@ -63,6 +63,14 @@ const PublicationForm = <TData extends FormikValues>({
                                 options={publicationTemplateOptions}
                                 placeholder="Selecteer een publicatie template"
                                 isLoading={isFetching}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <FormikInput
+                                name="Title"
+                                label="Interne titel"
+                                placeholder="Bijvoorbeeld: Omgevingsvisie Herziening 2024"
                                 required
                             />
                         </div>

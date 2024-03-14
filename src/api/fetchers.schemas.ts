@@ -13,6 +13,13 @@ export type PasswordResetPostParams = {
     new_password: string
 }
 
+export type PublicationReportsGetParams = {
+    package_uuid?: string
+    report_status?: ReportStatusType
+    offset?: number
+    limit?: number
+}
+
 export type PublicationPackagesGetParams = {
     version_uuid?: string
     offset?: number
@@ -646,6 +653,11 @@ export interface VisieAlgemeenPatch {
     Title?: string | null
 }
 
+export interface VisieAlgemeenFullStatics {
+    Owner_1?: UserShort
+    Owner_2?: UserShort
+}
+
 export type VisieAlgemeenFullObjectStatics = VisieAlgemeenFullStatics | null
 
 export interface VisieAlgemeenExtendedStatics {
@@ -655,6 +667,21 @@ export interface VisieAlgemeenExtendedStatics {
 
 export type VisieAlgemeenExtendedObjectStatics =
     VisieAlgemeenExtendedStatics | null
+
+export interface VisieAlgemeenExtended {
+    Adjust_On?: string | null
+    Code?: string
+    Created_By?: UserShort
+    Created_Date?: string
+    End_Validity?: string | null
+    Modified_By?: UserShort
+    Modified_Date?: string
+    Object_ID?: number
+    ObjectStatics?: VisieAlgemeenExtendedObjectStatics
+    Start_Validity?: string | null
+    Title?: string
+    UUID?: string
+}
 
 export interface VisieAlgemeenBasic {
     Adjust_On?: string | null
@@ -767,11 +794,6 @@ export interface UserShort {
     UUID: string
 }
 
-export interface VisieAlgemeenFullStatics {
-    Owner_1?: UserShort
-    Owner_2?: UserShort
-}
-
 export interface VisieAlgemeenFull {
     Adjust_On?: string | null
     Code?: string
@@ -784,21 +806,6 @@ export interface VisieAlgemeenFull {
     Object_ID?: number
     ObjectStatics?: VisieAlgemeenFullObjectStatics
     Public_Revisions?: PublicModuleObjectRevision[]
-    Start_Validity?: string | null
-    Title?: string
-    UUID?: string
-}
-
-export interface VisieAlgemeenExtended {
-    Adjust_On?: string | null
-    Code?: string
-    Created_By?: UserShort
-    Created_Date?: string
-    End_Validity?: string | null
-    Modified_By?: UserShort
-    Modified_Date?: string
-    Object_ID?: number
-    ObjectStatics?: VisieAlgemeenExtendedObjectStatics
     Start_Validity?: string | null
     Title?: string
     UUID?: string
@@ -824,6 +831,11 @@ export interface User {
     Rol: string
     Status: string
     UUID: string
+}
+
+export interface UploadPackageReportResponse {
+    Duplicate_Count: number
+    Status: ReportStatusType
 }
 
 export type TemplateEditObjectTemplates = { [key: string]: string } | null
@@ -904,6 +916,20 @@ export interface RequestAcknowledgedRelation {
     Object_Type: string
 }
 
+/**
+ * An enumeration.
+ */
+export type ReportStatusType =
+    (typeof ReportStatusType)[keyof typeof ReportStatusType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ReportStatusType = {
+    Not_Applicable: 'Not Applicable',
+    Pending: 'Pending',
+    Valid: 'Valid',
+    Failed: 'Failed',
+} as const
+
 export interface ReadRelationShort {
     Description?: string | null
     Object_ID: number
@@ -957,12 +983,15 @@ export interface ReadRelation {
     Title?: string | null
 }
 
+export type PublicationVersionShortBillMetadata = { [key: string]: any }
+
 export interface PublicationVersionShort {
     Announcement_Date?: string
+    Bill_Metadata: PublicationVersionShortBillMetadata
     Created_Date: string
     Effective_Date?: string
     Environment_UUID: string
-    Locked: boolean
+    Is_Locked: boolean
     Modified_Date: string
     Module_Status: ModuleStatus
     Procedure_Type: string
@@ -1008,8 +1037,8 @@ export interface PublicationVersion {
     Created_Date: string
     Effective_Date?: string
     Environment: PublicationEnvironment
+    Is_Locked: boolean
     Is_Valid?: boolean
-    Locked: boolean
     Modified_Date: string
     Module_Status: ModuleStatus
     Procedural: PublicationVersionProcedural
@@ -1024,6 +1053,7 @@ export interface PublicationTemplate {
     Created_Date: string
     Description: string
     Document_Type: string
+    Field_Map: string[]
     Is_Active: boolean
     Modified_Date: string
     Object_Templates: PublicationTemplateObjectTemplates
@@ -1039,6 +1069,29 @@ export interface PublicationShort {
     Modified_Date: string
     Module_ID: number
     Template_UUID?: string
+    Title: string
+    UUID: string
+}
+
+export interface PublicationPackageReportShort {
+    Created_Date: string
+    Filename: string
+    Main_Outcome: string
+    Package_UUID: string
+    Report_Status: string
+    UUID: string
+}
+
+export interface PublicationPackageReport {
+    Created_Date: string
+    Filename: string
+    Main_Outcome: string
+    Package_UUID: string
+    Report_Status: string
+    Source_Document: string
+    Sub_Delivery_ID: string
+    Sub_Outcome: string
+    Sub_Progress: string
     UUID: string
 }
 
@@ -1054,12 +1107,13 @@ export interface PublicationPackageCreate {
 export interface PublicationPackage {
     Created_By_UUID: string
     Created_Date: string
-    Latest_Download_By_UUID?: string
-    Latest_Download_Date?: string
+    Delivery_ID: string
     Modified_By_UUID: string
     Modified_Date: string
+    Package_Type: string
+    Report_Status: string
     UUID: string
-    Validation_Status?: string
+    Zip: PackageZipShort
 }
 
 export interface PublicationEnvironment {
@@ -1082,6 +1136,7 @@ export interface PublicationEnvironment {
 
 export interface PublicationEdit {
     Template_UUID?: string
+    Title?: string
 }
 
 export interface PublicationCreatedResponse {
@@ -1092,6 +1147,7 @@ export interface PublicationCreate {
     Document_Type: DocumentType
     Module_ID: number
     Template_UUID: string
+    Title: string
 }
 
 export interface PublicationAOJ {
@@ -1108,6 +1164,7 @@ export interface Publication {
     Modified_Date: string
     Module_ID: number
     Template_UUID?: string
+    Title: string
     UUID: string
 }
 
@@ -1371,6 +1428,16 @@ export interface PagedResponsePublicationPackage {
 /**
  * Wrap any response schema and add pagination metadata.
  */
+export interface PagedResponsePublicationPackageReportShort {
+    limit?: number
+    offset?: number
+    results: PublicationPackageReportShort[]
+    total: number
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
 export interface PagedResponsePublicationEnvironment {
     limit?: number
     offset?: number
@@ -1586,6 +1653,13 @@ export interface PagedResponseAmbitieBasic {
     offset?: number
     results: AmbitieBasic[]
     total: number
+}
+
+export interface PackageZipShort {
+    Filename: string
+    Latest_Download_By_UUID?: string
+    Latest_Download_Date?: string
+    UUID: string
 }
 
 /**
@@ -2249,6 +2323,10 @@ export interface CompleteModule {
     ObjectSpecifiekeGeldigheden?: ObjectSpecifiekeGeldigheid[]
 }
 
+export interface BodyFastapiHandlerPublicationPackagesPackageUuidReportPost {
+    uploaded_files: Blob[]
+}
+
 export interface BodyFastapiHandlerLoginAccessTokenPost {
     client_id?: string
     client_secret?: string
@@ -2267,6 +2345,7 @@ export interface BillMetadata {
 export interface BillCompact {
     Amendment_Article?: string
     Closing?: string
+    Component_Name?: string
     Custom_Articles?: Article[]
     Preamble?: string
     Signed?: string
