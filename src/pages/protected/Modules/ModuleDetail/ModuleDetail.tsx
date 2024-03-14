@@ -28,6 +28,7 @@ import {
     PublicationAddModal,
     PublicationEditModal,
     PublicationPackagesModal,
+    PublicationVersionAbortModal,
     PublicationVersionAddModal,
     PublicationVersionEditModal,
 } from '@/components/Modals/PublicationModals'
@@ -277,6 +278,7 @@ const TabDecisions = () => {
             <PublicationVersionAddModal />
             <PublicationVersionEditModal />
             <PublicationPackagesModal />
+            <PublicationVersionAbortModal />
         </>
     )
 }

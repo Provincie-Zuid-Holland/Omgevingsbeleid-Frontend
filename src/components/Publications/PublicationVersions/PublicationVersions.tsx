@@ -134,6 +134,20 @@ const VersionRow = ({
             <td>{version.Module_Status.Status}</td>
             <td className="pr-2">
                 <div className="flex items-center gap-4">
+                    {version.Is_Locked && (
+                        <Button
+                            variant="link"
+                            size="small"
+                            className="text-pzh-red-500"
+                            onPress={() =>
+                                setActiveModal('publicationVersionAbort', {
+                                    publication,
+                                    version,
+                                })
+                            }>
+                            Afbreken
+                        </Button>
+                    )}
                     {!version.Is_Locked && (
                         <Button
                             variant="link"

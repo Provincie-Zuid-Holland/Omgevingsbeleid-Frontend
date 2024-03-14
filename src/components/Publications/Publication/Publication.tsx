@@ -36,21 +36,16 @@ const Publication = ({ data }: PublicationProps) => {
                 </div>
             )}
 
-            <div className="flex gap-2">
-                <Button
-                    icon={Plus}
-                    size="small"
-                    onPress={() =>
-                        setActiveModal('publicationVersionAdd', {
-                            publication: data,
-                        })
-                    }>
-                    Nieuwe versie aanmaken
-                </Button>
-                <Button variant="secondary" size="small">
-                    Publicatie afbreken
-                </Button>
-            </div>
+            <Button
+                icon={Plus}
+                size="small"
+                onPress={() =>
+                    setActiveModal('publicationVersionAdd', {
+                        publication: data,
+                    })
+                }>
+                Nieuwe versie aanmaken
+            </Button>
         </div>
     )
 }
