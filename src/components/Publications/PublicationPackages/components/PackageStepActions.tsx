@@ -25,6 +25,8 @@ interface PackageStepActionsProps extends PublicationPackageProps {
     isActive?: boolean
     isSucceeded?: boolean
     isLoading?: boolean
+    buttonLabel?: string
+    hideDescription?: boolean
 }
 
 const PackageStepActions = ({ type, ...props }: PackageStepActionsProps) => {
@@ -44,6 +46,8 @@ const CreateAction = ({
     eventType,
     isActive,
     isSucceeded,
+    buttonLabel = 'Maak levering',
+    hideDescription = false,
 }: PackageStepActionsProps) => {
     const queryClient = useQueryClient()
 
@@ -90,7 +94,7 @@ const CreateAction = ({
 
     return (
         <div className="flex items-center gap-2 whitespace-nowrap">
-            {isPending && (
+            {isPending && !hideDescription && (
                 <Text size="s" className="text-pzh-gray-600">
                     Levering wordt gemaakt, dit kan even duren..
                 </Text>
@@ -99,8 +103,9 @@ const CreateAction = ({
                 variant="cta"
                 isDisabled={!isActive || isPending}
                 onPress={handleAction}
-                isLoading={isPending}>
-                Maak levering
+                isLoading={isPending}
+                className="h-full">
+                {buttonLabel}
             </Button>
         </div>
     )

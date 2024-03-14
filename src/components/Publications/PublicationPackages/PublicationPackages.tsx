@@ -8,14 +8,21 @@ import {
 } from '@/api/fetchers'
 import { PackageType, PublicationVersionShort } from '@/api/fetchers.schemas'
 
-import { PackageStep } from './components'
+import { PackageStep, PackageStepActions } from './components'
 
 export interface PublicationPackageProps {
     type: 'create' | 'download' | 'upload'
     eventType: PackageType
 }
 
-const PublicationPackages = (version: PublicationVersionShort) => {
+interface PublicationPackagesProps extends PublicationVersionShort {
+    isAbort?: boolean
+}
+
+const PublicationPackages = ({
+    isAbort,
+    ...version
+}: PublicationPackagesProps) => {
     const { data } = usePublicationVersionsVersionUuidGet(version.UUID)
 
     const { data: packages } = usePublicationPackagesGet({
@@ -31,16 +38,20 @@ const PublicationPackages = (version: PublicationVersionShort) => {
         },
     })
 
-    const { validationPackage, publicationPackage } = useMemo(() => {
-        const validationPackage = packages?.results.find(
-            pkg => pkg.Package_Type === 'Validatie'
-        )
-        const publicationPackage = packages?.results.find(
-            pkg => pkg.Package_Type === 'Publicatie'
-        )
+    const { validationPackage, publicationPackage, abortPackage } =
+        useMemo(() => {
+            const validationPackage = packages?.results.find(
+                pkg => pkg.Package_Type === 'Validatie'
+            )
+            const publicationPackage = packages?.results.find(
+                pkg => pkg.Package_Type === 'Publicatie'
+            )
+            const abortPackage = packages?.results.find(
+                pkg => pkg.Package_Type === 'Afbreken'
+            )
 
-        return { validationPackage, publicationPackage }
-    }, [packages?.results])
+            return { validationPackage, publicationPackage, abortPackage }
+        }, [packages?.results])
 
     const { announcementDate, effectiveDate } = useMemo(() => {
         const announcementDate =
@@ -58,6 +69,46 @@ const PublicationPackages = (version: PublicationVersionShort) => {
         () => environment?.Can_Publicate,
         [environment?.Can_Publicate]
     )
+
+    if (isAbort) {
+        return (
+            <>
+                <div>
+                    <Text size="m" bold color="text-pzh-blue-500">
+                        Afbreekverzoek
+                    </Text>
+                    <PackageStep
+                        version={version}
+                        type="create"
+                        eventType="Afbreken"
+                        isActive={!!!abortPackage && data?.Is_Valid}
+                        isSucceeded={!!abortPackage}
+                        isFirst
+                    />
+                    <PackageStep
+                        version={version}
+                        type="download"
+                        eventType="Afbreken"
+                        isActive={!!abortPackage}
+                        isLast={!isOfficial}
+                        isSucceeded={!!abortPackage?.Zip.Latest_Download_Date}
+                    />
+                    {isOfficial && (
+                        <PackageStep
+                            version={version}
+                            type="upload"
+                            eventType="Afbreken"
+                            isActive={!!abortPackage?.Zip.Latest_Download_Date}
+                            isSucceeded={
+                                abortPackage?.Report_Status === 'Valid'
+                            }
+                            isLast
+                        />
+                    )}
+                </div>
+            </>
+        )
+    }
 
     return (
         <>
@@ -123,11 +174,21 @@ const PublicationPackages = (version: PublicationVersionShort) => {
             {isOfficial &&
                 validationPackage?.Report_Status === 'Failed' &&
                 !!!publicationPackage && (
-                    <Notification
-                        variant="negative"
-                        title="Validatie niet goedgekeurd. Publicatie is niet mogelijk, maak een nieuwe versie aan en probeer het opnieuw."
-                        className="my-6"
-                    />
+                    <div className="my-6 flex w-full justify-between gap-4">
+                        <Notification
+                            variant="negative"
+                            title="Validatie niet goedgekeurd. Publicatie is niet mogelijk, bewerk de versie en probeer het opnieuw."
+                            className="w-full"
+                        />
+                        <PackageStepActions
+                            version={version}
+                            type="create"
+                            eventType="Validatie"
+                            buttonLabel="Maak nieuwe levering"
+                            hideDescription
+                            isActive
+                        />
+                    </div>
                 )}
 
             {isOfficial && (
@@ -190,11 +251,21 @@ const PublicationPackages = (version: PublicationVersionShort) => {
             )}
 
             {isOfficial && publicationPackage?.Report_Status === 'Failed' && (
-                <Notification
-                    variant="negative"
-                    title="Publicatie niet gelukt. Maak een nieuwe versie aan en probeer het opnieuw."
-                    className="my-6"
-                />
+                <div className="my-6 flex w-full justify-between gap-4">
+                    <Notification
+                        variant="negative"
+                        title="Publicatie niet gelukt. Bewerk de versie en probeer het opnieuw."
+                        className="w-full"
+                    />
+                    <PackageStepActions
+                        version={version}
+                        type="create"
+                        eventType="Publicatie"
+                        buttonLabel="Maak nieuwe levering"
+                        hideDescription
+                        isActive
+                    />
+                </div>
             )}
         </>
     )

@@ -1,4 +1,4 @@
-import { Button, Heading } from '@pzh-ui/components'
+import { Button, Heading, Text } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
 import { useParams } from 'react-router-dom'
 
@@ -31,10 +31,15 @@ const Publications = ({ type }: PublicationsProps) => {
                 <div>
                     <LoaderSpinner />
                 </div>
-            ) : (
-                data?.results.map(publication => (
+            ) : !!data?.results.length ? (
+                data.results.map(publication => (
                     <Publication key={publication.UUID} data={publication} />
                 ))
+            ) : (
+                <Text color="text-pzh-gray-600" className="italic">
+                    Er zijn nog geen {type.toLowerCase()} publicaties
+                    aangemaakt.
+                </Text>
             )}
 
             <Button
