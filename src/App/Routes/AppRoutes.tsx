@@ -393,7 +393,7 @@ const AppRoutes = () => {
                             element: (
                                 <ProtectedRoute
                                     permissions={{
-                                        canCreatePublicationTemplates: true,
+                                        canViewPublicationTemplate: true,
                                     }}
                                     redirectTo="/muteer">
                                     <PublicationTemplateOverview />
@@ -405,7 +405,7 @@ const AppRoutes = () => {
                             element: (
                                 <ProtectedRoute
                                     permissions={{
-                                        canCreatePublicationTemplates: true,
+                                        canViewPublicationTemplate: true,
                                     }}
                                     redirectTo="/muteer">
                                     <PublicationTemplateEdit />
@@ -417,7 +417,7 @@ const AppRoutes = () => {
                             element: (
                                 <ProtectedRoute
                                     permissions={{
-                                        canCreatePublicationTemplates: true,
+                                        canCreatePublicationTemplate: true,
                                     }}
                                     redirectTo="/muteer">
                                     <PublicationTemplateCreate />

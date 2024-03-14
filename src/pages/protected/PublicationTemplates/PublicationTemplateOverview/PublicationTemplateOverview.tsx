@@ -1,37 +1,99 @@
-import { Button, Heading, Table, formatDate } from '@pzh-ui/components'
+import {
+    Button,
+    Heading,
+    TabItem,
+    Table,
+    Tabs,
+    formatDate,
+} from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
-import { useMemo } from 'react'
+import { keepPreviousData } from '@tanstack/react-query'
+import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { LoaderSpinner } from '@/components/Loader'
+import { usePublicationTemplatesGet } from '@/api/fetchers'
+import model from '@/config/publicationTemplates'
+import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 
-import model from '../model'
+const PAGE_LIMIT = 20
+
+type TabType = 'active' | 'inactive'
 
 const PublicationTemplateOverview = () => {
-    const navigate = useNavigate()
+    const { canCreatePublicationTemplate } = usePermissions()
+
+    const [activeTab, setActiveTab] = useState<TabType>('active')
 
     const { plural, pluralCapitalize, prefixNewObject, singularReadable } =
         model.defaults
 
-    const isFetching = false
+    const breadcrumbPaths = [
+        { name: 'Dashboard', path: '/muteer' },
+        { name: pluralCapitalize, isCurrent: true },
+    ]
 
-    const data = useMemo(
-        () => [
-            {
-                Title: 'Visie WWW',
-                UUID: '1',
-                Instrument: 'Visie',
-                Created_Date: '2021-08-09T05:32:29.417000',
+    return (
+        <MutateLayout title={pluralCapitalize} breadcrumbs={breadcrumbPaths}>
+            <div className="col-span-6">
+                <div className="mb-6 flex items-center justify-between">
+                    <Heading size="xxl">{pluralCapitalize}</Heading>
+
+                    {canCreatePublicationTemplate && (
+                        <Button
+                            as="a"
+                            href={`/muteer/${plural}/nieuw`}
+                            variant="cta">
+                            {prefixNewObject} {singularReadable}
+                        </Button>
+                    )}
+                </div>
+
+                <Tabs
+                    selectedKey={activeTab}
+                    onSelectionChange={key =>
+                        setActiveTab(key as typeof activeTab)
+                    }>
+                    <TabItem title="Actieve templates" key="active">
+                        <TabTable type="active" activeTab={activeTab} />
+                    </TabItem>
+                    <TabItem title="Inactieve templates" key="inactive">
+                        <TabTable type="inactive" activeTab={activeTab} />
+                    </TabItem>
+                </Tabs>
+            </div>
+        </MutateLayout>
+    )
+}
+
+interface TabTableProps {
+    type: TabType
+    activeTab: TabType
+}
+
+const TabTable = ({ type, activeTab }: TabTableProps) => {
+    const navigate = useNavigate()
+
+    const { canViewPublicationTemplate } = usePermissions()
+
+    const { plural } = model.defaults
+
+    const [{ pageIndex }, setPagination] = useState({
+        pageIndex: 1,
+        pageSize: PAGE_LIMIT,
+    })
+
+    const { data, isFetching } = usePublicationTemplatesGet(
+        {
+            limit: PAGE_LIMIT,
+            offset: (pageIndex - 1) * PAGE_LIMIT,
+            only_active: activeTab === 'active',
+        },
+        {
+            query: {
+                placeholderData: keepPreviousData,
             },
-            {
-                Title: 'Visie Herziening 2024',
-                UUID: '2',
-                Instrument: 'Visie',
-                Created_Date: '2021-08-09T05:32:29.417000',
-            },
-        ],
-        []
+        }
     )
 
     /**
@@ -45,7 +107,7 @@ const PublicationTemplateOverview = () => {
             },
             {
                 header: 'Instrument',
-                accessorKey: 'Instrument',
+                accessorKey: 'Document_Type',
             },
             {
                 header: 'Aanmaakdatum',
@@ -60,63 +122,49 @@ const PublicationTemplateOverview = () => {
      */
     const formattedData = useMemo(
         () =>
-            data?.map(({ Title, Instrument, Created_Date, UUID }) => ({
-                Title,
-                Instrument,
-                Created_Date: (
-                    <span className="flex items-center justify-between">
-                        {formatDate(
-                            new Date(Created_Date + 'Z'),
-                            'cccccc d MMMM yyyy, p'
-                        )}
-                        <AngleRight size={18} />
-                    </span>
-                ),
-                onClick: () => navigate(`/muteer/${plural}/${UUID}`),
-            })) || [],
-        [data, plural, navigate]
+            data?.results.map(
+                ({ Title, Document_Type, Created_Date, UUID }) => ({
+                    Title,
+                    Document_Type,
+                    Created_Date: (
+                        <span className="flex items-center justify-between">
+                            {formatDate(
+                                new Date(Created_Date + 'Z'),
+                                'cccccc d MMMM yyyy, p'
+                            )}
+                            <AngleRight size={18} />
+                        </span>
+                    ),
+                    ...(canViewPublicationTemplate && {
+                        onClick: () => navigate(`/muteer/${plural}/${UUID}`),
+                    }),
+                })
+            ) || [],
+        [data, plural, navigate, canViewPublicationTemplate]
     )
 
-    const breadcrumbPaths = [
-        { name: 'Dashboard', path: '/muteer' },
-        { name: pluralCapitalize, isCurrent: true },
-    ]
-
     return (
-        <MutateLayout title={pluralCapitalize} breadcrumbs={breadcrumbPaths}>
-            <div className="col-span-6">
-                <div className="mb-6 flex items-center justify-between">
-                    <Heading size="xxl">{pluralCapitalize}</Heading>
-
-                    <Button
-                        as="a"
-                        href={`/muteer/${plural}/nieuw`}
-                        variant="cta">
-                        {prefixNewObject} {singularReadable}
-                    </Button>
-                </div>
-
-                <div className="mt-6">
-                    {!!formattedData?.length ? (
-                        <Table
-                            columns={columns}
-                            data={formattedData}
-                            enableSortingRemoval={false}
-                            enableMultiSort={false}
-                            manualSorting
-                        />
-                    ) : !isFetching ? (
-                        <span className="italic">
-                            Er zijn geen {plural} gevonden
-                        </span>
-                    ) : (
-                        <div className="mt-8 flex justify-center">
-                            <LoaderSpinner />
-                        </div>
-                    )}
-                </div>
-            </div>
-        </MutateLayout>
+        <div className="mt-4">
+            {!!formattedData?.length ? (
+                <Table
+                    columns={columns}
+                    data={formattedData}
+                    enableSortingRemoval={false}
+                    enableMultiSort={false}
+                    limit={PAGE_LIMIT}
+                    total={data?.total}
+                    onPaginationChange={setPagination}
+                    manualSorting
+                    isLoading={isFetching}
+                />
+            ) : (
+                <span className="italic">
+                    {`Er zijn geen ${
+                        type === 'active' ? 'actieve' : 'inactieve'
+                    } templates gevonden`}
+                </span>
+            )}
+        </div>
     )
 }
 

@@ -37,7 +37,7 @@ const DynamicField = ({
 }: DynamicFieldProps & {
     isFirst?: boolean
     isLocked?: boolean
-    model: Model
+    model?: Model
 }) => {
     const { setFieldValue, values } = useFormikContext()
 

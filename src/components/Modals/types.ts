@@ -1,7 +1,7 @@
 import {
-    AppExtensionsPublicationsEnumsDocumentType,
+    DocumentType,
     Publication,
-    PublicationBillShort,
+    PublicationVersionShort,
 } from '@/api/fetchers.schemas'
 
 export type ModalType =
@@ -36,12 +36,12 @@ export type ModalType =
     | 'publicationPackages'
 
 export interface ModalStateMap {
-    publicationAdd: { type: AppExtensionsPublicationsEnumsDocumentType }
+    publicationAdd: { type: DocumentType }
     publicationEdit: { publication: Publication }
-    publicationVersionAdd: { publication: Publication; prevUUID?: string }
+    publicationVersionAdd: { publication: Publication }
     publicationVersionEdit: { publication: Publication; UUID: string }
     publicationPackages: {
         publication: Publication
-        bill: PublicationBillShort
+        version: PublicationVersionShort
     }
 }

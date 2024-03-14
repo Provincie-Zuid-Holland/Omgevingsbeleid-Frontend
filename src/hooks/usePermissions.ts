@@ -12,7 +12,20 @@ export interface Permissions {
     canCreateUser: boolean
     canEditUser: boolean
     canResetUserPassword: boolean
-    canCreatePublicationTemplates: boolean
+    canCreatePublicationTemplate: boolean
+    canEditPublicationTemplate: boolean
+    canViewPublicationTemplate: boolean
+    canViewPublicationEnvironment: boolean
+    canViewPublicationAoj: boolean
+    canCreatePublication: boolean
+    canEditPublication: boolean
+    canViewPublication: boolean
+    canCreatePublicationVersion: boolean
+    canEditPublicationVersion: boolean
+    canViewPublicationVersion: boolean
+    canCreatePublicationPackage: boolean
+    canViewPublicationPackage: boolean
+    canDownloadPublicationPackage: boolean
 }
 
 const usePermissions = (): Permissions => {
@@ -30,7 +43,20 @@ const usePermissions = (): Permissions => {
         canCreateUser: false,
         canEditUser: false,
         canResetUserPassword: false,
-        canCreatePublicationTemplates: false,
+        canCreatePublicationTemplate: false,
+        canEditPublicationTemplate: false,
+        canViewPublicationTemplate: false,
+        canViewPublicationEnvironment: false,
+        canViewPublicationAoj: false,
+        canCreatePublication: false,
+        canEditPublication: false,
+        canViewPublication: false,
+        canCreatePublicationVersion: false,
+        canEditPublicationVersion: false,
+        canViewPublicationVersion: false,
+        canCreatePublicationPackage: false,
+        canViewPublicationPackage: false,
+        canDownloadPublicationPackage: false,
     }
 
     switch (role) {
@@ -53,7 +79,20 @@ const usePermissions = (): Permissions => {
                 canCreateUser: true,
                 canEditUser: true,
                 canResetUserPassword: true,
-                canCreatePublicationTemplates: true,
+                canCreatePublicationTemplate: true,
+                canEditPublicationTemplate: true,
+                canViewPublicationTemplate: true,
+                canViewPublicationEnvironment: true,
+                canViewPublicationAoj: true,
+                canCreatePublication: true,
+                canEditPublication: true,
+                canViewPublication: true,
+                canCreatePublicationVersion: true,
+                canEditPublicationVersion: true,
+                canViewPublicationVersion: true,
+                canCreatePublicationPackage: true,
+                canViewPublicationPackage: true,
+                canDownloadPublicationPackage: true,
             }
         case 'Behandelend Ambtenaar':
             return {

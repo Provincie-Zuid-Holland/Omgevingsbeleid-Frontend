@@ -13,23 +13,44 @@ export type PasswordResetPostParams = {
     new_password: string
 }
 
-export type PublicationBillsBillUuidPackagesGetParams = {
-    package_event_type?: PackageEventType
-    is_successful?: boolean
+export type PublicationReportsGetParams = {
+    package_uuid?: string
+    report_status?: ReportStatusType
     offset?: number
     limit?: number
 }
 
-export type PublicationsPublicationUuidBillsGetParams = {
-    version_id?: number
-    module_status?: ModuleStatusCode
+export type PublicationPackagesGetParams = {
+    version_uuid?: string
+    offset?: number
+    limit?: number
+}
+
+export type PublicationsPublicationUuidVersionsGetParams = {
     offset?: number
     limit?: number
 }
 
 export type PublicationsGetParams = {
-    document_type?: AppExtensionsPublicationsEnumsDocumentType
-    module_ID?: number
+    document_type?: DocumentType
+    module_id?: number
+    offset?: number
+    limit?: number
+}
+
+export type PublicationEnvironmentsGetParams = {
+    only_active?: boolean
+    offset?: number
+    limit?: number
+}
+
+export type PublicationTemplatesGetParams = {
+    only_active?: boolean
+    offset?: number
+    limit?: number
+}
+
+export type PublicationAojGetParams = {
     offset?: number
     limit?: number
 }
@@ -127,13 +148,6 @@ export type UsersGetParams = {
     limit?: number
     sort_column?: string
     sort_order?: SortOrder
-}
-
-export type PlaygroundDoDsoModuleIdPostParams = {
-    work_version: string
-    document_type: DsoModelsDocumentType
-    geo_new?: boolean
-    opdracht_type?: OpdrachtType
 }
 
 export type WettelijkeTaakValidGetParams = {
@@ -448,31 +462,6 @@ export type AmbitiesValidGetParams = {
     sort_order?: SortOrder
 }
 
-/**
- * An enumeration.
- */
-export type DsoModelsDocumentType =
-    (typeof DsoModelsDocumentType)[keyof typeof DsoModelsDocumentType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DsoModelsDocumentType = {
-    Programma: 'Programma',
-    Omgevingsvisie: 'Omgevingsvisie',
-} as const
-
-/**
- * An enumeration.
- */
-export type AppExtensionsPublicationsEnumsDocumentType =
-    (typeof AppExtensionsPublicationsEnumsDocumentType)[keyof typeof AppExtensionsPublicationsEnumsDocumentType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AppExtensionsPublicationsEnumsDocumentType = {
-    Omgevingsvisie: 'Omgevingsvisie',
-    Omgevingsprogramma: 'Omgevingsprogramma',
-    Omgevingsverordening: 'Omgevingsverordening',
-} as const
-
 export interface WriteRelation {
     Description?: string | null
     Object_ID: number
@@ -671,23 +660,6 @@ export interface VisieAlgemeenFullStatics {
 
 export type VisieAlgemeenFullObjectStatics = VisieAlgemeenFullStatics | null
 
-export interface VisieAlgemeenFull {
-    Adjust_On?: string | null
-    Code?: string
-    Created_By?: UserShort
-    Created_Date?: string
-    Description?: string
-    End_Validity?: string | null
-    Modified_By?: UserShort
-    Modified_Date?: string
-    Object_ID?: number
-    ObjectStatics?: VisieAlgemeenFullObjectStatics
-    Public_Revisions?: PublicModuleObjectRevision[]
-    Start_Validity?: string | null
-    Title?: string
-    UUID?: string
-}
-
 export interface VisieAlgemeenExtendedStatics {
     Owner_1?: UserShort
     Owner_2?: UserShort
@@ -822,6 +794,23 @@ export interface UserShort {
     UUID: string
 }
 
+export interface VisieAlgemeenFull {
+    Adjust_On?: string | null
+    Code?: string
+    Created_By?: UserShort
+    Created_Date?: string
+    Description?: string
+    End_Validity?: string | null
+    Modified_By?: UserShort
+    Modified_Date?: string
+    Object_ID?: number
+    ObjectStatics?: VisieAlgemeenFullObjectStatics
+    Public_Revisions?: PublicModuleObjectRevision[]
+    Start_Validity?: string | null
+    Title?: string
+    UUID?: string
+}
+
 export interface UserCreateResponse {
     Email: string
     Password: string
@@ -844,13 +833,40 @@ export interface User {
     UUID: string
 }
 
-/**
- * tijd_artikel
- */
-export interface TimeArticle {
-    Content: string
-    Label: string
-    Number?: string
+export interface UploadPackageReportResponse {
+    Duplicate_Count: number
+    Status: ReportStatusType
+}
+
+export type TemplateEditObjectTemplates = { [key: string]: string } | null
+
+export type TemplateEditDocumentType = DocumentType | null
+
+export interface TemplateEdit {
+    Description?: string | null
+    Document_Type?: TemplateEditDocumentType
+    Field_Map?: string[] | null
+    Is_Active?: boolean | null
+    Object_Templates?: TemplateEditObjectTemplates
+    Object_Types?: string[] | null
+    Text_Template?: string | null
+    Title?: string | null
+}
+
+export interface TemplateCreatedResponse {
+    UUID: string
+}
+
+export type TemplateCreateObjectTemplates = { [key: string]: string }
+
+export interface TemplateCreate {
+    Description: string
+    Document_Type: DocumentType
+    Field_Map: string[]
+    Object_Templates: TemplateCreateObjectTemplates
+    Object_Types: string[]
+    Text_Template: string
+    Title: string
 }
 
 /**
@@ -899,6 +915,20 @@ export interface RequestAcknowledgedRelation {
     Object_ID: number
     Object_Type: string
 }
+
+/**
+ * An enumeration.
+ */
+export type ReportStatusType =
+    (typeof ReportStatusType)[keyof typeof ReportStatusType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ReportStatusType = {
+    Not_Applicable: 'Not Applicable',
+    Pending: 'Pending',
+    Valid: 'Valid',
+    Failed: 'Failed',
+} as const
 
 export interface ReadRelationShort {
     Description?: string | null
@@ -953,141 +983,189 @@ export interface ReadRelation {
     Title?: string | null
 }
 
-export interface PublicationPackageReport {
-    Created_By_UUID: string
+export type PublicationVersionShortBillMetadata = { [key: string]: any }
+
+export interface PublicationVersionShort {
+    Announcement_Date?: string
+    Bill_Metadata: PublicationVersionShortBillMetadata
     Created_Date: string
-    ID: number
-    Messages?: string
+    Effective_Date?: string
+    Environment_UUID: string
+    Is_Locked: boolean
+    Modified_Date: string
+    Module_Status: ModuleStatus
+    Procedure_Type: string
+    Publication_UUID: string
+    UUID: string
+}
+
+export interface PublicationVersionEditResponse {
+    Is_Valid: boolean
+}
+
+export interface PublicationVersionEdit {
+    Act_Metadata?: ActMetadata
+    Announcement_Date?: string
+    Bill_Compact?: BillCompact
+    Bill_Metadata?: BillMetadata
+    Effective_Date?: string
+    Procedural?: Procedural
+}
+
+export interface PublicationVersionCreatedResponse {
+    UUID: string
+}
+
+export interface PublicationVersionCreate {
+    Environment_UUID: string
+    Module_Status_ID: number
+}
+
+export type PublicationVersionProcedural = { [key: string]: any }
+
+export type PublicationVersionBillMetadata = { [key: string]: any }
+
+export type PublicationVersionBillCompact = { [key: string]: any }
+
+export type PublicationVersionActMetadata = { [key: string]: any }
+
+export interface PublicationVersion {
+    Act_Metadata: PublicationVersionActMetadata
+    Announcement_Date?: string
+    Bill_Compact: PublicationVersionBillCompact
+    Bill_Metadata: PublicationVersionBillMetadata
+    Created_Date: string
+    Effective_Date?: string
+    Environment: PublicationEnvironment
+    Is_Locked: boolean
+    Is_Valid?: boolean
+    Modified_Date: string
+    Module_Status: ModuleStatus
+    Procedural: PublicationVersionProcedural
+    Procedure_Type: string
+    Publication: PublicationShort
+    UUID: string
+}
+
+export type PublicationTemplateObjectTemplates = { [key: string]: string }
+
+export interface PublicationTemplate {
+    Created_Date: string
+    Description: string
+    Document_Type: string
+    Field_Map: string[]
+    Is_Active: boolean
+    Modified_Date: string
+    Object_Templates: PublicationTemplateObjectTemplates
+    Object_Types: string[]
+    Text_Template: string
+    Title: string
+    UUID: string
+}
+
+export interface PublicationShort {
+    Created_Date: string
+    Document_Type: string
+    Modified_Date: string
+    Module_ID: number
+    Template_UUID?: string
+    Title: string
+    UUID: string
+}
+
+export interface PublicationPackageReportShort {
+    Created_Date: string
+    Filename: string
+    Main_Outcome: string
     Package_UUID: string
-    Report_Timestamp?: string
-    Report_Type?: string
-    Result?: string
+    Report_Status: string
+    UUID: string
+}
+
+export interface PublicationPackageReport {
+    Created_Date: string
+    Filename: string
+    Main_Outcome: string
+    Package_UUID: string
+    Report_Status: string
+    Source_Document: string
+    Sub_Delivery_ID: string
+    Sub_Outcome: string
+    Sub_Progress: string
+    UUID: string
+}
+
+export interface PublicationPackageCreatedResponse {
+    Package_UUID: string
+    Zip_UUID: string
 }
 
 export interface PublicationPackageCreate {
-    Announcement_Date?: string
-    Config_ID?: number
-    Package_Event_Type: PackageEventType
-}
-
-export interface PublicationFRBR {
-    act_expression_date: string
-    act_expression_lang: string
-    act_expression_misc?: string
-    act_expression_version: string
-    act_work_country: string
-    act_work_date: string
-    act_work_misc?: string
-    bill_expression_date: string
-    bill_expression_lang: string
-    bill_expression_misc?: string
-    bill_expression_version: string
-    bill_work_country: string
-    bill_work_date: string
-    bill_work_misc?: string
-    Created_Date: string
-    ID: number
+    Package_Type: PackageType
 }
 
 export interface PublicationPackage {
-    Announcement_Date: string
-    Bill_UUID: string
-    Config_ID: number
     Created_By_UUID: string
     Created_Date: string
-    FRBR_ID: number
-    FRBR_Info?: PublicationFRBR
-    Latest_Download_By_UUID?: string
-    Latest_Download_Date?: string
+    Delivery_ID: string
     Modified_By_UUID: string
     Modified_Date: string
-    Package_Event_Type: PackageEventType
-    Publication_Filename?: string
-    Reports?: PublicationPackageReport[]
+    Package_Type: string
+    Report_Status: string
     UUID: string
-    Validation_Status?: string
-    ZIP_File_Checksum?: string
-    ZIP_File_Name?: string
+    Zip: PackageZipShort
+}
+
+export interface PublicationEnvironment {
+    Authority_ID: string
+    Can_Publicate: boolean
+    Can_Validate: boolean
+    Created_Date: string
+    Description: string
+    Frbr_Country: string
+    Frbr_Language: string
+    Governing_Body_Type: string
+    Has_State: boolean
+    Is_Active: boolean
+    Modified_Date: string
+    Province_ID: string
+    Submitter_ID: string
+    Title: string
+    UUID: string
 }
 
 export interface PublicationEdit {
-    Official_Title?: string
-    Regulation_Title?: string
-    Template_ID?: number
+    Template_UUID?: string
+    Title?: string
+}
+
+export interface PublicationCreatedResponse {
+    UUID: string
 }
 
 export interface PublicationCreate {
-    Document_Type: AppExtensionsPublicationsEnumsDocumentType
+    Document_Type: DocumentType
     Module_ID: number
-    Official_Title: string
-    Regulation_Title: string
-    Template_ID?: number
+    Template_UUID: string
+    Title: string
 }
 
-export interface PublicationBillShort {
+export interface PublicationAOJ {
+    Administrative_Borders_Date: string
+    Administrative_Borders_Domain: string
+    Administrative_Borders_ID: string
     Created_Date: string
-    Is_Official: boolean
-    Locked: boolean
-    Modified_Date: string
-    Module_Status_ID: number
-    Procedure_Type: ProcedureType
-    Publication_UUID: string
     UUID: string
-    Version_ID?: number
-}
-
-export interface PublicationBillEdit {
-    Announcement_Date?: string
-    Bill_Data?: BillData
-    Effective_Date?: string
-    Procedure_Data?: ProcedureData
-}
-
-export interface PublicationBillCreate {
-    Announcement_Date?: string
-    Bill_Data?: BillData
-    Effective_Date?: string
-    Is_Official: boolean
-    Module_Status_ID: number
-    Procedure_Data?: ProcedureData
-    Procedure_Type: ProcedureType
-    PZH_Bill_Identifier?: string
-}
-
-/**
- * STOP Besluit
- */
-export interface PublicationBill {
-    Announcement_Date: string
-    Bill_Data?: BillData
-    Created_By_UUID: string
-    Created_Date: string
-    Effective_Date: string
-    Is_Official: boolean
-    Locked: boolean
-    Modified_By_UUID: string
-    Modified_Date: string
-    Module_Status_ID: number
-    Procedure_Data?: ProcedureData
-    Procedure_Type: ProcedureType
-    Publication_UUID: string
-    PZH_Bill_Identifier?: string
-    UUID: string
-    Version_ID?: number
 }
 
 export interface Publication {
-    Created_By_UUID: string
     Created_Date: string
-    Document_Type: AppExtensionsPublicationsEnumsDocumentType
-    Modified_By_UUID: string
+    Document_Type: DocumentType
     Modified_Date: string
     Module_ID: number
-    Official_Title: string
-    Regulation_Title: string
-    Template_ID?: number
+    Template_UUID?: string
+    Title: string
     UUID: string
-    Work_ID: number
 }
 
 export interface PublicModuleShort {
@@ -1201,50 +1279,10 @@ export interface ProgrammaAlgemeenBasic {
     UUID?: string
 }
 
-/**
- * An enumeration.
- */
-export type ProcedureType = (typeof ProcedureType)[keyof typeof ProcedureType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ProcedureType = {
-    Ontwerp: 'Ontwerp',
-    Definitief: 'Definitief',
-} as const
-
-/**
- * STOP ProcedureStappenDefinitief
- */
-export type ProcedureStepType =
-    (typeof ProcedureStepType)[keyof typeof ProcedureStepType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ProcedureStepType = {
-    Vaststelling: 'Vaststelling',
-    Ondertekening: 'Ondertekening',
-    Publicatie: 'Publicatie',
-    Einde_bezwaartermijn: 'Einde_bezwaartermijn',
-    Einde_beroepstermijn: 'Einde_beroepstermijn',
-    Start_beroepsprocedures: 'Start_beroepsprocedures',
-    Schorsing: 'Schorsing',
-    Opheffing_Schorsing: 'Opheffing_Schorsing',
-    Einde_beroepsprocedures: 'Einde_beroepsprocedures',
-} as const
-
-/**
- * STOP Procedurestap
- */
-export interface ProcedureStep {
-    Conclusion_Date: string
-    Step_Type: ProcedureStepType
-}
-
-/**
- * STOP Procedureverloop
- */
-export interface ProcedureData {
-    Announcement_Date: string
-    Steps: ProcedureStep[]
+export interface Procedural {
+    Enactment_Date?: string
+    Procedural_Announcement_Date?: string
+    Signed_Date?: string
 }
 
 /**
@@ -1360,6 +1398,26 @@ export interface PagedResponsePublication {
 /**
  * Wrap any response schema and add pagination metadata.
  */
+export interface PagedResponsePublicationVersionShort {
+    limit?: number
+    offset?: number
+    results: PublicationVersionShort[]
+    total: number
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
+export interface PagedResponsePublicationTemplate {
+    limit?: number
+    offset?: number
+    results: PublicationTemplate[]
+    total: number
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
 export interface PagedResponsePublicationPackage {
     limit?: number
     offset?: number
@@ -1370,10 +1428,30 @@ export interface PagedResponsePublicationPackage {
 /**
  * Wrap any response schema and add pagination metadata.
  */
-export interface PagedResponsePublicationBillShort {
+export interface PagedResponsePublicationPackageReportShort {
     limit?: number
     offset?: number
-    results: PublicationBillShort[]
+    results: PublicationPackageReportShort[]
+    total: number
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
+export interface PagedResponsePublicationEnvironment {
+    limit?: number
+    offset?: number
+    results: PublicationEnvironment[]
+    total: number
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
+export interface PagedResponsePublicationAOJ {
+    limit?: number
+    offset?: number
+    results: PublicationAOJ[]
     total: number
 }
 
@@ -1577,28 +1655,23 @@ export interface PagedResponseAmbitieBasic {
     total: number
 }
 
+export interface PackageZipShort {
+    Filename: string
+    Latest_Download_By_UUID?: string
+    Latest_Download_Date?: string
+    UUID: string
+}
+
 /**
  * An enumeration.
  */
-export type PackageEventType =
-    (typeof PackageEventType)[keyof typeof PackageEventType]
+export type PackageType = (typeof PackageType)[keyof typeof PackageType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PackageEventType = {
+export const PackageType = {
     Validatie: 'Validatie',
     Publicatie: 'Publicatie',
     Afbreken: 'Afbreken',
-} as const
-
-/**
- * An enumeration.
- */
-export type OpdrachtType = (typeof OpdrachtType)[keyof typeof OpdrachtType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const OpdrachtType = {
-    PUBLICATIE: 'PUBLICATIE',
-    VALIDATIE: 'VALIDATIE',
 } as const
 
 export interface ObjectStaticShort {
@@ -2185,6 +2258,36 @@ export const Format = {
     pdf: 'pdf',
 } as const
 
+export interface EnvironmentEdit {
+    Authority_ID?: string | null
+    Can_Publicate?: boolean | null
+    Can_Validate?: boolean | null
+    Description?: string | null
+    Frbr_Country?: string | null
+    Frbr_Language?: string | null
+    Is_Active?: boolean | null
+    Province_ID?: string | null
+    Submitter_ID?: string | null
+    Title?: string | null
+}
+
+export interface EnvironmentCreatedResponse {
+    UUID: string
+}
+
+export interface EnvironmentCreate {
+    Authority_ID: string
+    Can_Publicate: boolean
+    Can_Validate: boolean
+    Description: string
+    Frbr_Country: string
+    Frbr_Language: string
+    Has_State: boolean
+    Province_ID: string
+    Submitter_ID: string
+    Title: string
+}
+
 export interface EditUser {
     Email?: string | null
     Gebruikersnaam?: string | null
@@ -2201,6 +2304,17 @@ export interface EditAcknowledgedRelation {
     Object_Type: string
 }
 
+/**
+ * An enumeration.
+ */
+export type DocumentType = (typeof DocumentType)[keyof typeof DocumentType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DocumentType = {
+    Omgevingsvisie: 'Omgevingsvisie',
+    Programma: 'Programma',
+} as const
+
 export interface CompleteModule {
     Decision_Number: string
     Default_Start_Validity?: string | null
@@ -2210,7 +2324,7 @@ export interface CompleteModule {
 }
 
 export interface BodyFastapiHandlerPublicationPackagesPackageUuidReportPost {
-    xml_file: Blob
+    uploaded_files: Blob[]
 }
 
 export interface BodyFastapiHandlerLoginAccessTokenPost {
@@ -2222,24 +2336,20 @@ export interface BodyFastapiHandlerLoginAccessTokenPost {
     username: string
 }
 
-/**
- * tekst_artikel
- */
-export interface BillArticle {
-    Content: string
-    Label: string
-    Number?: string
+export interface BillMetadata {
+    Jurisdictions?: string[]
+    Official_Title?: string
+    Subjects?: string[]
 }
 
-export interface BillData {
-    Amendment_Article?: AmendmentArticle
-    Articles?: BillArticle[]
-    Bill_Title: string
-    Closing: string
+export interface BillCompact {
+    Amendment_Article?: string
+    Closing?: string
+    Component_Name?: string
+    Custom_Articles?: Article[]
     Preamble?: string
-    Regulation_Title: string
-    Signature: string
-    Time_Article?: TimeArticle
+    Signed?: string
+    Time_Article?: string
 }
 
 export interface BeleidsregelUUID {
@@ -2552,6 +2662,11 @@ export interface AuthToken {
     token_type: string
 }
 
+export interface Article {
+    Content: string
+    Label: string
+}
+
 export interface AreaBasic {
     Created_By_UUID: string
     Created_Date: string
@@ -2559,15 +2674,6 @@ export interface AreaBasic {
     Source_Title: string
     Source_UUID: string
     UUID: string
-}
-
-/**
- * STOP WijzigingArtikel
- */
-export interface AmendmentArticle {
-    Content: string
-    Label: string
-    Number?: string
 }
 
 export interface AmbitieUUID {
@@ -2672,6 +2778,13 @@ export interface ActiveModuleObjectWrapper {
     Module_Object: ActiveModuleObject
 }
 
+export interface ActMetadata {
+    Jurisdictions?: string[]
+    Official_Title?: string
+    Quote_Title?: string
+    Subjects?: string[]
+}
+
 export interface AcknowledgedRelationSide {
     Acknowledged?: string
     Acknowledged_By_UUID?: string
@@ -2692,4 +2805,14 @@ export interface AcknowledgedRelation {
     Side_A: AcknowledgedRelationSide
     Side_B: AcknowledgedRelationSide
     Version: number
+}
+
+export interface AOJCreatedResponse {
+    UUID: string
+}
+
+export interface AOJCreate {
+    Administrative_Borders_Date: string
+    Administrative_Borders_Domain: string
+    Administrative_Borders_ID: string
 }

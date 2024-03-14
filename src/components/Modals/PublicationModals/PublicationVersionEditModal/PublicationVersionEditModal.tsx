@@ -1,16 +1,18 @@
 import { useQueryClient } from '@tanstack/react-query'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import {
-    getPublicationsPublicationUuidBillsBillUuidGetQueryKey,
-    getPublicationsPublicationUuidBillsGetQueryKey,
-    usePublicationsPublicationUuidBillsBillUuidGet,
-    usePublicationsPublicationUuidBillsBillUuidPatch,
+    getPublicationVersionsVersionUuidGetQueryKey,
+    getPublicationsPublicationUuidVersionsGetQueryKey,
+    usePublicationVersionsVersionUuidGet,
+    usePublicationVersionsVersionUuidPost,
 } from '@/api/fetchers'
-import { PublicationBillEdit } from '@/api/fetchers.schemas'
+import { PublicationVersionEdit } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal/Modal'
 import PublicationVersionForm from '@/components/Publications/PublicationVersionForm'
 import useModalStore from '@/store/modalStore'
+import { PUBLICATION_VERSION_EDIT_SCHEMA } from '@/validation/publication'
 
 import { ModalStateMap } from '../../types'
 
@@ -22,8 +24,7 @@ const PublicationVersionEditModal = () => {
         state => state.modalStates['publicationVersionEdit']
     ) as ModalStateMap['publicationVersionEdit']
 
-    const { data, isFetching } = usePublicationsPublicationUuidBillsBillUuidGet(
-        modalState?.publication.UUID,
+    const { data, isFetching } = usePublicationVersionsVersionUuidGet(
         modalState?.UUID,
         {
             query: {
@@ -32,20 +33,18 @@ const PublicationVersionEditModal = () => {
         }
     )
 
-    const { mutate } = usePublicationsPublicationUuidBillsBillUuidPatch({
+    const { mutate } = usePublicationVersionsVersionUuidPost({
         mutation: {
             onSuccess: () => {
                 queryClient.invalidateQueries({
-                    queryKey: getPublicationsPublicationUuidBillsGetQueryKey(
+                    queryKey: getPublicationsPublicationUuidVersionsGetQueryKey(
                         modalState.publication.UUID
                     ),
                 })
                 queryClient.invalidateQueries({
-                    queryKey:
-                        getPublicationsPublicationUuidBillsBillUuidGetQueryKey(
-                            modalState.publication.UUID,
-                            modalState.UUID
-                        ),
+                    queryKey: getPublicationVersionsVersionUuidGetQueryKey(
+                        modalState.UUID
+                    ),
                 })
 
                 setActiveModal(null)
@@ -53,22 +52,23 @@ const PublicationVersionEditModal = () => {
         },
     })
 
-    const handleFormSubmit = (payload: PublicationBillEdit) => {
-        if (payload.Announcement_Date && payload.Procedure_Data) {
-            payload.Procedure_Data.Announcement_Date = payload.Announcement_Date
+    const handleFormSubmit = (payload: PublicationVersionEdit) => {
+        if (payload.Announcement_Date && payload.Procedural) {
+            payload.Procedural.Procedural_Announcement_Date =
+                payload.Announcement_Date
         }
 
         mutate({
-            publicationUuid: modalState.publication.UUID,
-            billUuid: modalState.UUID,
+            versionUuid: modalState.UUID,
             data: payload,
         })
     }
 
     const initialValues = {
         ...data,
-        Is_Official: data?.Is_Official ? 'true' : 'false',
-    }
+        Environment_UUID: data?.Environment.UUID,
+        Module_Status_ID: data?.Module_Status.ID,
+    } as PublicationVersionEdit
 
     return (
         <Modal id="publicationVersionEdit" title="Versie" size="xl">
@@ -80,6 +80,9 @@ const PublicationVersionEditModal = () => {
                 <PublicationVersionForm
                     onSubmit={handleFormSubmit}
                     initialValues={initialValues}
+                    validationSchema={toFormikValidationSchema(
+                        PUBLICATION_VERSION_EDIT_SCHEMA
+                    )}
                     submitLabel="Versie opslaan"
                     isEdit
                 />

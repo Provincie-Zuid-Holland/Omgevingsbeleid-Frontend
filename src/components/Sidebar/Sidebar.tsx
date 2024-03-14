@@ -9,7 +9,7 @@ import { ModelType } from '@/config/objects/types'
 import usePermissions from '@/hooks/usePermissions'
 
 const Sidebar = () => {
-    const { canEditUser, canCreatePublicationTemplates } = usePermissions()
+    const { canEditUser, canCreatePublicationTemplate } = usePermissions()
 
     const [expanded, setExpanded] = useState(false)
 
@@ -92,7 +92,7 @@ const Sidebar = () => {
                         </>
                     )}
 
-                    {canCreatePublicationTemplates && (
+                    {canCreatePublicationTemplate && (
                         <MenuItem
                             name="Publicatietemplates"
                             path="/muteer/publicatietemplates"

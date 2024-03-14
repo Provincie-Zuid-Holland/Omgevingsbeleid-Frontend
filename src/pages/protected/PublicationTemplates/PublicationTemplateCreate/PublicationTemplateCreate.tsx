@@ -1,16 +1,29 @@
 import { Heading } from '@pzh-ui/components'
+import { useQueryClient } from '@tanstack/react-query'
+import { FormikHelpers } from 'formik'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import {
+    getPublicationTemplatesGetQueryKey,
+    usePublicationTemplatesPost,
+} from '@/api/fetchers'
+import { TemplateCreate } from '@/api/fetchers.schemas'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
+import { Model } from '@/config/objects/types'
+import model from '@/config/publicationTemplates'
 import MutateLayout from '@/templates/MutateLayout'
-
-import model from '../model'
+import handleError from '@/utils/handleError'
+import { toastNotification } from '@/utils/toastNotification'
 
 const PublicationTemplateCreate = () => {
+    const queryClient = useQueryClient()
+
     const navigate = useNavigate()
 
     const { plural, pluralCapitalize, singularCapitalize } = model.defaults
+
+    const { mutateAsync } = usePublicationTemplatesPost()
 
     /**
      * Format initialData based on object fields
@@ -29,7 +42,25 @@ const PublicationTemplateCreate = () => {
         return objectData
     }, [])
 
-    const handleSubmit = () => {}
+    const handleSubmit = (
+        payload: TemplateCreate,
+        helpers: FormikHelpers<TemplateCreate>
+    ) => {
+        mutateAsync(
+            { data: payload },
+            {
+                onSuccess: () => {
+                    queryClient.invalidateQueries({
+                        queryKey: getPublicationTemplatesGetQueryKey(),
+                        refetchType: 'all',
+                    })
+
+                    toastNotification('saved')
+                    navigate('/muteer/publicatietemplates')
+                },
+            }
+        ).catch(err => handleError<TemplateCreate>(err.response, helpers))
+    }
 
     const breadcrumbPaths = [
         { name: 'Dashboard', path: '/muteer' },
@@ -50,11 +81,10 @@ const PublicationTemplateCreate = () => {
                 </Heading>
 
                 <DynamicObjectForm
-                    model={model}
+                    model={model as Model}
                     initialData={initialData}
                     handleSubmit={handleSubmit}
                     onCancel={() => navigate(`/muteer/${plural}`)}
-                    isLoading={false}
                 />
             </div>
         </MutateLayout>

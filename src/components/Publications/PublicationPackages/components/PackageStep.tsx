@@ -2,14 +2,14 @@ import { Text } from '@pzh-ui/components'
 import { Check } from '@pzh-ui/icons'
 import classNames from 'clsx'
 
-import { usePublicationBillsBillUuidPackagesGet } from '@/api/fetchers'
-import { PublicationBillShort } from '@/api/fetchers.schemas'
+import { usePublicationPackagesGet } from '@/api/fetchers'
+import { PublicationVersionShort } from '@/api/fetchers.schemas'
 
 import { PublicationPackageProps } from '../PublicationPackages'
 import PackageStepActions from './PackageStepActions'
 
 interface PackageStepProps extends PublicationPackageProps {
-    bill: PublicationBillShort
+    version: PublicationVersionShort
     isActive?: boolean
     isSucceeded?: boolean
     isFirst?: boolean
@@ -24,7 +24,7 @@ const STEP_LABEL = {
 }
 
 const PackageStep = ({
-    bill,
+    version,
     type,
     eventType,
     isActive,
@@ -33,15 +33,12 @@ const PackageStep = ({
     isLast,
     isLoading,
 }: PackageStepProps) => {
-    const { data: pkg } = usePublicationBillsBillUuidPackagesGet(
-        bill.UUID,
-        undefined,
+    const { data: pkg } = usePublicationPackagesGet(
+        { version_uuid: version.UUID },
         {
             query: {
                 select: data =>
-                    data.results.find(
-                        pkg => pkg.Package_Event_Type === eventType
-                    ),
+                    data.results.find(pkg => pkg.Package_Type === eventType),
             },
         }
     )
@@ -80,13 +77,7 @@ const PackageStep = ({
                     <Text
                         color="text-pzh-blue-500"
                         className="whitespace-nowrap">
-                        {STEP_LABEL[type]} (
-                        {`${!bill.Is_Official ? 'interne ' : ''}${
-                            eventType === 'Publicatie' || !bill.Is_Official
-                                ? 'publicatie'
-                                : 'validatie'
-                        }`}
-                        )
+                        {STEP_LABEL[type]}
                     </Text>
                     {type === 'upload' && !isSucceeded && (
                         <Text size="s" color="text-pzh-gray-600">
@@ -96,7 +87,7 @@ const PackageStep = ({
                     )}
                 </div>
                 <PackageStepActions
-                    bill={bill}
+                    version={version}
                     publicationPackage={pkg}
                     type={type}
                     eventType={eventType}

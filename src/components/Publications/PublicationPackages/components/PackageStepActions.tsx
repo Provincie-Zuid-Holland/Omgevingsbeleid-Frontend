@@ -1,24 +1,26 @@
 import { Button, FileTrigger, Tag, Text, formatDate } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import clsx from 'clsx'
 import { useMemo, useState } from 'react'
 
 import {
-    getPublicationBillsBillUuidPackagesGetQueryKey,
-    getPublicationsPublicationUuidBillsGetQueryKey,
-    usePublicationBillsBillUuidPackagesPost,
+    getPublicationPackagesGetQueryKey,
+    getPublicationsPublicationUuidVersionsGetQueryKey,
     usePublicationPackagesPackageUuidReportPost,
+    usePublicationReportsGet,
+    usePublicationVersionsVersionUuidPackagesPost,
 } from '@/api/fetchers'
 import {
-    PublicationBillShort,
     PublicationPackage,
+    PublicationVersionShort,
 } from '@/api/fetchers.schemas'
 import { downloadFile } from '@/utils/file'
 
 import { PublicationPackageProps } from '../PublicationPackages'
 
 interface PackageStepActionsProps extends PublicationPackageProps {
-    bill: PublicationBillShort
+    version: PublicationVersionShort
     publicationPackage?: PublicationPackage
     isActive?: boolean
     isSucceeded?: boolean
@@ -37,7 +39,7 @@ const PackageStepActions = ({ type, ...props }: PackageStepActionsProps) => {
 }
 
 const CreateAction = ({
-    bill,
+    version,
     publicationPackage,
     eventType,
     isActive,
@@ -46,19 +48,18 @@ const CreateAction = ({
     const queryClient = useQueryClient()
 
     const { mutate: create, isPending } =
-        usePublicationBillsBillUuidPackagesPost({
+        usePublicationVersionsVersionUuidPackagesPost({
             mutation: {
                 onSuccess: () => {
                     queryClient.invalidateQueries({
-                        queryKey:
-                            getPublicationBillsBillUuidPackagesGetQueryKey(
-                                bill.UUID
-                            ),
+                        queryKey: getPublicationPackagesGetQueryKey({
+                            version_uuid: version.UUID,
+                        }),
                     })
                     queryClient.invalidateQueries({
                         queryKey:
-                            getPublicationsPublicationUuidBillsGetQueryKey(
-                                bill.Publication_UUID
+                            getPublicationsPublicationUuidVersionsGetQueryKey(
+                                version.Publication_UUID
                             ),
                     })
                 },
@@ -67,8 +68,8 @@ const CreateAction = ({
 
     const handleAction = () =>
         create({
-            billUuid: bill.UUID,
-            data: { Package_Event_Type: eventType },
+            versionUuid: version.UUID,
+            data: { Package_Type: eventType },
         })
 
     const date = useMemo(() => {
@@ -106,7 +107,7 @@ const CreateAction = ({
 }
 
 const DownloadAction = ({
-    bill,
+    version,
     publicationPackage,
     eventType,
     isActive,
@@ -117,7 +118,7 @@ const DownloadAction = ({
         queryKey: [
             'downloadPackage',
             publicationPackage?.UUID,
-            bill.UUID,
+            version.UUID,
             eventType,
         ],
         queryFn: async () =>
@@ -130,16 +131,16 @@ const DownloadAction = ({
     const handleAction = () =>
         download().finally(() =>
             queryClient.invalidateQueries({
-                queryKey: getPublicationBillsBillUuidPackagesGetQueryKey(
-                    bill.UUID
-                ),
+                queryKey: getPublicationPackagesGetQueryKey({
+                    version_uuid: version.UUID,
+                }),
             })
         )
 
     const date = useMemo(() => {
-        if (!!publicationPackage?.Latest_Download_Date) {
+        if (!!publicationPackage?.Zip.Latest_Download_Date) {
             return formatDate(
-                new Date(publicationPackage.Latest_Download_Date),
+                new Date(publicationPackage.Zip.Latest_Download_Date),
                 'dd-MM-yyyy'
             )
         }
@@ -147,14 +148,14 @@ const DownloadAction = ({
 
     return (
         <div className="flex items-center gap-2 whitespace-nowrap">
-            {!!publicationPackage?.Latest_Download_Date && (
+            {!!publicationPackage?.Zip.Latest_Download_Date && (
                 <Text color="text-pzh-gray-600">
                     Laatst gedownload op {date}
                 </Text>
             )}
             <Button
                 variant={
-                    !!publicationPackage?.Latest_Download_Date
+                    !!publicationPackage?.Zip.Latest_Download_Date
                         ? 'secondary'
                         : 'cta'
                 }
@@ -168,7 +169,7 @@ const DownloadAction = ({
 }
 
 const UploadAction = ({
-    bill,
+    version,
     publicationPackage,
     isActive,
     isLoading,
@@ -177,44 +178,61 @@ const UploadAction = ({
 
     const [files, setFiles] = useState<File[] | null>(null)
 
-    const { mutate, isPending } = usePublicationPackagesPackageUuidReportPost()
+    const { data: reports, queryKey } = usePublicationReportsGet(
+        {
+            package_uuid: publicationPackage?.UUID,
+            limit: 100,
+        },
+        {
+            query: {
+                enabled: !!publicationPackage?.UUID,
+            },
+        }
+    )
+
+    const { mutate, isPending } = usePublicationPackagesPackageUuidReportPost({
+        mutation: {
+            onSuccess: () => {
+                setFiles(null)
+
+                queryClient.invalidateQueries({
+                    queryKey: getPublicationPackagesGetQueryKey({
+                        version_uuid: version.UUID,
+                    }),
+                })
+                queryClient.invalidateQueries({
+                    queryKey,
+                })
+            },
+        },
+    })
 
     const handleAction = () => {
         if (!publicationPackage?.UUID || !!!files?.length) return
 
-        Promise.all(
-            files.map(file =>
-                mutate({
-                    packageUuid: publicationPackage.UUID,
-                    data: { xml_file: file },
-                })
-            )
-        ).finally(() => {
-            queryClient.invalidateQueries({
-                queryKey: getPublicationBillsBillUuidPackagesGetQueryKey(
-                    bill.UUID
-                ),
-            })
+        mutate({
+            packageUuid: publicationPackage.UUID,
+            data: { uploaded_files: files },
         })
     }
 
     const date = useMemo(() => {
-        if (!!publicationPackage?.Reports?.length) {
+        if (!!reports?.results.length) {
             return formatDate(
-                new Date(publicationPackage.Reports?.slice(-1)[0].Created_Date),
+                new Date(reports.results?.slice(-1)[0].Created_Date),
                 'dd-MM-yyyy'
             )
         }
-    }, [publicationPackage])
+    }, [reports?.results])
 
     const allFiles = useMemo(
         () =>
-            ((!!files?.length || !!publicationPackage?.Reports?.length) && [
-                ...(publicationPackage?.Reports || []),
+            ((!!files?.length || !!reports?.results.length) && [
+                ...(reports?.results || []),
                 ...(files || []),
             ]) ||
             undefined,
-        [files, publicationPackage?.Reports]
+        [files, reports?.results]
     )
 
     return (
@@ -227,7 +245,7 @@ const UploadAction = ({
                                 text={
                                     'name' in file
                                         ? file.name
-                                        : file.Report_Type || ''
+                                        : file.Filename || ''
                                 }
                                 onClick={
                                     'name' in file && !!files?.length
@@ -239,6 +257,11 @@ const UploadAction = ({
                                               )
                                         : undefined
                                 }
+                                className={clsx({
+                                    'border-pzh-red-900 bg-pzh-red-10 text-pzh-red-900':
+                                        'Report_Status' in file &&
+                                        file.Report_Status === 'Failed',
+                                })}
                             />
                         ))}
                     </div>
@@ -256,19 +279,17 @@ const UploadAction = ({
                     }}>
                     <Button
                         variant={
-                            !!files?.length ||
-                            !!publicationPackage?.Reports?.length
+                            !!files?.length || !!reports?.results.length
                                 ? 'primary'
                                 : 'cta'
                         }
                         icon={
-                            (!!files?.length ||
-                                !!publicationPackage?.Reports?.length) &&
+                            (!!files?.length || !!reports?.results.length) &&
                             Plus
                         }
                         isDisabled={!isActive || isPending || isLoading}>
                         {!!!files?.length &&
-                            !!!publicationPackage?.Reports?.length &&
+                            !!!reports?.results.length &&
                             'Selecteer bestand(en)'}
                     </Button>
                 </FileTrigger>

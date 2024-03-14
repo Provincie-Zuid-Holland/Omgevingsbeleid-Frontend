@@ -2,7 +2,8 @@ import { Button, Divider, FormikInput, FormikSelect } from '@pzh-ui/components'
 import { Form, Formik, FormikConfig, FormikValues } from 'formik'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
-import { AppExtensionsPublicationsEnumsDocumentType } from '@/api/fetchers.schemas'
+import { usePublicationTemplatesGet } from '@/api/fetchers'
+import { DocumentType } from '@/api/fetchers.schemas'
 import useModalStore from '@/store/modalStore'
 import { PUBLICATION_SCHEMA } from '@/validation/publication'
 
@@ -16,10 +17,22 @@ const PublicationForm = <TData extends FormikValues>({
 }: PublicationFormProps & FormikConfig<TData>) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const options = (
-        Object.keys(
-            AppExtensionsPublicationsEnumsDocumentType
-        ) as Array<AppExtensionsPublicationsEnumsDocumentType>
+    const { data: publicationTemplateOptions, isFetching } =
+        usePublicationTemplatesGet(
+            { limit: 100 },
+            {
+                query: {
+                    select: data =>
+                        data.results.map(template => ({
+                            label: template.Title,
+                            value: template.UUID,
+                        })),
+                },
+            }
+        )
+
+    const documentTypeOptions = (
+        Object.keys(DocumentType) as Array<DocumentType>
     ).map(type => ({ label: type, value: type }))
 
     return (
@@ -34,31 +47,31 @@ const PublicationForm = <TData extends FormikValues>({
                             <FormikSelect
                                 name="Document_Type"
                                 label="Instrument"
-                                options={options}
+                                options={documentTypeOptions}
                                 disabled
                                 required
                             />
                         </div>
                         <div>
-                            <FormikInput
-                                name="Official_Title"
-                                label="Officiële titel"
-                                placeholder="Vul de officiële titel in"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <FormikInput
-                                name="Regulation_Title"
-                                label="Regeling opschrift"
-                                placeholder="Regeling opschrift"
-                                required
-                            />
-                        </div>
-                        <div>
                             <FormikSelect
-                                name="Template_ID"
+                                key={String(
+                                    publicationTemplateOptions?.length +
+                                        isFetching.toString()
+                                )}
+                                name="Template_UUID"
                                 label="Publicatie template"
+                                options={publicationTemplateOptions}
+                                placeholder="Selecteer een publicatie template"
+                                isLoading={isFetching}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <FormikInput
+                                name="Title"
+                                label="Interne titel"
+                                placeholder="Bijvoorbeeld: Omgevingsvisie Herziening 2024"
+                                required
                             />
                         </div>
                     </div>

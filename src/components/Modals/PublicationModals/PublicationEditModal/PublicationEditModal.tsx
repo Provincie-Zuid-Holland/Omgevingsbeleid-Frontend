@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import {
     getPublicationsGetQueryKey,
     usePublicationsPublicationUuidGet,
-    usePublicationsPublicationUuidPatch,
+    usePublicationsPublicationUuidPost,
 } from '@/api/fetchers'
 import { PublicationEdit } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
@@ -30,12 +30,12 @@ const PublicationEditModal = () => {
         }
     )
 
-    const { mutate } = usePublicationsPublicationUuidPatch({
+    const { mutate } = usePublicationsPublicationUuidPost({
         mutation: {
-            onSuccess: data => {
+            onSuccess: () => {
                 queryClient.invalidateQueries({
                     queryKey: getPublicationsGetQueryKey({
-                        document_type: data.Document_Type,
+                        document_type: modalState.publication.Document_Type,
                     }),
                 })
 

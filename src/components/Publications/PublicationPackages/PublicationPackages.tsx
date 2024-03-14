@@ -2,32 +2,41 @@ import { Notification, Text, formatDate } from '@pzh-ui/components'
 import { useMemo } from 'react'
 
 import {
-    usePublicationBillsBillUuidPackagesGet,
-    usePublicationsPublicationUuidBillsBillUuidGet,
+    usePublicationEnvironmentsGet,
+    usePublicationPackagesGet,
+    usePublicationVersionsVersionUuidGet,
 } from '@/api/fetchers'
-import { PackageEventType, PublicationBillShort } from '@/api/fetchers.schemas'
+import { PackageType, PublicationVersionShort } from '@/api/fetchers.schemas'
 
 import { PackageStep } from './components'
 
 export interface PublicationPackageProps {
     type: 'create' | 'download' | 'upload'
-    eventType: PackageEventType
+    eventType: PackageType
 }
 
-const PublicationPackages = (bill: PublicationBillShort) => {
-    const { data } = usePublicationsPublicationUuidBillsBillUuidGet(
-        bill.Publication_UUID,
-        bill.UUID
-    )
+const PublicationPackages = (version: PublicationVersionShort) => {
+    const { data } = usePublicationVersionsVersionUuidGet(version.UUID)
 
-    const { data: packages } = usePublicationBillsBillUuidPackagesGet(bill.UUID)
+    const { data: packages } = usePublicationPackagesGet({
+        version_uuid: version.UUID,
+    })
+
+    const { data: environment } = usePublicationEnvironmentsGet(undefined, {
+        query: {
+            select: data =>
+                data.results.find(
+                    environment => environment.UUID === version.Environment_UUID
+                ),
+        },
+    })
 
     const { validationPackage, publicationPackage } = useMemo(() => {
         const validationPackage = packages?.results.find(
-            pkg => pkg.Package_Event_Type === 'Validatie'
+            pkg => pkg.Package_Type === 'Validatie'
         )
         const publicationPackage = packages?.results.find(
-            pkg => pkg.Package_Event_Type === 'Publicatie'
+            pkg => pkg.Package_Type === 'Publicatie'
         )
 
         return { validationPackage, publicationPackage }
@@ -45,56 +54,64 @@ const PublicationPackages = (bill: PublicationBillShort) => {
         return { announcementDate, effectiveDate }
     }, [data])
 
+    const isOfficial = useMemo(
+        () => environment?.Can_Publicate,
+        [environment?.Can_Publicate]
+    )
+
     return (
         <>
-            {!!!packages?.results.length && (
+            {!data?.Is_Valid && !!!validationPackage && (
                 <Notification
+                    title="De levering kan niet worden gemaakt omdat nog niet alle verplichte velden van de versie zijn ingevuld."
                     variant="warning"
-                    title="Let op! Een versie kan niet worden bewerkt of verwijderd
-                    nadat je op ‘Maak levering’ hebt geklikt."
                 />
             )}
 
             <div>
                 <Text size="m" bold color="text-pzh-blue-500">
-                    {bill.Is_Official ? 'Validatie' : 'Publicatie'}
+                    {isOfficial ? 'Validatie' : 'Publicatie'}
                 </Text>
                 <PackageStep
-                    bill={bill}
+                    version={version}
                     type="create"
                     eventType="Validatie"
-                    isActive={!!!validationPackage}
+                    isActive={!!!validationPackage && data?.Is_Valid}
                     isSucceeded={!!validationPackage}
                     isFirst
                 />
                 <PackageStep
-                    bill={bill}
+                    version={version}
                     type="download"
                     eventType="Validatie"
                     isActive={!!validationPackage}
-                    isLast={!bill.Is_Official}
-                    isSucceeded={!!validationPackage?.Latest_Download_Date}
+                    isLast={!isOfficial}
+                    isSucceeded={!!validationPackage?.Zip.Latest_Download_Date}
                 />
-                {bill.Is_Official && (
+                {isOfficial && (
                     <PackageStep
-                        bill={bill}
+                        version={version}
                         type="upload"
                         eventType="Validatie"
-                        isActive={!!validationPackage?.Latest_Download_Date}
+                        isActive={!!validationPackage?.Zip.Latest_Download_Date}
                         isSucceeded={
-                            validationPackage?.Validation_Status === 'Valid'
+                            validationPackage?.Report_Status === 'Valid'
                         }
                         isLast
-                        isLoading={
-                            validationPackage?.Validation_Status ===
-                                'Pending' && !!validationPackage.Reports?.length
-                        }
                     />
                 )}
             </div>
 
-            {bill.Is_Official &&
-                validationPackage?.Validation_Status === 'Valid' &&
+            {isOfficial && !data?.Is_Valid && !!validationPackage && (
+                <Notification
+                    title="De levering kan niet worden gemaakt omdat nog niet alle verplichte velden van de versie zijn ingevuld."
+                    variant="warning"
+                    className="my-6"
+                />
+            )}
+
+            {isOfficial &&
+                validationPackage?.Report_Status === 'Valid' &&
                 !!!publicationPackage && (
                     <Notification
                         variant="positive"
@@ -103,55 +120,74 @@ const PublicationPackages = (bill: PublicationBillShort) => {
                     />
                 )}
 
-            {bill.Is_Official && (
-                <div>
-                    <Text size="m" bold color="text-pzh-blue-500">
-                        Publicatie
-                    </Text>
-                    <PackageStep
-                        bill={bill}
-                        type="create"
-                        eventType="Publicatie"
-                        isActive={
-                            validationPackage?.Validation_Status === 'Valid'
-                        }
-                        isSucceeded={!!publicationPackage}
-                        isFirst
-                    />
-                    <PackageStep
-                        bill={bill}
-                        type="download"
-                        eventType="Publicatie"
-                        isActive={!!publicationPackage}
-                        isLast={!bill.Is_Official}
-                        isSucceeded={!!publicationPackage?.Latest_Download_Date}
-                    />
-                    <PackageStep
-                        bill={bill}
-                        type="upload"
-                        eventType="Publicatie"
-                        isActive={!!publicationPackage?.Latest_Download_Date}
-                        isSucceeded={
-                            publicationPackage?.Validation_Status === 'Valid'
-                        }
-                        isLast
-                        isLoading={
-                            publicationPackage?.Validation_Status ===
-                                'Pending' &&
-                            !!publicationPackage.Reports?.length
-                        }
-                    />
-                </div>
-            )}
-
-            {bill.Is_Official &&
-                publicationPackage?.Validation_Status === 'Valid' && (
+            {isOfficial &&
+                validationPackage?.Report_Status === 'Failed' &&
+                !!!publicationPackage && (
                     <Notification
-                        variant="positive"
-                        title={`Publicatie gelukt. Wordt bekend gemaakt op ${announcementDate}, treedt in werking op ${effectiveDate}.`}
+                        variant="negative"
+                        title="Validatie niet goedgekeurd. Publicatie is niet mogelijk, maak een nieuwe versie aan en probeer het opnieuw."
                         className="my-6"
                     />
                 )}
+
+            {isOfficial && (
+                <>
+                    {validationPackage?.Report_Status === 'Valid' &&
+                        !data?.Is_Valid && (
+                            <Notification
+                                variant="warning"
+                                title="De levering kan niet worden gemaakt omdat nog niet alle verplichte velden van de versie zijn ingevuld."
+                            />
+                        )}
+
+                    <div>
+                        <Text size="m" bold color="text-pzh-blue-500">
+                            Publicatie
+                        </Text>
+                        <PackageStep
+                            version={version}
+                            type="create"
+                            eventType="Publicatie"
+                            isActive={
+                                validationPackage?.Report_Status === 'Valid' &&
+                                data?.Is_Valid
+                            }
+                            isSucceeded={!!publicationPackage}
+                            isFirst
+                        />
+                        <PackageStep
+                            version={version}
+                            type="download"
+                            eventType="Publicatie"
+                            isActive={!!publicationPackage}
+                            isLast={!isOfficial}
+                            isSucceeded={
+                                !!publicationPackage?.Zip.Latest_Download_Date
+                            }
+                        />
+                        <PackageStep
+                            version={version}
+                            type="upload"
+                            eventType="Publicatie"
+                            isActive={
+                                !!publicationPackage?.Zip.Latest_Download_Date
+                            }
+                            isSucceeded={
+                                publicationPackage?.Report_Status === 'Valid'
+                            }
+                            isLast
+                        />
+                    </div>
+                </>
+            )}
+
+            {isOfficial && publicationPackage?.Report_Status === 'Valid' && (
+                <Notification
+                    variant="positive"
+                    title={`Publicatie gelukt. Wordt bekend gemaakt op ${announcementDate}, treedt in werking op ${effectiveDate}.`}
+                    className="my-6"
+                />
+            )}
         </>
     )
 }

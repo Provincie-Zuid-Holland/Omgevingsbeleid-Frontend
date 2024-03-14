@@ -1513,6 +1513,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.23.7":
+  version: 7.24.0
+  resolution: "@babel/runtime@npm:7.24.0"
+  dependencies:
+    regenerator-runtime: "npm:^0.14.0"
+  checksum: 8d32c7e116606ea322b89f9fde8ffae6be9503b549dc0d0abb38bd9dc26e87469b9fb7a66964cc089ee558fd0a97d304fb0a3cfec140694764fb0d71b6a6f5e4
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.22.15, @babel/template@npm:^7.23.9":
   version: 7.23.9
   resolution: "@babel/template@npm:7.23.9"
@@ -2495,9 +2504,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.478":
-  version: 0.0.478
-  resolution: "@pzh-ui/components@npm:0.0.478"
+"@pzh-ui/components@npm:^0.0.487":
+  version: 0.0.487
+  resolution: "@pzh-ui/components@npm:0.0.487"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
@@ -2544,11 +2553,11 @@ __metadata:
     react-dropzone: "npm:^14.2.3"
     react-paginate: "npm:^8.2.0"
     react-router-dom: "npm:^6.22.2"
-    react-select: "npm:^5.7.3"
+    react-select: "npm:^5.8.0"
     react-stately: "npm:^3.30.1"
     react-table: "npm:^7.8.0"
     react-toastify: "npm:^9.1.2"
-  checksum: 904676a45fd6e16b81748a9554c2e716df0d9361fc007c1a9d7bf51623c247761e6bf641d7b5d1bb4cc30c904e0c705be6dd7cfeba72eb142cfd5d63b0651173
+  checksum: b39158307edbbbb0d69d367b0d12704ce897098ea115e0ed9c40f2bcb1a4d453fdb46de766c37044ce839c25c6806edd07a36d6603046f8832d8c7405cab4be0
   languageName: node
   linkType: hard
 
@@ -12497,7 +12506,7 @@ __metadata:
     "@axe-core/react": "npm:^4.8.2"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-    "@pzh-ui/components": "npm:^0.0.478"
+    "@pzh-ui/components": "npm:^0.0.487"
     "@pzh-ui/config": "npm:^0.0.56"
     "@pzh-ui/css": "npm:^0.0.81"
     "@pzh-ui/icons": "npm:^0.0.50"
@@ -12558,6 +12567,7 @@ __metadata:
     react-router-dom: "npm:^6.22.2"
     rollup-plugin-visualizer: "npm:^5.11.0"
     sass: "npm:^1.63.6"
+    tailwind-merge: "npm:^2.2.1"
     tailwindcss: "npm:^3.4.1"
     typescript: "npm:^5.3.3"
     uuid: "npm:^9.0.1"
@@ -12876,7 +12886,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-select@npm:^5.7.3":
+"react-select@npm:^5.8.0":
   version: 5.8.0
   resolution: "react-select@npm:5.8.0"
   dependencies:
@@ -14182,6 +14192,15 @@ __metadata:
   version: 6.2.0
   resolution: "tabbable@npm:6.2.0"
   checksum: 980fa73476026e99dcacfc0d6e000d41d42c8e670faf4682496d30c625495e412c4369694f2a15cf1e5252d22de3c396f2b62edbe8d60b5dadc40d09e3f2dde3
+  languageName: node
+  linkType: hard
+
+"tailwind-merge@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "tailwind-merge@npm:2.2.1"
+  dependencies:
+    "@babel/runtime": "npm:^7.23.7"
+  checksum: 3d8aecfa03c077472a038f25e95504ca47c1e7549ab843a854a690509098caac4e2e57790a7cadda4054fd07ec31421980a7afac33547013cf22299788625e72
   languageName: node
   linkType: hard
 
