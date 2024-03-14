@@ -188,6 +188,14 @@ const PublicationPackages = (version: PublicationVersionShort) => {
                     className="my-6"
                 />
             )}
+
+            {isOfficial && publicationPackage?.Report_Status === 'Failed' && (
+                <Notification
+                    variant="negative"
+                    title="Publicatie niet gelukt. Maak een nieuwe versie aan en probeer het opnieuw."
+                    className="my-6"
+                />
+            )}
         </>
     )
 }
