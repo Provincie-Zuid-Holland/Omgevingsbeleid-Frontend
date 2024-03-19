@@ -197,7 +197,7 @@ const UploadAction = ({
 
     const { mutate, isPending } = usePublicationPackagesPackageUuidReportPost({
         mutation: {
-            onSuccess: () => {
+            onSuccess: data => {
                 setFiles(null)
 
                 queryClient.invalidateQueries({
@@ -208,6 +208,15 @@ const UploadAction = ({
                 queryClient.invalidateQueries({
                     queryKey,
                 })
+
+                if (data.Status === 'Valid') {
+                    queryClient.invalidateQueries({
+                        queryKey:
+                            getPublicationsPublicationUuidVersionsGetQueryKey(
+                                version.Publication_UUID
+                            ),
+                    })
+                }
             },
         },
     })
