@@ -39,13 +39,13 @@ export type PublicationsGetParams = {
 }
 
 export type PublicationEnvironmentsGetParams = {
-    only_active?: boolean
+    is_active?: boolean
     offset?: number
     limit?: number
 }
 
 export type PublicationTemplatesGetParams = {
-    only_active?: boolean
+    is_active?: boolean
     offset?: number
     limit?: number
 }

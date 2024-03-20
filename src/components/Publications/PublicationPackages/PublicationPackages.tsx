@@ -7,6 +7,7 @@ import {
     usePublicationVersionsVersionUuidGet,
 } from '@/api/fetchers'
 import { PackageType, PublicationVersionShort } from '@/api/fetchers.schemas'
+import { LoaderSpinner } from '@/components/Loader'
 
 import { PackageStep, PackageStepActions } from './components'
 
@@ -25,7 +26,7 @@ const PublicationPackages = ({
 }: PublicationPackagesProps) => {
     const { data } = usePublicationVersionsVersionUuidGet(version.UUID)
 
-    const { data: packages } = usePublicationPackagesGet({
+    const { data: packages, isPending } = usePublicationPackagesGet({
         version_uuid: version.UUID,
     })
 
@@ -69,6 +70,14 @@ const PublicationPackages = ({
         () => environment?.Can_Publicate,
         [environment?.Can_Publicate]
     )
+
+    if (isPending) {
+        return (
+            <div className="my-10 flex justify-center">
+                <LoaderSpinner />
+            </div>
+        )
+    }
 
     if (isAbort) {
         return (
