@@ -6,6 +6,7 @@ import { useMemo, useState } from 'react'
 
 import {
     getPublicationPackagesGetQueryKey,
+    getPublicationPackagesPackageUuidDownloadGetQueryKey,
     getPublicationsPublicationUuidVersionsGetQueryKey,
     usePublicationPackagesPackageUuidReportPost,
     usePublicationReportsGet,
@@ -128,7 +129,9 @@ const DownloadAction = ({
         ],
         queryFn: async () =>
             downloadFile(
-                `publication-packages/${publicationPackage?.UUID}/download`
+                getPublicationPackagesPackageUuidDownloadGetQueryKey(
+                    publicationPackage?.UUID || ''
+                )[0]
             ),
         enabled: false,
     })

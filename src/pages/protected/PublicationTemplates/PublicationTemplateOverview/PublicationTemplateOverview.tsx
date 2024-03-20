@@ -87,7 +87,7 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
         {
             limit: PAGE_LIMIT,
             offset: (pageIndex - 1) * PAGE_LIMIT,
-            only_active: activeTab === 'active',
+            is_active: activeTab === 'active',
         },
         {
             query: {
