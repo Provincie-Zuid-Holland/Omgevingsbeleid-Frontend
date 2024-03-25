@@ -183,13 +183,11 @@ const VersionRow = ({
                         <div className="ml-auto">
                             <Button
                                 size="small"
-                                variant="secondary"
                                 icon={FileWord}
                                 iconSize={16}
                                 onPress={() => download()}
                                 isLoading={isFetching}
-                                // Disable Word export untill endpoint is fixed
-                                isDisabled // ={isFetching}
+                                isDisabled={isFetching}
                                 aria-label="Download Word export"
                             />
                         </div>

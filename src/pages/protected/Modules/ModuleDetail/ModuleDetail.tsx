@@ -255,11 +255,9 @@ const TabDecisions = () => {
                 <Notification title="Werking versies" className="mb-6">
                     Voor elke (interne en officiële) publicatie moet een nieuwe
                     versie van een besluit worden aangemaakt. Een besluit is te
-                    bewerken tot het moment dat er op ‘Maak levering’ wordt
-                    geklikt. Iets niet goed gedaan? Maak dan een nieuwe versie
-                    aan. Standaard worden de gegevens overgenomen van de vorige
-                    versie, maar deze zijn uiteraard aan te passen. Voor alle
-                    leveringen zie leveringen.
+                    bewerken tot het moment dat er een officiële publicatie is
+                    gedaan. Validatie of publicatie niet gelukt? Bewerk dan de
+                    versie en maak een nieuwe levering aan.
                 </Notification>
 
                 {documentTypes.map((type, index) => (
