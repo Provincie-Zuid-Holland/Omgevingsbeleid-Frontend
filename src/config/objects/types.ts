@@ -22,6 +22,7 @@ import {
     VisieAlgemeenFull,
     VisieAlgemeenPatch,
     VisieAlgemeenStaticPostStatics,
+    WerkingsgebiedFull,
     WerkingsgebiedPatch,
     WerkingsgebiedStaticPostStatics,
     WettelijkeTaakFull,
@@ -110,7 +111,8 @@ export type ModelReturnType = BeleidsdoelFull &
     GebiedsprogrammaFull &
     NationaalBelangFull &
     WettelijkeTaakFull &
-    VisieAlgemeenFull
+    VisieAlgemeenFull &
+    WerkingsgebiedFull
 
 export type ModelPatchType = BeleidsdoelPatch &
     AmbitiePatch &
