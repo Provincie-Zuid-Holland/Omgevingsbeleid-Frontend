@@ -15,6 +15,7 @@ import {
     Module,
     ModuleAddExistingObject,
     ModuleAddNewObject,
+    ModuleObjectShort,
     SearchObject,
 } from '@/api/fetchers.schemas'
 import Modal from '@/components/Modal'
@@ -31,6 +32,7 @@ export type ContentsModalForm = (
     | ModuleAddExistingObject
 ) & {
     state?: 'new' | 'existing'
+    validOrModule?: 'valid' | number
 }
 
 interface ModuleContentsModalProps {
@@ -53,7 +55,7 @@ const ModuleContentsModal = ({
 
     const [step, setStep] = useState(initialStep)
     const [existingObject, setExistingObject] = useState<
-        SearchObject | undefined
+        SearchObject | ModuleObjectShort | undefined
     >(selectedObject)
 
     const CurrentStep = steps[step - 1]
