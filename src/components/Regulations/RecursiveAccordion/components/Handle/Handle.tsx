@@ -50,7 +50,7 @@ const Handle = ({
                 {isDraggable && expanded && (
                     <GripDotsVertical
                         size={16}
-                        className="cursor-grab text-pzh-blue transition"
+                        className="cursor-grab text-pzh-blue-500 transition"
                     />
                 )}
                 <Button
@@ -60,8 +60,8 @@ const Handle = ({
                         GROUP_VARIANTS[type][1],
                         {
                             'cursor-pointer': !expanded,
-                            'bg-pzh-blue': activeItem === uuid,
-                            'bg-pzh-warm-gray-light': activeItem !== uuid,
+                            'bg-pzh-blue-500': activeItem === uuid,
+                            'bg-pzh-warm-gray-100': activeItem !== uuid,
                         }
                     )}
                     isDisabled={expanded}
@@ -86,7 +86,7 @@ const Handle = ({
                         'opacity-100': expanded,
                         'opacity-0': !expanded,
                     })}
-                    color="text-pzh-blue">
+                    color="text-pzh-blue-500">
                     {section.defaults.singularCapitalize} {index}: {title}
                 </Text>
             </div>
@@ -95,13 +95,13 @@ const Handle = ({
                     variant="default"
                     onPress={handleDelete}
                     isDisabled={!expanded}>
-                    <TrashCan size={16} color="text-pzh-blue" />
+                    <TrashCan size={16} color="text-pzh-blue-500" />
                 </Button>
                 <Button
                     variant="default"
                     onPress={handleEdit}
                     isDisabled={!expanded}>
-                    <PenToSquare size={16} color="text-pzh-blue" />
+                    <PenToSquare size={16} color="text-pzh-blue-500" />
                 </Button>
             </div>
         </div>

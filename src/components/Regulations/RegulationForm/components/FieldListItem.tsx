@@ -14,14 +14,14 @@ const FieldListItem = ({
 }: FieldInputProps & RegulationFieldProps) => (
     <div
         className={classNames('flex items-center gap-4', {
-            'active:animate-pulse active:cursor-grabbing active:bg-pzh-blue-light/10':
+            'active:animate-pulse active:cursor-grabbing active:bg-pzh-blue-100/10':
                 isDraggable,
         })}
         {...dragOptions}>
         {isDraggable && (
             <GripDotsVertical
                 size={16}
-                className="-mt-1 w-2 cursor-grab text-pzh-blue transition"
+                className="-mt-1 w-2 cursor-grab text-pzh-blue-500 transition"
             />
         )}
         <Text
@@ -38,10 +38,10 @@ const FieldListItem = ({
             <FormikInput name={`${name}.item`} {...props} />
         </div>
         <button
-            className="text-s text-pzh-green underline"
+            className="text-s text-pzh-green-500 underline"
             onClick={handleRemove}
             type="button">
-            <Xmark className="text-pzh-blue-dark" size={16} />
+            <Xmark className="text-pzh-blue-900" size={16} />
         </button>
     </div>
 )

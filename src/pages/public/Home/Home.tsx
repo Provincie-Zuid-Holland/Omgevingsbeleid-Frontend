@@ -86,7 +86,7 @@ const Home = () => (
             <SearchSection />
         </Container>
 
-        <div className="bg-pzh-blue">
+        <div className="bg-pzh-blue-500">
             <Container className="py-12">
                 <div className="col-span-6">
                     <Heading level="2" color="text-white">
@@ -173,13 +173,13 @@ const Home = () => (
                     <Text className="mt-4">
                         In het{' '}
                         <Link
-                            className="text-pzh-green underline hover:text-pzh-green-dark"
+                            className="text-pzh-green-500 underline hover:text-pzh-green-900"
                             to="omgevingsprogramma">
                             Omgevingsprogramma
                         </Link>{' '}
                         staat beschreven welke{' '}
                         <Link
-                            className="text-pzh-green underline hover:text-pzh-green-dark"
+                            className="text-pzh-green-500 underline hover:text-pzh-green-900"
                             to="omgevingsprogramma/maatregelen">
                             maatregelen
                         </Link>{' '}
@@ -221,7 +221,7 @@ const Home = () => (
                         Al deze regels van de provincie over de fysieke
                         leefomgeving zijn ondergebracht in de{' '}
                         <a
-                            className="text-pzh-green underline hover:text-pzh-green-dark"
+                            className="text-pzh-green-500 underline hover:text-pzh-green-900"
                             href="https://www.zuid-holland.nl/onderwerpen/omgevingsbeleid/zuid-hollandse-omgevingsverordening/"
                             rel="noopener noreferrer"
                             target="_blank">

@@ -64,7 +64,7 @@ function ThemeDetail() {
                 <div data-section="Inhoud">
                     {data?.Description && (
                         <Text
-                            className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0"
+                            className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0"
                             dangerouslySetInnerHTML={{
                                 __html: data.Description,
                             }}
@@ -113,7 +113,7 @@ const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
                                 key={item.Object.UUID}
                                 text={item.Object.Title || ''}
                                 to={`/${slugOverview}/${plural}/${item.Object.UUID}`}
-                                className="text-pzh-green hover:text-pzh-blue"
+                                className="text-pzh-green-500 hover:text-pzh-blue-500"
                             />
                         )
                     })}

@@ -51,7 +51,7 @@ const Sidebar = () => {
                 <Button
                     variant="default"
                     onPress={toggleSidebar}
-                    className="absolute -right-3 top-8 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-pzh-blue-dark">
+                    className="absolute -right-3 top-8 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-pzh-blue-900">
                     <span className="sr-only">{`Zijbalk ${
                         expanded ? 'sluiten' : 'openen'
                     }`}</span>

@@ -18,7 +18,7 @@ const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
 
     return (
         <div data-testid="module-timeline" className="mt-6 sm:mt-0">
-            <Text bold color="text-pzh-blue">
+            <Text bold color="text-pzh-blue-500">
                 Tijdlijn
             </Text>
 
@@ -40,9 +40,9 @@ const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
                                     'dd-MM-yyyy'
                                 )}
                             </span>
-                            <div className="relative mx-2 h-[13px] w-[13px] rounded-full border-2 border-pzh-blue">
+                            <div className="relative mx-2 h-[13px] w-[13px] rounded-full border-2 border-pzh-blue-500">
                                 {hasPeer && (
-                                    <div className="absolute left-1 top-[11px] h-8 w-px bg-pzh-blue" />
+                                    <div className="absolute left-1 top-[11px] h-8 w-px bg-pzh-blue-500" />
                                 )}
                             </div>
 

@@ -86,7 +86,7 @@ const ObjectSidebar = ({
                             <LoaderCard height="30" mb="" className="w-28" />
                         ) : !!revisions && revisions > 0 ? (
                             <button
-                                className="text-pzh-green underline"
+                                className="text-pzh-green-500 underline"
                                 onClick={handleModal}>
                                 Bekijk {revisions}{' '}
                                 {revisions === 1 ? 'revisie' : 'revisies'}
@@ -110,7 +110,7 @@ const ObjectSidebar = ({
 
             {!!user && (
                 <div>
-                    <Text size="s" className="mb-3 italic text-pzh-blue-dark">
+                    <Text size="s" className="mb-3 italic text-pzh-blue-900">
                         Onderstaande informatie is alleen inzichtelijk voor
                         gebruikers die zijn ingelogd
                     </Text>

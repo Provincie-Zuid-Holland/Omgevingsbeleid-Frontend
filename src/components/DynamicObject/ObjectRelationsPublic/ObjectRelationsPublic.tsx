@@ -11,10 +11,10 @@ interface ObjectRelationsPublicProps {
 
 const ObjectRelationsPublic = ({ model, data }: ObjectRelationsPublicProps) => (
     <div data-section="Koppelingen & Relaties">
-        <Heading level="2" className="mb-4 text-pzh-blue">
+        <Heading level="2" className="mb-4 text-pzh-blue-500">
             Koppelingen & Relaties
         </Heading>
-        <Text className="first-letter:capitalize mb-4">
+        <Text className="mb-4 first-letter:capitalize">
             {model.connectionsDescription}
         </Text>
 

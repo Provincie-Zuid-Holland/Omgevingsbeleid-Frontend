@@ -140,7 +140,7 @@ const SearchResults = () => {
         <>
             <Helmet title="Zoekresultaten" />
 
-            <div className="bg-pzh-blue">
+            <div className="bg-pzh-blue-500">
                 <Container className="h-24 items-center">
                     <div className="col-span-2">
                         <Heading
@@ -174,7 +174,7 @@ const SearchResults = () => {
                                 className={classNames({
                                     'mb-6': index + 1 !== filters.length,
                                 })}>
-                                <Text bold className="mb-3 text-pzh-blue">
+                                <Text bold className="mb-3 text-pzh-blue-500">
                                     {filter.label}
                                 </Text>
 

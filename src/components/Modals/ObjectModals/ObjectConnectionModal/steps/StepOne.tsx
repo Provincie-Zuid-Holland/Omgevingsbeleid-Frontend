@@ -120,7 +120,10 @@ const Connection = ({
                                 setStep(3)
                             }}
                             aria-label="Wijzigen">
-                            <PenToSquare size={16} className="text-pzh-green" />
+                            <PenToSquare
+                                size={16}
+                                className="text-pzh-green-500"
+                            />
                         </button>
                     )}
                     <button
@@ -132,7 +135,7 @@ const Connection = ({
                             setStep(4)
                         }}
                         aria-label="Verwijderen">
-                        <TrashCan size={16} className="text-pzh-red" />
+                        <TrashCan size={16} className="text-pzh-red-500" />
                     </button>
                 </div>
             </div>

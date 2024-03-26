@@ -56,7 +56,7 @@ const ObjectRevision = ({
 
             <h2
                 className={classNames(
-                    'mb-4 text-pzh-blue',
+                    'mb-4 text-pzh-blue-500',
                     getHeadingStyles('l')
                 )}
                 dangerouslySetInnerHTML={{ __html: titleDiff }}
@@ -121,15 +121,15 @@ const ObjectRevision = ({
                     </div>
                     <div className="mt-3">
                         <span className="flex items-center">
-                            <div className="-mt-1 mr-2 h-[14px] w-[14px] rounded-full bg-pzh-red" />{' '}
+                            <div className="-mt-1 mr-2 h-[14px] w-[14px] rounded-full bg-pzh-red-500" />{' '}
                             Verwijderd werkingsgebied
                         </span>
                         <span className="flex items-center">
-                            <div className="-mt-1 mr-2 h-[14px] w-[14px] rounded-full bg-pzh-green" />{' '}
+                            <div className="-mt-1 mr-2 h-[14px] w-[14px] rounded-full bg-pzh-green-500" />{' '}
                             Toegevoegd werkingsgebied
                         </span>
                         <span className="flex items-center">
-                            <div className="-mt-1 mr-2 h-[14px] w-[14px] rounded-full bg-pzh-blue-light" />{' '}
+                            <div className="-mt-1 mr-2 h-[14px] w-[14px] rounded-full bg-pzh-blue-100" />{' '}
                             Ongewijzigd werkingsgebied
                         </span>
                     </div>
@@ -165,7 +165,7 @@ const Content = ({
                 {customTitle?.[value] || title}
             </Text>
             <p
-                className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0 md:mb-8"
+                className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 md:mb-8"
                 dangerouslySetInnerHTML={{ __html: diff }}
             />
         </>

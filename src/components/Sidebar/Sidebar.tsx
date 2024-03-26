@@ -55,7 +55,7 @@ const Sidebar = () => {
                         onClick={() => window.clearTimeout(timer)}
                     />
 
-                    <div className="h-px w-full bg-pzh-blue" />
+                    <div className="h-px w-full bg-pzh-blue-500" />
 
                     {Object.keys(models).map(key => {
                         const model = models[key as ModelType]
@@ -79,7 +79,7 @@ const Sidebar = () => {
 
                     {canEditUser && (
                         <>
-                            <div className="h-px w-full bg-pzh-blue" />
+                            <div className="h-px w-full bg-pzh-blue-500" />
                             <MenuItem
                                 name="Gebruikers"
                                 path="/muteer/gebruikers"
@@ -133,9 +133,9 @@ const MenuItem = ({
         <Link
             to={path}
             className={classNames(
-                'group flex h-10 items-center rounded hover:text-pzh-green',
+                'group flex h-10 items-center rounded hover:text-pzh-green-500',
                 {
-                    'bg-pzh-gray-200 text-pzh-green':
+                    'bg-pzh-gray-200 text-pzh-green-500':
                         path === pathname ||
                         (path !== '/muteer' && pathname.startsWith(path)),
                     'w-10': !expanded,
@@ -155,10 +155,10 @@ const MenuItem = ({
             />
             <Text
                 className={classNames(
-                    '-mb-0.5 ml-2 group-hover:text-pzh-green',
+                    '-mb-0.5 ml-2 group-hover:text-pzh-green-500',
                     {
                         'opacity-0': !expanded,
-                        'text-pzh-green': path === pathname,
+                        'text-pzh-green-500': path === pathname,
                     }
                 )}>
                 {name}

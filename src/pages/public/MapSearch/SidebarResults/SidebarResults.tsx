@@ -233,7 +233,7 @@ const SidebarResults = () => {
                             Resultaten
                         </Heading>
                         {!isLoading && !geoLoading ? (
-                            <span className="block text-s text-pzh-blue-dark text-opacity-50">
+                            <span className="block text-s text-pzh-blue-900 text-opacity-50">
                                 {!data?.total
                                     ? 'Er zijn geen resultaten'
                                     : data.total === 1

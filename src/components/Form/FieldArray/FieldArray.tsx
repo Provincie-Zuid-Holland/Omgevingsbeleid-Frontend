@@ -79,7 +79,7 @@ const FieldArray = ({
                                                     )
                                                 }>
                                                 <Xmark
-                                                    className="text-pzh-blue-dark"
+                                                    className="text-pzh-blue-900"
                                                     size={16}
                                                 />
                                             </Button>

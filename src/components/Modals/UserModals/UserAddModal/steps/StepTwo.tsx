@@ -21,7 +21,7 @@ export const StepTwo = ({ createdUser }: StepProps) => {
                 <br />
                 <a
                     href={`mailto:${createdUser?.Email}?subject=${mailTo.subject}&body=${mailTo.body}`}
-                    className="text-pzh-green underline hover:text-pzh-green-dark">
+                    className="text-pzh-green-500 underline hover:text-pzh-green-900">
                     E-mail naar {createdUser?.Email}
                 </a>
             </Text>

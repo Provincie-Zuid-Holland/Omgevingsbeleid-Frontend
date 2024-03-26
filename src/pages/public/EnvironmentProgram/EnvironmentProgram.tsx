@@ -13,7 +13,7 @@ function EnvironmentProgram() {
     return (
         <div>
             <div
-                className="hidden h-[288px] w-full bg-pzh-blue bg-cover bg-center bg-no-repeat md:block"
+                className="hidden h-[288px] w-full bg-pzh-blue-500 bg-cover bg-center bg-no-repeat md:block"
                 style={{
                     backgroundImage: `url(${imgEnvironmentProgram})`,
                 }}
@@ -50,7 +50,7 @@ function EnvironmentProgram() {
                         het Beheerplan Natura 2000 en het Actieplan geluid.
                     </Text>
                     <Link
-                        className="mt-3 block text-pzh-green underline hover:text-pzh-green-dark"
+                        className="mt-3 block text-pzh-green-500 underline hover:text-pzh-green-900"
                         to="/omgevingsprogramma/verplichte-programmas">
                         Bekijk de verplichte programma’s
                     </Link>
@@ -64,7 +64,7 @@ function EnvironmentProgram() {
                         beleidsdoelen vindt u hier.
                     </Text>
                     <Link
-                        className="mt-3 block text-pzh-green underline hover:text-pzh-green-dark"
+                        className="mt-3 block text-pzh-green-500 underline hover:text-pzh-green-900"
                         to="/omgevingsprogramma/thematische-programmas">
                         Bekijk de thematische programma’s
                     </Link>
@@ -78,7 +78,7 @@ function EnvironmentProgram() {
                         gebieden (welke soms overlappen) is hieronder te vinden.
                     </Text>
                     <Link
-                        className="mt-3 block text-pzh-green underline hover:text-pzh-green-dark"
+                        className="mt-3 block text-pzh-green-500 underline hover:text-pzh-green-900"
                         to="/omgevingsprogramma/gebiedsprogrammas">
                         Bekijk de gebiedsprogramma’s
                     </Link>
@@ -92,7 +92,7 @@ function EnvironmentProgram() {
                         Omgevingsprogramma.
                     </Text>
                     <Link
-                        className="mt-3 block text-pzh-green underline hover:text-pzh-green-dark"
+                        className="mt-3 block text-pzh-green-500 underline hover:text-pzh-green-900"
                         to="/omgevingsprogramma/maatregelen">
                         Bekijk de maatregelen
                     </Link>

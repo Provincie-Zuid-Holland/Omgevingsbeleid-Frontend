@@ -84,7 +84,7 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
                     </Heading>
                     {data?.Description && (
                         <Text
-                            className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0"
+                            className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0"
                             dangerouslySetInnerHTML={{
                                 __html: data.Description,
                             }}

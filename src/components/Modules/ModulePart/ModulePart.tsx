@@ -40,7 +40,7 @@ const ModulePart = ({
                 onClick={handleRemove}
                 className="col-span-1 ml-auto">
                 <span className="sr-only">verwijderen</span>
-                <TrashCan size={20} className="text-pzh-red" />
+                <TrashCan size={20} className="text-pzh-red-500" />
             </button>
         </Tooltip>
     </div>

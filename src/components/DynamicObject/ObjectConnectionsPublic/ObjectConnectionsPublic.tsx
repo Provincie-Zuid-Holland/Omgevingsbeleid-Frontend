@@ -41,7 +41,7 @@ const ObjectConnectionsPublic = ({
                                             item.Object.UUID
                                         )}
                                         text={item.Object.Title || ''}
-                                        className="text-pzh-green hover:text-pzh-green-dark"
+                                        className="text-pzh-green-500 hover:text-pzh-green-900"
                                     />
                                 </li>
                             ))}

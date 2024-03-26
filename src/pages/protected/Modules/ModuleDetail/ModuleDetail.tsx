@@ -191,7 +191,7 @@ const TabObjects = () => {
                         <Button
                             variant="link"
                             onPress={() => setActiveModal('moduleAddObject')}
-                            className="block text-pzh-green hover:text-pzh-green-dark">
+                            className="block text-pzh-green-500 hover:text-pzh-green-900">
                             Onderdeel toevoegen
                         </Button>
                     )}

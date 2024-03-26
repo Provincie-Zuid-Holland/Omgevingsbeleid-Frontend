@@ -9,7 +9,7 @@ const ModuleCompleteCard = () => {
         <div
             className="mb-5 bg-pzh-gray-100 px-8 py-6"
             data-testid="module-complete-card">
-            <Text className="mb-2" bold color="text-pzh-blue">
+            <Text className="mb-2" bold color="text-pzh-blue-500">
                 Module afsluiten
             </Text>
             <Text className="mb-4">
