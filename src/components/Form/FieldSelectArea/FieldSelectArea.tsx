@@ -1,5 +1,5 @@
 import { FieldLabel, FormikError, Text, formatDate } from '@pzh-ui/components'
-import { TrashCan } from '@pzh-ui/icons'
+import { Pencil, TrashCan } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useFormikContext } from 'formik'
 import { useEffect, useMemo, useState } from 'react'
@@ -22,6 +22,8 @@ const FieldSelectArea = ({
     disabled,
 }: Omit<DynamicField, 'type'> & { disabled?: boolean }) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
+
+    const [initialValues, setInitialValues] = useState({})
 
     const { values, setFieldValue } = useFormikContext<ModelReturnType>()
     const value = values[name as keyof typeof values]
@@ -46,6 +48,11 @@ const FieldSelectArea = ({
     const handleDeleteArea = () => {
         setFieldValue(name, null)
         setFieldValue('Source_Title', null)
+    }
+
+    const handleEditArea = () => {
+        setInitialValues({ area })
+        setActiveModal('areaAdd')
     }
 
     /**
@@ -101,20 +108,38 @@ const FieldSelectArea = ({
                                     <p className="font-bold leading-5">
                                         {area?.Source_Title}
                                     </p>
-                                    <button
-                                        type="button"
-                                        onClick={handleDeleteArea}
-                                        disabled={disabled}>
-                                        <span className="sr-only">
-                                            Werkingsgebied verwijderen
-                                        </span>
-                                        <TrashCan
-                                            className={classNames('mt-1', {
-                                                'text-pzh-red': !disabled,
-                                                'text-pzh-gray-600': disabled,
-                                            })}
-                                        />
-                                    </button>
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            type="button"
+                                            onClick={handleEditArea}
+                                            disabled={disabled}>
+                                            <span className="sr-only">
+                                                Werkingsgebied wijzigen
+                                            </span>
+                                            <Pencil
+                                                className={classNames('mt-1', {
+                                                    'text-pzh-blue': !disabled,
+                                                    'text-pzh-gray-600':
+                                                        disabled,
+                                                })}
+                                            />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={handleDeleteArea}
+                                            disabled={disabled}>
+                                            <span className="sr-only">
+                                                Werkingsgebied verwijderen
+                                            </span>
+                                            <TrashCan
+                                                className={classNames('mt-1', {
+                                                    'text-pzh-red': !disabled,
+                                                    'text-pzh-gray-600':
+                                                        disabled,
+                                                })}
+                                            />
+                                        </button>
+                                    </div>
                                 </div>
                                 <span className="block text-s">
                                     Laatste update van {modifiedDate}
@@ -133,7 +158,14 @@ const FieldSelectArea = ({
 
             <FormikError name={name} />
 
-            <AreaModal handleFormSubmit={handleFormSubmit} />
+            <AreaModal
+                initialValues={{
+                    area: area?.Source_UUID,
+                    version: area?.Source_UUID,
+                }}
+                initialStep={!!area ? 2 : 1}
+                handleFormSubmit={handleFormSubmit}
+            />
         </>
     )
 }
