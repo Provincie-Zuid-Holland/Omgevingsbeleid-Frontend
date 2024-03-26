@@ -1,5 +1,5 @@
 import { FieldLabel, FormikError, Text, formatDate } from '@pzh-ui/components'
-import { TrashCan } from '@pzh-ui/icons'
+import { Pencil, TrashCan } from '@pzh-ui/icons'
 import classNames from 'clsx'
 import { useFormikContext } from 'formik'
 import { useEffect, useMemo, useState } from 'react'
@@ -55,6 +55,7 @@ const FieldSelectArea = ({
         setArea({
             Source_Title: payload.Title || '',
             UUID: payload.version,
+            Source_UUID: payload.version,
             Source_Modified_Date: payload.Modified_Date,
         })
         setFieldValue(name, payload.version)
@@ -101,20 +102,40 @@ const FieldSelectArea = ({
                                     <p className="font-bold leading-5">
                                         {area?.Source_Title}
                                     </p>
-                                    <button
-                                        type="button"
-                                        onClick={handleDeleteArea}
-                                        disabled={disabled}>
-                                        <span className="sr-only">
-                                            Werkingsgebied verwijderen
-                                        </span>
-                                        <TrashCan
-                                            className={classNames('mt-1', {
-                                                'text-pzh-red': !disabled,
-                                                'text-pzh-gray-600': disabled,
-                                            })}
-                                        />
-                                    </button>
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                setActiveModal('areaAdd')
+                                            }
+                                            disabled={disabled}>
+                                            <span className="sr-only">
+                                                Werkingsgebied wijzigen
+                                            </span>
+                                            <Pencil
+                                                className={classNames('mt-1', {
+                                                    'text-pzh-blue': !disabled,
+                                                    'text-pzh-gray-600':
+                                                        disabled,
+                                                })}
+                                            />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={handleDeleteArea}
+                                            disabled={disabled}>
+                                            <span className="sr-only">
+                                                Werkingsgebied verwijderen
+                                            </span>
+                                            <TrashCan
+                                                className={classNames('mt-1', {
+                                                    'text-pzh-red': !disabled,
+                                                    'text-pzh-gray-600':
+                                                        disabled,
+                                                })}
+                                            />
+                                        </button>
+                                    </div>
                                 </div>
                                 <span className="block text-s">
                                     Laatste update van {modifiedDate}
@@ -133,7 +154,14 @@ const FieldSelectArea = ({
 
             <FormikError name={name} />
 
-            <AreaModal handleFormSubmit={handleFormSubmit} />
+            <AreaModal
+                initialValues={{
+                    area: area?.Source_UUID,
+                    version: area?.Source_UUID,
+                }}
+                initialStep={!!area ? 2 : 1}
+                handleFormSubmit={handleFormSubmit}
+            />
         </>
     )
 }
