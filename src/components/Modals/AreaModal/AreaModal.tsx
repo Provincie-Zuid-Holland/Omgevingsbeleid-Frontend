@@ -1,4 +1,5 @@
 import { Button } from '@pzh-ui/components'
+import { useUpdateEffect } from '@react-hookz/web'
 import { Form, Formik } from 'formik'
 import groupBy from 'lodash.groupby'
 import { useMemo, useState } from 'react'
@@ -63,6 +64,8 @@ const AreaModal = ({
         handleFormSubmit(payload)
         handleClose()
     }
+
+    useUpdateEffect(() => setStep(initialStep), [initialStep])
 
     return (
         <Modal
