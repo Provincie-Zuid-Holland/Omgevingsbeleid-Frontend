@@ -42,13 +42,13 @@ const PublicationPackages = ({
     const { validationPackage, publicationPackage, abortPackage } =
         useMemo(() => {
             const validationPackage = packages?.results.find(
-                pkg => pkg.Package_Type === 'Validatie'
+                pkg => pkg.Package_Type === PackageType['Validatie']
             )
             const publicationPackage = packages?.results.find(
-                pkg => pkg.Package_Type === 'Publicatie'
+                pkg => pkg.Package_Type === PackageType['Publicatie']
             )
             const abortPackage = packages?.results.find(
-                pkg => pkg.Package_Type === 'Afbreken'
+                pkg => pkg.Package_Type === PackageType['Afbreken']
             )
 
             return { validationPackage, publicationPackage, abortPackage }

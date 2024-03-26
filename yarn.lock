@@ -5723,7 +5723,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.10.5, @types/node@npm:^20.11.16":
+"@types/node@npm:*, @types/node@npm:^20.11.16":
   version: 20.11.17
   resolution: "@types/node@npm:20.11.17"
   dependencies:
@@ -11845,7 +11845,6 @@ __metadata:
     "@types/lodash.clonedeep": "npm:^4.5.6"
     "@types/lodash.debounce": "npm:^4.0.7"
     "@types/lodash.groupby": "npm:^4.6.7"
-    "@types/node": "npm:^20.10.5"
     "@types/proj4leaflet": "npm:^1.0.10"
     "@types/react": "npm:^18.2.15"
     "@types/react-dom": "npm:^18.2.7"

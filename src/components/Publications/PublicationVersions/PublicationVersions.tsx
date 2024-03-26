@@ -86,8 +86,11 @@ const VersionRow = ({
 }: PublicationVersionShort & { publication: Publication }) => {
     const { moduleId } = useParams()
 
-    const { canEditPublicationVersion, canCreatePublicationPackage } =
-        usePermissions()
+    const {
+        canEditPublicationVersion,
+        canCreatePublicationPackage,
+        canViewPublicationPackage,
+    } = usePermissions()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
@@ -100,7 +103,7 @@ const VersionRow = ({
         },
     })
 
-    const downloadDiff = async ({
+    const downloadDiff = ({
         moduleId,
         Module_Status_ID,
     }: {
@@ -166,18 +169,20 @@ const VersionRow = ({
                             Bewerken
                         </Button>
                     )}
-                    <Button
-                        variant="link"
-                        size="small"
-                        className="text-pzh-green-500"
-                        onPress={() =>
-                            setActiveModal('publicationPackages', {
-                                publication,
-                                version,
-                            })
-                        }>
-                        Leveringen
-                    </Button>
+                    {canViewPublicationPackage && (
+                        <Button
+                            variant="link"
+                            size="small"
+                            className="text-pzh-green-500"
+                            onPress={() =>
+                                setActiveModal('publicationPackages', {
+                                    publication,
+                                    version,
+                                })
+                            }>
+                            Leveringen
+                        </Button>
+                    )}
                     <Tooltip
                         label={
                             isFetching
