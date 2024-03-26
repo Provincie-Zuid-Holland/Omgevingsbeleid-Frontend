@@ -2,14 +2,14 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 
-import { getBeleidsdoelenValidGetMock } from '@/api/fetchers.msw'
+import { getBeleidsdoelenValidGetResponseMock } from '@/api/fetchers.msw'
 
 import ThemeDetail from './ThemeDetail'
 
 const queryClient = new QueryClient()
 
 describe('ThemeDetail', () => {
-    const beleidsdoelen = getBeleidsdoelenValidGetMock()
+    const beleidsdoelen = getBeleidsdoelenValidGetResponseMock()
     const defaultProps = {}
 
     const setup = (customProps?: any) => {
