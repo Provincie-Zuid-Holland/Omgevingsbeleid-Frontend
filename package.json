@@ -24,7 +24,6 @@
         "lodash.debounce": "^4.0.8",
         "lodash.groupby": "^4.6.0",
         "node-htmldiff": "^0.9.4",
-        "node-sass": "9.0.0",
         "proj4leaflet": "^1.0.2",
         "react": "^18.2.0",
         "react-content-loader": "^6.2.1",
@@ -78,7 +77,6 @@
         "@types/lodash.clonedeep": "^4.5.6",
         "@types/lodash.debounce": "^4.0.7",
         "@types/lodash.groupby": "^4.6.7",
-        "@types/node": "^20.10.5",
         "@types/proj4leaflet": "^1.0.10",
         "@types/react": "^18.2.15",
         "@types/react-dom": "^18.2.7",
@@ -109,9 +107,6 @@
     },
     "msw": {
         "workerDirectory": "public"
-    },
-    "resolutions": {
-        "csstype": "3.1.2"
     },
     "packageManager": "yarn@4.0.1",
     "prettier": "@pzh-ui/config/prettier"

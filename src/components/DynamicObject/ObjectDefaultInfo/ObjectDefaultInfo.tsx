@@ -1,4 +1,3 @@
-
 import { Heading, Text } from '@pzh-ui/components'
 import { PenToSquare, Plus, Spinner } from '@pzh-ui/icons'
 import { useMemo, useState } from 'react'
@@ -85,7 +84,8 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
                             }
                             isLoading={isLoading}
                             canEdit={
-                                (canPatchObjectInModule && (isOwner || isClient)) ||
+                                (canPatchObjectInModule &&
+                                    (isOwner || isClient)) ||
                                 canCreateModule
                             }
                         />
@@ -132,7 +132,7 @@ const Item = ({ label, user, handleClick, isLoading, canEdit }: ItemProps) => (
                         aria-label={`${label} toevoegen`}
                         onClick={handleClick}
                         className="after:content-[' '] after:absolute after:left-0 after:top-0 after:h-full after:w-full">
-                        <div className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-pzh-green">
+                        <div className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-pzh-green-500">
                             <Plus size={14} className="text-pzh-white" />
                         </div>
                     </button>
@@ -143,7 +143,7 @@ const Item = ({ label, user, handleClick, isLoading, canEdit }: ItemProps) => (
                         aria-label={`${label} wijzigen`}
                         onClick={handleClick}
                         className="after:content-[' '] after:absolute after:left-0 after:top-0 after:h-full after:w-full">
-                        <PenToSquare size={18} className="text-pzh-green" />
+                        <PenToSquare size={18} className="text-pzh-green-500" />
                     </button>
                 ))}
         </div>

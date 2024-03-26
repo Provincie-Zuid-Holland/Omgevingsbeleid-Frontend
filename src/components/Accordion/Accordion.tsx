@@ -167,7 +167,7 @@ const AccordionTrigger = ({
                     aria-label={isOpen ? 'Inklappen' : 'Uitklappen'}>
                     <AngleDown
                         size={16}
-                        className={classNames('text-pzh-blue transition', {
+                        className={classNames('text-pzh-blue-500 transition', {
                             'rotate-180': isOpen,
                         })}
                     />

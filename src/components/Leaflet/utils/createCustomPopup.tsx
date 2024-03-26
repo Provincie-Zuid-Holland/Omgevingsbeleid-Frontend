@@ -204,7 +204,7 @@ export const CreateCustomPopup = ({
                         <Button as="span">Bekijk beleid</Button>
                     </a>
                 )}
-                <button className="leaflet-close-popup text-s text-pzh-red underline">
+                <button className="leaflet-close-popup text-s text-pzh-red-500 underline">
                     {type === 'marker' ? 'Pin' : 'Gebied'} verwijderen
                 </button>
             </div>

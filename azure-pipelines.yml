@@ -48,9 +48,8 @@ stages:
                   inputs:
                       script: yarn test:coverage
 
-                - task: PublishCodeCoverageResults@1
+                - task: PublishCodeCoverageResults@2
                   inputs:
-                      codeCoverageTool: Cobertura
                       summaryFileLocation: $(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml
 
                 - task: CmdLine@2

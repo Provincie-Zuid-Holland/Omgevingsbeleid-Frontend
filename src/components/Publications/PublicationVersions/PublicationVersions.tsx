@@ -11,6 +11,7 @@ import {
 } from '@/api/fetchers'
 import { Publication, PublicationVersionShort } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
+import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
 import { downloadFile } from '@/utils/file'
 
@@ -85,6 +86,12 @@ const VersionRow = ({
 }: PublicationVersionShort & { publication: Publication }) => {
     const { moduleId } = useParams()
 
+    const {
+        canEditPublicationVersion,
+        canCreatePublicationPackage,
+        canViewPublicationPackage,
+    } = usePermissions()
+
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const { data: environment } = usePublicationEnvironmentsGet(undefined, {
@@ -96,7 +103,7 @@ const VersionRow = ({
         },
     })
 
-    const downloadDiff = async ({
+    const downloadDiff = ({
         moduleId,
         Module_Status_ID,
     }: {
@@ -134,7 +141,7 @@ const VersionRow = ({
             <td>{version.Module_Status.Status}</td>
             <td className="pr-2">
                 <div className="flex items-center gap-4">
-                    {version.Is_Locked && (
+                    {version.Is_Locked && canCreatePublicationPackage && (
                         <Button
                             variant="link"
                             size="small"
@@ -148,7 +155,7 @@ const VersionRow = ({
                             Afbreken
                         </Button>
                     )}
-                    {!version.Is_Locked && (
+                    {!version.Is_Locked && canEditPublicationVersion && (
                         <Button
                             variant="link"
                             size="small"
@@ -162,18 +169,20 @@ const VersionRow = ({
                             Bewerken
                         </Button>
                     )}
-                    <Button
-                        variant="link"
-                        size="small"
-                        className="text-pzh-green-500"
-                        onPress={() =>
-                            setActiveModal('publicationPackages', {
-                                publication,
-                                version,
-                            })
-                        }>
-                        Leveringen
-                    </Button>
+                    {canViewPublicationPackage && (
+                        <Button
+                            variant="link"
+                            size="small"
+                            className="text-pzh-green-500"
+                            onPress={() =>
+                                setActiveModal('publicationPackages', {
+                                    publication,
+                                    version,
+                                })
+                            }>
+                            Leveringen
+                        </Button>
+                    )}
                     <Tooltip
                         label={
                             isFetching
@@ -183,13 +192,11 @@ const VersionRow = ({
                         <div className="ml-auto">
                             <Button
                                 size="small"
-                                variant="secondary"
                                 icon={FileWord}
                                 iconSize={16}
                                 onPress={() => download()}
                                 isLoading={isFetching}
-                                // Disable Word export untill endpoint is fixed
-                                isDisabled // ={isFetching}
+                                isDisabled={isFetching}
                                 aria-label="Download Word export"
                             />
                         </div>

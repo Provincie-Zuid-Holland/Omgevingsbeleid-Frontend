@@ -14,7 +14,7 @@ const FieldLabel = ({
 }: Omit<RegulationFieldProps, 'index' | 'name'> & { name?: string }) => (
     <div
         className={classNames('flex justify-between', {
-            'active:animate-pulse active:cursor-grabbing active:bg-pzh-blue-light/10':
+            'active:animate-pulse active:cursor-grabbing active:bg-pzh-blue-100/10':
                 isDraggable,
         })}
         {...dragOptions}>
@@ -22,7 +22,7 @@ const FieldLabel = ({
             {isDraggable && (
                 <GripDotsVertical
                     size={16}
-                    className="-mt-1 mr-2 w-2 cursor-grab text-pzh-blue transition"
+                    className="-mt-1 mr-2 w-2 cursor-grab text-pzh-blue-500 transition"
                 />
             )}
             <Text as="label" htmlFor={name} bold>
@@ -31,11 +31,11 @@ const FieldLabel = ({
         </div>
 
         <button
-            className="text-s text-pzh-green underline"
+            className="text-s text-pzh-green-500 underline"
             onClick={handleRemove}
             type="button">
             {isGroup ? (
-                <Xmark className="text-pzh-blue-dark" size={16} />
+                <Xmark className="text-pzh-blue-900" size={16} />
             ) : (
                 `${label} verwijderen`
             )}

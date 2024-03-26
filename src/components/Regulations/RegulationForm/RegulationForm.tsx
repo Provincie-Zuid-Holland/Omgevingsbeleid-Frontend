@@ -52,7 +52,7 @@ const RegulationForm = ({
                     <Heading
                         level="3"
                         size="m"
-                        color="text-pzh-blue-dark"
+                        color="text-pzh-blue-900"
                         className="mb-3">
                         {title}
                     </Heading>
@@ -73,7 +73,7 @@ const RegulationForm = ({
                 {section.contents?.length && (
                     <>
                         <Divider className="my-6 bg-pzh-gray-600" />
-                        <Heading level="3" size="m" color="text-pzh-blue-dark">
+                        <Heading level="3" size="m" color="text-pzh-blue-900">
                             Inhoud
                         </Heading>
 

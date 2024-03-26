@@ -85,7 +85,7 @@ const FieldSelectArea = ({
                     className={classNames(
                         'mt-4 w-full rounded border border-pzh-gray-600 px-2 py-4 underline',
                         {
-                            'text-pzh-green': !disabled,
+                            'text-pzh-green-500': !disabled,
                             'bg-pzh-gray-100 text-pzh-gray-600': disabled,
                         }
                     )}
@@ -130,7 +130,8 @@ const FieldSelectArea = ({
                                             </span>
                                             <TrashCan
                                                 className={classNames('mt-1', {
-                                                    'text-pzh-red': !disabled,
+                                                    'text-pzh-red-500':
+                                                        !disabled,
                                                     'text-pzh-gray-600':
                                                         disabled,
                                                 })}

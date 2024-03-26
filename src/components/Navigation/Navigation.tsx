@@ -44,7 +44,7 @@ const Navigation = () => {
                 {
                     sticky: !isAdvancedSearchPage,
                     relative: isAdvancedSearchPage,
-                    'bg-pzh-blue': isOpen || userIsInMuteerEnvironment,
+                    'bg-pzh-blue-500': isOpen || userIsInMuteerEnvironment,
                     'bg-white': !isOpen && !userIsInMuteerEnvironment,
                 }
             )}
@@ -160,7 +160,7 @@ const MenuIcon = ({
         className={classNames(
             'flex items-center justify-center rounded font-bold transition duration-300 ease-in',
             {
-                'text-pzh-blue hover:text-pzh-blue-dark': color === 'blue',
+                'text-pzh-blue hover:text-pzh-blue-900': color === 'blue',
                 'text-pzh-white': color === 'white',
             }
         )}

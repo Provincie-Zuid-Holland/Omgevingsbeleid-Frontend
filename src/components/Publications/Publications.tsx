@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 
 import { usePublicationsGet } from '@/api/fetchers'
 import { DocumentType } from '@/api/fetchers.schemas'
+import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
 
 import { LoaderSpinner } from '../Loader'
@@ -15,6 +16,8 @@ interface PublicationsProps {
 
 const Publications = ({ type }: PublicationsProps) => {
     const { moduleId } = useParams()
+
+    const { canCreatePublication } = usePermissions()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
@@ -42,13 +45,15 @@ const Publications = ({ type }: PublicationsProps) => {
                 </Text>
             )}
 
-            <Button
-                variant="secondary"
-                icon={Plus}
-                size="small"
-                onPress={() => setActiveModal('publicationAdd', { type })}>
-                Nieuwe publicatie
-            </Button>
+            {canCreatePublication && (
+                <Button
+                    variant="secondary"
+                    icon={Plus}
+                    size="small"
+                    onPress={() => setActiveModal('publicationAdd', { type })}>
+                    Nieuwe publicatie
+                </Button>
+            )}
         </div>
     )
 }

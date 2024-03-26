@@ -75,7 +75,7 @@ const DashboardAdmin = () => {
                         </div>
                     </div>
 
-                    <div className="mb-3 h-px w-full bg-pzh-blue" />
+                    <div className="mb-3 h-px w-full bg-pzh-blue-500" />
 
                     <div className="grid grid-cols-1 gap-y-2">
                         {modulesLoading ? (
@@ -119,13 +119,13 @@ const ModelTile = ({ model }: { model: Model }) => {
         <Link to={`/muteer/${plural}`} data-testid="dashboard-model-tile">
             <div className="group flex items-center justify-between rounded border border-pzh-gray-200 px-6 py-7">
                 <div className="flex items-center">
-                    <Icon size={20} className="mr-4 text-pzh-blue" />
+                    <Icon size={20} className="mr-4 text-pzh-blue-500" />
                     <Heading level="3" size="s" className="-mb-1.5">
                         {pluralCapitalize}
                     </Heading>
                 </div>
                 <div className="transition group-hover:translate-x-1">
-                    <AngleRight size={18} className="text-pzh-green" />
+                    <AngleRight size={18} className="text-pzh-green-500" />
                 </div>
             </div>
         </Link>

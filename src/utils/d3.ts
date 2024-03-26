@@ -43,7 +43,7 @@ export const generateNodes = (
         .attr('stroke-width', 1.5)
         .attr(
             'class',
-            'cursor-pointer stroke-pzh-white hover:stroke-pzh-blue-dark data-[active=true]:stroke-pzh-blue-dark'
+            'cursor-pointer stroke-pzh-white hover:stroke-pzh-blue-900 data-[active=true]:stroke-pzh-blue-900'
         )
         .attr('data-code-shape', d => d.Code)
 

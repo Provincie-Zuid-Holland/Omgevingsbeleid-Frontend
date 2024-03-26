@@ -57,9 +57,9 @@ const TableOfContents = () => {
                         key={el.title}
                         id={el.title}
                         className={classNames('cursor-pointer pt-1', {
-                            'text-pzh-green hover:text-pzh-green-dark':
+                            'text-pzh-green-500 hover:text-pzh-green-900':
                                 activeItem !== el.title,
-                            'font-bold text-pzh-blue hover:text-pzh-blue-dark':
+                            'font-bold text-pzh-blue-500 hover:text-pzh-blue-900':
                                 activeItem === el.title,
                         })}>
                         <AngleRight size={16} className="absolute mt-1" />

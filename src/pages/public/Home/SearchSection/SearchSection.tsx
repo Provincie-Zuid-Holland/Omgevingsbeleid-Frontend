@@ -32,7 +32,7 @@ const SearchSection = () => (
                     <div className="mt-4">
                         <Link
                             to={MAP_SEARCH_PAGE}
-                            className="text-pzh-green underline hover:text-pzh-green-dark">
+                            className="text-pzh-green-500 underline hover:text-pzh-green-900">
                             Wilt u uitgebreider zoeken op de kaart?
                         </Link>
                     </div>

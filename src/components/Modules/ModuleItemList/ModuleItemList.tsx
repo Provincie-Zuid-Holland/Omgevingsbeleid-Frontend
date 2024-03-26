@@ -23,7 +23,8 @@ interface ModuleItemListProps {
 
 const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
     const { user } = useAuth()
-    const { canEditModule, canPatchObjectInModule, canAddNewObjectToModule } = usePermissions()
+    const { canEditModule, canPatchObjectInModule, canAddNewObjectToModule } =
+        usePermissions()
     const { isLocked } = useModule()
 
     /**
@@ -66,7 +67,9 @@ const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
                     title="Jouw onderdelen in deze module"
                     noResultsText="Je hebt nog geen onderdelen in deze module"
                     hasEditButton={canPatchObjectInModule && !isLocked}
-                    hasViewButton={canPatchObjectInModule && !canAddNewObjectToModule}
+                    hasViewButton={
+                        canPatchObjectInModule && !canAddNewObjectToModule
+                    }
                     {...rest}
                 />
 
@@ -116,7 +119,7 @@ const ItemList = ({
 
     return (
         <>
-            <Text bold color="text-pzh-blue">
+            <Text bold color="text-pzh-blue-500">
                 {title}
             </Text>
             {!!objects?.length ? (

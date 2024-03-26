@@ -64,10 +64,10 @@ const ObjectAcknowledgedRelationPart = ({
                     <Icon
                         size={16}
                         className={classNames('mr-3', {
-                            'text-pzh-yellow-dark': type === 'awaiting',
-                            'text-pzh-green': type === 'approved',
-                            'text-pzh-red': type === 'declined',
-                            'text-pzh-orange': type === 'received',
+                            'text-pzh-yellow-900': type === 'awaiting',
+                            'text-pzh-green-500': type === 'approved',
+                            'text-pzh-red-500': type === 'declined',
+                            'text-pzh-orange-500': type === 'received',
                         })}
                     />
                     <Text bold className="-mb-1">
