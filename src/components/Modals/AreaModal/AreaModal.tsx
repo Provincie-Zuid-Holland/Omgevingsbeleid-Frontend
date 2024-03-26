@@ -1,4 +1,5 @@
 import { Button } from '@pzh-ui/components'
+import { useUpdateEffect } from '@react-hookz/web'
 import { Form, Formik } from 'formik'
 import groupBy from 'lodash.groupby'
 import { useMemo, useState } from 'react'
@@ -19,11 +20,16 @@ export interface AreaProps {
 }
 
 interface AreaModalProps {
+    initialValues?: AreaProps
     initialStep?: number
     handleFormSubmit: (payload: AreaProps) => void
 }
 
-const AreaModal = ({ initialStep = 1, handleFormSubmit }: AreaModalProps) => {
+const AreaModal = ({
+    initialStep = 1,
+    initialValues = {},
+    handleFormSubmit,
+}: AreaModalProps) => {
     const activeModal = useModalStore(state => state.activeModal)
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
@@ -59,6 +65,8 @@ const AreaModal = ({ initialStep = 1, handleFormSubmit }: AreaModalProps) => {
         handleClose()
     }
 
+    useUpdateEffect(() => setStep(initialStep), [initialStep])
+
     return (
         <Modal
             id="areaAdd"
@@ -67,7 +75,7 @@ const AreaModal = ({ initialStep = 1, handleFormSubmit }: AreaModalProps) => {
             onClose={handleClose}>
             <Formik
                 onSubmit={handleSubmit}
-                initialValues={{}}
+                initialValues={initialValues}
                 enableReinitialize>
                 {({ isSubmitting, submitForm }) => (
                     <Form>
@@ -78,6 +86,15 @@ const AreaModal = ({ initialStep = 1, handleFormSubmit }: AreaModalProps) => {
                                 Annuleren
                             </Button>
                             <div>
+                                {step !== 1 && (
+                                    <Button
+                                        variant="secondary"
+                                        type="button"
+                                        onPress={() => setStep(1)}
+                                        className="mr-3">
+                                        Vorige stap
+                                    </Button>
+                                )}
                                 <Button
                                     variant={isFinalStep ? 'cta' : 'primary'}
                                     type="button"
