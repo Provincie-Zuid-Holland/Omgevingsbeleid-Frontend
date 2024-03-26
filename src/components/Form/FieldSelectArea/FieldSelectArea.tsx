@@ -23,8 +23,6 @@ const FieldSelectArea = ({
 }: Omit<DynamicField, 'type'> & { disabled?: boolean }) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const [initialValues, setInitialValues] = useState({})
-
     const { values, setFieldValue } = useFormikContext<ModelReturnType>()
     const value = values[name as keyof typeof values]
 
@@ -48,11 +46,6 @@ const FieldSelectArea = ({
     const handleDeleteArea = () => {
         setFieldValue(name, null)
         setFieldValue('Source_Title', null)
-    }
-
-    const handleEditArea = () => {
-        setInitialValues({ area })
-        setActiveModal('areaAdd')
     }
 
     /**
@@ -111,7 +104,9 @@ const FieldSelectArea = ({
                                     <div className="flex items-center gap-2">
                                         <button
                                             type="button"
-                                            onClick={handleEditArea}
+                                            onClick={() =>
+                                                setActiveModal('areaAdd')
+                                            }
                                             disabled={disabled}>
                                             <span className="sr-only">
                                                 Werkingsgebied wijzigen
