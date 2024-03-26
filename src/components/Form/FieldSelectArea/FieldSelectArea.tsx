@@ -46,6 +46,7 @@ const FieldSelectArea = ({
     const handleDeleteArea = () => {
         setFieldValue(name, null)
         setFieldValue('Source_Title', null)
+        setArea(undefined)
     }
 
     /**
