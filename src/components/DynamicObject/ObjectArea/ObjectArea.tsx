@@ -27,16 +27,19 @@ const ObjectArea = ({
 
     const { singular, prefixSingular } = model.defaults
 
-    const { data: moduleData, isSuccess } =
-        useModulesModuleIdObjectWerkingsgebiedLatestLineageIdGet(
-            parseInt(moduleId!),
-            Object_ID,
-            {
-                query: {
-                    enabled: !!moduleId && !!Object_ID && !!user,
-                },
-            }
-        )
+    const {
+        data: moduleData,
+        isSuccess,
+        isError,
+    } = useModulesModuleIdObjectWerkingsgebiedLatestLineageIdGet(
+        parseInt(moduleId!),
+        Object_ID,
+        {
+            query: {
+                enabled: !!moduleId && !!Object_ID && !!user,
+            },
+        }
+    )
 
     const { data: validData } = useWerkingsgebiedenLatestLineageIdGet(
         Object_ID,
@@ -44,7 +47,8 @@ const ObjectArea = ({
             query: {
                 enabled:
                     (!moduleId && !!Object_ID) ||
-                    (!!moduleId && !!Object_ID && !moduleData && isSuccess),
+                    (!!moduleId && !!Object_ID && !moduleData && isSuccess) ||
+                    isError,
             },
         }
     )
