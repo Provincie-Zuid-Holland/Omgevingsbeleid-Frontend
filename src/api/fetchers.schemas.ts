@@ -50,6 +50,15 @@ export type PublicationEnvironmentsGetParams = {
     limit?: number
 }
 
+export type PublicationActsGetParams = {
+    is_active?: boolean
+    environment_uuid?: string
+    document_type?: DocumentType
+    procedure_type?: ProcedureType
+    offset?: number
+    limit?: number
+}
+
 export type PublicationTemplatesGetParams = {
     is_active?: boolean
     offset?: number
@@ -666,6 +675,23 @@ export interface VisieAlgemeenFullStatics {
 
 export type VisieAlgemeenFullObjectStatics = VisieAlgemeenFullStatics | null
 
+export interface VisieAlgemeenFull {
+    Adjust_On?: string | null
+    Code?: string
+    Created_By?: UserShort
+    Created_Date?: string
+    Description?: string
+    End_Validity?: string | null
+    Modified_By?: UserShort
+    Modified_Date?: string
+    Object_ID?: number
+    ObjectStatics?: VisieAlgemeenFullObjectStatics
+    Public_Revisions?: PublicModuleObjectRevision[]
+    Start_Validity?: string | null
+    Title?: string
+    UUID?: string
+}
+
 export interface VisieAlgemeenExtendedStatics {
     Owner_1?: UserShort
     Owner_2?: UserShort
@@ -800,23 +826,6 @@ export interface UserShort {
     UUID: string
 }
 
-export interface VisieAlgemeenFull {
-    Adjust_On?: string | null
-    Code?: string
-    Created_By?: UserShort
-    Created_Date?: string
-    Description?: string
-    End_Validity?: string | null
-    Modified_By?: UserShort
-    Modified_Date?: string
-    Object_ID?: number
-    ObjectStatics?: VisieAlgemeenFullObjectStatics
-    Public_Revisions?: PublicModuleObjectRevision[]
-    Start_Validity?: string | null
-    Title?: string
-    UUID?: string
-}
-
 export interface UserCreateResponse {
     Email: string
     Password: string
@@ -930,10 +939,10 @@ export type ReportStatusType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ReportStatusType = {
-    Not_Applicable: 'Not Applicable',
-    Pending: 'Pending',
-    Valid: 'Valid',
-    Failed: 'Failed',
+    not_applicable: 'not_applicable',
+    pending: 'pending',
+    valid: 'valid',
+    failed: 'failed',
 } as const
 
 export interface ReadRelationShort {
@@ -996,11 +1005,9 @@ export interface PublicationVersionShort {
     Bill_Metadata: PublicationVersionShortBillMetadata
     Created_Date: string
     Effective_Date?: string
-    Environment_UUID: string
     Is_Locked: boolean
     Modified_Date: string
     Module_Status: ModuleStatus
-    Procedure_Type: string
     Publication_UUID: string
     UUID: string
 }
@@ -1010,7 +1017,6 @@ export interface PublicationVersionEditResponse {
 }
 
 export interface PublicationVersionEdit {
-    Act_Metadata?: ActMetadata
     Announcement_Date?: string
     Bill_Compact?: BillCompact
     Bill_Metadata?: BillMetadata
@@ -1023,7 +1029,6 @@ export interface PublicationVersionCreatedResponse {
 }
 
 export interface PublicationVersionCreate {
-    Environment_UUID: string
     Module_Status_ID: number
 }
 
@@ -1033,22 +1038,17 @@ export type PublicationVersionBillMetadata = { [key: string]: any }
 
 export type PublicationVersionBillCompact = { [key: string]: any }
 
-export type PublicationVersionActMetadata = { [key: string]: any }
-
 export interface PublicationVersion {
-    Act_Metadata: PublicationVersionActMetadata
     Announcement_Date?: string
     Bill_Compact: PublicationVersionBillCompact
     Bill_Metadata: PublicationVersionBillMetadata
     Created_Date: string
     Effective_Date?: string
-    Environment: PublicationEnvironment
     Is_Locked: boolean
     Is_Valid?: boolean
     Modified_Date: string
     Module_Status: ModuleStatus
     Procedural: PublicationVersionProcedural
-    Procedure_Type: string
     Publication: PublicationShort
     UUID: string
 }
@@ -1070,10 +1070,14 @@ export interface PublicationTemplate {
 }
 
 export interface PublicationShort {
+    Act_UUID?: string
     Created_Date: string
     Document_Type: string
+    Environment_UUID?: string
+    Is_Locked: boolean
     Modified_Date: string
     Module_ID: number
+    Procedure_Type: string
     Template_UUID?: string
     Title: string
     UUID: string
@@ -1150,10 +1154,46 @@ export interface PublicationCreatedResponse {
 }
 
 export interface PublicationCreate {
+    Act_UUID: string
     Document_Type: DocumentType
+    Environment_UUID: string
     Module_ID: number
+    Procedure_Type: ImplementedProcedureType
     Template_UUID: string
     Title: string
+}
+
+export interface PublicationActShort {
+    Created_Date: string
+    Document_Type: string
+    Environment_UUID: string
+    Is_Active: boolean
+    Modified_Date: string
+    Procedure_Type: string
+    Title: string
+    UUID: string
+    Work_Country: string
+    Work_Date: string
+    Work_Other: string
+    Work_Province_ID: string
+}
+
+export type PublicationActMetadata = { [key: string]: any }
+
+export interface PublicationAct {
+    Created_Date: string
+    Document_Type: string
+    Environment: PublicationEnvironment
+    Is_Active: boolean
+    Metadata: PublicationActMetadata
+    Modified_Date: string
+    Procedure_Type: string
+    Title: string
+    UUID: string
+    Work_Country: string
+    Work_Date: string
+    Work_Other: string
+    Work_Province_ID: string
 }
 
 export interface PublicationAOJ {
@@ -1165,10 +1205,14 @@ export interface PublicationAOJ {
 }
 
 export interface Publication {
+    Act_UUID?: string
     Created_Date: string
-    Document_Type: DocumentType
+    Document_Type: string
+    Environment_UUID?: string
+    Is_Locked: boolean
     Modified_Date: string
     Module_ID: number
+    Procedure_Type: string
     Template_UUID?: string
     Title: string
     UUID: string
@@ -1284,6 +1328,17 @@ export interface ProgrammaAlgemeenBasic {
     Title?: string
     UUID?: string
 }
+
+/**
+ * An enumeration.
+ */
+export type ProcedureType = (typeof ProcedureType)[keyof typeof ProcedureType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ProcedureType = {
+    draft: 'draft',
+    final: 'final',
+} as const
 
 export interface Procedural {
     Enactment_Date?: string
@@ -1448,6 +1503,16 @@ export interface PagedResponsePublicationEnvironment {
     limit?: number
     offset?: number
     results: PublicationEnvironment[]
+    total: number
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
+export interface PagedResponsePublicationActShort {
+    limit?: number
+    offset?: number
+    results: PublicationActShort[]
     total: number
 }
 
@@ -1675,9 +1740,9 @@ export type PackageType = (typeof PackageType)[keyof typeof PackageType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PackageType = {
-    Validatie: 'Validatie',
-    Publicatie: 'Publicatie',
-    Afbreken: 'Afbreken',
+    validation: 'validation',
+    publication: 'publication',
+    publication_abort: 'publication_abort',
 } as const
 
 export interface ObjectStaticShort {
@@ -1826,12 +1891,6 @@ export interface ModulePatchStatus {
     Status: ModuleStatusCode
 }
 
-export interface ModuleOverview {
-    Module: Module
-    Objects: ModuleObjectShort[]
-    StatusHistory: ModuleStatus[]
-}
-
 export interface ModuleObjectContextShort {
     Action: string
     Original_Adjust_On?: string
@@ -1967,6 +2026,12 @@ export interface Module {
     Title: string
 }
 
+export interface ModuleOverview {
+    Module: Module
+    Objects: ModuleObjectShort[]
+    StatusHistory: ModuleStatus[]
+}
+
 export interface MaatregelUUID {
     Object_ID?: number
     UUID?: string
@@ -2079,6 +2144,17 @@ export interface ListObjectsByGeometryRequestData {
     Geometry: string
     Object_Types?: string[]
 }
+
+/**
+ * An enumeration.
+ */
+export type ImplementedProcedureType =
+    (typeof ImplementedProcedureType)[keyof typeof ImplementedProcedureType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ImplementedProcedureType = {
+    final: 'final',
+} as const
 
 export interface HierarchyStatics {
     Cached_Title: string
@@ -2317,8 +2393,8 @@ export type DocumentType = (typeof DocumentType)[keyof typeof DocumentType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DocumentType = {
-    Omgevingsvisie: 'Omgevingsvisie',
-    Programma: 'Programma',
+    omgevingsvisie: 'omgevingsvisie',
+    programma: 'programma',
 } as const
 
 export interface CompleteModule {
@@ -2789,6 +2865,22 @@ export interface ActMetadata {
     Official_Title?: string
     Quote_Title?: string
     Subjects?: string[]
+}
+
+export interface ActEdit {
+    Metadata?: ActMetadata
+    Title?: string | null
+}
+
+export interface ActCreatedResponse {
+    UUID: string
+}
+
+export interface ActCreate {
+    Document_Type: DocumentType
+    Environment_UUID: string
+    Procedure_Type: ProcedureType
+    Title: string
 }
 
 export interface AcknowledgedRelationSide {

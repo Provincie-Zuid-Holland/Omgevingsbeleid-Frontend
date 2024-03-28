@@ -42,13 +42,13 @@ const PublicationPackages = ({
     const { validationPackage, publicationPackage, abortPackage } =
         useMemo(() => {
             const validationPackage = packages?.results.find(
-                pkg => pkg.Package_Type === PackageType['Validatie']
+                pkg => pkg.Package_Type === PackageType['validation']
             )
             const publicationPackage = packages?.results.find(
-                pkg => pkg.Package_Type === PackageType['Publicatie']
+                pkg => pkg.Package_Type === PackageType['publication']
             )
             const abortPackage = packages?.results.find(
-                pkg => pkg.Package_Type === PackageType['Afbreken']
+                pkg => pkg.Package_Type === PackageType['publication_abort']
             )
 
             return { validationPackage, publicationPackage, abortPackage }
@@ -89,7 +89,7 @@ const PublicationPackages = ({
                     <PackageStep
                         version={version}
                         type="create"
-                        eventType="Afbreken"
+                        eventType="publication_abort"
                         isActive={!!!abortPackage && data?.Is_Valid}
                         isSucceeded={!!abortPackage}
                         isFirst
@@ -97,7 +97,7 @@ const PublicationPackages = ({
                     <PackageStep
                         version={version}
                         type="download"
-                        eventType="Afbreken"
+                        eventType="publication_abort"
                         isActive={!!abortPackage}
                         isLast={!isOfficial}
                         isSucceeded={!!abortPackage?.Zip.Latest_Download_Date}
@@ -106,7 +106,7 @@ const PublicationPackages = ({
                         <PackageStep
                             version={version}
                             type="upload"
-                            eventType="Afbreken"
+                            eventType="publication_abort"
                             isActive={!!abortPackage?.Zip.Latest_Download_Date}
                             isSucceeded={
                                 abortPackage?.Report_Status === 'Valid'
@@ -135,7 +135,7 @@ const PublicationPackages = ({
                 <PackageStep
                     version={version}
                     type="create"
-                    eventType="Validatie"
+                    eventType="validation"
                     isActive={!!!validationPackage && data?.Is_Valid}
                     isSucceeded={!!validationPackage}
                     isFirst
@@ -143,7 +143,7 @@ const PublicationPackages = ({
                 <PackageStep
                     version={version}
                     type="download"
-                    eventType="Validatie"
+                    eventType="validation"
                     isActive={!!validationPackage}
                     isLast={!isOfficial}
                     isSucceeded={!!validationPackage?.Zip.Latest_Download_Date}
@@ -152,7 +152,7 @@ const PublicationPackages = ({
                     <PackageStep
                         version={version}
                         type="upload"
-                        eventType="Validatie"
+                        eventType="validation"
                         isActive={!!validationPackage?.Zip.Latest_Download_Date}
                         isSucceeded={
                             validationPackage?.Report_Status === 'Valid'
@@ -192,7 +192,7 @@ const PublicationPackages = ({
                         <PackageStepActions
                             version={version}
                             type="create"
-                            eventType="Validatie"
+                            eventType="validation"
                             buttonLabel="Maak nieuwe levering"
                             hideDescription
                             isActive
@@ -217,7 +217,7 @@ const PublicationPackages = ({
                         <PackageStep
                             version={version}
                             type="create"
-                            eventType="Publicatie"
+                            eventType="publication"
                             isActive={
                                 validationPackage?.Report_Status === 'Valid' &&
                                 data?.Is_Valid
@@ -228,7 +228,7 @@ const PublicationPackages = ({
                         <PackageStep
                             version={version}
                             type="download"
-                            eventType="Publicatie"
+                            eventType="publication"
                             isActive={!!publicationPackage}
                             isLast={!isOfficial}
                             isSucceeded={
@@ -238,7 +238,7 @@ const PublicationPackages = ({
                         <PackageStep
                             version={version}
                             type="upload"
-                            eventType="Publicatie"
+                            eventType="publication"
                             isActive={
                                 !!publicationPackage?.Zip.Latest_Download_Date
                             }
@@ -269,7 +269,7 @@ const PublicationPackages = ({
                     <PackageStepActions
                         version={version}
                         type="create"
-                        eventType="Publicatie"
+                        eventType="publication"
                         buttonLabel="Maak nieuwe levering"
                         hideDescription
                         isActive

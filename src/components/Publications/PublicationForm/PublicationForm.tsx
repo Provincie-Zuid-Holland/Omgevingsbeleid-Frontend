@@ -31,9 +31,9 @@ const PublicationForm = <TData extends FormikValues>({
             }
         )
 
-    const documentTypeOptions = (
-        Object.keys(DocumentType) as Array<DocumentType>
-    ).map(type => ({ label: type, value: type }))
+    const documentTypeOptions = Object.entries(DocumentType).map(
+        ([, value]) => ({ label: value, value })
+    )
 
     return (
         <Formik

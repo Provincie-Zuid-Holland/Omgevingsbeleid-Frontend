@@ -212,7 +212,7 @@ const UploadAction = ({
                     queryKey,
                 })
 
-                if (data.Status === 'Valid') {
+                if (data.Status === 'valid') {
                     queryClient.invalidateQueries({
                         queryKey:
                             getPublicationsPublicationUuidVersionsGetQueryKey(

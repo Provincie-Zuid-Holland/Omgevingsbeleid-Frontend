@@ -22,6 +22,9 @@ import type {
     AOJCreate,
     AOJCreatedResponse,
     AcknowledgedRelation,
+    ActCreate,
+    ActCreatedResponse,
+    ActEdit,
     ActiveModuleObjectWrapper,
     AmbitieFull,
     AmbitiePatch,
@@ -137,6 +140,7 @@ import type {
     PagedResponsePublicModuleShort,
     PagedResponsePublication,
     PagedResponsePublicationAOJ,
+    PagedResponsePublicationActShort,
     PagedResponsePublicationEnvironment,
     PagedResponsePublicationPackage,
     PagedResponsePublicationPackageReportShort,
@@ -161,6 +165,8 @@ import type {
     ProgrammasAlgemeenValidLineageIdGetParams,
     PublicModuleOverview,
     Publication,
+    PublicationAct,
+    PublicationActsGetParams,
     PublicationAojGetParams,
     PublicationCreate,
     PublicationCreatedResponse,
@@ -17595,6 +17601,321 @@ export const usePublicationTemplatesTemplateUuidPost = <
 }) => {
     const mutationOptions =
         getPublicationTemplatesTemplateUuidPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary List the publication acts
+ */
+export const publicationActsGet = (
+    params?: PublicationActsGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponsePublicationActShort>({
+        url: `/publication-acts`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getPublicationActsGetQueryKey = (
+    params?: PublicationActsGetParams
+) => {
+    return [`/publication-acts`, ...(params ? [params] : [])] as const
+}
+
+export const getPublicationActsGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof publicationActsGet>>,
+    TError = HTTPValidationError
+>(
+    params?: PublicationActsGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof publicationActsGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getPublicationActsGetQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof publicationActsGet>>
+    > = ({ signal }) => publicationActsGet(params, signal)
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof publicationActsGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PublicationActsGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof publicationActsGet>>
+>
+export type PublicationActsGetQueryError = HTTPValidationError
+
+/**
+ * @summary List the publication acts
+ */
+export const usePublicationActsGet = <
+    TData = Awaited<ReturnType<typeof publicationActsGet>>,
+    TError = HTTPValidationError
+>(
+    params?: PublicationActsGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof publicationActsGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getPublicationActsGetQueryOptions(params, options)
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Create new Act
+ */
+export const publicationActsPost = (actCreate: ActCreate) => {
+    return customInstance<ActCreatedResponse>({
+        url: `/publication-acts`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: actCreate,
+    })
+}
+
+export const getPublicationActsPostMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationActsPost>>,
+        TError,
+        { data: ActCreate },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof publicationActsPost>>,
+    TError,
+    { data: ActCreate },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof publicationActsPost>>,
+        { data: ActCreate }
+    > = props => {
+        const { data } = props ?? {}
+
+        return publicationActsPost(data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type PublicationActsPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof publicationActsPost>>
+>
+export type PublicationActsPostMutationBody = ActCreate
+export type PublicationActsPostMutationError = HTTPValidationError
+
+/**
+ * @summary Create new Act
+ */
+export const usePublicationActsPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationActsPost>>,
+        TError,
+        { data: ActCreate },
+        TContext
+    >
+}) => {
+    const mutationOptions = getPublicationActsPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get details of a publication act
+ */
+export const publicationActsActUuidGet = (
+    actUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<PublicationAct>({
+        url: `/publication-acts/${actUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getPublicationActsActUuidGetQueryKey = (actUuid: string) => {
+    return [`/publication-acts/${actUuid}`] as const
+}
+
+export const getPublicationActsActUuidGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof publicationActsActUuidGet>>,
+    TError = HTTPValidationError
+>(
+    actUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof publicationActsActUuidGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getPublicationActsActUuidGetQueryKey(actUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof publicationActsActUuidGet>>
+    > = ({ signal }) => publicationActsActUuidGet(actUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!actUuid,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof publicationActsActUuidGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PublicationActsActUuidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof publicationActsActUuidGet>>
+>
+export type PublicationActsActUuidGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get details of a publication act
+ */
+export const usePublicationActsActUuidGet = <
+    TData = Awaited<ReturnType<typeof publicationActsActUuidGet>>,
+    TError = HTTPValidationError
+>(
+    actUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof publicationActsActUuidGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getPublicationActsActUuidGetQueryOptions(
+        actUuid,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Edit publication act
+ */
+export const publicationActsActUuidPost = (
+    actUuid: string,
+    actEdit: ActEdit
+) => {
+    return customInstance<ResponseOK>({
+        url: `/publication-acts/${actUuid}`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: actEdit,
+    })
+}
+
+export const getPublicationActsActUuidPostMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationActsActUuidPost>>,
+        TError,
+        { actUuid: string; data: ActEdit },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof publicationActsActUuidPost>>,
+    TError,
+    { actUuid: string; data: ActEdit },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof publicationActsActUuidPost>>,
+        { actUuid: string; data: ActEdit }
+    > = props => {
+        const { actUuid, data } = props ?? {}
+
+        return publicationActsActUuidPost(actUuid, data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type PublicationActsActUuidPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof publicationActsActUuidPost>>
+>
+export type PublicationActsActUuidPostMutationBody = ActEdit
+export type PublicationActsActUuidPostMutationError = HTTPValidationError
+
+/**
+ * @summary Edit publication act
+ */
+export const usePublicationActsActUuidPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationActsActUuidPost>>,
+        TError,
+        { actUuid: string; data: ActEdit },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getPublicationActsActUuidPostMutationOptions(options)
 
     return useMutation(mutationOptions)
 }
