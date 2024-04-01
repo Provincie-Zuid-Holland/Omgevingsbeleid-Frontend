@@ -34,7 +34,8 @@ const PublicationVersionAbortModal = () => {
             select: data =>
                 data.results.find(
                     environment =>
-                        environment.UUID === modalState.version.Environment_UUID
+                        environment.UUID ===
+                        modalState.publication.Environment_UUID
                 ),
         },
     })
@@ -51,7 +52,11 @@ const PublicationVersionAbortModal = () => {
                     {environment?.Can_Publicate ? 'Officiële' : 'Interne'}{' '}
                     publicatie)
                 </Text>
-                <PublicationPackages isAbort {...modalState?.version} />
+                <PublicationPackages
+                    environment={environment}
+                    isAbort
+                    {...modalState?.version}
+                />
             </div>
             <Divider className="my-6" />
             <div className="flex items-center justify-end">

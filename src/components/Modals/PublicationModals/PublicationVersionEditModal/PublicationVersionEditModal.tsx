@@ -66,7 +66,6 @@ const PublicationVersionEditModal = () => {
 
     const initialValues = {
         ...data,
-        Environment_UUID: data?.Environment.UUID,
         Module_Status_ID: data?.Module_Status.ID,
     } as PublicationVersionEdit
 

@@ -3,15 +3,21 @@ import { Check, Plus } from '@pzh-ui/icons'
 import { useParams } from 'react-router-dom'
 
 import { usePublicationsGet } from '@/api/fetchers'
-import { DocumentType, PublicationEnvironment } from '@/api/fetchers.schemas'
+import {
+    DocumentType,
+    ProcedureType,
+    PublicationEnvironment,
+} from '@/api/fetchers.schemas'
 import useModalStore from '@/store/modalStore'
 
 interface PublicationEnvironmentActionProps extends PublicationEnvironment {
-    type: DocumentType
+    documentType: DocumentType
+    procedureType: ProcedureType
 }
 
 const PublicationEnvironmentAction = ({
-    type,
+    documentType,
+    procedureType,
     Title,
     UUID,
 }: PublicationEnvironmentActionProps) => {
@@ -20,7 +26,7 @@ const PublicationEnvironmentAction = ({
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const { data } = usePublicationsGet(
-        { document_type: type, module_id: parseInt(moduleId!) },
+        { document_type: documentType, module_id: parseInt(moduleId!) },
         {
             query: {
                 enabled: !!moduleId,
@@ -40,7 +46,9 @@ const PublicationEnvironmentAction = ({
             className="w-full [&_div]:justify-center"
             onPress={() =>
                 setActiveModal('publicationAdd', {
-                    type,
+                    documentType,
+                    procedureType,
+                    environmentUUID: UUID,
                 })
             }>
             Nieuwe {Title.toLowerCase()} publicatie

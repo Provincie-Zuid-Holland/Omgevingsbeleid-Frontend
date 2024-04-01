@@ -10,7 +10,6 @@ export const PUBLICATION_SCHEMA = object({
 
 export const PUBLICATION_VERSION_ADD_SCHEMA = object({
     Module_Status_ID: schemaDefaults.requiredNumber(),
-    Environment_UUID: schemaDefaults.requiredString(),
 })
 
 export const PUBLICATION_VERSION_EDIT_SCHEMA = object({

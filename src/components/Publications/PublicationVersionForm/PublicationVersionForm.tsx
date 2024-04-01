@@ -2,8 +2,6 @@ import {
     Button,
     Divider,
     FormikDate,
-    FormikInput,
-    FormikRadioGroup,
     FormikRte,
     FormikSelect,
     FormikTextArea,
@@ -13,10 +11,7 @@ import {
 import { Form, Formik, FormikConfig, FormikValues } from 'formik'
 import { useParams } from 'react-router-dom'
 
-import {
-    useModulesModuleIdStatusGet,
-    usePublicationEnvironmentsGet,
-} from '@/api/fetchers'
+import { useModulesModuleIdStatusGet } from '@/api/fetchers'
 import FieldArray from '@/components/Form/FieldArray'
 import useModalStore from '@/store/modalStore'
 
@@ -33,19 +28,6 @@ const PublicationVersionForm = <TData extends FormikValues>({
     const { moduleId } = useParams()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
-
-    const { data: environmentOptions } = usePublicationEnvironmentsGet(
-        { limit: 100 },
-        {
-            query: {
-                select: data =>
-                    data.results.map(environment => ({
-                        label: environment.Title,
-                        value: environment.UUID,
-                    })),
-            },
-        }
-    )
 
     const { data: statusOptions } = useModulesModuleIdStatusGet(
         parseInt(moduleId!),
@@ -71,17 +53,6 @@ const PublicationVersionForm = <TData extends FormikValues>({
             {({ isSubmitting }) => (
                 <Form>
                     <div className="space-y-4">
-                        {!!environmentOptions?.length && (
-                            <FormikRadioGroup
-                                name="Environment_UUID"
-                                label="Publicatieomgeving"
-                                description="Geef hieronder aan waar deze versie gebruikt gaat worden. Is deze versie voor een Interne publicatie (voor bijvoorbeeld Planoview) of is het een Officiële publicatie?"
-                                optionLayout="horizontal"
-                                options={environmentOptions}
-                                disabled={isEdit}
-                                required
-                            />
-                        )}
                         <div>
                             <FormikSelect
                                 name="Module_Status_ID"
@@ -167,17 +138,6 @@ const PublicationVersionForm = <TData extends FormikValues>({
                                         </div>
                                     </div>
                                 </div>
-
-                                <FormikInput
-                                    name="Act_Metadata.Official_Title"
-                                    label="Officiële titel van de regeling"
-                                    disabled
-                                />
-                                <FormikInput
-                                    name="Act_Metadata.Quote_Title"
-                                    label="Citeertitel van de regeling"
-                                    disabled
-                                />
                             </>
                         )}
                     </div>

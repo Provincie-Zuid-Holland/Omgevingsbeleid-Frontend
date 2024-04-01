@@ -5,10 +5,7 @@ import classNames from 'clsx'
 import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import {
-    usePublicationEnvironmentsGet,
-    usePublicationsPublicationUuidVersionsGet,
-} from '@/api/fetchers'
+import { usePublicationsPublicationUuidVersionsGet } from '@/api/fetchers'
 import { Publication, PublicationVersionShort } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import usePermissions from '@/hooks/usePermissions'
@@ -50,7 +47,6 @@ const PublicationVersions = ({ publication }: PublicationVersionsProps) => {
                     <thead className="h-8 border-b border-pzh-gray-400 font-bold text-pzh-blue-500">
                         <tr>
                             <th className="pl-2">Datum aangemaakt</th>
-                            <th>Publicatieomgeving</th>
                             <th>Gebaseerd op Modulestatus</th>
                             <th className="pr-2">Actie</th>
                         </tr>
@@ -83,7 +79,9 @@ const PublicationVersions = ({ publication }: PublicationVersionsProps) => {
 const VersionRow = ({
     publication,
     ...version
-}: PublicationVersionShort & { publication: Publication }) => {
+}: PublicationVersionShort & {
+    publication: Publication
+}) => {
     const { moduleId } = useParams()
 
     const {
@@ -93,15 +91,6 @@ const VersionRow = ({
     } = usePermissions()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
-
-    const { data: environment } = usePublicationEnvironmentsGet(undefined, {
-        query: {
-            select: data =>
-                data.results.find(
-                    environment => environment.UUID === version.Environment_UUID
-                ),
-        },
-    })
 
     const downloadDiff = ({
         moduleId,
@@ -137,7 +126,6 @@ const VersionRow = ({
     return (
         <tr className="h-14 odd:bg-pzh-gray-100">
             <td className="pl-2">{date}</td>
-            <td>{environment?.Title}</td>
             <td>{version.Module_Status.Status}</td>
             <td className="pr-2">
                 <div className="flex items-center gap-4">

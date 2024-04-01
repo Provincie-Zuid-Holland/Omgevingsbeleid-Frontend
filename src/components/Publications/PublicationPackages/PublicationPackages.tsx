@@ -2,11 +2,14 @@ import { Notification, Text, formatDate } from '@pzh-ui/components'
 import { useMemo } from 'react'
 
 import {
-    usePublicationEnvironmentsGet,
     usePublicationPackagesGet,
     usePublicationVersionsVersionUuidGet,
 } from '@/api/fetchers'
-import { PackageType, PublicationVersionShort } from '@/api/fetchers.schemas'
+import {
+    PackageType,
+    PublicationEnvironment,
+    PublicationVersionShort,
+} from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 
 import { PackageStep, PackageStepActions } from './components'
@@ -17,10 +20,12 @@ export interface PublicationPackageProps {
 }
 
 interface PublicationPackagesProps extends PublicationVersionShort {
+    environment?: PublicationEnvironment
     isAbort?: boolean
 }
 
 const PublicationPackages = ({
+    environment,
     isAbort,
     ...version
 }: PublicationPackagesProps) => {
@@ -28,15 +33,6 @@ const PublicationPackages = ({
 
     const { data: packages, isPending } = usePublicationPackagesGet({
         version_uuid: version.UUID,
-    })
-
-    const { data: environment } = usePublicationEnvironmentsGet(undefined, {
-        query: {
-            select: data =>
-                data.results.find(
-                    environment => environment.UUID === version.Environment_UUID
-                ),
-        },
     })
 
     const { validationPackage, publicationPackage, abortPackage } =

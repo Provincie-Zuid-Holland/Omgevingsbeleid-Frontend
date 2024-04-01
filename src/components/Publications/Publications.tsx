@@ -1,5 +1,7 @@
-import { Button, Heading, Text } from '@pzh-ui/components'
-import { Plus } from '@pzh-ui/icons'
+import { Button, Heading } from '@pzh-ui/components'
+import { Minus, Plus } from '@pzh-ui/icons'
+import classNames from 'clsx'
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import {
@@ -7,10 +9,7 @@ import {
     usePublicationsGet,
 } from '@/api/fetchers'
 import { DocumentType, ProcedureType } from '@/api/fetchers.schemas'
-import usePermissions from '@/hooks/usePermissions'
-import useModalStore from '@/store/modalStore'
 
-import { LoaderSpinner } from '../Loader'
 import Publication from './Publication'
 import PublicationEnvironmentAction from './PublicationEnvironmentAction'
 
@@ -23,81 +22,96 @@ interface PublicationsProps {
     type: DocumentType
 }
 
-const Publications = ({ type }: PublicationsProps) => {
+const Publications = ({ type }: PublicationsProps) => (
+    <div className="space-y-4">
+        <Heading level="2" className="capitalize">
+            {type}
+        </Heading>
+
+        <div className="space-y-10">
+            {Object.entries(ProcedureType).map(([key, value]) => (
+                <PublicationCollection
+                    key={key}
+                    procedureType={value}
+                    documentType={type}
+                />
+            ))}
+        </div>
+    </div>
+)
+
+interface PublicationCollection {
+    procedureType: ProcedureType
+    documentType: DocumentType
+}
+
+const PublicationCollection = ({
+    procedureType,
+    documentType,
+}: PublicationCollection) => {
     const { moduleId } = useParams()
 
-    const { canCreatePublication } = usePermissions()
-
-    const setActiveModal = useModalStore(state => state.setActiveModal)
+    const [isOpen, setIsOpen] = useState(false)
 
     const { data: environments } = usePublicationEnvironmentsGet({
         is_active: true,
     })
 
-    const { data, isPending } = usePublicationsGet(
-        { document_type: type, module_id: parseInt(moduleId!) },
-        { query: { enabled: !!moduleId } }
+    const { data } = usePublicationsGet(
+        { document_type: documentType, module_id: parseInt(moduleId!) },
+        {
+            query: {
+                enabled: !!moduleId,
+                select: data =>
+                    data.results.filter(
+                        publication =>
+                            publication.Procedure_Type === procedureType
+                    ),
+            },
+        }
     )
 
     return (
-        <div className="space-y-4">
-            <Heading level="2" className="capitalize">
-                {type}
-            </Heading>
-
-            <div className="space-y-10">
-                {Object.entries(ProcedureType).map(([key, value]) => (
-                    <div
-                        key={key}
-                        className="rounded border border-pzh-gray-200 p-4">
-                        <div className="flex justify-between">
-                            <Heading size="m" className="mb-4">
-                                {PROCEDURE_TYPE[value]}
-                            </Heading>
-                            <Button
-                                icon={Plus}
-                                iconSize={12}
-                                variant="default"
-                                className="flex h-5 w-5 items-center justify-center rounded bg-pzh-blue-500 text-pzh-white [&_svg]:-mb-0.5"
-                            />
-                        </div>
-
-                        <div className="flex justify-between gap-4">
-                            {environments?.results.map(environment => (
-                                <div key={environment.UUID} className="flex-1">
-                                    <PublicationEnvironmentAction
-                                        type={type}
-                                        {...environment}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                ))}
+        <div className="space-y-4 rounded border border-pzh-gray-200 p-4">
+            <div className="flex justify-between">
+                <Heading size="m">{PROCEDURE_TYPE[procedureType]}</Heading>
+                <Button
+                    icon={isOpen ? Minus : Plus}
+                    iconSize={12}
+                    variant="default"
+                    onPress={() => setIsOpen(!isOpen)}
+                    isDisabled={!!!data?.length}
+                    className={classNames(
+                        'flex h-5 w-5 items-center justify-center rounded border ring-offset-2 focus:ring focus:ring-pzh-focus [&_svg]:-mb-0.5',
+                        {
+                            'bg-pzh-blue-500 text-pzh-white':
+                                !isOpen && !!data?.length,
+                            'border-pzh-blue-500 bg-pzh-white text-pzh-blue-500':
+                                isOpen && !!data?.length,
+                            'border-pzh-gray-400 text-pzh-gray-400':
+                                !!!data?.length,
+                        }
+                    )}
+                />
             </div>
 
-            {isPending ? (
-                <div>
-                    <LoaderSpinner />
+            {!isOpen ? (
+                <div className="flex justify-between gap-4">
+                    {environments?.results.map(environment => (
+                        <div key={environment.UUID} className="flex-1">
+                            <PublicationEnvironmentAction
+                                documentType={documentType}
+                                procedureType={procedureType}
+                                {...environment}
+                            />
+                        </div>
+                    ))}
                 </div>
-            ) : !!data?.results.length ? (
-                data.results.map(publication => (
+            ) : (
+                !!data?.length &&
+                data.map(publication => (
                     <Publication key={publication.UUID} data={publication} />
                 ))
-            ) : (
-                <Text color="text-pzh-gray-600" className="italic">
-                    Er zijn nog geen {type} publicaties aangemaakt.
-                </Text>
-            )}
-
-            {canCreatePublication && (
-                <Button
-                    variant="secondary"
-                    icon={Plus}
-                    size="small"
-                    onPress={() => setActiveModal('publicationAdd', { type })}>
-                    Nieuwe publicatie
-                </Button>
             )}
         </div>
     )

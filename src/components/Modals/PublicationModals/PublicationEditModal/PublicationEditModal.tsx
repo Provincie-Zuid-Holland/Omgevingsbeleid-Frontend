@@ -5,7 +5,7 @@ import {
     usePublicationsPublicationUuidGet,
     usePublicationsPublicationUuidPost,
 } from '@/api/fetchers'
-import { PublicationEdit } from '@/api/fetchers.schemas'
+import { DocumentType, PublicationEdit } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal/Modal'
 import PublicationForm from '@/components/Publications/PublicationForm'
@@ -35,7 +35,8 @@ const PublicationEditModal = () => {
             onSuccess: () => {
                 queryClient.invalidateQueries({
                     queryKey: getPublicationsGetQueryKey({
-                        document_type: modalState.publication.Document_Type,
+                        document_type: modalState.publication
+                            .Document_Type as DocumentType,
                     }),
                 })
 

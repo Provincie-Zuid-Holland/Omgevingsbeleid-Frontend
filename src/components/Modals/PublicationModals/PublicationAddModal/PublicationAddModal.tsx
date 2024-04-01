@@ -23,7 +23,7 @@ const PublicationAddModal = () => {
             onSuccess: () => {
                 queryClient.invalidateQueries({
                     queryKey: getPublicationsGetQueryKey({
-                        document_type: modalState?.type,
+                        document_type: modalState?.documentType,
                     }),
                 })
 
@@ -34,7 +34,9 @@ const PublicationAddModal = () => {
 
     const initialValues = {
         Module_ID: parseInt(moduleId!),
-        Document_Type: modalState?.type,
+        Document_Type: modalState?.documentType,
+        Procedure_Type: modalState?.procedureType,
+        Environment_UUID: modalState?.environmentUUID,
     } as PublicationCreate
 
     const handleFormSubmit = (payload: PublicationCreate) => {
