@@ -54,7 +54,6 @@ const PublicationVersionAbortModal = () => {
                 </Text>
                 <PublicationPackages
                     environment={environment}
-                    isAbort
                     {...modalState?.version}
                 />
             </div>

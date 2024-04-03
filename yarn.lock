@@ -2655,13 +2655,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.488":
-  version: 0.0.488
-  resolution: "@pzh-ui/components@npm:0.0.488"
+"@pzh-ui/components@npm:^0.0.494":
+  version: 0.0.494
+  resolution: "@pzh-ui/components@npm:0.0.494"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
-    "@pzh-ui/icons": "npm:^0.0.50"
+    "@pzh-ui/icons": "npm:^0.0.52"
     "@react-aria/utils": "npm:^3.23.2"
     "@react-hookz/web": "npm:^24.0.4"
     "@react-types/shared": "npm:^3.19.0"
@@ -2701,20 +2701,20 @@ __metadata:
     react-aria-components: "npm:^1.1.1"
     react-datepicker: "npm:^6.1.0"
     react-dom: "npm:^18.2.0"
-    react-dropzone: "npm:^14.2.3"
+    react-dropzone-esm: "npm:^15.0.1"
     react-paginate: "npm:^8.2.0"
     react-router-dom: "npm:^6.22.2"
     react-select: "npm:^5.8.0"
     react-stately: "npm:^3.30.1"
     react-table: "npm:^7.8.0"
     react-toastify: "npm:^9.1.2"
-  checksum: 709a08ff00fc666d1be5ad2a77f1bf1ef546d09640c174b90031ba4e8d89e7ff29995179b103d24d3b2149511155e8fc4e0f6a30487b6ec8b99e555c27fac710
+  checksum: eb33b25fc826142970c387ed3f1c6d968af64ee3e26b5a98fceb2076e4634cbfc54014dec126be250205806bc25db11aabdb448763a4beb64dcd00bd51b8a726
   languageName: node
   linkType: hard
 
-"@pzh-ui/config@npm:^0.0.56":
-  version: 0.0.56
-  resolution: "@pzh-ui/config@npm:0.0.56"
+"@pzh-ui/config@npm:^0.0.58":
+  version: 0.0.58
+  resolution: "@pzh-ui/config@npm:0.0.58"
   dependencies:
     "@babel/eslint-parser": "npm:^7.17.0"
     "@babel/preset-env": "npm:^7.16.11"
@@ -2736,7 +2736,7 @@ __metadata:
     prettier-plugin-organize-imports: "npm:^3.2.3"
     prettier-plugin-tailwindcss: "npm:^0.4.1"
     react-toastify: "npm:^9.1.2"
-  checksum: ef96b60953f637613c949ce05a7f51c9ac1fc5a01a8603fbdb06e84eeb4a4af750dc47f705ff4740a16177c2e43f5d5b212adeb1a7c658352b4bb1fc1f8046ec
+  checksum: 88ca405e2eabe681066106fdc6bd0af34f6b9c774a4b4be1000d5e747d9d6bf6647bffdbde91b681567044fb018ad9be766fc26379a2b505df71f8201bd21557
   languageName: node
   linkType: hard
 
@@ -2755,13 +2755,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/icons@npm:^0.0.50":
-  version: 0.0.50
-  resolution: "@pzh-ui/icons@npm:0.0.50"
+"@pzh-ui/icons@npm:^0.0.52":
+  version: 0.0.52
+  resolution: "@pzh-ui/icons@npm:0.0.52"
   dependencies:
     react: "npm:^18.0.0"
     react-toastify: "npm:^9.1.2"
-  checksum: a94a31decee8c7d314e8befbd4139875700729c136704c4f49c1ccad4dc4e1f2190af5f794d98a27b7479b21fea8c7b7b0fda1bd319d1374b34e6defc2f119de
+  checksum: 8afc476208a17ef7802e3988bc4e5eab89dd4d8beba3cad29cc7ee288efebfdb6d064b30ef94cef429be131e6b6f4ede48256ff1b25f1b72468f86f94c9a8f6c
   languageName: node
   linkType: hard
 
@@ -6541,13 +6541,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"attr-accept@npm:^2.2.2":
-  version: 2.2.2
-  resolution: "attr-accept@npm:2.2.2"
-  checksum: c867ed41ed749988ad2a6fc70eb2498b9c3c2d58aaad2a8d05422a383058f9d29e50c4bca363c5ee7433df738a7920cc95377bbce8678e817fb498299dd82010
-  languageName: node
-  linkType: hard
-
 "autoprefixer@npm:^10.4.4":
   version: 10.4.17
   resolution: "autoprefixer@npm:10.4.17"
@@ -8669,15 +8662,6 @@ __metadata:
   dependencies:
     flat-cache: "npm:^3.0.4"
   checksum: 099bb9d4ab332cb93c48b14807a6918a1da87c45dce91d4b61fd40e6505d56d0697da060cb901c729c90487067d93c9243f5da3dc9c41f0358483bfdebca736b
-  languageName: node
-  linkType: hard
-
-"file-selector@npm:^0.6.0":
-  version: 0.6.0
-  resolution: "file-selector@npm:0.6.0"
-  dependencies:
-    tslib: "npm:^2.4.0"
-  checksum: 6add4098ae07fd1e9050b1e8d3fd9f128680c1d6648c0676af54ace4586e6e5bfcb8fdfa45b69e9131ffd8175bf630d54a445a5facf9be244f85b99ce309183e
   languageName: node
   linkType: hard
 
@@ -11827,10 +11811,10 @@ __metadata:
     "@axe-core/react": "npm:^4.8.2"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-    "@pzh-ui/components": "npm:^0.0.488"
-    "@pzh-ui/config": "npm:^0.0.56"
+    "@pzh-ui/components": "npm:^0.0.494"
+    "@pzh-ui/config": "npm:^0.0.58"
     "@pzh-ui/css": "npm:^0.0.82"
-    "@pzh-ui/icons": "npm:^0.0.50"
+    "@pzh-ui/icons": "npm:^0.0.52"
     "@react-hookz/web": "npm:^24.0.4"
     "@tanstack/react-query": "npm:^5.24.7"
     "@testing-library/dom": "npm:^9.3.3"
@@ -12046,16 +12030,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dropzone@npm:^14.2.3":
-  version: 14.2.3
-  resolution: "react-dropzone@npm:14.2.3"
+"react-dropzone-esm@npm:^15.0.1":
+  version: 15.0.1
+  resolution: "react-dropzone-esm@npm:15.0.1"
   dependencies:
-    attr-accept: "npm:^2.2.2"
-    file-selector: "npm:^0.6.0"
     prop-types: "npm:^15.8.1"
   peerDependencies:
     react: ">= 16.8 || 18.0.0"
-  checksum: 34cf1758a896795b579adab5f9cdc144330577ab1826a0b66ff9daa8c60a80ed6b31b8f989647664f2548cfe00b336e9c31a2f3dd8de43111c8318fcc89b279c
+  checksum: c6b9aa91fcb10f62a1d1758d38d6e38f1b4030419a321a477df70b05a6831a2bbe2dae4a926dece8543243bc6bba77521309b69eb707fc40f346391f554211dd
   languageName: node
   linkType: hard
 

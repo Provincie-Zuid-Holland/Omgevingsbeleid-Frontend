@@ -134,12 +134,13 @@ const VersionRow = ({
                             variant="link"
                             size="small"
                             className="text-pzh-red-500"
-                            onPress={() =>
-                                setActiveModal('publicationVersionAbort', {
-                                    publication,
-                                    version,
-                                })
-                            }>
+                            // onPress={() =>
+                            //     setActiveModal('publicationVersionAbort', {
+                            //         publication,
+                            //         version,
+                            //     })
+                            // }
+                        >
                             Afbreken
                         </Button>
                     )}

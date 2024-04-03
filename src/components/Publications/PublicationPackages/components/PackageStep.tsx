@@ -2,7 +2,7 @@ import { Text } from '@pzh-ui/components'
 import { Check } from '@pzh-ui/icons'
 import classNames from 'clsx'
 
-import { usePublicationPackagesGet } from '@/api/fetchers'
+import { usePublicationActPackagesGet } from '@/api/fetchers'
 import { PublicationVersionShort } from '@/api/fetchers.schemas'
 
 import { PublicationPackageProps } from '../PublicationPackages'
@@ -33,7 +33,7 @@ const PackageStep = ({
     isLast,
     isLoading,
 }: PackageStepProps) => {
-    const { data: pkg } = usePublicationPackagesGet(
+    const { data: pkg } = usePublicationActPackagesGet(
         { version_uuid: version.UUID },
         {
             query: {

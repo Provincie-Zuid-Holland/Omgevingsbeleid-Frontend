@@ -17,6 +17,9 @@ import type {
     ActiveModuleObjectWrapper,
     AmbitieFull,
     AmbitieUUID,
+    AnnouncementCreatedResponse,
+    AppExtensionsPublicationsEndpointsPublicationsActReportsUploadActPackageReportUploadPackageReportResponse,
+    AppExtensionsPublicationsEndpointsPublicationsAnnouncementReportsUploadAnnouncementPackageReportUploadPackageReportResponse,
     AuthToken,
     BeleidsdoelFull,
     BeleidsdoelUUID,
@@ -62,10 +65,12 @@ import type {
     PagedResponsePublicModuleShort,
     PagedResponsePublication,
     PagedResponsePublicationAOJ,
+    PagedResponsePublicationActPackageReportShort,
     PagedResponsePublicationActShort,
+    PagedResponsePublicationAnnouncementPackageReportShort,
+    PagedResponsePublicationAnnouncementShort,
     PagedResponsePublicationEnvironment,
     PagedResponsePublicationPackage,
-    PagedResponsePublicationPackageReportShort,
     PagedResponsePublicationTemplate,
     PagedResponsePublicationVersionShort,
     PagedResponseSearchObject,
@@ -83,11 +88,16 @@ import type {
     PublicModuleOverview,
     Publication,
     PublicationAct,
+    PublicationActPackageReport,
+    PublicationActPackagesActPackageUuidDownloadGet200,
+    PublicationActReportsActReportUuidDownloadGet200,
+    PublicationAnnouncement,
+    PublicationAnnouncementPackageCreatedResponse,
+    PublicationAnnouncementPackageReport,
+    PublicationAnnouncementPackagesAnnouncementPackageUuidDownloadGet200,
+    PublicationAnnouncementReportsAnnouncementReportUuidDownloadGet200,
     PublicationCreatedResponse,
     PublicationPackageCreatedResponse,
-    PublicationPackageReport,
-    PublicationPackagesPackageUuidDownloadGet200,
-    PublicationReportsReportUuidDownloadGet200,
     PublicationTemplate,
     PublicationVersion,
     PublicationVersionCreatedResponse,
@@ -96,7 +106,6 @@ import type {
     ResetPasswordResponse,
     ResponseOK,
     TemplateCreatedResponse,
-    UploadPackageReportResponse,
     User,
     UserCreateResponse,
     VerplichtProgrammaFull,
@@ -3060,7 +3069,10 @@ export const getBeleidskeuzesVersionObjectUuidGetResponseMock = (
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
                 undefined,
             ]),
-            ID: faker.number.int({ min: undefined, max: undefined }),
+            ID: faker.helpers.arrayElement([
+                faker.number.int({ min: undefined, max: undefined }),
+                undefined,
+            ]),
             Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Start_Validity: faker.helpers.arrayElement([
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -3448,7 +3460,10 @@ export const getBeleidskeuzesLatestLineageIdGetResponseMock = (
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
                 undefined,
             ]),
-            ID: faker.number.int({ min: undefined, max: undefined }),
+            ID: faker.helpers.arrayElement([
+                faker.number.int({ min: undefined, max: undefined }),
+                undefined,
+            ]),
             Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Start_Validity: faker.helpers.arrayElement([
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -4089,7 +4104,10 @@ export const getModulesModuleIdObjectBeleidskeuzeLatestLineageIdGetResponseMock 
                     `${faker.date.past().toISOString().split('.')[0]}Z`,
                     undefined,
                 ]),
-                ID: faker.number.int({ min: undefined, max: undefined }),
+                ID: faker.helpers.arrayElement([
+                    faker.number.int({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
                 Modified_Date: `${
                     faker.date.past().toISOString().split('.')[0]
                 }Z`,
@@ -4501,7 +4519,10 @@ export const getModulesModuleIdObjectBeleidskeuzeVersionObjectUuidGetResponseMoc
                     `${faker.date.past().toISOString().split('.')[0]}Z`,
                     undefined,
                 ]),
-                ID: faker.number.int({ min: undefined, max: undefined }),
+                ID: faker.helpers.arrayElement([
+                    faker.number.int({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
                 Modified_Date: `${
                     faker.date.past().toISOString().split('.')[0]
                 }Z`,
@@ -4974,7 +4995,10 @@ export const getRevisionsModuleIdBeleidskeuzeVersionObjectUuidGetResponseMock =
                     `${faker.date.past().toISOString().split('.')[0]}Z`,
                     undefined,
                 ]),
-                ID: faker.number.int({ min: undefined, max: undefined }),
+                ID: faker.helpers.arrayElement([
+                    faker.number.int({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
                 Modified_Date: `${
                     faker.date.past().toISOString().split('.')[0]
                 }Z`,
@@ -7800,7 +7824,10 @@ export const getMaatregelenVersionObjectUuidGetResponseMock = (
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
                 undefined,
             ]),
-            ID: faker.number.int({ min: undefined, max: undefined }),
+            ID: faker.helpers.arrayElement([
+                faker.number.int({ min: undefined, max: undefined }),
+                undefined,
+            ]),
             Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Start_Validity: faker.helpers.arrayElement([
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -8082,7 +8109,10 @@ export const getMaatregelenLatestLineageIdGetResponseMock = (
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
                 undefined,
             ]),
-            ID: faker.number.int({ min: undefined, max: undefined }),
+            ID: faker.helpers.arrayElement([
+                faker.number.int({ min: undefined, max: undefined }),
+                undefined,
+            ]),
             Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Start_Validity: faker.helpers.arrayElement([
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -8330,7 +8360,10 @@ export const getModulesModuleIdObjectMaatregelLineageIdGetResponseMock = (
                     `${faker.date.past().toISOString().split('.')[0]}Z`,
                     undefined,
                 ]),
-                ID: faker.number.int({ min: undefined, max: undefined }),
+                ID: faker.helpers.arrayElement([
+                    faker.number.int({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
                 Modified_Date: `${
                     faker.date.past().toISOString().split('.')[0]
                 }Z`,
@@ -8557,7 +8590,10 @@ export const getModulesModuleIdObjectMaatregelLatestLineageIdGetResponseMock = (
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
                 undefined,
             ]),
-            ID: faker.number.int({ min: undefined, max: undefined }),
+            ID: faker.helpers.arrayElement([
+                faker.number.int({ min: undefined, max: undefined }),
+                undefined,
+            ]),
             Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Start_Validity: faker.helpers.arrayElement([
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -8849,7 +8885,10 @@ export const getModulesModuleIdObjectMaatregelVersionObjectUuidGetResponseMock =
                     `${faker.date.past().toISOString().split('.')[0]}Z`,
                     undefined,
                 ]),
-                ID: faker.number.int({ min: undefined, max: undefined }),
+                ID: faker.helpers.arrayElement([
+                    faker.number.int({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
                 Modified_Date: `${
                     faker.date.past().toISOString().split('.')[0]
                 }Z`,
@@ -9197,7 +9236,10 @@ export const getRevisionsModuleIdMaatregelVersionObjectUuidGetResponseMock = (
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
                 undefined,
             ]),
-            ID: faker.number.int({ min: undefined, max: undefined }),
+            ID: faker.helpers.arrayElement([
+                faker.number.int({ min: undefined, max: undefined }),
+                undefined,
+            ]),
             Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
             Start_Validity: faker.helpers.arrayElement([
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -12424,7 +12466,10 @@ export const getSourceWerkingsgebiedenGetResponseMock = (
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             undefined,
         ]),
-        ID: faker.number.int({ min: undefined, max: undefined }),
+        ID: faker.helpers.arrayElement([
+            faker.number.int({ min: undefined, max: undefined }),
+            undefined,
+        ]),
         Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
         Start_Validity: faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -13559,7 +13604,7 @@ export const getPublicationVersionsVersionUuidPackagesPostResponseMock = (
     ...overrideResponse,
 })
 
-export const getPublicationPackagesGetResponseMock = (
+export const getPublicationActPackagesGetResponseMock = (
     overrideResponse: any = {}
 ): PagedResponsePublicationPackage => ({
     limit: faker.helpers.arrayElement([
@@ -13601,20 +13646,20 @@ export const getPublicationPackagesGetResponseMock = (
     ...overrideResponse,
 })
 
-export const getPublicationPackagesPackageUuidDownloadGetResponseMock =
-    (): PublicationPackagesPackageUuidDownloadGet200 => ({})
+export const getPublicationActPackagesActPackageUuidDownloadGetResponseMock =
+    (): PublicationActPackagesActPackageUuidDownloadGet200 => ({})
 
-export const getPublicationPackagesPackageUuidReportPostResponseMock = (
+export const getPublicationActPackagesActPackageUuidReportPostResponseMock = (
     overrideResponse: any = {}
-): UploadPackageReportResponse => ({
+): AppExtensionsPublicationsEndpointsPublicationsActReportsUploadActPackageReportUploadPackageReportResponse => ({
     Duplicate_Count: faker.number.int({ min: undefined, max: undefined }),
     Status: faker.helpers.arrayElement(Object.values(ReportStatusType)),
     ...overrideResponse,
 })
 
-export const getPublicationReportsGetResponseMock = (
+export const getPublicationActReportsGetResponseMock = (
     overrideResponse: any = {}
-): PagedResponsePublicationPackageReportShort => ({
+): PagedResponsePublicationActPackageReportShort => ({
     limit: faker.helpers.arrayElement([
         faker.number.int({ min: undefined, max: undefined }),
         undefined,
@@ -13627,10 +13672,10 @@ export const getPublicationReportsGetResponseMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
+        Act_Package_UUID: faker.string.uuid(),
         Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
         Filename: faker.word.sample(),
         Main_Outcome: faker.word.sample(),
-        Package_UUID: faker.string.uuid(),
         Report_Status: faker.word.sample(),
         UUID: faker.string.uuid(),
         ...overrideResponse,
@@ -13639,13 +13684,13 @@ export const getPublicationReportsGetResponseMock = (
     ...overrideResponse,
 })
 
-export const getPublicationReportsReportUuidGetResponseMock = (
+export const getPublicationActReportsActReportUuidGetResponseMock = (
     overrideResponse: any = {}
-): PublicationPackageReport => ({
+): PublicationActPackageReport => ({
+    Act_Package_UUID: faker.string.uuid(),
     Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
     Filename: faker.word.sample(),
     Main_Outcome: faker.word.sample(),
-    Package_UUID: faker.string.uuid(),
     Report_Status: faker.word.sample(),
     Source_Document: faker.word.sample(),
     Sub_Delivery_ID: faker.word.sample(),
@@ -13655,8 +13700,204 @@ export const getPublicationReportsReportUuidGetResponseMock = (
     ...overrideResponse,
 })
 
-export const getPublicationReportsReportUuidDownloadGetResponseMock =
-    (): PublicationReportsReportUuidDownloadGet200 => ({})
+export const getPublicationActReportsActReportUuidDownloadGetResponseMock =
+    (): PublicationActReportsActReportUuidDownloadGet200 => ({})
+
+export const getPublicationActPackagesActPackageUuidCreateAnnouncementPostResponseMock =
+    (overrideResponse: any = {}): AnnouncementCreatedResponse => ({
+        UUID: faker.string.uuid(),
+        ...overrideResponse,
+    })
+
+export const getPublicationAnnouncementsGetResponseMock = (
+    overrideResponse: any = {}
+): PagedResponsePublicationAnnouncementShort => ({
+    limit: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    offset: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    results: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Announcement_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().split('T')[0],
+            undefined,
+        ]),
+        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Is_Locked: faker.datatype.boolean(),
+        Metadata: {},
+        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        UUID: faker.string.uuid(),
+        ...overrideResponse,
+    })),
+    total: faker.number.int({ min: undefined, max: undefined }),
+    ...overrideResponse,
+})
+
+export const getPublicationAnnouncementsAnnouncementUuidGetResponseMock = (
+    overrideResponse: any = {}
+): PublicationAnnouncement => ({
+    Act_Package: {
+        Created_By_UUID: faker.string.uuid(),
+        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Delivery_ID: faker.word.sample(),
+        Modified_By_UUID: faker.string.uuid(),
+        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Package_Type: faker.word.sample(),
+        Report_Status: faker.word.sample(),
+        UUID: faker.string.uuid(),
+        ...overrideResponse,
+    },
+    Announcement_Date: faker.helpers.arrayElement([
+        faker.date.past().toISOString().split('T')[0],
+        undefined,
+    ]),
+    Content: {},
+    Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Is_Locked: faker.datatype.boolean(),
+    Metadata: {},
+    Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Procedural: {},
+    Publication: {
+        Act_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Document_Type: faker.word.sample(),
+        Environment_UUID: faker.helpers.arrayElement([
+            faker.string.uuid(),
+            undefined,
+        ]),
+        Is_Locked: faker.datatype.boolean(),
+        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Module_ID: faker.number.int({ min: undefined, max: undefined }),
+        Procedure_Type: faker.word.sample(),
+        Template_UUID: faker.helpers.arrayElement([
+            faker.string.uuid(),
+            undefined,
+        ]),
+        Title: faker.word.sample(),
+        UUID: faker.string.uuid(),
+        ...overrideResponse,
+    },
+    UUID: faker.string.uuid(),
+    ...overrideResponse,
+})
+
+export const getPublicationAnnouncementsAnnouncementUuidPostResponseMock = (
+    overrideResponse: any = {}
+): ResponseOK => ({ message: faker.word.sample(), ...overrideResponse })
+
+export const getPublicationAnnouncementsAnnouncementUuidPackagesPostResponseMock =
+    (
+        overrideResponse: any = {}
+    ): PublicationAnnouncementPackageCreatedResponse => ({
+        Package_UUID: faker.string.uuid(),
+        Zip_UUID: faker.string.uuid(),
+        ...overrideResponse,
+    })
+
+export const getPublicationAnnouncementPackagesGetResponseMock = (
+    overrideResponse: any = {}
+): PagedResponsePublicationPackage => ({
+    limit: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    offset: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    results: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Created_By_UUID: faker.string.uuid(),
+        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Delivery_ID: faker.word.sample(),
+        Modified_By_UUID: faker.string.uuid(),
+        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Package_Type: faker.word.sample(),
+        Report_Status: faker.word.sample(),
+        UUID: faker.string.uuid(),
+        Zip: {
+            Filename: faker.word.sample(),
+            Latest_Download_By_UUID: faker.helpers.arrayElement([
+                faker.string.uuid(),
+                undefined,
+            ]),
+            Latest_Download_Date: faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                undefined,
+            ]),
+            UUID: faker.string.uuid(),
+            ...overrideResponse,
+        },
+        ...overrideResponse,
+    })),
+    total: faker.number.int({ min: undefined, max: undefined }),
+    ...overrideResponse,
+})
+
+export const getPublicationAnnouncementPackagesAnnouncementPackageUuidDownloadGetResponseMock =
+    (): PublicationAnnouncementPackagesAnnouncementPackageUuidDownloadGet200 => ({})
+
+export const getPublicationAnnouncementPackagesAnnouncementPackageUuidReportPostResponseMock =
+    (
+        overrideResponse: any = {}
+    ): AppExtensionsPublicationsEndpointsPublicationsAnnouncementReportsUploadAnnouncementPackageReportUploadPackageReportResponse => ({
+        Duplicate_Count: faker.number.int({ min: undefined, max: undefined }),
+        Status: faker.helpers.arrayElement(Object.values(ReportStatusType)),
+        ...overrideResponse,
+    })
+
+export const getPublicationAnnouncementReportsGetResponseMock = (
+    overrideResponse: any = {}
+): PagedResponsePublicationAnnouncementPackageReportShort => ({
+    limit: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    offset: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    results: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Announcement_Package_UUID: faker.string.uuid(),
+        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Filename: faker.word.sample(),
+        Main_Outcome: faker.word.sample(),
+        Report_Status: faker.word.sample(),
+        UUID: faker.string.uuid(),
+        ...overrideResponse,
+    })),
+    total: faker.number.int({ min: undefined, max: undefined }),
+    ...overrideResponse,
+})
+
+export const getPublicationAnnouncementReportsAnnouncementReportUuidGetResponseMock =
+    (overrideResponse: any = {}): PublicationAnnouncementPackageReport => ({
+        Announcement_Package_UUID: faker.string.uuid(),
+        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Filename: faker.word.sample(),
+        Main_Outcome: faker.word.sample(),
+        Report_Status: faker.word.sample(),
+        Source_Document: faker.word.sample(),
+        Sub_Delivery_ID: faker.word.sample(),
+        Sub_Outcome: faker.word.sample(),
+        Sub_Progress: faker.word.sample(),
+        UUID: faker.string.uuid(),
+        ...overrideResponse,
+    })
+
+export const getPublicationAnnouncementReportsAnnouncementReportUuidDownloadGetResponseMock =
+    (): PublicationAnnouncementReportsAnnouncementReportUuidDownloadGet200 => ({})
 
 export const getLoginAccessTokenPostResponseMock = (
     overrideResponse: any = {}
@@ -17895,16 +18136,16 @@ export const getPublicationVersionsVersionUuidPackagesPostMockHandler = (
     )
 }
 
-export const getPublicationPackagesGetMockHandler = (
+export const getPublicationActPackagesGetMockHandler = (
     overrideResponse?: PagedResponsePublicationPackage
 ) => {
-    return http.get('*/publication-packages', async () => {
+    return http.get('*/publication-act-packages', async () => {
         await delay(1000)
         return new HttpResponse(
             JSON.stringify(
                 overrideResponse
                     ? overrideResponse
-                    : getPublicationPackagesGetResponseMock()
+                    : getPublicationActPackagesGetResponseMock()
             ),
             {
                 status: 200,
@@ -17916,18 +18157,18 @@ export const getPublicationPackagesGetMockHandler = (
     })
 }
 
-export const getPublicationPackagesPackageUuidDownloadGetMockHandler = (
-    overrideResponse?: PublicationPackagesPackageUuidDownloadGet200
+export const getPublicationActPackagesActPackageUuidDownloadGetMockHandler = (
+    overrideResponse?: PublicationActPackagesActPackageUuidDownloadGet200
 ) => {
     return http.get(
-        '*/publication-packages/:packageUuid/download',
+        '*/publication-act-packages/:actPackageUuid/download',
         async () => {
             await delay(1000)
             return new HttpResponse(
                 JSON.stringify(
                     overrideResponse
                         ? overrideResponse
-                        : getPublicationPackagesPackageUuidDownloadGetResponseMock()
+                        : getPublicationActPackagesActPackageUuidDownloadGetResponseMock()
                 ),
                 {
                     status: 200,
@@ -17940,16 +18181,40 @@ export const getPublicationPackagesPackageUuidDownloadGetMockHandler = (
     )
 }
 
-export const getPublicationPackagesPackageUuidReportPostMockHandler = (
-    overrideResponse?: UploadPackageReportResponse
+export const getPublicationActPackagesActPackageUuidReportPostMockHandler = (
+    overrideResponse?: AppExtensionsPublicationsEndpointsPublicationsActReportsUploadActPackageReportUploadPackageReportResponse
 ) => {
-    return http.post('*/publication-packages/:packageUuid/report', async () => {
+    return http.post(
+        '*/publication-act-packages/:actPackageUuid/report',
+        async () => {
+            await delay(1000)
+            return new HttpResponse(
+                JSON.stringify(
+                    overrideResponse
+                        ? overrideResponse
+                        : getPublicationActPackagesActPackageUuidReportPostResponseMock()
+                ),
+                {
+                    status: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+        }
+    )
+}
+
+export const getPublicationActReportsGetMockHandler = (
+    overrideResponse?: PagedResponsePublicationActPackageReportShort
+) => {
+    return http.get('*/publication-act-reports', async () => {
         await delay(1000)
         return new HttpResponse(
             JSON.stringify(
                 overrideResponse
                     ? overrideResponse
-                    : getPublicationPackagesPackageUuidReportPostResponseMock()
+                    : getPublicationActReportsGetResponseMock()
             ),
             {
                 status: 200,
@@ -17961,16 +18226,16 @@ export const getPublicationPackagesPackageUuidReportPostMockHandler = (
     })
 }
 
-export const getPublicationReportsGetMockHandler = (
-    overrideResponse?: PagedResponsePublicationPackageReportShort
+export const getPublicationActReportsActReportUuidGetMockHandler = (
+    overrideResponse?: PublicationActPackageReport
 ) => {
-    return http.get('*/publication-reports', async () => {
+    return http.get('*/publication-act-reports/:actReportUuid', async () => {
         await delay(1000)
         return new HttpResponse(
             JSON.stringify(
                 overrideResponse
                     ? overrideResponse
-                    : getPublicationReportsGetResponseMock()
+                    : getPublicationActReportsActReportUuidGetResponseMock()
             ),
             {
                 status: 200,
@@ -17982,16 +18247,63 @@ export const getPublicationReportsGetMockHandler = (
     })
 }
 
-export const getPublicationReportsReportUuidGetMockHandler = (
-    overrideResponse?: PublicationPackageReport
+export const getPublicationActReportsActReportUuidDownloadGetMockHandler = (
+    overrideResponse?: PublicationActReportsActReportUuidDownloadGet200
 ) => {
-    return http.get('*/publication-reports/:reportUuid', async () => {
+    return http.get(
+        '*/publication-act-reports/:actReportUuid/download',
+        async () => {
+            await delay(1000)
+            return new HttpResponse(
+                JSON.stringify(
+                    overrideResponse
+                        ? overrideResponse
+                        : getPublicationActReportsActReportUuidDownloadGetResponseMock()
+                ),
+                {
+                    status: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+        }
+    )
+}
+
+export const getPublicationActPackagesActPackageUuidCreateAnnouncementPostMockHandler =
+    (overrideResponse?: AnnouncementCreatedResponse) => {
+        return http.post(
+            '*/publication-act-packages/:actPackageUuid/create-announcement',
+            async () => {
+                await delay(1000)
+                return new HttpResponse(
+                    JSON.stringify(
+                        overrideResponse
+                            ? overrideResponse
+                            : getPublicationActPackagesActPackageUuidCreateAnnouncementPostResponseMock()
+                    ),
+                    {
+                        status: 200,
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                )
+            }
+        )
+    }
+
+export const getPublicationAnnouncementsGetMockHandler = (
+    overrideResponse?: PagedResponsePublicationAnnouncementShort
+) => {
+    return http.get('*/publication-announcements', async () => {
         await delay(1000)
         return new HttpResponse(
             JSON.stringify(
                 overrideResponse
                     ? overrideResponse
-                    : getPublicationReportsReportUuidGetResponseMock()
+                    : getPublicationAnnouncementsGetResponseMock()
             ),
             {
                 status: 200,
@@ -18003,16 +18315,87 @@ export const getPublicationReportsReportUuidGetMockHandler = (
     })
 }
 
-export const getPublicationReportsReportUuidDownloadGetMockHandler = (
-    overrideResponse?: PublicationReportsReportUuidDownloadGet200
+export const getPublicationAnnouncementsAnnouncementUuidGetMockHandler = (
+    overrideResponse?: PublicationAnnouncement
 ) => {
-    return http.get('*/publication-reports/:reportUuid/download', async () => {
+    return http.get(
+        '*/publication-announcements/:announcementUuid',
+        async () => {
+            await delay(1000)
+            return new HttpResponse(
+                JSON.stringify(
+                    overrideResponse
+                        ? overrideResponse
+                        : getPublicationAnnouncementsAnnouncementUuidGetResponseMock()
+                ),
+                {
+                    status: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+        }
+    )
+}
+
+export const getPublicationAnnouncementsAnnouncementUuidPostMockHandler = (
+    overrideResponse?: ResponseOK
+) => {
+    return http.post(
+        '*/publication-announcements/:announcementUuid',
+        async () => {
+            await delay(1000)
+            return new HttpResponse(
+                JSON.stringify(
+                    overrideResponse
+                        ? overrideResponse
+                        : getPublicationAnnouncementsAnnouncementUuidPostResponseMock()
+                ),
+                {
+                    status: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+        }
+    )
+}
+
+export const getPublicationAnnouncementsAnnouncementUuidPackagesPostMockHandler =
+    (overrideResponse?: PublicationAnnouncementPackageCreatedResponse) => {
+        return http.post(
+            '*/publication-announcements/:announcementUuid/packages',
+            async () => {
+                await delay(1000)
+                return new HttpResponse(
+                    JSON.stringify(
+                        overrideResponse
+                            ? overrideResponse
+                            : getPublicationAnnouncementsAnnouncementUuidPackagesPostResponseMock()
+                    ),
+                    {
+                        status: 200,
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                )
+            }
+        )
+    }
+
+export const getPublicationAnnouncementPackagesGetMockHandler = (
+    overrideResponse?: PagedResponsePublicationPackage
+) => {
+    return http.get('*/publication-announcement-packages', async () => {
         await delay(1000)
         return new HttpResponse(
             JSON.stringify(
                 overrideResponse
                     ? overrideResponse
-                    : getPublicationReportsReportUuidDownloadGetResponseMock()
+                    : getPublicationAnnouncementPackagesGetResponseMock()
             ),
             {
                 status: 200,
@@ -18023,6 +18406,125 @@ export const getPublicationReportsReportUuidDownloadGetMockHandler = (
         )
     })
 }
+
+export const getPublicationAnnouncementPackagesAnnouncementPackageUuidDownloadGetMockHandler =
+    (
+        overrideResponse?: PublicationAnnouncementPackagesAnnouncementPackageUuidDownloadGet200
+    ) => {
+        return http.get(
+            '*/publication-announcement-packages/:announcementPackageUuid/download',
+            async () => {
+                await delay(1000)
+                return new HttpResponse(
+                    JSON.stringify(
+                        overrideResponse
+                            ? overrideResponse
+                            : getPublicationAnnouncementPackagesAnnouncementPackageUuidDownloadGetResponseMock()
+                    ),
+                    {
+                        status: 200,
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                )
+            }
+        )
+    }
+
+export const getPublicationAnnouncementPackagesAnnouncementPackageUuidReportPostMockHandler =
+    (
+        overrideResponse?: AppExtensionsPublicationsEndpointsPublicationsAnnouncementReportsUploadAnnouncementPackageReportUploadPackageReportResponse
+    ) => {
+        return http.post(
+            '*/publication-announcement-packages/:announcementPackageUuid/report',
+            async () => {
+                await delay(1000)
+                return new HttpResponse(
+                    JSON.stringify(
+                        overrideResponse
+                            ? overrideResponse
+                            : getPublicationAnnouncementPackagesAnnouncementPackageUuidReportPostResponseMock()
+                    ),
+                    {
+                        status: 200,
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                )
+            }
+        )
+    }
+
+export const getPublicationAnnouncementReportsGetMockHandler = (
+    overrideResponse?: PagedResponsePublicationAnnouncementPackageReportShort
+) => {
+    return http.get('*/publication-announcement-reports', async () => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse
+                    ? overrideResponse
+                    : getPublicationAnnouncementReportsGetResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getPublicationAnnouncementReportsAnnouncementReportUuidGetMockHandler =
+    (overrideResponse?: PublicationAnnouncementPackageReport) => {
+        return http.get(
+            '*/publication-announcement-reports/:announcementReportUuid',
+            async () => {
+                await delay(1000)
+                return new HttpResponse(
+                    JSON.stringify(
+                        overrideResponse
+                            ? overrideResponse
+                            : getPublicationAnnouncementReportsAnnouncementReportUuidGetResponseMock()
+                    ),
+                    {
+                        status: 200,
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                )
+            }
+        )
+    }
+
+export const getPublicationAnnouncementReportsAnnouncementReportUuidDownloadGetMockHandler =
+    (
+        overrideResponse?: PublicationAnnouncementReportsAnnouncementReportUuidDownloadGet200
+    ) => {
+        return http.get(
+            '*/publication-announcement-reports/:announcementReportUuid/download',
+            async () => {
+                await delay(1000)
+                return new HttpResponse(
+                    JSON.stringify(
+                        overrideResponse
+                            ? overrideResponse
+                            : getPublicationAnnouncementReportsAnnouncementReportUuidDownloadGetResponseMock()
+                    ),
+                    {
+                        status: 200,
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                )
+            }
+        )
+    }
 
 export const getLoginAccessTokenPostMockHandler = (
     overrideResponse?: AuthToken
@@ -18281,12 +18783,23 @@ export const getOmgevingsbeleidAPIMock = () => [
     getPublicationVersionsVersionUuidGetMockHandler(),
     getPublicationVersionsVersionUuidPostMockHandler(),
     getPublicationVersionsVersionUuidPackagesPostMockHandler(),
-    getPublicationPackagesGetMockHandler(),
-    getPublicationPackagesPackageUuidDownloadGetMockHandler(),
-    getPublicationPackagesPackageUuidReportPostMockHandler(),
-    getPublicationReportsGetMockHandler(),
-    getPublicationReportsReportUuidGetMockHandler(),
-    getPublicationReportsReportUuidDownloadGetMockHandler(),
+    getPublicationActPackagesGetMockHandler(),
+    getPublicationActPackagesActPackageUuidDownloadGetMockHandler(),
+    getPublicationActPackagesActPackageUuidReportPostMockHandler(),
+    getPublicationActReportsGetMockHandler(),
+    getPublicationActReportsActReportUuidGetMockHandler(),
+    getPublicationActReportsActReportUuidDownloadGetMockHandler(),
+    getPublicationActPackagesActPackageUuidCreateAnnouncementPostMockHandler(),
+    getPublicationAnnouncementsGetMockHandler(),
+    getPublicationAnnouncementsAnnouncementUuidGetMockHandler(),
+    getPublicationAnnouncementsAnnouncementUuidPostMockHandler(),
+    getPublicationAnnouncementsAnnouncementUuidPackagesPostMockHandler(),
+    getPublicationAnnouncementPackagesGetMockHandler(),
+    getPublicationAnnouncementPackagesAnnouncementPackageUuidDownloadGetMockHandler(),
+    getPublicationAnnouncementPackagesAnnouncementPackageUuidReportPostMockHandler(),
+    getPublicationAnnouncementReportsGetMockHandler(),
+    getPublicationAnnouncementReportsAnnouncementReportUuidGetMockHandler(),
+    getPublicationAnnouncementReportsAnnouncementReportUuidDownloadGetMockHandler(),
     getLoginAccessTokenPostMockHandler(),
     getPasswordResetPostMockHandler(),
     getHealthCheckHealthGetMockHandler(),

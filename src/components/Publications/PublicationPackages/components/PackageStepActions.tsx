@@ -5,11 +5,11 @@ import clsx from 'clsx'
 import { useMemo, useState } from 'react'
 
 import {
-    getPublicationPackagesGetQueryKey,
-    getPublicationPackagesPackageUuidDownloadGetQueryKey,
+    getPublicationActPackagesActPackageUuidDownloadGetQueryKey,
+    getPublicationActPackagesGetQueryKey,
     getPublicationsPublicationUuidVersionsGetQueryKey,
-    usePublicationPackagesPackageUuidReportPost,
-    usePublicationReportsGet,
+    usePublicationActPackagesActPackageUuidReportPost,
+    usePublicationActReportsGet,
     usePublicationVersionsVersionUuidPackagesPost,
 } from '@/api/fetchers'
 import {
@@ -57,7 +57,7 @@ const CreateAction = ({
             mutation: {
                 onSuccess: () => {
                     queryClient.invalidateQueries({
-                        queryKey: getPublicationPackagesGetQueryKey({
+                        queryKey: getPublicationActPackagesGetQueryKey({
                             version_uuid: version.UUID,
                         }),
                     })
@@ -129,7 +129,7 @@ const DownloadAction = ({
         ],
         queryFn: async () =>
             downloadFile(
-                getPublicationPackagesPackageUuidDownloadGetQueryKey(
+                getPublicationActPackagesActPackageUuidDownloadGetQueryKey(
                     publicationPackage?.UUID || ''
                 )[0]
             ),
@@ -139,7 +139,7 @@ const DownloadAction = ({
     const handleAction = () =>
         download().finally(() =>
             queryClient.invalidateQueries({
-                queryKey: getPublicationPackagesGetQueryKey({
+                queryKey: getPublicationActPackagesGetQueryKey({
                     version_uuid: version.UUID,
                 }),
             })
@@ -186,9 +186,9 @@ const UploadAction = ({
 
     const [files, setFiles] = useState<File[] | null>(null)
 
-    const { data: reports, queryKey } = usePublicationReportsGet(
+    const { data: reports, queryKey } = usePublicationActReportsGet(
         {
-            package_uuid: publicationPackage?.UUID,
+            act_package_uuid: publicationPackage?.UUID,
             limit: 100,
         },
         {
@@ -198,37 +198,38 @@ const UploadAction = ({
         }
     )
 
-    const { mutate, isPending } = usePublicationPackagesPackageUuidReportPost({
-        mutation: {
-            onSuccess: data => {
-                setFiles(null)
+    const { mutate, isPending } =
+        usePublicationActPackagesActPackageUuidReportPost({
+            mutation: {
+                onSuccess: data => {
+                    setFiles(null)
 
-                queryClient.invalidateQueries({
-                    queryKey: getPublicationPackagesGetQueryKey({
-                        version_uuid: version.UUID,
-                    }),
-                })
-                queryClient.invalidateQueries({
-                    queryKey,
-                })
-
-                if (data.Status === 'valid') {
                     queryClient.invalidateQueries({
-                        queryKey:
-                            getPublicationsPublicationUuidVersionsGetQueryKey(
-                                version.Publication_UUID
-                            ),
+                        queryKey: getPublicationActPackagesGetQueryKey({
+                            version_uuid: version.UUID,
+                        }),
                     })
-                }
+                    queryClient.invalidateQueries({
+                        queryKey,
+                    })
+
+                    if (data.Status === 'valid') {
+                        queryClient.invalidateQueries({
+                            queryKey:
+                                getPublicationsPublicationUuidVersionsGetQueryKey(
+                                    version.Publication_UUID
+                                ),
+                        })
+                    }
+                },
             },
-        },
-    })
+        })
 
     const handleAction = () => {
         if (!publicationPackage?.UUID || !!!files?.length) return
 
         mutate({
-            packageUuid: publicationPackage.UUID,
+            actPackageUuid: publicationPackage.UUID,
             data: { uploaded_files: files },
         })
     }

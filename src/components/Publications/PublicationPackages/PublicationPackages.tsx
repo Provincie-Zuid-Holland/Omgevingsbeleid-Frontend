@@ -2,7 +2,7 @@ import { Notification, Text, formatDate } from '@pzh-ui/components'
 import { useMemo } from 'react'
 
 import {
-    usePublicationPackagesGet,
+    usePublicationActPackagesGet,
     usePublicationVersionsVersionUuidGet,
 } from '@/api/fetchers'
 import {
@@ -21,34 +21,28 @@ export interface PublicationPackageProps {
 
 interface PublicationPackagesProps extends PublicationVersionShort {
     environment?: PublicationEnvironment
-    isAbort?: boolean
 }
 
 const PublicationPackages = ({
     environment,
-    isAbort,
     ...version
 }: PublicationPackagesProps) => {
     const { data } = usePublicationVersionsVersionUuidGet(version.UUID)
 
-    const { data: packages, isPending } = usePublicationPackagesGet({
+    const { data: packages, isPending } = usePublicationActPackagesGet({
         version_uuid: version.UUID,
     })
 
-    const { validationPackage, publicationPackage, abortPackage } =
-        useMemo(() => {
-            const validationPackage = packages?.results.find(
-                pkg => pkg.Package_Type === PackageType['validation']
-            )
-            const publicationPackage = packages?.results.find(
-                pkg => pkg.Package_Type === PackageType['publication']
-            )
-            const abortPackage = packages?.results.find(
-                pkg => pkg.Package_Type === PackageType['publication_abort']
-            )
+    const { validationPackage, publicationPackage } = useMemo(() => {
+        const validationPackage = packages?.results.find(
+            pkg => pkg.Package_Type === PackageType['validation']
+        )
+        const publicationPackage = packages?.results.find(
+            pkg => pkg.Package_Type === PackageType['publication']
+        )
 
-            return { validationPackage, publicationPackage, abortPackage }
-        }, [packages?.results])
+        return { validationPackage, publicationPackage }
+    }, [packages?.results])
 
     const { announcementDate, effectiveDate } = useMemo(() => {
         const announcementDate =
@@ -72,46 +66,6 @@ const PublicationPackages = ({
             <div className="my-10 flex justify-center">
                 <LoaderSpinner />
             </div>
-        )
-    }
-
-    if (isAbort) {
-        return (
-            <>
-                <div>
-                    <Text size="m" bold color="text-pzh-blue-500">
-                        Afbreekverzoek
-                    </Text>
-                    <PackageStep
-                        version={version}
-                        type="create"
-                        eventType="publication_abort"
-                        isActive={!!!abortPackage && data?.Is_Valid}
-                        isSucceeded={!!abortPackage}
-                        isFirst
-                    />
-                    <PackageStep
-                        version={version}
-                        type="download"
-                        eventType="publication_abort"
-                        isActive={!!abortPackage}
-                        isLast={!isOfficial}
-                        isSucceeded={!!abortPackage?.Zip.Latest_Download_Date}
-                    />
-                    {isOfficial && (
-                        <PackageStep
-                            version={version}
-                            type="upload"
-                            eventType="publication_abort"
-                            isActive={!!abortPackage?.Zip.Latest_Download_Date}
-                            isSucceeded={
-                                abortPackage?.Report_Status === 'Valid'
-                            }
-                            isLast
-                        />
-                    )}
-                </div>
-            </>
         )
     }
 

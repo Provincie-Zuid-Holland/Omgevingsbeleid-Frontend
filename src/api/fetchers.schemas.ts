@@ -15,18 +15,43 @@ export type PasswordResetPostParams = {
     new_password: string
 }
 
-export type PublicationReportsReportUuidDownloadGet200 = {}
+export type PublicationAnnouncementReportsAnnouncementReportUuidDownloadGet200 =
+    {}
 
-export type PublicationReportsGetParams = {
-    package_uuid?: string
+export type PublicationAnnouncementReportsGetParams = {
+    announcement_package_uuid?: string
     report_status?: ReportStatusType
     offset?: number
     limit?: number
 }
 
-export type PublicationPackagesPackageUuidDownloadGet200 = {}
+export type PublicationAnnouncementPackagesAnnouncementPackageUuidDownloadGet200 =
+    {}
 
-export type PublicationPackagesGetParams = {
+export type PublicationAnnouncementPackagesGetParams = {
+    announcement_uuid?: string
+    offset?: number
+    limit?: number
+}
+
+export type PublicationAnnouncementsGetParams = {
+    act_package_uuid?: string
+    offset?: number
+    limit?: number
+}
+
+export type PublicationActReportsActReportUuidDownloadGet200 = {}
+
+export type PublicationActReportsGetParams = {
+    act_package_uuid?: string
+    report_status?: ReportStatusType
+    offset?: number
+    limit?: number
+}
+
+export type PublicationActPackagesActPackageUuidDownloadGet200 = {}
+
+export type PublicationActPackagesGetParams = {
     version_uuid?: string
     offset?: number
     limit?: number
@@ -477,6 +502,16 @@ export type AmbitiesValidGetParams = {
     sort_order?: SortOrder
 }
 
+export interface AppExtensionsPublicationsEndpointsPublicationsAnnouncementReportsUploadAnnouncementPackageReportUploadPackageReportResponse {
+    Duplicate_Count: number
+    Status: ReportStatusType
+}
+
+export interface AppExtensionsPublicationsEndpointsPublicationsActReportsUploadActPackageReportUploadPackageReportResponse {
+    Duplicate_Count: number
+    Status: ReportStatusType
+}
+
 export interface WriteRelation {
     Description?: string | null
     Object_ID: number
@@ -646,7 +681,7 @@ export interface WerkingsgebiedBasic {
 export interface Werkingsgebied {
     Created_Date: string
     End_Validity?: string
-    ID: number
+    ID?: number
     Modified_Date: string
     Start_Validity?: string
     Title: string
@@ -848,11 +883,6 @@ export interface User {
     UUID: string
 }
 
-export interface UploadPackageReportResponse {
-    Duplicate_Count: number
-    Status: ReportStatusType
-}
-
 export type TemplateEditObjectTemplates = { [key: string]: string } | null
 
 export type TemplateEditDocumentType = DocumentType | null
@@ -1038,21 +1068,6 @@ export type PublicationVersionBillMetadata = { [key: string]: any }
 
 export type PublicationVersionBillCompact = { [key: string]: any }
 
-export interface PublicationVersion {
-    Announcement_Date?: string
-    Bill_Compact: PublicationVersionBillCompact
-    Bill_Metadata: PublicationVersionBillMetadata
-    Created_Date: string
-    Effective_Date?: string
-    Is_Locked: boolean
-    Is_Valid?: boolean
-    Modified_Date: string
-    Module_Status: ModuleStatus
-    Procedural: PublicationVersionProcedural
-    Publication: PublicationShort
-    UUID: string
-}
-
 export type PublicationTemplateObjectTemplates = { [key: string]: string }
 
 export interface PublicationTemplate {
@@ -1083,25 +1098,29 @@ export interface PublicationShort {
     UUID: string
 }
 
-export interface PublicationPackageReportShort {
+export interface PublicationVersion {
+    Announcement_Date?: string
+    Bill_Compact: PublicationVersionBillCompact
+    Bill_Metadata: PublicationVersionBillMetadata
     Created_Date: string
-    Filename: string
-    Main_Outcome: string
-    Package_UUID: string
-    Report_Status: string
+    Effective_Date?: string
+    Is_Locked: boolean
+    Is_Valid?: boolean
+    Modified_Date: string
+    Module_Status: ModuleStatus
+    Procedural: PublicationVersionProcedural
+    Publication: PublicationShort
     UUID: string
 }
 
-export interface PublicationPackageReport {
+export interface PublicationPackageShort {
+    Created_By_UUID: string
     Created_Date: string
-    Filename: string
-    Main_Outcome: string
-    Package_UUID: string
+    Delivery_ID: string
+    Modified_By_UUID: string
+    Modified_Date: string
+    Package_Type: string
     Report_Status: string
-    Source_Document: string
-    Sub_Delivery_ID: string
-    Sub_Outcome: string
-    Sub_Progress: string
     UUID: string
 }
 
@@ -1158,9 +1177,77 @@ export interface PublicationCreate {
     Document_Type: DocumentType
     Environment_UUID: string
     Module_ID: number
-    Procedure_Type: ImplementedProcedureType
+    Procedure_Type: ProcedureType
     Template_UUID: string
     Title: string
+}
+
+export type PublicationAnnouncementShortMetadata = { [key: string]: any }
+
+export interface PublicationAnnouncementShort {
+    Announcement_Date?: string
+    Created_Date: string
+    Is_Locked: boolean
+    Metadata: PublicationAnnouncementShortMetadata
+    Modified_Date: string
+    UUID: string
+}
+
+export interface PublicationAnnouncementPackageReportShort {
+    Announcement_Package_UUID: string
+    Created_Date: string
+    Filename: string
+    Main_Outcome: string
+    Report_Status: string
+    UUID: string
+}
+
+export interface PublicationAnnouncementPackageReport {
+    Announcement_Package_UUID: string
+    Created_Date: string
+    Filename: string
+    Main_Outcome: string
+    Report_Status: string
+    Source_Document: string
+    Sub_Delivery_ID: string
+    Sub_Outcome: string
+    Sub_Progress: string
+    UUID: string
+}
+
+export interface PublicationAnnouncementPackageCreatedResponse {
+    Package_UUID: string
+    Zip_UUID: string
+}
+
+export interface PublicationAnnouncementPackageCreate {
+    Package_Type: PackageType
+}
+
+export interface PublicationAnnouncementEdit {
+    Announcement_Date?: string
+    Metadata?: AnnouncementMetadata
+    Procedural?: AnnouncementProcedural
+    Texts?: AnnouncementContent
+}
+
+export type PublicationAnnouncementProcedural = { [key: string]: any }
+
+export type PublicationAnnouncementMetadata = { [key: string]: any }
+
+export type PublicationAnnouncementContent = { [key: string]: any }
+
+export interface PublicationAnnouncement {
+    Act_Package: PublicationPackageShort
+    Announcement_Date?: string
+    Content: PublicationAnnouncementContent
+    Created_Date: string
+    Is_Locked: boolean
+    Metadata: PublicationAnnouncementMetadata
+    Modified_Date: string
+    Procedural: PublicationAnnouncementProcedural
+    Publication: PublicationShort
+    UUID: string
 }
 
 export interface PublicationActShort {
@@ -1176,6 +1263,28 @@ export interface PublicationActShort {
     Work_Date: string
     Work_Other: string
     Work_Province_ID: string
+}
+
+export interface PublicationActPackageReportShort {
+    Act_Package_UUID: string
+    Created_Date: string
+    Filename: string
+    Main_Outcome: string
+    Report_Status: string
+    UUID: string
+}
+
+export interface PublicationActPackageReport {
+    Act_Package_UUID: string
+    Created_Date: string
+    Filename: string
+    Main_Outcome: string
+    Report_Status: string
+    Source_Document: string
+    Sub_Delivery_ID: string
+    Sub_Outcome: string
+    Sub_Progress: string
+    UUID: string
 }
 
 export type PublicationActMetadata = { [key: string]: any }
@@ -1225,18 +1334,6 @@ export interface PublicModuleShort {
     Title: string
 }
 
-export interface PublicModuleObjectRevision {
-    Module_ID: number
-    Module_Object_UUID: string
-    Module_Status: string
-    Module_Title: string
-}
-
-export interface PublicModuleObjectContextShort {
-    Action: string
-    Original_Adjust_On?: string
-}
-
 export interface PublicModuleObjectShort {
     Code: string
     Description: string
@@ -1252,6 +1349,18 @@ export interface PublicModuleObjectShort {
 export interface PublicModuleOverview {
     Module: PublicModuleShort
     Objects: PublicModuleObjectShort[]
+}
+
+export interface PublicModuleObjectRevision {
+    Module_ID: number
+    Module_Object_UUID: string
+    Module_Status: string
+    Module_Title: string
+}
+
+export interface PublicModuleObjectContextShort {
+    Action: string
+    Original_Adjust_On?: string
 }
 
 export interface ProgrammaAlgemeenUUID {
@@ -1489,16 +1598,6 @@ export interface PagedResponsePublicationPackage {
 /**
  * Wrap any response schema and add pagination metadata.
  */
-export interface PagedResponsePublicationPackageReportShort {
-    limit?: number
-    offset?: number
-    results: PublicationPackageReportShort[]
-    total: number
-}
-
-/**
- * Wrap any response schema and add pagination metadata.
- */
 export interface PagedResponsePublicationEnvironment {
     limit?: number
     offset?: number
@@ -1509,10 +1608,40 @@ export interface PagedResponsePublicationEnvironment {
 /**
  * Wrap any response schema and add pagination metadata.
  */
+export interface PagedResponsePublicationAnnouncementShort {
+    limit?: number
+    offset?: number
+    results: PublicationAnnouncementShort[]
+    total: number
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
+export interface PagedResponsePublicationAnnouncementPackageReportShort {
+    limit?: number
+    offset?: number
+    results: PublicationAnnouncementPackageReportShort[]
+    total: number
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
 export interface PagedResponsePublicationActShort {
     limit?: number
     offset?: number
     results: PublicationActShort[]
+    total: number
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
+export interface PagedResponsePublicationActPackageReportShort {
+    limit?: number
+    offset?: number
+    results: PublicationActPackageReportShort[]
     total: number
 }
 
@@ -1742,7 +1871,6 @@ export type PackageType = (typeof PackageType)[keyof typeof PackageType]
 export const PackageType = {
     validation: 'validation',
     publication: 'publication',
-    publication_abort: 'publication_abort',
 } as const
 
 export interface ObjectStaticShort {
@@ -1891,6 +2019,12 @@ export interface ModulePatchStatus {
     Status: ModuleStatusCode
 }
 
+export interface ModuleOverview {
+    Module: Module
+    Objects: ModuleObjectShort[]
+    StatusHistory: ModuleStatus[]
+}
+
 export interface ModuleObjectContextShort {
     Action: string
     Original_Adjust_On?: string
@@ -2026,12 +2160,6 @@ export interface Module {
     Title: string
 }
 
-export interface ModuleOverview {
-    Module: Module
-    Objects: ModuleObjectShort[]
-    StatusHistory: ModuleStatus[]
-}
-
 export interface MaatregelUUID {
     Object_ID?: number
     UUID?: string
@@ -2139,23 +2267,6 @@ export interface MaatregelBasic {
     UUID?: string
 }
 
-export interface ListObjectsByGeometryRequestData {
-    Function?: GeometryFunctions
-    Geometry: string
-    Object_Types?: string[]
-}
-
-/**
- * An enumeration.
- */
-export type ImplementedProcedureType =
-    (typeof ImplementedProcedureType)[keyof typeof ImplementedProcedureType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ImplementedProcedureType = {
-    final: 'final',
-} as const
-
 export interface HierarchyStatics {
     Cached_Title: string
     Code: string
@@ -2210,6 +2321,12 @@ export const GeometryFunctions = {
     OVERLAPS: 'OVERLAPS',
     INTERSECTS: 'INTERSECTS',
 } as const
+
+export interface ListObjectsByGeometryRequestData {
+    Function?: GeometryFunctions
+    Geometry: string
+    Object_Types?: string[]
+}
 
 export type GeoSearchResultUUID = string | string
 
@@ -2405,7 +2522,11 @@ export interface CompleteModule {
     ObjectSpecifiekeGeldigheden?: ObjectSpecifiekeGeldigheid[]
 }
 
-export interface BodyFastapiHandlerPublicationPackagesPackageUuidReportPost {
+export interface BodyFastapiHandlerPublicationAnnouncementPackagesAnnouncementPackageUuidReportPost {
+    uploaded_files: Blob[]
+}
+
+export interface BodyFastapiHandlerPublicationActPackagesActPackageUuidReportPost {
     uploaded_files: Blob[]
 }
 
@@ -2421,6 +2542,7 @@ export interface BodyFastapiHandlerLoginAccessTokenPost {
 export interface BillMetadata {
     Jurisdictions?: string[]
     Official_Title?: string
+    Quote_Title?: string
     Subjects?: string[]
 }
 
@@ -2756,6 +2878,32 @@ export interface AreaBasic {
     Source_Title: string
     Source_UUID: string
     UUID: string
+}
+
+export interface AnnouncementText {
+    Description: string
+    Title: string
+}
+
+export interface AnnouncementProcedural {
+    Begin_Inspection_Period_Date?: string
+    Enactment_Date?: string
+    End_Inspection_Period_Date?: string
+    Procedural_Announcement_Date?: string
+    Signed_Date?: string
+}
+
+export interface AnnouncementMetadata {
+    Official_Title?: string
+    Subjects?: string[]
+}
+
+export interface AnnouncementCreatedResponse {
+    UUID: string
+}
+
+export interface AnnouncementContent {
+    Texts: AnnouncementText[]
 }
 
 export interface AmbitieUUID {
