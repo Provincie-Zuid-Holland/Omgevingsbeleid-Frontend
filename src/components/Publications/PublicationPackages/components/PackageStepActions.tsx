@@ -305,7 +305,8 @@ const UploadAction = ({
                             (!!files?.length || !!reports?.results.length) &&
                             Plus
                         }
-                        isDisabled={!isActive || isPending || isLoading}>
+                        isDisabled={!isActive || isPending || isLoading}
+                        aria-label="Bestanden toevoegen">
                         {!!!files?.length &&
                             !!!reports?.results.length &&
                             'Selecteer bestand(en)'}

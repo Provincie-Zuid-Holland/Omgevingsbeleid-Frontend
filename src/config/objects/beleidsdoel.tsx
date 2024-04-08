@@ -1,5 +1,6 @@
 import { Hyperlink } from '@pzh-ui/components'
 import { AngleDown, BullseyeArrow } from '@pzh-ui/icons'
+import { Link } from 'react-router-dom'
 
 import {
     useBeleidsdoelStaticLineageIdPost,
@@ -83,7 +84,10 @@ const beleidsdoel: DynamicObject<
             beleidsdoel komt voort uit een ambitie, en wordt uitgewerkt in één
             of meerdere beleidskeuzes. Hieronder een overzicht van de ambitie(s)
             en beleidskeuze(s). Bekijk voor het volledige overzicht het{' '}
-            <Hyperlink text="beleidsnetwerk" to="/beleidsnetwerk" />.
+            <Hyperlink asChild>
+                <Link to="/beleidsnetwerk">beleidsnetwerk</Link>
+            </Hyperlink>
+            .
         </>
     ),
     dynamicSections: [

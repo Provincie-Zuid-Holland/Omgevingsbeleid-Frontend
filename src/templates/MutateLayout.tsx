@@ -1,8 +1,8 @@
-import { Breadcrumbs } from '@pzh-ui/components'
 import classNames from 'clsx'
 import { ReactNode, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
 
+import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import RegulationSidebar from '@/components/Regulations/Sidebar'
 import Sidebar from '@/components/Sidebar'
@@ -38,7 +38,7 @@ const MutateLayout = ({
         () =>
             breadcrumbs?.map(breadcrumb => ({
                 name: breadcrumb?.name,
-                path: breadcrumb?.isCurrent ? pathName : breadcrumb?.path || '',
+                to: breadcrumb?.isCurrent ? pathName : breadcrumb?.path || '',
             })),
         [breadcrumbs, pathName]
     )

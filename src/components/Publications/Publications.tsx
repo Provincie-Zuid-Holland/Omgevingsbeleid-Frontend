@@ -10,6 +10,7 @@ import {
 } from '@/api/fetchers'
 import { DocumentType, ProcedureType } from '@/api/fetchers.schemas'
 
+import { LoaderCard } from '../Loader'
 import Publication from './Publication'
 import PublicationEnvironmentAction from './PublicationEnvironmentAction'
 
@@ -53,11 +54,12 @@ const PublicationCollection = ({
 
     const [isOpen, setIsOpen] = useState(false)
 
-    const { data: environments } = usePublicationEnvironmentsGet({
-        is_active: true,
-    })
+    const { data: environments, isFetching: environmentsFetching } =
+        usePublicationEnvironmentsGet({
+            is_active: true,
+        })
 
-    const { data } = usePublicationsGet(
+    const { data, isFetching: publicationsFetching } = usePublicationsGet(
         { document_type: documentType, module_id: parseInt(moduleId!) },
         {
             query: {
@@ -74,13 +76,16 @@ const PublicationCollection = ({
     return (
         <div className="space-y-4 rounded border border-pzh-gray-200 p-4">
             <div className="flex justify-between">
-                <Heading size="m">{PROCEDURE_TYPE[procedureType]}</Heading>
+                <Heading size="m" level="2">
+                    {PROCEDURE_TYPE[procedureType]}
+                </Heading>
                 <Button
                     icon={isOpen ? Minus : Plus}
                     iconSize={12}
                     variant="default"
                     onPress={() => setIsOpen(!isOpen)}
                     isDisabled={!!!data?.length}
+                    aria-label={isOpen ? 'Toon meer' : 'Toon minder'}
                     className={classNames(
                         'flex h-5 w-5 items-center justify-center rounded border ring-offset-2 focus:ring focus:ring-pzh-focus [&_svg]:-mb-0.5',
                         {
@@ -95,23 +100,62 @@ const PublicationCollection = ({
                 />
             </div>
 
-            {!isOpen ? (
+            {environmentsFetching || publicationsFetching ? (
+                <LoaderCard />
+            ) : !isOpen ? (
                 <div className="flex justify-between gap-4">
                     {environments?.results.map(environment => (
                         <div key={environment.UUID} className="flex-1">
                             <PublicationEnvironmentAction
                                 documentType={documentType}
                                 procedureType={procedureType}
+                                state={
+                                    !!data?.find(
+                                        publication =>
+                                            publication.Environment_UUID ===
+                                            environment.UUID
+                                    )
+                                        ? data?.find(
+                                              publication =>
+                                                  publication.Environment_UUID ===
+                                                  environment.UUID
+                                          )?.Is_Locked
+                                            ? 'success'
+                                            : 'pending'
+                                        : undefined
+                                }
                                 {...environment}
                             />
                         </div>
                     ))}
                 </div>
             ) : (
-                !!data?.length &&
-                data.map(publication => (
-                    <Publication key={publication.UUID} data={publication} />
-                ))
+                <>
+                    {!!data?.length &&
+                        data.map(publication => (
+                            <Publication
+                                key={publication.UUID}
+                                data={publication}
+                            />
+                        ))}
+                    {environments?.results
+                        .filter(
+                            environment =>
+                                !data?.find(
+                                    publication =>
+                                        publication.Environment_UUID ===
+                                        environment.UUID
+                                )
+                        )
+                        .map(environment => (
+                            <PublicationEnvironmentAction
+                                key={environment.UUID}
+                                documentType={documentType}
+                                procedureType={procedureType}
+                                {...environment}
+                            />
+                        ))}
+                </>
             )}
         </div>
     )

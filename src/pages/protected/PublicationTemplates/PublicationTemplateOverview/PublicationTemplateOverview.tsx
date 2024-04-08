@@ -9,7 +9,7 @@ import {
 import { AngleRight } from '@pzh-ui/icons'
 import { keepPreviousData } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { usePublicationTemplatesGet } from '@/api/fetchers'
 import model from '@/config/publicationTemplates'
@@ -40,11 +40,10 @@ const PublicationTemplateOverview = () => {
                     <Heading size="xxl">{pluralCapitalize}</Heading>
 
                     {canCreatePublicationTemplate && (
-                        <Button
-                            as="a"
-                            href={`/muteer/${plural}/nieuw`}
-                            variant="cta">
-                            {prefixNewObject} {singularReadable}
+                        <Button asChild variant="cta">
+                            <Link to={`/muteer/${plural}/nieuw`}>
+                                {prefixNewObject} {singularReadable}
+                            </Link>
                         </Button>
                     )}
                 </div>
@@ -153,6 +152,7 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
                     enableMultiSort={false}
                     limit={PAGE_LIMIT}
                     total={data?.total}
+                    current={pageIndex}
                     onPaginationChange={setPagination}
                     manualSorting
                     isLoading={isFetching}

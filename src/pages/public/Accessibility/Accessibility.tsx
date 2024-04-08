@@ -1,13 +1,14 @@
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
+import { Heading, Text } from '@pzh-ui/components'
 import { Helmet } from 'react-helmet-async'
 
+import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import imgDigiToegankelijkheid from '@/images/digi-toegankelijkheid.webp'
 
 function Accessibility() {
     const breadcrumbPaths = [
-        { name: 'Home', path: '/' },
-        { name: 'Digitale toegankelijkheid', path: '/digi-toegankelijkheid' },
+        { name: 'Home', to: '/' },
+        { name: 'Digitale toegankelijkheid', to: '/digi-toegankelijkheid' },
     ]
 
     return (

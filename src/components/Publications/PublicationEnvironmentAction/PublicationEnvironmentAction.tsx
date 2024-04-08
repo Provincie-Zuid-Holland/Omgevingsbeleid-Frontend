@@ -1,8 +1,7 @@
 import { Button } from '@pzh-ui/components'
-import { Check, Plus } from '@pzh-ui/icons'
-import { useParams } from 'react-router-dom'
+import { Check, Hourglass, Plus } from '@pzh-ui/icons'
+import clsx from 'clsx'
 
-import { usePublicationsGet } from '@/api/fetchers'
 import {
     DocumentType,
     ProcedureType,
@@ -13,6 +12,7 @@ import useModalStore from '@/store/modalStore'
 interface PublicationEnvironmentActionProps extends PublicationEnvironment {
     documentType: DocumentType
     procedureType: ProcedureType
+    state?: 'pending' | 'success'
 }
 
 const PublicationEnvironmentAction = ({
@@ -20,30 +20,33 @@ const PublicationEnvironmentAction = ({
     procedureType,
     Title,
     UUID,
+    state,
 }: PublicationEnvironmentActionProps) => {
-    const { moduleId } = useParams()
-
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { data } = usePublicationsGet(
-        { document_type: documentType, module_id: parseInt(moduleId!) },
-        {
-            query: {
-                enabled: !!moduleId,
-                select: data =>
-                    data.results.find(
-                        publication => publication.Environment_UUID === UUID
-                    ),
-            },
-        }
-    )
+    if (state === 'pending' || state === 'success') {
+        return (
+            <Button
+                variant="secondary"
+                size="small"
+                icon={state === 'pending' ? Hourglass : Check}
+                className={clsx('w-full justify-center', {
+                    'border-pzh-yellow-500 bg-pzh-yellow-10 hover:border-pzh-yellow-900':
+                        state === 'pending',
+                    'border-pzh-green-500 bg-pzh-green-10 hover:border-pzh-green-900':
+                        state === 'success',
+                })}>
+                {Title} publicatie
+            </Button>
+        )
+    }
 
     return (
         <Button
-            icon={data?.Is_Locked ? Check : Plus}
+            icon={Plus}
             variant="secondary"
             size="small"
-            className="w-full [&_div]:justify-center"
+            className="w-full justify-center"
             onPress={() =>
                 setActiveModal('publicationAdd', {
                     documentType,

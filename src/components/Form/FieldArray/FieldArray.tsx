@@ -29,7 +29,7 @@ const FieldArray = ({
 }: Omit<Extract<DynamicField, { type: 'array' }>, 'type'> & {
     model?: Model
     buttonLabel?: string
-    buttonOptions?: ButtonProps<'button'>
+    buttonOptions?: ButtonProps
     itemClassName?: string
 }) => {
     const { values } = useFormikContext<FormikValues>()

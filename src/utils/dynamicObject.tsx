@@ -1,5 +1,6 @@
 import { Hyperlink } from '@pzh-ui/components'
 import { Pencil, Plus, Xmark } from '@pzh-ui/icons'
+import { Link } from 'react-router-dom'
 
 import * as models from '@/config/objects'
 import { ModelPatchStaticType, ModelType } from '@/config/objects/types'
@@ -161,7 +162,10 @@ export const getObjectRevisionBannerText = (
                     Op dit moment ligt er in de module '{revision.Module_Title}'
                     een nieuwe versie van {model.defaults.demonstrative}{' '}
                     {model.defaults.singularReadable} ter inzage,{' '}
-                    <Hyperlink to={path} text="bekijk deze versie hier" />.
+                    <Hyperlink asChild>
+                        <Link to={path}>bekijk deze versie hier</Link>
+                    </Hyperlink>
+                    .
                 </>
             )
         case 'Definitief ontwerp GS Concept':
@@ -177,7 +181,10 @@ export const getObjectRevisionBannerText = (
                     gewerkt aan een nieuwe versie van{' '}
                     {model.defaults.demonstrative}{' '}
                     {model.defaults.singularReadable},{' '}
-                    <Hyperlink to={path} text="bekijk deze versie hier" />.
+                    <Hyperlink asChild>
+                        <Link to={path}>bekijk deze versie hier</Link>
+                    </Hyperlink>
+                    .
                 </>
             )
         default:

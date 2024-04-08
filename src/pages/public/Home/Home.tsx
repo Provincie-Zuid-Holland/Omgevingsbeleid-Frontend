@@ -136,20 +136,21 @@ const Home = () => (
                         provincie voor staat. Het beschrijft hoe de provincie de
                         toekomst van Zuid-Holland voor zich ziet. De
                         Omgevingsvisie bevat verschillende onderdelen: in de{' '}
-                        <Hyperlink
-                            text="ambities"
-                            to="/omgevingsvisie/ambities"
-                        />{' '}
+                        <Hyperlink asChild>
+                            <Link to="/omgevingsvisie/ambities">ambities</Link>
+                        </Hyperlink>{' '}
                         wordt omschreven waar we als provincie heen willen, de{' '}
-                        <Hyperlink
-                            text="beleidsdoelen"
-                            to="/omgevingsvisie/beleidsdoelen"
-                        />{' '}
+                        <Hyperlink asChild>
+                            <Link to="/omgevingsvisie/beleidsdoelen">
+                                beleidsdoelen
+                            </Link>
+                        </Hyperlink>{' '}
                         geven hier richting aan en de{' '}
-                        <Hyperlink
-                            text="beleidskeuzes"
-                            to="/omgevingsvisie/beleidskeuzes"
-                        />{' '}
+                        <Hyperlink asChild>
+                            <Link to="/omgevingsvisie/beleidskeuzes">
+                                beleidskeuzes
+                            </Link>
+                        </Hyperlink>{' '}
                         bepalen hoe de ambities bereikt dienen te worden.
                     </Text>
                 </div>

@@ -1,6 +1,5 @@
 import {
     Badge,
-    Breadcrumbs,
     Button,
     Divider,
     Heading,
@@ -12,9 +11,11 @@ import {
 } from '@pzh-ui/components'
 import classNames from 'clsx'
 import { Fragment, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { DocumentType, Module, ModuleObjectShort } from '@/api/fetchers.schemas'
 import Avatar from '@/components/Avatar'
+import Breadcrumbs from '@/components/Breadcrumbs'
 import { LoaderContent } from '@/components/Loader'
 import {
     ModuleActivateModal,
@@ -53,7 +54,6 @@ export interface ModuleContext {
 
 const ModuleDetail = () => {
     const { canEditModule } = usePermissions()
-    const pathName = location.pathname || ''
 
     const {
         data: { Module: module } = {},
@@ -64,9 +64,9 @@ const ModuleDetail = () => {
     const managers = useModuleManagers(module)
 
     const breadcrumbPaths = [
-        { name: 'Dashboard', path: '/muteer' },
-        { name: 'Modules', path: '/muteer' },
-        { name: module?.Title || '', path: pathName },
+        { name: 'Dashboard', to: '/muteer' },
+        { name: 'Modules', to: '/muteer' },
+        { name: module?.Title || '' },
     ]
 
     if (isLoading || !module) return <LoaderContent />
@@ -77,10 +77,12 @@ const ModuleDetail = () => {
                 <div className="mb-4 flex items-center justify-between whitespace-nowrap">
                     <Breadcrumbs items={breadcrumbPaths} />
                     {(canEditModule || isModuleManager) && (
-                        <Hyperlink
-                            to={`/muteer/modules/${module.Module_ID}/bewerk`}
-                            text="Module bewerken"
-                        />
+                        <Hyperlink asChild>
+                            <Link
+                                to={`/muteer/modules/${module.Module_ID}/bewerk`}>
+                                Module bewerken
+                            </Link>
+                        </Hyperlink>
                     )}
                 </div>
                 <div className="flex items-center justify-between">

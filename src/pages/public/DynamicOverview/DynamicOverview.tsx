@@ -1,9 +1,10 @@
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
+import { Heading, Text } from '@pzh-ui/components'
 import { useUpdateEffect } from '@react-hookz/web'
 import { keepPreviousData } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 
+import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import ObjectList from '@/components/ObjectList'
 import { Model } from '@/config/objects/types'
@@ -16,8 +17,6 @@ interface DynamicOverviewProps {
 }
 
 function DynamicOverview({ model }: DynamicOverviewProps) {
-    const pathName = location.pathname || ''
-
     const { get, set, remove } = useSearchParam()
     const [page] = get(['page'])
 
@@ -76,12 +75,12 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
     }, [plural])
 
     const breadcrumbPaths = [
-        { name: 'Omgevingsbeleid', path: '/' },
+        { name: 'Omgevingsbeleid', to: '/' },
         {
             name: slugOverview || '',
-            path: slugOverviewPublic ? `/${slugOverview}` : '/',
+            to: slugOverviewPublic ? `/${slugOverview}` : '/',
         },
-        { name: pluralCapitalize || '', path: pathName },
+        { name: pluralCapitalize || '' },
     ]
 
     return (
@@ -108,7 +107,7 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
                             limit={PAGE_LIMIT}
                             onPageChange={handlePageChange}
                             total={data?.total}
-                            currPage={currPage - 1}
+                            currPage={currPage}
                         />
                     </div>
                 </div>

@@ -1513,6 +1513,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.24.0":
+  version: 7.24.4
+  resolution: "@babel/runtime@npm:7.24.4"
+  dependencies:
+    regenerator-runtime: "npm:^0.14.0"
+  checksum: 8ec8ce2c145bc7e31dd39ab66df124f357f65c11489aefacb30f431bae913b9aaa66aa5efe5321ea2bf8878af3fcee338c87e7599519a952e3a6f83aa1b03308
+  languageName: node
+  linkType: hard
+
 "@babel/runtime@npm:^7.23.7":
   version: 7.24.0
   resolution: "@babel/runtime@npm:7.24.0"
@@ -2655,13 +2664,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.494":
-  version: 0.0.494
-  resolution: "@pzh-ui/components@npm:0.0.494"
+"@pzh-ui/components@npm:^0.0.514":
+  version: 0.0.514
+  resolution: "@pzh-ui/components@npm:0.0.514"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
     "@pzh-ui/icons": "npm:^0.0.52"
+    "@radix-ui/react-slot": "npm:^1.0.2"
     "@react-aria/utils": "npm:^3.23.2"
     "@react-hookz/web": "npm:^24.0.4"
     "@react-types/shared": "npm:^3.19.0"
@@ -2702,19 +2712,19 @@ __metadata:
     react-datepicker: "npm:^6.1.0"
     react-dom: "npm:^18.2.0"
     react-dropzone-esm: "npm:^15.0.1"
-    react-paginate: "npm:^8.2.0"
-    react-router-dom: "npm:^6.22.2"
+    react-responsive-pagination: "npm:^2.4.2"
     react-select: "npm:^5.8.0"
     react-stately: "npm:^3.30.1"
     react-table: "npm:^7.8.0"
     react-toastify: "npm:^9.1.2"
-  checksum: eb33b25fc826142970c387ed3f1c6d968af64ee3e26b5a98fceb2076e4634cbfc54014dec126be250205806bc25db11aabdb448763a4beb64dcd00bd51b8a726
+    tailwind-merge: "npm:^2.2.2"
+  checksum: 58fd1e376ab1db3e8053b2a5f9c3d31854cc6dea240a8ed29bcfe112466c73b592b98b8b3c1157e5a96cf884a834555f05376d85e13251938dd012abb33cc3b4
   languageName: node
   linkType: hard
 
-"@pzh-ui/config@npm:^0.0.58":
-  version: 0.0.58
-  resolution: "@pzh-ui/config@npm:0.0.58"
+"@pzh-ui/config@npm:^0.0.63":
+  version: 0.0.63
+  resolution: "@pzh-ui/config@npm:0.0.63"
   dependencies:
     "@babel/eslint-parser": "npm:^7.17.0"
     "@babel/preset-env": "npm:^7.16.11"
@@ -2736,13 +2746,13 @@ __metadata:
     prettier-plugin-organize-imports: "npm:^3.2.3"
     prettier-plugin-tailwindcss: "npm:^0.4.1"
     react-toastify: "npm:^9.1.2"
-  checksum: 88ca405e2eabe681066106fdc6bd0af34f6b9c774a4b4be1000d5e747d9d6bf6647bffdbde91b681567044fb018ad9be766fc26379a2b505df71f8201bd21557
+  checksum: f09e71156710317d9c9acede32493c311a6c82857755621855e0bfd9c6857465e214d32592c8d52678516cc01a5a8fba013755135ff7706be911a42768e86ecf
   languageName: node
   linkType: hard
 
-"@pzh-ui/css@npm:^0.0.82":
-  version: 0.0.82
-  resolution: "@pzh-ui/css@npm:0.0.82"
+"@pzh-ui/css@npm:^0.0.89":
+  version: 0.0.89
+  resolution: "@pzh-ui/css@npm:0.0.89"
   dependencies:
     "@rollup/plugin-typescript": "npm:^8.3.1"
     "@tailwindcss/custom-forms": "npm:^0.2.1"
@@ -2751,7 +2761,7 @@ __metadata:
     "@tailwindcss/typography": "npm:^0.5.9"
     react-datepicker: "npm:^4.7.0"
     react-toastify: "npm:^9.1.2"
-  checksum: d1aa88f31bc685f36782d8f6369b1ef083a30829ab63c703675832128b8b5ff46f4709f1b175c96a703adc55aa7426be3813058d7ce161f008272a03aab653ea
+  checksum: a83e0904d61c94bae339885ca9c56572c626810f29777902bba0025af1040fbaf76c17c2a8c6e861bb9f8482ce4075c799bd34b050e31b526b398b12f6896874
   languageName: node
   linkType: hard
 
@@ -2762,6 +2772,37 @@ __metadata:
     react: "npm:^18.0.0"
     react-toastify: "npm:^9.1.2"
   checksum: 8afc476208a17ef7802e3988bc4e5eab89dd4d8beba3cad29cc7ee288efebfdb6d064b30ef94cef429be131e6b6f4ede48256ff1b25f1b72468f86f94c9a8f6c
+  languageName: node
+  linkType: hard
+
+"@radix-ui/react-compose-refs@npm:1.0.1":
+  version: 1.0.1
+  resolution: "@radix-ui/react-compose-refs@npm:1.0.1"
+  dependencies:
+    "@babel/runtime": "npm:^7.13.10"
+  peerDependencies:
+    "@types/react": "*"
+    react: ^16.8 || ^17.0 || ^18.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 2b9a613b6db5bff8865588b6bf4065f73021b3d16c0a90b2d4c23deceeb63612f1f15de188227ebdc5f88222cab031be617a9dd025874c0487b303be3e5cc2a8
+  languageName: node
+  linkType: hard
+
+"@radix-ui/react-slot@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@radix-ui/react-slot@npm:1.0.2"
+  dependencies:
+    "@babel/runtime": "npm:^7.13.10"
+    "@radix-ui/react-compose-refs": "npm:1.0.1"
+  peerDependencies:
+    "@types/react": "*"
+    react: ^16.8 || ^17.0 || ^18.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 734866561e991438fbcf22af06e56b272ed6ee8f7b536489ee3bf2f736f8b53bf6bc14ebde94834aa0aceda854d018a0ce20bb171defffbaed1f566006cbb887
   languageName: node
   linkType: hard
 
@@ -11571,7 +11612,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15, prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -11811,9 +11852,9 @@ __metadata:
     "@axe-core/react": "npm:^4.8.2"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-    "@pzh-ui/components": "npm:^0.0.494"
-    "@pzh-ui/config": "npm:^0.0.58"
-    "@pzh-ui/css": "npm:^0.0.82"
+    "@pzh-ui/components": "npm:^0.0.514"
+    "@pzh-ui/config": "npm:^0.0.63"
+    "@pzh-ui/css": "npm:^0.0.89"
     "@pzh-ui/icons": "npm:^0.0.52"
     "@react-hookz/web": "npm:^24.0.4"
     "@tanstack/react-query": "npm:^5.24.7"
@@ -12124,17 +12165,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-paginate@npm:^8.2.0":
-  version: 8.2.0
-  resolution: "react-paginate@npm:8.2.0"
-  dependencies:
-    prop-types: "npm:^15"
-  peerDependencies:
-    react: ^16 || ^17 || ^18
-  checksum: 13911c1db55a0ca0fa21c7e0df5e913be1febf7bd0ec7fde5618c48e0119ac45ff8920202c4fd7216f93244529180b4e91de41fc86a40be5e53dec14ae65956c
-  languageName: node
-  linkType: hard
-
 "react-popper@npm:^2.3.0":
   version: 2.3.0
   resolution: "react-popper@npm:2.3.0"
@@ -12153,6 +12183,18 @@ __metadata:
   version: 0.14.0
   resolution: "react-refresh@npm:0.14.0"
   checksum: 75941262ce3ed4fc79b52492943fd59692f29b84f30f3822713b7e920f28e85c62a4386f85cbfbaea95ed62d3e74209f0a0bb065904b7ab2f166a74ac3812e2a
+  languageName: node
+  linkType: hard
+
+"react-responsive-pagination@npm:^2.4.2":
+  version: 2.4.2
+  resolution: "react-responsive-pagination@npm:2.4.2"
+  dependencies:
+    prop-types: "npm:^15.8.1"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: e48bbe452e4d1b9876c9eaf908fbac5b40d1f5e2961458f8e6d2fcc000c954f4d84b006719e7bd38db810b234f31183dcdcd007d14f395bcc57def40292e1a82
   languageName: node
   linkType: hard
 
@@ -13291,6 +13333,15 @@ __metadata:
   dependencies:
     "@babel/runtime": "npm:^7.23.7"
   checksum: 3d8aecfa03c077472a038f25e95504ca47c1e7549ab843a854a690509098caac4e2e57790a7cadda4054fd07ec31421980a7afac33547013cf22299788625e72
+  languageName: node
+  linkType: hard
+
+"tailwind-merge@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "tailwind-merge@npm:2.2.2"
+  dependencies:
+    "@babel/runtime": "npm:^7.24.0"
+  checksum: f7ec370e58d1d8f12ed6509d93333f2dacfcb43110334c5424db50ae456d14939ad32cff1ef7e31d1d10a6fff9d2e80be11560ef1ebb3fe5c83de6d465a7f7b8
   languageName: node
   linkType: hard
 

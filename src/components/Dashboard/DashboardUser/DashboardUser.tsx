@@ -12,7 +12,7 @@ import {
     ModuleObjectShort,
     PagedResponseGenericObjectShort,
 } from '@/api/fetchers.schemas'
-import ObjectCard from '@/components/DynamicObject/ObjectCard'
+import ObjectCard from '@/components/DynamicObject/ObjectActiveModules/ObjectCard'
 import { LoaderCard } from '@/components/Loader'
 import ModuleCard from '@/components/Modules/ModuleCard'
 import * as models from '@/config/objects'
@@ -77,8 +77,8 @@ const UserModules = () => {
                 modules.total > modules.limit && (
                     <div className="mt-8 flex justify-center">
                         <Pagination
-                            onChange={setCurrPage}
-                            forcePage={currPage - 1}
+                            onPageChange={setCurrPage}
+                            current={currPage}
                             total={modules?.total}
                             limit={modules?.limit}
                         />
@@ -138,8 +138,8 @@ const UserObject = () => {
                                         objects.total > objects.limit && (
                                             <div className="mt-8 flex justify-center">
                                                 <Pagination
-                                                    onChange={setCurrPage}
-                                                    forcePage={currPage - 1}
+                                                    onPageChange={setCurrPage}
+                                                    current={currPage}
                                                     total={objects.total}
                                                     limit={objects.limit}
                                                 />

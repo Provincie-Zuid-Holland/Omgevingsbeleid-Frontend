@@ -1,14 +1,13 @@
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
+import { Heading, Text } from '@pzh-ui/components'
 import { Helmet } from 'react-helmet-async'
 
+import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 
 const NotFoundPage = () => {
-    const pathName = location.pathname || ''
-
     const breadcrumbPaths = [
-        { name: 'Omgevingsbeleid', path: '/' },
-        { name: 'Pagina niet gevonden', path: pathName },
+        { name: 'Omgevingsbeleid', to: '/' },
+        { name: 'Pagina niet gevonden' },
     ]
 
     return (

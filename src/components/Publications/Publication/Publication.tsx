@@ -29,7 +29,7 @@ const Publication = ({ data }: PublicationProps) => {
     return (
         <div className="rounded border border-pzh-gray-200 p-6">
             <div className="mb-4 flex items-center justify-between">
-                <Heading size="m">
+                <Heading size="m" level="3">
                     {data.Title || data.Document_Type} - {environment?.Title}{' '}
                     publicatie
                 </Heading>
