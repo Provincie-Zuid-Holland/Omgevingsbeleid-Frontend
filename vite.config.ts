@@ -80,5 +80,10 @@ export default defineConfig({
         },
         restoreMocks: true,
         mockReset: true,
+        server: {
+            deps: {
+                inline: ['@pzh-ui/components'],
+            },
+        },
     },
 })
