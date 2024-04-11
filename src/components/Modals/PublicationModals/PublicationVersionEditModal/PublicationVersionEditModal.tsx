@@ -82,7 +82,7 @@ const PublicationVersionEditModal = () => {
                     validationSchema={toFormikValidationSchema(
                         PUBLICATION_VERSION_EDIT_SCHEMA
                     )}
-                    submitLabel="Versie opslaan"
+                    submitLabel="Opslaan"
                     isEdit
                 />
             )}

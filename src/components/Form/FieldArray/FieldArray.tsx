@@ -1,4 +1,4 @@
-import { Button, ButtonProps, FieldLabel, Text } from '@pzh-ui/components'
+import { Button, ButtonProps, FieldLabel, Text, cn } from '@pzh-ui/components'
 import { Plus, Xmark } from '@pzh-ui/icons'
 import {
     ArrayHelpers,
@@ -6,7 +6,6 @@ import {
     FormikValues,
     useFormikContext,
 } from 'formik'
-import { twMerge } from 'tailwind-merge'
 
 import DynamicObjectField from '@/components/DynamicObject/DynamicObjectForm/DynamicField'
 import { Model } from '@/config/objects/types'
@@ -63,7 +62,7 @@ const FieldArray = ({
                                 (child, childIndex) => (
                                     <div
                                         key={name + child.type + childIndex}
-                                        className={twMerge(
+                                        className={cn(
                                             'flex flex-col gap-2 bg-pzh-gray-100 p-4',
                                             itemClassName
                                         )}>

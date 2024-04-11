@@ -13,6 +13,7 @@ interface PublicationEnvironmentActionProps extends PublicationEnvironment {
     documentType: DocumentType
     procedureType: ProcedureType
     state?: 'pending' | 'success'
+    onClick?: () => void
 }
 
 const PublicationEnvironmentAction = ({
@@ -21,6 +22,7 @@ const PublicationEnvironmentAction = ({
     Title,
     UUID,
     state,
+    onClick,
 }: PublicationEnvironmentActionProps) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
@@ -30,6 +32,7 @@ const PublicationEnvironmentAction = ({
                 variant="secondary"
                 size="small"
                 icon={state === 'pending' ? Hourglass : Check}
+                onPress={onClick}
                 className={clsx('w-full justify-center', {
                     'border-pzh-yellow-500 bg-pzh-yellow-10 hover:border-pzh-yellow-900':
                         state === 'pending',

@@ -1,4 +1,10 @@
-import { Button, Pagination, Tooltip, formatDate } from '@pzh-ui/components'
+import {
+    Button,
+    Pagination,
+    Text,
+    Tooltip,
+    formatDate,
+} from '@pzh-ui/components'
 import { FileWord } from '@pzh-ui/icons'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
@@ -39,7 +45,7 @@ const PublicationVersions = ({ publication }: PublicationVersionsProps) => {
             <div>
                 {isFetching ? (
                     <LoaderCard />
-                ) : (
+                ) : !!data?.results.length ? (
                     <table className="w-full table-auto text-left text-s">
                         <thead className="h-8 border-b border-pzh-gray-400 font-bold text-pzh-blue-500">
                             <tr>
@@ -58,6 +64,10 @@ const PublicationVersions = ({ publication }: PublicationVersionsProps) => {
                             ))}
                         </tbody>
                     </table>
+                ) : (
+                    <Text className="italic text-pzh-gray-600">
+                        Er is nog geen versie aangemaakt
+                    </Text>
                 )}
             </div>
             {!!data?.total && !!data?.limit && data.total > data.limit && (
@@ -82,11 +92,8 @@ const VersionRow = ({
 }) => {
     const { moduleId } = useParams()
 
-    const {
-        canEditPublicationVersion,
-        canCreatePublicationPackage,
-        canViewPublicationPackage,
-    } = usePermissions()
+    const { canEditPublicationVersion, canViewPublicationPackage } =
+        usePermissions()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
@@ -127,21 +134,6 @@ const VersionRow = ({
             <td>{version.Module_Status.Status}</td>
             <td className="pr-2">
                 <div className="flex items-center gap-4">
-                    {version.Is_Locked && canCreatePublicationPackage && (
-                        <Button
-                            variant="link"
-                            size="small"
-                            className="text-pzh-red-500"
-                            // onPress={() =>
-                            //     setActiveModal('publicationVersionAbort', {
-                            //         publication,
-                            //         version,
-                            //     })
-                            // }
-                        >
-                            Afbreken
-                        </Button>
-                    )}
                     {!version.Is_Locked && canEditPublicationVersion && (
                         <Button
                             variant="link"

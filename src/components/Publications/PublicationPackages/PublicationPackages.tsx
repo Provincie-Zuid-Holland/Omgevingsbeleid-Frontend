@@ -105,23 +105,15 @@ const PublicationPackages = ({
                         eventType="validation"
                         isActive={!!validationPackage?.Zip.Latest_Download_Date}
                         isSucceeded={
-                            validationPackage?.Report_Status === 'Valid'
+                            validationPackage?.Report_Status === 'valid'
                         }
                         isLast
                     />
                 )}
             </div>
 
-            {isOfficial && !data?.Is_Valid && !!validationPackage && (
-                <Notification
-                    title="De levering kan niet worden gemaakt omdat nog niet alle verplichte velden van de versie zijn ingevuld."
-                    variant="warning"
-                    className="my-6"
-                />
-            )}
-
             {isOfficial &&
-                validationPackage?.Report_Status === 'Valid' &&
+                validationPackage?.Report_Status === 'valid' &&
                 !!!publicationPackage && (
                     <Notification
                         variant="positive"
@@ -131,7 +123,7 @@ const PublicationPackages = ({
                 )}
 
             {isOfficial &&
-                validationPackage?.Report_Status === 'Failed' &&
+                validationPackage?.Report_Status === 'failed' &&
                 !!!publicationPackage && (
                     <div className="my-6 flex w-full justify-between gap-4">
                         <Notification
@@ -152,12 +144,17 @@ const PublicationPackages = ({
 
             {isOfficial && (
                 <>
-                    {validationPackage?.Report_Status === 'Valid' &&
+                    {validationPackage?.Report_Status === 'valid' &&
                         !data?.Is_Valid && (
                             <Notification
                                 variant="warning"
                                 title="De levering kan niet worden gemaakt omdat nog niet alle verplichte velden van de versie zijn ingevuld."
                             />
+                        )}
+
+                    {validationPackage?.Report_Status === 'valid' &&
+                        data?.Is_Valid && (
+                            <Notification title="Let op! Een versie kan niet worden bewerkt of verwijderd nadat je op ‘Maak levering’ hebt geklikt." />
                         )}
 
                     <div>
@@ -169,7 +166,7 @@ const PublicationPackages = ({
                             type="create"
                             eventType="publication"
                             isActive={
-                                validationPackage?.Report_Status === 'Valid' &&
+                                validationPackage?.Report_Status === 'valid' &&
                                 data?.Is_Valid
                             }
                             isSucceeded={!!publicationPackage}
@@ -193,7 +190,7 @@ const PublicationPackages = ({
                                 !!publicationPackage?.Zip.Latest_Download_Date
                             }
                             isSucceeded={
-                                publicationPackage?.Report_Status === 'Valid'
+                                publicationPackage?.Report_Status === 'valid'
                             }
                             isLast
                         />
@@ -201,7 +198,7 @@ const PublicationPackages = ({
                 </>
             )}
 
-            {isOfficial && publicationPackage?.Report_Status === 'Valid' && (
+            {isOfficial && publicationPackage?.Report_Status === 'valid' && (
                 <Notification
                     variant="positive"
                     title={`Publicatie gelukt. Wordt bekend gemaakt op ${announcementDate}, treedt in werking op ${effectiveDate}.`}
@@ -209,7 +206,7 @@ const PublicationPackages = ({
                 />
             )}
 
-            {isOfficial && publicationPackage?.Report_Status === 'Failed' && (
+            {isOfficial && publicationPackage?.Report_Status === 'failed' && (
                 <div className="my-6 flex w-full justify-between gap-4">
                     <Notification
                         variant="negative"

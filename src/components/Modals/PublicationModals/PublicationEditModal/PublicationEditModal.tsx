@@ -21,7 +21,7 @@ const PublicationEditModal = () => {
     ) as ModalStateMap['publicationEdit']
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { data, isFetching } = usePublicationsPublicationUuidGet(
+    const { data, isFetching, queryKey } = usePublicationsPublicationUuidGet(
         modalState?.publication.UUID,
         {
             query: {
@@ -33,6 +33,7 @@ const PublicationEditModal = () => {
     const { mutate } = usePublicationsPublicationUuidPost({
         mutation: {
             onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey })
                 queryClient.invalidateQueries({
                     queryKey: getPublicationsGetQueryKey({
                         document_type: modalState.publication

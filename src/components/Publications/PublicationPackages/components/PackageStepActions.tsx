@@ -104,8 +104,7 @@ const CreateAction = ({
                 variant="cta"
                 isDisabled={!isActive || isPending}
                 onPress={handleAction}
-                isLoading={isPending}
-                className="h-full">
+                isLoading={isPending}>
                 {buttonLabel}
             </Button>
         </div>
@@ -278,7 +277,7 @@ const UploadAction = ({
                                 className={clsx({
                                     'border-pzh-red-900 bg-pzh-red-10 text-pzh-red-900':
                                         'Report_Status' in file &&
-                                        file.Report_Status === 'Failed',
+                                        file.Report_Status === 'failed',
                                 })}
                             />
                         ))}
@@ -314,7 +313,9 @@ const UploadAction = ({
                 </FileTrigger>
                 {!!files?.length && (
                     <Button
-                        variant="cta"
+                        variant={
+                            !!reports?.results.length ? 'secondary' : 'cta'
+                        }
                         onPress={handleAction}
                         isLoading={isPending || isLoading}
                         isDisabled={!isActive || isPending || isLoading}>

@@ -124,6 +124,7 @@ const PublicationCollection = ({
                                             : 'pending'
                                         : undefined
                                 }
+                                onClick={() => setIsOpen(true)}
                                 {...environment}
                             />
                         </div>

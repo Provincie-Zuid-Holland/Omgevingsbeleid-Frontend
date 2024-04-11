@@ -36,7 +36,7 @@ const Publication = ({ data }: PublicationProps) => {
                 {canEditPublication && (
                     <Button
                         variant="link"
-                        className="text-pzh-green-500"
+                        className="whitespace-nowrap text-pzh-green-500"
                         size="small"
                         onPress={() =>
                             setActiveModal('publicationEdit', {

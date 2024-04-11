@@ -1522,15 +1522,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.23.7":
-  version: 7.24.0
-  resolution: "@babel/runtime@npm:7.24.0"
-  dependencies:
-    regenerator-runtime: "npm:^0.14.0"
-  checksum: 8d32c7e116606ea322b89f9fde8ffae6be9503b549dc0d0abb38bd9dc26e87469b9fb7a66964cc089ee558fd0a97d304fb0a3cfec140694764fb0d71b6a6f5e4
-  languageName: node
-  linkType: hard
-
 "@babel/template@npm:^7.22.15, @babel/template@npm:^7.23.9":
   version: 7.23.9
   resolution: "@babel/template@npm:7.23.9"
@@ -2664,9 +2655,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.514":
-  version: 0.0.514
-  resolution: "@pzh-ui/components@npm:0.0.514"
+"@pzh-ui/components@npm:^0.0.515":
+  version: 0.0.515
+  resolution: "@pzh-ui/components@npm:0.0.515"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
@@ -2718,7 +2709,7 @@ __metadata:
     react-table: "npm:^7.8.0"
     react-toastify: "npm:^9.1.2"
     tailwind-merge: "npm:^2.2.2"
-  checksum: 58fd1e376ab1db3e8053b2a5f9c3d31854cc6dea240a8ed29bcfe112466c73b592b98b8b3c1157e5a96cf884a834555f05376d85e13251938dd012abb33cc3b4
+  checksum: ef5b5193999268625a397ac40df8b1f8d53760a1ff649bcbc440f5e1b257b496a0ebc0c8644a2f612a77bc4c59246cb918605f73fa19f2cbf13d09ea555063c2
   languageName: node
   linkType: hard
 
@@ -11852,7 +11843,7 @@ __metadata:
     "@axe-core/react": "npm:^4.8.2"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-    "@pzh-ui/components": "npm:^0.0.514"
+    "@pzh-ui/components": "npm:^0.0.515"
     "@pzh-ui/config": "npm:^0.0.63"
     "@pzh-ui/css": "npm:^0.0.89"
     "@pzh-ui/icons": "npm:^0.0.52"
@@ -11911,7 +11902,6 @@ __metadata:
     react-router-dom: "npm:^6.22.2"
     rollup-plugin-visualizer: "npm:^5.11.0"
     sass: "npm:^1.63.6"
-    tailwind-merge: "npm:^2.2.1"
     tailwindcss: "npm:^3.4.1"
     typescript: "npm:^5.3.3"
     uuid: "npm:^9.0.1"
@@ -13324,15 +13314,6 @@ __metadata:
   version: 6.2.0
   resolution: "tabbable@npm:6.2.0"
   checksum: 980fa73476026e99dcacfc0d6e000d41d42c8e670faf4682496d30c625495e412c4369694f2a15cf1e5252d22de3c396f2b62edbe8d60b5dadc40d09e3f2dde3
-  languageName: node
-  linkType: hard
-
-"tailwind-merge@npm:^2.2.1":
-  version: 2.2.1
-  resolution: "tailwind-merge@npm:2.2.1"
-  dependencies:
-    "@babel/runtime": "npm:^7.23.7"
-  checksum: 3d8aecfa03c077472a038f25e95504ca47c1e7549ab843a854a690509098caac4e2e57790a7cadda4054fd07ec31421980a7afac33547013cf22299788625e72
   languageName: node
   linkType: hard
 

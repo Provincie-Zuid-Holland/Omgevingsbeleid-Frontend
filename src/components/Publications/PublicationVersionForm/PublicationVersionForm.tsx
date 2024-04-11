@@ -2,6 +2,7 @@ import {
     Button,
     Divider,
     FormikDate,
+    FormikInput,
     FormikRte,
     FormikSelect,
     FormikTextArea,
@@ -75,6 +76,10 @@ const PublicationVersionForm = <TData extends FormikValues>({
                         </div>
                         {isEdit && (
                             <>
+                                <FormikInput
+                                    name="Bill_Metadata.Official_Title"
+                                    label="Officiële titel van het besluit"
+                                />
                                 <FormikRte
                                     name="Bill_Compact.Preamble"
                                     label="Aanhef"
