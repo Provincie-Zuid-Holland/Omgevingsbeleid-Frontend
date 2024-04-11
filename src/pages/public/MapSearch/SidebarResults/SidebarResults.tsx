@@ -307,9 +307,10 @@ const SidebarResults = () => {
                         pagination.total > pagination.limit && (
                             <div className="mt-8 flex justify-center">
                                 <Pagination
-                                    onChange={handlePageChange}
-                                    forcePage={currPage - 1}
-                                    {...pagination}
+                                    onPageChange={handlePageChange}
+                                    current={currPage}
+                                    total={pagination.total}
+                                    limit={pagination.limit}
                                 />
                             </div>
                         )}

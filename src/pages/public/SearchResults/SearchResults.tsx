@@ -216,9 +216,10 @@ const SearchResults = () => {
                             <div className="mt-8 flex justify-center">
                                 <Pagination
                                     key={query}
-                                    onChange={handlePageChange}
-                                    forcePage={currPage - 1}
-                                    {...pagination}
+                                    onPageChange={handlePageChange}
+                                    current={currPage}
+                                    total={pagination.total}
+                                    limit={pagination.limit}
                                 />
                             </div>
                         )}

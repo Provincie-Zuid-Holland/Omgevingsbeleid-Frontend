@@ -1,6 +1,6 @@
 import { Heading, Hyperlink, Text, formatDate } from '@pzh-ui/components'
 import { useMemo } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 import Avatar from '@/components/Avatar/Avatar'
 import { LoaderCard } from '@/components/Loader'
@@ -128,14 +128,16 @@ const ObjectSidebar = ({
                             />
                         </div>
                     )} */}
-                    <Hyperlink
-                        text="Open in beheeromgeving"
-                        to={
-                            isRevision && !!moduleId
-                                ? `/muteer/modules/${moduleId}/${singular}/${Object_ID}`
-                                : `/muteer/${plural}/${Object_ID}`
-                        }
-                    />
+                    <Hyperlink asChild>
+                        <Link
+                            to={
+                                isRevision && !!moduleId
+                                    ? `/muteer/modules/${moduleId}/${singular}/${Object_ID}`
+                                    : `/muteer/${plural}/${Object_ID}`
+                            }>
+                            Open in beheeromgeving
+                        </Link>
+                    </Hyperlink>
                 </div>
             )}
         </aside>

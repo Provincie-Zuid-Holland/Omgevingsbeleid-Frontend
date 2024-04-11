@@ -1,9 +1,10 @@
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
+import { Heading, Text } from '@pzh-ui/components'
 import { keepPreviousData } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 
 import { useBeleidsdoelenValidGet } from '@/api/fetchers'
+import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import ObjectList from '@/components/ObjectList'
@@ -26,9 +27,9 @@ function ThemeOverview() {
     )
 
     const breadcrumbPaths = [
-        { name: 'Home', path: '/' },
-        { name: 'Omgevingsprogramma', path: '/omgevingsprogramma' },
-        { name: 'Thematische programma’s', path: '/thematische-programmas' },
+        { name: 'Home', to: '/' },
+        { name: 'Omgevingsprogramma', to: '/omgevingsprogramma' },
+        { name: 'Thematische programma’s' },
     ]
 
     const transformedData = useMemo(

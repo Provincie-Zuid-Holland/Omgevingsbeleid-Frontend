@@ -1,6 +1,7 @@
 import { Button, Heading } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
 
+import { usePublicationEnvironmentsGet } from '@/api/fetchers'
 import { Publication as PublicationType } from '@/api/fetchers.schemas'
 import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
@@ -16,14 +17,26 @@ const Publication = ({ data }: PublicationProps) => {
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
+    const { data: environment } = usePublicationEnvironmentsGet(undefined, {
+        query: {
+            select: e =>
+                e.results.find(
+                    environment => environment.UUID === data.Environment_UUID
+                ),
+        },
+    })
+
     return (
-        <div className="mb-6 rounded border border-pzh-gray-200 p-6">
+        <div className="rounded border border-pzh-gray-200 p-6">
             <div className="mb-4 flex items-center justify-between">
-                <Heading size="m">{data.Title || data.Document_Type}</Heading>
+                <Heading size="m" level="3">
+                    {data.Title || data.Document_Type} - {environment?.Title}{' '}
+                    publicatie
+                </Heading>
                 {canEditPublication && (
                     <Button
                         variant="link"
-                        className="text-pzh-green-500"
+                        className="whitespace-nowrap text-pzh-green-500"
                         size="small"
                         onPress={() =>
                             setActiveModal('publicationEdit', {
@@ -45,6 +58,7 @@ const Publication = ({ data }: PublicationProps) => {
                 <Button
                     icon={Plus}
                     size="small"
+                    variant="secondary"
                     onPress={() =>
                         setActiveModal('publicationVersionAdd', {
                             publication: data,

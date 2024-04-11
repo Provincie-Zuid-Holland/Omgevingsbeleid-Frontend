@@ -57,12 +57,13 @@ const DashboardAdmin = () => {
                             Modules
                         </Heading>
                         <Button
-                            as="a"
-                            href="/muteer/modules/nieuw"
+                            asChild
                             variant="cta"
                             size="small"
                             data-testid="dashboard-new-module">
-                            Nieuwe module
+                            <Link to="/muteer/modules/nieuw">
+                                Nieuwe module
+                            </Link>
                         </Button>
                     </div>
 
@@ -99,8 +100,8 @@ const DashboardAdmin = () => {
                         modules.total > modules.limit && (
                             <div className="mt-8 flex justify-center">
                                 <Pagination
-                                    onChange={setCurrPage}
-                                    forcePage={currPage - 1}
+                                    onPageChange={setCurrPage}
+                                    current={currPage}
                                     total={modules.total}
                                     limit={modules.limit}
                                 />

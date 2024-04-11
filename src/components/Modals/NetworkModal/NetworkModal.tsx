@@ -49,10 +49,12 @@ const NetworkModal = () => {
                 </ul>
             )}
 
-            <Hyperlink
-                to={`/${slugOverview}/${plural}/${activeNode?.UUID}`}
-                text={`Bekijk de detailpagina van ${demonstrative} ${singular} in het digitaal omgevingsbeleid`}
-            />
+            <Hyperlink asChild>
+                <Link to={`/${slugOverview}/${plural}/${activeNode?.UUID}`}>
+                    Bekijk de detailpagina van {demonstrative} {singular} in het
+                    digitaal omgevingsbeleid
+                </Link>
+            </Hyperlink>
         </Modal>
     )
 }

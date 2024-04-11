@@ -1,4 +1,5 @@
 import { Badge, Button, Heading, Text } from '@pzh-ui/components'
+import { Link } from 'react-router-dom'
 
 import { Module, ModuleShort } from '@/api/fetchers.schemas'
 import Avatar from '@/components/Avatar'
@@ -41,12 +42,13 @@ const ModuleCard = (props: Module | ModuleShort) => {
             <div className="mt-auto">
                 {!Closed && (
                     <Button
-                        as="a"
-                        href={`/muteer/modules/${Module_ID}`}
+                        asChild
                         size="small"
                         variant="cta"
                         data-testid="module-card-button">
-                        Bekijk module
+                        <Link to={`/muteer/modules/${Module_ID}`}>
+                            Bekijk module
+                        </Link>
                     </Button>
                 )}
             </div>

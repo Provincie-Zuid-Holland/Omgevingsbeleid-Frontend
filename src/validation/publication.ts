@@ -10,11 +10,9 @@ export const PUBLICATION_SCHEMA = object({
 
 export const PUBLICATION_VERSION_ADD_SCHEMA = object({
     Module_Status_ID: schemaDefaults.requiredNumber(),
-    Environment_UUID: schemaDefaults.requiredString(),
 })
 
 export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
-    Procedure_Type: schemaDefaults.requiredString(),
     Effective_Date: schemaDefaults.optionalString
         .refine(date => {
             return date && new Date(date) > new Date(Date.now())
@@ -25,6 +23,9 @@ export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
             return date && new Date(date) > new Date(Date.now())
         }, 'De bekendmakingsdatum moet in de toekomst liggen')
         .nullable(),
+    Bill_Metadata: object({
+        Official_Title: schemaDefaults.requiredString(),
+    }),
     Bill_Compact: object({
         Preamble: schemaDefaults.optionalString,
         Amendment_Article: schemaDefaults.requiredString(),
@@ -41,11 +42,7 @@ export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
     Procedural: object({
         Enactment_Date: schemaDefaults.optionalString,
         Signed_Date: schemaDefaults.optionalString,
-        Procedural_Announcement_Date: schemaDefaults.optionalString
-            .refine(date => {
-                return date && new Date(date) > new Date(Date.now())
-            }, 'De bekend op datum moet in de toekomst liggen')
-            .nullable(),
+        Procedural_Announcement_Date: schemaDefaults.optionalString,
     }),
 }).superRefine(({ Effective_Date, Announcement_Date }, ctx) => {
     if (

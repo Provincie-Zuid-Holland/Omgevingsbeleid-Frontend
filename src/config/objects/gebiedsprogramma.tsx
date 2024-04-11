@@ -1,5 +1,6 @@
 import { Hyperlink } from '@pzh-ui/components'
 import { LocationDot } from '@pzh-ui/icons'
+import { Link } from 'react-router-dom'
 
 import {
     useGebiedsprogrammasLatestLineageIdGet,
@@ -81,7 +82,10 @@ const gebiedsprogramma: DynamicObject<
             gebiedsprogramma is veelal gekoppeld met maatregelen. Hieronder een
             overzicht van de maatregelen van dit gebiedsprogramma. Bekijk voor
             het volledige overzicht het{' '}
-            <Hyperlink text="beleidsnetwerk" to="/beleidsnetwerk" />.
+            <Hyperlink asChild>
+                <Link to="/beleidsnetwerk">beleidsnetwerk</Link>
+            </Hyperlink>
+            .
         </>
     ),
     fetchers,

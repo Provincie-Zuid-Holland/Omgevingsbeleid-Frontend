@@ -66,7 +66,6 @@ const PublicationVersionEditModal = () => {
 
     const initialValues = {
         ...data,
-        Environment_UUID: data?.Environment.UUID,
         Module_Status_ID: data?.Module_Status.ID,
     } as PublicationVersionEdit
 
@@ -83,7 +82,7 @@ const PublicationVersionEditModal = () => {
                     validationSchema={toFormikValidationSchema(
                         PUBLICATION_VERSION_EDIT_SCHEMA
                     )}
-                    submitLabel="Versie opslaan"
+                    submitLabel="Opslaan"
                     isEdit
                 />
             )}

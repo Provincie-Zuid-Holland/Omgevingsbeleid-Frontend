@@ -1,7 +1,7 @@
 import { FieldInput, Heading, ListLink, Pagination } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
 import { KeyboardEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { LoaderCard, LoaderSpinner } from '@/components/Loader'
 
@@ -113,14 +113,16 @@ const ObjectList = ({
                 ) : (
                     data?.map((obj, index) => (
                         <li key={index} className="py-0.5">
-                            <ListLink
-                                text={obj.Title || ''}
-                                to={`/${objectSlug}/${
-                                    objectKey === 'uuid'
-                                        ? obj.UUID
-                                        : obj.Object_ID
-                                }`}
-                            />
+                            <ListLink asChild>
+                                <Link
+                                    to={`/${objectSlug}/${
+                                        objectKey === 'uuid'
+                                            ? obj.UUID
+                                            : obj.Object_ID
+                                    }`}>
+                                    {obj.Title}
+                                </Link>
+                            </ListLink>
                         </li>
                     ))
                 )}
@@ -128,10 +130,10 @@ const ObjectList = ({
             {onPageChange && total > limit && (
                 <div className="mt-8 flex justify-center">
                     <Pagination
-                        onChange={onPageChange}
+                        onPageChange={onPageChange}
                         total={total}
                         limit={limit}
-                        forcePage={currPage}
+                        current={currPage || 1}
                     />
                 </div>
             )}

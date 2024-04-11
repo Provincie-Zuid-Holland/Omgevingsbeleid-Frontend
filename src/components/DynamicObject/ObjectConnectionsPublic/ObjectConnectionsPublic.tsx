@@ -1,4 +1,5 @@
 import { Heading, ListLink, Text } from '@pzh-ui/components'
+import { Link } from 'react-router-dom'
 
 import * as models from '@/config/objects'
 import { Model, ModelReturnType } from '@/config/objects/types'
@@ -36,13 +37,16 @@ const ObjectConnectionsPublic = ({
                             {(items as any[]).map(item => (
                                 <li key={item.Object.UUID}>
                                     <ListLink
-                                        to={generateObjectPath(
-                                            connection.type,
-                                            item.Object.UUID
-                                        )}
-                                        text={item.Object.Title || ''}
-                                        className="text-pzh-green-500 hover:text-pzh-green-900"
-                                    />
+                                        asChild
+                                        className="text-pzh-green-500 hover:text-pzh-green-900">
+                                        <Link
+                                            to={generateObjectPath(
+                                                connection.type,
+                                                item.Object.UUID
+                                            )}>
+                                            {item.Object.Title}
+                                        </Link>
+                                    </ListLink>
                                 </li>
                             ))}
                         </ul>

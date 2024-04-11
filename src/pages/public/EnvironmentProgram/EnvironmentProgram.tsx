@@ -1,13 +1,14 @@
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
+import { Heading, Text } from '@pzh-ui/components'
 import { Link } from 'react-router-dom'
 
+import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import imgEnvironmentProgram from '@/images/environment-program.webp'
 
 function EnvironmentProgram() {
     const breadcrumbPaths = [
-        { name: 'Home', path: '/' },
-        { name: 'Omgevingsprogramma', path: '/omgevingsprogramma' },
+        { name: 'Home', to: '/' },
+        { name: 'Omgevingsprogramma' },
     ]
 
     return (

@@ -5,7 +5,7 @@ import {
     usePublicationsPublicationUuidGet,
     usePublicationsPublicationUuidPost,
 } from '@/api/fetchers'
-import { PublicationEdit } from '@/api/fetchers.schemas'
+import { DocumentType, PublicationEdit } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal/Modal'
 import PublicationForm from '@/components/Publications/PublicationForm'
@@ -21,7 +21,7 @@ const PublicationEditModal = () => {
     ) as ModalStateMap['publicationEdit']
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { data, isFetching } = usePublicationsPublicationUuidGet(
+    const { data, isFetching, queryKey } = usePublicationsPublicationUuidGet(
         modalState?.publication.UUID,
         {
             query: {
@@ -33,9 +33,11 @@ const PublicationEditModal = () => {
     const { mutate } = usePublicationsPublicationUuidPost({
         mutation: {
             onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey })
                 queryClient.invalidateQueries({
                     queryKey: getPublicationsGetQueryKey({
-                        document_type: modalState.publication.Document_Type,
+                        document_type: modalState.publication
+                            .Document_Type as DocumentType,
                     }),
                 })
 

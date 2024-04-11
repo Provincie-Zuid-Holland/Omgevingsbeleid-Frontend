@@ -1,14 +1,9 @@
-import {
-    Breadcrumbs,
-    Heading,
-    Hyperlink,
-    ListLink,
-    Text,
-} from '@pzh-ui/components'
-import { useParams } from 'react-router-dom'
+import { Heading, Hyperlink, ListLink, Text } from '@pzh-ui/components'
+import { Link, useParams } from 'react-router-dom'
 
 import { useBeleidsdoelenVersionObjectUuidGet } from '@/api/fetchers'
 import { ReadRelationShortBeleidskeuzeMinimal } from '@/api/fetchers.schemas'
+import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import TableOfContents from '@/components/TableOfContents'
@@ -21,15 +16,14 @@ function ThemeDetail() {
     const { data, isLoading } = useBeleidsdoelenVersionObjectUuidGet(uuid!)
 
     const breadcrumbPaths = [
-        { name: 'Home', path: '/' },
-        { name: 'Omgevingsprogramma', path: '/omgevingsprogramma' },
+        { name: 'Home', to: '/' },
+        { name: 'Omgevingsprogramma', to: '/omgevingsprogramma' },
         {
             name: 'Thematische programma’s',
-            path: '/omgevingsprogramma/thematische-programmas',
+            to: '/omgevingsprogramma/thematische-programmas',
         },
         {
             name: data?.Title || '',
-            path: `/omgevingsprogramma/thematische-programmas/${data?.UUID}`,
         },
     ]
 
@@ -70,10 +64,12 @@ function ThemeDetail() {
                             }}
                         />
                     )}
-                    <Hyperlink
-                        to={`/omgevingsvisie/beleidsdoelen/${data?.UUID}`}
-                        text="Lees meer informatie over dit beleidsdoel"
-                    />
+                    <Hyperlink asChild>
+                        <Link
+                            to={`/omgevingsvisie/beleidsdoelen/${data?.UUID}`}>
+                            Lees meer informatie over dit beleidsdoel
+                        </Link>
+                    </Hyperlink>
                 </div>
 
                 {data?.Beleidskeuzes?.map(object => (
@@ -110,11 +106,14 @@ const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
 
                         return (
                             <ListLink
+                                asChild
                                 key={item.Object.UUID}
-                                text={item.Object.Title || ''}
-                                to={`/${slugOverview}/${plural}/${item.Object.UUID}`}
-                                className="text-pzh-green-500 hover:text-pzh-blue-500"
-                            />
+                                className="text-pzh-green-500 hover:text-pzh-blue-500">
+                                <Link
+                                    to={`/${slugOverview}/${plural}/${item.Object.UUID}`}>
+                                    {item.Object.Title}
+                                </Link>
+                            </ListLink>
                         )
                     })}
                 </div>
@@ -124,10 +123,12 @@ const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
                 </span>
             )}
 
-            <Hyperlink
-                to={`/${slugOverview}/${plural}/${Object.UUID}`}
-                text={`Lees meer informatie over ${prefixSingular} ${singularReadable} '${Object.Title}'`}
-            />
+            <Hyperlink asChild>
+                <Link to={`/${slugOverview}/${plural}/${Object.UUID}`}>
+                    Lees meer informatie over {prefixSingular}{' '}
+                    {singularReadable} '{Object.Title}'
+                </Link>
+            </Hyperlink>
         </div>
     )
 }

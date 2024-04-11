@@ -1,16 +1,18 @@
-import { Button, Pagination, Tooltip, formatDate } from '@pzh-ui/components'
+import {
+    Button,
+    Pagination,
+    Text,
+    Tooltip,
+    formatDate,
+} from '@pzh-ui/components'
 import { FileWord } from '@pzh-ui/icons'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import classNames from 'clsx'
 import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import {
-    usePublicationEnvironmentsGet,
-    usePublicationsPublicationUuidVersionsGet,
-} from '@/api/fetchers'
+import { usePublicationsPublicationUuidVersionsGet } from '@/api/fetchers'
 import { Publication, PublicationVersionShort } from '@/api/fetchers.schemas'
-import { LoaderSpinner } from '@/components/Loader'
+import { LoaderCard } from '@/components/Loader'
 import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
 import { downloadFile } from '@/utils/file'
@@ -40,37 +42,39 @@ const PublicationVersions = ({ publication }: PublicationVersionsProps) => {
 
     return (
         <>
-            <div className={classNames({ relative: isFetching })}>
-                {isFetching && (
-                    <div className="absolute left-0 top-0 flex h-full w-full animate-pulse items-center justify-center bg-pzh-gray-600/15">
-                        <LoaderSpinner />
-                    </div>
+            <div>
+                {isFetching ? (
+                    <LoaderCard />
+                ) : !!data?.results.length ? (
+                    <table className="w-full table-auto text-left text-s">
+                        <thead className="h-8 border-b border-pzh-gray-400 font-bold text-pzh-blue-500">
+                            <tr>
+                                <th className="pl-2">Datum aangemaakt</th>
+                                <th>Gebaseerd op Modulestatus</th>
+                                <th className="pr-2">Actie</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {data?.results.map(version => (
+                                <VersionRow
+                                    key={version.UUID}
+                                    publication={publication}
+                                    {...version}
+                                />
+                            ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <Text className="italic text-pzh-gray-600">
+                        Er is nog geen versie aangemaakt
+                    </Text>
                 )}
-                <table className="w-full table-auto text-left text-s">
-                    <thead className="h-8 border-b border-pzh-gray-400 font-bold text-pzh-blue-500">
-                        <tr>
-                            <th className="pl-2">Datum aangemaakt</th>
-                            <th>Publicatieomgeving</th>
-                            <th>Gebaseerd op Modulestatus</th>
-                            <th className="pr-2">Actie</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data?.results.map(version => (
-                            <VersionRow
-                                key={version.UUID}
-                                publication={publication}
-                                {...version}
-                            />
-                        ))}
-                    </tbody>
-                </table>
             </div>
             {!!data?.total && !!data?.limit && data.total > data.limit && (
                 <div className="mt-8 flex justify-center">
                     <Pagination
-                        onChange={setCurrPage}
-                        forcePage={currPage - 1}
+                        onPageChange={setCurrPage}
+                        current={currPage}
                         total={data?.total}
                         limit={data?.limit}
                     />
@@ -83,25 +87,15 @@ const PublicationVersions = ({ publication }: PublicationVersionsProps) => {
 const VersionRow = ({
     publication,
     ...version
-}: PublicationVersionShort & { publication: Publication }) => {
+}: PublicationVersionShort & {
+    publication: Publication
+}) => {
     const { moduleId } = useParams()
 
-    const {
-        canEditPublicationVersion,
-        canCreatePublicationPackage,
-        canViewPublicationPackage,
-    } = usePermissions()
+    const { canEditPublicationVersion, canViewPublicationPackage } =
+        usePermissions()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
-
-    const { data: environment } = usePublicationEnvironmentsGet(undefined, {
-        query: {
-            select: data =>
-                data.results.find(
-                    environment => environment.UUID === version.Environment_UUID
-                ),
-        },
-    })
 
     const downloadDiff = ({
         moduleId,
@@ -137,24 +131,9 @@ const VersionRow = ({
     return (
         <tr className="h-14 odd:bg-pzh-gray-100">
             <td className="pl-2">{date}</td>
-            <td>{environment?.Title}</td>
             <td>{version.Module_Status.Status}</td>
             <td className="pr-2">
                 <div className="flex items-center gap-4">
-                    {version.Is_Locked && canCreatePublicationPackage && (
-                        <Button
-                            variant="link"
-                            size="small"
-                            className="text-pzh-red-500"
-                            onPress={() =>
-                                setActiveModal('publicationVersionAbort', {
-                                    publication,
-                                    version,
-                                })
-                            }>
-                            Afbreken
-                        </Button>
-                    )}
                     {!version.Is_Locked && canEditPublicationVersion && (
                         <Button
                             variant="link"

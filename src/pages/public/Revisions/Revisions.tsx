@@ -13,6 +13,7 @@ import { Plus } from '@pzh-ui/icons'
 import classNames from 'clsx'
 import { Fragment, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { Link } from 'react-router-dom'
 
 import { useRevisionsGet, useRevisionsModuleIdGet } from '@/api/fetchers'
 import {
@@ -364,10 +365,12 @@ const RevisionItem = ({
                     <span className="px-2">{singularCapitalize}</span>
                 </div>
             </div>
-            <Hyperlink
-                to={`/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${UUID}`}
-                text={Title}
-            />
+            <Hyperlink asChild>
+                <Link
+                    to={`/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${UUID}`}>
+                    {Title}
+                </Link>
+            </Hyperlink>
         </div>
     )
 }

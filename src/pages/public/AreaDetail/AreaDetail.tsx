@@ -1,7 +1,8 @@
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
+import { Heading, Text } from '@pzh-ui/components'
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
+import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import ObjectList from '@/components/ObjectList'
@@ -39,15 +40,14 @@ function AreaDetail() {
     )
 
     const breadcrumbPaths = [
-        { name: 'Home', path: '/' },
-        { name: 'Omgevingsprogramma', path: '/omgevingsprogramma' },
+        { name: 'Home', to: '/' },
+        { name: 'Omgevingsprogramma', to: '/omgevingsprogramma' },
         {
             name: 'Gebiedsprogramma’s',
-            path: '/omgevingsprogramma/gebiedsprogrammas',
+            to: '/omgevingsprogramma/gebiedsprogrammas',
         },
         {
             name: data?.Title || '',
-            path: `/omgevingsprogramma/gebiedsprogrammas/${data?.UUID}`,
         },
     ]
 

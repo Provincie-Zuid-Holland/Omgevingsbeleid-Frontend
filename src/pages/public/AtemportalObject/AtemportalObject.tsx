@@ -1,9 +1,10 @@
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
+import { Heading, Text } from '@pzh-ui/components'
 import groupBy from 'lodash.groupby'
 import { useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router-dom'
 
+import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import ObjectList from '@/components/ObjectList'
@@ -54,13 +55,13 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
     }, [data, model.allowedConnections])
 
     const breadcrumbPaths = [
-        { name: 'Omgevingsbeleid', path: '/' },
+        { name: 'Omgevingsbeleid', to: '/' },
         {
             name: slugOverview || '',
-            path: `/${slugOverview}`,
+            to: `/${slugOverview}`,
         },
-        { name: pluralCapitalize, path: `/${slugOverview}/${plural}` || '' },
-        { name: data.Title || '', path: pathName },
+        { name: pluralCapitalize, to: `/${slugOverview}/${plural}` || '' },
+        { name: data.Title || '', isCurrent: true },
     ]
 
     if (isLoading) return <LoaderContent />
