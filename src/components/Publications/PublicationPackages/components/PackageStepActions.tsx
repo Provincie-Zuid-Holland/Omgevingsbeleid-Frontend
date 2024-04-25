@@ -234,13 +234,17 @@ const UploadAction = ({
     }
 
     const date = useMemo(() => {
-        if (!!reports?.results.length) {
+        if (
+            publicationPackage?.Modified_Date &&
+            !!publicationPackage.Report_Status &&
+            publicationPackage.Report_Status !== 'pending'
+        ) {
             return formatDate(
-                new Date(reports.results?.slice(-1)[0].Created_Date),
+                new Date(publicationPackage.Modified_Date),
                 'dd-MM-yyyy'
             )
         }
-    }, [reports?.results])
+    }, [publicationPackage])
 
     const allFiles = useMemo(
         () =>
@@ -278,6 +282,8 @@ const UploadAction = ({
                                     'border-pzh-red-900 bg-pzh-red-10 text-pzh-red-900':
                                         'Report_Status' in file &&
                                         file.Report_Status === 'failed',
+                                    'border-pzh-gray-200 bg-pzh-gray-200 text-pzh-gray-600':
+                                        'Filename' in file && !!files?.length,
                                 })}
                             />
                         ))}
@@ -325,7 +331,7 @@ const UploadAction = ({
             </div>
             {date && (
                 <Text color="text-pzh-gray-600" className="mt-2 text-right">
-                    Geupload op {date}
+                    Gevalideerd op {date}
                 </Text>
             )}
         </div>
