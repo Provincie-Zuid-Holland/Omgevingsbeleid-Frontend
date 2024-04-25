@@ -66,7 +66,6 @@ export default defineConfig({
             filename: 'analyse.html', // will be saved in project's root
         }),
     ],
-    // @ts-ignore
     test: {
         globals: true,
         environment: 'jsdom',

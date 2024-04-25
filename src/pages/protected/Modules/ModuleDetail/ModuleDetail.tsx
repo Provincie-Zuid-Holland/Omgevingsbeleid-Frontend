@@ -186,6 +186,7 @@ const Modals = ({ moduleContext, module }: ModalsProps) => (
             initialValues={{
                 ...modules.EMPTY_MODULE_OBJECT,
                 state: 'existing',
+                validOrModule: 'valid',
             }}
             module={module}
         />
