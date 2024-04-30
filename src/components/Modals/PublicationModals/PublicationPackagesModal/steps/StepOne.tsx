@@ -1,22 +1,23 @@
-import { Button, Divider, Text } from '@pzh-ui/components'
+import { Button, Divider, Heading, Text } from '@pzh-ui/components'
 import { useParams } from 'react-router-dom'
 
 import {
     useModulesModuleIdStatusGet,
     usePublicationEnvironmentsGet,
 } from '@/api/fetchers'
-import Modal from '@/components/Modal/Modal'
+import { ModalStateMap } from '@/components/Modals/types'
+import PublicationPackages from '@/components/Publications/PublicationPackages'
 import useModalStore from '@/store/modalStore'
 
-import { ModalStateMap } from '../../types'
+import { StepProps } from './types'
 
-const PublicationVersionAbortModal = () => {
+export const StepOne = ({ setStep }: StepProps) => {
     const { moduleId } = useParams()
 
-    const setActiveModal = useModalStore(state => state.setActiveModal)
     const modalState = useModalStore(
-        state => state.modalStates['publicationVersionAbort']
-    ) as ModalStateMap['publicationVersionAbort']
+        state => state.modalStates['publicationPackages']
+    ) as ModalStateMap['publicationPackages']
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const { data: status } = useModulesModuleIdStatusGet(parseInt(moduleId!), {
         query: {
@@ -40,28 +41,25 @@ const PublicationVersionAbortModal = () => {
     })
 
     return (
-        <Modal
-            id="publicationVersionAbort"
-            title="Publicatie afbreken"
-            size="xl">
-            <div className="grid gap-4">
-                <Text>
-                    {status?.Status} -{' '}
-                    {modalState?.version.Bill_Metadata.Official_Title} (
-                    {environment?.Can_Publicate ? 'Officiële' : 'Interne'}{' '}
-                    publicatie)
-                </Text>
-                {/* <PublicationPackages
-                    environment={environment}
-                    {...modalState?.version}
-                /> */}
-            </div>
+        <div className="grid gap-4">
+            <Heading level="2">Levering</Heading>
+
+            <Text>
+                {status?.Status} -{' '}
+                {modalState?.version.Bill_Metadata.Official_Title} (
+                {environment?.Can_Publicate ? 'Officiële' : 'Interne'}{' '}
+                publicatie)
+            </Text>
+            <PublicationPackages
+                environment={environment}
+                procedureType={modalState?.publication.Procedure_Type}
+                handleUpdateAction={() => setStep(2)}
+                {...modalState?.version}
+            />
             <Divider className="my-6" />
             <div className="flex items-center justify-end">
                 <Button onPress={() => setActiveModal(null)}>Sluiten</Button>
             </div>
-        </Modal>
+        </div>
     )
 }
-
-export default PublicationVersionAbortModal

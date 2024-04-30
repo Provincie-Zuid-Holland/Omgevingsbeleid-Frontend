@@ -4,7 +4,6 @@ import {
     Divider,
     Heading,
     Hyperlink,
-    Notification,
     TabItem,
     Tabs,
     Text,
@@ -253,14 +252,6 @@ const TabDecisions = () => {
     return (
         <>
             <div className="col-span-6">
-                <Notification title="Werking versies" className="mb-6">
-                    Voor elke (interne en officiële) publicatie moet een nieuwe
-                    versie van een besluit worden aangemaakt. Een besluit is te
-                    bewerken tot het moment dat er een officiële publicatie is
-                    gedaan. Validatie of publicatie niet gelukt? Bewerk dan de
-                    versie en maak een nieuwe levering aan.
-                </Notification>
-
                 {documentTypes.map((type, index) => (
                     <Fragment key={type}>
                         <Publications type={type} />

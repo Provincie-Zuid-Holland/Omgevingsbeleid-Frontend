@@ -2,6 +2,7 @@ import {
     DocumentType,
     ProcedureType,
     Publication,
+    PublicationEnvironment,
     PublicationVersionShort,
 } from '@/api/fetchers.schemas'
 
@@ -36,6 +37,7 @@ export type ModalType =
     | 'publicationVersionEdit'
     | 'publicationPackages'
     | 'publicationVersionAbort'
+    | 'publicationAnnouncementPackages'
 
 export interface ModalStateMap {
     publicationAdd: {
@@ -49,6 +51,12 @@ export interface ModalStateMap {
     publicationPackages: {
         publication: Publication
         version: PublicationVersionShort
+        announcementUuid: string
+    }
+    publicationAnnouncementPackages: {
+        environment?: PublicationEnvironment
+        version: PublicationVersionShort
+        announcementUuid: string
     }
     publicationVersionAbort: {
         publication: Publication

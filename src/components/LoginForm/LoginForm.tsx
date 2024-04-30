@@ -54,14 +54,13 @@ const LoginForm = () => {
                 initialValues={{ email: '', password: '' }}
                 onSubmit={handleFormSubmit}
                 validationSchema={toFormikValidationSchema(loginForm.SCHEMA)}>
-                {({ values, handleSubmit, isValid, dirty }) => (
+                {({ handleSubmit, isValid, dirty }) => (
                     <Form onSubmit={handleSubmit}>
                         <FormikInput
                             label="E-mailadres"
                             name="email"
                             type="email"
                             placeholder="medewerker@pzh.nl"
-                            value={values.email}
                         />
                         <div className="mt-6">
                             <FormikInput
@@ -69,7 +68,6 @@ const LoginForm = () => {
                                 name="password"
                                 type="password"
                                 placeholder="Vul hier je wachtwoord in"
-                                value={values.password}
                             />
                         </div>
                         <div className="mt-7 flex items-center justify-between">
