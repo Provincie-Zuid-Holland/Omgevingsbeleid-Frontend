@@ -1,5 +1,7 @@
 import {
     DocumentType,
+    Module,
+    ModuleObjectShort,
     ProcedureType,
     Publication,
     PublicationEnvironment,
@@ -40,6 +42,13 @@ export type ModalType =
     | 'publicationAnnouncementPackages'
 
 export interface ModalStateMap {
+    moduleEditObject: {
+        object: ModuleObjectShort
+    }
+    moduleDeleteObject: {
+        object: ModuleObjectShort
+        module: Module
+    }
     publicationAdd: {
         documentType: DocumentType
         procedureType: ProcedureType

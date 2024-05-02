@@ -7,7 +7,6 @@ import { ModelType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
-import { ModuleContext } from '@/pages/protected/Modules/ModuleDetail'
 import useModalStore from '@/store/modalStore'
 
 import ModuleItem from '../ModuleItem'
@@ -17,8 +16,6 @@ interface ModuleItemListProps {
     objects?: ModuleObjectShort[]
     /** Current model object */
     module?: Module
-    /** Set module context */
-    setModuleContext: (e: ModuleContext) => void
 }
 
 const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
@@ -108,7 +105,6 @@ interface ItemListProps extends ModuleItemListProps {
 
 const ItemList = ({
     objects,
-    setModuleContext,
     module,
     title,
     noResultsText,
@@ -134,19 +130,17 @@ const ItemList = ({
                         return (
                             <ModuleItem
                                 key={object.UUID}
-                                editCallback={() => {
-                                    setModuleContext({
+                                editCallback={() =>
+                                    setActiveModal('moduleEditObject', {
                                         object,
                                     })
-                                    setActiveModal('moduleEditObject')
-                                }}
-                                deleteCallback={() => {
-                                    setModuleContext({
+                                }
+                                deleteCallback={() =>
+                                    setActiveModal('moduleDeleteObject', {
                                         object,
                                         module,
                                     })
-                                    setActiveModal('moduleDeleteObject')
-                                }}
+                                }
                                 viewCallback={() =>
                                     window
                                         .open(

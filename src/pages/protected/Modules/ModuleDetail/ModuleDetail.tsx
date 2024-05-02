@@ -9,7 +9,7 @@ import {
     Text,
 } from '@pzh-ui/components'
 import classNames from 'clsx'
-import { Fragment, useState } from 'react'
+import { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 
 import { DocumentType, Module, ModuleObjectShort } from '@/api/fetchers.schemas'
@@ -173,18 +173,12 @@ const TabObjects = () => {
         canComplete,
     } = useModule()
 
-    const [moduleContext, setModuleContext] = useState<ModuleContext>({})
-
     if (isLoading || !module) return <LoaderContent />
 
     return (
         <>
             <div className="col-span-6 lg:col-span-4">
-                <ModuleItemList
-                    objects={objects}
-                    module={module}
-                    setModuleContext={setModuleContext}
-                />
+                <ModuleItemList objects={objects} module={module} />
 
                 {(canAddExistingObjectToModule || canAddNewObjectToModule) &&
                     !isLocked && (
@@ -232,14 +226,9 @@ const TabObjects = () => {
 
             <ModuleLockModal />
 
-            <ModuleEditObjectModal
-                object={moduleContext.object || ({} as ModuleObjectShort)}
-            />
+            <ModuleEditObjectModal />
 
-            <ModuleObjectDeleteConfirmationModal
-                object={moduleContext.object || ({} as ModuleObjectShort)}
-                module={module}
-            />
+            <ModuleObjectDeleteConfirmationModal />
 
             <ModuleCompleteModal />
         </>
