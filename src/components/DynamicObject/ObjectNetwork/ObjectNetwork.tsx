@@ -49,10 +49,10 @@ const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
 
             if (type === 'enter') {
                 element.classList.add('font-bold')
-                el?.classList.add('stroke-pzh-blue-900')
+                el?.classList.add('!stroke-pzh-blue-900')
             } else {
                 element.classList.remove('font-bold')
-                el?.classList.remove('stroke-pzh-blue-900')
+                el?.classList.remove('!stroke-pzh-blue-900')
             }
         },
         []
