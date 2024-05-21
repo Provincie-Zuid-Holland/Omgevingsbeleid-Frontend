@@ -30,7 +30,7 @@ const PublicationVersionForm = <TData extends FormikValues>({
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { data: statusOptions } = useModulesModuleIdStatusGet(
+    const { data: statusOptions, isLoading } = useModulesModuleIdStatusGet(
         parseInt(moduleId!),
         {
             query: {
@@ -56,6 +56,7 @@ const PublicationVersionForm = <TData extends FormikValues>({
                     <div className="space-y-4">
                         <div>
                             <FormikSelect
+                                key={isLoading.toString()}
                                 name="Module_Status_ID"
                                 label="Module status"
                                 placeholder="Selecteer een module status"

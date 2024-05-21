@@ -1226,9 +1226,9 @@ export interface PublicationAnnouncementPackageCreate {
 
 export interface PublicationAnnouncementEdit {
     Announcement_Date?: string
+    Content?: AnnouncementContent
     Metadata?: AnnouncementMetadata
     Procedural?: AnnouncementProcedural
-    Texts?: AnnouncementContent
 }
 
 export type PublicationAnnouncementProcedural = { [key: string]: any }

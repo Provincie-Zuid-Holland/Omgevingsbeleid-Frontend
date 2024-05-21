@@ -175,6 +175,7 @@ const ModuleItem = ({
                             data-testid="module-item-menu">
                             <EllipsisVertical />
                         </button>
+
                         <Dropdown
                             items={dropdownItems}
                             isOpen={isOpen}

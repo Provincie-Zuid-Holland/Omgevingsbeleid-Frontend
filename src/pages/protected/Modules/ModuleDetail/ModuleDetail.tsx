@@ -4,13 +4,12 @@ import {
     Divider,
     Heading,
     Hyperlink,
-    Notification,
     TabItem,
     Tabs,
     Text,
 } from '@pzh-ui/components'
 import classNames from 'clsx'
-import { Fragment, useState } from 'react'
+import { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 
 import { DocumentType, Module, ModuleObjectShort } from '@/api/fetchers.schemas'
@@ -174,18 +173,12 @@ const TabObjects = () => {
         canComplete,
     } = useModule()
 
-    const [moduleContext, setModuleContext] = useState<ModuleContext>({})
-
     if (isLoading || !module) return <LoaderContent />
 
     return (
         <>
             <div className="col-span-6 lg:col-span-4">
-                <ModuleItemList
-                    objects={objects}
-                    module={module}
-                    setModuleContext={setModuleContext}
-                />
+                <ModuleItemList objects={objects} module={module} />
 
                 {(canAddExistingObjectToModule || canAddNewObjectToModule) &&
                     !isLocked && (
@@ -234,14 +227,9 @@ const TabObjects = () => {
 
             <ModuleLockModal />
 
-            <ModuleEditObjectModal
-                object={moduleContext.object || ({} as ModuleObjectShort)}
-            />
+            <ModuleEditObjectModal />
 
-            <ModuleObjectDeleteConfirmationModal
-                object={moduleContext.object || ({} as ModuleObjectShort)}
-                module={module}
-            />
+            <ModuleObjectDeleteConfirmationModal />
 
             <ModuleCompleteModal />
         </>
@@ -254,14 +242,6 @@ const TabDecisions = () => {
     return (
         <>
             <div className="col-span-6">
-                <Notification title="Werking versies" className="mb-6">
-                    Voor elke (interne en officiële) publicatie moet een nieuwe
-                    versie van een besluit worden aangemaakt. Een besluit is te
-                    bewerken tot het moment dat er een officiële publicatie is
-                    gedaan. Validatie of publicatie niet gelukt? Bewerk dan de
-                    versie en maak een nieuwe levering aan.
-                </Notification>
-
                 {documentTypes.map((type, index) => (
                     <Fragment key={type}>
                         <Publications type={type} />

@@ -5,23 +5,23 @@ import clsx from 'clsx'
 import { useMemo, useState } from 'react'
 
 import {
-    getPublicationActPackagesActPackageUuidDownloadGetQueryKey,
-    getPublicationActPackagesGetQueryKey,
-    getPublicationsPublicationUuidVersionsGetQueryKey,
-    usePublicationActPackagesActPackageUuidReportPost,
-    usePublicationActReportsGet,
-    usePublicationVersionsVersionUuidPackagesPost,
+    getPublicationAnnouncementPackagesAnnouncementPackageUuidDownloadGetQueryKey,
+    getPublicationAnnouncementPackagesGetQueryKey,
+    usePublicationAnnouncementPackagesAnnouncementPackageUuidReportPost,
+    usePublicationAnnouncementReportsGet,
+    usePublicationAnnouncementsAnnouncementUuidPackagesPost,
 } from '@/api/fetchers'
 import {
+    PublicationAnnouncementShort,
     PublicationPackage,
-    PublicationVersionShort,
 } from '@/api/fetchers.schemas'
 import { downloadFile } from '@/utils/file'
 
-import { PublicationPackageProps } from '../PublicationPackages'
+import { PublicationAnnouncementPackageProps } from '../PublicationAnnouncement'
 
-interface PackageStepActionsProps extends PublicationPackageProps {
-    version: PublicationVersionShort
+interface PackageStepActionsProps extends PublicationAnnouncementPackageProps {
+    handleAction?: () => void
+    announcement: PublicationAnnouncementShort
     publicationPackage?: PublicationPackage
     isActive?: boolean
     isSucceeded?: boolean
@@ -38,11 +38,13 @@ const PackageStepActions = ({ type, ...props }: PackageStepActionsProps) => {
             return <DownloadAction type={type} {...props} />
         case 'upload':
             return <UploadAction type={type} {...props} />
+        case 'update':
+            return <UpdateAction type={type} {...props} />
     }
 }
 
 const CreateAction = ({
-    version,
+    announcement,
     publicationPackage,
     eventType,
     isActive,
@@ -53,19 +55,15 @@ const CreateAction = ({
     const queryClient = useQueryClient()
 
     const { mutate: create, isPending } =
-        usePublicationVersionsVersionUuidPackagesPost({
+        usePublicationAnnouncementsAnnouncementUuidPackagesPost({
             mutation: {
                 onSuccess: () => {
                     queryClient.invalidateQueries({
-                        queryKey: getPublicationActPackagesGetQueryKey({
-                            version_uuid: version.UUID,
-                        }),
-                    })
-                    queryClient.invalidateQueries({
-                        queryKey:
-                            getPublicationsPublicationUuidVersionsGetQueryKey(
-                                version.Publication_UUID
-                            ),
+                        queryKey: getPublicationAnnouncementPackagesGetQueryKey(
+                            {
+                                announcement_uuid: announcement.UUID,
+                            }
+                        ),
                     })
                 },
             },
@@ -73,7 +71,7 @@ const CreateAction = ({
 
     const handleAction = () =>
         create({
-            versionUuid: version.UUID,
+            announcementUuid: announcement.UUID,
             data: { Package_Type: eventType },
         })
 
@@ -112,7 +110,7 @@ const CreateAction = ({
 }
 
 const DownloadAction = ({
-    version,
+    announcement,
     publicationPackage,
     eventType,
     isActive,
@@ -123,12 +121,12 @@ const DownloadAction = ({
         queryKey: [
             'downloadPackage',
             publicationPackage?.UUID,
-            version.UUID,
+            announcement.UUID,
             eventType,
         ],
         queryFn: async () =>
             downloadFile(
-                getPublicationActPackagesActPackageUuidDownloadGetQueryKey(
+                getPublicationAnnouncementPackagesAnnouncementPackageUuidDownloadGetQueryKey(
                     publicationPackage?.UUID || ''
                 )[0]
             ),
@@ -138,8 +136,8 @@ const DownloadAction = ({
     const handleAction = () =>
         download().finally(() =>
             queryClient.invalidateQueries({
-                queryKey: getPublicationActPackagesGetQueryKey({
-                    version_uuid: version.UUID,
+                queryKey: getPublicationAnnouncementPackagesGetQueryKey({
+                    announcement_uuid: announcement.UUID,
                 }),
             })
         )
@@ -169,14 +167,14 @@ const DownloadAction = ({
                 isDisabled={!isActive || isFetching}
                 onPress={handleAction}
                 isLoading={isFetching}>
-                Download levering
+                Download kennisgeving
             </Button>
         </div>
     )
 }
 
 const UploadAction = ({
-    version,
+    announcement,
     publicationPackage,
     isActive,
     isLoading,
@@ -185,9 +183,9 @@ const UploadAction = ({
 
     const [files, setFiles] = useState<File[] | null>(null)
 
-    const { data: reports, queryKey } = usePublicationActReportsGet(
+    const { data: reports, queryKey } = usePublicationAnnouncementReportsGet(
         {
-            act_package_uuid: publicationPackage?.UUID,
+            announcement_package_uuid: publicationPackage?.UUID,
             limit: 100,
         },
         {
@@ -198,28 +196,21 @@ const UploadAction = ({
     )
 
     const { mutate, isPending } =
-        usePublicationActPackagesActPackageUuidReportPost({
+        usePublicationAnnouncementPackagesAnnouncementPackageUuidReportPost({
             mutation: {
-                onSuccess: data => {
+                onSuccess: () => {
                     setFiles(null)
 
                     queryClient.invalidateQueries({
-                        queryKey: getPublicationActPackagesGetQueryKey({
-                            version_uuid: version.UUID,
-                        }),
+                        queryKey: getPublicationAnnouncementPackagesGetQueryKey(
+                            {
+                                announcement_uuid: announcement.UUID,
+                            }
+                        ),
                     })
                     queryClient.invalidateQueries({
                         queryKey,
                     })
-
-                    if (data.Status === 'valid') {
-                        queryClient.invalidateQueries({
-                            queryKey:
-                                getPublicationsPublicationUuidVersionsGetQueryKey(
-                                    version.Publication_UUID
-                                ),
-                        })
-                    }
                 },
             },
         })
@@ -228,7 +219,7 @@ const UploadAction = ({
         if (!publicationPackage?.UUID || !!!files?.length) return
 
         mutate({
-            actPackageUuid: publicationPackage.UUID,
+            announcementPackageUuid: publicationPackage.UUID,
             data: { uploaded_files: files },
         })
     }
@@ -338,5 +329,19 @@ const UploadAction = ({
         </div>
     )
 }
+
+const UpdateAction = ({
+    handleAction,
+    isActive,
+    isSucceeded,
+    buttonLabel = 'Ga naar het formulier',
+}: PackageStepActionsProps) => (
+    <Button
+        variant={isSucceeded ? 'secondary' : 'cta'}
+        isDisabled={!isActive}
+        onPress={handleAction}>
+        {buttonLabel}
+    </Button>
+)
 
 export default PackageStepActions
