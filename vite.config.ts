@@ -34,9 +34,7 @@ export default defineConfig({
                         '@tiptap/extension-placeholder',
                         '@tiptap/extension-text',
                         '@tiptap/extension-underline',
-                        '@tiptap/react',
                     ],
-                    'react-select': ['react-select'],
                     leaflet: [
                         'leaflet',
                         'leaflet-draw',
