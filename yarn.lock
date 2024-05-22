@@ -2816,9 +2816,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.525":
-  version: 0.0.525
-  resolution: "@pzh-ui/components@npm:0.0.525"
+"@pzh-ui/components@npm:^0.0.526":
+  version: 0.0.526
+  resolution: "@pzh-ui/components@npm:0.0.526"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
@@ -2858,18 +2858,18 @@ __metadata:
     clsx: "npm:^2.1.0"
     date-fns: "npm:^3.3.1"
     formik: "npm:^2.4.6"
-    react: "npm:^18.2.0"
+    react: "npm:^18.3.1"
     react-aria: "npm:^3.32.1"
     react-aria-components: "npm:^1.1.1"
     react-datepicker: "npm:^6.9.0"
-    react-dom: "npm:^18.2.0"
+    react-dom: "npm:^18.3.1"
     react-dropzone-esm: "npm:^15.0.1"
     react-responsive-pagination: "npm:^2.4.2"
     react-select: "npm:^5.8.0"
     react-stately: "npm:^3.30.1"
     react-toastify: "npm:^9.1.2"
     tailwind-merge: "npm:^2.2.2"
-  checksum: 1aa44f49cc0919e7da5e91e3ebc175f7b57c27b13e3a0a75bc05ed81d38d4f72882fc8f68f612aa0c41ee04f0fbec7325a163a684f28ac4fc0d52c3df4729cac
+  checksum: 2658ad34913a840e260a63b32083a1103cb88475150e13dae05cba632e398f883ca4c132c6a31192a626207bbc79c52a4c8afa0aa7ecf9ccf8db230b309c82b6
   languageName: node
   linkType: hard
 
@@ -12547,7 +12547,7 @@ __metadata:
     "@axe-core/react": "npm:^4.8.2"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-    "@pzh-ui/components": "npm:^0.0.525"
+    "@pzh-ui/components": "npm:^0.0.526"
     "@pzh-ui/config": "npm:^0.0.69"
     "@pzh-ui/css": "npm:^0.0.95"
     "@pzh-ui/icons": "npm:^0.0.59"
@@ -12766,18 +12766,6 @@ __metadata:
     react: ^16.9.0 || ^17 || ^18
     react-dom: ^16.9.0 || ^17 || ^18
   checksum: 7effd81e0e00e77d691c552bed77e2b08f7abc377528ae67727de9cc08eb05f7ec021f3daa40748dd7d32b12dd6cf2833eac0cbc2d9f3026fa8c606100752d32
-  languageName: node
-  linkType: hard
-
-"react-dom@npm:^18.2.0":
-  version: 18.2.0
-  resolution: "react-dom@npm:18.2.0"
-  dependencies:
-    loose-envify: "npm:^1.1.0"
-    scheduler: "npm:^0.23.0"
-  peerDependencies:
-    react: ^18.2.0
-  checksum: ca5e7762ec8c17a472a3605b6f111895c9f87ac7d43a610ab7024f68cd833d08eda0625ce02ec7178cc1f3c957cf0b9273cdc17aa2cd02da87544331c43b1d21
   languageName: node
   linkType: hard
 
@@ -13518,15 +13506,6 @@ __metadata:
   dependencies:
     xmlchars: "npm:^2.2.0"
   checksum: 97b50daf6ca3a153e89842efa18a862e446248296622b7473c169c84c823ee8a16e4a43bac2f73f11fc8cb9168c73fbb0d73340f26552bac17970e9052367aa9
-  languageName: node
-  linkType: hard
-
-"scheduler@npm:^0.23.0":
-  version: 0.23.0
-  resolution: "scheduler@npm:0.23.0"
-  dependencies:
-    loose-envify: "npm:^1.1.0"
-  checksum: 0c4557aa37bafca44ff21dc0ea7c92e2dbcb298bc62eae92b29a39b029134f02fb23917d6ebc8b1fa536b4184934314c20d8864d156a9f6357f3398aaf7bfda8
   languageName: node
   linkType: hard
 
