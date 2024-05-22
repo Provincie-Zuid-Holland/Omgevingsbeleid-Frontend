@@ -66,23 +66,26 @@ const LeafletTinyViewerInner = ({ uuid }: LeafletTinyViewerProps) => {
             transparent: true,
             cql_filter: `UUID='${uuid}'`,
             tiled: true,
-            maxFeatures: 50,
             updateWhenZooming: false,
             tileSize: 512,
         }
 
         const layerInstance = Leaflet.tileLayer.wms(
-            `${import.meta.env.VITE_GEOSERVER_API_URL}/ows`,
+            `${
+                import.meta.env.VITE_GEOSERVER_API_URL
+            }/geoserver/Omgevingsbeleid/wms`,
             {
-                layers: 'OMGEVINGSBELEID:Werkingsgebieden',
+                layers: 'Omgevingsbeleid:Werkingsgebieden',
                 zIndex: 1,
                 ...defaultLayerOptions,
             }
         )
         const subLayerInstance = Leaflet.tileLayer.wms(
-            `${import.meta.env.VITE_GEOSERVER_API_URL}/ows`,
+            `${
+                import.meta.env.VITE_GEOSERVER_API_URL
+            }/geoserver/Omgevingsbeleid/wms`,
             {
-                layers: 'OMGEVINGSBELEID:Werkingsgebieden_Onderverdeling',
+                layers: 'Omgevingsbeleid:Werkingsgebieden_Onderverdeling',
                 zIndex: 2,
                 ...defaultLayerOptions,
             }
@@ -105,7 +108,7 @@ const LeafletTinyViewerInner = ({ uuid }: LeafletTinyViewerProps) => {
     }
 
     useEffect(
-        () => onderverdeling && werkingsgebied && initializeMap(),
+        () => (onderverdeling || werkingsgebied) && initializeMap(),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [onderverdeling, werkingsgebied]
     )
