@@ -1,8 +1,7 @@
-import classNames from 'classnames'
+import { Eye, EyeSlash } from '@pzh-ui/icons'
+import classNames from 'clsx'
 import { useState } from 'react'
 import { useMap } from 'react-leaflet'
-
-import { Eye, EyeSlash } from '@pzh-ui/icons'
 
 import { Feature, generateImageUrl } from '@/api/axiosGeoJSON'
 import { colors } from '@/constants/leaflet'

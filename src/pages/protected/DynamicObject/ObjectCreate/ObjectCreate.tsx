@@ -125,7 +125,6 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
                     initialData={initialData}
                     handleSubmit={handleSubmit}
                     onCancel={() => navigate(`/muteer/${plural}`)}
-                    isLoading={false}
                 />
             </div>
         </MutateLayout>

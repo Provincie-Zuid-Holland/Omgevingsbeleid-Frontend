@@ -1,7 +1,7 @@
-import { OLDTable as Table } from '@pzh-ui/components'
+import { Table } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
 import { useUpdateEffect } from '@react-hookz/web'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { GraphVertice } from '@/api/fetchers.schemas'
 import NetworkModal from '@/components/Modals/NetworkModal'
@@ -27,7 +27,7 @@ const NetworkTextual = ({ graph }: NetworkTextualProps) => {
      * Function to sort column by Object_Type
      */
     const customSortType = (rowA: any, rowB: any, columnId: string) => {
-        let [a, b] = [rowA.values[columnId], rowB.values[columnId]]
+        let [a, b] = [rowA.getValue(columnId), rowB.getValue(columnId)]
 
         a = a ? a.props['data-value'] : null
         b = b ? b.props['data-value'] : null
@@ -88,16 +88,26 @@ const NetworkTextual = ({ graph }: NetworkTextualProps) => {
         }
     }, [activeNode])
 
+    const [sortBy, setSortBy] = useState([
+        {
+            id: 'Title',
+            desc: false,
+        },
+    ])
+
+    /**
+     * Setup Table columns
+     */
     const columns = useMemo(
         () => [
             {
-                Header: 'Titel',
-                accessor: 'Title',
+                header: 'Titel',
+                accessorKey: 'Title',
             },
             {
-                Header: 'Type',
-                accessor: 'Object_Type',
-                sortType: customSortType,
+                header: 'Type',
+                accessorKey: 'Object_Type',
+                sortingFn: customSortType,
             },
         ],
         []
@@ -128,13 +138,12 @@ const NetworkTextual = ({ graph }: NetworkTextualProps) => {
             <Table
                 columns={columns}
                 data={formattedData}
-                // @ts-ignore
-                disableSortRemove
-                disableMultiSort
-                initialState={{
-                    // @ts-ignore
-                    sortBy: [{ id: 'Title' }],
+                state={{
+                    sorting: sortBy,
                 }}
+                enableSortingRemoval={false}
+                enableMultiSort={false}
+                onSortingChange={setSortBy}
             />
 
             <NetworkModal />

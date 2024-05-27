@@ -1,7 +1,8 @@
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
+import { Heading, Text } from '@pzh-ui/components'
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
+import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import ObjectList from '@/components/ObjectList'
@@ -39,15 +40,14 @@ function AreaDetail() {
     )
 
     const breadcrumbPaths = [
-        { name: 'Home', path: '/' },
-        { name: 'Omgevingsprogramma', path: '/omgevingsprogramma' },
+        { name: 'Home', to: '/' },
+        { name: 'Omgevingsprogramma', to: '/omgevingsprogramma' },
         {
             name: 'Gebiedsprogramma’s',
-            path: '/omgevingsprogramma/gebiedsprogrammas',
+            to: '/omgevingsprogramma/gebiedsprogrammas',
         },
         {
             name: data?.Title || '',
-            path: `/omgevingsprogramma/gebiedsprogrammas/${data?.UUID}`,
         },
     ]
 
@@ -65,7 +65,7 @@ function AreaDetail() {
                     </Heading>
                     {data?.Description && (
                         <Text
-                            className="prose prose-neutral mb-8 max-w-full whitespace-pre-line text-m text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0"
+                            className="prose prose-neutral mb-8 max-w-full whitespace-pre-line text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0"
                             dangerouslySetInnerHTML={{
                                 __html: data.Description,
                             }}
@@ -74,7 +74,7 @@ function AreaDetail() {
                     {data?.Image && (
                         <figure>
                             <img src={data.Image} alt={data?.Title} />
-                            <figcaption className="mt-2 text-s text-pzh-blue-dark">
+                            <figcaption className="mt-2 text-s text-pzh-blue-900">
                                 Indicatieve weergave gebied ‘{data?.Title}’.
                             </figcaption>
                         </figure>

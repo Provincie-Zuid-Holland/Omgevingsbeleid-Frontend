@@ -12,6 +12,7 @@ export const schemaDefaults = {
             required_error: msg,
             invalid_type_error: msg,
         }),
+    optionalNumber: number().optional().nullable(),
     email: (msg = 'Dit veld is verplicht.') =>
         string({
             required_error: msg,
@@ -32,9 +33,11 @@ export const schemaDefaults = {
         .trim()
         .min(4, 'Vul een titel in van minimaal 4 karakters')
         .max(220, 'Vul een titel in van maximaal 220 karakters'),
-    date: string({ required_error: 'Selecteer een datum' }).datetime(
-        'Onjuiste datum'
-    ),
+    date: (msg = 'Selecteer een datum') =>
+        string({ required_error: msg, invalid_type_error: msg }).datetime(
+            'Onjuiste datum'
+        ),
+    optionalDate: string().datetime().optional().nullable(),
     file: instanceOf(File),
 }
 

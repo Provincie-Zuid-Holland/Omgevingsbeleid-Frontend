@@ -1,5 +1,5 @@
 import { Heading } from '@pzh-ui/components'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import DOMPurify from 'dompurify'
 
 import {
@@ -67,7 +67,7 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
     if (value === 'Weblink') {
         cleanHtml = cleanHtml.replace(
             /\bhttps?:\/\/\S+/gi,
-            '<a class="underline text-pzh-green hover:text-pzh-blue-dark" href="$&" target="_blank" rel="noreferrer noopener">$&</a>'
+            '<a class="underline text-pzh-green-500 hover:text-pzh-blue-900" href="$&" target="_blank" rel="noreferrer noopener">$&</a>'
         )
     }
 
@@ -86,7 +86,7 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
                 </Heading>
             )}
             <Wrapper
-                className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0 md:mb-8"
+                className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 md:mb-8"
                 dangerouslySetInnerHTML={{ __html: cleanHtml }}
             />
         </>
@@ -106,7 +106,7 @@ interface ListProps {
 const List = ({ title, description, items, hidden }: ListProps) => (
     <div
         data-section={title}
-        className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0 md:mb-8">
+        className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 md:mb-8">
         <Heading
             level="2"
             className={classNames('mb-4', { 'sr-only': hidden })}>
@@ -124,7 +124,7 @@ const List = ({ title, description, items, hidden }: ListProps) => (
                             href={item.Object.Weblink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-pzh-green hover:text-pzh-green-dark">
+                            className="text-pzh-green-500 hover:text-pzh-green-900">
                             {item.Object.Title}
                         </a>
                     ) : (

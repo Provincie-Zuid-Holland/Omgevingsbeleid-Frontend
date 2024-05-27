@@ -1,15 +1,11 @@
-import {
-    Breadcrumbs,
-    Heading,
-    Hyperlink,
-    Notification,
-} from '@pzh-ui/components'
-import classNames from 'classnames'
+import { Heading, Hyperlink, Notification } from '@pzh-ui/components'
+import classNames from 'clsx'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 import { PublicModuleObjectRevision } from '@/api/fetchers.schemas'
+import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import ObjectArea from '@/components/DynamicObject/ObjectArea'
 import ObjectConnectionsPublic from '@/components/DynamicObject/ObjectConnectionsPublic'
@@ -32,7 +28,6 @@ interface DynamicObjectProps {
 
 const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
     const { moduleId, uuid } = useParams()
-    const pathName = location.pathname || ''
 
     const { setInitialObject, setRevisionFrom, setRevisionTo } =
         useRevisionStore(state => ({ ...state }))
@@ -107,23 +102,23 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
     )
 
     const breadcrumbPaths = [
-        { name: 'Omgevingsbeleid', path: '/' },
+        { name: 'Omgevingsbeleid', to: '/' },
         {
             name: slugOverview || '',
-            path: slugOverviewPublic ? `/${slugOverview}` : '/',
+            to: slugOverviewPublic ? `/${slugOverview}` : '/',
         },
-        { name: pluralCapitalize, path: `/${slugOverview}/${plural}` },
+        { name: pluralCapitalize, to: `/${slugOverview}/${plural}` },
         ...(isRevision
             ? [
                   {
                       name: 'Ontwerpversie',
-                      path: !latestIsError
+                      to: !latestIsError
                           ? `/${slugOverview}/${plural}/${latest?.UUID}`
                           : `/${slugOverview}/${plural}`,
                   },
               ]
             : []),
-        { name: data?.Title || '', path: pathName },
+        { name: data?.Title || '' },
     ]
 
     /**
@@ -181,10 +176,12 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                                         ? 'ontwerpversie'
                                         : 'verouderde versie'}{' '}
                                     van {demonstrative} {singularReadable},{' '}
-                                    <Hyperlink
-                                        to={`/${slugOverview}/${plural}/${latest.UUID}`}
-                                        text="bekijk hier de vigerende versie"
-                                    />
+                                    <Hyperlink asChild>
+                                        <Link
+                                            to={`/${slugOverview}/${plural}/${latest.UUID}`}>
+                                            bekijk hier de vigerende versie
+                                        </Link>
+                                    </Hyperlink>
                                 </>
                             </Notification>
                         )}
@@ -232,7 +229,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                         </div>
                     )}
 
-                    {model.allowedConnections &&
+                    {!!model.allowedConnections &&
                         !model.acknowledgedRelation && (
                             <div
                                 className={classNames('order-8', {
@@ -245,17 +242,18 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                             </div>
                         )}
 
-                    {model.allowedConnections && model.acknowledgedRelation && (
-                        <div
-                            className={classNames('order-9', {
-                                'mt-4 md:mt-8': !!data?.Gebied,
-                            })}>
-                            <ObjectRelationsPublic
-                                model={model}
-                                data={data || {}}
-                            />
-                        </div>
-                    )}
+                    {!!model.allowedConnections &&
+                        !!model.acknowledgedRelation && (
+                            <div
+                                className={classNames('order-9', {
+                                    'mt-4 md:mt-8': !!data?.Gebied,
+                                })}>
+                                <ObjectRelationsPublic
+                                    model={model}
+                                    data={data || {}}
+                                />
+                            </div>
+                        )}
                 </div>
             </Container>
 

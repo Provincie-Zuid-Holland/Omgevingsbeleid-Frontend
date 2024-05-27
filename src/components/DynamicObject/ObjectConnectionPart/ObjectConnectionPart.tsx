@@ -60,7 +60,7 @@ const ObjectConnectionPart = ({
     return (
         <div className="relative mt-3 flex items-center justify-between border-b border-pzh-gray-300 pb-4">
             <div className="flex items-center">
-                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-pzh-blue-light/50 text-pzh-blue">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-pzh-blue-100/50 text-pzh-blue-500">
                     <span className="-mb-1 text-s font-bold">{amount}</span>
                 </div>
                 <span className="-mb-1 ml-3">
@@ -86,11 +86,11 @@ const ObjectConnectionPart = ({
                             className="animate-spin text-pzh-gray-600"
                         />
                     ) : amount === 0 ? (
-                        <div className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-pzh-green">
+                        <div className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-pzh-green-500">
                             <Plus size={14} className="text-pzh-white" />
                         </div>
                     ) : (
-                        <PenToSquare size={18} className="text-pzh-green" />
+                        <PenToSquare size={18} className="text-pzh-green-500" />
                     ))}
             </button>
         </div>

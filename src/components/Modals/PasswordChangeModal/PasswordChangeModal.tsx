@@ -65,7 +65,7 @@ export default function PasswordChangeModal() {
                                 value={values.currentPassword}
                             />
                         </div>
-                        <Notification className="my-4" size="small">
+                        <Notification className="my-4">
                             Het nieuwe wachtwoord moet minimaal 12 karakters
                             bevatten en moet ten minste 1 cijfer, 1 speciaal
                             karakter en 1 hoofdletter bevatten.
@@ -111,7 +111,7 @@ export default function PasswordChangeModal() {
                 )}
             </Formik>
 
-            <Notification className="mt-4" size="small">
+            <Notification className="mt-4">
                 <>
                     Ben je je huidige wachtwoord vergeten? Neem dan contact op
                     met

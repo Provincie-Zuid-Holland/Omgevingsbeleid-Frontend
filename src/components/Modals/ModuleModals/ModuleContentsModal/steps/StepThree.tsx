@@ -1,6 +1,3 @@
-import { useFormikContext } from 'formik'
-import { useMemo } from 'react'
-
 import {
     FormikInput,
     FormikSelect,
@@ -8,6 +5,8 @@ import {
     Heading,
     Text,
 } from '@pzh-ui/components'
+import { useFormikContext } from 'formik'
+import { useMemo } from 'react'
 
 import { useUsersGet } from '@/api/fetchers'
 import { ModuleAddNewObject } from '@/api/fetchers.schemas'
@@ -71,9 +70,9 @@ export const StepThree = ({}: StepProps) => {
             />
             <div className="mt-3">
                 <FormikSelect
-                    key={String(
-                        userOptions1?.length + (values.Owner_2_UUID || '')
-                    )}
+                    // key={String(
+                    //     userOptions1?.length + (values.Owner_2_UUID || '')
+                    // )}
                     name="Owner_1_UUID"
                     label="Eerste eigenaar"
                     placeholder="Kies een eigenaar"
@@ -88,7 +87,7 @@ export const StepThree = ({}: StepProps) => {
             </div>
             <div className="mt-3">
                 <FormikSelect
-                    key={String(userOptions2?.length + values.Owner_1_UUID)}
+                    //key={String(userOptions2?.length + values.Owner_1_UUID)}
                     name="Owner_2_UUID"
                     label="Tweede eigenaar"
                     placeholder="Kies een eigenaar"

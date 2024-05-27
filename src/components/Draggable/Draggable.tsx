@@ -1,10 +1,12 @@
+import classNames from 'clsx'
+import { ArrayHelpers } from 'formik'
+import { ElementType, cloneElement } from 'react'
+
 import { DragResult } from '@/hooks/useDrag'
 import useRegulationStore from '@/store/regulationStore'
 import equalArrays from '@/utils/equalArrays'
 import handleViewTransition from '@/utils/handleViewTransition'
-import classNames from 'classnames'
-import { ArrayHelpers } from 'formik'
-import { ElementType, cloneElement } from 'react'
+
 import DropArea from '../DropArea'
 
 interface DraggableProps extends DragResult {

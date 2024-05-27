@@ -3,7 +3,7 @@ import { useFormikContext } from 'formik'
 import { useCallback, useState } from 'react'
 
 import { ReadRelation, WriteRelation } from '@/api/fetchers.schemas'
-import ObjectConnectionPart from '@/components/DynamicObject/ObjectConnectionPart/'
+import ObjectConnectionPart from '@/components/DynamicObject/ObjectConnectionPart'
 import { ConnectionModal } from '@/components/Modals/ObjectModals/ObjectConnectionModal/ObjectConnectionModal'
 import { ObjectConnectionModalActions } from '@/components/Modals/ObjectModals/types'
 import * as models from '@/config/objects'

@@ -28,7 +28,7 @@ const AddItem = ({
 
     return (
         <div className="flex items-center gap-4">
-            <span className="text-s text-pzh-blue">
+            <span className="text-s text-pzh-blue-500">
                 Invoegen in {section.defaults.demonstrative}{' '}
                 {section.defaults.singular}:
             </span>

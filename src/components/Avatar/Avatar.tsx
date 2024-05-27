@@ -1,5 +1,5 @@
 import { Tooltip } from '@pzh-ui/components'
-import classNames from 'classnames'
+import classNames from 'clsx'
 
 interface AvatarProps {
     name: string
@@ -30,7 +30,7 @@ const Avatar = ({ name, prefix, className, isSmall }: AvatarProps) => {
             }>
             <div
                 className={classNames(
-                    'flex cursor-pointer items-center justify-center rounded-full bg-pzh-blue',
+                    'flex cursor-pointer items-center justify-center rounded-full bg-pzh-blue-500',
                     {
                         'h-10 w-10 text-s': isSmall,
                         'h-[46px] w-[46px]': !isSmall,

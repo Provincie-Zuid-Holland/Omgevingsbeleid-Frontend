@@ -7,7 +7,6 @@ import { ModelType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
-import { ModuleContext } from '@/pages/protected/Modules/ModuleDetail'
 import useModalStore from '@/store/modalStore'
 
 import ModuleItem from '../ModuleItem'
@@ -17,13 +16,12 @@ interface ModuleItemListProps {
     objects?: ModuleObjectShort[]
     /** Current model object */
     module?: Module
-    /** Set module context */
-    setModuleContext: (e: ModuleContext) => void
 }
 
 const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
     const { user } = useAuth()
-    const { canEditModule, canPatchObjectInModule, canAddNewObjectToModule } = usePermissions()
+    const { canEditModule, canPatchObjectInModule, canAddNewObjectToModule } =
+        usePermissions()
     const { isLocked } = useModule()
 
     /**
@@ -66,7 +64,9 @@ const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
                     title="Jouw onderdelen in deze module"
                     noResultsText="Je hebt nog geen onderdelen in deze module"
                     hasEditButton={canPatchObjectInModule && !isLocked}
-                    hasViewButton={canPatchObjectInModule && !canAddNewObjectToModule}
+                    hasViewButton={
+                        canPatchObjectInModule && !canAddNewObjectToModule
+                    }
                     {...rest}
                 />
 
@@ -105,7 +105,6 @@ interface ItemListProps extends ModuleItemListProps {
 
 const ItemList = ({
     objects,
-    setModuleContext,
     module,
     title,
     noResultsText,
@@ -116,11 +115,11 @@ const ItemList = ({
 
     return (
         <>
-            <Text bold color="text-pzh-blue">
+            <Text bold color="text-pzh-blue-500">
                 {title}
             </Text>
             {!!objects?.length ? (
-                <div className="mb-4">
+                <div className="mb-4 max-h-[810px] overflow-auto">
                     {objects.map(object => {
                         const model =
                             models[
@@ -131,19 +130,17 @@ const ItemList = ({
                         return (
                             <ModuleItem
                                 key={object.UUID}
-                                editCallback={() => {
-                                    setModuleContext({
+                                editCallback={() =>
+                                    setActiveModal('moduleEditObject', {
                                         object,
                                     })
-                                    setActiveModal('moduleEditObject')
-                                }}
-                                deleteCallback={() => {
-                                    setModuleContext({
+                                }
+                                deleteCallback={() =>
+                                    setActiveModal('moduleDeleteObject', {
                                         object,
                                         module,
                                     })
-                                    setActiveModal('moduleDeleteObject')
-                                }}
+                                }
                                 viewCallback={() =>
                                     window
                                         .open(

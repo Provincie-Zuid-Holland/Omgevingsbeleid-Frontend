@@ -51,7 +51,7 @@ export const StepOne = ({
                                 relation.Side_B.Title
                             )
                         }>
-                        <LinkSlash size={20} className="text-pzh-red" />
+                        <LinkSlash size={20} className="text-pzh-red-500" />
                         <span className="sr-only">Wijzigen</span>
                     </button>
                 </div>

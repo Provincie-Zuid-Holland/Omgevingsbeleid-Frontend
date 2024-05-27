@@ -1,12 +1,12 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 
-import { getModulesModuleIdGetMock } from '@/api/fetchers.msw'
+import { getModulesModuleIdGetResponseMock } from '@/api/fetchers.msw'
 
 import ModuleCard from './ModuleCard'
 
 describe('ModuleCard', () => {
-    const props = getModulesModuleIdGetMock().Module
+    const props = getModulesModuleIdGetResponseMock().Module
 
     const setup = () => {
         render(

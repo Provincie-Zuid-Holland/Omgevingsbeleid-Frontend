@@ -86,7 +86,7 @@ const Home = () => (
             <SearchSection />
         </Container>
 
-        <div className="bg-pzh-blue">
+        <div className="bg-pzh-blue-500">
             <Container className="py-12">
                 <div className="col-span-6">
                     <Heading level="2" color="text-white">
@@ -136,20 +136,21 @@ const Home = () => (
                         provincie voor staat. Het beschrijft hoe de provincie de
                         toekomst van Zuid-Holland voor zich ziet. De
                         Omgevingsvisie bevat verschillende onderdelen: in de{' '}
-                        <Hyperlink
-                            text="ambities"
-                            to="/omgevingsvisie/ambities"
-                        />{' '}
+                        <Hyperlink asChild>
+                            <Link to="/omgevingsvisie/ambities">ambities</Link>
+                        </Hyperlink>{' '}
                         wordt omschreven waar we als provincie heen willen, de{' '}
-                        <Hyperlink
-                            text="beleidsdoelen"
-                            to="/omgevingsvisie/beleidsdoelen"
-                        />{' '}
+                        <Hyperlink asChild>
+                            <Link to="/omgevingsvisie/beleidsdoelen">
+                                beleidsdoelen
+                            </Link>
+                        </Hyperlink>{' '}
                         geven hier richting aan en de{' '}
-                        <Hyperlink
-                            text="beleidskeuzes"
-                            to="/omgevingsvisie/beleidskeuzes"
-                        />{' '}
+                        <Hyperlink asChild>
+                            <Link to="/omgevingsvisie/beleidskeuzes">
+                                beleidskeuzes
+                            </Link>
+                        </Hyperlink>{' '}
                         bepalen hoe de ambities bereikt dienen te worden.
                     </Text>
                 </div>
@@ -173,13 +174,13 @@ const Home = () => (
                     <Text className="mt-4">
                         In het{' '}
                         <Link
-                            className="text-pzh-green underline hover:text-pzh-green-dark"
+                            className="text-pzh-green-500 underline hover:text-pzh-green-900"
                             to="omgevingsprogramma">
                             Omgevingsprogramma
                         </Link>{' '}
                         staat beschreven welke{' '}
                         <Link
-                            className="text-pzh-green underline hover:text-pzh-green-dark"
+                            className="text-pzh-green-500 underline hover:text-pzh-green-900"
                             to="omgevingsprogramma/maatregelen">
                             maatregelen
                         </Link>{' '}
@@ -221,7 +222,7 @@ const Home = () => (
                         Al deze regels van de provincie over de fysieke
                         leefomgeving zijn ondergebracht in de{' '}
                         <a
-                            className="text-pzh-green underline hover:text-pzh-green-dark"
+                            className="text-pzh-green-500 underline hover:text-pzh-green-900"
                             href="https://www.zuid-holland.nl/onderwerpen/omgevingsbeleid/zuid-hollandse-omgevingsverordening/"
                             rel="noopener noreferrer"
                             target="_blank">

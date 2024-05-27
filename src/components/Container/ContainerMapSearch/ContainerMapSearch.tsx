@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { ReactNode } from 'react'
 
 import useBreakpoint from '@/hooks/useBreakpoint'

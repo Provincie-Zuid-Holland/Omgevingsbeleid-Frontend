@@ -1,6 +1,6 @@
 import { Divider, Text } from '@pzh-ui/components'
 import { AngleDown, AngleRight, User } from '@pzh-ui/icons'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 

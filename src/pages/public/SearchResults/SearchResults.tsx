@@ -5,7 +5,7 @@ import {
     Text,
 } from '@pzh-ui/components'
 import { useUpdateEffect } from '@react-hookz/web'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 
@@ -140,7 +140,7 @@ const SearchResults = () => {
         <>
             <Helmet title="Zoekresultaten" />
 
-            <div className="bg-pzh-blue">
+            <div className="bg-pzh-blue-500">
                 <Container className="h-24 items-center">
                     <div className="col-span-2">
                         <Heading
@@ -174,7 +174,7 @@ const SearchResults = () => {
                                 className={classNames({
                                     'mb-6': index + 1 !== filters.length,
                                 })}>
-                                <Text bold className="mb-3 text-pzh-blue">
+                                <Text bold className="mb-3 text-pzh-blue-500">
                                     {filter.label}
                                 </Text>
 
@@ -216,9 +216,10 @@ const SearchResults = () => {
                             <div className="mt-8 flex justify-center">
                                 <Pagination
                                     key={query}
-                                    onChange={handlePageChange}
-                                    forcePage={currPage - 1}
-                                    {...pagination}
+                                    onPageChange={handlePageChange}
+                                    current={currPage}
+                                    total={pagination.total}
+                                    limit={pagination.limit}
                                 />
                             </div>
                         )}
