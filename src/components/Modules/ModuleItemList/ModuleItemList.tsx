@@ -119,7 +119,7 @@ const ItemList = ({
                 {title}
             </Text>
             {!!objects?.length ? (
-                <div className="mb-4 max-h-[810px] overflow-auto">
+                <div className="mb-4">
                     {objects.map(object => {
                         const model =
                             models[
