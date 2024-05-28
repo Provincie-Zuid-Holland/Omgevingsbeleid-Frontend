@@ -40,7 +40,7 @@ const App = () => {
             <QueryClientProvider client={queryClient}>
                 <AuthProvider>
                     <div
-                        className="relative flex min-h-screen flex-col text-pzh-blue-dark"
+                        className="relative flex min-h-screen flex-col text-pzh-blue-900"
                         id="main-container">
                         <Helmet titleTemplate="%s - Omgevingsbeleid Provincie Zuid-Holland">
                             <meta charSet="utf-8" />

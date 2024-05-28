@@ -2,14 +2,14 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 
-import { getGebiedsprogrammasValidGetMock } from '@/api/fetchers.msw'
+import { getGebiedsprogrammasValidGetResponseMock } from '@/api/fetchers.msw'
 
 import AreaDetail from './AreaDetail'
 
 const queryClient = new QueryClient()
 
 describe('AreaDetail', () => {
-    const gebiedsprogrammas = getGebiedsprogrammasValidGetMock()
+    const gebiedsprogrammas = getGebiedsprogrammasValidGetResponseMock()
     const defaultProps = {}
 
     const setup = (customProps?: any) => {

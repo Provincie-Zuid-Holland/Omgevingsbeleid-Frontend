@@ -16,6 +16,9 @@ import {
     ObjectDetail,
     ObjectEdit,
     ObjectWrite,
+    PublicationTemplateCreate,
+    PublicationTemplateEdit,
+    PublicationTemplateOverview,
     Regulations,
     UserDetail,
     UsersOverview,
@@ -377,6 +380,47 @@ const AppRoutes = () => {
                                     }}
                                     redirectTo="/muteer">
                                     <UserDetail />
+                                </ProtectedRoute>
+                            ),
+                        },
+                    ],
+                },
+                {
+                    path: 'publicatietemplates',
+                    children: [
+                        {
+                            index: true,
+                            element: (
+                                <ProtectedRoute
+                                    permissions={{
+                                        canViewPublicationTemplate: true,
+                                    }}
+                                    redirectTo="/muteer">
+                                    <PublicationTemplateOverview />
+                                </ProtectedRoute>
+                            ),
+                        },
+                        {
+                            path: ':uuid',
+                            element: (
+                                <ProtectedRoute
+                                    permissions={{
+                                        canViewPublicationTemplate: true,
+                                    }}
+                                    redirectTo="/muteer">
+                                    <PublicationTemplateEdit />
+                                </ProtectedRoute>
+                            ),
+                        },
+                        {
+                            path: 'nieuw',
+                            element: (
+                                <ProtectedRoute
+                                    permissions={{
+                                        canCreatePublicationTemplate: true,
+                                    }}
+                                    redirectTo="/muteer">
+                                    <PublicationTemplateCreate />
                                 </ProtectedRoute>
                             ),
                         },

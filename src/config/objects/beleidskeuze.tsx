@@ -1,5 +1,6 @@
 import { Hyperlink } from '@pzh-ui/components'
 import { AngleDown, Split } from '@pzh-ui/icons'
+import { Link } from 'react-router-dom'
 
 import {
     getBeleidskeuzeAcknowledgedRelationsLineageIdGetQueryKey,
@@ -98,7 +99,10 @@ const beleidskeuze: DynamicObject<
             relatie wordt aangegaan tussen beleidskeuzes inclusief een
             duidelijke motivering en een koppeling kan met alle niveaus binnen
             het omgevingsbeleid. Bekijk voor het volledige overzicht het{' '}
-            <Hyperlink text="beleidsnetwerk" to="/beleidsnetwerk" />.
+            <Hyperlink asChild>
+                <Link to="/beleidsnetwerk">beleidsnetwerk</Link>
+            </Hyperlink>
+            .
         </>
     ),
     acknowledgedRelation: 'beleidskeuze',
@@ -188,7 +192,7 @@ const beleidskeuze: DynamicObject<
                     components: {
                         DropdownIndicator: () => (
                             <div className="mr-4">
-                                <AngleDown className="text-pzh-blue-dark" />
+                                <AngleDown className="text-pzh-blue-900" />
                             </div>
                         ),
                     },
@@ -210,7 +214,7 @@ const beleidskeuze: DynamicObject<
                     components: {
                         DropdownIndicator: () => (
                             <div className="mr-4">
-                                <AngleDown className="text-pzh-blue-dark" />
+                                <AngleDown className="text-pzh-blue-900" />
                             </div>
                         ),
                     },

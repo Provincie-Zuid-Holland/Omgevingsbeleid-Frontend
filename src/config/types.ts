@@ -15,6 +15,7 @@ type DynamicFieldType =
     | 'image'
     | 'connections'
     | 'search'
+    | 'array'
 
 export type DynamicSection<FieldType = string> = {
     /** Title of section */
@@ -46,7 +47,8 @@ export type DynamicField<FieldType = string> = {
     ImageProps &
     WysiwygProps &
     ConnectionsProps &
-    SearchProps
+    SearchProps &
+    ArrayProps
 
 type SelectProps =
     | { type: 'select'; options: { label: string; value: string }[] }
@@ -90,4 +92,10 @@ type SearchProps =
       } & DynamicObjectSearchProps)
     | {
           type: Exclude<DynamicFieldType, 'search'>
+      }
+
+type ArrayProps =
+    | { type: 'array'; fields: DynamicField[]; arrayLabel?: string }
+    | {
+          type: Exclude<DynamicFieldType, 'array'>
       }

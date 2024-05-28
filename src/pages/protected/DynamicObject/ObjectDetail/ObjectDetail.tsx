@@ -56,7 +56,7 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
                             ? `ontwerpversie/${moduleId}/${object?.UUID}`
                             : object?.UUID
                     }`}
-                    className="flex items-center text-pzh-green underline hover:text-pzh-green-dark">
+                    className="flex items-center text-pzh-green-500 underline hover:text-pzh-green-900">
                     Bekijk in raadpleegomgeving
                     <ArrowUpRightFromSquare className="ml-2" />
                 </Link>

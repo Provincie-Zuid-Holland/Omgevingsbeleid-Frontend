@@ -1,6 +1,5 @@
-import classNames from 'classnames'
-
 import { FieldSelect, FieldSelectProps } from '@pzh-ui/components'
+import classNames from 'clsx'
 
 import { ModelType } from '@/config/objects/types'
 
@@ -30,7 +29,7 @@ const Filter = ({
     ...rest
 }: FilterProps) => (
     <div className={classNames('relative', className)}>
-        <span className="absolute -right-3 -top-3 z-1 flex h-6 w-6 items-center justify-center rounded-full bg-pzh-blue-dark pt-1 text-s font-bold text-pzh-white">
+        <span className="absolute -right-3 -top-3 z-1 flex h-6 w-6 items-center justify-center rounded-full bg-pzh-blue-900 pt-1 text-s font-bold text-pzh-white">
             {activeFilters}
         </span>
         <FieldSelect

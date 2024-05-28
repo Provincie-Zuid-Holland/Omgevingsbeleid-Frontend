@@ -54,14 +54,13 @@ const LoginForm = () => {
                 initialValues={{ email: '', password: '' }}
                 onSubmit={handleFormSubmit}
                 validationSchema={toFormikValidationSchema(loginForm.SCHEMA)}>
-                {({ values, handleSubmit, isValid, dirty }) => (
+                {({ handleSubmit, isValid, dirty }) => (
                     <Form onSubmit={handleSubmit}>
                         <FormikInput
                             label="E-mailadres"
                             name="email"
                             type="email"
                             placeholder="medewerker@pzh.nl"
-                            value={values.email}
                         />
                         <div className="mt-6">
                             <FormikInput
@@ -69,7 +68,6 @@ const LoginForm = () => {
                                 name="password"
                                 type="password"
                                 placeholder="Vul hier je wachtwoord in"
-                                value={values.password}
                             />
                         </div>
                         <div className="mt-7 flex items-center justify-between">
@@ -81,7 +79,7 @@ const LoginForm = () => {
                             </Button>
                             <button
                                 type="button"
-                                className="mt-4 cursor-pointer text-s text-pzh-green underline hover:text-pzh-green-dark sm:ml-4 sm:mt-0"
+                                className="mt-4 cursor-pointer text-s text-pzh-green-500 underline hover:text-pzh-green-900 sm:ml-4 sm:mt-0"
                                 onClick={() => setActiveModal('passwordForget')}
                                 tabIndex={0}>
                                 Wachtwoord vergeten?
@@ -89,7 +87,9 @@ const LoginForm = () => {
                         </div>
                         {error && (
                             <div className="mt-4">
-                                <span className="text-pzh-red">{error}</span>
+                                <span className="text-pzh-red-500">
+                                    {error}
+                                </span>
                             </div>
                         )}
                     </Form>
@@ -115,7 +115,7 @@ const PopupPasswordForgot = ({ onClose }: PopupPasswordForgotProps) => (
             moet het nog met een e-mailadres en een wachtwoord.
         </Notification>
 
-        <p className="py-1 text-pzh-blue-dark">
+        <p className="py-1 text-pzh-blue-900">
             Wachtwoord vergeten? Stuur dan een e-mail naar het team
             Omgevingsbeleid door op de link te klikken. Je ontvangt dan binnen
             één werkdag een nieuw wachtwoord.

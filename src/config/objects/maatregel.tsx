@@ -1,5 +1,6 @@
 import { Hyperlink } from '@pzh-ui/components'
 import { AngleDown, CalendarCheck } from '@pzh-ui/icons'
+import { Link } from 'react-router-dom'
 
 import {
     useMaatregelStaticLineageIdPost,
@@ -84,7 +85,10 @@ const maatregel: DynamicObject<
             maatregel is veelal gekoppeld met beleidsdoelen. Hieronder een
             overzicht van de beleidsdoelen van deze maatregel. Bekijk voor het
             volledige overzicht het{' '}
-            <Hyperlink text="beleidsnetwerk" to="/beleidsnetwerk" />.
+            <Hyperlink asChild>
+                <Link to="/beleidsnetwerk">beleidsnetwerk</Link>
+            </Hyperlink>
+            .
         </>
     ),
     fetchers,
@@ -179,7 +183,7 @@ const maatregel: DynamicObject<
                     components: {
                         DropdownIndicator: () => (
                             <div className="mr-4">
-                                <AngleDown className="text-pzh-blue-dark" />
+                                <AngleDown className="text-pzh-blue-900" />
                             </div>
                         ),
                     },
@@ -201,7 +205,7 @@ const maatregel: DynamicObject<
                     components: {
                         DropdownIndicator: () => (
                             <div className="mr-4">
-                                <AngleDown className="text-pzh-blue-dark" />
+                                <AngleDown className="text-pzh-blue-900" />
                             </div>
                         ),
                     },

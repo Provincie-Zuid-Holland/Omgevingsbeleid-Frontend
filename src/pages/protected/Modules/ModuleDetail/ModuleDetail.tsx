@@ -1,16 +1,20 @@
 import {
     Badge,
-    Breadcrumbs,
     Button,
     Divider,
     Heading,
     Hyperlink,
+    TabItem,
+    Tabs,
     Text,
 } from '@pzh-ui/components'
-import { useState } from 'react'
+import classNames from 'clsx'
+import { Fragment } from 'react'
+import { Link } from 'react-router-dom'
 
-import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
+import { DocumentType, Module, ModuleObjectShort } from '@/api/fetchers.schemas'
 import Avatar from '@/components/Avatar'
+import Breadcrumbs from '@/components/Breadcrumbs'
 import { LoaderContent } from '@/components/Loader'
 import {
     ModuleActivateModal,
@@ -20,12 +24,20 @@ import {
     ModuleLockModal,
     ModuleObjectDeleteConfirmationModal,
 } from '@/components/Modals/ModuleModals'
+import {
+    PublicationAddModal,
+    PublicationEditModal,
+    PublicationPackagesModal,
+    PublicationVersionAddModal,
+    PublicationVersionEditModal,
+} from '@/components/Modals/PublicationModals'
 import ModuleCompleteCard from '@/components/Modules/ModuleCompleteCard'
 import ModuleInactiveCard from '@/components/Modules/ModuleInactiveCard'
 import ModuleItemList from '@/components/Modules/ModuleItemList'
 import ModuleLock from '@/components/Modules/ModuleLock'
 import ModuleTimeline from '@/components/Modules/ModuleTimeline'
 import ModuleVersionCard from '@/components/Modules/ModuleVersionCard'
+import Publications from '@/components/Publications'
 import useModule from '@/hooks/useModule'
 import useModuleManagers from '@/hooks/useModuleManagers'
 import usePermissions from '@/hooks/usePermissions'
@@ -40,50 +52,36 @@ export interface ModuleContext {
 }
 
 const ModuleDetail = () => {
-    const setActiveModal = useModalStore(state => state.setActiveModal)
+    const { canEditModule } = usePermissions()
 
     const {
-        canEditModule,
-        canPatchModuleStatus,
-        canAddExistingObjectToModule,
-        canAddNewObjectToModule,
-    } = usePermissions()
-    const pathName = location.pathname || ''
-
-    const [moduleContext, setModuleContext] = useState<ModuleContext>({})
-
-    const {
-        data: {
-            Module: module,
-            Objects: objects,
-            StatusHistory: statusHistory,
-        } = {},
+        data: { Module: module } = {},
         isLoading,
         isModuleManager,
-        isLocked,
-        canComplete,
     } = useModule()
 
     const managers = useModuleManagers(module)
 
     const breadcrumbPaths = [
-        { name: 'Dashboard', path: '/muteer' },
-        { name: 'Modules', path: '/muteer' },
-        { name: module?.Title || '', path: pathName },
+        { name: 'Dashboard', to: '/muteer' },
+        { name: 'Modules', to: '/muteer' },
+        { name: module?.Title || '' },
     ]
 
     if (isLoading || !module) return <LoaderContent />
 
     return (
         <MutateLayout title={module.Title} hasOwnBreadcrumbs>
-            <div className="col-span-6 mb-8">
+            <div className="col-span-6 mb-4">
                 <div className="mb-4 flex items-center justify-between whitespace-nowrap">
                     <Breadcrumbs items={breadcrumbPaths} />
                     {(canEditModule || isModuleManager) && (
-                        <Hyperlink
-                            to={`/muteer/modules/${module.Module_ID}/bewerk`}
-                            text="Module bewerken"
-                        />
+                        <Hyperlink asChild>
+                            <Link
+                                to={`/muteer/modules/${module.Module_ID}/bewerk`}>
+                                Module bewerken
+                            </Link>
+                        </Hyperlink>
                     )}
                 </div>
                 <div className="flex items-center justify-between">
@@ -105,7 +103,9 @@ const ModuleDetail = () => {
                             />
                         </div>
                         <div>
-                            <Text className="truncate">
+                            <Text
+                                className="truncate"
+                                title={module.Description}>
                                 {module.Description}
                             </Text>
                         </div>
@@ -122,26 +122,70 @@ const ModuleDetail = () => {
                         )}
                     </div>
                 </div>
-                {module.Activated ? (
-                    <ModuleLock />
-                ) : (
-                    <Divider className="mt-4" />
-                )}
             </div>
 
+            <div
+                className={classNames('col-span-6', {
+                    '[&_[role=tablist]]:hidden':
+                        !canEditModule && !isModuleManager,
+                })}>
+                <Tabs>
+                    <TabItem title="Onderdelen" key="objects">
+                        {module.Activated ? (
+                            <ModuleLock />
+                        ) : (
+                            !canEditModule &&
+                            !isModuleManager && <Divider className="mb-4" />
+                        )}
+                        <div className="grid grid-cols-6 gap-x-10 gap-y-0 pt-4">
+                            <TabObjects />
+                        </div>
+                    </TabItem>
+                    <TabItem title="Besluiten" key="decisions">
+                        <div className="grid grid-cols-6 gap-x-10 gap-y-0 pt-4">
+                            <TabDecisions />
+                        </div>
+                    </TabItem>
+                </Tabs>
+            </div>
+        </MutateLayout>
+    )
+}
+
+const TabObjects = () => {
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
+    const {
+        canPatchModuleStatus,
+        canAddExistingObjectToModule,
+        canAddNewObjectToModule,
+    } = usePermissions()
+
+    const {
+        data: {
+            Module: module,
+            Objects: objects,
+            StatusHistory: statusHistory,
+        } = {},
+        isLoading,
+        isModuleManager,
+        isLocked,
+        canComplete,
+    } = useModule()
+
+    if (isLoading || !module) return <LoaderContent />
+
+    return (
+        <>
             <div className="col-span-6 lg:col-span-4">
-                <ModuleItemList
-                    objects={objects}
-                    module={module}
-                    setModuleContext={setModuleContext}
-                />
+                <ModuleItemList objects={objects} module={module} />
 
                 {(canAddExistingObjectToModule || canAddNewObjectToModule) &&
                     !isLocked && (
                         <Button
                             variant="link"
                             onPress={() => setActiveModal('moduleAddObject')}
-                            className="block text-pzh-green hover:text-pzh-green-dark">
+                            className="block text-pzh-green-500 hover:text-pzh-green-900">
                             Onderdeel toevoegen
                         </Button>
                     )}
@@ -169,43 +213,54 @@ const ModuleDetail = () => {
                 )}
             </div>
 
-            <Modals moduleContext={moduleContext} module={module} />
-        </MutateLayout>
+            <ModuleContentsModal
+                initialStep={1}
+                initialValues={{
+                    ...modules.EMPTY_MODULE_OBJECT,
+                    state: 'existing',
+                    validOrModule: 'valid',
+                }}
+                module={module}
+            />
+
+            <ModuleActivateModal />
+
+            <ModuleLockModal />
+
+            <ModuleEditObjectModal />
+
+            <ModuleObjectDeleteConfirmationModal />
+
+            <ModuleCompleteModal />
+        </>
     )
 }
 
-interface ModalsProps {
-    module: Module
-    moduleContext: ModuleContext
+const TabDecisions = () => {
+    const documentTypes = Object.keys(DocumentType) as Array<DocumentType>
+
+    return (
+        <>
+            <div className="col-span-6">
+                {documentTypes.map((type, index) => (
+                    <Fragment key={type}>
+                        <Publications type={type} />
+
+                        {index + 1 !== documentTypes.length && (
+                            <Divider className="my-10" />
+                        )}
+                    </Fragment>
+                ))}
+            </div>
+
+            <PublicationAddModal />
+            <PublicationEditModal />
+            <PublicationVersionAddModal />
+            <PublicationVersionEditModal />
+            <PublicationPackagesModal />
+            {/* <PublicationVersionAbortModal /> */}
+        </>
+    )
 }
-
-const Modals = ({ moduleContext, module }: ModalsProps) => (
-    <>
-        <ModuleContentsModal
-            initialStep={1}
-            initialValues={{
-                ...modules.EMPTY_MODULE_OBJECT,
-                state: 'existing',
-                validOrModule: 'valid',
-            }}
-            module={module}
-        />
-
-        <ModuleActivateModal />
-
-        <ModuleLockModal />
-
-        <ModuleEditObjectModal
-            object={moduleContext.object || ({} as ModuleObjectShort)}
-        />
-
-        <ModuleObjectDeleteConfirmationModal
-            object={moduleContext.object || ({} as ModuleObjectShort)}
-            module={module}
-        />
-
-        <ModuleCompleteModal />
-    </>
-)
 
 export default ModuleDetail

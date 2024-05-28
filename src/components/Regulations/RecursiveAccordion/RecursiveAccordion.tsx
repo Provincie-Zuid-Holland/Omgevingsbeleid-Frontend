@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import classNames from 'clsx'
 
 import {
     Accordion,
@@ -111,7 +111,7 @@ const RecursiveAccordion = ({
                             )}
                             <AccordionTrigger
                                 className={classNames('overflow-hidden py-2', {
-                                    'active:animate-pulse active:cursor-grabbing active:bg-pzh-blue-light/10':
+                                    'active:animate-pulse active:cursor-grabbing active:bg-pzh-blue-100/10':
                                         expanded && structure.length > 1,
                                     'pr-4': !!!section.children?.length,
                                 })}

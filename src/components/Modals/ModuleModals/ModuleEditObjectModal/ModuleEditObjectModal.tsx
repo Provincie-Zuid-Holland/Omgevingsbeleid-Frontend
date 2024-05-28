@@ -21,14 +21,17 @@ import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
 
-interface ModuleEditObjectModalProps {
-    object: ModuleObjectShort
-}
+import { ModalStateMap } from '../../types'
 
-const ModuleEditObjectModal = ({ object }: ModuleEditObjectModalProps) => {
+const ModuleEditObjectModal = () => {
     const queryClient = useQueryClient()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
+    const modalState = useModalStore(
+        state => state.modalStates['moduleEditObject']
+    ) as ModalStateMap['moduleEditObject']
+
+    const { object = {} as ModuleObjectShort } = modalState || {}
 
     const model = models[object.Object_Type as ModelType] || {}
     const { singularReadable, singularCapitalize, prefixSingular } =

@@ -84,7 +84,7 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                                                 'dd-MM-yyyy'
                                             )}
                                     </Text>
-                                    <Eye className="text-pzh-green" />
+                                    <Eye className="text-pzh-green-500" />
                                 </div>
                             </Link>
                         ))}

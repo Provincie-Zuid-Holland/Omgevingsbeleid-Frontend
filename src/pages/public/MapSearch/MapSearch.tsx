@@ -1,5 +1,5 @@
 import { useMountEffect, useUpdateEffect } from '@react-hookz/web'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { point } from 'leaflet'
 import Proj from 'proj4leaflet'
 import { useEffect, useMemo, useRef, useState } from 'react'

@@ -1,4 +1,5 @@
 import { Button, Heading } from '@pzh-ui/components'
+import { Link } from 'react-router-dom'
 
 interface AreaCardProps {
     image?: string | null
@@ -18,8 +19,8 @@ const AreaCard = ({ image, title, link }: AreaCardProps) => (
                 {title}
             </Heading>
             <div className="mt-auto">
-                <Button as="a" href={link}>
-                    Bekijk gebiedsprogramma
+                <Button asChild>
+                    <Link to={link}>Bekijk gebiedsprogramma</Link>
                 </Button>
             </div>
         </div>

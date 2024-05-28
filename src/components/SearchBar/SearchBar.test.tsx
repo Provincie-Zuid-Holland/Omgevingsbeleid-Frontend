@@ -16,10 +16,7 @@ vi.mock('react-router-dom', async () => {
 })
 
 describe('SearchBar', () => {
-    const defaultProps = {
-        width: 'w-64',
-        compInNavigation: true,
-    }
+    const defaultProps = {}
 
     const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }

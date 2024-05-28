@@ -12,6 +12,7 @@ export const schemaDefaults = {
             required_error: msg,
             invalid_type_error: msg,
         }),
+    optionalNumber: number().optional().nullable(),
     email: (msg = 'Dit veld is verplicht.') =>
         string({
             required_error: msg,
@@ -32,23 +33,23 @@ export const schemaDefaults = {
         .trim()
         .min(4, 'Vul een titel in van minimaal 4 karakters')
         .max(220, 'Vul een titel in van maximaal 220 karakters'),
-    date: string({ required_error: 'Selecteer een datum' }).datetime(
-        'Onjuiste datum'
-    ),
+    date: (msg = 'Selecteer een datum') =>
+        string({ required_error: msg, invalid_type_error: msg }).datetime(
+            'Onjuiste datum'
+        ),
+    optionalDate: string().datetime().optional().nullable(),
     file: instanceOf(File),
-    rte: (msg = 'Het is niet toegestaan om lege paragrafen te gebruiken.') =>
-        customRteValidation(msg).and(
+    rte: () =>
+        customRteValidation().and(
             string({
                 required_error: 'Dit veld is verplicht.',
                 invalid_type_error: 'Dit veld is verplicht.',
             })
         ),
-    optionalRte: (
-        msg = 'Lege paragrafen zijn niet toegestaan. Vul ze in of verwijder ze.'
-    ) => customRteValidation(msg).optional().nullable(),
+    optionalRte: () => customRteValidation().optional().nullable(),
 }
 
-const customRteValidation = (msg: string) =>
+const customRteValidation = () =>
     custom<string>(html => {
         const doc = new DOMParser().parseFromString(html as string, 'text/html')
 
@@ -57,7 +58,7 @@ const customRteValidation = (msg: string) =>
         ).some(p => p.innerHTML.trim() === '<br>' || p.innerHTML.trim() === '')
 
         return !containsEmptyParagraphs
-    }, msg)
+    }, 'Lege paragrafen zijn niet toegestaan. Vul ze in of verwijder ze.')
 
 export type Validation = {
     [K in keyof typeof schemaDefaults]?: (typeof schemaDefaults)[K]
