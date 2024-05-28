@@ -1,4 +1,4 @@
-import { instanceof as instanceOf, number, string } from 'zod'
+import { custom, instanceof as instanceOf, number, string } from 'zod'
 
 export const schemaDefaults = {
     requiredString: (msg = 'Dit veld is verplicht.') =>
@@ -36,7 +36,28 @@ export const schemaDefaults = {
         'Onjuiste datum'
     ),
     file: instanceOf(File),
+    rte: (msg = 'Het is niet toegestaan om lege paragrafen te gebruiken.') =>
+        customRteValidation(msg).and(
+            string({
+                required_error: 'Dit veld is verplicht.',
+                invalid_type_error: 'Dit veld is verplicht.',
+            })
+        ),
+    optionalRte: (
+        msg = 'Lege paragrafen zijn niet toegestaan. Vul ze in of verwijder ze.'
+    ) => customRteValidation(msg).optional().nullable(),
 }
+
+const customRteValidation = (msg: string) =>
+    custom<string>(html => {
+        const doc = new DOMParser().parseFromString(html as string, 'text/html')
+
+        const containsEmptyParagraphs = Array.from(
+            doc.querySelectorAll('p')
+        ).some(p => p.innerHTML.trim() === '<br>' || p.innerHTML.trim() === '')
+
+        return !containsEmptyParagraphs
+    }, msg)
 
 export type Validation = {
     [K in keyof typeof schemaDefaults]?: (typeof schemaDefaults)[K]
