@@ -1,4 +1,13 @@
-import { Button, Notification, Text, formatDate } from '@pzh-ui/components'
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+    Button,
+    Notification,
+    Text,
+    formatDate,
+} from '@pzh-ui/components'
 import { useMemo } from 'react'
 
 import {
@@ -13,12 +22,6 @@ import {
     PublicationEnvironment,
     PublicationVersionShort,
 } from '@/api/fetchers.schemas'
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from '@/components/Accordion'
 import { LoaderSpinner } from '@/components/Loader'
 import { ModalStateMap } from '@/components/Modals/types'
 import useModalStore from '@/store/modalStore'
@@ -113,12 +116,19 @@ const PublicationPackages = ({
     }
 
     return (
-        <Accordion>
-            <AccordionItem
-                defaultOpen={validationPackage?.Report_Status !== 'valid'}>
-                <AccordionTrigger
-                    className="py-2"
-                    classNameButton="after:w-full">
+        <Accordion
+            type="multiple"
+            defaultValue={
+                validationPackage?.Report_Status !== 'valid'
+                    ? ['item-1']
+                    : isOfficial &&
+                      validationPackage?.Report_Status === 'valid' &&
+                      !!!announcement
+                    ? ['item-2']
+                    : undefined
+            }>
+            <AccordionItem value="item-1">
+                <AccordionTrigger>
                     <Text size="m" bold color="text-pzh-blue-500">
                         {isOfficial ? 'Validatie' : 'Publicatie'}
                     </Text>
@@ -200,16 +210,8 @@ const PublicationPackages = ({
                         />
                     )} */}
 
-                    <AccordionItem
-                        className="mt-6"
-                        defaultOpen={
-                            isOfficial &&
-                            validationPackage?.Report_Status === 'valid' &&
-                            !!!announcement
-                        }>
-                        <AccordionTrigger
-                            className="py-2"
-                            classNameButton="after:w-full">
+                    <AccordionItem value="item-2" className="mt-6">
+                        <AccordionTrigger>
                             <Text size="m" bold color="text-pzh-blue-500">
                                 Publicatie
                             </Text>
