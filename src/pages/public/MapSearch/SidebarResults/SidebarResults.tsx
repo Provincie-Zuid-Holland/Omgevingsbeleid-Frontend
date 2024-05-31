@@ -11,6 +11,7 @@ import Filter from '@/components/Filter'
 import { LoaderCard } from '@/components/Loader'
 import SearchResultItem from '@/components/SearchResultItem'
 import { ModelType } from '@/config/objects/types'
+import { strings } from '@/constants/strings'
 import useSearchParam from '@/hooks/useSearchParam'
 import useFilterStore from '@/store/filterStore'
 import useMapStore from '@/store/mapStore'
@@ -235,7 +236,7 @@ const SidebarResults = () => {
                         {!isLoading && !geoLoading ? (
                             <span className="block text-s text-pzh-blue-900 text-opacity-50">
                                 {!data?.total
-                                    ? 'Er zijn geen resultaten'
+                                    ? strings.TXT_NO_RESULTS
                                     : data.total === 1
                                     ? `Er is 1 resultaat`
                                     : `Er zijn ${data.total} resultaten`}

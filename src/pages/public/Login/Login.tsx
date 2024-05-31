@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 
 import { Container } from '@/components/Container'
 import LoginForm from '@/components/LoginForm'
+import { strings } from '@/constants/strings'
 import useBreakpoint from '@/hooks/useBreakpoint'
 
 /**
@@ -67,11 +68,11 @@ const Login = () => {
                         Lukt het niet om in te loggen? Neem contact op met de
                         afdeling omgevingsbeleid via{' '}
                         <a
-                            href="mailto:omgevingsbeleid@pzh.nl?subject=Hulp bij het inloggen"
+                            href={`mailto:${strings.LBL_EMAIL}?subject=Hulp bij het inloggen`}
                             className="cursor-pointer text-pzh-green-500 underline hover:text-pzh-green-900"
                             target="_blank"
                             rel="noopener noreferrer">
-                            omgevingsbeleid@pzh.nl
+                            {strings.LBL_EMAIL}
                         </a>
                     </Text>
                 </div>

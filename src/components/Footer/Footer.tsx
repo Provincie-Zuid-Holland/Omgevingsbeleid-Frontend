@@ -2,6 +2,7 @@ import { Feedback, Heading, Text } from '@pzh-ui/components'
 import classNames from 'clsx'
 import { Link } from 'react-router-dom'
 
+import { strings } from '@/constants/strings'
 import usePage from '@/hooks/usePage'
 
 import { Container } from '../Container'
@@ -63,11 +64,11 @@ function Footer() {
                                 Mocht je aan- of opmerkingen hebben, dan horen
                                 wij dat graag via{' '}
                                 <a
-                                    href="mailto:omgevingsbeleid@pzh.nl?subject=Aan- of opmerking"
+                                    href={`mailto:${strings.LBL_EMAIL}?subject=Aan- of opmerking`}
                                     className="cursor-pointer text-pzh-blue-500 underline hover:text-pzh-blue-900"
                                     target="_blank"
                                     rel="noopener noreferrer">
-                                    omgevingsbeleid@pzh.nl
+                                    {strings.LBL_EMAIL}
                                 </a>
                             </Text>
                         </div>
@@ -77,10 +78,7 @@ function Footer() {
 
             {!userIsInMuteerEnvironment && !isAdvancedSearchPage && (
                 <div role="region">
-                    <Feedback
-                        email="omgevingsbeleid@pzh.nl"
-                        website="obzh.nl"
-                    />
+                    <Feedback email={strings.LBL_EMAIL} website="obzh.nl" />
                 </div>
             )}
         </footer>

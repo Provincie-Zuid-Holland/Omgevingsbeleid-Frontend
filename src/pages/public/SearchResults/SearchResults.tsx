@@ -15,6 +15,7 @@ import { LoaderSpinner } from '@/components/Loader'
 import SearchBar from '@/components/SearchBar'
 import SearchResultItem from '@/components/SearchResultItem'
 import { ModelType } from '@/config/objects/types'
+import { strings } from '@/constants/strings'
 import useSearchParams from '@/hooks/useSearchParam'
 import useFilterStore from '@/store/filterStore'
 
@@ -205,7 +206,7 @@ const SearchResults = () => {
                         </ul>
                     ) : (
                         <span className="italic text-pzh-gray-600">
-                            Er zijn geen resultaten gevonden
+                            {strings.TXT_NO_RESULTS}
                         </span>
                     )}
 

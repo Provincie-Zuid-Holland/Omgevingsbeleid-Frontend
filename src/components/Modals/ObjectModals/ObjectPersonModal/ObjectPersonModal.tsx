@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom'
 import { useUsersGet } from '@/api/fetchers'
 import Modal from '@/components/Modal'
 import { ModelPatchStaticType } from '@/config/objects/types'
+import { strings } from '@/constants/strings'
 import useObject from '@/hooks/useObject'
 import useModalStore from '@/store/modalStore'
 
@@ -85,7 +86,7 @@ const ObjectPersonModal = ({ person, isEdit }: ObjectPersonModalActions) => {
                             }),
                         }}
                         noOptionsMessage={({ inputValue }) =>
-                            !!inputValue && 'Geen resultaten gevonden'
+                            !!inputValue && strings.TXT_NO_RESULTS
                         }
                         isClearable={!person?.required}
                         required={person?.required}

@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { UserCreate } from '@/api/fetchers.schemas'
+import { strings } from '@/constants/strings'
 import { availableRoleTypes } from '@/context/AuthContext'
 import { SCHEMA_ADD_USER } from '@/validation/user'
 
@@ -50,7 +51,7 @@ const UserForm = ({
                             placeholder="Kies een rol"
                             options={roleOptions}
                             noOptionsMessage={({ inputValue }) =>
-                                !!inputValue && 'Geen resultaten gevonden'
+                                !!inputValue && strings.TXT_NO_RESULTS
                             }
                             styles={{
                                 menu: base => ({

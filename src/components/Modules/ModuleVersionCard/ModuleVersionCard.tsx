@@ -10,6 +10,7 @@ import {
     useModulesModuleIdStatusPatch,
 } from '@/api/fetchers'
 import { ModuleStatusCode } from '@/api/fetchers.schemas'
+import { strings } from '@/constants/strings'
 import { toastNotification } from '@/utils/toastNotification'
 
 const ModuleVersionCard = () => {
@@ -94,7 +95,7 @@ const ModuleVersionCard = () => {
                             optimized={false}
                             blurInputOnSelect
                             noOptionsMessage={({ inputValue }) =>
-                                !!inputValue && 'Geen resultaten gevonden'
+                                !!inputValue && strings.TXT_NO_RESULTS
                             }
                         />
 

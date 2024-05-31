@@ -10,6 +10,7 @@ import { useMemo } from 'react'
 
 import { useUsersGet } from '@/api/fetchers'
 import { ModuleCreate } from '@/api/fetchers.schemas'
+import { strings } from '@/constants/strings'
 import { Role } from '@/context/AuthContext'
 
 const FormBasicInfo = () => {
@@ -17,11 +18,14 @@ const FormBasicInfo = () => {
 
     const { data: users, isFetching, isLoading } = useUsersGet({ limit: 500 })
 
-    const allowedUserRoles: Role[] = [
-        'Functioneel beheerder',
-        'Behandelend Ambtenaar',
-        'Ambtelijk opdrachtgever',
-    ]
+    const allowedUserRoles: Role[] = useMemo(
+        () => [
+            'Functioneel beheerder',
+            'Behandelend Ambtenaar',
+            'Ambtelijk opdrachtgever',
+        ],
+        []
+    )
 
     /**
      * Format user options
@@ -35,7 +39,7 @@ const FormBasicInfo = () => {
                     label: user.Gebruikersnaam,
                     value: user.UUID,
                 })),
-        [users, values.Module_Manager_2_UUID]
+        [users, values.Module_Manager_2_UUID, allowedUserRoles]
     )
 
     const userOptions2 = useMemo(
@@ -47,7 +51,7 @@ const FormBasicInfo = () => {
                     label: user.Gebruikersnaam,
                     value: user.UUID,
                 })),
-        [users, values.Module_Manager_1_UUID]
+        [users, values.Module_Manager_1_UUID, allowedUserRoles]
     )
 
     return (
@@ -82,7 +86,7 @@ const FormBasicInfo = () => {
                             isLoading={isLoading && isFetching}
                             options={userOptions1}
                             noOptionsMessage={({ inputValue }) =>
-                                !!inputValue && 'Geen resultaten gevonden'
+                                !!inputValue && strings.TXT_NO_RESULTS
                             }
                             blurInputOnSelect
                             required
@@ -100,7 +104,7 @@ const FormBasicInfo = () => {
                             isLoading={isLoading && isFetching}
                             options={userOptions2}
                             noOptionsMessage={({ inputValue }) =>
-                                !!inputValue && 'Geen resultaten gevonden'
+                                !!inputValue && strings.TXT_NO_RESULTS
                             }
                             blurInputOnSelect
                             isClearable

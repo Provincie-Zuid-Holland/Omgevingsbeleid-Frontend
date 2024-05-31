@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
+import { strings } from '@/constants/strings'
 import useAuth from '@/hooks/useAuth'
 import useModalStore from '@/store/modalStore'
 import * as loginForm from '@/validation/loginForm'
@@ -132,8 +133,7 @@ const PopupPasswordForgot = ({ onClose }: PopupPasswordForgotProps) => (
                 id="wachtwoord-reset-button-mailto"
                 data-testid="wachtwoord-reset-button-mailto"
                 onPress={() => {
-                    window.location.href =
-                        'mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten'
+                    window.location.href = `mailto:${strings.LBL_EMAIL}?subject=Wachtwoord vergeten`
                     onClose()
                 }}>
                 Mail versturen

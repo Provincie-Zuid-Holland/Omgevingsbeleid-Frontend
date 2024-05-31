@@ -4,6 +4,7 @@ import { array, object } from 'zod'
 
 import { DocumentType, TemplateEdit } from '@/api/fetchers.schemas'
 import { DynamicObject } from '@/config/objects/types'
+import { strings } from '@/constants/strings'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
@@ -84,8 +85,8 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                     isMulti: true,
                     required: true,
                     validation: array(schemaDefaults.requiredString(), {
-                        required_error: 'Dit veld is verplicht.',
-                        invalid_type_error: 'Dit veld is verplicht.',
+                        required_error: strings.FORM_REQUIRED_FIELD,
+                        invalid_type_error: strings.FORM_REQUIRED_FIELD,
                     }),
                 },
             ],
@@ -141,8 +142,8 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                     placeholder: 'Vul een waarde in en druk op enter',
                     isMulti: true,
                     validation: array(schemaDefaults.requiredString(), {
-                        required_error: 'Dit veld is verplicht.',
-                        invalid_type_error: 'Dit veld is verplicht.',
+                        required_error: strings.FORM_REQUIRED_FIELD,
+                        invalid_type_error: strings.FORM_REQUIRED_FIELD,
                     }),
                     isCreatable: true,
                     menuIsOpen: false,

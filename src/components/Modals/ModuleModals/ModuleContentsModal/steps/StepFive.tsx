@@ -1,10 +1,10 @@
-import { useFormikContext } from 'formik'
-
 import { FormikSelect, FormikTextArea, Heading, Text } from '@pzh-ui/components'
+import { useFormikContext } from 'formik'
 
 import { ModuleAddExistingObject } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
+import { strings } from '@/constants/strings'
 
 import { StepProps } from './types'
 
@@ -39,7 +39,7 @@ export const StepFive = ({ title, existingObject }: StepProps) => {
                     },
                 ]}
                 noOptionsMessage={({ inputValue }) =>
-                    !!inputValue && 'Geen resultaten gevonden'
+                    !!inputValue && strings.TXT_NO_RESULTS
                 }
                 blurInputOnSelect
                 required

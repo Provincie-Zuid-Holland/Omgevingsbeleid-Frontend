@@ -1,49 +1,51 @@
 import { custom, instanceof as instanceOf, number, string } from 'zod'
 
+import { strings } from '@/constants/strings'
+
 export const schemaDefaults = {
-    requiredString: (msg = 'Dit veld is verplicht.') =>
+    requiredString: (msg = strings.FORM_REQUIRED_FIELD) =>
         string({
             required_error: msg,
             invalid_type_error: msg,
         }).trim(),
     optionalString: string().optional().nullable(),
-    requiredNumber: (msg = 'Dit veld is verplicht.') =>
+    requiredNumber: (msg = strings.FORM_REQUIRED_FIELD) =>
         number({
             required_error: msg,
             invalid_type_error: msg,
         }),
     optionalNumber: number().optional().nullable(),
-    email: (msg = 'Dit veld is verplicht.') =>
+    email: (msg = strings.FORM_REQUIRED_FIELD) =>
         string({
             required_error: msg,
             invalid_type_error: msg,
         })
-            .email('Onjuist e-mailadres')
-            .max(255, 'Vul een e-mailadres in van maximaal 255 karakters'),
-    url: (msg = 'Dit veld is verplicht.') =>
+            .email(strings.FORM_EMAIL_INVALID)
+            .max(255, strings.FORM_EMAIL_MAX_CHARS),
+    url: (msg = strings.FORM_REQUIRED_FIELD) =>
         string({
             required_error: msg,
             invalid_type_error: msg,
-        }).url('Onjuiste link'),
-    optionalUrl: string().url('Onjuiste link').optional().nullable(),
+        }).url(strings.FORM_URL_INVALID),
+    optionalUrl: string().url(strings.FORM_URL_INVALID).optional().nullable(),
     title: string({
-        required_error: 'Vul een titel in',
-        invalid_type_error: 'Vul een titel in',
+        required_error: strings.FORM_TITLE_REQUIRED,
+        invalid_type_error: strings.FORM_TITLE_REQUIRED,
     })
         .trim()
-        .min(4, 'Vul een titel in van minimaal 4 karakters')
-        .max(220, 'Vul een titel in van maximaal 220 karakters'),
-    date: (msg = 'Selecteer een datum') =>
+        .min(4, strings.FORM_TITLE_MIN_CHARS)
+        .max(220, strings.FORM_TITLE_MAX_CHARS),
+    date: (msg = strings.FORM_DATE_REQUIRED) =>
         string({ required_error: msg, invalid_type_error: msg }).datetime(
-            'Onjuiste datum'
+            strings.FORM_DATE_INVALID
         ),
     optionalDate: string().datetime().optional().nullable(),
     file: instanceOf(File),
     rte: () =>
         customRteValidation().and(
             string({
-                required_error: 'Dit veld is verplicht.',
-                invalid_type_error: 'Dit veld is verplicht.',
+                required_error: strings.FORM_REQUIRED_FIELD,
+                invalid_type_error: strings.FORM_REQUIRED_FIELD,
             })
         ),
     optionalRte: () => customRteValidation().optional().nullable(),
@@ -58,7 +60,7 @@ const customRteValidation = () =>
         ).some(p => p.innerHTML.trim() === '<br>' || p.innerHTML.trim() === '')
 
         return !containsEmptyParagraphs
-    }, 'Lege paragrafen zijn niet toegestaan. Vul ze in of verwijder ze.')
+    }, strings.FORM_RTE_EMPTY_PARAGRAPH)
 
 export type Validation = {
     [K in keyof typeof schemaDefaults]?: (typeof schemaDefaults)[K]

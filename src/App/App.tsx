@@ -69,7 +69,6 @@ const App = () => {
                 </AuthProvider>
             </QueryClientProvider>
             {!import.meta.env.PROD &&
-                !import.meta.env.JEST_WORKER_ID &&
                 import.meta.env.VITE_ENABLE_AXE === 'true' && <Axe />}
         </HelmetProvider>
     )

@@ -23,6 +23,7 @@ import {
     BeleidskeuzePatch,
     BeleidskeuzeStaticPostStatics,
 } from '@/api/fetchers.schemas'
+import { strings } from '@/constants/strings'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
@@ -176,9 +177,9 @@ const beleidskeuze: DynamicObject<
                             moet het huidige gebied aangepast worden? Neem dan
                             contact op via{' '}
                             <a
-                                href="mailto:omgevingsbeleid@pzh.nl"
+                                href={`mailto:${strings.LBL_EMAIL}`}
                                 className="underline">
-                                omgevingsbeleid@pzh.nl
+                                {strings.LBL_EMAIL}
                             </a>
                             .
                         </>

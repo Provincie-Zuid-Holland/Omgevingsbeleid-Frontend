@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useUsersSearchGet } from '@/api/fetchers'
 import UserAddModal from '@/components/Modals/UserModals/UserAddModal'
+import { strings } from '@/constants/strings'
 import { Role, availableRoleTypes } from '@/context/AuthContext'
 import useModalStore from '@/store/modalStore'
 import MutateLayout from '@/templates/MutateLayout'
@@ -206,7 +207,7 @@ const Filter = ({ setFilter }: FilterProps) => {
                         options={roleOptions}
                         isClearable
                         noOptionsMessage={({ inputValue }) =>
-                            !!inputValue && 'Geen resultaten gevonden'
+                            !!inputValue && strings.TXT_NO_RESULTS
                         }
                     />
                 </div>

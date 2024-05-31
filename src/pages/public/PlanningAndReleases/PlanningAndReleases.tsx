@@ -12,6 +12,7 @@ import { ReactNode, useState } from 'react'
 
 import { Container } from '@/components/Container'
 import { releases } from '@/constants/releases'
+import { strings } from '@/constants/strings'
 import imagePlanningAndReleases from '@/images/planning-and-releases.webp'
 
 type Releases = typeof releases
@@ -34,9 +35,9 @@ const PlanningAndReleases = () => (
                     ontvangen. Heb je vragen, ideeën of suggesties? Neem gerust
                     contact op met ons via{' '}
                     <a
-                        href="mailto:omgevingsbeleid@pzh.nl"
+                        href={`mailto:${strings.LBL_EMAIL}`}
                         className="text-pzh-green-500 underline hover:text-pzh-green-900">
-                        omgevingsbeleid@pzh.nl
+                        {strings.LBL_EMAIL}
                     </a>
                     .
                 </Text>

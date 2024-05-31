@@ -12,6 +12,7 @@ import { useUsersGet } from '@/api/fetchers'
 import { ModuleAddNewObject } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
+import { strings } from '@/constants/strings'
 import { getStaticDataFilterRoles } from '@/utils/dynamicObject'
 
 import { StepProps } from './types'
@@ -79,7 +80,7 @@ export const StepThree = ({}: StepProps) => {
                     isLoading={isLoading && isFetching}
                     options={userOptions1}
                     noOptionsMessage={({ inputValue }) =>
-                        !!inputValue && 'Geen resultaten gevonden'
+                        !!inputValue && strings.TXT_NO_RESULTS
                     }
                     blurInputOnSelect
                     required
@@ -94,7 +95,7 @@ export const StepThree = ({}: StepProps) => {
                     isLoading={isLoading && isFetching}
                     options={userOptions2}
                     noOptionsMessage={({ inputValue }) =>
-                        !!inputValue && 'Geen resultaten gevonden'
+                        !!inputValue && strings.TXT_NO_RESULTS
                     }
                     blurInputOnSelect
                 />

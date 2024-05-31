@@ -4,6 +4,7 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { usePasswordResetPost } from '@/api/fetchers'
 import Modal from '@/components/Modal'
+import { strings } from '@/constants/strings'
 import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as passwordReset from '@/validation/passwordReset'
@@ -113,10 +114,10 @@ export default function PasswordChangeModal() {
                     Ben je je huidige wachtwoord vergeten? Neem dan contact op
                     met
                     <a
-                        href="mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten"
+                        href={`mailto:${strings.LBL_EMAIL}?subject=Wachtwoord vergeten`}
                         className="ml-1 underline"
                         data-testid="wachtwoord-reset-mail">
-                        omgevingsbeleid@pzh.nl
+                        {strings.LBL_EMAIL}
                     </a>
                 </>
             </Notification>

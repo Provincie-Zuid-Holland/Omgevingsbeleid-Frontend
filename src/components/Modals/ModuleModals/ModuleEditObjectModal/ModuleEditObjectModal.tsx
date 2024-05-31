@@ -17,6 +17,7 @@ import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
+import { strings } from '@/constants/strings'
 import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
@@ -136,7 +137,7 @@ const ModuleEditObjectModal = () => {
                                     },
                                 ]}
                                 noOptionsMessage={({ inputValue }) =>
-                                    !!inputValue && 'Geen resultaten gevonden'
+                                    !!inputValue && strings.TXT_NO_RESULTS
                                 }
                                 blurInputOnSelect
                                 required
