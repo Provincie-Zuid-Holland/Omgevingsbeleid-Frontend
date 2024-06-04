@@ -3,6 +3,8 @@ import { Point } from 'leaflet'
 
 import generateQueryString from '@/utils/queryString'
 
+import { Environment } from './instance'
+
 export interface Feature {
     id: string
     properties: {
@@ -156,11 +158,33 @@ const generateImageUrl = (symbol: string) => {
     }/geoserver/Omgevingsbeleid/wms?${path}`
 }
 
+const getGeoserverLayer = (isSource?: boolean): string => {
+    const environment = isSource
+        ? 'source'
+        : (import.meta.env.VITE_API_ENV as Environment)
+
+    switch (environment) {
+        case 'source':
+            return 'Omgevingsbeleid:Werkingsgebieden'
+        case 'dev':
+            return 'Omgevingsbeleid:Werkingsgebieden_dev'
+        case 'test':
+            return 'Omgevingsbeleid:Werkingsgebieden_test'
+        case 'acc':
+            return 'Omgevingsbeleid:Werkingsgebieden_acc'
+        case 'main':
+            return 'Omgevingsbeleid:Werkingsgebieden_prod'
+        default:
+            return ''
+    }
+}
+
 export default instance
 export {
     api_version,
     generateImageUrl,
     getGeoJsonData,
+    getGeoserverLayer,
     getOnderverdeling,
     getWerkingsGebieden,
     getWerkingsGebiedenByArea,
