@@ -13,6 +13,7 @@ export const PUBLICATION_VERSION_ADD_SCHEMA = object({
 })
 
 export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
+    Module_Status_ID: schemaDefaults.requiredNumber(),
     Effective_Date: schemaDefaults.optionalString
         .refine(date => {
             return date && new Date(date) > new Date(Date.now())
