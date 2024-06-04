@@ -72,7 +72,10 @@ const Handle = ({
                                       ? setActiveItem(uuid)
                                       : undefined
                             : undefined
-                    }>
+                    }
+                    aria-label={`${!expanded ? 'Open' : 'Sluit'} ${
+                        section.defaults.singularCapitalize
+                    } ${index}`}>
                     {expanded ? (
                         <Icon size={14} className="text-pzh-white" />
                     ) : (
@@ -94,13 +97,15 @@ const Handle = ({
                 <Button
                     variant="default"
                     onPress={handleDelete}
-                    isDisabled={!expanded}>
+                    isDisabled={!expanded}
+                    aria-label="Verwijderen">
                     <TrashCan size={16} color="text-pzh-blue-500" />
                 </Button>
                 <Button
                     variant="default"
                     onPress={handleEdit}
-                    isDisabled={!expanded}>
+                    isDisabled={!expanded}
+                    aria-label="Wijzigen">
                     <PenToSquare size={16} color="text-pzh-blue-500" />
                 </Button>
             </div>
