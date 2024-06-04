@@ -2563,9 +2563,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/css@npm:^0.0.75":
-  version: 0.0.75
-  resolution: "@pzh-ui/css@npm:0.0.75"
+"@pzh-ui/css@npm:^0.0.96":
+  version: 0.0.96
+  resolution: "@pzh-ui/css@npm:0.0.96"
   dependencies:
     "@rollup/plugin-typescript": "npm:^8.3.1"
     "@tailwindcss/custom-forms": "npm:^0.2.1"
@@ -2574,7 +2574,7 @@ __metadata:
     "@tailwindcss/typography": "npm:^0.5.9"
     react-datepicker: "npm:^4.7.0"
     react-toastify: "npm:^9.1.2"
-  checksum: 98534c48dbaafe7f7a0c2b2cb5e57c374763e4279b1882f29cd094744fd5f2c827adfc53a60cdcde4524a70451d4a0021fa761133633c29492ba5a586f131358
+  checksum: d5ccc854f77f5b21711716c0d67a235142b8b0ee3d32062cb28de13e0ae9d39683a74611a16319c9677946035b64b51cc0b10dfa90b5d16e565176a035d00898
   languageName: node
   linkType: hard
 
@@ -2585,6 +2585,16 @@ __metadata:
     react: "npm:^18.0.0"
     react-toastify: "npm:^9.1.2"
   checksum: 1d677dd9d1d36cf9608d2778fcf1efff423e9c2e1fc0324d750b7c1541c3aca3e61cf459810aa300d9d4fde0ebd8fe8526ec852a22f8f9a8987ab7758f18f4ca
+  languageName: node
+  linkType: hard
+
+"@pzh-ui/icons@npm:^0.0.60":
+  version: 0.0.60
+  resolution: "@pzh-ui/icons@npm:0.0.60"
+  dependencies:
+    react: "npm:^18.2.0"
+    react-toastify: "npm:^9.1.2"
+  checksum: 46c2c4e9072d33a71a91b6e97c193dbce6689060ac92d334f4e3bb3eba56c68ed7ba5af208f0577ee6e942d10032c2dbb47d5fd437148bf61ac2f664294244ff
   languageName: node
   linkType: hard
 
@@ -12377,8 +12387,8 @@ __metadata:
     "@headlessui/react": "npm:^1.7.17"
     "@pzh-ui/components": "npm:^0.0.452"
     "@pzh-ui/config": "npm:^0.0.56"
-    "@pzh-ui/css": "npm:^0.0.75"
-    "@pzh-ui/icons": "npm:^0.0.47"
+    "@pzh-ui/css": "npm:^0.0.96"
+    "@pzh-ui/icons": "npm:^0.0.60"
     "@react-hookz/web": "npm:^24.0.2"
     "@tanstack/react-query": "npm:^5.14.2"
     "@testing-library/dom": "npm:^9.3.3"
