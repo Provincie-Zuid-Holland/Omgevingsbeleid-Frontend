@@ -98,11 +98,11 @@ const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
             </Heading>
 
             {!!data?.Maatregelen?.length ? (
-                <div>
+                <div className="flex flex-col">
                     {data.Maatregelen.map(item => {
                         const model =
                             models[item.Object.Object_Type as ModelType]
-                        const { slugOverview } = model.defaults
+                        const { slugOverview, plural } = model.defaults
 
                         return (
                             <ListLink
