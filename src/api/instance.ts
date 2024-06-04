@@ -1,6 +1,8 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
 import getApiUrl from '@/utils/getApiUrl'
+import globalRouter from '@/utils/globalRouter'
+import { toastNotification } from '@/utils/toastNotification'
 
 export type Environment = 'dev' | 'test' | 'acc' | 'main'
 
@@ -27,13 +29,13 @@ instance.interceptors.request.use(async config => {
 instance.interceptors.response.use(
     response => response,
     (error: AxiosError) => {
-        if (
-            (error.response?.status === 401 ||
-                error.response?.status === 403) &&
-            location.pathname !== '/login'
-        ) {
-            window.location.href = '/login'
+        if (error.response?.status === 401 || error.response?.status === 403) {
+            toastNotification('notLoggedIn')
+            globalRouter.navigate?.('/login')
+        } else if (error.response?.status === 500) {
+            globalRouter.navigate?.('/500')
         }
+
         return Promise.reject(error)
     }
 )
