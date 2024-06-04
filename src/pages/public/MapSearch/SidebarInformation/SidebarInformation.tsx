@@ -2,11 +2,10 @@ import { Transition } from '@headlessui/react'
 import { FieldSelect, Heading, Text } from '@pzh-ui/components'
 import { ArrowLeft, DrawPolygon, LocationDot } from '@pzh-ui/icons'
 import Leaflet, { latLng } from 'leaflet'
-import groupBy from 'lodash.groupby'
 import { ReactNode, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useSourceWerkingsgebiedenGet } from '@/api/fetchers'
+import { useWerkingsgebiedenValidGet } from '@/api/fetchers'
 import { LeafletSearchInput } from '@/components/Leaflet'
 import { MAP_SEARCH_PAGE } from '@/constants/leaflet'
 import useSearchParam from '@/hooks/useSearchParam'
@@ -33,7 +32,7 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
     const [werkingsgebied, setWerkingsgebied] =
         useState<Leaflet.TileLayer.WMS | null>(null)
 
-    const { data, isLoading } = useSourceWerkingsgebiedenGet({
+    const { data, isLoading } = useWerkingsgebiedenValidGet({
         limit: 1000,
         sort_column: 'Title',
         sort_order: 'ASC',
@@ -43,32 +42,14 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
         [data, paramWerkingsgebied]
     )
 
-    const options = useMemo(() => {
-        const filteredData = data?.results.filter(
-            item =>
-                !!item.Start_Validity &&
-                !!item.End_Validity &&
-                new Date(item.Start_Validity).getTime() <
-                    new Date().getTime() &&
-                new Date(item.End_Validity).getTime() > new Date().getTime()
-        )
-
-        const grouped = groupBy(filteredData, 'Title')
-        const newest = Object.keys(grouped).map(item => {
-            const label = item
-
-            const sortedData = grouped[item].sort(
-                (a, b) =>
-                    new Date(b.Modified_Date).getTime() -
-                    new Date(a.Modified_Date).getTime()
-            )
-            const value = sortedData[0].UUID
-
-            return { label, value }
-        })
-
-        return newest
-    }, [data])
+    const options = useMemo(
+        () =>
+            data?.results.map(option => ({
+                label: option.Title,
+                value: option.Area_UUID,
+            })),
+        [data]
+    )
 
     const goBack = () => {
         navigate(MAP_SEARCH_PAGE)
@@ -197,7 +178,7 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
                         }
                         menuPlacement="auto"
                         isLoading={isLoading}
-                        onChange={val => {
+                        onChange={(val: any) => {
                             remove('geoQuery')
                             set(
                                 'werkingsgebied',
