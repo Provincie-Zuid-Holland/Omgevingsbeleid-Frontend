@@ -5,7 +5,7 @@ import { useMap } from 'react-leaflet'
 
 import {
     Feature,
-    getOnderverdeling,
+    getGeoserverLayer,
     getWerkingsgebied,
 } from '@/api/axiosGeoJSON'
 import ToggleableSection from '@/components/ToggleableSection'
@@ -15,9 +15,10 @@ import LeafletMap from '../LeafletMap'
 
 interface LeafletTinyViewerProps {
     uuid: string
+    isSource?: boolean
 }
 
-const LeafletTinyViewer = ({ uuid }: LeafletTinyViewerProps) => (
+const LeafletTinyViewer = ({ uuid, isSource }: LeafletTinyViewerProps) => (
     <LeafletMap
         options={{
             center: [52, 4.316168],
@@ -26,11 +27,11 @@ const LeafletTinyViewer = ({ uuid }: LeafletTinyViewerProps) => (
         }}
         controllers={{ showLayers: false }}
         id={`leaflet-tiny-viewer-${uuid}`}>
-        <LeafletTinyViewerInner uuid={uuid} />
+        <LeafletTinyViewerInner uuid={uuid} isSource={isSource} />
     </LeafletMap>
 )
 
-const LeafletTinyViewerInner = ({ uuid }: LeafletTinyViewerProps) => {
+const LeafletTinyViewerInner = ({ uuid, isSource }: LeafletTinyViewerProps) => {
     const map = useMap()
 
     const { data: werkingsgebied } = useQuery({
@@ -38,11 +39,11 @@ const LeafletTinyViewerInner = ({ uuid }: LeafletTinyViewerProps) => {
         queryFn: () => getWerkingsgebied(uuid),
         enabled: !!uuid,
     })
-    const { data: onderverdeling } = useQuery({
-        queryKey: ['onderverdeling', uuid],
-        queryFn: () => getOnderverdeling(uuid),
-        enabled: !!uuid,
-    })
+    // const { data: onderverdeling } = useQuery({
+    //     queryKey: ['onderverdeling', uuid],
+    //     queryFn: () => getOnderverdeling(uuid),
+    //     enabled: !!uuid,
+    // })
 
     const [layerIntance, setLayerInstance] = useState<{
         werkingsgebied?: TileLayer.WMS
@@ -55,10 +56,13 @@ const LeafletTinyViewerInner = ({ uuid }: LeafletTinyViewerProps) => {
     }>({ werkingsgebied: true })
 
     const initializeMap = () => {
-        const filters = onderverdeling?.features
-            ?.map(s => s.properties.Onderverdeling)
-            .filter(Boolean)
-        setLayerFilter({ ...layerFilter, layers: filters })
+        // const filters = onderverdeling?.features
+        //     ?.map(s => s.properties.Onderverdeling)
+        //     .filter(Boolean)
+        setLayerFilter({
+            ...layerFilter,
+            //layers: filters
+        })
 
         const defaultLayerOptions = {
             version: '1.3.0',
@@ -66,48 +70,51 @@ const LeafletTinyViewerInner = ({ uuid }: LeafletTinyViewerProps) => {
             transparent: true,
             cql_filter: `UUID='${uuid}'`,
             tiled: true,
-            maxFeatures: 50,
             updateWhenZooming: false,
             tileSize: 512,
         }
 
         const layerInstance = Leaflet.tileLayer.wms(
-            `${import.meta.env.VITE_GEOSERVER_API_URL}/ows`,
+            `${
+                import.meta.env.VITE_GEOSERVER_API_URL
+            }/geoserver/Omgevingsbeleid/wms`,
             {
-                layers: 'OMGEVINGSBELEID:Werkingsgebieden',
+                layers: getGeoserverLayer(isSource),
                 zIndex: 1,
                 ...defaultLayerOptions,
             }
         )
-        const subLayerInstance = Leaflet.tileLayer.wms(
-            `${import.meta.env.VITE_GEOSERVER_API_URL}/ows`,
-            {
-                layers: 'OMGEVINGSBELEID:Werkingsgebieden_Onderverdeling',
-                zIndex: 2,
-                ...defaultLayerOptions,
-            }
-        )
+        // const subLayerInstance = Leaflet.tileLayer.wms(
+        //     `${
+        //         import.meta.env.VITE_GEOSERVER_API_URL
+        //     }/geoserver/Omgevingsbeleid/wms`,
+        //     {
+        //         layers: 'Omgevingsbeleid:Werkingsgebieden_Onderverdeling',
+        //         zIndex: 2,
+        //         ...defaultLayerOptions,
+        //     }
+        // )
 
         layerInstance.addTo(map)
-        subLayerInstance.addTo(map)
+        // subLayerInstance.addTo(map)
 
         const layers: Feature[] = []
 
-        onderverdeling?.features?.forEach(feature => {
-            layers.push(feature)
-        })
+        // onderverdeling?.features?.forEach(feature => {
+        //     layers.push(feature)
+        // })
 
         setLayerInstance({
             werkingsgebied: layerInstance,
-            onderverdeling: subLayerInstance,
+            // onderverdeling: subLayerInstance,
         })
         setLayers(layers)
     }
 
     useEffect(
-        () => onderverdeling && werkingsgebied && initializeMap(),
+        () => /*onderverdeling || */ werkingsgebied && initializeMap(),
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [onderverdeling, werkingsgebied]
+        [/* onderverdeling , */ werkingsgebied]
     )
 
     const handleFilter = useCallback(

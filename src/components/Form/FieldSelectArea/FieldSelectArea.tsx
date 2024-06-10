@@ -145,7 +145,7 @@ const FieldSelectArea = ({
                             </div>
                         </div>
                         <div className="col-span-9 flex h-[500px] flex-1 md:col-span-6">
-                            <AreaPreview area={area} />
+                            <AreaPreview area={area} isSource />
                         </div>
                     </div>
                 </div>

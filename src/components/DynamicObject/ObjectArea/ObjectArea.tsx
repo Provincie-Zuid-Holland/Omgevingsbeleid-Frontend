@@ -1,5 +1,4 @@
-import { Heading, Notification, Text } from '@pzh-ui/components'
-import { LayerGroup, Lightbulb } from '@pzh-ui/icons'
+import { Heading, Text } from '@pzh-ui/components'
 
 import {
     useModulesModuleIdObjectWerkingsgebiedLatestLineageIdGet,
@@ -67,22 +66,20 @@ const ObjectArea = ({
 
             {!!data && (
                 <>
-                    <Notification icon={Lightbulb} className="mb-3">
+                    {/* <Notification icon={Lightbulb} className="mb-3">
                         <>
                             Tip! Gebruik het icoon{' '}
                             <LayerGroup
                                 size={18}
-                                className="mx-1 -mt-1 inline text-pzh-blue-900"
+                                className="text-pzh-blue-900 mx-1 -mt-1 inline"
                             />{' '}
                             om de kaartlagen binnen dit werkingsgebied te
                             bekijken
                         </>
-                    </Notification>
+                    </Notification> */}
 
                     <div className="h-[500px] overflow-hidden rounded-lg">
-                        <LeafletTinyViewer
-                            uuid={data.Area?.Source_UUID || ''}
-                        />
+                        <LeafletTinyViewer uuid={data.Area?.UUID || ''} />
                     </div>
                 </>
             )}
