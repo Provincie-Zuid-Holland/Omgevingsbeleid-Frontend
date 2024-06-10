@@ -53,7 +53,7 @@ export const StepTwo = ({ data }: StepProps) => {
                 <div className="col-span-5">
                     <FieldLabel name="version" label="Versie" />
 
-                    <div className="h-[444px] overflow-y-auto rounded border border-pzh-gray-200 p-4">
+                    <div className="h-[500px] overflow-y-auto rounded border border-pzh-gray-200 p-4">
                         {options?.map((version, index) => (
                             <div
                                 key={version.UUID}
@@ -89,6 +89,7 @@ export const StepTwo = ({ data }: StepProps) => {
                         <AreaPreview
                             key={selectedArea?.UUID}
                             area={selectedArea}
+                            isSource
                         />
                     </div>
                 </div>

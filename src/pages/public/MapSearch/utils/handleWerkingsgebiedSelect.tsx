@@ -1,5 +1,7 @@
 import Leaflet, { Map } from 'leaflet'
 
+import { getGeoserverLayer } from '@/api/axiosGeoJSON'
+
 type SelectedOption = { label: string; value: string }
 
 const handleWerkingsgebiedSelect = async (
@@ -16,9 +18,11 @@ const handleWerkingsgebiedSelect = async (
     }
 
     const layerInstance = Leaflet.tileLayer.wms(
-        `${import.meta.env.VITE_GEOSERVER_API_URL}/ows`,
+        `${
+            import.meta.env.VITE_GEOSERVER_API_URL
+        }/geoserver/Omgevingsbeleid/wms`,
         {
-            layers: 'OMGEVINGSBELEID:Werkingsgebieden',
+            layers: getGeoserverLayer(),
             version: '1.3.0',
             format: 'image/png',
             transparent: true,

@@ -6,6 +6,7 @@ import { LeafletTinyViewer } from '../Leaflet'
 
 interface AreaPreviewProps {
     area?: Partial<AreaBasic | Werkingsgebied>
+    isSource?: boolean
 }
 
 const AreaPreview = ({ area }: AreaPreviewProps) => (
@@ -24,6 +25,7 @@ const AreaPreview = ({ area }: AreaPreviewProps) => (
                             ? area.Source_UUID
                             : area?.UUID || ''
                     }
+                    isSource
                 />
             </div>
         )}
