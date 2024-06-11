@@ -79,9 +79,7 @@ const ObjectArea = ({
                     </Notification> */}
 
                     <div className="h-[500px] overflow-hidden rounded-lg">
-                        <LeafletTinyViewer
-                            uuid={data.Area?.Source_UUID || ''}
-                        />
+                        <LeafletTinyViewer uuid={data.Area?.UUID || ''} />
                     </div>
                 </>
             )}
