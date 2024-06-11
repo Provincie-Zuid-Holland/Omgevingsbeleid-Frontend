@@ -14,7 +14,6 @@ const generateDynamicSchema = (sections: DynamicSection[]) => {
             switch (field.type) {
                 case 'text':
                 case 'textarea':
-                case 'wysiwyg':
                 case 'select':
                 case 'image':
                 case 'search':
@@ -25,6 +24,14 @@ const generateDynamicSchema = (sections: DynamicSection[]) => {
                             ((field.required
                                 ? schemaDefaults.requiredString()
                                 : schemaDefaults.optionalString) as any),
+                    }))
+                case 'wysiwyg':
+                    return (dynamicSchema = dynamicSchema.extend({
+                        [field.name]:
+                            field.validation ||
+                            ((field.required
+                                ? schemaDefaults.rte()
+                                : schemaDefaults.optionalRte()) as any),
                     }))
                 case 'url':
                     return (dynamicSchema = dynamicSchema.extend({
