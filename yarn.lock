@@ -2973,6 +2973,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pzh-ui/icons@npm:^0.0.60":
+  version: 0.0.60
+  resolution: "@pzh-ui/icons@npm:0.0.60"
+  dependencies:
+    react: "npm:^18.2.0"
+    react-toastify: "npm:^9.1.2"
+  checksum: 46c2c4e9072d33a71a91b6e97c193dbce6689060ac92d334f4e3bb3eba56c68ed7ba5af208f0577ee6e942d10032c2dbb47d5fd437148bf61ac2f664294244ff
+  languageName: node
+  linkType: hard
+
 "@radix-ui/primitive@npm:1.0.1":
   version: 1.0.1
   resolution: "@radix-ui/primitive@npm:1.0.1"
@@ -6894,11 +6904,11 @@ __metadata:
   linkType: hard
 
 "@types/react-dom@npm:^18.0.0":
-  version: 18.2.19
-  resolution: "@types/react-dom@npm:18.2.19"
+  version: 18.2.18
+  resolution: "@types/react-dom@npm:18.2.18"
   dependencies:
     "@types/react": "npm:*"
-  checksum: 98eb760ce78f1016d97c70f605f0b1a53873a548d3c2192b40c897f694fd9c8bb12baeada16581a9c7b26f5022c1d2613547be98284d8f1b82d1611b1e3e7df0
+  checksum: 4ef7725b4cebd4a32e049097ddfdfd855a178e63ead97ab6d3084872e7d6c1acd71aa923488123cd1015f0e0b11489d2b44f674a1df8fe82d7827eabbec6dbf1
   languageName: node
   linkType: hard
 
@@ -6960,13 +6970,13 @@ __metadata:
   linkType: hard
 
 "@types/react@npm:*":
-  version: 18.2.55
-  resolution: "@types/react@npm:18.2.55"
+  version: 18.2.48
+  resolution: "@types/react@npm:18.2.48"
   dependencies:
     "@types/prop-types": "npm:*"
     "@types/scheduler": "npm:*"
     csstype: "npm:^3.0.2"
-  checksum: bf8fe19e73575489e63c0726355f164157cd69e75f2a862436ad2c0586e732cb953a7255a6bc73145e8f9506ee7a723f9a569ca9a39c53984e5b12b84e1c718a
+  checksum: 2e56ea6bd821ae96bd943f727a59d85384eaf5f8a3e6fce4fa1d34453e32d8eedda742432b3857fa0de7a4214bf84ce4239757eb52918e76452c00384731e585
   languageName: node
   linkType: hard
 
@@ -13150,7 +13160,7 @@ __metadata:
     "@pzh-ui/components": "npm:^0.0.539"
     "@pzh-ui/config": "npm:^0.0.69"
     "@pzh-ui/css": "npm:^0.0.96"
-    "@pzh-ui/icons": "npm:^0.0.59"
+    "@pzh-ui/icons": "npm:^0.0.60"
     "@react-hookz/web": "npm:^24.0.4"
     "@tanstack/react-query": "npm:^5.24.7"
     "@testing-library/dom": "npm:^9.3.3"

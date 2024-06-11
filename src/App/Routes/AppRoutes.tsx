@@ -42,6 +42,7 @@ import {
     ThemeDetail,
     ThemeOverview,
 } from '@/pages/public'
+import MaintenancePage from '@/pages/public/MaintenancePage/MaintenancePage'
 
 import ProtectedRoute from './ProtectedRoute'
 
@@ -427,6 +428,10 @@ const AppRoutes = () => {
                     ],
                 },
             ],
+        },
+        {
+            path: '500',
+            element: <MaintenancePage />,
         },
         {
             path: '*',
