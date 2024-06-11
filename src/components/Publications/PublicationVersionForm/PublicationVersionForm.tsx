@@ -61,7 +61,6 @@ const PublicationVersionForm = <TData extends FormikValues>({
                                 label="Module status"
                                 placeholder="Selecteer een module status"
                                 options={statusOptions}
-                                disabled={isEdit}
                                 required
                                 styles={{
                                     menu: base => ({
