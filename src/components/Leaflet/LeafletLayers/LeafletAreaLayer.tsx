@@ -1,8 +1,7 @@
+import { Eye, EyeSlash } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useState } from 'react'
 import { useMap } from 'react-leaflet'
-
-import { Eye, EyeSlash } from '@pzh-ui/icons'
 
 import { Feature, generateImageUrl } from '@/api/axiosGeoJSON'
 import { colors } from '@/constants/leaflet'
@@ -58,7 +57,7 @@ const LeafletAreaLayer = ({
 
                     <span>
                         {layer.feature.properties.Onderverdeling ||
-                            layer.feature.properties.Gebied}
+                            layer.feature.properties.Werkingsgebied}
                     </span>
                 </div>
                 <div className="ml-2 flex w-5 align-middle">
@@ -78,7 +77,9 @@ const LeafletAreaLayer = ({
             )}
             onClick={() => {
                 onClick?.(
-                    properties?.Onderverdeling || properties?.Gebied || ''
+                    properties?.Onderverdeling ||
+                        properties?.Werkingsgebied ||
+                        ''
                 )
             }}>
             <div className="flex items-baseline gap-2">
@@ -96,7 +97,7 @@ const LeafletAreaLayer = ({
                     className={classNames({
                         'line-through': !providedIsActive,
                     })}>
-                    {properties?.Onderverdeling || properties?.Gebied}
+                    {properties?.Onderverdeling || properties?.Werkingsgebied}
                 </span>
             </div>
 

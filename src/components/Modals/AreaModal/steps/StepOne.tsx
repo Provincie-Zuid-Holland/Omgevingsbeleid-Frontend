@@ -122,6 +122,7 @@ export const StepOne = ({ data, isLoading }: StepProps) => {
                         <AreaPreview
                             key={selectedArea?.UUID}
                             area={selectedArea}
+                            isSource
                         />
                     </div>
                 </div>
