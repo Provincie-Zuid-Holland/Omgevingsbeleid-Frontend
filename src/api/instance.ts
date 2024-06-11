@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
 import getApiUrl from '@/utils/getApiUrl'
+import globalErrorBoundary from '@/utils/globalErrorBoundary'
 import globalRouter from '@/utils/globalRouter'
 import { toastNotification } from '@/utils/toastNotification'
 
@@ -33,7 +34,7 @@ instance.interceptors.response.use(
             toastNotification('notLoggedIn')
             globalRouter.navigate?.('/login')
         } else if (error.response?.status === 500) {
-            globalRouter.navigate?.('/500')
+            globalErrorBoundary.showBoundary?.(error)
         }
 
         return Promise.reject(error)
