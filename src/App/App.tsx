@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import Axe from '@/Axe'
 import { LoaderContent } from '@/components/Loader'
@@ -34,6 +34,8 @@ const queryClient = new QueryClient({
 })
 
 const App = () => {
+    const location = useLocation()
+
     const navigate = useNavigate()
     globalRouter.navigate = navigate
 
@@ -46,7 +48,7 @@ const App = () => {
             <QueryClientProvider client={queryClient}>
                 <AuthProvider>
                     <div
-                        className="relative flex min-h-screen flex-col text-pzh-blue-dark"
+                        className="text-pzh-blue-900 relative flex min-h-screen flex-col"
                         id="main-container">
                         <Helmet titleTemplate="%s - Omgevingsbeleid Provincie Zuid-Holland">
                             <meta charSet="utf-8" />
@@ -56,7 +58,9 @@ const App = () => {
                         </Helmet>
 
                         <BaseLayout hideFooter={isAdvancedSearchPage}>
-                            <ErrorBoundary FallbackComponent={ErrorPage}>
+                            <ErrorBoundary
+                                key={location.pathname}
+                                FallbackComponent={ErrorPage}>
                                 <Suspense fallback={<LoaderContent />}>
                                     <AppRoutes />
                                 </Suspense>
