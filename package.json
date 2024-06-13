@@ -6,7 +6,7 @@
     "type": "module",
     "dependencies": {
         "@headlessui/react": "^1.7.17",
-        "@pzh-ui/components": "^0.0.452",
+        "@pzh-ui/components": "^0.0.541",
         "@pzh-ui/config": "^0.0.56",
         "@pzh-ui/css": "^0.0.75",
         "@pzh-ui/icons": "^0.0.47",
