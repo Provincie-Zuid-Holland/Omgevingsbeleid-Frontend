@@ -158,7 +158,7 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
                                 <div className="mr-4">
                                     <MagnifyingGlass
                                         size={18}
-                                        className="text-pzh-blue-dark"
+                                        className="text-pzh-blue-900"
                                     />
                                 </div>
                             ),

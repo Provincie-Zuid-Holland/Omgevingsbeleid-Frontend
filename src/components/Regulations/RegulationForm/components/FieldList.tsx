@@ -123,7 +123,7 @@ const FieldList = ({
                             ))}
                         </ol>
                         <div className="flex items-center gap-4">
-                            <Text as="span" size="s" color="text-pzh-blue">
+                            <Text as="span" size="s" color="text-pzh-blue-500">
                                 Toevoegen aan deze lijst:
                             </Text>
                             {children?.map(child => {

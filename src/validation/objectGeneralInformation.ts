@@ -18,7 +18,6 @@ export const SCHEMA_GENERAL_INFORMATION = object({
         },
         ctx
     ) => {
-        console.log(Owner_1_UUID, Owner_2_UUID, ctx)
         if (Owner_1_UUID === Owner_2_UUID) {
             ctx.addIssue({
                 code: 'custom',

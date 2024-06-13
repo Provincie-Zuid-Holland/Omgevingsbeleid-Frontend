@@ -178,7 +178,7 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
                         }
                         menuPlacement="auto"
                         isLoading={isLoading}
-                        onChange={val => {
+                        onChange={(val: any) => {
                             remove('geoQuery')
                             set(
                                 'werkingsgebied',

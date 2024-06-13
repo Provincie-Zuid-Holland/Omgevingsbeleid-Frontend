@@ -1,4 +1,4 @@
-import { string, object } from 'zod'
+import { ZodIssueCode, object, string } from 'zod'
 
 export const SCHEMA = object({
     currentPassword: string({
@@ -16,7 +16,7 @@ export const SCHEMA = object({
 }).superRefine(({ currentPassword, newPassword, newPasswordCopy }, ctx) => {
     if (currentPassword === newPassword) {
         ctx.addIssue({
-            code: 'custom',
+            code: ZodIssueCode.custom,
             message:
                 'Het nieuwe wachtwoord mag niet gelijk zijn aan het oude wachtwoord',
             path: ['newPassword'],
@@ -25,7 +25,7 @@ export const SCHEMA = object({
 
     if (newPassword !== newPasswordCopy) {
         ctx.addIssue({
-            code: 'custom',
+            code: ZodIssueCode.custom,
             message: 'Het herhaalde wachtwoord komt niet overeen',
             path: ['newPasswordCopy'],
         })

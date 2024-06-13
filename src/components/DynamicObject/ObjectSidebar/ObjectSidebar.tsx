@@ -1,6 +1,6 @@
 import { Heading, Hyperlink, Text, formatDate } from '@pzh-ui/components'
 import { useMemo } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 import Avatar from '@/components/Avatar/Avatar'
 import { LoaderCard } from '@/components/Loader'
@@ -86,7 +86,7 @@ const ObjectSidebar = ({
                             <LoaderCard height="30" mb="" className="w-28" />
                         ) : !!revisions && revisions > 0 ? (
                             <button
-                                className="text-pzh-green underline"
+                                className="text-pzh-green-500 underline"
                                 onClick={handleModal}>
                                 Bekijk {revisions}{' '}
                                 {revisions === 1 ? 'revisie' : 'revisies'}
@@ -110,7 +110,7 @@ const ObjectSidebar = ({
 
             {!!user && (
                 <div>
-                    <Text size="s" className="mb-3 italic text-pzh-blue-dark">
+                    <Text size="s" className="mb-3 italic text-pzh-blue-900">
                         Onderstaande informatie is alleen inzichtelijk voor
                         gebruikers die zijn ingelogd
                     </Text>
@@ -128,14 +128,16 @@ const ObjectSidebar = ({
                             />
                         </div>
                     )} */}
-                    <Hyperlink
-                        text="Open in beheeromgeving"
-                        to={
-                            isRevision && !!moduleId
-                                ? `/muteer/modules/${moduleId}/${singular}/${Object_ID}`
-                                : `/muteer/${plural}/${Object_ID}`
-                        }
-                    />
+                    <Hyperlink asChild>
+                        <Link
+                            to={
+                                isRevision && !!moduleId
+                                    ? `/muteer/modules/${moduleId}/${singular}/${Object_ID}`
+                                    : `/muteer/${plural}/${Object_ID}`
+                            }>
+                            Open in beheeromgeving
+                        </Link>
+                    </Hyperlink>
                 </div>
             )}
         </aside>

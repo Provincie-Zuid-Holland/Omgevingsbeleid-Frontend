@@ -20,7 +20,7 @@ const ModuleLock = () => {
     if (!canEditModule && !isModuleManager && isLocked) {
         return <LockedNotification />
     } else if (!canEditModule && !isModuleManager && !isLocked) {
-        return <Divider className="mt-3" />
+        return <Divider className="mb-4" />
     }
 
     return (
@@ -64,10 +64,11 @@ interface LockedNotificationProps {
 export const LockedNotification = ({ isDetail }: LockedNotificationProps) => (
     <>
         {!isDetail && <Divider className="mt-3" />}
-        <Notification variant="alert" className={!isDetail ? 'mt-6' : ''}>
-            De module is op dit moment gelockt, er kunnen geen wijzigingen
-            worden aangebracht.
-        </Notification>
+        <Notification
+            variant="warning"
+            title="De module is op dit moment gelockt, er kunnen geen wijzigingen worden aangebracht."
+            className={!isDetail ? 'mt-6' : ''}
+        />
     </>
 )
 

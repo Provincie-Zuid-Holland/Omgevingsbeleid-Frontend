@@ -60,7 +60,7 @@ const SearchResultItem = ({
                 <Heading
                     level="3"
                     size="m"
-                    className="mb-2 group-hover:text-pzh-green">
+                    className="mb-2 group-hover:text-pzh-green-500">
                     <span
                         dangerouslySetInnerHTML={{ __html: highlightedTitle }}
                     />

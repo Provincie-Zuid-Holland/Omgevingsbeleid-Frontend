@@ -5,7 +5,7 @@ import { StepProps } from './types'
 export const StepTwo = ({ newPassword, user }: StepProps) => {
     const mailTo = {
         subject: 'Nieuw wachtwoord',
-        body: `Je wachtwoord voor https://omgevingsbeleid.zuid-holland.nl is aangepast, je nieuwe wachtwoord is:\n${newPassword}`,
+        body: `Je wachtwoord voor https://omgevingsbeleid.zuid-holland.nl is aangepast, je nieuwe wachtwoord is:%0D%0A${newPassword}`,
     }
 
     return (
@@ -21,7 +21,7 @@ export const StepTwo = ({ newPassword, user }: StepProps) => {
                 <br />
                 <a
                     href={`mailto:${user?.Email}?subject=${mailTo.subject}&body=${mailTo.body}`}
-                    className="text-pzh-green underline hover:text-pzh-green-dark">
+                    className="text-pzh-green-500 underline hover:text-pzh-green-900">
                     E-mail naar {user?.Email}
                 </a>
             </Text>

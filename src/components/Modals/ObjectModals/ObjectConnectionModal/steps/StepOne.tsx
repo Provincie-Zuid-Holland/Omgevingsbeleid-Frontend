@@ -1,6 +1,6 @@
 import { Button, Divider, Heading, Text } from '@pzh-ui/components'
 import { PenToSquare, TrashCan } from '@pzh-ui/icons'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
 
@@ -120,7 +120,10 @@ const Connection = ({
                                 setStep(3)
                             }}
                             aria-label="Wijzigen">
-                            <PenToSquare size={16} className="text-pzh-green" />
+                            <PenToSquare
+                                size={16}
+                                className="text-pzh-green-500"
+                            />
                         </button>
                     )}
                     <button
@@ -132,7 +135,7 @@ const Connection = ({
                             setStep(4)
                         }}
                         aria-label="Verwijderen">
-                        <TrashCan size={16} className="text-pzh-red" />
+                        <TrashCan size={16} className="text-pzh-red-500" />
                     </button>
                 </div>
             </div>

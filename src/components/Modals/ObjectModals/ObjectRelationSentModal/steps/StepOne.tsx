@@ -1,7 +1,6 @@
-import { useMemo } from 'react'
-
 import { Divider, Heading, Text } from '@pzh-ui/components'
 import { PenToSquare } from '@pzh-ui/icons'
+import { useMemo } from 'react'
 
 import ObjectAcknowledgedRelationPart from '@/components/DynamicObject/ObjectAcknowledgedRelationPart'
 
@@ -52,7 +51,7 @@ export const StepOne = ({
                         type="button"
                         className="px-3"
                         onClick={() => handleEdit(relation)}>
-                        <PenToSquare size={20} className="text-pzh-green" />
+                        <PenToSquare size={20} className="text-pzh-green-500" />
                         <span className="sr-only">Wijzigen</span>
                     </button>
                 </div>

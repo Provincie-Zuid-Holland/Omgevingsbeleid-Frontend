@@ -70,7 +70,7 @@ const FieldGroup = ({ name, label, index, ...props }: RegulationFieldProps) => {
                         })}
 
                         <div className="mt-2 flex items-center gap-4">
-                            <Text as="span" size="s" color="text-pzh-blue">
+                            <Text as="span" size="s" color="text-pzh-blue-500">
                                 Invoegen in deze groep:
                             </Text>
                             {children?.map(child => {
