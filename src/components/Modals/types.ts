@@ -25,7 +25,7 @@ export type ModalType =
     | 'objectDetails'
     | 'objectAddConnection'
     | 'objectDelete'
-    | 'objectPerson'
+    | 'objectGeneralInformation'
     | 'objectRelationAdd'
     | 'objectRelationApproved'
     | 'objectRelationReceived'

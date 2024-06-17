@@ -1,4 +1,5 @@
 import { useCallback, useLayoutEffect } from 'react'
+import { useErrorBoundary } from 'react-error-boundary'
 import { useNavigate, useRoutes } from 'react-router-dom'
 
 import * as models from '@/config/objects'
@@ -43,10 +44,14 @@ import {
     ThemeOverview,
 } from '@/pages/public'
 import MaintenancePage from '@/pages/public/MaintenancePage/MaintenancePage'
+import globalErrorBoundary from '@/utils/globalErrorBoundary'
 
 import ProtectedRoute from './ProtectedRoute'
 
 const AppRoutes = () => {
+    const { showBoundary } = useErrorBoundary()
+    globalErrorBoundary.showBoundary = showBoundary
+
     const routes = useRoutes([
         /**
          * Public pages
