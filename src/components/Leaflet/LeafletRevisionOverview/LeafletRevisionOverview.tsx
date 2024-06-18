@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useMap } from 'react-leaflet'
 
 import { getGeoJsonData } from '@/api/axiosGeoJSON'
+import { useWerkingsgebiedenLatestLineageIdGet } from '@/api/fetchers'
 import ToggleableSection from '@/components/ToggleableSection'
 
 import { LeafletAreaLayer, LeafletControlLayer } from '../LeafletLayers'
@@ -16,8 +17,8 @@ import LeafletMap from '../LeafletMap'
 
 interface LeafletRevisionOverviewProps {
     area: {
-        old?: string
-        new?: string
+        old?: number
+        new?: number
         type: string
     }
     id?: string
@@ -49,17 +50,31 @@ const LeafletRevisionOverviewInner = ({
 
     const [werkingsgebied, setWerkingsgebied] = useState<any[]>([])
 
+    const { data: oldUUID } = useWerkingsgebiedenLatestLineageIdGet(area.old!, {
+        query: {
+            enabled: !!area.old,
+            select: data => data.Area_UUID,
+        },
+    })
+
+    const { data: newUUID } = useWerkingsgebiedenLatestLineageIdGet(area.new!, {
+        query: {
+            enabled: !!area.new,
+            select: data => data.Area_UUID,
+        },
+    })
+
     const geoQueries = useQueries({
         queries: [
             {
-                queryKey: ['mainDataFrom', area.type, area.old],
-                queryFn: () => getGeoJsonData(area.type, area.old!, { signal }),
-                enabled: !!area.type && !!area.old,
+                queryKey: ['mainDataFrom', area.type, oldUUID],
+                queryFn: () => getGeoJsonData(area.type, oldUUID!, { signal }),
+                enabled: !!area.type && !!oldUUID,
             },
             {
-                queryKey: ['mainDataTo', area.type, area.new],
-                queryFn: () => getGeoJsonData(area.type, area.new!, { signal }),
-                enabled: !!area.type && !!area.new && area.old !== area.new,
+                queryKey: ['mainDataTo', area.type, newUUID],
+                queryFn: () => getGeoJsonData(area.type, newUUID!, { signal }),
+                enabled: !!area.type && !!newUUID && area.old !== area.new,
             },
         ],
     })
@@ -95,8 +110,8 @@ const LeafletRevisionOverviewInner = ({
                     onEachFeature: (feature, layer) => {
                         if (feature.properties) {
                             layer.bindPopup(
-                                feature.properties.Gebied
-                                    ? feature.properties.Gebied
+                                feature.properties.Source_Title
+                                    ? feature.properties.Source_Title
                                     : 'Deze laag heeft nog geen titel'
                             )
                         }
@@ -116,8 +131,8 @@ const LeafletRevisionOverviewInner = ({
                     onEachFeature: (feature, layer) => {
                         if (feature.properties) {
                             layer.bindPopup(
-                                feature.properties.Gebied
-                                    ? feature.properties.Gebied
+                                feature.properties.Source_Title
+                                    ? feature.properties.Source_Title
                                     : 'Deze laag heeft nog geen titel'
                             )
                         }
