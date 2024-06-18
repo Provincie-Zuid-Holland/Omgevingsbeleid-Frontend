@@ -3,10 +3,10 @@ import { object } from 'zod'
 import { schemaDefaults } from '@/validation/zodSchema'
 
 export const SCHEMA_GENERAL_INFORMATION = object({
-    Client_1_UUID: schemaDefaults.optionalString,
+    Client_1_UUID: schemaDefaults.requiredString(),
     Owner_1_UUID: schemaDefaults.requiredString(),
     Owner_2_UUID: schemaDefaults.optionalString,
-    Portfolio_Holder_1_UUID: schemaDefaults.optionalString,
+    Portfolio_Holder_1_UUID: schemaDefaults.requiredString(),
     Portfolio_Holder_2_UUID: schemaDefaults.optionalString,
 }).superRefine(
     (

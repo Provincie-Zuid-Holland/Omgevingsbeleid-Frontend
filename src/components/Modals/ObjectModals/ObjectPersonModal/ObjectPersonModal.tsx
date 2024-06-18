@@ -90,7 +90,7 @@ const ObjectPersonModal = ({ model }: ObjectPersonModalProps) => {
                 )}
                 validateOnChange
                 enableReinitialize>
-                {({ isValid, isSubmitting }) => (
+                {({ isValid, isSubmitting, dirty }) => (
                     <Form>
                         <div className="space-y-4">
                             {staticData.map(item => {
@@ -147,7 +147,7 @@ const ObjectPersonModal = ({ model }: ObjectPersonModalProps) => {
                             <Button
                                 variant="cta"
                                 type="submit"
-                                isDisabled={!isValid || isSubmitting}
+                                isDisabled={!isValid || isSubmitting || !dirty}
                                 isLoading={isSubmitting}>
                                 Opslaan
                             </Button>
