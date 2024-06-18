@@ -233,7 +233,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                         !model.acknowledgedRelation && (
                             <div
                                 className={classNames('order-8', {
-                                    'mt-4 md:mt-8': !!data?.Gebied,
+                                    'mt-4 md:mt-8': !!data?.Werkingsgebied_Statics,
                                 })}>
                                 <ObjectConnectionsPublic
                                     model={model}
@@ -246,7 +246,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                         !!model.acknowledgedRelation && (
                             <div
                                 className={classNames('order-9', {
-                                    'mt-4 md:mt-8': !!data?.Gebied,
+                                    'mt-4 md:mt-8': !!data?.Werkingsgebied_Statics,
                                 })}>
                                 <ObjectRelationsPublic
                                     model={model}
