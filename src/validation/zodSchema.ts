@@ -1,4 +1,11 @@
-import { custom, instanceof as instanceOf, number, string } from 'zod'
+import {
+    ZodTypeAny,
+    any,
+    custom,
+    instanceof as instanceOf,
+    number,
+    string,
+} from 'zod'
 
 export const schemaDefaults = {
     requiredString: (msg = 'Dit veld is verplicht.') =>
@@ -62,4 +69,15 @@ const customRteValidation = () =>
 
 export type Validation = {
     [K in keyof typeof schemaDefaults]?: (typeof schemaDefaults)[K]
+}
+
+export function zodAlwaysRefine<T extends ZodTypeAny>(zodType: T) {
+    return any().superRefine(async (value, ctx) => {
+        const res = await zodType.safeParseAsync(value)
+
+        if (res.success === false)
+            for (const issue of res.error.issues) {
+                ctx.addIssue(issue)
+            }
+    }) as unknown as T
 }

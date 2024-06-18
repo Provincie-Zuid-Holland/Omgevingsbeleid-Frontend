@@ -16,7 +16,7 @@ import {
     getStaticDataPropertyKey,
     getStaticDataPropertyRequired,
 } from '@/utils/dynamicObject'
-import { SCHEMA_GENERAL_INFORMATION } from '@/validation/objectGeneralInformation'
+import { generateSchema } from '@/validation/objectGeneralInformation'
 
 interface ObjectPersonModalProps {
     model: Model
@@ -86,9 +86,8 @@ const ObjectPersonModal = ({ model }: ObjectPersonModalProps) => {
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
                 validationSchema={toFormikValidationSchema(
-                    SCHEMA_GENERAL_INFORMATION
+                    generateSchema(staticData)
                 )}
-                validateOnChange
                 enableReinitialize>
                 {({ isValid, isSubmitting, dirty }) => (
                     <Form>
