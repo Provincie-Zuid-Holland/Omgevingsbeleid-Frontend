@@ -18,7 +18,7 @@ export const SCHEMA_GENERAL_INFORMATION = object({
         },
         ctx
     ) => {
-        if (Owner_1_UUID === Owner_2_UUID) {
+        if (!!Owner_1_UUID && !!Owner_2_UUID && Owner_1_UUID === Owner_2_UUID) {
             ctx.addIssue({
                 code: 'custom',
                 message:
@@ -34,7 +34,11 @@ export const SCHEMA_GENERAL_INFORMATION = object({
             })
         }
 
-        if (Portfolio_Holder_1_UUID === Portfolio_Holder_2_UUID) {
+        if (
+            !!Portfolio_Holder_1_UUID &&
+            !!Portfolio_Holder_2_UUID &&
+            Portfolio_Holder_1_UUID === Portfolio_Holder_2_UUID
+        ) {
             ctx.addIssue({
                 code: 'custom',
                 message:
