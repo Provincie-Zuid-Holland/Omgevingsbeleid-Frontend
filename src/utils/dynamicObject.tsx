@@ -50,12 +50,12 @@ export const getStaticDataPropertyRequired = (
     key: keyof ModelPatchStaticType
 ) => {
     switch (key) {
-        case 'Client_1_UUID':
         case 'Owner_2_UUID':
-        case 'Portfolio_Holder_1_UUID':
         case 'Portfolio_Holder_2_UUID':
             return false
         case 'Owner_1_UUID':
+        case 'Client_1_UUID':
+        case 'Portfolio_Holder_1_UUID':
             return true
         default:
             throw new Error(
