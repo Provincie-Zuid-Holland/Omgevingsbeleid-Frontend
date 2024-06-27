@@ -5,7 +5,7 @@ import { useBeleidsdoelenVersionObjectUuidGet } from '@/api/fetchers'
 import { ReadRelationShortBeleidskeuzeMinimal } from '@/api/fetchers.schemas'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
-import { LoaderContent } from '@/components/Loader'
+import { LoaderContent, LoaderSpinner } from '@/components/Loader'
 import TableOfContents from '@/components/TableOfContents'
 import * as models from '@/config/objects'
 import { ModelReturnType, ModelType } from '@/config/objects/types'
@@ -86,7 +86,7 @@ const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
         model.defaults
     const { useGetVersion } = model.fetchers
 
-    const { data } =
+    const { data, isFetching } =
         useGetVersion<ModelReturnType>?.(Object.UUID!, {
             query: { enabled: !!Object.UUID },
         }) || {}
@@ -97,7 +97,9 @@ const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
                 {Object.Title}
             </Heading>
 
-            {!!data?.Maatregelen?.length ? (
+            {isFetching ? (
+                <LoaderSpinner />
+            ) : !!data?.Maatregelen?.length ? (
                 <div className="flex flex-col">
                     {data.Maatregelen.map(item => {
                         const model =
