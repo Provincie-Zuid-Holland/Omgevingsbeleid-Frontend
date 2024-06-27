@@ -11,7 +11,7 @@ import { AngleRight, MagnifyingGlass } from '@pzh-ui/icons'
 import { useUpdateEffect } from '@react-hookz/web'
 import { keepPreviousData } from '@tanstack/react-query'
 import { ChangeEvent, KeyboardEvent, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { useModulesObjectsLatestGet, useSearchValidPost } from '@/api/fetchers'
 import { ModuleObjectShortStatus } from '@/api/fetchers.schemas'
@@ -79,11 +79,10 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
                 <div className="mb-6 flex items-center justify-between">
                     <Heading size="xxl">{pluralCapitalize}</Heading>
                     {atemporal && canCreateModule ? (
-                        <Button
-                            as="a"
-                            href={`/muteer/${plural}/nieuw`}
-                            variant="cta">
-                            {prefixNewObject} {singularReadable}
+                        <Button asChild variant="cta">
+                            <Link to={`/muteer/${plural}/nieuw`}>
+                                {prefixNewObject} {singularReadable}
+                            </Link>
                         </Button>
                     ) : (
                         activeTab !== 'latest' && (
@@ -303,6 +302,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                     enableMultiSort={false}
                     limit={!query ? PAGE_LIMIT : undefined}
                     total={!query ? data?.total : undefined}
+                    current={pageIndex}
                     onPaginationChange={setPagination}
                     state={{
                         sorting: sortBy,

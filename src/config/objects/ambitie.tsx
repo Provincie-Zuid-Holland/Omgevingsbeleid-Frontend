@@ -1,5 +1,6 @@
 import { Hyperlink } from '@pzh-ui/components'
 import { ArrowTrendUp } from '@pzh-ui/icons'
+import { Link } from 'react-router-dom'
 
 import {
     useAmbitieStaticLineageIdPost,
@@ -76,7 +77,10 @@ const ambitie: DynamicObject<
             ambitie is veelal gekoppeld met beleidsdoelen. Hieronder een
             overzicht van de beleidsdoelen van deze ambitie. Bekijk voor het
             volledige overzicht het{' '}
-            <Hyperlink text="beleidsnetwerk" to="/beleidsnetwerk" />.
+            <Hyperlink asChild>
+                <Link to="/beleidsnetwerk">beleidsnetwerk</Link>
+            </Hyperlink>
+            .
         </>
     ),
     fetchers,

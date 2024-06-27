@@ -1,13 +1,14 @@
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
+import { Heading, Text } from '@pzh-ui/components'
 import { Helmet } from 'react-helmet-async'
 
+import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import imgDigiToegankelijkheid from '@/images/digi-toegankelijkheid.webp'
 
 function Accessibility() {
     const breadcrumbPaths = [
-        { name: 'Home', path: '/' },
-        { name: 'Digitale toegankelijkheid', path: '/digi-toegankelijkheid' },
+        { name: 'Home', to: '/' },
+        { name: 'Digitale toegankelijkheid', to: '/digi-toegankelijkheid' },
     ]
 
     return (
@@ -17,7 +18,7 @@ function Accessibility() {
             <img
                 src={imgDigiToegankelijkheid}
                 alt=""
-                className="hidden h-[288px] w-full bg-pzh-blue object-cover md:block"
+                className="hidden h-[288px] w-full bg-pzh-blue-500 object-cover md:block"
             />
 
             <Container className="overflow-hidden pb-20">
@@ -54,14 +55,14 @@ function Accessibility() {
                         dan contact op met ons Contact Centrum via{' '}
                         <a
                             href="mailto:zuidholland@pzh.nl"
-                            className="text-pzh-green underline hover:text-pzh-green-dark">
+                            className="text-pzh-green-500 underline hover:text-pzh-green-900">
                             zuidholland@pzh.nl
                         </a>{' '}
                         of kijk op{' '}
                         <a
                             href="www.zuid-holland.nl/contact"
                             target="_blank"
-                            className="text-pzh-green underline hover:text-pzh-green-dark"
+                            className="text-pzh-green-500 underline hover:text-pzh-green-900"
                             rel="noopener noreferrer">
                             www.zuid-holland.nl/contact
                         </a>

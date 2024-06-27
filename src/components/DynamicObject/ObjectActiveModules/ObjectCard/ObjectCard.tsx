@@ -1,4 +1,5 @@
 import { Button, Heading, Text } from '@pzh-ui/components'
+import { Link } from 'react-router-dom'
 
 import * as models from '@/config/objects'
 import { ModelReturnType, ModelType } from '@/config/objects/types'
@@ -18,12 +19,10 @@ const ObjectCard = ({ Object_Type, Object_ID, Title }: ModelReturnType) => {
                 {Title}
             </Heading>
             <div className="mt-auto">
-                <Button
-                    as="a"
-                    href={`/muteer/${plural}/${Object_ID}`}
-                    size="small"
-                    variant="secondary">
-                    Bekijk {singularReadable}
+                <Button asChild size="small" variant="secondary">
+                    <Link to={`/muteer/${plural}/${Object_ID}`}>
+                        Bekijk {singularReadable}
+                    </Link>
                 </Button>
             </div>
         </li>

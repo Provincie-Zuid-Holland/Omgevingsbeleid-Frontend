@@ -70,7 +70,6 @@ const LeafletTinyViewerInner = ({ uuid, isSource }: LeafletTinyViewerProps) => {
             transparent: true,
             cql_filter: `UUID='${uuid}'`,
             tiled: true,
-            maxFeatures: 50,
             updateWhenZooming: false,
             tileSize: 512,
         }
@@ -86,9 +85,11 @@ const LeafletTinyViewerInner = ({ uuid, isSource }: LeafletTinyViewerProps) => {
             }
         )
         // const subLayerInstance = Leaflet.tileLayer.wms(
-        //     `${import.meta.env.VITE_GEOSERVER_API_URL}/geoserver/Omgevingsbeleid/wms`,
+        //     `${
+        //         import.meta.env.VITE_GEOSERVER_API_URL
+        //     }/geoserver/Omgevingsbeleid/wms`,
         //     {
-        //         layers: 'OMGEVINGSBELEID:Werkingsgebieden_Onderverdeling',
+        //         layers: 'Omgevingsbeleid:Werkingsgebieden_Onderverdeling',
         //         zIndex: 2,
         //         ...defaultLayerOptions,
         //     }
@@ -111,9 +112,9 @@ const LeafletTinyViewerInner = ({ uuid, isSource }: LeafletTinyViewerProps) => {
     }
 
     useEffect(
-        () => /*onderverdeling && */ werkingsgebied && initializeMap(),
+        () => /*onderverdeling || */ werkingsgebied && initializeMap(),
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [/*onderverdeling, */ werkingsgebied]
+        [/* onderverdeling , */ werkingsgebied]
     )
 
     const handleFilter = useCallback(

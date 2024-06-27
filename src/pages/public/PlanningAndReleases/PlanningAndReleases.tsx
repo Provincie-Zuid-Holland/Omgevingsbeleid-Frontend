@@ -35,7 +35,7 @@ const PlanningAndReleases = () => (
                     contact op met ons via{' '}
                     <a
                         href="mailto:omgevingsbeleid@pzh.nl"
-                        className="text-pzh-green underline hover:text-pzh-green-dark">
+                        className="text-pzh-green-500 underline hover:text-pzh-green-900">
                         omgevingsbeleid@pzh.nl
                     </a>
                     .
@@ -160,7 +160,7 @@ const ReleaseList = ({ releases = [] }: { releases: Releases }) => {
             {releases.length > currentViewAmount ? (
                 <li
                     onClick={increaseViewAmount}
-                    className="col-span-6 cursor-pointer py-4 text-pzh-green underline hover:text-pzh-green-dark lg:col-span-5 lg:col-start-2">
+                    className="col-span-6 cursor-pointer py-4 text-pzh-green-500 underline hover:text-pzh-green-900 lg:col-span-5 lg:col-start-2">
                     Toon meer releases
                 </li>
             ) : null}
@@ -188,7 +188,7 @@ const ReleaseListItem = ({
             </div>
             <div className="col-span-6 lg:col-span-5">
                 <Heading
-                    color="text-pzh-pink-dark"
+                    color="text-pzh-pink-900"
                     className="mt-4 lg:mt-0"
                     level="3"
                     size="m">
@@ -256,11 +256,11 @@ const OntwikkelingenListItem = ({
     icon?: JSX.Element
 }) => (
     <li className="relative col-span-6 mt-6 pl-8 sm:mt-8 lg:col-span-3">
-        <span className="absolute left-0 h-4 w-4 text-pzh-pink-dark">
+        <span className="absolute left-0 h-4 w-4 text-pzh-pink-900">
             {icon ? icon : <ArrowUpRightFromSquare size={22} />}
         </span>
         <div>
-            <Heading level="3" size="m" color="text-pzh-pink-dark">
+            <Heading level="3" size="m" color="text-pzh-pink-900">
                 {title}
             </Heading>
             <p className="mt-2">{children}</p>

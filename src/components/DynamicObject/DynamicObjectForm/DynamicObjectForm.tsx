@@ -20,6 +20,7 @@ interface DynamicObjectFormProps<TData> {
     defaultValues?: {
         [key: string]: FieldSelectProps['defaultValue']
     }
+    canEdit?: boolean
 }
 
 const DynamicObjectForm = <TData extends FormikValues>({
@@ -39,7 +40,8 @@ const DynamicObjectForm = <TData extends FormikValues>({
                 }
                 validateOnMount
                 onSubmit={handleSubmit}
-                enableReinitialize>
+                enableReinitialize
+                validateOnBlur={false}>
                 {props => (
                     <ObjectForm
                         model={model}
@@ -65,6 +67,7 @@ const ObjectForm = <TData extends FormikValues>({
     isSubmitting,
     dirty,
     defaultValues,
+    canEdit = true,
 }: Omit<DynamicObjectFormProps<TData>, 'initialData' | 'handleSubmit'> &
     FormikProps<TData>) => {
     const sections = model.dynamicSections
@@ -94,7 +97,7 @@ const ObjectForm = <TData extends FormikValues>({
 
             <ButtonSubmitFixed
                 onCancel={onCancel}
-                disabled={isSubmitting || isLoading || isLocked}
+                disabled={isSubmitting || isLoading || isLocked || !canEdit}
                 isLoading={isSubmitting}
             />
 

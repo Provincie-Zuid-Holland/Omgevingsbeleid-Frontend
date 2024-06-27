@@ -1,11 +1,11 @@
-import classNames from 'classnames'
-
 import {
     Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
-} from '@/components/Accordion'
+} from '@pzh-ui/components'
+import classNames from 'clsx'
+
 import DropArea from '@/components/DropArea'
 import * as sections from '@/config/regulations/sections'
 import { Structure } from '@/config/regulations/types'
@@ -51,9 +51,10 @@ const RecursiveAccordion = ({
 
     return (
         <Accordion
+            type="single"
             className="mb-3"
-            activeItem={!expanded ? activeItem : undefined}
-            onClickCallback={hasCallback ? setActiveItem : undefined}>
+            value={(hasCallback && activeItem) || undefined}
+            collapsible>
             {structure.map(
                 (
                     {
@@ -81,8 +82,7 @@ const RecursiveAccordion = ({
                     return (
                         <AccordionItem
                             key={uuid}
-                            uuid={uuid}
-                            isDisabled={!!!section.children?.length}
+                            value={uuid || ''}
                             className={classNames(
                                 'relative block',
                                 GROUP_VARIANTS[parentType][0],
@@ -110,16 +110,15 @@ const RecursiveAccordion = ({
                                 />
                             )}
                             <AccordionTrigger
+                                onClick={
+                                    hasCallback
+                                        ? () => setActiveItem(uuid)
+                                        : undefined
+                                }
                                 className={classNames('overflow-hidden py-2', {
-                                    'active:animate-pulse active:cursor-grabbing active:bg-pzh-blue-light/10':
+                                    'active:animate-pulse active:cursor-grabbing active:bg-pzh-blue-100/10':
                                         expanded && structure.length > 1,
                                     'pr-4': !!!section.children?.length,
-                                })}
-                                classNameButton={classNames({
-                                    'after:w-full': structure.length <= 1,
-                                    'after:w-[calc(100%-36px)]':
-                                        structure.length > 1,
-                                    hidden: !expanded,
                                 })}
                                 {...dragProps([...parentIndices, index])}>
                                 <Handle
@@ -136,7 +135,7 @@ const RecursiveAccordion = ({
                                 className={classNames(
                                     structure.length > 1
                                         ? 'pl-[72px]'
-                                        : 'pl-[40px]',
+                                        : 'pl-10',
                                     { hidden: !expanded }
                                 )}>
                                 {!!children?.length && (

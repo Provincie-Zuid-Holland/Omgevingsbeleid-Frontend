@@ -27,9 +27,9 @@ interface RegulationState {
     /** Set dragging item */
     setDraggingItem: (item: number[] | null) => void
     /** Active item */
-    activeItem?: string
+    activeItem?: string | null
     /** Set active item */
-    setActiveItem: (item?: string) => void
+    setActiveItem: (item?: string | null) => void
     /** Active item */
     itemAction?: RegulationAction
     /** Set active item */

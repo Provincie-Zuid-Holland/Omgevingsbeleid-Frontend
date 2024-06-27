@@ -29,7 +29,10 @@ const ModuleTile = ({ Title, Status, Module_ID, Closed }: Module) => {
                 {!Closed && (
                     <div className="order-2 col-span-1 flex items-center justify-end sm:order-3">
                         <div className="transition group-hover:translate-x-1">
-                            <AngleRight size={18} className="text-pzh-green" />
+                            <AngleRight
+                                size={18}
+                                className="text-pzh-green-500"
+                            />
                         </div>
                     </div>
                 )}
