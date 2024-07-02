@@ -1,11 +1,10 @@
 import { Transition } from '@headlessui/react'
-import { FieldSelect, Heading, Text } from '@pzh-ui/components'
+import { Heading, Text } from '@pzh-ui/components'
 import { ArrowLeft, DrawPolygon, LocationDot } from '@pzh-ui/icons'
 import Leaflet, { latLng } from 'leaflet'
-import { ReactNode, useEffect, useMemo, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useWerkingsgebiedenValidGet } from '@/api/fetchers'
 import { LeafletSearchInput } from '@/components/Leaflet'
 import { MAP_SEARCH_PAGE } from '@/constants/leaflet'
 import useSearchParam from '@/hooks/useSearchParam'
@@ -32,24 +31,24 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
     const [werkingsgebied, setWerkingsgebied] =
         useState<Leaflet.TileLayer.WMS | null>(null)
 
-    const { data, isLoading } = useWerkingsgebiedenValidGet({
-        limit: 1000,
-        sort_column: 'Title',
-        sort_order: 'ASC',
-    })
-    const selectedVal = useMemo(
-        () => data?.results.find(item => item.UUID === paramWerkingsgebied),
-        [data, paramWerkingsgebied]
-    )
+    // const { data, isLoading } = useWerkingsgebiedenValidGet({
+    //     limit: 1000,
+    //     sort_column: 'Title',
+    //     sort_order: 'ASC',
+    // })
+    // const selectedVal = useMemo(
+    //     () => data?.results.find(item => item.UUID === paramWerkingsgebied),
+    //     [data, paramWerkingsgebied]
+    // )
 
-    const options = useMemo(
-        () =>
-            data?.results.map(option => ({
-                label: option.Title,
-                value: option.Area_UUID,
-            })),
-        [data]
-    )
+    // const options = useMemo(
+    //     () =>
+    //         data?.results.map(option => ({
+    //             label: option.Title,
+    //             value: option.Area_UUID,
+    //         })),
+    //     [data]
+    // )
 
     const goBack = () => {
         navigate(MAP_SEARCH_PAGE)
@@ -149,7 +148,7 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
                     </>
                 )}
 
-                <InfoText
+                {/* <InfoText
                     title="Werkingsgebied"
                     description="Selecteer een werkingsgebied om het gekoppelde beleid in te zien."
                 />
@@ -186,7 +185,7 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
                             )
                         }}
                     />
-                )}
+                )} */}
             </Transition>
 
             <Transition
