@@ -5,7 +5,9 @@ export const schemaDefaults = {
         string({
             required_error: msg,
             invalid_type_error: msg,
-        }).trim(),
+        })
+            .trim()
+            .min(1, 'Dit veld is verplicht.'),
     optionalString: string().optional().nullable(),
     requiredNumber: (msg = 'Dit veld is verplicht.') =>
         number({
