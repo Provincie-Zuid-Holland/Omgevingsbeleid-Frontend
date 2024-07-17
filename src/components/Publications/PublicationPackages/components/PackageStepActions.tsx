@@ -1,6 +1,14 @@
-import { Button, FileTrigger, Tag, Text, formatDate } from '@pzh-ui/components'
+import {
+    Button,
+    FileTrigger,
+    Notification,
+    Tag,
+    Text,
+    formatDate,
+} from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 import clsx from 'clsx'
 import { useMemo, useState } from 'react'
 
@@ -13,9 +21,11 @@ import {
     usePublicationVersionsVersionUuidPackagesPost,
 } from '@/api/fetchers'
 import {
+    HTTPValidationError,
     PublicationPackage,
     PublicationVersionShort,
 } from '@/api/fetchers.schemas'
+import useModalStore from '@/store/modalStore'
 import { downloadFile } from '@/utils/file'
 
 import { PublicationPackageProps } from '../PublicationPackages'
@@ -52,24 +62,35 @@ const CreateAction = ({
 }: PackageStepActionsProps) => {
     const queryClient = useQueryClient()
 
-    const { mutate: create, isPending } =
-        usePublicationVersionsVersionUuidPackagesPost({
-            mutation: {
-                onSuccess: () => {
-                    queryClient.invalidateQueries({
-                        queryKey: getPublicationActPackagesGetQueryKey({
-                            version_uuid: version.UUID,
-                        }),
-                    })
-                    queryClient.invalidateQueries({
-                        queryKey:
-                            getPublicationsPublicationUuidVersionsGetQueryKey(
-                                version.Publication_UUID
-                            ),
-                    })
-                },
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
+    const {
+        mutate: create,
+        isPending,
+        isError,
+        error,
+    } = usePublicationVersionsVersionUuidPackagesPost({
+        mutation: {
+            onSuccess: () => {
+                queryClient.invalidateQueries({
+                    queryKey: getPublicationActPackagesGetQueryKey({
+                        version_uuid: version.UUID,
+                    }),
+                })
+                queryClient.invalidateQueries({
+                    queryKey: getPublicationsPublicationUuidVersionsGetQueryKey(
+                        version.Publication_UUID
+                    ),
+                })
             },
-        })
+            onError: (error: AxiosError<HTTPValidationError>) => {
+                console.error(
+                    'Er is iets mis gegaan bij het maken van de levering, zie foutmelding:\n\n',
+                    JSON.stringify(error.response?.data.detail, null, 2)
+                )
+            },
+        },
+    })
 
     const handleAction = () =>
         create({
@@ -94,20 +115,56 @@ const CreateAction = ({
     }
 
     return (
-        <div className="flex items-center gap-2 whitespace-nowrap">
-            {isPending && !hideDescription && (
-                <Text size="s" className="text-pzh-gray-600">
-                    Levering wordt gemaakt, dit kan even duren..
-                </Text>
+        <>
+            <div className="flex items-center gap-2 whitespace-nowrap">
+                {isPending && !hideDescription && (
+                    <Text size="s" className="text-pzh-gray-600">
+                        Levering wordt gemaakt, dit kan even duren..
+                    </Text>
+                )}
+                <Button
+                    variant="cta"
+                    isDisabled={!isActive || isPending}
+                    onPress={handleAction}
+                    isLoading={isPending}>
+                    {buttonLabel}
+                </Button>
+            </div>
+            {isError && !!error && (
+                <Notification
+                    variant="negative"
+                    title={
+                        error.response?.status === 409 ? (
+                            <>
+                                Er zijn nog onjuiste of ontbrekende gegevens in
+                                deze versie van de publicatie.{' '}
+                                <Button
+                                    variant="default"
+                                    onPress={() =>
+                                        setActiveModal(
+                                            'publicationVersionEdit',
+                                            {
+                                                publicationUUID:
+                                                    version.Publication_UUID,
+                                                UUID: version.UUID,
+                                                isRequired: true,
+                                                error: error.response,
+                                            }
+                                        )
+                                    }
+                                    className="text-pzh-blue-500 underline hover:no-underline">
+                                    Wijzig / vul de gegevens aan
+                                </Button>{' '}
+                                om de levering te kunnen maken.
+                            </>
+                        ) : (
+                            'Er is iets mis gegaan, bekijk je console voor de technische details.'
+                        )
+                    }
+                    className="mt-2"
+                />
             )}
-            <Button
-                variant="cta"
-                isDisabled={!isActive || isPending}
-                onPress={handleAction}
-                isLoading={isPending}>
-                {buttonLabel}
-            </Button>
-        </div>
+        </>
     )
 }
 

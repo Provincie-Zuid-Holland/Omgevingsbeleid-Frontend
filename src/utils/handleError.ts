@@ -2,14 +2,19 @@ import { FormikHelpers } from 'formik'
 
 import { HTTPValidationError } from '@/api/fetchers.schemas'
 
-interface Error {
+export interface Error {
     data: HTTPValidationError
 }
 
+const ERRORS: { [key: string]: string } = {
+    'none is not an allowed value': 'Dit veld is verplicht.',
+}
+
 const handleError = <T>(err: Error, helpers: FormikHelpers<T>) => {
-    err.data?.detail?.forEach(item =>
-        helpers.setFieldError(item.loc[1].toString(), item.msg)
-    )
+    err.data?.detail?.forEach(item => {
+        helpers.setFieldError(item.loc.join('.'), ERRORS[item.msg] || item.msg)
+        helpers.setFieldTouched(item.loc.join('.'), true)
+    })
 
     helpers.setSubmitting(false)
 }

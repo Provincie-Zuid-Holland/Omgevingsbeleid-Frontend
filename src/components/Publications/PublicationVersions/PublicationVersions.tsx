@@ -141,8 +141,10 @@ const VersionRow = ({
                             className="text-pzh-green-500"
                             onPress={() =>
                                 setActiveModal('publicationVersionEdit', {
-                                    publication,
+                                    publicationUUID: version.Publication_UUID,
                                     UUID: version.UUID,
+                                    isRequired: false,
+                                    error: undefined,
                                 })
                             }>
                             Bewerken
