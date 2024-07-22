@@ -106,7 +106,7 @@ const DynamicField = ({
                         </RteMenuButton>
                     ),
                     className:
-                        '[&_[data-gebiedengroep]]:text-pzh-blue-900 [&_[data-gebiedengroep]]:bg-pzh-blue-10 [&_[data-gebiedengroep]]:inline-block',
+                        '[&_[data-gebiedengroep]]:text-pzh-blue-900 [&_[data-gebiedengroep]]:bg-pzh-blue-10',
                 })}
                 {...field}
             />
