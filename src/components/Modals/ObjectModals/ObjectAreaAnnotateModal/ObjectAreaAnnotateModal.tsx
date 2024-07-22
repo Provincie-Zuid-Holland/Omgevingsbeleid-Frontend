@@ -25,12 +25,12 @@ const ObjectAreaAnnotateModal = () => {
         },
     ]
 
-    const areaTypeOptions = [{ label: 'Type 1', value: 'type-1' }]
+    const areaTypeOptions = [{ label: 'Type 1', value: 'areaType-1' }]
 
     const areaGroupOptions = [
         {
-            label: 'Gebiedengroep 1',
-            value: 'group-1',
+            label: 'Gebiedsaanwijzinggroep 1',
+            value: 'areaGroup-1',
         },
     ]
 
