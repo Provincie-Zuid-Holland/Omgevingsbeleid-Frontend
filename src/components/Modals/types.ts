@@ -1,3 +1,5 @@
+import { Editor } from '@tiptap/core'
+
 import {
     DocumentType,
     Module,
@@ -23,6 +25,7 @@ export type ModalType =
     | 'moduleEditObject'
     | 'moduleDeleteObject'
     | 'areaAdd'
+    | 'objectAreaAnnotate'
     | 'objectDetails'
     | 'objectAddConnection'
     | 'objectDelete'
@@ -49,6 +52,9 @@ export interface ModalStateMap {
     moduleDeleteObject: {
         object: ModuleObjectShort
         module: Module
+    }
+    objectAreaAnnotate: {
+        editor: Editor
     }
     publicationAdd: {
         documentType: DocumentType
