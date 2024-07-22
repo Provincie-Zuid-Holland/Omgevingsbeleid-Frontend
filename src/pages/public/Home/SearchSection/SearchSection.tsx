@@ -25,6 +25,7 @@ const SearchSection = () => (
                             controllers={{
                                 showSearch: false,
                                 showDraw: true,
+                                showLayers: false,
                             }}
                             className="w-full rounded border border-pzh-gray-300"
                         />
