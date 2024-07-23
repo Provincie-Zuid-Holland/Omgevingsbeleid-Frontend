@@ -47,6 +47,14 @@ export const Area = Mark.create({
         }
     },
 
+    parseHTML() {
+        return [
+            {
+                tag: 'a[data-gebiedengroep]',
+            },
+        ]
+    },
+
     renderHTML({ HTMLAttributes }) {
         return [
             'a',
