@@ -1,4 +1,11 @@
-import { Heading, Pagination, TabItem, Tabs, Text } from '@pzh-ui/components'
+import {
+    Button,
+    Heading,
+    Pagination,
+    TabItem,
+    Tabs,
+    Text,
+} from '@pzh-ui/components'
 import { keepPreviousData } from '@tanstack/react-query'
 import { useState } from 'react'
 
@@ -15,48 +22,19 @@ import {
 import ObjectCard from '@/components/DynamicObject/ObjectCard'
 import { LoaderCard } from '@/components/Loader'
 import ModuleCard from '@/components/Modules/ModuleCard'
+import ModuleTile from '@/components/Modules/ModuleTile'
 import * as models from '@/config/objects'
 import { ModelReturnType, ModelType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 
 const PAGE_LIMIT = 9
 
-const DashboardUser = () => (
-    <div className="col-span-6">
-        <div>
-            <Heading level="2" size="m" className="mb-4">
-                Modules
-            </Heading>
-
-            <UserModules />
-
-            <div className="mt-8 grid grid-cols-6">
-                <div className="col-span-6 mb-6 lg:col-span-3">
-                    <Heading level="3" size="m" className="mb-4">
-                        Mijn beleid
-                    </Heading>
-                    <Text>
-                        Binnen het digitaal omgevingsbeleid ben jij eigenaar van
-                        een aantal beleidsobjecten, hieronder vind je een
-                        overzicht van deze onderdelen.
-                    </Text>
-                </div>
-
-                <UserObject />
-            </div>
-        </div>
-    </div>
-)
-
-const UserModules = () => {
-    const [currPage, setCurrPage] = useState(1)
-
+const DashboardUser = () => {
     const { data: modules, isFetching: modulesLoading } = useModulesGet(
         {
             only_active: true,
-            only_mine: true,
-            limit: PAGE_LIMIT,
-            offset: (currPage - 1) * PAGE_LIMIT,
+            only_mine: false,
+            limit: 3,
         },
         {
             query: {
@@ -66,25 +44,55 @@ const UserModules = () => {
     )
 
     return (
-        <>
-            <ItemList
-                items={modules?.results}
-                isLoading={modulesLoading}
-                type="module"
-            />
-            {!!modules?.total &&
-                !!modules?.limit &&
-                modules.total > modules.limit && (
-                    <div className="mt-8 flex justify-center">
-                        <Pagination
-                            onChange={setCurrPage}
-                            forcePage={currPage - 1}
-                            total={modules?.total}
-                            limit={modules?.limit}
-                        />
+        <div className="col-span-6">
+            <div>
+                <Heading level="2" size="m" className="mb-4">
+                    Modules
+                </Heading>
+
+                <div className="mb-4 grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-2 xl:grid-cols-3">
+                    {modulesLoading ? (
+                        <>
+                            <LoaderCard height="62" mb="" />
+                            <LoaderCard height="62" mb="" />
+                            <LoaderCard height="62" mb="" />
+                        </>
+                    ) : !!modules?.results.length ? (
+                        modules?.results?.map(module => (
+                            <ModuleTile
+                                key={`module-${module.Module_ID}`}
+                                {...module}
+                            />
+                        ))
+                    ) : (
+                        <Text>Er zijn op dit moment geen actieve modules.</Text>
+                    )}
+                </div>
+
+                <Button
+                    as="a"
+                    href="/muteer/modules"
+                    variant="secondary"
+                    size="small">
+                    Bekijk alle modules
+                </Button>
+
+                <div className="mt-8 grid grid-cols-6">
+                    <div className="col-span-6 mb-6 lg:col-span-3">
+                        <Heading level="3" size="m" className="mb-4">
+                            Mijn beleid
+                        </Heading>
+                        <Text>
+                            Binnen het digitaal omgevingsbeleid ben jij eigenaar
+                            van een aantal beleidsobjecten, hieronder vind je
+                            een overzicht van deze onderdelen.
+                        </Text>
                     </div>
-                )}
-        </>
+
+                    <UserObject />
+                </div>
+            </div>
+        </div>
     )
 }
 
@@ -174,15 +182,15 @@ interface ItemListProps {
 const ItemList = ({ isLoading, items, type }: ItemListProps) => (
     <>
         {isLoading ? (
-            <div className="mt-5 grid grid-cols-1 gap-9 lg:grid-cols-3">
-                <LoaderCard height="180" mb="" />
-                <LoaderCard height="180" mb="" />
-                <LoaderCard height="180" mb="" />
+            <div className="mt-4">
+                <LoaderCard height="62" mb="" />
+                <LoaderCard height="62" mb="" />
+                <LoaderCard height="62" mb="" />
             </div>
         ) : (
             <>
                 {items?.length ? (
-                    <ul className="mt-5 grid grid-cols-1 gap-9 lg:grid-cols-3">
+                    <ul className="mt-4">
                         {items.map(item =>
                             'Module_ID' in item &&
                             'Status' in item &&
