@@ -53,9 +53,9 @@ const ObjectAreaAnnotateModal = () => {
         const previousValues = modalState?.editor?.getAttributes('area')
 
         return {
-            group: previousValues?.['data-gebiedengroep'] ?? '',
-            areaType: previousValues?.['data-type'] ?? '',
-            areaGroup: previousValues?.['data-gebiedsaanwijzing'] ?? '',
+            group: previousValues?.['data-hint-gebiedengroep'] ?? '',
+            areaType: previousValues?.['data-hint-gebiedsaanwijzingtype'] ?? '',
+            areaGroup: previousValues?.['data-hint-locatie'] ?? '',
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [modalState?.editor, modalState?.editor?.state.selection])
@@ -70,9 +70,9 @@ const ObjectAreaAnnotateModal = () => {
             .focus()
             .extendMarkRange('area')
             .setArea({
-                'data-gebiedengroep': payload.group,
-                'data-type': payload.areaType,
-                'data-gebiedsaanwijzing': payload.areaGroup,
+                'data-hint-gebiedengroep': payload.group,
+                'data-hint-gebiedsaanwijzingtype': payload.areaType,
+                'data-hint-locatie': payload.areaGroup,
                 text: isEmptySelection ? groupName : undefined,
             })
             .run()
