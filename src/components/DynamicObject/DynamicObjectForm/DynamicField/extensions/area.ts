@@ -4,9 +4,9 @@ declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         area: {
             setArea: (attributes: {
-                'data-gebiedengroep': string
-                'data-type': string
-                'data-gebiedsaanwijzing': string
+                'data-hint-gebiedengroep': string
+                'data-hint-gebiedsaanwijzingtype': string
+                'data-hint-locatie': string
                 text?: string
             }) => ReturnType
         }
@@ -23,9 +23,9 @@ export const Area = Mark.create({
         return {
             HTMLAttributes: {
                 href: '#',
-                'data-gebiedengroep': null,
-                'data-type': null,
-                'data-gebiedsaanwijzing': null,
+                'data-hint-gebiedengroep': null,
+                'data-hint-gebiedsaanwijzingtype': null,
+                'data-hint-locatie': null,
             },
         }
     },
@@ -35,14 +35,17 @@ export const Area = Mark.create({
             href: {
                 default: this.options.HTMLAttributes.href,
             },
-            'data-gebiedengroep': {
-                default: this.options.HTMLAttributes['data-gebiedengroep'],
+            'data-hint-gebiedengroep': {
+                default: this.options.HTMLAttributes['data-hint-gebiedengroep'],
             },
-            'data-type': {
-                default: this.options.HTMLAttributes['data-type'],
+            'data-hint-gebiedsaanwijzingtype': {
+                default:
+                    this.options.HTMLAttributes[
+                        'data-hint-gebiedsaanwijzingtype'
+                    ],
             },
-            'data-gebiedsaanwijzing': {
-                default: this.options.HTMLAttributes['data-gebiedsaanwijzing'],
+            'data-hint-locatie': {
+                default: this.options.HTMLAttributes['data-hint-locatie'],
             },
         }
     },
@@ -50,7 +53,7 @@ export const Area = Mark.create({
     parseHTML() {
         return [
             {
-                tag: 'a[data-gebiedengroep]',
+                tag: 'a[data-hint-gebiedengroep]',
             },
         ]
     },
