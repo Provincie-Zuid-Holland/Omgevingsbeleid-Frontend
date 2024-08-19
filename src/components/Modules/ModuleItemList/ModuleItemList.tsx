@@ -1,4 +1,4 @@
-import { Text } from '@pzh-ui/components'
+import { Button, Text } from '@pzh-ui/components'
 import { useMemo } from 'react'
 
 import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
@@ -23,7 +23,8 @@ interface ModuleItemListProps {
 
 const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
     const { user } = useAuth()
-    const { canEditModule, canPatchObjectInModule, canAddNewObjectToModule } = usePermissions()
+    const { canEditModule, canPatchObjectInModule, canAddNewObjectToModule } =
+        usePermissions()
     const { isLocked } = useModule()
 
     /**
@@ -66,7 +67,10 @@ const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
                     title="Jouw onderdelen in deze module"
                     noResultsText="Je hebt nog geen onderdelen in deze module"
                     hasEditButton={canPatchObjectInModule && !isLocked}
-                    hasViewButton={canPatchObjectInModule && !canAddNewObjectToModule}
+                    hasViewButton={
+                        canPatchObjectInModule && !canAddNewObjectToModule
+                    }
+                    hasAddButton
                     {...rest}
                 />
 
@@ -87,6 +91,7 @@ const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
             objects={objects}
             title="Alle onderdelen in deze module"
             noResultsText="Er zijn nog geen onderdelen toegevoegd aan deze module"
+            hasAddButton
             {...rest}
         />
     )
@@ -101,6 +106,8 @@ interface ItemListProps extends ModuleItemListProps {
     hasEditButton?: boolean
     /** Has view button */
     hasViewButton?: boolean
+    /** Has add object button */
+    hasAddButton?: boolean
 }
 
 const ItemList = ({
@@ -111,14 +118,31 @@ const ItemList = ({
     noResultsText,
     hasEditButton,
     hasViewButton,
+    hasAddButton,
 }: ItemListProps) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
+    const { isLocked } = useModule()
+    const { canAddExistingObjectToModule, canAddNewObjectToModule } =
+        usePermissions()
 
     return (
         <>
-            <Text bold color="text-pzh-blue">
-                {title}
-            </Text>
+            <div className="flex items-center justify-between">
+                <Text bold color="text-pzh-blue">
+                    {title}
+                </Text>
+                {(canAddExistingObjectToModule || canAddNewObjectToModule) &&
+                    !isLocked &&
+                    hasAddButton && (
+                        <Button
+                            variant="link"
+                            onPress={() => setActiveModal('moduleAddObject')}
+                            className="block text-pzh-green hover:text-pzh-green-dark">
+                            Onderdeel toevoegen
+                        </Button>
+                    )}
+            </div>
+
             {!!objects?.length ? (
                 <div className="mb-4">
                     {objects.map(object => {
