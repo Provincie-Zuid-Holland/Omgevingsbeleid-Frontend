@@ -18,7 +18,7 @@ import useModalStore from '@/store/modalStore'
 import { fileToBase64 } from '@/utils/file'
 
 import DynamicObjectSearch from '../../DynamicObjectSearch'
-import { Area } from './extensions/area'
+import { Area, AREA_DATA_ATTRS } from './extensions/area'
 
 const inputFieldMap = {
     text: FormikInput,
@@ -105,8 +105,11 @@ const DynamicField = ({
                             <DrawPolygon />
                         </RteMenuButton>
                     ),
-                    className:
-                        '[&_[data-hint-gebiedengroep]]:text-pzh-blue-900 [&_[data-hint-gebiedengroep]]:bg-pzh-blue-10',
+                    className: `[&_[${[
+                        AREA_DATA_ATTRS.group,
+                    ]}]]:text-pzh-blue-900 [&_[${[
+                        AREA_DATA_ATTRS.group,
+                    ]}]]:bg-pzh-blue-10`,
                 })}
                 {...field}
             />

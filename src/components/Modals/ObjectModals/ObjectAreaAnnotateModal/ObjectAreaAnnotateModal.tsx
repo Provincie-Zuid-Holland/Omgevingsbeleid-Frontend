@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { z } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
+import { AREA_DATA_ATTRS } from '@/components/DynamicObject/DynamicObjectForm/DynamicField/extensions/area'
 import Modal from '@/components/Modal'
 import useModalStore from '@/store/modalStore'
 import { SCHEMA_OBJECT_ANNOTATE_AREA } from '@/validation/objectAnnotate'
@@ -53,9 +54,9 @@ const ObjectAreaAnnotateModal = () => {
         const previousValues = modalState?.editor?.getAttributes('area')
 
         return {
-            group: previousValues?.['data-hint-gebiedengroep'] ?? '',
-            areaType: previousValues?.['data-hint-gebiedsaanwijzingtype'] ?? '',
-            areaGroup: previousValues?.['data-hint-locatie'] ?? '',
+            group: previousValues?.[AREA_DATA_ATTRS.group] ?? '',
+            type: previousValues?.[AREA_DATA_ATTRS.type] ?? '',
+            location: previousValues?.[AREA_DATA_ATTRS.location] ?? '',
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [modalState?.editor, modalState?.editor?.state.selection])
@@ -70,9 +71,9 @@ const ObjectAreaAnnotateModal = () => {
             .focus()
             .extendMarkRange('area')
             .setArea({
-                'data-hint-gebiedengroep': payload.group,
-                'data-hint-gebiedsaanwijzingtype': payload.areaType,
-                'data-hint-locatie': payload.areaGroup,
+                [AREA_DATA_ATTRS.group]: payload.group,
+                [AREA_DATA_ATTRS.type]: payload.type,
+                [AREA_DATA_ATTRS.location]: payload.location,
                 text: isEmptySelection ? groupName : undefined,
             })
             .run()
@@ -106,7 +107,7 @@ const ObjectAreaAnnotateModal = () => {
                             </div>
                             <div>
                                 <FormikSelect
-                                    name="areaType"
+                                    name="type"
                                     label="Type gebiedsaanwijzing"
                                     placeholder="Selecteer een type gebiedsaanwijzing"
                                     options={areaTypeOptions}
@@ -115,7 +116,7 @@ const ObjectAreaAnnotateModal = () => {
                             </div>
                             <div>
                                 <FormikSelect
-                                    name="areaGroup"
+                                    name="location"
                                     label="Gebiedsaanwijzinggroep"
                                     placeholder="Selecteer een gebiedsaanwijzinggroep"
                                     options={areaGroupOptions}
