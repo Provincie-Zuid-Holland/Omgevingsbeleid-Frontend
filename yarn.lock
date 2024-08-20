@@ -2273,29 +2273,11 @@ __metadata:
   linkType: hard
 
 "@floating-ui/core@npm:^1.0.0":
-<<<<<<< HEAD
   version: 1.6.2
   resolution: "@floating-ui/core@npm:1.6.2"
   dependencies:
     "@floating-ui/utils": "npm:^0.2.0"
   checksum: 5c940ef3d397aa23f859ecb033bda408dde20820af3f82090a889c35a99826cfaa7864e8131b9906a26b2c04f31fa468538a28d0715b34de541e0776e0f82d03
-  languageName: node
-  linkType: hard
-
-"@floating-ui/dom@npm:^1.0.0":
-  version: 1.6.5
-  resolution: "@floating-ui/dom@npm:1.6.5"
-  dependencies:
-    "@floating-ui/core": "npm:^1.0.0"
-    "@floating-ui/utils": "npm:^0.2.0"
-  checksum: d421e7f239e9af5a2a4c7a560c29b8ce1f29398c411c8e3bd0c33a2ce800e13a378749a1606e4f6b460830f4007c459792534821013262d24d1385476b1ba48d
-=======
-  version: 1.6.0
-  resolution: "@floating-ui/core@npm:1.6.0"
-  dependencies:
-    "@floating-ui/utils": "npm:^0.2.1"
-  checksum: d6a47cacde193cd8ccb4c268b91ccc4ca254dffaec6242b07fd9bcde526044cc976d27933a7917f9a671de0a0e27f8d358f46400677dbd0c8199de293e9746e1
->>>>>>> feature/AB#18814
   languageName: node
   linkType: hard
 
@@ -2309,11 +2291,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
-"@floating-ui/react-dom@npm:^2.0.1":
-=======
 "@floating-ui/react-dom@npm:^2.0.1, @floating-ui/react-dom@npm:^2.0.8":
->>>>>>> feature/AB#18814
   version: 2.0.8
   resolution: "@floating-ui/react-dom@npm:2.0.8"
   dependencies:
@@ -2322,21 +2300,6 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: e57b2a498aecf8de0ec28adf434257fca7893bd9bd7e78b63ac98c63b29b9fc086fc175630154352f3610f5c4a0d329823837f4f6c235cc0459fde6417065590
-<<<<<<< HEAD
-  languageName: node
-  linkType: hard
-
-"@floating-ui/react-dom@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "@floating-ui/react-dom@npm:2.1.0"
-  dependencies:
-    "@floating-ui/dom": "npm:^1.0.0"
-  peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: 15be0714379c271ff01347e7c9bcdba96d6b39f3960697380e23de9b9d59fb91ba07bc75b8bdb12d72da7a9272191a9ce73f843a0d5f89939caa9f3137acd8ec
-=======
->>>>>>> feature/AB#18814
   languageName: node
   linkType: hard
 
@@ -2869,15 +2832,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
-"@pzh-ui/components@npm:^0.0.550":
-  version: 0.0.550
-  resolution: "@pzh-ui/components@npm:0.0.550"
-  dependencies:
-    "@floating-ui/react": "npm:^0.24.8"
-    "@headlessui/react": "npm:^1.5.0"
-    "@pzh-ui/icons": "npm:^0.0.62"
-=======
 "@pzh-ui/components@npm:^0.0.554":
   version: 0.0.554
   resolution: "@pzh-ui/components@npm:0.0.554"
@@ -2885,7 +2839,6 @@ __metadata:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
     "@pzh-ui/icons": "npm:^0.0.63"
->>>>>>> feature/AB#18814
     "@radix-ui/react-accordion": "npm:^1.1.2"
     "@radix-ui/react-slot": "npm:^1.0.2"
     "@react-aria/utils": "npm:^3.23.2"
@@ -2933,11 +2886,7 @@ __metadata:
     react-stately: "npm:^3.30.1"
     react-toastify: "npm:^9.1.2"
     tailwind-merge: "npm:^2.2.2"
-<<<<<<< HEAD
-  checksum: 4732b01c9d0345c439fa927c2e2ac551cd91b46f056ad6897f2663eba00193c4a4aaf76b1eb80a030db84c838d0391dddd8fc908cb2e2720c8283c1e7370a1ce
-=======
   checksum: 6f48a192a7904ecc35fe5338ca31ba9a41d31e746902091ca82fbca649fb0831e65eb100a64acfda7a9dd3064989167001cadb55b81c300d1583942f214bfa40
->>>>>>> feature/AB#18814
   languageName: node
   linkType: hard
 
@@ -2984,15 +2933,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
-"@pzh-ui/icons@npm:^0.0.62":
-  version: 0.0.62
-  resolution: "@pzh-ui/icons@npm:0.0.62"
-  dependencies:
-    react: "npm:^18.2.0"
-    react-toastify: "npm:^9.1.2"
-  checksum: 9d9e601ded8b6afbf10957bf9f6df1a22b9ab871c81d167633fd4381631b711d119ce449400c63b74750551c3632d2d6c4c06d0d35dbc642b67453d3faf92528
-=======
 "@pzh-ui/icons@npm:^0.0.63":
   version: 0.0.63
   resolution: "@pzh-ui/icons@npm:0.0.63"
@@ -3000,7 +2940,6 @@ __metadata:
     react: "npm:^18.2.0"
     react-toastify: "npm:^9.1.2"
   checksum: a42286b1605f4018e2e1c74e370bf3b55668490343e3198818aef39fe59e5081c0f4ffcb31a7a88bc426a9a42bc6665925f301b3f5a98327dd130a05da3c9825
->>>>>>> feature/AB#18814
   languageName: node
   linkType: hard
 
@@ -13390,17 +13329,10 @@ __metadata:
     "@axe-core/react": "npm:^4.8.2"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-<<<<<<< HEAD
-    "@pzh-ui/components": "npm:^0.0.550"
-    "@pzh-ui/config": "npm:^0.0.70"
-    "@pzh-ui/css": "npm:^0.0.99"
-    "@pzh-ui/icons": "npm:^0.0.62"
-=======
     "@pzh-ui/components": "npm:^0.0.554"
     "@pzh-ui/config": "npm:^0.0.70"
     "@pzh-ui/css": "npm:^0.0.99"
     "@pzh-ui/icons": "npm:^0.0.63"
->>>>>>> feature/AB#18814
     "@react-hookz/web": "npm:^24.0.4"
     "@tanstack/react-query": "npm:^5.24.7"
     "@testing-library/dom": "npm:^9.3.3"
