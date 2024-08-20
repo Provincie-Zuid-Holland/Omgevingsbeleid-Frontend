@@ -2815,13 +2815,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.548":
-  version: 0.0.548
-  resolution: "@pzh-ui/components@npm:0.0.548"
+"@pzh-ui/components@npm:^0.0.550":
+  version: 0.0.550
+  resolution: "@pzh-ui/components@npm:0.0.550"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
-    "@pzh-ui/icons": "npm:^0.0.61"
+    "@pzh-ui/icons": "npm:^0.0.62"
     "@radix-ui/react-accordion": "npm:^1.1.2"
     "@radix-ui/react-slot": "npm:^1.0.2"
     "@react-aria/utils": "npm:^3.23.2"
@@ -2869,7 +2869,7 @@ __metadata:
     react-stately: "npm:^3.30.1"
     react-toastify: "npm:^9.1.2"
     tailwind-merge: "npm:^2.2.2"
-  checksum: 5677bf6d9a836e21ffb76b8b89b2603722c11208f32553bae81f3430125f26bf15ab052be23d905ca9e10eca05d693ca4589c43163985c8baf9ce1d26d67cc0d
+  checksum: 4732b01c9d0345c439fa927c2e2ac551cd91b46f056ad6897f2663eba00193c4a4aaf76b1eb80a030db84c838d0391dddd8fc908cb2e2720c8283c1e7370a1ce
   languageName: node
   linkType: hard
 
@@ -2901,9 +2901,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/css@npm:^0.0.97":
-  version: 0.0.97
-  resolution: "@pzh-ui/css@npm:0.0.97"
+"@pzh-ui/css@npm:^0.0.99":
+  version: 0.0.99
+  resolution: "@pzh-ui/css@npm:0.0.99"
   dependencies:
     "@rollup/plugin-typescript": "npm:^8.3.1"
     "@tailwindcss/custom-forms": "npm:^0.2.1"
@@ -2912,17 +2912,7 @@ __metadata:
     "@tailwindcss/typography": "npm:^0.5.9"
     react-datepicker: "npm:^4.7.0"
     react-toastify: "npm:^9.1.2"
-  checksum: 39bf282820229e7e46d6efaadb194065b66736cfe9109299e63296d5bb22fb1c9d64d10d226fe4c3a6a924bf61db79a12e81aad8d57a8c200bf6ffa50c53ec05
-  languageName: node
-  linkType: hard
-
-"@pzh-ui/icons@npm:^0.0.61":
-  version: 0.0.61
-  resolution: "@pzh-ui/icons@npm:0.0.61"
-  dependencies:
-    react: "npm:^18.2.0"
-    react-toastify: "npm:^9.1.2"
-  checksum: 223f33fa772acbefa4bb825c6553ae1a0c06a6e8126b80019a2e9e7111c904fa8684df5a686c420fcc4b31e97b8d9ee1891137fd0190c428cb4b35dc3bff743b
+  checksum: 468ec9a33e99f51fafde8a28ebd1fcf134cdad82490a9d89f0a1b63ca9cf4fa3a81fb332daf62133cb13a0887628d60ec41b7fbc160404791ae56abf541a6b07
   languageName: node
   linkType: hard
 
@@ -13065,9 +13055,9 @@ __metadata:
     "@axe-core/react": "npm:^4.8.2"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-    "@pzh-ui/components": "npm:^0.0.548"
+    "@pzh-ui/components": "npm:^0.0.550"
     "@pzh-ui/config": "npm:^0.0.70"
-    "@pzh-ui/css": "npm:^0.0.97"
+    "@pzh-ui/css": "npm:^0.0.99"
     "@pzh-ui/icons": "npm:^0.0.62"
     "@react-hookz/web": "npm:^24.0.4"
     "@tanstack/react-query": "npm:^5.24.7"
