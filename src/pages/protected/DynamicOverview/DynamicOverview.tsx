@@ -5,6 +5,7 @@ import {
     TabItem,
     Table,
     Tabs,
+    Text,
     formatDate,
 } from '@pzh-ui/components'
 import { AngleRight, MagnifyingGlass } from '@pzh-ui/icons'
@@ -256,7 +257,11 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                     Object_Type,
                     ...props
                 }: ModelReturnType | ModuleObjectShortStatus) => ({
-                    Title,
+                    Title: (
+                        <Text bold color="text-pzh-blue-500">
+                            {Title}
+                        </Text>
+                    ),
                     ...(!atemporal && 'Start_Validity' in props
                         ? {
                               Status: 'Vigerend',
@@ -272,7 +277,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                                       'cccccc d MMMM yyyy, p'
                                   )
                                 : 'nooit'}
-                            <AngleRight size={18} />
+                            <AngleRight size={20} />
                         </span>
                     ),
                     ...((!atemporal || (atemporal && canCreateModule)) && {
