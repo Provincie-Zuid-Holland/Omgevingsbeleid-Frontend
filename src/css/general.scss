@@ -107,13 +107,3 @@ del {
 footer:not(.has-feedback) {
     transform: translate3d(0, 0, 0);
 }
-
-.line-clamp-3 {
-    -webkit-line-clamp: 3;
-    height: calc(1em * var(--line-height, 1.5) * 3);
-}
-
-.line-clamp-2 {
-    -webkit-line-clamp: 2;
-    height: calc(1em * var(--line-height, 1.5) * 2);
-}

@@ -64,7 +64,7 @@ const ModuleDetail = () => {
 
     const breadcrumbPaths = [
         { name: 'Dashboard', to: '/muteer' },
-        { name: 'Modules', to: '/muteer' },
+        { name: 'Modules', to: '/muteer/modules' },
         { name: module?.Title || '' },
     ]
 
@@ -185,7 +185,7 @@ const TabObjects = () => {
                         <Button
                             variant="link"
                             onPress={() => setActiveModal('moduleAddObject')}
-                            className="block text-pzh-green-500 hover:text-pzh-green-900">
+                            className="text-pzh-green-500 hover:text-pzh-green-900 block">
                             Onderdeel toevoegen
                         </Button>
                     )}

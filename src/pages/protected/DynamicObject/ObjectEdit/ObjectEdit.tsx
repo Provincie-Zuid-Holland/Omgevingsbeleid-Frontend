@@ -96,7 +96,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
 
     const breadcrumbPaths = [
         { name: 'Dashboard', path: '/muteer' },
-        { name: 'Modules', path: '/muteer' },
+        { name: 'Modules', path: '/muteer/modules' },
         {
             name: data?.Module.Title || '',
             path: `/muteer/modules/${moduleId}`,

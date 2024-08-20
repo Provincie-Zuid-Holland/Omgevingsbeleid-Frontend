@@ -29,7 +29,7 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
     const breadcrumbPaths = [
         { name: 'Dashboard', path: '/muteer' },
         ...((!!moduleId && [
-            { name: 'Modules', path: '/muteer' },
+            { name: 'Modules', path: '/muteer/modules' },
             {
                 name: module?.Module.Title || '',
                 path: `/muteer/modules/${module?.Module.Module_ID}`,

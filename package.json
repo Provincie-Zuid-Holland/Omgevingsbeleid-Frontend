@@ -9,7 +9,7 @@
         "@pzh-ui/components": "^0.0.548",
         "@pzh-ui/config": "^0.0.70",
         "@pzh-ui/css": "^0.0.97",
-        "@pzh-ui/icons": "^0.0.61",
+        "@pzh-ui/icons": "^0.0.62",
         "@react-hookz/web": "^24.0.4",
         "@tanstack/react-query": "^5.24.7",
         "axios": "^1.6.7",
