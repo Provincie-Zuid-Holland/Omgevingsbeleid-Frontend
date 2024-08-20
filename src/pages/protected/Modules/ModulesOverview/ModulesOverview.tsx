@@ -10,6 +10,7 @@ import {
 import { keepPreviousData } from '@tanstack/react-query'
 import { Form, Formik } from 'formik'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { useModulesGet } from '@/api/fetchers'
 import { LoaderCard } from '@/components/Loader'
@@ -33,12 +34,11 @@ const ModulesOverview = () => {
                 <div className="mb-6 flex items-center justify-between">
                     <Heading size="xxl">Modules</Heading>
                     <Button
-                        as="a"
-                        href="/muteer/modules/nieuw"
+                        asChild
                         variant="cta"
                         size="small"
                         data-testid="dashboard-new-module">
-                        Nieuwe module
+                        <Link to="/muteer/modules/nieuw">Nieuwe module</Link>
                     </Button>
                 </div>
 
@@ -117,8 +117,8 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
                 modules.total > modules.limit && (
                     <div className="mt-8 flex justify-center">
                         <Pagination
-                            onChange={setCurrPage}
-                            forcePage={currPage - 1}
+                            onPageChange={setCurrPage}
+                            current={currPage}
                             total={modules.total}
                             limit={modules.limit}
                         />
