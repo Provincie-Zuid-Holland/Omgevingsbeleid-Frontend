@@ -63,8 +63,8 @@ const ModuleDetail = () => {
     const managers = useModuleManagers(module)
 
     const breadcrumbPaths = [
-        { name: 'Dashboard', path: '/muteer' },
-        { name: 'Modules', path: '/muteer/modules' },
+        { name: 'Dashboard', to: '/muteer' },
+        { name: 'Modules', to: '/muteer/modules' },
         { name: module?.Title || '' },
     ]
 

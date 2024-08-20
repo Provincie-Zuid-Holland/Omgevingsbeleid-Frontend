@@ -131,7 +131,7 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
                                 new Date(Created_Date + 'Z'),
                                 'cccccc d MMMM yyyy, p'
                             )}
-                            <AngleRight size={18} />
+                            <AngleRight size={20} />
                         </span>
                     ),
                     ...(canViewPublicationTemplate && {

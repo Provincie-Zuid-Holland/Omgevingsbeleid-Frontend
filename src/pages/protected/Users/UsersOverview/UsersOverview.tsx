@@ -6,6 +6,7 @@ import {
     TabItem,
     Table,
     Tabs,
+    Text,
 } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
 import { keepPreviousData } from '@tanstack/react-query'
@@ -129,12 +130,16 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
     const formattedData = useMemo(
         () =>
             data?.results?.map(({ Gebruikersnaam, Rol, Email, UUID }) => ({
-                Gebruikersnaam,
+                Gebruikersnaam: (
+                    <Text bold color="text-pzh-blue-500">
+                        {Gebruikersnaam}
+                    </Text>
+                ),
                 Rol,
                 Email: (
                     <span className="flex items-center justify-between">
                         {Email}
-                        <AngleRight size={18} />
+                        <AngleRight size={20} />
                     </span>
                 ),
                 onClick: () => navigate(`/muteer/gebruikers/${UUID}`),
