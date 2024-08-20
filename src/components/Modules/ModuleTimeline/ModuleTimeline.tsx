@@ -1,9 +1,8 @@
-import { Badge, Text } from '@pzh-ui/components'
-import classNames from 'classnames'
+import { Badge, Text, formatDate } from '@pzh-ui/components'
+import classNames from 'clsx'
 import { useMemo } from 'react'
 
 import { ModuleStatus } from '@/api/fetchers.schemas'
-import formatDate from '@/utils/formatDate'
 import { getModuleStatusColor } from '@/utils/module'
 
 interface ModuleTimelineProps {
@@ -19,7 +18,7 @@ const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
 
     return (
         <div data-testid="module-timeline" className="mt-6 sm:mt-0">
-            <Text bold color="text-pzh-blue">
+            <Text bold color="text-pzh-blue-500">
                 Tijdlijn
             </Text>
 
@@ -41,9 +40,9 @@ const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
                                     'dd-MM-yyyy'
                                 )}
                             </span>
-                            <div className="relative mx-2 h-[13px] w-[13px] rounded-full border-2 border-pzh-blue">
+                            <div className="relative mx-2 h-[13px] w-[13px] rounded-full border-2 border-pzh-blue-500">
                                 {hasPeer && (
-                                    <div className="absolute left-1 top-[11px] h-8 w-px bg-pzh-blue" />
+                                    <div className="absolute left-1 top-[11px] h-8 w-px bg-pzh-blue-500" />
                                 )}
                             </div>
 

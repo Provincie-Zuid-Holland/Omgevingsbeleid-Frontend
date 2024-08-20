@@ -52,7 +52,7 @@ export default function PasswordChangeModal() {
                 validationSchema={toFormikValidationSchema(
                     passwordReset.SCHEMA
                 )}>
-                {({ values, handleSubmit, isValid, isSubmitting }) => (
+                {({ handleSubmit, isValid, isSubmitting }) => (
                     <Form onSubmit={handleSubmit}>
                         <div className="">
                             <FormikInput
@@ -62,10 +62,9 @@ export default function PasswordChangeModal() {
                                 name="currentPassword"
                                 type="password"
                                 placeholder="Voer hier je huidig wachtwoord in"
-                                value={values.currentPassword}
                             />
                         </div>
-                        <Notification className="my-4" size="small">
+                        <Notification className="my-4">
                             Het nieuwe wachtwoord moet minimaal 12 karakters
                             bevatten en moet ten minste 1 cijfer, 1 speciaal
                             karakter en 1 hoofdletter bevatten.
@@ -77,7 +76,6 @@ export default function PasswordChangeModal() {
                             name="newPassword"
                             type="password"
                             placeholder="Geef hier het nieuwe wachtwoord op"
-                            value={values.newPassword}
                         />
                         <div className="mt-4">
                             <FormikInput
@@ -87,7 +85,6 @@ export default function PasswordChangeModal() {
                                 name="newPasswordCopy"
                                 type="password"
                                 placeholder="Herhaal het nieuwe wachtwoord"
-                                value={values.newPasswordCopy}
                             />
                         </div>
 
@@ -111,7 +108,7 @@ export default function PasswordChangeModal() {
                 )}
             </Formik>
 
-            <Notification className="mt-4" size="small">
+            <Notification className="mt-4">
                 <>
                     Ben je je huidige wachtwoord vergeten? Neem dan contact op
                     met

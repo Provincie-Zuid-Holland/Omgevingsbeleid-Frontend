@@ -1,7 +1,7 @@
 import { Heading, Text } from '@pzh-ui/components'
 import { AngleRight, Bars, Xmark } from '@pzh-ui/icons'
 import { useKeyboardEvent, useWindowSize } from '@react-hookz/web'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -58,7 +58,7 @@ const NavigationPopupMenu = ({
             {isMobile ? (
                 <div className="fixed bottom-0 right-0 z-50">
                     <div
-                        className="flex cursor-pointer items-center justify-center bg-pzh-blue-dark p-8 text-white"
+                        className="flex cursor-pointer items-center justify-center bg-pzh-blue-900 p-8 text-white"
                         onClick={() => setIsOpen(!isOpen)}>
                         {isOpen ? (
                             <Xmark
@@ -99,7 +99,7 @@ const NavigationPopupMenu = ({
                                         <Link
                                             to="/zoeken-op-kaart"
                                             onClick={() => setIsOpen(false)}
-                                            className="text-pzh-green underline hover:text-pzh-green-dark">
+                                            className="text-pzh-green-500 underline hover:text-pzh-green-900">
                                             Zoek op de kaart
                                         </Link>
                                     </Text>
@@ -169,8 +169,9 @@ const ToggleMenuButton = ({
             'relative mb-1 flex items-center justify-center rounded px-2 pb-1 pt-2 transition-colors duration-100 ease-in lg:-mr-6',
             {
                 hidden: isMobile,
-                'text-white hover:bg-pzh-gray-100 hover:text-pzh-blue': isOpen,
-                'text-pzh-blue hover:bg-pzh-gray-100 hover:text-pzh-blue-dark':
+                'text-white hover:bg-pzh-gray-100 hover:text-pzh-blue-500':
+                    isOpen,
+                'text-pzh-blue-500 hover:bg-pzh-gray-100 hover:text-pzh-blue-900':
                     !isOpen,
             }
         )}
@@ -204,7 +205,7 @@ const ListItem = ({
 }: ListItemProps) => {
     if (targetBlank) {
         return (
-            <li className="pt-1 text-pzh-green hover:text-pzh-green-dark">
+            <li className="pt-1 text-pzh-green-500 hover:text-pzh-green-900">
                 <a
                     onKeyDown={onKeyDown}
                     href={to}
@@ -220,7 +221,7 @@ const ListItem = ({
     }
 
     return (
-        <li className="pt-1 text-pzh-green hover:text-pzh-green-dark">
+        <li className="pt-1 text-pzh-green-500 hover:text-pzh-green-900">
             <Link
                 onKeyDown={onKeyDown}
                 to={to}

@@ -49,10 +49,10 @@ const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
 
             if (type === 'enter') {
                 element.classList.add('font-bold')
-                el?.classList.add('stroke-pzh-blue-dark')
+                el?.classList.add('!stroke-pzh-blue-900')
             } else {
                 element.classList.remove('font-bold')
-                el?.classList.remove('stroke-pzh-blue-dark')
+                el?.classList.remove('!stroke-pzh-blue-900')
             }
         },
         []
@@ -63,7 +63,7 @@ const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
     return (
         <div className="grid grid-cols-4 rounded border border-pzh-gray-500 px-6 py-4 ">
             <div className="col-span-6">
-                <Heading level="3" size="m" color="text-pzh-green">
+                <Heading level="3" size="m" color="text-pzh-green-500">
                     Beleidsnetwerk
                 </Heading>
             </div>
@@ -128,15 +128,22 @@ const getObjectIcon = (key: ModelType) => {
     switch (key) {
         case 'ambitie':
             return (
-                <Triangle size={12} className="mt-0.5 text-pzh-apple-green" />
+                <Triangle
+                    size={12}
+                    className="mt-0.5 text-pzh-apple-green-500"
+                />
             )
         case 'beleidsdoel':
-            return <div className="rounded-0.5 mt-0.5 h-3 w-3 bg-pzh-orange" />
+            return (
+                <div className="rounded-0.5 mt-0.5 h-3 w-3 bg-pzh-orange-500" />
+            )
         case 'beleidskeuze':
-            return <div className="mt-0.5 h-3 w-3 rounded-full bg-pzh-yellow" />
+            return (
+                <div className="mt-0.5 h-3 w-3 rounded-full bg-pzh-yellow-500" />
+            )
         case 'maatregel':
             return (
-                <div className="rounded-0.5 mr-0.5 mt-0.5 h-2.5 w-2.5 min-w-[10px] rotate-45 bg-pzh-green" />
+                <div className="rounded-0.5 mr-0.5 mt-0.5 h-2.5 w-2.5 min-w-[10px] rotate-45 bg-pzh-green-500" />
             )
     }
 }

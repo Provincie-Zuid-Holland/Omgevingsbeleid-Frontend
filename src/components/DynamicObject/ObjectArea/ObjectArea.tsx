@@ -71,7 +71,7 @@ const ObjectArea = ({
                             Tip! Gebruik het icoon{' '}
                             <LayerGroup
                                 size={18}
-                                className="mx-1 -mt-1 inline text-pzh-blue-dark"
+                                className="text-pzh-blue-900 mx-1 -mt-1 inline"
                             />{' '}
                             om de kaartlagen binnen dit werkingsgebied te
                             bekijken

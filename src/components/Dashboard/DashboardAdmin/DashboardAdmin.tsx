@@ -53,12 +53,13 @@ const DashboardAdmin = () => {
                             Actieve modules
                         </Heading>
                         <Button
-                            as="a"
-                            href="/muteer/modules/nieuw"
+                            asChild
                             variant="cta"
                             size="small"
                             data-testid="dashboard-new-module">
-                            Nieuwe module
+                            <Link to="/muteer/modules/nieuw">
+                                Nieuwe module
+                            </Link>
                         </Button>
                     </div>
 
@@ -83,12 +84,8 @@ const DashboardAdmin = () => {
                         )}
                     </div>
 
-                    <Button
-                        as="a"
-                        href="/muteer/modules"
-                        variant="secondary"
-                        size="small">
-                        Bekijk alle modules
+                    <Button asChild variant="secondary" size="small">
+                        <Link to="/muteer/modules">Bekijk alle modules</Link>
                     </Button>
                 </div>
             </div>
@@ -103,13 +100,13 @@ const ModelTile = ({ model }: { model: Model }) => {
         <Link to={`/muteer/${plural}`} data-testid="dashboard-model-tile">
             <div className="group flex items-center justify-between rounded border border-pzh-gray-200 px-6 py-7">
                 <div className="flex items-center">
-                    <Icon size={20} className="mr-4 text-pzh-blue" />
+                    <Icon size={20} className="mr-4 text-pzh-blue-500" />
                     <Heading level="3" size="s" className="-mb-1.5">
                         {pluralCapitalize}
                     </Heading>
                 </div>
                 <div className="transition group-hover:translate-x-1">
-                    <AngleRight size={18} className="text-pzh-green" />
+                    <AngleRight size={18} className="text-pzh-green-500" />
                 </div>
             </div>
         </Link>

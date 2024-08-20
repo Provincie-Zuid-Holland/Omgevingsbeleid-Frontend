@@ -1,18 +1,17 @@
-import { useFormikContext } from 'formik'
-import { useMemo, useState } from 'react'
-
 import {
     Divider,
     FieldCheckbox,
     FormikDate,
     FormikInput,
     Text,
+    formatDate,
 } from '@pzh-ui/components'
+import { useFormikContext } from 'formik'
+import { useMemo, useState } from 'react'
 
 import { CompleteModule, ModuleObjectShort } from '@/api/fetchers.schemas'
 import useModule from '@/hooks/useModule'
 import { getObjectActionText } from '@/utils/dynamicObject'
-import formatDate from '@/utils/formatDate'
 
 export const StepTwo = () => {
     const { values } = useFormikContext<CompleteModule>()
@@ -40,7 +39,9 @@ export const StepTwo = () => {
                 hebben, geef dit per object aan.
             </Text>
 
-            {objects?.map(object => <Object key={object.UUID} {...object} />)}
+            {objects?.map(object => (
+                <Object key={object.UUID} {...object} />
+            ))}
         </div>
     )
 }

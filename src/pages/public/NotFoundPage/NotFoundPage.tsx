@@ -1,14 +1,13 @@
-import { Breadcrumbs, Heading, Text } from '@pzh-ui/components'
+import { Heading, Text } from '@pzh-ui/components'
 import { Helmet } from 'react-helmet-async'
 
+import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 
 const NotFoundPage = () => {
-    const pathName = location.pathname || ''
-
     const breadcrumbPaths = [
-        { name: 'Omgevingsbeleid', path: '/' },
-        { name: 'Pagina niet gevonden', path: pathName },
+        { name: 'Omgevingsbeleid', to: '/' },
+        { name: 'Pagina niet gevonden' },
     ]
 
     return (
@@ -31,7 +30,7 @@ const NotFoundPage = () => {
 
                     <Text className="my-4">Je kunt het volgende proberen:</Text>
 
-                    <div className="prose prose-neutral mb-4 max-w-full leading-6 text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0 md:mb-8">
+                    <div className="prose prose-neutral mb-4 max-w-full leading-6 text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 md:mb-8">
                         <ul>
                             <li>
                                 Controleer het internetadres in de adresbalk.

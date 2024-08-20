@@ -155,6 +155,7 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
                     enableMultiSort={false}
                     limit={PAGE_LIMIT}
                     total={data?.total}
+                    current={pageIndex}
                     onPaginationChange={setPagination}
                     state={{
                         sorting: sortBy,

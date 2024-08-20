@@ -34,9 +34,7 @@ export default defineConfig({
                         '@tiptap/extension-placeholder',
                         '@tiptap/extension-text',
                         '@tiptap/extension-underline',
-                        '@tiptap/react',
                     ],
-                    'react-select': ['react-select'],
                     leaflet: [
                         'leaflet',
                         'leaflet-draw',
@@ -46,7 +44,6 @@ export default defineConfig({
                     zod: ['zod', 'zod-formik-adapter'],
                     dompurify: ['dompurify'],
                     formik: ['formik'],
-                    'date-fns': ['date-fns/esm'],
                     pzh: ['@pzh-ui/components', '@pzh-ui/icons'],
                 },
             },
@@ -80,5 +77,10 @@ export default defineConfig({
         },
         restoreMocks: true,
         mockReset: true,
+        server: {
+            deps: {
+                inline: ['@pzh-ui/components'],
+            },
+        },
     },
 })

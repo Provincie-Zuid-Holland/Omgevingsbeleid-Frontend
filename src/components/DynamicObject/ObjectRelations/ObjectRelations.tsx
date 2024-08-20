@@ -106,7 +106,7 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
                             })
                             setActiveModal('objectRelationAdd')
                         }}
-                        className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-pzh-green">
+                        className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-pzh-green-500">
                         <span className="sr-only">
                             Beleidsrelatie toevoegen
                         </span>

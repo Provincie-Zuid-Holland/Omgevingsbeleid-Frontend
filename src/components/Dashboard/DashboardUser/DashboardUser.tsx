@@ -8,6 +8,7 @@ import {
 } from '@pzh-ui/components'
 import { keepPreviousData } from '@tanstack/react-query'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import {
     useModulesGet,
@@ -19,7 +20,7 @@ import {
     ModuleObjectShort,
     PagedResponseGenericObjectShort,
 } from '@/api/fetchers.schemas'
-import ObjectCard from '@/components/DynamicObject/ObjectCard'
+import ObjectCard from '@/components/DynamicObject/ObjectActiveModules/ObjectCard'
 import { LoaderCard } from '@/components/Loader'
 import ModuleCard from '@/components/Modules/ModuleCard'
 import ModuleTile from '@/components/Modules/ModuleTile'
@@ -69,12 +70,8 @@ const DashboardUser = () => {
                     )}
                 </div>
 
-                <Button
-                    as="a"
-                    href="/muteer/modules"
-                    variant="secondary"
-                    size="small">
-                    Bekijk alle modules
+                <Button asChild variant="secondary" size="small">
+                    <Link to="/muteer/modules">Bekijk alle modules</Link>
                 </Button>
 
                 <div className="mt-8 grid grid-cols-6">
@@ -146,8 +143,8 @@ const UserObject = () => {
                                         objects.total > objects.limit && (
                                             <div className="mt-8 flex justify-center">
                                                 <Pagination
-                                                    onChange={setCurrPage}
-                                                    forcePage={currPage - 1}
+                                                    onPageChange={setCurrPage}
+                                                    current={currPage}
                                                     total={objects.total}
                                                     limit={objects.limit}
                                                 />

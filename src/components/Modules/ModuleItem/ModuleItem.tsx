@@ -1,6 +1,7 @@
 import { Divider, Hyperlink, Text } from '@pzh-ui/components'
 import { CircleInfo, EllipsisVertical } from '@pzh-ui/icons'
 import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import Dropdown, { DropdownItem } from '@/components/Dropdown'
@@ -149,16 +150,20 @@ const ModuleItem = ({
                         canPatchObjectInModule &&
                         !isLocked &&
                         isActive && (
-                            <Hyperlink
-                                to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}/bewerk`}
-                                text="Bewerken"
-                            />
+                            <Hyperlink asChild>
+                                <Link
+                                    to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}/bewerk`}>
+                                    Bewerken
+                                </Link>
+                            </Hyperlink>
                         )}
                     {hasViewButton && !hasRights && (
-                        <Hyperlink
-                            to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`}
-                            text="Bekijken"
-                        />
+                        <Hyperlink asChild>
+                            <Link
+                                to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`}>
+                                Bekijken
+                            </Link>
+                        </Hyperlink>
                     )}
                 </div>
                 {!!dropdownItems.length ? (
@@ -170,6 +175,7 @@ const ModuleItem = ({
                             data-testid="module-item-menu">
                             <EllipsisVertical />
                         </button>
+
                         <Dropdown
                             items={dropdownItems}
                             isOpen={isOpen}

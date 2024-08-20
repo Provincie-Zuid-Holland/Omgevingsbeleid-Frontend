@@ -1,7 +1,8 @@
-import { Breadcrumbs, Heading, TabItem, Tabs, Text } from '@pzh-ui/components'
-import classNames from 'classnames'
+import { Heading, TabItem, Tabs, Text } from '@pzh-ui/components'
+import classNames from 'clsx'
 import { Helmet } from 'react-helmet-async'
 
+import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import NetworkGraph from '@/components/Network/NetworkGraph'
 import useNetworkStore from '@/store/networkStore'
@@ -10,11 +11,9 @@ const Network = () => {
     const activeTab = useNetworkStore(state => state.activeTab)
     const setActiveTab = useNetworkStore(state => state.setActiveTab)
 
-    const pathName = location.pathname || ''
-
     const breadcrumbPaths = [
-        { name: 'Omgevingsbeleid', path: '/' },
-        { name: 'Beleidsnetwerk' || '', path: pathName },
+        { name: 'Omgevingsbeleid', to: '/' },
+        { name: 'Beleidsnetwerk' || '' },
     ]
 
     return (

@@ -48,7 +48,7 @@ const Preview = ({
                     {section.defaults.singularCapitalize} {parentIndex}: {title}
                 </Heading>
             ) : (
-                <Text bold color="text-pzh-blue" className="mb-3">
+                <Text bold color="text-pzh-blue-500" className="mb-3">
                     {section.defaults.singularCapitalize} {index}: {title}
                 </Text>
             )}

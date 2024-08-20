@@ -60,7 +60,7 @@ const ObjectDeleteModal = ({ object, model }: ObjectDeleteModalProps) => {
             id="objectDelete"
             title={`${singularCapitalize} verwijderen`}
             size="xl">
-            <div className="prose prose-neutral mb-4 max-w-full leading-6 text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0">
+            <div className="prose prose-neutral mb-4 max-w-full leading-6 text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0">
                 <Text>
                     Weet je zeker dat je {singularReadable}:{' '}
                     <span className="font-bold">{object?.Title}</span> wilt
