@@ -36,7 +36,6 @@ const ModulesOverview = () => {
                     <Button
                         asChild
                         variant="cta"
-                        size="small"
                         data-testid="dashboard-new-module">
                         <Link to="/muteer/modules/nieuw">Nieuwe module</Link>
                     </Button>
