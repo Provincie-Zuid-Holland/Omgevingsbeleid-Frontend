@@ -1,5 +1,5 @@
 import { Text } from '@pzh-ui/components'
-import { House, Users } from '@pzh-ui/icons'
+import { House, LayerGroupLight, Users } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -50,6 +50,17 @@ const Sidebar = () => {
                         name="Home"
                         path="/muteer"
                         icon={House}
+                        expanded={expanded}
+                        onHover={endAndStartTimer}
+                        onClick={() => window.clearTimeout(timer)}
+                    />
+
+                    <div className="h-px w-full bg-pzh-blue" />
+
+                    <MenuItem
+                        name="Modules"
+                        path="/muteer/modules"
+                        icon={LayerGroupLight}
                         expanded={expanded}
                         onHover={endAndStartTimer}
                         onClick={() => window.clearTimeout(timer)}

@@ -20,6 +20,7 @@ import {
     UserDetail,
     UsersOverview,
 } from '@/pages/protected'
+import ModulesOverview from '@/pages/protected/Modules/ModulesOverview'
 import {
     Accessibility,
     AreaDetail,
@@ -198,6 +199,10 @@ const AppRoutes = () => {
                 {
                     path: 'modules',
                     children: [
+                        {
+                            index: true,
+                            element: <ModulesOverview />,
+                        },
                         {
                             path: ':moduleId',
                             element: <ModuleProvider />,

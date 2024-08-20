@@ -68,7 +68,7 @@ const ModuleDetail = () => {
 
     const breadcrumbPaths = [
         { name: 'Dashboard', path: '/muteer' },
-        { name: 'Modules', path: '/muteer' },
+        { name: 'Modules', path: '/muteer/modules' },
         { name: module?.Title || '', path: pathName },
     ]
 

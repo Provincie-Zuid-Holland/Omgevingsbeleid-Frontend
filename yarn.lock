@@ -2588,6 +2588,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pzh-ui/icons@npm:^0.0.62":
+  version: 0.0.62
+  resolution: "@pzh-ui/icons@npm:0.0.62"
+  dependencies:
+    react: "npm:^18.2.0"
+    react-toastify: "npm:^9.1.2"
+  checksum: 9d9e601ded8b6afbf10957bf9f6df1a22b9ab871c81d167633fd4381631b711d119ce449400c63b74750551c3632d2d6c4c06d0d35dbc642b67453d3faf92528
+  languageName: node
+  linkType: hard
+
 "@react-aria/breadcrumbs@npm:^3.5.9":
   version: 3.5.9
   resolution: "@react-aria/breadcrumbs@npm:3.5.9"
@@ -12378,7 +12388,7 @@ __metadata:
     "@pzh-ui/components": "npm:^0.0.452"
     "@pzh-ui/config": "npm:^0.0.56"
     "@pzh-ui/css": "npm:^0.0.75"
-    "@pzh-ui/icons": "npm:^0.0.47"
+    "@pzh-ui/icons": "npm:^0.0.62"
     "@react-hookz/web": "npm:^24.0.2"
     "@tanstack/react-query": "npm:^5.14.2"
     "@testing-library/dom": "npm:^9.3.3"
