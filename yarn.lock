@@ -2853,9 +2853,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.556":
-  version: 0.0.556
-  resolution: "@pzh-ui/components@npm:0.0.556"
+"@pzh-ui/components@npm:^0.0.559":
+  version: 0.0.559
+  resolution: "@pzh-ui/components@npm:0.0.559"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
@@ -2883,11 +2883,11 @@ __metadata:
     "@tiptap/extension-placeholder": "npm:^2.6.5"
     "@tiptap/extension-subscript": "npm:^2.6.5"
     "@tiptap/extension-superscript": "npm:^2.6.5"
-    "@tiptap/extension-table": "npm:2.1.11"
-    "@tiptap/extension-table-cell": "npm:2.1.11"
-    "@tiptap/extension-table-header": "npm:2.1.11"
-    "@tiptap/extension-table-row": "npm:2.1.11"
-    "@tiptap/extension-text": "npm:2.6.5"
+    "@tiptap/extension-table": "npm:^2.6.5"
+    "@tiptap/extension-table-cell": "npm:^2.6.5"
+    "@tiptap/extension-table-header": "npm:^2.6.5"
+    "@tiptap/extension-table-row": "npm:^2.6.5"
+    "@tiptap/extension-text": "npm:^2.6.5"
     "@tiptap/extension-text-style": "npm:^2.6.5"
     "@tiptap/extension-underline": "npm:^2.6.5"
     "@tiptap/pm": "npm:^2.6.5"
@@ -2907,7 +2907,7 @@ __metadata:
     react-stately: "npm:^3.30.1"
     react-toastify: "npm:^9.1.2"
     tailwind-merge: "npm:^2.2.2"
-  checksum: 8bcbb0f1c0f5f31ef45e032db19d311d1c46314d55eaf031393a06068577f98cc67bfb3e634153e3a50e5502377ac18272a106edc1264bac4ca00224649e63b9
+  checksum: c52acc31d0a7114d0c301e053f0409b700a9ee88991a5f0c6cd4d98bae6ea7043cffc99a29c289725897fc72693945adb171d5e22944b77e1157396ec7e396aa
   languageName: node
   linkType: hard
 
@@ -6144,40 +6144,40 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tiptap/extension-table-cell@npm:2.1.11":
-  version: 2.1.11
-  resolution: "@tiptap/extension-table-cell@npm:2.1.11"
+"@tiptap/extension-table-cell@npm:^2.6.5":
+  version: 2.6.5
+  resolution: "@tiptap/extension-table-cell@npm:2.6.5"
   peerDependencies:
-    "@tiptap/core": ^2.0.0
-  checksum: afb96e49c97ac513f349c26e59a6794a72d27a02be8207a4a040bc4be6b623876a0b36248d4bf75345726a20377e8f299f00e0828fcd95722b5f3c313042ddd3
+    "@tiptap/core": ^2.6.5
+  checksum: c845c7ffe420d5f02cab5a35d231532f6190abd45aa83ed6b27aeb61b627d5ebf44633847aef4b6b9629856ab66accd6b6287ea98c49365e53aefda1fc76e2ed
   languageName: node
   linkType: hard
 
-"@tiptap/extension-table-header@npm:2.1.11":
-  version: 2.1.11
-  resolution: "@tiptap/extension-table-header@npm:2.1.11"
+"@tiptap/extension-table-header@npm:^2.6.5":
+  version: 2.6.5
+  resolution: "@tiptap/extension-table-header@npm:2.6.5"
   peerDependencies:
-    "@tiptap/core": ^2.0.0
-  checksum: 4e6ce4283d7b7a06ab38f4299f8e454627f475f3d385fe5ecff7d014c2ff656c030308781416e8f9b5a74024e205f3cfa6d8883a00c07b3a4b7b4b4a43739a63
+    "@tiptap/core": ^2.6.5
+  checksum: 21d2fcfe4ce1f21153fac0995cc4552ea167fd24f1a258cda7bf550a38dfbce8e25f5e47f4f9ef2442e54377f4016be8d920cb1fb3c93202466d884407a25908
   languageName: node
   linkType: hard
 
-"@tiptap/extension-table-row@npm:2.1.11":
-  version: 2.1.11
-  resolution: "@tiptap/extension-table-row@npm:2.1.11"
+"@tiptap/extension-table-row@npm:^2.6.5":
+  version: 2.6.5
+  resolution: "@tiptap/extension-table-row@npm:2.6.5"
   peerDependencies:
-    "@tiptap/core": ^2.0.0
-  checksum: 8cfcc62cdc81cd9f9cd9deb7021b7cf3274d5042eef4a3e0bfe02507c5e68991a3077d603f8c06c5a74ffb8dfbb7a06f3d99c89ee5f06f386ed802cea04d873f
+    "@tiptap/core": ^2.6.5
+  checksum: 7c25f4fada11aab9c88501eea0cc08b2a8801caa2f208a48079d344871fa3ada921f6ae004afca1c344fec48f4042fc9a2345f0c0e5d4fd3725262dfc9eb9b4f
   languageName: node
   linkType: hard
 
-"@tiptap/extension-table@npm:2.1.11":
-  version: 2.1.11
-  resolution: "@tiptap/extension-table@npm:2.1.11"
+"@tiptap/extension-table@npm:^2.6.5":
+  version: 2.6.5
+  resolution: "@tiptap/extension-table@npm:2.6.5"
   peerDependencies:
-    "@tiptap/core": ^2.0.0
-    "@tiptap/pm": ^2.0.0
-  checksum: 74f9eec2b5d3de49a133850ccf463450977e584297c439057770627d11f9a4ee19b6ba5033d47e03428409c9178f4e21217a1a9556eb016b1ac535305b99ae21
+    "@tiptap/core": ^2.6.5
+    "@tiptap/pm": ^2.6.5
+  checksum: a2383a654f35224ec94fa2ac5085bc35c2c25f2363e2da8d1baea423a8cbe39a79041d446f5e9ae5fccb86b14a93e02b05970f4a124c6f2f5e27283d3a5a164a
   languageName: node
   linkType: hard
 
@@ -6190,7 +6190,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tiptap/extension-text@npm:2.6.5":
+"@tiptap/extension-text@npm:^2.6.5":
   version: 2.6.5
   resolution: "@tiptap/extension-text@npm:2.6.5"
   peerDependencies:
@@ -13065,7 +13065,7 @@ __metadata:
     "@axe-core/react": "npm:^4.8.2"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-    "@pzh-ui/components": "npm:^0.0.556"
+    "@pzh-ui/components": "npm:^0.0.559"
     "@pzh-ui/config": "npm:^0.0.70"
     "@pzh-ui/css": "npm:^0.0.99"
     "@pzh-ui/icons": "npm:^0.0.63"
