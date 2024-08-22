@@ -36,16 +36,16 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
                     <Heading level="3" size="m">
                         Algemene informatie
                     </Heading>
-                    {(canPatchObjectInModule && (isOwner || isClient)) ||
-                        (canCreateModule && (
-                            <button
-                                onClick={() =>
-                                    setActiveModal('objectGeneralInformation')
-                                }
-                                className="text-pzh-green underline hover:text-pzh-green-dark">
-                                Wijzigen
-                            </button>
-                        ))}
+                    {((canPatchObjectInModule && (isOwner || isClient)) ||
+                        canCreateModule) && (
+                        <button
+                            onClick={() =>
+                                setActiveModal('objectGeneralInformation')
+                            }
+                            className="text-pzh-green underline hover:text-pzh-green-dark">
+                            Wijzigen
+                        </button>
+                    )}
                 </div>
 
                 {staticData.map(item => {
