@@ -2853,20 +2853,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.546":
-  version: 0.0.546
-  resolution: "@pzh-ui/components@npm:0.0.546"
+"@pzh-ui/components@npm:^0.0.555":
+  version: 0.0.555
+  resolution: "@pzh-ui/components@npm:0.0.555"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
-    "@pzh-ui/icons": "npm:^0.0.61"
+    "@pzh-ui/icons": "npm:^0.0.63"
     "@radix-ui/react-accordion": "npm:^1.1.2"
     "@radix-ui/react-slot": "npm:^1.0.2"
     "@react-aria/utils": "npm:^3.23.2"
     "@react-hookz/web": "npm:^24.0.4"
     "@react-types/shared": "npm:^3.19.0"
     "@storybook/test": "npm:^8.1.1"
-    "@tanstack/react-table": "npm:^8.13.2"
+    "@tanstack/react-table": "npm:^8.20.1"
     "@tiptap/core": "npm:^2.1.7"
     "@tiptap/extension-bold": "npm:^2.1.7"
     "@tiptap/extension-bullet-list": "npm:^2.1.7"
@@ -2907,7 +2907,7 @@ __metadata:
     react-stately: "npm:^3.30.1"
     react-toastify: "npm:^9.1.2"
     tailwind-merge: "npm:^2.2.2"
-  checksum: 0511a073e52dee587cffaa3b88d67996ab6bd1cb16d4f965ddd02507c4026448338d940130adc5e060b3f8e522b5692a0286b0964fcc08aa6caf42841872d465
+  checksum: 7d0e2d4353b65bab250651418169562e096c99500847d939ae4577510ff049309f8a33a4d85b571b37420c56fa4796ba4b216a61c2ba1bf37767e25c54a68ca2
   languageName: node
   linkType: hard
 
@@ -2939,9 +2939,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/css@npm:^0.0.97":
-  version: 0.0.97
-  resolution: "@pzh-ui/css@npm:0.0.97"
+"@pzh-ui/css@npm:^0.0.99":
+  version: 0.0.99
+  resolution: "@pzh-ui/css@npm:0.0.99"
   dependencies:
     "@rollup/plugin-typescript": "npm:^8.3.1"
     "@tailwindcss/custom-forms": "npm:^0.2.1"
@@ -2950,17 +2950,17 @@ __metadata:
     "@tailwindcss/typography": "npm:^0.5.9"
     react-datepicker: "npm:^4.7.0"
     react-toastify: "npm:^9.1.2"
-  checksum: 39bf282820229e7e46d6efaadb194065b66736cfe9109299e63296d5bb22fb1c9d64d10d226fe4c3a6a924bf61db79a12e81aad8d57a8c200bf6ffa50c53ec05
+  checksum: 468ec9a33e99f51fafde8a28ebd1fcf134cdad82490a9d89f0a1b63ca9cf4fa3a81fb332daf62133cb13a0887628d60ec41b7fbc160404791ae56abf541a6b07
   languageName: node
   linkType: hard
 
-"@pzh-ui/icons@npm:^0.0.61":
-  version: 0.0.61
-  resolution: "@pzh-ui/icons@npm:0.0.61"
+"@pzh-ui/icons@npm:^0.0.63":
+  version: 0.0.63
+  resolution: "@pzh-ui/icons@npm:0.0.63"
   dependencies:
     react: "npm:^18.2.0"
     react-toastify: "npm:^9.1.2"
-  checksum: 223f33fa772acbefa4bb825c6553ae1a0c06a6e8126b80019a2e9e7111c904fa8684df5a686c420fcc4b31e97b8d9ee1891137fd0190c428cb4b35dc3bff743b
+  checksum: a42286b1605f4018e2e1c74e370bf3b55668490343e3198818aef39fe59e5081c0f4ffcb31a7a88bc426a9a42bc6665925f301b3f5a98327dd130a05da3c9825
   languageName: node
   linkType: hard
 
@@ -5858,15 +5858,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-table@npm:^8.13.2":
-  version: 8.13.2
-  resolution: "@tanstack/react-table@npm:8.13.2"
+"@tanstack/react-table@npm:^8.20.1":
+  version: 8.20.1
+  resolution: "@tanstack/react-table@npm:8.20.1"
   dependencies:
-    "@tanstack/table-core": "npm:8.13.2"
+    "@tanstack/table-core": "npm:8.20.1"
   peerDependencies:
-    react: ">=16"
-    react-dom: ">=16"
-  checksum: b91d5fc04a9a0b43c38da00a5a5c2fcfe0c3b3ec521c97f5e2eb2893a7f3446209fe4d07950b8179a0ab10b7b49230abce3d2db2a56fdc9d8fdb27023afea639
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  checksum: 45d1e2859bb9e4899eb5b6ffb5622185ae91d89df946738e23d8df475f91fbff421f1e63a336db304e1fc33e568bf5d648c9ac5308739f877e2698ac760d4093
   languageName: node
   linkType: hard
 
@@ -5882,10 +5882,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/table-core@npm:8.13.2":
-  version: 8.13.2
-  resolution: "@tanstack/table-core@npm:8.13.2"
-  checksum: 7381147fd9d50905cb581e1498f2924a3b46646872248b25cb4f287419b0819919211da983873921497efb82e4ca40b20db86dac332027a371df4d84cddc9532
+"@tanstack/table-core@npm:8.20.1":
+  version: 8.20.1
+  resolution: "@tanstack/table-core@npm:8.20.1"
+  checksum: 416197f26923cb29f7aa42f440ad2560887c7397d839223324036a86b53d6dabe8f4a7dac19a18817a851cef18c26d8861075ecdb6e42d613c845bcbbaefc5cc
   languageName: node
   linkType: hard
 
@@ -13138,10 +13138,10 @@ __metadata:
     "@axe-core/react": "npm:^4.8.2"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-    "@pzh-ui/components": "npm:^0.0.546"
+    "@pzh-ui/components": "npm:^0.0.555"
     "@pzh-ui/config": "npm:^0.0.70"
-    "@pzh-ui/css": "npm:^0.0.97"
-    "@pzh-ui/icons": "npm:^0.0.61"
+    "@pzh-ui/css": "npm:^0.0.99"
+    "@pzh-ui/icons": "npm:^0.0.63"
     "@react-hookz/web": "npm:^24.0.4"
     "@tanstack/react-query": "npm:^5.24.7"
     "@testing-library/dom": "npm:^9.3.3"
