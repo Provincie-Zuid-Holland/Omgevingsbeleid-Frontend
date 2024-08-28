@@ -7,7 +7,7 @@ import {
 } from '@/api/fetchers'
 import { PublicationVersionCreate } from '@/api/fetchers.schemas'
 import Modal from '@/components/Modal/Modal'
-import PublicationVersionForm from '@/components/Publications/PublicationVersionForm'
+import PublicationVersionForm from '@/components/Publications/_OLD/PublicationVersionForm'
 import useModalStore from '@/store/modalStore'
 import { PUBLICATION_VERSION_ADD_SCHEMA } from '@/validation/publication'
 

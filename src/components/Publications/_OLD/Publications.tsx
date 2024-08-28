@@ -10,7 +10,7 @@ import {
 } from '@/api/fetchers'
 import { DocumentType, ProcedureType } from '@/api/fetchers.schemas'
 
-import { LoaderCard } from '../Loader'
+import { LoaderCard } from '../../Loader'
 import Publication from './Publication'
 import PublicationEnvironmentAction from './PublicationEnvironmentAction'
 

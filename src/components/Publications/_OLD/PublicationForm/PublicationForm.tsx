@@ -20,7 +20,7 @@ import {
 } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import useModalStore from '@/store/modalStore'
-import { PUBLICATION_SCHEMA } from '@/validation/publication'
+import { SCHEMA_PUBLICATION } from '@/validation/publication'
 
 interface PublicationFormProps {
     submitLabel: string
@@ -35,7 +35,7 @@ const PublicationForm = <TData extends FormikValues>({
     return (
         <Formik
             enableReinitialize
-            validationSchema={toFormikValidationSchema(PUBLICATION_SCHEMA)}
+            validationSchema={toFormikValidationSchema(SCHEMA_PUBLICATION)}
             {...rest}>
             {({ isSubmitting }) => (
                 <Form>

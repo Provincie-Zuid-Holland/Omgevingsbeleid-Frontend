@@ -1,11 +1,36 @@
-import { array, object, ZodIssueCode } from 'zod'
+import { ZodIssueCode, array, object, z } from 'zod'
 
+import { DocumentType, ProcedureType } from '@/api/fetchers.schemas'
+import createEmptyObject from '@/utils/createEmptyObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
-export const PUBLICATION_SCHEMA = object({
+export const SCHEMA_PUBLICATION_STEPS = [
+    object({ Document_Type: schemaDefaults.requiredString() }),
+    object({ Procedure_Type: schemaDefaults.requiredString() }),
+    object({
+        Environment_UUID: schemaDefaults.requiredString(),
+    }),
+    object({
+        Act_UUID: schemaDefaults.requiredString(),
+        Template_UUID: schemaDefaults.requiredString(),
+    }),
+    object({
+        Title: schemaDefaults.requiredString(),
+    }),
+    object({
+        Module_Status_ID: schemaDefaults.requiredNumber(),
+    }),
+]
+
+export const SCHEMA_PUBLICATION = object({
+    Module_ID: schemaDefaults.requiredNumber(),
     Title: schemaDefaults.requiredString(),
-    Document_Type: schemaDefaults.requiredString(),
+    Document_Type: z.nativeEnum(DocumentType),
+    Procedure_Type: z.nativeEnum(ProcedureType),
     Template_UUID: schemaDefaults.requiredString(),
+    Environment_UUID: schemaDefaults.requiredString(),
+    Act_UUID: schemaDefaults.requiredString(),
+    Module_Status_ID: schemaDefaults.requiredNumber(),
 })
 
 export const PUBLICATION_VERSION_ADD_SCHEMA = object({
@@ -59,3 +84,5 @@ export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
         })
     }
 })
+
+export const EMPTY_PUBLICATION_OBJECT = createEmptyObject(SCHEMA_PUBLICATION)
