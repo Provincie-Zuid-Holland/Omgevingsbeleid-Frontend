@@ -46,10 +46,10 @@ const Version = ({
                 <div className="flex h-[inherit] w-full border-l border-pzh-gray-200 pl-10">
                     <div className="flex w-full items-center justify-between border-l border-pzh-gray-200 pl-[67px]">
                         <div className="flex items-center gap-4">
-                            <Notes size={24} className="text-pzh-blue-100" />
+                            <Notes size={20} className="text-pzh-blue-100" />
                             <Heading
                                 level="3"
-                                size="m"
+                                size="s"
                                 className="-mb-1 capitalize">
                                 Versie
                             </Heading>

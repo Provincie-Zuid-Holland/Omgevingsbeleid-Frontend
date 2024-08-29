@@ -14,16 +14,19 @@ import {
 } from '@/api/fetchers.schemas'
 
 import Version from './Version'
+import VersionAdd from './VersionAdd'
 
 interface PublicationProps extends PublicationType {
     environment: PublicationEnvironment
 }
 
 const Publication = ({ UUID, environment }: PublicationProps) => {
-    const { data: versions, isFetching: versionsFetching } =
-        usePublicationsPublicationUuidVersionsGet(UUID || '', {
+    const { data: versions } = usePublicationsPublicationUuidVersionsGet(
+        UUID || '',
+        {
             limit: 100,
-        })
+        }
+    )
 
     return (
         <AccordionItem value={environment.UUID} className="last:border-b-0">
@@ -39,12 +42,12 @@ const Publication = ({ UUID, environment }: PublicationProps) => {
                                 data-icon="angle"
                             />
                             <ArrowDownToSquare
-                                size={24}
+                                size={20}
                                 className="text-pzh-blue-100"
                             />
                             <Heading
                                 level="3"
-                                size="m"
+                                size="s"
                                 className="-mb-1 capitalize">
                                 {environment.Title} publicatie
                             </Heading>
@@ -57,6 +60,7 @@ const Publication = ({ UUID, environment }: PublicationProps) => {
                 {versions?.results.map(version => (
                     <Version key={version.UUID} {...version} />
                 ))}
+                <VersionAdd />
             </AccordionContent>
         </AccordionItem>
     )

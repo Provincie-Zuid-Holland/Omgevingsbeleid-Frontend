@@ -236,10 +236,7 @@ const TabDecisions = () => {
                 <PublicationWizard handleClose={() => setShowWizard(false)} />
             )}
 
-            <Accordion
-                type="multiple"
-                className="flex flex-col gap-4"
-                defaultValue={[documentTypes[0]]}>
+            <Accordion type="multiple" className="flex flex-col gap-4">
                 {documentTypes.map(documentType => (
                     <PublicationFolder
                         key={documentType}

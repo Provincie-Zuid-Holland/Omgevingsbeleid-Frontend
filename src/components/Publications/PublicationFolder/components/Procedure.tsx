@@ -64,10 +64,10 @@ const Procedure = ({
                                 className="transition-transform duration-200"
                                 data-icon="angle"
                             />
-                            <Icon size={24} className="text-pzh-blue-100" />
+                            <Icon size={20} className="text-pzh-blue-100" />
                             <Heading
                                 level="3"
-                                size="m"
+                                size="s"
                                 className="-mb-1 capitalize">
                                 {config[procedureType].label}
                             </Heading>
