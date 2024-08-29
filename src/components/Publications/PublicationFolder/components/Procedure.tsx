@@ -14,6 +14,7 @@ import {
     Publication as PubicationType,
     PublicationEnvironment,
 } from '@/api/fetchers.schemas'
+import usePublicationStore from '@/store/publicationStore'
 
 import Publication from './Publication'
 
@@ -39,14 +40,19 @@ const Procedure = ({
     environments,
     publications,
 }: ProcedureProps) => {
+    const activeFolders = usePublicationStore(state => state.activeFolders)
+    const setActiveFolders = usePublicationStore(
+        state => state.setActiveFolders
+    )
+
     const Icon = config[procedureType].icon
 
-    const getPublicationsByEnvironment = useCallback(
-        (enviromentUUID: string) =>
-            publications?.find(
-                publication => publication.Environment_UUID === enviromentUUID
+    const getEnvironmentByUUID = useCallback(
+        (enviromentUUID?: string) =>
+            environments?.find(
+                environment => environment.UUID === enviromentUUID
             ),
-        [publications]
+        [environments]
     )
 
     return (
@@ -77,17 +83,20 @@ const Procedure = ({
                 </div>
             </AccordionTrigger>
             <AccordionContent className="pb-0">
-                <Accordion type="multiple">
-                    {environments?.map(environment => {
-                        const publication = getPublicationsByEnvironment(
-                            environment.UUID
+                <Accordion
+                    type="multiple"
+                    value={activeFolders.publications}
+                    onValueChange={publications =>
+                        setActiveFolders({ publications })
+                    }>
+                    {publications?.map(publication => {
+                        const environment = getEnvironmentByUUID(
+                            publication.Environment_UUID
                         )
-
-                        if (!!!publication) return null
 
                         return (
                             <Publication
-                                key={environment.UUID}
+                                key={publication.UUID}
                                 environment={environment}
                                 {...publication}
                             />

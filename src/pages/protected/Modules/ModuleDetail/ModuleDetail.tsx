@@ -8,7 +8,7 @@ import {
 } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
 import classNames from 'clsx'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { usePublicationsGet } from '@/api/fetchers'
@@ -34,6 +34,7 @@ import PublicationWizard from '@/components/Publications/PublicationWizard'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
+import usePublicationStore from '@/store/publicationStore'
 import MutateLayout from '@/templates/MutateLayout'
 import * as modules from '@/validation/modules'
 
@@ -196,7 +197,12 @@ const TabObjects = () => {
 const TabDecisions = () => {
     const { moduleId } = useParams()
 
-    const [showWizard, setShowWizard] = useState(true)
+    const wizardActive = usePublicationStore(state => state.wizardActive)
+    const setWizardActive = usePublicationStore(state => state.setWizardActive)
+    const activeFolders = usePublicationStore(state => state.activeFolders)
+    const setActiveFolders = usePublicationStore(
+        state => state.setActiveFolders
+    )
 
     const documentTypes = Object.keys(DocumentType) as Array<DocumentType>
 
@@ -206,44 +212,40 @@ const TabDecisions = () => {
             limit: 100,
         })
 
-    const getPublicationsByDocumentType = useCallback(
-        (documentType: DocumentType) =>
-            publications?.results.filter(
-                publication => publication.Document_Type === documentType
-            ),
-        [publications?.results]
-    )
-
     useEffect(() => {
         if (!!publications?.results.length && !publicationsFetching) {
-            setShowWizard(false)
+            setWizardActive(false)
         }
-    }, [publications?.results, publicationsFetching])
+    }, [publications?.results, publicationsFetching, setWizardActive])
 
     return (
         <div className="col-span-6 flex flex-col gap-6">
             {publicationsFetching ? (
                 <LoaderSpinner />
-            ) : !showWizard ? (
+            ) : !wizardActive ? (
                 <Button
                     size="small"
                     icon={Plus}
                     className="self-end"
-                    onPress={() => setShowWizard(true)}>
+                    onPress={() => setWizardActive(true)}>
                     Nieuw
                 </Button>
             ) : (
-                <PublicationWizard handleClose={() => setShowWizard(false)} />
+                <PublicationWizard handleClose={() => setWizardActive(false)} />
             )}
 
-            <Accordion type="multiple" className="flex flex-col gap-4">
+            <Accordion
+                type="multiple"
+                className="flex flex-col gap-4"
+                value={activeFolders.documentTypes}
+                onValueChange={documentTypes =>
+                    setActiveFolders({ documentTypes })
+                }>
                 {documentTypes.map(documentType => (
                     <PublicationFolder
                         key={documentType}
                         documentType={documentType}
-                        publications={getPublicationsByDocumentType(
-                            documentType
-                        )}
+                        publications={publications?.results}
                     />
                 ))}
             </Accordion>

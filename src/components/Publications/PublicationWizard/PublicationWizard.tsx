@@ -18,6 +18,7 @@ import {
     usePublicationTemplatesGet,
 } from '@/api/fetchers'
 import { PublicationCreate } from '@/api/fetchers.schemas'
+import usePublicationStore from '@/store/publicationStore'
 import {
     EMPTY_PUBLICATION_OBJECT,
     SCHEMA_PUBLICATION,
@@ -44,6 +45,10 @@ interface PublicationWizardProps {
 const PublicationWizard = ({ handleClose }: PublicationWizardProps) => {
     const queryClient = useQueryClient()
     const { moduleId } = useParams()
+
+    const setActiveFolders = usePublicationStore(
+        state => state.setActiveFolders
+    )
 
     const [step, setStep] = useState(0)
 
@@ -83,12 +88,17 @@ const PublicationWizard = ({ handleClose }: PublicationWizardProps) => {
                         })
 
                         handleClose()
+                        setActiveFolders({
+                            documentTypes: [payload.Document_Type],
+                            procedureTypes: [payload.Procedure_Type],
+                            publications: [data.UUID],
+                        })
                     })
                 })
                 .finally(() => {
                     queryClient.invalidateQueries({
                         queryKey: getPublicationsGetQueryKey({
-                            document_type: payload?.Document_Type,
+                            limit: 100,
                         }),
                     })
                 })
