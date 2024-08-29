@@ -10,7 +10,7 @@ import {
 import { PublicationVersionEdit } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal/Modal'
-import PublicationVersionForm from '@/components/Publications/PublicationVersionForm'
+import PublicationVersionForm from '@/components/Publications/_OLD/PublicationVersionForm'
 import useModalStore from '@/store/modalStore'
 import { PUBLICATION_VERSION_EDIT_SCHEMA } from '@/validation/publication'
 

@@ -8,7 +8,7 @@ import {
 import { DocumentType, PublicationEdit } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal/Modal'
-import PublicationForm from '@/components/Publications/PublicationForm'
+import PublicationForm from '@/components/Publications/_OLD/PublicationForm'
 import useModalStore from '@/store/modalStore'
 
 import { ModalStateMap } from '../../types'

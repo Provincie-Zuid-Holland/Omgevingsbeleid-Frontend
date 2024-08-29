@@ -6,7 +6,7 @@ import {
     usePublicationEnvironmentsGet,
 } from '@/api/fetchers'
 import { ModalStateMap } from '@/components/Modals/types'
-import PublicationPackages from '@/components/Publications/PublicationPackages'
+import PublicationPackages from '@/components/Publications/_OLD/PublicationPackages'
 import useModalStore from '@/store/modalStore'
 
 import { StepProps } from './types'

@@ -272,6 +272,12 @@ const AppRoutes = () => {
                                             },
                                         ],
                                     })),
+                                {
+                                    path: 'besluiten',
+                                    element: (
+                                        <ModuleDetail activeTab="decisions" />
+                                    ),
+                                },
                             ],
                         },
                         {
