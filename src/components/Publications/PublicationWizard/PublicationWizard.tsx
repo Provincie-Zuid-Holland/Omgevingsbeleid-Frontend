@@ -1,5 +1,6 @@
 import { Button, formatDate, Heading } from '@pzh-ui/components'
 import { XmarkLarge } from '@pzh-ui/icons'
+import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers, useFormikContext } from 'formik'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -7,6 +8,8 @@ import { z } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import {
+    getPublicationsGetQueryKey,
+    getPublicationsPublicationUuidVersionsGetQueryKey,
     useModulesModuleIdStatusGet,
     usePublicationActsGet,
     usePublicationEnvironmentsGet,
@@ -34,7 +37,12 @@ export type PublicationWizardSchema = z.infer<typeof SCHEMA_PUBLICATION>
 
 const steps = [StepOne, StepTwo, StepThree, StepFour, StepFive, StepSix]
 
-const PublicationWizard = () => {
+interface PublicationWizardProps {
+    handleClose: () => void
+}
+
+const PublicationWizard = ({ handleClose }: PublicationWizardProps) => {
+    const queryClient = useQueryClient()
     const { moduleId } = useParams()
 
     const [step, setStep] = useState(0)
@@ -43,7 +51,8 @@ const PublicationWizard = () => {
     const currentValidationSchema = SCHEMA_PUBLICATION_STEPS[step]
 
     const { mutateAsync: postPublication } = usePublicationsPost()
-    const { mutate: postVersion } = usePublicationsPublicationUuidVersionPost()
+    const { mutateAsync: postVersion } =
+        usePublicationsPublicationUuidVersionPost()
 
     const initialValues = {
         ...EMPTY_PUBLICATION_OBJECT,
@@ -58,14 +67,31 @@ const PublicationWizard = () => {
         helpers: FormikHelpers<PublicationWizardSchema>
     ) => {
         if (isFinalStep) {
-            postPublication({ data: payload }).then(data => {
-                postVersion({
-                    publicationUuid: data.UUID,
-                    data: {
-                        Module_Status_ID,
-                    },
+            postPublication({ data: payload })
+                .then(data => {
+                    postVersion({
+                        publicationUuid: data.UUID,
+                        data: {
+                            Module_Status_ID,
+                        },
+                    }).finally(() => {
+                        queryClient.invalidateQueries({
+                            queryKey:
+                                getPublicationsPublicationUuidVersionsGetQueryKey(
+                                    data.UUID
+                                ),
+                        })
+
+                        handleClose()
+                    })
                 })
-            })
+                .finally(() => {
+                    queryClient.invalidateQueries({
+                        queryKey: getPublicationsGetQueryKey({
+                            document_type: payload?.Document_Type,
+                        }),
+                    })
+                })
         } else {
             setStep(step + 1)
             helpers.setTouched({})
@@ -88,7 +114,7 @@ const PublicationWizard = () => {
                         <Heading level="2" size="s">
                             Nieuwe publicatie aanmaken
                         </Heading>
-                        <Button variant="default">
+                        <Button variant="default" onPress={handleClose}>
                             <XmarkLarge size={16} />
                         </Button>
                     </div>
@@ -108,6 +134,7 @@ const PublicationWizard = () => {
                             isDisabled={
                                 isSubmitting || (isFinalStep && !isValid)
                             }
+                            isLoading={isSubmitting}
                             onPress={submitForm}>
                             {isFinalStep ? 'Aanmaken' : 'Volgende stap'}
                         </Button>
@@ -190,6 +217,11 @@ const WizardForm = ({ step }: WizardFormProps) => {
                 select: data =>
                     data
                         .filter(status => status.Status !== 'Niet-Actief')
+                        .sort(
+                            (a, b) =>
+                                new Date(b.Created_Date + 'Z').getTime() -
+                                new Date(a.Created_Date + 'Z').getTime()
+                        )
                         .map(status => ({
                             label: `${status.Status} (${formatDate(
                                 new Date(status.Created_Date + 'Z'),

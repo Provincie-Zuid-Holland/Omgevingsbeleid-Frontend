@@ -6,12 +6,14 @@ import {
     Tabs,
     TabsProps,
 } from '@pzh-ui/components'
+import { Plus } from '@pzh-ui/icons'
 import classNames from 'clsx'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
+import { usePublicationsGet } from '@/api/fetchers'
 import { DocumentType, Module, ModuleObjectShort } from '@/api/fetchers.schemas'
-import { LoaderContent } from '@/components/Loader'
+import { LoaderContent, LoaderSpinner } from '@/components/Loader'
 import {
     ModuleActivateModal,
     ModuleCompleteModal,
@@ -192,16 +194,59 @@ const TabObjects = () => {
 }
 
 const TabDecisions = () => {
+    const { moduleId } = useParams()
+
+    const [showWizard, setShowWizard] = useState(true)
+
     const documentTypes = Object.keys(DocumentType) as Array<DocumentType>
+
+    const { data: publications, isFetching: publicationsFetching } =
+        usePublicationsGet({
+            module_id: parseInt(moduleId!),
+            limit: 100,
+        })
+
+    const getPublicationsByDocumentType = useCallback(
+        (documentType: DocumentType) =>
+            publications?.results.filter(
+                publication => publication.Document_Type === documentType
+            ),
+        [publications?.results]
+    )
+
+    useEffect(() => {
+        if (!!publications?.results.length && !publicationsFetching) {
+            setShowWizard(false)
+        }
+    }, [publications?.results, publicationsFetching])
 
     return (
         <div className="col-span-6 flex flex-col gap-6">
-            <PublicationWizard />
-            <Accordion type="multiple" className="flex flex-col gap-4">
+            {publicationsFetching ? (
+                <LoaderSpinner />
+            ) : !showWizard ? (
+                <Button
+                    size="small"
+                    icon={Plus}
+                    className="self-end"
+                    onPress={() => setShowWizard(true)}>
+                    Nieuw
+                </Button>
+            ) : (
+                <PublicationWizard handleClose={() => setShowWizard(false)} />
+            )}
+
+            <Accordion
+                type="multiple"
+                className="flex flex-col gap-4"
+                defaultValue={[documentTypes[0]]}>
                 {documentTypes.map(documentType => (
                     <PublicationFolder
                         key={documentType}
                         documentType={documentType}
+                        publications={getPublicationsByDocumentType(
+                            documentType
+                        )}
                     />
                 ))}
             </Accordion>
