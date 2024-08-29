@@ -80,7 +80,7 @@ const PublicationVersionEditModal = () => {
                     onSubmit={handleFormSubmit}
                     initialValues={initialValues}
                     validationSchema={toFormikValidationSchema(
-                        PUBLICATION_VERSION_EDIT_SCHEMA(modalState?.isRequired)
+                        PUBLICATION_VERSION_EDIT_SCHEMA
                     )}
                     submitLabel="Opslaan"
                     isEdit
