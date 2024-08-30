@@ -84,6 +84,7 @@ const PublicationFolder = ({
                         return (
                             <Procedure
                                 key={procedureType}
+                                documentType={documentType}
                                 procedureType={procedureType}
                                 environments={environments?.results}
                                 publications={publications}
