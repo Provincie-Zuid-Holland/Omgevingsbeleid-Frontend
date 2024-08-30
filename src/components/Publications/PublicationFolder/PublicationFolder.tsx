@@ -6,7 +6,7 @@ import {
     Heading,
 } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { usePublicationEnvironmentsGet } from '@/api/fetchers'
 import {
@@ -14,6 +14,7 @@ import {
     ProcedureType,
     Publication,
 } from '@/api/fetchers.schemas'
+import usePublicationStore from '@/store/publicationStore'
 
 import Procedure from './components/Procedure'
 
@@ -24,11 +25,24 @@ interface PublicationFolderProps {
 
 const PublicationFolder = ({
     documentType,
-    publications,
+    publications: providedPublications,
 }: PublicationFolderProps) => {
+    const activeFolders = usePublicationStore(state => state.activeFolders)
+    const setActiveFolders = usePublicationStore(
+        state => state.setActiveFolders
+    )
+
     const { data: environments } = usePublicationEnvironmentsGet({ limit: 100 })
 
     const procedureTypes = Object.keys(ProcedureType) as Array<ProcedureType>
+
+    const publications = useMemo(
+        () =>
+            providedPublications?.filter(
+                publication => publication.Document_Type === documentType
+            ),
+        [providedPublications, documentType]
+    )
 
     const getPublicationsByProcedureType = useCallback(
         (procedureType: ProcedureType) =>
@@ -55,7 +69,12 @@ const PublicationFolder = ({
                 />
             </AccordionTrigger>
             <AccordionContent className="pb-0">
-                <Accordion type="multiple">
+                <Accordion
+                    type="multiple"
+                    value={activeFolders.procedureTypes}
+                    onValueChange={procedureTypes =>
+                        setActiveFolders({ procedureTypes })
+                    }>
                     {procedureTypes.map(procedureType => {
                         const publications =
                             getPublicationsByProcedureType(procedureType)
