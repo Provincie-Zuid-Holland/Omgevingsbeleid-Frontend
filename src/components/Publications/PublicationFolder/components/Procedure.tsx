@@ -10,6 +10,7 @@ import { AngleRight, PenNib, PencilLight } from '@pzh-ui/icons'
 import { useCallback } from 'react'
 
 import {
+    DocumentType,
     ProcedureType,
     Publication as PubicationType,
     PublicationEnvironment,
@@ -30,12 +31,14 @@ const config = {
 }
 
 interface ProcedureProps {
+    documentType: DocumentType
     procedureType: ProcedureType
     environments?: PublicationEnvironment[]
     publications?: PubicationType[]
 }
 
 const Procedure = ({
+    documentType,
     procedureType,
     environments,
     publications,
@@ -57,7 +60,7 @@ const Procedure = ({
 
     return (
         <AccordionItem
-            value={procedureType}
+            value={`${documentType}-${procedureType}`}
             className="border-pzh-gray-200 first:border-t last:border-b-0">
             <AccordionTrigger
                 hideIcon

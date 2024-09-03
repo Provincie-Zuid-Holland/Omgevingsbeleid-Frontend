@@ -33,6 +33,8 @@ import type {
     AmbitiesValidGetParams,
     AmbitiesValidLineageIdGetParams,
     AnnouncementCreatedResponse,
+    AppExtensionsPublicationsEndpointsDsoValueListsAreaDesignationGroupsAreaDesignationValueList,
+    AppExtensionsPublicationsEndpointsDsoValueListsAreaDesignationTypesAreaDesignationValueList,
     AppExtensionsPublicationsEndpointsPublicationsActReportsUploadActPackageReportUploadPackageReportResponse,
     AppExtensionsPublicationsEndpointsPublicationsAnnouncementReportsUploadAnnouncementPackageReportUploadPackageReportResponse,
     AuthToken,
@@ -58,6 +60,7 @@ import type {
     BodyFastapiHandlerLoginAccessTokenPost,
     BodyFastapiHandlerPublicationActPackagesActPackageUuidReportPost,
     BodyFastapiHandlerPublicationAnnouncementPackagesAnnouncementPackageUuidReportPost,
+    BodyFastapiHandlerPublicationVersionsVersionUuidAttachmentsPost,
     CompleteModule,
     EditAcknowledgedRelation,
     EditUser,
@@ -191,10 +194,14 @@ import type {
     PublicationAojGetParams,
     PublicationCreate,
     PublicationCreatedResponse,
+    PublicationDsoValueListsAreaDesignationGroupsGetParams,
+    PublicationDsoValueListsAreaDesignationTypesGetParams,
     PublicationEdit,
+    PublicationEnvironment,
     PublicationEnvironmentsGetParams,
     PublicationPackageCreate,
     PublicationPackageCreatedResponse,
+    PublicationPackagePdf,
     PublicationTemplate,
     PublicationTemplatesGetParams,
     PublicationVersion,
@@ -202,6 +209,7 @@ import type {
     PublicationVersionCreatedResponse,
     PublicationVersionEdit,
     PublicationVersionEditResponse,
+    PublicationVersionsVersionUuidPdfExportPost200,
     PublicationsGetParams,
     PublicationsPublicationUuidVersionsGetParams,
     ReadRelation,
@@ -219,6 +227,7 @@ import type {
     TemplateCreate,
     TemplateCreatedResponse,
     TemplateEdit,
+    UploadAttachmentResponse,
     User,
     UserCreate,
     UserCreateResponse,
@@ -18095,6 +18104,111 @@ export const usePublicationEnvironmentsPost = <
 }
 
 /**
+ * @summary Get details of a publication environment
+ */
+export const publicationEnvironmentsEnvironmentUuidGet = (
+    environmentUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<PublicationEnvironment>({
+        url: `/publication-environments/${environmentUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getPublicationEnvironmentsEnvironmentUuidGetQueryKey = (
+    environmentUuid: string
+) => {
+    return [`/publication-environments/${environmentUuid}`] as const
+}
+
+export const getPublicationEnvironmentsEnvironmentUuidGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof publicationEnvironmentsEnvironmentUuidGet>
+    >,
+    TError = HTTPValidationError
+>(
+    environmentUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof publicationEnvironmentsEnvironmentUuidGet>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getPublicationEnvironmentsEnvironmentUuidGetQueryKey(environmentUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof publicationEnvironmentsEnvironmentUuidGet>>
+    > = ({ signal }) =>
+        publicationEnvironmentsEnvironmentUuidGet(environmentUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!environmentUuid,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof publicationEnvironmentsEnvironmentUuidGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PublicationEnvironmentsEnvironmentUuidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof publicationEnvironmentsEnvironmentUuidGet>>
+>
+export type PublicationEnvironmentsEnvironmentUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get details of a publication environment
+ */
+export const usePublicationEnvironmentsEnvironmentUuidGet = <
+    TData = Awaited<
+        ReturnType<typeof publicationEnvironmentsEnvironmentUuidGet>
+    >,
+    TError = HTTPValidationError
+>(
+    environmentUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof publicationEnvironmentsEnvironmentUuidGet>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getPublicationEnvironmentsEnvironmentUuidGetQueryOptions(
+            environmentUuid,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
  * @summary Edit publication environment
  */
 export const publicationEnvironmentsEnvironmentUuidPost = (
@@ -18837,6 +18951,110 @@ export const usePublicationVersionsVersionUuidPost = <
 }
 
 /**
+ * @summary Upload an attachment for a Publication Version
+ */
+export const publicationVersionsVersionUuidAttachmentsPost = (
+    versionUuid: string,
+    bodyFastapiHandlerPublicationVersionsVersionUuidAttachmentsPost: BodyFastapiHandlerPublicationVersionsVersionUuidAttachmentsPost
+) => {
+    const formData = new FormData()
+    formData.append(
+        'uploaded_file',
+        bodyFastapiHandlerPublicationVersionsVersionUuidAttachmentsPost.uploaded_file
+    )
+    formData.append(
+        'title',
+        bodyFastapiHandlerPublicationVersionsVersionUuidAttachmentsPost.title
+    )
+
+    return customInstance<UploadAttachmentResponse>({
+        url: `/publication-versions/${versionUuid}/attachments`,
+        method: 'POST',
+        headers: { 'Content-Type': 'multipart/form-data' },
+        data: formData,
+    })
+}
+
+export const getPublicationVersionsVersionUuidAttachmentsPostMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<
+            ReturnType<typeof publicationVersionsVersionUuidAttachmentsPost>
+        >,
+        TError,
+        {
+            versionUuid: string
+            data: BodyFastapiHandlerPublicationVersionsVersionUuidAttachmentsPost
+        },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof publicationVersionsVersionUuidAttachmentsPost>>,
+    TError,
+    {
+        versionUuid: string
+        data: BodyFastapiHandlerPublicationVersionsVersionUuidAttachmentsPost
+    },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<
+            ReturnType<typeof publicationVersionsVersionUuidAttachmentsPost>
+        >,
+        {
+            versionUuid: string
+            data: BodyFastapiHandlerPublicationVersionsVersionUuidAttachmentsPost
+        }
+    > = props => {
+        const { versionUuid, data } = props ?? {}
+
+        return publicationVersionsVersionUuidAttachmentsPost(versionUuid, data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type PublicationVersionsVersionUuidAttachmentsPostMutationResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof publicationVersionsVersionUuidAttachmentsPost>
+        >
+    >
+export type PublicationVersionsVersionUuidAttachmentsPostMutationBody =
+    BodyFastapiHandlerPublicationVersionsVersionUuidAttachmentsPost
+export type PublicationVersionsVersionUuidAttachmentsPostMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Upload an attachment for a Publication Version
+ */
+export const usePublicationVersionsVersionUuidAttachmentsPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<
+            ReturnType<typeof publicationVersionsVersionUuidAttachmentsPost>
+        >,
+        TError,
+        {
+            versionUuid: string
+            data: BodyFastapiHandlerPublicationVersionsVersionUuidAttachmentsPost
+        },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getPublicationVersionsVersionUuidAttachmentsPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
  * @summary Create new Publication Act Package
  */
 export const publicationVersionsVersionUuidPackagesPost = (
@@ -18906,6 +19124,80 @@ export const usePublicationVersionsVersionUuidPackagesPost = <
 }) => {
     const mutationOptions =
         getPublicationVersionsVersionUuidPackagesPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Download Publication Act as Pdf
+ */
+export const publicationVersionsVersionUuidPdfExportPost = (
+    versionUuid: string,
+    publicationPackagePdf: PublicationPackagePdf
+) => {
+    return customInstance<PublicationVersionsVersionUuidPdfExportPost200>({
+        url: `/publication-versions/${versionUuid}/pdf_export`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: publicationPackagePdf,
+    })
+}
+
+export const getPublicationVersionsVersionUuidPdfExportPostMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationVersionsVersionUuidPdfExportPost>>,
+        TError,
+        { versionUuid: string; data: PublicationPackagePdf },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof publicationVersionsVersionUuidPdfExportPost>>,
+    TError,
+    { versionUuid: string; data: PublicationPackagePdf },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof publicationVersionsVersionUuidPdfExportPost>>,
+        { versionUuid: string; data: PublicationPackagePdf }
+    > = props => {
+        const { versionUuid, data } = props ?? {}
+
+        return publicationVersionsVersionUuidPdfExportPost(versionUuid, data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type PublicationVersionsVersionUuidPdfExportPostMutationResult =
+    NonNullable<
+        Awaited<ReturnType<typeof publicationVersionsVersionUuidPdfExportPost>>
+    >
+export type PublicationVersionsVersionUuidPdfExportPostMutationBody =
+    PublicationPackagePdf
+export type PublicationVersionsVersionUuidPdfExportPostMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Download Publication Act as Pdf
+ */
+export const usePublicationVersionsVersionUuidPdfExportPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationVersionsVersionUuidPdfExportPost>>,
+        TError,
+        { versionUuid: string; data: PublicationPackagePdf },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getPublicationVersionsVersionUuidPdfExportPostMutationOptions(options)
 
     return useMutation(mutationOptions)
 }
@@ -20722,6 +21014,240 @@ export const usePublicationAnnouncementReportsAnnouncementReportUuidDownloadGet 
 
         return query
     }
+
+/**
+ * @summary List the allowed types of area designations to use for this publication document_type
+ */
+export const publicationDsoValueListsAreaDesignationTypesGet = (
+    params: PublicationDsoValueListsAreaDesignationTypesGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<AppExtensionsPublicationsEndpointsDsoValueListsAreaDesignationTypesAreaDesignationValueList>(
+        {
+            url: `/publication-dso-value-lists/area-designation-types`,
+            method: 'GET',
+            params,
+            signal,
+        }
+    )
+}
+
+export const getPublicationDsoValueListsAreaDesignationTypesGetQueryKey = (
+    params: PublicationDsoValueListsAreaDesignationTypesGetParams
+) => {
+    return [
+        `/publication-dso-value-lists/area-designation-types`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getPublicationDsoValueListsAreaDesignationTypesGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof publicationDsoValueListsAreaDesignationTypesGet>
+    >,
+    TError = HTTPValidationError
+>(
+    params: PublicationDsoValueListsAreaDesignationTypesGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof publicationDsoValueListsAreaDesignationTypesGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getPublicationDsoValueListsAreaDesignationTypesGetQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<typeof publicationDsoValueListsAreaDesignationTypesGet>
+        >
+    > = ({ signal }) =>
+        publicationDsoValueListsAreaDesignationTypesGet(params, signal)
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<
+            ReturnType<typeof publicationDsoValueListsAreaDesignationTypesGet>
+        >,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PublicationDsoValueListsAreaDesignationTypesGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof publicationDsoValueListsAreaDesignationTypesGet>
+        >
+    >
+export type PublicationDsoValueListsAreaDesignationTypesGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary List the allowed types of area designations to use for this publication document_type
+ */
+export const usePublicationDsoValueListsAreaDesignationTypesGet = <
+    TData = Awaited<
+        ReturnType<typeof publicationDsoValueListsAreaDesignationTypesGet>
+    >,
+    TError = HTTPValidationError
+>(
+    params: PublicationDsoValueListsAreaDesignationTypesGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof publicationDsoValueListsAreaDesignationTypesGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getPublicationDsoValueListsAreaDesignationTypesGetQueryOptions(
+            params,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary List the allowed groups to use for this publication document_type
+ */
+export const publicationDsoValueListsAreaDesignationGroupsGet = (
+    params: PublicationDsoValueListsAreaDesignationGroupsGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<AppExtensionsPublicationsEndpointsDsoValueListsAreaDesignationGroupsAreaDesignationValueList>(
+        {
+            url: `/publication-dso-value-lists/area-designation-groups`,
+            method: 'GET',
+            params,
+            signal,
+        }
+    )
+}
+
+export const getPublicationDsoValueListsAreaDesignationGroupsGetQueryKey = (
+    params: PublicationDsoValueListsAreaDesignationGroupsGetParams
+) => {
+    return [
+        `/publication-dso-value-lists/area-designation-groups`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getPublicationDsoValueListsAreaDesignationGroupsGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof publicationDsoValueListsAreaDesignationGroupsGet>
+    >,
+    TError = HTTPValidationError
+>(
+    params: PublicationDsoValueListsAreaDesignationGroupsGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof publicationDsoValueListsAreaDesignationGroupsGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getPublicationDsoValueListsAreaDesignationGroupsGetQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<typeof publicationDsoValueListsAreaDesignationGroupsGet>
+        >
+    > = ({ signal }) =>
+        publicationDsoValueListsAreaDesignationGroupsGet(params, signal)
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<
+            ReturnType<typeof publicationDsoValueListsAreaDesignationGroupsGet>
+        >,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PublicationDsoValueListsAreaDesignationGroupsGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof publicationDsoValueListsAreaDesignationGroupsGet>
+        >
+    >
+export type PublicationDsoValueListsAreaDesignationGroupsGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary List the allowed groups to use for this publication document_type
+ */
+export const usePublicationDsoValueListsAreaDesignationGroupsGet = <
+    TData = Awaited<
+        ReturnType<typeof publicationDsoValueListsAreaDesignationGroupsGet>
+    >,
+    TError = HTTPValidationError
+>(
+    params: PublicationDsoValueListsAreaDesignationGroupsGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof publicationDsoValueListsAreaDesignationGroupsGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getPublicationDsoValueListsAreaDesignationGroupsGetQueryOptions(
+            params,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
 
 /**
  * @summary Login an user and receive a JWT token

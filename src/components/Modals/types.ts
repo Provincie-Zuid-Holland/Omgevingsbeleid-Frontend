@@ -9,7 +9,6 @@ import {
     PublicationEnvironment,
     PublicationVersionShort,
 } from '@/api/fetchers.schemas'
-import { Error } from '@/utils/handleError'
 
 export type ModalType =
     | 'regulationAdd'
@@ -63,12 +62,7 @@ export interface ModalStateMap {
     }
     publicationEdit: { publication: Publication }
     publicationVersionAdd: { publication: Publication }
-    publicationVersionEdit: {
-        publicationUUID: string
-        UUID: string
-        isRequired?: boolean
-        error?: Error
-    }
+    publicationVersionEdit: { publication: Publication; UUID: string }
     publicationPackages: {
         publication: Publication
         version: PublicationVersionShort

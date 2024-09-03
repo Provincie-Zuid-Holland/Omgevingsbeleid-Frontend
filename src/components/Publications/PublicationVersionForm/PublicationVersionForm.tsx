@@ -9,54 +9,16 @@ import {
     Text,
     formatDate,
 } from '@pzh-ui/components'
-import { useMountEffect } from '@react-hookz/web'
-import { Form, Formik, FormikConfig, FormikProps, FormikValues } from 'formik'
+import { Form, Formik, FormikConfig, FormikValues } from 'formik'
 import { useParams } from 'react-router-dom'
 
 import { useModulesModuleIdStatusGet } from '@/api/fetchers'
-import { HTTPValidationError } from '@/api/fetchers.schemas'
 import FieldArray from '@/components/Form/FieldArray'
-import ScrollToFieldError from '@/components/ScrollToFieldError'
 import useModalStore from '@/store/modalStore'
-import handleError from '@/utils/handleError'
-
-interface PublicationVersionFormProps {
-    submitLabel: string
-    isEdit?: boolean
-    isRequired?: boolean
-    error?: {
-        data: HTTPValidationError
-    }
-}
 
 const PublicationVersionForm = <TData extends FormikValues>({
-    submitLabel,
-    isEdit,
-    error,
-    isRequired,
     ...rest
-}: PublicationVersionFormProps & FormikConfig<TData>) => (
-    <Formik enableReinitialize validateOnBlur={false} {...rest}>
-        {props => (
-            <InnerForm
-                isEdit={isEdit}
-                submitLabel={submitLabel}
-                isRequired={isRequired}
-                error={error}
-                {...props}
-            />
-        )}
-    </Formik>
-)
-
-const InnerForm = <TData extends FormikValues>({
-    isEdit,
-    isSubmitting,
-    submitLabel,
-    isRequired,
-    error,
-    ...rest
-}: PublicationVersionFormProps & FormikProps<TData>) => {
+}: FormikConfig<TData>) => {
     const { moduleId } = useParams()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
@@ -80,38 +42,31 @@ const InnerForm = <TData extends FormikValues>({
         }
     )
 
-    useMountEffect(() => {
-        if (!!error) {
-            setTimeout(() => {
-                handleError(error, rest)
-            }, 100)
-        }
-    })
-
     return (
-        <Form>
-            <div className="space-y-4">
-                <div>
-                    <FormikSelect
-                        key={isLoading.toString()}
-                        name="Module_Status_ID"
-                        label="Module status"
-                        placeholder="Selecteer een module status"
-                        options={statusOptions}
-                        required
-                        styles={{
-                            menu: base => ({
-                                ...base,
-                                position: 'relative',
-                                zIndex: 9999,
-                                marginTop: 2,
-                                boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
-                            }),
-                        }}
-                    />
-                </div>
-                {isEdit && (
-                    <>
+        <Formik enableReinitialize {...rest}>
+            {({ isSubmitting }) => (
+                <Form>
+                    <div className="space-y-4">
+                        <div>
+                            <FormikSelect
+                                key={isLoading.toString()}
+                                name="Module_Status_ID"
+                                label="Module status"
+                                placeholder="Selecteer een module status"
+                                options={statusOptions}
+                                required
+                                styles={{
+                                    menu: base => ({
+                                        ...base,
+                                        position: 'relative',
+                                        zIndex: 9999,
+                                        marginTop: 2,
+                                        boxShadow:
+                                            '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                                    }),
+                                }}
+                            />
+                        </div>
                         <FormikInput
                             name="Bill_Metadata.Official_Title"
                             label="Officiële titel van het besluit"
@@ -147,7 +102,6 @@ const InnerForm = <TData extends FormikValues>({
                                         name="Procedural.Signed_Date"
                                         label="Datum van ondertekening"
                                         placeholder="Kies een datum"
-                                        required={isRequired}
                                     />
                                 </div>
                                 <div>
@@ -155,7 +109,6 @@ const InnerForm = <TData extends FormikValues>({
                                         name="Procedural.Procedural_Announcement_Date"
                                         label="Bekend op"
                                         placeholder="Kies een datum"
-                                        required={isRequired}
                                     />
                                 </div>
                             </div>
@@ -170,7 +123,6 @@ const InnerForm = <TData extends FormikValues>({
                                         name="Announcement_Date"
                                         label="Bekendmakingsdatum"
                                         placeholder="Kies een datum"
-                                        required={isRequired}
                                     />
                                 </div>
                                 <div>
@@ -178,30 +130,29 @@ const InnerForm = <TData extends FormikValues>({
                                         name="Effective_Date"
                                         label="Inwerkingtredingsdatum"
                                         placeholder="Kies een datum"
-                                        required={isRequired}
                                     />
                                 </div>
                             </div>
                         </div>
-                    </>
-                )}
-            </div>
-            <Divider className="my-6" />
-            <div className="flex items-center justify-between">
-                <Button variant="link" onPress={() => setActiveModal(null)}>
-                    Annuleren
-                </Button>
-                <Button
-                    variant="cta"
-                    type="submit"
-                    isLoading={isSubmitting}
-                    isDisabled={isSubmitting}>
-                    {submitLabel}
-                </Button>
-            </div>
-
-            <ScrollToFieldError />
-        </Form>
+                    </div>
+                    <Divider className="my-6" />
+                    <div className="flex items-center justify-between">
+                        <Button
+                            variant="link"
+                            onPress={() => setActiveModal(null)}>
+                            Annuleren
+                        </Button>
+                        <Button
+                            variant="cta"
+                            type="submit"
+                            isLoading={isSubmitting}
+                            isDisabled={isSubmitting}>
+                            Versie opslaan
+                        </Button>
+                    </div>
+                </Form>
+            )}
+        </Formik>
     )
 }
 

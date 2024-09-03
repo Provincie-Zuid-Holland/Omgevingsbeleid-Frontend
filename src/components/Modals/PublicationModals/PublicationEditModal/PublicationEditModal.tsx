@@ -1,20 +1,23 @@
 import { useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'react-router-dom'
 
 import {
     getPublicationsGetQueryKey,
     usePublicationsPublicationUuidGet,
     usePublicationsPublicationUuidPost,
 } from '@/api/fetchers'
-import { DocumentType, PublicationEdit } from '@/api/fetchers.schemas'
+import { PublicationEdit } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal/Modal'
-import PublicationForm from '@/components/Publications/_OLD/PublicationForm'
+import PublicationForm from '@/components/Publications/PublicationForm'
 import useModalStore from '@/store/modalStore'
 
 import { ModalStateMap } from '../../types'
 
 const PublicationEditModal = () => {
     const queryClient = useQueryClient()
+
+    const { moduleId } = useParams()
 
     const modalState = useModalStore(
         state => state.modalStates['publicationEdit']
@@ -36,8 +39,8 @@ const PublicationEditModal = () => {
                 queryClient.invalidateQueries({ queryKey })
                 queryClient.invalidateQueries({
                     queryKey: getPublicationsGetQueryKey({
-                        document_type: modalState.publication
-                            .Document_Type as DocumentType,
+                        module_id: parseInt(String(moduleId)),
+                        limit: 100,
                     }),
                 })
 
@@ -64,7 +67,6 @@ const PublicationEditModal = () => {
                 <PublicationForm
                     onSubmit={handleFormSubmit}
                     initialValues={initialValues}
-                    submitLabel="Publicatie opslaan"
                 />
             )}
         </Modal>

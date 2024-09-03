@@ -10,7 +10,7 @@ import {
 import { PublicationVersionEdit } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal/Modal'
-import PublicationVersionForm from '@/components/Publications/_OLD/PublicationVersionForm'
+import PublicationVersionForm from '@/components/Publications/PublicationVersionForm'
 import useModalStore from '@/store/modalStore'
 import { PUBLICATION_VERSION_EDIT_SCHEMA } from '@/validation/publication'
 
@@ -28,7 +28,7 @@ const PublicationVersionEditModal = () => {
         modalState?.UUID,
         {
             query: {
-                enabled: !!modalState?.publicationUUID && !!modalState?.UUID,
+                enabled: !!modalState?.publication.UUID && !!modalState?.UUID,
             },
         }
     )
@@ -38,7 +38,7 @@ const PublicationVersionEditModal = () => {
             onSuccess: () => {
                 queryClient.invalidateQueries({
                     queryKey: getPublicationsPublicationUuidVersionsGetQueryKey(
-                        modalState.publicationUUID
+                        modalState.publication.UUID
                     ),
                 })
                 queryClient.invalidateQueries({
@@ -82,10 +82,6 @@ const PublicationVersionEditModal = () => {
                     validationSchema={toFormikValidationSchema(
                         PUBLICATION_VERSION_EDIT_SCHEMA
                     )}
-                    submitLabel="Opslaan"
-                    isEdit
-                    isRequired={modalState?.isRequired}
-                    error={modalState?.error}
                 />
             )}
         </Modal>

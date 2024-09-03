@@ -24,6 +24,11 @@ import {
     UserDetail,
     UsersOverview,
 } from '@/pages/protected'
+import TabDecisions, {
+    Packages,
+    Publications,
+} from '@/pages/protected/Modules/ModuleDetail/components/TabDecisions'
+import TabObjects from '@/pages/protected/Modules/ModuleDetail/components/TabObjects'
 import ModulesOverview from '@/pages/protected/Modules/ModulesOverview'
 import {
     Accessibility,
@@ -217,8 +222,27 @@ const AppRoutes = () => {
                             element: <ModuleProvider />,
                             children: [
                                 {
-                                    index: true,
                                     element: <ModuleDetail />,
+                                    children: [
+                                        {
+                                            index: true,
+                                            element: <TabObjects />,
+                                        },
+                                        {
+                                            path: ':tab',
+                                            element: <TabDecisions />,
+                                            children: [
+                                                {
+                                                    index: true,
+                                                    element: <Publications />,
+                                                },
+                                                {
+                                                    path: ':versionUUID/leveringen',
+                                                    element: <Packages />,
+                                                },
+                                            ],
+                                        },
+                                    ],
                                 },
                                 {
                                     path: 'bewerk',
@@ -272,12 +296,6 @@ const AppRoutes = () => {
                                             },
                                         ],
                                     })),
-                                {
-                                    path: 'besluiten',
-                                    element: (
-                                        <ModuleDetail activeTab="decisions" />
-                                    ),
-                                },
                             ],
                         },
                         {
