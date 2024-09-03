@@ -1,18 +1,33 @@
 import { Badge, Button, formatDate, Heading, Text } from '@pzh-ui/components'
-import { FileWord, Notes } from '@pzh-ui/icons'
+import { FileWord, Notes, PenToSquare } from '@pzh-ui/icons'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
-import { PublicationVersionShort } from '@/api/fetchers.schemas'
+import {
+    Publication,
+    PublicationEnvironment,
+    PublicationVersionShort,
+} from '@/api/fetchers.schemas'
+import useModalStore from '@/store/modalStore'
 import { downloadFile } from '@/utils/file'
+
+interface VersionProps extends PublicationVersionShort {
+    environment?: PublicationEnvironment
+    publication: Publication
+}
 
 const Version = ({
     UUID,
     Created_Date,
     Module_Status,
-}: PublicationVersionShort) => {
+    Is_Locked,
+    environment,
+    publication,
+}: VersionProps) => {
     const { moduleId } = useParams()
+
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const date = useMemo(
         () => formatDate(new Date(Created_Date), 'd MMMM yyyy'),
@@ -54,7 +69,13 @@ const Version = ({
                                 Versie
                             </Heading>
                         </div>
-                        <Badge text="Actief" upperCase={false} />
+                        {environment?.Has_State && (
+                            <Badge
+                                text={!Is_Locked ? 'Actief' : 'Afgerond'}
+                                solid={Is_Locked}
+                                upperCase={false}
+                            />
+                        )}
                     </div>
                 </div>
             </div>
@@ -79,8 +100,11 @@ const Version = ({
                 </div>
             </div>
             <div className="flex w-2/12 items-center justify-end gap-2 px-2">
-                <Button size="small" variant="cta">
-                    Leveringen
+                <Button size="small" variant="cta" asChild>
+                    <Link
+                        to={`/muteer/modules/${moduleId}/besluiten/${UUID}/leveringen`}>
+                        Leveringen
+                    </Link>
                 </Button>
                 <Button
                     size="small"
@@ -91,6 +115,20 @@ const Version = ({
                     onPress={() => download()}
                     isLoading={isFetching}
                     isDisabled={isFetching}
+                />
+                <Button
+                    size="small"
+                    variant="secondary"
+                    icon={PenToSquare}
+                    iconSize={16}
+                    aria-label="Wijzig publicatie"
+                    isDisabled={Is_Locked}
+                    onPress={() =>
+                        setActiveModal('publicationVersionEdit', {
+                            publication,
+                            UUID,
+                        })
+                    }
                 />
             </div>
         </div>

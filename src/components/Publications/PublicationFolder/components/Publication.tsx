@@ -14,6 +14,7 @@ import {
     PublicationEnvironment,
     Publication as PublicationType,
 } from '@/api/fetchers.schemas'
+import useModalStore from '@/store/modalStore'
 
 import Version from './Version'
 import VersionAdd from './VersionAdd'
@@ -22,7 +23,14 @@ interface PublicationProps extends PublicationType {
     environment?: PublicationEnvironment
 }
 
-const Publication = ({ UUID, Title, environment }: PublicationProps) => {
+const Publication = ({
+    UUID,
+    Title,
+    environment,
+    ...rest
+}: PublicationProps) => {
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
     const { data: versions } = usePublicationsPublicationUuidVersionsGet(
         UUID || '',
         {
@@ -90,12 +98,22 @@ const Publication = ({ UUID, Title, environment }: PublicationProps) => {
                         icon={PenToSquare}
                         iconSize={16}
                         aria-label="Wijzig publicatie"
+                        onPress={() =>
+                            setActiveModal('publicationEdit', {
+                                publication: { UUID, Title, ...rest },
+                            })
+                        }
                     />
                 </div>
             </AccordionTrigger>
             <AccordionContent className="pb-0">
                 {versions?.results.map(version => (
-                    <Version key={version.UUID} {...version} />
+                    <Version
+                        key={version.UUID}
+                        environment={environment}
+                        publication={{ UUID, Title, ...rest }}
+                        {...version}
+                    />
                 ))}
                 <VersionAdd />
             </AccordionContent>

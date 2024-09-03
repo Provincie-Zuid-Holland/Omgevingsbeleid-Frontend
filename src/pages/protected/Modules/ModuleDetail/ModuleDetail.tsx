@@ -1,62 +1,28 @@
-import {
-    Accordion,
-    Button,
-    Divider,
-    TabItem,
-    Tabs,
-    TabsProps,
-} from '@pzh-ui/components'
-import { Plus } from '@pzh-ui/icons'
+import { TabItem, Tabs, TabsProps } from '@pzh-ui/components'
 import classNames from 'clsx'
-import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useState } from 'react'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
-import { usePublicationsGet } from '@/api/fetchers'
-import { DocumentType, Module, ModuleObjectShort } from '@/api/fetchers.schemas'
-import { LoaderContent, LoaderSpinner } from '@/components/Loader'
-import {
-    ModuleActivateModal,
-    ModuleCompleteModal,
-    ModuleContentsModal,
-    ModuleEditObjectModal,
-    ModuleLockModal,
-    ModuleObjectDeleteConfirmationModal,
-} from '@/components/Modals/ModuleModals'
-import ModuleCompleteCard from '@/components/Modules/ModuleCompleteCard'
+import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
+import { LoaderContent } from '@/components/Loader'
 import ModuleHeader from '@/components/Modules/ModuleHeader'
-import ModuleInactiveCard from '@/components/Modules/ModuleInactiveCard'
-import ModuleItemList from '@/components/Modules/ModuleItemList'
-import ModuleLock from '@/components/Modules/ModuleLock'
-import ModuleTimeline from '@/components/Modules/ModuleTimeline'
-import ModuleVersionCard from '@/components/Modules/ModuleVersionCard'
-import PublicationFolder from '@/components/Publications/PublicationFolder'
-import PublicationWizard from '@/components/Publications/PublicationWizard'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
-import useModalStore from '@/store/modalStore'
-import usePublicationStore from '@/store/publicationStore'
 import MutateLayout from '@/templates/MutateLayout'
-import * as modules from '@/validation/modules'
 
-type TabType = 'objects' | 'decisions'
+type TabType = 'objecten' | 'besluiten'
 
 export interface ModuleContext {
     object?: ModuleObjectShort
     module?: Module
 }
 
-interface ModuleDetailProps {
-    activeTab?: TabType
-}
-
-const ModuleDetail = ({
-    activeTab: providedActiveTab = 'objects',
-}: ModuleDetailProps) => {
+const ModuleDetail = () => {
     const { canEditModule } = usePermissions()
     const navigate = useNavigate()
-    const { moduleId } = useParams()
+    const { moduleId, tab } = useParams<{ moduleId: string; tab?: TabType }>()
 
-    const [activeTab, setActiveTab] = useState<TabType>(providedActiveTab)
+    const [activeTab, setActiveTab] = useState<TabType>(tab || 'objecten')
 
     const {
         data: { Module: module } = {},
@@ -69,7 +35,7 @@ const ModuleDetail = ({
 
         navigate(
             `/muteer/modules/${moduleId}${
-                key === 'decisions' ? '/besluiten' : ''
+                key === 'besluiten' ? '/besluiten' : ''
             }`
         )
     }
@@ -88,168 +54,15 @@ const ModuleDetail = ({
                 <Tabs
                     selectedKey={activeTab}
                     onSelectionChange={handleTabChange}>
-                    <TabItem title="Onderdelen" key="objects">
-                        {module.Activated ? (
-                            <ModuleLock />
-                        ) : (
-                            !canEditModule &&
-                            !isModuleManager && <Divider className="mb-4" />
-                        )}
-                        <div className="grid grid-cols-6 gap-x-10 gap-y-0 pt-6">
-                            <TabObjects />
-                        </div>
+                    <TabItem title="Onderdelen" key="objecten">
+                        <Outlet />
                     </TabItem>
-                    <TabItem title="Besluiten" key="decisions">
-                        <div className="grid grid-cols-6 gap-x-10 gap-y-0 pt-6">
-                            <TabDecisions />
-                        </div>
+                    <TabItem title="Besluiten" key="besluiten">
+                        <Outlet />
                     </TabItem>
                 </Tabs>
             </div>
         </MutateLayout>
-    )
-}
-
-const TabObjects = () => {
-    const setActiveModal = useModalStore(state => state.setActiveModal)
-
-    const {
-        canPatchModuleStatus,
-        canAddExistingObjectToModule,
-        canAddNewObjectToModule,
-    } = usePermissions()
-
-    const {
-        data: {
-            Module: module,
-            Objects: objects,
-            StatusHistory: statusHistory,
-        } = {},
-        isLoading,
-        isModuleManager,
-        isLocked,
-        canComplete,
-    } = useModule()
-
-    if (isLoading || !module) return <LoaderContent />
-
-    return (
-        <>
-            <div className="col-span-6 lg:col-span-4">
-                <ModuleItemList objects={objects} module={module} />
-
-                {(canAddExistingObjectToModule || canAddNewObjectToModule) &&
-                    !isLocked && (
-                        <Button
-                            variant="link"
-                            onPress={() => setActiveModal('moduleAddObject')}
-                            className="block text-pzh-green-500 hover:text-pzh-green-900">
-                            Onderdeel toevoegen
-                        </Button>
-                    )}
-            </div>
-
-            <div className="col-span-6 lg:col-span-2">
-                {!module.Activated &&
-                    (canPatchModuleStatus || isModuleManager) && (
-                        <ModuleInactiveCard />
-                    )}
-
-                {module.Activated &&
-                    isLocked &&
-                    !canComplete &&
-                    (canPatchModuleStatus || isModuleManager) && (
-                        <ModuleVersionCard />
-                    )}
-
-                {canComplete && isLocked && canPatchModuleStatus && (
-                    <ModuleCompleteCard />
-                )}
-
-                {module.Activated && statusHistory && (
-                    <ModuleTimeline statusHistory={statusHistory} />
-                )}
-            </div>
-
-            <ModuleContentsModal
-                initialStep={1}
-                initialValues={{
-                    ...modules.EMPTY_MODULE_OBJECT,
-                    state: 'existing',
-                    validOrModule: 'valid',
-                }}
-                module={module}
-            />
-
-            <ModuleActivateModal />
-
-            <ModuleLockModal />
-
-            <ModuleEditObjectModal />
-
-            <ModuleObjectDeleteConfirmationModal />
-
-            <ModuleCompleteModal />
-        </>
-    )
-}
-
-const TabDecisions = () => {
-    const { moduleId } = useParams()
-
-    const wizardActive = usePublicationStore(state => state.wizardActive)
-    const setWizardActive = usePublicationStore(state => state.setWizardActive)
-    const activeFolders = usePublicationStore(state => state.activeFolders)
-    const setActiveFolders = usePublicationStore(
-        state => state.setActiveFolders
-    )
-
-    const documentTypes = Object.keys(DocumentType) as Array<DocumentType>
-
-    const { data: publications, isFetching: publicationsFetching } =
-        usePublicationsGet({
-            module_id: parseInt(moduleId!),
-            limit: 100,
-        })
-
-    useEffect(() => {
-        if (!!publications?.results.length && !publicationsFetching) {
-            setWizardActive(false)
-        }
-    }, [publications?.results, publicationsFetching, setWizardActive])
-
-    return (
-        <div className="col-span-6 flex flex-col gap-6">
-            {publicationsFetching ? (
-                <LoaderSpinner />
-            ) : !wizardActive ? (
-                <Button
-                    size="small"
-                    icon={Plus}
-                    className="self-end"
-                    onPress={() => setWizardActive(true)}>
-                    Nieuw
-                </Button>
-            ) : (
-                <PublicationWizard handleClose={() => setWizardActive(false)} />
-            )}
-
-            <Accordion
-                type="multiple"
-                className="flex flex-col gap-4"
-                value={activeFolders.documentTypes}
-                onValueChange={documentTypes =>
-                    setActiveFolders({ documentTypes })
-                }>
-                {documentTypes.map(documentType => (
-                    <PublicationFolder
-                        key={documentType}
-                        documentType={documentType}
-                        publications={publications?.results}
-                    />
-                ))}
-            </Accordion>
-        </div>
     )
 }
 

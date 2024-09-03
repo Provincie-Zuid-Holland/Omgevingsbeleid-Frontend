@@ -15,6 +15,14 @@ export type PasswordResetPostParams = {
     new_password: string
 }
 
+export type PublicationDsoValueListsAreaDesignationGroupsGetParams = {
+    type: AreaDesignationTypeEnum
+}
+
+export type PublicationDsoValueListsAreaDesignationTypesGetParams = {
+    document_type: DocumentType
+}
+
 export type PublicationAnnouncementReportsAnnouncementReportUuidDownloadGet200 =
     {}
 
@@ -56,6 +64,8 @@ export type PublicationActPackagesGetParams = {
     offset?: number
     limit?: number
 }
+
+export type PublicationVersionsVersionUuidPdfExportPost200 = {}
 
 export type PublicationsPublicationUuidVersionsGetParams = {
     offset?: number
@@ -119,14 +129,20 @@ export type ModulesObjectsLatestGetParams = {
 
 export type ModulesModuleIdDiffGetParams = {
     output_format?: Format
+    show_differences?: boolean
     status_id?: number
 }
 
 export type ModulesGetParams = {
     only_mine?: boolean
-    only_active?: boolean
+    filter_activated?: boolean
+    filter_closed?: boolean
+    filter_successful?: boolean
+    filter_title?: string
     offset?: number
     limit?: number
+    sort_column?: ModuleSortColumn
+    sort_order?: SortOrder
     object_type?: string
     lineage_id?: number
 }
@@ -512,6 +528,14 @@ export interface AppExtensionsPublicationsEndpointsPublicationsActReportsUploadA
     Status: ReportStatusType
 }
 
+export interface AppExtensionsPublicationsEndpointsDsoValueListsAreaDesignationTypesAreaDesignationValueList {
+    Allowed_Values: string[]
+}
+
+export interface AppExtensionsPublicationsEndpointsDsoValueListsAreaDesignationGroupsAreaDesignationValueList {
+    Allowed_Values: string[]
+}
+
 export interface WriteRelation {
     Description?: string | null
     Object_ID: number
@@ -782,31 +806,8 @@ export interface VerplichtProgrammaMinimal {
     UUID?: string
 }
 
-export interface VerplichtProgrammaFullStatics {
-    Owner_1?: UserShort
-    Owner_2?: UserShort
-}
-
 export type VerplichtProgrammaFullObjectStatics =
     VerplichtProgrammaFullStatics | null
-
-export interface VerplichtProgrammaFull {
-    Code?: string
-    Created_By?: UserShort
-    Created_Date?: string
-    Description?: string
-    End_Validity?: string | null
-    Maatregelen?: ReadRelationShortMaatregelMinimal[]
-    Modified_By?: UserShort
-    Modified_Date?: string
-    Object_ID?: number
-    Object_Type?: string
-    ObjectStatics?: VerplichtProgrammaFullObjectStatics
-    Start_Validity?: string | null
-    Title?: string
-    UUID?: string
-    WettelijkeTaken?: WettelijkeTaakMinimal[]
-}
 
 export interface VerplichtProgrammaEdit {
     Description?: string | null
@@ -861,6 +862,29 @@ export interface UserShort {
     UUID: string
 }
 
+export interface VerplichtProgrammaFullStatics {
+    Owner_1?: UserShort
+    Owner_2?: UserShort
+}
+
+export interface VerplichtProgrammaFull {
+    Code?: string
+    Created_By?: UserShort
+    Created_Date?: string
+    Description?: string
+    End_Validity?: string | null
+    Maatregelen?: ReadRelationShortMaatregelMinimal[]
+    Modified_By?: UserShort
+    Modified_Date?: string
+    Object_ID?: number
+    Object_Type?: string
+    ObjectStatics?: VerplichtProgrammaFullObjectStatics
+    Start_Validity?: string | null
+    Title?: string
+    UUID?: string
+    WettelijkeTaken?: WettelijkeTaakMinimal[]
+}
+
 export interface UserCreateResponse {
     Email: string
     Password: string
@@ -881,6 +905,10 @@ export interface User {
     Rol: string
     Status: string
     UUID: string
+}
+
+export interface UploadAttachmentResponse {
+    ID: number
 }
 
 export type TemplateEditObjectTemplates = { [key: string]: string } | null
@@ -1031,6 +1059,7 @@ export interface ReadRelation {
 export type PublicationVersionShortBillMetadata = { [key: string]: any }
 
 export interface PublicationVersionShort {
+    Act_Packages: PublicationPackageShort[]
     Announcement_Date?: string
     Bill_Metadata: PublicationVersionShortBillMetadata
     Created_Date: string
@@ -1042,7 +1071,10 @@ export interface PublicationVersionShort {
     UUID: string
 }
 
+export type PublicationVersionEditResponseErrorsItem = { [key: string]: any }
+
 export interface PublicationVersionEditResponse {
+    Errors: PublicationVersionEditResponseErrorsItem[]
     Is_Valid: boolean
 }
 
@@ -1051,6 +1083,7 @@ export interface PublicationVersionEdit {
     Bill_Compact?: BillCompact
     Bill_Metadata?: BillMetadata
     Effective_Date?: string
+    Module_Status_ID?: number
     Procedural?: Procedural
 }
 
@@ -1064,9 +1097,27 @@ export interface PublicationVersionCreate {
 
 export type PublicationVersionProcedural = { [key: string]: any }
 
+export type PublicationVersionErrorsItem = { [key: string]: any }
+
 export type PublicationVersionBillMetadata = { [key: string]: any }
 
 export type PublicationVersionBillCompact = { [key: string]: any }
+
+export interface PublicationVersion {
+    Announcement_Date?: string
+    Attachments: AttachmentShort[]
+    Bill_Compact: PublicationVersionBillCompact
+    Bill_Metadata: PublicationVersionBillMetadata
+    Created_Date: string
+    Effective_Date?: string
+    Errors?: PublicationVersionErrorsItem[]
+    Is_Locked: boolean
+    Modified_Date: string
+    Module_Status: ModuleStatus
+    Procedural: PublicationVersionProcedural
+    Publication: PublicationShort
+    UUID: string
+}
 
 export type PublicationTemplateObjectTemplates = { [key: string]: string }
 
@@ -1098,21 +1149,6 @@ export interface PublicationShort {
     UUID: string
 }
 
-export interface PublicationVersion {
-    Announcement_Date?: string
-    Bill_Compact: PublicationVersionBillCompact
-    Bill_Metadata: PublicationVersionBillMetadata
-    Created_Date: string
-    Effective_Date?: string
-    Is_Locked: boolean
-    Is_Valid?: boolean
-    Modified_Date: string
-    Module_Status: ModuleStatus
-    Procedural: PublicationVersionProcedural
-    Publication: PublicationShort
-    UUID: string
-}
-
 export interface PublicationPackageShort {
     Created_By_UUID: string
     Created_Date: string
@@ -1122,6 +1158,10 @@ export interface PublicationPackageShort {
     Package_Type: string
     Report_Status: string
     UUID: string
+}
+
+export interface PublicationPackagePdf {
+    Mutation?: MutationStrategy
 }
 
 export interface PublicationPackageCreatedResponse {
@@ -1976,6 +2016,24 @@ export interface NationaalBelangBasic {
 /**
  * An enumeration.
  */
+export type MutationStrategy =
+    (typeof MutationStrategy)[keyof typeof MutationStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MutationStrategy = {
+    renvooi: 'renvooi',
+    replace: 'replace',
+} as const
+
+export interface Motivation {
+    Appendices?: Appendix[]
+    Content: string
+    Title: string
+}
+
+/**
+ * An enumeration.
+ */
 export type ModuleStatusCode =
     (typeof ModuleStatusCode)[keyof typeof ModuleStatusCode]
 
@@ -1998,6 +2056,18 @@ export interface ModuleStatus {
     Module_ID: number
     Status: string
 }
+
+/**
+ * An enumeration.
+ */
+export type ModuleSortColumn =
+    (typeof ModuleSortColumn)[keyof typeof ModuleSortColumn]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ModuleSortColumn = {
+    Created_Date: 'Created_Date',
+    Modified_Date: 'Modified_Date',
+} as const
 
 export type ModuleSnapshotObjectsItem = { [key: string]: any }
 
@@ -2515,11 +2585,13 @@ export const DocumentType = {
 } as const
 
 export interface CompleteModule {
-    Decision_Number: string
     Default_Start_Validity?: string | null
-    IDMS_Link: string
-    Link_To_Decision_Document: string
     ObjectSpecifiekeGeldigheden?: ObjectSpecifiekeGeldigheid[]
+}
+
+export interface BodyFastapiHandlerPublicationVersionsVersionUuidAttachmentsPost {
+    title: string
+    uploaded_file: Blob
 }
 
 export interface BodyFastapiHandlerPublicationAnnouncementPackagesAnnouncementPackageUuidReportPost {
@@ -2548,9 +2620,10 @@ export interface BillMetadata {
 
 export interface BillCompact {
     Amendment_Article?: string
+    Appendices?: Appendix[]
     Closing?: string
-    Component_Name?: string
     Custom_Articles?: Article[]
+    Motivation?: Motivation
     Preamble?: string
     Signed?: string
     Time_Article?: string
@@ -2866,10 +2939,49 @@ export interface AuthToken {
     token_type: string
 }
 
+export interface AttachmentShort {
+    Created_Date: string
+    File_UUID: string
+    Filename: string
+    ID: number
+    Modified_Date: string
+    Title: string
+}
+
 export interface Article {
     Content: string
-    Label: string
+    Label?: string
+    Number: string
 }
+
+/**
+ * An enumeration.
+ */
+export type AreaDesignationTypeEnum =
+    (typeof AreaDesignationTypeEnum)[keyof typeof AreaDesignationTypeEnum]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AreaDesignationTypeEnum = {
+    Beperkingengebied: 'Beperkingengebied',
+    Bodem: 'Bodem',
+    Bouw: 'Bouw',
+    Defensie: 'Defensie',
+    Energievoorziening: 'Energievoorziening',
+    Erfgoed: 'Erfgoed',
+    ExterneVeiligheid: 'ExterneVeiligheid',
+    Functie: 'Functie',
+    Geluid: 'Geluid',
+    Geur: 'Geur',
+    Landschap: 'Landschap',
+    Leiding: 'Leiding',
+    Lucht: 'Lucht',
+    Mijnbouw: 'Mijnbouw',
+    Natuur: 'Natuur',
+    Recreatie: 'Recreatie',
+    RuimtelijkGebruik: 'RuimtelijkGebruik',
+    Verkeer: 'Verkeer',
+    WaterEnWatersysteem: 'WaterEnWatersysteem',
+} as const
 
 export interface AreaBasic {
     Created_By_UUID: string
@@ -2880,6 +2992,12 @@ export interface AreaBasic {
     UUID: string
 }
 
+export interface Appendix {
+    Content: string
+    Number: string
+    Title: string
+}
+
 export interface AnnouncementText {
     Description: string
     Title: string
@@ -2887,10 +3005,8 @@ export interface AnnouncementText {
 
 export interface AnnouncementProcedural {
     Begin_Inspection_Period_Date?: string
-    Enactment_Date?: string
     End_Inspection_Period_Date?: string
     Procedural_Announcement_Date?: string
-    Signed_Date?: string
 }
 
 export interface AnnouncementMetadata {
@@ -3027,7 +3143,6 @@ export interface ActCreatedResponse {
 export interface ActCreate {
     Document_Type: DocumentType
     Environment_UUID: string
-    Procedure_Type: ProcedureType
     Title: string
 }
 

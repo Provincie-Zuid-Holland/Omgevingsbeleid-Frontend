@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { getPublicationsGetQueryKey, usePublicationsPost } from '@/api/fetchers'
 import { PublicationCreate } from '@/api/fetchers.schemas'
 import Modal from '@/components/Modal/Modal'
-import PublicationForm from '@/components/Publications/_OLD/PublicationForm'
+import PublicationForm from '@/components/Publications/PublicationForm'
 import useModalStore from '@/store/modalStore'
 
 import { ModalStateMap } from '../../types'

@@ -33,6 +33,11 @@ export const SCHEMA_PUBLICATION = object({
     Module_Status_ID: schemaDefaults.requiredNumber(),
 })
 
+export const PUBLICATION_EDIT_SCHEMA = object({
+    Title: schemaDefaults.requiredString(),
+    Template_UUID: schemaDefaults.requiredString(),
+})
+
 export const PUBLICATION_VERSION_ADD_SCHEMA = object({
     Module_Status_ID: schemaDefaults.requiredNumber(),
 })

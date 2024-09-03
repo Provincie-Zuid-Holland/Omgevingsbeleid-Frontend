@@ -6,10 +6,10 @@
     "type": "module",
     "dependencies": {
         "@headlessui/react": "^1.7.17",
-        "@pzh-ui/components": "^0.0.566",
+        "@pzh-ui/components": "^0.0.568",
         "@pzh-ui/config": "^0.0.70",
         "@pzh-ui/css": "^0.0.100",
-        "@pzh-ui/icons": "^0.0.67",
+        "@pzh-ui/icons": "^0.0.68",
         "@react-hookz/web": "^24.0.4",
         "@tanstack/react-query": "^5.24.7",
         "axios": "^1.6.7",
