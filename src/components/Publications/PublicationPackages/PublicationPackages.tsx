@@ -5,38 +5,55 @@ import {
     Heading,
 } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
+import clsx from 'clsx'
 
-import { PublicationShort, PublicationVersion } from '@/api/fetchers.schemas'
+import {
+    PublicationEnvironment,
+    PublicationPackage,
+    PublicationShort,
+    PublicationVersion,
+} from '@/api/fetchers.schemas'
 
 import { PublicationType } from '../types'
-import Packages from './components/Packages'
+import { ActPackages, AnnouncementPackages } from './components/Packages'
 
 const config = {
     act: {
         label: 'Regeling',
+        component: ActPackages,
     },
     announcement: {
         label: 'Kennisgeving',
+        component: AnnouncementPackages,
     },
 }
 
 interface PublicationPackagesProps {
+    environment?: PublicationEnvironment
     version: PublicationVersion
     publication?: PublicationShort
     publicationType: PublicationType
+    validPublicationPackage?: PublicationPackage
+    isLocked?: boolean
 }
 
 const PublicationPackages = ({
+    environment,
     publicationType,
+    version,
     ...rest
 }: PublicationPackagesProps) => {
+    const Packages = config[publicationType].component
+
     return (
         <AccordionItem
             value={publicationType}
-            className="group rounded-lg border border-pzh-gray-200">
+            className={clsx('group rounded-lg border border-pzh-gray-200', {
+                'bg-pzh-gray-100': version.Is_Locked,
+            })}>
             <AccordionTrigger
                 hideIcon
-                className="flex h-16 items-center justify-between rounded-t-lg bg-pzh-gray-100 px-6 group-only:hover:no-underline [&[data-disabled]>*]:text-pzh-gray-300 hover:[&[data-disabled]]:no-underline [&[data-state=closed]]:rounded-b-lg [&[data-state=open]>svg]:rotate-90">
+                className="flex h-16 items-center justify-between rounded-t-lg bg-pzh-gray-100 px-6 group-only:hover:cursor-default group-only:hover:no-underline [&[data-disabled]>*]:text-pzh-gray-300 hover:[&[data-disabled]]:no-underline [&[data-state=closed]]:rounded-b-lg [&[data-state=open]>svg]:rotate-90">
                 <Heading level="3" size="m" className="capitalize">
                     {config[publicationType].label}
                 </Heading>
@@ -46,16 +63,27 @@ const PublicationPackages = ({
                 />
             </AccordionTrigger>
             <AccordionContent className="pb-0">
-                <Packages
-                    packageType="validation"
-                    publicationType={publicationType}
-                    {...rest}
-                />
-                <Packages
-                    packageType="publication"
-                    publicationType={publicationType}
-                    {...rest}
-                />
+                {environment?.Can_Validate && (
+                    <Packages
+                        version={version}
+                        packageType="validation"
+                        customLabel={
+                            !environment.Can_Publicate
+                                ? 'Publicatie'
+                                : undefined
+                        }
+                        canPublicate={environment.Can_Publicate}
+                        {...rest}
+                    />
+                )}
+                {environment?.Can_Publicate && (
+                    <Packages
+                        version={version}
+                        packageType="publication"
+                        canPublicate={environment.Can_Publicate}
+                        {...rest}
+                    />
+                )}
             </AccordionContent>
         </AccordionItem>
     )

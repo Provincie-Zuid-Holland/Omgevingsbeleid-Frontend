@@ -9,7 +9,7 @@ const StepSix = ({ data }: StepProps) => (
         <Text
             as="label"
             bold
-            htmlFor="Document_Type"
+            htmlFor="Module_Status_ID"
             className="text-heading-m text-pzh-blue-500">
             Module status
         </Text>

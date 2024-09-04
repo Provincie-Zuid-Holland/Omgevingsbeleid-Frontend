@@ -10,7 +10,7 @@ const StepFour = ({ data }: StepProps) => {
             <Text
                 as="label"
                 bold
-                htmlFor="Document_Type"
+                htmlFor="Act_UUID"
                 className="text-heading-m text-pzh-blue-500">
                 Regeling & Publicatie template
             </Text>

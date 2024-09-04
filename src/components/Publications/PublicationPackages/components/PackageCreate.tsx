@@ -2,27 +2,22 @@ import { Button, Text } from '@pzh-ui/components'
 import { PlusLight } from '@pzh-ui/icons'
 import { useParams } from 'react-router-dom'
 
-import { PackageType, PublicationShort } from '@/api/fetchers.schemas'
+import { PackageType } from '@/api/fetchers.schemas'
 
 import { useActions } from './actions'
 
 interface PackageCreateProps {
+    createPackage: ReturnType<typeof useActions>['createPackage']
     inline?: boolean
-    publication?: PublicationShort
     packageType: PackageType
 }
 
 const PackageCreate = ({
+    createPackage,
     inline,
-    publication,
     packageType,
 }: PackageCreateProps) => {
     const { versionUUID } = useParams()
-
-    const { createPackage } = useActions({
-        versionUUID,
-        pubicationUUID: String(publication?.UUID),
-    })
 
     const handleAction = () =>
         createPackage.mutate({

@@ -3,11 +3,13 @@ import {
     AccordionItem,
     AccordionTrigger,
     Badge,
+    BadgeProps,
     Button,
     Heading,
     Text,
 } from '@pzh-ui/components'
 import { AngleRight, ArrowDownToSquare, PenToSquare } from '@pzh-ui/icons'
+import { useMemo } from 'react'
 
 import { usePublicationsPublicationUuidVersionsGet } from '@/api/fetchers'
 import {
@@ -38,6 +40,24 @@ const Publication = ({
         }
     )
 
+    const status = useMemo((): BadgeProps | undefined => {
+        if (
+            !!versions?.results[0].Act_Packages.length &&
+            !environment?.Can_Publicate
+        ) {
+            return {
+                text: 'Afgerond',
+                variant: 'green',
+                solid: true,
+            }
+        }
+
+        return {
+            text: 'Actief',
+            variant: 'green',
+        }
+    }, [versions, environment?.Can_Publicate])
+
     return (
         <AccordionItem value={UUID} className="last:border-b-0">
             <AccordionTrigger
@@ -62,7 +82,7 @@ const Publication = ({
                                 {environment?.Title} publicatie
                             </Heading>
                         </div>
-                        <Badge text="Actief" upperCase={false} />
+                        {!!status && <Badge upperCase={false} {...status} />}
                     </div>
                 </div>
                 <div className="flex w-2/12 items-center pl-6 pr-2 text-left">
@@ -115,7 +135,7 @@ const Publication = ({
                         {...version}
                     />
                 ))}
-                <VersionAdd />
+                <VersionAdd publicationUUID={UUID} />
             </AccordionContent>
         </AccordionItem>
     )
