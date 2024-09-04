@@ -68,7 +68,7 @@ const PackageStep = ({
             </div>
             <div
                 className={classNames(
-                    'flex flex-1 items-center justify-between py-4',
+                    'flex flex-1 flex-wrap items-center justify-between py-4',
                     {
                         'border-t border-pzh-gray-300': !isFirst,
                     }
