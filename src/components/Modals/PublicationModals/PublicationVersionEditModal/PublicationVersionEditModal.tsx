@@ -82,6 +82,8 @@ const PublicationVersionEditModal = () => {
                     validationSchema={toFormikValidationSchema(
                         PUBLICATION_VERSION_EDIT_SCHEMA
                     )}
+                    isRequired={modalState?.isRequired}
+                    error={modalState?.error}
                 />
             )}
         </Modal>

@@ -1,15 +1,10 @@
-import {
-    Accordion,
-    BackLink,
-    Button,
-    Heading,
-    Notification,
-} from '@pzh-ui/components'
+import { Accordion, BackLink, Button, Heading } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
 import { useEffect } from 'react'
 import { Link, Outlet, useParams } from 'react-router-dom'
 
 import {
+    usePublicationActPackagesGet,
     usePublicationEnvironmentsEnvironmentUuidGet,
     usePublicationsGet,
     usePublicationVersionsVersionUuidGet,
@@ -26,9 +21,14 @@ import PublicationWizard from '@/components/Publications/PublicationWizard'
 import usePublicationStore from '@/store/publicationStore'
 
 const TabDecisions = () => (
-    <div className="grid grid-cols-6 gap-x-10 gap-y-0 pt-6">
-        <Outlet />
-    </div>
+    <>
+        <div className="grid grid-cols-6 gap-x-10 gap-y-0 pt-6">
+            <Outlet />
+        </div>
+
+        <PublicationEditModal />
+        <PublicationVersionEditModal />
+    </>
 )
 
 export const Publications = () => {
@@ -56,44 +56,37 @@ export const Publications = () => {
     }, [publications?.results, publicationsFetching, setWizardActive])
 
     return (
-        <>
-            <div className="col-span-6 flex flex-col gap-6">
-                {publicationsFetching ? (
-                    <LoaderSpinner />
-                ) : !wizardActive ? (
-                    <Button
-                        size="small"
-                        icon={Plus}
-                        className="self-end"
-                        onPress={() => setWizardActive(true)}>
-                        Nieuw
-                    </Button>
-                ) : (
-                    <PublicationWizard
-                        handleClose={() => setWizardActive(false)}
+        <div className="col-span-6 flex flex-col gap-6">
+            {publicationsFetching ? (
+                <LoaderSpinner />
+            ) : !wizardActive ? (
+                <Button
+                    size="small"
+                    icon={Plus}
+                    className="self-end"
+                    onPress={() => setWizardActive(true)}>
+                    Nieuw
+                </Button>
+            ) : (
+                <PublicationWizard handleClose={() => setWizardActive(false)} />
+            )}
+
+            <Accordion
+                type="multiple"
+                className="flex flex-col gap-4"
+                value={activeFolders.documentTypes}
+                onValueChange={documentTypes =>
+                    setActiveFolders({ documentTypes })
+                }>
+                {documentTypes.map(documentType => (
+                    <PublicationFolder
+                        key={documentType}
+                        documentType={documentType}
+                        publications={publications?.results}
                     />
-                )}
-
-                <Accordion
-                    type="multiple"
-                    className="flex flex-col gap-4"
-                    value={activeFolders.documentTypes}
-                    onValueChange={documentTypes =>
-                        setActiveFolders({ documentTypes })
-                    }>
-                    {documentTypes.map(documentType => (
-                        <PublicationFolder
-                            key={documentType}
-                            documentType={documentType}
-                            publications={publications?.results}
-                        />
-                    ))}
-                </Accordion>
-            </div>
-
-            <PublicationEditModal />
-            <PublicationVersionEditModal />
-        </>
+                ))}
+            </Accordion>
+        </div>
     )
 }
 
@@ -117,6 +110,24 @@ export const Packages = () => {
             }
         )
 
+    const { data: validPublicationPackage } = usePublicationActPackagesGet(
+        {
+            version_uuid: version?.UUID,
+            limit: 100,
+        },
+        {
+            query: {
+                enabled: !!version?.UUID,
+                select: data =>
+                    data.results.find(
+                        pkg =>
+                            pkg.Report_Status === 'valid' &&
+                            pkg.Package_Type === 'publication'
+                    ),
+            },
+        }
+    )
+
     if (versionFetching || environmentFetching || !version)
         return <LoaderSpinner />
 
@@ -137,11 +148,6 @@ export const Packages = () => {
                 {environment?.Title})
             </Heading>
 
-            <Notification
-                title="Let op! Een versie kan niet worden bewerkt of verwijderd nadat je op ‘Maak levering’ hebt geklikt."
-                className="w-full"
-            />
-
             <Accordion
                 type="multiple"
                 className="flex flex-col gap-4"
@@ -153,16 +159,20 @@ export const Packages = () => {
                         : undefined
                 }>
                 <PublicationPackages
+                    environment={environment}
                     version={version}
                     publication={version?.Publication}
                     publicationType="act"
+                    isLocked={version.Is_Locked}
                 />
                 {version?.Publication.Procedure_Type === 'draft' &&
                     environment?.Can_Publicate && (
                         <PublicationPackages
+                            environment={environment}
                             version={version}
                             publication={version?.Publication}
                             publicationType="announcement"
+                            validPublicationPackage={validPublicationPackage}
                         />
                     )}
             </Accordion>

@@ -11,7 +11,31 @@ import { Link } from 'react-router-dom'
 
 import { PublicationPackage } from '@/api/fetchers.schemas'
 
-const Package = ({ Created_Date, Zip, Report_Status }: PublicationPackage) => {
+import { useActions } from './actions'
+
+interface PackageProps extends PublicationPackage {
+    publicationUUID: string
+    versionUUID: string
+    isLocked?: boolean
+    canPublicate?: boolean
+}
+
+const Package = ({
+    UUID,
+    Created_Date,
+    Zip,
+    Report_Status,
+    isLocked,
+    publicationUUID,
+    versionUUID,
+    canPublicate,
+}: PackageProps) => {
+    const { downloadPackage } = useActions({
+        publicationUUID,
+        versionUUID,
+        packageUUID: UUID,
+    })
+
     const createdDate = useMemo(
         () => formatDate(new Date(Created_Date), 'dd-MM-yyyy'),
 
@@ -80,34 +104,51 @@ const Package = ({ Created_Date, Zip, Report_Status }: PublicationPackage) => {
                 </div>
             </div>
             {!!!Zip.Latest_Download_Date ? (
-                <Button size="small" variant="cta">
+                <Button
+                    size="small"
+                    variant="cta"
+                    onPress={() => downloadPackage.refetch()}
+                    isLoading={downloadPackage.isFetching}
+                    isDisabled={downloadPackage.isFetching}>
                     Download levering
                 </Button>
             ) : (
                 <div className="flex items-center gap-4">
                     <div>
                         <Text size="s">Gedownload op {downloadDate}</Text>
-                        <Link
-                            to="/"
-                            className="group/upload flex items-center gap-2">
-                            <Text
-                                size="s"
-                                className="underline group-hover/upload:no-underline"
-                                color="text-pzh-green-500">
-                                Upload rapporten
-                            </Text>
-                            <ArrowUpRightFromSquareLight
-                                size={14}
-                                className="-mt-0.5 text-pzh-green-500"
-                            />
-                        </Link>
+                        {!isLocked && canPublicate && (
+                            <Link
+                                to="/"
+                                className="group/upload flex items-center gap-2">
+                                <Text
+                                    size="s"
+                                    className="leading-none underline group-hover/upload:no-underline"
+                                    color="text-pzh-green-500">
+                                    Upload rapporten
+                                </Text>
+                                <ArrowUpRightFromSquareLight
+                                    size={14}
+                                    className="-mt-0.5 text-pzh-green-500"
+                                />
+                            </Link>
+                        )}
                     </div>
-                    <Button variant="secondary" size="small" icon={EyeLight} />
+                    {canPublicate && (
+                        <Button
+                            variant="secondary"
+                            size="small"
+                            icon={EyeLight}
+                        />
+                    )}
                     <Button
                         variant="secondary"
                         size="small"
-                        icon={ArrowDownToLine}
-                    />
+                        icon={canPublicate ? ArrowDownToLine : undefined}
+                        onPress={() => downloadPackage.refetch()}
+                        isLoading={downloadPackage.isFetching}
+                        isDisabled={downloadPackage.isFetching}>
+                        {!canPublicate ? 'Download levering' : null}
+                    </Button>
                 </div>
             )}
         </div>

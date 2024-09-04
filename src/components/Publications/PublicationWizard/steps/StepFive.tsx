@@ -7,7 +7,7 @@ const StepFive = ({}: StepProps) => (
         <Text
             as="label"
             bold
-            htmlFor="Document_Type"
+            htmlFor="Title"
             className="text-heading-m text-pzh-blue-500">
             Geef de publicatie een interne titel
         </Text>
