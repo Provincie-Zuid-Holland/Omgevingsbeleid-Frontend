@@ -86,6 +86,8 @@ export const Publications = () => {
                     />
                 ))}
             </Accordion>
+
+            <div id="select-version-portal" />
         </div>
     )
 }

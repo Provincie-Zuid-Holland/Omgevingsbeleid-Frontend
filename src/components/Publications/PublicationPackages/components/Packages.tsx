@@ -1,4 +1,4 @@
-import { Button, Notification, Text } from '@pzh-ui/components'
+import { Button, cn, Notification, Text } from '@pzh-ui/components'
 
 import {
     usePublicationActPackagesGet,
@@ -69,13 +69,20 @@ const Packages = ({
                 </Text>
             </div>
             <div className="col-span-9 px-6 py-4">
-                <div className="rounded-lg border border-pzh-gray-200 bg-pzh-white">
+                <div
+                    className={cn(
+                        'rounded-lg border border-pzh-gray-200 bg-pzh-white',
+                        {
+                            'bg-pzh-gray-100': isLocked && !!!data?.length,
+                        }
+                    )}>
                     {isFetching ? (
                         <LoaderCard mb="0" height="64" />
                     ) : !!!data?.length ? (
                         <PackageCreate
                             createPackage={createPackage}
                             packageType={packageType}
+                            isLocked={isLocked}
                         />
                     ) : (
                         <>
