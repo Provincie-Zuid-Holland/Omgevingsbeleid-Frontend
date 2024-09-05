@@ -33,7 +33,7 @@ const PAGE_LIMIT = 9
 const DashboardUser = () => {
     const { data: modules, isFetching: modulesLoading } = useModulesGet(
         {
-            only_active: true,
+            filter_activated: true,
             only_mine: false,
             limit: 3,
         },
