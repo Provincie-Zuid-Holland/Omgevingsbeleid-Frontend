@@ -140,18 +140,6 @@ const CreateAction = ({
                                 deze versie van de publicatie.{' '}
                                 <Button
                                     variant="default"
-                                    onPress={() =>
-                                        setActiveModal(
-                                            'publicationVersionEdit',
-                                            {
-                                                publicationUUID:
-                                                    version.Publication_UUID,
-                                                UUID: version.UUID,
-                                                isRequired: true,
-                                                error: error.response,
-                                            }
-                                        )
-                                    }
                                     className="text-pzh-blue-500 underline hover:no-underline">
                                     Wijzig / vul de gegevens aan
                                 </Button>{' '}

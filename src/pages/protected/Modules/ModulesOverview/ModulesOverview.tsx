@@ -81,7 +81,7 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
 
     const { data: modules, isFetching } = useModulesGet(
         {
-            only_active: activeTab === 'active',
+            filter_activated: activeTab === 'active',
             only_mine: false,
             limit: PAGE_LIMIT,
             offset: (currPage - 1) * PAGE_LIMIT,

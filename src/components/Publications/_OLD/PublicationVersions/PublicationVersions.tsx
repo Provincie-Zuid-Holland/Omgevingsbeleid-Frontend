@@ -138,15 +138,7 @@ const VersionRow = ({
                         <Button
                             variant="link"
                             size="small"
-                            className="text-pzh-green-500"
-                            onPress={() =>
-                                setActiveModal('publicationVersionEdit', {
-                                    publicationUUID: version.Publication_UUID,
-                                    UUID: version.UUID,
-                                    isRequired: false,
-                                    error: undefined,
-                                })
-                            }>
+                            className="text-pzh-green-500">
                             Bewerken
                         </Button>
                     )}
