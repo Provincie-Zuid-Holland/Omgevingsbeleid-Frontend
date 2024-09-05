@@ -101,6 +101,7 @@ const InnerForm = <TData extends FormikValues>({
                 <FormikInput
                     name="Bill_Metadata.Official_Title"
                     label="Officiële titel van het besluit"
+                    required
                 />
                 <FormikRte name="Bill_Compact.Preamble" label="Aanhef" />
                 <Articles />

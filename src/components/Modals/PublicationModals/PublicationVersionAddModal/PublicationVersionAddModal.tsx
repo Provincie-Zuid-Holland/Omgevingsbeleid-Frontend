@@ -47,7 +47,6 @@ const PublicationVersionAddModal = () => {
                 validationSchema={toFormikValidationSchema(
                     PUBLICATION_VERSION_ADD_SCHEMA
                 )}
-                submitLabel="Versie maken"
             />
         </Modal>
     )

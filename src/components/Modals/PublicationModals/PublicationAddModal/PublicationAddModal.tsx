@@ -48,7 +48,6 @@ const PublicationAddModal = () => {
             <PublicationForm
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
-                submitLabel="Publicatie aanmaken"
             />
         </Modal>
     )

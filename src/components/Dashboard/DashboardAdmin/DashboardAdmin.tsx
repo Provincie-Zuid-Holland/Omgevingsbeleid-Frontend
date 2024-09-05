@@ -17,7 +17,7 @@ const DashboardAdmin = () => {
 
     const { data: modules, isFetching: modulesLoading } = useModulesGet(
         {
-            only_active: true,
+            filter_activated: true,
             only_mine: false,
             limit: PAGE_LIMIT,
             offset: (currPage - 1) * PAGE_LIMIT,

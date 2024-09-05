@@ -53,7 +53,7 @@ const UserModules = () => {
 
     const { data: modules, isFetching: modulesLoading } = useModulesGet(
         {
-            only_active: true,
+            filter_activated: true,
             only_mine: true,
             limit: PAGE_LIMIT,
             offset: (currPage - 1) * PAGE_LIMIT,
