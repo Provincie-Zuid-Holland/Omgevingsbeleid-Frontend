@@ -25,7 +25,7 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
     const { data, isFetching } = useModulesGet(
         {
             only_mine: false,
-            only_active: true,
+            filter_activated: true,
             limit: 100,
         },
         {

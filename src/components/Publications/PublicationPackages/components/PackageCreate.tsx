@@ -10,12 +10,14 @@ interface PackageCreateProps {
     createPackage: ReturnType<typeof useActions>['createPackage']
     inline?: boolean
     packageType: PackageType
+    isLocked?: boolean
 }
 
 const PackageCreate = ({
     createPackage,
     inline,
     packageType,
+    isLocked,
 }: PackageCreateProps) => {
     const { versionUUID } = useParams()
 
@@ -49,7 +51,9 @@ const PackageCreate = ({
                 <Text
                     bold
                     className="heading-s -mb-1"
-                    color="text-pzh-blue-500">
+                    color={
+                        !isLocked ? 'text-pzh-blue-500' : 'text-pzh-gray-300'
+                    }>
                     Levering maken
                 </Text>
             </div>
@@ -62,7 +66,7 @@ const PackageCreate = ({
                 <Button
                     variant="cta"
                     size="small"
-                    isDisabled={createPackage.isPending}
+                    isDisabled={createPackage.isPending || isLocked}
                     onPress={handleAction}
                     isLoading={createPackage.isPending}>
                     Maak levering

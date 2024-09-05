@@ -83,8 +83,8 @@ const InnerForm = <TData extends FormikValues>({
                     <FormikSelect
                         key={isLoading.toString()}
                         name="Module_Status_ID"
-                        label="Module status"
-                        placeholder="Selecteer een module status"
+                        label="Modulestatus"
+                        placeholder="Selecteer een modulestatus"
                         options={statusOptions}
                         required
                         styles={{

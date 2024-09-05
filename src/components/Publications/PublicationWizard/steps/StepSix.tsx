@@ -11,7 +11,7 @@ const StepSix = ({ data }: StepProps) => (
             bold
             htmlFor="Module_Status_ID"
             className="text-heading-m text-pzh-blue-500">
-            Module status
+            Modulestatus
         </Text>
         <div className="flex w-full justify-center">
             <div className="max-w-[736px] flex-1">
@@ -20,7 +20,7 @@ const StepSix = ({ data }: StepProps) => (
                 ) : (
                     <FormikSelect
                         name="Module_Status_ID"
-                        placeholder="Selecteer een module status"
+                        placeholder="Selecteer een modulestatus"
                         options={data.moduleStatus.options}
                     />
                 )}
