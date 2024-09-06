@@ -22,6 +22,8 @@ export interface DynamicObjectSearchProps
         | 'Object_ID'
         | 'Hierarchy_Code'
         | 'Werkingsgebied_Code'
+    /** Name of field */
+    fieldName?: string
     /** Placeholder of field (optional) */
     placeholder?: string
     /** Label of field (optional) */
@@ -37,6 +39,7 @@ export interface DynamicObjectSearchProps
 const DynamicObjectSearch = ({
     onChange,
     objectKey = 'Object_UUID',
+    fieldName,
     placeholder = 'Zoek op titel van beleidskeuze, maatregel, etc.',
     filter,
     filterType,
@@ -105,7 +108,7 @@ const DynamicObjectSearch = ({
 
     const handleChange = (val?: SearchObject) => {
         setFieldValue(
-            objectKey,
+            fieldName || objectKey,
             val
                 ? objectKey === 'Object_UUID'
                     ? val.UUID

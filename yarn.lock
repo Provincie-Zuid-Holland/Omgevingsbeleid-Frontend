@@ -2901,9 +2901,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/css@npm:^0.0.97":
-  version: 0.0.97
-  resolution: "@pzh-ui/css@npm:0.0.97"
+"@pzh-ui/css@npm:^0.0.100":
+  version: 0.0.100
+  resolution: "@pzh-ui/css@npm:0.0.100"
   dependencies:
     "@rollup/plugin-typescript": "npm:^8.3.1"
     "@tailwindcss/custom-forms": "npm:^0.2.1"
@@ -2912,7 +2912,7 @@ __metadata:
     "@tailwindcss/typography": "npm:^0.5.9"
     react-datepicker: "npm:^4.7.0"
     react-toastify: "npm:^9.1.2"
-  checksum: 39bf282820229e7e46d6efaadb194065b66736cfe9109299e63296d5bb22fb1c9d64d10d226fe4c3a6a924bf61db79a12e81aad8d57a8c200bf6ffa50c53ec05
+  checksum: 601f7c9a0fd139c09e24dbc9dd1400ee03ff0b7fe2ea78c6c108b60d3c66578ea51c6a8eab4a8fa887e50e333f12959495c3c6daac9ade15161133b13f4dac16
   languageName: node
   linkType: hard
 
@@ -13066,7 +13066,7 @@ __metadata:
     "@headlessui/react": "npm:^1.7.17"
     "@pzh-ui/components": "npm:^0.0.548"
     "@pzh-ui/config": "npm:^0.0.70"
-    "@pzh-ui/css": "npm:^0.0.97"
+    "@pzh-ui/css": "npm:^0.0.100"
     "@pzh-ui/icons": "npm:^0.0.61"
     "@react-hookz/web": "npm:^24.0.4"
     "@tanstack/react-query": "npm:^5.24.7"

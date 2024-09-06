@@ -4,6 +4,7 @@ export const AREA_DATA_ATTRS = {
     group: 'data-hint-gebiedengroep',
     type: 'data-hint-gebiedsaanwijzingtype',
     location: 'data-hint-locatie',
+    label: 'data-gebiedengroep-label',
 } as const
 
 type AreaAttributes = {
@@ -35,6 +36,7 @@ export const Area = Mark.create({
                 [AREA_DATA_ATTRS.group]: null,
                 [AREA_DATA_ATTRS.type]: null,
                 [AREA_DATA_ATTRS.location]: null,
+                [AREA_DATA_ATTRS.label]: null,
             },
         }
     },
@@ -52,6 +54,9 @@ export const Area = Mark.create({
             },
             [AREA_DATA_ATTRS.location]: {
                 default: this.options.HTMLAttributes[AREA_DATA_ATTRS.location],
+            },
+            [AREA_DATA_ATTRS.label]: {
+                default: this.options.HTMLAttributes[AREA_DATA_ATTRS.label],
             },
         }
     },

@@ -90,27 +90,29 @@ const DynamicField = ({
                 {...(type === 'select' && {
                     blurInputOnSelect: true,
                 })}
-                {...(type === 'wysiwyg' && {
-                    customExtensions: [Area],
-                    customMenuButtons: editor => (
-                        <RteMenuButton
-                            isActive={editor.isActive('area')}
-                            onClick={() =>
-                                setActiveModal('objectAreaAnnotate', {
-                                    editor,
-                                })
-                            }
-                            aria-label="Gebiedsaanwijzing"
-                            title="Gebiedsaanwijzing">
-                            <DrawPolygon />
-                        </RteMenuButton>
-                    ),
-                    className: `[&_[${[
-                        AREA_DATA_ATTRS.group,
-                    ]}]]:text-pzh-blue-900 [&_[${[
-                        AREA_DATA_ATTRS.group,
-                    ]}]]:bg-pzh-blue-10`,
-                })}
+                {...(type === 'wysiwyg' &&
+                    'hasAreaSelect' in field &&
+                    field.hasAreaSelect && {
+                        customExtensions: [Area],
+                        customMenuButtons: editor => (
+                            <RteMenuButton
+                                isActive={editor.isActive('area')}
+                                onClick={() =>
+                                    setActiveModal('objectAreaAnnotate', {
+                                        editor,
+                                    })
+                                }
+                                aria-label="Gebiedsaanwijzing"
+                                title="Gebiedsaanwijzing">
+                                <DrawPolygon />
+                            </RteMenuButton>
+                        ),
+                        className: `[&_[${[
+                            AREA_DATA_ATTRS.group,
+                        ]}]]:text-pzh-blue-900 [&_[${[
+                            AREA_DATA_ATTRS.group,
+                        ]}]]:bg-pzh-blue-10`,
+                    })}
                 {...field}
             />
         </div>

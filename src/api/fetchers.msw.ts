@@ -18,6 +18,8 @@ import type {
     AmbitieFull,
     AmbitieUUID,
     AnnouncementCreatedResponse,
+    AppExtensionsPublicationsEndpointsDsoValueListsAreaDesignationGroupsAreaDesignationValueList,
+    AppExtensionsPublicationsEndpointsDsoValueListsAreaDesignationTypesAreaDesignationValueList,
     AppExtensionsPublicationsEndpointsPublicationsActReportsUploadActPackageReportUploadPackageReportResponse,
     AppExtensionsPublicationsEndpointsPublicationsAnnouncementReportsUploadAnnouncementPackageReportUploadPackageReportResponse,
     AuthToken,
@@ -97,15 +99,18 @@ import type {
     PublicationAnnouncementPackagesAnnouncementPackageUuidDownloadGet200,
     PublicationAnnouncementReportsAnnouncementReportUuidDownloadGet200,
     PublicationCreatedResponse,
+    PublicationEnvironment,
     PublicationPackageCreatedResponse,
     PublicationTemplate,
     PublicationVersion,
     PublicationVersionCreatedResponse,
     PublicationVersionEditResponse,
+    PublicationVersionsVersionUuidPdfExportPost200,
     ReadRelation,
     ResetPasswordResponse,
     ResponseOK,
     TemplateCreatedResponse,
+    UploadAttachmentResponse,
     User,
     UserCreateResponse,
     VerplichtProgrammaFull,
@@ -13416,6 +13421,27 @@ export const getPublicationEnvironmentsPostResponseMock = (
     ...overrideResponse,
 })
 
+export const getPublicationEnvironmentsEnvironmentUuidGetResponseMock = (
+    overrideResponse: any = {}
+): PublicationEnvironment => ({
+    Authority_ID: faker.word.sample(),
+    Can_Publicate: faker.datatype.boolean(),
+    Can_Validate: faker.datatype.boolean(),
+    Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Description: faker.word.sample(),
+    Frbr_Country: faker.word.sample(),
+    Frbr_Language: faker.word.sample(),
+    Governing_Body_Type: faker.word.sample(),
+    Has_State: faker.datatype.boolean(),
+    Is_Active: faker.datatype.boolean(),
+    Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Province_ID: faker.word.sample(),
+    Submitter_ID: faker.word.sample(),
+    Title: faker.word.sample(),
+    UUID: faker.string.uuid(),
+    ...overrideResponse,
+})
+
 export const getPublicationEnvironmentsEnvironmentUuidPostResponseMock = (
     overrideResponse: any = {}
 ): ResponseOK => ({ message: faker.word.sample(), ...overrideResponse })
@@ -13511,6 +13537,20 @@ export const getPublicationsPublicationUuidVersionsGetResponseMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
+        Act_Packages: Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Created_By_UUID: faker.string.uuid(),
+            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            Delivery_ID: faker.word.sample(),
+            Modified_By_UUID: faker.string.uuid(),
+            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            Package_Type: faker.word.sample(),
+            Report_Status: faker.word.sample(),
+            UUID: faker.string.uuid(),
+            ...overrideResponse,
+        })),
         Announcement_Date: faker.helpers.arrayElement([
             faker.date.past().toISOString().split('T')[0],
             undefined,
@@ -13546,6 +13586,18 @@ export const getPublicationVersionsVersionUuidGetResponseMock = (
         faker.date.past().toISOString().split('T')[0],
         undefined,
     ]),
+    Attachments: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        File_UUID: faker.string.uuid(),
+        Filename: faker.word.sample(),
+        ID: faker.number.int({ min: undefined, max: undefined }),
+        Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Title: faker.word.sample(),
+        ...overrideResponse,
+    })),
     Bill_Compact: {},
     Bill_Metadata: {},
     Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -13553,8 +13605,14 @@ export const getPublicationVersionsVersionUuidGetResponseMock = (
         faker.date.past().toISOString().split('T')[0],
         undefined,
     ]),
+    Errors: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({})),
+        undefined,
+    ]),
     Is_Locked: faker.datatype.boolean(),
-    Is_Valid: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]),
     Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
     Module_Status: {
         Created_By_UUID: faker.string.uuid(),
@@ -13592,7 +13650,18 @@ export const getPublicationVersionsVersionUuidGetResponseMock = (
 export const getPublicationVersionsVersionUuidPostResponseMock = (
     overrideResponse: any = {}
 ): PublicationVersionEditResponse => ({
+    Errors: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({})),
     Is_Valid: faker.datatype.boolean(),
+    ...overrideResponse,
+})
+
+export const getPublicationVersionsVersionUuidAttachmentsPostResponseMock = (
+    overrideResponse: any = {}
+): UploadAttachmentResponse => ({
+    ID: faker.number.int({ min: undefined, max: undefined }),
     ...overrideResponse,
 })
 
@@ -13603,6 +13672,9 @@ export const getPublicationVersionsVersionUuidPackagesPostResponseMock = (
     Zip_UUID: faker.string.uuid(),
     ...overrideResponse,
 })
+
+export const getPublicationVersionsVersionUuidPdfExportPostResponseMock =
+    (): PublicationVersionsVersionUuidPdfExportPost200 => ({})
 
 export const getPublicationActPackagesGetResponseMock = (
     overrideResponse: any = {}
@@ -13898,6 +13970,26 @@ export const getPublicationAnnouncementReportsAnnouncementReportUuidGetResponseM
 
 export const getPublicationAnnouncementReportsAnnouncementReportUuidDownloadGetResponseMock =
     (): PublicationAnnouncementReportsAnnouncementReportUuidDownloadGet200 => ({})
+
+export const getPublicationDsoValueListsAreaDesignationTypesGetResponseMock = (
+    overrideResponse: any = {}
+): AppExtensionsPublicationsEndpointsDsoValueListsAreaDesignationTypesAreaDesignationValueList => ({
+    Allowed_Values: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => faker.word.sample()),
+    ...overrideResponse,
+})
+
+export const getPublicationDsoValueListsAreaDesignationGroupsGetResponseMock = (
+    overrideResponse: any = {}
+): AppExtensionsPublicationsEndpointsDsoValueListsAreaDesignationGroupsAreaDesignationValueList => ({
+    Allowed_Values: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => faker.word.sample()),
+    ...overrideResponse,
+})
 
 export const getLoginAccessTokenPostResponseMock = (
     overrideResponse: any = {}
@@ -17920,6 +18012,27 @@ export const getPublicationEnvironmentsPostMockHandler = (
     })
 }
 
+export const getPublicationEnvironmentsEnvironmentUuidGetMockHandler = (
+    overrideResponse?: PublicationEnvironment
+) => {
+    return http.get('*/publication-environments/:environmentUuid', async () => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse
+                    ? overrideResponse
+                    : getPublicationEnvironmentsEnvironmentUuidGetResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
 export const getPublicationEnvironmentsEnvironmentUuidPostMockHandler = (
     overrideResponse?: ResponseOK
 ) => {
@@ -18112,6 +18225,30 @@ export const getPublicationVersionsVersionUuidPostMockHandler = (
     })
 }
 
+export const getPublicationVersionsVersionUuidAttachmentsPostMockHandler = (
+    overrideResponse?: UploadAttachmentResponse
+) => {
+    return http.post(
+        '*/publication-versions/:versionUuid/attachments',
+        async () => {
+            await delay(1000)
+            return new HttpResponse(
+                JSON.stringify(
+                    overrideResponse
+                        ? overrideResponse
+                        : getPublicationVersionsVersionUuidAttachmentsPostResponseMock()
+                ),
+                {
+                    status: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+        }
+    )
+}
+
 export const getPublicationVersionsVersionUuidPackagesPostMockHandler = (
     overrideResponse?: PublicationPackageCreatedResponse
 ) => {
@@ -18124,6 +18261,30 @@ export const getPublicationVersionsVersionUuidPackagesPostMockHandler = (
                     overrideResponse
                         ? overrideResponse
                         : getPublicationVersionsVersionUuidPackagesPostResponseMock()
+                ),
+                {
+                    status: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+        }
+    )
+}
+
+export const getPublicationVersionsVersionUuidPdfExportPostMockHandler = (
+    overrideResponse?: PublicationVersionsVersionUuidPdfExportPost200
+) => {
+    return http.post(
+        '*/publication-versions/:versionUuid/pdf_export',
+        async () => {
+            await delay(1000)
+            return new HttpResponse(
+                JSON.stringify(
+                    overrideResponse
+                        ? overrideResponse
+                        : getPublicationVersionsVersionUuidPdfExportPostResponseMock()
                 ),
                 {
                     status: 200,
@@ -18526,6 +18687,54 @@ export const getPublicationAnnouncementReportsAnnouncementReportUuidDownloadGetM
         )
     }
 
+export const getPublicationDsoValueListsAreaDesignationTypesGetMockHandler = (
+    overrideResponse?: AppExtensionsPublicationsEndpointsDsoValueListsAreaDesignationTypesAreaDesignationValueList
+) => {
+    return http.get(
+        '*/publication-dso-value-lists/area-designation-types',
+        async () => {
+            await delay(1000)
+            return new HttpResponse(
+                JSON.stringify(
+                    overrideResponse
+                        ? overrideResponse
+                        : getPublicationDsoValueListsAreaDesignationTypesGetResponseMock()
+                ),
+                {
+                    status: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+        }
+    )
+}
+
+export const getPublicationDsoValueListsAreaDesignationGroupsGetMockHandler = (
+    overrideResponse?: AppExtensionsPublicationsEndpointsDsoValueListsAreaDesignationGroupsAreaDesignationValueList
+) => {
+    return http.get(
+        '*/publication-dso-value-lists/area-designation-groups',
+        async () => {
+            await delay(1000)
+            return new HttpResponse(
+                JSON.stringify(
+                    overrideResponse
+                        ? overrideResponse
+                        : getPublicationDsoValueListsAreaDesignationGroupsGetResponseMock()
+                ),
+                {
+                    status: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+        }
+    )
+}
+
 export const getLoginAccessTokenPostMockHandler = (
     overrideResponse?: AuthToken
 ) => {
@@ -18773,6 +18982,7 @@ export const getOmgevingsbeleidAPIMock = () => [
     getPublicationActsActUuidPostMockHandler(),
     getPublicationEnvironmentsGetMockHandler(),
     getPublicationEnvironmentsPostMockHandler(),
+    getPublicationEnvironmentsEnvironmentUuidGetMockHandler(),
     getPublicationEnvironmentsEnvironmentUuidPostMockHandler(),
     getPublicationsGetMockHandler(),
     getPublicationsPostMockHandler(),
@@ -18782,7 +18992,9 @@ export const getOmgevingsbeleidAPIMock = () => [
     getPublicationsPublicationUuidVersionsGetMockHandler(),
     getPublicationVersionsVersionUuidGetMockHandler(),
     getPublicationVersionsVersionUuidPostMockHandler(),
+    getPublicationVersionsVersionUuidAttachmentsPostMockHandler(),
     getPublicationVersionsVersionUuidPackagesPostMockHandler(),
+    getPublicationVersionsVersionUuidPdfExportPostMockHandler(),
     getPublicationActPackagesGetMockHandler(),
     getPublicationActPackagesActPackageUuidDownloadGetMockHandler(),
     getPublicationActPackagesActPackageUuidReportPostMockHandler(),
@@ -18800,6 +19012,8 @@ export const getOmgevingsbeleidAPIMock = () => [
     getPublicationAnnouncementReportsGetMockHandler(),
     getPublicationAnnouncementReportsAnnouncementReportUuidGetMockHandler(),
     getPublicationAnnouncementReportsAnnouncementReportUuidDownloadGetMockHandler(),
+    getPublicationDsoValueListsAreaDesignationTypesGetMockHandler(),
+    getPublicationDsoValueListsAreaDesignationGroupsGetMockHandler(),
     getLoginAccessTokenPostMockHandler(),
     getPasswordResetPostMockHandler(),
     getHealthCheckHealthGetMockHandler(),

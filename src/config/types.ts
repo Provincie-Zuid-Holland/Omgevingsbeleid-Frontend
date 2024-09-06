@@ -67,6 +67,7 @@ type ImageProps =
 type WysiwygProps =
     | ({
           type: 'wysiwyg'
+          hasAreaSelect?: boolean
       } & FieldRteProps)
     | {
           type: Exclude<DynamicFieldType, 'wysiwyg'>
