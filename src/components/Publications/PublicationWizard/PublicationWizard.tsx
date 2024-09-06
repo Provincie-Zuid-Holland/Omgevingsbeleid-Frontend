@@ -89,8 +89,12 @@ const PublicationWizard = ({ handleClose }: PublicationWizardProps) => {
 
                         handleClose()
                         setActiveFolders({
-                            documentTypes: [payload.Document_Type],
-                            procedureTypes: [payload.Procedure_Type],
+                            documentTypes: [
+                                `${moduleId}-${payload.Document_Type}`,
+                            ],
+                            procedureTypes: [
+                                `${moduleId}-${payload.Document_Type}-${payload.Procedure_Type}`,
+                            ],
                             publications: [data.UUID],
                         })
                     })

@@ -69,7 +69,7 @@ const Package = ({
         switch (Report_Status) {
             case 'pending':
                 return {
-                    text: 'In behandeling',
+                    text: 'In afwachting',
                     variant: 'yellow',
                 }
             case 'valid':

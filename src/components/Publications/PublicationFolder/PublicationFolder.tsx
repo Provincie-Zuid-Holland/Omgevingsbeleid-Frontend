@@ -7,6 +7,7 @@ import {
 } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
 import { useCallback, useMemo } from 'react'
+import { useParams } from 'react-router-dom'
 
 import { usePublicationEnvironmentsGet } from '@/api/fetchers'
 import {
@@ -27,6 +28,8 @@ const PublicationFolder = ({
     documentType,
     publications: providedPublications,
 }: PublicationFolderProps) => {
+    const { moduleId } = useParams()
+
     const activeFolders = usePublicationStore(state => state.activeFolders)
     const setActiveFolders = usePublicationStore(
         state => state.setActiveFolders
@@ -54,7 +57,7 @@ const PublicationFolder = ({
 
     return (
         <AccordionItem
-            value={documentType}
+            value={`${moduleId}-${documentType}`}
             disabled={!!!publications?.length}
             className="rounded-lg border border-pzh-gray-200">
             <AccordionTrigger
@@ -78,8 +81,6 @@ const PublicationFolder = ({
                     {procedureTypes.map(procedureType => {
                         const publications =
                             getPublicationsByProcedureType(procedureType)
-
-                        if (!publications?.length) return null
 
                         return (
                             <Procedure

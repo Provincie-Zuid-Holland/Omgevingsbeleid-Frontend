@@ -7,6 +7,7 @@ import {
 } from '@pzh-ui/components'
 import { AngleRight, PenNib, PencilLight } from '@pzh-ui/icons'
 import { useCallback } from 'react'
+import { useParams } from 'react-router-dom'
 
 import {
     DocumentType,
@@ -42,6 +43,8 @@ const Procedure = ({
     environments,
     publications,
 }: ProcedureProps) => {
+    const { moduleId } = useParams()
+
     const activeFolders = usePublicationStore(state => state.activeFolders)
     const setActiveFolders = usePublicationStore(
         state => state.setActiveFolders
@@ -59,8 +62,9 @@ const Procedure = ({
 
     return (
         <AccordionItem
-            value={`${documentType}-${procedureType}`}
-            className="border-pzh-gray-200 first:border-t last:border-b-0">
+            value={`${moduleId}-${documentType}-${procedureType}`}
+            className="group/procedure border-pzh-gray-200 first:border-t last:border-b-0"
+            disabled={!!!publications?.length}>
             <AccordionTrigger
                 hideIcon
                 className="flex h-16 border-pzh-gray-200 hover:no-underline [&[data-state=open]]:border-b [&[data-state=open]_[data-icon=angle]]:rotate-90">
@@ -68,14 +72,17 @@ const Procedure = ({
                     <div className="flex h-[inherit] w-full items-center gap-4 border-pzh-gray-200">
                         <AngleRight
                             size={20}
-                            className="transition-transform duration-200"
+                            className="transition-transform duration-200 group-data-[disabled]/procedure:text-pzh-gray-300"
                             data-icon="angle"
                         />
-                        <Icon size={20} className="text-pzh-blue-100" />
+                        <Icon
+                            size={20}
+                            className="text-pzh-blue-100 group-data-[disabled]/procedure:text-pzh-gray-300"
+                        />
                         <Heading
                             level="3"
                             size="s"
-                            className="-mb-1 capitalize">
+                            className="-mb-1 capitalize group-data-[disabled]/procedure:text-pzh-gray-300">
                             {config[procedureType].label}
                         </Heading>
                     </div>

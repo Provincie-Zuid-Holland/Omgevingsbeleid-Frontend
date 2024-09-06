@@ -1,4 +1,11 @@
-import { Badge, Button, formatDate, Heading, Text } from '@pzh-ui/components'
+import {
+    Badge,
+    BadgeProps,
+    Button,
+    formatDate,
+    Heading,
+    Text,
+} from '@pzh-ui/components'
 import { FileWord, Notes, PenToSquare } from '@pzh-ui/icons'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
@@ -22,6 +29,7 @@ const Version = ({
     Created_Date,
     Module_Status,
     Is_Locked,
+    Act_Packages,
     environment,
     publication,
 }: VersionProps) => {
@@ -55,6 +63,66 @@ const Version = ({
         enabled: false,
     })
 
+    const status = useMemo((): BadgeProps => {
+        const publicationPackages = Act_Packages.filter(
+            pkg => pkg.Package_Type === 'publication'
+        )
+        const latestValidationPackage = Act_Packages.find(
+            pkg => pkg.Package_Type === 'validation'
+        )
+
+        const hasValidPublicationPackage = publicationPackages.some(
+            pkg => pkg.Report_Status === 'valid'
+        )
+        const hasPendingPublicationPackage = publicationPackages.some(
+            pkg => pkg.Report_Status === 'pending'
+        )
+        const hasFailedPublicationPackage = publicationPackages.some(
+            pkg => pkg.Report_Status === 'failed'
+        )
+
+        if (hasValidPublicationPackage) {
+            return {
+                text: 'Afgerond',
+                solid: true,
+            }
+        }
+
+        if (hasFailedPublicationPackage) {
+            return {
+                text: 'Publicatie gefaald',
+                variant: 'red',
+            }
+        }
+
+        if (hasPendingPublicationPackage) {
+            return {
+                text: '2/2 Publicatie',
+                solid: true,
+                variant: 'yellow',
+            }
+        }
+
+        if (latestValidationPackage) {
+            if (latestValidationPackage.Report_Status === 'failed') {
+                return {
+                    text: 'Validatie gefaald',
+                    variant: 'yellow',
+                }
+            }
+
+            return {
+                text: '1/2 Validatie',
+                solid: true,
+                variant: 'yellow',
+            }
+        }
+
+        return {
+            text: 'Actief',
+        }
+    }, [Act_Packages])
+
     return (
         <div className="flex h-16 border-b border-pzh-gray-200 last:border-b-0 hover:bg-pzh-blue-10 hover:ring-1 hover:ring-inset hover:ring-pzh-blue-100">
             <div className="flex h-[inherit] w-5/12 items-center border-r border-pzh-gray-200 pl-10 pr-6">
@@ -70,11 +138,7 @@ const Version = ({
                             </Heading>
                         </div>
                         {environment?.Has_State && (
-                            <Badge
-                                text={!Is_Locked ? 'Actief' : 'Afgerond'}
-                                solid={Is_Locked}
-                                upperCase={false}
-                            />
+                            <Badge upperCase={false} {...status} />
                         )}
                     </div>
                 </div>
