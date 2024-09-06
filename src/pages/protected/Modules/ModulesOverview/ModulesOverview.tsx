@@ -112,6 +112,7 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
             {
                 header: 'Titel',
                 accessorKey: 'Title',
+                enableSorting: false,
             },
             {
                 header: 'Datum afronding/publicatie',
