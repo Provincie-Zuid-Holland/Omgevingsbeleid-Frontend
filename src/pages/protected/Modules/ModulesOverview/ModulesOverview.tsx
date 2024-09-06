@@ -16,6 +16,7 @@ import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { useModulesGet } from '@/api/fetchers'
+import { ModuleSortColumn } from '@/api/fetchers.schemas'
 import { LoaderCard } from '@/components/Loader'
 import ModuleTile from '@/components/Modules/ModuleTile'
 import MutateLayout from '@/templates/MutateLayout'
@@ -72,6 +73,12 @@ interface TabContentProps {
 const TabContent = ({ type, activeTab }: TabContentProps) => {
     const navigate = useNavigate()
 
+    const [sortBy, setSortBy] = useState([
+        {
+            id: 'Modified_Date',
+            desc: true,
+        },
+    ])
     const [filter, setFilter] = useState<Filter>()
     const [currPage, setCurrPage] = useState(1)
     const [{ pageIndex }, setPagination] = useState({
@@ -81,8 +88,12 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
 
     const { data: modules, isFetching } = useModulesGet(
         {
-            only_active: activeTab === 'active',
-            only_mine: false,
+            filter_activated: activeTab === 'inactive' ? false : true,
+            filter_closed: activeTab === 'archive' ? true : false,
+            filter_title: filter?.filter_title || undefined,
+            sort_column:
+                (sortBy?.[0]?.id as ModuleSortColumn) || 'Modified_Date',
+            sort_order: sortBy?.[0]?.desc ? 'DESC' : 'ASC',
             limit: PAGE_LIMIT,
             offset: (currPage - 1) * PAGE_LIMIT,
         },
@@ -189,11 +200,11 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
                             total={modules?.total}
                             current={pageIndex}
                             onPaginationChange={setPagination}
-                            // state={{
-                            //     sorting: sortBy,
-                            // }}
-                            // onSortingChange={setSortBy}
-                            // manualSorting
+                            state={{
+                                sorting: sortBy,
+                            }}
+                            onSortingChange={setSortBy}
+                            manualSorting
                             isLoading={isFetching}
                         />
                     </div>
@@ -204,7 +215,7 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
 }
 
 interface Filter {
-    query?: string
+    filter_title?: string
 }
 
 interface FilterProps {
@@ -216,7 +227,7 @@ const Filter = ({ setFilter }: FilterProps) => (
         <Form className="flex flex-col gap-x-4 gap-y-2 sm:flex-row">
             <div className="w-full">
                 <FormikInput
-                    name="query"
+                    name="filter_title"
                     placeholder="Zoek op titel van module"
                 />
             </div>

@@ -14,7 +14,7 @@ const PAGE_LIMIT = 3
 const DashboardAdmin = () => {
     const { data: modules, isFetching: modulesLoading } = useModulesGet(
         {
-            only_active: true,
+            filter_activated: true,
             only_mine: false,
             limit: PAGE_LIMIT,
         },

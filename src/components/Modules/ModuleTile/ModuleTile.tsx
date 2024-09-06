@@ -19,7 +19,7 @@ const ModuleTile = ({ Title, Description, Status, Module_ID }: Module) => (
         <div className="flex items-center justify-between">
             <Badge
                 text={Status?.Status.replace('-', ' ') || ''}
-                variant={Status?.Status === 'Niet-actief' ? 'gray' : 'green'}
+                variant={Status?.Status === 'Niet-Actief' ? 'gray' : 'green'}
                 upperCase={false}
                 solid={Status?.Status === 'Vastgesteld'}
                 className="whitespace-nowrap"
