@@ -22,7 +22,7 @@ const ModuleHeader = ({ module }: ModuleHeaderProps) => {
 
     const breadcrumbPaths = [
         { name: 'Dashboard', to: '/muteer' },
-        { name: 'Modules', to: '/muteer' },
+        { name: 'Modules', to: '/muteer/modules' },
         { name: module?.Title || '' },
     ]
 
