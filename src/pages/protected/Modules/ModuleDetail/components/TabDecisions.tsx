@@ -1,5 +1,6 @@
 import { Accordion, BackLink, Button, Heading } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
+import { useUnmountEffect } from '@react-hookz/web'
 import { useEffect } from 'react'
 import { Link, Outlet, useParams } from 'react-router-dom'
 
@@ -54,6 +55,8 @@ export const Publications = () => {
             setWizardActive(false)
         }
     }, [publications?.results, publicationsFetching, setWizardActive])
+
+    useUnmountEffect(() => setWizardActive(true))
 
     return (
         <div className="col-span-6 flex flex-col gap-6">
