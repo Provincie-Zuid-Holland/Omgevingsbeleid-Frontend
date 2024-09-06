@@ -1,14 +1,24 @@
 import { Mark, mergeAttributes } from '@tiptap/core'
 
+export const AREA_DATA_ATTRS = {
+    group: 'data-hint-gebiedengroep',
+    type: 'data-hint-gebiedsaanwijzingtype',
+    location: 'data-hint-locatie',
+    label: 'data-gebiedengroep-label',
+} as const
+
+type AreaAttributes = {
+    [key in (typeof AREA_DATA_ATTRS)[keyof typeof AREA_DATA_ATTRS]]: string
+}
+
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         area: {
-            setArea: (attributes: {
-                'data-hint-gebiedengroep': string
-                'data-hint-gebiedsaanwijzingtype': string
-                'data-hint-locatie': string
-                text?: string
-            }) => ReturnType
+            setArea: (
+                attributes: AreaAttributes & {
+                    text?: string
+                }
+            ) => ReturnType
         }
     }
 }
@@ -23,9 +33,10 @@ export const Area = Mark.create({
         return {
             HTMLAttributes: {
                 href: '#',
-                'data-hint-gebiedengroep': null,
-                'data-hint-gebiedsaanwijzingtype': null,
-                'data-hint-locatie': null,
+                [AREA_DATA_ATTRS.group]: null,
+                [AREA_DATA_ATTRS.type]: null,
+                [AREA_DATA_ATTRS.location]: null,
+                [AREA_DATA_ATTRS.label]: null,
             },
         }
     },
@@ -35,17 +46,17 @@ export const Area = Mark.create({
             href: {
                 default: this.options.HTMLAttributes.href,
             },
-            'data-hint-gebiedengroep': {
-                default: this.options.HTMLAttributes['data-hint-gebiedengroep'],
+            [AREA_DATA_ATTRS.group]: {
+                default: this.options.HTMLAttributes[AREA_DATA_ATTRS.group],
             },
-            'data-hint-gebiedsaanwijzingtype': {
-                default:
-                    this.options.HTMLAttributes[
-                        'data-hint-gebiedsaanwijzingtype'
-                    ],
+            [AREA_DATA_ATTRS.type]: {
+                default: this.options.HTMLAttributes[AREA_DATA_ATTRS.type],
             },
-            'data-hint-locatie': {
-                default: this.options.HTMLAttributes['data-hint-locatie'],
+            [AREA_DATA_ATTRS.location]: {
+                default: this.options.HTMLAttributes[AREA_DATA_ATTRS.location],
+            },
+            [AREA_DATA_ATTRS.label]: {
+                default: this.options.HTMLAttributes[AREA_DATA_ATTRS.label],
             },
         }
     },
@@ -53,7 +64,7 @@ export const Area = Mark.create({
     parseHTML() {
         return [
             {
-                tag: 'a[data-hint-gebiedengroep]',
+                tag: `a[${[AREA_DATA_ATTRS.group]}]`,
             },
         ]
     },
@@ -74,7 +85,7 @@ export const Area = Mark.create({
                     const { empty } = state.selection
 
                     if (empty) {
-                        const { text = 'default text', ...rest } = attributes
+                        const { text = 'Gebied', ...rest } = attributes
                         return chain()
                             .insertContentAt(state.selection.anchor, [
                                 {

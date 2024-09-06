@@ -80,6 +80,7 @@ const visie: DynamicObject<
                     label: 'Inhoud',
                     type: 'wysiwyg',
                     required: true,
+                    hasAreaSelect: true,
                     customMenuOptions: [
                         'image',
                         'heading',

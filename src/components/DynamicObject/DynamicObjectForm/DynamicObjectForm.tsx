@@ -77,7 +77,9 @@ const ObjectForm = <TData extends FormikValues>({
     const containsRteField = useMemo(
         () =>
             sections.some(section =>
-                section.fields.some(field => field.type === 'wysiwyg')
+                section.fields.some(
+                    field => field.type === 'wysiwyg' && field.hasAreaSelect
+                )
             ),
         [sections]
     )
@@ -115,7 +117,7 @@ const ObjectForm = <TData extends FormikValues>({
                 <ScrollToFieldError />
             </Form>
 
-            {containsRteField && <ObjectAreaAnnotateModal />}
+            {containsRteField && <ObjectAreaAnnotateModal model={model} />}
         </>
     )
 }
