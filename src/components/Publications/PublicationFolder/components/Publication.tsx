@@ -16,6 +16,7 @@ import {
     PublicationEnvironment,
     Publication as PublicationType,
 } from '@/api/fetchers.schemas'
+import { LoaderCard } from '@/components/Loader'
 import useModalStore from '@/store/modalStore'
 
 import Version from './Version'
@@ -33,12 +34,10 @@ const Publication = ({
 }: PublicationProps) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { data: versions } = usePublicationsPublicationUuidVersionsGet(
-        UUID || '',
-        {
+    const { data: versions, isFetching } =
+        usePublicationsPublicationUuidVersionsGet(UUID || '', {
             limit: 100,
-        }
-    )
+        })
 
     const status = useMemo((): BadgeProps | undefined => {
         if (
@@ -82,7 +81,11 @@ const Publication = ({
                                 {environment?.Title} publicatie
                             </Heading>
                         </div>
-                        {!!status && <Badge upperCase={false} {...status} />}
+                        {isFetching ? (
+                            <LoaderCard height="24" className="w-20" mb="0" />
+                        ) : (
+                            !!status && <Badge upperCase={false} {...status} />
+                        )}
                     </div>
                 </div>
                 <div className="flex w-2/12 items-center pl-6 pr-2 text-left">
