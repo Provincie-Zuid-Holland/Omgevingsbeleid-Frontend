@@ -121,6 +121,7 @@ const maatregel: DynamicObject<
                         'Formuleer bondig wat de provincie met deze maatregel wil bewerkstelligen.',
                     type: 'wysiwyg',
                     required: true,
+                    hasAreaSelect: true,
                     customMenuOptions: ['image', 'table'],
                     imageOptions: {
                         maxSize: 819200,
@@ -144,6 +145,7 @@ const maatregel: DynamicObject<
                     label: 'Nadere uitwerking',
                     description: 'Beschrijf de uitwerking van de maatregel.',
                     type: 'wysiwyg',
+                    hasAreaSelect: true,
                     customMenuOptions: ['image', 'table'],
                     imageOptions: {
                         maxSize: 819200,

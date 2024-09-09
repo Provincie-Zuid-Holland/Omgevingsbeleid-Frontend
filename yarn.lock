@@ -1513,7 +1513,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.24.0":
+"@babel/runtime@npm:^7.13.10":
+  version: 7.24.7
+  resolution: "@babel/runtime@npm:7.24.7"
+  dependencies:
+    regenerator-runtime: "npm:^0.14.0"
+  checksum: 7b77f566165dee62db3db0296e71d08cafda3f34e1b0dcefcd68427272e17c1704f4e4369bff76651b07b6e49d3ea5a0ce344818af9116e9292e4381e0918c76
+  languageName: node
+  linkType: hard
+
+"@babel/runtime@npm:^7.24.0":
   version: 7.24.4
   resolution: "@babel/runtime@npm:7.24.4"
   dependencies:
@@ -2939,9 +2948,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/css@npm:^0.0.99":
-  version: 0.0.99
-  resolution: "@pzh-ui/css@npm:0.0.99"
+"@pzh-ui/css@npm:^0.0.100":
+  version: 0.0.100
+  resolution: "@pzh-ui/css@npm:0.0.100"
   dependencies:
     "@rollup/plugin-typescript": "npm:^8.3.1"
     "@tailwindcss/custom-forms": "npm:^0.2.1"
@@ -2950,7 +2959,7 @@ __metadata:
     "@tailwindcss/typography": "npm:^0.5.9"
     react-datepicker: "npm:^4.7.0"
     react-toastify: "npm:^9.1.2"
-  checksum: 468ec9a33e99f51fafde8a28ebd1fcf134cdad82490a9d89f0a1b63ca9cf4fa3a81fb332daf62133cb13a0887628d60ec41b7fbc160404791ae56abf541a6b07
+  checksum: 601f7c9a0fd139c09e24dbc9dd1400ee03ff0b7fe2ea78c6c108b60d3c66578ea51c6a8eab4a8fa887e50e333f12959495c3c6daac9ade15161133b13f4dac16
   languageName: node
   linkType: hard
 
@@ -13058,7 +13067,7 @@ __metadata:
     "@headlessui/react": "npm:^1.7.17"
     "@pzh-ui/components": "npm:^0.0.560"
     "@pzh-ui/config": "npm:^0.0.70"
-    "@pzh-ui/css": "npm:^0.0.99"
+    "@pzh-ui/css": "npm:^0.0.100"
     "@pzh-ui/icons": "npm:^0.0.63"
     "@react-hookz/web": "npm:^24.0.4"
     "@tanstack/react-query": "npm:^5.24.7"

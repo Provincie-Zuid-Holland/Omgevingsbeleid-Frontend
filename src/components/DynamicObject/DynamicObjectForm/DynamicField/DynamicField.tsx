@@ -4,7 +4,9 @@ import {
     FormikRte,
     FormikSelect,
     FormikTextArea,
+    RteMenuButton,
 } from '@pzh-ui/components'
+import { DrawPolygon } from '@pzh-ui/icons'
 import { useFormikContext } from 'formik'
 
 import FieldArray from '@/components/Form/FieldArray'
@@ -12,9 +14,11 @@ import FieldConnections from '@/components/Form/FieldConnections'
 import FieldSelectArea from '@/components/Form/FieldSelectArea'
 import { Model } from '@/config/objects/types'
 import { DynamicField as DynamicFieldProps } from '@/config/types'
+import useModalStore from '@/store/modalStore'
 import { fileToBase64 } from '@/utils/file'
 
 import DynamicObjectSearch from '../../DynamicObjectSearch'
+import { Area, AREA_DATA_ATTRS } from './extensions/area'
 
 const inputFieldMap = {
     text: FormikInput,
@@ -40,6 +44,7 @@ const DynamicField = ({
     model?: Model
 }) => {
     const { setFieldValue, values } = useFormikContext()
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const InputField = inputFieldMap[type]
     if (!InputField) {
@@ -85,6 +90,29 @@ const DynamicField = ({
                 {...(type === 'select' && {
                     blurInputOnSelect: true,
                 })}
+                {...(type === 'wysiwyg' &&
+                    'hasAreaSelect' in field &&
+                    field.hasAreaSelect && {
+                        customExtensions: [Area],
+                        customMenuButtons: editor => (
+                            <RteMenuButton
+                                isActive={editor.isActive('area')}
+                                onClick={() =>
+                                    setActiveModal('objectAreaAnnotate', {
+                                        editor,
+                                    })
+                                }
+                                aria-label="Gebiedsaanwijzing"
+                                title="Gebiedsaanwijzing">
+                                <DrawPolygon />
+                            </RteMenuButton>
+                        ),
+                        className: `[&_[${[
+                            AREA_DATA_ATTRS.group,
+                        ]}]]:text-pzh-blue-900 [&_[${[
+                            AREA_DATA_ATTRS.group,
+                        ]}]]:bg-pzh-blue-10`,
+                    })}
                 {...field}
             />
         </div>

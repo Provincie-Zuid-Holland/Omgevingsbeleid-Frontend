@@ -1,0 +1,277 @@
+import { Button, FormikInput, FormikSelect } from '@pzh-ui/components'
+import { AngleDown } from '@pzh-ui/icons'
+import { Form, Formik, FormikProps } from 'formik'
+import { useMemo } from 'react'
+import { z } from 'zod'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
+
+import {
+    usePublicationDsoValueListsAreaDesignationGroupsGet,
+    usePublicationDsoValueListsAreaDesignationTypesGet,
+} from '@/api/fetchers'
+import { AREA_DATA_ATTRS } from '@/components/DynamicObject/DynamicObjectForm/DynamicField/extensions/area'
+import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
+import Modal from '@/components/Modal'
+import { Model } from '@/config/objects/types'
+import useModalStore from '@/store/modalStore'
+import { SCHEMA_OBJECT_ANNOTATE_AREA } from '@/validation/objectAnnotate'
+
+import { ModalStateMap } from '../../types'
+
+type Values = z.infer<typeof SCHEMA_OBJECT_ANNOTATE_AREA>
+
+interface ObjectAreaAnnotateModalProps {
+    model: Model
+}
+
+const ObjectAreaAnnotateModal = ({ model }: ObjectAreaAnnotateModalProps) => {
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+    const modalState = useModalStore(
+        state => state.modalStates['objectAreaAnnotate']
+    ) as ModalStateMap['objectAreaAnnotate']
+
+    const isEmptySelection = useMemo(
+        () => modalState?.editor.state.selection.empty,
+        [modalState?.editor.state.selection.empty]
+    )
+
+    const initialValues: Values = useMemo(() => {
+        const previousValues = modalState?.editor?.getAttributes('area')
+
+        return {
+            group: previousValues?.[AREA_DATA_ATTRS.group] ?? '',
+            type: previousValues?.[AREA_DATA_ATTRS.type] ?? '',
+            location: previousValues?.[AREA_DATA_ATTRS.location] ?? '',
+            label: previousValues?.[AREA_DATA_ATTRS.label] ?? '',
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [modalState?.editor, modalState?.editor?.state.selection])
+
+    const handleSubmit = (payload: Values) => {
+        console.log(payload)
+        modalState?.editor
+            ?.chain()
+            .focus()
+            .extendMarkRange('area')
+            .setArea({
+                [AREA_DATA_ATTRS.group]: payload.group,
+                [AREA_DATA_ATTRS.type]: payload.type,
+                [AREA_DATA_ATTRS.location]: payload.location,
+                [AREA_DATA_ATTRS.label]: payload.label,
+                text: isEmptySelection ? payload.label : undefined,
+            })
+            .run()
+
+        setActiveModal(null)
+    }
+
+    return (
+        <Modal
+            id="objectAreaAnnotate"
+            title="Gebiedsaanwijzing toevoegen"
+            size="m">
+            <Formik
+                onSubmit={handleSubmit}
+                initialValues={initialValues}
+                enableReinitialize
+                validationSchema={toFormikValidationSchema(
+                    SCHEMA_OBJECT_ANNOTATE_AREA
+                )}>
+                {props => <InnerForm model={model} {...props} />}
+            </Formik>
+        </Modal>
+    )
+}
+
+const InnerForm = <TData extends Values>({
+    model,
+    dirty,
+    values,
+    isSubmitting,
+    isValid,
+    setFieldValue,
+    setFieldTouched,
+}: ObjectAreaAnnotateModalProps & FormikProps<TData>) => {
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+    const modalState = useModalStore(
+        state => state.modalStates['objectAreaAnnotate']
+    ) as ModalStateMap['objectAreaAnnotate']
+
+    const hasValues = useMemo(
+        () => {
+            const values = modalState?.editor?.getAttributes('area')
+
+            return !!values && !!Object.keys(values).length
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [modalState?.editor, modalState?.editor?.state.selection]
+    )
+
+    const {
+        data: areaTypeOptions,
+        isFetching: areaTypesFetching,
+        queryKey: areaTypeQueryKey,
+    } = usePublicationDsoValueListsAreaDesignationTypesGet(
+        {
+            document_type:
+                model.defaults.parentType === 'Visie'
+                    ? 'omgevingsvisie'
+                    : 'programma',
+        },
+        {
+            query: {
+                select: data =>
+                    data.Allowed_Values.map(value => ({
+                        label: value,
+                        value,
+                    })),
+            },
+        }
+    )
+
+    const {
+        data: areaGroupOptions,
+        isFetching: areaGroupsFetching,
+        queryKey: areaGroupQueryKey,
+    } = usePublicationDsoValueListsAreaDesignationGroupsGet(
+        {
+            type: values.type,
+        },
+        {
+            query: {
+                enabled: !!values.type,
+                select: data =>
+                    data.Allowed_Values.map(value => ({
+                        label: value,
+                        value,
+                    })),
+            },
+        }
+    )
+
+    return (
+        <Form>
+            <div className="space-y-4">
+                <div>
+                    <DynamicObjectSearch
+                        fieldName="group"
+                        filterType={['werkingsgebied']}
+                        status="all"
+                        label="Gebiedengroep"
+                        required
+                        placeholder="Zoek op gebiedengroep"
+                        objectKey="Werkingsgebied_Code"
+                        onChange={object =>
+                            setFieldValue('label', object?.Title)
+                        }
+                        defaultValue={
+                            values.label &&
+                            values.group && {
+                                label: values.label,
+                                value: values.group,
+                            }
+                        }
+                        components={{
+                            DropdownIndicator: () => (
+                                <div className="mr-4">
+                                    <AngleDown className="text-pzh-blue-900" />
+                                </div>
+                            ),
+                        }}
+                        styles={{
+                            menu: base => ({
+                                ...base,
+                                position: 'relative',
+                                zIndex: 9999,
+                                marginTop: 2,
+                                boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                            }),
+                        }}
+                    />
+                    <FormikInput name="label" type="hidden" />
+                </div>
+                <div>
+                    <FormikSelect
+                        key={JSON.stringify(
+                            areaTypeQueryKey + String(areaTypesFetching)
+                        )}
+                        name="type"
+                        label="Type gebiedsaanwijzing"
+                        placeholder="Selecteer een type gebiedsaanwijzing"
+                        options={areaTypeOptions}
+                        isLoading={areaTypesFetching}
+                        required
+                        onChange={() => {
+                            setFieldValue('location', null)
+                            setFieldTouched('location', false)
+                        }}
+                        styles={{
+                            menu: base => ({
+                                ...base,
+                                position: 'relative',
+                                zIndex: 9999,
+                                marginTop: 2,
+                                boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                            }),
+                        }}
+                    />
+                </div>
+                <div>
+                    <FormikSelect
+                        key={JSON.stringify(
+                            areaGroupQueryKey + String(areaGroupsFetching)
+                        )}
+                        name="location"
+                        label="Gebiedsaanwijzinggroep"
+                        placeholder="Selecteer een gebiedsaanwijzinggroep"
+                        options={areaGroupOptions}
+                        isLoading={areaGroupsFetching}
+                        disabled={!values.type}
+                        required
+                        styles={{
+                            menu: base => ({
+                                ...base,
+                                position: 'relative',
+                                zIndex: 9999,
+                                marginTop: 2,
+                                boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                            }),
+                        }}
+                    />
+                </div>
+            </div>
+
+            <div className="mt-6 flex items-center justify-between">
+                {!hasValues ? (
+                    <Button variant="link" onPress={() => setActiveModal(null)}>
+                        Annuleren
+                    </Button>
+                ) : (
+                    <Button
+                        variant="link"
+                        onPress={() => {
+                            modalState?.editor
+                                ?.chain()
+                                .focus()
+                                .extendMarkRange('area')
+                                .unsetMark('area')
+                                .run()
+                            setActiveModal(null)
+                        }}
+                        className="text-pzh-red-500">
+                        Gebiedsaanwijzing verwijderen
+                    </Button>
+                )}
+                <Button
+                    variant="cta"
+                    type="submit"
+                    isDisabled={!isValid || isSubmitting || !dirty}
+                    isLoading={isSubmitting}>
+                    Opslaan
+                </Button>
+            </div>
+        </Form>
+    )
+}
+
+export default ObjectAreaAnnotateModal

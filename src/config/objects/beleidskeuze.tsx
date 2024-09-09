@@ -134,6 +134,7 @@ const beleidskeuze: DynamicObject<
                         'Hier geef je aan welke keuze de provincie heeft genomen. Formuleer in één of enkele zinnen wat de provincie wil bereiken en welke rechtsgevolgen dit eventueel heeft voor derden.',
                     type: 'wysiwyg',
                     required: true,
+                    hasAreaSelect: true,
                 },
                 {
                     name: 'Cause',
@@ -142,6 +143,7 @@ const beleidskeuze: DynamicObject<
                         'De aanleiding geeft de lezer informatie over welke ontwikkelingen gaande zijn in de maatschappij en waarom de provincie hier op inspeelt. Beschrijf hier welk probleem, dreiging of kans ten grondslag ligt aan de beleidskeuze.',
                     type: 'wysiwyg',
                     required: true,
+                    hasAreaSelect: true,
                 },
                 {
                     name: 'Provincial_Interest',
@@ -150,6 +152,7 @@ const beleidskeuze: DynamicObject<
                         'Beschrijf waarom de provincie deze keuze maakt en waarom dit niet (enkel) kan worden overgelaten aan andere overheden. Vanuit juridisch perspectief is het belangrijk om het provinciaal belang te definiëren. Zie ook artikel 2.3 van de Omgevingswet.',
                     type: 'wysiwyg',
                     required: true,
+                    hasAreaSelect: true,
                 },
                 {
                     name: 'Explanation',
@@ -157,6 +160,7 @@ const beleidskeuze: DynamicObject<
                     description:
                         'Op welke thema’s, onderwerpen en gebieden gaat de beleidskeuze iets wijzigen, en waarom is dit gewenst? Beschrijf ook de relatie met andere beleidsterreinen.',
                     type: 'wysiwyg',
+                    hasAreaSelect: true,
                 },
             ],
         },
