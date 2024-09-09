@@ -217,13 +217,12 @@ const PublicationPackages = ({
                             </Text>
                         </AccordionTrigger>
                         <AccordionContent>
-                            {validationPackage?.Report_Status === 'valid' &&
-                                data?.Is_Valid && (
-                                    <Notification
-                                        title="Let op! Een versie kan niet worden bewerkt of verwijderd nadat je op ‘Maak levering’ hebt geklikt."
-                                        className="w-full"
-                                    />
-                                )}
+                            {validationPackage?.Report_Status === 'valid' && (
+                                <Notification
+                                    title="Let op! Een versie kan niet worden bewerkt of verwijderd nadat je op ‘Maak levering’ hebt geklikt."
+                                    className="w-full"
+                                />
+                            )}
 
                             <PackageStep
                                 version={version}
