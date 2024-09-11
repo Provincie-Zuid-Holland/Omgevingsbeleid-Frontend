@@ -5,6 +5,7 @@ import {
     Badge,
     BadgeProps,
     Button,
+    formatDate,
     Heading,
     Text,
 } from '@pzh-ui/components'
@@ -16,6 +17,7 @@ import {
     PublicationEnvironment,
     Publication as PublicationType,
 } from '@/api/fetchers.schemas'
+import { LoaderCard } from '@/components/Loader'
 import useModalStore from '@/store/modalStore'
 
 import Version from './Version'
@@ -28,23 +30,30 @@ interface PublicationProps extends PublicationType {
 const Publication = ({
     UUID,
     Title,
+    Is_Locked,
     environment,
     ...rest
 }: PublicationProps) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { data: versions } = usePublicationsPublicationUuidVersionsGet(
-        UUID || '',
-        {
+    const { data: versions, isFetching } =
+        usePublicationsPublicationUuidVersionsGet(UUID || '', {
             limit: 100,
-        }
+        })
+
+    const finishedDate = useMemo(
+        () =>
+            !!versions?.results?.[0]?.Act_Packages.length &&
+            !environment?.Can_Publicate &&
+            formatDate(
+                new Date(String(versions.results[0].Modified_Date)),
+                'd MMMM yyyy'
+            ),
+        [versions, environment?.Can_Publicate]
     )
 
     const status = useMemo((): BadgeProps | undefined => {
-        if (
-            !!versions?.results[0].Act_Packages.length &&
-            !environment?.Can_Publicate
-        ) {
+        if (finishedDate) {
             return {
                 text: 'Afgerond',
                 variant: 'green',
@@ -56,7 +65,7 @@ const Publication = ({
             text: 'Actief',
             variant: 'green',
         }
-    }, [versions, environment?.Can_Publicate])
+    }, [finishedDate])
 
     return (
         <AccordionItem value={UUID} className="last:border-b-0">
@@ -82,21 +91,27 @@ const Publication = ({
                                 {environment?.Title} publicatie
                             </Heading>
                         </div>
-                        {!!status && <Badge upperCase={false} {...status} />}
+                        {isFetching ? (
+                            <LoaderCard height="24" className="w-20" mb="0" />
+                        ) : (
+                            !!status && <Badge upperCase={false} {...status} />
+                        )}
                     </div>
                 </div>
                 <div className="flex w-2/12 items-center pl-6 pr-2 text-left">
-                    <div>
-                        <Text
-                            size="s"
-                            color="text-pzh-blue-500"
-                            className="font-normal">
-                            Afgerond op
-                        </Text>
-                        <Text size="s" bold color="text-pzh-blue-500">
-                            TO-DO: Datum toevoegen
-                        </Text>
-                    </div>
+                    {finishedDate && (
+                        <div>
+                            <Text
+                                size="s"
+                                color="text-pzh-blue-500"
+                                className="font-normal">
+                                Afgerond op
+                            </Text>
+                            <Text size="s" bold color="text-pzh-blue-500">
+                                {finishedDate}
+                            </Text>
+                        </div>
+                    )}
                 </div>
                 <div className="flex w-3/12 items-center px-2 text-left">
                     <div>
@@ -118,9 +133,15 @@ const Publication = ({
                         icon={PenToSquare}
                         iconSize={16}
                         aria-label="Wijzig publicatie"
+                        isDisabled={Is_Locked}
                         onPress={() =>
                             setActiveModal('publicationEdit', {
-                                publication: { UUID, Title, ...rest },
+                                publication: {
+                                    UUID,
+                                    Title,
+                                    Is_Locked,
+                                    ...rest,
+                                },
                             })
                         }
                     />
@@ -131,7 +152,7 @@ const Publication = ({
                     <Version
                         key={version.UUID}
                         environment={environment}
-                        publication={{ UUID, Title, ...rest }}
+                        publication={{ UUID, Title, Is_Locked, ...rest }}
                         {...version}
                     />
                 ))}

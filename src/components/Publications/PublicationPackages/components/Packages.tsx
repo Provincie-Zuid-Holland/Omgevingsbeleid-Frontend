@@ -221,12 +221,32 @@ export const AnnouncementPackages = ({
         }
     )
 
+    const { data: validAnnouncementPackage } =
+        usePublicationAnnouncementPackagesGet(
+            {
+                limit: 100,
+                announcement_uuid: announcement?.UUID,
+            },
+            {
+                query: {
+                    enabled: !!announcement?.UUID,
+                    select: data =>
+                        data.results.find(
+                            pkg =>
+                                pkg.Report_Status === 'valid' &&
+                                pkg.Package_Type === 'publication'
+                        ),
+                },
+            }
+        )
+
     return (
         <Packages
             data={data}
             isFetching={isFetching}
             version={version}
             packageType={packageType}
+            isLocked={!!validPublicationPackage && !!validAnnouncementPackage}
             {...rest}
         />
     )

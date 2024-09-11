@@ -6,11 +6,11 @@ import {
     Heading,
     Text,
 } from '@pzh-ui/components'
-import { FileWord, Notes, PenToSquare } from '@pzh-ui/icons'
-import { useQuery } from '@tanstack/react-query'
+import { FilePdf, Notes, PenToSquare } from '@pzh-ui/icons'
 import { useMemo } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
+import { usePublicationVersionsVersionUuidPdfExportPost } from '@/api/fetchers'
 import {
     Publication,
     PublicationEnvironment,
@@ -30,6 +30,7 @@ const Version = ({
     Module_Status,
     Is_Locked,
     Act_Packages,
+    Effective_Date,
     environment,
     publication,
 }: VersionProps) => {
@@ -42,26 +43,15 @@ const Version = ({
         [Created_Date]
     )
 
-    const downloadDiff = ({
-        moduleId,
-        Module_Status_ID,
-    }: {
-        moduleId?: string
-        Module_Status_ID: number
-    }) =>
-        downloadFile(
-            `modules/${moduleId}/diff?output_format=doc&status_id=${Module_Status_ID}`
-        )
-
-    const { isFetching, refetch: download } = useQuery({
-        queryKey: ['downloadDiff', moduleId, Module_Status.ID, UUID],
-        queryFn: () =>
-            downloadDiff({
-                moduleId,
-                Module_Status_ID: Module_Status.ID,
-            }),
-        enabled: false,
-    })
+    const { mutate: download, isPending } =
+        usePublicationVersionsVersionUuidPdfExportPost({
+            mutation: {
+                mutationFn: async ({ versionUuid, data }): Promise<any> => {
+                    const path = `publication-versions/${versionUuid}/pdf_export`
+                    await downloadFile(path, data)
+                },
+            },
+        })
 
     const status = useMemo((): BadgeProps => {
         const publicationPackages = Act_Packages.filter(
@@ -97,7 +87,7 @@ const Version = ({
 
         if (hasPendingPublicationPackage) {
             return {
-                text: '2/2 Publicatie',
+                text: '2/2: Publicatie',
                 solid: true,
                 variant: 'yellow',
             }
@@ -112,7 +102,7 @@ const Version = ({
             }
 
             return {
-                text: '1/2 Validatie',
+                text: '1/2: Validatie',
                 solid: true,
                 variant: 'yellow',
             }
@@ -173,12 +163,17 @@ const Version = ({
                 <Button
                     size="small"
                     variant="secondary"
-                    icon={FileWord}
+                    icon={FilePdf}
                     iconSize={16}
-                    aria-label="Download Word export"
-                    onPress={() => download()}
-                    isLoading={isFetching}
-                    isDisabled={isFetching}
+                    aria-label="Download PDF export"
+                    onPress={() =>
+                        download({
+                            versionUuid: UUID,
+                            data: { Mutation: 'renvooi' },
+                        })
+                    }
+                    isLoading={isPending}
+                    isDisabled={isPending || !Effective_Date}
                 />
                 <Button
                     size="small"

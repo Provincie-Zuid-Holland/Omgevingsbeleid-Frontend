@@ -161,6 +161,10 @@ export const Packages = () => {
                     !environment?.Can_Publicate ||
                     version?.Publication.Procedure_Type !== 'draft'
                         ? ['act']
+                        : environment.Can_Publicate &&
+                          version?.Publication.Procedure_Type === 'draft' &&
+                          !!validPublicationPackage
+                        ? ['act', 'announcement']
                         : undefined
                 }>
                 <PublicationPackages
