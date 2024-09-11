@@ -207,7 +207,6 @@ const WizardForm = ({ step }: WizardFormProps) => {
             is_active: true,
             environment_uuid: values.Environment_UUID,
             document_type: values.Document_Type,
-            procedure_type: values.Procedure_Type,
         },
         {
             query: {
@@ -216,10 +215,7 @@ const WizardForm = ({ step }: WizardFormProps) => {
                         label: act.Title,
                         value: act.UUID,
                     })),
-                enabled:
-                    !!values.Environment_UUID &&
-                    !!values.Document_Type &&
-                    !!values.Procedure_Type,
+                enabled: !!values.Environment_UUID && !!values.Document_Type,
             },
         }
     )

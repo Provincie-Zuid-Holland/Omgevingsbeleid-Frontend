@@ -225,7 +225,16 @@ const AppRoutes = () => {
                                         },
                                         {
                                             path: ':tab',
-                                            element: <TabDecisions />,
+                                            element: (
+                                                <ProtectedRoute
+                                                    permissions={{
+                                                        canCreatePublication:
+                                                            true,
+                                                    }}
+                                                    redirectTo="/muteer/modules">
+                                                    <TabDecisions />
+                                                </ProtectedRoute>
+                                            ),
                                             children: [
                                                 {
                                                     index: true,
@@ -388,30 +397,22 @@ const AppRoutes = () => {
                 },
                 {
                     path: 'gebruikers',
+                    element: (
+                        <ProtectedRoute
+                            permissions={{
+                                canCreateUser: true,
+                            }}
+                            redirectTo="/muteer"
+                        />
+                    ),
                     children: [
                         {
                             index: true,
-                            element: (
-                                <ProtectedRoute
-                                    permissions={{
-                                        canCreateUser: true,
-                                    }}
-                                    redirectTo="/muteer">
-                                    <UsersOverview />
-                                </ProtectedRoute>
-                            ),
+                            element: <UsersOverview />,
                         },
                         {
                             path: ':uuid',
-                            element: (
-                                <ProtectedRoute
-                                    permissions={{
-                                        canCreateUser: true,
-                                    }}
-                                    redirectTo="/muteer">
-                                    <UserDetail />
-                                </ProtectedRoute>
-                            ),
+                            element: <UserDetail />,
                         },
                     ],
                 },

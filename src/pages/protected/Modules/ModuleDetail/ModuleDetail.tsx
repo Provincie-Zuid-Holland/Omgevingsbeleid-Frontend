@@ -18,7 +18,7 @@ export interface ModuleContext {
 }
 
 const ModuleDetail = () => {
-    const { canEditModule } = usePermissions()
+    const { canCreatePublication } = usePermissions()
     const navigate = useNavigate()
     const { moduleId, tab } = useParams<{ moduleId: string; tab?: TabType }>()
 
@@ -49,7 +49,7 @@ const ModuleDetail = () => {
             <div
                 className={classNames('col-span-6', {
                     '[&_[role=tablist]]:hidden':
-                        !canEditModule && !isModuleManager,
+                        !canCreatePublication || !isModuleManager,
                 })}>
                 <Tabs
                     selectedKey={activeTab}

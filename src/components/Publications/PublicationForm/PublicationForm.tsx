@@ -95,7 +95,6 @@ const Fields = () => {
                 is_active: true,
                 environment_uuid: values.Environment_UUID,
                 document_type: values.Document_Type as DocumentType,
-                procedure_type: values.Procedure_Type as ProcedureType,
             },
             {
                 query: {
