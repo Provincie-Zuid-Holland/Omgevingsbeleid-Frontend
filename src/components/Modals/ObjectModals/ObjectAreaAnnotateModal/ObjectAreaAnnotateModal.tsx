@@ -154,7 +154,7 @@ const InnerForm = <TData extends Values>({
             <div className="space-y-4">
                 <div>
                     <DynamicObjectSearch
-                        fieldName="group"
+                        fieldName="location"
                         filterType={['werkingsgebied']}
                         status="all"
                         label="Gebiedengroep"
@@ -166,9 +166,9 @@ const InnerForm = <TData extends Values>({
                         }
                         defaultValue={
                             values.label &&
-                            values.group && {
+                            values.location && {
                                 label: values.label,
-                                value: values.group,
+                                value: values.location,
                             }
                         }
                         components={{
@@ -202,8 +202,8 @@ const InnerForm = <TData extends Values>({
                         isLoading={areaTypesFetching}
                         required
                         onChange={() => {
-                            setFieldValue('location', null)
-                            setFieldTouched('location', false)
+                            setFieldValue('group', null)
+                            setFieldTouched('group', false)
                         }}
                         styles={{
                             menu: base => ({
@@ -221,7 +221,7 @@ const InnerForm = <TData extends Values>({
                         key={JSON.stringify(
                             areaGroupQueryKey + String(areaGroupsFetching)
                         )}
-                        name="location"
+                        name="group"
                         label="Gebiedsaanwijzinggroep"
                         placeholder="Selecteer een gebiedsaanwijzinggroep"
                         options={areaGroupOptions}
