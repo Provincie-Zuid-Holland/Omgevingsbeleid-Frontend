@@ -41,6 +41,7 @@ export type ModalType =
     | 'publicationPackages'
     | 'publicationVersionAbort'
     | 'publicationAnnouncementPackages'
+    | 'publicationAnnouncementUpdate'
 
 export interface ModalStateMap {
     moduleEditObject: {
@@ -76,5 +77,8 @@ export interface ModalStateMap {
     publicationVersionAbort: {
         publication: Publication
         version: PublicationVersionShort
+    }
+    publicationAnnouncementUpdate: {
+        announcementUuid: string
     }
 }

@@ -8,6 +8,7 @@ import { AngleRight } from '@pzh-ui/icons'
 import clsx from 'clsx'
 
 import {
+    PublicationAnnouncementShort,
     PublicationEnvironment,
     PublicationPackage,
     PublicationShort,
@@ -15,6 +16,7 @@ import {
 } from '@/api/fetchers.schemas'
 
 import { PublicationType } from '../types'
+import AnnouncementData from './components/AnnouncementData'
 import { ActPackages, AnnouncementPackages } from './components/Packages'
 
 const config = {
@@ -34,13 +36,17 @@ interface PublicationPackagesProps {
     publication?: PublicationShort
     publicationType: PublicationType
     validPublicationPackage?: PublicationPackage
+    announcement?: PublicationAnnouncementShort
     isLocked?: boolean
+    isDisabled?: boolean
 }
 
 const PublicationPackages = ({
     environment,
     publicationType,
     version,
+    announcement,
+    isDisabled,
     ...rest
 }: PublicationPackagesProps) => {
     const Packages = config[publicationType].component
@@ -48,6 +54,7 @@ const PublicationPackages = ({
     return (
         <AccordionItem
             value={publicationType}
+            disabled={isDisabled}
             className={clsx('group rounded-lg border border-pzh-gray-200', {
                 'bg-pzh-gray-100': version.Is_Locked,
             })}>
@@ -63,6 +70,9 @@ const PublicationPackages = ({
                 />
             </AccordionTrigger>
             <AccordionContent className="pb-0">
+                {publicationType === 'announcement' && !!announcement && (
+                    <AnnouncementData {...announcement} {...rest} />
+                )}
                 {environment?.Can_Validate && (
                     <Packages
                         version={version}

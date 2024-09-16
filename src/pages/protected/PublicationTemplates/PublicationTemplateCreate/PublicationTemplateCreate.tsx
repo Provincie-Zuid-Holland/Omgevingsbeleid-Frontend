@@ -80,7 +80,7 @@ const PublicationTemplateCreate = () => {
                     {singularCapitalize} toevoegen
                 </Heading>
 
-                <DynamicObjectForm
+                <DynamicObjectForm<TemplateCreate>
                     model={model as Model}
                     initialData={initialData}
                     handleSubmit={handleSubmit}

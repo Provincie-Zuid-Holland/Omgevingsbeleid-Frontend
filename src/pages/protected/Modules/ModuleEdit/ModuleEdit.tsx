@@ -46,7 +46,7 @@ const ModuleEdit = () => {
         { name: 'Dashboard', path: '/muteer' },
         { name: 'Modules', path: '/muteer' },
         { name: module?.Title || '', path: `/muteer/modules/${moduleId}` },
-        { name: 'Module bewerken' || '', isCurrent: true },
+        { name: 'Module bewerken', isCurrent: true },
     ]
 
     if (!canEditModule && !isModuleManager) {

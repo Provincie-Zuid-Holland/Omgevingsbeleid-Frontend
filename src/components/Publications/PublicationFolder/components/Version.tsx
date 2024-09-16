@@ -12,9 +12,11 @@ import { Link, useParams } from 'react-router-dom'
 
 import { usePublicationVersionsVersionUuidPdfExportPost } from '@/api/fetchers'
 import {
+    PackageType,
     Publication,
     PublicationEnvironment,
     PublicationVersionShort,
+    ReportStatusType,
 } from '@/api/fetchers.schemas'
 import useModalStore from '@/store/modalStore'
 import { downloadFile } from '@/utils/file'
@@ -46,29 +48,30 @@ const Version = ({
     const { mutate: download, isPending } =
         usePublicationVersionsVersionUuidPdfExportPost({
             mutation: {
-                mutationFn: async ({ versionUuid, data }): Promise<any> => {
-                    const path = `publication-versions/${versionUuid}/pdf_export`
-                    await downloadFile(path, data)
-                },
+                mutationFn: async ({ versionUuid, data }): Promise<any> =>
+                    downloadFile(
+                        `publication-versions/${versionUuid}/pdf_export`,
+                        data
+                    ),
             },
         })
 
     const status = useMemo((): BadgeProps => {
         const publicationPackages = Act_Packages.filter(
-            pkg => pkg.Package_Type === 'publication'
+            pkg => pkg.Package_Type === PackageType['publication']
         )
         const latestValidationPackage = Act_Packages.find(
-            pkg => pkg.Package_Type === 'validation'
+            pkg => pkg.Package_Type === PackageType['validation']
         )
 
         const hasValidPublicationPackage = publicationPackages.some(
-            pkg => pkg.Report_Status === 'valid'
+            pkg => pkg.Report_Status === ReportStatusType['valid']
         )
         const hasPendingPublicationPackage = publicationPackages.some(
-            pkg => pkg.Report_Status === 'pending'
+            pkg => pkg.Report_Status === ReportStatusType['pending']
         )
         const hasFailedPublicationPackage = publicationPackages.some(
-            pkg => pkg.Report_Status === 'failed'
+            pkg => pkg.Report_Status === ReportStatusType['failed']
         )
 
         if (hasValidPublicationPackage) {
@@ -117,7 +120,7 @@ const Version = ({
         <div className="flex h-16 border-b border-pzh-gray-200 last:border-b-0 hover:bg-pzh-blue-10 hover:ring-1 hover:ring-inset hover:ring-pzh-blue-100">
             <div className="flex h-[inherit] w-5/12 items-center border-r border-pzh-gray-200 pl-10 pr-6">
                 <div className="flex h-[inherit] w-full border-l border-pzh-gray-200 pl-10">
-                    <div className="flex w-full items-center justify-between border-l border-pzh-gray-200 pl-[67px]">
+                    <div className="flex w-full items-center justify-between border-l border-pzh-gray-200 pl-16">
                         <div className="flex items-center gap-4">
                             <Notes size={20} className="text-pzh-blue-100" />
                             <Heading

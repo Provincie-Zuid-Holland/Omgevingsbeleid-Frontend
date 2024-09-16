@@ -45,7 +45,7 @@ const ModuleCreate = () => {
     const breadcrumbPaths = [
         { name: 'Dashboard', path: '/muteer' },
         { name: 'Modules', path: '/muteer' },
-        { name: 'Module aanmaken' || '', isCurrent: true },
+        { name: 'Module aanmaken', isCurrent: true },
     ]
 
     return (

@@ -150,7 +150,7 @@ const VersionAdd = ({ publicationUUID }: VersionAddProps) => {
             className="flex h-16 w-full border-b border-pzh-gray-200 bg-pzh-gray-100 last:border-b-0 focus:ring-2 focus:ring-inset focus:ring-pzh-blue-100">
             <div className="flex h-[inherit] w-5/12 items-center border-r border-pzh-gray-200 pl-10 pr-6">
                 <div className="flex h-[inherit] w-full border-l border-pzh-gray-200 pl-10">
-                    <div className="flex w-full items-center justify-between border-l border-pzh-gray-200 pl-[67px]">
+                    <div className="flex w-full items-center justify-between border-l border-pzh-gray-200 pl-16">
                         <div className="flex items-center gap-4">
                             <PlusLight
                                 size={20}

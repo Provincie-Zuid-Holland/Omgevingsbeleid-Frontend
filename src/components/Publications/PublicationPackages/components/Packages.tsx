@@ -10,6 +10,7 @@ import {
     PublicationPackage,
     PublicationShort,
     PublicationVersion,
+    ReportStatusType,
 } from '@/api/fetchers.schemas'
 import { LoaderCard } from '@/components/Loader'
 import useModalStore from '@/store/modalStore'
@@ -57,7 +58,7 @@ const Packages = ({
     })
 
     return (
-        <div className="grid grid-cols-12 border-pzh-gray-200 first:border-b">
+        <div className="grid grid-cols-12 border-b border-pzh-gray-200 last:border-b-0">
             <div className="col-span-3 p-6 pt-9">
                 <Text
                     bold
@@ -233,8 +234,9 @@ export const AnnouncementPackages = ({
                     select: data =>
                         data.results.find(
                             pkg =>
-                                pkg.Report_Status === 'valid' &&
-                                pkg.Package_Type === 'publication'
+                                pkg.Report_Status ===
+                                    ReportStatusType['valid'] &&
+                                pkg.Package_Type === PackageType['publication']
                         ),
                 },
             }
