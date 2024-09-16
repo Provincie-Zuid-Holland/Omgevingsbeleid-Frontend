@@ -1,18 +1,24 @@
 import { Accordion, BackLink, Button, Heading } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
 import { useUnmountEffect } from '@react-hookz/web'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, Outlet, useParams } from 'react-router-dom'
 
 import {
     usePublicationActPackagesGet,
+    usePublicationAnnouncementsGet,
     usePublicationEnvironmentsEnvironmentUuidGet,
     usePublicationsGet,
     usePublicationVersionsVersionUuidGet,
 } from '@/api/fetchers'
-import { DocumentType } from '@/api/fetchers.schemas'
+import {
+    DocumentType,
+    PackageType,
+    ReportStatusType,
+} from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import {
+    PublicationAnnouncementUpdateModal,
     PublicationEditModal,
     PublicationVersionEditModal,
 } from '@/components/Modals/PublicationModals'
@@ -29,6 +35,7 @@ const TabDecisions = () => (
 
         <PublicationEditModal />
         <PublicationVersionEditModal />
+        <PublicationAnnouncementUpdateModal />
     </>
 )
 
@@ -126,14 +133,45 @@ export const Packages = () => {
                 select: data =>
                     data.results.find(
                         pkg =>
-                            pkg.Report_Status === 'valid' &&
-                            pkg.Package_Type === 'publication'
+                            pkg.Report_Status === ReportStatusType['valid'] &&
+                            pkg.Package_Type === PackageType['publication']
                     ),
             },
         }
     )
 
-    if (versionFetching || environmentFetching || !version)
+    const { data: announcement, isFetching: announcementFetching } =
+        usePublicationAnnouncementsGet(
+            {
+                limit: 100,
+                act_package_uuid: validPublicationPackage?.UUID,
+            },
+            {
+                query: {
+                    enabled: !!validPublicationPackage?.UUID,
+                    select: data => data.results[0],
+                },
+            }
+        )
+
+    const [activeItems, setActiveItems] = useState(['act'])
+
+    useEffect(() => {
+        if (
+            environment?.Can_Publicate &&
+            version?.Publication.Procedure_Type === 'draft' &&
+            !!validPublicationPackage
+        ) {
+            setActiveItems(['act', 'announcement'])
+        }
+    }, [environment, version, announcement, validPublicationPackage])
+
+    if (
+        versionFetching ||
+        environmentFetching ||
+        announcementFetching ||
+        !version
+    )
         return <LoaderSpinner />
 
     return (
@@ -156,17 +194,8 @@ export const Packages = () => {
             <Accordion
                 type="multiple"
                 className="flex flex-col gap-4"
-                defaultValue={['act']}
-                value={
-                    !environment?.Can_Publicate ||
-                    version?.Publication.Procedure_Type !== 'draft'
-                        ? ['act']
-                        : environment.Can_Publicate &&
-                          version?.Publication.Procedure_Type === 'draft' &&
-                          !!validPublicationPackage
-                        ? ['act', 'announcement']
-                        : undefined
-                }>
+                value={activeItems}
+                onValueChange={setActiveItems}>
                 <PublicationPackages
                     environment={environment}
                     version={version}
@@ -182,6 +211,8 @@ export const Packages = () => {
                             publication={version?.Publication}
                             publicationType="announcement"
                             validPublicationPackage={validPublicationPackage}
+                            announcement={announcement}
+                            isDisabled={!!!announcement}
                         />
                     )}
             </Accordion>

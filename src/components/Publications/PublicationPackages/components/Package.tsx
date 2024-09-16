@@ -5,13 +5,13 @@ import {
     Check,
     EyeLight,
 } from '@pzh-ui/icons'
-import clsx from 'clsx'
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 
 import { PublicationPackage } from '@/api/fetchers.schemas'
 
 import { useActions } from './actions'
+import { getIndicatorClass } from './utils'
 
 interface PackageProps extends PublicationPackage {
     publicationUUID: string
@@ -52,16 +52,7 @@ const Package = ({
     )
 
     const indicatorClass = useMemo(
-        () =>
-            clsx(
-                'after:content-[` `] flex h-[19px] w-[19px] items-center justify-center rounded-full border',
-                {
-                    'after:block after:h-[13px] after:w-[13px] after:rounded-full after:bg-pzh-green-500 border-pzh-gray-600':
-                        Report_Status === 'pending',
-                    'border-pzh-green-500 bg-pzh-green-500':
-                        Report_Status !== 'pending',
-                }
-            ),
+        () => getIndicatorClass(Report_Status !== 'pending'),
         [Report_Status]
     )
 

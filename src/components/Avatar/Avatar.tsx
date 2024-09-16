@@ -9,8 +9,8 @@ interface AvatarProps {
 }
 
 const Avatar = ({ name, prefix, className, isSmall }: AvatarProps) => {
-    const rgx = new RegExp(/(\p{L}{1})\p{L}+/, 'gu')
-    const match = [...name.matchAll(rgx)] || []
+    const rgx = new RegExp(/(\p{L}{1})\p{L}+/gu)
+    const match = [...name.matchAll(rgx)]
     const initials = (
         (match.shift()?.[1] || '') + (match.pop()?.[1] || '')
     ).toUpperCase()
