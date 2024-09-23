@@ -1,7 +1,14 @@
-import { Accordion, BackLink, Button, Heading } from '@pzh-ui/components'
+import {
+    Accordion,
+    BackLink,
+    Button,
+    formatDate,
+    Heading,
+    Notification,
+} from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
 import { useUnmountEffect } from '@react-hookz/web'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, Outlet, useParams } from 'react-router-dom'
 
 import {
@@ -166,6 +173,18 @@ export const Packages = () => {
         }
     }, [environment, version, announcement, validPublicationPackage])
 
+    const { announcementDate, effectiveDate } = useMemo(() => {
+        const announcementDate =
+            version?.Announcement_Date &&
+            formatDate(new Date(version.Announcement_Date), 'd LLLL yyyy')
+
+        const effectiveDate =
+            version?.Effective_Date &&
+            formatDate(new Date(version.Effective_Date), 'd LLLL yyyy')
+
+        return { announcementDate, effectiveDate }
+    }, [version])
+
     if (
         versionFetching ||
         environmentFetching ||
@@ -203,6 +222,33 @@ export const Packages = () => {
                     publicationType="act"
                     isLocked={version.Is_Locked}
                 />
+                {environment?.Can_Publicate && !!validPublicationPackage && (
+                    <div className="my-6 flex w-full justify-between gap-4">
+                        <Notification
+                            variant="positive"
+                            title={`Regeling publicatie wordt bekend gemaakt op ${announcementDate}.${
+                                !!!announcement
+                                    ? ' Maak een kennisgeving om dit ontwerp te publiceren'
+                                    : ''
+                            }`}
+                            className="w-full"
+                        />
+                        {/* {(procedureType as ProcedureType) === 'draft' &&
+                            !!publicationPackage && (
+                                <Button
+                                    variant="cta"
+                                    onPress={() =>
+                                        createAnnouncement({
+                                            actPackageUuid:
+                                                publicationPackage.UUID,
+                                        })
+                                    }
+                                    className="whitespace-nowrap">
+                                    Maak kennisgeving
+                                </Button>
+                            )} */}
+                    </div>
+                )}
                 {version?.Publication.Procedure_Type === 'draft' &&
                     environment?.Can_Publicate && (
                         <PublicationPackages
