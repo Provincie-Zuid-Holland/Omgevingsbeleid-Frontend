@@ -6,6 +6,7 @@ import { Link, Outlet, useParams } from 'react-router-dom'
 
 import {
     usePublicationActPackagesGet,
+    usePublicationAnnouncementPackagesGet,
     usePublicationAnnouncementsGet,
     usePublicationEnvironmentsEnvironmentUuidGet,
     usePublicationsGet,
@@ -23,6 +24,7 @@ import {
     PublicationVersionEditModal,
 } from '@/components/Modals/PublicationModals'
 import PublicationFolder from '@/components/Publications/PublicationFolder'
+import PublicationNotification from '@/components/Publications/PublicationNotification'
 import PublicationPackages from '@/components/Publications/PublicationPackages'
 import PublicationWizard from '@/components/Publications/PublicationWizard'
 import usePublicationStore from '@/store/publicationStore'
@@ -122,7 +124,7 @@ export const Packages = () => {
             }
         )
 
-    const { data: validPublicationPackage } = usePublicationActPackagesGet(
+    const { data: validActPackage } = usePublicationActPackagesGet(
         {
             version_uuid: version?.UUID,
             limit: 100,
@@ -144,12 +146,32 @@ export const Packages = () => {
         usePublicationAnnouncementsGet(
             {
                 limit: 100,
-                act_package_uuid: validPublicationPackage?.UUID,
+                act_package_uuid: validActPackage?.UUID,
             },
             {
                 query: {
-                    enabled: !!validPublicationPackage?.UUID,
+                    enabled: !!validActPackage?.UUID,
                     select: data => data.results[0],
+                },
+            }
+        )
+
+    const { data: validAnnouncementPackage } =
+        usePublicationAnnouncementPackagesGet(
+            {
+                announcement_uuid: announcement?.UUID,
+                limit: 100,
+            },
+            {
+                query: {
+                    enabled: !!announcement?.UUID,
+                    select: data =>
+                        data.results.find(
+                            pkg =>
+                                pkg.Report_Status ===
+                                    ReportStatusType['valid'] &&
+                                pkg.Package_Type === PackageType['publication']
+                        ),
                 },
             }
         )
@@ -160,11 +182,11 @@ export const Packages = () => {
         if (
             environment?.Can_Publicate &&
             version?.Publication.Procedure_Type === 'draft' &&
-            !!validPublicationPackage
+            !!validActPackage
         ) {
             setActiveItems(['act', 'announcement'])
         }
-    }, [environment, version, announcement, validPublicationPackage])
+    }, [environment, version, announcement, validActPackage])
 
     if (
         versionFetching ||
@@ -203,6 +225,14 @@ export const Packages = () => {
                     publicationType="act"
                     isLocked={version.Is_Locked}
                 />
+                {environment?.Can_Publicate && !!validActPackage && (
+                    <PublicationNotification
+                        type="act"
+                        validPublicationPackage={validActPackage}
+                        version={version}
+                        announcement={announcement}
+                    />
+                )}
                 {version?.Publication.Procedure_Type === 'draft' &&
                     environment?.Can_Publicate && (
                         <PublicationPackages
@@ -210,11 +240,19 @@ export const Packages = () => {
                             version={version}
                             publication={version?.Publication}
                             publicationType="announcement"
-                            validPublicationPackage={validPublicationPackage}
+                            validPublicationPackage={validActPackage}
                             announcement={announcement}
                             isDisabled={!!!announcement}
                         />
                     )}
+                {environment?.Can_Publicate && !!validAnnouncementPackage && (
+                    <PublicationNotification
+                        type="announcement"
+                        validPublicationPackage={validAnnouncementPackage}
+                        version={version}
+                        announcement={announcement}
+                    />
+                )}
             </Accordion>
         </div>
     )
