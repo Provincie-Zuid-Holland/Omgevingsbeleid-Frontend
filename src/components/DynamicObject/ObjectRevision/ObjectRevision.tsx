@@ -78,11 +78,15 @@ const ObjectRevision = ({
                         htmlFrom={contentFrom || ''}
                         htmlTo={contentTo || ''}
                         customTitle={
-                            singular === 'beleidskeuze' ||
-                            singular === 'maatregel'
+                            singular === 'beleidskeuze'
                                 ? {
                                       Description:
                                           'Wat wil de provincie bereiken?',
+                                  }
+                                : singular === 'maatregel'
+                                ? {
+                                      Description:
+                                          'Wat gaat de provincie doen?',
                                   }
                                 : undefined
                         }
