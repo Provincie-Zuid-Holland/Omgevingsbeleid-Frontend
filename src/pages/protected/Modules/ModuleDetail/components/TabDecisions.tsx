@@ -1,18 +1,12 @@
-import {
-    Accordion,
-    BackLink,
-    Button,
-    formatDate,
-    Heading,
-    Notification,
-} from '@pzh-ui/components'
+import { Accordion, BackLink, Button, Heading } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
 import { useUnmountEffect } from '@react-hookz/web'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, Outlet, useParams } from 'react-router-dom'
 
 import {
     usePublicationActPackagesGet,
+    usePublicationAnnouncementPackagesGet,
     usePublicationAnnouncementsGet,
     usePublicationEnvironmentsEnvironmentUuidGet,
     usePublicationsGet,
@@ -30,6 +24,7 @@ import {
     PublicationVersionEditModal,
 } from '@/components/Modals/PublicationModals'
 import PublicationFolder from '@/components/Publications/PublicationFolder'
+import PublicationNotification from '@/components/Publications/PublicationNotification'
 import PublicationPackages from '@/components/Publications/PublicationPackages'
 import PublicationWizard from '@/components/Publications/PublicationWizard'
 import usePublicationStore from '@/store/publicationStore'
@@ -129,7 +124,7 @@ export const Packages = () => {
             }
         )
 
-    const { data: validPublicationPackage } = usePublicationActPackagesGet(
+    const { data: validActPackage } = usePublicationActPackagesGet(
         {
             version_uuid: version?.UUID,
             limit: 100,
@@ -151,12 +146,32 @@ export const Packages = () => {
         usePublicationAnnouncementsGet(
             {
                 limit: 100,
-                act_package_uuid: validPublicationPackage?.UUID,
+                act_package_uuid: validActPackage?.UUID,
             },
             {
                 query: {
-                    enabled: !!validPublicationPackage?.UUID,
+                    enabled: !!validActPackage?.UUID,
                     select: data => data.results[0],
+                },
+            }
+        )
+
+    const { data: validAnnouncementPackage } =
+        usePublicationAnnouncementPackagesGet(
+            {
+                announcement_uuid: announcement?.UUID,
+                limit: 100,
+            },
+            {
+                query: {
+                    enabled: !!announcement?.UUID,
+                    select: data =>
+                        data.results.find(
+                            pkg =>
+                                pkg.Report_Status ===
+                                    ReportStatusType['valid'] &&
+                                pkg.Package_Type === PackageType['publication']
+                        ),
                 },
             }
         )
@@ -167,23 +182,11 @@ export const Packages = () => {
         if (
             environment?.Can_Publicate &&
             version?.Publication.Procedure_Type === 'draft' &&
-            !!validPublicationPackage
+            !!validActPackage
         ) {
             setActiveItems(['act', 'announcement'])
         }
-    }, [environment, version, announcement, validPublicationPackage])
-
-    const { announcementDate, effectiveDate } = useMemo(() => {
-        const announcementDate =
-            version?.Announcement_Date &&
-            formatDate(new Date(version.Announcement_Date), 'd LLLL yyyy')
-
-        const effectiveDate =
-            version?.Effective_Date &&
-            formatDate(new Date(version.Effective_Date), 'd LLLL yyyy')
-
-        return { announcementDate, effectiveDate }
-    }, [version])
+    }, [environment, version, announcement, validActPackage])
 
     if (
         versionFetching ||
@@ -222,32 +225,13 @@ export const Packages = () => {
                     publicationType="act"
                     isLocked={version.Is_Locked}
                 />
-                {environment?.Can_Publicate && !!validPublicationPackage && (
-                    <div className="my-6 flex w-full justify-between gap-4">
-                        <Notification
-                            variant="positive"
-                            title={`Regeling publicatie wordt bekend gemaakt op ${announcementDate}.${
-                                !!!announcement
-                                    ? ' Maak een kennisgeving om dit ontwerp te publiceren'
-                                    : ''
-                            }`}
-                            className="w-full"
-                        />
-                        {/* {(procedureType as ProcedureType) === 'draft' &&
-                            !!publicationPackage && (
-                                <Button
-                                    variant="cta"
-                                    onPress={() =>
-                                        createAnnouncement({
-                                            actPackageUuid:
-                                                publicationPackage.UUID,
-                                        })
-                                    }
-                                    className="whitespace-nowrap">
-                                    Maak kennisgeving
-                                </Button>
-                            )} */}
-                    </div>
+                {environment?.Can_Publicate && !!validActPackage && (
+                    <PublicationNotification
+                        type="act"
+                        validPublicationPackage={validActPackage}
+                        version={version}
+                        announcement={announcement}
+                    />
                 )}
                 {version?.Publication.Procedure_Type === 'draft' &&
                     environment?.Can_Publicate && (
@@ -256,11 +240,19 @@ export const Packages = () => {
                             version={version}
                             publication={version?.Publication}
                             publicationType="announcement"
-                            validPublicationPackage={validPublicationPackage}
+                            validPublicationPackage={validActPackage}
                             announcement={announcement}
                             isDisabled={!!!announcement}
                         />
                     )}
+                {environment?.Can_Publicate && !!validAnnouncementPackage && (
+                    <PublicationNotification
+                        type="announcement"
+                        validPublicationPackage={validAnnouncementPackage}
+                        version={version}
+                        announcement={announcement}
+                    />
+                )}
             </Accordion>
         </div>
     )
