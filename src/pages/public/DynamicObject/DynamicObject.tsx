@@ -207,11 +207,15 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                         <ObjectContent
                             data={data || {}}
                             customTitle={
-                                singular === 'beleidskeuze' ||
-                                singular === 'maatregel'
+                                singular === 'beleidskeuze'
                                     ? {
                                           Description:
                                               'Wat wil de provincie bereiken?',
+                                      }
+                                    : singular === 'maatregel'
+                                    ? {
+                                          Description:
+                                              'Wat gaat de provincie doen?',
                                       }
                                     : undefined
                             }

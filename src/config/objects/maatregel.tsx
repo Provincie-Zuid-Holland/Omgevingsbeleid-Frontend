@@ -116,7 +116,7 @@ const maatregel: DynamicObject<
             fields: [
                 {
                     name: 'Description',
-                    label: 'Wat wil de provincie bereiken?',
+                    label: 'Wat gaat de provincie doen?',
                     description:
                         'Formuleer bondig wat de provincie met deze maatregel wil bewerkstelligen.',
                     type: 'wysiwyg',
