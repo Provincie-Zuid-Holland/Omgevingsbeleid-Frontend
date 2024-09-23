@@ -170,7 +170,7 @@ export const getObjectRevisionBannerText = (
             )
         case 'Definitief ontwerp GS Concept':
         case 'Definitief ontwerp GS':
-            return `Is in inspraak geweest in module '${revision.Module_Title}'.`
+            return `Er is een versie in inspraak geweest in module '${revision.Module_Title}'.`
 
         case 'Ontwerp PS':
         case 'Definitief ontwerp PS':
