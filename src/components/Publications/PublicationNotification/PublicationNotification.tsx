@@ -42,12 +42,12 @@ const PublicationNotification = ({
         })
 
     if (publicationType === 'act') {
-        const announcementDate = useMemo(() => {
-            return (
+        const announcementDate = useMemo(
+            () =>
                 version?.Announcement_Date &&
-                formatDate(new Date(version.Announcement_Date), 'd LLLL yyyy')
-            )
-        }, [version])
+                formatDate(new Date(version.Announcement_Date), 'd LLLL yyyy'),
+            [version]
+        )
 
         return (
             <div className="flex w-full justify-between gap-4">
@@ -76,12 +76,12 @@ const PublicationNotification = ({
         )
     }
 
-    const announcementDate = useMemo(() => {
-        return (
+    const announcementDate = useMemo(
+        () =>
             announcement?.Announcement_Date &&
-            formatDate(new Date(announcement.Announcement_Date), 'd LLLL yyyy')
-        )
-    }, [announcement])
+            formatDate(new Date(announcement.Announcement_Date), 'd LLLL yyyy'),
+        [announcement]
+    )
 
     return (
         <div className="flex w-full justify-between">
