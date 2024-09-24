@@ -227,7 +227,7 @@ export const Packages = () => {
                 />
                 {environment?.Can_Publicate && !!validActPackage && (
                     <PublicationNotification
-                        type="act"
+                        publicationType="act"
                         validPublicationPackage={validActPackage}
                         version={version}
                         announcement={announcement}
@@ -247,7 +247,7 @@ export const Packages = () => {
                     )}
                 {environment?.Can_Publicate && !!validAnnouncementPackage && (
                     <PublicationNotification
-                        type="announcement"
+                        publicationType="announcement"
                         validPublicationPackage={validAnnouncementPackage}
                         version={version}
                         announcement={announcement}

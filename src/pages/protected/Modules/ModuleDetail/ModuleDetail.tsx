@@ -48,8 +48,7 @@ const ModuleDetail = () => {
 
             <div
                 className={classNames('col-span-6', {
-                    '[&_[role=tablist]]:hidden':
-                        !canCreatePublication || !isModuleManager,
+                    '[&_[role=tablist]]:hidden': !canCreatePublication,
                 })}>
                 <Tabs
                     selectedKey={activeTab}
