@@ -129,6 +129,7 @@ const Package = ({
                             variant="secondary"
                             size="small"
                             icon={EyeLight}
+                            aria-label="Bekijk levering"
                         />
                     )}
                     <Button
@@ -137,7 +138,8 @@ const Package = ({
                         icon={canPublicate ? ArrowDownToLine : undefined}
                         onPress={() => downloadPackage.refetch()}
                         isLoading={downloadPackage.isFetching}
-                        isDisabled={downloadPackage.isFetching}>
+                        isDisabled={downloadPackage.isFetching}
+                        aria-label="Download levering">
                         {!canPublicate ? 'Download levering' : null}
                     </Button>
                 </div>
