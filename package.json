@@ -93,7 +93,7 @@
         "eslint-plugin-prettier": "^5.0.0",
         "jsdom": "^25.0.1",
         "msw": "^2.4.9",
-        "orval": "^7.1.1",
+        "orval": "^6.25.0",
         "prettier": "2.8.8",
         "rollup-plugin-visualizer": "^5.11.0",
         "sass": "^1.63.6",
