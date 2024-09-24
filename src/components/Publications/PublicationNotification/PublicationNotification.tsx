@@ -1,3 +1,7 @@
+import { Button, Notification, formatDate } from '@pzh-ui/components'
+import { useQueryClient } from '@tanstack/react-query'
+import { useMemo } from 'react'
+
 import {
     getPublicationAnnouncementsGetQueryKey,
     usePublicationActPackagesActPackageUuidCreateAnnouncementPost,
@@ -7,9 +11,7 @@ import {
     PublicationPackage,
     PublicationVersion,
 } from '@/api/fetchers.schemas'
-import { Button, Notification, formatDate } from '@pzh-ui/components'
-import { useQueryClient } from '@tanstack/react-query'
-import { useMemo } from 'react'
+
 import { PublicationType } from '../types'
 
 interface PublicationNotificationProps {
@@ -41,19 +43,26 @@ const PublicationNotification = ({
             },
         })
 
-    if (publicationType === 'act') {
-        const announcementDate = useMemo(
-            () =>
-                version?.Announcement_Date &&
-                formatDate(new Date(version.Announcement_Date), 'd LLLL yyyy'),
-            [version]
-        )
+    const actAnnouncementDate = useMemo(
+        () =>
+            version?.Announcement_Date &&
+            formatDate(new Date(version.Announcement_Date), 'd LLLL yyyy'),
+        [version]
+    )
 
+    const announcementDate = useMemo(
+        () =>
+            announcement?.Announcement_Date &&
+            formatDate(new Date(announcement.Announcement_Date), 'd LLLL yyyy'),
+        [announcement]
+    )
+
+    if (publicationType === 'act') {
         return (
             <div className="flex w-full justify-between gap-4">
                 <Notification
                     variant="positive"
-                    title={`Regeling publicatie wordt bekend gemaakt op ${announcementDate}.${
+                    title={`Regeling publicatie wordt bekend gemaakt op ${actAnnouncementDate}.${
                         !!!announcement
                             ? ' Maak een kennisgeving om dit ontwerp te publiceren'
                             : ''
@@ -75,13 +84,6 @@ const PublicationNotification = ({
             </div>
         )
     }
-
-    const announcementDate = useMemo(
-        () =>
-            announcement?.Announcement_Date &&
-            formatDate(new Date(announcement.Announcement_Date), 'd LLLL yyyy'),
-        [announcement]
-    )
 
     return (
         <div className="flex w-full justify-between">
