@@ -13,14 +13,14 @@ import { useMemo } from 'react'
 import { PublicationType } from '../types'
 
 interface PublicationNotificationProps {
-    type: PublicationType
+    publicationType: PublicationType
     version?: PublicationVersion
     announcement?: PublicationAnnouncementShort
     validPublicationPackage: PublicationPackage
 }
 
 const PublicationNotification = ({
-    type,
+    publicationType,
     version,
     announcement,
     validPublicationPackage,
@@ -41,7 +41,7 @@ const PublicationNotification = ({
             },
         })
 
-    if (type === 'act') {
+    if (publicationType === 'act') {
         const announcementDate = useMemo(() => {
             return (
                 version?.Announcement_Date &&
