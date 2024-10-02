@@ -95,7 +95,8 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
                 (sortBy?.[0]?.id as ModuleSortColumn) || 'Modified_Date',
             sort_order: sortBy?.[0]?.desc ? 'DESC' : 'ASC',
             limit: PAGE_LIMIT,
-            offset: (currPage - 1) * PAGE_LIMIT,
+            offset:
+                ((type === 'archive' ? pageIndex : currPage) - 1) * PAGE_LIMIT,
         },
         {
             query: {
@@ -179,7 +180,7 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
                     {!!modules?.total &&
                         !!modules?.limit &&
                         modules.total > modules.limit && (
-                            <div className="mt-8 flex justify-center">
+                            <div className="mt-8">
                                 <Pagination
                                     onPageChange={setCurrPage}
                                     current={currPage}
