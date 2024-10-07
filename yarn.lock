@@ -2862,13 +2862,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.560":
-  version: 0.0.560
-  resolution: "@pzh-ui/components@npm:0.0.560"
+"@pzh-ui/components@npm:^0.0.572":
+  version: 0.0.572
+  resolution: "@pzh-ui/components@npm:0.0.572"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
-    "@pzh-ui/icons": "npm:^0.0.63"
+    "@pzh-ui/icons": "npm:^0.0.69"
     "@radix-ui/react-accordion": "npm:^1.1.2"
     "@radix-ui/react-slot": "npm:^1.0.2"
     "@react-aria/utils": "npm:^3.23.2"
@@ -2916,7 +2916,7 @@ __metadata:
     react-stately: "npm:^3.30.1"
     react-toastify: "npm:^9.1.2"
     tailwind-merge: "npm:^2.2.2"
-  checksum: 53451b48b25074c2738d14b2bac77d69329175f7d4d6fed28f4bed0b012669791dd5e815dd60907960905e1a7280c42093621efa38c1e425b5c78e0cac557012
+  checksum: 10436aaa0c3dde22ae539262b3e13b9199186d7085323fdeece97ed9f0569192282259a9ca386182543101888a7d3d51dc4e5a75c6a0ca40463b030a861d87e2
   languageName: node
   linkType: hard
 
@@ -2970,6 +2970,16 @@ __metadata:
     react: "npm:^18.2.0"
     react-toastify: "npm:^9.1.2"
   checksum: a42286b1605f4018e2e1c74e370bf3b55668490343e3198818aef39fe59e5081c0f4ffcb31a7a88bc426a9a42bc6665925f301b3f5a98327dd130a05da3c9825
+  languageName: node
+  linkType: hard
+
+"@pzh-ui/icons@npm:^0.0.69":
+  version: 0.0.69
+  resolution: "@pzh-ui/icons@npm:0.0.69"
+  dependencies:
+    react: "npm:^18.2.0"
+    react-toastify: "npm:^9.1.2"
+  checksum: cc5d0ff4c586b5098305d07a2a3081c34ad7ef8a909a37f3aa479d7a5f209a79204632dd265caca478d20d2e1d726f53f04165db0bc54dcd0a58e996f5f2b0dd
   languageName: node
   linkType: hard
 
@@ -13065,7 +13075,7 @@ __metadata:
     "@axe-core/react": "npm:^4.8.2"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-    "@pzh-ui/components": "npm:^0.0.560"
+    "@pzh-ui/components": "npm:^0.0.572"
     "@pzh-ui/config": "npm:^0.0.70"
     "@pzh-ui/css": "npm:^0.0.100"
     "@pzh-ui/icons": "npm:^0.0.63"
