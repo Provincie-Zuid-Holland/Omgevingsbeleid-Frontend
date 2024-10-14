@@ -11,10 +11,14 @@ const ERRORS: { [key: string]: string } = {
 }
 
 const handleError = <T>(err: Error, helpers: FormikHelpers<T>) => {
-    err.data?.detail?.forEach(item => {
-        helpers.setFieldError(item.loc.join('.'), ERRORS[item.msg] || item.msg)
-        helpers.setFieldTouched(item.loc.join('.'), true)
-    })
+    Array.isArray(err.data?.detail) &&
+        err.data?.detail?.forEach(item => {
+            helpers.setFieldError(
+                item.loc.join('.'),
+                ERRORS[item.msg] || item.msg
+            )
+            helpers.setFieldTouched(item.loc.join('.'), true)
+        })
 
     helpers.setSubmitting(false)
 }

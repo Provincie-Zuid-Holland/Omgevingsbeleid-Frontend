@@ -21,6 +21,7 @@ import { LoaderSpinner } from '@/components/Loader'
 import {
     PublicationAnnouncementUpdateModal,
     PublicationEditModal,
+    PublicationPackageReportUploadModal,
     PublicationVersionEditModal,
 } from '@/components/Modals/PublicationModals'
 import PublicationFolder from '@/components/Publications/PublicationFolder'
@@ -38,6 +39,7 @@ const TabDecisions = () => (
         <PublicationEditModal />
         <PublicationVersionEditModal />
         <PublicationAnnouncementUpdateModal />
+        <PublicationPackageReportUploadModal />
     </>
 )
 
