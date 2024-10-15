@@ -10,17 +10,21 @@ import { useMemo } from 'react'
 import { PublicationPackage } from '@/api/fetchers.schemas'
 import useModalStore from '@/store/modalStore'
 
+import { PublicationType } from '../../types'
 import { useActions } from './actions'
 import { getIndicatorClass } from './utils'
 
 interface PackageProps extends PublicationPackage {
+    publicationType: PublicationType
     publicationUUID: string
     versionUUID: string
+    announcementUUID?: string
     isLocked?: boolean
     canPublicate?: boolean
 }
 
 const Package = ({
+    publicationType,
     UUID,
     Created_Date,
     Zip,
@@ -28,13 +32,16 @@ const Package = ({
     isLocked,
     publicationUUID,
     versionUUID,
+    announcementUUID,
     canPublicate,
 }: PackageProps) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const { downloadPackage } = useActions({
+        publicationType,
         publicationUUID,
         versionUUID,
+        announcementUUID,
         packageUUID: UUID,
     })
 
@@ -116,7 +123,11 @@ const Package = ({
                                 onPress={() =>
                                     setActiveModal(
                                         'publicationPackageReportUpload',
-                                        { packageUUID: UUID }
+                                        {
+                                            packageUUID: UUID,
+                                            publicationType,
+                                            publicationUUID,
+                                        }
                                     )
                                 }>
                                 <Text

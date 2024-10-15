@@ -50,6 +50,11 @@ const PublicationAnnouncementUpdateModal = () => {
     )
 
     const handleSubmit = (payload: PublicationAnnouncementEdit) => {
+        if (payload.Announcement_Date && payload.Procedural) {
+            payload.Procedural.Procedural_Announcement_Date =
+                payload.Announcement_Date
+        }
+
         mutate({
             announcementUuid: modalState?.announcementUuid,
             data: payload,

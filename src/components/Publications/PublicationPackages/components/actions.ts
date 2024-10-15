@@ -4,33 +4,58 @@ import { AxiosError } from 'axios'
 import {
     getPublicationActPackagesActPackageUuidDownloadGetQueryKey,
     getPublicationActPackagesGetQueryKey,
+    getPublicationAnnouncementPackagesAnnouncementPackageUuidDownloadGetQueryKey,
+    getPublicationAnnouncementPackagesGetQueryKey,
     getPublicationsPublicationUuidVersionsGetQueryKey,
+    usePublicationActPackagesActPackageUuidReportPost,
+    usePublicationAnnouncementPackagesAnnouncementPackageUuidReportPost,
+    usePublicationAnnouncementsAnnouncementUuidPackagesPost,
     usePublicationVersionsVersionUuidPackagesPost,
 } from '@/api/fetchers'
 import { HTTPValidationError } from '@/api/fetchers.schemas'
 import { downloadFile } from '@/utils/file'
 
+import { PublicationType } from '../../types'
+
 interface ActionsProps {
+    publicationType: PublicationType
     versionUUID?: string
+    announcementUUID?: string
     publicationUUID: string
     packageUUID?: string
 }
 
 export const useActions = ({
+    publicationType,
     versionUUID,
+    announcementUUID,
     publicationUUID,
     packageUUID,
 }: ActionsProps) => {
     const queryClient = useQueryClient()
 
-    const createPackage = usePublicationVersionsVersionUuidPackagesPost({
+    const createPackage = (
+        publicationType === 'act'
+            ? usePublicationVersionsVersionUuidPackagesPost
+            : usePublicationAnnouncementsAnnouncementUuidPackagesPost
+    )({
         mutation: {
             onSuccess: () => {
-                queryClient.invalidateQueries({
-                    queryKey: getPublicationActPackagesGetQueryKey({
-                        version_uuid: versionUUID,
-                    }),
-                })
+                if (publicationType === 'act') {
+                    queryClient.invalidateQueries({
+                        queryKey: getPublicationActPackagesGetQueryKey({
+                            version_uuid: versionUUID,
+                        }),
+                    })
+                } else {
+                    queryClient.invalidateQueries({
+                        queryKey: getPublicationAnnouncementPackagesGetQueryKey(
+                            {
+                                announcement_uuid: announcementUUID,
+                            }
+                        ),
+                    })
+                }
                 queryClient.invalidateQueries({
                     queryKey:
                         getPublicationsPublicationUuidVersionsGetQueryKey(
@@ -59,18 +84,60 @@ export const useActions = ({
         queryKey: ['downloadPackage', packageUUID, versionUUID],
         queryFn: async () =>
             downloadFile(
-                getPublicationActPackagesActPackageUuidDownloadGetQueryKey(
+                (publicationType === 'act'
+                    ? getPublicationActPackagesActPackageUuidDownloadGetQueryKey
+                    : getPublicationAnnouncementPackagesAnnouncementPackageUuidDownloadGetQueryKey)(
                     String(packageUUID)
                 )[0]
             ).finally(() =>
                 queryClient.invalidateQueries({
-                    queryKey: getPublicationActPackagesGetQueryKey({
-                        version_uuid: versionUUID,
-                    }),
+                    queryKey:
+                        publicationType === 'act'
+                            ? getPublicationActPackagesGetQueryKey({
+                                  version_uuid: versionUUID,
+                              })
+                            : getPublicationAnnouncementPackagesGetQueryKey({
+                                  announcement_uuid: announcementUUID,
+                              }),
                 })
             ),
         enabled: false,
     })
 
-    return { createPackage, downloadPackage }
+    const uploadReports = (
+        publicationType === 'act'
+            ? usePublicationActPackagesActPackageUuidReportPost
+            : usePublicationAnnouncementPackagesAnnouncementPackageUuidReportPost
+    )({
+        mutation: {
+            onSuccess: data => {
+                if (publicationType === 'act') {
+                    queryClient.invalidateQueries({
+                        queryKey: getPublicationActPackagesGetQueryKey({
+                            version_uuid: versionUUID,
+                        }),
+                    })
+                } else {
+                    queryClient.invalidateQueries({
+                        queryKey: getPublicationAnnouncementPackagesGetQueryKey(
+                            {
+                                announcement_uuid: announcementUUID,
+                            }
+                        ),
+                    })
+                }
+
+                if (data.Status === 'valid') {
+                    queryClient.invalidateQueries({
+                        queryKey:
+                            getPublicationsPublicationUuidVersionsGetQueryKey(
+                                publicationUUID
+                            ),
+                    })
+                }
+            },
+        },
+    })
+
+    return { createPackage, downloadPackage, uploadReports }
 }

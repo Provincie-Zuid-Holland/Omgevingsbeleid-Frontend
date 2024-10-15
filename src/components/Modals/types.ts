@@ -9,6 +9,8 @@ import {
 } from '@/api/fetchers.schemas'
 import { Error } from '@/utils/handleError'
 
+import { PublicationType } from '../Publications/types'
+
 export type ModalType =
     | 'regulationAdd'
     | 'regulationDelete'
@@ -83,6 +85,8 @@ export interface ModalStateMap {
         announcementUuid: string
     }
     publicationPackageReportUpload: {
+        publicationType: PublicationType
+        publicationUUID: string
         packageUUID: string
     }
 }

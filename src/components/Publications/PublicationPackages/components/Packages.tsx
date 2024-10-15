@@ -7,6 +7,7 @@ import {
 } from '@/api/fetchers'
 import {
     PackageType,
+    PublicationAnnouncementShort,
     PublicationPackage,
     PublicationShort,
     PublicationVersion,
@@ -15,6 +16,7 @@ import {
 import { LoaderCard } from '@/components/Loader'
 import useModalStore from '@/store/modalStore'
 
+import { PublicationType } from '../../types'
 import { useActions } from './actions'
 import Package from './Package'
 import PackageCreate from './PackageCreate'
@@ -29,9 +31,11 @@ const config = {
 }
 
 interface PackagesProps {
+    publicationType: PublicationType
     data?: PublicationPackage[]
     isFetching?: boolean
     version: PublicationVersion
+    announcement?: PublicationAnnouncementShort
     publication?: PublicationShort
     packageType: PackageType
     validPublicationPackage?: PublicationPackage
@@ -41,9 +45,11 @@ interface PackagesProps {
 }
 
 const Packages = ({
+    publicationType,
     data,
     isFetching,
     version,
+    announcement,
     publication,
     packageType,
     customLabel,
@@ -53,7 +59,9 @@ const Packages = ({
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const { createPackage } = useActions({
+        publicationType,
         versionUUID: version.UUID,
+        announcementUUID: announcement?.UUID,
         publicationUUID: String(publication?.UUID),
     })
 
@@ -82,6 +90,7 @@ const Packages = ({
                     ) : !!!data?.length ? (
                         <PackageCreate
                             createPackage={createPackage}
+                            announcementUUID={announcement?.UUID}
                             packageType={packageType}
                             isLocked={isLocked}
                         />
@@ -90,9 +99,11 @@ const Packages = ({
                             {data.map(item => (
                                 <Package
                                     key={item.UUID}
+                                    publicationType={publicationType}
                                     isLocked={isLocked}
                                     publicationUUID={String(publication?.UUID)}
                                     versionUUID={version.UUID}
+                                    announcementUUID={announcement?.UUID}
                                     canPublicate={canPublicate}
                                     {...item}
                                 />
@@ -100,6 +111,7 @@ const Packages = ({
                             {!version.Is_Locked && (
                                 <PackageCreate
                                     createPackage={createPackage}
+                                    announcementUUID={announcement?.UUID}
                                     inline
                                     packageType={packageType}
                                 />
@@ -247,6 +259,7 @@ export const AnnouncementPackages = ({
             data={data}
             isFetching={isFetching}
             version={version}
+            announcement={announcement}
             packageType={packageType}
             isLocked={!!validPublicationPackage && !!validAnnouncementPackage}
             {...rest}
