@@ -13,7 +13,7 @@ const Network = () => {
 
     const breadcrumbPaths = [
         { name: 'Omgevingsbeleid', to: '/' },
-        { name: 'Beleidsnetwerk' || '' },
+        { name: 'Beleidsnetwerk' },
     ]
 
     return (

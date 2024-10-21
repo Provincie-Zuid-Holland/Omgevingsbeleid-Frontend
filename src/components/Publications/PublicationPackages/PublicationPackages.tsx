@@ -1,157 +1,92 @@
 import {
-    Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
-    Button,
-    Notification,
-    Text,
-    formatDate,
+    Heading,
 } from '@pzh-ui/components'
-import { useMemo } from 'react'
+import { AngleRight } from '@pzh-ui/icons'
+import clsx from 'clsx'
 
 import {
-    usePublicationActPackagesActPackageUuidCreateAnnouncementPost,
-    usePublicationActPackagesGet,
-    usePublicationAnnouncementsGet,
-    usePublicationVersionsVersionUuidGet,
-} from '@/api/fetchers'
-import {
-    PackageType,
-    ProcedureType,
+    PublicationAnnouncementShort,
     PublicationEnvironment,
-    PublicationVersionShort,
+    PublicationPackage,
+    PublicationShort,
+    PublicationVersion,
 } from '@/api/fetchers.schemas'
-import { LoaderSpinner } from '@/components/Loader'
-import { ModalStateMap } from '@/components/Modals/types'
-import useModalStore from '@/store/modalStore'
 
-import PublicationAnnouncement from '../PublicationAnnouncement'
-import { PackageStep, PackageStepActions } from './components'
+import { PublicationType } from '../types'
+import AnnouncementData from './components/AnnouncementData'
+import { ActPackages, AnnouncementPackages } from './components/Packages'
 
-export interface PublicationPackageProps {
-    type: 'create' | 'download' | 'upload'
-    eventType: PackageType
+const config = {
+    act: {
+        label: 'Regeling',
+        component: ActPackages,
+    },
+    announcement: {
+        label: 'Kennisgeving',
+        component: AnnouncementPackages,
+    },
 }
 
-interface PublicationPackagesProps extends PublicationVersionShort {
+interface PublicationPackagesProps {
     environment?: PublicationEnvironment
-    procedureType: string
-    handleUpdateAction: () => void
+    version: PublicationVersion
+    publication?: PublicationShort
+    publicationType: PublicationType
+    validPublicationPackage?: PublicationPackage
+    announcement?: PublicationAnnouncementShort
+    isLocked?: boolean
+    isDisabled?: boolean
 }
 
 const PublicationPackages = ({
     environment,
-    procedureType,
-    handleUpdateAction,
-    ...version
+    publicationType,
+    version,
+    announcement,
+    isDisabled,
+    ...rest
 }: PublicationPackagesProps) => {
-    const modalState = useModalStore(
-        state => state.modalStates['publicationPackages']
-    ) as ModalStateMap['publicationPackages']
-    const setActiveModal = useModalStore(state => state.setActiveModal)
-
-    const { data } = usePublicationVersionsVersionUuidGet(version.UUID)
-
-    const { data: packages, isPending } = usePublicationActPackagesGet({
-        version_uuid: version.UUID,
-    })
-
-    const { validationPackage, publicationPackage } = useMemo(() => {
-        const validationPackage = packages?.results.find(
-            pkg => pkg.Package_Type === PackageType['validation']
-        )
-        const publicationPackage = packages?.results.find(
-            pkg => pkg.Package_Type === PackageType['publication']
-        )
-
-        return { validationPackage, publicationPackage }
-    }, [packages?.results])
-
-    const { mutate: createAnnouncement } =
-        usePublicationActPackagesActPackageUuidCreateAnnouncementPost({
-            mutation: {
-                onSuccess: data =>
-                    setActiveModal('publicationAnnouncementPackages', {
-                        environment,
-                        version,
-                        announcementUuid: data.UUID,
-                    }),
-            },
-        })
-
-    const { data: announcement } = usePublicationAnnouncementsGet(
-        { act_package_uuid: publicationPackage?.UUID },
-        {
-            query: {
-                enabled: publicationPackage?.Report_Status === 'valid',
-                select: data => data.results[0],
-            },
-        }
-    )
-
-    const { announcementDate, effectiveDate } = useMemo(() => {
-        const announcementDate =
-            data?.Announcement_Date &&
-            formatDate(new Date(data.Announcement_Date), 'd LLLL yyyy')
-
-        const effectiveDate =
-            data?.Effective_Date &&
-            formatDate(new Date(data.Effective_Date), 'd LLLL yyyy')
-
-        return { announcementDate, effectiveDate }
-    }, [data])
-
-    const isOfficial = useMemo(
-        () => environment?.Can_Publicate,
-        [environment?.Can_Publicate]
-    )
-
-    if (isPending) {
-        return (
-            <div className="my-10 flex justify-center">
-                <LoaderSpinner />
-            </div>
-        )
-    }
+    const Packages = config[publicationType].component
 
     return (
-        <Accordion
-            type="multiple"
-            defaultValue={
-                validationPackage?.Report_Status !== 'valid'
-                    ? ['item-1']
-                    : isOfficial &&
-                      validationPackage?.Report_Status === 'valid' &&
-                      !!!announcement
-                    ? ['item-2']
-                    : undefined
-            }>
-            <AccordionItem value="item-1">
-                <AccordionTrigger>
-                    <Text size="m" bold color="text-pzh-blue-500">
-                        {isOfficial ? 'Validatie' : 'Publicatie'}
-                    </Text>
-                </AccordionTrigger>
-                <AccordionContent>
-                    <PackageStep
+        <AccordionItem
+            value={publicationType}
+            disabled={isDisabled}
+            className={clsx('group rounded-lg border border-pzh-gray-200', {
+                'bg-pzh-gray-100': version.Is_Locked,
+            })}>
+            <AccordionTrigger
+                hideIcon
+                className="flex h-16 items-center justify-between rounded-t-lg bg-pzh-gray-100 px-6 group-only:hover:cursor-default group-only:hover:no-underline [&[data-disabled]>*]:text-pzh-gray-300 hover:[&[data-disabled]]:no-underline [&[data-state=closed]]:rounded-b-lg [&[data-state=open]>svg]:rotate-90">
+                <Heading level="3" size="m" className="capitalize">
+                    {config[publicationType].label}
+                </Heading>
+                <AngleRight
+                    size={20}
+                    className="transition-transform duration-200 group-only:hidden"
+                />
+            </AccordionTrigger>
+            <AccordionContent className="pb-0">
+                {publicationType === 'announcement' && !!announcement && (
+                    <AnnouncementData {...announcement} {...rest} />
+                )}
+                {environment?.Can_Validate && (
+                    <Packages
                         version={version}
-                        type="create"
-                        eventType="validation"
-                        isActive={!!!validationPackage}
-                        isSucceeded={!!validationPackage}
-                        isFirst
-                    />
-                    <PackageStep
-                        version={version}
-                        type="download"
-                        eventType="validation"
-                        isActive={!!validationPackage}
-                        isLast={!isOfficial}
-                        isSucceeded={
-                            !!validationPackage?.Zip.Latest_Download_Date
+                        publicationType={publicationType}
+                        packageType="validation"
+                        customLabel={
+                            !environment.Can_Publicate
+                                ? 'Publicatie'
+                                : undefined
                         }
+                        canPublicate={environment.Can_Publicate}
+                        {...rest}
                     />
+<<<<<<< HEAD
                     {isOfficial && (
                         <PackageStep
                             version={version}
@@ -289,41 +224,20 @@ const PublicationPackages = ({
                                 </Button>
                             )}
                     </div>
+=======
+>>>>>>> dev
                 )}
-
-            {isOfficial && publicationPackage?.Report_Status === 'failed' && (
-                <div className="my-6 flex w-full justify-between gap-4">
-                    <Notification
-                        variant="negative"
-                        title="Publicatie niet gelukt. Bewerk de versie en probeer het opnieuw."
-                        className="w-full"
-                    />
-                    <PackageStepActions
+                {environment?.Can_Publicate && (
+                    <Packages
                         version={version}
-                        type="create"
-                        eventType="publication"
-                        buttonLabel="Maak nieuwe levering"
-                        hideDescription
-                        isActive
+                        publicationType={publicationType}
+                        packageType="publication"
+                        canPublicate={environment.Can_Publicate}
+                        {...rest}
                     />
-                </div>
-            )}
-
-            {!!announcement && (procedureType as ProcedureType) === 'draft' && (
-                <div className="mt-8">
-                    <PublicationAnnouncement
-                        handleUpdateAction={() => {
-                            setActiveModal('publicationPackages', {
-                                ...modalState,
-                                announcementUuid: announcement.UUID,
-                            })
-                            handleUpdateAction()
-                        }}
-                        {...announcement}
-                    />
-                </div>
-            )}
-        </Accordion>
+                )}
+            </AccordionContent>
+        </AccordionItem>
     )
 }
 

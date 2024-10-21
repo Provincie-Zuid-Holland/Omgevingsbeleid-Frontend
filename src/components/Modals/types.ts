@@ -11,6 +11,8 @@ import {
 } from '@/api/fetchers.schemas'
 import { Error } from '@/utils/handleError'
 
+import { PublicationType } from '../Publications/types'
+
 export type ModalType =
     | 'regulationAdd'
     | 'regulationDelete'
@@ -44,6 +46,8 @@ export type ModalType =
     | 'publicationPackages'
     | 'publicationVersionAbort'
     | 'publicationAnnouncementPackages'
+    | 'publicationAnnouncementUpdate'
+    | 'publicationPackageReportUpload'
 
 export interface ModalStateMap {
     moduleEditObject: {
@@ -64,7 +68,7 @@ export interface ModalStateMap {
     publicationEdit: { publication: Publication }
     publicationVersionAdd: { publication: Publication }
     publicationVersionEdit: {
-        publicationUUID: string
+        publication: Publication
         UUID: string
         isRequired?: boolean
         error?: Error
@@ -82,5 +86,13 @@ export interface ModalStateMap {
     publicationVersionAbort: {
         publication: Publication
         version: PublicationVersionShort
+    }
+    publicationAnnouncementUpdate: {
+        announcementUuid: string
+    }
+    publicationPackageReportUpload: {
+        publicationType: PublicationType
+        publicationUUID: string
+        packageUUID: string
     }
 }

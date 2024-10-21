@@ -20,22 +20,17 @@ import {
 } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import useModalStore from '@/store/modalStore'
-import { PUBLICATION_SCHEMA } from '@/validation/publication'
-
-interface PublicationFormProps {
-    submitLabel: string
-}
+import { PUBLICATION_EDIT_SCHEMA } from '@/validation/publication'
 
 const PublicationForm = <TData extends FormikValues>({
-    submitLabel,
     ...rest
-}: PublicationFormProps & FormikConfig<TData>) => {
+}: FormikConfig<TData>) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     return (
         <Formik
             enableReinitialize
-            validationSchema={toFormikValidationSchema(PUBLICATION_SCHEMA)}
+            validationSchema={toFormikValidationSchema(PUBLICATION_EDIT_SCHEMA)}
             {...rest}>
             {({ isSubmitting }) => (
                 <Form>
@@ -51,7 +46,7 @@ const PublicationForm = <TData extends FormikValues>({
                             variant="cta"
                             type="submit"
                             isLoading={isSubmitting}>
-                            {submitLabel}
+                            Publicatie opslaan
                         </Button>
                     </div>
                 </Form>
@@ -100,7 +95,6 @@ const Fields = () => {
                 is_active: true,
                 environment_uuid: values.Environment_UUID,
                 document_type: values.Document_Type as DocumentType,
-                procedure_type: values.Procedure_Type as ProcedureType,
             },
             {
                 query: {
@@ -168,6 +162,7 @@ const Fields = () => {
                     label="Regeling"
                     options={publicationActOptions}
                     placeholder="Selecteer een regeling"
+                    disabled
                     required
                 />
             </div>

@@ -55,7 +55,7 @@ const Sidebar = () => {
                         onClick={() => window.clearTimeout(timer)}
                     />
 
-                    <div className="h-px w-full bg-pzh-blue-500" />
+                    <div className="bg-pzh-blue-500 h-px w-full" />
 
                     <MenuItem
                         name="Modules"
@@ -90,7 +90,7 @@ const Sidebar = () => {
 
                     {canEditUser && (
                         <>
-                            <div className="h-px w-full bg-pzh-blue-500" />
+                            <div className="bg-pzh-blue-500 h-px w-full" />
                             <MenuItem
                                 name="Gebruikers"
                                 path="/muteer/gebruikers"
@@ -144,9 +144,9 @@ const MenuItem = ({
         <Link
             to={path}
             className={classNames(
-                'group flex h-10 items-center rounded hover:text-pzh-green-500',
+                'hover:text-pzh-green-500 group flex h-10 items-center rounded',
                 {
-                    'bg-pzh-gray-200 text-pzh-green-500':
+                    'text-pzh-green-500 bg-pzh-gray-200':
                         path === pathname ||
                         (path !== '/muteer' && pathname.startsWith(path)),
                     'w-10': !expanded,
@@ -166,7 +166,7 @@ const MenuItem = ({
             />
             <Text
                 className={classNames(
-                    '-mb-0.5 ml-2 group-hover:text-pzh-green-500',
+                    'group-hover:text-pzh-green-500 -mb-0.5 ml-2',
                     {
                         'opacity-0': !expanded,
                         'text-pzh-green-500': path === pathname,
