@@ -8,6 +8,7 @@ import { useActions } from './actions'
 
 interface PackageCreateProps {
     createPackage: ReturnType<typeof useActions>['createPackage']
+    announcementUUID?: string
     inline?: boolean
     packageType: PackageType
     isLocked?: boolean
@@ -15,6 +16,7 @@ interface PackageCreateProps {
 
 const PackageCreate = ({
     createPackage,
+    announcementUUID,
     inline,
     packageType,
     isLocked,
@@ -22,8 +24,9 @@ const PackageCreate = ({
     const { versionUUID } = useParams()
 
     const handleAction = () =>
-        createPackage.mutate({
+        createPackage.mutateAsync({
             versionUuid: String(versionUUID),
+            announcementUuid: String(announcementUUID),
             data: { Package_Type: packageType },
         })
 

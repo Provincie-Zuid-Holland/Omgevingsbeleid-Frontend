@@ -19423,6 +19423,85 @@ export const usePublicationVersionsVersionUuidAttachmentsPost = <
 }
 
 /**
+ * @summary Download Publication Version as Pdf
+ */
+export const publicationVersionsVersionUuidPdfExportPost = (
+    versionUuid: string,
+    publicationPackagePdf: PublicationPackagePdf
+) => {
+    return customInstance<unknown>({
+        url: `/publication-versions/${versionUuid}/pdf_export`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: publicationPackagePdf,
+    })
+}
+
+export const getPublicationVersionsVersionUuidPdfExportPostMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationVersionsVersionUuidPdfExportPost>>,
+        TError,
+        { versionUuid: string; data: PublicationPackagePdf },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof publicationVersionsVersionUuidPdfExportPost>>,
+    TError,
+    { versionUuid: string; data: PublicationPackagePdf },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof publicationVersionsVersionUuidPdfExportPost>>,
+        { versionUuid: string; data: PublicationPackagePdf }
+    > = props => {
+        const { versionUuid, data } = props ?? {}
+
+        return publicationVersionsVersionUuidPdfExportPost(versionUuid, data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type PublicationVersionsVersionUuidPdfExportPostMutationResult =
+    NonNullable<
+        Awaited<ReturnType<typeof publicationVersionsVersionUuidPdfExportPost>>
+    >
+export type PublicationVersionsVersionUuidPdfExportPostMutationBody =
+    PublicationPackagePdf
+export type PublicationVersionsVersionUuidPdfExportPostMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Download Publication Version as Pdf
+ */
+export const usePublicationVersionsVersionUuidPdfExportPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationVersionsVersionUuidPdfExportPost>>,
+        TError,
+        { versionUuid: string; data: PublicationPackagePdf },
+        TContext
+    >
+}): UseMutationResult<
+    Awaited<ReturnType<typeof publicationVersionsVersionUuidPdfExportPost>>,
+    TError,
+    { versionUuid: string; data: PublicationPackagePdf },
+    TContext
+> => {
+    const mutationOptions =
+        getPublicationVersionsVersionUuidPdfExportPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
  * @summary Create new Publication Act Package
  */
 export const publicationVersionsVersionUuidPackagesPost = (
@@ -19497,85 +19576,6 @@ export const usePublicationVersionsVersionUuidPackagesPost = <
 > => {
     const mutationOptions =
         getPublicationVersionsVersionUuidPackagesPostMutationOptions(options)
-
-    return useMutation(mutationOptions)
-}
-
-/**
- * @summary Download Publication Act as Pdf
- */
-export const publicationVersionsVersionUuidPdfExportPost = (
-    versionUuid: string,
-    publicationPackagePdf: PublicationPackagePdf
-) => {
-    return customInstance<unknown>({
-        url: `/publication-versions/${versionUuid}/pdf_export`,
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        data: publicationPackagePdf,
-    })
-}
-
-export const getPublicationVersionsVersionUuidPdfExportPostMutationOptions = <
-    TError = HTTPValidationError,
-    TContext = unknown
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof publicationVersionsVersionUuidPdfExportPost>>,
-        TError,
-        { versionUuid: string; data: PublicationPackagePdf },
-        TContext
-    >
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof publicationVersionsVersionUuidPdfExportPost>>,
-    TError,
-    { versionUuid: string; data: PublicationPackagePdf },
-    TContext
-> => {
-    const { mutation: mutationOptions } = options ?? {}
-
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof publicationVersionsVersionUuidPdfExportPost>>,
-        { versionUuid: string; data: PublicationPackagePdf }
-    > = props => {
-        const { versionUuid, data } = props ?? {}
-
-        return publicationVersionsVersionUuidPdfExportPost(versionUuid, data)
-    }
-
-    return { mutationFn, ...mutationOptions }
-}
-
-export type PublicationVersionsVersionUuidPdfExportPostMutationResult =
-    NonNullable<
-        Awaited<ReturnType<typeof publicationVersionsVersionUuidPdfExportPost>>
-    >
-export type PublicationVersionsVersionUuidPdfExportPostMutationBody =
-    PublicationPackagePdf
-export type PublicationVersionsVersionUuidPdfExportPostMutationError =
-    HTTPValidationError
-
-/**
- * @summary Download Publication Act as Pdf
- */
-export const usePublicationVersionsVersionUuidPdfExportPost = <
-    TError = HTTPValidationError,
-    TContext = unknown
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof publicationVersionsVersionUuidPdfExportPost>>,
-        TError,
-        { versionUuid: string; data: PublicationPackagePdf },
-        TContext
-    >
-}): UseMutationResult<
-    Awaited<ReturnType<typeof publicationVersionsVersionUuidPdfExportPost>>,
-    TError,
-    { versionUuid: string; data: PublicationPackagePdf },
-    TContext
-> => {
-    const mutationOptions =
-        getPublicationVersionsVersionUuidPdfExportPostMutationOptions(options)
 
     return useMutation(mutationOptions)
 }

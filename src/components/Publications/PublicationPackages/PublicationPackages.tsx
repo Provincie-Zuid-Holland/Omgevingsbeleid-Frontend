@@ -76,6 +76,7 @@ const PublicationPackages = ({
                 {environment?.Can_Validate && (
                     <Packages
                         version={version}
+                        publicationType={publicationType}
                         packageType="validation"
                         customLabel={
                             !environment.Can_Publicate
@@ -89,6 +90,7 @@ const PublicationPackages = ({
                 {environment?.Can_Publicate && (
                     <Packages
                         version={version}
+                        publicationType={publicationType}
                         packageType="publication"
                         canPublicate={environment.Can_Publicate}
                         {...rest}

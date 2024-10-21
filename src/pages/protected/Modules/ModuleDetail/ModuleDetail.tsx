@@ -24,11 +24,7 @@ const ModuleDetail = () => {
 
     const [activeTab, setActiveTab] = useState<TabType>(tab || 'objecten')
 
-    const {
-        data: { Module: module } = {},
-        isLoading,
-        isModuleManager,
-    } = useModule()
+    const { data: { Module: module } = {}, isLoading } = useModule()
 
     const handleTabChange: TabsProps['onSelectionChange'] = key => {
         setActiveTab(key as TabType)

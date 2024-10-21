@@ -6,21 +6,25 @@ import {
     EyeLight,
 } from '@pzh-ui/icons'
 import { useMemo } from 'react'
-import { Link } from 'react-router-dom'
 
 import { PublicationPackage } from '@/api/fetchers.schemas'
+import useModalStore from '@/store/modalStore'
 
+import { PublicationType } from '../../types'
 import { useActions } from './actions'
-import { getIndicatorClass } from './utils'
+import { getIndicatorClass, getStatus } from './utils'
 
 interface PackageProps extends PublicationPackage {
+    publicationType: PublicationType
     publicationUUID: string
     versionUUID: string
+    announcementUUID?: string
     isLocked?: boolean
     canPublicate?: boolean
 }
 
 const Package = ({
+    publicationType,
     UUID,
     Created_Date,
     Zip,
@@ -28,11 +32,16 @@ const Package = ({
     isLocked,
     publicationUUID,
     versionUUID,
+    announcementUUID,
     canPublicate,
 }: PackageProps) => {
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
     const { downloadPackage } = useActions({
+        publicationType,
         publicationUUID,
         versionUUID,
+        announcementUUID,
         packageUUID: UUID,
     })
 
@@ -56,25 +65,10 @@ const Package = ({
         [Report_Status]
     )
 
-    const status = useMemo((): BadgeProps | undefined => {
-        switch (Report_Status) {
-            case 'pending':
-                return {
-                    text: 'In afwachting',
-                    variant: 'yellow',
-                }
-            case 'valid':
-                return {
-                    text: 'Goedgekeurd',
-                    variant: 'green',
-                }
-            case 'failed':
-                return {
-                    text: 'Gefaald',
-                    variant: 'red',
-                }
-        }
-    }, [Report_Status])
+    const status = useMemo(
+        (): BadgeProps | undefined => getStatus(Report_Status),
+        [Report_Status]
+    )
 
     return (
         <div className="flex items-center justify-between border-b border-pzh-gray-200 px-6 py-3 last:border-b-0">
@@ -108,20 +102,31 @@ const Package = ({
                     <div>
                         <Text size="s">Gedownload op {downloadDate}</Text>
                         {!isLocked && canPublicate && (
-                            <Link
-                                to="/"
-                                className="group/upload flex items-center gap-2">
+                            <Button
+                                variant="default"
+                                className="group/upload flex items-center gap-2"
+                                onPress={() =>
+                                    setActiveModal(
+                                        'publicationPackageReportUpload',
+                                        {
+                                            packageUUID: UUID,
+                                            publicationType,
+                                            publicationUUID,
+                                        }
+                                    )
+                                }>
                                 <Text
                                     size="s"
                                     className="leading-none underline group-hover/upload:no-underline"
                                     color="text-pzh-green-500">
                                     Upload rapporten
                                 </Text>
+
                                 <ArrowUpRightFromSquareLight
                                     size={14}
                                     className="-mt-0.5 text-pzh-green-500"
                                 />
-                            </Link>
+                            </Button>
                         )}
                     </div>
                     {canPublicate && (
