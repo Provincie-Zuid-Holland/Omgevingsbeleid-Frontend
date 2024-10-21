@@ -12,7 +12,7 @@ import useModalStore from '@/store/modalStore'
 
 import { PublicationType } from '../../types'
 import { useActions } from './actions'
-import { getIndicatorClass } from './utils'
+import { getIndicatorClass, getStatus } from './utils'
 
 interface PackageProps extends PublicationPackage {
     publicationType: PublicationType
@@ -65,25 +65,10 @@ const Package = ({
         [Report_Status]
     )
 
-    const status = useMemo((): BadgeProps | undefined => {
-        switch (Report_Status) {
-            case 'pending':
-                return {
-                    text: 'In afwachting',
-                    variant: 'yellow',
-                }
-            case 'valid':
-                return {
-                    text: 'Goedgekeurd',
-                    variant: 'green',
-                }
-            case 'failed':
-                return {
-                    text: 'Gefaald',
-                    variant: 'red',
-                }
-        }
-    }, [Report_Status])
+    const status = useMemo(
+        (): BadgeProps | undefined => getStatus(Report_Status),
+        [Report_Status]
+    )
 
     return (
         <div className="flex items-center justify-between border-b border-pzh-gray-200 px-6 py-3 last:border-b-0">

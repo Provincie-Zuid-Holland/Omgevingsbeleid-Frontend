@@ -3799,6 +3799,7 @@ export interface ActCreate {
     Document_Type: DocumentType
     Environment_UUID: string
     Title: string
+    Work_Other?: string
 }
 
 export interface AcknowledgedRelationSide {

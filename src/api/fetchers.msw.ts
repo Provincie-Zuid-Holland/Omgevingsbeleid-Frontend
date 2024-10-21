@@ -18771,6 +18771,21 @@ export const getPublicationVersionsVersionUuidAttachmentsPostMockHandler = (
     )
 }
 
+export const getPublicationVersionsVersionUuidPdfExportPostMockHandler = () => {
+    return http.post(
+        '*/publication-versions/:versionUuid/pdf_export',
+        async () => {
+            await delay(1000)
+            return new HttpResponse(null, {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+        }
+    )
+}
+
 export const getPublicationVersionsVersionUuidPackagesPostMockHandler = (
     overrideResponse?:
         | PublicationPackageCreatedResponse
@@ -18799,21 +18814,6 @@ export const getPublicationVersionsVersionUuidPackagesPostMockHandler = (
                     },
                 }
             )
-        }
-    )
-}
-
-export const getPublicationVersionsVersionUuidPdfExportPostMockHandler = () => {
-    return http.post(
-        '*/publication-versions/:versionUuid/pdf_export',
-        async () => {
-            await delay(1000)
-            return new HttpResponse(null, {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
         }
     )
 }
@@ -19605,8 +19605,8 @@ export const getOmgevingsbeleidAPIMock = () => [
     getPublicationVersionsVersionUuidGetMockHandler(),
     getPublicationVersionsVersionUuidPostMockHandler(),
     getPublicationVersionsVersionUuidAttachmentsPostMockHandler(),
-    getPublicationVersionsVersionUuidPackagesPostMockHandler(),
     getPublicationVersionsVersionUuidPdfExportPostMockHandler(),
+    getPublicationVersionsVersionUuidPackagesPostMockHandler(),
     getPublicationActPackagesGetMockHandler(),
     getPublicationActPackagesActPackageUuidDownloadGetMockHandler(),
     getPublicationActPackagesActPackageUuidReportPostMockHandler(),

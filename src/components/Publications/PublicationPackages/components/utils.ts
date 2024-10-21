@@ -1,3 +1,4 @@
+import { BadgeProps } from '@pzh-ui/components'
 import clsx from 'clsx'
 
 /**
@@ -12,3 +13,23 @@ export const getIndicatorClass = (isSucceeded?: boolean) =>
             'border-pzh-green-500 bg-pzh-green-500': isSucceeded,
         }
     )
+
+export const getStatus = (status?: string): BadgeProps | undefined => {
+    switch (status) {
+        case 'pending':
+            return {
+                text: 'In afwachting',
+                variant: 'yellow',
+            }
+        case 'valid':
+            return {
+                text: 'Goedgekeurd',
+                variant: 'green',
+            }
+        case 'failed':
+            return {
+                text: 'Gefaald',
+                variant: 'red',
+            }
+    }
+}

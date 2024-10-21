@@ -1,26 +1,34 @@
 import {
+    Badge,
     Button,
     File,
     formatBytes,
+    formatDate,
     FormikFileUpload,
     Text,
 } from '@pzh-ui/components'
 import { TrashCan } from '@pzh-ui/icons'
+import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik'
 import { useMemo } from 'react'
 
 import {
+    getPublicationActReportsGetQueryKey,
+    getPublicationAnnouncementReportsGetQueryKey,
     usePublicationActReportsGet,
     usePublicationAnnouncementReportsGet,
 } from '@/api/fetchers'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
 import { useActions } from '@/components/Publications/PublicationPackages/components/actions'
+import { getStatus } from '@/components/Publications/PublicationPackages/components/utils'
 import useModalStore from '@/store/modalStore'
 
 import { ModalStateMap } from '../../types'
 
 const PublicationPackageReportUploadModal = () => {
+    const queryClient = useQueryClient()
+
     const setActiveModal = useModalStore(state => state.setActiveModal)
     const modalState = useModalStore(
         state => state.modalStates['publicationPackageReportUpload']
@@ -39,7 +47,13 @@ const PublicationPackageReportUploadModal = () => {
                 data: payload,
             })
             .then(() => {
-                helpers.setSubmitting(false)
+                queryClient.invalidateQueries({
+                    queryKey:
+                        modalState.publicationType === 'act'
+                            ? getPublicationActReportsGetQueryKey()
+                            : getPublicationAnnouncementReportsGetQueryKey(),
+                })
+                helpers.resetForm()
             })
     }
 
@@ -95,8 +109,6 @@ const InnerForm = <TData extends { uploaded_files: File[] }>({
 
     const reports =
         modalState.publicationType === 'act' ? actReports : announcementReports
-
-    console.log(reports)
 
     const removeFile = (file: File) => () => {
         const newFiles = [...values.uploaded_files]
@@ -171,6 +183,54 @@ const InnerForm = <TData extends { uploaded_files: File[] }>({
                         isLoading={isSubmitting}>
                         {count} {count > 1 ? 'Bestanden' : 'Bestand'} uploaden
                     </Button>
+                </div>
+            )}
+            {!!reports?.results.length && (
+                <div className="mt-6 rounded border border-pzh-gray-300 p-4">
+                    <Text bold color="text-pzh-blue-500 mb-2">
+                        Laatst geüploade rapporten
+                    </Text>
+                    <ul className="flex flex-col gap-2">
+                        {reports.results.map(file => {
+                            const status = getStatus(file.Report_Status)
+
+                            return (
+                                <li
+                                    key={file.UUID}
+                                    className="pzh-form-input overflow-hidden border-pzh-gray-200">
+                                    <div className="flex items-center justify-between gap-2 px-4">
+                                        <Text
+                                            bold
+                                            color="text-pzh-blue-500"
+                                            className="truncate">
+                                            {file.Filename}
+                                        </Text>
+                                        <div className="flex items-center gap-4">
+                                            <Text
+                                                as="span"
+                                                size="s"
+                                                color="text-pzh-gray-600"
+                                                className="whitespace-nowrap">
+                                                {formatDate(
+                                                    new Date(
+                                                        file.Created_Date + 'Z'
+                                                    ),
+                                                    "dd-MM-yyyy 'om' kk:mm"
+                                                )}
+                                            </Text>
+                                            {status && (
+                                                <Badge
+                                                    className="-mt-1"
+                                                    upperCase={false}
+                                                    {...status}
+                                                />
+                                            )}
+                                        </div>
+                                    </div>
+                                </li>
+                            )
+                        })}
+                    </ul>
                 </div>
             )}
         </Form>
