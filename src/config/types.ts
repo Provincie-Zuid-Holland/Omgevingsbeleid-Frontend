@@ -1,4 +1,8 @@
-import { FieldFileUploadProps, FieldRteProps } from '@pzh-ui/components'
+import {
+    FieldCheckboxGroupProps,
+    FieldFileUploadProps,
+    FieldRteProps,
+} from '@pzh-ui/components'
 
 import { DynamicObjectSearchProps } from '@/components/DynamicObject/DynamicObjectSearch'
 import { Validation } from '@/validation/zodSchema'
@@ -16,6 +20,7 @@ type DynamicFieldType =
     | 'connections'
     | 'search'
     | 'array'
+    | 'checkbox'
 
 export type DynamicSection<FieldType = string> = {
     /** Title of section */
@@ -28,7 +33,7 @@ export type DynamicSection<FieldType = string> = {
 
 export type DynamicField<FieldType = string> = {
     /** Name of field, this is also the API field */
-    name: FieldType
+    name: FieldType | 'Ambtsgebied'
     /** Label of field */
     label: string
     /** Description of field (optional) */
@@ -43,12 +48,15 @@ export type DynamicField<FieldType = string> = {
     validation?: Validation
     /** Field is optimized */
     optimized?: boolean
+    /** Conditional field */
+    conditionalField?: FieldType | 'Ambtsgebied'
 } & SelectProps &
     ImageProps &
     WysiwygProps &
     ConnectionsProps &
     SearchProps &
-    ArrayProps
+    ArrayProps &
+    CheckboxProps
 
 type SelectProps =
     | { type: 'select'; options: { label: string; value: string }[] }
@@ -99,4 +107,10 @@ type ArrayProps =
     | { type: 'array'; fields: DynamicField[]; arrayLabel?: string }
     | {
           type: Exclude<DynamicFieldType, 'array'>
+      }
+
+type CheckboxProps =
+    | ({ type: 'checkbox' } & Omit<FieldCheckboxGroupProps, 'value'>)
+    | {
+          type: Exclude<DynamicFieldType, 'checkbox'>
       }

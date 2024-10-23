@@ -159,15 +159,15 @@ const maatregel: DynamicObject<
                 'Het werkingsgebied geeft het gebied weer waar de maatregel betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld, toegestaan of juist verboden.',
             fields: [
                 {
-                    name: 'Werkingsgebied_Code',
-                    label: 'Selecteer werkingsgebied',
+                    name: 'Ambtsgebied',
+                    label: 'Selecteer het gebied',
                     description: (
                         <>
-                            Selecteer het werkingsgebied wat bij deze
-                            beleidskeuze van toepassing is. Heeft jouw
-                            beleidskeuze nog geen geschikt werkingsgebied, of
-                            moet het huidige gebied aangepast worden? Neem dan
-                            contact op via{' '}
+                            Is op deze maatregel het ambtsgebied van toepassing
+                            of een specifiek werkingsgebied? Heeft jouw
+                            maatregel nog geen geschikt gebied, of moet het
+                            huidige gebied aangepast worden? Neem dan contact op
+                            via{' '}
                             <a
                                 href="mailto:omgevingsbeleid@pzh.nl"
                                 className="underline">
@@ -176,9 +176,20 @@ const maatregel: DynamicObject<
                             .
                         </>
                     ),
+                    type: 'checkbox',
+                    options: [
+                        {
+                            label: 'Op deze maatregel is het ambtsgebied van toepassing',
+                            value: 'true',
+                        },
+                    ],
+                },
+                {
+                    name: 'Werkingsgebied_Code',
+                    label: 'Werkingsgebied',
                     type: 'search',
                     status: 'all',
-                    placeholder: 'Kies het werkingsgebied',
+                    placeholder: 'Selecteer een werkingsgebied',
                     filterType: ['werkingsgebied'],
                     objectKey: 'Werkingsgebied_Code',
                     components: {
@@ -188,6 +199,7 @@ const maatregel: DynamicObject<
                             </div>
                         ),
                     },
+                    conditionalField: 'Ambtsgebied',
                 },
             ],
         },

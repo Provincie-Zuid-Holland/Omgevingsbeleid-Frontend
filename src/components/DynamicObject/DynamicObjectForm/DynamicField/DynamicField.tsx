@@ -1,4 +1,5 @@
 import {
+    FormikCheckboxGroup,
     FormikFileUpload,
     FormikInput,
     FormikRte,
@@ -7,7 +8,8 @@ import {
     RteMenuButton,
 } from '@pzh-ui/components'
 import { DrawPolygon } from '@pzh-ui/icons'
-import { useFormikContext } from 'formik'
+import clsx from 'clsx'
+import { FormikValues, useFormikContext } from 'formik'
 
 import FieldArray from '@/components/Form/FieldArray'
 import FieldConnections from '@/components/Form/FieldConnections'
@@ -31,19 +33,21 @@ const inputFieldMap = {
     connections: FieldConnections,
     search: DynamicObjectSearch,
     array: FieldArray,
+    checkbox: FormikCheckboxGroup,
 }
 
 const DynamicField = ({
     type,
     isFirst,
     isLocked,
+    conditionalField,
     ...field
 }: DynamicFieldProps & {
     isFirst?: boolean
     isLocked?: boolean
     model?: Model
 }) => {
-    const { setFieldValue, values } = useFormikContext()
+    const { setFieldValue, values } = useFormikContext<FormikValues>()
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const InputField = inputFieldMap[type]
@@ -79,14 +83,21 @@ const DynamicField = ({
         field.menuClassName = 'sticky top-24'
     }
 
-    const marginTop = isFirst ? '' : 'mt-8'
-
     return (
-        <div className={marginTop}>
+        <div
+            className={clsx({
+                'mt-8': !isFirst,
+                hidden:
+                    conditionalField &&
+                    Array.isArray(values[conditionalField]) &&
+                    !!values[conditionalField].length,
+            })}>
             {/* @ts-ignore */}
             <InputField
-                type={type === 'url' ? 'url' : undefined}
                 disabled={isLocked}
+                {...(type === 'url' && {
+                    type: 'url',
+                })}
                 {...(type === 'select' && {
                     blurInputOnSelect: true,
                 })}

@@ -1,6 +1,7 @@
 import {
     ZodTypeAny,
     any,
+    array,
     custom,
     instanceof as instanceOf,
     number,
@@ -56,6 +57,14 @@ export const schemaDefaults = {
             })
         ),
     optionalRte: () => customRteValidation().optional().nullable(),
+    requiredArray: (msg = 'Dit veld is verplicht.') =>
+        array(
+            string({
+                required_error: msg,
+                invalid_type_error: msg,
+            })
+        ).nonempty(msg),
+    optionalArray: array(string()).optional().nullable(),
 }
 
 const customRteValidation = () =>

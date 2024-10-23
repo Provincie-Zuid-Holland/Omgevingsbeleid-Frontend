@@ -54,6 +54,14 @@ const generateDynamicSchema = (sections: DynamicSection[]) => {
                                 ? schemaDefaults.requiredString()
                                 : schemaDefaults.optionalString) as any),
                     }))
+                case 'checkbox':
+                    return (dynamicSchema = dynamicSchema.extend({
+                        [field.name]:
+                            field.validation ||
+                            ((field.required
+                                ? schemaDefaults.requiredArray()
+                                : schemaDefaults.optionalArray) as any),
+                    }))
                 default:
                     return dynamicSchema
             }
