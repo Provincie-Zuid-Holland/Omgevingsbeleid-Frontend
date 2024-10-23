@@ -4,6 +4,7 @@ import { ArrowLeft, DrawPolygon, LocationDot } from '@pzh-ui/icons'
 import Leaflet, { latLng } from 'leaflet'
 import { ReactNode, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useShallow } from 'zustand/react/shallow'
 
 import { LeafletSearchInput } from '@/components/Leaflet'
 import { MAP_SEARCH_PAGE } from '@/constants/leaflet'
@@ -25,8 +26,12 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
     ])
     const navigate = useNavigate()
 
-    const mapInstance = useMapStore(state => state.mapInstance)
-    const setIsAreaLoading = useMapStore(state => state.setIsAreaLoading)
+    const { mapInstance, setIsAreaLoading } = useMapStore(
+        useShallow(state => ({
+            mapInstance: state.mapInstance,
+            setIsAreaLoading: state.setIsAreaLoading,
+        }))
+    )
 
     const [werkingsgebied, setWerkingsgebied] =
         useState<Leaflet.TileLayer.WMS | null>(null)

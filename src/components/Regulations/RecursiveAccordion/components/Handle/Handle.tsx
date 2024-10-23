@@ -1,6 +1,7 @@
 import { Button, Text } from '@pzh-ui/components'
 import { GripDotsVertical, PenToSquare, TrashCan } from '@pzh-ui/icons'
 import classNames from 'clsx'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Section, SectionType } from '@/config/regulations/sections/types'
 import useModalStore from '@/store/modalStore'
@@ -27,9 +28,13 @@ const Handle = ({
     expanded,
     index,
 }: HandleProps) => {
-    const activeItem = useRegulationStore(state => state.activeItem)
-    const setActiveItem = useRegulationStore(state => state.setActiveItem)
-    const setItemAction = useRegulationStore(state => state.setItemAction)
+    const { activeItem, setActiveItem, setItemAction } = useRegulationStore(
+        useShallow(state => ({
+            setItemAction: state.setItemAction,
+            activeItem: state.activeItem,
+            setActiveItem: state.setActiveItem,
+        }))
+    )
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const Icon = section.defaults.icon

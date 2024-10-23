@@ -5,6 +5,7 @@ import {
     AccordionTrigger,
 } from '@pzh-ui/components'
 import classNames from 'clsx'
+import { useShallow } from 'zustand/react/shallow'
 
 import DropArea from '@/components/DropArea'
 import * as sections from '@/config/regulations/sections'
@@ -32,11 +33,21 @@ const RecursiveAccordion = ({
     expanded,
     hasCallback = true,
 }: RecursiveAccordionProps) => {
-    const setDraggingItem = useRegulationStore(state => state.setDraggingItem)
-    const draggingItem = useRegulationStore(state => state.draggingItem)
-    const moveItem = useRegulationStore(state => state.moveItem)
-    const activeItem = useRegulationStore(state => state.activeItem)
-    const setActiveItem = useRegulationStore(state => state.setActiveItem)
+    const {
+        setDraggingItem,
+        draggingItem,
+        moveItem,
+        activeItem,
+        setActiveItem,
+    } = useRegulationStore(
+        useShallow(state => ({
+            setDraggingItem: state.setDraggingItem,
+            draggingItem: state.draggingItem,
+            moveItem: state.moveItem,
+            activeItem: state.activeItem,
+            setActiveItem: state.setActiveItem,
+        }))
+    )
 
     const activeModal = useModalStore(state => state.activeModal)
 

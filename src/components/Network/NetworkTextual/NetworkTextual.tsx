@@ -2,6 +2,7 @@ import { Table } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
 import { useUpdateEffect } from '@react-hookz/web'
 import { useCallback, useMemo, useState } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 
 import { GraphVertice } from '@/api/fetchers.schemas'
 import NetworkModal from '@/components/Modals/NetworkModal'
@@ -17,9 +18,11 @@ interface NetworkTextualProps {
 
 const NetworkTextual = ({ graph }: NetworkTextualProps) => {
     const { activeNode, setActiveNode, setActiveConnections } = useNetworkStore(
-        state => ({
-            ...state,
-        })
+        useShallow(state => ({
+            activeNode: state.activeNode,
+            setActiveNode: state.setActiveNode,
+            setActiveConnections: state.setActiveConnections,
+        }))
     )
     const setActiveModal = useModalStore(state => state.setActiveModal)
 

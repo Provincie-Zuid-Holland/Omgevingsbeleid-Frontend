@@ -1,5 +1,6 @@
 import { Hyperlink, Text } from '@pzh-ui/components'
 import { Link } from 'react-router-dom'
+import { useShallow } from 'zustand/react/shallow'
 
 import Modal from '@/components/Modal'
 import * as models from '@/config/objects'
@@ -7,9 +8,12 @@ import { ModelType } from '@/config/objects/types'
 import useNetworkStore from '@/store/networkStore'
 
 const NetworkModal = () => {
-    const { activeNode, activeConnections } = useNetworkStore(state => ({
-        ...state,
-    }))
+    const { activeNode, activeConnections } = useNetworkStore(
+        useShallow(state => ({
+            activeNode: state.activeNode,
+            activeConnections: state.activeConnections,
+        }))
+    )
 
     const model = models[activeNode?.Object_Type as ModelType] || {}
     const { prefixSingular, singular, demonstrative, plural, slugOverview } =

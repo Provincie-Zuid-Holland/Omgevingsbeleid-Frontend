@@ -8,6 +8,7 @@ import {
 import { AngleRight } from '@pzh-ui/icons'
 import { useCallback, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
+import { useShallow } from 'zustand/react/shallow'
 
 import { usePublicationEnvironmentsGet } from '@/api/fetchers'
 import {
@@ -30,9 +31,11 @@ const PublicationFolder = ({
 }: PublicationFolderProps) => {
     const { moduleId } = useParams()
 
-    const activeFolders = usePublicationStore(state => state.activeFolders)
-    const setActiveFolders = usePublicationStore(
-        state => state.setActiveFolders
+    const { activeFolders, setActiveFolders } = usePublicationStore(
+        useShallow(state => ({
+            activeFolders: state.activeFolders,
+            setActiveFolders: state.setActiveFolders,
+        }))
     )
 
     const { data: environments } = usePublicationEnvironmentsGet({ limit: 100 })

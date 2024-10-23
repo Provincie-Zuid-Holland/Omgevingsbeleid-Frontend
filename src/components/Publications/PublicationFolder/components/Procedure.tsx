@@ -8,6 +8,7 @@ import {
 import { AngleRight, PenNib, PencilLight } from '@pzh-ui/icons'
 import { useCallback } from 'react'
 import { useParams } from 'react-router-dom'
+import { useShallow } from 'zustand/react/shallow'
 
 import {
     DocumentType,
@@ -45,9 +46,11 @@ const Procedure = ({
 }: ProcedureProps) => {
     const { moduleId } = useParams()
 
-    const activeFolders = usePublicationStore(state => state.activeFolders)
-    const setActiveFolders = usePublicationStore(
-        state => state.setActiveFolders
+    const { activeFolders, setActiveFolders } = usePublicationStore(
+        useShallow(state => ({
+            activeFolders: state.activeFolders,
+            setActiveFolders: state.setActiveFolders,
+        }))
     )
 
     const Icon = config[procedureType].icon

@@ -1,15 +1,24 @@
 import { Text } from '@pzh-ui/components'
 import { Triangle } from '@pzh-ui/icons'
 import classNames from 'clsx'
+import { useMemo } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 
 import { ModelType } from '@/config/objects/types'
 import useFilterStore from '@/store/filterStore'
 
 const NetworkLegend = () => {
     const { filters, selectedFilters, setSelectedFilters } = useFilterStore(
-        state => ({
-            ...state,
-            filters: state.filters
+        useShallow(state => ({
+            setSelectedFilters: state.setSelectedFilters,
+            selectedFilters: state.selectedFilters,
+            filters: state.filters,
+        }))
+    )
+
+    const transformedFilters = useMemo(
+        () =>
+            filters
                 .map(filter => {
                     const options = filter.options.filter(
                         option => !option.exclude?.includes('network')
@@ -17,14 +26,14 @@ const NetworkLegend = () => {
                     return { ...filter, options }
                 })
                 .filter(filter => filter.options.length > 0),
-        })
+        [filters]
     )
 
     const handleClick = (val: ModelType) => {
         if (selectedFilters?.network.filter(e => e !== val).length === 0) {
             setSelectedFilters(
                 'network',
-                filters.flatMap(filter =>
+                transformedFilters.flatMap(filter =>
                     filter.options.map(option => option.value)
                 )
             )

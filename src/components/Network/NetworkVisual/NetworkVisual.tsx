@@ -11,6 +11,7 @@ import {
     selectAll,
 } from 'd3'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 
 import { GraphVertice } from '@/api/fetchers.schemas'
 import useNetworkStore from '@/store/networkStore'
@@ -42,8 +43,12 @@ interface NetworkVisualProps {
 }
 
 const NetworkVisual = ({ graph }: NetworkVisualProps) => {
-    const activeNode = useNetworkStore(state => state.activeNode)
-    const setActiveNode = useNetworkStore(state => state.setActiveNode)
+    const { activeNode, setActiveNode } = useNetworkStore(
+        useShallow(state => ({
+            activeNode: state.activeNode,
+            setActiveNode: state.setActiveNode,
+        }))
+    )
 
     const containerRef = useRef<SVGSVGElement>(null)
     const tooltipRef = useRef<HTMLDivElement>(null)
@@ -202,7 +207,7 @@ const NetworkVisual = ({ graph }: NetworkVisualProps) => {
                 content={tooltipContent}
             />
             <svg
-                className="w-full h-full"
+                className="h-full w-full"
                 data-d3="container"
                 ref={containerRef}
             />

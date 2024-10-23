@@ -3,6 +3,7 @@ import classNames from 'clsx'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Link, useParams } from 'react-router-dom'
+import { useShallow } from 'zustand/react/shallow'
 
 import { PublicModuleObjectRevision } from '@/api/fetchers.schemas'
 import Breadcrumbs from '@/components/Breadcrumbs'
@@ -30,7 +31,13 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
     const { moduleId, uuid } = useParams()
 
     const { setInitialObject, setRevisionFrom, setRevisionTo } =
-        useRevisionStore(state => ({ ...state }))
+        useRevisionStore(
+            useShallow(state => ({
+                setInitialObject: state.setInitialObject,
+                setRevisionFrom: state.setRevisionFrom,
+                setRevisionTo: state.setRevisionTo,
+            }))
+        )
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const [revisionModalOpen, setRevisionModalOpen] = useState(false)

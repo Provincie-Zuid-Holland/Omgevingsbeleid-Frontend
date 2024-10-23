@@ -3,6 +3,7 @@ import { Plus } from '@pzh-ui/icons'
 import { useUnmountEffect } from '@react-hookz/web'
 import { useEffect, useState } from 'react'
 import { Link, Outlet, useParams } from 'react-router-dom'
+import { useShallow } from 'zustand/react/shallow'
 
 import {
     usePublicationActPackagesGet,
@@ -46,12 +47,15 @@ const TabDecisions = () => (
 export const Publications = () => {
     const { moduleId } = useParams()
 
-    const wizardActive = usePublicationStore(state => state.wizardActive)
-    const setWizardActive = usePublicationStore(state => state.setWizardActive)
-    const activeFolders = usePublicationStore(state => state.activeFolders)
-    const setActiveFolders = usePublicationStore(
-        state => state.setActiveFolders
-    )
+    const { wizardActive, setWizardActive, activeFolders, setActiveFolders } =
+        usePublicationStore(
+            useShallow(state => ({
+                wizardActive: state.wizardActive,
+                setWizardActive: state.setWizardActive,
+                activeFolders: state.activeFolders,
+                setActiveFolders: state.setActiveFolders,
+            }))
+        )
 
     const documentTypes = Object.keys(DocumentType) as Array<DocumentType>
 
