@@ -19,6 +19,9 @@ import {
     MaatregelPatch,
     MaatregelStaticPostStatics,
     NationaalBelangFull,
+    ProgrammaAlgemeenFull,
+    ProgrammaAlgemeenPatch,
+    ProgrammaAlgemeenStaticPostStatics,
     VisieAlgemeenFull,
     VisieAlgemeenPatch,
     VisieAlgemeenStaticPostStatics,
@@ -112,7 +115,8 @@ export type ModelReturnType = BeleidsdoelFull &
     NationaalBelangFull &
     WettelijkeTaakFull &
     VisieAlgemeenFull &
-    WerkingsgebiedFull
+    WerkingsgebiedFull &
+    ProgrammaAlgemeenFull
 
 export type ModelPatchType = BeleidsdoelPatch &
     AmbitiePatch &
@@ -121,7 +125,8 @@ export type ModelPatchType = BeleidsdoelPatch &
     GebiedsprogrammaPatch &
     BeleidsregelPatch &
     VisieAlgemeenPatch &
-    WerkingsgebiedPatch
+    WerkingsgebiedPatch &
+    ProgrammaAlgemeenPatch
 
 export type ModelPatchStaticType = BeleidsdoelStaticPostStatics &
     AmbitieStaticPostStatics &
@@ -130,7 +135,8 @@ export type ModelPatchStaticType = BeleidsdoelStaticPostStatics &
     GebiedsprogrammaStaticPostStatics &
     BeleidsregelStaticPostStatics &
     VisieAlgemeenStaticPostStatics &
-    WerkingsgebiedStaticPostStatics
+    WerkingsgebiedStaticPostStatics &
+    ProgrammaAlgemeenStaticPostStatics
 
 export type Model = (typeof models)[ModelType]
 

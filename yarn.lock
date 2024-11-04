@@ -3120,13 +3120,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.580":
-  version: 0.0.580
-  resolution: "@pzh-ui/components@npm:0.0.580"
+"@pzh-ui/components@npm:^0.0.581":
+  version: 0.0.581
+  resolution: "@pzh-ui/components@npm:0.0.581"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
-    "@pzh-ui/icons": "npm:^0.0.69"
+    "@pzh-ui/icons": "npm:^0.0.70"
     "@radix-ui/react-accordion": "npm:^1.1.2"
     "@radix-ui/react-slot": "npm:^1.0.2"
     "@react-aria/utils": "npm:^3.23.2"
@@ -3174,7 +3174,7 @@ __metadata:
     react-stately: "npm:^3.30.1"
     react-toastify: "npm:^9.1.2"
     tailwind-merge: "npm:^2.2.2"
-  checksum: 376802d8261492fbe2288441a1c6f0f7627c13546110a89918e5d014fb047ecb54112461701c720fa60991eb886fbe956a092b96be6851726061656c098b01fd
+  checksum: 46b2aade15e3b0ca63b2743e030a341b0fc3000a343d3d3cd0bd389ab2a28d0fc672a8f07a59e345300dd11968fd5e1108417497a4c4b73c5b0f56bab54ee135
   languageName: node
   linkType: hard
 
@@ -3221,13 +3221,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/icons@npm:^0.0.69":
-  version: 0.0.69
-  resolution: "@pzh-ui/icons@npm:0.0.69"
+"@pzh-ui/icons@npm:^0.0.70":
+  version: 0.0.70
+  resolution: "@pzh-ui/icons@npm:0.0.70"
   dependencies:
     react: "npm:^18.2.0"
     react-toastify: "npm:^9.1.2"
-  checksum: cc5d0ff4c586b5098305d07a2a3081c34ad7ef8a909a37f3aa479d7a5f209a79204632dd265caca478d20d2e1d726f53f04165db0bc54dcd0a58e996f5f2b0dd
+  checksum: 3f5023141c8ae04ed900c1539f50e5d4c80bf2bc37e2294bdd14f46480853855b0230aa40278c020d5d6157376f369643ddaa49a88c0f5cff0d69f722da1f79a
   languageName: node
   linkType: hard
 
@@ -13407,10 +13407,10 @@ __metadata:
     "@axe-core/react": "npm:^4.10.0"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-    "@pzh-ui/components": "npm:^0.0.580"
+    "@pzh-ui/components": "npm:^0.0.581"
     "@pzh-ui/config": "npm:^0.0.70"
     "@pzh-ui/css": "npm:^0.0.100"
-    "@pzh-ui/icons": "npm:^0.0.69"
+    "@pzh-ui/icons": "npm:^0.0.70"
     "@react-hookz/web": "npm:^24.0.4"
     "@tanstack/react-query": "npm:^5.55.4"
     "@testing-library/dom": "npm:^9.3.3"

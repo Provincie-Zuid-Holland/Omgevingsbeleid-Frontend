@@ -57,7 +57,7 @@ export const StepThree = ({}: StepProps) => {
     return (
         <div>
             <Heading level="2" className="mb-4">
-                Nieuwe {'Object_Type' in values && values.Object_Type}
+                Nieuwe {singularReadable}
             </Heading>
             <Text className="mb-4">
                 Geef alvast een titel, een eerste en een tweede eigenaar op.
