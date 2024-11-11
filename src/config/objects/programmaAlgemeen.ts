@@ -1,15 +1,15 @@
-import { EyeLight } from '@pzh-ui/icons'
+import { ListCheck } from '@pzh-ui/icons'
 
 import {
-    useModulesModuleIdObjectVisieAlgemeenLatestLineageIdGet,
-    useModulesModuleIdObjectVisieAlgemeenLineageIdPatch,
-    useModulesObjectVisieAlgemeenActiveLineageIdGet,
-    useRevisionsModuleIdVisieAlgemeenVersionObjectUuidGet,
-    useVisieAlgemeenStaticLineageIdPost,
-    useVisiesAlgemeenLatestLineageIdGet,
-    useVisiesAlgemeenValidGet,
-    useVisiesAlgemeenValidLineageIdGet,
-    useVisiesAlgemeenVersionObjectUuidGet,
+    useModulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGet,
+    useModulesModuleIdObjectProgrammaAlgemeenLineageIdPatch,
+    useModulesObjectProgrammaAlgemeenActiveLineageIdGet,
+    useProgrammaAlgemeenStaticLineageIdPost,
+    useProgrammasAlgemeenLatestLineageIdGet,
+    useProgrammasAlgemeenValidGet,
+    useProgrammasAlgemeenValidLineageIdGet,
+    useProgrammasAlgemeenVersionObjectUuidGet,
+    useRevisionsModuleIdProgrammaAlgemeenVersionObjectUuidGet,
 } from '@/api/fetchers'
 import {
     VisieAlgemeenPatch,
@@ -21,43 +21,44 @@ import { schemaDefaults } from '@/validation/zodSchema'
 import { DynamicObject } from './types'
 
 const fetchers = {
-    useGetValid: useVisiesAlgemeenValidGet,
-    useGetValidLineage: useVisiesAlgemeenValidLineageIdGet,
-    useGetVersion: useVisiesAlgemeenVersionObjectUuidGet,
-    useGetLatestLineage: useVisiesAlgemeenLatestLineageIdGet,
-    useGetRevision: useRevisionsModuleIdVisieAlgemeenVersionObjectUuidGet,
+    useGetValid: useProgrammasAlgemeenValidGet,
+    useGetValidLineage: useProgrammasAlgemeenValidLineageIdGet,
+    useGetVersion: useProgrammasAlgemeenVersionObjectUuidGet,
+    useGetLatestLineage: useProgrammasAlgemeenLatestLineageIdGet,
+    useGetRevision: useRevisionsModuleIdProgrammaAlgemeenVersionObjectUuidGet,
     useGetRelations: null,
     usePutRelations: null,
     useGetLatestLineageInModule:
-        useModulesModuleIdObjectVisieAlgemeenLatestLineageIdGet,
-    usePatchObjectInModule: useModulesModuleIdObjectVisieAlgemeenLineageIdPatch,
+        useModulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGet,
+    usePatchObjectInModule:
+        useModulesModuleIdObjectProgrammaAlgemeenLineageIdPatch,
     usePatchObject: null,
     useDeleteObject: null,
-    usePostStatic: useVisieAlgemeenStaticLineageIdPost,
+    usePostStatic: useProgrammaAlgemeenStaticLineageIdPost,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
     usePostObject: null,
-    useGetActiveModules: useModulesObjectVisieAlgemeenActiveLineageIdGet,
+    useGetActiveModules: useModulesObjectProgrammaAlgemeenActiveLineageIdGet,
 }
 
-const visieAlgemeen: DynamicObject<
+const programmaAlgemeen: DynamicObject<
     typeof fetchers,
     keyof VisieAlgemeenPatch,
     (keyof VisieAlgemeenStaticPostStatics)[]
 > = {
     defaults: {
-        singular: 'visie_algemeen',
-        singularReadable: 'visie algemeen',
-        singularCapitalize: 'Visie algemeen',
-        plural: 'visies-algemeen',
-        pluralCapitalize: 'Visies algemeen',
-        prefixSingular: 'de',
+        singular: 'programma_algemeen',
+        singularReadable: 'programma algemeen',
+        singularCapitalize: 'Programma algemeen',
+        plural: 'programmas-algemeen',
+        pluralCapitalize: "Programma's algemeen",
+        prefixSingular: 'het',
         prefixPlural: 'de',
-        prefixNewObject: 'Nieuwe',
-        demonstrative: 'deze',
+        prefixNewObject: 'Nieuw',
+        demonstrative: 'dit',
         slugOverview: 'omgevingsvisie',
-        icon: EyeLight,
+        icon: ListCheck,
         hideBreadcrumbs: true,
     },
     staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
@@ -66,7 +67,7 @@ const visieAlgemeen: DynamicObject<
         {
             title: 'Algemene informatie',
             description:
-                'In deze sectie kun je alle tekst met betrekking tot de visie algemeen kwijt.',
+                'In deze sectie kun je alle tekst met betrekking tot het programma algemeen kwijt.',
             fields: [
                 {
                     name: 'Title',
@@ -97,8 +98,8 @@ const visieAlgemeen: DynamicObject<
     ],
 }
 
-visieAlgemeen.validationSchema = generateDynamicSchema(
-    visieAlgemeen.dynamicSections
+programmaAlgemeen.validationSchema = generateDynamicSchema(
+    programmaAlgemeen.dynamicSections
 )
 
-export default visieAlgemeen
+export default programmaAlgemeen
