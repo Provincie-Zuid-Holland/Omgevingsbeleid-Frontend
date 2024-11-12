@@ -43,12 +43,12 @@ const ObjectAreaAnnotateModal = ({ model }: ObjectAreaAnnotateModalProps) => {
             type: previousValues?.[AREA_DATA_ATTRS.type] ?? '',
             location: previousValues?.[AREA_DATA_ATTRS.location] ?? '',
             label: previousValues?.[AREA_DATA_ATTRS.label] ?? '',
+            id: previousValues?.[AREA_DATA_ATTRS.id] ?? '',
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [modalState?.editor, modalState?.editor?.state.selection])
 
     const handleSubmit = (payload: Values) => {
-        console.log(payload)
         modalState?.editor
             ?.chain()
             .focus()
@@ -58,6 +58,7 @@ const ObjectAreaAnnotateModal = ({ model }: ObjectAreaAnnotateModalProps) => {
                 [AREA_DATA_ATTRS.type]: payload.type,
                 [AREA_DATA_ATTRS.location]: payload.location,
                 [AREA_DATA_ATTRS.label]: payload.label,
+                [AREA_DATA_ATTRS.id]: payload.id,
                 text: isEmptySelection ? payload.label : undefined,
             })
             .run()
@@ -161,9 +162,10 @@ const InnerForm = <TData extends Values>({
                         required
                         placeholder="Zoek op gebiedengroep"
                         objectKey="Werkingsgebied_Code"
-                        onChange={object =>
+                        onChange={object => {
                             setFieldValue('label', object?.Title)
-                        }
+                            setFieldValue('id', object?.Object_ID.toString())
+                        }}
                         defaultValue={
                             values.label &&
                             values.location && {
@@ -189,6 +191,7 @@ const InnerForm = <TData extends Values>({
                         }}
                     />
                     <FormikInput name="label" type="hidden" />
+                    <FormikInput name="id" type="hidden" />
                 </div>
                 <div>
                     <FormikSelect

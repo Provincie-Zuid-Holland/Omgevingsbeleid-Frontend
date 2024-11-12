@@ -1,12 +1,16 @@
-import { Heading } from '@pzh-ui/components'
+import { Button, Heading, Text, Tooltip } from '@pzh-ui/components'
 import classNames from 'clsx'
 import DOMPurify from 'dompurify'
+import parse, { domToReact, HTMLReactParserOptions } from 'html-react-parser'
+import { useParams } from 'react-router-dom'
 
 import {
     ReadRelationShortNationaalBelangMinimal,
     ReadRelationShortWettelijkeTaakMinimal,
 } from '@/api/fetchers.schemas'
+import ObjectAreaModal from '@/components/Modals/ObjectModals/ObjectAreaModal'
 import { ModelReturnType } from '@/config/objects/types'
+import useModalStore from '@/store/modalStore'
 
 interface ObjectContentProps {
     /** Object data */
@@ -62,6 +66,9 @@ interface ContentProps {
 }
 
 const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
+    const { moduleId } = useParams()
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+
     let cleanHtml = DOMPurify.sanitize(html)
 
     if (value === 'Weblink') {
@@ -70,6 +77,65 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
             '<a class="underline text-pzh-green-500 hover:text-pzh-blue-900" href="$&" target="_blank" rel="noreferrer noopener">$&</a>'
         )
     }
+
+    const options: HTMLReactParserOptions = {
+        replace: domNode => {
+            if (domNode.type === 'tag' && domNode.name === 'a') {
+                const element = domNode as any
+                const label = element.attribs['data-gebiedengroep-label']
+
+                if (label) {
+                    return (
+                        <Tooltip
+                            label={
+                                <Text
+                                    as="span"
+                                    size="s"
+                                    color="text-pzh-white"
+                                    className="block">
+                                    Gebiedsaanwijzing:
+                                    <strong className="ml-1 font-bold text-pzh-white">
+                                        {label}
+                                    </strong>
+                                </Text>
+                            }>
+                            <Button
+                                key={label}
+                                variant="default"
+                                className="text-pzh-red-900 underline hover:text-pzh-blue-900"
+                                onPress={() =>
+                                    setActiveModal('objectArea', {
+                                        moduleId,
+                                        label,
+                                        id: element.attribs[
+                                            'data-gebiedengroep-id'
+                                        ],
+                                        locatie:
+                                            element.attribs[
+                                                'data-hint-locatie'
+                                            ],
+                                        gebiedsaanwijzingtype:
+                                            element.attribs[
+                                                'data-hint-gebiedsaanwijzingtype'
+                                            ],
+                                        gebiedengroep:
+                                            element.attribs[
+                                                'data-hint-gebiedengroep'
+                                            ],
+                                    })
+                                }
+                                {...element.attribs}>
+                                {domToReact(element.children, options)}
+                            </Button>
+                        </Tooltip>
+                    )
+                }
+            }
+            return undefined // Return undefined for other elements to be parsed as usual
+        },
+    }
+
+    const parsedContent = parse(cleanHtml, options)
 
     const Wrapper = value === 'Description' ? 'p' : 'div'
 
@@ -85,10 +151,10 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
                     {customTitle?.[value] || title}
                 </Heading>
             )}
-            <Wrapper
-                className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 md:mb-8"
-                dangerouslySetInnerHTML={{ __html: cleanHtml }}
-            />
+            <Wrapper className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 md:mb-8">
+                {parsedContent}
+            </Wrapper>
+            <ObjectAreaModal />
         </>
     )
 }
