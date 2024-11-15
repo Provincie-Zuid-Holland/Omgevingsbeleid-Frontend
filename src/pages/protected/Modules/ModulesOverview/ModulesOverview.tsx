@@ -90,7 +90,9 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
         {
             filter_activated: activeTab === 'inactive' ? false : true,
             filter_closed: activeTab === 'archive' ? true : false,
-            filter_title: filter?.filter_title || undefined,
+            filter_title: filter?.filter_title
+                ? `%${filter.filter_title}%`
+                : undefined,
             sort_column:
                 (sortBy?.[0]?.id as ModuleSortColumn) || 'Modified_Date',
             sort_order: sortBy?.[0]?.desc ? 'DESC' : 'ASC',
@@ -161,21 +163,37 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
                                 <LoaderCard height="208" mb="" />
                                 <LoaderCard height="208" mb="" />
                             </>
-                        ) : !!modules?.results.length ? (
+                        ) : (
+                            !!modules?.results.length &&
                             modules?.results?.map(module => (
                                 <ModuleTile
                                     key={`module-${module.Module_ID}`}
                                     {...module}
                                 />
                             ))
-                        ) : (
-                            <Text>
-                                {`Er zijn geen op dit moment geen ${
-                                    type === 'active' ? 'actieve' : 'inactieve'
-                                } modules.`}
-                            </Text>
                         )}
                     </div>
+
+                    {!!!modules?.results.length && (
+                        <div className="mt-6">
+                            {!filter?.filter_title ? (
+                                <Text>
+                                    {`Er zijn geen op dit moment geen ${
+                                        type === 'active'
+                                            ? 'actieve'
+                                            : 'inactieve'
+                                    } modules.`}
+                                </Text>
+                            ) : (
+                                <Text>
+                                    Er zijn geen resultaten voor '
+                                    {filter.filter_title}' binnen{' '}
+                                    {type === 'inactive' && 'niet '}actieve
+                                    modules.
+                                </Text>
+                            )}
+                        </div>
+                    )}
 
                     {!!modules?.total &&
                         !!modules?.limit &&
@@ -191,8 +209,8 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
                         )}
                 </>
             ) : (
-                !!formattedData?.length && (
-                    <div className="mt-6">
+                <div className="mt-6">
+                    {!!formattedData?.length ? (
                         <Table
                             columns={columns}
                             data={formattedData}
@@ -209,8 +227,17 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
                             manualSorting
                             isLoading={isFetching}
                         />
-                    </div>
-                )
+                    ) : !filter?.filter_title ? (
+                        <Text>
+                            Er zijn geen op dit moment geen afgeronde modules.
+                        </Text>
+                    ) : (
+                        <Text>
+                            Er zijn geen resultaten voor '{filter.filter_title}'
+                            binnen afgeronde modules.
+                        </Text>
+                    )}
+                </div>
             )}
         </div>
     )
