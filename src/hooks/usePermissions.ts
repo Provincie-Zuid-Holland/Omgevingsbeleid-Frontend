@@ -79,9 +79,6 @@ const usePermissions = (): Permissions => {
                 canCreateUser: true,
                 canEditUser: true,
                 canResetUserPassword: true,
-                canCreatePublicationTemplate: true,
-                canEditPublicationTemplate: true,
-                canViewPublicationTemplate: true,
                 canViewPublicationEnvironment: true,
                 canViewPublicationAoj: true,
                 canCreatePublication: true,
@@ -108,6 +105,36 @@ const usePermissions = (): Permissions => {
                 canPatchObjectInModule: true,
                 canEditModuleObjectContext: true,
             }
+        case 'Technisch beheerder': {
+            return {
+                ...initialPermissions,
+                canCreateModule: true,
+                canEditModule: true,
+                canPatchModuleStatus: true,
+                canAddNewObjectToModule: true,
+                canAddExistingObjectToModule: true,
+                canEditModuleObjectContext: true,
+                canRemoveObjectFromModule: true,
+                canPatchObjectInModule: true,
+                canCreateUser: true,
+                canEditUser: true,
+                canResetUserPassword: true,
+                canCreatePublicationTemplate: true,
+                canEditPublicationTemplate: true,
+                canViewPublicationTemplate: true,
+                canViewPublicationEnvironment: true,
+                canViewPublicationAoj: true,
+                canCreatePublication: true,
+                canEditPublication: true,
+                canViewPublication: true,
+                canCreatePublicationVersion: true,
+                canEditPublicationVersion: true,
+                canViewPublicationVersion: true,
+                canCreatePublicationPackage: true,
+                canViewPublicationPackage: true,
+                canDownloadPublicationPackage: true,
+            }
+        }
         default:
             return { ...initialPermissions }
     }
