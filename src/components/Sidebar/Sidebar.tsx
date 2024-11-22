@@ -9,7 +9,7 @@ import { ModelType } from '@/config/objects/types'
 import usePermissions from '@/hooks/usePermissions'
 
 const Sidebar = () => {
-    const { canEditUser, canCreatePublicationTemplate } = usePermissions()
+    const { canEditUser, canViewPublicationTemplate } = usePermissions()
 
     const [expanded, setExpanded] = useState(false)
 
@@ -55,7 +55,7 @@ const Sidebar = () => {
                         onClick={() => window.clearTimeout(timer)}
                     />
 
-                    <div className="bg-pzh-blue-500 h-px w-full" />
+                    <div className="h-px w-full bg-pzh-blue-500" />
 
                     <MenuItem
                         name="Modules"
@@ -90,7 +90,7 @@ const Sidebar = () => {
 
                     {canEditUser && (
                         <>
-                            <div className="bg-pzh-blue-500 h-px w-full" />
+                            <div className="h-px w-full bg-pzh-blue-500" />
                             <MenuItem
                                 name="Gebruikers"
                                 path="/muteer/gebruikers"
@@ -103,7 +103,7 @@ const Sidebar = () => {
                         </>
                     )}
 
-                    {canCreatePublicationTemplate && (
+                    {canViewPublicationTemplate && (
                         <MenuItem
                             name="Publicatietemplates"
                             path="/muteer/publicatietemplates"
@@ -144,9 +144,9 @@ const MenuItem = ({
         <Link
             to={path}
             className={classNames(
-                'hover:text-pzh-green-500 group flex h-10 items-center rounded',
+                'group flex h-10 items-center rounded hover:text-pzh-green-500',
                 {
-                    'text-pzh-green-500 bg-pzh-gray-200':
+                    'bg-pzh-gray-200 text-pzh-green-500':
                         path === pathname ||
                         (path !== '/muteer' && pathname.startsWith(path)),
                     'w-10': !expanded,
@@ -166,7 +166,7 @@ const MenuItem = ({
             />
             <Text
                 className={classNames(
-                    'group-hover:text-pzh-green-500 -mb-0.5 ml-2',
+                    '-mb-0.5 ml-2 group-hover:text-pzh-green-500',
                     {
                         'opacity-0': !expanded,
                         'text-pzh-green-500': path === pathname,
