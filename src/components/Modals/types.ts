@@ -27,6 +27,7 @@ export type ModalType =
     | 'moduleEditObject'
     | 'moduleDeleteObject'
     | 'areaAdd'
+    | 'objectArea'
     | 'objectAreaAnnotate'
     | 'objectDetails'
     | 'objectAddConnection'
@@ -56,6 +57,14 @@ export interface ModalStateMap {
     moduleDeleteObject: {
         object: ModuleObjectShort
         module: Module
+    }
+    objectArea: {
+        moduleId: string
+        id: string
+        locatie: string
+        gebiedsaanwijzingtype: string
+        gebiedengroep: string
+        label: string
     }
     objectAreaAnnotate: {
         editor: Editor

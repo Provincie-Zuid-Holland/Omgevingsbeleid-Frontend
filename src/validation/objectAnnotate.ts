@@ -13,4 +13,5 @@ export const SCHEMA_OBJECT_ANNOTATE_AREA = object({
     }),
     location: schemaDefaults.requiredString(),
     label: schemaDefaults.requiredString(),
+    id: schemaDefaults.requiredString(),
 })
