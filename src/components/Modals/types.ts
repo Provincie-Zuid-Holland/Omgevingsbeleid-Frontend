@@ -27,6 +27,7 @@ export type ModalType =
     | 'moduleEditObject'
     | 'moduleDeleteObject'
     | 'areaAdd'
+    | 'areaEdit'
     | 'objectArea'
     | 'objectAreaAnnotate'
     | 'objectDetails'
