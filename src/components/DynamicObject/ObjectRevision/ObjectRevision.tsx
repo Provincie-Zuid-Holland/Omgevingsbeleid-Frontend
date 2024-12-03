@@ -78,11 +78,15 @@ const ObjectRevision = ({
                         htmlFrom={contentFrom || ''}
                         htmlTo={contentTo || ''}
                         customTitle={
-                            singular === 'beleidskeuze' ||
-                            singular === 'maatregel'
+                            singular === 'beleidskeuze'
                                 ? {
                                       Description:
                                           'Wat wil de provincie bereiken?',
+                                  }
+                                : singular === 'maatregel'
+                                ? {
+                                      Description:
+                                          'Wat gaat de provincie doen?',
                                   }
                                 : undefined
                         }
@@ -91,7 +95,8 @@ const ObjectRevision = ({
                 )
             })}
 
-            {(!!compareA.Gebied || !!compareB.Gebied) && (
+            {(!!compareA.Werkingsgebied_Statics ||
+                !!compareB.Werkingsgebied_Statics) && (
                 <>
                     <Divider className="mb-6 mt-0" />
 
@@ -100,13 +105,15 @@ const ObjectRevision = ({
                     </Heading>
 
                     <Text className="mb-3">
-                        {compareA.Gebied?.UUID === compareB.Gebied?.UUID
-                            ? `Het gebied '${compareA.Gebied?.Title}' in ${singularReadable} '${compareA.Title}' is ongewijzigd.`
-                            : !!compareA.Gebied?.UUID && !!compareB.Gebied?.UUID
-                            ? `${singularCapitalize} '${compareA.Title}' is gewijzigd van gebied '${compareA.Gebied?.Title}' naar gebied '${compareB.Gebied?.Title}'`
-                            : !!compareA.Gebied?.UUID
-                            ? `Het gebied '${compareA.Gebied?.Title}' in ${singularReadable} '${compareA.Title}' is verwijderd.`
-                            : `Het gebied '${compareB.Gebied?.Title}' in ${singularReadable} '${compareA.Title}' is toegevoegd.`}
+                        {compareA.Werkingsgebied_Statics?.Object_ID ===
+                        compareB.Werkingsgebied_Statics?.Object_ID
+                            ? `Het gebied '${compareA.Werkingsgebied_Statics?.Cached_Title}' in ${singularReadable} '${compareA.Title}' is ongewijzigd.`
+                            : !!compareA.Werkingsgebied_Statics?.Object_ID &&
+                              !!compareB.Werkingsgebied_Statics?.Object_ID
+                            ? `${singularCapitalize} '${compareA.Title}' is gewijzigd van gebied '${compareA.Werkingsgebied_Statics?.Cached_Title}' naar gebied '${compareB.Werkingsgebied_Statics?.Cached_Title}'`
+                            : !!compareA.Werkingsgebied_Statics?.Object_ID
+                            ? `Het gebied '${compareA.Werkingsgebied_Statics?.Cached_Title}' in ${singularReadable} '${compareA.Title}' is verwijderd.`
+                            : `Het gebied '${compareB.Werkingsgebied_Statics?.Cached_Title}' in ${singularReadable} '${compareA.Title}' is toegevoegd.`}
                     </Text>
 
                     <div className="h-[320px] overflow-hidden rounded-lg">
@@ -114,8 +121,8 @@ const ObjectRevision = ({
                             id={`revision-map-${initialObject?.UUID}`}
                             area={{
                                 type: 'Werkingsgebieden',
-                                old: compareB.Gebied?.UUID,
-                                new: compareA.Gebied?.UUID,
+                                old: compareB.Werkingsgebied_Statics?.Object_ID,
+                                new: compareA.Werkingsgebied_Statics?.Object_ID,
                             }}
                         />
                     </div>

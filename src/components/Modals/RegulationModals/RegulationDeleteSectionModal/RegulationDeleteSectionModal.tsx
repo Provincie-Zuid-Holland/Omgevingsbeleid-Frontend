@@ -1,5 +1,6 @@
 import { Button, FormikCheckbox, Text } from '@pzh-ui/components'
 import { Form, Formik } from 'formik'
+import { useShallow } from 'zustand/react/shallow'
 
 import Modal from '@/components/Modal'
 import * as sections from '@/config/regulations/sections'
@@ -7,8 +8,12 @@ import useModalStore from '@/store/modalStore'
 import useRegulationStore from '@/store/regulationStore'
 
 const RegulationDeleteSectionModal = () => {
-    const itemAction = useRegulationStore(state => state.itemAction)
-    const deleteItem = useRegulationStore(state => state.deleteItem)
+    const { itemAction, deleteItem } = useRegulationStore(
+        useShallow(state => ({
+            itemAction: state.itemAction,
+            deleteItem: state.deleteItem,
+        }))
+    )
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     if (

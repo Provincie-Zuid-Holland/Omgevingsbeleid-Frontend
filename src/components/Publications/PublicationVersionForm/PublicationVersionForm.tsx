@@ -21,8 +21,6 @@ import useModalStore from '@/store/modalStore'
 import handleError from '@/utils/handleError'
 
 interface PublicationVersionFormProps {
-    submitLabel: string
-    isEdit?: boolean
     isRequired?: boolean
     error?: {
         data: HTTPValidationError
@@ -30,29 +28,19 @@ interface PublicationVersionFormProps {
 }
 
 const PublicationVersionForm = <TData extends FormikValues>({
-    submitLabel,
-    isEdit,
-    error,
     isRequired,
+    error,
     ...rest
 }: PublicationVersionFormProps & FormikConfig<TData>) => (
     <Formik enableReinitialize validateOnBlur={false} {...rest}>
         {props => (
-            <InnerForm
-                isEdit={isEdit}
-                submitLabel={submitLabel}
-                isRequired={isRequired}
-                error={error}
-                {...props}
-            />
+            <InnerForm isRequired={isRequired} error={error} {...props} />
         )}
     </Formik>
 )
 
 const InnerForm = <TData extends FormikValues>({
-    isEdit,
     isSubmitting,
-    submitLabel,
     isRequired,
     error,
     ...rest
@@ -95,8 +83,8 @@ const InnerForm = <TData extends FormikValues>({
                     <FormikSelect
                         key={isLoading.toString()}
                         name="Module_Status_ID"
-                        label="Module status"
-                        placeholder="Selecteer een module status"
+                        label="Modulestatus"
+                        placeholder="Selecteer een modulestatus"
                         options={statusOptions}
                         required
                         styles={{
@@ -110,81 +98,72 @@ const InnerForm = <TData extends FormikValues>({
                         }}
                     />
                 </div>
-                {isEdit && (
-                    <>
-                        <FormikInput
-                            name="Bill_Metadata.Official_Title"
-                            label="Officiële titel van het besluit"
-                        />
-                        <FormikRte
-                            name="Bill_Compact.Preamble"
-                            label="Aanhef"
-                        />
-                        <Articles />
-                        <FormikRte
-                            name="Bill_Compact.Closing"
-                            label="Sluiting"
-                            placeholder="Bijv. Gegeven te 's-Gravenhage, 27 september 2023"
-                        />
-                        <FormikRte
-                            name="Bill_Compact.Signed"
-                            label="Ondertekening"
-                        />
+                <FormikInput
+                    name="Bill_Metadata.Official_Title"
+                    label="Officiële titel van het besluit"
+                    required
+                />
+                <FormikRte name="Bill_Compact.Preamble" label="Aanhef" />
+                <Articles />
+                <FormikRte
+                    name="Bill_Compact.Closing"
+                    label="Sluiting"
+                    placeholder="Bijv. Gegeven te 's-Gravenhage, 27 september 2023"
+                />
+                <FormikRte name="Bill_Compact.Signed" label="Ondertekening" />
 
-                        <div className="space-y-4 bg-pzh-gray-100 p-4">
-                            <Text>Procedureverloop</Text>
+                <div className="space-y-4 bg-pzh-gray-100 p-4">
+                    <Text>Procedureverloop</Text>
 
-                            <div className="flex space-x-4 [&_>div]:flex-1">
-                                <div>
-                                    <FormikDate
-                                        name="Procedural.Enactment_Date"
-                                        label="Vaststellingsdatum"
-                                        placeholder="Kies een datum"
-                                    />
-                                </div>
-                                <div>
-                                    <FormikDate
-                                        name="Procedural.Signed_Date"
-                                        label="Datum van ondertekening"
-                                        placeholder="Kies een datum"
-                                        required={isRequired}
-                                    />
-                                </div>
-                                <div>
-                                    <FormikDate
-                                        name="Procedural.Procedural_Announcement_Date"
-                                        label="Bekend op"
-                                        placeholder="Kies een datum"
-                                        required={isRequired}
-                                    />
-                                </div>
-                            </div>
+                    <div className="flex space-x-4 [&_>div]:flex-1">
+                        <div>
+                            <FormikDate
+                                name="Procedural.Enactment_Date"
+                                label="Vaststellingsdatum"
+                                placeholder="Kies een datum"
+                            />
                         </div>
-
-                        <div className="space-y-4 bg-pzh-gray-100 p-4">
-                            <Text>Juridische data</Text>
-
-                            <div className="flex space-x-4 [&_>div]:flex-1">
-                                <div>
-                                    <FormikDate
-                                        name="Announcement_Date"
-                                        label="Bekendmakingsdatum"
-                                        placeholder="Kies een datum"
-                                        required={isRequired}
-                                    />
-                                </div>
-                                <div>
-                                    <FormikDate
-                                        name="Effective_Date"
-                                        label="Inwerkingtredingsdatum"
-                                        placeholder="Kies een datum"
-                                        required={isRequired}
-                                    />
-                                </div>
-                            </div>
+                        <div>
+                            <FormikDate
+                                name="Procedural.Signed_Date"
+                                label="Datum van ondertekening"
+                                placeholder="Kies een datum"
+                                required={isRequired}
+                            />
                         </div>
-                    </>
-                )}
+                        <div>
+                            <FormikDate
+                                name="Procedural.Procedural_Announcement_Date"
+                                label="Bekend op"
+                                placeholder="Kies een datum"
+                                required={isRequired}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="space-y-4 bg-pzh-gray-100 p-4">
+                    <Text>Juridische data</Text>
+
+                    <div className="flex space-x-4 [&_>div]:flex-1">
+                        <div>
+                            <FormikDate
+                                name="Announcement_Date"
+                                label="Bekendmakingsdatum"
+                                placeholder="Kies een datum"
+                                required={isRequired}
+                            />
+                        </div>
+                        <div>
+                            <FormikDate
+                                name="Effective_Date"
+                                label="Inwerkingtredingsdatum"
+                                placeholder="Kies een datum"
+                                required={isRequired}
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
             <Divider className="my-6" />
             <div className="flex items-center justify-between">
@@ -196,7 +175,7 @@ const InnerForm = <TData extends FormikValues>({
                     type="submit"
                     isLoading={isSubmitting}
                     isDisabled={isSubmitting}>
-                    {submitLabel}
+                    Versie opslaan
                 </Button>
             </div>
 

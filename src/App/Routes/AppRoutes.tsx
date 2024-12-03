@@ -24,6 +24,12 @@ import {
     UserDetail,
     UsersOverview,
 } from '@/pages/protected'
+import TabDecisions, {
+    Packages,
+    Publications,
+} from '@/pages/protected/Modules/ModuleDetail/components/TabDecisions'
+import TabObjects from '@/pages/protected/Modules/ModuleDetail/components/TabObjects'
+import ModulesOverview from '@/pages/protected/Modules/ModulesOverview'
 import {
     Accessibility,
     AreaDetail,
@@ -208,12 +214,44 @@ const AppRoutes = () => {
                     path: 'modules',
                     children: [
                         {
+                            index: true,
+                            element: <ModulesOverview />,
+                        },
+                        {
                             path: ':moduleId',
                             element: <ModuleProvider />,
                             children: [
                                 {
-                                    index: true,
                                     element: <ModuleDetail />,
+                                    children: [
+                                        {
+                                            index: true,
+                                            element: <TabObjects />,
+                                        },
+                                        {
+                                            path: ':tab',
+                                            element: (
+                                                <ProtectedRoute
+                                                    permissions={{
+                                                        canCreatePublication:
+                                                            true,
+                                                    }}
+                                                    redirectTo="/muteer/modules">
+                                                    <TabDecisions />
+                                                </ProtectedRoute>
+                                            ),
+                                            children: [
+                                                {
+                                                    index: true,
+                                                    element: <Publications />,
+                                                },
+                                                {
+                                                    path: ':versionUUID/leveringen',
+                                                    element: <Packages />,
+                                                },
+                                            ],
+                                        },
+                                    ],
                                 },
                                 {
                                     path: 'bewerk',
@@ -364,30 +402,22 @@ const AppRoutes = () => {
                 },
                 {
                     path: 'gebruikers',
+                    element: (
+                        <ProtectedRoute
+                            permissions={{
+                                canCreateUser: true,
+                            }}
+                            redirectTo="/muteer"
+                        />
+                    ),
                     children: [
                         {
                             index: true,
-                            element: (
-                                <ProtectedRoute
-                                    permissions={{
-                                        canCreateUser: true,
-                                    }}
-                                    redirectTo="/muteer">
-                                    <UsersOverview />
-                                </ProtectedRoute>
-                            ),
+                            element: <UsersOverview />,
                         },
                         {
                             path: ':uuid',
-                            element: (
-                                <ProtectedRoute
-                                    permissions={{
-                                        canCreateUser: true,
-                                    }}
-                                    redirectTo="/muteer">
-                                    <UserDetail />
-                                </ProtectedRoute>
-                            ),
+                            element: <UserDetail />,
                         },
                     ],
                 },

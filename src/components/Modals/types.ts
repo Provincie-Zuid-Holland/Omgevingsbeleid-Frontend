@@ -1,3 +1,5 @@
+import { Editor } from '@tiptap/core'
+
 import {
     DocumentType,
     Module,
@@ -8,6 +10,8 @@ import {
     PublicationVersionShort,
 } from '@/api/fetchers.schemas'
 import { Error } from '@/utils/handleError'
+
+import { PublicationType } from '../Publications/types'
 
 export type ModalType =
     | 'regulationAdd'
@@ -23,6 +27,8 @@ export type ModalType =
     | 'moduleEditObject'
     | 'moduleDeleteObject'
     | 'areaAdd'
+    | 'objectArea'
+    | 'objectAreaAnnotate'
     | 'objectDetails'
     | 'objectAddConnection'
     | 'objectDelete'
@@ -41,6 +47,8 @@ export type ModalType =
     | 'publicationPackages'
     | 'publicationVersionAbort'
     | 'publicationAnnouncementPackages'
+    | 'publicationAnnouncementUpdate'
+    | 'publicationPackageReportUpload'
 
 export interface ModalStateMap {
     moduleEditObject: {
@@ -50,6 +58,17 @@ export interface ModalStateMap {
         object: ModuleObjectShort
         module: Module
     }
+    objectArea: {
+        moduleId: string
+        id: string
+        locatie: string
+        gebiedsaanwijzingtype: string
+        gebiedengroep: string
+        label: string
+    }
+    objectAreaAnnotate: {
+        editor: Editor
+    }
     publicationAdd: {
         documentType: DocumentType
         procedureType: ProcedureType
@@ -58,7 +77,7 @@ export interface ModalStateMap {
     publicationEdit: { publication: Publication }
     publicationVersionAdd: { publication: Publication }
     publicationVersionEdit: {
-        publicationUUID: string
+        publication: Publication
         UUID: string
         isRequired?: boolean
         error?: Error
@@ -76,5 +95,13 @@ export interface ModalStateMap {
     publicationVersionAbort: {
         publication: Publication
         version: PublicationVersionShort
+    }
+    publicationAnnouncementUpdate: {
+        announcementUuid: string
+    }
+    publicationPackageReportUpload: {
+        publicationType: PublicationType
+        publicationUUID: string
+        packageUUID: string
     }
 }

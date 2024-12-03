@@ -58,7 +58,7 @@ const getGeoJsonData = async (
         service: 'wfs',
         version: api_version,
         request: 'GetFeature',
-        typeNames: `Omgevingsbeleid:${type}`,
+        typeNames: getGeoserverLayer(),
         cql_filter: `UUID='${UUID}'`,
         outputFormat: 'application/json',
     }

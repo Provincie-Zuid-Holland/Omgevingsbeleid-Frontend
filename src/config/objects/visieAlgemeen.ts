@@ -41,7 +41,7 @@ const fetchers = {
     useGetActiveModules: useModulesObjectVisieAlgemeenActiveLineageIdGet,
 }
 
-const visie: DynamicObject<
+const visieAlgemeen: DynamicObject<
     typeof fetchers,
     keyof VisieAlgemeenPatch,
     (keyof VisieAlgemeenStaticPostStatics)[]
@@ -80,6 +80,7 @@ const visie: DynamicObject<
                     label: 'Inhoud',
                     type: 'wysiwyg',
                     required: true,
+                    hasAreaSelect: true,
                     customMenuOptions: [
                         'image',
                         'heading',
@@ -96,6 +97,8 @@ const visie: DynamicObject<
     ],
 }
 
-visie.validationSchema = generateDynamicSchema(visie.dynamicSections)
+visieAlgemeen.validationSchema = generateDynamicSchema(
+    visieAlgemeen.dynamicSections
+)
 
-export default visie
+export default visieAlgemeen

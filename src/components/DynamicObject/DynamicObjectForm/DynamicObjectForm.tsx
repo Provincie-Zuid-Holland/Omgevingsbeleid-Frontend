@@ -1,9 +1,11 @@
 import { FieldSelectProps } from '@pzh-ui/components'
 import { Form, Formik, FormikHelpers, FormikProps, FormikValues } from 'formik'
+import { useMemo } from 'react'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
 import { LoaderSpinner } from '@/components/Loader'
+import ObjectAreaAnnotateModal from '@/components/Modals/ObjectModals/ObjectAreaAnnotateModal'
 import ScrollToFieldError from '@/components/ScrollToFieldError'
 import { Model } from '@/config/objects/types'
 import { usePrompt } from '@/hooks/usePrompt'
@@ -72,6 +74,16 @@ const ObjectForm = <TData extends FormikValues>({
     FormikProps<TData>) => {
     const sections = model.dynamicSections
 
+    const containsRteField = useMemo(
+        () =>
+            sections.some(section =>
+                section.fields.some(
+                    field => field.type === 'wysiwyg' && field.hasAreaSelect
+                )
+            ),
+        [sections]
+    )
+
     /**
      * Show prompt message when leaving the page without saving changes
      */
@@ -81,28 +93,32 @@ const ObjectForm = <TData extends FormikValues>({
     )
 
     return (
-        <Form>
-            <div className="grid grid-cols-6 gap-x-10 gap-y-0">
-                {sections?.map((section, index) => (
-                    <DynamicSection
-                        key={`section-${index}`}
-                        isLast={index + 1 === sections.length}
-                        isLocked={isLocked}
-                        model={model}
-                        defaultValues={defaultValues}
-                        {...section}
-                    />
-                ))}
-            </div>
+        <>
+            <Form>
+                <div className="grid grid-cols-6 gap-x-10 gap-y-0">
+                    {sections?.map((section, index) => (
+                        <DynamicSection
+                            key={`section-${index}`}
+                            isLast={index + 1 === sections.length}
+                            isLocked={isLocked}
+                            model={model}
+                            defaultValues={defaultValues}
+                            {...section}
+                        />
+                    ))}
+                </div>
 
-            <ButtonSubmitFixed
-                onCancel={onCancel}
-                disabled={isSubmitting || isLoading || isLocked || !canEdit}
-                isLoading={isSubmitting}
-            />
+                <ButtonSubmitFixed
+                    onCancel={onCancel}
+                    disabled={isSubmitting || isLoading || isLocked || !canEdit}
+                    isLoading={isSubmitting}
+                />
 
-            <ScrollToFieldError />
-        </Form>
+                <ScrollToFieldError />
+            </Form>
+
+            {containsRteField && <ObjectAreaAnnotateModal model={model} />}
+        </>
     )
 }
 

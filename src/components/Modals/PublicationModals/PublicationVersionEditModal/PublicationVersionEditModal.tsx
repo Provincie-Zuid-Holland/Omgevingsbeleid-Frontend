@@ -28,7 +28,7 @@ const PublicationVersionEditModal = () => {
         modalState?.UUID,
         {
             query: {
-                enabled: !!modalState?.publicationUUID && !!modalState?.UUID,
+                enabled: !!modalState?.publication.UUID && !!modalState?.UUID,
             },
         }
     )
@@ -38,7 +38,7 @@ const PublicationVersionEditModal = () => {
             onSuccess: () => {
                 queryClient.invalidateQueries({
                     queryKey: getPublicationsPublicationUuidVersionsGetQueryKey(
-                        modalState.publicationUUID
+                        modalState.publication.UUID
                     ),
                 })
                 queryClient.invalidateQueries({
@@ -80,10 +80,8 @@ const PublicationVersionEditModal = () => {
                     onSubmit={handleFormSubmit}
                     initialValues={initialValues}
                     validationSchema={toFormikValidationSchema(
-                        PUBLICATION_VERSION_EDIT_SCHEMA(modalState?.isRequired)
+                        PUBLICATION_VERSION_EDIT_SCHEMA
                     )}
-                    submitLabel="Opslaan"
-                    isEdit
                     isRequired={modalState?.isRequired}
                     error={modalState?.error}
                 />

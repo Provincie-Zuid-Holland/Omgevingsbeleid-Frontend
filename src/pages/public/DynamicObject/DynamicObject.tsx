@@ -3,6 +3,7 @@ import classNames from 'clsx'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Link, useParams } from 'react-router-dom'
+import { useShallow } from 'zustand/react/shallow'
 
 import { PublicModuleObjectRevision } from '@/api/fetchers.schemas'
 import Breadcrumbs from '@/components/Breadcrumbs'
@@ -30,7 +31,13 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
     const { moduleId, uuid } = useParams()
 
     const { setInitialObject, setRevisionFrom, setRevisionTo } =
-        useRevisionStore(state => ({ ...state }))
+        useRevisionStore(
+            useShallow(state => ({
+                setInitialObject: state.setInitialObject,
+                setRevisionFrom: state.setRevisionFrom,
+                setRevisionTo: state.setRevisionTo,
+            }))
+        )
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const [revisionModalOpen, setRevisionModalOpen] = useState(false)
@@ -84,7 +91,9 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
     const { data: revisions, isPending: revisionsLoading } =
         useGetValidLineage?.<{ results?: ModelReturnType[] }>(
             data!.Object_ID!,
-            undefined,
+            {
+                limit: 100,
+            },
             {
                 query: { enabled: !!data?.Object_ID && !isRevision },
             }
@@ -207,11 +216,15 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                         <ObjectContent
                             data={data || {}}
                             customTitle={
-                                singular === 'beleidskeuze' ||
-                                singular === 'maatregel'
+                                singular === 'beleidskeuze'
                                     ? {
                                           Description:
                                               'Wat wil de provincie bereiken?',
+                                      }
+                                    : singular === 'maatregel'
+                                    ? {
+                                          Description:
+                                              'Wat gaat de provincie doen?',
                                       }
                                     : undefined
                             }
@@ -233,7 +246,8 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                         !model.acknowledgedRelation && (
                             <div
                                 className={classNames('order-8', {
-                                    'mt-4 md:mt-8': !!data?.Gebied,
+                                    'mt-4 md:mt-8':
+                                        !!data?.Werkingsgebied_Statics,
                                 })}>
                                 <ObjectConnectionsPublic
                                     model={model}
@@ -246,7 +260,8 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                         !!model.acknowledgedRelation && (
                             <div
                                 className={classNames('order-9', {
-                                    'mt-4 md:mt-8': !!data?.Gebied,
+                                    'mt-4 md:mt-8':
+                                        !!data?.Werkingsgebied_Statics,
                                 })}>
                                 <ObjectRelationsPublic
                                     model={model}

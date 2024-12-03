@@ -4,6 +4,7 @@ import {
     TabItem,
     Table,
     Tabs,
+    Text,
     formatDate,
 } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
@@ -123,7 +124,11 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
         () =>
             data?.results.map(
                 ({ Title, Document_Type, Created_Date, UUID }) => ({
-                    Title,
+                    Title: (
+                        <Text bold color="text-pzh-blue-500">
+                            {Title}
+                        </Text>
+                    ),
                     Document_Type,
                     Created_Date: (
                         <span className="flex items-center justify-between">
@@ -131,7 +136,7 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
                                 new Date(Created_Date + 'Z'),
                                 'cccccc d MMMM yyyy, p'
                             )}
-                            <AngleRight size={18} />
+                            <AngleRight size={20} />
                         </span>
                     ),
                     ...(canViewPublicationTemplate && {

@@ -77,6 +77,14 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
             }
         })
 
+        if (
+            'Ambtsgebied' in payload &&
+            Array.isArray(payload.Ambtsgebied) &&
+            payload.Ambtsgebied.includes('true')
+        ) {
+            payload.Werkingsgebied_Code = null
+        }
+
         patchObject
             ?.mutateAsync({
                 moduleId: parseInt(moduleId!),
@@ -96,7 +104,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
 
     const breadcrumbPaths = [
         { name: 'Dashboard', path: '/muteer' },
-        { name: 'Modules', path: '/muteer' },
+        { name: 'Modules', path: '/muteer/modules' },
         {
             name: data?.Module.Title || '',
             path: `/muteer/modules/${moduleId}`,

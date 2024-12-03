@@ -1,6 +1,7 @@
 import { FieldSelect, FieldSelectProps } from '@pzh-ui/components'
 import { MagnifyingGlass, Xmark } from '@pzh-ui/icons'
 import { useMemo } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 
 import Filter from '@/components/Filter'
 import { ModelType } from '@/config/objects/types'
@@ -19,13 +20,23 @@ interface NetworkFilterProps {
 }
 
 const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
-    const { setActiveNode, setActiveConnections } = useNetworkStore(state => ({
-        ...state,
-    }))
-    const { amountOfFilters, filters, selectedFilters, setSelectedFilters } =
-        useFilterStore(state => ({
-            ...state,
-            filters: state.filters
+    const { setActiveNode, setActiveConnections } = useNetworkStore(
+        useShallow(state => ({
+            setActiveNode: state.setActiveNode,
+            setActiveConnections: state.setActiveConnections,
+        }))
+    )
+    const { filters, selectedFilters, setSelectedFilters } = useFilterStore(
+        useShallow(state => ({
+            setSelectedFilters: state.setSelectedFilters,
+            selectedFilters: state.selectedFilters,
+            filters: state.filters,
+        }))
+    )
+
+    const transformedFilters = useMemo(
+        () =>
+            filters
                 .map(filter => {
                     const options = filter.options.filter(
                         option => !option.exclude?.includes('network')
@@ -33,8 +44,13 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
                     return { ...filter, options }
                 })
                 .filter(filter => filter.options.length > 0),
-            amountOfFilters: state.selectedFilters?.network?.length || 0,
-        }))
+        [filters]
+    )
+
+    const amountOfFilters = useMemo(
+        () => selectedFilters?.network?.length || 0,
+        [selectedFilters]
+    )
 
     /**
      * Format options for search field
@@ -60,12 +76,12 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
      */
     const defaultValue = useMemo(
         () =>
-            filters.flatMap(filter =>
+            transformedFilters.flatMap(filter =>
                 filter.options.filter(option =>
                     selectedFilters?.network.includes(option.value)
                 )
             ),
-        [filters, selectedFilters]
+        [transformedFilters, selectedFilters]
     )
 
     /**
@@ -173,7 +189,7 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
                     />
                 </div>
                 <Filter
-                    filters={filters}
+                    filters={transformedFilters}
                     activeFilters={amountOfFilters}
                     defaultValue={defaultValue}
                     handleChange={val => handleDropdownChange(val)}

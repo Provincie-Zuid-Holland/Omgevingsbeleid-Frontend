@@ -8,6 +8,7 @@ import { useUpdateEffect } from '@react-hookz/web'
 import classNames from 'clsx'
 import { useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { useShallow } from 'zustand/react/shallow'
 
 import { useSearchValidPost } from '@/api/fetchers'
 import { Container } from '@/components/Container'
@@ -24,15 +25,17 @@ const SearchResults = () => {
     const { get, set, remove } = useSearchParams()
     const [query, page, filter] = get(['query', 'page', 'filter'])
 
-    const filters = useFilterStore(state => state.filters)
-    const selectedFilters = useFilterStore(
-        state =>
-            ({
-                ...state.selectedFilters,
-                search: (!!filter && filter?.split(',')) || [],
-            }.search)
+    const { filters, setSelectedFilters } = useFilterStore(
+        useShallow(state => ({
+            filters: state.filters,
+            setSelectedFilters: state.setSelectedFilters,
+        }))
     )
-    const setSelectedFilters = useFilterStore(state => state.setSelectedFilters)
+
+    const selectedFilters = useMemo(
+        () => (!!filter && filter?.split(',')) || [],
+        [filter]
+    )
 
     const [currPage, setCurrPage] = useState(parseInt(page || '1'))
 

@@ -60,12 +60,51 @@ const usePermissions = (): Permissions => {
     }
 
     switch (role) {
-        case 'Technisch beheerder':
         case 'Functioneel beheerder':
         case 'Beheerder':
         case 'Superuser':
         case 'Test runner':
         case 'Tester':
+            return {
+                ...initialPermissions,
+                canCreateModule: true,
+                canEditModule: true,
+                canPatchModuleStatus: true,
+                canAddNewObjectToModule: true,
+                canAddExistingObjectToModule: true,
+                canEditModuleObjectContext: true,
+                canRemoveObjectFromModule: true,
+                canPatchObjectInModule: true,
+                canCreateUser: true,
+                canEditUser: true,
+                canResetUserPassword: true,
+                canViewPublicationEnvironment: true,
+                canViewPublicationAoj: true,
+                canCreatePublication: true,
+                canEditPublication: true,
+                canViewPublication: true,
+                canCreatePublicationVersion: true,
+                canEditPublicationVersion: true,
+                canViewPublicationVersion: true,
+                canCreatePublicationPackage: true,
+                canViewPublicationPackage: true,
+                canDownloadPublicationPackage: true,
+            }
+        case 'Behandelend Ambtenaar':
+            return {
+                ...initialPermissions,
+                canAddNewObjectToModule: true,
+                canAddExistingObjectToModule: true,
+                canEditModuleObjectContext: true,
+                canPatchObjectInModule: true,
+            }
+        case 'Ambtelijk opdrachtgever':
+            return {
+                ...initialPermissions,
+                canPatchObjectInModule: true,
+                canEditModuleObjectContext: true,
+            }
+        case 'Technisch beheerder': {
             return {
                 ...initialPermissions,
                 canCreateModule: true,
@@ -94,20 +133,7 @@ const usePermissions = (): Permissions => {
                 canViewPublicationPackage: true,
                 canDownloadPublicationPackage: true,
             }
-        case 'Behandelend Ambtenaar':
-            return {
-                ...initialPermissions,
-                canAddNewObjectToModule: true,
-                canAddExistingObjectToModule: true,
-                canEditModuleObjectContext: true,
-                canPatchObjectInModule: true,
-            }
-        case 'Ambtelijk opdrachtgever':
-            return {
-                ...initialPermissions,
-                canPatchObjectInModule: true,
-                canEditModuleObjectContext: true,
-            }
+        }
         default:
             return { ...initialPermissions }
     }

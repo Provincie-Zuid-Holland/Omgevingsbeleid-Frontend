@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom'
 import {
     getModulesGetQueryKey,
     getModulesModuleIdGetQueryKey,
+    getModulesModuleIdStatusGetQueryKey,
     useModulesModuleIdStatusPatch,
 } from '@/api/fetchers'
 import { ModuleStatusCode } from '@/api/fetchers.schemas'
@@ -23,15 +24,23 @@ const ModuleVersionCard = () => {
     const createVersion = useModulesModuleIdStatusPatch({
         mutation: {
             onSuccess: () => {
-                queryClient.invalidateQueries({
-                    queryKey: getModulesModuleIdGetQueryKey(
-                        parseInt(moduleId!)
-                    ),
-                })
-                queryClient.invalidateQueries({
-                    queryKey: getModulesGetQueryKey(),
-                    refetchType: 'all',
-                })
+                Promise.all([
+                    queryClient.invalidateQueries({
+                        queryKey: getModulesModuleIdGetQueryKey(
+                            parseInt(moduleId!)
+                        ),
+                    }),
+                    queryClient.invalidateQueries({
+                        queryKey: getModulesGetQueryKey(),
+                        refetchType: 'all',
+                    }),
+                    queryClient.invalidateQueries({
+                        queryKey: getModulesModuleIdStatusGetQueryKey(
+                            parseInt(moduleId!)
+                        ),
+                        refetchType: 'all',
+                    }),
+                ])
 
                 toastNotification('saved')
             },

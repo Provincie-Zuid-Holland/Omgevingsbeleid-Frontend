@@ -46,7 +46,7 @@ const FormDelete = () => {
                                 name="consent"
                                 label="Let op! Het verwijderen van deze module is niet terug te draaien"
                             />
-                            <FormikCheckbox name="consent">
+                            <FormikCheckbox name="consent" className="block">
                                 Ik wil deze module voorgoed verwijderen
                             </FormikCheckbox>
                             <Button

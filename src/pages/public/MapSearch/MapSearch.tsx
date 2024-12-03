@@ -5,6 +5,7 @@ import Proj from 'proj4leaflet'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
+import { useShallow } from 'zustand/react/shallow'
 
 import { ContainerMapSearch } from '@/components/Container'
 import { LeafletMap } from '@/components/Leaflet'
@@ -33,17 +34,29 @@ const MapSearch = () => {
         get(['geoQuery', 'sidebarOpen', 'werkingsgebied', 'page'])
     const { isMobile } = useBreakpoint()
 
-    const mapInstance = useMapStore(state => state.mapInstance)
-    const setMapInstance = useMapStore(state => state.setMapInstance)
-    const sidebarOpen = useMapStore(
-        state => (state.sidebarOpen = paramSidebarOpen === 'true')
+    const {
+        mapInstance,
+        setMapInstance,
+        sidebarOpen,
+        isAreaLoading,
+        setSidebarOpen,
+        setDrawType,
+        pagination,
+        setPagination,
+        setCurrPage,
+    } = useMapStore(
+        useShallow(state => ({
+            mapInstance: state.mapInstance,
+            setMapInstance: state.setMapInstance,
+            sidebarOpen: state.sidebarOpen,
+            isAreaLoading: state.isAreaLoading,
+            setSidebarOpen: state.setSidebarOpen,
+            setDrawType: state.setDrawType,
+            pagination: state.pagination,
+            setPagination: state.setPagination,
+            setCurrPage: state.setCurrPage,
+        }))
     )
-    const isAreaLoading = useMapStore(state => state.isAreaLoading)
-    const setSidebarOpen = useMapStore(state => state.setSidebarOpen)
-    const setDrawType = useMapStore(state => state.setDrawType)
-    const pagination = useMapStore(state => state.pagination)
-    const setPagination = useMapStore(state => state.setPagination)
-    const setCurrPage = useMapStore(state => state.setCurrPage)
 
     const [initialized, setInitialized] = useState(false)
 

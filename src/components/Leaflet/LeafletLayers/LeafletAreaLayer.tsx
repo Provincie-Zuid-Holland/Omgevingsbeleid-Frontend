@@ -55,10 +55,7 @@ const LeafletAreaLayer = ({
                         }}
                     />
 
-                    <span>
-                        {layer.feature.properties.Onderverdeling ||
-                            layer.feature.properties.Werkingsgebied}
-                    </span>
+                    <span>{layer.feature.properties.Source_Title}</span>
                 </div>
                 <div className="ml-2 flex w-5 align-middle">
                     {isActive ? <Eye size={18} /> : <EyeSlash size={18} />}

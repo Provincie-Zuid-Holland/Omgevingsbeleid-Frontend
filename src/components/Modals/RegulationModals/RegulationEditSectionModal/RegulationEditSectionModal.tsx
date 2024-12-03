@@ -1,3 +1,5 @@
+import { useShallow } from 'zustand/react/shallow'
+
 import Modal from '@/components/Modal'
 import RegulationForm from '@/components/Regulations/RegulationForm'
 import { findObjectByUUID } from '@/components/Regulations/utils'
@@ -7,9 +9,13 @@ import useModalStore from '@/store/modalStore'
 import useRegulationStore from '@/store/regulationStore'
 
 const RegulationEditSectionModal = () => {
-    const structure = useRegulationStore(state => state.structure)
-    const itemAction = useRegulationStore(state => state.itemAction)
-    const editItem = useRegulationStore(state => state.editItem)
+    const { structure, itemAction, editItem } = useRegulationStore(
+        useShallow(state => ({
+            structure: state.structure,
+            itemAction: state.itemAction,
+            editItem: state.editItem,
+        }))
+    )
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     if (!itemAction?.type || itemAction.action !== 'edit' || !itemAction.uuid)

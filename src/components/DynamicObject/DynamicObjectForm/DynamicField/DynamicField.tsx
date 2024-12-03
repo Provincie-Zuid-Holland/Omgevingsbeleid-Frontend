@@ -1,20 +1,26 @@
 import {
+    FormikCheckboxGroup,
     FormikFileUpload,
     FormikInput,
     FormikRte,
     FormikSelect,
     FormikTextArea,
+    RteMenuButton,
 } from '@pzh-ui/components'
-import { useFormikContext } from 'formik'
+import { DrawPolygon } from '@pzh-ui/icons'
+import clsx from 'clsx'
+import { FormikValues, useFormikContext } from 'formik'
 
 import FieldArray from '@/components/Form/FieldArray'
 import FieldConnections from '@/components/Form/FieldConnections'
 import FieldSelectArea from '@/components/Form/FieldSelectArea'
 import { Model } from '@/config/objects/types'
 import { DynamicField as DynamicFieldProps } from '@/config/types'
+import useModalStore from '@/store/modalStore'
 import { fileToBase64 } from '@/utils/file'
 
 import DynamicObjectSearch from '../../DynamicObjectSearch'
+import { Area } from './extensions/area'
 
 const inputFieldMap = {
     text: FormikInput,
@@ -27,19 +33,22 @@ const inputFieldMap = {
     connections: FieldConnections,
     search: DynamicObjectSearch,
     array: FieldArray,
+    checkbox: FormikCheckboxGroup,
 }
 
 const DynamicField = ({
     type,
     isFirst,
     isLocked,
+    conditionalField,
     ...field
 }: DynamicFieldProps & {
     isFirst?: boolean
     isLocked?: boolean
     model?: Model
 }) => {
-    const { setFieldValue, values } = useFormikContext()
+    const { setFieldValue, values } = useFormikContext<FormikValues>()
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const InputField = inputFieldMap[type]
     if (!InputField) {
@@ -74,17 +83,43 @@ const DynamicField = ({
         field.menuClassName = 'sticky top-24'
     }
 
-    const marginTop = isFirst ? '' : 'mt-8'
-
     return (
-        <div className={marginTop}>
+        <div
+            className={clsx({
+                'mt-8': !isFirst,
+                hidden:
+                    conditionalField &&
+                    Array.isArray(values[conditionalField]) &&
+                    !!values[conditionalField].length,
+            })}>
             {/* @ts-ignore */}
             <InputField
-                type={type === 'url' ? 'url' : undefined}
                 disabled={isLocked}
+                {...(type === 'url' && {
+                    type: 'url',
+                })}
                 {...(type === 'select' && {
                     blurInputOnSelect: true,
                 })}
+                {...(type === 'wysiwyg' &&
+                    'hasAreaSelect' in field &&
+                    field.hasAreaSelect && {
+                        customExtensions: [Area],
+                        customMenuButtons: editor => (
+                            <RteMenuButton
+                                isActive={editor.isActive('area')}
+                                onClick={() =>
+                                    setActiveModal('objectAreaAnnotate', {
+                                        editor,
+                                    })
+                                }
+                                aria-label="Gebiedsaanwijzing"
+                                title="Gebiedsaanwijzing">
+                                <DrawPolygon />
+                            </RteMenuButton>
+                        ),
+                        className: `[&_[data-hint-gebiedengroep]]:text-pzh-blue-900 [&_[data-hint-gebiedengroep]]:bg-pzh-blue-10`,
+                    })}
                 {...field}
             />
         </div>
