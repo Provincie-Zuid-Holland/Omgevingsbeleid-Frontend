@@ -149,7 +149,7 @@ export const fields: {
         hidden: true,
     },
     {
-        title: 'Rolkeuze',
+        title: 'Rol',
         value: 'Role',
     },
     {
