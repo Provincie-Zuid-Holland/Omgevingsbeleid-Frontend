@@ -18,7 +18,7 @@ export type Role =
     | 'Functioneel beheerder'
     | 'Beheerder'
     | 'Portefeuillehouder'
-    | 'Technisch beheerder'
+    | 'Technisch Beheerder'
     | 'Superuser'
     | 'Test runner'
     | 'Tester'
