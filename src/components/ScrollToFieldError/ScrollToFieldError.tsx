@@ -19,7 +19,7 @@ const ScrollToFieldError = () => {
 
         // Scroll to first known error into view
         element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, [submitCount, errors])
+    }, [submitCount])
 
     return null
 }
