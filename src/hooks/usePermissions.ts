@@ -104,7 +104,7 @@ const usePermissions = (): Permissions => {
                 canPatchObjectInModule: true,
                 canEditModuleObjectContext: true,
             }
-        case 'Technisch Beheerder': {
+        case 'Technisch beheerder': {
             return {
                 ...initialPermissions,
                 canCreateModule: true,
