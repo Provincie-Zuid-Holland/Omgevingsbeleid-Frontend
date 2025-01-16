@@ -78,6 +78,7 @@ const beleidskeuze: DynamicObject<
             'De beleidskeuzes geven aan hoe de provincie haar doelen wil bereiken. De beleidskeuzes zijn een uitwerking van de beleidsdoelen en komen voort uit de Omgevingsvisie.',
         icon: Split,
         parentType: 'Visie',
+        slugOverviewPublic: true,
     },
     fetchers,
     queryKeys,

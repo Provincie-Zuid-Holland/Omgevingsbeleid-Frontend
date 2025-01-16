@@ -49,6 +49,7 @@ import {
     ThemeDetail,
     ThemeOverview,
 } from '@/pages/public'
+import EnvironmentVision from '@/pages/public/EnvironmentVision'
 import MaintenancePage from '@/pages/public/MaintenancePage/MaintenancePage'
 import globalErrorBoundary from '@/utils/globalErrorBoundary'
 
@@ -93,6 +94,10 @@ const AppRoutes = () => {
         //     path: 'verordening',
         //     element: <Verordening />,
         // },
+        {
+            path: 'omgevingsvisie',
+            element: <EnvironmentVision />,
+        },
         {
             path: 'omgevingsprogramma',
             children: [

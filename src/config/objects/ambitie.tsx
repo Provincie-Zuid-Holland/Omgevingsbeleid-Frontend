@@ -62,6 +62,7 @@ const ambitie: DynamicObject<
             'De ambities geven aan waar de provincie naar wil streven. De ambities komen voort uit het coalitieakkoord en worden vastgesteld in de Omgevingsvisie.',
         icon: ArrowTrendUp,
         parentType: 'Visie',
+        slugOverviewPublic: true,
     },
     staticData: [
         'Client_1_UUID',
