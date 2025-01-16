@@ -131,12 +131,8 @@ const Home = () => (
                         {/* 👇🏻 Contains a soft hyphen */}
                         Omgevings­visie
                     </Heading>
-                    <Text className="mt-4">
-                        De{' '}
-                        <Hyperlink asChild>
-                            <Link to="omgevingsvisie">visie</Link>
-                        </Hyperlink>{' '}
-                        van de provincie Zuid-Holland geeft aan waar de
+                    <Text className="my-4">
+                        De visie van de provincie Zuid-Holland geeft aan waar de
                         provincie voor staat. Het beschrijft hoe de provincie de
                         toekomst van Zuid-Holland voor zich ziet. De
                         Omgevingsvisie bevat verschillende onderdelen: in de{' '}
@@ -157,6 +153,12 @@ const Home = () => (
                         </Hyperlink>{' '}
                         bepalen hoe de ambities bereikt dienen te worden.
                     </Text>
+
+                    <Hyperlink asChild>
+                        <Link to="omgevingsvisie">
+                            Bekijk de omgevingsvisie
+                        </Link>
+                    </Hyperlink>
                 </div>
                 <div className="order-1 col-span-6 -mx-5 mb-8 md:mx-0 lg:order-2 lg:col-span-4 lg:mb-0">
                     <img
@@ -175,14 +177,8 @@ const Home = () => (
                         {/* 👇🏻 Contains a soft hyphen */}
                         Omgevings­programma
                     </Heading>
-                    <Text className="mt-4">
-                        In het{' '}
-                        <Hyperlink asChild>
-                            <Link to="omgevingsprogramma">
-                                Omgevingsprogramma
-                            </Link>
-                        </Hyperlink>{' '}
-                        staat beschreven welke{' '}
+                    <Text className="my-4">
+                        In het Omgevingsprogramma staat beschreven welke{' '}
                         <Hyperlink asChild>
                             <Link to="omgevingsprogramma/maatregelen">
                                 maatregelen
@@ -195,6 +191,12 @@ const Home = () => (
                         is een overzicht van alle maatregelen inclusief de
                         onderliggende activiteiten.
                     </Text>
+
+                    <Hyperlink asChild>
+                        <Link to="omgevingsprogramma">
+                            Bekijk het omgevingsprogramma
+                        </Link>
+                    </Hyperlink>
                 </div>
                 <div className="order-1 col-span-6 -mx-5 mb-8 md:mx-0 lg:col-span-4 lg:mb-0">
                     <img
