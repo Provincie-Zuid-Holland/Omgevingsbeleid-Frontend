@@ -1,6 +1,7 @@
 export const menuGroups = [
     {
         title: 'Omgevingsvisie',
+        to: '/omgevingsvisie',
         items: [
             {
                 text: 'Ambities',
