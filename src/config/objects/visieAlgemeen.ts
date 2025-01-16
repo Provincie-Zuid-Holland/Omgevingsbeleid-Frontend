@@ -58,7 +58,6 @@ const visieAlgemeen: DynamicObject<
         demonstrative: 'deze',
         slugOverview: 'omgevingsvisie',
         icon: EyeLight,
-        hideBreadcrumbs: true,
         slugOverviewPublic: true,
     },
     staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
