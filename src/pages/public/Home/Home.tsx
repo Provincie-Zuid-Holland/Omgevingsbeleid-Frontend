@@ -132,7 +132,13 @@ const Home = () => (
                         Omgevings­visie
                     </Heading>
                     <Text className="mt-4">
-                        De visie van de provincie Zuid-Holland geeft aan waar de
+                        De{' '}
+                        <Link
+                            className="text-pzh-green-500 underline hover:text-pzh-green-900"
+                            to="omgevingsvisie">
+                            visie
+                        </Link>{' '}
+                        van de provincie Zuid-Holland geeft aan waar de
                         provincie voor staat. Het beschrijft hoe de provincie de
                         toekomst van Zuid-Holland voor zich ziet. De
                         Omgevingsvisie bevat verschillende onderdelen: in de{' '}
