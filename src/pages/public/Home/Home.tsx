@@ -1,5 +1,5 @@
 import { Divider, Heading, Hyperlink, Text } from '@pzh-ui/components'
-import { ArrowUpRightFromSquare, FilePdf } from '@pzh-ui/icons'
+import { ArrowUpRightFromSquare } from '@pzh-ui/icons'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
@@ -9,7 +9,6 @@ import imageVisie from '@/images/landing-2.webp'
 import imageProgramma from '@/images/landing-3.webp'
 import imageVerordening from '@/images/landing-4.webp'
 
-import DocumentLink from './DocumentLink'
 import SearchSection from './SearchSection'
 
 /**
@@ -253,7 +252,7 @@ const Home = () => (
         <Container className="py-12">
             <div className="col-span-6">
                 <Heading level="3" size="m" className="mb-4">
-                    Documenten & Links
+                    Relevante links
                 </Heading>
             </div>
             <div className="col-span-6 lg:col-span-2">
@@ -263,19 +262,31 @@ const Home = () => (
                     een externe bron.
                 </Text>
             </div>
-            <ul className="col-span-6 grid grid-cols-6 lg:col-span-4">
-                <DocumentLink
-                    href="docs/Omgevingsvisie_Zuid-Holland_Deel_1.pdf"
-                    iconLeft={<FilePdf />}
-                    title="Omgevingsvisie Zuid-Holland Deel 1"
-                    className="col-span-6 mt-2 lg:col-span-3 lg:mt-0"
-                />
-                <DocumentLink
-                    href="https://lta.zuid-holland.nl/"
-                    iconLeft={<ArrowUpRightFromSquare />}
-                    title="De Lange Termijn Agenda Omgevingsbeleid"
-                    className="col-span-6 mt-2 lg:col-span-3 lg:mt-0"
-                />
+            <ul className="col-span-6 mt-4 grid grid-cols-1 gap-2 lg:col-span-4 lg:mt-0 lg:grid-cols-3">
+                <Hyperlink asChild icon={ArrowUpRightFromSquare}>
+                    <a
+                        href="https://lta.zuid-holland.nl/"
+                        rel="noopener noreferrer"
+                        target="_blank">
+                        De Lange Termijn Agenda
+                    </a>
+                </Hyperlink>
+                <Hyperlink asChild icon={ArrowUpRightFromSquare}>
+                    <a
+                        href="https://monitorleefomgeving.zuid-holland.nl/"
+                        rel="noopener noreferrer"
+                        target="_blank">
+                        Monitor Leefomgeving
+                    </a>
+                </Hyperlink>
+                <Hyperlink asChild icon={ArrowUpRightFromSquare}>
+                    <a
+                        href="https://planmer.zuid-holland.nl/"
+                        rel="noopener noreferrer"
+                        target="_blank">
+                        PlanMER
+                    </a>
+                </Hyperlink>
             </ul>
         </Container>
     </>
