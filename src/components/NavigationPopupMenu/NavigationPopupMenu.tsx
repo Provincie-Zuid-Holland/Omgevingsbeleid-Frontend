@@ -112,10 +112,18 @@ const NavigationPopupMenu = ({
                                     {group.to ? (
                                         <Link
                                             to={group.to}
-                                            onClick={() => setIsOpen(false)}>
-                                            <Heading level="3" size="m">
+                                            onClick={() => setIsOpen(false)}
+                                            className="group flex items-center gap-1 hover:text-pzh-green-900">
+                                            <Heading
+                                                level="3"
+                                                size="m"
+                                                className="group-hover:text-pzh-green-900 group-hover:underline">
                                                 {group.title}
                                             </Heading>
+                                            <AngleRight
+                                                size={20}
+                                                className="-mt-0.5"
+                                            />
                                         </Link>
                                     ) : (
                                         <Heading level="3" size="m">

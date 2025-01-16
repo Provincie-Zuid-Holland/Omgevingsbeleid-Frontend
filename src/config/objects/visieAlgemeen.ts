@@ -49,7 +49,7 @@ const visieAlgemeen: DynamicObject<
     defaults: {
         singular: 'visie_algemeen',
         singularReadable: 'visie algemeen',
-        singularCapitalize: 'Visie algemeen',
+        singularCapitalize: 'Visie',
         plural: 'visies-algemeen',
         pluralCapitalize: 'Visies algemeen',
         prefixSingular: 'de',
@@ -58,7 +58,7 @@ const visieAlgemeen: DynamicObject<
         demonstrative: 'deze',
         slugOverview: 'omgevingsvisie',
         icon: EyeLight,
-        hideBreadcrumbs: true,
+        slugOverviewPublic: true,
     },
     staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
     fetchers,
