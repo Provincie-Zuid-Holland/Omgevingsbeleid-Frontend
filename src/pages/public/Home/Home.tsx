@@ -133,11 +133,9 @@ const Home = () => (
                     </Heading>
                     <Text className="mt-4">
                         De{' '}
-                        <Link
-                            className="text-pzh-green-500 underline hover:text-pzh-green-900"
-                            to="omgevingsvisie">
-                            visie
-                        </Link>{' '}
+                        <Hyperlink asChild>
+                            <Link to="omgevingsvisie">visie</Link>
+                        </Hyperlink>{' '}
                         van de provincie Zuid-Holland geeft aan waar de
                         provincie voor staat. Het beschrijft hoe de provincie de
                         toekomst van Zuid-Holland voor zich ziet. De
@@ -179,17 +177,17 @@ const Home = () => (
                     </Heading>
                     <Text className="mt-4">
                         In het{' '}
-                        <Link
-                            className="text-pzh-green-500 underline hover:text-pzh-green-900"
-                            to="omgevingsprogramma">
-                            Omgevingsprogramma
-                        </Link>{' '}
+                        <Hyperlink asChild>
+                            <Link to="omgevingsprogramma">
+                                Omgevingsprogramma
+                            </Link>
+                        </Hyperlink>{' '}
                         staat beschreven welke{' '}
-                        <Link
-                            className="text-pzh-green-500 underline hover:text-pzh-green-900"
-                            to="omgevingsprogramma/maatregelen">
-                            maatregelen
-                        </Link>{' '}
+                        <Hyperlink asChild>
+                            <Link to="omgevingsprogramma/maatregelen">
+                                maatregelen
+                            </Link>
+                        </Hyperlink>{' '}
                         de provincie treft om de visie waar te maken. Het
                         Omgevingsprogramma geeft bijvoorbeeld aan voor welke
                         initiatieven subsidies worden verleend en aan welke
@@ -227,13 +225,14 @@ const Home = () => (
                         regels waar burgers en bedrijven zich aan moeten houden.
                         Al deze regels van de provincie over de fysieke
                         leefomgeving zijn ondergebracht in de{' '}
-                        <a
-                            className="text-pzh-green-500 underline hover:text-pzh-green-900"
-                            href="https://www.zuid-holland.nl/onderwerpen/omgevingsbeleid/zuid-hollandse-omgevingsverordening/"
-                            rel="noopener noreferrer"
-                            target="_blank">
-                            Omgevingsverordening
-                        </a>
+                        <Hyperlink asChild>
+                            <a
+                                href="https://www.zuid-holland.nl/onderwerpen/omgevingsbeleid/zuid-hollandse-omgevingsverordening/"
+                                rel="noopener noreferrer"
+                                target="_blank">
+                                Omgevingsverordening
+                            </a>
+                        </Hyperlink>
                         .
                     </Text>
                 </div>

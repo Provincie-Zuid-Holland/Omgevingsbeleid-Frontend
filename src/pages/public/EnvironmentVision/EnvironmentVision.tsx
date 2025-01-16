@@ -4,11 +4,12 @@ import { Link } from 'react-router-dom'
 import { useVisiesAlgemeenValidGet } from '@/api/fetchers'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
+import { LoaderSpinner } from '@/components/Loader'
 import model from '@/config/objects/visieAlgemeen'
 import imgEnvironmentProgram from '@/images/environment-program.webp'
 
 function EnvironmentVision() {
-    const { data } = useVisiesAlgemeenValidGet(
+    const { data, isFetching } = useVisiesAlgemeenValidGet(
         { limit: 100 },
         {
             query: {
@@ -56,13 +57,16 @@ function EnvironmentVision() {
                     <Heading level="2" className="mt-8">
                         Inleidende hoofdstukken
                     </Heading>
-                    <Text className="mt-4">Nog in te vullen..</Text>
                     <div className="mt-3 flex flex-col gap-1">
-                        {data?.map(item => (
-                            <ListLink key={item.to} asChild>
-                                <Link to={item.to}>{item.text}</Link>
-                            </ListLink>
-                        ))}
+                        {isFetching ? (
+                            <LoaderSpinner />
+                        ) : (
+                            data?.map(item => (
+                                <ListLink key={item.to} asChild>
+                                    <Link to={item.to}>{item.text}</Link>
+                                </ListLink>
+                            ))
+                        )}
                     </div>
                     <Heading level="2" className="mt-8">
                         Ambities
