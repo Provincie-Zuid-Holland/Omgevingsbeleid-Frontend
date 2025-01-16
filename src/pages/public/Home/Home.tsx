@@ -1,5 +1,5 @@
 import { Divider, Heading, Hyperlink, Text } from '@pzh-ui/components'
-import { ArrowUpRightFromSquare, FilePdf } from '@pzh-ui/icons'
+import { ArrowUpRightFromSquare } from '@pzh-ui/icons'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
@@ -253,28 +253,29 @@ const Home = () => (
         <Container className="py-12">
             <div className="col-span-6">
                 <Heading level="3" size="m" className="mb-4">
-                    Documenten & Links
+                    Relevante links
                 </Heading>
             </div>
             <div className="col-span-6 lg:col-span-2">
                 <Text>
-                    We zijn hard bezig met het vullen van onze database. Sommige
-                    onderdelen bieden we op dit moment nog aan als PDF’s of via
-                    een externe bron.
+                    Relevante links ondersteunend aan het Omgevingsbeleid.
                 </Text>
             </div>
-            <ul className="col-span-6 grid grid-cols-6 lg:col-span-4">
-                <DocumentLink
-                    href="docs/Omgevingsvisie_Zuid-Holland_Deel_1.pdf"
-                    iconLeft={<FilePdf />}
-                    title="Omgevingsvisie Zuid-Holland Deel 1"
-                    className="col-span-6 mt-2 lg:col-span-3 lg:mt-0"
-                />
+            <ul className="col-span-6 mt-4 grid grid-cols-1 items-start justify-between gap-2 lg:col-span-4 lg:mt-0 lg:grid-cols-2">
                 <DocumentLink
                     href="https://lta.zuid-holland.nl/"
-                    iconLeft={<ArrowUpRightFromSquare />}
                     title="De Lange Termijn Agenda Omgevingsbeleid"
-                    className="col-span-6 mt-2 lg:col-span-3 lg:mt-0"
+                    icon={ArrowUpRightFromSquare}
+                />
+                <DocumentLink
+                    href="https://monitorleefomgeving.zuid-holland.nl/"
+                    title="Monitor Leefomgeving"
+                    icon={ArrowUpRightFromSquare}
+                />
+                <DocumentLink
+                    href="https://planmer.zuid-holland.nl/"
+                    title="PlanMER"
+                    icon={ArrowUpRightFromSquare}
                 />
             </ul>
         </Container>
