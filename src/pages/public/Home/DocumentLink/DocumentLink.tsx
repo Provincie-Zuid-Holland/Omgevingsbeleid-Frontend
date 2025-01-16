@@ -1,34 +1,24 @@
-import { Text } from '@pzh-ui/components'
+import { Hyperlink } from '@pzh-ui/components'
 
 interface DocumentLinkProps {
     href: string
     title: string
-    iconLeft: JSX.Element
+    icon: any
     className?: string
 }
 
-const DocumentLink = ({
-    href,
-    title,
-    iconLeft,
-    className = '',
-}: DocumentLinkProps) => (
-    <li
-        className={`pb-2 text-pzh-green-500 transition-colors duration-100 ease-in ${className}`}>
-        <a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-between">
-            <div className="flex">
-                <span className="flex items-center">{iconLeft}</span>
-                <Text
-                    color="text-pzh-green-500 hover:text-pzh-green-900"
-                    className="ml-2 underline">
-                    {title}
-                </Text>
-            </div>
-        </a>
+const DocumentLink = ({ href, title, icon: Icon }: DocumentLinkProps) => (
+    <li>
+        <Hyperlink asChild>
+            <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2">
+                <Icon size={18} className="-mt-1" />
+                {title}
+            </a>
+        </Hyperlink>
     </li>
 )
 

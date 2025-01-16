@@ -9,6 +9,7 @@ import imageVisie from '@/images/landing-2.webp'
 import imageProgramma from '@/images/landing-3.webp'
 import imageVerordening from '@/images/landing-4.webp'
 
+import DocumentLink from './DocumentLink'
 import SearchSection from './SearchSection'
 
 /**
@@ -257,36 +258,25 @@ const Home = () => (
             </div>
             <div className="col-span-6 lg:col-span-2">
                 <Text>
-                    We zijn hard bezig met het vullen van onze database. Sommige
-                    onderdelen bieden we op dit moment nog aan als PDF’s of via
-                    een externe bron.
+                    Relevante links ondersteunend aan het Omgevingsbeleid.
                 </Text>
             </div>
-            <ul className="col-span-6 mt-4 grid grid-cols-1 gap-2 lg:col-span-4 lg:mt-0 lg:grid-cols-3">
-                <Hyperlink asChild icon={ArrowUpRightFromSquare}>
-                    <a
-                        href="https://lta.zuid-holland.nl/"
-                        rel="noopener noreferrer"
-                        target="_blank">
-                        De Lange Termijn Agenda
-                    </a>
-                </Hyperlink>
-                <Hyperlink asChild icon={ArrowUpRightFromSquare}>
-                    <a
-                        href="https://monitorleefomgeving.zuid-holland.nl/"
-                        rel="noopener noreferrer"
-                        target="_blank">
-                        Monitor Leefomgeving
-                    </a>
-                </Hyperlink>
-                <Hyperlink asChild icon={ArrowUpRightFromSquare}>
-                    <a
-                        href="https://planmer.zuid-holland.nl/"
-                        rel="noopener noreferrer"
-                        target="_blank">
-                        PlanMER
-                    </a>
-                </Hyperlink>
+            <ul className="col-span-6 mt-4 grid grid-cols-1 items-start justify-between gap-2 lg:col-span-4 lg:mt-0 lg:grid-cols-2">
+                <DocumentLink
+                    href="https://lta.zuid-holland.nl/"
+                    title="De Lange Termijn Agenda Omgevingsbeleid"
+                    icon={ArrowUpRightFromSquare}
+                />
+                <DocumentLink
+                    href="https://monitorleefomgeving.zuid-holland.nl/"
+                    title="Monitor Leefomgeving"
+                    icon={ArrowUpRightFromSquare}
+                />
+                <DocumentLink
+                    href="https://planmer.zuid-holland.nl/"
+                    title="PlanMER"
+                    icon={ArrowUpRightFromSquare}
+                />
             </ul>
         </Container>
     </>
