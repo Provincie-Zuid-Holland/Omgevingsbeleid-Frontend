@@ -51,6 +51,7 @@ VITE_API_ENV = 'dev' // Used to get correct API url (in instance.ts)
 VITE_KEY_API_ACCESS_TOKEN = '' // Used to set login token
 VITE_KEY_IDENTIFIER = '' // Used to set login identifier
 VITE_ENABLE_AXE = true // Used to see accessibility issues in the console
+VITE_GTAG_ID = '' // Used to enable tracking using Google Tag Manager
 ```
 
 ## Available scripts
