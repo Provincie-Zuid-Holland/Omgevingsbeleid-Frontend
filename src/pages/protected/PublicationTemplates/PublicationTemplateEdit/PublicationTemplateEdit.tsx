@@ -52,12 +52,15 @@ const PublicationTemplateEdit = () => {
         fields?.forEach(field => {
             if (
                 field === 'Object_Templates' &&
-                !!data?.[field as keyof typeof data]
+                !!data?.[field as keyof typeof data] &&
+                typeof data[field] === 'object'
             ) {
                 return (objectData[field] = Object.keys(data[field]).map(
                     template => ({
                         key: template,
-                        value: data[field][template],
+                        value: (data[field] as Record<string, unknown>)[
+                            template
+                        ],
                     })
                 ))
             }
