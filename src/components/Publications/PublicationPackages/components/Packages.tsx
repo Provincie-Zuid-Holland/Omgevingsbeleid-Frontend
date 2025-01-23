@@ -218,18 +218,17 @@ export const AnnouncementPackages = ({
         {
             limit: 100,
             announcement_uuid: announcement?.UUID,
+            package_type: packageType,
         },
         {
             query: {
                 enabled: !!announcement?.UUID,
                 select: data =>
-                    data.results
-                        .filter(item => item.Package_Type === packageType)
-                        .sort(
-                            (a, b) =>
-                                new Date(a.Created_Date + 'Z').getTime() -
-                                new Date(b.Created_Date + 'Z').getTime()
-                        ),
+                    data.results.sort(
+                        (a, b) =>
+                            new Date(a.Created_Date + 'Z').getTime() -
+                            new Date(b.Created_Date + 'Z').getTime()
+                    ),
             },
         }
     )
@@ -239,6 +238,7 @@ export const AnnouncementPackages = ({
             {
                 limit: 100,
                 announcement_uuid: announcement?.UUID,
+                package_type: PackageType['publication'],
             },
             {
                 query: {
@@ -246,9 +246,7 @@ export const AnnouncementPackages = ({
                     select: data =>
                         data.results.find(
                             pkg =>
-                                pkg.Report_Status ===
-                                    ReportStatusType['valid'] &&
-                                pkg.Package_Type === PackageType['publication']
+                                pkg.Report_Status === ReportStatusType['valid']
                         ),
                 },
             }

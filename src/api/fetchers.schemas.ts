@@ -39,10 +39,10 @@ export type PublicationAnnouncementPackagesAnnouncementPackageUuidDownloadGet200
 export type PublicationAnnouncementPackagesGetParams = {
     announcement_uuid?: string
     package_type?: PackageType
-    before_datetime?: string
-    after_datetime?: string
     offset?: number
     limit?: number
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type PublicationAnnouncementsGetParams = {
@@ -65,10 +65,10 @@ export type PublicationActPackagesActPackageUuidDownloadGet200 = {}
 export type PublicationActPackagesGetParams = {
     version_uuid?: string
     package_type?: PackageType
-    before_datetime?: string
-    after_datetime?: string
     offset?: number
     limit?: number
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type PublicationVersionsVersionUuidPdfExportPost200 = {}
@@ -1162,6 +1162,7 @@ export interface PublicationVersionShort {
     Modified_Date: string
     Module_Status: ModuleStatus
     Publication_UUID: string
+    Status: PublicationVersionStatus
     UUID: string
 }
 

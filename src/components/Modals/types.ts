@@ -4,6 +4,7 @@ import {
     DocumentType,
     Module,
     ModuleObjectShort,
+    PackageType,
     ProcedureType,
     Publication,
     PublicationEnvironment,
@@ -104,5 +105,7 @@ export interface ModalStateMap {
         publicationType: PublicationType
         publicationUUID: string
         packageUUID: string
+        announcementUUID: string
+        packageType?: PackageType
     }
 }

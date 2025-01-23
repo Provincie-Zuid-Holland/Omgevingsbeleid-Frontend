@@ -14822,6 +14822,9 @@ export const getPublicationsPublicationUuidVersionsGetResponseMock = (
             ...overrideResponse,
         },
         Publication_UUID: faker.string.uuid(),
+        Status: faker.helpers.arrayElement(
+            Object.values(PublicationVersionStatus)
+        ),
         UUID: faker.string.uuid(),
         ...overrideResponse,
     })),
