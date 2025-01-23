@@ -1,4 +1,5 @@
 import { Button, cn, Notification, Text } from '@pzh-ui/components'
+import { keepPreviousData } from '@tanstack/react-query'
 import { useCallback, useState } from 'react'
 
 import {
@@ -193,7 +194,7 @@ export const ActPackages = ({
         showAll: false,
     })
 
-    const { data, isFetching } = usePublicationActPackagesGet(
+    const { data, isLoading } = usePublicationActPackagesGet(
         {
             limit: limit.amount,
             version_uuid: version.UUID,
@@ -204,6 +205,7 @@ export const ActPackages = ({
         {
             query: {
                 enabled: !!version.UUID,
+                placeholderData: keepPreviousData,
                 select: data => ({
                     ...data,
                     results: data.results.sort(
@@ -229,7 +231,7 @@ export const ActPackages = ({
             data={data?.results}
             total={data?.total}
             showAll={limit.showAll}
-            isFetching={isFetching}
+            isFetching={isLoading}
             version={version}
             packageType={packageType}
             handleShowAll={handleShowAll}
@@ -262,7 +264,7 @@ export const AnnouncementPackages = ({
         }
     )
 
-    const { data, isFetching } = usePublicationAnnouncementPackagesGet(
+    const { data, isLoading } = usePublicationAnnouncementPackagesGet(
         {
             limit: limit.amount,
             announcement_uuid: announcement?.UUID,
@@ -273,6 +275,7 @@ export const AnnouncementPackages = ({
         {
             query: {
                 enabled: !!announcement?.UUID,
+                placeholderData: keepPreviousData,
                 select: data => ({
                     ...data,
                     results: data.results.sort(
@@ -317,7 +320,7 @@ export const AnnouncementPackages = ({
             data={data?.results}
             total={data?.total}
             showAll={limit.showAll}
-            isFetching={isFetching}
+            isFetching={isLoading}
             version={version}
             announcement={announcement}
             packageType={packageType}
