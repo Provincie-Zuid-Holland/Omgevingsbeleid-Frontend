@@ -39,6 +39,7 @@ interface PackagesProps {
     data?: PublicationPackage[]
     total?: number
     isFetching?: boolean
+    isLoading?: boolean
     version: PublicationVersion
     announcement?: PublicationAnnouncementShort
     publication?: PublicationShort
@@ -56,6 +57,7 @@ const Packages = ({
     data,
     total,
     isFetching,
+    isLoading,
     version,
     announcement,
     publication,
@@ -95,7 +97,7 @@ const Packages = ({
                             'bg-pzh-gray-100': isLocked && !!!data?.length,
                         }
                     )}>
-                    {isFetching ? (
+                    {isLoading ? (
                         <LoaderCard mb="0" height="64" />
                     ) : !!!data?.length ? (
                         <PackageCreate
@@ -110,8 +112,8 @@ const Packages = ({
                                 <div className="flex bg-pzh-gray-100 px-6 py-4">
                                     <Button
                                         onPress={handleShowAll}
-                                        isLoading={createPackage.isPending}
-                                        isDisabled={createPackage.isPending}
+                                        isLoading={isFetching}
+                                        isDisabled={isFetching}
                                         variant="default"
                                         iconSize={19}
                                         className="text-pzh-green-500 flex items-center gap-4 font-bold [&>svg]:-mt-1 [&>svg]:mr-0">
@@ -194,7 +196,7 @@ export const ActPackages = ({
         showAll: false,
     })
 
-    const { data, isLoading } = usePublicationActPackagesGet(
+    const { data, isLoading, isFetching } = usePublicationActPackagesGet(
         {
             limit: limit.amount,
             version_uuid: version.UUID,
@@ -231,7 +233,8 @@ export const ActPackages = ({
             data={data?.results}
             total={data?.total}
             showAll={limit.showAll}
-            isFetching={isLoading}
+            isFetching={isFetching}
+            isLoading={isLoading}
             version={version}
             packageType={packageType}
             handleShowAll={handleShowAll}
@@ -264,29 +267,30 @@ export const AnnouncementPackages = ({
         }
     )
 
-    const { data, isLoading } = usePublicationAnnouncementPackagesGet(
-        {
-            limit: limit.amount,
-            announcement_uuid: announcement?.UUID,
-            package_type: packageType,
-            sort_column: 'Created_Date',
-            sort_order: 'DESC',
-        },
-        {
-            query: {
-                enabled: !!announcement?.UUID,
-                placeholderData: keepPreviousData,
-                select: data => ({
-                    ...data,
-                    results: data.results.sort(
-                        (a, b) =>
-                            new Date(a.Created_Date + 'Z').getTime() -
-                            new Date(b.Created_Date + 'Z').getTime()
-                    ),
-                }),
+    const { data, isLoading, isFetching } =
+        usePublicationAnnouncementPackagesGet(
+            {
+                limit: limit.amount,
+                announcement_uuid: announcement?.UUID,
+                package_type: packageType,
+                sort_column: 'Created_Date',
+                sort_order: 'DESC',
             },
-        }
-    )
+            {
+                query: {
+                    enabled: !!announcement?.UUID,
+                    placeholderData: keepPreviousData,
+                    select: data => ({
+                        ...data,
+                        results: data.results.sort(
+                            (a, b) =>
+                                new Date(a.Created_Date + 'Z').getTime() -
+                                new Date(b.Created_Date + 'Z').getTime()
+                        ),
+                    }),
+                },
+            }
+        )
 
     const { data: validAnnouncementPackage } =
         usePublicationAnnouncementPackagesGet(
@@ -320,7 +324,8 @@ export const AnnouncementPackages = ({
             data={data?.results}
             total={data?.total}
             showAll={limit.showAll}
-            isFetching={isLoading}
+            isFetching={isFetching}
+            isLoading={isLoading}
             version={version}
             announcement={announcement}
             packageType={packageType}
