@@ -38,8 +38,11 @@ export type PublicationAnnouncementPackagesAnnouncementPackageUuidDownloadGet200
 
 export type PublicationAnnouncementPackagesGetParams = {
     announcement_uuid?: string
+    package_type?: PackageType
     offset?: number
     limit?: number
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type PublicationAnnouncementsGetParams = {
@@ -61,8 +64,11 @@ export type PublicationActPackagesActPackageUuidDownloadGet200 = {}
 
 export type PublicationActPackagesGetParams = {
     version_uuid?: string
+    package_type?: PackageType
     offset?: number
     limit?: number
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type PublicationVersionsVersionUuidPdfExportPost200 = {}
@@ -145,6 +151,15 @@ export type ModulesGetParams = {
     sort_order?: SortOrder
     object_type?: string
     lineage_id?: number
+}
+
+export type StorageFilesGetParams = {
+    only_mine?: boolean
+    filter_filename?: string
+    offset?: number
+    limit?: number
+    sort_column?: StorageFileSortColumn
+    sort_order?: SortOrder
 }
 
 export type RevisionsGetParams = {
@@ -381,6 +396,37 @@ export type GebiedsprogrammasValidLineageIdGetParams = {
 }
 
 export type GebiedsprogrammasValidGetParams = {
+    all_filters?: string
+    any_filters?: string
+    offset?: number
+    limit?: number
+    sort_column?: string
+    sort_order?: SortOrder
+}
+
+export type ModulesObjectDocumentActiveLineageIdGetParams = {
+    minimum_status?: ModuleStatusCode
+}
+
+export type ModulesModuleIdObjectDocumentLineageIdGetParams = {
+    all_filters?: string
+    any_filters?: string
+    offset?: number
+    limit?: number
+    sort_column?: string
+    sort_order?: SortOrder
+}
+
+export type DocumentenValidLineageIdGetParams = {
+    all_filters?: string
+    any_filters?: string
+    offset?: number
+    limit?: number
+    sort_column?: string
+    sort_order?: SortOrder
+}
+
+export type DocumentenValidGetParams = {
     all_filters?: string
     any_filters?: string
     offset?: number
@@ -745,6 +791,7 @@ export interface VisieAlgemeenFull {
     End_Validity?: string | null
     Modified_By?: UserShort
     Modified_Date?: string
+    Next_Version?: NextObjectValidities
     Object_ID?: number
     ObjectStatics?: VisieAlgemeenFullObjectStatics
     Public_Revisions?: PublicModuleObjectRevision[]
@@ -909,6 +956,10 @@ export interface User {
     UUID: string
 }
 
+export interface UploadFileResponse {
+    UUID: string
+}
+
 export interface UploadAttachmentResponse {
     ID: number
 }
@@ -942,6 +993,29 @@ export interface TemplateCreate {
     Object_Types: string[]
     Text_Template: string
     Title: string
+}
+
+/**
+ * An enumeration.
+ */
+export type StorageFileSortColumn =
+    (typeof StorageFileSortColumn)[keyof typeof StorageFileSortColumn]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const StorageFileSortColumn = {
+    Created_Date: 'Created_Date',
+    Filename: 'Filename',
+    Size: 'Size',
+} as const
+
+export interface StorageFileBasic {
+    Checksum: string
+    Content_Type: string
+    Created_By_UUID: string
+    Created_Date: string
+    Filename: string
+    Size: number
+    UUID: string
 }
 
 /**
@@ -1058,6 +1132,24 @@ export interface ReadRelation {
     Title?: string | null
 }
 
+/**
+ * An enumeration.
+ */
+export type PublicationVersionStatus =
+    (typeof PublicationVersionStatus)[keyof typeof PublicationVersionStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PublicationVersionStatus = {
+    not_applicable: 'not_applicable',
+    active: 'active',
+    validation: 'validation',
+    validation_failed: 'validation_failed',
+    publication: 'publication',
+    publication_failed: 'publication_failed',
+    announcement: 'announcement',
+    completed: 'completed',
+} as const
+
 export type PublicationVersionShortBillMetadata = { [key: string]: any }
 
 export interface PublicationVersionShort {
@@ -1070,6 +1162,7 @@ export interface PublicationVersionShort {
     Modified_Date: string
     Module_Status: ModuleStatus
     Publication_UUID: string
+    Status: PublicationVersionStatus
     UUID: string
 }
 
@@ -1118,20 +1211,25 @@ export interface PublicationVersion {
     Module_Status: ModuleStatus
     Procedural: PublicationVersionProcedural
     Publication: PublicationShort
+    Status: PublicationVersionStatus
     UUID: string
 }
 
-export type PublicationTemplateObjectTemplates = { [key: string]: string }
+export type PublicationTemplateObjectTypes = {}
+
+export type PublicationTemplateObjectTemplates = {}
+
+export type PublicationTemplateFieldMap = {}
 
 export interface PublicationTemplate {
     Created_Date: string
     Description: string
     Document_Type: string
-    Field_Map: string[]
+    Field_Map?: PublicationTemplateFieldMap
     Is_Active: boolean
     Modified_Date: string
-    Object_Templates: PublicationTemplateObjectTemplates
-    Object_Types: string[]
+    Object_Templates?: PublicationTemplateObjectTemplates
+    Object_Types?: PublicationTemplateObjectTypes
     Text_Template: string
     Title: string
     UUID: string
@@ -1437,6 +1535,7 @@ export interface ProgrammaAlgemeenFull {
     End_Validity?: string | null
     Modified_By?: UserShort
     Modified_Date?: string
+    Next_Version?: NextObjectValidities
     Object_ID?: number
     ObjectStatics?: ProgrammaAlgemeenFullObjectStatics
     Public_Revisions?: PublicModuleObjectRevision[]
@@ -1584,6 +1683,16 @@ export interface PagedResponseUser {
     limit?: number
     offset?: number
     results: User[]
+    total: number
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
+export interface PagedResponseStorageFileBasic {
+    limit?: number
+    offset?: number
+    results: StorageFileBasic[]
     total: number
 }
 
@@ -1820,6 +1929,26 @@ export interface PagedResponseGebiedsprogrammaBasic {
 /**
  * Wrap any response schema and add pagination metadata.
  */
+export interface PagedResponseDocumentExtended {
+    limit?: number
+    offset?: number
+    results: DocumentExtended[]
+    total: number
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
+export interface PagedResponseDocumentBasic {
+    limit?: number
+    offset?: number
+    results: DocumentBasic[]
+    total: number
+}
+
+/**
+ * Wrap any response schema and add pagination metadata.
+ */
 export interface PagedResponseBeleidsregelExtended {
     limit?: number
     offset?: number
@@ -1932,6 +2061,14 @@ export interface ObjectSpecifiekeGeldigheid {
 export interface ObjectCount {
     Count: number
     Object_Type: string
+}
+
+export interface NextObjectValidities {
+    Created_Date: string
+    End_Validity?: string
+    Modified_Date: string
+    Object_UUID: string
+    Start_Validity: string
 }
 
 export interface NewObjectStaticResponse {
@@ -2091,6 +2228,12 @@ export interface ModulePatchStatus {
     Status: ModuleStatusCode
 }
 
+export interface ModuleOverview {
+    Module: Module
+    Objects: ModuleObjectShort[]
+    StatusHistory: ModuleStatus[]
+}
+
 export interface ModuleObjectContextShort {
     Action: string
     Original_Adjust_On?: string
@@ -2226,12 +2369,6 @@ export interface Module {
     Title: string
 }
 
-export interface ModuleOverview {
-    Module: Module
-    Objects: ModuleObjectShort[]
-    StatusHistory: ModuleStatus[]
-}
-
 export interface MaatregelUUID {
     Object_ID?: number
     UUID?: string
@@ -2247,8 +2384,8 @@ export interface MaatregelStaticPostStatics {
 
 export interface MaatregelPatch {
     Description?: string | null
+    Documents?: string[] | null
     Effect?: string | null
-    Gebied_UUID?: string | null
     Hierarchy_Code?: string | null
     Role?: string | null
     Title?: string | null
@@ -2280,14 +2417,15 @@ export interface MaatregelFull {
     Created_By?: UserShort
     Created_Date?: string
     Description?: string
+    Documents?: string[]
     Effect?: string
     End_Validity?: string | null
-    Gebied?: Werkingsgebied
     Gebiedsprogrammas?: ReadRelationShortGebiedsprogrammaMinimal[]
     Hierarchy_Code?: string
     Hierarchy_Statics?: HierarchyStatics
     Modified_By?: UserShort
     Modified_Date?: string
+    Next_Version?: NextObjectValidities
     Object_ID?: number
     ObjectStatics?: MaatregelFullObjectStatics
     Public_Revisions?: PublicModuleObjectRevision[]
@@ -2315,7 +2453,6 @@ export interface MaatregelExtended {
     Created_By?: UserShort
     Created_Date?: string
     End_Validity?: string | null
-    Gebied?: Werkingsgebied
     Hierarchy_Code?: string
     Modified_By?: UserShort
     Modified_Date?: string
@@ -2467,6 +2604,7 @@ export interface GebiedsprogrammaFull {
     Maatregelen?: ReadRelationShortMaatregelMinimal[]
     Modified_By?: UserShort
     Modified_Date?: string
+    Next_Version?: NextObjectValidities
     Object_ID?: number
     ObjectStatics?: GebiedsprogrammaFullObjectStatics
     Public_Revisions?: PublicModuleObjectRevision[]
@@ -2575,6 +2713,11 @@ export interface EditAcknowledgedRelation {
     Object_Type: string
 }
 
+export interface DocumentUUID {
+    Object_ID?: number
+    UUID?: string
+}
+
 /**
  * An enumeration.
  */
@@ -2586,9 +2729,90 @@ export const DocumentType = {
     programma: 'programma',
 } as const
 
+export interface DocumentStaticPostStatics {
+    Owner_1_UUID?: string | null
+    Owner_2_UUID?: string | null
+}
+
+export interface DocumentPatch {
+    Description?: string | null
+    File_UUID?: string | null
+    Filename?: string | null
+    Title?: string | null
+}
+
+export interface DocumentFullStatics {
+    Owner_1?: UserShort
+    Owner_2?: UserShort
+}
+
+export type DocumentFullObjectStatics = DocumentFullStatics | null
+
+export interface DocumentFull {
+    Adjust_On?: string | null
+    Code?: string
+    Created_By?: UserShort
+    Created_Date?: string
+    Description?: string
+    End_Validity?: string | null
+    File?: StorageFileBasic
+    File_UUID?: string
+    Filename?: string
+    Modified_By?: UserShort
+    Modified_Date?: string
+    Object_ID?: number
+    ObjectStatics?: DocumentFullObjectStatics
+    Start_Validity?: string | null
+    Title?: string
+    UUID?: string
+}
+
+export interface DocumentExtendedStatics {
+    Owner_1?: UserShort
+    Owner_2?: UserShort
+}
+
+export type DocumentExtendedObjectStatics = DocumentExtendedStatics | null
+
+export interface DocumentExtended {
+    Adjust_On?: string | null
+    Code?: string
+    Created_By?: UserShort
+    Created_Date?: string
+    End_Validity?: string | null
+    File_UUID?: string
+    Filename?: string
+    Modified_By?: UserShort
+    Modified_Date?: string
+    Object_ID?: number
+    ObjectStatics?: DocumentExtendedObjectStatics
+    Start_Validity?: string | null
+    Title?: string
+    UUID?: string
+}
+
+export interface DocumentBasic {
+    Adjust_On?: string | null
+    Code?: string
+    Created_Date?: string
+    End_Validity?: string | null
+    File_UUID?: string
+    Filename?: string
+    Modified_Date?: string
+    Object_ID?: number
+    Start_Validity?: string | null
+    Title?: string
+    UUID?: string
+}
+
 export interface CompleteModule {
     Default_Start_Validity?: string | null
     ObjectSpecifiekeGeldigheden?: ObjectSpecifiekeGeldigheid[]
+}
+
+export interface BodyFastapiHandlerStorageFilesPost {
+    title: string
+    uploaded_file: Blob
 }
 
 export interface BodyFastapiHandlerPublicationVersionsVersionUuidAttachmentsPost {
@@ -2678,6 +2902,7 @@ export interface BeleidsregelFull {
     End_Validity?: string | null
     Modified_By?: UserShort
     Modified_Date?: string
+    Next_Version?: NextObjectValidities
     Object_ID?: number
     ObjectStatics?: BeleidsregelFullObjectStatics
     Public_Revisions?: PublicModuleObjectRevision[]
@@ -2744,7 +2969,6 @@ export interface BeleidskeuzePatch {
     Cause?: string | null
     Description?: string | null
     Explanation?: string | null
-    Gebied_UUID?: string | null
     Hierarchy_Code?: string | null
     Provincial_Interest?: string | null
     Title?: string | null
@@ -2779,13 +3003,13 @@ export interface BeleidskeuzeFull {
     Description?: string
     End_Validity?: string | null
     Explanation?: string
-    Gebied?: Werkingsgebied
     Hierarchy_Code?: string
     Hierarchy_Statics?: HierarchyStatics
     Maatregelen?: ReadRelationShortMaatregelMinimal[]
     Modified_By?: UserShort
     Modified_Date?: string
     NationaleBelangen?: ReadRelationShortNationaalBelangMinimal[]
+    Next_Version?: NextObjectValidities
     Object_ID?: number
     ObjectStatics?: BeleidskeuzeFullObjectStatics
     Provincial_Interest?: string
@@ -2888,6 +3112,7 @@ export interface BeleidsdoelFull {
     Maatregelen?: ReadRelationShortMaatregelMinimal[]
     Modified_By?: UserShort
     Modified_Date?: string
+    Next_Version?: NextObjectValidities
     Object_ID?: number
     ObjectStatics?: BeleidsdoelFullObjectStatics
     Public_Revisions?: PublicModuleObjectRevision[]
@@ -3075,6 +3300,7 @@ export interface AmbitieFull {
     End_Validity?: string | null
     Modified_By?: UserShort
     Modified_Date?: string
+    Next_Version?: NextObjectValidities
     Object_ID?: number
     ObjectStatics?: AmbitieFullObjectStatics
     Public_Revisions?: PublicModuleObjectRevision[]
