@@ -1,4 +1,5 @@
 import { Button, cn, Notification, Text } from '@pzh-ui/components'
+import { useCallback, useState } from 'react'
 
 import {
     usePublicationActPackagesGet,
@@ -21,6 +22,8 @@ import { useActions } from './actions'
 import Package from './Package'
 import PackageCreate from './PackageCreate'
 
+const PACKAGE_LIMIT = 3
+
 const config = {
     validation: {
         label: 'Validatie',
@@ -33,6 +36,7 @@ const config = {
 interface PackagesProps {
     publicationType: PublicationType
     data?: PublicationPackage[]
+    total?: number
     isFetching?: boolean
     version: PublicationVersion
     announcement?: PublicationAnnouncementShort
@@ -42,11 +46,14 @@ interface PackagesProps {
     customLabel?: string
     isLocked?: boolean
     canPublicate?: boolean
+    handleShowAll: () => void
+    showAll: boolean
 }
 
 const Packages = ({
     publicationType,
     data,
+    total,
     isFetching,
     version,
     announcement,
@@ -55,6 +62,8 @@ const Packages = ({
     customLabel,
     isLocked,
     canPublicate,
+    handleShowAll,
+    showAll,
 }: PackagesProps) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
@@ -96,6 +105,21 @@ const Packages = ({
                         />
                     ) : (
                         <>
+                            {!!total && total > 3 && (
+                                <div className="flex bg-pzh-gray-100 px-6 py-4">
+                                    <Button
+                                        onPress={handleShowAll}
+                                        isLoading={createPackage.isPending}
+                                        isDisabled={createPackage.isPending}
+                                        variant="default"
+                                        iconSize={19}
+                                        className="text-pzh-green-500 flex items-center gap-4 font-bold [&>svg]:-mt-1 [&>svg]:mr-0">
+                                        {!showAll
+                                            ? `Alle ${total} leveringen tonen`
+                                            : 'Minder tonen'}
+                                    </Button>
+                                </div>
+                            )}
                             {data.map(item => (
                                 <Package
                                     key={item.UUID}
@@ -163,33 +187,52 @@ export const ActPackages = ({
     version,
     packageType,
     ...rest
-}: PackagesProps) => {
+}: Omit<PackagesProps, 'handleShowAll' | 'showAll'>) => {
+    const [limit, setLimit] = useState({
+        amount: PACKAGE_LIMIT,
+        showAll: false,
+    })
+
     const { data, isFetching } = usePublicationActPackagesGet(
         {
-            limit: 100,
+            limit: limit.amount,
             version_uuid: version.UUID,
+            package_type: packageType,
+            sort_column: 'Created_Date',
+            sort_order: 'DESC',
         },
         {
             query: {
                 enabled: !!version.UUID,
-                select: data =>
-                    data.results
-                        .filter(item => item.Package_Type === packageType)
-                        .sort(
-                            (a, b) =>
-                                new Date(a.Created_Date + 'Z').getTime() -
-                                new Date(b.Created_Date + 'Z').getTime()
-                        ),
+                select: data => ({
+                    ...data,
+                    results: data.results.sort(
+                        (a, b) =>
+                            new Date(a.Created_Date + 'Z').getTime() -
+                            new Date(b.Created_Date + 'Z').getTime()
+                    ),
+                }),
             },
         }
     )
 
+    const handleShowAll = useCallback(() => {
+        if (!limit.showAll) {
+            setLimit({ amount: data?.total || PACKAGE_LIMIT, showAll: true })
+        } else {
+            setLimit({ amount: PACKAGE_LIMIT, showAll: false })
+        }
+    }, [data?.total, limit])
+
     return (
         <Packages
-            data={data}
+            data={data?.results}
+            total={data?.total}
+            showAll={limit.showAll}
             isFetching={isFetching}
             version={version}
             packageType={packageType}
+            handleShowAll={handleShowAll}
             {...rest}
         />
     )
@@ -200,7 +243,12 @@ export const AnnouncementPackages = ({
     packageType,
     validPublicationPackage,
     ...rest
-}: PackagesProps) => {
+}: Omit<PackagesProps, 'handleShowAll' | 'showAll'>) => {
+    const [limit, setLimit] = useState({
+        amount: PACKAGE_LIMIT,
+        showAll: false,
+    })
+
     const { data: announcement } = usePublicationAnnouncementsGet(
         {
             limit: 100,
@@ -216,19 +264,23 @@ export const AnnouncementPackages = ({
 
     const { data, isFetching } = usePublicationAnnouncementPackagesGet(
         {
-            limit: 100,
+            limit: limit.amount,
             announcement_uuid: announcement?.UUID,
             package_type: packageType,
+            sort_column: 'Created_Date',
+            sort_order: 'DESC',
         },
         {
             query: {
                 enabled: !!announcement?.UUID,
-                select: data =>
-                    data.results.sort(
+                select: data => ({
+                    ...data,
+                    results: data.results.sort(
                         (a, b) =>
                             new Date(a.Created_Date + 'Z').getTime() -
                             new Date(b.Created_Date + 'Z').getTime()
                     ),
+                }),
             },
         }
     )
@@ -252,14 +304,25 @@ export const AnnouncementPackages = ({
             }
         )
 
+    const handleShowAll = useCallback(() => {
+        if (!limit.showAll) {
+            setLimit({ amount: data?.total || PACKAGE_LIMIT, showAll: true })
+        } else {
+            setLimit({ amount: PACKAGE_LIMIT, showAll: false })
+        }
+    }, [data?.total, limit])
+
     return (
         <Packages
-            data={data}
+            data={data?.results}
+            total={data?.total}
+            showAll={limit.showAll}
             isFetching={isFetching}
             version={version}
             announcement={announcement}
             packageType={packageType}
             isLocked={!!validPublicationPackage && !!validAnnouncementPackage}
+            handleShowAll={handleShowAll}
             {...rest}
         />
     )
