@@ -32,6 +32,7 @@ const ObjectSidebar = ({
     model,
     isRevision,
     handleModal,
+    Next_Version,
 }: ObjectSidebarProps) => {
     const { user } = useAuth()
     const { moduleId } = useParams()
@@ -47,7 +48,9 @@ const ObjectSidebar = ({
             return 'Nog niet geldig, versie in bewerking'
 
         if (
-            (today > new Date(Start_Validity) && !End_Validity) ||
+            (!Next_Version &&
+                today > new Date(Start_Validity) &&
+                !End_Validity) ||
             (today > new Date(Start_Validity) &&
                 End_Validity &&
                 today <= new Date(End_Validity))
@@ -58,15 +61,18 @@ const ObjectSidebar = ({
             )} t/m heden`
         } else if (
             today > new Date(Start_Validity) &&
-            End_Validity &&
-            today > new Date(End_Validity)
+            Next_Version?.Start_Validity &&
+            today > new Date(Next_Version.Start_Validity)
         ) {
             return `Geldend van ${formatDate(
                 new Date(Start_Validity),
                 'd MMMM yyyy'
-            )} t/m ${formatDate(new Date(End_Validity), 'd MMMM yyyy')}`
+            )} tot ${formatDate(
+                new Date(Next_Version.Start_Validity),
+                'd MMMM yyyy'
+            )}`
         }
-    }, [Start_Validity, End_Validity, isRevision])
+    }, [Start_Validity, End_Validity, isRevision, Next_Version])
 
     return (
         <aside className="sticky top-[120px]">
@@ -110,7 +116,7 @@ const ObjectSidebar = ({
 
             {!!user && (
                 <div>
-                    <Text size="s" className="mb-3 italic text-pzh-blue-900">
+                    <Text size="s" className="text-pzh-blue-900 mb-3 italic">
                         Onderstaande informatie is alleen inzichtelijk voor
                         gebruikers die zijn ingelogd
                     </Text>

@@ -61,7 +61,14 @@ import type {
     BodyFastapiHandlerPublicationActPackagesActPackageUuidReportPost,
     BodyFastapiHandlerPublicationAnnouncementPackagesAnnouncementPackageUuidReportPost,
     BodyFastapiHandlerPublicationVersionsVersionUuidAttachmentsPost,
+    BodyFastapiHandlerStorageFilesPost,
     CompleteModule,
+    DocumentFull,
+    DocumentPatch,
+    DocumentStaticPostStatics,
+    DocumentUUID,
+    DocumentenValidGetParams,
+    DocumentenValidLineageIdGetParams,
     EditAcknowledgedRelation,
     EditUser,
     EnvironmentCreate,
@@ -100,6 +107,7 @@ import type {
     ModulesModuleIdObjectBeleidsdoelLineageIdGetParams,
     ModulesModuleIdObjectBeleidskeuzeLineageIdGetParams,
     ModulesModuleIdObjectBeleidsregelLineageIdGetParams,
+    ModulesModuleIdObjectDocumentLineageIdGetParams,
     ModulesModuleIdObjectGebiedsprogrammasLineageIdGetParams,
     ModulesModuleIdObjectMaatregelLineageIdGetParams,
     ModulesModuleIdObjectProgrammaAlgemeenLineageIdGetParams,
@@ -107,6 +115,7 @@ import type {
     ModulesModuleIdObjectWerkingsgebiedLineageIdGetParams,
     ModulesObjectAmbitieActiveLineageIdGetParams,
     ModulesObjectBeleidsdoelActiveLineageIdGetParams,
+    ModulesObjectDocumentActiveLineageIdGetParams,
     ModulesObjectProgrammaAlgemeenActiveLineageIdGetParams,
     ModulesObjectVisieAlgemeenActiveLineageIdGetParams,
     ModulesObjectWerkingsgebiedActiveLineageIdGetParams,
@@ -133,6 +142,8 @@ import type {
     PagedResponseBeleidskeuzeExtended,
     PagedResponseBeleidsregelBasic,
     PagedResponseBeleidsregelExtended,
+    PagedResponseDocumentBasic,
+    PagedResponseDocumentExtended,
     PagedResponseGebiedsprogrammaBasic,
     PagedResponseGebiedsprogrammaExtended,
     PagedResponseGenericObjectShort,
@@ -156,6 +167,7 @@ import type {
     PagedResponsePublicationTemplate,
     PagedResponsePublicationVersionShort,
     PagedResponseSearchObject,
+    PagedResponseStorageFileBasic,
     PagedResponseUser,
     PagedResponseValidSearchObject,
     PagedResponseVerplichtProgrammaBasic,
@@ -224,10 +236,12 @@ import type {
     SearchSourceGeometryPostParams,
     SearchValidPostParams,
     SourceWerkingsgebiedenGetParams,
+    StorageFilesGetParams,
     TemplateCreate,
     TemplateCreatedResponse,
     TemplateEdit,
     UploadAttachmentResponse,
+    UploadFileResponse,
     User,
     UserCreate,
     UserCreateResponse,
@@ -6002,6 +6016,1159 @@ export const useRevisionsModuleIdBeleidsregelVersionObjectUuidGet = <
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const queryOptions =
         getRevisionsModuleIdBeleidsregelVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get all the valid document lineages and shows the latest object of each
+ */
+export const documentenValidGet = (
+    params?: DocumentenValidGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseDocumentBasic>({
+        url: `/documenten/valid`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getDocumentenValidGetQueryKey = (
+    params?: DocumentenValidGetParams
+) => {
+    return [`/documenten/valid`, ...(params ? [params] : [])] as const
+}
+
+export const getDocumentenValidGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof documentenValidGet>>,
+    TError = HTTPValidationError
+>(
+    params?: DocumentenValidGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof documentenValidGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getDocumentenValidGetQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof documentenValidGet>>
+    > = ({ signal }) => documentenValidGet(params, signal)
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof documentenValidGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type DocumentenValidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof documentenValidGet>>
+>
+export type DocumentenValidGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get all the valid document lineages and shows the latest object of each
+ */
+export const useDocumentenValidGet = <
+    TData = Awaited<ReturnType<typeof documentenValidGet>>,
+    TError = HTTPValidationError
+>(
+    params?: DocumentenValidGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof documentenValidGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getDocumentenValidGetQueryOptions(params, options)
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get all the valid document of a single lineage
+ */
+export const documentenValidLineageIdGet = (
+    lineageId: number,
+    params?: DocumentenValidLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseDocumentBasic>({
+        url: `/documenten/valid/${lineageId}`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getDocumentenValidLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: DocumentenValidLineageIdGetParams
+) => {
+    return [
+        `/documenten/valid/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getDocumentenValidLineageIdGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof documentenValidLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: DocumentenValidLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof documentenValidLineageIdGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getDocumentenValidLineageIdGetQueryKey(lineageId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof documentenValidLineageIdGet>>
+    > = ({ signal }) => documentenValidLineageIdGet(lineageId, params, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof documentenValidLineageIdGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type DocumentenValidLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof documentenValidLineageIdGet>>
+>
+export type DocumentenValidLineageIdGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get all the valid document of a single lineage
+ */
+export const useDocumentenValidLineageIdGet = <
+    TData = Awaited<ReturnType<typeof documentenValidLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: DocumentenValidLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof documentenValidLineageIdGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getDocumentenValidLineageIdGetQueryOptions(
+        lineageId,
+        params,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific document by uuid
+ */
+export const documentenVersionObjectUuidGet = (
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<DocumentFull>({
+        url: `/documenten/version/${objectUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getDocumentenVersionObjectUuidGetQueryKey = (
+    objectUuid: string
+) => {
+    return [`/documenten/version/${objectUuid}`] as const
+}
+
+export const getDocumentenVersionObjectUuidGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof documentenVersionObjectUuidGet>>,
+    TError = HTTPValidationError
+>(
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof documentenVersionObjectUuidGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getDocumentenVersionObjectUuidGetQueryKey(objectUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof documentenVersionObjectUuidGet>>
+    > = ({ signal }) => documentenVersionObjectUuidGet(objectUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!objectUuid,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof documentenVersionObjectUuidGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type DocumentenVersionObjectUuidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof documentenVersionObjectUuidGet>>
+>
+export type DocumentenVersionObjectUuidGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get specific document by uuid
+ */
+export const useDocumentenVersionObjectUuidGet = <
+    TData = Awaited<ReturnType<typeof documentenVersionObjectUuidGet>>,
+    TError = HTTPValidationError
+>(
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof documentenVersionObjectUuidGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getDocumentenVersionObjectUuidGetQueryOptions(
+        objectUuid,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get latest lineage record for document by their lineage id
+ */
+export const documentenLatestLineageIdGet = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<DocumentFull>({
+        url: `/documenten/latest/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getDocumentenLatestLineageIdGetQueryKey = (lineageId: number) => {
+    return [`/documenten/latest/${lineageId}`] as const
+}
+
+export const getDocumentenLatestLineageIdGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof documentenLatestLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof documentenLatestLineageIdGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getDocumentenLatestLineageIdGetQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof documentenLatestLineageIdGet>>
+    > = ({ signal }) => documentenLatestLineageIdGet(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof documentenLatestLineageIdGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type DocumentenLatestLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof documentenLatestLineageIdGet>>
+>
+export type DocumentenLatestLineageIdGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get latest lineage record for document by their lineage id
+ */
+export const useDocumentenLatestLineageIdGet = <
+    TData = Awaited<ReturnType<typeof documentenLatestLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof documentenLatestLineageIdGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getDocumentenLatestLineageIdGetQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Edit static data of an object
+ */
+export const documentStaticLineageIdPost = (
+    lineageId: number,
+    documentStaticPostStatics: DocumentStaticPostStatics
+) => {
+    return customInstance<ResponseOK>({
+        url: `/document/static/${lineageId}`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: documentStaticPostStatics,
+    })
+}
+
+export const getDocumentStaticLineageIdPostMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof documentStaticLineageIdPost>>,
+        TError,
+        { lineageId: number; data: DocumentStaticPostStatics },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof documentStaticLineageIdPost>>,
+    TError,
+    { lineageId: number; data: DocumentStaticPostStatics },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof documentStaticLineageIdPost>>,
+        { lineageId: number; data: DocumentStaticPostStatics }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return documentStaticLineageIdPost(lineageId, data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type DocumentStaticLineageIdPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof documentStaticLineageIdPost>>
+>
+export type DocumentStaticLineageIdPostMutationBody = DocumentStaticPostStatics
+export type DocumentStaticLineageIdPostMutationError = HTTPValidationError
+
+/**
+ * @summary Edit static data of an object
+ */
+export const useDocumentStaticLineageIdPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof documentStaticLineageIdPost>>,
+        TError,
+        { lineageId: number; data: DocumentStaticPostStatics },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getDocumentStaticLineageIdPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get all the document of a single lineage in a module
+ */
+export const modulesModuleIdObjectDocumentLineageIdGet = (
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectDocumentLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseDocumentExtended>({
+        url: `/modules/${moduleId}/object/document/${lineageId}`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectDocumentLineageIdGetQueryKey = (
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectDocumentLineageIdGetParams
+) => {
+    return [
+        `/modules/${moduleId}/object/document/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getModulesModuleIdObjectDocumentLineageIdGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof modulesModuleIdObjectDocumentLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectDocumentLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof modulesModuleIdObjectDocumentLineageIdGet>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesModuleIdObjectDocumentLineageIdGetQueryKey(
+            moduleId,
+            lineageId,
+            params
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof modulesModuleIdObjectDocumentLineageIdGet>>
+    > = ({ signal }) =>
+        modulesModuleIdObjectDocumentLineageIdGet(
+            moduleId,
+            lineageId,
+            params,
+            signal
+        )
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && lineageId),
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof modulesModuleIdObjectDocumentLineageIdGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type ModulesModuleIdObjectDocumentLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof modulesModuleIdObjectDocumentLineageIdGet>>
+>
+export type ModulesModuleIdObjectDocumentLineageIdGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get all the document of a single lineage in a module
+ */
+export const useModulesModuleIdObjectDocumentLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesModuleIdObjectDocumentLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectDocumentLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof modulesModuleIdObjectDocumentLineageIdGet>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getModulesModuleIdObjectDocumentLineageIdGetQueryOptions(
+            moduleId,
+            lineageId,
+            params,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Add a new version to the document lineage in a module
+ */
+export const modulesModuleIdObjectDocumentLineageIdPatch = (
+    moduleId: number,
+    lineageId: number,
+    documentPatch: DocumentPatch
+) => {
+    return customInstance<DocumentUUID>({
+        url: `/modules/${moduleId}/object/document/${lineageId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: documentPatch,
+    })
+}
+
+export const getModulesModuleIdObjectDocumentLineageIdPatchMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof modulesModuleIdObjectDocumentLineageIdPatch>>,
+        TError,
+        { moduleId: number; lineageId: number; data: DocumentPatch },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof modulesModuleIdObjectDocumentLineageIdPatch>>,
+    TError,
+    { moduleId: number; lineageId: number; data: DocumentPatch },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof modulesModuleIdObjectDocumentLineageIdPatch>>,
+        { moduleId: number; lineageId: number; data: DocumentPatch }
+    > = props => {
+        const { moduleId, lineageId, data } = props ?? {}
+
+        return modulesModuleIdObjectDocumentLineageIdPatch(
+            moduleId,
+            lineageId,
+            data
+        )
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type ModulesModuleIdObjectDocumentLineageIdPatchMutationResult =
+    NonNullable<
+        Awaited<ReturnType<typeof modulesModuleIdObjectDocumentLineageIdPatch>>
+    >
+export type ModulesModuleIdObjectDocumentLineageIdPatchMutationBody =
+    DocumentPatch
+export type ModulesModuleIdObjectDocumentLineageIdPatchMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Add a new version to the document lineage in a module
+ */
+export const useModulesModuleIdObjectDocumentLineageIdPatch = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof modulesModuleIdObjectDocumentLineageIdPatch>>,
+        TError,
+        { moduleId: number; lineageId: number; data: DocumentPatch },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getModulesModuleIdObjectDocumentLineageIdPatchMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get latest lineage record for document by their lineage id in a module
+ */
+export const modulesModuleIdObjectDocumentLatestLineageIdGet = (
+    moduleId: number,
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<DocumentFull>({
+        url: `/modules/${moduleId}/object/document/latest/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectDocumentLatestLineageIdGetQueryKey = (
+    moduleId: number,
+    lineageId: number
+) => {
+    return [`/modules/${moduleId}/object/document/latest/${lineageId}`] as const
+}
+
+export const getModulesModuleIdObjectDocumentLatestLineageIdGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof modulesModuleIdObjectDocumentLatestLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesModuleIdObjectDocumentLatestLineageIdGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesModuleIdObjectDocumentLatestLineageIdGetQueryKey(
+            moduleId,
+            lineageId
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectDocumentLatestLineageIdGet>
+        >
+    > = ({ signal }) =>
+        modulesModuleIdObjectDocumentLatestLineageIdGet(
+            moduleId,
+            lineageId,
+            signal
+        )
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && lineageId),
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectDocumentLatestLineageIdGet>
+        >,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type ModulesModuleIdObjectDocumentLatestLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectDocumentLatestLineageIdGet>
+        >
+    >
+export type ModulesModuleIdObjectDocumentLatestLineageIdGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get latest lineage record for document by their lineage id in a module
+ */
+export const useModulesModuleIdObjectDocumentLatestLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesModuleIdObjectDocumentLatestLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesModuleIdObjectDocumentLatestLineageIdGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getModulesModuleIdObjectDocumentLatestLineageIdGetQueryOptions(
+            moduleId,
+            lineageId,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific document by uuid in a module
+ */
+export const modulesModuleIdObjectDocumentVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<DocumentFull>({
+        url: `/modules/${moduleId}/object/document/version/${objectUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectDocumentVersionObjectUuidGetQueryKey = (
+    moduleId: number,
+    objectUuid: string
+) => {
+    return [
+        `/modules/${moduleId}/object/document/version/${objectUuid}`,
+    ] as const
+}
+
+export const getModulesModuleIdObjectDocumentVersionObjectUuidGetQueryOptions =
+    <
+        TData = Awaited<
+            ReturnType<typeof modulesModuleIdObjectDocumentVersionObjectUuidGet>
+        >,
+        TError = HTTPValidationError
+    >(
+        moduleId: number,
+        objectUuid: string,
+        options?: {
+            query?: Partial<
+                UseQueryOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof modulesModuleIdObjectDocumentVersionObjectUuidGet
+                        >
+                    >,
+                    TError,
+                    TData
+                >
+            >
+        }
+    ) => {
+        const { query: queryOptions } = options ?? {}
+
+        const queryKey =
+            queryOptions?.queryKey ??
+            getModulesModuleIdObjectDocumentVersionObjectUuidGetQueryKey(
+                moduleId,
+                objectUuid
+            )
+
+        const queryFn: QueryFunction<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectDocumentVersionObjectUuidGet
+                >
+            >
+        > = ({ signal }) =>
+            modulesModuleIdObjectDocumentVersionObjectUuidGet(
+                moduleId,
+                objectUuid,
+                signal
+            )
+
+        return {
+            queryKey,
+            queryFn,
+            enabled: !!(moduleId && objectUuid),
+            ...queryOptions,
+        } as UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectDocumentVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        > & { queryKey: QueryKey }
+    }
+
+export type ModulesModuleIdObjectDocumentVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectDocumentVersionObjectUuidGet>
+        >
+    >
+export type ModulesModuleIdObjectDocumentVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific document by uuid in a module
+ */
+export const useModulesModuleIdObjectDocumentVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesModuleIdObjectDocumentVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesModuleIdObjectDocumentVersionObjectUuidGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getModulesModuleIdObjectDocumentVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const modulesObjectDocumentActiveLineageIdGet = (
+    lineageId: number,
+    params?: ModulesObjectDocumentActiveLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<ActiveModuleObjectWrapper[]>({
+        url: `/modules/object/document/active/${lineageId}`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getModulesObjectDocumentActiveLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: ModulesObjectDocumentActiveLineageIdGetParams
+) => {
+    return [
+        `/modules/object/document/active/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getModulesObjectDocumentActiveLineageIdGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof modulesObjectDocumentActiveLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ModulesObjectDocumentActiveLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof modulesObjectDocumentActiveLineageIdGet>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesObjectDocumentActiveLineageIdGetQueryKey(lineageId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof modulesObjectDocumentActiveLineageIdGet>>
+    > = ({ signal }) =>
+        modulesObjectDocumentActiveLineageIdGet(lineageId, params, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof modulesObjectDocumentActiveLineageIdGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type ModulesObjectDocumentActiveLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof modulesObjectDocumentActiveLineageIdGet>>
+>
+export type ModulesObjectDocumentActiveLineageIdGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const useModulesObjectDocumentActiveLineageIdGet = <
+    TData = Awaited<ReturnType<typeof modulesObjectDocumentActiveLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ModulesObjectDocumentActiveLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof modulesObjectDocumentActiveLineageIdGet>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getModulesObjectDocumentActiveLineageIdGetQueryOptions(
+        lineageId,
+        params,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific document by uuid in a module
+ */
+export const revisionsModuleIdDocumentVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<DocumentFull>({
+        url: `/revisions/${moduleId}/document/version/${objectUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getRevisionsModuleIdDocumentVersionObjectUuidGetQueryKey = (
+    moduleId: number,
+    objectUuid: string
+) => {
+    return [`/revisions/${moduleId}/document/version/${objectUuid}`] as const
+}
+
+export const getRevisionsModuleIdDocumentVersionObjectUuidGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdDocumentVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof revisionsModuleIdDocumentVersionObjectUuidGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getRevisionsModuleIdDocumentVersionObjectUuidGetQueryKey(
+            moduleId,
+            objectUuid
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<typeof revisionsModuleIdDocumentVersionObjectUuidGet>
+        >
+    > = ({ signal }) =>
+        revisionsModuleIdDocumentVersionObjectUuidGet(
+            moduleId,
+            objectUuid,
+            signal
+        )
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && objectUuid),
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<
+            ReturnType<typeof revisionsModuleIdDocumentVersionObjectUuidGet>
+        >,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type RevisionsModuleIdDocumentVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof revisionsModuleIdDocumentVersionObjectUuidGet>
+        >
+    >
+export type RevisionsModuleIdDocumentVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific document by uuid in a module
+ */
+export const useRevisionsModuleIdDocumentVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdDocumentVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof revisionsModuleIdDocumentVersionObjectUuidGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getRevisionsModuleIdDocumentVersionObjectUuidGetQueryOptions(
             moduleId,
             objectUuid,
             options
@@ -15547,6 +16714,166 @@ export const useRevisionsModuleIdGet = <
 }
 
 /**
+ * @summary List the storage files
+ */
+export const storageFilesGet = (
+    params?: StorageFilesGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseStorageFileBasic>({
+        url: `/storage-files`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getStorageFilesGetQueryKey = (params?: StorageFilesGetParams) => {
+    return [`/storage-files`, ...(params ? [params] : [])] as const
+}
+
+export const getStorageFilesGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof storageFilesGet>>,
+    TError = HTTPValidationError
+>(
+    params?: StorageFilesGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof storageFilesGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getStorageFilesGetQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof storageFilesGet>>
+    > = ({ signal }) => storageFilesGet(params, signal)
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof storageFilesGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type StorageFilesGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof storageFilesGet>>
+>
+export type StorageFilesGetQueryError = HTTPValidationError
+
+/**
+ * @summary List the storage files
+ */
+export const useStorageFilesGet = <
+    TData = Awaited<ReturnType<typeof storageFilesGet>>,
+    TError = HTTPValidationError
+>(
+    params?: StorageFilesGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof storageFilesGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getStorageFilesGetQueryOptions(params, options)
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Upload an File
+ */
+export const storageFilesPost = (
+    bodyFastapiHandlerStorageFilesPost: BodyFastapiHandlerStorageFilesPost
+) => {
+    const formData = new FormData()
+    formData.append(
+        'uploaded_file',
+        bodyFastapiHandlerStorageFilesPost.uploaded_file
+    )
+    formData.append('title', bodyFastapiHandlerStorageFilesPost.title)
+
+    return customInstance<UploadFileResponse>({
+        url: `/storage-files`,
+        method: 'POST',
+        headers: { 'Content-Type': 'multipart/form-data' },
+        data: formData,
+    })
+}
+
+export const getStorageFilesPostMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof storageFilesPost>>,
+        TError,
+        { data: BodyFastapiHandlerStorageFilesPost },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof storageFilesPost>>,
+    TError,
+    { data: BodyFastapiHandlerStorageFilesPost },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof storageFilesPost>>,
+        { data: BodyFastapiHandlerStorageFilesPost }
+    > = props => {
+        const { data } = props ?? {}
+
+        return storageFilesPost(data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type StorageFilesPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof storageFilesPost>>
+>
+export type StorageFilesPostMutationBody = BodyFastapiHandlerStorageFilesPost
+export type StorageFilesPostMutationError = HTTPValidationError
+
+/**
+ * @summary Upload an File
+ */
+export const useStorageFilesPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof storageFilesPost>>,
+        TError,
+        { data: BodyFastapiHandlerStorageFilesPost },
+        TContext
+    >
+}) => {
+    const mutationOptions = getStorageFilesPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
  * @summary List the modules
  */
 export const modulesGet = (params?: ModulesGetParams, signal?: AbortSignal) => {
@@ -17783,6 +19110,72 @@ export const usePublicationActsPost = <
 }
 
 /**
+ * @summary Close publication act
+ */
+export const publicationActsActUuidClosePost = (actUuid: string) => {
+    return customInstance<ResponseOK>({
+        url: `/publication-acts/${actUuid}/close`,
+        method: 'POST',
+    })
+}
+
+export const getPublicationActsActUuidClosePostMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationActsActUuidClosePost>>,
+        TError,
+        { actUuid: string },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof publicationActsActUuidClosePost>>,
+    TError,
+    { actUuid: string },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof publicationActsActUuidClosePost>>,
+        { actUuid: string }
+    > = props => {
+        const { actUuid } = props ?? {}
+
+        return publicationActsActUuidClosePost(actUuid)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type PublicationActsActUuidClosePostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof publicationActsActUuidClosePost>>
+>
+
+export type PublicationActsActUuidClosePostMutationError = HTTPValidationError
+
+/**
+ * @summary Close publication act
+ */
+export const usePublicationActsActUuidClosePost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationActsActUuidClosePost>>,
+        TError,
+        { actUuid: string },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getPublicationActsActUuidClosePostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
  * @summary Get details of a publication act
  */
 export const publicationActsActUuidGet = (
@@ -18946,6 +20339,74 @@ export const usePublicationVersionsVersionUuidPost = <
 }) => {
     const mutationOptions =
         getPublicationVersionsVersionUuidPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * Marks a publication version as deleted.
+ * @summary Mark a publication version as deleted
+ */
+export const publicationVersionsVersionUuidDelete = (versionUuid: string) => {
+    return customInstance<ResponseOK>({
+        url: `/publication-versions/${versionUuid}`,
+        method: 'DELETE',
+    })
+}
+
+export const getPublicationVersionsVersionUuidDeleteMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationVersionsVersionUuidDelete>>,
+        TError,
+        { versionUuid: string },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof publicationVersionsVersionUuidDelete>>,
+    TError,
+    { versionUuid: string },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof publicationVersionsVersionUuidDelete>>,
+        { versionUuid: string }
+    > = props => {
+        const { versionUuid } = props ?? {}
+
+        return publicationVersionsVersionUuidDelete(versionUuid)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type PublicationVersionsVersionUuidDeleteMutationResult = NonNullable<
+    Awaited<ReturnType<typeof publicationVersionsVersionUuidDelete>>
+>
+
+export type PublicationVersionsVersionUuidDeleteMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Mark a publication version as deleted
+ */
+export const usePublicationVersionsVersionUuidDelete = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationVersionsVersionUuidDelete>>,
+        TError,
+        { versionUuid: string },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getPublicationVersionsVersionUuidDeleteMutationOptions(options)
 
     return useMutation(mutationOptions)
 }

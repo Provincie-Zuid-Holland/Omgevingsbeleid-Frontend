@@ -7,7 +7,7 @@ import {
 } from '@pzh-ui/icons'
 import { useMemo } from 'react'
 
-import { PublicationPackage } from '@/api/fetchers.schemas'
+import { PackageType, PublicationPackage } from '@/api/fetchers.schemas'
 import useModalStore from '@/store/modalStore'
 
 import { PublicationType } from '../../types'
@@ -34,6 +34,7 @@ const Package = ({
     versionUUID,
     announcementUUID,
     canPublicate,
+    Package_Type,
 }: PackageProps) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
@@ -112,6 +113,9 @@ const Package = ({
                                             packageUUID: UUID,
                                             publicationType,
                                             publicationUUID,
+                                            announcementUUID,
+                                            packageType:
+                                                Package_Type as PackageType,
                                         }
                                     )
                                 }>
@@ -124,7 +128,7 @@ const Package = ({
 
                                 <ArrowUpRightFromSquareLight
                                     size={14}
-                                    className="-mt-0.5 text-pzh-green-500"
+                                    className="text-pzh-green-500 -mt-0.5"
                                 />
                             </Button>
                         )}
