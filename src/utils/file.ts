@@ -1,6 +1,7 @@
 import { getAccessToken } from '@/api/instance'
 
 import getApiUrl from './getApiUrl'
+import { toastNotification } from './toastNotification'
 
 export const fileToBase64 = async (file: File): Promise<string> =>
     await new Promise((resolve, reject) => {
@@ -66,6 +67,9 @@ export const downloadFile = async (path: string, postData?: object) => {
         link.parentNode?.removeChild(link)
         URL.revokeObjectURL(url)
     } catch (error) {
+        toastNotification('error')
         console.error(`Error fetching data: ${error}`)
+
+        return Promise.reject(error)
     }
 }
