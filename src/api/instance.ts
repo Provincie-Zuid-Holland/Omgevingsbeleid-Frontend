@@ -30,14 +30,38 @@ instance.interceptors.request.use(async config => {
 instance.interceptors.response.use(
     response => response,
     (error: AxiosError) => {
-        if (error.response?.status === 401 || error.response?.status === 403) {
-            toastNotification('notLoggedIn')
-            globalRouter.navigate?.('/login')
-        } else if (error.response?.status === 500) {
-            globalErrorBoundary.showBoundary?.(error)
-        }
+        const status = error.response?.status
 
-        return Promise.reject(error)
+        switch (status) {
+            case 401:
+            case 403:
+                toastNotification('notLoggedIn')
+                globalRouter.navigate?.('/login')
+
+                return Promise.reject(error)
+            case 441:
+                toastNotification('error441')
+
+                return Promise.reject(error)
+            case 442:
+                toastNotification('error442')
+
+                return Promise.reject(error)
+            case 443:
+                toastNotification('error443')
+
+                return Promise.reject(error)
+            case 444:
+                toastNotification('error444')
+
+                return Promise.reject(error)
+            case 500:
+                globalErrorBoundary.showBoundary?.(error)
+
+                return Promise.reject(error)
+            default:
+                return Promise.reject(error)
+        }
     }
 )
 
