@@ -12,7 +12,6 @@ import Login from './Login'
 import MapSearch from './MapSearch'
 import Network from './Network'
 import NotFoundPage from './NotFoundPage'
-import PlanningAndReleases from './PlanningAndReleases'
 import Revisions from './Revisions'
 import SearchResults from './SearchResults'
 import ThemeDetail from './ThemeDetail'
@@ -33,7 +32,6 @@ export {
     MapSearch,
     Network,
     NotFoundPage,
-    PlanningAndReleases,
     Revisions,
     SearchResults,
     ThemeDetail,
