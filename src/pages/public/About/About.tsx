@@ -1,5 +1,6 @@
 import { Divider, Heading, Hyperlink, Text } from '@pzh-ui/components'
 import { Code, UniversalAccess } from '@pzh-ui/icons'
+import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
 import { Container } from '@/components/Container'
@@ -7,6 +8,8 @@ import imagePlanningAndReleases from '@/images/planning-and-releases.webp'
 
 const About = () => (
     <div>
+        <Helmet title="Over platform Omgevingsbeleid" />
+
         <Container className="overflow-hidden">
             <div className="col-span-6 mb-0 pt-8 sm:mb-16 lg:col-span-3 lg:mb-0 lg:pt-16">
                 <Heading level="1" size="xxl">
