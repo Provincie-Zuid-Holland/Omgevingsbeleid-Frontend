@@ -62,7 +62,7 @@ const About = () => (
                     bekendmakingen. Een overzicht van de werkzaamheden zijn
                     hieronder per omgeving getoond.
                 </Text>
-                <div className="mt-8 grid grid-cols-3 gap-12">
+                <div className="mt-8 grid grid-cols-1 gap-12 md:grid-cols-3">
                     <div className="space-y-2">
                         <Heading level="3" size="m">
                             Raadpleegomgeving
@@ -130,7 +130,7 @@ const About = () => (
                 <Heading level="2" size="xl">
                     Wat wij belangrijk vinden...
                 </Heading>
-                <div className="mt-8 grid grid-cols-2 gap-12">
+                <div className="mt-8 grid grid-cols-1 gap-12 md:grid-cols-2">
                     <div className="flex gap-4">
                         <div className="-mt-0.5">
                             <Code size={30} color="text-pzh-blue-500" />
@@ -145,7 +145,7 @@ const About = () => (
                                 Op die manier kunnen andere overheden meedenken
                                 en makkelijker een eigen systeem maken.
                             </Text>
-                            <ul className="mt-4 space-y-2">
+                            <ul className="mt-4 flex flex-col space-y-2">
                                 <Hyperlink asChild>
                                     <li>
                                         <a
