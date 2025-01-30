@@ -47,7 +47,7 @@ const Package = ({
     })
 
     const createdDate = useMemo(
-        () => formatDate(new Date(Created_Date), 'dd-MM-yyyy'),
+        () => formatDate(new Date(Created_Date + 'Z'), "dd-MM-yyyy 'om' HH:mm"),
 
         [Created_Date]
     )
@@ -55,7 +55,10 @@ const Package = ({
     const downloadDate = useMemo(
         () =>
             Zip.Latest_Download_Date
-                ? formatDate(new Date(Zip.Latest_Download_Date), 'dd-MM-yyyy')
+                ? formatDate(
+                      new Date(Zip.Latest_Download_Date + 'Z'),
+                      'dd-MM-yyyy'
+                  )
                 : null,
 
         [Zip.Latest_Download_Date]
@@ -84,7 +87,7 @@ const Package = ({
                         bold
                         className="heading-s -mb-1"
                         color="text-pzh-blue-500">
-                        Levering gemaakt op {createdDate}
+                        Gemaakt op {createdDate}
                     </Text>
                     {status && <Badge solid upperCase={false} {...status} />}
                 </div>
@@ -128,7 +131,7 @@ const Package = ({
 
                                 <ArrowUpRightFromSquareLight
                                     size={14}
-                                    className="text-pzh-green-500 -mt-0.5"
+                                    className="-mt-0.5 text-pzh-green-500"
                                 />
                             </Button>
                         )}
