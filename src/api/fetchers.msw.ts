@@ -130,6 +130,7 @@ import type {
 } from './fetchers.schemas'
 import {
     GraphEdgeType,
+    ModuleObjectActionFull,
     PublicationVersionStatus,
     ReportStatusType,
 } from './fetchers.schemas'
@@ -395,6 +396,9 @@ export const getAmbitiesVersionObjectUuidGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -568,6 +572,9 @@ export const getAmbitiesLatestLineageIdGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -903,6 +910,9 @@ export const getModulesModuleIdObjectAmbitieLatestLineageIdGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -1076,6 +1086,9 @@ export const getModulesModuleIdObjectAmbitieVersionObjectUuidGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -1103,6 +1116,9 @@ export const getModulesObjectAmbitieActiveLineageIdGetResponseMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
+        Action: faker.helpers.arrayElement(
+            Object.values(ModuleObjectActionFull)
+        ),
         Module: {
             Closed: faker.datatype.boolean(),
             Description: faker.word.sample(),
@@ -1310,6 +1326,9 @@ export const getRevisionsModuleIdAmbitieVersionObjectUuidGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -1687,6 +1706,9 @@ export const getBeleidsdoelenVersionObjectUuidGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -1948,6 +1970,9 @@ export const getBeleidsdoelenLatestLineageIdGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -2396,6 +2421,9 @@ export const getModulesModuleIdObjectBeleidsdoelLatestLineageIdGetResponseMock =
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
                 Module_Object_UUID: faker.string.uuid(),
                 Module_Status: faker.word.sample(),
@@ -2674,6 +2702,9 @@ export const getModulesModuleIdObjectBeleidsdoelVersionObjectUuidGetResponseMock
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
                 Module_Object_UUID: faker.string.uuid(),
                 Module_Status: faker.word.sample(),
@@ -2701,6 +2732,9 @@ export const getModulesObjectBeleidsdoelActiveLineageIdGetResponseMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
+        Action: faker.helpers.arrayElement(
+            Object.values(ModuleObjectActionFull)
+        ),
         Module: {
             Closed: faker.datatype.boolean(),
             Description: faker.word.sample(),
@@ -2996,6 +3030,9 @@ export const getRevisionsModuleIdBeleidsdoelVersionObjectUuidGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -3424,6 +3461,9 @@ export const getBeleidskeuzesVersionObjectUuidGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -3807,6 +3847,9 @@ export const getBeleidskeuzesLatestLineageIdGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -4453,6 +4496,9 @@ export const getModulesModuleIdObjectBeleidskeuzeLatestLineageIdGetResponseMock 
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
                 Module_Object_UUID: faker.string.uuid(),
                 Module_Status: faker.word.sample(),
@@ -4862,6 +4908,9 @@ export const getModulesModuleIdObjectBeleidskeuzeVersionObjectUuidGetResponseMoc
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
                 Module_Object_UUID: faker.string.uuid(),
                 Module_Status: faker.word.sample(),
@@ -4955,6 +5004,9 @@ export const getModulesObjectsBeleidskeuzeActiveLineageIdGetResponseMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
+        Action: faker.helpers.arrayElement(
+            Object.values(ModuleObjectActionFull)
+        ),
         Module: {
             Closed: faker.datatype.boolean(),
             Description: faker.word.sample(),
@@ -5332,6 +5384,9 @@ export const getRevisionsModuleIdBeleidskeuzeVersionObjectUuidGetResponseMock =
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
                 Module_Object_UUID: faker.string.uuid(),
                 Module_Status: faker.word.sample(),
@@ -5681,6 +5736,9 @@ export const getBeleidsregelsVersionObjectUuidGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -5855,6 +5913,9 @@ export const getBeleidsregelsLatestLineageIdGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -6203,6 +6264,9 @@ export const getModulesModuleIdObjectBeleidsregelLatestLineageIdGetResponseMock 
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
                 Module_Object_UUID: faker.string.uuid(),
                 Module_Status: faker.word.sample(),
@@ -6388,6 +6452,9 @@ export const getModulesModuleIdObjectBeleidsregelVersionObjectUuidGetResponseMoc
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
                 Module_Object_UUID: faker.string.uuid(),
                 Module_Status: faker.word.sample(),
@@ -6416,6 +6483,9 @@ export const getModulesObjectsBeleidsregelActiveLineageIdGetResponseMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
+        Action: faker.helpers.arrayElement(
+            Object.values(ModuleObjectActionFull)
+        ),
         Module: {
             Closed: faker.datatype.boolean(),
             Description: faker.word.sample(),
@@ -6634,6 +6704,9 @@ export const getRevisionsModuleIdBeleidsregelVersionObjectUuidGetResponseMock =
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
                 Module_Object_UUID: faker.string.uuid(),
                 Module_Status: faker.word.sample(),
@@ -7279,6 +7352,9 @@ export const getModulesObjectDocumentActiveLineageIdGetResponseMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
+        Action: faker.helpers.arrayElement(
+            Object.values(ModuleObjectActionFull)
+        ),
         Module: {
             Closed: faker.datatype.boolean(),
             Description: faker.word.sample(),
@@ -7703,6 +7779,9 @@ export const getGebiedsprogrammasVersionObjectUuidGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -7880,6 +7959,9 @@ export const getGebiedsprogrammasLatestLineageIdGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -8232,6 +8314,9 @@ export const getModulesModuleIdObjectGebiedsprogrammasLatestLineageIdGetResponse
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
                 Module_Object_UUID: faker.string.uuid(),
                 Module_Status: faker.word.sample(),
@@ -8420,6 +8505,9 @@ export const getModulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGetRespon
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
                 Module_Object_UUID: faker.string.uuid(),
                 Module_Status: faker.word.sample(),
@@ -8447,6 +8535,9 @@ export const getModulesObjectsGebiedsprogrammaActiveLineageIdGetResponseMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
+        Action: faker.helpers.arrayElement(
+            Object.values(ModuleObjectActionFull)
+        ),
         Module: {
             Closed: faker.datatype.boolean(),
             Description: faker.word.sample(),
@@ -8669,6 +8760,9 @@ export const getRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGetResponseMoc
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
                 Module_Object_UUID: faker.string.uuid(),
                 Module_Status: faker.word.sample(),
@@ -9046,6 +9140,9 @@ export const getMaatregelenVersionObjectUuidGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -9330,6 +9427,9 @@ export const getMaatregelenLatestLineageIdGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -9784,6 +9884,9 @@ export const getModulesModuleIdObjectMaatregelLatestLineageIdGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -10085,6 +10188,9 @@ export const getModulesModuleIdObjectMaatregelVersionObjectUuidGetResponseMock =
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
                 Module_Object_UUID: faker.string.uuid(),
                 Module_Status: faker.word.sample(),
@@ -10127,6 +10233,9 @@ export const getModulesObjectsMaatregelActiveLineageIdGetResponseMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
+        Action: faker.helpers.arrayElement(
+            Object.values(ModuleObjectActionFull)
+        ),
         Module: {
             Closed: faker.datatype.boolean(),
             Description: faker.word.sample(),
@@ -10430,6 +10539,9 @@ export const getRevisionsModuleIdMaatregelVersionObjectUuidGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -10848,6 +10960,9 @@ export const getProgrammasAlgemeenVersionObjectUuidGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -10957,6 +11072,9 @@ export const getProgrammasAlgemeenLatestLineageIdGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -11183,6 +11301,9 @@ export const getModulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGetResponse
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
                 Module_Object_UUID: faker.string.uuid(),
                 Module_Status: faker.word.sample(),
@@ -11300,6 +11421,9 @@ export const getModulesModuleIdObjectProgrammaAlgemeenVersionObjectUuidGetRespon
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
                 Module_Object_UUID: faker.string.uuid(),
                 Module_Status: faker.word.sample(),
@@ -11327,6 +11451,9 @@ export const getModulesObjectProgrammaAlgemeenActiveLineageIdGetResponseMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
+        Action: faker.helpers.arrayElement(
+            Object.values(ModuleObjectActionFull)
+        ),
         Module: {
             Closed: faker.datatype.boolean(),
             Description: faker.word.sample(),
@@ -11478,6 +11605,9 @@ export const getRevisionsModuleIdProgrammaAlgemeenVersionObjectUuidGetResponseMo
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
                 Module_Object_UUID: faker.string.uuid(),
                 Module_Status: faker.word.sample(),
@@ -11926,6 +12056,9 @@ export const getVisiesAlgemeenVersionObjectUuidGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -12035,6 +12168,9 @@ export const getVisiesAlgemeenLatestLineageIdGetResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
             Module_ID: faker.number.int({ min: undefined, max: undefined }),
             Module_Object_UUID: faker.string.uuid(),
             Module_Status: faker.word.sample(),
@@ -12263,6 +12399,9 @@ export const getModulesModuleIdObjectVisieAlgemeenLatestLineageIdGetResponseMock
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
                 Module_Object_UUID: faker.string.uuid(),
                 Module_Status: faker.word.sample(),
@@ -12380,6 +12519,9 @@ export const getModulesModuleIdObjectVisieAlgemeenVersionObjectUuidGetResponseMo
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
                 Module_Object_UUID: faker.string.uuid(),
                 Module_Status: faker.word.sample(),
@@ -12407,6 +12549,9 @@ export const getModulesObjectVisieAlgemeenActiveLineageIdGetResponseMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
+        Action: faker.helpers.arrayElement(
+            Object.values(ModuleObjectActionFull)
+        ),
         Module: {
             Closed: faker.datatype.boolean(),
             Description: faker.word.sample(),
@@ -12558,6 +12703,9 @@ export const getRevisionsModuleIdVisieAlgemeenVersionObjectUuidGetResponseMock =
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1
             ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
                 Module_Object_UUID: faker.string.uuid(),
                 Module_Status: faker.word.sample(),
@@ -13202,6 +13350,9 @@ export const getModulesObjectWerkingsgebiedActiveLineageIdGetResponseMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
+        Action: faker.helpers.arrayElement(
+            Object.values(ModuleObjectActionFull)
+        ),
         Module: {
             Closed: faker.datatype.boolean(),
             Description: faker.word.sample(),
