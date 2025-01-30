@@ -236,6 +236,9 @@ const Module = ({
 
         data?.Objects.forEach(object => {
             const model = models[object.Object_Type as ModelType]
+
+            if (!model) return
+
             const { parentType } = model.defaults
 
             if (parentType && !availableKeys.includes(parentType)) {
