@@ -8,6 +8,12 @@ import { Container } from '@/components/Container'
 import NetworkGraph from '@/components/Network/NetworkGraph'
 import useNetworkStore from '@/store/networkStore'
 
+const META = {
+    title: 'Beleidsnetwerk',
+    description:
+        'Het beleid van de provincie Zuid-Holland en de onderliggende koppelingen.',
+}
+
 const Network = () => {
     const { activeTab, setActiveTab } = useNetworkStore(
         useShallow(state => ({
@@ -23,7 +29,10 @@ const Network = () => {
 
     return (
         <>
-            <Helmet title="Beleidsnetwerk" />
+            <Helmet title={META.title}>
+                <meta name="description" content={META.description} />
+                <meta name="og:description" content={META.description} />
+            </Helmet>
 
             <Container className="pb-5 pt-4">
                 <div className="col-span-6 mb-8">
@@ -35,7 +44,7 @@ const Network = () => {
                     </Heading>
                     <Text className="mt-3 md:mt-4">
                         Het beleid van de provincie Zuid-Holland en de
-                        onderliggende koppelingen
+                        onderliggende koppelingen.
                     </Text>
                 </div>
             </Container>

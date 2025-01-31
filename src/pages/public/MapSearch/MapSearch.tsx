@@ -19,6 +19,12 @@ import useMapStore from '@/store/mapStore'
 import SidebarInformation from './SidebarInformation'
 import SidebarResults from './SidebarResults'
 
+const META = {
+    title: 'Zoeken op de kaart',
+    description:
+        'Via deze pagina kun je uitgebreid zoeken welk beleid op welke locatie van toepassing is. Hiermee wordt duidelijk wat de provincie Zuid-Holland in een bepaald gebied wil bereiken. Veel beleid is kaderstellend en richtinggevend van aard en daarom bedoeld om aan te geven waar de provincie voor staat en belang aan hecht.',
+}
+
 // @ts-ignore
 const RDProjection = new Proj.Projection('EPSG:28992', RDProj4, leafletBounds)
 
@@ -197,7 +203,11 @@ const MapSearch = () => {
 
     return (
         <>
-            <Helmet title="Zoeken op de kaart" />
+            <Helmet title={META.title}>
+                <meta name="description" content={META.description} />
+                <meta name="og:description" content={META.description} />
+            </Helmet>
+
             <ContainerMapSearch className="overflow-hidden">
                 <SidebarInformation onDraw={onDraw} />
 

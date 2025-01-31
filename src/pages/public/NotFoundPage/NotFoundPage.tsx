@@ -4,6 +4,12 @@ import { Helmet } from 'react-helmet-async'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 
+const META = {
+    title: 'Pagina is niet gevonden',
+    description:
+        'Helaas, de pagina die je zoekt is niet gevonden. Het kan zijn dat de pagina is verwijderd, of dat de naam is gewijzigd.',
+}
+
 const NotFoundPage = () => {
     const breadcrumbPaths = [
         { name: 'Omgevingsbeleid', to: '/' },
@@ -12,7 +18,11 @@ const NotFoundPage = () => {
 
     return (
         <>
-            <Helmet title="Pagina niet gevonden" />
+            <Helmet title={META.title}>
+                <meta name="description" content={META.description} />
+                <meta name="og:description" content={META.description} />
+            </Helmet>
+
             <Container className="pb-16 pt-4">
                 <div className="col-span-6 mb-8">
                     <Breadcrumbs items={breadcrumbPaths} />

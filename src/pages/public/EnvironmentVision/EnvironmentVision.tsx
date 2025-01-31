@@ -1,4 +1,5 @@
 import { Heading, ListLink, Text } from '@pzh-ui/components'
+import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
 import { useVisiesAlgemeenValidGet } from '@/api/fetchers'
@@ -7,6 +8,12 @@ import { Container } from '@/components/Container'
 import { LoaderSpinner } from '@/components/Loader'
 import model from '@/config/objects/visieAlgemeen'
 import imgEnvironmentProgram from '@/images/environment-program.webp'
+
+const META = {
+    title: 'Omgevingsvisie',
+    description:
+        'De Omgevingsvisie van Zuid-Holland bestaat uit enkele inleidende hoofdstukken, gevolgd door de provinciale ambities, beleidsdoelen en beleidskeuzes.',
+}
 
 function EnvironmentVision() {
     const { data, isFetching } = useVisiesAlgemeenValidGet(
@@ -28,7 +35,12 @@ function EnvironmentVision() {
     ]
 
     return (
-        <div>
+        <>
+            <Helmet title={META.title}>
+                <meta name="description" content={META.description} />
+                <meta name="og:description" content={META.description} />
+            </Helmet>
+
             <div
                 className="hidden h-[288px] w-full bg-pzh-blue-500 bg-cover bg-center bg-no-repeat md:block"
                 style={{
@@ -109,7 +121,7 @@ function EnvironmentVision() {
                     </Link>
                 </div>
             </Container>
-        </div>
+        </>
     )
 }
 
