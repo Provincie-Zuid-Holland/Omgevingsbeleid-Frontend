@@ -85,7 +85,14 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
 
     return (
         <>
-            <Helmet title={pluralCapitalize} />
+            <Helmet title={pluralCapitalize}>
+                {description && (
+                    <>
+                        <meta name="description" content={description} />
+                        <meta name="og:description" content={description} />
+                    </>
+                )}
+            </Helmet>
 
             <Container className="pb-16 pt-4">
                 <div className="col-span-6 mb-8 capitalize">

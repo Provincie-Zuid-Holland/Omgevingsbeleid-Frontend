@@ -33,6 +33,12 @@ const queryClient = new QueryClient({
     },
 })
 
+const META = {
+    title: 'Omgevingsbeleid - Provincie Zuid-Holland',
+    description:
+        'Provincie Zuid-Holland heeft haar beleid eenvoudiger, transparanter en toegankelijker gemaakt. Via deze website kunt u al het Omgevingsbeleid van de provincie Zuid-Holland inzien.',
+}
+
 const App = () => {
     const location = useLocation()
 
@@ -48,13 +54,19 @@ const App = () => {
             <QueryClientProvider client={queryClient}>
                 <AuthProvider>
                     <div
-                        className="text-pzh-blue-900 relative flex min-h-screen flex-col"
+                        className="relative flex min-h-screen flex-col text-pzh-blue-900"
                         id="main-container">
                         <Helmet titleTemplate="%s - Omgevingsbeleid Provincie Zuid-Holland">
                             <meta charSet="utf-8" />
-                            <title>
-                                Omgevingsbeleid - Provincie Zuid-Holland
-                            </title>
+                            <title>{META.title}</title>
+                            <meta
+                                name="description"
+                                content={META.description}
+                            />
+                            <meta
+                                name="og:description"
+                                content={META.description}
+                            />
                         </Helmet>
 
                         <BaseLayout hideFooter={isAdvancedSearchPage}>
