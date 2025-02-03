@@ -1,6 +1,10 @@
 export type ToastType =
     | 'saved'
     | 'error'
+    | 'error441'
+    | 'error442'
+    | 'error443'
+    | 'error444'
     | 'notAllowed'
     | 'passwordReset'
     | 'notLoggedIn'
@@ -32,6 +36,26 @@ export const notifications: Record<
     saved: { message: 'Opgeslagen', type: 'success' },
     error: {
         message: 'Er is iets misgegaan, probeer het later nog eens',
+        type: 'error',
+    },
+    error441: {
+        message:
+            'Er is iets misgegaan in de validatie, bekijk je console voor de technische details',
+        type: 'error',
+    },
+    error442: {
+        message:
+            'Er is iets misgegaan in de DSO, bekijk je console voor de technische details',
+        type: 'error',
+    },
+    error443: {
+        message:
+            'Er is iets misgegaan in de renvooi, bekijk je console voor de technische details',
+        type: 'error',
+    },
+    error444: {
+        message:
+            'Er is iets misgegaan PDF export, bekijk je console voor de technische details',
         type: 'error',
     },
     notAllowed: {

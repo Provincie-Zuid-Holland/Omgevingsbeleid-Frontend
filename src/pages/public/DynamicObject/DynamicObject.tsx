@@ -146,7 +146,30 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
 
     return (
         <>
-            <Helmet title={data?.Title} />
+            <Helmet title={data?.Title}>
+                {data.Description && (
+                    <>
+                        <meta
+                            name="description"
+                            content={
+                                data.Description?.substring(0, 100).replace(
+                                    '<p>',
+                                    ''
+                                ) + '...'
+                            }
+                        />
+                        <meta
+                            name="og:description"
+                            content={
+                                data.Description?.substring(0, 100).replace(
+                                    '<p>',
+                                    ''
+                                ) + '...'
+                            }
+                        />
+                    </>
+                )}
+            </Helmet>
 
             <Container
                 className={classNames('pb-16', {

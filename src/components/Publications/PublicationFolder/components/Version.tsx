@@ -122,7 +122,7 @@ const Version = ({
     })
 
     return (
-        <div className="hover:bg-pzh-blue-10 hover:ring-pzh-blue-100 flex h-16 border-b border-pzh-gray-200 last:border-b-0 hover:ring-1 hover:ring-inset">
+        <div className="flex h-16 border-b border-pzh-gray-200 last:border-b-0 hover:bg-pzh-blue-10 hover:ring-1 hover:ring-inset hover:ring-pzh-blue-100">
             <div className="flex h-[inherit] w-5/12 items-center border-r border-pzh-gray-200 pl-10 pr-6">
                 <div className="flex h-[inherit] w-full border-l border-pzh-gray-200 pl-10">
                     <div className="flex w-full items-center justify-between border-l border-pzh-gray-200 pl-16">

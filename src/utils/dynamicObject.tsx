@@ -152,6 +152,10 @@ export const getObjectRevisionBannerText = (
     const model = models[type]
     const path = `/${model.defaults.slugOverview}/${model.defaults.plural}/ontwerpversie/${revision.Module_ID}/${revision.Module_Object_UUID}`
 
+    if (revision.Action === 'Terminate') {
+        return `In module '${revision.Module_Title}' zijn we voornemens ${model.defaults.demonstrative} ${model.defaults.singularReadable} te laten vervallen.`
+    }
+
     switch (revision.Module_Status) {
         case 'Ontwerp GS Concept':
         case 'Ontwerp GS':

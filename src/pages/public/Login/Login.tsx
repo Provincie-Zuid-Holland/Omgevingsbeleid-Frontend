@@ -7,6 +7,12 @@ import { Container } from '@/components/Container'
 import LoginForm from '@/components/LoginForm'
 import useBreakpoint from '@/hooks/useBreakpoint'
 
+const META = {
+    title: 'Inloggen',
+    description:
+        'Als beleidsmedewerker van provincie Zuid-Holland kun je hier inloggen om te werken aan het Omgevingsbeleid.',
+}
+
 /**
  * Component page that imports the component LoginForm, so the user is able to login the application and reset the password when needed.
  * This component renders the title of the page (using the imported Helmet libary, to get the plain HTML tag and output the plain HTML tag), other tags with given text information and the imported LoginForm component with set information.
@@ -17,7 +23,10 @@ const Login = () => {
 
     return (
         <>
-            <Helmet title="Inloggen" />
+            <Helmet title={META.title}>
+                <meta name="description" content={META.description} />
+                <meta name="og:description" content={META.description} />
+            </Helmet>
 
             <Container
                 className={classNames('overflow-hidden', {

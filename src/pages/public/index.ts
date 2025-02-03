@@ -1,3 +1,4 @@
+import About from './About'
 import Accessibility from './Accessibility'
 import AreaDetail from './AreaDetail'
 import AreaOverview from './AreaOverview'
@@ -11,29 +12,28 @@ import Login from './Login'
 import MapSearch from './MapSearch'
 import Network from './Network'
 import NotFoundPage from './NotFoundPage'
-import PlanningAndReleases from './PlanningAndReleases'
 import Revisions from './Revisions'
 import SearchResults from './SearchResults'
 import ThemeDetail from './ThemeDetail'
 import ThemeOverview from './ThemeOverview'
 
 export {
+    About,
+    Accessibility,
     AreaDetail,
     AreaOverview,
-    Accessibility,
+    AtemportalObject,
+    DynamicObject,
+    DynamicOverview,
     EnvironmentProgram,
     ErrorPage,
     Home,
     Login,
     MapSearch,
-    PlanningAndReleases,
-    SearchResults,
-    DynamicOverview,
-    DynamicObject,
     Network,
+    NotFoundPage,
+    Revisions,
+    SearchResults,
     ThemeDetail,
     ThemeOverview,
-    NotFoundPage,
-    AtemportalObject,
-    Revisions,
 }
