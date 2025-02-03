@@ -48,30 +48,39 @@ const ObjectRevisionNotification = ({
     }
 
     return (
-        <Notification className="order-2 mt-4">
-            {latestRevision?.Module_Object_UUID === data?.UUID ? (
-                <>
-                    Let op, dit is een{' '}
-                    {isRevision ? 'ontwerpversie' : 'verouderde versie'} van{' '}
-                    {demonstrative} {singularReadable},{' '}
-                    <Hyperlink asChild>
-                        <Link to={`/${slugOverview}/${plural}/${latest.UUID}`}>
-                            bekijk hier de vigerende versie
-                        </Link>
-                    </Hyperlink>
-                </>
-            ) : (
-                <>
-                    Deze ontwerpversie is verouderd,{' '}
-                    <Hyperlink asChild>
-                        <Link
-                            to={`/${slugOverview}/${plural}/ontwerpversie/${moduleId}/${latestRevision?.Module_Object_UUID}`}>
-                            bekijk de nieuwste ontwerpversie hier
-                        </Link>
-                    </Hyperlink>
-                </>
-            )}
-        </Notification>
+        <div className="order-2 mt-4 flex flex-col gap-4">
+            {latestRevision?.Module_Status === 'Vastgesteld' &&
+                latestRevision?.Module_Object_UUID === data?.UUID && (
+                    <Notification className="[&_p]:first-letter:capitalize">
+                        {`${demonstrative} ${singularReadable} is vastgesteld, maar nog niet in werking getreden`}
+                    </Notification>
+                )}
+            <Notification>
+                {latestRevision?.Module_Object_UUID === data?.UUID ? (
+                    <>
+                        Let op, dit is een{' '}
+                        {isRevision ? 'ontwerpversie' : 'verouderde versie'} van{' '}
+                        {demonstrative} {singularReadable},{' '}
+                        <Hyperlink asChild>
+                            <Link
+                                to={`/${slugOverview}/${plural}/${latest.UUID}`}>
+                                bekijk hier de vigerende versie
+                            </Link>
+                        </Hyperlink>
+                    </>
+                ) : (
+                    <>
+                        Deze ontwerpversie is verouderd,{' '}
+                        <Hyperlink asChild>
+                            <Link
+                                to={`/${slugOverview}/${plural}/ontwerpversie/${moduleId}/${latestRevision?.Module_Object_UUID}`}>
+                                bekijk de nieuwste ontwerpversie hier
+                            </Link>
+                        </Hyperlink>
+                    </>
+                )}
+            </Notification>
+        </div>
     )
 }
 
