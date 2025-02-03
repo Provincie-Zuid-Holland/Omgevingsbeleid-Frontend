@@ -235,7 +235,7 @@ const WizardForm = ({ step }: WizardFormProps) => {
                         .map(status => ({
                             label: `${status.Status} (${formatDate(
                                 new Date(status.Created_Date + 'Z'),
-                                'dd-MM-yyyy'
+                                "dd-MM-yyyy 'om' HH:mm"
                             )})`,
                             value: status.ID,
                         })),
