@@ -158,7 +158,6 @@ export const getObjectRevisionBannerText = (
 
     switch (revision.Module_Status) {
         case 'Ontwerp GS Concept':
-        case 'Ontwerp GS':
             return `Op dit moment wordt er in module '${revision.Module_Title}' gewerkt aan een nieuwe versie van ${model.defaults.demonstrative} ${model.defaults.singularReadable}`
         case 'Ter Inzage':
             return (
@@ -173,10 +172,11 @@ export const getObjectRevisionBannerText = (
                 </>
             )
         case 'Definitief ontwerp GS Concept':
-        case 'Definitief ontwerp GS':
             return `Er is een versie in inspraak geweest in module '${revision.Module_Title}'.`
 
+        case 'Ontwerp GS':
         case 'Ontwerp PS':
+        case 'Definitief ontwerp GS':
         case 'Definitief ontwerp PS':
             return (
                 <>
