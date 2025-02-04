@@ -1,4 +1,5 @@
 import { Heading, Hyperlink, ListLink, Text } from '@pzh-ui/components'
+import { Helmet } from 'react-helmet-async'
 import { Link, useParams } from 'react-router-dom'
 
 import { useBeleidsdoelenVersionObjectUuidGet } from '@/api/fetchers'
@@ -10,10 +11,14 @@ import TableOfContents from '@/components/TableOfContents'
 import * as models from '@/config/objects'
 import { ModelReturnType, ModelType } from '@/config/objects/types'
 
+import NotFoundPage from '../NotFoundPage'
+
 function ThemeDetail() {
     const { uuid } = useParams<{ uuid: string }>()
 
-    const { data, isLoading } = useBeleidsdoelenVersionObjectUuidGet(uuid!)
+    const { data, isLoading, isError } = useBeleidsdoelenVersionObjectUuidGet(
+        uuid!
+    )
 
     const breadcrumbPaths = [
         { name: 'Home', to: '/' },
@@ -29,54 +34,83 @@ function ThemeDetail() {
 
     if (isLoading) return <LoaderContent />
 
+    if (isError) return <NotFoundPage />
+
     return (
-        <Container className="pb-20">
-            <div className="col-span-6 mb-10">
-                <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
-            </div>
-
-            <div className="order-1 col-span-6 xl:col-span-2">
-                <aside className="sticky top-[120px]">
-                    <Heading level="3" size="m" className="mb-2">
-                        Inhoudsopgave
-                    </Heading>
-
-                    <TableOfContents />
-                </aside>
-            </div>
-
-            <div className="order-2 col-span-6 flex flex-col gap-8 xl:col-span-4 xl:mt-0">
-                <div>
-                    <Heading level="3" size="m" className="mb-2">
-                        Thematisch programma
-                    </Heading>
-                    <Heading level="1" size="xxl">
-                        {data?.Title}
-                    </Heading>
-                </div>
-
-                <div data-section="Inhoud">
-                    {data?.Description && (
-                        <Text
-                            className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0"
-                            dangerouslySetInnerHTML={{
-                                __html: data.Description,
-                            }}
+        <>
+            <Helmet title={data?.Title}>
+                {data?.Description && (
+                    <>
+                        <meta
+                            name="description"
+                            content={
+                                data.Description?.substring(0, 100).replace(
+                                    '<p>',
+                                    ''
+                                ) + '...'
+                            }
                         />
-                    )}
-                    <Hyperlink asChild>
-                        <Link
-                            to={`/omgevingsvisie/beleidsdoelen/${data?.UUID}`}>
-                            Lees meer informatie over dit beleidsdoel
-                        </Link>
-                    </Hyperlink>
+                        <meta
+                            name="og:description"
+                            content={
+                                data.Description?.substring(0, 100).replace(
+                                    '<p>',
+                                    ''
+                                ) + '...'
+                            }
+                        />
+                    </>
+                )}
+            </Helmet>
+
+            <Container className="pb-20">
+                <div className="col-span-6 mb-10">
+                    <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
                 </div>
 
-                {data?.Beleidskeuzes?.map(object => (
-                    <ConnectedObject key={object.Object.UUID} {...object} />
-                ))}
-            </div>
-        </Container>
+                <div className="order-1 col-span-6 xl:col-span-2">
+                    <aside className="sticky top-[120px]">
+                        <Heading level="3" size="m" className="mb-2">
+                            Inhoudsopgave
+                        </Heading>
+
+                        <TableOfContents />
+                    </aside>
+                </div>
+
+                <div className="order-2 col-span-6 flex flex-col gap-8 xl:col-span-4 xl:mt-0">
+                    <div>
+                        <Heading level="3" size="m" className="mb-2">
+                            Thematisch programma
+                        </Heading>
+                        <Heading level="1" size="xxl">
+                            {data?.Title}
+                        </Heading>
+                    </div>
+
+                    <div data-section="Inhoud">
+                        {data?.Description && (
+                            <Text
+                                className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0"
+                                dangerouslySetInnerHTML={{
+                                    __html: data.Description,
+                                }}
+                            />
+                        )}
+                        <Hyperlink asChild>
+                            <Link
+                                to={`/omgevingsvisie/beleidsdoelen/${data?.UUID}`}>
+                                Lees meer informatie over dit beleidsdoel
+                            </Link>
+                        </Hyperlink>
+                    </div>
+
+                    {data?.Beleidskeuzes?.map(object => (
+                        <ConnectedObject key={object.Object.UUID} {...object} />
+                    ))}
+                </div>
+            </Container>
+        </>
     )
 }
 

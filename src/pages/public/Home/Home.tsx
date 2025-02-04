@@ -1,6 +1,5 @@
 import { Divider, Heading, Hyperlink, Text } from '@pzh-ui/components'
-import { ArrowUpRightFromSquare, FilePdf } from '@pzh-ui/icons'
-import { Helmet } from 'react-helmet-async'
+import { ArrowUpRightFromSquare } from '@pzh-ui/icons'
 import { Link } from 'react-router-dom'
 
 import { Container } from '@/components/Container'
@@ -17,20 +16,6 @@ import SearchSection from './SearchSection'
  */
 const Home = () => (
     <>
-        <Helmet>
-            <meta
-                name="description"
-                content="Provincie Zuid-Holland heeft haar beleid eenvoudiger,
-                        transparanter en toegankelijker gemaakt. Via deze
-                        website kan je al het Omgevingsbeleid van de provincie
-                        Zuid-Holland inzien. Denk bijvoorbeeld aan de
-                        provinciale ambities voor een duurzame economie, de
-                        regelgeving rondom gevaarlijke gassen of aan de
-                        maatregelen die de provincie neemt om natuur te
-                        herstellen."
-            />
-        </Helmet>
-
         <Container className="overflow-hidden lg:min-h-[576px]">
             <div className="col-span-6 mb-8 lg:col-span-3 lg:mb-16">
                 <Heading
@@ -131,7 +116,7 @@ const Home = () => (
                         {/* 👇🏻 Contains a soft hyphen */}
                         Omgevings­visie
                     </Heading>
-                    <Text className="mt-4">
+                    <Text className="my-4">
                         De visie van de provincie Zuid-Holland geeft aan waar de
                         provincie voor staat. Het beschrijft hoe de provincie de
                         toekomst van Zuid-Holland voor zich ziet. De
@@ -153,6 +138,12 @@ const Home = () => (
                         </Hyperlink>{' '}
                         bepalen hoe de ambities bereikt dienen te worden.
                     </Text>
+
+                    <Hyperlink asChild>
+                        <Link to="omgevingsvisie">
+                            Bekijk de omgevingsvisie
+                        </Link>
+                    </Hyperlink>
                 </div>
                 <div className="order-1 col-span-6 -mx-5 mb-8 md:mx-0 lg:order-2 lg:col-span-4 lg:mb-0">
                     <img
@@ -171,19 +162,13 @@ const Home = () => (
                         {/* 👇🏻 Contains a soft hyphen */}
                         Omgevings­programma
                     </Heading>
-                    <Text className="mt-4">
-                        In het{' '}
-                        <Link
-                            className="text-pzh-green-500 underline hover:text-pzh-green-900"
-                            to="omgevingsprogramma">
-                            Omgevingsprogramma
-                        </Link>{' '}
-                        staat beschreven welke{' '}
-                        <Link
-                            className="text-pzh-green-500 underline hover:text-pzh-green-900"
-                            to="omgevingsprogramma/maatregelen">
-                            maatregelen
-                        </Link>{' '}
+                    <Text className="my-4">
+                        In het Omgevingsprogramma staat beschreven welke{' '}
+                        <Hyperlink asChild>
+                            <Link to="omgevingsprogramma/maatregelen">
+                                maatregelen
+                            </Link>
+                        </Hyperlink>{' '}
                         de provincie treft om de visie waar te maken. Het
                         Omgevingsprogramma geeft bijvoorbeeld aan voor welke
                         initiatieven subsidies worden verleend en aan welke
@@ -191,6 +176,12 @@ const Home = () => (
                         is een overzicht van alle maatregelen inclusief de
                         onderliggende activiteiten.
                     </Text>
+
+                    <Hyperlink asChild>
+                        <Link to="omgevingsprogramma">
+                            Bekijk het omgevingsprogramma
+                        </Link>
+                    </Hyperlink>
                 </div>
                 <div className="order-1 col-span-6 -mx-5 mb-8 md:mx-0 lg:col-span-4 lg:mb-0">
                     <img
@@ -221,13 +212,14 @@ const Home = () => (
                         regels waar burgers en bedrijven zich aan moeten houden.
                         Al deze regels van de provincie over de fysieke
                         leefomgeving zijn ondergebracht in de{' '}
-                        <a
-                            className="text-pzh-green-500 underline hover:text-pzh-green-900"
-                            href="https://www.zuid-holland.nl/onderwerpen/omgevingsbeleid/zuid-hollandse-omgevingsverordening/"
-                            rel="noopener noreferrer"
-                            target="_blank">
-                            Omgevingsverordening
-                        </a>
+                        <Hyperlink asChild>
+                            <a
+                                href="https://www.zuid-holland.nl/onderwerpen/omgevingsbeleid/zuid-hollandse-omgevingsverordening/"
+                                rel="noopener noreferrer"
+                                target="_blank">
+                                Omgevingsverordening
+                            </a>
+                        </Hyperlink>
                         .
                     </Text>
                 </div>
@@ -246,28 +238,29 @@ const Home = () => (
         <Container className="py-12">
             <div className="col-span-6">
                 <Heading level="3" size="m" className="mb-4">
-                    Documenten & Links
+                    Relevante links
                 </Heading>
             </div>
             <div className="col-span-6 lg:col-span-2">
                 <Text>
-                    We zijn hard bezig met het vullen van onze database. Sommige
-                    onderdelen bieden we op dit moment nog aan als PDF’s of via
-                    een externe bron.
+                    Relevante links ondersteunend aan het Omgevingsbeleid.
                 </Text>
             </div>
-            <ul className="col-span-6 grid grid-cols-6 lg:col-span-4">
-                <DocumentLink
-                    href="docs/Omgevingsvisie_Zuid-Holland_Deel_1.pdf"
-                    iconLeft={<FilePdf />}
-                    title="Omgevingsvisie Zuid-Holland Deel 1"
-                    className="col-span-6 mt-2 lg:col-span-3 lg:mt-0"
-                />
+            <ul className="col-span-6 mt-4 grid grid-cols-1 items-start justify-between gap-2 lg:col-span-4 lg:mt-0 lg:grid-cols-2">
                 <DocumentLink
                     href="https://lta.zuid-holland.nl/"
-                    iconLeft={<ArrowUpRightFromSquare />}
                     title="De Lange Termijn Agenda Omgevingsbeleid"
-                    className="col-span-6 mt-2 lg:col-span-3 lg:mt-0"
+                    icon={ArrowUpRightFromSquare}
+                />
+                <DocumentLink
+                    href="https://monitorleefomgeving.zuid-holland.nl/"
+                    title="Monitor Leefomgeving"
+                    icon={ArrowUpRightFromSquare}
+                />
+                <DocumentLink
+                    href="https://planmer.zuid-holland.nl/"
+                    title="PlanMER"
+                    icon={ArrowUpRightFromSquare}
                 />
             </ul>
         </Container>

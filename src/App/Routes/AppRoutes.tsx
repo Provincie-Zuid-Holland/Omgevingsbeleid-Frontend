@@ -43,12 +43,13 @@ import {
     MapSearch,
     Network,
     NotFoundPage,
-    PlanningAndReleases,
     Revisions,
     SearchResults,
     ThemeDetail,
     ThemeOverview,
 } from '@/pages/public'
+import About from '@/pages/public/About'
+import EnvironmentVision from '@/pages/public/EnvironmentVision'
 import MaintenancePage from '@/pages/public/MaintenancePage/MaintenancePage'
 import globalErrorBoundary from '@/utils/globalErrorBoundary'
 
@@ -74,8 +75,8 @@ const AppRoutes = () => {
         },
         { path: 'zoeken-op-kaart', element: <MapSearch /> },
         {
-            path: 'planning-en-releases',
-            element: <PlanningAndReleases />,
+            path: 'over-dit-platform',
+            element: <About />,
         },
         {
             path: 'digi-toegankelijkheid',
@@ -93,6 +94,10 @@ const AppRoutes = () => {
         //     path: 'verordening',
         //     element: <Verordening />,
         // },
+        {
+            path: 'omgevingsvisie',
+            element: <EnvironmentVision />,
+        },
         {
             path: 'omgevingsprogramma',
             children: [

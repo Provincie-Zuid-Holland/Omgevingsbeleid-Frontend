@@ -151,7 +151,7 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
                     {customTitle?.[value] || title}
                 </Heading>
             )}
-            <Wrapper className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 md:mb-8">
+            <Wrapper className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-h3:text-pzh-blue-900 prose-li:my-0 md:mb-8">
                 {parsedContent}
             </Wrapper>
             <ObjectAreaModal />
@@ -215,7 +215,7 @@ export const fields: {
         hidden: true,
     },
     {
-        title: 'Rolkeuze',
+        title: 'Rol',
         value: 'Role',
     },
     {

@@ -148,6 +148,8 @@ const ItemList = ({
                             ]
                         const { slugOverview, plural } = model?.defaults || {}
 
+                        if (!model) return null
+
                         return (
                             <ModuleItem
                                 key={object.UUID}

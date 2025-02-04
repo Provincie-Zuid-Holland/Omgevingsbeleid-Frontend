@@ -11,9 +11,12 @@ import { TrashCan } from '@pzh-ui/icons'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik'
 import { useMemo } from 'react'
+import { useParams } from 'react-router-dom'
 
 import {
+    getPublicationActPackagesGetQueryKey,
     getPublicationActReportsGetQueryKey,
+    getPublicationAnnouncementPackagesGetQueryKey,
     getPublicationAnnouncementReportsGetQueryKey,
     usePublicationActReportsGet,
     usePublicationAnnouncementReportsGet,
@@ -28,6 +31,8 @@ import { ModalStateMap } from '../../types'
 
 const PublicationPackageReportUploadModal = () => {
     const queryClient = useQueryClient()
+
+    const { versionUUID } = useParams()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
     const modalState = useModalStore(
@@ -52,6 +57,20 @@ const PublicationPackageReportUploadModal = () => {
                         modalState.publicationType === 'act'
                             ? getPublicationActReportsGetQueryKey()
                             : getPublicationAnnouncementReportsGetQueryKey(),
+                })
+                queryClient.invalidateQueries({
+                    queryKey:
+                        modalState.publicationType === 'act'
+                            ? getPublicationActPackagesGetQueryKey({
+                                  version_uuid: versionUUID,
+                                  limit: 100,
+                              })
+                            : getPublicationAnnouncementPackagesGetQueryKey({
+                                  announcement_uuid:
+                                      modalState.announcementUUID,
+                                  package_type: modalState.packageType,
+                                  limit: 100,
+                              }),
                 })
                 helpers.resetForm()
             })
@@ -164,10 +183,10 @@ const InnerForm = <TData extends { uploaded_files: File[] }>({
                                             {!isSubmitting ? (
                                                 <TrashCan
                                                     size={16}
-                                                    className="-mt-[2px] ml-4 text-pzh-red-500"
+                                                    className="text-pzh-red-500 -mt-[2px] ml-4"
                                                 />
                                             ) : (
-                                                <LoaderSpinner className="-mt-[2px] ml-4 text-pzh-blue-500" />
+                                                <LoaderSpinner className="text-pzh-blue-500 -mt-[2px] ml-4" />
                                             )}
                                         </Button>
                                     </div>

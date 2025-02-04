@@ -59,6 +59,13 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
             return (objectData[field] = object?.[field as keyof typeof data])
         })
 
+        if (
+            fields.includes('Ambtsgebied') &&
+            object?.Werkingsgebied_Code === null
+        ) {
+            objectData['Ambtsgebied'] = ['true']
+        }
+
         return objectData
     }, [object, model.dynamicSections])
 

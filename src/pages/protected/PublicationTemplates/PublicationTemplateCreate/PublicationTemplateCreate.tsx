@@ -46,6 +46,15 @@ const PublicationTemplateCreate = () => {
         payload: TemplateCreate,
         helpers: FormikHelpers<TemplateCreate>
     ) => {
+        if (!!payload.Object_Templates?.length) {
+            payload.Object_Templates = (payload.Object_Templates as any).reduce(
+                (acc: any, curr: { key: string; value: string }) => (
+                    (acc[curr.key] = curr.value), acc
+                ),
+                {}
+            )
+        }
+
         mutateAsync(
             { data: payload },
             {

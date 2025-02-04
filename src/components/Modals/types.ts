@@ -4,6 +4,7 @@ import {
     DocumentType,
     Module,
     ModuleObjectShort,
+    PackageType,
     ProcedureType,
     Publication,
     PublicationEnvironment,
@@ -27,6 +28,7 @@ export type ModalType =
     | 'moduleEditObject'
     | 'moduleDeleteObject'
     | 'areaAdd'
+    | 'areaEdit'
     | 'objectArea'
     | 'objectAreaAnnotate'
     | 'objectDetails'
@@ -103,5 +105,7 @@ export interface ModalStateMap {
         publicationType: PublicationType
         publicationUUID: string
         packageUUID: string
+        announcementUUID: string
+        packageType?: PackageType
     }
 }

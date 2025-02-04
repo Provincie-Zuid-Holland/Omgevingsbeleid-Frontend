@@ -7,7 +7,7 @@ import {
 } from '@pzh-ui/icons'
 import { useMemo } from 'react'
 
-import { PublicationPackage } from '@/api/fetchers.schemas'
+import { PackageType, PublicationPackage } from '@/api/fetchers.schemas'
 import useModalStore from '@/store/modalStore'
 
 import { PublicationType } from '../../types'
@@ -34,6 +34,7 @@ const Package = ({
     versionUUID,
     announcementUUID,
     canPublicate,
+    Package_Type,
 }: PackageProps) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
@@ -46,7 +47,7 @@ const Package = ({
     })
 
     const createdDate = useMemo(
-        () => formatDate(new Date(Created_Date), 'dd-MM-yyyy'),
+        () => formatDate(new Date(Created_Date + 'Z'), "dd-MM-yyyy 'om' HH:mm"),
 
         [Created_Date]
     )
@@ -54,7 +55,10 @@ const Package = ({
     const downloadDate = useMemo(
         () =>
             Zip.Latest_Download_Date
-                ? formatDate(new Date(Zip.Latest_Download_Date), 'dd-MM-yyyy')
+                ? formatDate(
+                      new Date(Zip.Latest_Download_Date + 'Z'),
+                      'dd-MM-yyyy'
+                  )
                 : null,
 
         [Zip.Latest_Download_Date]
@@ -83,7 +87,7 @@ const Package = ({
                         bold
                         className="heading-s -mb-1"
                         color="text-pzh-blue-500">
-                        Levering gemaakt op {createdDate}
+                        Gemaakt op {createdDate}
                     </Text>
                     {status && <Badge solid upperCase={false} {...status} />}
                 </div>
@@ -112,6 +116,9 @@ const Package = ({
                                             packageUUID: UUID,
                                             publicationType,
                                             publicationUUID,
+                                            announcementUUID,
+                                            packageType:
+                                                Package_Type as PackageType,
                                         }
                                     )
                                 }>

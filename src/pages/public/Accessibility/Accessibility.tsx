@@ -5,6 +5,12 @@ import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import imgDigiToegankelijkheid from '@/images/digi-toegankelijkheid.webp'
 
+const META = {
+    title: 'Digitale toegankelijkheid',
+    description:
+        'De provincie Zuid-Holland vindt het belangrijk dat iedereen alle informatie en diensten op onze website goed kan lezen en gebruiken. Daarom werken we continu aan het verbeteren van de toegankelijkheid van de website www.zuid-holland.nl. We streven ernaar om te voldoen aan belangrijke standaarden voor toegankelijkheid (Europese norm EN 301 549, technische standaard WCAG 2.1 van W3C, voorheen ‘de webrichtlijnen’)',
+}
+
 function Accessibility() {
     const breadcrumbPaths = [
         { name: 'Home', to: '/' },
@@ -13,7 +19,10 @@ function Accessibility() {
 
     return (
         <div>
-            <Helmet title="Digitale toegankelijkheid" />
+            <Helmet title={META.title}>
+                <meta name="description" content={META.description} />
+                <meta name="og:description" content={META.description} />
+            </Helmet>
 
             <img
                 src={imgDigiToegankelijkheid}

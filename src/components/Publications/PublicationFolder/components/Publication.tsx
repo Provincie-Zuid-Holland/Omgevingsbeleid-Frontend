@@ -126,7 +126,7 @@ const Publication = ({
                         </Text>
                     </div>
                 </div>
-                <div className="flex w-2/12 items-center justify-end gap-2 px-2">
+                <div className="flex w-2/12 items-center justify-end gap-2 px-6">
                     <Button
                         size="small"
                         variant="secondary"
