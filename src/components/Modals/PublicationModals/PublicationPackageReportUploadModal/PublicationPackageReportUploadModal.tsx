@@ -63,7 +63,10 @@ const PublicationPackageReportUploadModal = () => {
                         modalState.publicationType === 'act'
                             ? getPublicationActPackagesGetQueryKey({
                                   version_uuid: versionUUID,
-                                  limit: 100,
+                                  package_type: modalState.packageType,
+                                  limit: 3,
+                                  sort_column: 'Created_Date',
+                                  sort_order: 'DESC',
                               })
                             : getPublicationAnnouncementPackagesGetQueryKey({
                                   announcement_uuid:
@@ -183,10 +186,10 @@ const InnerForm = <TData extends { uploaded_files: File[] }>({
                                             {!isSubmitting ? (
                                                 <TrashCan
                                                     size={16}
-                                                    className="text-pzh-red-500 -mt-[2px] ml-4"
+                                                    className="-mt-[2px] ml-4 text-pzh-red-500"
                                                 />
                                             ) : (
-                                                <LoaderSpinner className="text-pzh-blue-500 -mt-[2px] ml-4" />
+                                                <LoaderSpinner className="-mt-[2px] ml-4 text-pzh-blue-500" />
                                             )}
                                         </Button>
                                     </div>
