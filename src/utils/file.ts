@@ -1,6 +1,9 @@
 import { getAccessToken } from '@/api/instance'
+import { ToastType } from '@/config/notifications'
 
 import getApiUrl from './getApiUrl'
+import globalErrorBoundary from './globalErrorBoundary'
+import globalRouter from './globalRouter'
 import { toastNotification } from './toastNotification'
 
 export const fileToBase64 = async (file: File): Promise<string> =>
@@ -30,31 +33,26 @@ export async function base64ToFile(
 export const downloadFile = async (path: string, postData?: object) => {
     try {
         const response = await fetch(`${getApiUrl()}/${path}`, {
-            method: !!postData ? 'POST' : 'GET',
+            method: postData ? 'POST' : 'GET',
             headers: {
                 Authorization: `Bearer ${getAccessToken()}`,
                 'Content-Type': 'application/json',
             },
-            ...(!!postData && {
-                body: JSON.stringify(postData),
-            }),
+            ...(postData && { body: JSON.stringify(postData) }),
         })
 
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`)
+            const error = new Error(
+                `HTTP error! status: ${response.status}`
+            ) as Error & { status?: number }
+            error.status = response.status
+            throw error
         }
 
         const blob = await response.blob()
         const contentDisposition = response.headers.get('content-disposition')
-
-        let fileName = 'downloaded_file'
-
-        if (contentDisposition) {
-            const fileNameMatch = contentDisposition.match(/filename="?(.+)"?/)
-            if (fileNameMatch && fileNameMatch.length > 1) {
-                fileName = fileNameMatch[1]
-            }
-        }
+        const fileNameMatch = contentDisposition?.match(/filename="?(.+)"?/)
+        const fileName = fileNameMatch?.[1] || 'downloaded_file'
 
         const url = URL.createObjectURL(blob)
         const link = document.createElement('a')
@@ -64,12 +62,41 @@ export const downloadFile = async (path: string, postData?: object) => {
         link.click()
 
         // Clean up
-        link.parentNode?.removeChild(link)
+        link.remove()
         URL.revokeObjectURL(url)
     } catch (error) {
-        toastNotification('error')
-        console.error(`Error fetching data: ${error}`)
+        handleDownloadError(error)
+    }
+}
 
-        return Promise.reject(error)
+// Helper function to handle errors
+const handleDownloadError = (error: unknown) => {
+    const typedError = error as Error & { status?: number }
+    const status = typedError.status
+
+    console.error(`Error fetching data: ${typedError.message}`)
+
+    const authErrors = new Set([401, 403])
+    if (status && authErrors.has(status)) {
+        toastNotification('notLoggedIn')
+        globalRouter.navigate?.('/login')
+        return
+    }
+
+    if (status === 500) {
+        globalErrorBoundary.showBoundary?.(error)
+        return
+    }
+
+    const errorMessages: Map<number, ToastType> = new Map([
+        [441, 'error441'],
+        [442, 'error442'],
+        [443, 'error443'],
+        [444, 'error444'],
+    ])
+
+    if (status && errorMessages.has(status)) {
+        toastNotification(errorMessages.get(status)!)
+        return
     }
 }
