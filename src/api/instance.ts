@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
+import { ToastType } from '@/config/notifications'
 import getApiUrl from '@/utils/getApiUrl'
 import globalErrorBoundary from '@/utils/globalErrorBoundary'
 import globalRouter from '@/utils/globalRouter'
@@ -30,40 +31,40 @@ instance.interceptors.request.use(async config => {
 instance.interceptors.response.use(
     response => response,
     (error: AxiosError) => {
-        const status = error.response?.status
-
-        switch (status) {
-            case 401:
-            case 403:
-                toastNotification('notLoggedIn')
-                globalRouter.navigate?.('/login')
-
-                return Promise.reject(error)
-            case 441:
-                toastNotification('error441')
-
-                return Promise.reject(error)
-            case 442:
-                toastNotification('error442')
-
-                return Promise.reject(error)
-            case 443:
-                toastNotification('error443')
-
-                return Promise.reject(error)
-            case 444:
-                toastNotification('error444')
-
-                return Promise.reject(error)
-            case 500:
-                globalErrorBoundary.showBoundary?.(error)
-
-                return Promise.reject(error)
-            default:
-                return Promise.reject(error)
-        }
+        handleAxiosError(error)
+        return Promise.reject(error)
     }
 )
+
+const handleAxiosError = (error: AxiosError) => {
+    const status = error.response?.status
+    console.error(`Axios error: ${error.message}`)
+
+    // Handle authentication errors
+    if (status && new Set([401, 403]).has(status)) {
+        toastNotification('notLoggedIn')
+        globalRouter.navigate?.('/login')
+        return
+    }
+
+    // Handle general server error
+    if (status === 500) {
+        globalErrorBoundary.showBoundary?.(error)
+        return
+    }
+
+    // Handle specific error codes
+    const errorMessages: Map<number, ToastType> = new Map([
+        [441, 'error441'],
+        [442, 'error442'],
+        [443, 'error443'],
+        [444, 'error444'],
+    ])
+
+    if (status && errorMessages.has(status)) {
+        toastNotification(errorMessages.get(status)!)
+    }
+}
 
 const baseURL = instance.defaults.baseURL
 
