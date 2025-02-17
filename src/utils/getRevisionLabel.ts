@@ -9,7 +9,7 @@ const getRevisionLabel = (
 ): string => {
     if (!object.Start_Validity) return ''
 
-    const today = new Date().toDateString()
+    const today = new Date()
     const formattedDate = formatDate(
         new Date(object.Start_Validity),
         'd MMMM yyyy'
@@ -18,7 +18,7 @@ const getRevisionLabel = (
     let status = 'Vigerend'
     let prefix = 'Sinds'
 
-    if (object.Start_Validity > today) {
+    if (new Date(object.Start_Validity) > today) {
         status = 'Vastgesteld'
         prefix = 'Vanaf'
     } else if (
