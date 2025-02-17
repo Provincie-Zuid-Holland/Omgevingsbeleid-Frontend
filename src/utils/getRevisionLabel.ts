@@ -6,22 +6,29 @@ const getRevisionLabel = (
     object: ModelReturnType,
     initialObject: ModelReturnType,
     latest?: string
-) => {
+): string => {
+    if (!object.Start_Validity) return ''
+
+    const today = new Date().toDateString()
+    const formattedDate = formatDate(
+        new Date(object.Start_Validity),
+        'd MMMM yyyy'
+    )
+
     let status = 'Vigerend'
-    let date = ''
+    let prefix = 'Sinds'
 
-    if (object.Start_Validity) {
-        date = formatDate(new Date(object.Start_Validity), 'd MMMM yyyy')
-
-        if (
-            initialObject.Start_Validity !== object.Start_Validity ||
-            object.UUID !== latest
-        ) {
-            status = 'Gearchiveerd'
-        }
+    if (object.Start_Validity > today) {
+        status = 'Vastgesteld'
+        prefix = 'Vanaf'
+    } else if (
+        initialObject.Start_Validity !== object.Start_Validity ||
+        object.UUID !== latest
+    ) {
+        status = 'Gearchiveerd'
     }
 
-    return `Sinds ${date} (${status})`
+    return `${prefix} ${formattedDate} (${status})`
 }
 
 export default getRevisionLabel
