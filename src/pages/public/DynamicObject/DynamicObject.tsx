@@ -99,11 +99,6 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
             }
         ) || {}
 
-    const amountOfRevisions = useMemo(
-        () => revisions?.results && revisions.results.length - 1,
-        [revisions]
-    )
-
     const getRevisionText = useCallback(
         (revision: PublicModuleObjectRevision) =>
             getObjectRevisionBannerText(revision, singular),
@@ -161,7 +156,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
 
                 <div className="order-1 col-span-6 xl:col-span-2">
                     <Sidebar
-                        revisions={amountOfRevisions}
+                        revisions={revisions?.results}
                         revisionsLoading={revisionsLoading}
                         model={model}
                         handleModal={() => setActiveModal('revision')}
@@ -272,7 +267,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                 </div>
             </Container>
 
-            {!!amountOfRevisions && amountOfRevisions > 0 && (
+            {!!revisions?.results && revisions.results.length > 1 && (
                 <RevisionModal
                     model={model}
                     revisions={revisions?.results}
