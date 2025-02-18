@@ -9,6 +9,12 @@ import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import ObjectList from '@/components/ObjectList'
 
+const META = {
+    title: 'Thematische programma’s',
+    description:
+        'De provincie heeft een aantal beleidsdoelen geformuleerd. Deze beleidsdoelen zijn direct de thema’s voor de thematische programma’s. Een overzicht van alle thematische programma’s vindt u hier.',
+}
+
 const PAGE_LIMIT = 20
 
 function ThemeOverview() {
@@ -41,7 +47,10 @@ function ThemeOverview() {
 
     return (
         <>
-            <Helmet title="Thematische programma’s" />
+            <Helmet title={META.title}>
+                <meta name="description" content={META.description} />
+                <meta name="og:description" content={META.description} />
+            </Helmet>
 
             <Container className="overflow-hidden pb-20">
                 <div className="col-span-6">

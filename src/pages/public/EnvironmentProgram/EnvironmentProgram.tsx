@@ -1,9 +1,16 @@
 import { Heading, Text } from '@pzh-ui/components'
+import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import imgEnvironmentProgram from '@/images/environment-program.webp'
+
+const META = {
+    title: 'Omgevingsprogramma',
+    description:
+        'In het Omgevingsprogramma staat beschreven welke maatregelen de provincie treft om de visie waar te maken. Het Omgevingsprogramma geeft bijvoorbeeld aan voor welke initiatieven subsidies worden verleend en aan welke provinciale wegen wordt gewerkt. Het Omgevingsprogramma is een overzicht van alle maatregelen inclusief de onderliggende activiteiten.',
+}
 
 function EnvironmentProgram() {
     const breadcrumbPaths = [
@@ -12,7 +19,12 @@ function EnvironmentProgram() {
     ]
 
     return (
-        <div>
+        <>
+            <Helmet title={META.title}>
+                <meta name="description" content={META.description} />
+                <meta name="og:description" content={META.description} />
+            </Helmet>
+
             <div
                 className="hidden h-[288px] w-full bg-pzh-blue-500 bg-cover bg-center bg-no-repeat md:block"
                 style={{
@@ -99,7 +111,7 @@ function EnvironmentProgram() {
                     </Link>
                 </div>
             </Container>
-        </div>
+        </>
     )
 }
 

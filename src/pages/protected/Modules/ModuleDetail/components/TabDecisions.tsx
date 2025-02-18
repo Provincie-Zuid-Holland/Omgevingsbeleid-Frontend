@@ -134,15 +134,14 @@ export const Packages = () => {
         {
             version_uuid: version?.UUID,
             limit: 100,
+            package_type: PackageType['publication'],
         },
         {
             query: {
                 enabled: !!version?.UUID,
                 select: data =>
                     data.results.find(
-                        pkg =>
-                            pkg.Report_Status === ReportStatusType['valid'] &&
-                            pkg.Package_Type === PackageType['publication']
+                        pkg => pkg.Report_Status === ReportStatusType['valid']
                     ),
             },
         }
@@ -167,6 +166,7 @@ export const Packages = () => {
             {
                 announcement_uuid: announcement?.UUID,
                 limit: 100,
+                package_type: PackageType['publication'],
             },
             {
                 query: {
@@ -174,9 +174,7 @@ export const Packages = () => {
                     select: data =>
                         data.results.find(
                             pkg =>
-                                pkg.Report_Status ===
-                                    ReportStatusType['valid'] &&
-                                pkg.Package_Type === PackageType['publication']
+                                pkg.Report_Status === ReportStatusType['valid']
                         ),
                 },
             }
@@ -231,14 +229,16 @@ export const Packages = () => {
                     publicationType="act"
                     isLocked={version.Is_Locked}
                 />
-                {environment?.Can_Publicate && !!validActPackage && (
-                    <PublicationNotification
-                        publicationType="act"
-                        validPublicationPackage={validActPackage}
-                        version={version}
-                        announcement={announcement}
-                    />
-                )}
+                {version?.Publication.Procedure_Type === 'draft' &&
+                    environment?.Can_Publicate &&
+                    !!validActPackage && (
+                        <PublicationNotification
+                            publicationType="act"
+                            validPublicationPackage={validActPackage}
+                            version={version}
+                            announcement={announcement}
+                        />
+                    )}
                 {version?.Publication.Procedure_Type === 'draft' &&
                     environment?.Can_Publicate && (
                         <PublicationPackages

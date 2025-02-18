@@ -31,14 +31,22 @@ import {
 } from '@/utils/dynamicObject'
 import { getModuleStatusColor } from '@/utils/module'
 
+const META = {
+    title: 'Herzieningen',
+    description:
+        '“Welk beleid gaat binnenkort worden gewijzigd?” is een veel gehoorde vraag. Op deze pagina laten wij zien welk beleid momenteel herzien wordt en in welke fase van besluitvorming dit zich bevindt.',
+}
+
 const Revisions = () => {
     const { data, isLoading } = useRevisionsGet()
 
     return (
-        <div>
-            <Helmet>
-                <title>Omgevingsbeleid - Herzieningen</title>
+        <>
+            <Helmet title={META.title}>
+                <meta name="description" content={META.description} />
+                <meta name="og:description" content={META.description} />
             </Helmet>
+
             <Container className="overflow-hidden">
                 <div className="col-span-6 pt-8 lg:col-span-3 lg:pt-16">
                     <Heading level="1" size="xxl">
@@ -186,7 +194,7 @@ const Revisions = () => {
                     />
                 </div>
             </Container>
-        </div>
+        </>
     )
 }
 

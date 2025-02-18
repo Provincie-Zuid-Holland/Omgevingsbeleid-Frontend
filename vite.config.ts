@@ -12,8 +12,10 @@ export default defineConfig({
         host: 'localhost',
         port: 3000,
     },
+    preview: {},
     build: {
         target: 'esnext',
+        outDir: 'build',
         rollupOptions: {
             output: {
                 dir: 'build',

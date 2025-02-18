@@ -1,23 +1,23 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 
-import PlanningAndReleases from './PlanningAndReleases'
+import About from './About'
 
-describe('PlanningAndReleases', () => {
+describe('About', () => {
     const defaultProps = {}
 
     const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
-                <PlanningAndReleases {...props} />
+                <About {...props} />
             </MemoryRouter>
         )
     }
 
     it('Component renders', () => {
         setup()
-        const element = screen.getByText('Planning & Releases')
+        const element = screen.getByText('Over platform Omgevingsbeleid')
         expect(element).toBeTruthy()
     })
 })

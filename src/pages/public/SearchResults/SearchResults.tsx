@@ -19,6 +19,11 @@ import { ModelType } from '@/config/objects/types'
 import useSearchParams from '@/hooks/useSearchParam'
 import useFilterStore from '@/store/filterStore'
 
+const META = {
+    title: 'Zoekresultaten',
+    description: 'Zoek binnen de website van het Omgevingsbeleid.',
+}
+
 const PAGE_LIMIT = 10
 
 const SearchResults = () => {
@@ -141,7 +146,10 @@ const SearchResults = () => {
 
     return (
         <>
-            <Helmet title="Zoekresultaten" />
+            <Helmet title={META.title}>
+                <meta name="description" content={META.description} />
+                <meta name="og:description" content={META.description} />
+            </Helmet>
 
             <div className="bg-pzh-blue-500">
                 <Container className="h-24 items-center">

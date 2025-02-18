@@ -6,17 +6,20 @@ import {
     Heading,
     Text,
 } from '@pzh-ui/components'
-import { FilePdf, Notes, PenToSquare } from '@pzh-ui/icons'
+import { FilePdf, Notes, PenToSquare, TrashCan } from '@pzh-ui/icons'
+import { useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
-import { usePublicationVersionsVersionUuidPdfExportPost } from '@/api/fetchers'
 import {
-    PackageType,
+    getPublicationsPublicationUuidVersionsGetQueryKey,
+    usePublicationVersionsVersionUuidDelete,
+    usePublicationVersionsVersionUuidPdfExportPost,
+} from '@/api/fetchers'
+import {
     Publication,
     PublicationEnvironment,
     PublicationVersionShort,
-    ReportStatusType,
 } from '@/api/fetchers.schemas'
 import useModalStore from '@/store/modalStore'
 import { downloadFile } from '@/utils/file'
@@ -33,9 +36,12 @@ const Version = ({
     Is_Locked,
     Act_Packages,
     Effective_Date,
+    Status,
     environment,
     publication,
 }: VersionProps) => {
+    const queryClient = useQueryClient()
+
     const { moduleId } = useParams()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
@@ -57,64 +63,63 @@ const Version = ({
         })
 
     const status = useMemo((): BadgeProps => {
-        const publicationPackages = Act_Packages.filter(
-            pkg => pkg.Package_Type === PackageType['publication']
-        )
-        const latestValidationPackage = Act_Packages.find(
-            pkg => pkg.Package_Type === PackageType['validation']
-        )
+        const steps = publication.Procedure_Type === 'draft' ? '3' : '2'
 
-        const hasValidPublicationPackage = publicationPackages.some(
-            pkg => pkg.Report_Status === ReportStatusType['valid']
-        )
-        const hasPendingPublicationPackage = publicationPackages.some(
-            pkg => pkg.Report_Status === ReportStatusType['pending']
-        )
-        const hasFailedPublicationPackage = publicationPackages.some(
-            pkg => pkg.Report_Status === ReportStatusType['failed']
-        )
-
-        if (hasValidPublicationPackage) {
-            return {
-                text: 'Afgerond',
-                solid: true,
-            }
-        }
-
-        if (hasFailedPublicationPackage) {
-            return {
-                text: 'Publicatie gefaald',
-                variant: 'red',
-            }
-        }
-
-        if (hasPendingPublicationPackage) {
-            return {
-                text: '2/2: Publicatie',
-                solid: true,
-                variant: 'yellow',
-            }
-        }
-
-        if (latestValidationPackage) {
-            if (latestValidationPackage.Report_Status === 'failed') {
+        switch (Status) {
+            case 'validation':
+                return {
+                    text: `1/${steps}: Validatie`,
+                    solid: true,
+                    variant: 'yellow',
+                }
+            case 'validation_failed':
                 return {
                     text: 'Validatie gefaald',
                     variant: 'yellow',
                 }
-            }
-
-            return {
-                text: '1/2: Validatie',
-                solid: true,
-                variant: 'yellow',
-            }
+            case 'publication':
+                return {
+                    text: `2/${steps}: Publicatie`,
+                    solid: true,
+                    variant: 'yellow',
+                }
+            case 'publication_failed':
+                return {
+                    text: 'Publicatie gefaald',
+                    variant: 'red',
+                }
+            case 'announcement':
+                return {
+                    text: '3/3: Kennisgeving',
+                    solid: true,
+                    variant: 'yellow',
+                }
+            case 'completed':
+                return {
+                    text: 'Afgerond',
+                    solid: true,
+                }
+            default:
+                return {
+                    text: 'Actief',
+                }
         }
+    }, [Status, publication])
 
-        return {
-            text: 'Actief',
-        }
-    }, [Act_Packages])
+    const handleDeleteVersion = usePublicationVersionsVersionUuidDelete({
+        mutation: {
+            onSuccess: () => {
+                queryClient.invalidateQueries({
+                    queryKey: getPublicationsPublicationUuidVersionsGetQueryKey(
+                        publication.UUID,
+                        {
+                            limit: 100,
+                        }
+                    ),
+                })
+            },
+        },
+    })
 
     return (
         <div className="flex h-16 border-b border-pzh-gray-200 last:border-b-0 hover:bg-pzh-blue-10 hover:ring-1 hover:ring-inset hover:ring-pzh-blue-100">
@@ -156,7 +161,7 @@ const Version = ({
                     </Text>
                 </div>
             </div>
-            <div className="flex w-2/12 items-center justify-end gap-2 px-2">
+            <div className="flex w-2/12 items-center justify-end gap-2 px-6">
                 <Button size="small" variant="cta" asChild>
                     <Link
                         to={`/muteer/modules/${moduleId}/besluiten/${UUID}/leveringen`}>
@@ -192,6 +197,16 @@ const Version = ({
                         })
                     }
                 />
+                {!!!Act_Packages.length && (
+                    <Button
+                        variant="default"
+                        className="ml-2"
+                        onPress={() =>
+                            handleDeleteVersion.mutate({ versionUuid: UUID })
+                        }>
+                        <TrashCan className="text-pzh-red-500" size={16} />
+                    </Button>
+                )}
             </div>
         </div>
     )

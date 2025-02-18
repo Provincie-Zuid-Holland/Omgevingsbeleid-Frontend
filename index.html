@@ -2,17 +2,26 @@
 <html lang="nl" class="scroll-smooth">
     <head>
         <!-- Google tag (gtag.js) -->
-        <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=%VITE_GTAG_ID%"></script>
         <script>
-            window.dataLayer = window.dataLayer || []
-            function gtag() {
-                dataLayer.push(arguments)
-            }
-            gtag('js', new Date())
+            const environment = '%VITE_API_ENV%'
 
-            gtag('config', '%VITE_GTAG_ID%')
+            // Only load Google Tag script and initialize on the 'main' environment
+            if (environment === 'main') {
+                const script = document.createElement('script')
+                script.async = true
+                script.src =
+                    'https://www.googletagmanager.com/gtag/js?id=%VITE_GTAG_ID%'
+                document.head.appendChild(script)
+
+                script.onload = () => {
+                    window.dataLayer = window.dataLayer || []
+                    function gtag() {
+                        dataLayer.push(arguments)
+                    }
+                    gtag('js', new Date())
+                    gtag('config', '%VITE_GTAG_ID%')
+                }
+            }
         </script>
 
         <meta charset="utf-8" />
@@ -37,13 +46,6 @@
             color="#5bbad5" />
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
-
-        <meta
-            property="og:title"
-            content="Omgevingsbeleid - Provincie Zuid-Holland" />
-        <meta
-            property="og:description"
-            content="Provincie Zuid-Holland heeft haar beleid eenvoudiger, transparanter en toegankelijker gemaakt. Via deze website kunt u al het Omgevingsbeleid van de provincie Zuid-Holland inzien." />
         <meta
             property="og:image"
             content="/omgevingsbeleid_Provincie_Zuid_Holland.png" />
@@ -53,8 +55,6 @@
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="theme-color" content="#000000" />
-
-        <title>Omgevingsbeleid - Provincie Zuid-Holland</title>
     </head>
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>

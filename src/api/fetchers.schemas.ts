@@ -39,10 +39,10 @@ export type PublicationAnnouncementPackagesAnnouncementPackageUuidDownloadGet200
 export type PublicationAnnouncementPackagesGetParams = {
     announcement_uuid?: string
     package_type?: PackageType
-    before_datetime?: string
-    after_datetime?: string
     offset?: number
     limit?: number
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type PublicationAnnouncementsGetParams = {
@@ -65,10 +65,10 @@ export type PublicationActPackagesActPackageUuidDownloadGet200 = {}
 export type PublicationActPackagesGetParams = {
     version_uuid?: string
     package_type?: PackageType
-    before_datetime?: string
-    after_datetime?: string
     offset?: number
     limit?: number
+    sort_column?: string
+    sort_order?: SortOrder
 }
 
 export type PublicationVersionsVersionUuidPdfExportPost200 = {}
@@ -124,8 +124,8 @@ export type ModulesObjectsLatestGetParams = {
     object_type?: string
     owner_uuid?: string
     minimum_status?: ModuleStatusCode
-    actions?: ModuleObjectActionFilter[]
-    action?: ModuleObjectActionFilter
+    actions?: ModuleObjectActionFull[]
+    action?: ModuleObjectActionFull
     only_active_modules?: boolean
     offset?: number
     limit?: number
@@ -1162,6 +1162,7 @@ export interface PublicationVersionShort {
     Modified_Date: string
     Module_Status: ModuleStatus
     Publication_UUID: string
+    Status: PublicationVersionStatus
     UUID: string
 }
 
@@ -1491,6 +1492,7 @@ export interface PublicModuleOverview {
 }
 
 export interface PublicModuleObjectRevision {
+    Action: ModuleObjectActionFull
     Module_ID: number
     Module_Object_UUID: string
     Module_Status: string
@@ -2281,11 +2283,11 @@ export interface ModuleObjectContext {
 /**
  * An enumeration.
  */
-export type ModuleObjectActionFilter =
-    (typeof ModuleObjectActionFilter)[keyof typeof ModuleObjectActionFilter]
+export type ModuleObjectActionFull =
+    (typeof ModuleObjectActionFull)[keyof typeof ModuleObjectActionFull]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ModuleObjectActionFilter = {
+export const ModuleObjectActionFull = {
     Create: 'Create',
     Edit: 'Edit',
     Terminate: 'Terminate',
@@ -3353,6 +3355,7 @@ export interface ActiveModuleObject {
 }
 
 export interface ActiveModuleObjectWrapper {
+    Action: ModuleObjectActionFull
     Module: ModuleShort
     Module_Object: ActiveModuleObject
 }
