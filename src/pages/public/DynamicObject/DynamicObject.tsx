@@ -1,15 +1,12 @@
-import {
-    Breadcrumbs,
-    Heading,
-    Hyperlink,
-    Notification,
-} from '@pzh-ui/components'
-import classNames from 'classnames'
+import { Heading, Hyperlink, Notification } from '@pzh-ui/components'
+import classNames from 'clsx'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { useShallow } from 'zustand/react/shallow'
 
 import { PublicModuleObjectRevision } from '@/api/fetchers.schemas'
+import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import ObjectArea from '@/components/DynamicObject/ObjectArea'
 import ObjectConnectionsPublic from '@/components/DynamicObject/ObjectConnectionsPublic'
@@ -32,10 +29,15 @@ interface DynamicObjectProps {
 
 const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
     const { moduleId, uuid } = useParams()
-    const pathName = location.pathname || ''
 
     const { setInitialObject, setRevisionFrom, setRevisionTo } =
-        useRevisionStore(state => ({ ...state }))
+        useRevisionStore(
+            useShallow(state => ({
+                setInitialObject: state.setInitialObject,
+                setRevisionFrom: state.setRevisionFrom,
+                setRevisionTo: state.setRevisionTo,
+            }))
+        )
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const [revisionModalOpen, setRevisionModalOpen] = useState(false)
@@ -89,16 +91,13 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
     const { data: revisions, isPending: revisionsLoading } =
         useGetValidLineage?.<{ results?: ModelReturnType[] }>(
             data!.Object_ID!,
-            undefined,
+            {
+                limit: 100,
+            },
             {
                 query: { enabled: !!data?.Object_ID && !isRevision },
             }
         ) || {}
-
-    const amountOfRevisions = useMemo(
-        () => revisions?.results && revisions.results.length - 1,
-        [revisions]
-    )
 
     const getRevisionText = useCallback(
         (revision: PublicModuleObjectRevision) =>
@@ -107,23 +106,23 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
     )
 
     const breadcrumbPaths = [
-        { name: 'Omgevingsbeleid', path: '/' },
+        { name: 'Omgevingsbeleid', to: '/' },
         {
             name: slugOverview || '',
-            path: slugOverviewPublic ? `/${slugOverview}` : '/',
+            to: slugOverviewPublic ? `/${slugOverview}` : '/',
         },
-        { name: pluralCapitalize, path: `/${slugOverview}/${plural}` },
+        { name: pluralCapitalize, to: `/${slugOverview}/${plural}` },
         ...(isRevision
             ? [
                   {
                       name: 'Ontwerpversie',
-                      path: !latestIsError
+                      to: !latestIsError
                           ? `/${slugOverview}/${plural}/${latest?.UUID}`
                           : `/${slugOverview}/${plural}`,
                   },
               ]
             : []),
-        { name: data?.Title || '', path: pathName },
+        { name: data?.Title || '' },
     ]
 
     /**
@@ -142,7 +141,30 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
 
     return (
         <>
-            <Helmet title={data?.Title} />
+            <Helmet title={data?.Title}>
+                {data.Description && (
+                    <>
+                        <meta
+                            name="description"
+                            content={
+                                data.Description?.substring(0, 100).replace(
+                                    '<p>',
+                                    ''
+                                ) + '...'
+                            }
+                        />
+                        <meta
+                            name="og:description"
+                            content={
+                                data.Description?.substring(0, 100).replace(
+                                    '<p>',
+                                    ''
+                                ) + '...'
+                            }
+                        />
+                    </>
+                )}
+            </Helmet>
 
             <Container
                 className={classNames('pb-16', {
@@ -157,7 +179,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
 
                 <div className="order-1 col-span-6 xl:col-span-2">
                     <Sidebar
-                        revisions={amountOfRevisions}
+                        revisions={revisions?.results}
                         revisionsLoading={revisionsLoading}
                         model={model}
                         handleModal={() => setActiveModal('revision')}
@@ -181,10 +203,12 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                                         ? 'ontwerpversie'
                                         : 'verouderde versie'}{' '}
                                     van {demonstrative} {singularReadable},{' '}
-                                    <Hyperlink
-                                        to={`/${slugOverview}/${plural}/${latest.UUID}`}
-                                        text="bekijk hier de vigerende versie"
-                                    />
+                                    <Hyperlink asChild>
+                                        <Link
+                                            to={`/${slugOverview}/${plural}/${latest.UUID}`}>
+                                            bekijk hier de vigerende versie
+                                        </Link>
+                                    </Hyperlink>
                                 </>
                             </Notification>
                         )}
@@ -210,11 +234,15 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                         <ObjectContent
                             data={data || {}}
                             customTitle={
-                                singular === 'beleidskeuze' ||
-                                singular === 'maatregel'
+                                singular === 'beleidskeuze'
                                     ? {
                                           Description:
                                               'Wat wil de provincie bereiken?',
+                                      }
+                                    : singular === 'maatregel'
+                                    ? {
+                                          Description:
+                                              'Wat gaat de provincie doen?',
                                       }
                                     : undefined
                             }
@@ -232,11 +260,12 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                         </div>
                     )}
 
-                    {model.allowedConnections &&
+                    {!!model.allowedConnections &&
                         !model.acknowledgedRelation && (
                             <div
                                 className={classNames('order-8', {
-                                    'mt-4 md:mt-8': !!data?.Gebied,
+                                    'mt-4 md:mt-8':
+                                        !!data?.Werkingsgebied_Statics,
                                 })}>
                                 <ObjectConnectionsPublic
                                     model={model}
@@ -245,21 +274,23 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                             </div>
                         )}
 
-                    {model.allowedConnections && model.acknowledgedRelation && (
-                        <div
-                            className={classNames('order-9', {
-                                'mt-4 md:mt-8': !!data?.Gebied,
-                            })}>
-                            <ObjectRelationsPublic
-                                model={model}
-                                data={data || {}}
-                            />
-                        </div>
-                    )}
+                    {!!model.allowedConnections &&
+                        !!model.acknowledgedRelation && (
+                            <div
+                                className={classNames('order-9', {
+                                    'mt-4 md:mt-8':
+                                        !!data?.Werkingsgebied_Statics,
+                                })}>
+                                <ObjectRelationsPublic
+                                    model={model}
+                                    data={data || {}}
+                                />
+                            </div>
+                        )}
                 </div>
             </Container>
 
-            {!!amountOfRevisions && amountOfRevisions > 0 && (
+            {!!revisions?.results && revisions.results.length > 1 && (
                 <RevisionModal
                     model={model}
                     revisions={revisions?.results}

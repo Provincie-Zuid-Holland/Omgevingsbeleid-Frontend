@@ -5,6 +5,7 @@ import { default as beleidsregel } from './beleidsregel'
 import { default as gebiedsprogramma } from './gebiedsprogramma'
 import { default as maatregel } from './maatregel'
 import { default as nationaal_belang } from './nationaalBelang'
+import { default as programma_algemeen } from './programmaAlgemeen'
 import { default as verplicht_programma } from './verplichtProgramma'
 import { default as visie_algemeen } from './visieAlgemeen'
 import { default as werkingsgebied } from './werkingsgebied'
@@ -18,6 +19,7 @@ export {
     gebiedsprogramma,
     maatregel,
     nationaal_belang,
+    programma_algemeen,
     verplicht_programma,
     visie_algemeen,
     werkingsgebied,

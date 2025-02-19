@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom'
 import {
     getModulesGetQueryKey,
     getModulesModuleIdGetQueryKey,
+    getModulesModuleIdStatusGetQueryKey,
     useModulesModuleIdStatusPatch,
 } from '@/api/fetchers'
 import { ModuleStatusCode } from '@/api/fetchers.schemas'
@@ -23,15 +24,23 @@ const ModuleVersionCard = () => {
     const createVersion = useModulesModuleIdStatusPatch({
         mutation: {
             onSuccess: () => {
-                queryClient.invalidateQueries({
-                    queryKey: getModulesModuleIdGetQueryKey(
-                        parseInt(moduleId!)
-                    ),
-                })
-                queryClient.invalidateQueries({
-                    queryKey: getModulesGetQueryKey(),
-                    refetchType: 'all',
-                })
+                Promise.all([
+                    queryClient.invalidateQueries({
+                        queryKey: getModulesModuleIdGetQueryKey(
+                            parseInt(moduleId!)
+                        ),
+                    }),
+                    queryClient.invalidateQueries({
+                        queryKey: getModulesGetQueryKey(),
+                        refetchType: 'all',
+                    }),
+                    queryClient.invalidateQueries({
+                        queryKey: getModulesModuleIdStatusGetQueryKey(
+                            parseInt(moduleId!)
+                        ),
+                        refetchType: 'all',
+                    }),
+                ])
 
                 toastNotification('saved')
             },
@@ -75,7 +84,7 @@ const ModuleVersionCard = () => {
 
     return (
         <div className="mb-5 bg-pzh-gray-100 px-8 py-6">
-            <Text bold color="text-pzh-blue" className="mb-2">
+            <Text bold color="text-pzh-blue-500" className="mb-2">
                 Versie aanmaken
             </Text>
             <Text className="mb-2">

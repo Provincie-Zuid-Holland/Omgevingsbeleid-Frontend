@@ -5,9 +5,10 @@ import {
     Text,
 } from '@pzh-ui/components'
 import { useUpdateEffect } from '@react-hookz/web'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { useShallow } from 'zustand/react/shallow'
 
 import { useSearchValidPost } from '@/api/fetchers'
 import { Container } from '@/components/Container'
@@ -18,21 +19,28 @@ import { ModelType } from '@/config/objects/types'
 import useSearchParams from '@/hooks/useSearchParam'
 import useFilterStore from '@/store/filterStore'
 
+const META = {
+    title: 'Zoekresultaten',
+    description: 'Zoek binnen de website van het Omgevingsbeleid.',
+}
+
 const PAGE_LIMIT = 10
 
 const SearchResults = () => {
     const { get, set, remove } = useSearchParams()
     const [query, page, filter] = get(['query', 'page', 'filter'])
 
-    const filters = useFilterStore(state => state.filters)
-    const selectedFilters = useFilterStore(
-        state =>
-            ({
-                ...state.selectedFilters,
-                search: (!!filter && filter?.split(',')) || [],
-            }.search)
+    const { filters, setSelectedFilters } = useFilterStore(
+        useShallow(state => ({
+            filters: state.filters,
+            setSelectedFilters: state.setSelectedFilters,
+        }))
     )
-    const setSelectedFilters = useFilterStore(state => state.setSelectedFilters)
+
+    const selectedFilters = useMemo(
+        () => (!!filter && filter?.split(',')) || [],
+        [filter]
+    )
 
     const [currPage, setCurrPage] = useState(parseInt(page || '1'))
 
@@ -138,9 +146,12 @@ const SearchResults = () => {
 
     return (
         <>
-            <Helmet title="Zoekresultaten" />
+            <Helmet title={META.title}>
+                <meta name="description" content={META.description} />
+                <meta name="og:description" content={META.description} />
+            </Helmet>
 
-            <div className="bg-pzh-blue">
+            <div className="bg-pzh-blue-500">
                 <Container className="h-24 items-center">
                     <div className="col-span-2">
                         <Heading
@@ -174,7 +185,7 @@ const SearchResults = () => {
                                 className={classNames({
                                     'mb-6': index + 1 !== filters.length,
                                 })}>
-                                <Text bold className="mb-3 text-pzh-blue">
+                                <Text bold className="mb-3 text-pzh-blue-500">
                                     {filter.label}
                                 </Text>
 
@@ -216,9 +227,10 @@ const SearchResults = () => {
                             <div className="mt-8 flex justify-center">
                                 <Pagination
                                     key={query}
-                                    onChange={handlePageChange}
-                                    forcePage={currPage - 1}
-                                    {...pagination}
+                                    onPageChange={handlePageChange}
+                                    current={currPage}
+                                    total={pagination.total}
+                                    limit={pagination.limit}
                                 />
                             </div>
                         )}

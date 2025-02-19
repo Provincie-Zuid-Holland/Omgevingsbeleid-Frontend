@@ -199,12 +199,14 @@ export const CreateCustomPopup = ({
                         Bekijk beleid
                     </Button>
                 ) : (
-                    <a
-                        href={`${MAP_SEARCH_PAGE}?${searchParams}&sidebarOpen=true`}>
-                        <Button as="span">Bekijk beleid</Button>
-                    </a>
+                    <Button asChild className="flex items-center">
+                        <a
+                            href={`${MAP_SEARCH_PAGE}?${searchParams}&sidebarOpen=true`}>
+                            Bekijk beleid
+                        </a>
+                    </Button>
                 )}
-                <button className="leaflet-close-popup text-s text-pzh-red underline">
+                <button className="leaflet-close-popup text-s text-pzh-red-500 underline">
                     {type === 'marker' ? 'Pin' : 'Gebied'} verwijderen
                 </button>
             </div>

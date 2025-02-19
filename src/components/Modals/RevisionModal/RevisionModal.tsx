@@ -1,6 +1,7 @@
 import { Divider, FieldSelect, Text } from '@pzh-ui/components'
 import { useUpdateEffect } from '@react-hookz/web'
 import { useMemo, useState } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 
 import ObjectRevision from '@/components/DynamicObject/ObjectRevision'
 import { LoaderSpinner } from '@/components/Loader'
@@ -33,7 +34,7 @@ const RevisionModal = ({
         revisionTo,
         setRevisionFrom,
         setRevisionTo,
-    } = useRevisionStore(state => ({ ...state }))
+    } = useRevisionStore(useShallow(state => ({ ...state })))
 
     /**
      * Format options for select fields

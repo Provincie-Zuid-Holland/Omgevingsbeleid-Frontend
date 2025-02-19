@@ -1,7 +1,8 @@
 import { Button, Heading, PillButton } from '@pzh-ui/components'
 import { AngleRight, Plus } from '@pzh-ui/icons'
-import classNames from 'classnames'
-import { useCallback, useState } from 'react'
+import classNames from 'clsx'
+import { useCallback, useMemo, useState } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 
 import regulation from '@/config/regulations'
 import * as sections from '@/config/regulations/sections'
@@ -13,23 +14,31 @@ import RecursiveAccordion from '../RecursiveAccordion'
 import { formatStructure } from '../utils'
 
 const Sidebar = () => {
-    const structure = useRegulationStore(state =>
-        formatStructure(state.structure)
-    )
-    const activeItem = useRegulationStore(state => state.activeItem)
-    const setActiveItem = useRegulationStore(state => state.setActiveItem)
+    const { structure, activeItem, setActiveItem, setItemAction } =
+        useRegulationStore(
+            useShallow(state => ({
+                structure: state.structure,
+                activeItem: state.activeItem,
+                setActiveItem: state.setActiveItem,
+                setItemAction: state.setItemAction,
+            }))
+        )
     const setActiveModal = useModalStore(state => state.setActiveModal)
-    const setItemAction = useRegulationStore(state => state.setItemAction)
 
     const [expanded, setExpanded] = useState(true)
+
+    const formattedStructure = useMemo(
+        () => formatStructure(structure),
+        [structure]
+    )
 
     const toggleSidebar = useCallback(() => {
         setExpanded(!expanded)
 
         if (!activeItem) {
-            setActiveItem(structure?.[0]?.uuid)
+            setActiveItem(formattedStructure?.[0]?.uuid)
         }
-    }, [activeItem, structure, expanded, setActiveItem])
+    }, [activeItem, formattedStructure, expanded, setActiveItem])
 
     const handleAddItem = (type: SectionType) => {
         setItemAction({ action: 'add', type, path: [] })
@@ -51,7 +60,7 @@ const Sidebar = () => {
                 <Button
                     variant="default"
                     onPress={toggleSidebar}
-                    className="absolute -right-3 top-8 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-pzh-blue-dark">
+                    className="absolute -right-3 top-8 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-pzh-blue-900">
                     <span className="sr-only">{`Zijbalk ${
                         expanded ? 'sluiten' : 'openen'
                     }`}</span>
@@ -75,7 +84,7 @@ const Sidebar = () => {
                     )}
 
                     <RecursiveAccordion
-                        structure={structure}
+                        structure={formattedStructure}
                         expanded={expanded}
                     />
 

@@ -1,5 +1,5 @@
 import { Feedback, Heading, Text } from '@pzh-ui/components'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { Link } from 'react-router-dom'
 
 import usePage from '@/hooks/usePage'
@@ -22,15 +22,15 @@ function Footer() {
                     'py-10': userIsInMuteerEnvironment,
                 })}>
                 <div className="col-span-6 md:col-span-3 lg:col-span-2">
-                    <Heading level="3" size="m" color="text-pzh-blue">
+                    <Heading level="3" size="m" color="text-pzh-blue-500">
                         Krachtig Zuid-Holland
                     </Heading>
                 </div>
                 {!userIsInMuteerEnvironment && (
                     <div className="col-span-6 grid grid-cols-4 md:col-span-3 lg:col-span-4">
                         <div className="col-span-6 lg:col-span-2">
-                            <ul className="mt-6 grid gap-3 font-bold text-pzh-blue md:mt-0 md:gap-5">
-                                <li className="underline hover:text-pzh-blue-dark">
+                            <ul className="text-pzh-blue-500 mt-6 grid gap-3 font-bold md:mt-0 md:gap-5">
+                                <li className="hover:text-pzh-blue-900 underline">
                                     <a
                                         href="https://www.zuid-holland.nl"
                                         target="_blank"
@@ -38,7 +38,7 @@ function Footer() {
                                         Provincie Zuid-Holland
                                     </a>
                                 </li>
-                                <li className="underline hover:text-pzh-blue-dark">
+                                <li className="hover:text-pzh-blue-900 underline">
                                     <a
                                         rel="noopener noreferrer"
                                         href="https://www.zuid-holland.nl/algemeen/privacyverklaring/"
@@ -46,14 +46,14 @@ function Footer() {
                                         Cookies & Privacy
                                     </a>
                                 </li>
-                                <li className="underline hover:text-pzh-blue-dark">
+                                <li className="hover:text-pzh-blue-900 underline">
                                     <Link to="/digi-toegankelijkheid">
                                         Toegankelijkheidsverklaring
                                     </Link>
                                 </li>
-                                <li className="underline hover:text-pzh-blue-dark">
-                                    <Link to="/planning-en-releases">
-                                        Releases en planning
+                                <li className="hover:text-pzh-blue-900 underline">
+                                    <Link to="/over-dit-platform">
+                                        Over dit platform
                                     </Link>
                                 </li>
                             </ul>
@@ -64,7 +64,7 @@ function Footer() {
                                 wij dat graag via{' '}
                                 <a
                                     href="mailto:omgevingsbeleid@pzh.nl?subject=Aan- of opmerking"
-                                    className="cursor-pointer text-pzh-blue underline hover:text-pzh-blue-dark"
+                                    className="text-pzh-blue-500 hover:text-pzh-blue-900 cursor-pointer underline"
                                     target="_blank"
                                     rel="noopener noreferrer">
                                     omgevingsbeleid@pzh.nl

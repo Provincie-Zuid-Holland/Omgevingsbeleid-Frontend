@@ -1,18 +1,17 @@
 import { FieldLabel, FormikError, Text, formatDate } from '@pzh-ui/components'
 import { Pencil, TrashCan } from '@pzh-ui/icons'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { useFormikContext } from 'formik'
 import { useEffect, useMemo, useState } from 'react'
 
 import { AreaBasic } from '@/api/fetchers.schemas'
+import AreaPreview from '@/components/AreaPreview'
+import { AreaModalAdd, AreaModalEdit } from '@/components/Modals/AreaModals'
+import { AreaProps } from '@/components/Modals/AreaModals/AreaModalAdd'
 import { ModelReturnType } from '@/config/objects/types'
 import { DynamicField } from '@/config/types'
 import useObject from '@/hooks/useObject'
 import useModalStore from '@/store/modalStore'
-
-import AreaPreview from '../../AreaPreview'
-import AreaModal from '../../Modals/AreaModal'
-import { AreaProps } from '../../Modals/AreaModal/AreaModal'
 
 const FieldSelectArea = ({
     name,
@@ -30,14 +29,11 @@ const FieldSelectArea = ({
 
     const [area, setArea] = useState<Partial<AreaBasic | undefined>>(data?.Area)
 
-    const modifiedDate = useMemo(
+    const createdDate = useMemo(
         () =>
-            area?.Source_Modified_Date &&
-            formatDate(
-                new Date(area.Source_Modified_Date + 'Z'),
-                'd MMMM yyyy'
-            ),
-        [area?.Source_Modified_Date]
+            area?.Created_Date &&
+            formatDate(new Date(area.Created_Date + 'Z'), 'd MMMM yyyy'),
+        [area?.Created_Date]
     )
 
     /**
@@ -55,11 +51,11 @@ const FieldSelectArea = ({
     const handleFormSubmit = (payload: AreaProps) => {
         setArea({
             Source_Title: payload.Title || '',
-            UUID: payload.version,
-            Source_UUID: payload.version,
-            Source_Modified_Date: payload.Modified_Date,
+            UUID: payload.area,
+            Source_UUID: payload.area,
+            Created_Date: payload.Created_Date,
         })
-        setFieldValue(name, payload.version)
+        setFieldValue(name, payload.area)
         setFieldValue('Source_Title', payload.Title)
     }
 
@@ -85,7 +81,7 @@ const FieldSelectArea = ({
                     className={classNames(
                         'mt-4 w-full rounded border border-pzh-gray-600 px-2 py-4 underline',
                         {
-                            'text-pzh-green': !disabled,
+                            'text-pzh-green-500': !disabled,
                             'bg-pzh-gray-100 text-pzh-gray-600': disabled,
                         }
                     )}
@@ -107,7 +103,7 @@ const FieldSelectArea = ({
                                         <button
                                             type="button"
                                             onClick={() =>
-                                                setActiveModal('areaAdd')
+                                                setActiveModal('areaEdit')
                                             }
                                             disabled={disabled}>
                                             <span className="sr-only">
@@ -130,7 +126,8 @@ const FieldSelectArea = ({
                                             </span>
                                             <TrashCan
                                                 className={classNames('mt-1', {
-                                                    'text-pzh-red': !disabled,
+                                                    'text-pzh-red-500':
+                                                        !disabled,
                                                     'text-pzh-gray-600':
                                                         disabled,
                                                 })}
@@ -139,12 +136,27 @@ const FieldSelectArea = ({
                                     </div>
                                 </div>
                                 <span className="block text-s">
-                                    Laatste update van {modifiedDate}
+                                    Datum: {createdDate}
                                 </span>
                             </div>
                         </div>
                         <div className="col-span-9 flex h-[500px] flex-1 md:col-span-6">
-                            <AreaPreview area={area} isSource />
+                            <AreaPreview
+                                key={
+                                    area &&
+                                    'Source_UUID' in area &&
+                                    area.Source_UUID
+                                        ? area.Source_UUID
+                                        : area?.UUID || ''
+                                }
+                                UUID={
+                                    area &&
+                                    'Source_UUID' in area &&
+                                    area.Source_UUID
+                                        ? area.Source_UUID
+                                        : area?.UUID || ''
+                                }
+                            />
                         </div>
                     </div>
                 </div>
@@ -155,12 +167,17 @@ const FieldSelectArea = ({
 
             <FormikError name={name} />
 
-            <AreaModal
+            <AreaModalAdd
                 initialValues={{
                     area: area?.Source_UUID,
-                    version: area?.Source_UUID,
                 }}
-                initialStep={!!area ? 2 : 1}
+                handleFormSubmit={handleFormSubmit}
+            />
+            <AreaModalEdit
+                initialValues={{
+                    area: area?.Source_UUID,
+                    Title: area?.Source_Title,
+                }}
                 handleFormSubmit={handleFormSubmit}
             />
         </>

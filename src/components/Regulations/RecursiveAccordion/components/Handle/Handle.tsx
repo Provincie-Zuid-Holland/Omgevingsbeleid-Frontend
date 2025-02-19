@@ -1,6 +1,7 @@
 import { Button, Text } from '@pzh-ui/components'
 import { GripDotsVertical, PenToSquare, TrashCan } from '@pzh-ui/icons'
-import classNames from 'classnames'
+import classNames from 'clsx'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Section, SectionType } from '@/config/regulations/sections/types'
 import useModalStore from '@/store/modalStore'
@@ -27,9 +28,13 @@ const Handle = ({
     expanded,
     index,
 }: HandleProps) => {
-    const activeItem = useRegulationStore(state => state.activeItem)
-    const setActiveItem = useRegulationStore(state => state.setActiveItem)
-    const setItemAction = useRegulationStore(state => state.setItemAction)
+    const { activeItem, setActiveItem, setItemAction } = useRegulationStore(
+        useShallow(state => ({
+            setItemAction: state.setItemAction,
+            activeItem: state.activeItem,
+            setActiveItem: state.setActiveItem,
+        }))
+    )
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const Icon = section.defaults.icon
@@ -50,7 +55,7 @@ const Handle = ({
                 {isDraggable && expanded && (
                     <GripDotsVertical
                         size={16}
-                        className="cursor-grab text-pzh-blue transition"
+                        className="cursor-grab text-pzh-blue-500 transition"
                     />
                 )}
                 <Button
@@ -60,8 +65,8 @@ const Handle = ({
                         GROUP_VARIANTS[type][1],
                         {
                             'cursor-pointer': !expanded,
-                            'bg-pzh-blue': activeItem === uuid,
-                            'bg-pzh-warm-gray-light': activeItem !== uuid,
+                            'bg-pzh-blue-500': activeItem === uuid,
+                            'bg-pzh-warm-gray-100': activeItem !== uuid,
                         }
                     )}
                     isDisabled={expanded}
@@ -72,7 +77,10 @@ const Handle = ({
                                       ? setActiveItem(uuid)
                                       : undefined
                             : undefined
-                    }>
+                    }
+                    aria-label={`${!expanded ? 'Open' : 'Sluit'} ${
+                        section.defaults.singularCapitalize
+                    } ${index}`}>
                     {expanded ? (
                         <Icon size={14} className="text-pzh-white" />
                     ) : (
@@ -86,7 +94,7 @@ const Handle = ({
                         'opacity-100': expanded,
                         'opacity-0': !expanded,
                     })}
-                    color="text-pzh-blue">
+                    color="text-pzh-blue-500">
                     {section.defaults.singularCapitalize} {index}: {title}
                 </Text>
             </div>
@@ -94,14 +102,16 @@ const Handle = ({
                 <Button
                     variant="default"
                     onPress={handleDelete}
-                    isDisabled={!expanded}>
-                    <TrashCan size={16} color="text-pzh-blue" />
+                    isDisabled={!expanded}
+                    aria-label="Verwijderen">
+                    <TrashCan size={16} color="text-pzh-blue-500" />
                 </Button>
                 <Button
                     variant="default"
                     onPress={handleEdit}
-                    isDisabled={!expanded}>
-                    <PenToSquare size={16} color="text-pzh-blue" />
+                    isDisabled={!expanded}
+                    aria-label="Wijzigen">
+                    <PenToSquare size={16} color="text-pzh-blue-500" />
                 </Button>
             </div>
         </div>

@@ -1,5 +1,5 @@
 import { Eye, Spinner } from '@pzh-ui/icons'
-import classNames from 'classnames'
+import classNames from 'clsx'
 
 interface ObjectRelationPartProps {
     /** Title */
@@ -30,9 +30,10 @@ const ObjectRelationPart = ({
                 className={classNames(
                     'relative flex h-6 w-6 items-center justify-center rounded-full',
                     {
-                        'after:content-[" "] bg-pzh-blue text-pzh-white after:absolute after:-left-1 after:-top-1 after:h-3 after:w-3 after:rounded-full after:border after:border-pzh-white after:bg-pzh-red':
+                        'after:content-[" "] bg-pzh-blue-500 text-pzh-white after:absolute after:-left-1 after:-top-1 after:h-3 after:w-3 after:rounded-full after:border after:border-pzh-white after:bg-pzh-red-500':
                             hasNotification,
-                        'bg-pzh-blue-light/50 text-pzh-blue': !hasNotification,
+                        'bg-pzh-blue-100/50 text-pzh-blue-500':
+                            !hasNotification,
                     }
                 )}>
                 <span className="-mb-1 text-s font-bold">{amount}</span>
@@ -53,7 +54,7 @@ const ObjectRelationPart = ({
                         className="animate-spin text-pzh-gray-600"
                     />
                 ) : (
-                    <Eye size={18} className="text-pzh-green" />
+                    <Eye size={18} className="text-pzh-green-500" />
                 ))}
             <span className="sr-only">Bekijken</span>
         </button>

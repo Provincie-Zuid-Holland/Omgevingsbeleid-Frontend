@@ -1,13 +1,18 @@
 import { Heading, Text } from '@pzh-ui/components'
 import { useMemo } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 
 import * as sections from '@/config/regulations/sections'
 import { Structure } from '@/config/regulations/types'
 import useRegulationStore from '@/store/regulationStore'
 
 const RegulationPreview = () => {
-    const structure = useRegulationStore(state => state.structure)
-    const activeItem = useRegulationStore(state => state.activeItem)
+    const { structure, activeItem } = useRegulationStore(
+        useShallow(state => ({
+            structure: state.structure,
+            activeItem: state.activeItem,
+        }))
+    )
 
     const { item: activeStructure, index } = useMemo(() => {
         const item = structure.find(item => item.uuid === activeItem)
@@ -48,7 +53,7 @@ const Preview = ({
                     {section.defaults.singularCapitalize} {parentIndex}: {title}
                 </Heading>
             ) : (
-                <Text bold color="text-pzh-blue" className="mb-3">
+                <Text bold color="text-pzh-blue-500" className="mb-3">
                     {section.defaults.singularCapitalize} {index}: {title}
                 </Text>
             )}

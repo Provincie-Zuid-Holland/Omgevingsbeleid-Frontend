@@ -1,4 +1,4 @@
-import { Text } from '@pzh-ui/components'
+import { Button, Text } from '@pzh-ui/components'
 import { useMemo } from 'react'
 
 import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
@@ -7,7 +7,6 @@ import { ModelType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
-import { ModuleContext } from '@/pages/protected/Modules/ModuleDetail'
 import useModalStore from '@/store/modalStore'
 
 import ModuleItem from '../ModuleItem'
@@ -17,8 +16,6 @@ interface ModuleItemListProps {
     objects?: ModuleObjectShort[]
     /** Current model object */
     module?: Module
-    /** Set module context */
-    setModuleContext: (e: ModuleContext) => void
 }
 
 const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
@@ -70,6 +67,7 @@ const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
                     hasViewButton={
                         canPatchObjectInModule && !canAddNewObjectToModule
                     }
+                    hasAddButton
                     {...rest}
                 />
 
@@ -90,6 +88,7 @@ const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
             objects={objects}
             title="Alle onderdelen in deze module"
             noResultsText="Er zijn nog geen onderdelen toegevoegd aan deze module"
+            hasAddButton
             {...rest}
         />
     )
@@ -104,24 +103,42 @@ interface ItemListProps extends ModuleItemListProps {
     hasEditButton?: boolean
     /** Has view button */
     hasViewButton?: boolean
+    /** Has add object button */
+    hasAddButton?: boolean
 }
 
 const ItemList = ({
     objects,
-    setModuleContext,
     module,
     title,
     noResultsText,
     hasEditButton,
     hasViewButton,
+    hasAddButton,
 }: ItemListProps) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
+    const { isLocked } = useModule()
+    const { canAddExistingObjectToModule, canAddNewObjectToModule } =
+        usePermissions()
 
     return (
         <>
-            <Text bold color="text-pzh-blue">
-                {title}
-            </Text>
+            <div className="flex items-center justify-between">
+                <Text bold color="text-pzh-blue-500">
+                    {title}
+                </Text>
+                {(canAddExistingObjectToModule || canAddNewObjectToModule) &&
+                    !isLocked &&
+                    hasAddButton && (
+                        <Button
+                            variant="link"
+                            onPress={() => setActiveModal('moduleAddObject')}
+                            className="block text-pzh-green-500 hover:text-pzh-green-900">
+                            Onderdeel toevoegen
+                        </Button>
+                    )}
+            </div>
+
             {!!objects?.length ? (
                 <div className="mb-4">
                     {objects.map(object => {
@@ -136,19 +153,17 @@ const ItemList = ({
                         return (
                             <ModuleItem
                                 key={object.UUID}
-                                editCallback={() => {
-                                    setModuleContext({
+                                editCallback={() =>
+                                    setActiveModal('moduleEditObject', {
                                         object,
                                     })
-                                    setActiveModal('moduleEditObject')
-                                }}
-                                deleteCallback={() => {
-                                    setModuleContext({
+                                }
+                                deleteCallback={() =>
+                                    setActiveModal('moduleDeleteObject', {
                                         object,
                                         module,
                                     })
-                                    setActiveModal('moduleDeleteObject')
-                                }}
+                                }
                                 viewCallback={() =>
                                     window
                                         .open(

@@ -1,5 +1,6 @@
 import { Hyperlink } from '@pzh-ui/components'
 import { Pencil, Plus, Xmark } from '@pzh-ui/icons'
+import { Link } from 'react-router-dom'
 
 import * as models from '@/config/objects'
 import { ModelPatchStaticType, ModelType } from '@/config/objects/types'
@@ -49,12 +50,12 @@ export const getStaticDataPropertyRequired = (
     key: keyof ModelPatchStaticType
 ) => {
     switch (key) {
-        case 'Client_1_UUID':
         case 'Owner_2_UUID':
-        case 'Portfolio_Holder_1_UUID':
         case 'Portfolio_Holder_2_UUID':
             return false
         case 'Owner_1_UUID':
+        case 'Client_1_UUID':
+        case 'Portfolio_Holder_1_UUID':
             return true
         default:
             throw new Error(
@@ -151,6 +152,10 @@ export const getObjectRevisionBannerText = (
     const model = models[type]
     const path = `/${model.defaults.slugOverview}/${model.defaults.plural}/ontwerpversie/${revision.Module_ID}/${revision.Module_Object_UUID}`
 
+    if (revision.Action === 'Terminate') {
+        return `In module '${revision.Module_Title}' zijn we voornemens ${model.defaults.demonstrative} ${model.defaults.singularReadable} te laten vervallen.`
+    }
+
     switch (revision.Module_Status) {
         case 'Ontwerp GS Concept':
         case 'Ontwerp GS':
@@ -161,12 +166,15 @@ export const getObjectRevisionBannerText = (
                     Op dit moment ligt er in de module '{revision.Module_Title}'
                     een nieuwe versie van {model.defaults.demonstrative}{' '}
                     {model.defaults.singularReadable} ter inzage,{' '}
-                    <Hyperlink to={path} text="bekijk deze versie hier" />.
+                    <Hyperlink asChild>
+                        <Link to={path}>bekijk deze versie hier</Link>
+                    </Hyperlink>
+                    .
                 </>
             )
         case 'Definitief ontwerp GS Concept':
         case 'Definitief ontwerp GS':
-            return `Is in inspraak geweest in module '${revision.Module_Title}'.`
+            return `Er is een versie in inspraak geweest in module '${revision.Module_Title}'.`
 
         case 'Ontwerp PS':
         case 'Definitief ontwerp PS':
@@ -177,7 +185,10 @@ export const getObjectRevisionBannerText = (
                     gewerkt aan een nieuwe versie van{' '}
                     {model.defaults.demonstrative}{' '}
                     {model.defaults.singularReadable},{' '}
-                    <Hyperlink to={path} text="bekijk deze versie hier" />.
+                    <Hyperlink asChild>
+                        <Link to={path}>bekijk deze versie hier</Link>
+                    </Hyperlink>
+                    .
                 </>
             )
         default:

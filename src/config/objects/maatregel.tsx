@@ -1,5 +1,6 @@
 import { Hyperlink } from '@pzh-ui/components'
 import { AngleDown, CalendarCheck } from '@pzh-ui/icons'
+import { Link } from 'react-router-dom'
 
 import {
     useMaatregelStaticLineageIdPost,
@@ -84,7 +85,10 @@ const maatregel: DynamicObject<
             maatregel is veelal gekoppeld met beleidsdoelen. Hieronder een
             overzicht van de beleidsdoelen van deze maatregel. Bekijk voor het
             volledige overzicht het{' '}
-            <Hyperlink text="beleidsnetwerk" to="/beleidsnetwerk" />.
+            <Hyperlink asChild>
+                <Link to="/beleidsnetwerk">beleidsnetwerk</Link>
+            </Hyperlink>
+            .
         </>
     ),
     fetchers,
@@ -112,11 +116,12 @@ const maatregel: DynamicObject<
             fields: [
                 {
                     name: 'Description',
-                    label: 'Wat wil de provincie bereiken?',
+                    label: 'Wat gaat de provincie doen?',
                     description:
                         'Formuleer bondig wat de provincie met deze maatregel wil bewerkstelligen.',
                     type: 'wysiwyg',
                     required: true,
+                    hasAreaSelect: true,
                     customMenuOptions: ['image', 'table'],
                     imageOptions: {
                         maxSize: 819200,
@@ -140,6 +145,7 @@ const maatregel: DynamicObject<
                     label: 'Nadere uitwerking',
                     description: 'Beschrijf de uitwerking van de maatregel.',
                     type: 'wysiwyg',
+                    hasAreaSelect: true,
                     customMenuOptions: ['image', 'table'],
                     imageOptions: {
                         maxSize: 819200,
@@ -153,15 +159,15 @@ const maatregel: DynamicObject<
                 'Het werkingsgebied geeft het gebied weer waar de maatregel betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld, toegestaan of juist verboden.',
             fields: [
                 {
-                    name: 'Werkingsgebied_Code',
-                    label: 'Selecteer werkingsgebied',
+                    name: 'Ambtsgebied',
+                    label: 'Selecteer het gebied',
                     description: (
                         <>
-                            Selecteer het werkingsgebied wat bij deze
-                            beleidskeuze van toepassing is. Heeft jouw
-                            beleidskeuze nog geen geschikt werkingsgebied, of
-                            moet het huidige gebied aangepast worden? Neem dan
-                            contact op via{' '}
+                            Is op deze maatregel het ambtsgebied van toepassing
+                            of een specifiek werkingsgebied? Heeft jouw
+                            maatregel nog geen geschikt gebied, of moet het
+                            huidige gebied aangepast worden? Neem dan contact op
+                            via{' '}
                             <a
                                 href="mailto:omgevingsbeleid@pzh.nl"
                                 className="underline">
@@ -170,18 +176,30 @@ const maatregel: DynamicObject<
                             .
                         </>
                     ),
+                    type: 'checkbox',
+                    options: [
+                        {
+                            label: 'Op deze maatregel is het ambtsgebied van toepassing',
+                            value: 'true',
+                        },
+                    ],
+                },
+                {
+                    name: 'Werkingsgebied_Code',
+                    label: 'Werkingsgebied',
                     type: 'search',
                     status: 'all',
-                    placeholder: 'Kies het werkingsgebied',
+                    placeholder: 'Selecteer een werkingsgebied',
                     filterType: ['werkingsgebied'],
                     objectKey: 'Werkingsgebied_Code',
                     components: {
                         DropdownIndicator: () => (
                             <div className="mr-4">
-                                <AngleDown className="text-pzh-blue-dark" />
+                                <AngleDown className="text-pzh-blue-900" />
                             </div>
                         ),
                     },
+                    conditionalField: 'Ambtsgebied',
                 },
             ],
         },
@@ -200,7 +218,7 @@ const maatregel: DynamicObject<
                     components: {
                         DropdownIndicator: () => (
                             <div className="mr-4">
-                                <AngleDown className="text-pzh-blue-dark" />
+                                <AngleDown className="text-pzh-blue-900" />
                             </div>
                         ),
                     },

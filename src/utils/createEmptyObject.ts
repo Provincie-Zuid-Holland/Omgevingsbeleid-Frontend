@@ -22,7 +22,7 @@ function createEmptyObject<T extends ZodTypeAny>(schema: T): input<T> {
                     return check.value
                 }
             }
-            return 0
+            return null
         case 'ZodBigInt':
             return 0
         case 'ZodBoolean':
@@ -44,9 +44,7 @@ function createEmptyObject<T extends ZodTypeAny>(schema: T): input<T> {
         case 'ZodEnum':
             return def.values[0]
         case 'ZodNativeEnum':
-            return Object.values(def.values).filter(
-                value => typeof def.values[value as any] !== 'number'
-            )[0]
+            return ''
         case 'ZodUnion':
             return createEmptyObject(def.options[0])
         case 'ZodDiscriminatedUnion':

@@ -1,7 +1,8 @@
 import { Transition } from '@headlessui/react'
 import { Heading, Pagination, Text } from '@pzh-ui/components'
-import { useUpdateEffect } from '@react-hookz/web'
+import { useMountEffect, useUpdateEffect } from '@react-hookz/web'
 import { useMemo, useRef } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 
 import {
     useSearchSourceGeoPost,
@@ -25,18 +26,36 @@ const SidebarResults = () => {
 
     const resultsContainer = useRef<HTMLDivElement>(null)
 
-    const mapInstance = useMapStore(state => state.mapInstance)
-    const isLoading = useMapStore(state => state.isDataLoading)
-    const drawType = useMapStore(state => state.drawType)
-    const pagination = useMapStore(state => state.pagination)
-    const setPagination = useMapStore(state => state.setPagination)
-    const currPage = useMapStore(() => parseInt(page || '1'))
-    const setCurrPage = useMapStore(state => state.setCurrPage)
+    const {
+        mapInstance,
+        isLoading,
+        drawType,
+        pagination,
+        setPagination,
+        currPage,
+        setCurrPage,
+    } = useMapStore(
+        useShallow(state => ({
+            mapInstance: state.mapInstance,
+            isLoading: state.isDataLoading,
+            drawType: state.drawType,
+            pagination: state.pagination,
+            setPagination: state.setPagination,
+            currPage: state.currPage,
+            setCurrPage: state.setCurrPage,
+        }))
+    )
 
-    const { amountOfFilters, filters, selectedFilters, setSelectedFilters } =
-        useFilterStore(state => ({
-            ...state,
-            filters: state.filters
+    const { filters, setSelectedFilters } = useFilterStore(
+        useShallow(state => ({
+            setSelectedFilters: state.setSelectedFilters,
+            filters: state.filters,
+        }))
+    )
+
+    const transformedFilters = useMemo(
+        () =>
+            filters
                 .map(filter => {
                     const options = filter.options.filter(
                         option => !option.exclude?.includes('mapSearch')
@@ -44,12 +63,18 @@ const SidebarResults = () => {
                     return { ...filter, options }
                 })
                 .filter(filter => filter.options.length > 0),
-            selectedFilters: {
-                ...state.selectedFilters,
-                mapSearch: filter?.split(',') || [],
-            }.mapSearch.filter(Boolean),
-            amountOfFilters: filter?.split(',')?.filter(Boolean)?.length || 0,
-        }))
+        [filters]
+    )
+    const selectedFilters = useMemo(
+        () => (filter?.split(',') || []).filter(Boolean),
+        [filter]
+    )
+    const amountOfFilters = useMemo(
+        () => filter?.split(',')?.filter(Boolean)?.length || 0,
+        [filter]
+    )
+
+    useMountEffect(() => setCurrPage(parseInt(page || '1')))
 
     const useSearch =
         drawType === 'werkingsgebied'
@@ -116,12 +141,12 @@ const SidebarResults = () => {
      */
     const defaultValue = useMemo(
         () =>
-            filters.flatMap(filter =>
+            transformedFilters.flatMap(filter =>
                 filter.options.filter(option =>
                     selectedFilters?.includes(option.value)
                 )
             ),
-        [filters, selectedFilters]
+        [transformedFilters, selectedFilters]
     )
 
     /**
@@ -129,10 +154,10 @@ const SidebarResults = () => {
      */
     const allFilterOptions = useMemo(
         () =>
-            filters.flatMap(filter =>
+            transformedFilters.flatMap(filter =>
                 filter.options.map(option => option.value)
             ),
-        [filters]
+        [transformedFilters]
     )
 
     /**
@@ -233,7 +258,7 @@ const SidebarResults = () => {
                             Resultaten
                         </Heading>
                         {!isLoading && !geoLoading ? (
-                            <span className="block text-s text-pzh-blue-dark text-opacity-50">
+                            <span className="block text-s text-pzh-blue-900 text-opacity-50">
                                 {!data?.total
                                     ? 'Er zijn geen resultaten'
                                     : data.total === 1
@@ -250,7 +275,7 @@ const SidebarResults = () => {
                     </div>
                     <Filter
                         className="min-w-[250px]"
-                        filters={filters}
+                        filters={transformedFilters}
                         activeFilters={amountOfFilters}
                         handleChange={handleDropdownChange}
                         defaultValue={defaultValue}
@@ -307,9 +332,10 @@ const SidebarResults = () => {
                         pagination.total > pagination.limit && (
                             <div className="mt-8 flex justify-center">
                                 <Pagination
-                                    onChange={handlePageChange}
-                                    forcePage={currPage - 1}
-                                    {...pagination}
+                                    onPageChange={handlePageChange}
+                                    current={currPage}
+                                    total={pagination.total}
+                                    limit={pagination.limit}
                                 />
                             </div>
                         )}

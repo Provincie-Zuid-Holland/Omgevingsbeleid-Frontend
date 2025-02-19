@@ -1,7 +1,6 @@
-import { Button, Heading, Pagination, Text } from '@pzh-ui/components'
+import { Button, Heading, Text } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
 import { keepPreviousData } from '@tanstack/react-query'
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { useModulesGet } from '@/api/fetchers'
@@ -10,17 +9,14 @@ import ModuleTile from '@/components/Modules/ModuleTile'
 import * as models from '@/config/objects'
 import { Model } from '@/config/objects/types'
 
-const PAGE_LIMIT = 20
+const PAGE_LIMIT = 3
 
 const DashboardAdmin = () => {
-    const [currPage, setCurrPage] = useState(1)
-
     const { data: modules, isFetching: modulesLoading } = useModulesGet(
         {
-            only_active: true,
+            filter_activated: true,
             only_mine: false,
             limit: PAGE_LIMIT,
-            offset: (currPage - 1) * PAGE_LIMIT,
         },
         {
             query: {
@@ -54,58 +50,43 @@ const DashboardAdmin = () => {
                 <div className="mt-10">
                     <div className="mb-4 flex items-center justify-between">
                         <Heading level="3" size="m">
-                            Modules
+                            Actieve modules
                         </Heading>
                         <Button
-                            as="a"
-                            href="/muteer/modules/nieuw"
+                            asChild
                             variant="cta"
                             size="small"
                             data-testid="dashboard-new-module">
-                            Nieuwe module
+                            <Link to="/muteer/modules/nieuw">
+                                Nieuwe module
+                            </Link>
                         </Button>
                     </div>
 
-                    <div className="grid grid-cols-8 px-3 py-2">
-                        <div className="col-span-5">
-                            <Text bold>Titel</Text>
-                        </div>
-                        <div className="col-span-3">
-                            <Text bold>Status</Text>
-                        </div>
-                    </div>
-
-                    <div className="mb-3 h-px w-full bg-pzh-blue" />
-
-                    <div className="grid grid-cols-1 gap-y-2">
+                    <div className="mb-4 grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-2 xl:grid-cols-3">
                         {modulesLoading ? (
                             <>
                                 <LoaderCard height="62" mb="" />
                                 <LoaderCard height="62" mb="" />
                                 <LoaderCard height="62" mb="" />
                             </>
-                        ) : (
+                        ) : !!modules?.results.length ? (
                             modules?.results?.map(module => (
                                 <ModuleTile
                                     key={`module-${module.Module_ID}`}
                                     {...module}
                                 />
                             ))
+                        ) : (
+                            <Text>
+                                Er zijn op dit moment geen actieve modules.
+                            </Text>
                         )}
                     </div>
 
-                    {!!modules?.total &&
-                        !!modules?.limit &&
-                        modules.total > modules.limit && (
-                            <div className="mt-8 flex justify-center">
-                                <Pagination
-                                    onChange={setCurrPage}
-                                    forcePage={currPage - 1}
-                                    total={modules.total}
-                                    limit={modules.limit}
-                                />
-                            </div>
-                        )}
+                    <Button asChild variant="secondary" size="small">
+                        <Link to="/muteer/modules">Bekijk alle modules</Link>
+                    </Button>
                 </div>
             </div>
         </div>
@@ -119,13 +100,13 @@ const ModelTile = ({ model }: { model: Model }) => {
         <Link to={`/muteer/${plural}`} data-testid="dashboard-model-tile">
             <div className="group flex items-center justify-between rounded border border-pzh-gray-200 px-6 py-7">
                 <div className="flex items-center">
-                    <Icon size={20} className="mr-4 text-pzh-blue" />
+                    <Icon size={20} className="mr-4 text-pzh-blue-500" />
                     <Heading level="3" size="s" className="-mb-1.5">
                         {pluralCapitalize}
                     </Heading>
                 </div>
                 <div className="transition group-hover:translate-x-1">
-                    <AngleRight size={18} className="text-pzh-green" />
+                    <AngleRight size={18} className="text-pzh-green-500" />
                 </div>
             </div>
         </Link>

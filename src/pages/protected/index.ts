@@ -7,21 +7,27 @@ import DynamicOverview from './DynamicOverview'
 import ModuleCreate from './Modules/ModuleCreate'
 import ModuleDetail from './Modules/ModuleDetail'
 import ModuleEdit from './Modules/ModuleEdit'
+import PublicationTemplateCreate from './PublicationTemplates/PublicationTemplateCreate'
+import PublicationTemplateEdit from './PublicationTemplates/PublicationTemplateEdit'
+import PublicationTemplateOverview from './PublicationTemplates/PublicationTemplateOverview'
 import Regulations from './Regulations'
 import UserDetail from './Users/UserDetail'
 import UsersOverview from './Users/UsersOverview'
 
 export {
     Dashboard,
-    ObjectEdit,
-    ObjectDetail,
-    ObjectCreate,
-    ObjectWrite,
     DynamicOverview,
     ModuleCreate,
     ModuleDetail,
     ModuleEdit,
+    ObjectCreate,
+    ObjectDetail,
+    ObjectEdit,
+    ObjectWrite,
+    PublicationTemplateCreate,
+    PublicationTemplateEdit,
+    PublicationTemplateOverview,
     Regulations,
-    UsersOverview,
     UserDetail,
+    UsersOverview,
 }

@@ -1,5 +1,6 @@
 import { Hyperlink } from '@pzh-ui/components'
 import { ArrowTrendUp } from '@pzh-ui/icons'
+import { Link } from 'react-router-dom'
 
 import {
     useAmbitieStaticLineageIdPost,
@@ -61,6 +62,7 @@ const ambitie: DynamicObject<
             'De ambities geven aan waar de provincie naar wil streven. De ambities komen voort uit het coalitieakkoord en worden vastgesteld in de Omgevingsvisie.',
         icon: ArrowTrendUp,
         parentType: 'Visie',
+        slugOverviewPublic: true,
     },
     staticData: [
         'Client_1_UUID',
@@ -76,7 +78,10 @@ const ambitie: DynamicObject<
             ambitie is veelal gekoppeld met beleidsdoelen. Hieronder een
             overzicht van de beleidsdoelen van deze ambitie. Bekijk voor het
             volledige overzicht het{' '}
-            <Hyperlink text="beleidsnetwerk" to="/beleidsnetwerk" />.
+            <Hyperlink asChild>
+                <Link to="/beleidsnetwerk">beleidsnetwerk</Link>
+            </Hyperlink>
+            .
         </>
     ),
     fetchers,
@@ -102,6 +107,7 @@ const ambitie: DynamicObject<
                         'Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct wat de provincie gaat doen en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',
                     type: 'wysiwyg',
                     required: true,
+                    hasAreaSelect: true,
                 },
             ],
         },

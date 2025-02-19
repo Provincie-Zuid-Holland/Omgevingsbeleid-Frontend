@@ -1,6 +1,6 @@
 import { Transition } from '@headlessui/react'
 import { useClickOutside } from '@react-hookz/web'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { ReactNode, useRef } from 'react'
 import { Link } from 'react-router-dom'
 

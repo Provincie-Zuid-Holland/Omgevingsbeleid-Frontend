@@ -1,25 +1,38 @@
-import { Breadcrumbs, Heading, TabItem, Tabs, Text } from '@pzh-ui/components'
-import classNames from 'classnames'
+import { Heading, TabItem, Tabs, Text } from '@pzh-ui/components'
+import classNames from 'clsx'
 import { Helmet } from 'react-helmet-async'
+import { useShallow } from 'zustand/react/shallow'
 
+import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import NetworkGraph from '@/components/Network/NetworkGraph'
 import useNetworkStore from '@/store/networkStore'
 
-const Network = () => {
-    const activeTab = useNetworkStore(state => state.activeTab)
-    const setActiveTab = useNetworkStore(state => state.setActiveTab)
+const META = {
+    title: 'Beleidsnetwerk',
+    description:
+        'Het beleid van de provincie Zuid-Holland en de onderliggende koppelingen.',
+}
 
-    const pathName = location.pathname || ''
+const Network = () => {
+    const { activeTab, setActiveTab } = useNetworkStore(
+        useShallow(state => ({
+            activeTab: state.activeTab,
+            setActiveTab: state.setActiveTab,
+        }))
+    )
 
     const breadcrumbPaths = [
-        { name: 'Omgevingsbeleid', path: '/' },
-        { name: 'Beleidsnetwerk' || '', path: pathName },
+        { name: 'Omgevingsbeleid', to: '/' },
+        { name: 'Beleidsnetwerk' },
     ]
 
     return (
         <>
-            <Helmet title="Beleidsnetwerk" />
+            <Helmet title={META.title}>
+                <meta name="description" content={META.description} />
+                <meta name="og:description" content={META.description} />
+            </Helmet>
 
             <Container className="pb-5 pt-4">
                 <div className="col-span-6 mb-8">
@@ -31,7 +44,7 @@ const Network = () => {
                     </Heading>
                     <Text className="mt-3 md:mt-4">
                         Het beleid van de provincie Zuid-Holland en de
-                        onderliggende koppelingen
+                        onderliggende koppelingen.
                     </Text>
                 </div>
             </Container>

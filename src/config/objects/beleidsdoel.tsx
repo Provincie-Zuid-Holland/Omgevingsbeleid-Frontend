@@ -1,5 +1,6 @@
 import { Hyperlink } from '@pzh-ui/components'
 import { AngleDown, BullseyeArrow } from '@pzh-ui/icons'
+import { Link } from 'react-router-dom'
 
 import {
     useBeleidsdoelStaticLineageIdPost,
@@ -64,6 +65,7 @@ const beleidsdoel: DynamicObject<
             'De beleidsdoelen geven aan wat de provincie wil bereiken. De beleidsdoelen zijn een uitwerking van de ambities en komen voort uit de begroting.',
         icon: BullseyeArrow,
         parentType: 'Visie',
+        slugOverviewPublic: true,
     },
     fetchers,
     staticData: [
@@ -83,7 +85,10 @@ const beleidsdoel: DynamicObject<
             beleidsdoel komt voort uit een ambitie, en wordt uitgewerkt in één
             of meerdere beleidskeuzes. Hieronder een overzicht van de ambitie(s)
             en beleidskeuze(s). Bekijk voor het volledige overzicht het{' '}
-            <Hyperlink text="beleidsnetwerk" to="/beleidsnetwerk" />.
+            <Hyperlink asChild>
+                <Link to="/beleidsnetwerk">beleidsnetwerk</Link>
+            </Hyperlink>
+            .
         </>
     ),
     dynamicSections: [
@@ -108,6 +113,7 @@ const beleidsdoel: DynamicObject<
                         'Geef een korte omschrijving van dit beleidsdoel.',
                     type: 'wysiwyg',
                     required: true,
+                    hasAreaSelect: true,
                 },
             ],
         },
@@ -126,7 +132,7 @@ const beleidsdoel: DynamicObject<
                     components: {
                         DropdownIndicator: () => (
                             <div className="mr-4">
-                                <AngleDown className="text-pzh-blue-dark" />
+                                <AngleDown className="text-pzh-blue-900" />
                             </div>
                         ),
                     },

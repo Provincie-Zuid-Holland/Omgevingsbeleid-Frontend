@@ -1,6 +1,6 @@
 import { Heading, Hyperlink, Text, formatDate } from '@pzh-ui/components'
 import { useMemo } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 import Avatar from '@/components/Avatar/Avatar'
 import { LoaderCard } from '@/components/Loader'
@@ -12,8 +12,8 @@ import { getStaticDataLabel } from '@/utils/dynamicObject'
 interface ObjectSidebarProps extends ModelReturnType {
     /** Model of object */
     model: Model
-    /** Amount of revisions */
-    revisions?: number
+    /** Revisions */
+    revisions?: ModelReturnType[]
     /** Revisions loading */
     revisionsLoading?: boolean
     /** If object is a revision */
@@ -32,6 +32,8 @@ const ObjectSidebar = ({
     model,
     isRevision,
     handleModal,
+    Next_Version,
+    UUID,
 }: ObjectSidebarProps) => {
     const { user } = useAuth()
     const { moduleId } = useParams()
@@ -42,31 +44,61 @@ const ObjectSidebar = ({
 
     const formattedDate = useMemo(() => {
         const today = new Date()
+        const startDate = Start_Validity ? new Date(Start_Validity) : null
+        const endDate = End_Validity ? new Date(End_Validity) : null
+        const nextStartDate = Next_Version?.Start_Validity
+            ? new Date(Next_Version.Start_Validity)
+            : null
 
-        if (!Start_Validity || isRevision)
+        if (!startDate || isRevision) {
             return 'Nog niet geldig, versie in bewerking'
-
-        if (
-            (today > new Date(Start_Validity) && !End_Validity) ||
-            (today > new Date(Start_Validity) &&
-                End_Validity &&
-                today <= new Date(End_Validity))
-        ) {
-            return `Geldend van ${formatDate(
-                new Date(Start_Validity),
-                'd MMMM yyyy'
-            )} t/m heden`
-        } else if (
-            today > new Date(Start_Validity) &&
-            End_Validity &&
-            today > new Date(End_Validity)
-        ) {
-            return `Geldend van ${formatDate(
-                new Date(Start_Validity),
-                'd MMMM yyyy'
-            )} t/m ${formatDate(new Date(End_Validity), 'd MMMM yyyy')}`
         }
-    }, [Start_Validity, End_Validity, isRevision])
+
+        const isCurrentlyValid =
+            today > startDate && (!endDate || today <= endDate)
+        const hasNextVersionStarted = nextStartDate && today > nextStartDate
+
+        if (isCurrentlyValid) {
+            if (!Next_Version) {
+                return `Geldend van ${formatDate(
+                    startDate,
+                    'dd-MM-yyyy'
+                )} t/m heden`
+            }
+            if (hasNextVersionStarted) {
+                return `Geldend van ${formatDate(
+                    startDate,
+                    'dd-MM-yyyy'
+                )} tot ${formatDate(nextStartDate, 'dd-MM-yyyy')}`
+            }
+        }
+
+        if (endDate && revisions?.length) {
+            const currentIndex = revisions.findIndex(
+                revision => revision.UUID === UUID
+            )
+            if (currentIndex !== -1 && currentIndex < revisions.length - 1) {
+                const prevRevision = revisions[currentIndex + 1]
+                const prevStartDate = prevRevision.Start_Validity
+                    ? new Date(prevRevision.Start_Validity)
+                    : null
+
+                if (prevStartDate) {
+                    return `Geldend van ${formatDate(
+                        prevStartDate,
+                        'dd-MM-yyyy'
+                    )} t/m ${formatDate(endDate, 'dd-MM-yyyy')}`
+                }
+            }
+        }
+    }, [
+        Start_Validity,
+        End_Validity,
+        isRevision,
+        Next_Version,
+        revisions,
+        UUID,
+    ])
 
     return (
         <aside className="sticky top-[120px]">
@@ -84,12 +116,14 @@ const ObjectSidebar = ({
                     <div className="mt-2">
                         {revisionsLoading ? (
                             <LoaderCard height="30" mb="" className="w-28" />
-                        ) : !!revisions && revisions > 0 ? (
+                        ) : !!revisions && revisions.length > 1 ? (
                             <button
-                                className="text-pzh-green underline"
+                                className="text-pzh-green-500 underline"
                                 onClick={handleModal}>
-                                Bekijk {revisions}{' '}
-                                {revisions === 1 ? 'revisie' : 'revisies'}
+                                Bekijk {revisions.length - 1}{' '}
+                                {revisions.length === 2
+                                    ? 'revisie'
+                                    : 'revisies'}
                             </button>
                         ) : (
                             <span className="italic text-pzh-gray-600">
@@ -110,32 +144,23 @@ const ObjectSidebar = ({
 
             {!!user && (
                 <div>
-                    <Text size="s" className="mb-3 italic text-pzh-blue-dark">
+                    <Text size="s" className="mb-3 italic text-pzh-blue-900">
                         Onderstaande informatie is alleen inzichtelijk voor
                         gebruikers die zijn ingelogd
                     </Text>
 
                     <People ObjectStatics={ObjectStatics} />
 
-                    {/* <Text className="block mb-2">
-                        Besluitnummer: {Decision_Number}
-                    </Text>
-                    {Decision_Number && (
-                        <div className="mb-1">
-                            <Hyperlink
-                                text="Open het besluitdocument"
-                                to={`/`}
-                            />
-                        </div>
-                    )} */}
-                    <Hyperlink
-                        text="Open in beheeromgeving"
-                        to={
-                            isRevision && !!moduleId
-                                ? `/muteer/modules/${moduleId}/${singular}/${Object_ID}`
-                                : `/muteer/${plural}/${Object_ID}`
-                        }
-                    />
+                    <Hyperlink asChild>
+                        <Link
+                            to={
+                                isRevision && !!moduleId
+                                    ? `/muteer/modules/${moduleId}/${singular}/${Object_ID}`
+                                    : `/muteer/${plural}/${Object_ID}`
+                            }>
+                            Open in beheeromgeving
+                        </Link>
+                    </Hyperlink>
                 </div>
             )}
         </aside>

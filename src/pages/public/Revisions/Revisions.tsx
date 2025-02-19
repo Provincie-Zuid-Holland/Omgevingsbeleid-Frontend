@@ -10,9 +10,10 @@ import {
     Tooltip,
 } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { Fragment, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { Link } from 'react-router-dom'
 
 import { useRevisionsGet, useRevisionsModuleIdGet } from '@/api/fetchers'
 import {
@@ -30,14 +31,22 @@ import {
 } from '@/utils/dynamicObject'
 import { getModuleStatusColor } from '@/utils/module'
 
+const META = {
+    title: 'Herzieningen',
+    description:
+        '“Welk beleid gaat binnenkort worden gewijzigd?” is een veel gehoorde vraag. Op deze pagina laten wij zien welk beleid momenteel herzien wordt en in welke fase van besluitvorming dit zich bevindt.',
+}
+
 const Revisions = () => {
     const { data, isLoading } = useRevisionsGet()
 
     return (
-        <div>
-            <Helmet>
-                <title>Omgevingsbeleid - Herzieningen</title>
+        <>
+            <Helmet title={META.title}>
+                <meta name="description" content={META.description} />
+                <meta name="og:description" content={META.description} />
             </Helmet>
+
             <Container className="overflow-hidden">
                 <div className="col-span-6 pt-8 lg:col-span-3 lg:pt-16">
                     <Heading level="1" size="xxl">
@@ -65,7 +74,7 @@ const Revisions = () => {
                             href="https://www.zuid-holland.nl/onderwerpen/omgevingsbeleid/voortgang-wijzigingen-omgevingsbeleid/"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-pzh-green underline hover:text-pzh-green-dark">
+                            className="text-pzh-green-500 underline hover:text-pzh-green-900">
                             provinciale website
                         </a>{' '}
                         zie je precies welk beleid ter inzage ligt en hoe je een
@@ -185,7 +194,7 @@ const Revisions = () => {
                     />
                 </div>
             </Container>
-        </div>
+        </>
     )
 }
 
@@ -200,7 +209,7 @@ const Dropdown = ({
         {({ open }) => (
             <>
                 <Disclosure.Button
-                    className={`group mt-2 flex w-full items-center justify-between bg-pzh-pink-dark bg-opacity-10 px-5 py-3 font-bold text-pzh-pink-dark transition-colors duration-200 ease-in ${
+                    className={`group mt-2 flex w-full items-center justify-between bg-pzh-pink-900 bg-opacity-10 px-5 py-3 font-bold text-pzh-pink-900 transition-colors duration-200 ease-in ${
                         open ? 'rounded-t-md' : 'rounded-md'
                     }`}>
                     <span>{buttonText}</span>
@@ -212,7 +221,7 @@ const Dropdown = ({
                         }`}
                     />
                 </Disclosure.Button>
-                <Disclosure.Panel className="rounded-b-md bg-pzh-pink-dark bg-opacity-10 px-5 pb-3 text-pzh-blue-dark">
+                <Disclosure.Panel className="rounded-b-md bg-pzh-pink-900 bg-opacity-10 px-5 pb-3 text-pzh-blue-900">
                     {panelText}
                 </Disclosure.Panel>
             </>
@@ -348,13 +357,13 @@ const RevisionItem = ({
                                 className={classNames(
                                     'flex h-4 w-4 cursor-help items-center justify-center rounded',
                                     {
-                                        'bg-pzh-green':
+                                        'bg-pzh-green-500':
                                             ModuleObjectContext?.Action ===
                                             'Create',
-                                        'bg-pzh-red':
+                                        'bg-pzh-red-500':
                                             ModuleObjectContext?.Action ===
                                             'Terminate',
-                                        'bg-pzh-blue':
+                                        'bg-pzh-blue-500':
                                             ModuleObjectContext?.Action ===
                                             'Edit',
                                     }
@@ -373,10 +382,12 @@ const RevisionItem = ({
                     <span className="px-2">{singularCapitalize}</span>
                 </div>
             </div>
-            <Hyperlink
-                to={`/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${UUID}`}
-                text={Title}
-            />
+            <Hyperlink asChild>
+                <Link
+                    to={`/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${UUID}`}>
+                    {Title}
+                </Link>
+            </Hyperlink>
         </div>
     )
 }

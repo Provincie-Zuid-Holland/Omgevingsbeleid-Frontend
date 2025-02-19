@@ -1,15 +1,24 @@
 import { Text } from '@pzh-ui/components'
 import { Triangle } from '@pzh-ui/icons'
-import classNames from 'classnames'
+import classNames from 'clsx'
+import { useMemo } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 
 import { ModelType } from '@/config/objects/types'
 import useFilterStore from '@/store/filterStore'
 
 const NetworkLegend = () => {
     const { filters, selectedFilters, setSelectedFilters } = useFilterStore(
-        state => ({
-            ...state,
-            filters: state.filters
+        useShallow(state => ({
+            setSelectedFilters: state.setSelectedFilters,
+            selectedFilters: state.selectedFilters,
+            filters: state.filters,
+        }))
+    )
+
+    const transformedFilters = useMemo(
+        () =>
+            filters
                 .map(filter => {
                     const options = filter.options.filter(
                         option => !option.exclude?.includes('network')
@@ -17,14 +26,14 @@ const NetworkLegend = () => {
                     return { ...filter, options }
                 })
                 .filter(filter => filter.options.length > 0),
-        })
+        [filters]
     )
 
     const handleClick = (val: ModelType) => {
         if (selectedFilters?.network.filter(e => e !== val).length === 0) {
             setSelectedFilters(
                 'network',
-                filters.flatMap(filter =>
+                transformedFilters.flatMap(filter =>
                     filter.options.map(option => option.value)
                 )
             )
@@ -49,7 +58,7 @@ const NetworkLegend = () => {
                 <div
                     key={group.label}
                     className={classNames({ 'mt-1': index !== 0 })}>
-                    <Text bold className="mb-1 text-pzh-blue">
+                    <Text bold className="mb-1 text-pzh-blue-500">
                         {group.label}
                     </Text>
 
@@ -76,18 +85,18 @@ const NetworkLegend = () => {
 const getIcon = (type: ModelType) => {
     switch (type) {
         case 'ambitie':
-            return <Triangle className="mr-2 text-pzh-apple-green" />
+            return <Triangle className="mr-2 text-pzh-apple-green-500" />
         case 'beleidsdoel':
             return (
-                <div className="rounded-0.5 mr-[11px] h-3 w-3 bg-pzh-orange" />
+                <div className="rounded-0.5 mr-[11px] h-3 w-3 bg-pzh-orange-500" />
             )
         case 'beleidskeuze':
             return (
-                <div className="mr-[11px] h-3 w-3 rounded-full bg-pzh-yellow" />
+                <div className="mr-[11px] h-3 w-3 rounded-full bg-pzh-yellow-500" />
             )
         case 'maatregel':
             return (
-                <div className="rounded-0.5 mr-[11px] h-2.5 w-2.5 -translate-y-0.5 translate-x-px rotate-[45deg] bg-pzh-green" />
+                <div className="rounded-0.5 mr-[11px] h-2.5 w-2.5 -translate-y-0.5 translate-x-px rotate-[45deg] bg-pzh-green-500" />
             )
         default:
             return <div />

@@ -14,6 +14,7 @@ import {
     useFormikContext,
 } from 'formik'
 import { v4 as uuidv4 } from 'uuid'
+import { useShallow } from 'zustand/react/shallow'
 
 import DropArea from '@/components/DropArea'
 import * as contents from '@/config/regulations/contents'
@@ -52,7 +53,7 @@ const RegulationForm = ({
                     <Heading
                         level="3"
                         size="m"
-                        color="text-pzh-blue-dark"
+                        color="text-pzh-blue-900"
                         className="mb-3">
                         {title}
                     </Heading>
@@ -73,7 +74,7 @@ const RegulationForm = ({
                 {section.contents?.length && (
                     <>
                         <Divider className="my-6 bg-pzh-gray-600" />
-                        <Heading level="3" size="m" color="text-pzh-blue-dark">
+                        <Heading level="3" size="m" color="text-pzh-blue-900">
                             Inhoud
                         </Heading>
 
@@ -97,8 +98,12 @@ const RegulationForm = ({
 const FormContents = ({ section }: Pick<RegulationFormProps, 'section'>) => {
     const { values } = useFormikContext<Structure>()
 
-    const draggingItem = useRegulationStore(state => state.draggingItem)
-    const setDraggingItem = useRegulationStore(state => state.setDraggingItem)
+    const { draggingItem, setDraggingItem } = useRegulationStore(
+        useShallow(state => ({
+            draggingItem: state.draggingItem,
+            setDraggingItem: state.setDraggingItem,
+        }))
+    )
 
     const { dragProps, isDragging } = useDrag({
         draggable: values.contents && values.contents.length > 1,

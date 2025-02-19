@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { useShallow } from 'zustand/react/shallow'
 
 import Modal from '@/components/Modal'
 import RegulationForm from '@/components/Regulations/RegulationForm'
@@ -10,9 +11,13 @@ import useModalStore from '@/store/modalStore'
 import useRegulationStore from '@/store/regulationStore'
 
 const RegulationAddSectionModal = () => {
-    const structure = useRegulationStore(state => state.structure)
-    const itemAction = useRegulationStore(state => state.itemAction)
-    const addItem = useRegulationStore(state => state.addItem)
+    const { structure, itemAction, addItem } = useRegulationStore(
+        useShallow(state => ({
+            structure: state.structure,
+            itemAction: state.itemAction,
+            addItem: state.addItem,
+        }))
+    )
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const index = useMemo(

@@ -77,7 +77,7 @@ const UserDetail = () => {
                         <Text
                             bold
                             className="-mb-1 whitespace-nowrap"
-                            color="text-pzh-blue">
+                            color="text-pzh-blue-500">
                             Gebruiker status
                         </Text>
                         <div className="flex items-center gap-4">
@@ -108,7 +108,7 @@ const UserDetail = () => {
                         </Heading>
                         <button
                             onClick={() => setActiveModal('userEdit')}
-                            className="text-s text-pzh-green underline hover:text-pzh-green-dark">
+                            className="text-s text-pzh-green-500 underline hover:text-pzh-green-900">
                             Gegevens wijzigen
                         </button>
                     </div>
@@ -127,7 +127,7 @@ const UserDetail = () => {
                 </div>
                 <div className="col-span-6 mt-6 lg:col-span-3 lg:mt-0 xl:col-span-2">
                     <div className="bg-pzh-gray-100 px-8 py-6">
-                        <Text className="mb-2" bold color="text-pzh-blue">
+                        <Text className="mb-2" bold color="text-pzh-blue-500">
                             Wachtwoord
                         </Text>
                         <Text className="mb-2">

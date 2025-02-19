@@ -1,5 +1,6 @@
 import { Hyperlink } from '@pzh-ui/components'
 import { FileLines } from '@pzh-ui/icons'
+import { Link } from 'react-router-dom'
 
 import {
     useBeleidsregelStaticLineageIdPost,
@@ -79,7 +80,10 @@ const beleidsregel: DynamicObject<
             beleidsregel is veelal gekoppeld met beleidskeuzes. Hieronder een
             overzicht van de beleidskeuzes van deze beleidsregel. Bekijk voor
             het volledige overzicht het{' '}
-            <Hyperlink text="beleidsnetwerk" to="/beleidsnetwerk" />.
+            <Hyperlink asChild>
+                <Link to="/beleidsnetwerk">beleidsnetwerk</Link>
+            </Hyperlink>
+            .
         </>
     ),
     fetchers,

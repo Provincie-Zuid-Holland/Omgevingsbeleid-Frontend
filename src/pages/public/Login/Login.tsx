@@ -1,11 +1,17 @@
 import { Heading, Text } from '@pzh-ui/components'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
 import { Container } from '@/components/Container'
 import LoginForm from '@/components/LoginForm'
 import useBreakpoint from '@/hooks/useBreakpoint'
+
+const META = {
+    title: 'Inloggen',
+    description:
+        'Als beleidsmedewerker van provincie Zuid-Holland kun je hier inloggen om te werken aan het Omgevingsbeleid.',
+}
 
 /**
  * Component page that imports the component LoginForm, so the user is able to login the application and reset the password when needed.
@@ -17,7 +23,10 @@ const Login = () => {
 
     return (
         <>
-            <Helmet title="Inloggen" />
+            <Helmet title={META.title}>
+                <meta name="description" content={META.description} />
+                <meta name="og:description" content={META.description} />
+            </Helmet>
 
             <Container
                 className={classNames('overflow-hidden', {
@@ -40,7 +49,7 @@ const Login = () => {
                     <div className="image-login-1 absolute left-0 top-0 h-[480px] w-[50vw] bg-cover bg-center bg-no-repeat text-white sm:inline-block" />
                 </div>
             </Container>
-            <div className="image-login-1 block h-64 w-full bg-pzh-blue bg-cover bg-center bg-no-repeat lg:hidden" />
+            <div className="image-login-1 block h-64 w-full bg-pzh-blue-500 bg-cover bg-center bg-no-repeat lg:hidden" />
 
             <Container className="border-t border-pzh-gray-300">
                 <div className="col-span-6 mt-4 py-4 lg:col-span-3 lg:mt-0 lg:py-12">
@@ -54,7 +63,7 @@ const Login = () => {
                         Zuid-Holland inzien.
                     </Text>
                     <Link
-                        className="mt-4 block text-pzh-green underline hover:text-pzh-green-dark"
+                        className="mt-4 block text-pzh-green-500 underline hover:text-pzh-green-900"
                         to="/">
                         Ga naar de raadpleegomgeving
                     </Link>
@@ -68,7 +77,7 @@ const Login = () => {
                         afdeling omgevingsbeleid via{' '}
                         <a
                             href="mailto:omgevingsbeleid@pzh.nl?subject=Hulp bij het inloggen"
-                            className="cursor-pointer text-pzh-green underline hover:text-pzh-green-dark"
+                            className="cursor-pointer text-pzh-green-500 underline hover:text-pzh-green-900"
                             target="_blank"
                             rel="noopener noreferrer">
                             omgevingsbeleid@pzh.nl

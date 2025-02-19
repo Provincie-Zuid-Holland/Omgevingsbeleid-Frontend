@@ -1,86 +1,116 @@
-import {
-    Breadcrumbs,
-    Heading,
-    Hyperlink,
-    ListLink,
-    Text,
-} from '@pzh-ui/components'
-import { useParams } from 'react-router-dom'
+import { Heading, Hyperlink, ListLink, Text } from '@pzh-ui/components'
+import { Helmet } from 'react-helmet-async'
+import { Link, useParams } from 'react-router-dom'
 
 import { useBeleidsdoelenVersionObjectUuidGet } from '@/api/fetchers'
 import { ReadRelationShortBeleidskeuzeMinimal } from '@/api/fetchers.schemas'
+import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
-import { LoaderContent } from '@/components/Loader'
+import { LoaderContent, LoaderSpinner } from '@/components/Loader'
 import TableOfContents from '@/components/TableOfContents'
 import * as models from '@/config/objects'
 import { ModelReturnType, ModelType } from '@/config/objects/types'
 
+import NotFoundPage from '../NotFoundPage'
+
 function ThemeDetail() {
     const { uuid } = useParams<{ uuid: string }>()
 
-    const { data, isLoading } = useBeleidsdoelenVersionObjectUuidGet(uuid!)
+    const { data, isLoading, isError } = useBeleidsdoelenVersionObjectUuidGet(
+        uuid!
+    )
 
     const breadcrumbPaths = [
-        { name: 'Home', path: '/' },
-        { name: 'Omgevingsprogramma', path: '/omgevingsprogramma' },
+        { name: 'Home', to: '/' },
+        { name: 'Omgevingsprogramma', to: '/omgevingsprogramma' },
         {
             name: 'Thematische programma’s',
-            path: '/omgevingsprogramma/thematische-programmas',
+            to: '/omgevingsprogramma/thematische-programmas',
         },
         {
             name: data?.Title || '',
-            path: `/omgevingsprogramma/thematische-programmas/${data?.UUID}`,
         },
     ]
 
     if (isLoading) return <LoaderContent />
 
+    if (isError) return <NotFoundPage />
+
     return (
-        <Container className="pb-20">
-            <div className="col-span-6 mb-10">
-                <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
-            </div>
-
-            <div className="order-1 col-span-6 xl:col-span-2">
-                <aside className="sticky top-[120px]">
-                    <Heading level="3" size="m" className="mb-2">
-                        Inhoudsopgave
-                    </Heading>
-
-                    <TableOfContents />
-                </aside>
-            </div>
-
-            <div className="order-2 col-span-6 flex flex-col gap-8 xl:col-span-4 xl:mt-0">
-                <div>
-                    <Heading level="3" size="m" className="mb-2">
-                        Thematisch programma
-                    </Heading>
-                    <Heading level="1" size="xxl">
-                        {data?.Title}
-                    </Heading>
-                </div>
-
-                <div data-section="Inhoud">
-                    {data?.Description && (
-                        <Text
-                            className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-dark marker:text-pzh-blue-dark prose-li:my-0"
-                            dangerouslySetInnerHTML={{
-                                __html: data.Description,
-                            }}
+        <>
+            <Helmet title={data?.Title}>
+                {data?.Description && (
+                    <>
+                        <meta
+                            name="description"
+                            content={
+                                data.Description?.substring(0, 100).replace(
+                                    '<p>',
+                                    ''
+                                ) + '...'
+                            }
                         />
-                    )}
-                    <Hyperlink
-                        to={`/omgevingsvisie/beleidsdoelen/${data?.UUID}`}
-                        text="Lees meer informatie over dit beleidsdoel"
-                    />
+                        <meta
+                            name="og:description"
+                            content={
+                                data.Description?.substring(0, 100).replace(
+                                    '<p>',
+                                    ''
+                                ) + '...'
+                            }
+                        />
+                    </>
+                )}
+            </Helmet>
+
+            <Container className="pb-20">
+                <div className="col-span-6 mb-10">
+                    <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
                 </div>
 
-                {data?.Beleidskeuzes?.map(object => (
-                    <ConnectedObject key={object.Object.UUID} {...object} />
-                ))}
-            </div>
-        </Container>
+                <div className="order-1 col-span-6 xl:col-span-2">
+                    <aside className="sticky top-[120px]">
+                        <Heading level="3" size="m" className="mb-2">
+                            Inhoudsopgave
+                        </Heading>
+
+                        <TableOfContents />
+                    </aside>
+                </div>
+
+                <div className="order-2 col-span-6 flex flex-col gap-8 xl:col-span-4 xl:mt-0">
+                    <div>
+                        <Heading level="3" size="m" className="mb-2">
+                            Thematisch programma
+                        </Heading>
+                        <Heading level="1" size="xxl">
+                            {data?.Title}
+                        </Heading>
+                    </div>
+
+                    <div data-section="Inhoud">
+                        {data?.Description && (
+                            <Text
+                                className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0"
+                                dangerouslySetInnerHTML={{
+                                    __html: data.Description,
+                                }}
+                            />
+                        )}
+                        <Hyperlink asChild>
+                            <Link
+                                to={`/omgevingsvisie/beleidsdoelen/${data?.UUID}`}>
+                                Lees meer informatie over dit beleidsdoel
+                            </Link>
+                        </Hyperlink>
+                    </div>
+
+                    {data?.Beleidskeuzes?.map(object => (
+                        <ConnectedObject key={object.Object.UUID} {...object} />
+                    ))}
+                </div>
+            </Container>
+        </>
     )
 }
 
@@ -90,7 +120,7 @@ const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
         model.defaults
     const { useGetVersion } = model.fetchers
 
-    const { data } =
+    const { data, isFetching } =
         useGetVersion<ModelReturnType>?.(Object.UUID!, {
             query: { enabled: !!Object.UUID },
         }) || {}
@@ -101,20 +131,25 @@ const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
                 {Object.Title}
             </Heading>
 
-            {!!data?.Maatregelen?.length ? (
-                <div>
+            {isFetching ? (
+                <LoaderSpinner />
+            ) : !!data?.Maatregelen?.length ? (
+                <div className="flex flex-col">
                     {data.Maatregelen.map(item => {
                         const model =
                             models[item.Object.Object_Type as ModelType]
-                        const { slugOverview } = model.defaults
+                        const { slugOverview, plural } = model.defaults
 
                         return (
                             <ListLink
+                                asChild
                                 key={item.Object.UUID}
-                                text={item.Object.Title || ''}
-                                to={`/${slugOverview}/${plural}/${item.Object.UUID}`}
-                                className="text-pzh-green hover:text-pzh-blue"
-                            />
+                                className="text-pzh-green-500 hover:text-pzh-blue-500">
+                                <Link
+                                    to={`/${slugOverview}/${plural}/${item.Object.UUID}`}>
+                                    {item.Object.Title}
+                                </Link>
+                            </ListLink>
                         )
                     })}
                 </div>
@@ -124,10 +159,12 @@ const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
                 </span>
             )}
 
-            <Hyperlink
-                to={`/${slugOverview}/${plural}/${Object.UUID}`}
-                text={`Lees meer informatie over ${prefixSingular} ${singularReadable} '${Object.Title}'`}
-            />
+            <Hyperlink asChild>
+                <Link to={`/${slugOverview}/${plural}/${Object.UUID}`}>
+                    Lees meer informatie over {prefixSingular}{' '}
+                    {singularReadable} '{Object.Title}'
+                </Link>
+            </Hyperlink>
         </div>
     )
 }

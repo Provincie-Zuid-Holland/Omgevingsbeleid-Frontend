@@ -41,7 +41,7 @@ const fetchers = {
     useGetActiveModules: useModulesObjectVisieAlgemeenActiveLineageIdGet,
 }
 
-const visie: DynamicObject<
+const visieAlgemeen: DynamicObject<
     typeof fetchers,
     keyof VisieAlgemeenPatch,
     (keyof VisieAlgemeenStaticPostStatics)[]
@@ -49,7 +49,7 @@ const visie: DynamicObject<
     defaults: {
         singular: 'visie_algemeen',
         singularReadable: 'visie algemeen',
-        singularCapitalize: 'Visie algemeen',
+        singularCapitalize: 'Visie',
         plural: 'visies-algemeen',
         pluralCapitalize: 'Visies algemeen',
         prefixSingular: 'de',
@@ -58,7 +58,7 @@ const visie: DynamicObject<
         demonstrative: 'deze',
         slugOverview: 'omgevingsvisie',
         icon: EyeLight,
-        hideBreadcrumbs: true,
+        slugOverviewPublic: true,
     },
     staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
     fetchers,
@@ -80,6 +80,7 @@ const visie: DynamicObject<
                     label: 'Inhoud',
                     type: 'wysiwyg',
                     required: true,
+                    hasAreaSelect: true,
                     customMenuOptions: [
                         'image',
                         'heading',
@@ -96,6 +97,8 @@ const visie: DynamicObject<
     ],
 }
 
-visie.validationSchema = generateDynamicSchema(visie.dynamicSections)
+visieAlgemeen.validationSchema = generateDynamicSchema(
+    visieAlgemeen.dynamicSections
+)
 
-export default visie
+export default visieAlgemeen

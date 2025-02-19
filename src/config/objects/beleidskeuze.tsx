@@ -1,5 +1,6 @@
 import { Hyperlink } from '@pzh-ui/components'
 import { AngleDown, Split } from '@pzh-ui/icons'
+import { Link } from 'react-router-dom'
 
 import {
     getBeleidskeuzeAcknowledgedRelationsLineageIdGetQueryKey,
@@ -77,6 +78,7 @@ const beleidskeuze: DynamicObject<
             'De beleidskeuzes geven aan hoe de provincie haar doelen wil bereiken. De beleidskeuzes zijn een uitwerking van de beleidsdoelen en komen voort uit de Omgevingsvisie.',
         icon: Split,
         parentType: 'Visie',
+        slugOverviewPublic: true,
     },
     fetchers,
     queryKeys,
@@ -98,7 +100,10 @@ const beleidskeuze: DynamicObject<
             relatie wordt aangegaan tussen beleidskeuzes inclusief een
             duidelijke motivering en een koppeling kan met alle niveaus binnen
             het omgevingsbeleid. Bekijk voor het volledige overzicht het{' '}
-            <Hyperlink text="beleidsnetwerk" to="/beleidsnetwerk" />.
+            <Hyperlink asChild>
+                <Link to="/beleidsnetwerk">beleidsnetwerk</Link>
+            </Hyperlink>
+            .
         </>
     ),
     acknowledgedRelation: 'beleidskeuze',
@@ -130,6 +135,7 @@ const beleidskeuze: DynamicObject<
                         'Hier geef je aan welke keuze de provincie heeft genomen. Formuleer in één of enkele zinnen wat de provincie wil bereiken en welke rechtsgevolgen dit eventueel heeft voor derden.',
                     type: 'wysiwyg',
                     required: true,
+                    hasAreaSelect: true,
                 },
                 {
                     name: 'Cause',
@@ -138,6 +144,7 @@ const beleidskeuze: DynamicObject<
                         'De aanleiding geeft de lezer informatie over welke ontwikkelingen gaande zijn in de maatschappij en waarom de provincie hier op inspeelt. Beschrijf hier welk probleem, dreiging of kans ten grondslag ligt aan de beleidskeuze.',
                     type: 'wysiwyg',
                     required: true,
+                    hasAreaSelect: true,
                 },
                 {
                     name: 'Provincial_Interest',
@@ -146,6 +153,7 @@ const beleidskeuze: DynamicObject<
                         'Beschrijf waarom de provincie deze keuze maakt en waarom dit niet (enkel) kan worden overgelaten aan andere overheden. Vanuit juridisch perspectief is het belangrijk om het provinciaal belang te definiëren. Zie ook artikel 2.3 van de Omgevingswet.',
                     type: 'wysiwyg',
                     required: true,
+                    hasAreaSelect: true,
                 },
                 {
                     name: 'Explanation',
@@ -153,6 +161,7 @@ const beleidskeuze: DynamicObject<
                     description:
                         'Op welke thema’s, onderwerpen en gebieden gaat de beleidskeuze iets wijzigen, en waarom is dit gewenst? Beschrijf ook de relatie met andere beleidsterreinen.',
                     type: 'wysiwyg',
+                    hasAreaSelect: true,
                 },
             ],
         },
@@ -162,14 +171,14 @@ const beleidskeuze: DynamicObject<
                 'Het werkingsgebied geeft het gebied weer waar de beleidskeuze betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld, toegestaan of juist verboden.',
             fields: [
                 {
-                    name: 'Werkingsgebied_Code',
-                    label: 'Selecteer werkingsgebied',
+                    name: 'Ambtsgebied',
+                    label: 'Selecteer het gebied',
                     description: (
                         <>
-                            Selecteer het werkingsgebied wat bij deze
-                            beleidskeuze van toepassing is. Heeft jouw
-                            beleidskeuze nog geen geschikt werkingsgebied, of
-                            moet het huidige gebied aangepast worden? Neem dan
+                            Is op deze beleidskeuze het ambtsgebied van
+                            toepassing of een specifiek werkingsgebied? Heeft
+                            jouw beleidskeuze nog geen geschikt gebied, of moet
+                            het huidige gebied aangepast worden? Neem dan
                             contact op via{' '}
                             <a
                                 href="mailto:omgevingsbeleid@pzh.nl"
@@ -179,18 +188,30 @@ const beleidskeuze: DynamicObject<
                             .
                         </>
                     ),
+                    type: 'checkbox',
+                    options: [
+                        {
+                            label: 'Op deze beleidskeuze is het ambtsgebied van toepassing',
+                            value: 'true',
+                        },
+                    ],
+                },
+                {
+                    name: 'Werkingsgebied_Code',
+                    label: 'Werkingsgebied',
                     type: 'search',
                     status: 'all',
-                    placeholder: 'Kies het werkingsgebied',
+                    placeholder: 'Selecteer een werkingsgebied',
                     filterType: ['werkingsgebied'],
                     objectKey: 'Werkingsgebied_Code',
                     components: {
                         DropdownIndicator: () => (
                             <div className="mr-4">
-                                <AngleDown className="text-pzh-blue-dark" />
+                                <AngleDown className="text-pzh-blue-900" />
                             </div>
                         ),
                     },
+                    conditionalField: 'Ambtsgebied',
                 },
             ],
         },
@@ -209,7 +230,7 @@ const beleidskeuze: DynamicObject<
                     components: {
                         DropdownIndicator: () => (
                             <div className="mr-4">
-                                <AngleDown className="text-pzh-blue-dark" />
+                                <AngleDown className="text-pzh-blue-900" />
                             </div>
                         ),
                     },

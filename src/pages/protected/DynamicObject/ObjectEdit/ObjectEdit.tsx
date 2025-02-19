@@ -59,6 +59,13 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
             return (objectData[field] = object?.[field as keyof typeof data])
         })
 
+        if (
+            fields.includes('Ambtsgebied') &&
+            object?.Werkingsgebied_Code === null
+        ) {
+            objectData['Ambtsgebied'] = ['true']
+        }
+
         return objectData
     }, [object, model.dynamicSections])
 
@@ -76,6 +83,14 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                 delete (payload as any)[key]
             }
         })
+
+        if (
+            'Ambtsgebied' in payload &&
+            Array.isArray(payload.Ambtsgebied) &&
+            payload.Ambtsgebied.includes('true')
+        ) {
+            payload.Werkingsgebied_Code = null
+        }
 
         patchObject
             ?.mutateAsync({
@@ -96,7 +111,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
 
     const breadcrumbPaths = [
         { name: 'Dashboard', path: '/muteer' },
-        { name: 'Modules', path: '/muteer' },
+        { name: 'Modules', path: '/muteer/modules' },
         {
             name: data?.Module.Title || '',
             path: `/muteer/modules/${moduleId}`,
