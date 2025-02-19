@@ -1,8 +1,8 @@
-import { Heading, Hyperlink, Notification } from '@pzh-ui/components'
+import { Heading, Notification } from '@pzh-ui/components'
 import classNames from 'clsx'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useShallow } from 'zustand/react/shallow'
 
 import { PublicModuleObjectRevision } from '@/api/fetchers.schemas'
@@ -12,6 +12,7 @@ import ObjectArea from '@/components/DynamicObject/ObjectArea'
 import ObjectConnectionsPublic from '@/components/DynamicObject/ObjectConnectionsPublic'
 import ObjectContent from '@/components/DynamicObject/ObjectContent'
 import ObjectRelationsPublic from '@/components/DynamicObject/ObjectRelationsPublic'
+import ObjectRevisionNotification from '@/components/DynamicObject/ObjectRevisionNotification'
 import Sidebar from '@/components/DynamicObject/ObjectSidebar'
 import { LoaderContent } from '@/components/Loader'
 import RevisionModal from '@/components/Modals/RevisionModal'
@@ -49,8 +50,6 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
         slugOverview,
         slugOverviewPublic,
         singular,
-        singularReadable,
-        demonstrative,
         hideBreadcrumbs,
     } = model.defaults
     const {
@@ -98,6 +97,19 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                 query: { enabled: !!data?.Object_ID && !isRevision },
             }
         ) || {}
+
+    const latestRevision = useMemo(
+        () =>
+            latest?.Public_Revisions?.find(
+                revision => revision.Module_ID === parseInt(moduleId || '')
+            ),
+        [latest, moduleId]
+    )
+
+    const isTerminate = useMemo(
+        () => isRevision && latestRevision?.Action === 'Terminate',
+        [isRevision, latestRevision]
+    )
 
     const getRevisionText = useCallback(
         (revision: PublicModuleObjectRevision) =>
@@ -196,21 +208,12 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                     {!latestIsLoading &&
                         latest &&
                         (data?.UUID !== latest.UUID || isRevision) && (
-                            <Notification className="order-2 mt-4">
-                                <>
-                                    Let op, dit is een{' '}
-                                    {isRevision
-                                        ? 'ontwerpversie'
-                                        : 'verouderde versie'}{' '}
-                                    van {demonstrative} {singularReadable},{' '}
-                                    <Hyperlink asChild>
-                                        <Link
-                                            to={`/${slugOverview}/${plural}/${latest.UUID}`}>
-                                            bekijk hier de vigerende versie
-                                        </Link>
-                                    </Hyperlink>
-                                </>
-                            </Notification>
+                            <ObjectRevisionNotification
+                                model={model}
+                                data={data}
+                                latest={latest}
+                                isRevision={isRevision}
+                            />
                         )}
 
                     {data?.UUID === latest?.UUID &&
@@ -230,7 +233,10 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                         {data?.Title}
                     </Heading>
 
-                    <div className="order-4">
+                    <div
+                        className={classNames('order-4', {
+                            'line-through': isTerminate,
+                        })}>
                         <ObjectContent
                             data={data || {}}
                             customTitle={
@@ -250,7 +256,10 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                     </div>
 
                     {data?.Werkingsgebied_Statics && (
-                        <div className="order-7">
+                        <div
+                            className={classNames('order-7', {
+                                'line-through': isTerminate,
+                            })}>
                             <ObjectArea
                                 model={model}
                                 objectTitle={data.Title}
@@ -266,6 +275,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                                 className={classNames('order-8', {
                                     'mt-4 md:mt-8':
                                         !!data?.Werkingsgebied_Statics,
+                                    'line-through': isTerminate,
                                 })}>
                                 <ObjectConnectionsPublic
                                     model={model}
@@ -280,6 +290,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                                 className={classNames('order-9', {
                                     'mt-4 md:mt-8':
                                         !!data?.Werkingsgebied_Statics,
+                                    'line-through': isTerminate,
                                 })}>
                                 <ObjectRelationsPublic
                                     model={model}
