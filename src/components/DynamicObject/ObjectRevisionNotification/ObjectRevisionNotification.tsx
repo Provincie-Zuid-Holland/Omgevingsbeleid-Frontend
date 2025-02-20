@@ -65,7 +65,7 @@ const ObjectRevisionNotification = ({
                         <Hyperlink asChild>
                             <Link
                                 to={`/${slugOverview}/${plural}/${latest.UUID}`}>
-                                bekijk hier de vigerende versie
+                                bekijk hier de meest actuele versie
                             </Link>
                         </Hyperlink>
                     </>
