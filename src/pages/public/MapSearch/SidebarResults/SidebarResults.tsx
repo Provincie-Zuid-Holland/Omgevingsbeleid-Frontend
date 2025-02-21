@@ -4,10 +4,7 @@ import { useMountEffect, useUpdateEffect } from '@react-hookz/web'
 import { useMemo, useRef } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
-import {
-    useSearchSourceGeoPost,
-    useSearchSourceGeometryPost,
-} from '@/api/fetchers'
+import { useSearchByAreasPost, useSearchByGeometryPost } from '@/api/fetchers'
 import Filter from '@/components/Filter'
 import { LoaderCard } from '@/components/Loader'
 import SearchResultItem from '@/components/SearchResultItem'
@@ -78,8 +75,8 @@ const SidebarResults = () => {
 
     const useSearch =
         drawType === 'werkingsgebied'
-            ? useSearchSourceGeoPost
-            : useSearchSourceGeometryPost
+            ? useSearchByAreasPost
+            : useSearchByGeometryPost
 
     const {
         data,
@@ -297,7 +294,6 @@ const SidebarResults = () => {
                                             Description={
                                                 item.Omschrijving || ''
                                             }
-                                            Object_Type={item.Type}
                                             Title={item.Titel || ''}
                                             {...item}
                                         />
