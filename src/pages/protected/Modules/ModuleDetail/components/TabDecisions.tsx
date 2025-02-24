@@ -133,8 +133,10 @@ export const Packages = () => {
     const { data: validActPackage } = usePublicationActPackagesGet(
         {
             version_uuid: version?.UUID,
-            limit: 100,
             package_type: PackageType['publication'],
+            limit: 3,
+            sort_column: 'Created_Date',
+            sort_order: 'DESC',
         },
         {
             query: {
