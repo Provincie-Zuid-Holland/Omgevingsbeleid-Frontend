@@ -18,7 +18,7 @@ const META = {
 }
 
 const Revisions = () => {
-    const { data, isLoading } = useRevisionsGet()
+    const { data, isLoading } = useRevisionsGet({ limit: 100 })
 
     return (
         <div className="space-y-12 pb-12">
