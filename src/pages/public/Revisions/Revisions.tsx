@@ -1,35 +1,15 @@
 import { Disclosure } from '@headlessui/react'
-import {
-    Badge,
-    Divider,
-    Heading,
-    Hyperlink,
-    TabItem,
-    Tabs,
-    Text,
-    Tooltip,
-} from '@pzh-ui/components'
+import { Divider, Heading, Text } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
-import classNames from 'clsx'
-import { Fragment, useMemo } from 'react'
+import { Fragment } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { Link } from 'react-router-dom'
 
-import { useRevisionsGet, useRevisionsModuleIdGet } from '@/api/fetchers'
-import {
-    PublicModuleObjectShort,
-    PublicModuleShort,
-} from '@/api/fetchers.schemas'
+import { useRevisionsGet } from '@/api/fetchers'
 import { Container } from '@/components/Container'
 import { LoaderSpinner } from '@/components/Loader'
-import * as models from '@/config/objects'
-import { ModelType, ParentType, parentTypes } from '@/config/objects/types'
 import imageRevisions from '@/images/revisions.webp'
-import {
-    getPublicObjectActionIcon,
-    getPublicObjectActionText,
-} from '@/utils/dynamicObject'
-import { getModuleStatusColor } from '@/utils/module'
+
+import Module from './components/Module'
 
 const META = {
     title: 'Herzieningen',
@@ -242,168 +222,5 @@ const Dropdown = ({
         )}
     </Disclosure>
 )
-
-const Module = ({
-    Module_ID,
-    Title,
-    Description,
-    Status,
-}: PublicModuleShort) => {
-    const { data, isLoading } = useRevisionsModuleIdGet(Module_ID)
-
-    /**
-     * Disable tabs which have no objects
-     */
-    const disabledKeys = useMemo(() => {
-        const availableKeys: ParentType[] = []
-
-        data?.Objects.forEach(object => {
-            const model = models[object.Object_Type as ModelType]
-
-            if (!model) return
-
-            const { parentType } = model.defaults
-
-            if (parentType && !availableKeys.includes(parentType)) {
-                availableKeys.push(parentType)
-            }
-        })
-
-        return parentTypes.filter(x => !availableKeys.includes(x))
-    }, [data?.Objects])
-
-    /**
-     * Group objects by parentType
-     */
-    const groupedObjects = useMemo(() => {
-        const groups: { [key in ParentType]: PublicModuleObjectShort[] } =
-            {} as any
-
-        // Initialize the groups object with empty arrays for each parentType
-        Object.values(parentTypes).forEach(parentType => {
-            groups[parentType] = []
-        })
-
-        data?.Objects.forEach(object => {
-            const model = models[object.Object_Type as ModelType]
-
-            if (!model) return
-
-            const { parentType } = model.defaults
-
-            if (parentType) {
-                groups[parentType].push(object)
-            }
-        })
-
-        return groups
-    }, [data?.Objects])
-
-    return (
-        <Container className="w-full">
-            <div className="col-span-6 grid gap-4 lg:col-span-4">
-                <div>
-                    <span className="text-pzh-gray-600">Module</span>
-                    <div className="flex items-center">
-                        <Heading level="2">{Title}</Heading>
-                        <Badge
-                            text={Status?.Status.replace('-', ' ') || ''}
-                            variant={getModuleStatusColor(Status?.Status)}
-                            upperCase={false}
-                            className="-mt-2 ml-3 whitespace-nowrap"
-                        />
-                    </div>
-                </div>
-                {Description && <Text>{Description}</Text>}
-                <div>
-                    {!isLoading ? (
-                        <Tabs disabledKeys={disabledKeys}>
-                            {parentTypes.map(type => (
-                                <TabItem title={type} key={type}>
-                                    <div className="mt-3 table border-spacing-y-2">
-                                        {groupedObjects[type].map(object => (
-                                            <RevisionItem
-                                                key={
-                                                    object.Object_Type +
-                                                    object.Object_ID
-                                                }
-                                                {...object}
-                                            />
-                                        ))}
-                                    </div>
-                                </TabItem>
-                            ))}
-                        </Tabs>
-                    ) : (
-                        <div className="flex justify-center">
-                            <LoaderSpinner />
-                        </div>
-                    )}
-                </div>
-            </div>
-        </Container>
-    )
-}
-
-const RevisionItem = ({
-    Title,
-    Object_Type,
-    Module_ID,
-    UUID,
-    ModuleObjectContext,
-}: PublicModuleObjectShort) => {
-    const model = models[Object_Type as ModelType]
-
-    if (!model) return
-
-    const { singularCapitalize, slugOverview, plural } = model.defaults
-
-    const action = getPublicObjectActionText(ModuleObjectContext?.Action)
-    const Icon = getPublicObjectActionIcon(ModuleObjectContext?.Action)
-
-    return (
-        <div className="table-row">
-            <div className="table-cell">
-                <div className="flex items-baseline">
-                    {Icon && (
-                        <Tooltip label={action || ''}>
-                            <div
-                                className={classNames(
-                                    'flex h-4 w-4 cursor-help items-center justify-center rounded',
-                                    {
-                                        'bg-pzh-green-500':
-                                            ModuleObjectContext?.Action ===
-                                            'Create',
-                                        'bg-pzh-red-500':
-                                            ModuleObjectContext?.Action ===
-                                            'Terminate',
-                                        'bg-pzh-blue-500':
-                                            ModuleObjectContext?.Action ===
-                                            'Edit',
-                                    }
-                                )}>
-                                <Icon
-                                    size={
-                                        ModuleObjectContext?.Action === 'Edit'
-                                            ? 10
-                                            : 14
-                                    }
-                                    className="text-pzh-white"
-                                />
-                            </div>
-                        </Tooltip>
-                    )}
-                    <span className="px-2">{singularCapitalize}</span>
-                </div>
-            </div>
-            <Hyperlink asChild>
-                <Link
-                    to={`/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${UUID}`}>
-                    {Title}
-                </Link>
-            </Hyperlink>
-        </div>
-    )
-}
 
 export default Revisions
