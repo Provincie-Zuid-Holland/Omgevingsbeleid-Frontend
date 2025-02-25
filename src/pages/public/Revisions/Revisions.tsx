@@ -31,6 +31,8 @@ import {
 } from '@/utils/dynamicObject'
 import { getModuleStatusColor } from '@/utils/module'
 
+import TempAlert from './components/TempAlert'
+
 const META = {
     title: 'Herzieningen',
     description:
@@ -41,7 +43,7 @@ const Revisions = () => {
     const { data, isLoading } = useRevisionsGet()
 
     return (
-        <>
+        <div className="space-y-12 pb-12">
             <Helmet title={META.title}>
                 <meta name="description" content={META.description} />
                 <meta name="og:description" content={META.description} />
@@ -89,20 +91,21 @@ const Revisions = () => {
                     />
                 </div>
             </Container>
-            <Divider className="pzh-container mx-auto my-12" />
+            <Divider className="pzh-container mx-auto" />
+            <TempAlert />
             {!isLoading ? (
                 data?.results.map(module => (
                     <Fragment key={module.Module_ID}>
                         <Module {...module} />
-                        <Divider className="pzh-container mx-auto my-12" />
+                        <Divider className="pzh-container mx-auto" />
                     </Fragment>
                 ))
             ) : (
-                <div className="mb-12 flex justify-center">
+                <div className="flex justify-center">
                     <LoaderSpinner />
                 </div>
             )}
-            <Container className="pb-12">
+            <Container>
                 <Heading className="col-span-6" level="2">
                     Besluitvormingsproces
                 </Heading>
@@ -194,7 +197,7 @@ const Revisions = () => {
                     />
                 </div>
             </Container>
-        </>
+        </div>
     )
 }
 
