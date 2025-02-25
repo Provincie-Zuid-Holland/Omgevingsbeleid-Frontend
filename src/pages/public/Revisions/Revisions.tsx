@@ -1,6 +1,6 @@
 import { Disclosure } from '@headlessui/react'
-import { Divider, Heading, Text } from '@pzh-ui/components'
-import { Plus } from '@pzh-ui/icons'
+import { Divider, Heading, Hyperlink, Text } from '@pzh-ui/components'
+import { ArrowUpRightFromSquare, Plus } from '@pzh-ui/icons'
 import { Fragment } from 'react'
 import { Helmet } from 'react-helmet-async'
 
@@ -47,18 +47,22 @@ const Revisions = () => {
                         de herzieningen.
                         <br />
                         <br />
-                        Wanneer een herziening ter inzage ligt, kan iedere
-                        belanghebbende een reactie geven op de wijzigingen. Zo’n
-                        reactie noemen we een zienswijze. Op de{' '}
-                        <a
-                            href="https://www.zuid-holland.nl/onderwerpen/omgevingsbeleid/voortgang-wijzigingen-omgevingsbeleid/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-pzh-green-500 underline hover:text-pzh-green-900">
-                            provinciale website
-                        </a>{' '}
-                        zie je precies welk beleid ter inzage ligt en hoe je een
-                        zienswijze kunt indienen.
+                        Wanneer een herziening ter consultatie of ter inzage
+                        ligt, kan iedereen een reactie geven op de voorgestelde
+                        wijzigingen. Op de{' '}
+                        <Hyperlink asChild>
+                            <span className="inline-flex items-center gap-1">
+                                <a
+                                    href="https://www.zuid-holland.nl/onderwerpen/omgevingsbeleid/voortgang-wijzigingen-omgevingsbeleid/"
+                                    target="_blank"
+                                    rel="noopener noreferrer">
+                                    provinciale website
+                                </a>
+                                <ArrowUpRightFromSquare className="-mt-0.5" />
+                            </span>
+                        </Hyperlink>{' '}
+                        zie je precies welk beleid gewijzigd wordt en hoe je een
+                        reactie kunt indienen.
                     </Text>
                 </div>
                 <div className="relative col-span-3 hidden lg:block">
