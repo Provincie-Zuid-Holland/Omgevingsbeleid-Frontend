@@ -41,7 +41,7 @@ const Revisions = () => {
     const { data, isLoading } = useRevisionsGet()
 
     return (
-        <>
+        <div className="space-y-12 pb-12">
             <Helmet title={META.title}>
                 <meta name="description" content={META.description} />
                 <meta name="og:description" content={META.description} />
@@ -89,20 +89,34 @@ const Revisions = () => {
                     />
                 </div>
             </Container>
-            <Divider className="pzh-container mx-auto my-12" />
+            <Divider className="pzh-container mx-auto" />
             {!isLoading ? (
-                data?.results.map(module => (
-                    <Fragment key={module.Module_ID}>
-                        <Module {...module} />
-                        <Divider className="pzh-container mx-auto my-12" />
-                    </Fragment>
-                ))
+                !!data?.results.length ? (
+                    data?.results.map(module => (
+                        <Fragment key={module.Module_ID}>
+                            <Module {...module} />
+                            <Divider className="pzh-container mx-auto" />
+                        </Fragment>
+                    ))
+                ) : (
+                    <>
+                        <Container>
+                            <div className="col-span-6 space-y-12">
+                                <Text className="italic">
+                                    Er zijn momenteel geen lopende wijzigingen
+                                    wat betreft het Omgevingsbeleid.
+                                </Text>
+                            </div>
+                        </Container>
+                        <Divider className="pzh-container mx-auto" />
+                    </>
+                )
             ) : (
                 <div className="mb-12 flex justify-center">
                     <LoaderSpinner />
                 </div>
             )}
-            <Container className="pb-12">
+            <Container>
                 <Heading className="col-span-6" level="2">
                     Besluitvormingsproces
                 </Heading>
@@ -194,7 +208,7 @@ const Revisions = () => {
                     />
                 </div>
             </Container>
-        </>
+        </div>
     )
 }
 
@@ -286,7 +300,7 @@ const Module = ({
     }, [data?.Objects])
 
     return (
-        <Container>
+        <Container className="w-full">
             <div className="col-span-6 grid gap-4 lg:col-span-4">
                 <div>
                     <span className="text-pzh-gray-600">Module</span>
