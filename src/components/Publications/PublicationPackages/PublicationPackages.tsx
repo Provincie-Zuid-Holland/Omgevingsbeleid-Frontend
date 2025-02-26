@@ -71,7 +71,11 @@ const PublicationPackages = ({
             </AccordionTrigger>
             <AccordionContent className="pb-0">
                 {publicationType === 'announcement' && !!announcement && (
-                    <AnnouncementData {...announcement} {...rest} />
+                    <AnnouncementData
+                        isLocked={version.Is_Locked}
+                        {...announcement}
+                        {...rest}
+                    />
                 )}
                 {environment?.Can_Validate && (
                     <Packages

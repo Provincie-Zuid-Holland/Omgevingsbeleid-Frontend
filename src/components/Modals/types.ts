@@ -100,6 +100,7 @@ export interface ModalStateMap {
     }
     publicationAnnouncementUpdate: {
         announcementUuid: string
+        isLocked?: boolean
     }
     publicationPackageReportUpload: {
         publicationType: PublicationType

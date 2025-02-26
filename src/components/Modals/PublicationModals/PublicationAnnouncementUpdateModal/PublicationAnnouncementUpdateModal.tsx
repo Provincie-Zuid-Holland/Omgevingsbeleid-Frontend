@@ -27,6 +27,8 @@ const PublicationAnnouncementUpdateModal = () => {
         state => state.modalStates['publicationAnnouncementUpdate']
     ) as ModalStateMap['publicationAnnouncementUpdate']
 
+    const isLocked = modalState?.isLocked || false
+
     const { data, isFetching, queryKey } =
         usePublicationAnnouncementsAnnouncementUuidGet(
             modalState?.announcementUuid,
@@ -115,6 +117,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                         name="Metadata.Official_Title"
                                         label="Officiële titel van kennisgeving"
                                         placeholder="Officiële titel"
+                                        disabled={isLocked}
                                     />
                                 </div>
                                 <div>
@@ -122,36 +125,42 @@ const PublicationAnnouncementUpdateModal = () => {
                                         name="Content.Texts.0.Title"
                                         label="Titel van kennisgeving"
                                         placeholder="Titel"
+                                        disabled={isLocked}
                                     />
                                 </div>
                                 <div>
                                     <FormikRte
                                         name="Content.Texts.0.Description"
                                         label="Tekst van kennisgeving"
+                                        disabled={isLocked}
                                     />
                                 </div>
                                 <div>
                                     <FormikRte
                                         name="Content.Texts.1.Description"
                                         label="Planning"
+                                        disabled={isLocked}
                                     />
                                 </div>
                                 <div>
                                     <FormikRte
                                         name="Content.Texts.2.Description"
                                         label="Reageren"
+                                        disabled={isLocked}
                                     />
                                 </div>
                                 <div>
                                     <FormikRte
                                         name="Content.Texts.3.Description"
                                         label="Inzien"
+                                        disabled={isLocked}
                                     />
                                 </div>
                                 <div>
                                     <FormikRte
                                         name="Content.Texts.4.Description"
                                         label="Sluiting"
+                                        disabled={isLocked}
                                     />
                                 </div>
                                 <div className="flex space-x-4 [&_>div]:flex-1">
@@ -160,6 +169,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                             name="Announcement_Date"
                                             label="Bekend op"
                                             placeholder="Kies een datum"
+                                            disabled={isLocked}
                                         />
                                     </div>
                                     <div>
@@ -167,6 +177,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                             name="Procedural.Begin_Inspection_Period_Date"
                                             label="Begin inzage"
                                             placeholder="Kies een datum"
+                                            disabled={isLocked}
                                         />
                                     </div>
                                     <div>
@@ -174,6 +185,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                             name="Procedural.End_Inspection_Period_Date"
                                             label="Eind inzage"
                                             placeholder="Kies een datum"
+                                            disabled={isLocked}
                                         />
                                     </div>
                                 </div>
@@ -190,7 +202,9 @@ const PublicationAnnouncementUpdateModal = () => {
                                 <Button
                                     variant="cta"
                                     type="submit"
-                                    isDisabled={isSubmitting && !isError}
+                                    isDisabled={
+                                        (isSubmitting && !isError) || isLocked
+                                    }
                                     isLoading={isSubmitting && !isError}>
                                     Opslaan
                                 </Button>
