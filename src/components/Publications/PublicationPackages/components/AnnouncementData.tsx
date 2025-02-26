@@ -58,7 +58,7 @@ const AnnouncementData = ({ UUID, isLocked }: AnnouncementDataProps) => {
                     className={cn(
                         'rounded-lg border border-pzh-gray-200 bg-pzh-white',
                         {
-                            'bg-pzh-gray-100': isLocked,
+                            'bg-pzh-gray-100': isLocked && !isSucceeded,
                         }
                     )}>
                     <div className="flex items-center justify-between px-6 py-3">
@@ -75,9 +75,11 @@ const AnnouncementData = ({ UUID, isLocked }: AnnouncementDataProps) => {
                                 bold
                                 className="heading-s -mb-1"
                                 color={
-                                    !isLocked
-                                        ? 'text-pzh-blue-500'
-                                        : 'text-pzh-gray-300'
+                                    isLocked
+                                        ? !isSucceeded
+                                            ? 'text-pzh-gray-300'
+                                            : 'text-pzh-blue-500'
+                                        : 'text-pzh-blue-500'
                                 }>
                                 Vul gegevens in
                             </Text>
@@ -88,7 +90,7 @@ const AnnouncementData = ({ UUID, isLocked }: AnnouncementDataProps) => {
                             onPress={() =>
                                 setActiveModal(
                                     'publicationAnnouncementUpdate',
-                                    { announcementUuid: UUID }
+                                    { announcementUuid: UUID, isLocked }
                                 )
                             }>
                             Ga naar het formulier
