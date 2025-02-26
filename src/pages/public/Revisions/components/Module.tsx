@@ -124,7 +124,7 @@ const Module = ({
                                         models[type].defaults.pluralCapitalize
                                     }
                                     key={type}>
-                                    <div className="mt-3 table border-spacing-y-2">
+                                    <div className="mt-3 space-y-2">
                                         {groupedObjects[type].map(object => (
                                             <RevisionItem
                                                 key={
@@ -160,46 +160,37 @@ const RevisionItem = ({
 
     if (!model) return
 
-    const { singularCapitalize, slugOverview, plural } = model.defaults
+    const { slugOverview, plural } = model.defaults
 
     const action = getPublicObjectActionText(ModuleObjectContext?.Action)
     const Icon = getPublicObjectActionIcon(ModuleObjectContext?.Action)
 
     return (
-        <div className="table-row">
-            <div className="table-cell">
-                <div className="flex items-baseline">
-                    {Icon && (
-                        <Tooltip label={action || ''}>
-                            <div
-                                className={clsx(
-                                    'flex h-4 w-4 cursor-help items-center justify-center rounded',
-                                    {
-                                        'bg-pzh-green-500':
-                                            ModuleObjectContext?.Action ===
-                                            'Create',
-                                        'bg-pzh-red-500':
-                                            ModuleObjectContext?.Action ===
-                                            'Terminate',
-                                        'bg-pzh-blue-500':
-                                            ModuleObjectContext?.Action ===
-                                            'Edit',
-                                    }
-                                )}>
-                                <Icon
-                                    size={
-                                        ModuleObjectContext?.Action === 'Edit'
-                                            ? 10
-                                            : 14
-                                    }
-                                    className="text-pzh-white"
-                                />
-                            </div>
-                        </Tooltip>
-                    )}
-                    <span className="px-2">{singularCapitalize}</span>
-                </div>
-            </div>
+        <div className="flex items-center gap-2">
+            {Icon && (
+                <Tooltip label={action || ''}>
+                    <div
+                        className={clsx(
+                            '-mt-1 flex h-4 w-4 cursor-help items-center justify-center rounded',
+                            {
+                                'bg-pzh-green-500':
+                                    ModuleObjectContext?.Action === 'Create',
+                                'bg-pzh-red-500':
+                                    ModuleObjectContext?.Action === 'Terminate',
+                                'bg-pzh-blue-500':
+                                    ModuleObjectContext?.Action === 'Edit',
+                            }
+                        )}>
+                        <Icon
+                            size={
+                                ModuleObjectContext?.Action === 'Edit' ? 10 : 14
+                            }
+                            className="text-pzh-white"
+                        />
+                    </div>
+                </Tooltip>
+            )}
+
             <Hyperlink asChild>
                 <Link
                     to={`/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${UUID}`}>
