@@ -56,7 +56,8 @@ const ObjectRevisionNotification = ({
                     </Notification>
                 )}
             <Notification>
-                {latestRevision?.Module_Object_UUID === data?.UUID ? (
+                {latestRevision?.Module_Object_UUID === data?.UUID ||
+                (!moduleId && latest.UUID !== data.UUID) ? (
                     <>
                         Let op, dit is een{' '}
                         {isRevision ? 'ontwerpversie' : 'verouderde versie'} van{' '}
@@ -64,7 +65,7 @@ const ObjectRevisionNotification = ({
                         <Hyperlink asChild>
                             <Link
                                 to={`/${slugOverview}/${plural}/${latest.UUID}`}>
-                                bekijk hier de vigerende versie
+                                bekijk hier de meest actuele versie
                             </Link>
                         </Hyperlink>
                     </>

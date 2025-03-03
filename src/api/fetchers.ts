@@ -229,11 +229,11 @@ import type {
     ResetPasswordResponse,
     ResponseOK,
     RevisionsGetParams,
+    SearchByAreasPostParams,
+    SearchByGeometryPostParams,
     SearchGeoRequestData,
     SearchPostParams,
     SearchRequestData,
-    SearchSourceGeoPostParams,
-    SearchSourceGeometryPostParams,
     SearchValidPostParams,
     SourceWerkingsgebiedenGetParams,
     StorageFilesGetParams,
@@ -16098,14 +16098,14 @@ export const useSourceWerkingsgebiedenGet = <
 }
 
 /**
- * @summary List the objects active in werkingsgebieden
+ * @summary List the objects in the given areas
  */
-export const searchSourceGeoPost = (
+export const searchByAreasPost = (
     searchGeoRequestData: SearchGeoRequestData,
-    params?: SearchSourceGeoPostParams
+    params?: SearchByAreasPostParams
 ) => {
     return customInstance<PagedResponseGeoSearchResult>({
-        url: `/search/source-geo`,
+        url: `/search/by-areas`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: searchGeoRequestData,
@@ -16113,57 +16113,57 @@ export const searchSourceGeoPost = (
     })
 }
 
-export const getSearchSourceGeoPostMutationOptions = <
+export const getSearchByAreasPostMutationOptions = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof searchSourceGeoPost>>,
+        Awaited<ReturnType<typeof searchByAreasPost>>,
         TError,
-        { data: SearchGeoRequestData; params?: SearchSourceGeoPostParams },
+        { data: SearchGeoRequestData; params?: SearchByAreasPostParams },
         TContext
     >
 }): UseMutationOptions<
-    Awaited<ReturnType<typeof searchSourceGeoPost>>,
+    Awaited<ReturnType<typeof searchByAreasPost>>,
     TError,
-    { data: SearchGeoRequestData; params?: SearchSourceGeoPostParams },
+    { data: SearchGeoRequestData; params?: SearchByAreasPostParams },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof searchSourceGeoPost>>,
-        { data: SearchGeoRequestData; params?: SearchSourceGeoPostParams }
+        Awaited<ReturnType<typeof searchByAreasPost>>,
+        { data: SearchGeoRequestData; params?: SearchByAreasPostParams }
     > = props => {
         const { data, params } = props ?? {}
 
-        return searchSourceGeoPost(data, params)
+        return searchByAreasPost(data, params)
     }
 
     return { mutationFn, ...mutationOptions }
 }
 
-export type SearchSourceGeoPostMutationResult = NonNullable<
-    Awaited<ReturnType<typeof searchSourceGeoPost>>
+export type SearchByAreasPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof searchByAreasPost>>
 >
-export type SearchSourceGeoPostMutationBody = SearchGeoRequestData
-export type SearchSourceGeoPostMutationError = HTTPValidationError
+export type SearchByAreasPostMutationBody = SearchGeoRequestData
+export type SearchByAreasPostMutationError = HTTPValidationError
 
 /**
- * @summary List the objects active in werkingsgebieden
+ * @summary List the objects in the given areas
  */
-export const useSearchSourceGeoPost = <
+export const useSearchByAreasPost = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof searchSourceGeoPost>>,
+        Awaited<ReturnType<typeof searchByAreasPost>>,
         TError,
-        { data: SearchGeoRequestData; params?: SearchSourceGeoPostParams },
+        { data: SearchGeoRequestData; params?: SearchByAreasPostParams },
         TContext
     >
 }) => {
-    const mutationOptions = getSearchSourceGeoPostMutationOptions(options)
+    const mutationOptions = getSearchByAreasPostMutationOptions(options)
 
     return useMutation(mutationOptions)
 }
@@ -16171,12 +16171,12 @@ export const useSearchSourceGeoPost = <
 /**
  * @summary List the objects in werkingsgebieden by a geometry
  */
-export const searchSourceGeometryPost = (
+export const searchByGeometryPost = (
     listObjectsByGeometryRequestData: ListObjectsByGeometryRequestData,
-    params?: SearchSourceGeometryPostParams
+    params?: SearchByGeometryPostParams
 ) => {
     return customInstance<PagedResponseGeoSearchResult>({
-        url: `/search/source-geometry`,
+        url: `/search/by-geometry`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: listObjectsByGeometryRequestData,
@@ -16184,70 +16184,69 @@ export const searchSourceGeometryPost = (
     })
 }
 
-export const getSearchSourceGeometryPostMutationOptions = <
+export const getSearchByGeometryPostMutationOptions = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof searchSourceGeometryPost>>,
+        Awaited<ReturnType<typeof searchByGeometryPost>>,
         TError,
         {
             data: ListObjectsByGeometryRequestData
-            params?: SearchSourceGeometryPostParams
+            params?: SearchByGeometryPostParams
         },
         TContext
     >
 }): UseMutationOptions<
-    Awaited<ReturnType<typeof searchSourceGeometryPost>>,
+    Awaited<ReturnType<typeof searchByGeometryPost>>,
     TError,
     {
         data: ListObjectsByGeometryRequestData
-        params?: SearchSourceGeometryPostParams
+        params?: SearchByGeometryPostParams
     },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof searchSourceGeometryPost>>,
+        Awaited<ReturnType<typeof searchByGeometryPost>>,
         {
             data: ListObjectsByGeometryRequestData
-            params?: SearchSourceGeometryPostParams
+            params?: SearchByGeometryPostParams
         }
     > = props => {
         const { data, params } = props ?? {}
 
-        return searchSourceGeometryPost(data, params)
+        return searchByGeometryPost(data, params)
     }
 
     return { mutationFn, ...mutationOptions }
 }
 
-export type SearchSourceGeometryPostMutationResult = NonNullable<
-    Awaited<ReturnType<typeof searchSourceGeometryPost>>
+export type SearchByGeometryPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof searchByGeometryPost>>
 >
-export type SearchSourceGeometryPostMutationBody =
-    ListObjectsByGeometryRequestData
-export type SearchSourceGeometryPostMutationError = HTTPValidationError
+export type SearchByGeometryPostMutationBody = ListObjectsByGeometryRequestData
+export type SearchByGeometryPostMutationError = HTTPValidationError
 
 /**
  * @summary List the objects in werkingsgebieden by a geometry
  */
-export const useSearchSourceGeometryPost = <
+export const useSearchByGeometryPost = <
     TError = HTTPValidationError,
     TContext = unknown
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof searchSourceGeometryPost>>,
+        Awaited<ReturnType<typeof searchByGeometryPost>>,
         TError,
         {
             data: ListObjectsByGeometryRequestData
-            params?: SearchSourceGeometryPostParams
+            params?: SearchByGeometryPostParams
         },
         TContext
     >
 }) => {
-    const mutationOptions = getSearchSourceGeometryPostMutationOptions(options)
+    const mutationOptions = getSearchByGeometryPostMutationOptions(options)
 
     return useMutation(mutationOptions)
 }
@@ -20511,6 +20510,100 @@ export const usePublicationVersionsVersionUuidAttachmentsPost = <
 }) => {
     const mutationOptions =
         getPublicationVersionsVersionUuidAttachmentsPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Delete a publication version attachment
+ */
+export const publicationVersionsVersionUuidAttachmentsAttachmentIdDelete = (
+    versionUuid: string,
+    attachmentId: number
+) => {
+    return customInstance<ResponseOK>({
+        url: `/publication-versions/${versionUuid}/attachments/${attachmentId}`,
+        method: 'DELETE',
+    })
+}
+
+export const getPublicationVersionsVersionUuidAttachmentsAttachmentIdDeleteMutationOptions =
+    <TError = HTTPValidationError, TContext = unknown>(options?: {
+        mutation?: UseMutationOptions<
+            Awaited<
+                ReturnType<
+                    typeof publicationVersionsVersionUuidAttachmentsAttachmentIdDelete
+                >
+            >,
+            TError,
+            { versionUuid: string; attachmentId: number },
+            TContext
+        >
+    }): UseMutationOptions<
+        Awaited<
+            ReturnType<
+                typeof publicationVersionsVersionUuidAttachmentsAttachmentIdDelete
+            >
+        >,
+        TError,
+        { versionUuid: string; attachmentId: number },
+        TContext
+    > => {
+        const { mutation: mutationOptions } = options ?? {}
+
+        const mutationFn: MutationFunction<
+            Awaited<
+                ReturnType<
+                    typeof publicationVersionsVersionUuidAttachmentsAttachmentIdDelete
+                >
+            >,
+            { versionUuid: string; attachmentId: number }
+        > = props => {
+            const { versionUuid, attachmentId } = props ?? {}
+
+            return publicationVersionsVersionUuidAttachmentsAttachmentIdDelete(
+                versionUuid,
+                attachmentId
+            )
+        }
+
+        return { mutationFn, ...mutationOptions }
+    }
+
+export type PublicationVersionsVersionUuidAttachmentsAttachmentIdDeleteMutationResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof publicationVersionsVersionUuidAttachmentsAttachmentIdDelete
+            >
+        >
+    >
+
+export type PublicationVersionsVersionUuidAttachmentsAttachmentIdDeleteMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Delete a publication version attachment
+ */
+export const usePublicationVersionsVersionUuidAttachmentsAttachmentIdDelete = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<
+            ReturnType<
+                typeof publicationVersionsVersionUuidAttachmentsAttachmentIdDelete
+            >
+        >,
+        TError,
+        { versionUuid: string; attachmentId: number },
+        TContext
+    >
+}) => {
+    const mutationOptions =
+        getPublicationVersionsVersionUuidAttachmentsAttachmentIdDeleteMutationOptions(
+            options
+        )
 
     return useMutation(mutationOptions)
 }

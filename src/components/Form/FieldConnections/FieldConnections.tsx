@@ -95,6 +95,7 @@ const FieldConnections = ({
         )
 
         setFieldValue('connections', value)
+        setActiveModal(null)
     }
 
     return (
