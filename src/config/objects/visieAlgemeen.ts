@@ -59,6 +59,7 @@ const visieAlgemeen: DynamicObject<
         slugOverview: 'omgevingsvisie',
         icon: EyeLight,
         slugOverviewPublic: true,
+        parentType: 'Visie',
     },
     staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
     fetchers,
