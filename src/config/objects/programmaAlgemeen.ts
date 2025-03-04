@@ -60,6 +60,7 @@ const programmaAlgemeen: DynamicObject<
         slugOverview: 'omgevingsvisie',
         icon: ListCheck,
         hideBreadcrumbs: true,
+        parentType: 'Programma',
     },
     staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
     fetchers,

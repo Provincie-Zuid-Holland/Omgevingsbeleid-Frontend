@@ -183,14 +183,14 @@ export type SearchPostParams = {
     limit?: number
 }
 
-export type SearchSourceGeometryPostParams = {
+export type SearchByGeometryPostParams = {
     offset?: number
     limit?: number
     sort_column?: string
     sort_order?: SortOrder
 }
 
-export type SearchSourceGeoPostParams = {
+export type SearchByAreasPostParams = {
     offset?: number
     limit?: number
     sort_column?: string
@@ -858,6 +858,24 @@ export interface VerplichtProgrammaMinimal {
 export type VerplichtProgrammaFullObjectStatics =
     VerplichtProgrammaFullStatics | null
 
+export interface VerplichtProgrammaFull {
+    Code?: string
+    Created_By?: UserShort
+    Created_Date?: string
+    Description?: string
+    End_Validity?: string | null
+    Maatregelen?: ReadRelationShortMaatregelMinimal[]
+    Modified_By?: UserShort
+    Modified_Date?: string
+    Object_ID?: number
+    Object_Type?: string
+    ObjectStatics?: VerplichtProgrammaFullObjectStatics
+    Start_Validity?: string | null
+    Title?: string
+    UUID?: string
+    WettelijkeTaken?: WettelijkeTaakMinimal[]
+}
+
 export interface VerplichtProgrammaEdit {
     Description?: string | null
     Title?: string | null
@@ -914,24 +932,6 @@ export interface UserShort {
 export interface VerplichtProgrammaFullStatics {
     Owner_1?: UserShort
     Owner_2?: UserShort
-}
-
-export interface VerplichtProgrammaFull {
-    Code?: string
-    Created_By?: UserShort
-    Created_Date?: string
-    Description?: string
-    End_Validity?: string | null
-    Maatregelen?: ReadRelationShortMaatregelMinimal[]
-    Modified_By?: UserShort
-    Modified_Date?: string
-    Object_ID?: number
-    Object_Type?: string
-    ObjectStatics?: VerplichtProgrammaFullObjectStatics
-    Start_Validity?: string | null
-    Title?: string
-    UUID?: string
-    WettelijkeTaken?: WettelijkeTaakMinimal[]
 }
 
 export interface UserCreateResponse {
@@ -1396,7 +1396,6 @@ export interface PublicationActShort {
     Environment_UUID: string
     Is_Active: boolean
     Modified_Date: string
-    Procedure_Type: string
     Title: string
     UUID: string
     Work_Country: string
@@ -1436,7 +1435,6 @@ export interface PublicationAct {
     Is_Active: boolean
     Metadata: PublicationActMetadata
     Modified_Date: string
-    Procedure_Type: string
     Title: string
     UUID: string
     Work_Country: string
@@ -2168,6 +2166,7 @@ export const MutationStrategy = {
 export interface Motivation {
     Appendices?: Appendix[]
     Content: string
+    Number?: string
     Title: string
 }
 
@@ -2434,6 +2433,7 @@ export interface MaatregelFull {
     Start_Validity?: string | null
     Title?: string
     UUID?: string
+    Werkingsgebied?: WerkingsgebiedBasic
     Werkingsgebied_Code?: string
     Werkingsgebied_Statics?: WerkingsgebiedStatics
 }
@@ -2538,16 +2538,11 @@ export const GeometryFunctions = {
     INTERSECTS: 'INTERSECTS',
 } as const
 
-export type GeoSearchResultUUID = string | string
-
-export type GeoSearchResultGebied = string | string
-
 export interface GeoSearchResult {
-    Gebied: GeoSearchResultGebied
+    Object_Type: string
     Omschrijving?: string
     Titel?: string
-    Type: string
-    UUID: GeoSearchResultUUID
+    UUID: string
 }
 
 export interface GenericObjectShort {
@@ -3018,6 +3013,7 @@ export interface BeleidskeuzeFull {
     Start_Validity?: string | null
     Title?: string
     UUID?: string
+    Werkingsgebied?: WerkingsgebiedBasic
     Werkingsgebied_Code?: string
     Werkingsgebied_Statics?: WerkingsgebiedStatics
     WettelijkeTaken?: ReadRelationShortWettelijkeTaakMinimal[]
