@@ -179,9 +179,7 @@ const People = ({
                 <div className="mr-2 flex">
                     {ObjectStatics.Portfolio_Holder_1 && (
                         <Avatar
-                            name={
-                                ObjectStatics.Portfolio_Holder_1.Gebruikersnaam
-                            }
+                            uuid={ObjectStatics.Portfolio_Holder_1.UUID}
                             prefix={getStaticDataLabel(
                                 'Portfolio_Holder_1_UUID'
                             )}
@@ -189,9 +187,7 @@ const People = ({
                     )}
                     {ObjectStatics.Portfolio_Holder_2 && (
                         <Avatar
-                            name={
-                                ObjectStatics.Portfolio_Holder_2.Gebruikersnaam
-                            }
+                            uuid={ObjectStatics.Portfolio_Holder_2.UUID}
                             prefix={getStaticDataLabel(
                                 'Portfolio_Holder_2_UUID'
                             )}
@@ -206,7 +202,7 @@ const People = ({
             {ObjectStatics.Client_1 && (
                 <div className="mr-2">
                     <Avatar
-                        name={ObjectStatics.Client_1.Gebruikersnaam}
+                        uuid={ObjectStatics.Client_1.UUID}
                         prefix={getStaticDataLabel('Client_1_UUID')}
                     />
                 </div>
@@ -216,13 +212,13 @@ const People = ({
                 <div className="flex">
                     {ObjectStatics.Owner_1 && (
                         <Avatar
-                            name={ObjectStatics.Owner_1.Gebruikersnaam}
+                            uuid={ObjectStatics.Owner_1.UUID}
                             prefix={getStaticDataLabel('Owner_1_UUID')}
                         />
                     )}
                     {ObjectStatics.Owner_2 && (
                         <Avatar
-                            name={ObjectStatics.Owner_2.Gebruikersnaam}
+                            uuid={ObjectStatics.Owner_2.UUID}
                             prefix={getStaticDataLabel('Owner_2_UUID')}
                             className={ObjectStatics.Owner_1 && '-ml-2'}
                         />
