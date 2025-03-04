@@ -4,7 +4,9 @@ import {
     formatDate,
     FormikRadio,
     Text,
+    Tooltip,
 } from '@pzh-ui/components'
+import { CircleInfo } from '@pzh-ui/icons'
 import { Form, Formik } from 'formik'
 import { useMemo } from 'react'
 
@@ -146,22 +148,32 @@ const AreaModalEdit = ({
                                                                 ? 'mb-2'
                                                                 : ''
                                                         }>
-                                                        <FormikRadio
-                                                            name="area"
-                                                            value={
-                                                                version.value
-                                                            }
-                                                            defaultChecked={
-                                                                version.value ===
-                                                                values.area
-                                                            }
-                                                            disabled={
-                                                                version.isDuplicate
-                                                            }>
-                                                            Versie{' '}
-                                                            {options.length -
-                                                                index}
-                                                        </FormikRadio>
+                                                        <div className="flex items-center gap-2">
+                                                            <FormikRadio
+                                                                name="area"
+                                                                value={
+                                                                    version.value
+                                                                }
+                                                                defaultChecked={
+                                                                    version.value ===
+                                                                    values.area
+                                                                }
+                                                                disabled={
+                                                                    version.isDuplicate
+                                                                }>
+                                                                Versie{' '}
+                                                                {options.length -
+                                                                    index}
+                                                            </FormikRadio>
+                                                            {version.isDuplicate && (
+                                                                <div className="z-1">
+                                                                    <Tooltip label="Deze versie bevat dezelfde geo als de vorige versie en kan daarom niet worden gekozen">
+                                                                        <CircleInfo className="-mt-1 cursor-pointer text-pzh-blue-900" />
+                                                                    </Tooltip>
+                                                                </div>
+                                                            )}
+                                                        </div>
+
                                                         <span className="-mt-1 ml-7 block text-s">
                                                             Datum:{' '}
                                                             {formatDate(

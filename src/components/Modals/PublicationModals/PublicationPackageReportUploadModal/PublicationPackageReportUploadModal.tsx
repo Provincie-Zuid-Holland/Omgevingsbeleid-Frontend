@@ -18,6 +18,7 @@ import {
     getPublicationActReportsGetQueryKey,
     getPublicationAnnouncementPackagesGetQueryKey,
     getPublicationAnnouncementReportsGetQueryKey,
+    getPublicationAnnouncementsGetQueryKey,
     usePublicationActReportsGet,
     usePublicationAnnouncementReportsGet,
 } from '@/api/fetchers'
@@ -51,7 +52,7 @@ const PublicationPackageReportUploadModal = () => {
                 announcementPackageUuid: modalState.packageUUID,
                 data: payload,
             })
-            .then(() => {
+            .then(res => {
                 queryClient.invalidateQueries({
                     queryKey:
                         modalState.publicationType === 'act'
@@ -75,6 +76,18 @@ const PublicationPackageReportUploadModal = () => {
                                   limit: 100,
                               }),
                 })
+
+                if (
+                    modalState.publicationType === 'announcement' &&
+                    res.Status === 'valid' &&
+                    modalState.packageType === 'publication'
+                ) {
+                    queryClient.invalidateQueries({
+                        queryKey: getPublicationAnnouncementsGetQueryKey(),
+                        refetchType: 'all',
+                    })
+                }
+
                 helpers.resetForm()
             })
     }
