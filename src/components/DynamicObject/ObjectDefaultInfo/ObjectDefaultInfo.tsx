@@ -7,6 +7,7 @@ import ObjectPersonModal from '@/components/Modals/ObjectModals/ObjectPersonModa
 import { Model } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import usePermissions from '@/hooks/usePermissions'
+import useUserInfo from '@/hooks/useUserInfo'
 import useModalStore from '@/store/modalStore'
 import {
     getStaticDataLabel,
@@ -75,21 +76,25 @@ interface ItemProps {
     isLoading?: boolean
 }
 
-const Item = ({ label, user, isLoading }: ItemProps) => (
-    <div className="mt-3 border-b border-pzh-gray-300 pb-2">
-        <Text bold>{label}</Text>
-        <div className="relative flex items-center justify-between">
-            {!isLoading ? (
-                <Text className={!user ? 'text-pzh-gray-600' : ''}>
-                    {user?.Gebruikersnaam || 'Niet geselecteerd'}
-                </Text>
-            ) : (
-                <div className="w-[50%]">
-                    <LoaderCard height="30" mb="0" />
-                </div>
-            )}
+const Item = ({ label, user: providedUser, isLoading }: ItemProps) => {
+    const user = useUserInfo(providedUser?.UUID ?? '')
+
+    return (
+        <div className="mt-3 border-b border-pzh-gray-300 pb-2">
+            <Text bold>{label}</Text>
+            <div className="relative flex items-center justify-between">
+                {!isLoading ? (
+                    <Text className={!user ? 'text-pzh-gray-600' : ''}>
+                        {user?.Gebruikersnaam || 'Niet geselecteerd'}
+                    </Text>
+                ) : (
+                    <div className="w-[50%]">
+                        <LoaderCard height="30" mb="0" />
+                    </div>
+                )}
+            </div>
         </div>
-    </div>
-)
+    )
+}
 
 export default ObjectDefaultInfo
