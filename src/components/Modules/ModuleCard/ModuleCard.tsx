@@ -24,11 +24,11 @@ const ModuleCard = (props: Module | ModuleShort) => {
                 />
                 <div className="flex">
                     {managers?.[0] && (
-                        <Avatar name={managers[0].Gebruikersnaam} isSmall />
+                        <Avatar uuid={managers[0].UUID} isSmall />
                     )}
                     {managers?.[1] && (
                         <Avatar
-                            name={managers[1].Gebruikersnaam}
+                            uuid={managers[1].UUID}
                             className="-ml-1.5"
                             isSmall
                         />
