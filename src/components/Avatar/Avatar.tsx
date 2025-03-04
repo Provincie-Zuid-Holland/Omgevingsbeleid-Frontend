@@ -1,14 +1,18 @@
 import { Tooltip } from '@pzh-ui/components'
 import classNames from 'clsx'
 
+import useUserInfo from '@/hooks/useUserInfo'
+
 interface AvatarProps {
-    name: string
+    uuid: string
     prefix?: string
     className?: string
     isSmall?: boolean
 }
 
-const Avatar = ({ name = '', prefix, className, isSmall }: AvatarProps) => {
+const Avatar = ({ uuid, prefix, className, isSmall }: AvatarProps) => {
+    const { Gebruikersnaam: name = '' } = useUserInfo(uuid) || {}
+
     const rgx = new RegExp(/(\p{L}{1})\p{L}+/gu)
     const match = [...name.matchAll(rgx)]
     const initials = (

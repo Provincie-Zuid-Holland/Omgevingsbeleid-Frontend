@@ -60,14 +60,9 @@ const ModuleHeader = ({ module }: ModuleHeaderProps) => {
                     </div>
                 </div>
                 <div className="flex">
-                    {managers?.[0] && (
-                        <Avatar name={managers[0].Gebruikersnaam} />
-                    )}
+                    {managers?.[0] && <Avatar uuid={managers[0].UUID} />}
                     {managers?.[1] && (
-                        <Avatar
-                            name={managers[1].Gebruikersnaam}
-                            className="-ml-2"
-                        />
+                        <Avatar uuid={managers[1].UUID} className="-ml-2" />
                     )}
                 </div>
             </div>
