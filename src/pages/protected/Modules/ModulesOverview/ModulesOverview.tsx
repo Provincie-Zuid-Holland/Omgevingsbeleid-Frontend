@@ -19,12 +19,15 @@ import { useModulesGet } from '@/api/fetchers'
 import { ModuleSortColumn } from '@/api/fetchers.schemas'
 import { LoaderCard } from '@/components/Loader'
 import ModuleTile from '@/components/Modules/ModuleTile'
+import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 
 const PAGE_LIMIT = 9
 type TabType = 'active' | 'inactive' | 'archive'
 
 const ModulesOverview = () => {
+    const { canCreateModule } = usePermissions()
+
     const [activeTab, setActiveTab] = useState<TabType>('active')
 
     const breadcrumbPaths = [
@@ -37,12 +40,16 @@ const ModulesOverview = () => {
             <div className="col-span-6">
                 <div className="mb-6 flex items-center justify-between">
                     <Heading size="xxl">Modules</Heading>
-                    <Button
-                        asChild
-                        variant="cta"
-                        data-testid="dashboard-new-module">
-                        <Link to="/muteer/modules/nieuw">Nieuwe module</Link>
-                    </Button>
+                    {canCreateModule && (
+                        <Button
+                            asChild
+                            variant="cta"
+                            data-testid="dashboard-new-module">
+                            <Link to="/muteer/modules/nieuw">
+                                Nieuwe module
+                            </Link>
+                        </Button>
+                    )}
                 </div>
 
                 <Tabs
