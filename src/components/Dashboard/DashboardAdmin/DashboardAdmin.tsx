@@ -15,8 +15,11 @@ const DashboardAdmin = () => {
     const { data: modules, isFetching: modulesLoading } = useModulesGet(
         {
             filter_activated: true,
+            filter_closed: false,
             only_mine: false,
             limit: PAGE_LIMIT,
+            sort_column: 'Modified_Date',
+            sort_order: 'DESC',
         },
         {
             query: {

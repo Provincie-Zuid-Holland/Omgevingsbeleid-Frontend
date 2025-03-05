@@ -116,7 +116,7 @@ const Packages = ({
                                         isDisabled={isFetching}
                                         variant="default"
                                         iconSize={19}
-                                        className="text-pzh-green-500 flex items-center gap-4 font-bold [&>svg]:-mt-1 [&>svg]:mr-0">
+                                        className="flex items-center gap-4 font-bold text-pzh-green-500 [&>svg]:-mt-1 [&>svg]:mr-0">
                                         {!showAll
                                             ? `Alle ${total} leveringen tonen`
                                             : 'Minder tonen'}
