@@ -66,10 +66,10 @@ export const menuGroups = [
     {
         title: 'Overig Omgevingsbeleid',
         items: [
-            {
-                text: 'Beleidsregels',
-                to: '/omgevingsverordening/beleidsregels',
-            },
+            // {
+            //     text: 'Beleidsregels',
+            //     to: '/omgevingsverordening/beleidsregels',
+            // },
             {
                 text: 'Beleidsnetwerk',
                 to: '/beleidsnetwerk',
