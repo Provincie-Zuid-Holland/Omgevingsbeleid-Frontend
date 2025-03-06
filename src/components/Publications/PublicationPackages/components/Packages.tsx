@@ -295,9 +295,11 @@ export const AnnouncementPackages = ({
     const { data: validAnnouncementPackage } =
         usePublicationAnnouncementPackagesGet(
             {
-                limit: 100,
+                limit: 3,
                 announcement_uuid: announcement?.UUID,
                 package_type: PackageType['publication'],
+                sort_column: 'Created_Date',
+                sort_order: 'DESC',
             },
             {
                 query: {
