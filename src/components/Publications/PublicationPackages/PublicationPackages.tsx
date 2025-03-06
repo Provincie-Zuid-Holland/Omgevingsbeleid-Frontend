@@ -72,7 +72,7 @@ const PublicationPackages = ({
             <AccordionContent className="pb-0">
                 {publicationType === 'announcement' && !!announcement && (
                     <AnnouncementData
-                        isLocked={version.Is_Locked}
+                        isLocked={isDisabled}
                         {...announcement}
                         {...rest}
                     />
@@ -88,7 +88,7 @@ const PublicationPackages = ({
                                 : undefined
                         }
                         canPublicate={environment.Can_Publicate}
-                        isLocked={version.Is_Locked || isDisabled}
+                        isLocked={isDisabled}
                         {...rest}
                     />
                 )}
@@ -98,7 +98,7 @@ const PublicationPackages = ({
                         publicationType={publicationType}
                         packageType="publication"
                         canPublicate={environment.Can_Publicate}
-                        isLocked={version.Is_Locked || isDisabled}
+                        isLocked={isDisabled}
                         {...rest}
                     />
                 )}

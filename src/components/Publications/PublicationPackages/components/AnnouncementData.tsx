@@ -21,16 +21,17 @@ const AnnouncementData = ({ UUID, isLocked }: AnnouncementDataProps) => {
 
     const { data: isSucceeded } = usePublicationAnnouncementPackagesGet(
         {
-            limit: 100,
+            limit: 3,
             announcement_uuid: UUID,
+            package_type: PackageType['publication'],
+            sort_column: 'Created_Date',
+            sort_order: 'DESC',
         },
         {
             query: {
                 select: data =>
                     data.results.some(
-                        pkg =>
-                            pkg.Package_Type === PackageType['publication'] &&
-                            pkg.Report_Status === ReportStatusType['valid']
+                        pkg => pkg.Report_Status === ReportStatusType['valid']
                     ),
             },
         }
