@@ -167,8 +167,10 @@ export const Packages = () => {
         usePublicationAnnouncementPackagesGet(
             {
                 announcement_uuid: announcement?.UUID,
-                limit: 100,
+                limit: 3,
                 package_type: PackageType['publication'],
+                sort_column: 'Created_Date',
+                sort_order: 'DESC',
             },
             {
                 query: {
@@ -250,7 +252,9 @@ export const Packages = () => {
                             publicationType="announcement"
                             validPublicationPackage={validActPackage}
                             announcement={announcement}
-                            isDisabled={!!!announcement}
+                            isDisabled={
+                                !!!announcement || !!validAnnouncementPackage
+                            }
                         />
                     )}
                 {environment?.Can_Publicate && !!validAnnouncementPackage && (
