@@ -6,8 +6,9 @@ import {
     FormikRte,
 } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
-import { Form, Formik } from 'formik'
+import { Form, Formik, FormikHelpers } from 'formik'
 import { isNull, isUndefined, mergeWith } from 'lodash'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import {
     usePublicationAnnouncementsAnnouncementUuidGet,
@@ -18,6 +19,8 @@ import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal/Modal'
 import { ModalStateMap } from '@/components/Modals/types'
 import useModalStore from '@/store/modalStore'
+import handleError from '@/utils/handleError'
+import { ANNOUNCEMENT_EDIT_SCHEMA } from '@/validation/announcement'
 
 const PublicationAnnouncementUpdateModal = () => {
     const queryClient = useQueryClient()
@@ -39,8 +42,8 @@ const PublicationAnnouncementUpdateModal = () => {
             }
         )
 
-    const { mutate, isError } = usePublicationAnnouncementsAnnouncementUuidPost(
-        {
+    const { mutateAsync, isError } =
+        usePublicationAnnouncementsAnnouncementUuidPost({
             mutation: {
                 onSuccess: () => {
                     queryClient
@@ -48,38 +51,30 @@ const PublicationAnnouncementUpdateModal = () => {
                         .finally(() => setActiveModal(null))
                 },
             },
-        }
-    )
-
-    const handleSubmit = (payload: PublicationAnnouncementEdit) => {
-        if (payload.Announcement_Date && payload.Procedural) {
-            payload.Procedural.Procedural_Announcement_Date =
-                payload.Announcement_Date
-        }
-
-        mutate({
-            announcementUuid: modalState?.announcementUuid,
-            data: payload,
         })
-    }
 
     const initialValues = {
         Content: {
             Texts: [
                 {
                     Title: null,
+                    Description: '',
                 },
                 {
                     Title: 'Planning',
+                    Description: '',
                 },
                 {
                     Title: 'Reageren',
+                    Description: '',
                 },
                 {
                     Title: 'Inzien',
+                    Description: '',
                 },
                 {
                     Title: 'Sluiting',
+                    Description: '',
                 },
             ],
         },
@@ -95,6 +90,21 @@ const PublicationAnnouncementUpdateModal = () => {
         }
     )
 
+    const handleSubmit = (
+        payload: typeof mergedValues,
+        helpers: FormikHelpers<typeof mergedValues>
+    ) => {
+        if (payload.Announcement_Date && payload.Procedural) {
+            payload.Procedural.Procedural_Announcement_Date =
+                payload.Announcement_Date
+        }
+
+        mutateAsync({
+            announcementUuid: modalState?.announcementUuid,
+            data: payload,
+        }).catch(err => handleError<typeof payload>(err.response, helpers))
+    }
+
     return (
         <Modal
             id="publicationAnnouncementUpdate"
@@ -107,6 +117,9 @@ const PublicationAnnouncementUpdateModal = () => {
             ) : (
                 <Formik
                     initialValues={mergedValues}
+                    validationSchema={toFormikValidationSchema(
+                        ANNOUNCEMENT_EDIT_SCHEMA
+                    )}
                     enableReinitialize
                     onSubmit={handleSubmit}>
                     {({ isSubmitting }) => (
@@ -118,6 +131,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                         label="Officiële titel van kennisgeving"
                                         placeholder="Officiële titel"
                                         disabled={isLocked}
+                                        required
                                     />
                                 </div>
                                 <div>
@@ -126,6 +140,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                         label="Titel van kennisgeving"
                                         placeholder="Titel"
                                         disabled={isLocked}
+                                        required
                                     />
                                 </div>
                                 <div>
@@ -133,6 +148,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                         name="Content.Texts.0.Description"
                                         label="Tekst van kennisgeving"
                                         disabled={isLocked}
+                                        required
                                     />
                                 </div>
                                 <div>
@@ -140,6 +156,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                         name="Content.Texts.1.Description"
                                         label="Planning"
                                         disabled={isLocked}
+                                        required
                                     />
                                 </div>
                                 <div>
@@ -147,6 +164,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                         name="Content.Texts.2.Description"
                                         label="Reageren"
                                         disabled={isLocked}
+                                        required
                                     />
                                 </div>
                                 <div>
@@ -154,6 +172,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                         name="Content.Texts.3.Description"
                                         label="Inzien"
                                         disabled={isLocked}
+                                        required
                                     />
                                 </div>
                                 <div>
@@ -161,6 +180,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                         name="Content.Texts.4.Description"
                                         label="Sluiting"
                                         disabled={isLocked}
+                                        required
                                     />
                                 </div>
                                 <div className="flex space-x-4 [&_>div]:flex-1">
@@ -170,6 +190,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                             label="Bekend op"
                                             placeholder="Kies een datum"
                                             disabled={isLocked}
+                                            required
                                         />
                                     </div>
                                     <div>
@@ -178,6 +199,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                             label="Begin inzage"
                                             placeholder="Kies een datum"
                                             disabled={isLocked}
+                                            required
                                         />
                                     </div>
                                     <div>
@@ -186,6 +208,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                             label="Eind inzage"
                                             placeholder="Kies een datum"
                                             disabled={isLocked}
+                                            required
                                         />
                                     </div>
                                 </div>
