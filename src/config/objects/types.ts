@@ -103,6 +103,8 @@ export interface DynamicObject<
     connectionsDescription?: string | JSX.Element
     /** Acknowledged relation type */
     acknowledgedRelation?: ModelType
+    /** Has related objects */
+    hasRelatedObjects?: boolean
 }
 
 export type ModelType = keyof typeof models
