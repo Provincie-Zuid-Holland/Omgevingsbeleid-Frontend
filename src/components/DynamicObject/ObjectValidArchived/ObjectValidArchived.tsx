@@ -63,6 +63,7 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                             <Link
                                 key={object.UUID}
                                 to={`/${slugOverview}/${plural}/${object.UUID}`}
+                                target="_blank"
                                 className="grid grid-cols-9 border-b border-pzh-gray-300 px-3 py-2 hover:bg-pzh-gray-100">
                                 <div className="col-span-5">
                                     <Text>{object.Title}</Text>
@@ -84,7 +85,10 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                                                 'dd-MM-yyyy'
                                             )}
                                     </Text>
-                                    <Eye className="text-pzh-green-500" />
+                                    <Eye
+                                        className="text-pzh-green-500"
+                                        size={20}
+                                    />
                                 </div>
                             </Link>
                         ))}

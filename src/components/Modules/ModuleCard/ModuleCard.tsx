@@ -17,7 +17,7 @@ const ModuleCard = (props: Module | ModuleShort) => {
             data-testid="module-card">
             <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                 <Badge
-                    text={Status?.Status.replace('-', ' ') || ''}
+                    text={Status?.Status?.replace('-', ' ') || ''}
                     variant={getModuleStatusColor(Status?.Status)}
                     upperCase={false}
                     className="-mt-1"

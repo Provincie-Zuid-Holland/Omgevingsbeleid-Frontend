@@ -99,6 +99,7 @@ const werkingsgebied: DynamicObject<
             ],
         },
     ],
+    hasRelatedObjects: true,
 }
 
 werkingsgebied.validationSchema = generateDynamicSchema(
