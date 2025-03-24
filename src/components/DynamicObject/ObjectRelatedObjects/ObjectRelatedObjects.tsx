@@ -15,6 +15,9 @@ interface ObjectRelatedObjectsProps {
 }
 
 const ObjectRelatedObjects = ({ objects }: ObjectRelatedObjectsProps) => {
+    if (!objects.Module_Objects.length && !objects.Valid_Objects.length)
+        return null
+
     return (
         <>
             <div className="mb-6 mt-8 flex items-center justify-between">
