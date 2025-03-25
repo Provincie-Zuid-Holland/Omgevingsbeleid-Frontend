@@ -172,7 +172,7 @@ const WizardForm = ({ step }: WizardFormProps) => {
         data: publicationTemplateOptions = [],
         isFetching: publicationTemplatesFetching,
     } = usePublicationTemplatesGet(
-        { limit: 100 },
+        { limit: 100, document_type: values.Document_Type, is_active: true },
         {
             query: {
                 select: data =>
