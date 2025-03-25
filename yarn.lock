@@ -7690,16 +7690,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:^8.11.2":
-  version: 8.14.1
-  resolution: "acorn@npm:8.14.1"
-  bin:
-    acorn: bin/acorn
-  checksum: d1379bbee224e8d44c3c3946e6ba6973e999fbdd4e22e41c3455d7f9b6f72f7ce18d3dc218002e1e48eea789539cf1cb6d1430c81838c6744799c712fb557d92
-  languageName: node
-  linkType: hard
-
-"acorn@npm:^8.9.0":
+"acorn@npm:^8.11.2, acorn@npm:^8.9.0":
   version: 8.11.3
   resolution: "acorn@npm:8.11.3"
   bin:
