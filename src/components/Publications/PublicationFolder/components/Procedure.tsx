@@ -56,7 +56,7 @@ const Procedure = ({
     const Icon = config[procedureType].icon
 
     const getEnvironmentByUUID = useCallback(
-        (enviromentUUID?: string) =>
+        (enviromentUUID?: string | null) =>
             environments?.find(
                 environment => environment.UUID === enviromentUUID
             ),

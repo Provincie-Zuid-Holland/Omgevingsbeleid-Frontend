@@ -16,9 +16,9 @@ import {
     useObjectsValidGet,
 } from '@/api/fetchers'
 import {
+    GenericObjectShort,
     Module,
     ModuleObjectShort,
-    PagedResponseGenericObjectShort,
 } from '@/api/fetchers.schemas'
 import ObjectCard from '@/components/DynamicObject/ObjectActiveModules/ObjectCard'
 import { LoaderCard } from '@/components/Loader'
@@ -172,7 +172,7 @@ interface ItemListProps {
         | Module[]
         | ModelReturnType[]
         | ModuleObjectShort[]
-        | PagedResponseGenericObjectShort[]
+        | GenericObjectShort[]
     type: 'module' | 'object'
 }
 

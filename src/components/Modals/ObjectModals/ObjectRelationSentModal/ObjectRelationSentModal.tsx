@@ -39,7 +39,7 @@ const ObjectRelationSentModal = ({
 
     const [initialValues, setInitialValues] = useState({
         Object_Type: model.defaults.singular,
-    } as EditAcknowledgedRelation & { Title?: string })
+    } as EditAcknowledgedRelation & { Title?: string | null })
     const [step, setStep] = useState(1)
 
     const { data, queryKey: objectQueryKey } = useObject()

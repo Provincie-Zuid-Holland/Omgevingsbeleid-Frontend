@@ -183,21 +183,25 @@ const List = ({ title, description, items, hidden }: ListProps) => (
             Gekoppelde ‘{title}’
         </Heading>
         <ul>
-            {items.map(item => (
-                <li key={item.Object.UUID}>
-                    {'Weblink' in item.Object && item.Object?.Weblink ? (
-                        <a
-                            href={item.Object.Weblink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-pzh-green-500 hover:text-pzh-green-900">
-                            {item.Object.Title}
-                        </a>
-                    ) : (
-                        <span>{item.Object.Title}</span>
-                    )}
-                </li>
-            ))}
+            {items.map(item => {
+                if (!item.Object) return null
+
+                return (
+                    <li key={item.Object.UUID}>
+                        {'Weblink' in item.Object && item.Object?.Weblink ? (
+                            <a
+                                href={item.Object.Weblink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-pzh-green-500 hover:text-pzh-green-900">
+                                {item.Object.Title}
+                            </a>
+                        ) : (
+                            <span>{item.Object.Title}</span>
+                        )}
+                    </li>
+                )
+            })}
         </ul>
     </div>
 )
