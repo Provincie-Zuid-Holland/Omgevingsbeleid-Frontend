@@ -39,7 +39,7 @@ const ObjectRelationReceivedModal = ({
 
     const [initialValues, setInitialValues] = useState({
         Object_Type: model.defaults.singular,
-    } as EditAcknowledgedRelation & { Title?: string })
+    } as EditAcknowledgedRelation & { Title?: string | null })
     const [actionType, setActionType] = useState<'accept' | 'deny' | null>(null)
     const [step, setStep] = useState(1)
 

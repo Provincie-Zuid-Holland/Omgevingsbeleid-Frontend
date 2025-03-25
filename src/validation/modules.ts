@@ -1,4 +1,4 @@
-import { array, object } from 'zod'
+import { array, object, string } from 'zod'
 
 import {
     CompleteModule,
@@ -41,8 +41,8 @@ export const SCHEMA_ADD_NEW_OBJECT = object({
     Title: schemaDefaults.title,
     Owner_1_UUID: schemaDefaults.requiredString(),
     Owner_2_UUID: schemaDefaults.optionalString,
-    Explanation: schemaDefaults.optionalString,
-    Conclusion: schemaDefaults.optionalString,
+    Explanation: string().optional(),
+    Conclusion: string().optional(),
 })
 
 export const SCHEMA_EDIT_EXISTING_OBJECT = object({

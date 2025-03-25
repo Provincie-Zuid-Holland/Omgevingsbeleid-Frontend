@@ -19,7 +19,6 @@ interface DynamicObjectProps {
 
 const AtemportalObject = ({ model }: DynamicObjectProps) => {
     const { id } = useParams()
-    const pathName = location.pathname || ''
 
     const {
         demonstrative,
