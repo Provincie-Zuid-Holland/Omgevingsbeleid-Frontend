@@ -6,7 +6,7 @@ import useUserInfo from '@/hooks/useUserInfo'
 interface AvatarProps {
     uuid: string
     prefix?: string
-    className?: string
+    className?: string | null
     isSmall?: boolean
 }
 

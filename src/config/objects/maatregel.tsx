@@ -75,7 +75,6 @@ const maatregel: DynamicObject<
         'Portfolio_Holder_2_UUID',
     ],
     allowedConnections: [
-        { type: 'beleidsdoel', key: 'Beleidsdoelen' },
         { type: 'beleidskeuze', key: 'Beleidskeuzes' },
         { type: 'gebiedsprogramma', key: 'Gebiedsprogrammas' },
     ],

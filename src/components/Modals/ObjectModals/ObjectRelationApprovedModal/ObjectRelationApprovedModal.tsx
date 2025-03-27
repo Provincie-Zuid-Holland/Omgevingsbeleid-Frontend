@@ -37,7 +37,7 @@ const ObjectRelationApprovedModal = ({
         Object_Type: model.defaults.singular,
         Acknowledged: false,
         consent: false,
-    } as EditAcknowledgedRelation & { Title?: string; consent: boolean })
+    } as EditAcknowledgedRelation & { Title?: string | null; consent: boolean })
     const [step, setStep] = useState(1)
 
     const { data, queryKey: objectQueryKey } = useObject()
@@ -56,7 +56,7 @@ const ObjectRelationApprovedModal = ({
     /**
      * Handle disconnect relation
      */
-    const handleDisconnect = (Object_ID: number, Title?: string) => {
+    const handleDisconnect = (Object_ID: number, Title?: string | null) => {
         setInitialValues({
             ...initialValues,
             Object_ID,

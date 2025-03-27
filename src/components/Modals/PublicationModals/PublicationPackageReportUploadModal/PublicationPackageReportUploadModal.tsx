@@ -19,6 +19,7 @@ import {
     getPublicationAnnouncementPackagesGetQueryKey,
     getPublicationAnnouncementReportsGetQueryKey,
     getPublicationAnnouncementsGetQueryKey,
+    getPublicationVersionsVersionUuidGetQueryKey,
     usePublicationActReportsGet,
     usePublicationAnnouncementReportsGet,
 } from '@/api/fetchers'
@@ -73,9 +74,22 @@ const PublicationPackageReportUploadModal = () => {
                                   announcement_uuid:
                                       modalState.announcementUUID,
                                   package_type: modalState.packageType,
-                                  limit: 100,
+                                  limit: 3,
+                                  sort_column: 'Created_Date',
+                                  sort_order: 'DESC',
                               }),
                 })
+
+                if (
+                    res.Status === 'valid' &&
+                    modalState.packageType === 'publication'
+                ) {
+                    queryClient.invalidateQueries({
+                        queryKey: getPublicationVersionsVersionUuidGetQueryKey(
+                            String(versionUUID)
+                        ),
+                    })
+                }
 
                 if (
                     modalState.publicationType === 'announcement' &&

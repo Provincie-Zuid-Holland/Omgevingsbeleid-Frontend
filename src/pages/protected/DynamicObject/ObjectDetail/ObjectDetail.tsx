@@ -5,6 +5,7 @@ import { Link, useParams } from 'react-router-dom'
 import ObjectActiveModules from '@/components/DynamicObject/ObjectActiveModules'
 import ObjectConnections from '@/components/DynamicObject/ObjectConnections'
 import ObjectDefaultInfo from '@/components/DynamicObject/ObjectDefaultInfo'
+import ObjectRelatedObjects from '@/components/DynamicObject/ObjectRelatedObjects'
 import ObjectRelations from '@/components/DynamicObject/ObjectRelations'
 import ObjectValidArchived from '@/components/DynamicObject/ObjectValidArchived'
 import { LoaderCard } from '@/components/Loader'
@@ -79,6 +80,10 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
 
                 {!!model.acknowledgedRelation && (
                     <ObjectRelations model={model} />
+                )}
+
+                {model.hasRelatedObjects && !!object?.Related_Objects && (
+                    <ObjectRelatedObjects objects={object?.Related_Objects} />
                 )}
             </div>
         </MutateLayout>

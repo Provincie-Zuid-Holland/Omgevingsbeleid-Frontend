@@ -106,7 +106,10 @@ function ThemeDetail() {
                     </div>
 
                     {data?.Beleidskeuzes?.map(object => (
-                        <ConnectedObject key={object.Object.UUID} {...object} />
+                        <ConnectedObject
+                            key={object.Object?.UUID}
+                            {...object}
+                        />
                     ))}
                 </div>
             </Container>
@@ -115,6 +118,8 @@ function ThemeDetail() {
 }
 
 const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
+    if (!Object) return null
+
     const model = models[Object.Object_Type as ModelType]
     const { slugOverview, singularReadable, prefixSingular, plural } =
         model.defaults
@@ -136,6 +141,7 @@ const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
             ) : !!data?.Maatregelen?.length ? (
                 <div className="flex flex-col">
                     {data.Maatregelen.map(item => {
+                        if (!item.Object) return null
                         const model =
                             models[item.Object.Object_Type as ModelType]
                         const { slugOverview, plural } = model.defaults

@@ -5,5 +5,5 @@ export interface StepProps {
     title?: string
     model: Model
     relations?: AcknowledgedRelation[]
-    handleDisconnect: (Object_ID: number, Title?: string) => void
+    handleDisconnect: (Object_ID: number, Title?: string | null) => void
 }
