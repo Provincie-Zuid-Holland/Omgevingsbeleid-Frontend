@@ -5,6 +5,7 @@ import { ReactNode, createContext, useEffect } from 'react'
 
 import { loginAccessTokenPost } from '@/api/fetchers'
 import { AuthToken, UserShort } from '@/api/fetchers.schemas'
+import { decryptData, encryptData } from '@/utils/encryption'
 
 export const availableRoleTypes = [
     'Ambtelijk opdrachtgever',
@@ -60,7 +61,12 @@ function AuthProvider({ children }: { children: ReactNode }) {
         set: setIdentifier,
         remove: removeIdentifier,
     } = useLocalStorageValue<UserShort>(
-        import.meta.env.VITE_KEY_IDENTIFIER || ''
+        import.meta.env.VITE_KEY_IDENTIFIER || '',
+        {
+            parse: (data: string | null) =>
+                data ? decryptData<UserShort>(data) : null,
+            stringify: (data: UserShort) => encryptData<UserShort>(data),
+        }
     )
 
     /**
