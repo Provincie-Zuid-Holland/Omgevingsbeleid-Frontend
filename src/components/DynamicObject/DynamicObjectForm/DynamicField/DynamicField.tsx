@@ -100,6 +100,7 @@ const DynamicField = ({
                 })}
                 {...(type === 'select' && {
                     blurInputOnSelect: true,
+                    isClearable: !field.required,
                 })}
                 {...(type === 'wysiwyg' &&
                     'hasAreaSelect' in field &&
