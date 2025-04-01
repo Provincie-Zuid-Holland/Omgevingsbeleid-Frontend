@@ -1641,6 +1641,19 @@ export interface Publication {
     UUID: string
 }
 
+export type PublicModuleStatusCode =
+    (typeof PublicModuleStatusCode)[keyof typeof PublicModuleStatusCode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PublicModuleStatusCode = {
+    Ter_Inzage: 'Ter Inzage',
+    Ontwerp_GS: 'Ontwerp GS',
+    Definitief_ontwerp_GS: 'Definitief ontwerp GS',
+    Ontwerp_PS: 'Ontwerp PS',
+    Definitief_ontwerp_PS: 'Definitief ontwerp PS',
+    Vastgesteld: 'Vastgesteld',
+} as const
+
 export type PublicModuleShortStatus = ModuleStatus | null
 
 export interface PublicModuleShort {
@@ -1648,18 +1661,6 @@ export interface PublicModuleShort {
     Module_ID: number
     Status?: PublicModuleShortStatus
     Title: string
-}
-
-export interface PublicModuleObjectShort {
-    Code: string
-    Description: string
-    Modified_Date: string
-    Module_ID: number
-    ModuleObjectContext?: PublicModuleObjectShortModuleObjectContext
-    Object_ID: number
-    Object_Type: string
-    Title: string
-    UUID: string
 }
 
 export interface PublicModuleOverview {
@@ -1670,8 +1671,9 @@ export interface PublicModuleOverview {
 export interface PublicModuleObjectRevision {
     Action: ModuleObjectActionFull
     Module_ID: number
+    Module_Object_Status: PublicModuleStatusCode
     Module_Object_UUID: string
-    Module_Status: string
+    Module_Status: ModuleStatusCode
     Module_Title: string
 }
 
@@ -1684,6 +1686,18 @@ export interface PublicModuleObjectContextShort {
 
 export type PublicModuleObjectShortModuleObjectContext =
     PublicModuleObjectContextShort | null
+
+export interface PublicModuleObjectShort {
+    Code: string
+    Description: string
+    Modified_Date: string
+    Module_ID: number
+    ModuleObjectContext?: PublicModuleObjectShortModuleObjectContext
+    Object_ID: number
+    Object_Type: string
+    Title: string
+    UUID: string
+}
 
 export interface ProgrammaAlgemeenUUID {
     Object_ID?: number
@@ -2391,6 +2405,16 @@ export interface ModuleObjectShortStatus {
 
 export type ModuleObjectShortObjectStatics = ObjectStaticShort | null
 
+export type ModuleObjectContextShortOriginalAdjustOn = string | null
+
+export interface ModuleObjectContextShort {
+    Action: string
+    Original_Adjust_On?: ModuleObjectContextShortOriginalAdjustOn
+}
+
+export type ModuleObjectShortModuleObjectContext =
+    ModuleObjectContextShort | null
+
 export interface ModuleObjectShort {
     Code: string
     Modified_Date: string
@@ -2402,16 +2426,6 @@ export interface ModuleObjectShort {
     Title: string
     UUID: string
 }
-
-export type ModuleObjectContextShortOriginalAdjustOn = string | null
-
-export interface ModuleObjectContextShort {
-    Action: string
-    Original_Adjust_On?: ModuleObjectContextShortOriginalAdjustOn
-}
-
-export type ModuleObjectShortModuleObjectContext =
-    ModuleObjectContextShort | null
 
 export type ModuleObjectContextOriginalAdjustOn = string | null
 
@@ -3713,6 +3727,10 @@ export interface BeleidsdoelFullStatics {
 
 export type BeleidsdoelFullStartValidity = string | null
 
+export type BeleidsdoelFullPublicRevisions = PublicModuleObjectRevision[] | null
+
+export type BeleidsdoelFullNextVersion = NextObjectValidities | null
+
 export type BeleidsdoelFullModifiedBy = UserShort | null
 
 export type BeleidsdoelFullHierarchyStatics = HierarchyStatics | null
@@ -3736,8 +3754,10 @@ export interface BeleidsdoelFull {
     Hierarchy_Statics?: BeleidsdoelFullHierarchyStatics
     Modified_By?: BeleidsdoelFullModifiedBy
     Modified_Date?: string
+    Next_Version?: BeleidsdoelFullNextVersion
     Object_ID?: number
     ObjectStatics?: BeleidsdoelFullStatics
+    Public_Revisions?: BeleidsdoelFullPublicRevisions
     Start_Validity?: BeleidsdoelFullStartValidity
     Title?: string
     UUID?: string
@@ -3790,6 +3810,8 @@ export interface BeleidsdoelExtended {
 
 export type BeleidsdoelBasicStartValidity = string | null
 
+export type BeleidsdoelBasicNextVersion = NextObjectValidities | null
+
 export type BeleidsdoelBasicEndValidity = string | null
 
 export type BeleidsdoelBasicAdjustOn = string | null
@@ -3801,6 +3823,7 @@ export interface BeleidsdoelBasic {
     Description?: string
     End_Validity?: BeleidsdoelBasicEndValidity
     Modified_Date?: string
+    Next_Version?: BeleidsdoelBasicNextVersion
     Object_ID?: number
     Start_Validity?: BeleidsdoelBasicStartValidity
     Title?: string
