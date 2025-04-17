@@ -134,11 +134,11 @@ const Revisions = () => {
                     />
                     <Dropdown
                         buttonText="Ontwerp Gedeputeerde Staten (GS)"
-                        panelText="Als de portefeuillehouder het eens is met het concept wordt het verzonden naar de GS-vergadering. Zij besluiten vervolgens of het concept akkoord is of dat er nog iets moet worden aangepast."
+                        panelText="Als de portefeuillehouder het eens is met het concept wordt het verzonden naar de GS-vergadering. Zij besluiten vervolgens of het concept akkoord is of dat er nog iets moet worden aangepast. Wanneer akkoord, zal het ontwerp opengesteld worden voor inspraak."
                     />
                     <Dropdown
                         buttonText="Ontwerp Provinciale Staten (PS)"
-                        panelText="Vervolgens wordt het ontwerp in een vergadering van de Provinciale Staten besproken. Zij kunnen vervolgens besluiten om het open te stellen voor inspraak."
+                        panelText="Provinciale Staten kan rondom de inspraak van het ontwerp, ervoor kiezen om het ontwerp te bespreken in een commissievergadering."
                     />
                     <Dropdown
                         buttonText="Inspraak"
