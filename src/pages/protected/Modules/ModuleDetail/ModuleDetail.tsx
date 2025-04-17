@@ -1,6 +1,6 @@
 import { TabItem, Tabs, TabsProps } from '@pzh-ui/components'
 import classNames from 'clsx'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
 import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
@@ -24,7 +24,8 @@ const ModuleDetail = () => {
 
     const [activeTab, setActiveTab] = useState<TabType>(tab || 'objecten')
 
-    const { data: { Module: module } = {}, isLoading } = useModule()
+    const { data: { Module: module, Objects: objects } = {}, isLoading } =
+        useModule()
 
     const handleTabChange: TabsProps['onSelectionChange'] = key => {
         setActiveTab(key as TabType)
@@ -35,6 +36,11 @@ const ModuleDetail = () => {
             }`
         )
     }
+
+    const disabledKeys: TabType[] = useMemo(
+        () => (!objects?.length || !module?.Activated ? ['besluiten'] : []),
+        [objects, module]
+    )
 
     if (isLoading || !module) return <LoaderContent />
 
@@ -48,7 +54,8 @@ const ModuleDetail = () => {
                 })}>
                 <Tabs
                     selectedKey={activeTab}
-                    onSelectionChange={handleTabChange}>
+                    onSelectionChange={handleTabChange}
+                    disabledKeys={disabledKeys}>
                     <TabItem title="Onderdelen" key="objecten">
                         <Outlet />
                     </TabItem>

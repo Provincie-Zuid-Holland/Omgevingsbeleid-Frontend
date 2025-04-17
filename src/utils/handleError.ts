@@ -8,16 +8,21 @@ export interface Error {
 
 const ERRORS: { [key: string]: string } = {
     'none is not an allowed value': 'Dit veld is verplicht.',
+    'field required': 'Dit veld is verplicht.',
 }
 
 const handleError = <T>(err: Error, helpers: FormikHelpers<T>) => {
     Array.isArray(err.data?.detail) &&
         err.data?.detail?.forEach(item => {
-            helpers.setFieldError(
-                item.loc.join('.'),
-                ERRORS[item.msg] || item.msg
-            )
-            helpers.setFieldTouched(item.loc.join('.'), true)
+            // Remove "body" from the location path if it exists as the first element
+            const fieldPath =
+                item.loc[0] === 'body' ? item.loc.slice(1) : item.loc
+            const fieldName = fieldPath.join('.')
+
+            console.log(fieldName)
+
+            helpers.setFieldError(fieldName, ERRORS[item.msg] || item.msg)
+            helpers.setFieldTouched(fieldName, true)
         })
 
     helpers.setSubmitting(false)

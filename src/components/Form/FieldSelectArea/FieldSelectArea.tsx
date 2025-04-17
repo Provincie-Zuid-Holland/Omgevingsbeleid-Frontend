@@ -4,7 +4,7 @@ import classNames from 'clsx'
 import { useFormikContext } from 'formik'
 import { useEffect, useMemo, useState } from 'react'
 
-import { AreaBasic } from '@/api/fetchers.schemas'
+import { WerkingsgebiedFullArea } from '@/api/fetchers.schemas'
 import AreaPreview from '@/components/AreaPreview'
 import { AreaModalAdd, AreaModalEdit } from '@/components/Modals/AreaModals'
 import { AreaProps } from '@/components/Modals/AreaModals/AreaModalAdd'
@@ -27,7 +27,9 @@ const FieldSelectArea = ({
 
     const { data } = useObject()
 
-    const [area, setArea] = useState<Partial<AreaBasic | undefined>>(data?.Area)
+    const [area, setArea] = useState<
+        Partial<WerkingsgebiedFullArea | undefined>
+    >(data?.Area)
 
     const createdDate = useMemo(
         () =>

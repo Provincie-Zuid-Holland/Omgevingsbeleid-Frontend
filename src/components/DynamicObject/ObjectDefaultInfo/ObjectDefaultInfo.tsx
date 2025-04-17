@@ -72,7 +72,7 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
 
 interface ItemProps {
     label: string
-    user?: UserShort
+    user?: UserShort | null
     isLoading?: boolean
 }
 

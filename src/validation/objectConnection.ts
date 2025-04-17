@@ -1,4 +1,4 @@
-import { array, object } from 'zod'
+import { array, object, string } from 'zod'
 
 import { WriteRelation } from '@/api/fetchers.schemas'
 import createEmptyObject from '@/utils/createEmptyObject'
@@ -18,7 +18,7 @@ export const SCHEMA_CONNECTION_STEPS = [
 export const SCHEMA = object({
     Object_Type: schemaDefaults.requiredString(),
     Object_ID: schemaDefaults.requiredNumber(),
-    Description: schemaDefaults.optionalString,
+    Description: string().optional(),
 }).or(
     array(
         object({

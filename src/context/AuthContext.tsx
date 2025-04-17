@@ -4,7 +4,7 @@ import { jwtDecode } from 'jwt-decode'
 import { ReactNode, createContext, useEffect } from 'react'
 
 import { loginAccessTokenPost } from '@/api/fetchers'
-import { AuthToken, UserShort } from '@/api/fetchers.schemas'
+import { AuthToken, UserLoginDetail } from '@/api/fetchers.schemas'
 
 export const availableRoleTypes = [
     'Ambtelijk opdrachtgever',
@@ -25,7 +25,7 @@ export type Role =
 
 interface AuthContextType {
     /** Logged in user object */
-    user?: UserShort
+    user?: UserLoginDetail
     /** Role of logged in user */
     role?: Role
     /** Function to signin */
@@ -59,7 +59,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
         value: identifier,
         set: setIdentifier,
         remove: removeIdentifier,
-    } = useLocalStorageValue<UserShort>(
+    } = useLocalStorageValue<UserLoginDetail>(
         import.meta.env.VITE_KEY_IDENTIFIER || ''
     )
 

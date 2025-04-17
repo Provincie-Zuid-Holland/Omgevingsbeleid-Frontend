@@ -55,7 +55,7 @@ const PublicationTemplateEdit = () => {
                 !!data?.[field as keyof typeof data] &&
                 typeof data[field] === 'object'
             ) {
-                return (objectData[field] = Object.keys(data[field]).map(
+                return (objectData[field] = Object.keys(data[field] || {}).map(
                     template => ({
                         key: template,
                         value: (data[field] as Record<string, unknown>)[

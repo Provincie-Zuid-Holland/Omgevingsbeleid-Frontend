@@ -62,18 +62,18 @@ const useFilterStore = create<FilterState>(set => ({
                 },
             ],
         },
-        {
-            label: 'Uitvoering',
-            options: [
-                {
-                    label: models['beleidsregel']['defaults'][
-                        'pluralCapitalize'
-                    ],
-                    value: 'beleidsregel',
-                    exclude: ['network', 'mapSearch'],
-                },
-            ],
-        },
+        // {
+        //     label: 'Uitvoering',
+        //     options: [
+        //         {
+        //             label: models['beleidsregel']['defaults'][
+        //                 'pluralCapitalize'
+        //             ],
+        //             value: 'beleidsregel',
+        //             exclude: ['network', 'mapSearch'],
+        //         },
+        //     ],
+        // },
     ],
     selectedFilters: {
         network: ['ambitie', 'beleidsdoel', 'beleidskeuze', 'maatregel'],
