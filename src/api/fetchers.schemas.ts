@@ -320,6 +320,37 @@ export type ProgrammasAlgemeenValidGetParams = {
     sort_order?: SortOrder | null
 }
 
+export type ModulesObjectOnderverdelingActiveLineageIdGetParams = {
+    minimum_status?: ModuleStatusCode
+}
+
+export type ModulesModuleIdObjectOnderverdelingLineageIdGetParams = {
+    all_filters?: string | null
+    any_filters?: string | null
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type OnderverdelingenValidLineageIdGetParams = {
+    all_filters?: string | null
+    any_filters?: string | null
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type OnderverdelingenValidGetParams = {
+    all_filters?: string | null
+    any_filters?: string | null
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
 export type NationaalBelangValidGetParams = {
     all_filters?: string | null
     any_filters?: string | null
@@ -762,6 +793,7 @@ export interface WerkingsgebiedExtended {
     Modified_Date?: string
     Object_ID?: number
     ObjectStatics?: WerkingsgebiedExtendedStatics
+    Onderverdelingen?: string[]
     Start_Validity?: WerkingsgebiedExtendedStartValidity
     Title?: string
     UUID?: string
@@ -781,6 +813,7 @@ export interface WerkingsgebiedBasic {
     End_Validity?: WerkingsgebiedBasicEndValidity
     Modified_Date?: string
     Object_ID?: number
+    Onderverdelingen?: string[]
     Start_Validity?: WerkingsgebiedBasicStartValidity
     Title?: string
     UUID?: string
@@ -1663,6 +1696,21 @@ export interface PublicModuleShort {
     Title: string
 }
 
+export type PublicModuleObjectShortModuleObjectContext =
+    PublicModuleObjectContextShort | null
+
+export interface PublicModuleObjectShort {
+    Code: string
+    Description: string
+    Modified_Date: string
+    Module_ID: number
+    ModuleObjectContext?: PublicModuleObjectShortModuleObjectContext
+    Object_ID: number
+    Object_Type: string
+    Title: string
+    UUID: string
+}
+
 export interface PublicModuleOverview {
     Module: PublicModuleShort
     Objects: PublicModuleObjectShort[]
@@ -1682,21 +1730,6 @@ export type PublicModuleObjectContextShortOriginalAdjustOn = string | null
 export interface PublicModuleObjectContextShort {
     Action: string
     Original_Adjust_On?: PublicModuleObjectContextShortOriginalAdjustOn
-}
-
-export type PublicModuleObjectShortModuleObjectContext =
-    PublicModuleObjectContextShort | null
-
-export interface PublicModuleObjectShort {
-    Code: string
-    Description: string
-    Modified_Date: string
-    Module_ID: number
-    ModuleObjectContext?: PublicModuleObjectShortModuleObjectContext
-    Object_ID: number
-    Object_Type: string
-    Title: string
-    UUID: string
 }
 
 export interface ProgrammaAlgemeenUUID {
@@ -2008,6 +2041,20 @@ export interface PagedResponseProgrammaAlgemeenBasic {
     total: number
 }
 
+export interface PagedResponseOnderverdelingExtended {
+    limit?: number
+    offset?: number
+    results: OnderverdelingExtended[]
+    total: number
+}
+
+export interface PagedResponseOnderverdelingBasic {
+    limit?: number
+    offset?: number
+    results: OnderverdelingBasic[]
+    total: number
+}
+
 export interface PagedResponseNationaalBelangBasic {
     limit?: number
     offset?: number
@@ -2159,6 +2206,107 @@ export const PackageType = {
     validation: 'validation',
     publication: 'publication',
 } as const
+
+export type OnderverdelingStaticPostStaticsOwner2UUID = string | null
+
+export type OnderverdelingStaticPostStaticsOwner1UUID = string | null
+
+export interface OnderverdelingStaticPostStatics {
+    Owner_1_UUID?: OnderverdelingStaticPostStaticsOwner1UUID
+    Owner_2_UUID?: OnderverdelingStaticPostStaticsOwner2UUID
+}
+
+export type OnderverdelingFullStaticsOwner2 = UserShort | null
+
+export type OnderverdelingFullStaticsOwner1 = UserShort | null
+
+export interface OnderverdelingFullStatics {
+    Owner_1?: OnderverdelingFullStaticsOwner1
+    Owner_2?: OnderverdelingFullStaticsOwner2
+}
+
+export type OnderverdelingFullStartValidity = string | null
+
+export type OnderverdelingFullModifiedBy = UserShort | null
+
+export type OnderverdelingFullEndValidity = string | null
+
+export type OnderverdelingFullCreatedBy = UserShort | null
+
+export type OnderverdelingFullArea = AreaBasic | null
+
+export type OnderverdelingFullAdjustOn = string | null
+
+export interface OnderverdelingFull {
+    Adjust_On?: OnderverdelingFullAdjustOn
+    Area?: OnderverdelingFullArea
+    Area_UUID?: string
+    Code?: string
+    Created_By?: OnderverdelingFullCreatedBy
+    Created_Date?: string
+    End_Validity?: OnderverdelingFullEndValidity
+    Modified_By?: OnderverdelingFullModifiedBy
+    Modified_Date?: string
+    Object_ID?: number
+    ObjectStatics?: OnderverdelingFullStatics
+    Start_Validity?: OnderverdelingFullStartValidity
+    Title?: string
+    UUID?: string
+}
+
+export type OnderverdelingExtendedStaticsOwner2 = UserShort | null
+
+export type OnderverdelingExtendedStaticsOwner1 = UserShort | null
+
+export interface OnderverdelingExtendedStatics {
+    Owner_1?: OnderverdelingExtendedStaticsOwner1
+    Owner_2?: OnderverdelingExtendedStaticsOwner2
+}
+
+export type OnderverdelingExtendedStartValidity = string | null
+
+export type OnderverdelingExtendedModifiedBy = UserShort | null
+
+export type OnderverdelingExtendedEndValidity = string | null
+
+export type OnderverdelingExtendedCreatedBy = UserShort | null
+
+export type OnderverdelingExtendedAdjustOn = string | null
+
+export interface OnderverdelingExtended {
+    Adjust_On?: OnderverdelingExtendedAdjustOn
+    Area_UUID?: string
+    Code?: string
+    Created_By?: OnderverdelingExtendedCreatedBy
+    Created_Date?: string
+    End_Validity?: OnderverdelingExtendedEndValidity
+    Modified_By?: OnderverdelingExtendedModifiedBy
+    Modified_Date?: string
+    Object_ID?: number
+    ObjectStatics?: OnderverdelingExtendedStatics
+    Start_Validity?: OnderverdelingExtendedStartValidity
+    Title?: string
+    UUID?: string
+}
+
+export type OnderverdelingBasicStartValidity = string | null
+
+export type OnderverdelingBasicEndValidity = string | null
+
+export type OnderverdelingBasicAdjustOn = string | null
+
+export interface OnderverdelingBasic {
+    Adjust_On?: OnderverdelingBasicAdjustOn
+    Area_UUID?: string
+    Code?: string
+    Created_Date?: string
+    End_Validity?: OnderverdelingBasicEndValidity
+    Modified_Date?: string
+    Object_ID?: number
+    Start_Validity?: OnderverdelingBasicStartValidity
+    Title?: string
+    UUID?: string
+}
 
 export type ObjectStaticShortPortfolioHolder2UUID = string | null
 
@@ -2379,12 +2527,6 @@ export interface ModulePatchStatus {
     Status: ModuleStatusCode
 }
 
-export interface ModuleOverview {
-    Module: Module
-    Objects: ModuleObjectShort[]
-    StatusHistory: ModuleStatus[]
-}
-
 export type ModuleObjectShortStatusObjectStatics = ObjectStaticShort | null
 
 export type ModuleObjectShortStatusModuleObjectContext =
@@ -2405,16 +2547,6 @@ export interface ModuleObjectShortStatus {
 
 export type ModuleObjectShortObjectStatics = ObjectStaticShort | null
 
-export type ModuleObjectContextShortOriginalAdjustOn = string | null
-
-export interface ModuleObjectContextShort {
-    Action: string
-    Original_Adjust_On?: ModuleObjectContextShortOriginalAdjustOn
-}
-
-export type ModuleObjectShortModuleObjectContext =
-    ModuleObjectContextShort | null
-
 export interface ModuleObjectShort {
     Code: string
     Modified_Date: string
@@ -2426,6 +2558,22 @@ export interface ModuleObjectShort {
     Title: string
     UUID: string
 }
+
+export interface ModuleOverview {
+    Module: Module
+    Objects: ModuleObjectShort[]
+    StatusHistory: ModuleStatus[]
+}
+
+export type ModuleObjectContextShortOriginalAdjustOn = string | null
+
+export interface ModuleObjectContextShort {
+    Action: string
+    Original_Adjust_On?: ModuleObjectContextShortOriginalAdjustOn
+}
+
+export type ModuleObjectShortModuleObjectContext =
+    ModuleObjectContextShort | null
 
 export type ModuleObjectContextOriginalAdjustOn = string | null
 
@@ -2778,6 +2926,11 @@ export interface GraphVertice {
     UUID: string
 }
 
+export interface GraphResponse {
+    Edges: GraphEdge[]
+    Vertices: GraphVertice[]
+}
+
 export type GraphEdgeType = (typeof GraphEdgeType)[keyof typeof GraphEdgeType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -2790,11 +2943,6 @@ export interface GraphEdge {
     Type: GraphEdgeType
     Vertice_A_Code: string
     Vertice_B_Code: string
-}
-
-export interface GraphResponse {
-    Edges: GraphEdge[]
-    Vertices: GraphVertice[]
 }
 
 export type GeometryFunctions =

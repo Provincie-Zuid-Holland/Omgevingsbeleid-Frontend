@@ -108,12 +108,14 @@ import type {
     ModulesModuleIdObjectDocumentLineageIdGetParams,
     ModulesModuleIdObjectGebiedsprogrammasLineageIdGetParams,
     ModulesModuleIdObjectMaatregelLineageIdGetParams,
+    ModulesModuleIdObjectOnderverdelingLineageIdGetParams,
     ModulesModuleIdObjectProgrammaAlgemeenLineageIdGetParams,
     ModulesModuleIdObjectVisieAlgemeenLineageIdGetParams,
     ModulesModuleIdObjectWerkingsgebiedLineageIdGetParams,
     ModulesObjectAmbitieActiveLineageIdGetParams,
     ModulesObjectBeleidsdoelActiveLineageIdGetParams,
     ModulesObjectDocumentActiveLineageIdGetParams,
+    ModulesObjectOnderverdelingActiveLineageIdGetParams,
     ModulesObjectProgrammaAlgemeenActiveLineageIdGetParams,
     ModulesObjectVisieAlgemeenActiveLineageIdGetParams,
     ModulesObjectWerkingsgebiedActiveLineageIdGetParams,
@@ -132,6 +134,10 @@ import type {
     ObjectCount,
     ObjectGraphGetParams,
     ObjectsValidGetParams,
+    OnderverdelingFull,
+    OnderverdelingStaticPostStatics,
+    OnderverdelingenValidGetParams,
+    OnderverdelingenValidLineageIdGetParams,
     PagedResponseAmbitieBasic,
     PagedResponseAmbitieExtended,
     PagedResponseBeleidsdoelBasic,
@@ -151,6 +157,8 @@ import type {
     PagedResponseModule,
     PagedResponseModuleObjectShortStatus,
     PagedResponseNationaalBelangBasic,
+    PagedResponseOnderverdelingBasic,
+    PagedResponseOnderverdelingExtended,
     PagedResponseProgrammaAlgemeenBasic,
     PagedResponseProgrammaAlgemeenExtended,
     PagedResponsePublicModuleShort,
@@ -10713,6 +10721,1150 @@ export const useNationaalBelangStaticLineageIdPost = <
         getNationaalBelangStaticLineageIdPostMutationOptions(options)
 
     return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get all the valid onderverdeling lineages and shows the latest object of each
+ */
+export const onderverdelingenValidGet = (
+    params?: OnderverdelingenValidGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseOnderverdelingBasic>({
+        url: `/onderverdelingen/valid`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getOnderverdelingenValidGetQueryKey = (
+    params?: OnderverdelingenValidGetParams
+) => {
+    return [`/onderverdelingen/valid`, ...(params ? [params] : [])] as const
+}
+
+export const getOnderverdelingenValidGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof onderverdelingenValidGet>>,
+    TError = HTTPValidationError
+>(
+    params?: OnderverdelingenValidGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof onderverdelingenValidGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getOnderverdelingenValidGetQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof onderverdelingenValidGet>>
+    > = ({ signal }) => onderverdelingenValidGet(params, signal)
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof onderverdelingenValidGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type OnderverdelingenValidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof onderverdelingenValidGet>>
+>
+export type OnderverdelingenValidGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get all the valid onderverdeling lineages and shows the latest object of each
+ */
+export const useOnderverdelingenValidGet = <
+    TData = Awaited<ReturnType<typeof onderverdelingenValidGet>>,
+    TError = HTTPValidationError
+>(
+    params?: OnderverdelingenValidGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof onderverdelingenValidGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getOnderverdelingenValidGetQueryOptions(
+        params,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get all the valid onderverdeling of a single lineage
+ */
+export const onderverdelingenValidLineageIdGet = (
+    lineageId: number,
+    params?: OnderverdelingenValidLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseOnderverdelingBasic>({
+        url: `/onderverdelingen/valid/${lineageId}`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getOnderverdelingenValidLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: OnderverdelingenValidLineageIdGetParams
+) => {
+    return [
+        `/onderverdelingen/valid/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getOnderverdelingenValidLineageIdGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof onderverdelingenValidLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: OnderverdelingenValidLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof onderverdelingenValidLineageIdGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getOnderverdelingenValidLineageIdGetQueryKey(lineageId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof onderverdelingenValidLineageIdGet>>
+    > = ({ signal }) =>
+        onderverdelingenValidLineageIdGet(lineageId, params, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof onderverdelingenValidLineageIdGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type OnderverdelingenValidLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof onderverdelingenValidLineageIdGet>>
+>
+export type OnderverdelingenValidLineageIdGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get all the valid onderverdeling of a single lineage
+ */
+export const useOnderverdelingenValidLineageIdGet = <
+    TData = Awaited<ReturnType<typeof onderverdelingenValidLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: OnderverdelingenValidLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof onderverdelingenValidLineageIdGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getOnderverdelingenValidLineageIdGetQueryOptions(
+        lineageId,
+        params,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific onderverdeling by uuid
+ */
+export const onderverdelingenVersionObjectUuidGet = (
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<OnderverdelingFull>({
+        url: `/onderverdelingen/version/${objectUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getOnderverdelingenVersionObjectUuidGetQueryKey = (
+    objectUuid: string
+) => {
+    return [`/onderverdelingen/version/${objectUuid}`] as const
+}
+
+export const getOnderverdelingenVersionObjectUuidGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof onderverdelingenVersionObjectUuidGet>>,
+    TError = HTTPValidationError
+>(
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof onderverdelingenVersionObjectUuidGet>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getOnderverdelingenVersionObjectUuidGetQueryKey(objectUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof onderverdelingenVersionObjectUuidGet>>
+    > = ({ signal }) => onderverdelingenVersionObjectUuidGet(objectUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!objectUuid,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof onderverdelingenVersionObjectUuidGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type OnderverdelingenVersionObjectUuidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof onderverdelingenVersionObjectUuidGet>>
+>
+export type OnderverdelingenVersionObjectUuidGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get specific onderverdeling by uuid
+ */
+export const useOnderverdelingenVersionObjectUuidGet = <
+    TData = Awaited<ReturnType<typeof onderverdelingenVersionObjectUuidGet>>,
+    TError = HTTPValidationError
+>(
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof onderverdelingenVersionObjectUuidGet>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getOnderverdelingenVersionObjectUuidGetQueryOptions(
+        objectUuid,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get latest lineage record for onderverdeling by their lineage id
+ */
+export const onderverdelingenLatestLineageIdGet = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<OnderverdelingFull>({
+        url: `/onderverdelingen/latest/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getOnderverdelingenLatestLineageIdGetQueryKey = (
+    lineageId: number
+) => {
+    return [`/onderverdelingen/latest/${lineageId}`] as const
+}
+
+export const getOnderverdelingenLatestLineageIdGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof onderverdelingenLatestLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof onderverdelingenLatestLineageIdGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getOnderverdelingenLatestLineageIdGetQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof onderverdelingenLatestLineageIdGet>>
+    > = ({ signal }) => onderverdelingenLatestLineageIdGet(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof onderverdelingenLatestLineageIdGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type OnderverdelingenLatestLineageIdGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof onderverdelingenLatestLineageIdGet>>
+>
+export type OnderverdelingenLatestLineageIdGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get latest lineage record for onderverdeling by their lineage id
+ */
+export const useOnderverdelingenLatestLineageIdGet = <
+    TData = Awaited<ReturnType<typeof onderverdelingenLatestLineageIdGet>>,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof onderverdelingenLatestLineageIdGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getOnderverdelingenLatestLineageIdGetQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Edit static data of an object
+ */
+export const onderverdelingStaticLineageIdPost = (
+    lineageId: number,
+    onderverdelingStaticPostStatics: OnderverdelingStaticPostStatics
+) => {
+    return customInstance<ResponseOK>({
+        url: `/onderverdeling/static/${lineageId}`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: onderverdelingStaticPostStatics,
+    })
+}
+
+export const getOnderverdelingStaticLineageIdPostMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof onderverdelingStaticLineageIdPost>>,
+        TError,
+        { lineageId: number; data: OnderverdelingStaticPostStatics },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof onderverdelingStaticLineageIdPost>>,
+    TError,
+    { lineageId: number; data: OnderverdelingStaticPostStatics },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof onderverdelingStaticLineageIdPost>>,
+        { lineageId: number; data: OnderverdelingStaticPostStatics }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return onderverdelingStaticLineageIdPost(lineageId, data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type OnderverdelingStaticLineageIdPostMutationResult = NonNullable<
+    Awaited<ReturnType<typeof onderverdelingStaticLineageIdPost>>
+>
+export type OnderverdelingStaticLineageIdPostMutationBody =
+    OnderverdelingStaticPostStatics
+export type OnderverdelingStaticLineageIdPostMutationError = HTTPValidationError
+
+/**
+ * @summary Edit static data of an object
+ */
+export const useOnderverdelingStaticLineageIdPost = <
+    TError = HTTPValidationError,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof onderverdelingStaticLineageIdPost>>,
+        TError,
+        { lineageId: number; data: OnderverdelingStaticPostStatics },
+        TContext
+    >
+}): UseMutationResult<
+    Awaited<ReturnType<typeof onderverdelingStaticLineageIdPost>>,
+    TError,
+    { lineageId: number; data: OnderverdelingStaticPostStatics },
+    TContext
+> => {
+    const mutationOptions =
+        getOnderverdelingStaticLineageIdPostMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get all the onderverdeling of a single lineage in a module
+ */
+export const modulesModuleIdObjectOnderverdelingLineageIdGet = (
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectOnderverdelingLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseOnderverdelingExtended>({
+        url: `/modules/${moduleId}/object/onderverdeling/${lineageId}`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectOnderverdelingLineageIdGetQueryKey = (
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectOnderverdelingLineageIdGetParams
+) => {
+    return [
+        `/modules/${moduleId}/object/onderverdeling/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getModulesModuleIdObjectOnderverdelingLineageIdGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof modulesModuleIdObjectOnderverdelingLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectOnderverdelingLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesModuleIdObjectOnderverdelingLineageIdGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesModuleIdObjectOnderverdelingLineageIdGetQueryKey(
+            moduleId,
+            lineageId,
+            params
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectOnderverdelingLineageIdGet>
+        >
+    > = ({ signal }) =>
+        modulesModuleIdObjectOnderverdelingLineageIdGet(
+            moduleId,
+            lineageId,
+            params,
+            signal
+        )
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && lineageId),
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectOnderverdelingLineageIdGet>
+        >,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type ModulesModuleIdObjectOnderverdelingLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof modulesModuleIdObjectOnderverdelingLineageIdGet>
+        >
+    >
+export type ModulesModuleIdObjectOnderverdelingLineageIdGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get all the onderverdeling of a single lineage in a module
+ */
+export const useModulesModuleIdObjectOnderverdelingLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesModuleIdObjectOnderverdelingLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    lineageId: number,
+    params?: ModulesModuleIdObjectOnderverdelingLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesModuleIdObjectOnderverdelingLineageIdGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getModulesModuleIdObjectOnderverdelingLineageIdGetQueryOptions(
+            moduleId,
+            lineageId,
+            params,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get latest lineage record for onderverdeling by their lineage id in a module
+ */
+export const modulesModuleIdObjectOnderverdelingLatestLineageIdGet = (
+    moduleId: number,
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<OnderverdelingFull>({
+        url: `/modules/${moduleId}/object/onderverdeling/latest/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectOnderverdelingLatestLineageIdGetQueryKey =
+    (moduleId: number, lineageId: number) => {
+        return [
+            `/modules/${moduleId}/object/onderverdeling/latest/${lineageId}`,
+        ] as const
+    }
+
+export const getModulesModuleIdObjectOnderverdelingLatestLineageIdGetQueryOptions =
+    <
+        TData = Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectOnderverdelingLatestLineageIdGet
+            >
+        >,
+        TError = HTTPValidationError
+    >(
+        moduleId: number,
+        lineageId: number,
+        options?: {
+            query?: Partial<
+                UseQueryOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof modulesModuleIdObjectOnderverdelingLatestLineageIdGet
+                        >
+                    >,
+                    TError,
+                    TData
+                >
+            >
+        }
+    ) => {
+        const { query: queryOptions } = options ?? {}
+
+        const queryKey =
+            queryOptions?.queryKey ??
+            getModulesModuleIdObjectOnderverdelingLatestLineageIdGetQueryKey(
+                moduleId,
+                lineageId
+            )
+
+        const queryFn: QueryFunction<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectOnderverdelingLatestLineageIdGet
+                >
+            >
+        > = ({ signal }) =>
+            modulesModuleIdObjectOnderverdelingLatestLineageIdGet(
+                moduleId,
+                lineageId,
+                signal
+            )
+
+        return {
+            queryKey,
+            queryFn,
+            enabled: !!(moduleId && lineageId),
+            ...queryOptions,
+        } as UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectOnderverdelingLatestLineageIdGet
+                >
+            >,
+            TError,
+            TData
+        > & { queryKey: QueryKey }
+    }
+
+export type ModulesModuleIdObjectOnderverdelingLatestLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectOnderverdelingLatestLineageIdGet
+            >
+        >
+    >
+export type ModulesModuleIdObjectOnderverdelingLatestLineageIdGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get latest lineage record for onderverdeling by their lineage id in a module
+ */
+export const useModulesModuleIdObjectOnderverdelingLatestLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesModuleIdObjectOnderverdelingLatestLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesModuleIdObjectOnderverdelingLatestLineageIdGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getModulesModuleIdObjectOnderverdelingLatestLineageIdGetQueryOptions(
+            moduleId,
+            lineageId,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific onderverdeling by uuid in a module
+ */
+export const modulesModuleIdObjectOnderverdelingVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<OnderverdelingFull>({
+        url: `/modules/${moduleId}/object/onderverdeling/version/${objectUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getModulesModuleIdObjectOnderverdelingVersionObjectUuidGetQueryKey =
+    (moduleId: number, objectUuid: string) => {
+        return [
+            `/modules/${moduleId}/object/onderverdeling/version/${objectUuid}`,
+        ] as const
+    }
+
+export const getModulesModuleIdObjectOnderverdelingVersionObjectUuidGetQueryOptions =
+    <
+        TData = Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectOnderverdelingVersionObjectUuidGet
+            >
+        >,
+        TError = HTTPValidationError
+    >(
+        moduleId: number,
+        objectUuid: string,
+        options?: {
+            query?: Partial<
+                UseQueryOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof modulesModuleIdObjectOnderverdelingVersionObjectUuidGet
+                        >
+                    >,
+                    TError,
+                    TData
+                >
+            >
+        }
+    ) => {
+        const { query: queryOptions } = options ?? {}
+
+        const queryKey =
+            queryOptions?.queryKey ??
+            getModulesModuleIdObjectOnderverdelingVersionObjectUuidGetQueryKey(
+                moduleId,
+                objectUuid
+            )
+
+        const queryFn: QueryFunction<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectOnderverdelingVersionObjectUuidGet
+                >
+            >
+        > = ({ signal }) =>
+            modulesModuleIdObjectOnderverdelingVersionObjectUuidGet(
+                moduleId,
+                objectUuid,
+                signal
+            )
+
+        return {
+            queryKey,
+            queryFn,
+            enabled: !!(moduleId && objectUuid),
+            ...queryOptions,
+        } as UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof modulesModuleIdObjectOnderverdelingVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        > & { queryKey: QueryKey }
+    }
+
+export type ModulesModuleIdObjectOnderverdelingVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof modulesModuleIdObjectOnderverdelingVersionObjectUuidGet
+            >
+        >
+    >
+export type ModulesModuleIdObjectOnderverdelingVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific onderverdeling by uuid in a module
+ */
+export const useModulesModuleIdObjectOnderverdelingVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<
+            typeof modulesModuleIdObjectOnderverdelingVersionObjectUuidGet
+        >
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesModuleIdObjectOnderverdelingVersionObjectUuidGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getModulesModuleIdObjectOnderverdelingVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const modulesObjectOnderverdelingActiveLineageIdGet = (
+    lineageId: number,
+    params?: ModulesObjectOnderverdelingActiveLineageIdGetParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<ActiveModuleObjectWrapper[]>({
+        url: `/modules/object/onderverdeling/active/${lineageId}`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getModulesObjectOnderverdelingActiveLineageIdGetQueryKey = (
+    lineageId: number,
+    params?: ModulesObjectOnderverdelingActiveLineageIdGetParams
+) => {
+    return [
+        `/modules/object/onderverdeling/active/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getModulesObjectOnderverdelingActiveLineageIdGetQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof modulesObjectOnderverdelingActiveLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ModulesObjectOnderverdelingActiveLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesObjectOnderverdelingActiveLineageIdGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getModulesObjectOnderverdelingActiveLineageIdGetQueryKey(
+            lineageId,
+            params
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<
+            ReturnType<typeof modulesObjectOnderverdelingActiveLineageIdGet>
+        >
+    > = ({ signal }) =>
+        modulesObjectOnderverdelingActiveLineageIdGet(lineageId, params, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<
+            ReturnType<typeof modulesObjectOnderverdelingActiveLineageIdGet>
+        >,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type ModulesObjectOnderverdelingActiveLineageIdGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof modulesObjectOnderverdelingActiveLineageIdGet>
+        >
+    >
+export type ModulesObjectOnderverdelingActiveLineageIdGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const useModulesObjectOnderverdelingActiveLineageIdGet = <
+    TData = Awaited<
+        ReturnType<typeof modulesObjectOnderverdelingActiveLineageIdGet>
+    >,
+    TError = HTTPValidationError
+>(
+    lineageId: number,
+    params?: ModulesObjectOnderverdelingActiveLineageIdGetParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof modulesObjectOnderverdelingActiveLineageIdGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getModulesObjectOnderverdelingActiveLineageIdGetQueryOptions(
+            lineageId,
+            params,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific onderverdeling by uuid in a module
+ */
+export const revisionsModuleIdOnderverdelingVersionObjectUuidGet = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<OnderverdelingFull>({
+        url: `/revisions/${moduleId}/onderverdeling/version/${objectUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getRevisionsModuleIdOnderverdelingVersionObjectUuidGetQueryKey = (
+    moduleId: number,
+    objectUuid: string
+) => {
+    return [
+        `/revisions/${moduleId}/onderverdeling/version/${objectUuid}`,
+    ] as const
+}
+
+export const getRevisionsModuleIdOnderverdelingVersionObjectUuidGetQueryOptions =
+    <
+        TData = Awaited<
+            ReturnType<
+                typeof revisionsModuleIdOnderverdelingVersionObjectUuidGet
+            >
+        >,
+        TError = HTTPValidationError
+    >(
+        moduleId: number,
+        objectUuid: string,
+        options?: {
+            query?: Partial<
+                UseQueryOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof revisionsModuleIdOnderverdelingVersionObjectUuidGet
+                        >
+                    >,
+                    TError,
+                    TData
+                >
+            >
+        }
+    ) => {
+        const { query: queryOptions } = options ?? {}
+
+        const queryKey =
+            queryOptions?.queryKey ??
+            getRevisionsModuleIdOnderverdelingVersionObjectUuidGetQueryKey(
+                moduleId,
+                objectUuid
+            )
+
+        const queryFn: QueryFunction<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdOnderverdelingVersionObjectUuidGet
+                >
+            >
+        > = ({ signal }) =>
+            revisionsModuleIdOnderverdelingVersionObjectUuidGet(
+                moduleId,
+                objectUuid,
+                signal
+            )
+
+        return {
+            queryKey,
+            queryFn,
+            enabled: !!(moduleId && objectUuid),
+            ...queryOptions,
+        } as UseQueryOptions<
+            Awaited<
+                ReturnType<
+                    typeof revisionsModuleIdOnderverdelingVersionObjectUuidGet
+                >
+            >,
+            TError,
+            TData
+        > & { queryKey: QueryKey }
+    }
+
+export type RevisionsModuleIdOnderverdelingVersionObjectUuidGetQueryResult =
+    NonNullable<
+        Awaited<
+            ReturnType<
+                typeof revisionsModuleIdOnderverdelingVersionObjectUuidGet
+            >
+        >
+    >
+export type RevisionsModuleIdOnderverdelingVersionObjectUuidGetQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific onderverdeling by uuid in a module
+ */
+export const useRevisionsModuleIdOnderverdelingVersionObjectUuidGet = <
+    TData = Awaited<
+        ReturnType<typeof revisionsModuleIdOnderverdelingVersionObjectUuidGet>
+    >,
+    TError = HTTPValidationError
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof revisionsModuleIdOnderverdelingVersionObjectUuidGet
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getRevisionsModuleIdOnderverdelingVersionObjectUuidGetQueryOptions(
+            moduleId,
+            objectUuid,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
 }
 
 /**
