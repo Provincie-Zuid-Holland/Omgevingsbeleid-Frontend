@@ -62,7 +62,11 @@ const Fields = () => {
         data: publicationTemplateOptions,
         isFetching: publicationTemplatesFetching,
     } = usePublicationTemplatesGet(
-        { limit: 100 },
+        {
+            limit: 100,
+            is_active: true,
+            document_type: values.Document_Type as DocumentType,
+        },
         {
             query: {
                 select: data =>
@@ -76,7 +80,7 @@ const Fields = () => {
 
     const { data: environmentOptions, isFetching: environmentsFetching } =
         usePublicationEnvironmentsGet(
-            { limit: 100 },
+            { limit: 100, is_active: true },
             {
                 query: {
                     select: data =>
