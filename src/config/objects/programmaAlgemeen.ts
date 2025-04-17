@@ -57,7 +57,7 @@ const programmaAlgemeen: DynamicObject<
         prefixPlural: 'de',
         prefixNewObject: 'Nieuw',
         demonstrative: 'dit',
-        slugOverview: 'omgevingsvisie',
+        slugOverview: 'omgevingsprogramma',
         icon: ListCheck,
         hideBreadcrumbs: true,
         parentType: 'Programma',
