@@ -6,6 +6,7 @@ import {
     FormikSelect,
     FormikTextArea,
     RteMenuButton,
+    Tooltip,
 } from '@pzh-ui/components'
 import { DrawPolygon } from '@pzh-ui/icons'
 import clsx from 'clsx'
@@ -107,17 +108,26 @@ const DynamicField = ({
                     field.hasAreaSelect && {
                         customExtensions: [Area],
                         customMenuButtons: editor => (
-                            <RteMenuButton
-                                isActive={editor.isActive('area')}
-                                onClick={() =>
-                                    setActiveModal('objectAreaAnnotate', {
-                                        editor,
-                                    })
-                                }
-                                aria-label="Gebiedsaanwijzing"
-                                title="Gebiedsaanwijzing">
-                                <DrawPolygon />
-                            </RteMenuButton>
+                            <Tooltip label="Binnenkort is het mogelijk om gebiedsaanwijzingen aan te maken, meer informatie bij regieteam Omgevingsbeleid">
+                                <span className="cursor-help">
+                                    <RteMenuButton
+                                        disabled
+                                        className="text-pzh-gray-400"
+                                        isActive={editor.isActive('area')}
+                                        onClick={() =>
+                                            setActiveModal(
+                                                'objectAreaAnnotate',
+                                                {
+                                                    editor,
+                                                }
+                                            )
+                                        }
+                                        aria-label="Gebiedsaanwijzing"
+                                        title="Gebiedsaanwijzing">
+                                        <DrawPolygon />
+                                    </RteMenuButton>
+                                </span>
+                            </Tooltip>
                         ),
                         className: `[&_[data-hint-gebiedengroep]]:text-pzh-blue-900 [&_[data-hint-gebiedengroep]]:bg-pzh-blue-10`,
                     })}
