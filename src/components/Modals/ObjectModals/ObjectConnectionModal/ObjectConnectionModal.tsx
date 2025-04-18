@@ -230,7 +230,6 @@ export const ConnectionModal = ({
         if (isFinalStep) {
             handleFormSubmit(payload)
         } else if (isDeleteStep && 'Object_ID' in payload) {
-            console.log('trigger')
             handleDeleteConnection(payload)
         } else {
             setStep(step + 1)
