@@ -31,7 +31,7 @@ export const StepFive = ({ title, existingObject }: StepProps) => {
                 name="Action"
                 placeholder="Selecteer de actie"
                 label="Actie"
-                description={`Gaat ${prefixSingular} ${singularReadable} wijzigen in deze module, of komt hij te vervallen?`}
+                description={`Gaat ${prefixSingular} ${singularReadable} wijzigen in deze module, of wordt ${prefixSingular} ${singularReadable} verwijderd?`}
                 options={[
                     {
                         label: 'Wijzigen',
