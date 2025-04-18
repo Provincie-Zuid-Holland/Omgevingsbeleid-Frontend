@@ -1,6 +1,10 @@
+import {
+    FormikRadioGroup,
+    FormikTextArea,
+    Heading,
+    Text,
+} from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
-
-import { FormikSelect, FormikTextArea, Heading, Text } from '@pzh-ui/components'
 
 import { ModuleAddExistingObject } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
@@ -22,7 +26,7 @@ export const StepFive = ({ title, existingObject }: StepProps) => {
             <Text className="mb-4">
                 “{existingObject?.Title}” toevoegen aan de module “{title}”
             </Text>
-            <FormikSelect
+            <FormikRadioGroup
                 key="Action"
                 name="Action"
                 placeholder="Selecteer de actie"
@@ -38,10 +42,7 @@ export const StepFive = ({ title, existingObject }: StepProps) => {
                         value: 'Terminate',
                     },
                 ]}
-                noOptionsMessage={({ inputValue }) =>
-                    !!inputValue && 'Geen resultaten gevonden'
-                }
-                blurInputOnSelect
+                defaultValue="Edit"
                 required
             />
             <div className="mt-3">
