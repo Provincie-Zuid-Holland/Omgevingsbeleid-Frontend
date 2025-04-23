@@ -28,7 +28,7 @@ const Sidebar = () => {
 
     return (
         <div
-            className="sticky top-[97px] z-1 h-full w-14 whitespace-nowrap"
+            className="sticky top-[97px] z-[1] h-full w-14 whitespace-nowrap"
             onMouseLeave={() => {
                 window.clearTimeout(timer)
                 expanded && setExpanded(false)
@@ -36,7 +36,7 @@ const Sidebar = () => {
             data-testid="sidebar">
             <div
                 className={classNames(
-                    'after:content-[" "] relative bg-pzh-gray-100 transition-[min-width] duration-200 ease-[cubic-bezier(.47,1.64,.41,.8)] after:absolute after:left-0 after:top-0 after:-z-1 after:h-[calc(100vh-97px)] after:w-full after:bg-pzh-gray-100 after:shadow-[0px_18px_60px_rgba(0,0,0,0.07),0px_4px_13px_rgba(0,0,0,0.04),0px_2px_6px_rgba(0,0,0,0.03)]',
+                    'after:content-[" "] relative bg-pzh-gray-100 transition-[min-width] duration-200 ease-[cubic-bezier(.47,1.64,.41,.8)] after:absolute after:left-0 after:top-0 after:-z-[1] after:h-[calc(100vh-97px)] after:w-full after:bg-pzh-gray-100 after:shadow-[0px_18px_60px_rgba(0,0,0,0.07),0px_4px_13px_rgba(0,0,0,0.04),0px_2px_6px_rgba(0,0,0,0.03)]',
                     {
                         'min-w-[56px]': !expanded,
                         'min-w-[260px]': expanded,
@@ -66,7 +66,7 @@ const Sidebar = () => {
                         onClick={() => window.clearTimeout(timer)}
                     />
 
-                    <div className="h-px w-full bg-pzh-blue" />
+                    <div className="h-px w-full bg-pzh-blue-500" />
 
                     {Object.keys(models).map(key => {
                         const model = models[key as ModelType]

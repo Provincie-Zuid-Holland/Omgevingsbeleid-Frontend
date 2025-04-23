@@ -27,7 +27,7 @@ const ModuleTile = ({ Title, Description, Status, Module_ID }: Module) => (
             <Button
                 variant="link"
                 size="small"
-                className="text-pzh-green group-hover:text-pzh-green-dark group-hover:no-underline">
+                className="text-pzh-green-500 group-hover:text-pzh-green-900 group-hover:no-underline">
                 Bekijk module
             </Button>
         </div>

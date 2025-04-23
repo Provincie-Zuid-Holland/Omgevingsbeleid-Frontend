@@ -113,7 +113,7 @@ const FieldSelectArea = ({
                                             </span>
                                             <Pencil
                                                 className={classNames('mt-1', {
-                                                    'text-pzh-blue': !disabled,
+                                                    'text-pzh-blue-500': !disabled,
                                                     'text-pzh-gray-600':
                                                         disabled,
                                                 })}

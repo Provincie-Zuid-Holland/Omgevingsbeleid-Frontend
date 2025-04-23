@@ -1,5 +1,4 @@
-import { Accordion, BackLink, Button, Heading } from '@pzh-ui/components'
-import { Plus } from '@pzh-ui/icons'
+import { Accordion, BackLink, Heading } from '@pzh-ui/components'
 import { useUnmountEffect } from '@react-hookz/web'
 import { useEffect, useState } from 'react'
 import { Link, Outlet, useParams } from 'react-router-dom'
@@ -28,7 +27,6 @@ import {
 import PublicationFolder from '@/components/Publications/PublicationFolder'
 import PublicationNotification from '@/components/Publications/PublicationNotification'
 import PublicationPackages from '@/components/Publications/PublicationPackages'
-import PublicationWizard from '@/components/Publications/PublicationWizard'
 import usePublicationStore from '@/store/publicationStore'
 
 const TabDecisions = () => (
@@ -75,7 +73,7 @@ export const Publications = () => {
 
     return (
         <div className="col-span-6 flex flex-col gap-6">
-            {publicationsFetching ? (
+            {/* {publicationsFetching ? (
                 <LoaderSpinner />
             ) : !wizardActive ? (
                 <Button
@@ -87,7 +85,7 @@ export const Publications = () => {
                 </Button>
             ) : (
                 <PublicationWizard handleClose={() => setWizardActive(false)} />
-            )}
+            )} */}
 
             <Accordion
                 type="multiple"

@@ -6,11 +6,12 @@
     "type": "module",
     "dependencies": {
         "@headlessui/react": "^1.7.17",
-        "@pzh-ui/components": "^0.0.596",
-        "@pzh-ui/config": "^0.0.70",
-        "@pzh-ui/css": "^0.0.100",
+        "@pzh-ui/components": "^0.0.606",
+        "@pzh-ui/config": "^0.0.78",
+        "@pzh-ui/css": "^0.0.113",
         "@pzh-ui/icons": "^0.0.81",
         "@react-hookz/web": "^24.0.4",
+        "@tailwindcss/vite": "^4.1.4",
         "@tanstack/react-query": "^5.69.0",
         "axios": "^1.7.7",
         "clsx": "^2.1.1",
@@ -39,8 +40,8 @@
         "zustand": "^5.0.0"
     },
     "scripts": {
-        "build:css": "npx tailwindcss -i node_modules/@pzh-ui/css/src/tailwind.src.css -o src/css/tailwind.css",
-        "watch:css": "npx tailwindcss -i node_modules/@pzh-ui/css/src/tailwind.src.css -o src/css/tailwind.css --watch",
+        "build:css": "npx @tailwindcss/cli -i src/css/tailwind.src.css -o src/css/tailwind.css",
+        "watch:css": "npx @tailwindcss/cli -i src/css/tailwind.src.css -o src/css/tailwind.css --watch",
         "start": "npm run-script build:css && concurrently \"npm run-script watch:css\" \"vite\"",
         "build": "npm run-script build:css && tsc && vite build",
         "serve": "vite preview",
@@ -65,6 +66,7 @@
     "devDependencies": {
         "@axe-core/react": "^4.10.0",
         "@faker-js/faker": "^8.3.1",
+        "@tailwindcss/cli": "^4.1.4",
         "@testing-library/dom": "^9.3.3",
         "@testing-library/jest-dom": "^6.1.5",
         "@testing-library/react": "^14.1.2",
@@ -98,7 +100,7 @@
         "prettier": "2.8.8",
         "rollup-plugin-visualizer": "^5.11.0",
         "sass": "^1.63.6",
-        "tailwindcss": "^3.4.1",
+        "tailwindcss": "^4.1.4",
         "typescript": "^5.8.2",
         "vite": "^5.4.7",
         "vite-plugin-svgr": "^4.2.0",

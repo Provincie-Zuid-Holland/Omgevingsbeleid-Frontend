@@ -166,7 +166,7 @@ const AreaModalEdit = ({
                                                                     index}
                                                             </FormikRadio>
                                                             {version.isDuplicate && (
-                                                                <div className="z-1">
+                                                                <div className="z-[1]">
                                                                     <Tooltip label="Deze versie bevat dezelfde geo als de vorige versie en kan daarom niet worden gekozen">
                                                                         <CircleInfo className="-mt-1 cursor-pointer text-pzh-blue-900" />
                                                                     </Tooltip>
