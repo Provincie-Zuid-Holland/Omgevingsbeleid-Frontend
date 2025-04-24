@@ -1,4 +1,4 @@
-import { Accordion, BackLink, Heading } from '@pzh-ui/components'
+import { Accordion, BackLink, Heading, TabItem, Tabs } from '@pzh-ui/components'
 import { useUnmountEffect } from '@react-hookz/web'
 import { useEffect, useState } from 'react'
 import { Link, Outlet, useParams } from 'react-router-dom'
@@ -9,12 +9,14 @@ import {
     usePublicationAnnouncementPackagesGet,
     usePublicationAnnouncementsGet,
     usePublicationEnvironmentsEnvironmentUuidGet,
+    usePublicationEnvironmentsGet,
     usePublicationsGet,
     usePublicationVersionsVersionUuidGet,
 } from '@/api/fetchers'
 import {
     DocumentType,
     PackageType,
+    ProcedureType,
     ReportStatusType,
 } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
@@ -56,12 +58,15 @@ export const Publications = () => {
         )
 
     const documentTypes = Object.keys(DocumentType) as Array<DocumentType>
+    const procedureTypes = Object.keys(ProcedureType) as Array<ProcedureType>
 
     const { data: publications, isFetching: publicationsFetching } =
         usePublicationsGet({
             module_id: parseInt(moduleId!),
             limit: 100,
         })
+
+    const { data: environments } = usePublicationEnvironmentsGet({ limit: 100 })
 
     useEffect(() => {
         if (!!publications?.results.length && !publicationsFetching) {
@@ -87,21 +92,32 @@ export const Publications = () => {
                 <PublicationWizard handleClose={() => setWizardActive(false)} />
             )} */}
 
-            <Accordion
-                type="multiple"
-                className="flex flex-col gap-4"
-                value={activeFolders.documentTypes}
-                onValueChange={documentTypes =>
-                    setActiveFolders({ documentTypes })
-                }>
-                {documentTypes.map(documentType => (
-                    <PublicationFolder
-                        key={documentType}
-                        documentType={documentType}
-                        publications={publications?.results}
-                    />
-                ))}
-            </Accordion>
+            {!!environments?.results.length && (
+                <Tabs variant="filled" className="place-self-center">
+                    {environments.results.map(environment => (
+                        <TabItem
+                            title={environment.Title}
+                            key={environment.UUID}>
+                            <Accordion
+                                type="multiple"
+                                className="flex flex-col gap-6"
+                                value={activeFolders.procedureTypes}
+                                onValueChange={procedureTypes =>
+                                    setActiveFolders({ procedureTypes })
+                                }>
+                                {procedureTypes.map(procedureType => (
+                                    <PublicationFolder
+                                        key={procedureType}
+                                        procedureType={procedureType}
+                                        publications={publications?.results}
+                                        environment={environment}
+                                    />
+                                ))}
+                            </Accordion>
+                        </TabItem>
+                    ))}
+                </Tabs>
+            )}
 
             <div id="select-version-portal" />
         </div>
@@ -207,7 +223,7 @@ export const Packages = () => {
             <div>
                 <BackLink
                     asChild
-                    className="inline-flex text-s text-pzh-blue-500 underline hover:no-underline">
+                    className="text-s text-pzh-blue-500 inline-flex underline hover:no-underline">
                     <Link to={`/muteer/modules/${moduleId}/besluiten`}>
                         Terug naar het overzicht
                     </Link>
