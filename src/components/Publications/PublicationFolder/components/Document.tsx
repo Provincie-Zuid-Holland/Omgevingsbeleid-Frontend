@@ -133,6 +133,7 @@ const Document = ({
                 </div>
 
                 {environment?.Has_State &&
+                    !!version &&
                     (isFetching ? (
                         <LoaderCard height="24" className="w-20" mb="0" />
                     ) : (
