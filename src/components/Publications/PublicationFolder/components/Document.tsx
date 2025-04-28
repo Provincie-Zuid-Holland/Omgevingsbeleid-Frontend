@@ -7,6 +7,7 @@ import {
 } from '@/api/fetchers'
 import {
     DocumentType,
+    ProcedureType,
     Publication,
     PublicationEnvironment,
 } from '@/api/fetchers.schemas'
@@ -30,12 +31,14 @@ const config = {
 interface DocumentProps {
     environment: PublicationEnvironment
     documentType: DocumentType
+    procedureType: ProcedureType
     publication?: Publication
 }
 
 const Document = ({
     environment,
     documentType,
+    procedureType,
     publication,
 }: DocumentProps) => {
     const { moduleId } = useParams()
@@ -205,7 +208,16 @@ const Document = ({
                 </>
             ) : (
                 <div className="ml-auto flex items-center gap-2 px-6">
-                    <Button variant="secondary" size="small">
+                    <Button
+                        variant="secondary"
+                        size="small"
+                        onPress={() =>
+                            setActiveModal('publicationAdd', {
+                                documentType,
+                                procedureType,
+                                environmentUUID: environment.UUID,
+                            })
+                        }>
                         Voeg instrument toe
                     </Button>
                 </div>

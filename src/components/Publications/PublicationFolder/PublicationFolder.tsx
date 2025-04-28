@@ -99,6 +99,7 @@ const PublicationFolder = ({
                                 key={documentType}
                                 environment={environment}
                                 documentType={documentType}
+                                procedureType={procedureType}
                                 publication={publication}
                             />
                         )

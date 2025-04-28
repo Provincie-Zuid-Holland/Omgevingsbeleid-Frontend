@@ -21,6 +21,7 @@ import {
 } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import {
+    PublicationAddModal,
     PublicationAnnouncementUpdateModal,
     PublicationEditModal,
     PublicationPackageReportUploadModal,
@@ -37,6 +38,7 @@ const TabDecisions = () => (
             <Outlet />
         </div>
 
+        <PublicationAddModal />
         <PublicationEditModal />
         <PublicationVersionEditModal />
         <PublicationAnnouncementUpdateModal />
