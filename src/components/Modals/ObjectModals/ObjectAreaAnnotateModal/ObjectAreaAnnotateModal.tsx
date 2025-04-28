@@ -152,7 +152,7 @@ const InnerForm = <TData extends Values>({
 
     return (
         <Form>
-            <div className="space-y-4">
+            <div className="flex flex-col gap-4">
                 <div>
                     <DynamicObjectSearch
                         fieldName="location"

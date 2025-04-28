@@ -74,16 +74,16 @@ const DropdownContainer = ({
                 leaveFrom="scale-100 top-0"
                 leaveTo="scale-90 -top-1"
                 className={classNames(
-                    'tooltip-right tooltip-triangle absolute right-0 top-0 z-50 mt-12 min-w-[200px] rounded bg-pzh-white text-left text-pzh-gray-700 shadow-[0_0_15px_5px_rgba(0,0,0,0.1)]',
+                    'tooltip-right tooltip-triangle bg-pzh-white text-pzh-gray-700 absolute top-0 right-0 z-50 mt-12 min-w-[200px] rounded text-left shadow-[0_0_15px_5px_rgba(0,0,0,0.1)]',
                     className
                 )}
                 ref={innerContainer}>
                 <div className="relative h-full">
-                    <ul className="w-max py-1 text-pzh-gray-800">{children}</ul>
+                    <ul className="text-pzh-gray-800 w-max py-1">{children}</ul>
                 </div>
             </Transition>
             {hasBackdrop && isOpen && (
-                <div className="fixed left-0 top-0 z-[1] block h-screen w-screen bg-pzh-gray-800/30" />
+                <div className="bg-pzh-gray-800/30 fixed top-0 left-0 z-[1] block h-screen w-screen" />
             )}
         </>
     )
@@ -104,9 +104,9 @@ const DropdownLinkElement = ({
         <li key={item.text}>
             <Link
                 className={classNames(
-                    'block w-full px-4 pb-0.5 pt-1.5 hover:bg-pzh-gray-100 hover:bg-opacity-25 hover:underline',
+                    'hover:bg-pzh-gray-100/25 block w-full px-4 pt-1.5 pb-0.5 hover:underline',
                     {
-                        'border-t border-pzh-gray-300': index !== 0,
+                        'border-pzh-gray-300 border-t': index !== 0,
                     }
                 )}
                 to={item.link || ''}
@@ -133,9 +133,9 @@ const DropdownTextElement = ({
                     setIsOpen(false)
                 }}
                 className={classNames(
-                    'w-full cursor-pointer px-4 pb-0.5 pt-1.5 text-left hover:bg-pzh-gray-100 hover:bg-opacity-50 hover:underline',
+                    'hover:bg-pzh-gray-100/50 w-full cursor-pointer px-4 pt-1.5 pb-0.5 text-left hover:underline',
                     {
-                        'border-t border-pzh-gray-300': index !== 0,
+                        'border-pzh-gray-300 border-t': index !== 0,
                     },
                     item.className
                 )}>

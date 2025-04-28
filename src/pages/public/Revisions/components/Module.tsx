@@ -124,7 +124,7 @@ const Module = ({
                                         models[type].defaults.pluralCapitalize
                                     }
                                     key={type}>
-                                    <div className="mt-3 space-y-2">
+                                    <div className="mt-3 flex flex-col gap-2">
                                         {groupedObjects[type].map(object => (
                                             <RevisionItem
                                                 key={

@@ -22,7 +22,7 @@ const Revisions = () => {
     const { data, isLoading } = useRevisionsGet({ limit: 100 })
 
     return (
-        <div className="space-y-12 pb-12">
+        <div className="flex flex-col gap-12 pb-12">
             <Helmet title={META.title}>
                 <meta name="description" content={META.description} />
                 <meta name="og:description" content={META.description} />
@@ -70,7 +70,7 @@ const Revisions = () => {
                     <img
                         src={imageRevisions}
                         alt=""
-                        className="absolute left-0 top-0 inline-block h-[480px] min-w-[50vw] object-cover"
+                        className="absolute top-0 left-0 inline-block h-[480px] min-w-[50vw] object-cover"
                     />
                 </div>
             </Container>
@@ -87,7 +87,7 @@ const Revisions = () => {
                 ) : (
                     <>
                         <Container>
-                            <div className="col-span-6 space-y-12">
+                            <div className="col-span-6 flex flex-col gap-12">
                                 <Text className="italic">
                                     Er zijn momenteel geen lopende wijzigingen
                                     wat betreft het Omgevingsbeleid.
@@ -209,7 +209,7 @@ const Dropdown = ({
         {({ open }) => (
             <>
                 <Disclosure.Button
-                    className={`group mt-2 flex w-full items-center justify-between bg-pzh-pink-900 bg-opacity-10 px-5 py-3 font-bold text-pzh-pink-900 transition-colors duration-200 ease-in ${
+                    className={`group bg-pzh-pink-100/10 text-pzh-pink-900 mt-2 flex w-full items-center justify-between px-5 py-3 font-bold transition-colors duration-200 ease-in ${
                         open ? 'rounded-t-md' : 'rounded-md'
                     }`}>
                     <span>{buttonText}</span>
@@ -221,7 +221,7 @@ const Dropdown = ({
                         }`}
                     />
                 </Disclosure.Button>
-                <Disclosure.Panel className="rounded-b-md bg-pzh-pink-900 bg-opacity-10 px-5 pb-3 text-pzh-blue-900">
+                <Disclosure.Panel className="bg-pzh-pink-100/10 text-pzh-blue-900 rounded-b-md px-5 pb-3">
                     {panelText}
                 </Disclosure.Panel>
             </>
