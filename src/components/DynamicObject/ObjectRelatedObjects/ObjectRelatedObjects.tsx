@@ -20,13 +20,13 @@ const ObjectRelatedObjects = ({ objects }: ObjectRelatedObjectsProps) => {
 
     return (
         <>
-            <div className="mb-6 mt-8 flex items-center justify-between">
+            <div className="mt-8 mb-6 flex items-center justify-between">
                 <Heading level="3" size="m">
                     Gekoppelde objecten
                 </Heading>
             </div>
 
-            <div className="space-y-4">
+            <div className="flex flex-col gap-4">
                 {objects.Module_Objects.map(object => (
                     <RelatedObject
                         key={object.UUID}
@@ -67,7 +67,7 @@ const RelatedObject = ({
         <Link
             to={path}
             target="_blank"
-            className="group flex items-center justify-between gap-4 border-b border-pzh-gray-200 pb-2">
+            className="group border-pzh-gray-200 flex items-center justify-between gap-4 border-b pb-2">
             <div>
                 <Text as="span" color="text-pzh-gray-500">
                     {model.defaults.singularCapitalize}

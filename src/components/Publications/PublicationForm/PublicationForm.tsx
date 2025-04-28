@@ -47,7 +47,7 @@ const PublicationForm = <TData extends FormikValues>({
             validationSchema={toFormikValidationSchema(PUBLICATION_EDIT_SCHEMA)}
             {...rest}>
             {({ isSubmitting }) => (
-                <Form className="space-y-12">
+                <Form className="flex flex-col gap-12">
                     <Fields type={type} />
                     <div className="flex items-center justify-between">
                         <Button
@@ -171,9 +171,9 @@ const Fields = ({ type }: PublicationFormProps) => {
     }
 
     return (
-        <div className="space-y-4">
+        <div className="flex flex-col gap-4">
             {type === 'edit' && (
-                <div className="flex space-x-4 [&_>div]:flex-1">
+                <div className="flex gap-4 [&_>div]:flex-1">
                     <FormikSelect
                         name="Document_Type"
                         label="Instrument"

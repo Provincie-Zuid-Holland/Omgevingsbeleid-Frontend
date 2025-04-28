@@ -18,7 +18,7 @@ const MaintenancePage = () => (
         </Helmet>
         <div className="h-full w-full py-20">
             <Container>
-                <div className="col-span-6 flex flex-col items-center space-y-2 text-center">
+                <div className="col-span-6 flex flex-col items-center gap-2 text-center">
                     <PersonDigging
                         size={160}
                         className="text-pzh-blue-500 mb-4"
