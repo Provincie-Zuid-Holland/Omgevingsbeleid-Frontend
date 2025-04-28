@@ -49,6 +49,7 @@ const useFilterStore = create<FilterState>(set => ({
                         'pluralCapitalize'
                     ],
                     value: 'visie_algemeen',
+                    exclude: ['mapSearch'],
                 },
             ],
         },
@@ -71,6 +72,7 @@ const useFilterStore = create<FilterState>(set => ({
                         'pluralCapitalize'
                     ],
                     value: 'programma_algemeen',
+                    exclude: ['mapSearch'],
                 },
             ],
         },
