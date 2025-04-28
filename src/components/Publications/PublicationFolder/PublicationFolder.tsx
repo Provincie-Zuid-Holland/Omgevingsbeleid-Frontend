@@ -10,24 +10,34 @@ import { useCallback, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { useShallow } from 'zustand/react/shallow'
 
-import { usePublicationEnvironmentsGet } from '@/api/fetchers'
 import {
     DocumentType,
     ProcedureType,
     Publication,
+    PublicationEnvironment,
 } from '@/api/fetchers.schemas'
 import usePublicationStore from '@/store/publicationStore'
+import Document from './components/Document'
 
-import Procedure from './components/Procedure'
+const config = {
+    draft: {
+        label: 'Ontwerp',
+    },
+    final: {
+        label: 'Definitief',
+    },
+}
 
 interface PublicationFolderProps {
-    documentType: DocumentType
+    procedureType: ProcedureType
     publications?: Publication[]
+    environment: PublicationEnvironment
 }
 
 const PublicationFolder = ({
-    documentType,
+    procedureType,
     publications: providedPublications,
+    environment,
 }: PublicationFolderProps) => {
     const { moduleId } = useParams()
 
@@ -38,36 +48,35 @@ const PublicationFolder = ({
         }))
     )
 
-    const { data: environments } = usePublicationEnvironmentsGet({ limit: 100 })
-
-    const procedureTypes = Object.keys(ProcedureType) as Array<ProcedureType>
+    const documentTypes = Object.keys(DocumentType) as Array<DocumentType>
 
     const publications = useMemo(
         () =>
             providedPublications?.filter(
-                publication => publication.Document_Type === documentType
+                publication =>
+                    publication.Procedure_Type === procedureType &&
+                    publication.Environment_UUID === environment.UUID
             ),
-        [providedPublications, documentType]
+        [providedPublications, procedureType]
     )
 
-    const getPublicationsByProcedureType = useCallback(
-        (procedureType: ProcedureType) =>
+    const getPublicationByDocumentType = useCallback(
+        (documentType: DocumentType) =>
             publications?.filter(
-                publication => publication.Procedure_Type === procedureType
-            ),
+                publication => publication.Document_Type === documentType
+            )?.[0],
         [publications]
     )
 
     return (
         <AccordionItem
-            value={`${moduleId}-${documentType}`}
-            disabled={!!!publications?.length}
-            className="rounded-lg border border-pzh-gray-200">
+            value={`${moduleId}-${environment.UUID}-${procedureType}`}
+            className="border-pzh-gray-200 rounded-lg border">
             <AccordionTrigger
                 hideIcon
-                className="flex h-16 items-center justify-between rounded-t-lg bg-pzh-gray-100 px-6 [&[data-disabled]>*]:text-pzh-gray-300 hover:[&[data-disabled]]:no-underline [&[data-state=closed]]:rounded-b-lg [&[data-state=open]>svg]:rotate-90">
+                className="bg-pzh-gray-100 [&[data-disabled]>*]:text-pzh-gray-300 flex h-16 items-center justify-between rounded-t-lg px-6 hover:[&[data-disabled]]:no-underline [&[data-state=closed]]:rounded-b-lg [&[data-state=open]>svg]:rotate-90">
                 <Heading level="3" size="m" className="capitalize">
-                    {documentType}
+                    {config[procedureType].label}
                 </Heading>
                 <AngleRight
                     size={20}
@@ -81,17 +90,17 @@ const PublicationFolder = ({
                     onValueChange={procedureTypes =>
                         setActiveFolders({ procedureTypes })
                     }>
-                    {procedureTypes.map(procedureType => {
-                        const publications =
-                            getPublicationsByProcedureType(procedureType)
+                    {documentTypes.map(documentType => {
+                        const publication =
+                            getPublicationByDocumentType(documentType)
 
                         return (
-                            <Procedure
-                                key={procedureType}
+                            <Document
+                                key={documentType}
+                                environment={environment}
                                 documentType={documentType}
                                 procedureType={procedureType}
-                                environments={environments?.results}
-                                publications={publications}
+                                publication={publication}
                             />
                         )
                     })}

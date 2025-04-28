@@ -35,7 +35,7 @@ const LeafletSearch = ({ position = 'topleft' }: LeafletSearchProps) => {
 
     return (
         <LeafletController position={position}>
-            <div className="leaflet-search relative z-10 flex items-center justify-between h-8 bg-white cursor-pointer">
+            <div className="leaflet-search relative z-[1] flex items-center justify-between h-8 bg-pzh-white cursor-pointer">
                 <div
                     className={`w-8 h-8 flex justify-center items-center ${
                         showLeafletSearch ? 'border-r border-pzh-gray-300' : null

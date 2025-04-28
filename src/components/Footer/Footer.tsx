@@ -12,7 +12,7 @@ function Footer() {
 
     return (
         <footer
-            className={classNames('z-1 mt-auto w-full bg-pzh-gray-200', {
+            className={classNames('z-[1] mt-auto w-full bg-pzh-gray-200', {
                 'has-feedback':
                     !userIsInMuteerEnvironment && !isAdvancedSearchPage,
             })}>

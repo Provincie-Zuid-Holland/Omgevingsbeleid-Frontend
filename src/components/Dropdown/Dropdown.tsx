@@ -74,7 +74,7 @@ const DropdownContainer = ({
                 leaveFrom="scale-100 top-0"
                 leaveTo="scale-90 -top-1"
                 className={classNames(
-                    'tooltip-right tooltip-triangle absolute right-0 top-0 z-50 mt-12 min-w-[200px] rounded bg-white text-left text-pzh-gray-700 shadow-[0_0_15px_5px_rgba(0,0,0,0.1)]',
+                    'tooltip-right tooltip-triangle absolute right-0 top-0 z-50 mt-12 min-w-[200px] rounded bg-pzh-white text-left text-pzh-gray-700 shadow-[0_0_15px_5px_rgba(0,0,0,0.1)]',
                     className
                 )}
                 ref={innerContainer}>
@@ -83,7 +83,7 @@ const DropdownContainer = ({
                 </div>
             </Transition>
             {hasBackdrop && isOpen && (
-                <div className="fixed left-0 top-0 z-1 block h-screen w-screen bg-pzh-gray-800/30" />
+                <div className="fixed left-0 top-0 z-[1] block h-screen w-screen bg-pzh-gray-800/30" />
             )}
         </>
     )
@@ -133,7 +133,7 @@ const DropdownTextElement = ({
                     setIsOpen(false)
                 }}
                 className={classNames(
-                    'hover-pzh-gray-100 w-full cursor-pointer px-4 pb-0.5 pt-1.5 text-left hover:bg-pzh-gray-100 hover:bg-opacity-50 hover:underline',
+                    'w-full cursor-pointer px-4 pb-0.5 pt-1.5 text-left hover:bg-pzh-gray-100 hover:bg-opacity-50 hover:underline',
                     {
                         'border-t border-pzh-gray-300': index !== 0,
                     },
