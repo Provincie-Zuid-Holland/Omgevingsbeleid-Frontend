@@ -1,4 +1,5 @@
 import { Transition } from '@headlessui/react'
+import { cn } from '@pzh-ui/components'
 import { useClickOutside } from '@react-hookz/web'
 import classNames from 'clsx'
 import { ReactNode, useRef } from 'react'
@@ -103,11 +104,12 @@ const DropdownLinkElement = ({
     return (
         <li key={item.text}>
             <Link
-                className={classNames(
+                className={cn(
                     'hover:bg-pzh-gray-100/25 block w-full px-4 pt-1.5 pb-0.5 hover:underline',
                     {
                         'border-pzh-gray-300 border-t': index !== 0,
-                    }
+                    },
+                    item.className
                 )}
                 to={item.link || ''}
                 onClick={() => {
@@ -132,7 +134,7 @@ const DropdownTextElement = ({
                     item.callback?.()
                     setIsOpen(false)
                 }}
-                className={classNames(
+                className={cn(
                     'hover:bg-pzh-gray-100/50 w-full cursor-pointer px-4 pt-1.5 pb-0.5 text-left hover:underline',
                     {
                         'border-pzh-gray-300 border-t': index !== 0,

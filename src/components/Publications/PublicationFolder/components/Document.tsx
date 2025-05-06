@@ -11,10 +11,11 @@ import {
     Publication,
     PublicationEnvironment,
 } from '@/api/fetchers.schemas'
+import Dropdown, { DropdownItem } from '@/components/Dropdown'
 import { LoaderCard, LoaderSpinner } from '@/components/Loader'
 import useModalStore from '@/store/modalStore'
 import { downloadFile } from '@/utils/file'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 const config = {
@@ -44,6 +45,8 @@ const Document = ({
     const { moduleId } = useParams()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
+
+    const [isDownloadOpen, setIsDownloadOpen] = useState(false)
 
     const Icon = config[documentType].icon
 
@@ -116,6 +119,29 @@ const Document = ({
         }
     }, [version, publication])
 
+    const dropdownItems: DropdownItem[] = [
+        {
+            text: 'PDF Renvooi',
+            callback: () =>
+                download({
+                    versionUuid: String(version?.UUID),
+                    data: { Mutation: 'renvooi' },
+                }),
+            className:
+                'font-bold text-m hover:no-underline hover:text-pzh-green-500 hover:bg-inherit',
+        },
+        {
+            text: 'PDF Initieel',
+            callback: () =>
+                download({
+                    versionUuid: String(version?.UUID),
+                    data: { Mutation: 'replace' },
+                }),
+            className:
+                'font-bold text-m hover:no-underline hover:text-pzh-green-500 hover:bg-inherit border-t-0',
+        },
+    ]
+
     return (
         <div className="border-pzh-gray-200 hover:bg-pzh-blue-10 hover:ring-pzh-blue-100 flex h-16 border-b first:border-t last:border-b-0 hover:ring-1 hover:ring-inset">
             <div className="border-pzh-gray-200 flex h-[inherit] w-5/12 items-center border-r pr-6 pl-8">
@@ -163,21 +189,28 @@ const Document = ({
                                 Leveringen
                             </Link>
                         </Button>
-                        <Button
-                            size="small"
-                            variant="secondary"
-                            icon={FilePdf}
-                            iconSize={16}
-                            aria-label="Download PDF export"
-                            onPress={() =>
-                                download({
-                                    versionUuid: version.UUID,
-                                    data: { Mutation: 'renvooi' },
-                                })
-                            }
-                            isLoading={isPending}
-                            isDisabled={isPending || !version.Effective_Date}
-                        />
+                        <div className="relative">
+                            <Button
+                                size="small"
+                                variant="secondary"
+                                icon={FilePdf}
+                                iconSize={16}
+                                aria-label="Download PDF export"
+                                onPress={() =>
+                                    setIsDownloadOpen(!isDownloadOpen)
+                                }
+                                isLoading={isPending}
+                                isDisabled={
+                                    isPending || !version.Effective_Date
+                                }
+                            />
+                            <Dropdown
+                                items={dropdownItems}
+                                isOpen={isDownloadOpen}
+                                setIsOpen={setIsDownloadOpen}
+                                className="-right-1 mt-8"
+                            />
+                        </div>
                         <Button
                             size="small"
                             variant="secondary"
