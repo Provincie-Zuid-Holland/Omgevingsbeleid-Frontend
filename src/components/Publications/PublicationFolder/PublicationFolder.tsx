@@ -6,7 +6,7 @@ import {
     Heading,
 } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useShallow } from 'zustand/react/shallow'
 
@@ -17,6 +17,7 @@ import {
     PublicationEnvironment,
 } from '@/api/fetchers.schemas'
 import usePublicationStore from '@/store/publicationStore'
+import clsx from 'clsx'
 import Document from './components/Document'
 
 const config = {
@@ -47,6 +48,8 @@ const PublicationFolder = ({
             setActiveFolders: state.setActiveFolders,
         }))
     )
+
+    const [hasOverflowClass, setHasOverflowClass] = useState(false)
 
     const documentTypes = Object.keys(DocumentType) as Array<DocumentType>
 
@@ -83,7 +86,11 @@ const PublicationFolder = ({
                     className="transition-transform duration-200"
                 />
             </AccordionTrigger>
-            <AccordionContent className="pb-0">
+            <AccordionContent
+                className={clsx('pb-0', {
+                    '[&[data-state=open]]:overflow-visible': hasOverflowClass,
+                })}
+                onAnimationEnd={() => setHasOverflowClass(!hasOverflowClass)}>
                 <Accordion
                     type="multiple"
                     value={activeFolders.procedureTypes}
