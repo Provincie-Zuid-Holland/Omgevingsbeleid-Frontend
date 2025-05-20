@@ -85,7 +85,7 @@ const NavigationPopupMenu = ({
                         <Container
                             className="h-full overflow-y-auto"
                             style={isMobile ? containerHeightStyle : undefined}>
-                            <div className="col-span-6 mt-6 flex flex-col sm:flex-row md:items-center">
+                            <div className="col-span-6 mt-6 flex flex-col sm:flex-row md:items-baseline">
                                 <div className="relative flex w-full flex-1 items-center">
                                     <SearchBar
                                         callBack={() => {
