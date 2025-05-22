@@ -53,7 +53,9 @@ const SearchBar = ({ callBack, ...rest }: SearchBarProps) => {
             <Formik
                 initialValues={{ query: '' }}
                 onSubmit={handleSubmit}
-                validationSchema={toFormikValidationSchema(SCHEMA)}>
+                validationSchema={toFormikValidationSchema(SCHEMA)}
+                validateOnBlur={false}
+                validateOnChange={false}>
                 <Form>
                     <FormikInput
                         name="query"
