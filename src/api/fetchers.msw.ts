@@ -10,6 +10,7 @@
  */
 import { faker } from '@faker-js/faker'
 import { HttpResponse, delay, http } from 'msw'
+
 import type {
     AOJCreatedResponse,
     AcknowledgedRelation,
@@ -108,6 +109,7 @@ import type {
     ReadRelation,
     ResetPasswordResponse,
     ResponseOK,
+    StorageFileBasic,
     TemplateCreatedResponse,
     UploadAttachmentResponse,
     UploadFileResponse,
@@ -15704,6 +15706,19 @@ export const getStorageFilesPostResponseMock = (
     overrideResponse: Partial<UploadFileResponse> = {}
 ): UploadFileResponse => ({ UUID: faker.string.uuid(), ...overrideResponse })
 
+export const getStorageFilesFileUuidGetResponseMock = (
+    overrideResponse: Partial<StorageFileBasic> = {}
+): StorageFileBasic => ({
+    Checksum: faker.word.sample(),
+    Content_Type: faker.word.sample(),
+    Created_By_UUID: faker.string.uuid(),
+    Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Filename: faker.word.sample(),
+    Size: faker.number.int({ min: undefined, max: undefined }),
+    UUID: faker.string.uuid(),
+    ...overrideResponse,
+})
+
 export const getModulesPostResponseMock = (
     overrideResponse: Partial<ModuleCreatedResponse> = {}
 ): ModuleCreatedResponse => ({
@@ -22010,6 +22025,33 @@ export const getStorageFilesPostMockHandler = (
     })
 }
 
+export const getStorageFilesFileUuidGetMockHandler = (
+    overrideResponse?:
+        | StorageFileBasic
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<StorageFileBasic> | StorageFileBasic)
+) => {
+    return http.get('*/storage-files/:fileUuid', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getStorageFilesFileUuidGetResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
 export const getModulesPostMockHandler = (
     overrideResponse?:
         | ModuleCreatedResponse
@@ -24063,6 +24105,7 @@ export const getOmgevingsbeleidAPIMock = () => [
     getRevisionsModuleIdGetMockHandler(),
     getStorageFilesGetMockHandler(),
     getStorageFilesPostMockHandler(),
+    getStorageFilesFileUuidGetMockHandler(),
     getModulesPostMockHandler(),
     getModulesGetMockHandler(),
     getModulesModuleIdGetMockHandler(),

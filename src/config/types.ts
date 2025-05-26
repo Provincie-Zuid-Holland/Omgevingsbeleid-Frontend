@@ -21,6 +21,7 @@ type DynamicFieldType =
     | 'search'
     | 'array'
     | 'checkbox'
+    | 'file'
 
 export type DynamicSection<FieldType = string> = {
     /** Title of section */

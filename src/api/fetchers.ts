@@ -237,6 +237,7 @@ import type {
     SearchRequestData,
     SearchValidPostParams,
     SourceWerkingsgebiedenGetParams,
+    StorageFileBasic,
     StorageFilesGetParams,
     TemplateCreate,
     TemplateCreatedResponse,
@@ -18284,6 +18285,97 @@ export const useStorageFilesPost = <
     const mutationOptions = getStorageFilesPostMutationOptions(options)
 
     return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get storage file details
+ */
+export const storageFilesFileUuidGet = (
+    fileUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<StorageFileBasic>({
+        url: `/storage-files/${fileUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getStorageFilesFileUuidGetQueryKey = (fileUuid: string) => {
+    return [`/storage-files/${fileUuid}`] as const
+}
+
+export const getStorageFilesFileUuidGetQueryOptions = <
+    TData = Awaited<ReturnType<typeof storageFilesFileUuidGet>>,
+    TError = HTTPValidationError
+>(
+    fileUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof storageFilesFileUuidGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getStorageFilesFileUuidGetQueryKey(fileUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof storageFilesFileUuidGet>>
+    > = ({ signal }) => storageFilesFileUuidGet(fileUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!fileUuid,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof storageFilesFileUuidGet>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type StorageFilesFileUuidGetQueryResult = NonNullable<
+    Awaited<ReturnType<typeof storageFilesFileUuidGet>>
+>
+export type StorageFilesFileUuidGetQueryError = HTTPValidationError
+
+/**
+ * @summary Get storage file details
+ */
+export const useStorageFilesFileUuidGet = <
+    TData = Awaited<ReturnType<typeof storageFilesFileUuidGet>>,
+    TError = HTTPValidationError
+>(
+    fileUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof storageFilesFileUuidGet>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getStorageFilesFileUuidGetQueryOptions(
+        fileUuid,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
 }
 
 /**
