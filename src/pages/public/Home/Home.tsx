@@ -74,10 +74,10 @@ const Home = () => (
         <div className="bg-pzh-blue-500">
             <Container className="py-12">
                 <div className="col-span-6">
-                    <Heading level="2" color="text-white">
+                    <Heading level="2" color="text-pzh-white">
                         Opbouw van het beleid
                     </Heading>
-                    <Text color="text-white" className="mt-4">
+                    <Text color="text-pzh-white" className="mt-4">
                         De Omgevingswet streeft ernaar om al het beleid over de
                         fysieke leefomgeving te vereenvoudigen zodat het voor
                         iedereen is te begrijpen. Daarom zet de provincie drie

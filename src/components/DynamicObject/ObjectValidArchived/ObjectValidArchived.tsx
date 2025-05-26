@@ -79,9 +79,11 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                                 </div>
                                 <div className="col-span-2 flex items-center justify-between">
                                     <Text>
-                                        {object.End_Validity &&
+                                        {object.Next_Version &&
                                             formatDate(
-                                                new Date(object.End_Validity),
+                                                new Date(
+                                                    object.Next_Version.Start_Validity
+                                                ),
                                                 'dd-MM-yyyy'
                                             )}
                                     </Text>

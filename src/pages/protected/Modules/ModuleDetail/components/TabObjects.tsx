@@ -100,6 +100,7 @@ const TabObjects = () => {
                     ...modules.EMPTY_MODULE_OBJECT,
                     state: 'existing',
                     validOrModule: 'valid',
+                    Action: 'Edit',
                 }}
                 module={module}
             />

@@ -19,7 +19,7 @@ const Container = ({
         <div
             id={id}
             ref={reference}
-            className={`pzh-container mx-auto grid grid-cols-6 gap-x-10 gap-y-0 pr-4 ${className}`}
+            className={`pzh-container mx-auto grid w-full grid-cols-6 gap-x-10 gap-y-0 pr-4 ${className}`}
             style={style}>
             {children}
         </div>

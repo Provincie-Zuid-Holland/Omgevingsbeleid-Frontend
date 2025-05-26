@@ -91,7 +91,7 @@ const ObjectPersonModal = ({ model }: ObjectPersonModalProps) => {
                 enableReinitialize>
                 {({ isValid, isSubmitting, dirty }) => (
                     <Form>
-                        <div className="space-y-4">
+                        <div className="flex flex-col gap-4">
                             {staticData.map(item => {
                                 const label = getStaticDataLabel(item)
                                 const required =

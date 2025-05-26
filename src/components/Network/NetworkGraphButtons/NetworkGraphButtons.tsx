@@ -11,7 +11,7 @@ const NetworkGraphButtons = () => {
         <div className="absolute right-5 top-5">
             <div className="flex flex-col overflow-hidden rounded shadow-card">
                 <button
-                    className="flex h-8 w-8 items-center justify-center bg-white text-pzh-blue-900 hover:bg-pzh-gray-100"
+                    className="flex h-8 w-8 items-center justify-center bg-pzh-white text-pzh-blue-900 hover:bg-pzh-gray-100"
                     data-d3="zoom-in"
                     type="button">
                     <Plus />
@@ -19,7 +19,7 @@ const NetworkGraphButtons = () => {
                 </button>
                 <Divider className="my-0" />
                 <button
-                    className="flex h-8 w-8 items-center justify-center bg-white text-pzh-blue-900 hover:bg-pzh-gray-100"
+                    className="flex h-8 w-8 items-center justify-center bg-pzh-white text-pzh-blue-900 hover:bg-pzh-gray-100"
                     data-d3="zoom-out"
                     type="button">
                     <Minus />

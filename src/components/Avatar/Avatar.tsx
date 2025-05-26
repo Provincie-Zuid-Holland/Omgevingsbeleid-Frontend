@@ -41,7 +41,7 @@ const Avatar = ({ uuid, prefix, className, isSmall }: AvatarProps) => {
                     },
                     className
                 )}>
-                <span className="-mb-1 font-bold text-white">{initials}</span>
+                <span className="-mb-1 font-bold text-pzh-white">{initials}</span>
             </div>
         </Tooltip>
     )

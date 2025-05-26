@@ -247,7 +247,7 @@ const SidebarResults = () => {
             leave="transition-all ease-in duration-300 transform"
             leaveFrom="mr-0"
             leaveTo="-mr-[840px]"
-            className="relative z-1 w-full max-w-2xl overflow-hidden px-4 pb-4 pt-4 md:px-10 md:pb-0 md:shadow-pane lg:px-20">
+            className="relative z-[1] w-full max-w-2xl overflow-hidden px-4 pb-4 pt-4 md:px-10 md:pb-0 md:shadow-pane lg:px-20">
             <div className="border-b border-pzh-gray-300 pb-3">
                 <div className="flex items-start justify-between">
                     <div>
@@ -255,7 +255,7 @@ const SidebarResults = () => {
                             Resultaten
                         </Heading>
                         {!isLoading && !geoLoading ? (
-                            <span className="block text-s text-pzh-blue-900 text-opacity-50">
+                            <span className="block text-s text-pzh-blue-900/50">
                                 {!data?.total
                                     ? 'Er zijn geen resultaten'
                                     : data.total === 1

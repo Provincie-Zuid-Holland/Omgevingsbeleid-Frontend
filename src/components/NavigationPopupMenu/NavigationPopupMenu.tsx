@@ -58,7 +58,7 @@ const NavigationPopupMenu = ({
             {isMobile ? (
                 <div className="fixed bottom-0 right-0 z-50">
                     <div
-                        className="flex cursor-pointer items-center justify-center bg-pzh-blue-900 p-8 text-white"
+                        className="flex cursor-pointer items-center justify-center bg-pzh-blue-900 p-8 text-pzh-white"
                         onClick={() => setIsOpen(!isOpen)}>
                         {isOpen ? (
                             <Xmark
@@ -80,7 +80,7 @@ const NavigationPopupMenu = ({
                 <>
                     <nav
                         id="popup-menu"
-                        className="absolute left-0 top-24 z-10 w-full bg-white pb-8"
+                        className="absolute left-0 top-24 z-[10] w-full bg-pzh-white pb-8"
                         aria-label="primary">
                         <Container
                             className="h-full overflow-y-auto"
@@ -122,7 +122,6 @@ const NavigationPopupMenu = ({
                                             </Heading>
                                             <AngleRight
                                                 size={20}
-                                                className="-mt-0.5"
                                             />
                                         </Link>
                                     ) : (
@@ -177,7 +176,7 @@ const ToggleMenuButton = ({
             'relative mb-1 flex items-center justify-center rounded px-2 pb-1 pt-2 transition-colors duration-100 ease-in lg:-mr-6',
             {
                 hidden: isMobile,
-                'text-white hover:bg-pzh-gray-100 hover:text-pzh-blue-500':
+                'text-pzh-white hover:bg-pzh-gray-100 hover:text-pzh-blue-500':
                     isOpen,
                 'text-pzh-blue-500 hover:bg-pzh-gray-100 hover:text-pzh-blue-900':
                     !isOpen,
@@ -186,9 +185,9 @@ const ToggleMenuButton = ({
         aria-expanded={isOpen}
         onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? (
-            <Xmark aria-hidden="true" size={18} className="mx-1 -mt-1" />
+            <Xmark aria-hidden="true" size={18} className="mx-1" />
         ) : (
-            <Bars aria-hidden="true" size={18} className="mx-1 -mt-1" />
+            <Bars aria-hidden="true" size={18} className="mx-1" />
         )}
         <span className="ml-1 font-bold">{isOpen ? 'Sluit menu' : 'Menu'}</span>
     </button>

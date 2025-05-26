@@ -217,7 +217,7 @@ const MapSearch = () => {
                         'h-80': !sidebarOpen,
                     })}>
                     {isAreaLoading && (
-                        <div className="absolute left-0 top-0 z-1 flex h-full w-full items-center justify-center">
+                        <div className="absolute left-0 top-0 z-[1] flex h-full w-full items-center justify-center">
                             <LoaderSpinner />
                         </div>
                     )}
