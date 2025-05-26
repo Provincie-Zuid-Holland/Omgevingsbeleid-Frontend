@@ -39,7 +39,7 @@ interface ModuleContentsModalProps {
     initialStep: number
     initialValues: ContentsModalForm
     module?: Module
-    selectedObject?: SearchObject
+    selectedObject?: SearchObject | null
 }
 
 const ModuleContentsModal = ({
@@ -55,7 +55,7 @@ const ModuleContentsModal = ({
 
     const [step, setStep] = useState(initialStep)
     const [existingObject, setExistingObject] = useState<
-        SearchObject | ModuleObjectShort | undefined
+        SearchObject | ModuleObjectShort | undefined | null
     >(selectedObject)
 
     const CurrentStep = steps[step - 1]

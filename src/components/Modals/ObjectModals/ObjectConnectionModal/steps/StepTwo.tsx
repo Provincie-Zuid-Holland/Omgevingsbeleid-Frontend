@@ -104,7 +104,13 @@ export const StepTwo = ({
                 />
             ) : (
                 <DynamicObjectSearch
-                    onChange={object => setFieldValue('Title', object?.Title)}
+                    onChange={val => {
+                        if (Array.isArray(val)) {
+                            setFieldValue('Title', val[0].object?.Title ?? '')
+                        } else {
+                            setFieldValue('Title', val?.object?.Title ?? '')
+                        }
+                    }}
                     objectKey="Object_ID"
                     filter={selected}
                     filterType={singular && [singular]}

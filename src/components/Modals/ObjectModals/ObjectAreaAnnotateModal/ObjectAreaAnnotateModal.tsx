@@ -162,9 +162,16 @@ const InnerForm = <TData extends Values>({
                         required
                         placeholder="Zoek op gebiedengroep"
                         objectKey="Werkingsgebied_Code"
-                        onChange={object => {
-                            setFieldValue('label', object?.Title)
-                            setFieldValue('id', object?.Object_ID.toString())
+                        onChange={val => {
+                            const selected = Array.isArray(val) ? val[0] : val
+                            setFieldValue(
+                                'label',
+                                selected?.object?.Title ?? ''
+                            )
+                            setFieldValue(
+                                'id',
+                                selected?.object?.Object_ID?.toString() ?? ''
+                            )
                         }}
                         defaultValue={
                             values.label &&

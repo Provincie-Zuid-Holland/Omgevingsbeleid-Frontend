@@ -19,7 +19,7 @@ interface ModalProps {
     /** Initial values of contents form */
     initialValues: ContentsModalForm
     /** Object which gets selected after search */
-    selectedObject?: SearchObject
+    selectedObject?: SearchObject | null
 }
 
 const initialModalValues: ModalProps = {
@@ -80,18 +80,19 @@ const FormContents = () => {
 
             <div className="col-span-4 pt-[42px]">
                 <DynamicObjectSearch
-                    onChange={object =>
+                    onChange={val => {
+                        const selected = Array.isArray(val) ? val[0] : val
                         setModal({
                             ...modal,
                             initialStep: 5,
                             initialValues: {
                                 ...modules.EMPTY_MODULE_OBJECT,
                                 state: 'existing',
-                                Object_UUID: object?.UUID,
+                                Object_UUID: selected?.object?.UUID,
                             },
-                            selectedObject: object,
+                            selectedObject: selected?.object,
                         })
-                    }
+                    }}
                 />
 
                 {!!existingObjects?.length && (
