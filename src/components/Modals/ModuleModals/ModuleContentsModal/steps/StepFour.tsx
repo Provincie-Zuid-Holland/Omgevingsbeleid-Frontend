@@ -141,7 +141,15 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
             {values.validOrModule === 'valid' ? (
                 <div>
                     <DynamicObjectSearch
-                        onChange={setExistingObject}
+                        onChange={val => {
+                            if (Array.isArray(val)) {
+                                setExistingObject(val[0].object ?? undefined)
+                            } else if (val && val !== null) {
+                                setExistingObject(val.object)
+                            } else {
+                                setExistingObject(undefined)
+                            }
+                        }}
                         defaultValue={
                             existingObject && {
                                 label: existingObject?.Title,

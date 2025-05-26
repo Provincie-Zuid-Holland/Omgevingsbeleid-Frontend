@@ -2,6 +2,7 @@ import { FieldSelectProps, FormikSelect } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
 import { useFormikContext } from 'formik'
 import debounce from 'lodash.debounce'
+import { useState } from 'react'
 
 import { searchPost, searchValidPost } from '@/api/fetchers'
 import { SearchObject, ValidSearchObject } from '@/api/fetchers.schemas'
@@ -9,19 +10,21 @@ import { ModelType } from '@/config/objects/types'
 
 type Option = {
     label: JSX.Element
-    value: SearchObject
+    value: string | number
+    object?: SearchObject
 }
 
 export interface DynamicObjectSearchProps
     extends Omit<FieldSelectProps, 'onChange' | 'name'> {
     /** Gets called when selecting an option */
-    onChange?: (object?: SearchObject) => void
+    onChange?: (object?: Option | Option[] | null) => void
     /** Key of model */
     objectKey?:
         | 'Object_UUID'
         | 'Object_ID'
         | 'Hierarchy_Code'
         | 'Werkingsgebied_Code'
+        | 'Document_Code'
     /** Name of field */
     fieldName?: string
     /** Placeholder of field (optional) */
@@ -47,6 +50,8 @@ const DynamicObjectSearch = ({
     ...rest
 }: DynamicObjectSearchProps) => {
     const { setFieldValue } = useFormikContext()
+
+    const [optionsState, setOptionsState] = useState<Option[]>([])
 
     const searchEndpoint = status === 'valid' ? searchValidPost : searchPost
 
@@ -75,7 +80,7 @@ const DynamicObjectSearch = ({
                 const options = filteredObject.map(
                     (object: SearchObject | ValidSearchObject) => ({
                         label: (
-                            <div className="flex justify-between">
+                            <div className="flex justify-between gap-4">
                                 <span>
                                     {object.Title}
 
@@ -92,11 +97,20 @@ const DynamicObjectSearch = ({
                                 </span>
                             </div>
                         ),
-                        value: object,
+                        value:
+                            objectKey === 'Object_UUID'
+                                ? object.UUID
+                                : objectKey === 'Hierarchy_Code' ||
+                                  objectKey === 'Werkingsgebied_Code' ||
+                                  objectKey === 'Document_Code'
+                                ? object.Object_Code
+                                : object.Object_ID,
+                        object,
                     })
                 )
 
                 callback(options)
+                setOptionsState([...options, ...optionsState])
             })
             .catch(error => {
                 console.error('Error while fetching suggestions:', error)
@@ -106,19 +120,14 @@ const DynamicObjectSearch = ({
 
     const handleSuggestions = debounce(loadSuggestions, 500)
 
-    const handleChange = (val?: SearchObject) => {
+    const handleChange = (val?: Option | Option[] | null) => {
         setFieldValue(
             fieldName || objectKey,
-            val
-                ? objectKey === 'Object_UUID'
-                    ? val.UUID
-                    : objectKey === 'Hierarchy_Code' ||
-                      objectKey === 'Werkingsgebied_Code'
-                    ? val.Object_Code
-                    : val.Object_ID
-                : null
+            rest.isMulti && Array.isArray(val)
+                ? val.map(e => e.value)
+                : !Array.isArray(val) && val?.value
         )
-        return onChange?.(val)
+        onChange?.(val)
     }
 
     return (
@@ -127,7 +136,7 @@ const DynamicObjectSearch = ({
             name={objectKey}
             placeholder={placeholder}
             loadOptions={handleSuggestions}
-            onChange={val => handleChange(val as SearchObject)}
+            onChange={val => handleChange(val as Option)}
             noOptionsMessage={({ inputValue }) =>
                 !inputValue
                     ? 'Start met typen om te zoeken'
@@ -147,6 +156,9 @@ const DynamicObjectSearch = ({
                     </div>
                 ),
             }}
+            {...(rest.isMulti && {
+                options: optionsState,
+            })}
             {...rest}
         />
     )
