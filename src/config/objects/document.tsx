@@ -69,16 +69,32 @@ const document: DynamicObject<
                 {
                     name: 'Title',
                     label: 'Titel',
-                    description:
-                        'Formuleer in enkele woorden de titel van de ambitie.',
                     type: 'text',
                     required: true,
                     validation: schemaDefaults.title,
                 },
                 {
+                    name: 'Filename',
+                    label: 'Bestandsnaam',
+                    type: 'text',
+                    required: true,
+                },
+                {
                     name: 'Description',
                     label: 'Omschrijving',
                     type: 'wysiwyg',
+                    required: true,
+                },
+            ],
+        },
+        {
+            title: 'Bestand uploaden',
+            description: 'Selecteer hier het daadwerkelijke bestand.',
+            fields: [
+                {
+                    name: 'File_UUID',
+                    label: 'Bestand',
+                    type: 'file',
                     required: true,
                 },
             ],

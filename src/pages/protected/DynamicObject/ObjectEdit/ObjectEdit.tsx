@@ -1,9 +1,10 @@
-import { Heading } from '@pzh-ui/components'
+import { File, Heading } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { FormikHelpers } from 'formik'
 import { useMemo } from 'react'
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 
+import { useStorageFilesPost } from '@/api/fetchers'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import { LockedNotification } from '@/components/Modules/ModuleLock/ModuleLock'
 import { Model } from '@/config/objects/types'
@@ -43,15 +44,20 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
         queryKey: objectQueryKey,
     } = useObject()
 
+    const { mutateAsync: uploadStorageFile } = useStorageFilesPost()
+
     const patchObject = usePatchObject()
 
     /**
      * Format initialData based on object fields
      */
     const initialData = useMemo(() => {
-        const fields = model.dynamicSections.flatMap(section =>
-            section.fields.map(field => field.name)
-        )
+        const fields = [
+            ...model.dynamicSections.flatMap(section =>
+                section.fields.map(field => field.name)
+            ),
+            'File',
+        ]
 
         const objectData = {} as { [key in (typeof fields)[number]]: any }
 
@@ -66,13 +72,17 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
             objectData['Ambtsgebied'] = ['true']
         }
 
+        if (fields.includes('File_UUID')) {
+            objectData.File = null
+        }
+
         return objectData
     }, [object, model.dynamicSections])
 
     /**
      * Handle submit of form
      */
-    const handleSubmit = (
+    const handleSubmit = async (
         payload: typeof initialData,
         helpers: FormikHelpers<typeof initialData>
     ) => {
@@ -90,6 +100,20 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
             payload.Ambtsgebied.includes('true')
         ) {
             payload.Werkingsgebied_Code = null
+        }
+
+        // Await file upload before patching object
+        if ('File' in payload && !!payload.File) {
+            const res = await uploadStorageFile({
+                data: {
+                    title: payload.Filename,
+                    uploaded_file: payload.File as File,
+                },
+            })
+            if (res) {
+                payload.File_UUID = res.UUID
+                delete payload.File
+            }
         }
 
         patchObject

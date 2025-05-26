@@ -13,6 +13,7 @@ import { FormikValues, useFormikContext } from 'formik'
 
 import FieldArray from '@/components/Form/FieldArray'
 import FieldConnections from '@/components/Form/FieldConnections'
+import FieldFile from '@/components/Form/FieldFile'
 import FieldSelectArea from '@/components/Form/FieldSelectArea'
 import { Model } from '@/config/objects/types'
 import { DynamicField as DynamicFieldProps } from '@/config/types'
@@ -34,6 +35,7 @@ const inputFieldMap = {
     search: DynamicObjectSearch,
     array: FieldArray,
     checkbox: FormikCheckboxGroup,
+    file: FieldFile,
 }
 
 const DynamicField = ({
