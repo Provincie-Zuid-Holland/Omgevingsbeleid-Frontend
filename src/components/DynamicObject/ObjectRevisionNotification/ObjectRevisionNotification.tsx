@@ -57,7 +57,8 @@ const ObjectRevisionNotification = ({
                 )}
             <Notification>
                 {latestRevision?.Module_Object_UUID === data?.UUID ||
-                (!moduleId && latest.UUID !== data.UUID) ? (
+                (!moduleId && latest.UUID !== data.UUID) ||
+                !!!latestRevision ? (
                     <>
                         Let op, dit is een{' '}
                         {isRevision ? 'ontwerpversie' : 'verouderde versie'} van{' '}
