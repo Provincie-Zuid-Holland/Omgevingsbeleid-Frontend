@@ -230,7 +230,6 @@ export const ConnectionModal = ({
         if (isFinalStep) {
             handleFormSubmit(payload)
         } else if (isDeleteStep && 'Object_ID' in payload) {
-            console.log('trigger')
             handleDeleteConnection(payload)
         } else {
             setStep(step + 1)
@@ -247,18 +246,20 @@ export const ConnectionModal = ({
             size="xl"
             onClose={handleClose}>
             {isFetching && (
-                <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black/20">
+                <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-pzh-black/20">
                     <LoaderSpinner />
                 </div>
             )}
             <Formik
                 onSubmit={handleSubmit}
-                initialValues={initialValues as ConnectionPayload}
+                initialValues={
+                    initialValues as ConnectionPayload & { type?: 'edit' }
+                }
                 validationSchema={toFormikValidationSchema(
                     currentValidationSchema
                 )}
                 enableReinitialize>
-                {({ isValid, isSubmitting, submitForm }) => (
+                {({ isValid, isSubmitting, submitForm, values }) => (
                     <Form onSubmit={e => e.preventDefault()}>
                         <CurrentStep
                             title={data?.Title}
@@ -276,16 +277,19 @@ export const ConnectionModal = ({
                             </Button>
                             {step !== 1 && (
                                 <div>
-                                    {!isDeleteStep && (
-                                        <Button
-                                            variant="secondary"
-                                            type="button"
-                                            size="small"
-                                            onPress={() => setStep(step - 1)}
-                                            className="mr-3">
-                                            Vorige stap
-                                        </Button>
-                                    )}
+                                    {!isDeleteStep &&
+                                        values.type !== 'edit' && (
+                                            <Button
+                                                variant="secondary"
+                                                type="button"
+                                                size="small"
+                                                onPress={() =>
+                                                    setStep(step - 1)
+                                                }
+                                                className="mr-3">
+                                                Vorige stap
+                                            </Button>
+                                        )}
                                     <Button
                                         variant={
                                             isFinalStep || isDeleteStep

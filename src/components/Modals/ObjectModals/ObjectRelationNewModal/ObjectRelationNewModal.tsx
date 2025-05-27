@@ -1,6 +1,6 @@
 import { Button } from '@pzh-ui/components'
 import { QueryKey, useQueryClient } from '@tanstack/react-query'
-import { Form, Formik } from 'formik'
+import { Form, Formik, FormikHelpers } from 'formik'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
@@ -66,19 +66,30 @@ const ObjectRelationNewModal = ({
     /**
      * Handle for submit
      */
-    const handleFormSubmit = (payload: RequestAcknowledgedRelation) => {
-        postAcknowledgedRelations?.mutate({
-            lineageId: parseInt(objectId!),
-            data: {
-                Object_ID: payload.Object_ID,
-                Object_Type: payload.Object_Type,
-                Explanation: payload.Explanation,
-            },
-        })
+    const handleFormSubmit = (
+        payload: RequestAcknowledgedRelation,
+        helpers: FormikHelpers<RequestAcknowledgedRelation>
+    ) => {
+        if (isFinalStep) {
+            postAcknowledgedRelations?.mutate({
+                lineageId: parseInt(objectId!),
+                data: {
+                    Object_ID: payload.Object_ID,
+                    Object_Type: payload.Object_Type,
+                    Explanation: payload.Explanation,
+                },
+            })
+        } else {
+            setStep(step + 1)
+            helpers.setTouched({})
+            helpers.setSubmitting(false)
+        }
     }
 
     const CurrentStep = steps[step - 1]
     const isFinalStep = step === 2
+    const currentValidationSchema =
+        objectRelation.SCHEMA_RELATION_STEPS[step - 1]
 
     return (
         <Modal
@@ -90,9 +101,11 @@ const ObjectRelationNewModal = ({
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
                 validationSchema={toFormikValidationSchema(
-                    objectRelation.SCHEMA_RELATION_ADD
+                    // @ts-ignore
+                    currentValidationSchema
                 )}
-                enableReinitialize>
+                enableReinitialize
+                validateOnMount>
                 {({ isValid, isSubmitting, submitForm }) => (
                     <Form>
                         <CurrentStep
@@ -118,15 +131,8 @@ const ObjectRelationNewModal = ({
                                 <Button
                                     variant={isFinalStep ? 'cta' : 'primary'}
                                     type="button"
-                                    isDisabled={
-                                        (isFinalStep && !isValid) ||
-                                        (isFinalStep && isSubmitting)
-                                    }
-                                    onPress={() => {
-                                        !isFinalStep
-                                            ? setStep(step + 1)
-                                            : submitForm()
-                                    }}
+                                    isDisabled={isSubmitting || !isValid}
+                                    onPress={submitForm}
                                     isLoading={isSubmitting}>
                                     {isFinalStep
                                         ? 'Verzoek versturen'

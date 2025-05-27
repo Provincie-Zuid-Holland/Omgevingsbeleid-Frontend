@@ -50,6 +50,7 @@ export const StepOne = ({ title, id, model, relations }: StepProps) => {
                         boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
                     }),
                 }}
+                blurInputOnSelect
             />
         </>
     )

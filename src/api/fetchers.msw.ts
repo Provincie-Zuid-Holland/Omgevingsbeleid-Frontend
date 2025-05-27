@@ -43,6 +43,7 @@ import type {
     NationaalBelangUUID,
     NewObjectStaticResponse,
     ObjectCount,
+    OnderverdelingFull,
     PagedResponseAmbitieBasic,
     PagedResponseAmbitieExtended,
     PagedResponseBeleidsdoelBasic,
@@ -62,6 +63,8 @@ import type {
     PagedResponseModule,
     PagedResponseModuleObjectShortStatus,
     PagedResponseNationaalBelangBasic,
+    PagedResponseOnderverdelingBasic,
+    PagedResponseOnderverdelingExtended,
     PagedResponseProgrammaAlgemeenBasic,
     PagedResponseProgrammaAlgemeenExtended,
     PagedResponsePublicModuleShort,
@@ -123,6 +126,8 @@ import type {
 import {
     GraphEdgeType,
     ModuleObjectActionFull,
+    ModuleStatusCode,
+    PublicModuleStatusCode,
     PublicationVersionStatus,
     ReportStatusType,
 } from './fetchers.schemas'
@@ -437,8 +442,13 @@ export const getAmbitiesVersionObjectUuidGetResponseMock = (
                     Object.values(ModuleObjectActionFull)
                 ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
                 Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
                 Module_Title: faker.word.sample(),
             })),
             null,
@@ -611,8 +621,13 @@ export const getAmbitiesLatestLineageIdGetResponseMock = (
                     Object.values(ModuleObjectActionFull)
                 ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
                 Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
                 Module_Title: faker.word.sample(),
             })),
             null,
@@ -920,8 +935,13 @@ export const getModulesModuleIdObjectAmbitieLatestLineageIdGetResponseMock = (
                     Object.values(ModuleObjectActionFull)
                 ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
                 Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
                 Module_Title: faker.word.sample(),
             })),
             null,
@@ -1094,8 +1114,13 @@ export const getModulesModuleIdObjectAmbitieVersionObjectUuidGetResponseMock = (
                     Object.values(ModuleObjectActionFull)
                 ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
                 Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
                 Module_Title: faker.word.sample(),
             })),
             null,
@@ -1334,8 +1359,13 @@ export const getRevisionsModuleIdAmbitieVersionObjectUuidGetResponseMock = (
                     Object.values(ModuleObjectActionFull)
                 ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
                 Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
                 Module_Title: faker.word.sample(),
             })),
             null,
@@ -1393,6 +1423,31 @@ export const getBeleidsdoelenValidGetResponseMock = (
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             undefined,
         ]),
+        Next_Version: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                {
+                    Created_Date: `${
+                        faker.date.past().toISOString().split('.')[0]
+                    }Z`,
+                    End_Validity: faker.helpers.arrayElement([
+                        faker.helpers.arrayElement([
+                            `${faker.date.past().toISOString().split('.')[0]}Z`,
+                            null,
+                        ]),
+                        undefined,
+                    ]),
+                    Modified_Date: `${
+                        faker.date.past().toISOString().split('.')[0]
+                    }Z`,
+                    Start_Validity: `${
+                        faker.date.past().toISOString().split('.')[0]
+                    }Z`,
+                    UUID: faker.string.uuid(),
+                },
+                null,
+            ]),
+            undefined,
+        ]),
         Object_ID: faker.helpers.arrayElement([
             faker.number.int({ min: undefined, max: undefined }),
             undefined,
@@ -1448,6 +1503,31 @@ export const getBeleidsdoelenValidLineageIdGetResponseMock = (
         ]),
         Modified_Date: faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Next_Version: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                {
+                    Created_Date: `${
+                        faker.date.past().toISOString().split('.')[0]
+                    }Z`,
+                    End_Validity: faker.helpers.arrayElement([
+                        faker.helpers.arrayElement([
+                            `${faker.date.past().toISOString().split('.')[0]}Z`,
+                            null,
+                        ]),
+                        undefined,
+                    ]),
+                    Modified_Date: `${
+                        faker.date.past().toISOString().split('.')[0]
+                    }Z`,
+                    Start_Validity: `${
+                        faker.date.past().toISOString().split('.')[0]
+                    }Z`,
+                    UUID: faker.string.uuid(),
+                },
+                null,
+            ]),
             undefined,
         ]),
         Object_ID: faker.helpers.arrayElement([
@@ -1602,6 +1682,31 @@ export const getBeleidsdoelenVersionObjectUuidGetResponseMock = (
         `${faker.date.past().toISOString().split('.')[0]}Z`,
         undefined,
     ]),
+    Next_Version: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            {
+                Created_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                End_Validity: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        `${faker.date.past().toISOString().split('.')[0]}Z`,
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Modified_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Start_Validity: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                UUID: faker.string.uuid(),
+            },
+            null,
+        ]),
+        undefined,
+    ]),
     Object_ID: faker.helpers.arrayElement([
         faker.number.int({ min: undefined, max: undefined }),
         undefined,
@@ -1644,6 +1749,29 @@ export const getBeleidsdoelenVersionObjectUuidGetResponseMock = (
                 undefined,
             ]),
         },
+        undefined,
+    ]),
+    Public_Revisions: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
+                Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
+                Module_Object_UUID: faker.string.uuid(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
+                Module_Title: faker.word.sample(),
+            })),
+            null,
+        ]),
         undefined,
     ]),
     Start_Validity: faker.helpers.arrayElement([
@@ -1792,6 +1920,31 @@ export const getBeleidsdoelenLatestLineageIdGetResponseMock = (
         `${faker.date.past().toISOString().split('.')[0]}Z`,
         undefined,
     ]),
+    Next_Version: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            {
+                Created_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                End_Validity: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        `${faker.date.past().toISOString().split('.')[0]}Z`,
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Modified_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Start_Validity: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                UUID: faker.string.uuid(),
+            },
+            null,
+        ]),
+        undefined,
+    ]),
     Object_ID: faker.helpers.arrayElement([
         faker.number.int({ min: undefined, max: undefined }),
         undefined,
@@ -1834,6 +1987,29 @@ export const getBeleidsdoelenLatestLineageIdGetResponseMock = (
                 undefined,
             ]),
         },
+        undefined,
+    ]),
+    Public_Revisions: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
+                Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
+                Module_Object_UUID: faker.string.uuid(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
+                Module_Title: faker.word.sample(),
+            })),
+            null,
+        ]),
         undefined,
     ]),
     Start_Validity: faker.helpers.arrayElement([
@@ -2136,6 +2312,31 @@ export const getModulesModuleIdObjectBeleidsdoelLatestLineageIdGetResponseMock =
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             undefined,
         ]),
+        Next_Version: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                {
+                    Created_Date: `${
+                        faker.date.past().toISOString().split('.')[0]
+                    }Z`,
+                    End_Validity: faker.helpers.arrayElement([
+                        faker.helpers.arrayElement([
+                            `${faker.date.past().toISOString().split('.')[0]}Z`,
+                            null,
+                        ]),
+                        undefined,
+                    ]),
+                    Modified_Date: `${
+                        faker.date.past().toISOString().split('.')[0]
+                    }Z`,
+                    Start_Validity: `${
+                        faker.date.past().toISOString().split('.')[0]
+                    }Z`,
+                    UUID: faker.string.uuid(),
+                },
+                null,
+            ]),
+            undefined,
+        ]),
         Object_ID: faker.helpers.arrayElement([
             faker.number.int({ min: undefined, max: undefined }),
             undefined,
@@ -2178,6 +2379,32 @@ export const getModulesModuleIdObjectBeleidsdoelLatestLineageIdGetResponseMock =
                     undefined,
                 ]),
             },
+            undefined,
+        ]),
+        Public_Revisions: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                Array.from(
+                    { length: faker.number.int({ min: 1, max: 10 }) },
+                    (_, i) => i + 1
+                ).map(() => ({
+                    Action: faker.helpers.arrayElement(
+                        Object.values(ModuleObjectActionFull)
+                    ),
+                    Module_ID: faker.number.int({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Module_Object_Status: faker.helpers.arrayElement(
+                        Object.values(PublicModuleStatusCode)
+                    ),
+                    Module_Object_UUID: faker.string.uuid(),
+                    Module_Status: faker.helpers.arrayElement(
+                        Object.values(ModuleStatusCode)
+                    ),
+                    Module_Title: faker.word.sample(),
+                })),
+                null,
+            ]),
             undefined,
         ]),
         Start_Validity: faker.helpers.arrayElement([
@@ -2337,6 +2564,31 @@ export const getModulesModuleIdObjectBeleidsdoelVersionObjectUuidGetResponseMock
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             undefined,
         ]),
+        Next_Version: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                {
+                    Created_Date: `${
+                        faker.date.past().toISOString().split('.')[0]
+                    }Z`,
+                    End_Validity: faker.helpers.arrayElement([
+                        faker.helpers.arrayElement([
+                            `${faker.date.past().toISOString().split('.')[0]}Z`,
+                            null,
+                        ]),
+                        undefined,
+                    ]),
+                    Modified_Date: `${
+                        faker.date.past().toISOString().split('.')[0]
+                    }Z`,
+                    Start_Validity: `${
+                        faker.date.past().toISOString().split('.')[0]
+                    }Z`,
+                    UUID: faker.string.uuid(),
+                },
+                null,
+            ]),
+            undefined,
+        ]),
         Object_ID: faker.helpers.arrayElement([
             faker.number.int({ min: undefined, max: undefined }),
             undefined,
@@ -2379,6 +2631,32 @@ export const getModulesModuleIdObjectBeleidsdoelVersionObjectUuidGetResponseMock
                     undefined,
                 ]),
             },
+            undefined,
+        ]),
+        Public_Revisions: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                Array.from(
+                    { length: faker.number.int({ min: 1, max: 10 }) },
+                    (_, i) => i + 1
+                ).map(() => ({
+                    Action: faker.helpers.arrayElement(
+                        Object.values(ModuleObjectActionFull)
+                    ),
+                    Module_ID: faker.number.int({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Module_Object_Status: faker.helpers.arrayElement(
+                        Object.values(PublicModuleStatusCode)
+                    ),
+                    Module_Object_UUID: faker.string.uuid(),
+                    Module_Status: faker.helpers.arrayElement(
+                        Object.values(ModuleStatusCode)
+                    ),
+                    Module_Title: faker.word.sample(),
+                })),
+                null,
+            ]),
             undefined,
         ]),
         Start_Validity: faker.helpers.arrayElement([
@@ -2593,6 +2871,31 @@ export const getRevisionsModuleIdBeleidsdoelVersionObjectUuidGetResponseMock = (
         `${faker.date.past().toISOString().split('.')[0]}Z`,
         undefined,
     ]),
+    Next_Version: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            {
+                Created_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                End_Validity: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        `${faker.date.past().toISOString().split('.')[0]}Z`,
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Modified_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Start_Validity: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                UUID: faker.string.uuid(),
+            },
+            null,
+        ]),
+        undefined,
+    ]),
     Object_ID: faker.helpers.arrayElement([
         faker.number.int({ min: undefined, max: undefined }),
         undefined,
@@ -2635,6 +2938,29 @@ export const getRevisionsModuleIdBeleidsdoelVersionObjectUuidGetResponseMock = (
                 undefined,
             ]),
         },
+        undefined,
+    ]),
+    Public_Revisions: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => ({
+                Action: faker.helpers.arrayElement(
+                    Object.values(ModuleObjectActionFull)
+                ),
+                Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
+                Module_Object_UUID: faker.string.uuid(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
+                Module_Title: faker.word.sample(),
+            })),
+            null,
+        ]),
         undefined,
     ]),
     Start_Validity: faker.helpers.arrayElement([
@@ -3126,8 +3452,13 @@ export const getBeleidskeuzesVersionObjectUuidGetResponseMock = (
                     Object.values(ModuleObjectActionFull)
                 ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
                 Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
                 Module_Title: faker.word.sample(),
             })),
             null,
@@ -3175,6 +3506,13 @@ export const getBeleidskeuzesVersionObjectUuidGetResponseMock = (
                 ]),
                 Object_ID: faker.helpers.arrayElement([
                     faker.number.int({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                Onderverdelingen: faker.helpers.arrayElement([
+                    Array.from(
+                        { length: faker.number.int({ min: 1, max: 10 }) },
+                        (_, i) => i + 1
+                    ).map(() => faker.word.sample()),
                     undefined,
                 ]),
                 Start_Validity: faker.helpers.arrayElement([
@@ -3592,8 +3930,13 @@ export const getBeleidskeuzesLatestLineageIdGetResponseMock = (
                     Object.values(ModuleObjectActionFull)
                 ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
                 Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
                 Module_Title: faker.word.sample(),
             })),
             null,
@@ -3641,6 +3984,13 @@ export const getBeleidskeuzesLatestLineageIdGetResponseMock = (
                 ]),
                 Object_ID: faker.helpers.arrayElement([
                     faker.number.int({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                Onderverdelingen: faker.helpers.arrayElement([
+                    Array.from(
+                        { length: faker.number.int({ min: 1, max: 10 }) },
+                        (_, i) => i + 1
+                    ).map(() => faker.word.sample()),
                     undefined,
                 ]),
                 Start_Validity: faker.helpers.arrayElement([
@@ -4308,8 +4658,13 @@ export const getModulesModuleIdObjectBeleidskeuzeLatestLineageIdGetResponseMock 
                         min: undefined,
                         max: undefined,
                     }),
+                    Module_Object_Status: faker.helpers.arrayElement(
+                        Object.values(PublicModuleStatusCode)
+                    ),
                     Module_Object_UUID: faker.string.uuid(),
-                    Module_Status: faker.word.sample(),
+                    Module_Status: faker.helpers.arrayElement(
+                        Object.values(ModuleStatusCode)
+                    ),
                     Module_Title: faker.word.sample(),
                 })),
                 null,
@@ -4357,6 +4712,13 @@ export const getModulesModuleIdObjectBeleidskeuzeLatestLineageIdGetResponseMock 
                     ]),
                     Object_ID: faker.helpers.arrayElement([
                         faker.number.int({ min: undefined, max: undefined }),
+                        undefined,
+                    ]),
+                    Onderverdelingen: faker.helpers.arrayElement([
+                        Array.from(
+                            { length: faker.number.int({ min: 1, max: 10 }) },
+                            (_, i) => i + 1
+                        ).map(() => faker.word.sample()),
                         undefined,
                     ]),
                     Start_Validity: faker.helpers.arrayElement([
@@ -4803,8 +5165,13 @@ export const getModulesModuleIdObjectBeleidskeuzeVersionObjectUuidGetResponseMoc
                         min: undefined,
                         max: undefined,
                     }),
+                    Module_Object_Status: faker.helpers.arrayElement(
+                        Object.values(PublicModuleStatusCode)
+                    ),
                     Module_Object_UUID: faker.string.uuid(),
-                    Module_Status: faker.word.sample(),
+                    Module_Status: faker.helpers.arrayElement(
+                        Object.values(ModuleStatusCode)
+                    ),
                     Module_Title: faker.word.sample(),
                 })),
                 null,
@@ -4852,6 +5219,13 @@ export const getModulesModuleIdObjectBeleidskeuzeVersionObjectUuidGetResponseMoc
                     ]),
                     Object_ID: faker.helpers.arrayElement([
                         faker.number.int({ min: undefined, max: undefined }),
+                        undefined,
+                    ]),
+                    Onderverdelingen: faker.helpers.arrayElement([
+                        Array.from(
+                            { length: faker.number.int({ min: 1, max: 10 }) },
+                            (_, i) => i + 1
+                        ).map(() => faker.word.sample()),
                         undefined,
                     ]),
                     Start_Validity: faker.helpers.arrayElement([
@@ -5364,8 +5738,13 @@ export const getRevisionsModuleIdBeleidskeuzeVersionObjectUuidGetResponseMock =
                         min: undefined,
                         max: undefined,
                     }),
+                    Module_Object_Status: faker.helpers.arrayElement(
+                        Object.values(PublicModuleStatusCode)
+                    ),
                     Module_Object_UUID: faker.string.uuid(),
-                    Module_Status: faker.word.sample(),
+                    Module_Status: faker.helpers.arrayElement(
+                        Object.values(ModuleStatusCode)
+                    ),
                     Module_Title: faker.word.sample(),
                 })),
                 null,
@@ -5413,6 +5792,13 @@ export const getRevisionsModuleIdBeleidskeuzeVersionObjectUuidGetResponseMock =
                     ]),
                     Object_ID: faker.helpers.arrayElement([
                         faker.number.int({ min: undefined, max: undefined }),
+                        undefined,
+                    ]),
+                    Onderverdelingen: faker.helpers.arrayElement([
+                        Array.from(
+                            { length: faker.number.int({ min: 1, max: 10 }) },
+                            (_, i) => i + 1
+                        ).map(() => faker.word.sample()),
                         undefined,
                     ]),
                     Start_Validity: faker.helpers.arrayElement([
@@ -5827,8 +6213,13 @@ export const getBeleidsregelsVersionObjectUuidGetResponseMock = (
                     Object.values(ModuleObjectActionFull)
                 ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
                 Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
                 Module_Title: faker.word.sample(),
             })),
             null,
@@ -6002,8 +6393,13 @@ export const getBeleidsregelsLatestLineageIdGetResponseMock = (
                     Object.values(ModuleObjectActionFull)
                 ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
                 Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
                 Module_Title: faker.word.sample(),
             })),
             null,
@@ -6321,8 +6717,13 @@ export const getModulesModuleIdObjectBeleidsregelLatestLineageIdGetResponseMock 
                         min: undefined,
                         max: undefined,
                     }),
+                    Module_Object_Status: faker.helpers.arrayElement(
+                        Object.values(PublicModuleStatusCode)
+                    ),
                     Module_Object_UUID: faker.string.uuid(),
-                    Module_Status: faker.word.sample(),
+                    Module_Status: faker.helpers.arrayElement(
+                        Object.values(ModuleStatusCode)
+                    ),
                     Module_Title: faker.word.sample(),
                 })),
                 null,
@@ -6504,8 +6905,13 @@ export const getModulesModuleIdObjectBeleidsregelVersionObjectUuidGetResponseMoc
                         min: undefined,
                         max: undefined,
                     }),
+                    Module_Object_Status: faker.helpers.arrayElement(
+                        Object.values(PublicModuleStatusCode)
+                    ),
                     Module_Object_UUID: faker.string.uuid(),
-                    Module_Status: faker.word.sample(),
+                    Module_Status: faker.helpers.arrayElement(
+                        Object.values(ModuleStatusCode)
+                    ),
                     Module_Title: faker.word.sample(),
                 })),
                 null,
@@ -6753,8 +7159,13 @@ export const getRevisionsModuleIdBeleidsregelVersionObjectUuidGetResponseMock =
                         min: undefined,
                         max: undefined,
                     }),
+                    Module_Object_Status: faker.helpers.arrayElement(
+                        Object.values(PublicModuleStatusCode)
+                    ),
                     Module_Object_UUID: faker.string.uuid(),
-                    Module_Status: faker.word.sample(),
+                    Module_Status: faker.helpers.arrayElement(
+                        Object.values(ModuleStatusCode)
+                    ),
                     Module_Title: faker.word.sample(),
                 })),
                 null,
@@ -7801,8 +8212,13 @@ export const getGebiedsprogrammasVersionObjectUuidGetResponseMock = (
                     Object.values(ModuleObjectActionFull)
                 ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
                 Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
                 Module_Title: faker.word.sample(),
             })),
             null,
@@ -7979,8 +8395,13 @@ export const getGebiedsprogrammasLatestLineageIdGetResponseMock = (
                     Object.values(ModuleObjectActionFull)
                 ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
                 Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
                 Module_Title: faker.word.sample(),
             })),
             null,
@@ -8314,8 +8735,13 @@ export const getModulesModuleIdObjectGebiedsprogrammasLatestLineageIdGetResponse
                         min: undefined,
                         max: undefined,
                     }),
+                    Module_Object_Status: faker.helpers.arrayElement(
+                        Object.values(PublicModuleStatusCode)
+                    ),
                     Module_Object_UUID: faker.string.uuid(),
-                    Module_Status: faker.word.sample(),
+                    Module_Status: faker.helpers.arrayElement(
+                        Object.values(ModuleStatusCode)
+                    ),
                     Module_Title: faker.word.sample(),
                 })),
                 null,
@@ -8502,8 +8928,13 @@ export const getModulesModuleIdObjectGebiedsprogrammasVersionObjectUuidGetRespon
                         min: undefined,
                         max: undefined,
                     }),
+                    Module_Object_Status: faker.helpers.arrayElement(
+                        Object.values(PublicModuleStatusCode)
+                    ),
                     Module_Object_UUID: faker.string.uuid(),
-                    Module_Status: faker.word.sample(),
+                    Module_Status: faker.helpers.arrayElement(
+                        Object.values(ModuleStatusCode)
+                    ),
                     Module_Title: faker.word.sample(),
                 })),
                 null,
@@ -8756,8 +9187,13 @@ export const getRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGetResponseMoc
                         min: undefined,
                         max: undefined,
                     }),
+                    Module_Object_Status: faker.helpers.arrayElement(
+                        Object.values(PublicModuleStatusCode)
+                    ),
                     Module_Object_UUID: faker.string.uuid(),
-                    Module_Status: faker.word.sample(),
+                    Module_Status: faker.helpers.arrayElement(
+                        Object.values(ModuleStatusCode)
+                    ),
                     Module_Title: faker.word.sample(),
                 })),
                 null,
@@ -9153,8 +9589,13 @@ export const getMaatregelenVersionObjectUuidGetResponseMock = (
                     Object.values(ModuleObjectActionFull)
                 ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
                 Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
                 Module_Title: faker.word.sample(),
             })),
             null,
@@ -9203,6 +9644,13 @@ export const getMaatregelenVersionObjectUuidGetResponseMock = (
                 ]),
                 Object_ID: faker.helpers.arrayElement([
                     faker.number.int({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                Onderverdelingen: faker.helpers.arrayElement([
+                    Array.from(
+                        { length: faker.number.int({ min: 1, max: 10 }) },
+                        (_, i) => i + 1
+                    ).map(() => faker.word.sample()),
                     undefined,
                 ]),
                 Start_Validity: faker.helpers.arrayElement([
@@ -9465,8 +9913,13 @@ export const getMaatregelenLatestLineageIdGetResponseMock = (
                     Object.values(ModuleObjectActionFull)
                 ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
                 Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
                 Module_Title: faker.word.sample(),
             })),
             null,
@@ -9515,6 +9968,13 @@ export const getMaatregelenLatestLineageIdGetResponseMock = (
                 ]),
                 Object_ID: faker.helpers.arrayElement([
                     faker.number.int({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                Onderverdelingen: faker.helpers.arrayElement([
+                    Array.from(
+                        { length: faker.number.int({ min: 1, max: 10 }) },
+                        (_, i) => i + 1
+                    ).map(() => faker.word.sample()),
                     undefined,
                 ]),
                 Start_Validity: faker.helpers.arrayElement([
@@ -9920,8 +10380,13 @@ export const getModulesModuleIdObjectMaatregelLatestLineageIdGetResponseMock = (
                     Object.values(ModuleObjectActionFull)
                 ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
                 Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
                 Module_Title: faker.word.sample(),
             })),
             null,
@@ -9970,6 +10435,13 @@ export const getModulesModuleIdObjectMaatregelLatestLineageIdGetResponseMock = (
                 ]),
                 Object_ID: faker.helpers.arrayElement([
                     faker.number.int({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                Onderverdelingen: faker.helpers.arrayElement([
+                    Array.from(
+                        { length: faker.number.int({ min: 1, max: 10 }) },
+                        (_, i) => i + 1
+                    ).map(() => faker.word.sample()),
                     undefined,
                 ]),
                 Start_Validity: faker.helpers.arrayElement([
@@ -10246,8 +10718,13 @@ export const getModulesModuleIdObjectMaatregelVersionObjectUuidGetResponseMock =
                         min: undefined,
                         max: undefined,
                     }),
+                    Module_Object_Status: faker.helpers.arrayElement(
+                        Object.values(PublicModuleStatusCode)
+                    ),
                     Module_Object_UUID: faker.string.uuid(),
-                    Module_Status: faker.word.sample(),
+                    Module_Status: faker.helpers.arrayElement(
+                        Object.values(ModuleStatusCode)
+                    ),
                     Module_Title: faker.word.sample(),
                 })),
                 null,
@@ -10296,6 +10773,13 @@ export const getModulesModuleIdObjectMaatregelVersionObjectUuidGetResponseMock =
                     ]),
                     Object_ID: faker.helpers.arrayElement([
                         faker.number.int({ min: undefined, max: undefined }),
+                        undefined,
+                    ]),
+                    Onderverdelingen: faker.helpers.arrayElement([
+                        Array.from(
+                            { length: faker.number.int({ min: 1, max: 10 }) },
+                            (_, i) => i + 1
+                        ).map(() => faker.word.sample()),
                         undefined,
                     ]),
                     Start_Validity: faker.helpers.arrayElement([
@@ -10627,8 +11111,13 @@ export const getRevisionsModuleIdMaatregelVersionObjectUuidGetResponseMock = (
                     Object.values(ModuleObjectActionFull)
                 ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
                 Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
                 Module_Title: faker.word.sample(),
             })),
             null,
@@ -10677,6 +11166,13 @@ export const getRevisionsModuleIdMaatregelVersionObjectUuidGetResponseMock = (
                 ]),
                 Object_ID: faker.helpers.arrayElement([
                     faker.number.int({ min: undefined, max: undefined }),
+                    undefined,
+                ]),
+                Onderverdelingen: faker.helpers.arrayElement([
+                    Array.from(
+                        { length: faker.number.int({ min: 1, max: 10 }) },
+                        (_, i) => i + 1
+                    ).map(() => faker.word.sample()),
                     undefined,
                 ]),
                 Start_Validity: faker.helpers.arrayElement([
@@ -10881,6 +11377,693 @@ export const getNationaalBelangRelationsLineageIdPutResponseMock = (
 export const getNationaalBelangStaticLineageIdPostResponseMock = (
     overrideResponse: Partial<ResponseOK> = {}
 ): ResponseOK => ({ message: faker.word.sample(), ...overrideResponse })
+
+export const getOnderverdelingenValidGetResponseMock = (
+    overrideResponse: Partial<PagedResponseOnderverdelingBasic> = {}
+): PagedResponseOnderverdelingBasic => ({
+    limit: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    offset: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    results: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Area_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+        Created_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Object_ID: faker.helpers.arrayElement([
+            faker.number.int({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+    })),
+    total: faker.number.int({ min: undefined, max: undefined }),
+    ...overrideResponse,
+})
+
+export const getOnderverdelingenValidLineageIdGetResponseMock = (
+    overrideResponse: Partial<PagedResponseOnderverdelingBasic> = {}
+): PagedResponseOnderverdelingBasic => ({
+    limit: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    offset: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    results: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Area_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+        Created_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Object_ID: faker.helpers.arrayElement([
+            faker.number.int({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+    })),
+    total: faker.number.int({ min: undefined, max: undefined }),
+    ...overrideResponse,
+})
+
+export const getOnderverdelingenVersionObjectUuidGetResponseMock = (
+    overrideResponse: Partial<OnderverdelingFull> = {}
+): OnderverdelingFull => ({
+    Adjust_On: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.uuid(), null]),
+        undefined,
+    ]),
+    Area: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            {
+                Created_By_UUID: faker.string.uuid(),
+                Created_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Source_Modified_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Source_Title: faker.word.sample(),
+                Source_UUID: faker.string.uuid(),
+                UUID: faker.string.uuid(),
+            },
+            null,
+        ]),
+        undefined,
+    ]),
+    Area_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    Created_By: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Created_Date: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split('.')[0]}Z`,
+        undefined,
+    ]),
+    End_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            null,
+        ]),
+        undefined,
+    ]),
+    Modified_By: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Modified_Date: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split('.')[0]}Z`,
+        undefined,
+    ]),
+    Object_ID: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    ObjectStatics: faker.helpers.arrayElement([
+        {
+            Owner_1: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+        },
+        undefined,
+    ]),
+    Start_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            null,
+        ]),
+        undefined,
+    ]),
+    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+    ...overrideResponse,
+})
+
+export const getOnderverdelingenLatestLineageIdGetResponseMock = (
+    overrideResponse: Partial<OnderverdelingFull> = {}
+): OnderverdelingFull => ({
+    Adjust_On: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.uuid(), null]),
+        undefined,
+    ]),
+    Area: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            {
+                Created_By_UUID: faker.string.uuid(),
+                Created_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Source_Modified_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Source_Title: faker.word.sample(),
+                Source_UUID: faker.string.uuid(),
+                UUID: faker.string.uuid(),
+            },
+            null,
+        ]),
+        undefined,
+    ]),
+    Area_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+    Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    Created_By: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Created_Date: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split('.')[0]}Z`,
+        undefined,
+    ]),
+    End_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            null,
+        ]),
+        undefined,
+    ]),
+    Modified_By: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Modified_Date: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split('.')[0]}Z`,
+        undefined,
+    ]),
+    Object_ID: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    ObjectStatics: faker.helpers.arrayElement([
+        {
+            Owner_1: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+        },
+        undefined,
+    ]),
+    Start_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            null,
+        ]),
+        undefined,
+    ]),
+    Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+    ...overrideResponse,
+})
+
+export const getOnderverdelingStaticLineageIdPostResponseMock = (
+    overrideResponse: Partial<ResponseOK> = {}
+): ResponseOK => ({ message: faker.word.sample(), ...overrideResponse })
+
+export const getModulesModuleIdObjectOnderverdelingLineageIdGetResponseMock = (
+    overrideResponse: Partial<PagedResponseOnderverdelingExtended> = {}
+): PagedResponseOnderverdelingExtended => ({
+    limit: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    offset: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    results: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Area_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+        Created_By: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Object_ID: faker.helpers.arrayElement([
+            faker.number.int({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        ObjectStatics: faker.helpers.arrayElement([
+            {
+                Owner_1: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Owner_2: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+            },
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+    })),
+    total: faker.number.int({ min: undefined, max: undefined }),
+    ...overrideResponse,
+})
+
+export const getModulesModuleIdObjectOnderverdelingLatestLineageIdGetResponseMock =
+    (
+        overrideResponse: Partial<OnderverdelingFull> = {}
+    ): OnderverdelingFull => ({
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Area: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                {
+                    Created_By_UUID: faker.string.uuid(),
+                    Created_Date: `${
+                        faker.date.past().toISOString().split('.')[0]
+                    }Z`,
+                    Source_Modified_Date: `${
+                        faker.date.past().toISOString().split('.')[0]
+                    }Z`,
+                    Source_Title: faker.word.sample(),
+                    Source_UUID: faker.string.uuid(),
+                    UUID: faker.string.uuid(),
+                },
+                null,
+            ]),
+            undefined,
+        ]),
+        Area_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+        Created_By: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Object_ID: faker.helpers.arrayElement([
+            faker.number.int({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        ObjectStatics: faker.helpers.arrayElement([
+            {
+                Owner_1: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Owner_2: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+            },
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        ...overrideResponse,
+    })
+
+export const getModulesModuleIdObjectOnderverdelingVersionObjectUuidGetResponseMock =
+    (
+        overrideResponse: Partial<OnderverdelingFull> = {}
+    ): OnderverdelingFull => ({
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Area: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                {
+                    Created_By_UUID: faker.string.uuid(),
+                    Created_Date: `${
+                        faker.date.past().toISOString().split('.')[0]
+                    }Z`,
+                    Source_Modified_Date: `${
+                        faker.date.past().toISOString().split('.')[0]
+                    }Z`,
+                    Source_Title: faker.word.sample(),
+                    Source_UUID: faker.string.uuid(),
+                    UUID: faker.string.uuid(),
+                },
+                null,
+            ]),
+            undefined,
+        ]),
+        Area_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+        Created_By: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Object_ID: faker.helpers.arrayElement([
+            faker.number.int({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        ObjectStatics: faker.helpers.arrayElement([
+            {
+                Owner_1: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Owner_2: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+            },
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        ...overrideResponse,
+    })
+
+export const getModulesObjectOnderverdelingActiveLineageIdGetResponseMock =
+    (): ActiveModuleObjectWrapper[] =>
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
+            Module: {
+                Closed: faker.datatype.boolean(),
+                Description: faker.word.sample(),
+                Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Manager_1: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Module_Manager_2: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Status: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        {
+                            Created_By_UUID: faker.string.uuid(),
+                            Created_Date: `${
+                                faker.date.past().toISOString().split('.')[0]
+                            }Z`,
+                            ID: faker.number.int({
+                                min: undefined,
+                                max: undefined,
+                            }),
+                            Module_ID: faker.number.int({
+                                min: undefined,
+                                max: undefined,
+                            }),
+                            Status: faker.word.sample(),
+                        },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Title: faker.word.sample(),
+            },
+            Module_Object: {
+                Modified_Date: `${
+                    faker.date.past().toISOString().split('.')[0]
+                }Z`,
+                Module_ID: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        faker.number.int({ min: undefined, max: undefined }),
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Title: faker.word.sample(),
+                UUID: faker.string.uuid(),
+            },
+        }))
+
+export const getRevisionsModuleIdOnderverdelingVersionObjectUuidGetResponseMock =
+    (
+        overrideResponse: Partial<OnderverdelingFull> = {}
+    ): OnderverdelingFull => ({
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Area: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                {
+                    Created_By_UUID: faker.string.uuid(),
+                    Created_Date: `${
+                        faker.date.past().toISOString().split('.')[0]
+                    }Z`,
+                    Source_Modified_Date: `${
+                        faker.date.past().toISOString().split('.')[0]
+                    }Z`,
+                    Source_Title: faker.word.sample(),
+                    Source_UUID: faker.string.uuid(),
+                    UUID: faker.string.uuid(),
+                },
+                null,
+            ]),
+            undefined,
+        ]),
+        Area_UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+        Created_By: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split('.')[0]}Z`,
+            undefined,
+        ]),
+        Object_ID: faker.helpers.arrayElement([
+            faker.number.int({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        ObjectStatics: faker.helpers.arrayElement([
+            {
+                Owner_1: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Owner_2: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+            },
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        ...overrideResponse,
+    })
 
 export const getProgrammasAlgemeenValidGetResponseMock = (
     overrideResponse: Partial<PagedResponseProgrammaAlgemeenBasic> = {}
@@ -11128,8 +12311,13 @@ export const getProgrammasAlgemeenVersionObjectUuidGetResponseMock = (
                     Object.values(ModuleObjectActionFull)
                 ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
                 Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
                 Module_Title: faker.word.sample(),
             })),
             null,
@@ -11238,8 +12426,13 @@ export const getProgrammasAlgemeenLatestLineageIdGetResponseMock = (
                     Object.values(ModuleObjectActionFull)
                 ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
                 Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
                 Module_Title: faker.word.sample(),
             })),
             null,
@@ -11458,8 +12651,13 @@ export const getModulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGetResponse
                         min: undefined,
                         max: undefined,
                     }),
+                    Module_Object_Status: faker.helpers.arrayElement(
+                        Object.values(PublicModuleStatusCode)
+                    ),
                     Module_Object_UUID: faker.string.uuid(),
-                    Module_Status: faker.word.sample(),
+                    Module_Status: faker.helpers.arrayElement(
+                        Object.values(ModuleStatusCode)
+                    ),
                     Module_Title: faker.word.sample(),
                 })),
                 null,
@@ -11575,8 +12773,13 @@ export const getModulesModuleIdObjectProgrammaAlgemeenVersionObjectUuidGetRespon
                         min: undefined,
                         max: undefined,
                     }),
+                    Module_Object_Status: faker.helpers.arrayElement(
+                        Object.values(PublicModuleStatusCode)
+                    ),
                     Module_Object_UUID: faker.string.uuid(),
-                    Module_Status: faker.word.sample(),
+                    Module_Status: faker.helpers.arrayElement(
+                        Object.values(ModuleStatusCode)
+                    ),
                     Module_Title: faker.word.sample(),
                 })),
                 null,
@@ -11758,8 +12961,13 @@ export const getRevisionsModuleIdProgrammaAlgemeenVersionObjectUuidGetResponseMo
                         min: undefined,
                         max: undefined,
                     }),
+                    Module_Object_Status: faker.helpers.arrayElement(
+                        Object.values(PublicModuleStatusCode)
+                    ),
                     Module_Object_UUID: faker.string.uuid(),
-                    Module_Status: faker.word.sample(),
+                    Module_Status: faker.helpers.arrayElement(
+                        Object.values(ModuleStatusCode)
+                    ),
                     Module_Title: faker.word.sample(),
                 })),
                 null,
@@ -12239,8 +13447,13 @@ export const getVisiesAlgemeenVersionObjectUuidGetResponseMock = (
                     Object.values(ModuleObjectActionFull)
                 ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
                 Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
                 Module_Title: faker.word.sample(),
             })),
             null,
@@ -12349,8 +13562,13 @@ export const getVisiesAlgemeenLatestLineageIdGetResponseMock = (
                     Object.values(ModuleObjectActionFull)
                 ),
                 Module_ID: faker.number.int({ min: undefined, max: undefined }),
+                Module_Object_Status: faker.helpers.arrayElement(
+                    Object.values(PublicModuleStatusCode)
+                ),
                 Module_Object_UUID: faker.string.uuid(),
-                Module_Status: faker.word.sample(),
+                Module_Status: faker.helpers.arrayElement(
+                    Object.values(ModuleStatusCode)
+                ),
                 Module_Title: faker.word.sample(),
             })),
             null,
@@ -12559,8 +13777,13 @@ export const getModulesModuleIdObjectVisieAlgemeenLatestLineageIdGetResponseMock
                         min: undefined,
                         max: undefined,
                     }),
+                    Module_Object_Status: faker.helpers.arrayElement(
+                        Object.values(PublicModuleStatusCode)
+                    ),
                     Module_Object_UUID: faker.string.uuid(),
-                    Module_Status: faker.word.sample(),
+                    Module_Status: faker.helpers.arrayElement(
+                        Object.values(ModuleStatusCode)
+                    ),
                     Module_Title: faker.word.sample(),
                 })),
                 null,
@@ -12674,8 +13897,13 @@ export const getModulesModuleIdObjectVisieAlgemeenVersionObjectUuidGetResponseMo
                         min: undefined,
                         max: undefined,
                     }),
+                    Module_Object_Status: faker.helpers.arrayElement(
+                        Object.values(PublicModuleStatusCode)
+                    ),
                     Module_Object_UUID: faker.string.uuid(),
-                    Module_Status: faker.word.sample(),
+                    Module_Status: faker.helpers.arrayElement(
+                        Object.values(ModuleStatusCode)
+                    ),
                     Module_Title: faker.word.sample(),
                 })),
                 null,
@@ -12855,8 +14083,13 @@ export const getRevisionsModuleIdVisieAlgemeenVersionObjectUuidGetResponseMock =
                         min: undefined,
                         max: undefined,
                     }),
+                    Module_Object_Status: faker.helpers.arrayElement(
+                        Object.values(PublicModuleStatusCode)
+                    ),
                     Module_Object_UUID: faker.string.uuid(),
-                    Module_Status: faker.word.sample(),
+                    Module_Status: faker.helpers.arrayElement(
+                        Object.values(ModuleStatusCode)
+                    ),
                     Module_Title: faker.word.sample(),
                 })),
                 null,
@@ -12915,6 +14148,13 @@ export const getWerkingsgebiedenValidGetResponseMock = (
             faker.number.int({ min: undefined, max: undefined }),
             undefined,
         ]),
+        Onderverdelingen: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => faker.word.sample()),
+            undefined,
+        ]),
         Start_Validity: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -12967,6 +14207,13 @@ export const getWerkingsgebiedenValidLineageIdGetResponseMock = (
         ]),
         Object_ID: faker.helpers.arrayElement([
             faker.number.int({ min: undefined, max: undefined }),
+            undefined,
+        ]),
+        Onderverdelingen: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => faker.word.sample()),
             undefined,
         ]),
         Start_Validity: faker.helpers.arrayElement([
@@ -13304,6 +14551,13 @@ export const getModulesModuleIdObjectWerkingsgebiedLineageIdGetResponseMock = (
                     undefined,
                 ]),
             },
+            undefined,
+        ]),
+        Onderverdelingen: faker.helpers.arrayElement([
+            Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1
+            ).map(() => faker.word.sample()),
             undefined,
         ]),
         Start_Validity: faker.helpers.arrayElement([
@@ -18567,6 +19821,302 @@ export const getNationaalBelangStaticLineageIdPostMockHandler = (
     })
 }
 
+export const getOnderverdelingenValidGetMockHandler = (
+    overrideResponse?:
+        | PagedResponseOnderverdelingBasic
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) =>
+              | Promise<PagedResponseOnderverdelingBasic>
+              | PagedResponseOnderverdelingBasic)
+) => {
+    return http.get('*/onderverdelingen/valid', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getOnderverdelingenValidGetResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getOnderverdelingenValidLineageIdGetMockHandler = (
+    overrideResponse?:
+        | PagedResponseOnderverdelingBasic
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) =>
+              | Promise<PagedResponseOnderverdelingBasic>
+              | PagedResponseOnderverdelingBasic)
+) => {
+    return http.get('*/onderverdelingen/valid/:lineageId', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getOnderverdelingenValidLineageIdGetResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getOnderverdelingenVersionObjectUuidGetMockHandler = (
+    overrideResponse?:
+        | OnderverdelingFull
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<OnderverdelingFull> | OnderverdelingFull)
+) => {
+    return http.get('*/onderverdelingen/version/:objectUuid', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getOnderverdelingenVersionObjectUuidGetResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getOnderverdelingenLatestLineageIdGetMockHandler = (
+    overrideResponse?:
+        | OnderverdelingFull
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<OnderverdelingFull> | OnderverdelingFull)
+) => {
+    return http.get('*/onderverdelingen/latest/:lineageId', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getOnderverdelingenLatestLineageIdGetResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getOnderverdelingStaticLineageIdPostMockHandler = (
+    overrideResponse?:
+        | ResponseOK
+        | ((
+              info: Parameters<Parameters<typeof http.post>[1]>[0]
+          ) => Promise<ResponseOK> | ResponseOK)
+) => {
+    return http.post('*/onderverdeling/static/:lineageId', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getOnderverdelingStaticLineageIdPostResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getModulesModuleIdObjectOnderverdelingLineageIdGetMockHandler = (
+    overrideResponse?:
+        | PagedResponseOnderverdelingExtended
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) =>
+              | Promise<PagedResponseOnderverdelingExtended>
+              | PagedResponseOnderverdelingExtended)
+) => {
+    return http.get(
+        '*/modules/:moduleId/object/onderverdeling/:lineageId',
+        async info => {
+            await delay(1000)
+            return new HttpResponse(
+                JSON.stringify(
+                    overrideResponse !== undefined
+                        ? typeof overrideResponse === 'function'
+                            ? await overrideResponse(info)
+                            : overrideResponse
+                        : getModulesModuleIdObjectOnderverdelingLineageIdGetResponseMock()
+                ),
+                {
+                    status: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+        }
+    )
+}
+
+export const getModulesModuleIdObjectOnderverdelingLatestLineageIdGetMockHandler =
+    (
+        overrideResponse?:
+            | OnderverdelingFull
+            | ((
+                  info: Parameters<Parameters<typeof http.get>[1]>[0]
+              ) => Promise<OnderverdelingFull> | OnderverdelingFull)
+    ) => {
+        return http.get(
+            '*/modules/:moduleId/object/onderverdeling/latest/:lineageId',
+            async info => {
+                await delay(1000)
+                return new HttpResponse(
+                    JSON.stringify(
+                        overrideResponse !== undefined
+                            ? typeof overrideResponse === 'function'
+                                ? await overrideResponse(info)
+                                : overrideResponse
+                            : getModulesModuleIdObjectOnderverdelingLatestLineageIdGetResponseMock()
+                    ),
+                    {
+                        status: 200,
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                )
+            }
+        )
+    }
+
+export const getModulesModuleIdObjectOnderverdelingVersionObjectUuidGetMockHandler =
+    (
+        overrideResponse?:
+            | OnderverdelingFull
+            | ((
+                  info: Parameters<Parameters<typeof http.get>[1]>[0]
+              ) => Promise<OnderverdelingFull> | OnderverdelingFull)
+    ) => {
+        return http.get(
+            '*/modules/:moduleId/object/onderverdeling/version/:objectUuid',
+            async info => {
+                await delay(1000)
+                return new HttpResponse(
+                    JSON.stringify(
+                        overrideResponse !== undefined
+                            ? typeof overrideResponse === 'function'
+                                ? await overrideResponse(info)
+                                : overrideResponse
+                            : getModulesModuleIdObjectOnderverdelingVersionObjectUuidGetResponseMock()
+                    ),
+                    {
+                        status: 200,
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                )
+            }
+        )
+    }
+
+export const getModulesObjectOnderverdelingActiveLineageIdGetMockHandler = (
+    overrideResponse?:
+        | ActiveModuleObjectWrapper[]
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) =>
+              | Promise<ActiveModuleObjectWrapper[]>
+              | ActiveModuleObjectWrapper[])
+) => {
+    return http.get(
+        '*/modules/object/onderverdeling/active/:lineageId',
+        async info => {
+            await delay(1000)
+            return new HttpResponse(
+                JSON.stringify(
+                    overrideResponse !== undefined
+                        ? typeof overrideResponse === 'function'
+                            ? await overrideResponse(info)
+                            : overrideResponse
+                        : getModulesObjectOnderverdelingActiveLineageIdGetResponseMock()
+                ),
+                {
+                    status: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+        }
+    )
+}
+
+export const getRevisionsModuleIdOnderverdelingVersionObjectUuidGetMockHandler =
+    (
+        overrideResponse?:
+            | OnderverdelingFull
+            | ((
+                  info: Parameters<Parameters<typeof http.get>[1]>[0]
+              ) => Promise<OnderverdelingFull> | OnderverdelingFull)
+    ) => {
+        return http.get(
+            '*/revisions/:moduleId/onderverdeling/version/:objectUuid',
+            async info => {
+                await delay(1000)
+                return new HttpResponse(
+                    JSON.stringify(
+                        overrideResponse !== undefined
+                            ? typeof overrideResponse === 'function'
+                                ? await overrideResponse(info)
+                                : overrideResponse
+                            : getRevisionsModuleIdOnderverdelingVersionObjectUuidGetResponseMock()
+                    ),
+                    {
+                        status: 200,
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                )
+            }
+        )
+    }
+
 export const getProgrammasAlgemeenValidGetMockHandler = (
     overrideResponse?:
         | PagedResponseProgrammaAlgemeenBasic
@@ -22437,6 +23987,16 @@ export const getOmgevingsbeleidAPIMock = () => [
     getNationaalBelangRelationsLineageIdGetMockHandler(),
     getNationaalBelangRelationsLineageIdPutMockHandler(),
     getNationaalBelangStaticLineageIdPostMockHandler(),
+    getOnderverdelingenValidGetMockHandler(),
+    getOnderverdelingenValidLineageIdGetMockHandler(),
+    getOnderverdelingenVersionObjectUuidGetMockHandler(),
+    getOnderverdelingenLatestLineageIdGetMockHandler(),
+    getOnderverdelingStaticLineageIdPostMockHandler(),
+    getModulesModuleIdObjectOnderverdelingLineageIdGetMockHandler(),
+    getModulesModuleIdObjectOnderverdelingLatestLineageIdGetMockHandler(),
+    getModulesModuleIdObjectOnderverdelingVersionObjectUuidGetMockHandler(),
+    getModulesObjectOnderverdelingActiveLineageIdGetMockHandler(),
+    getRevisionsModuleIdOnderverdelingVersionObjectUuidGetMockHandler(),
     getProgrammasAlgemeenValidGetMockHandler(),
     getProgrammasAlgemeenValidLineageIdGetMockHandler(),
     getProgrammasAlgemeenVersionObjectUuidGetMockHandler(),

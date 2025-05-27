@@ -15,7 +15,7 @@ function ButtonSubmitFixed({
     onCancel,
 }: ButtonSubmitFixedProps) {
     return (
-        <div className="pointer-events-none sticky bottom-4 z-1 mt-10 grid">
+        <div className="pointer-events-none sticky bottom-4 z-[1] mt-10 grid">
             <div className="col-span-6">
                 <div className="flex justify-end">
                     <div className="pointer-events-auto flex rounded bg-pzh-white p-2 pl-4 align-middle shadow-card">

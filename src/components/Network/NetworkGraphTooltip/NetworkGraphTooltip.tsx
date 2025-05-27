@@ -36,7 +36,7 @@ const NetworkGraphTooltip = forwardRef<
             'left-[-100%]': !variables.active,
         })}>
         <span className="-mt-2.5 block h-2.5 w-full" />
-        <div className="rounded bg-black/80 px-3 pb-2 pt-3">
+        <div className="rounded bg-pzh-black/80 px-3 pb-2 pt-3">
             <span className="block text-s capitalize text-pzh-white">
                 {content?.type}
             </span>

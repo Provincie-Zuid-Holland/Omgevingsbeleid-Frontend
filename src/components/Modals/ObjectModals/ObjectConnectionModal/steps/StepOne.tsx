@@ -117,6 +117,7 @@ const Connection = ({
                                 setFieldValue('Title', Title)
                                 setFieldValue('Description', Description)
                                 setFieldValue('Object_ID', Object_ID)
+                                setFieldValue('type', 'edit')
                                 setStep(3)
                             }}
                             aria-label="Wijzigen">

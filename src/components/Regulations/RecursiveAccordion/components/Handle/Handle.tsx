@@ -98,7 +98,7 @@ const Handle = ({
                     {section.defaults.singularCapitalize} {index}: {title}
                 </Text>
             </div>
-            <div className="relative z-1 flex items-center gap-4">
+            <div className="relative z-[1] flex items-center gap-4">
                 <Button
                     variant="default"
                     onPress={handleDelete}

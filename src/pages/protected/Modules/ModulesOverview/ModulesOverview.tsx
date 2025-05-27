@@ -100,6 +100,7 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
             filter_title: filter?.filter_title
                 ? `%${filter.filter_title}%`
                 : undefined,
+            filter_successful: type === 'archive' ? true : undefined,
             sort_column:
                 (sortBy?.[0]?.id as ModuleSortColumn) || 'Modified_Date',
             sort_order: sortBy?.[0]?.desc ? 'DESC' : 'ASC',

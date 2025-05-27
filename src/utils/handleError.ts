@@ -9,6 +9,7 @@ export interface Error {
 const ERRORS: { [key: string]: string } = {
     'none is not an allowed value': 'Dit veld is verplicht.',
     'field required': 'Dit veld is verplicht.',
+    'Input should be a valid string': 'Dit veld is verplicht.',
 }
 
 const handleError = <T>(err: Error, helpers: FormikHelpers<T>) => {
@@ -18,8 +19,6 @@ const handleError = <T>(err: Error, helpers: FormikHelpers<T>) => {
             const fieldPath =
                 item.loc[0] === 'body' ? item.loc.slice(1) : item.loc
             const fieldName = fieldPath.join('.')
-
-            console.log(fieldName)
 
             helpers.setFieldError(fieldName, ERRORS[item.msg] || item.msg)
             helpers.setFieldTouched(fieldName, true)
