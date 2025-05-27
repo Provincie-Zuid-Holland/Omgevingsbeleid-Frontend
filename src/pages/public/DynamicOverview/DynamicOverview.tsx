@@ -10,7 +10,7 @@ import ObjectList from '@/components/ObjectList'
 import { Model } from '@/config/objects/types'
 import useSearchParam from '@/hooks/useSearchParam'
 
-const PAGE_LIMIT = 20
+const PAGE_LIMIT = 50
 
 interface DynamicOverviewProps {
     model: Model
