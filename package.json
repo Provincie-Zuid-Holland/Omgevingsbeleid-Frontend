@@ -110,7 +110,8 @@
         "vitest": "^2.1.1"
     },
     "resolutions": {
-        "prosemirror-model": "^1.22.2"
+        "prosemirror-model": "^1.22.2",
+        "react-leaflet": "^4.2.1"
     },
     "msw": {
         "workerDirectory": "public"
