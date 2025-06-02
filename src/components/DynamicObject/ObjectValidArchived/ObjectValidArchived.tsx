@@ -64,9 +64,9 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                                 key={object.UUID}
                                 to={`/${slugOverview}/${plural}/${object.UUID}`}
                                 target="_blank"
-                                className="grid grid-cols-9 border-b border-pzh-gray-300 px-3 py-2 hover:bg-pzh-gray-100">
+                                className="border-pzh-gray-300 hover:bg-pzh-gray-100 grid grid-cols-9 border-b px-3 py-2">
                                 <div className="col-span-5">
-                                    <Text>{object.Title}</Text>
+                                    <Text bold>{object.Title}</Text>
                                 </div>
                                 <div className="col-span-2">
                                     <Text>
