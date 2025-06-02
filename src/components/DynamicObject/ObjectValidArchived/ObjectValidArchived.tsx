@@ -66,7 +66,7 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                                 target="_blank"
                                 className="border-pzh-gray-300 hover:bg-pzh-gray-100 grid grid-cols-9 border-b px-3 py-2">
                                 <div className="col-span-5">
-                                    <Text>{object.Title}</Text>
+                                    <Text bold>{object.Title}</Text>
                                 </div>
                                 <div className="col-span-2">
                                     <Text>

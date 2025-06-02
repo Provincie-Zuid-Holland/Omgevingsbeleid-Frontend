@@ -81,7 +81,9 @@ const Item = ({ label, user: providedUser, isLoading }: ItemProps) => {
 
     return (
         <div className="mt-3 border-b border-pzh-gray-300 pb-2">
-            <Text bold>{label}</Text>
+            <Text bold color="text-pzh-blue-500">
+                {label}
+            </Text>
             <div className="relative flex items-center justify-between">
                 {!isLoading ? (
                     <Text className={!user ? 'text-pzh-gray-600' : ''}>

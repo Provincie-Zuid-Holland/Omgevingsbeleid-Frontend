@@ -3440,9 +3440,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.610":
-  version: 0.0.610
-  resolution: "@pzh-ui/components@npm:0.0.610"
+"@pzh-ui/components@npm:^0.0.611":
+  version: 0.0.611
+  resolution: "@pzh-ui/components@npm:0.0.611"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
@@ -3495,7 +3495,7 @@ __metadata:
     react-toastify: "npm:^9.1.2"
     tailwind-merge: "npm:^3.2.0"
     uuid: "npm:^11.1.0"
-  checksum: d2be572ab48ba59303a886bc44c30da4f56ec325446172915723498966eb44125d2fd712d36ad3d6c83e3639f5567b2f5f64bb2192b896d8950f7f7796402393
+  checksum: 344929937345b9ed53cb5c3414e0e810643031bde644f7a7202d608bed5c3920d070873a705d67b43f1a74da2ab7b07b0513c6f4ed3a4026a74b272bbf988c9b
   languageName: node
   linkType: hard
 
@@ -3548,13 +3548,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/icons@npm:^0.0.81":
-  version: 0.0.81
-  resolution: "@pzh-ui/icons@npm:0.0.81"
+"@pzh-ui/icons@npm:^0.0.82":
+  version: 0.0.82
+  resolution: "@pzh-ui/icons@npm:0.0.82"
   dependencies:
     react: "npm:^18.2.0"
     react-toastify: "npm:^9.1.2"
-  checksum: f3b32d1840b8a1996cf76427a45e17c0e152dc086a28be6172c2db5403a7de721a8e3e7a874ae0a761cce210b8779d009de761433d089c4496d0bd7a3389ca31
+  checksum: 4b60a39f1b2c6fc871952e8bdc524dc44d44f0ef3364181916504a23c130c06e885c6558c8f1e411d6f455076e8eefb1f7cf5a1b857f12996e8fe647e2b556de
   languageName: node
   linkType: hard
 
@@ -4727,17 +4727,6 @@ __metadata:
     react: ^18.0.0
     react-dom: ^18.0.0
   checksum: 12ce28b85cf6712a1a7b7c49466b941fc619bc7b1535308bc5711a35f7e89eb16298babfd62f6b3a92e64abf94dcf517b2bc460f59fcf20599821bc6ab3b3048
-  languageName: node
-  linkType: hard
-
-"@react-leaflet/core@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@react-leaflet/core@npm:3.0.0"
-  peerDependencies:
-    leaflet: ^1.9.0
-    react: ^19.0.0
-    react-dom: ^19.0.0
-  checksum: 193f4928ff609a922493f05e2f301f53a3d9b8387e90fc6ab4bc4f78f97272cad000fbdf0f1d23069f67cb35d3d855734ce5a5feab98619aebfc3334be2967c7
   languageName: node
   linkType: hard
 
@@ -14449,10 +14438,10 @@ __metadata:
     "@axe-core/react": "npm:^4.10.0"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-    "@pzh-ui/components": "npm:^0.0.610"
+    "@pzh-ui/components": "npm:^0.0.611"
     "@pzh-ui/config": "npm:^0.0.80"
     "@pzh-ui/css": "npm:^0.0.113"
-    "@pzh-ui/icons": "npm:^0.0.81"
+    "@pzh-ui/icons": "npm:^0.0.82"
     "@react-hookz/web": "npm:^24.0.4"
     "@tailwindcss/cli": "npm:^4.1.4"
     "@tailwindcss/vite": "npm:^4.1.4"
@@ -14714,20 +14703,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-leaflet@npm:*":
-  version: 5.0.0
-  resolution: "react-leaflet@npm:5.0.0"
-  dependencies:
-    "@react-leaflet/core": "npm:^3.0.0"
-  peerDependencies:
-    leaflet: ^1.9.0
-    react: ^19.0.0
-    react-dom: ^19.0.0
-  checksum: 170bf8d83141c8406fddc8cab41608ec6938efaafa5ae08c2060f9c0739370b84ed61d809c092d9f9ea79461399519f18f1cdf06dcb0e26d61d89eda46fb30be
-  languageName: node
-  linkType: hard
-
-"react-leaflet@npm:^4.2.1":
+"react-leaflet@npm:*, react-leaflet@npm:^4.2.1":
   version: 4.2.1
   resolution: "react-leaflet@npm:4.2.1"
   dependencies:
