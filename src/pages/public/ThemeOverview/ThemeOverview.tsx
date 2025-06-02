@@ -15,7 +15,7 @@ const META = {
         'De provincie heeft een aantal beleidsdoelen geformuleerd. Deze beleidsdoelen zijn direct de thema’s voor de thematische programma’s. Een overzicht van alle thematische programma’s vindt u hier.',
 }
 
-const PAGE_LIMIT = 20
+const PAGE_LIMIT = 50
 
 function ThemeOverview() {
     const [currPage, setCurrPage] = useState(1)

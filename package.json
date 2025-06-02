@@ -7,7 +7,7 @@
     "dependencies": {
         "@headlessui/react": "^1.7.17",
         "@pzh-ui/components": "^0.0.610",
-        "@pzh-ui/config": "^0.0.78",
+        "@pzh-ui/config": "^0.0.80",
         "@pzh-ui/css": "^0.0.113",
         "@pzh-ui/icons": "^0.0.81",
         "@react-hookz/web": "^24.0.4",
@@ -93,8 +93,6 @@
         "c8": "^8.0.0",
         "concurrently": "^8.2.2",
         "dotenv": "^16.4.5",
-        "eslint": "^8.48.0",
-        "eslint-plugin-prettier": "^5.0.0",
         "formik": "^2.4.6",
         "jsdom": "^25.0.1",
         "msw": "^2.4.9",
@@ -103,15 +101,14 @@
         "rollup-plugin-visualizer": "^5.11.0",
         "sass": "^1.63.6",
         "tailwindcss": "^4.1.4",
-        "typescript": "^5.8.2",
+        "typescript": "^5.8.3",
         "vite": "^5.4.7",
         "vite-plugin-svgr": "^4.2.0",
         "vite-tsconfig-paths": "^5.0.1",
         "vitest": "^2.1.1"
     },
     "resolutions": {
-        "prosemirror-model": "^1.22.2",
-        "react-leaflet": "^4.2.1"
+        "prosemirror-model": "^1.22.2"
     },
     "msw": {
         "workerDirectory": "public"

@@ -46,7 +46,7 @@ export interface DynamicObject<
     StaticData = any,
     QueryKeys = {
         [key: string]: any
-    }
+    },
 > {
     /** Default information of object */
     defaults: {

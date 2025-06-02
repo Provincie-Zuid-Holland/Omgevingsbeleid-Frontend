@@ -47,7 +47,7 @@ const FieldFile = ({
                     <FieldInput name={name} defaultValue={fileName} />
                 </div>
                 <Button>Bestand kiezen</Button>
-                <div className="absolute left-0 top-0 h-full w-full opacity-0">
+                <div className="absolute top-0 left-0 h-full w-full opacity-0">
                     <FormikInput name="File" type="hidden" />
                     <input
                         name={name}

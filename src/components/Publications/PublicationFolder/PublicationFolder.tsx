@@ -49,7 +49,11 @@ const PublicationFolder = ({
         }))
     )
 
-    const [hasOverflowClass, setHasOverflowClass] = useState(false)
+    const [hasOverflowClass, setHasOverflowClass] = useState(
+        activeFolders.procedureTypes?.includes(
+            `${moduleId}-${environment.UUID}-${procedureType}`
+        )
+    )
 
     const documentTypes = Object.keys(DocumentType) as Array<DocumentType>
 

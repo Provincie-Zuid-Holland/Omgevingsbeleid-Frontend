@@ -64,7 +64,7 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                                 key={object.UUID}
                                 to={`/${slugOverview}/${plural}/${object.UUID}`}
                                 target="_blank"
-                                className="grid grid-cols-9 border-b border-pzh-gray-300 px-3 py-2 hover:bg-pzh-gray-100">
+                                className="border-pzh-gray-300 hover:bg-pzh-gray-100 grid grid-cols-9 border-b px-3 py-2">
                                 <div className="col-span-5">
                                     <Text>{object.Title}</Text>
                                 </div>
@@ -79,13 +79,19 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                                 </div>
                                 <div className="col-span-2 flex items-center justify-between">
                                     <Text>
-                                        {object.Next_Version &&
-                                            formatDate(
-                                                new Date(
-                                                    object.Next_Version.Start_Validity
-                                                ),
-                                                'dd-MM-yyyy'
-                                            )}
+                                        {'Next_Version' in object &&
+                                        object.Next_Version
+                                            ? formatDate(
+                                                  new Date(
+                                                      (
+                                                          object.Next_Version as {
+                                                              Start_Validity: string
+                                                          }
+                                                      ).Start_Validity
+                                                  ),
+                                                  'dd-MM-yyyy'
+                                              )
+                                            : null}
                                     </Text>
                                     <Eye
                                         className="text-pzh-green-500"
