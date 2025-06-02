@@ -59,12 +59,10 @@ const ObjectConnectionPart = ({
     )
 
     return (
-        <div className="relative mt-3 flex items-center justify-between border-b border-pzh-gray-300 pb-4">
+        <div className="border-pzh-gray-300 relative mt-4 flex items-center justify-between border-b pb-4">
             <div className="flex items-center">
                 <Indicator amount={amount} />
-                <span className="-mb-1 ml-3">
-                    {model.defaults.pluralCapitalize}
-                </span>
+                <span className="ml-3">{model.defaults.pluralCapitalize}</span>
             </div>
 
             <button
@@ -77,15 +75,15 @@ const ObjectConnectionPart = ({
                 onClick={() => handleButtonClick(amount)}
                 disabled={!canEdit}
                 aria-label={amount === 0 ? 'Toevoegen' : 'Wijzigen'}
-                className="after:content-[' '] after:absolute after:left-0 after:top-0 after:h-full after:w-full">
+                className="after:content-[' '] after:absolute after:top-0 after:left-0 after:h-full after:w-full">
                 {canEdit &&
                     (isLoading ? (
                         <Spinner
                             size={14}
-                            className="animate-spin text-pzh-gray-600"
+                            className="text-pzh-gray-600 animate-spin"
                         />
                     ) : amount === 0 ? (
-                        <div className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-pzh-green-500">
+                        <div className="bg-pzh-green-500 flex h-[18px] w-[18px] items-center justify-center rounded-full">
                             <Plus size={14} className="text-pzh-white" />
                         </div>
                     ) : (
