@@ -2,6 +2,7 @@ import { PenToSquare, Plus, Spinner } from '@pzh-ui/icons'
 import { useMemo } from 'react'
 
 import { ReadRelation } from '@/api/fetchers.schemas'
+import Indicator from '@/components/Indicator'
 import { ObjectConnectionModalActions } from '@/components/Modals/ObjectModals/types'
 import { Model } from '@/config/objects/types'
 import useModalStore from '@/store/modalStore'
@@ -60,9 +61,7 @@ const ObjectConnectionPart = ({
     return (
         <div className="relative mt-3 flex items-center justify-between border-b border-pzh-gray-300 pb-4">
             <div className="flex items-center">
-                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-pzh-blue-100/50 text-pzh-blue-500">
-                    <span className="-mb-1 text-s font-bold">{amount}</span>
-                </div>
+                <Indicator amount={amount} />
                 <span className="-mb-1 ml-3">
                     {model.defaults.pluralCapitalize}
                 </span>

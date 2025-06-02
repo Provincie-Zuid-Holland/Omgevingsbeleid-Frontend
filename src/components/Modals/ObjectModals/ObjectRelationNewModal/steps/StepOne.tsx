@@ -19,7 +19,7 @@ export const StepOne = ({ title, id, model, relations }: StepProps) => {
         ...(relations?.map(relation => relation.Side_B.Object_ID) || []),
         ...(id ? [id] : []),
     ]
-
+    
     return (
         <>
             <Text className="mb-4">
