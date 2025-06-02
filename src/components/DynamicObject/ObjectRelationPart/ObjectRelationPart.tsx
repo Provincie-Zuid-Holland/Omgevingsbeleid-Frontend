@@ -1,5 +1,6 @@
 import { Eye, Spinner } from '@pzh-ui/icons'
-import classNames from 'clsx'
+
+import Indicator from '@/components/Indicator'
 
 interface ObjectRelationPartProps {
     /** Title */
@@ -26,18 +27,7 @@ const ObjectRelationPart = ({
 }: ObjectRelationPartProps) => (
     <div className="relative mt-3 flex items-center justify-between border-b border-pzh-gray-300 pb-4">
         <div className="flex items-center">
-            <div
-                className={classNames(
-                    'relative flex h-6 w-6 items-center justify-center rounded-full',
-                    {
-                        'after:content-[" "] bg-pzh-blue-500 text-pzh-white after:absolute after:-left-1 after:-top-1 after:h-3 after:w-3 after:rounded-full after:border after:border-pzh-white after:bg-pzh-red-500':
-                            hasNotification,
-                        'bg-pzh-blue-100/50 text-pzh-blue-500':
-                            !hasNotification,
-                    }
-                )}>
-                <span className="-mb-1 text-s font-bold">{amount}</span>
-            </div>
+            <Indicator amount={amount} hasNotification={hasNotification} />
             <span className="-mb-1 ml-3">{title}</span>
         </div>
 
