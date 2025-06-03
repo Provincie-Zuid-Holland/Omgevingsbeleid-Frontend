@@ -14,7 +14,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
-import useModalStore from '@/store/modalStore'
 import MutateLayout from '@/templates/MutateLayout'
 import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
@@ -26,8 +25,6 @@ interface ObjectWriteProps {
 const ObjectWrite = ({ model }: ObjectWriteProps) => {
     const queryClient = useQueryClient()
     const navigate = useNavigate()
-
-    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const { objectId } = useParams()
 
@@ -223,7 +220,11 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
                                         name="consent"
                                         className="block">
                                         Ik wil {demonstrative}{' '}
-                                        {singularReadable} voorgoed verwijderen
+                                        {singularReadable}
+                                        {!!relations?.length
+                                            ? ' inclusief gemaakte koppelingen'
+                                            : null}{' '}
+                                        voorgoed verwijderen
                                     </FormikCheckbox>
                                     <Button
                                         type="submit"
