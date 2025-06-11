@@ -3341,6 +3341,8 @@ export interface DocumentFull {
     Start_Validity?: DocumentFullStartValidity
     Title?: string
     UUID?: string
+    Next_Version?: AmbitieFullNextVersion
+    Public_Revisions?: AmbitieFullPublicRevisions
 }
 
 export type DocumentExtendedStaticsOwner2 = UserShort | null

@@ -224,6 +224,32 @@ const maatregel: DynamicObject<
                 },
             ],
         },
+        {
+            title: 'Document/bijlage',
+            fields: [
+                {
+                    name: 'Documents',
+                    fieldName: 'Documents',
+                    label: 'Selecteer één of meerdere documenten',
+                    type: 'search',
+                    filterType: ['document'],
+                    objectKey: 'Document_Code',
+                    isMulti: true,
+                    closeMenuOnSelect: false,
+                    status: 'all',
+                    placeholder: 'Kies een of meerdere opties',
+                    components: {
+                        DropdownIndicator: () => (
+                            <div className="mr-4">
+                                <AngleDown className="text-pzh-blue-900" />
+                            </div>
+                        ),
+                    },
+                    // @ts-ignore
+                    validation: schemaDefaults.optionalArray,
+                },
+            ],
+        },
     ],
 }
 

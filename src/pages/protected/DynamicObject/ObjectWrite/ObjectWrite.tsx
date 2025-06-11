@@ -12,6 +12,7 @@ import { useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
+import { LoaderSpinner } from '@/components/Loader'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 import MutateLayout from '@/templates/MutateLayout'
@@ -51,10 +52,13 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
         }
     )
 
-    const { data: relations, queryKey: relationsQueryKey } =
-        useGetRelations?.(parseInt(objectId!), {
-            query: { enabled: !!objectId },
-        }) || {}
+    const {
+        data: relations,
+        queryKey: relationsQueryKey,
+        isLoading: relationsLoading,
+    } = useGetRelations?.(parseInt(objectId!), {
+        query: { enabled: !!objectId },
+    }) || {}
 
     const { queryKey: validQueryKey } = useGetValid(undefined, {
         query: { enabled: false },
@@ -207,35 +211,41 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
                     </div>
 
                     <div className="col-span-6 sm:col-span-4">
-                        <Formik
-                            onSubmit={handleDeletion}
-                            initialValues={{ consent: false }}>
-                            {({ dirty, isSubmitting }) => (
-                                <Form>
-                                    <FieldLabel
-                                        name="consent"
-                                        label={`Let op! Het verwijderen van ${demonstrative} ${singularReadable} is niet terug te draaien`}
-                                    />
-                                    <FormikCheckbox
-                                        name="consent"
-                                        className="block">
-                                        Ik wil {demonstrative}{' '}
-                                        {singularReadable}
-                                        {!!relations?.length
-                                            ? ' inclusief gemaakte koppelingen'
-                                            : null}{' '}
-                                        voorgoed verwijderen
-                                    </FormikCheckbox>
-                                    <Button
-                                        type="submit"
-                                        isDisabled={!dirty || isSubmitting}
-                                        isLoading={isSubmitting}
-                                        className="mt-4">
-                                        {singularCapitalize} verwijderen
-                                    </Button>
-                                </Form>
-                            )}
-                        </Formik>
+                        {!relationsLoading ? (
+                            <Formik
+                                onSubmit={handleDeletion}
+                                initialValues={{ consent: false }}>
+                                {({ dirty, isSubmitting }) => (
+                                    <Form>
+                                        <FieldLabel
+                                            name="consent"
+                                            label={`Let op! Het verwijderen van ${demonstrative} ${singularReadable} is niet terug te draaien`}
+                                        />
+                                        <FormikCheckbox
+                                            name="consent"
+                                            className="block">
+                                            Ik wil {demonstrative}{' '}
+                                            {singularReadable}
+                                            {!!relations?.length
+                                                ? ' inclusief gemaakte koppelingen'
+                                                : null}{' '}
+                                            voorgoed verwijderen
+                                        </FormikCheckbox>
+                                        <Button
+                                            type="submit"
+                                            isDisabled={!dirty || isSubmitting}
+                                            isLoading={isSubmitting}
+                                            className="mt-4">
+                                            {singularCapitalize} verwijderen
+                                        </Button>
+                                    </Form>
+                                )}
+                            </Formik>
+                        ) : (
+                            <div className="flex justify-center">
+                                <LoaderSpinner />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

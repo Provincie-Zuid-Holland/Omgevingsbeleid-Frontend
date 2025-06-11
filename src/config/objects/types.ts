@@ -12,6 +12,9 @@ import {
     BeleidskeuzeStaticPostStatics,
     BeleidsregelPatch,
     BeleidsregelStaticPostStatics,
+    DocumentFull,
+    DocumentPatch,
+    DocumentStaticPostStatics,
     GebiedsprogrammaFull,
     GebiedsprogrammaPatch,
     GebiedsprogrammaStaticPostStatics,
@@ -43,7 +46,7 @@ export interface DynamicObject<
     StaticData = any,
     QueryKeys = {
         [key: string]: any
-    }
+    },
 > {
     /** Default information of object */
     defaults: {
@@ -118,7 +121,8 @@ export type ModelReturnType = BeleidsdoelFull &
     WettelijkeTaakFull &
     VisieAlgemeenFull &
     WerkingsgebiedFull &
-    ProgrammaAlgemeenFull
+    ProgrammaAlgemeenFull &
+    DocumentFull
 
 export type ModelPatchType = BeleidsdoelPatch &
     AmbitiePatch &
@@ -128,7 +132,8 @@ export type ModelPatchType = BeleidsdoelPatch &
     BeleidsregelPatch &
     VisieAlgemeenPatch &
     WerkingsgebiedPatch &
-    ProgrammaAlgemeenPatch
+    ProgrammaAlgemeenPatch &
+    DocumentPatch
 
 export type ModelPatchStaticType = BeleidsdoelStaticPostStatics &
     AmbitieStaticPostStatics &
@@ -138,7 +143,8 @@ export type ModelPatchStaticType = BeleidsdoelStaticPostStatics &
     BeleidsregelStaticPostStatics &
     VisieAlgemeenStaticPostStatics &
     WerkingsgebiedStaticPostStatics &
-    ProgrammaAlgemeenStaticPostStatics
+    ProgrammaAlgemeenStaticPostStatics &
+    DocumentStaticPostStatics
 
 export type Model = (typeof models)[ModelType]
 
