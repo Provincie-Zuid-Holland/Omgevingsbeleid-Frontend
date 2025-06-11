@@ -6,6 +6,7 @@ import {
     Heading,
 } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
+import clsx from 'clsx'
 import { useCallback, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useShallow } from 'zustand/react/shallow'
@@ -17,7 +18,7 @@ import {
     PublicationEnvironment,
 } from '@/api/fetchers.schemas'
 import usePublicationStore from '@/store/publicationStore'
-import clsx from 'clsx'
+
 import Document from './components/Document'
 
 const config = {
@@ -49,7 +50,11 @@ const PublicationFolder = ({
         }))
     )
 
-    const [hasOverflowClass, setHasOverflowClass] = useState(false)
+    const [hasOverflowClass, setHasOverflowClass] = useState(
+        activeFolders.procedureTypes?.includes(
+            `${moduleId}-${environment.UUID}-${procedureType}`
+        )
+    )
 
     const documentTypes = Object.keys(DocumentType) as Array<DocumentType>
 
