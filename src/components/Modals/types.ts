@@ -33,7 +33,6 @@ export type ModalType =
     | 'objectAreaAnnotate'
     | 'objectDetails'
     | 'objectAddConnection'
-    | 'objectDelete'
     | 'objectGeneralInformation'
     | 'objectRelationAdd'
     | 'objectRelationApproved'

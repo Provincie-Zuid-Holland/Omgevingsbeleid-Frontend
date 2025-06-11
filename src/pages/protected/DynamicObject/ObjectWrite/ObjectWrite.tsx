@@ -1,15 +1,19 @@
-import { Button, Heading } from '@pzh-ui/components'
-import { TrashCan } from '@pzh-ui/icons'
+import {
+    Button,
+    Divider,
+    FieldLabel,
+    FormikCheckbox,
+    Heading,
+    Text,
+} from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
-import { FormikHelpers } from 'formik'
+import { Form, Formik, FormikHelpers } from 'formik'
 import { useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
-import ObjectDeleteModal from '@/components/Modals/ObjectModals/ObjectDeleteModal'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
-import useModalStore from '@/store/modalStore'
 import MutateLayout from '@/templates/MutateLayout'
 import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
@@ -22,12 +26,17 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
     const queryClient = useQueryClient()
     const navigate = useNavigate()
 
-    const setActiveModal = useModalStore(state => state.setActiveModal)
-
     const { objectId } = useParams()
 
-    const { singularCapitalize, plural, pluralCapitalize } = model.defaults
     const {
+        singularCapitalize,
+        singularReadable,
+        plural,
+        pluralCapitalize,
+        demonstrative,
+    } = model.defaults
+    const {
+        useDeleteObject,
         usePatchObject,
         useGetLatestLineage,
         useGetValid,
@@ -138,6 +147,24 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
             )
     }
 
+    const deleteObject = useDeleteObject?.({
+        mutation: {
+            onSuccess: () => {
+                queryClient
+                    .invalidateQueries({
+                        queryKey: validQueryKey,
+                        refetchType: 'all',
+                    })
+                    .then(() => navigate(`/muteer/${plural}`))
+
+                toastNotification('objectRemoved')
+            },
+        },
+    })
+
+    const handleDeletion = () =>
+        deleteObject?.mutate({ lineageId: parseInt(objectId!) })
+
     const breadcrumbPaths = [
         { name: 'Dashboard', path: '/muteer' },
         {
@@ -156,12 +183,6 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
                     <Heading level="1" size="xxl">
                         {singularCapitalize} bewerken
                     </Heading>
-                    <Button
-                        variant="secondary"
-                        icon={TrashCan}
-                        onPress={() => setActiveModal('objectDelete')}>
-                        {singularCapitalize} verwijderen
-                    </Button>
                 </div>
 
                 <DynamicObjectForm
@@ -171,9 +192,53 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
                     onCancel={() => navigate(`/muteer/${plural}`)}
                     isLoading={isLoading}
                 />
-            </div>
 
-            <ObjectDeleteModal object={data} model={model} />
+                <div className="grid grid-cols-6 gap-x-10 gap-y-0">
+                    <div className="col-span-6 my-6">
+                        <Divider />
+                    </div>
+                    <div className="col-span-6 sm:col-span-2">
+                        <Heading level="2" size="m" className="mb-3">
+                            {singularCapitalize} verwijderen
+                        </Heading>
+                        <Text>
+                            Verwijder {demonstrative} {singularReadable}.
+                        </Text>
+                    </div>
+
+                    <div className="col-span-6 sm:col-span-4">
+                        <Formik
+                            onSubmit={handleDeletion}
+                            initialValues={{ consent: false }}>
+                            {({ dirty, isSubmitting }) => (
+                                <Form>
+                                    <FieldLabel
+                                        name="consent"
+                                        label={`Let op! Het verwijderen van ${demonstrative} ${singularReadable} is niet terug te draaien`}
+                                    />
+                                    <FormikCheckbox
+                                        name="consent"
+                                        className="block">
+                                        Ik wil {demonstrative}{' '}
+                                        {singularReadable}
+                                        {!!relations?.length
+                                            ? ' inclusief gemaakte koppelingen'
+                                            : null}{' '}
+                                        voorgoed verwijderen
+                                    </FormikCheckbox>
+                                    <Button
+                                        type="submit"
+                                        isDisabled={!dirty || isSubmitting}
+                                        isLoading={isSubmitting}
+                                        className="mt-4">
+                                        {singularCapitalize} verwijderen
+                                    </Button>
+                                </Form>
+                            )}
+                        </Formik>
+                    </div>
+                </div>
+            </div>
         </MutateLayout>
     )
 }
