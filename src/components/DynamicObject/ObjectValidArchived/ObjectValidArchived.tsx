@@ -46,13 +46,19 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                 <div>
                     <div className="grid grid-cols-9 px-3 py-2">
                         <div className="col-span-5">
-                            <Text bold>Naam</Text>
+                            <Text bold color="text-pzh-blue-500">
+                                Naam
+                            </Text>
                         </div>
                         <div className="col-span-2">
-                            <Text bold>Van</Text>
+                            <Text bold color="text-pzh-blue-500">
+                                Van
+                            </Text>
                         </div>
                         <div className="col-span-2">
-                            <Text bold>Tot</Text>
+                            <Text bold color="text-pzh-blue-500">
+                                Tot
+                            </Text>
                         </div>
                     </div>
 
@@ -66,7 +72,9 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                                 target="_blank"
                                 className="grid grid-cols-9 border-b border-pzh-gray-300 px-3 py-2 hover:bg-pzh-gray-100">
                                 <div className="col-span-5">
-                                    <Text>{object.Title}</Text>
+                                    <Text bold color="text-pzh-blue-500">
+                                        {object.Title}
+                                    </Text>
                                 </div>
                                 <div className="col-span-2">
                                     <Text>

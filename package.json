@@ -6,10 +6,10 @@
     "type": "module",
     "dependencies": {
         "@headlessui/react": "^1.7.17",
-        "@pzh-ui/components": "^0.0.609",
+        "@pzh-ui/components": "^0.0.612",
         "@pzh-ui/config": "^0.0.78",
         "@pzh-ui/css": "^0.0.113",
-        "@pzh-ui/icons": "^0.0.81",
+        "@pzh-ui/icons": "^0.0.82",
         "@react-hookz/web": "^24.0.4",
         "@tailwindcss/vite": "^4.1.4",
         "@tanstack/react-query": "^5.69.0",
