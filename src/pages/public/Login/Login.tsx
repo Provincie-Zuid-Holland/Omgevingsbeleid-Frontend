@@ -46,7 +46,7 @@ const Login = () => {
                     <LoginForm />
                 </div>
                 <div className="relative col-span-3 hidden lg:inline-block">
-                    <div className="image-login-1 absolute left-0 top-0 h-[480px] w-[50vw] bg-cover bg-center bg-no-repeat text-white sm:inline-block" />
+                    <div className="image-login-1 absolute left-0 top-0 h-[480px] w-[50vw] bg-cover bg-center bg-no-repeat text-pzh-white sm:inline-block" />
                 </div>
             </Container>
             <div className="image-login-1 block h-64 w-full bg-pzh-blue-500 bg-cover bg-center bg-no-repeat lg:hidden" />

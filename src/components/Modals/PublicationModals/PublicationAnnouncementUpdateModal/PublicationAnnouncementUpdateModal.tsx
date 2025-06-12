@@ -124,7 +124,7 @@ const PublicationAnnouncementUpdateModal = () => {
                     onSubmit={handleSubmit}>
                     {({ isSubmitting }) => (
                         <Form>
-                            <div className="space-y-4">
+                            <div className="flex flex-col gap-4">
                                 <div>
                                     <FormikInput
                                         name="Metadata.Official_Title"
@@ -183,7 +183,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                         required
                                     />
                                 </div>
-                                <div className="flex space-x-4 [&_>div]:flex-1">
+                                <div className="flex gap-4 [&_>div]:flex-1">
                                     <div>
                                         <FormikDate
                                             name="Announcement_Date"
@@ -219,7 +219,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                     variant="link"
                                     type="button"
                                     onPress={() => setActiveModal(null)}
-                                    className="mr-3 text-pzh-blue-500">
+                                    className="text-pzh-blue-500 mr-3">
                                     Annuleren
                                 </Button>
                                 <Button

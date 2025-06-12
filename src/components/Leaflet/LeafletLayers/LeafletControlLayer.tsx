@@ -31,7 +31,7 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                 <div className="leaflet-layers-control">
                     <div className="flex">
                         <button
-                            className={`leaflet-layers z-11 absolute right-0 top-0 flex h-8 w-8 items-center justify-center bg-white p-2 ${
+                            className={`leaflet-layers z-[11] absolute right-0 top-0 flex h-8 w-8 items-center justify-center bg-pzh-white p-2 ${
                                 layerControlOpen ? 'hidden' : ''
                             }`}
                             onClick={() =>
@@ -70,7 +70,7 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                                 <AngleRight size={16} />
                             </button>
                             <div
-                                className="relative z-10 h-[500px] w-[375px] max-w-full overflow-y-auto bg-white shadow-pane"
+                                className="relative z-[10] h-[500px] w-[375px] max-w-full overflow-y-auto bg-pzh-white shadow-pane"
                                 data-testid="leaflet-layers-control-pane">
                                 <div className="w-full">{children}</div>
                             </div>

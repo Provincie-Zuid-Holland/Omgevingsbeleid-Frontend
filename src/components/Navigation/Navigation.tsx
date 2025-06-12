@@ -45,7 +45,7 @@ const Navigation = () => {
                     sticky: !isAdvancedSearchPage,
                     relative: isAdvancedSearchPage,
                     'bg-pzh-blue-500': isOpen || userIsInMuteerEnvironment,
-                    'bg-white': !isOpen && !userIsInMuteerEnvironment,
+                    'bg-pzh-white': !isOpen && !userIsInMuteerEnvironment,
                 }
             )}
             id="top-navigation">
@@ -89,7 +89,7 @@ const Navigation = () => {
                         <MenuIcon
                             setIsOpen={setIsOpen}
                             to="/"
-                            icon={<Eye size={16} className="-mt-1 mr-2" />}
+                            icon={<Eye size={16} className="mr-2" />}
                             color="white">
                             Raadpleegomgeving
                         </MenuIcon>
@@ -98,7 +98,7 @@ const Navigation = () => {
                         <MenuIcon
                             setIsOpen={setIsOpen}
                             to="/muteer"
-                            icon={<Eye size={16} className="-mt-1 mr-2" />}
+                            icon={<Eye size={16} className="mr-2" />}
                             color="blue">
                             Bewerken
                         </MenuIcon>
@@ -111,7 +111,7 @@ const Navigation = () => {
                             icon={
                                 <ArrowRightFromBracket
                                     size={16}
-                                    className="-mt-0.5 mr-2 inline-block"
+                                    className="mr-2 inline-block"
                                     aria-hidden="true"
                                 />
                             }
@@ -160,7 +160,7 @@ const MenuIcon = ({
         className={classNames(
             'flex items-center justify-center rounded font-bold transition duration-300 ease-in',
             {
-                'text-pzh-blue hover:text-pzh-blue-900': color === 'blue',
+                'text-pzh-blue-500 hover:text-pzh-blue-900': color === 'blue',
                 'text-pzh-white': color === 'white',
             }
         )}

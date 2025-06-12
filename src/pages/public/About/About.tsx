@@ -29,14 +29,14 @@ const About = () => (
                     contact op met ons via{' '}
                     <a
                         href="mailto:omgevingsbeleid@pzh.nl"
-                        className="text-pzh-green-500 underline hover:text-pzh-green-900">
+                        className="text-pzh-green-500 hover:text-pzh-green-900 underline">
                         omgevingsbeleid@pzh.nl
                     </a>
                     .
                 </Text>
             </div>
             <div className="relative col-span-3 hidden min-h-[480px] lg:block">
-                <div className="absolute left-0 top-0 h-[480px] w-[50vw] bg-pzh-gray-100 text-center sm:inline-block">
+                <div className="bg-pzh-gray-100 absolute top-0 left-0 h-[480px] w-[50vw] text-center sm:inline-block">
                     <img
                         alt=""
                         className="h-full w-full object-cover"
@@ -63,7 +63,7 @@ const About = () => (
                     hieronder per omgeving getoond.
                 </Text>
                 <div className="mt-8 grid grid-cols-1 gap-12 md:grid-cols-3">
-                    <div className="space-y-2">
+                    <div className="flex flex-col gap-2">
                         <Heading level="3" size="m">
                             Raadpleegomgeving
                         </Heading>
@@ -78,7 +78,7 @@ const About = () => (
                             tussen de beleidsobjecten inzien.
                         </Text>
                     </div>
-                    <div className="space-y-2">
+                    <div className="flex flex-col gap-2">
                         <Heading level="3" size="m">
                             Muteeromgeving
                         </Heading>
@@ -89,7 +89,7 @@ const About = () => (
                             proces van besluitvorming voor hun beleid volgen.
                         </Text>
                     </div>
-                    <div className="space-y-2">
+                    <div className="flex flex-col gap-2">
                         <Heading level="3" size="m">
                             Export naar de LVBB
                         </Heading>
@@ -145,7 +145,7 @@ const About = () => (
                                 Op die manier kunnen andere overheden meedenken
                                 en makkelijker een eigen systeem maken.
                             </Text>
-                            <ul className="mt-4 flex flex-col space-y-2">
+                            <ul className="mt-4 flex flex-col gap-2">
                                 <Hyperlink asChild>
                                     <li>
                                         <a

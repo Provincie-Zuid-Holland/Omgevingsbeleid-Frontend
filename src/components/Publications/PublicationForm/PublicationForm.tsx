@@ -1,4 +1,9 @@
-import { Button, Divider, FormikInput, FormikSelect } from '@pzh-ui/components'
+import {
+    Button,
+    formatDate,
+    FormikInput,
+    FormikSelect,
+} from '@pzh-ui/components'
 import {
     Form,
     Formik,
@@ -9,6 +14,7 @@ import {
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import {
+    useModulesModuleIdStatusGet,
     usePublicationActsGet,
     usePublicationEnvironmentsGet,
     usePublicationTemplatesGet,
@@ -21,10 +27,18 @@ import {
 import { LoaderSpinner } from '@/components/Loader'
 import useModalStore from '@/store/modalStore'
 import { PUBLICATION_EDIT_SCHEMA } from '@/validation/publication'
+import { useParams } from 'react-router-dom'
+
+interface PublicationFormProps {
+    type: 'add' | 'edit'
+    submitText?: string
+}
 
 const PublicationForm = <TData extends FormikValues>({
+    type,
+    submitText = 'Publicatie opslaan',
     ...rest
-}: FormikConfig<TData>) => {
+}: PublicationFormProps & FormikConfig<TData>) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     return (
@@ -33,9 +47,8 @@ const PublicationForm = <TData extends FormikValues>({
             validationSchema={toFormikValidationSchema(PUBLICATION_EDIT_SCHEMA)}
             {...rest}>
             {({ isSubmitting }) => (
-                <Form>
-                    <Fields />
-                    <Divider className="my-6" />
+                <Form className="flex flex-col gap-12">
+                    <Fields type={type} />
                     <div className="flex items-center justify-between">
                         <Button
                             variant="link"
@@ -46,7 +59,7 @@ const PublicationForm = <TData extends FormikValues>({
                             variant="cta"
                             type="submit"
                             isLoading={isSubmitting}>
-                            Publicatie opslaan
+                            {submitText}
                         </Button>
                     </div>
                 </Form>
@@ -55,14 +68,19 @@ const PublicationForm = <TData extends FormikValues>({
     )
 }
 
-const Fields = () => {
+const Fields = ({ type }: PublicationFormProps) => {
+    const { moduleId } = useParams()
     const { values } = useFormikContext<Publication>()
 
     const {
         data: publicationTemplateOptions,
         isFetching: publicationTemplatesFetching,
     } = usePublicationTemplatesGet(
-        { limit: 100 },
+        {
+            limit: 100,
+            is_active: true,
+            document_type: values.Document_Type as DocumentType,
+        },
         {
             query: {
                 select: data =>
@@ -76,7 +94,7 @@ const Fields = () => {
 
     const { data: environmentOptions, isFetching: environmentsFetching } =
         usePublicationEnvironmentsGet(
-            { limit: 100 },
+            { limit: 100, is_active: true },
             {
                 query: {
                     select: data =>
@@ -84,6 +102,7 @@ const Fields = () => {
                             label: environment.Title,
                             value: environment.UUID,
                         })),
+                    enabled: type === 'edit',
                 },
             }
         )
@@ -103,9 +122,28 @@ const Fields = () => {
                             label: act.Title,
                             value: act.UUID,
                         })),
+                    enabled:
+                        !!values.Environment_UUID && !!values.Document_Type,
                 },
             }
         )
+
+    const { data: statusOptions, isFetching: moduleStatusFetching } =
+        useModulesModuleIdStatusGet(parseInt(String(moduleId)), {
+            query: {
+                enabled: !!moduleId && type === 'add',
+                select: data =>
+                    data
+                        .filter(status => status.Status !== 'Niet-Actief')
+                        .map(status => ({
+                            label: `${status.Status} (${formatDate(
+                                new Date(status.Created_Date + 'Z'),
+                                "dd-MM-yyyy 'om' HH:mm"
+                            )})`,
+                            value: status.ID,
+                        })),
+            },
+        })
 
     const documentTypeOptions = Object.entries(DocumentType).map(
         ([, value]) => ({ label: value, value })
@@ -121,7 +159,8 @@ const Fields = () => {
     const isLoading =
         publicationTemplatesFetching ||
         environmentsFetching ||
-        publicationActsFetching
+        publicationActsFetching ||
+        moduleStatusFetching
 
     if (isLoading) {
         return (
@@ -132,37 +171,39 @@ const Fields = () => {
     }
 
     return (
-        <div className="space-y-4">
-            <div className="flex space-x-4 [&_>div]:flex-1">
-                <FormikSelect
-                    name="Document_Type"
-                    label="Instrument"
-                    options={documentTypeOptions}
-                    disabled
-                    required
-                />
-                <FormikSelect
-                    name="Environment_UUID"
-                    label="Publicatieomgeving"
-                    options={environmentOptions}
-                    disabled
-                    required
-                />
-                <FormikSelect
-                    name="Procedure_Type"
-                    label="Type"
-                    options={procedureTypeOptions}
-                    disabled
-                    required
-                />
-            </div>
+        <div className="flex flex-col gap-4">
+            {type === 'edit' && (
+                <div className="flex gap-4 [&_>div]:flex-1">
+                    <FormikSelect
+                        name="Document_Type"
+                        label="Instrument"
+                        options={documentTypeOptions}
+                        disabled
+                        required
+                    />
+                    <FormikSelect
+                        name="Environment_UUID"
+                        label="Publicatieomgeving"
+                        options={environmentOptions}
+                        disabled
+                        required
+                    />
+                    <FormikSelect
+                        name="Procedure_Type"
+                        label="Type"
+                        options={procedureTypeOptions}
+                        disabled
+                        required
+                    />
+                </div>
+            )}
             <div>
                 <FormikSelect
                     name="Act_UUID"
                     label="Regeling"
                     options={publicationActOptions}
                     placeholder="Selecteer een regeling"
-                    disabled
+                    disabled={type === 'edit'}
                     required
                 />
             </div>
@@ -183,6 +224,26 @@ const Fields = () => {
                     required
                 />
             </div>
+            {type === 'add' && (
+                <div>
+                    <FormikSelect
+                        name="Module_Status_ID"
+                        label="Modulestatus"
+                        placeholder="Selecteer een modulestatus"
+                        options={statusOptions}
+                        required
+                        styles={{
+                            menu: base => ({
+                                ...base,
+                                position: 'relative',
+                                zIndex: 9999,
+                                marginTop: 2,
+                                boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                            }),
+                        }}
+                    />
+                </div>
+            )}
         </div>
     )
 }

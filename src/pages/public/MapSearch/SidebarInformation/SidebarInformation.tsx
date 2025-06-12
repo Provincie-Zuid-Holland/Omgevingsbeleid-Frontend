@@ -97,7 +97,7 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
     }, [paramWerkingsgebied, mapInstance])
 
     return (
-        <div className="relative z-1 flex px-4 md:px-0 md:shadow-pane">
+        <div className="relative z-[1] flex px-4 md:px-0 md:shadow-pane">
             <Transition
                 show={!sidebarOpen}
                 enter="transition-all ease-out duration-300 transform"

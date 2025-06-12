@@ -65,6 +65,7 @@ const PublicationEditModal = () => {
                 </div>
             ) : (
                 <PublicationForm
+                    type="edit"
                     onSubmit={handleFormSubmit}
                     initialValues={initialValues}
                 />

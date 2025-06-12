@@ -47,7 +47,7 @@ const ModuleHeader = ({ module }: ModuleHeaderProps) => {
                         <Badge
                             text={module.Status?.Status.replace('-', ' ') || ''}
                             upperCase={false}
-                            className="-mt-2 ml-3 truncate"
+                            className="ml-3 truncate"
                             variant={getModuleStatusColor(
                                 module.Status?.Status
                             )}

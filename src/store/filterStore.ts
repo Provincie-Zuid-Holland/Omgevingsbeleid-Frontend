@@ -44,6 +44,13 @@ const useFilterStore = create<FilterState>(set => ({
                     ],
                     value: 'beleidskeuze',
                 },
+                {
+                    label: models['visie_algemeen']['defaults'][
+                        'pluralCapitalize'
+                    ],
+                    value: 'visie_algemeen',
+                    exclude: ['mapSearch'],
+                },
             ],
         },
         {
@@ -59,6 +66,13 @@ const useFilterStore = create<FilterState>(set => ({
                     ],
                     value: 'gebiedsprogramma',
                     exclude: ['network', 'mapSearch'],
+                },
+                {
+                    label: models['programma_algemeen']['defaults'][
+                        'pluralCapitalize'
+                    ],
+                    value: 'programma_algemeen',
+                    exclude: ['mapSearch'],
                 },
             ],
         },

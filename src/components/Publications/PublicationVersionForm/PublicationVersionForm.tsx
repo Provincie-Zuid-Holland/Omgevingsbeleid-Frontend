@@ -78,7 +78,7 @@ const InnerForm = <TData extends FormikValues>({
 
     return (
         <Form>
-            <div className="space-y-4">
+            <div className="flex flex-col gap-4">
                 <div>
                     <FormikSelect
                         key={isLoading.toString()}
@@ -112,10 +112,10 @@ const InnerForm = <TData extends FormikValues>({
                 />
                 <FormikRte name="Bill_Compact.Signed" label="Ondertekening" />
 
-                <div className="space-y-4 bg-pzh-gray-100 p-4">
+                <div className="bg-pzh-gray-100 flex flex-col gap-4 p-4">
                     <Text>Procedureverloop</Text>
 
-                    <div className="flex space-x-4 [&_>div]:flex-1">
+                    <div className="flex gap-4 [&_>div]:flex-1">
                         <div>
                             <FormikDate
                                 name="Procedural.Enactment_Date"
@@ -142,10 +142,10 @@ const InnerForm = <TData extends FormikValues>({
                     </div>
                 </div>
 
-                <div className="space-y-4 bg-pzh-gray-100 p-4">
+                <div className="bg-pzh-gray-100 flex flex-col gap-4 p-4">
                     <Text>Juridische data</Text>
 
-                    <div className="flex space-x-4 [&_>div]:flex-1">
+                    <div className="flex gap-4 [&_>div]:flex-1">
                         <div>
                             <FormikDate
                                 name="Announcement_Date"
@@ -185,7 +185,7 @@ const InnerForm = <TData extends FormikValues>({
 }
 
 const Articles = () => (
-    <div className="space-y-4 bg-pzh-gray-100 p-4">
+    <div className="bg-pzh-gray-100 flex flex-col gap-4 p-4">
         <Text>Artikelen</Text>
 
         <div>

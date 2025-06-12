@@ -5,6 +5,7 @@ import { visualizer } from 'rollup-plugin-visualizer'
 import { defineConfig } from 'vite'
 import svgrPlugin from 'vite-plugin-svgr'
 import viteTsconfigPaths from 'vite-tsconfig-paths'
+import tailwindcss from "@tailwindcss/vite"
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -56,6 +57,7 @@ export default defineConfig({
     },
     plugins: [
         react(),
+        tailwindcss(),
         viteTsconfigPaths(),
         svgrPlugin(),
         visualizer({
