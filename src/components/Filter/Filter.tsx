@@ -2,6 +2,7 @@ import { FieldSelect, FieldSelectProps } from '@pzh-ui/components'
 import classNames from 'clsx'
 
 import { ModelType } from '@/config/objects/types'
+import Indicator from '../Indicator'
 
 interface FilterProps extends Omit<FieldSelectProps, 'name'> {
     filters: {
@@ -29,9 +30,10 @@ const Filter = ({
     ...rest
 }: FilterProps) => (
     <div className={classNames('relative', className)}>
-        <span className="absolute -right-3 -top-3 z-[1] flex h-6 w-6 items-center justify-center rounded-full bg-pzh-blue-900 pt-1 text-s font-bold text-pzh-white">
-            {activeFilters}
-        </span>
+        <Indicator
+            amount={activeFilters}
+            className="border-pzh-blue-500 bg-pzh-blue-500 text-pzh-white absolute -top-3 -right-3 z-[1]"
+        />
         <FieldSelect
             data-testid="filter-type"
             name="Filter"
