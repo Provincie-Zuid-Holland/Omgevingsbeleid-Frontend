@@ -3,9 +3,14 @@ import { cn } from '@pzh-ui/components'
 interface IndicatorProps {
     amount?: number
     hasNotification?: boolean
+    className?: string
 }
 
-const Indicator = ({ amount = 0, hasNotification }: IndicatorProps) => (
+const Indicator = ({
+    amount = 0,
+    hasNotification,
+    className,
+}: IndicatorProps) => (
     <div
         className={cn(
             'relative flex h-6 w-6 items-center justify-center rounded-full border',
@@ -14,9 +19,10 @@ const Indicator = ({ amount = 0, hasNotification }: IndicatorProps) => (
                     hasNotification,
                 'border-pzh-blue-100 bg-pzh-blue-10 text-pzh-blue-500':
                     !hasNotification,
-            }
+            },
+            className
         )}>
-        <span className="text-s -mb-0.5 font-bold">{amount}</span>
+        <span className="text-s font-bold">{amount}</span>
     </div>
 )
 

@@ -53,12 +53,12 @@ const NetworkLegend = () => {
     }
 
     return (
-        <div className="absolute bottom-5 right-5 bg-pzh-white px-4 py-3 shadow-card">
-            {filters.map((group, index) => (
+        <div className="bg-pzh-white shadow-card absolute right-5 bottom-5 px-4 py-3">
+            {transformedFilters.map((group, index) => (
                 <div
                     key={group.label}
                     className={classNames({ 'mt-1': index !== 0 })}>
-                    <Text bold className="mb-1 text-pzh-blue-500">
+                    <Text bold className="text-pzh-blue-500 mb-1">
                         {group.label}
                     </Text>
 
@@ -85,18 +85,18 @@ const NetworkLegend = () => {
 const getIcon = (type: ModelType) => {
     switch (type) {
         case 'ambitie':
-            return <Triangle className="mr-2 text-pzh-apple-green-500" />
+            return <Triangle className="text-pzh-apple-green-500 mr-2" />
         case 'beleidsdoel':
             return (
-                <div className="rounded-0.5 mr-[11px] h-3 w-3 bg-pzh-orange-500" />
+                <div className="rounded-0.5 bg-pzh-orange-500 mr-[11px] h-3 w-3" />
             )
         case 'beleidskeuze':
             return (
-                <div className="mr-[11px] h-3 w-3 rounded-full bg-pzh-yellow-500" />
+                <div className="bg-pzh-yellow-500 mr-[11px] h-3 w-3 rounded-full" />
             )
         case 'maatregel':
             return (
-                <div className="rounded-0.5 mr-[11px] h-2.5 w-2.5 -translate-y-0.5 translate-x-px rotate-[45deg] bg-pzh-green-500" />
+                <div className="rounded-0.5 bg-pzh-green-500 mr-[11px] h-2.5 w-2.5 translate-x-px -translate-y-0.5 rotate-[45deg]" />
             )
         default:
             return <div />

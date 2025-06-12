@@ -3444,9 +3444,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.612":
-  version: 0.0.612
-  resolution: "@pzh-ui/components@npm:0.0.612"
+"@pzh-ui/components@npm:^0.0.615":
+  version: 0.0.615
+  resolution: "@pzh-ui/components@npm:0.0.615"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
@@ -3499,7 +3499,7 @@ __metadata:
     react-toastify: "npm:^9.1.2"
     tailwind-merge: "npm:^3.2.0"
     uuid: "npm:^11.1.0"
-  checksum: c18048caeac45cf0f7dc65fb9d43984d1f66623f4f1c17ede9e0992562ee8601addb31335780392d7a7db3938c80dfd9b98a51e88da403c6f0de3a05188709d3
+  checksum: 75c8a7ea08ce044c80bed9d87cde2a85994c1c7cb9641d5a85539e0167a83cff466242d59c4a060482273f7dabba0175bc53d4cf0f4526207ab2dbc61b0ea44f
   languageName: node
   linkType: hard
 
@@ -3531,14 +3531,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/css@npm:^0.0.113":
-  version: 0.0.113
-  resolution: "@pzh-ui/css@npm:0.0.113"
+"@pzh-ui/css@npm:^0.0.114":
+  version: 0.0.114
+  resolution: "@pzh-ui/css@npm:0.0.114"
   dependencies:
     "@rollup/plugin-typescript": "npm:^12.1.2"
     "@tailwindcss/typography": "npm:^0.5.16"
     react-toastify: "npm:^9.1.2"
-  checksum: f12022e65752c50c9dbf782743899d1ec00d3d91c6b780bacc675f32ffceda73d4f8b2cf2d40ef6cf1f496eea6d5f78e0df5eb87fc14da4f1552361876469706
+  checksum: 57ea3b2ea223404690712a38563184a6303b91d11f16c0a3d9ea9e562227cbb1ac3410f3b5b13eba7535ed9a4a4081d257c7311e1dbee328fe52fe33fbd4e206
   languageName: node
   linkType: hard
 
@@ -14488,9 +14488,9 @@ __metadata:
     "@axe-core/react": "npm:^4.10.0"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-    "@pzh-ui/components": "npm:^0.0.612"
+    "@pzh-ui/components": "npm:^0.0.615"
     "@pzh-ui/config": "npm:^0.0.81"
-    "@pzh-ui/css": "npm:^0.0.113"
+    "@pzh-ui/css": "npm:^0.0.114"
     "@pzh-ui/icons": "npm:^0.0.82"
     "@react-hookz/web": "npm:^24.0.4"
     "@tailwindcss/cli": "npm:^4.1.4"
