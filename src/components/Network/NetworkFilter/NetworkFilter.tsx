@@ -1,5 +1,5 @@
 import { FieldSelect, FieldSelectProps } from '@pzh-ui/components'
-import { MagnifyingGlass, Xmark } from '@pzh-ui/icons'
+import { MagnifyingGlass } from '@pzh-ui/icons'
 import { useMemo } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
@@ -178,11 +178,6 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
                                     />
                                 </div>
                             ),
-                            ClearIndicator: e => (
-                                <button onClick={() => handleClear(e)}>
-                                    <Xmark className="m-2 text-pzh-gray-600" />
-                                </button>
-                            ),
                         }}
                         onChange={e => handleChange(e as (typeof options)[0])}
                         filterOption={handleFilter}
@@ -193,11 +188,11 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
                     activeFilters={amountOfFilters}
                     defaultValue={defaultValue}
                     handleChange={val => handleDropdownChange(val)}
-                    className="mt-2 w-full min-w-[250px] sm:ml-3 sm:mt-0 sm:w-1/5"
+                    className="mt-2 w-full min-w-[250px] sm:mt-0 sm:ml-3 sm:w-1/5"
                 />
             </div>
             {typeof results === 'number' && (
-                <span className="mt-2 block text-s">
+                <span className="text-s mt-2 block">
                     Er {results === 1 ? 'is' : 'zijn'} {results}{' '}
                     {results === 1 ? 'resultaat' : 'resultaten'} gevonden
                 </span>

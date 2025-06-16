@@ -57,15 +57,14 @@ const UserForm = ({
                                     ...base,
                                     position: 'relative',
                                     zIndex: 9999,
-                                    marginTop: 2,
-                                    boxShadow:
-                                        '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                                    marginTop: 4,
+                                    boxShadow: 'none',
                                 }),
                             }}
                         />
                     </div>
 
-                    <div className="flex items-center justify-between border-t border-pzh-gray-200 pt-6">
+                    <div className="border-pzh-gray-200 flex items-center justify-between border-t pt-6">
                         <Button variant="link" onPress={handleClose}>
                             Annuleren
                         </Button>
