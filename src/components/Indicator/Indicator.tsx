@@ -22,7 +22,7 @@ const Indicator = ({
             },
             className
         )}>
-        <span className="text-s font-bold">{amount}</span>
+        <span className="text-s -mb-px font-bold">{amount}</span>
     </div>
 )
 
