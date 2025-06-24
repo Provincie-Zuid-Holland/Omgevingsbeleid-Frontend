@@ -33,10 +33,10 @@ const ObjectAcknowledgedRelationPart = ({
         type === 'awaiting'
             ? Share
             : type === 'approved'
-            ? CircleCheck
-            : type === 'received'
-            ? MessageQuestion
-            : Ban
+              ? CircleCheck
+              : type === 'received'
+                ? MessageQuestion
+                : Ban
 
     const { title, description } = useMemo(() => {
         switch (type) {
@@ -55,7 +55,7 @@ const ObjectAcknowledgedRelationPart = ({
         <div className="w-full">
             <div
                 className={classNames(
-                    'relative flex items-center justify-between rounded-t border border-pzh-gray-300 bg-pzh-gray-100 px-3 py-2',
+                    'border-pzh-gray-300 bg-pzh-gray-100 relative flex items-center justify-between rounded-t border px-3 py-2',
                     {
                         'rounded-b': !open && type !== 'received',
                     }
@@ -70,15 +70,13 @@ const ObjectAcknowledgedRelationPart = ({
                             'text-pzh-orange-500': type === 'received',
                         })}
                     />
-                    <Text bold className="-mb-1">
-                        {title}
-                    </Text>
+                    <Text bold>{title}</Text>
                 </div>
                 {type !== 'received' ? (
                     <button
                         type="button"
                         onClick={() => setOpen(!open)}
-                        className="after:content-[' '] after:absolute after:left-0 after:top-0 after:h-full after:w-full">
+                        className="after:content-[' '] after:absolute after:top-0 after:left-0 after:h-full after:w-full">
                         <AngleDown
                             size={18}
                             className={classNames('transition', {
@@ -95,7 +93,7 @@ const ObjectAcknowledgedRelationPart = ({
                             <Button
                                 variant="secondary"
                                 size="small"
-                                className="mr-3 bg-pzh-white"
+                                className="bg-pzh-white mr-3"
                                 onPress={() =>
                                     handleAction('deny', {
                                         ...rest,
@@ -123,9 +121,9 @@ const ObjectAcknowledgedRelationPart = ({
             </div>
             {(open || type === 'received') && (
                 <>
-                    <div className="flex items-start rounded-b border-b border-l border-r border-pzh-gray-300 px-3 pb-3 pt-2">
+                    <div className="border-pzh-gray-300 flex items-start rounded-b border-r border-b border-l px-3 pt-2 pb-3">
                         {type !== 'received' && type !== 'awaiting' && (
-                            <div className="mr-3 mt-1 w-4">
+                            <div className="mt-1 mr-3 w-4">
                                 {type === 'approved' || Side_B.Acknowledged ? (
                                     <MessageCheck size={20} />
                                 ) : (
@@ -139,7 +137,7 @@ const ObjectAcknowledgedRelationPart = ({
                         <Text>{description}</Text>
                     </div>
                     {(type === 'approved' || type === 'declined') && (
-                        <div className="mt-2 rounded border border-pzh-gray-300 px-3 pb-3 pt-2">
+                        <div className="border-pzh-gray-300 mt-2 rounded border px-3 pt-2 pb-3">
                             <div className="mb-2 flex items-center">
                                 {type === 'approved' || Side_A.Acknowledged ? (
                                     <MessageCheck size={20} className="mr-3" />

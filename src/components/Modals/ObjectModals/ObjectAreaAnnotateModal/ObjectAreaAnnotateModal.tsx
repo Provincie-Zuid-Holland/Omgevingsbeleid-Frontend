@@ -192,8 +192,8 @@ const InnerForm = <TData extends Values>({
                                 ...base,
                                 position: 'relative',
                                 zIndex: 9999,
-                                marginTop: 2,
-                                boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                                marginTop: 4,
+                                boxShadow: 'none',
                             }),
                         }}
                     />
@@ -220,8 +220,8 @@ const InnerForm = <TData extends Values>({
                                 ...base,
                                 position: 'relative',
                                 zIndex: 9999,
-                                marginTop: 2,
-                                boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                                marginTop: 4,
+                                boxShadow: 'none',
                             }),
                         }}
                     />
@@ -243,8 +243,8 @@ const InnerForm = <TData extends Values>({
                                 ...base,
                                 position: 'relative',
                                 zIndex: 9999,
-                                marginTop: 2,
-                                boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                                marginTop: 4,
+                                boxShadow: 'none',
                             }),
                         }}
                     />

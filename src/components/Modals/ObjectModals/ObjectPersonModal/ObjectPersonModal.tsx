@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { useUsersGet } from '@/api/fetchers'
+import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
 import { Model, ModelPatchStaticType } from '@/config/objects/types'
 import { Role } from '@/context/AuthContext'
@@ -82,78 +83,73 @@ const ObjectPersonModal = ({ model }: ObjectPersonModalProps) => {
 
     return (
         <Modal id="objectGeneralInformation" title="Algemene informatie">
-            <Formik
-                onSubmit={handleFormSubmit}
-                initialValues={initialValues}
-                validationSchema={toFormikValidationSchema(
-                    generateSchema(staticData)
-                )}
-                enableReinitialize>
-                {({ isValid, isSubmitting, dirty }) => (
-                    <Form>
-                        <div className="flex flex-col gap-4">
-                            {staticData.map(item => {
-                                const label = getStaticDataLabel(item)
-                                const required =
-                                    getStaticDataPropertyRequired(item)
-                                const filterRoles =
-                                    getStaticDataFilterRoles(item)
+            {!loadingUsers && !isFetching ? (
+                <Formik
+                    onSubmit={handleFormSubmit}
+                    initialValues={initialValues}
+                    validationSchema={toFormikValidationSchema(
+                        generateSchema(staticData)
+                    )}
+                    enableReinitialize>
+                    {({ isValid, isSubmitting, dirty }) => (
+                        <Form>
+                            <div className="flex flex-col gap-4">
+                                {staticData.map(item => {
+                                    const label = getStaticDataLabel(item)
+                                    const required =
+                                        getStaticDataPropertyRequired(item)
+                                    const filterRoles =
+                                        getStaticDataFilterRoles(item)
 
-                                const userOptions = getUserOptions(filterRoles)
+                                    const userOptions =
+                                        getUserOptions(filterRoles)
 
-                                return (
-                                    <div key={item}>
-                                        <FormikSelect
-                                            name={item}
-                                            label={label}
-                                            placeholder={`Kies een ${label.toLowerCase()}`}
-                                            isLoading={
-                                                loadingUsers && isFetching
-                                            }
-                                            optimized={false}
-                                            options={userOptions}
-                                            styles={{
-                                                menu: base => ({
-                                                    ...base,
-                                                    position: 'relative',
-                                                    zIndex: 9999,
-                                                    marginTop: 2,
-                                                    boxShadow:
-                                                        '0px 10px 30px rgba(0, 0, 0, 0.10)',
-                                                }),
-                                            }}
-                                            noOptionsMessage={({
-                                                inputValue,
-                                            }) =>
-                                                !!inputValue &&
-                                                'Geen resultaten gevonden'
-                                            }
-                                            isClearable={!required}
-                                            required={required}
-                                            blurInputOnSelect
-                                        />
-                                    </div>
-                                )
-                            })}
-                        </div>
+                                    return (
+                                        <div key={item}>
+                                            <FormikSelect
+                                                name={item}
+                                                label={label}
+                                                placeholder={`Kies een ${label.toLowerCase()}`}
+                                                options={userOptions}
+                                                noOptionsMessage={({
+                                                    inputValue,
+                                                }) =>
+                                                    !!inputValue &&
+                                                    'Geen resultaten gevonden'
+                                                }
+                                                isClearable={!required}
+                                                required={required}
+                                                blurInputOnSelect
+                                            />
+                                        </div>
+                                    )
+                                })}
+                            </div>
 
-                        <div className="mt-6 flex items-center justify-between">
-                            <Button
-                                variant="link"
-                                onPress={() => setActiveModal(null)}>
-                                Annuleren
-                            </Button>
-                            <Button
-                                variant="cta"
-                                type="submit"
-                                isDisabled={!isValid || isSubmitting || !dirty}
-                                isLoading={isSubmitting}>
-                                Opslaan
-                            </Button>
-                        </div>
-                    </Form>
-                )}
-            </Formik>
+                            <div className="mt-6 flex items-center justify-between">
+                                <Button
+                                    variant="link"
+                                    onPress={() => setActiveModal(null)}>
+                                    Annuleren
+                                </Button>
+                                <Button
+                                    variant="cta"
+                                    type="submit"
+                                    isDisabled={
+                                        !isValid || isSubmitting || !dirty
+                                    }
+                                    isLoading={isSubmitting}>
+                                    Opslaan
+                                </Button>
+                            </div>
+                        </Form>
+                    )}
+                </Formik>
+            ) : (
+                <div>
+                    <LoaderSpinner />
+                </div>
+            )}
         </Modal>
     )
 }
