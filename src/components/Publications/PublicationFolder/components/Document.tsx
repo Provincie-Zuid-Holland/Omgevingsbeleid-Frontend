@@ -143,7 +143,7 @@ const Document = ({
     ]
 
     return (
-        <div className="border-pzh-gray-200 hover:bg-pzh-blue-10 hover:ring-pzh-blue-100 flex h-16 border-b first:border-t last:border-b-0 hover:ring-1 hover:ring-inset">
+        <div className="border-pzh-gray-200 flex h-16 border-b first:border-t last:border-b-0">
             <div className="border-pzh-gray-200 flex h-[inherit] w-5/12 items-center border-r pr-6 pl-8">
                 <div className="border-pzh-gray-200 flex h-[inherit] items-center gap-4">
                     <Icon
