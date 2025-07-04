@@ -53,6 +53,8 @@ import EnvironmentVision from '@/pages/public/EnvironmentVision'
 import MaintenancePage from '@/pages/public/MaintenancePage/MaintenancePage'
 import globalErrorBoundary from '@/utils/globalErrorBoundary'
 
+import PackageDetail from '@/pages/protected/Packages/PackageDetail'
+import PackagesOverview from '@/pages/protected/Packages/PackagesOverview'
 import ProtectedRoute from './ProtectedRoute'
 
 const AppRoutes = () => {
@@ -462,6 +464,35 @@ const AppRoutes = () => {
                                     }}
                                     redirectTo="/muteer">
                                     <PublicationTemplateCreate />
+                                </ProtectedRoute>
+                            ),
+                        },
+                    ],
+                },
+                {
+                    path: 'leveringen',
+                    children: [
+                        {
+                            index: true,
+                            element: (
+                                <ProtectedRoute
+                                    permissions={{
+                                        canViewPublicationPackage: true,
+                                    }}
+                                    redirectTo="/muteer">
+                                    <PackagesOverview />
+                                </ProtectedRoute>
+                            ),
+                        },
+                        {
+                            path: ':type/:uuid',
+                            element: (
+                                <ProtectedRoute
+                                    permissions={{
+                                        canViewPublicationPackage: true,
+                                    }}
+                                    redirectTo="/muteer">
+                                    <PackageDetail />
                                 </ProtectedRoute>
                             ),
                         },
