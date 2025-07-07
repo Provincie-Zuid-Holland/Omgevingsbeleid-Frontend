@@ -19,9 +19,9 @@ Therefore, The Province of South-Holland is committed to maintaining and develop
 
 ## Pre-Requisites
 
--   [Git](https://git-scm.com/)
--   [Node.js](https://nodejs.org/en/)
--   [Yarn](https://yarnpkg.com/getting-started/install)
+- [Git](https://git-scm.com/)
+- [Node.js](https://nodejs.org/en/)
+- [Yarn](https://yarnpkg.com/getting-started/install)
 
 ## Setting up a local version
 
@@ -52,6 +52,7 @@ VITE_KEY_API_ACCESS_TOKEN = '' // Used to set login token
 VITE_KEY_IDENTIFIER = '' // Used to set login identifier
 VITE_ENABLE_AXE = true // Used to see accessibility issues in the console
 VITE_GTAG_ID = '' // Used to enable tracking using Google Tag Manager
+VITE_CRYPTO_SECRET_KEY = '' // Used to encrypt and decrypt data
 ```
 
 ## Available scripts
@@ -82,37 +83,37 @@ yarn build
 
 The project uses the following structure:
 
--   src
-    -   api
-    -   App
-    -   components
-    -   config
-    -   constants
-    -   context
-    -   css
-    -   fonts
-    -   hooks
-    -   images
-    -   mocks
-    -   pages
-    -   store
-    -   templates
-    -   types
-    -   utils
-    -   validation
+- src
+    - api
+    - App
+    - components
+    - config
+    - constants
+    - context
+    - css
+    - fonts
+    - hooks
+    - images
+    - mocks
+    - pages
+    - store
+    - templates
+    - types
+    - utils
+    - validation
 
 ### src/api
 
 The api folder holds our API Functionality. We use [Axios](https://github.com/axios/axios) as the HTTP client in combination with [React-query](https://tanstack.com/query/latest/). In the /api folder there are three files for the different API's. It contains:
 
--   `instance.ts` - Which is our general API (check [API docs](https://api-obzh.azurewebsites.net/docs) for more information about the different endpoints)
--   `axiosGeoJSON.ts` - Which is our API to connect to the GEO Server
--   `axiosLocatieserver.ts` - Which is our API to connect to PDOK Location server
+- `instance.ts` - Which is our general API (check [API docs](https://api-obzh.azurewebsites.net/docs) for more information about the different endpoints)
+- `axiosGeoJSON.ts` - Which is our API to connect to the GEO Server
+- `axiosLocatieserver.ts` - Which is our API to connect to PDOK Location server
 
 There are also two generated files which holds all of the endpoints and models. These files are generated using [Orval](https://orval.dev/):
 
--   `fetchers.ts` - Contains all API endpoints
--   `fetchers.schemas.ts` - Contains all Typescript models
+- `fetchers.ts` - Contains all API endpoints
+- `fetchers.schemas.ts` - Contains all Typescript models
 
 These files can be generated using the following command:
 
@@ -130,8 +131,8 @@ The folder /src contains two main folders for our components. It contains /pages
 
 Every component sits in its own folder with the name of the component. In the folder there are at least two files:
 
--   index.ts - importing the ComponentName.tsx and exporting it
--   ComponentName.tsx - Containing the component code
+- index.ts - importing the ComponentName.tsx and exporting it
+- ComponentName.tsx - Containing the component code
 
 The reason for this approach is so that we can organize our code (and if needed it’s tests) in folders, import from the folder name and not end up with multiple index.ts filenames in our code editor.
 

@@ -189,7 +189,8 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
                         </Text>
                     ),
                     Document_Type: 'To-Do: Document_Type toevoegen',
-                    Package_Type,
+                    Package_Type:
+                        config.packageType[Package_Type as PackageType].label,
                     Report_Status: getStatus(Report_Status)?.text,
                     Created_Date: (
                         <span className="flex items-center justify-between">
