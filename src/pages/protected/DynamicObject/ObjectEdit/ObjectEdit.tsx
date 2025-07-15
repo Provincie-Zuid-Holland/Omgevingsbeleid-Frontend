@@ -82,11 +82,11 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
     /**
      * Handle submit of form
      */
-    const handleSubmit = async (
+    const handleSubmit = (
         payload: typeof initialData,
         helpers: FormikHelpers<typeof initialData>
     ) => {
-        if (!payload) return
+        if (!payload) return Promise.resolve()
 
         Object.keys(payload).forEach(key => {
             if (!(key in initialData)) {
@@ -102,35 +102,42 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
             payload.Werkingsgebied_Code = null
         }
 
-        // Await file upload before patching object
-        if ('File' in payload && !!payload.File) {
-            const res = await uploadStorageFile({
-                data: {
-                    title: payload.Filename,
-                    uploaded_file: payload.File as File,
-                },
-            })
-            if (res) {
-                payload.File_UUID = res.UUID
-                delete payload.File
+        const triggerSubmit = async () => {
+            // Await file upload before patching object
+            if ('File' in payload && !!payload.File) {
+                const res = await uploadStorageFile({
+                    data: {
+                        title: payload.Filename,
+                        uploaded_file: payload.File as File,
+                    },
+                })
+                if (res) {
+                    payload.File_UUID = res.UUID
+                    delete payload.File
+                }
             }
+
+            return patchObject
+                ?.mutateAsync({
+                    moduleId: parseInt(moduleId!),
+                    lineageId: parseInt(objectId!),
+                    data: payload,
+                })
+                .then(() => {
+                    return Promise.all([
+                        queryClient.invalidateQueries({
+                            queryKey: objectQueryKey,
+                        }),
+                        queryClient.invalidateQueries({ queryKey }),
+                    ])
+                })
+                .then(() => navigate(`/muteer/modules/${moduleId}`))
+                .catch(err =>
+                    handleError<typeof initialData>(err.response, helpers)
+                )
         }
 
-        patchObject
-            ?.mutateAsync({
-                moduleId: parseInt(moduleId!),
-                lineageId: parseInt(objectId!),
-                data: payload,
-            })
-            .then(() => {
-                Promise.all([
-                    queryClient.invalidateQueries({ queryKey: objectQueryKey }),
-                    queryClient.invalidateQueries({ queryKey }),
-                ]).then(() => navigate(`/muteer/modules/${moduleId}`))
-            })
-            .catch(err =>
-                handleError<typeof initialData>(err.response, helpers)
-            )
+        return triggerSubmit()
     }
 
     const breadcrumbPaths = [
