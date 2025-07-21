@@ -4,7 +4,7 @@ import { FormikHelpers } from 'formik'
 import { useMemo } from 'react'
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 
-import { useStorageFilesPost } from '@/api/fetchers'
+import { useStorageFilePostFilesUpload } from '@/api/fetchers'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import { LockedNotification } from '@/components/Modules/ModuleLock/ModuleLock'
 import { Model } from '@/config/objects/types'
@@ -44,7 +44,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
         queryKey: objectQueryKey,
     } = useObject()
 
-    const { mutateAsync: uploadStorageFile } = useStorageFilesPost()
+    const { mutateAsync: uploadStorageFile } = useStorageFilePostFilesUpload()
 
     const patchObject = usePatchObject()
 

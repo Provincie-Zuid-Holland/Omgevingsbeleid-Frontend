@@ -1,8 +1,8 @@
 import { Heading, Text } from '@pzh-ui/components'
 
 import {
-    useModulesModuleIdObjectWerkingsgebiedLatestLineageIdGet,
-    useWerkingsgebiedenLatestLineageIdGet,
+    useWerkingsgebiedViewModuleObjectLatest,
+    useWerkingsgebiedViewObjectLatest,
 } from '@/api/fetchers'
 import { WerkingsgebiedStatics } from '@/api/fetchers.schemas'
 import { LeafletTinyViewer } from '@/components/Leaflet'
@@ -30,7 +30,7 @@ const ObjectArea = ({
         data: moduleData,
         isSuccess,
         isError,
-    } = useModulesModuleIdObjectWerkingsgebiedLatestLineageIdGet(
+    } = useWerkingsgebiedViewModuleObjectLatest(
         parseInt(moduleId!),
         Object_ID,
         {
@@ -40,17 +40,14 @@ const ObjectArea = ({
         }
     )
 
-    const { data: validData } = useWerkingsgebiedenLatestLineageIdGet(
-        Object_ID,
-        {
-            query: {
-                enabled:
-                    (!moduleId && !!Object_ID) ||
-                    (!!moduleId && !!Object_ID && !moduleData && isSuccess) ||
-                    isError,
-            },
-        }
-    )
+    const { data: validData } = useWerkingsgebiedViewObjectLatest(Object_ID, {
+        query: {
+            enabled:
+                (!moduleId && !!Object_ID) ||
+                (!!moduleId && !!Object_ID && !moduleData && isSuccess) ||
+                isError,
+        },
+    })
 
     const data = moduleId && isSuccess ? moduleData : validData
 

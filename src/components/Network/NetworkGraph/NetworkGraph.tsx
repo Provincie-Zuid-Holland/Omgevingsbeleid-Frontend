@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { useFullGraphGet } from '@/api/fetchers'
+import { useGraphGetFullGraph } from '@/api/fetchers'
 import { GraphResponse } from '@/api/fetchers.schemas'
 import { ModelType } from '@/config/objects/types'
 import useFilterStore from '@/store/filterStore'
@@ -17,7 +17,7 @@ const NetworkGraph = () => {
     )
     const activeTab = useNetworkStore(state => state.activeTab)
 
-    const { data } = useFullGraphGet()
+    const { data } = useGraphGetFullGraph()
 
     /**
      * Filter data based on selected filters
@@ -27,11 +27,10 @@ const NetworkGraph = () => {
             Edges: data?.Edges,
             Vertices:
                 selectedFilters && selectedFilters.length > 0
-                    ? data?.Vertices.filter(
-                          vertice =>
-                              selectedFilters?.includes(
-                                  vertice.Object_Type as ModelType
-                              )
+                    ? data?.Vertices.filter(vertice =>
+                          selectedFilters?.includes(
+                              vertice.Object_Type as ModelType
+                          )
                       )
                     : data?.Vertices,
         }),
@@ -53,7 +52,7 @@ const NetworkGraph = () => {
                 results={activeTab === 'textual' ? nodes.length : undefined}
             />
             {activeTab === 'visual' ? (
-                <div className="relative mt-3 h-[60vh] min-h-[600px] overflow-hidden rounded border border-pzh-gray-200 bg-pzh-white">
+                <div className="border-pzh-gray-200 bg-pzh-white relative mt-3 h-[60vh] min-h-[600px] overflow-hidden rounded border">
                     <NetworkVisual graph={{ links, nodes }} />
                 </div>
             ) : (

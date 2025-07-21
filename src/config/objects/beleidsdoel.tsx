@@ -3,17 +3,17 @@ import { AngleDown, BullseyeArrow } from '@pzh-ui/icons'
 import { Link } from 'react-router-dom'
 
 import {
-    useBeleidsdoelStaticLineageIdPost,
-    useBeleidsdoelenLatestLineageIdGet,
-    useBeleidsdoelenRelationsLineageIdGet,
-    useBeleidsdoelenRelationsLineageIdPut,
-    useBeleidsdoelenValidGet,
-    useBeleidsdoelenValidLineageIdGet,
-    useBeleidsdoelenVersionObjectUuidGet,
-    useModulesModuleIdObjectBeleidsdoelLatestLineageIdGet,
-    useModulesModuleIdObjectBeleidsdoelLineageIdPatch,
-    useModulesObjectBeleidsdoelActiveLineageIdGet,
-    useRevisionsModuleIdBeleidsdoelVersionObjectUuidGet,
+    useBeleidsdoelEditObjectStatic,
+    useBeleidsdoelGetListActiveModuleObjects,
+    useBeleidsdoelGetRelationsList,
+    useBeleidsdoelListValidLineageTree,
+    useBeleidsdoelListValidLineages,
+    useBeleidsdoelPostModulePatchObject,
+    useBeleidsdoelPostRelationsOverwrite,
+    useBeleidsdoelViewModuleObjectLatest,
+    useBeleidsdoelViewObjectLatest,
+    useBeleidsdoelViewObjectVersion,
+    useGetRevisionsBeleidsdoelVersion,
 } from '@/api/fetchers'
 import {
     BeleidsdoelPatch,
@@ -25,24 +25,23 @@ import { schemaDefaults } from '@/validation/zodSchema'
 import { DynamicObject } from './types'
 
 const fetchers = {
-    useGetValid: useBeleidsdoelenValidGet,
-    useGetValidLineage: useBeleidsdoelenValidLineageIdGet,
-    useGetVersion: useBeleidsdoelenVersionObjectUuidGet,
-    useGetLatestLineage: useBeleidsdoelenLatestLineageIdGet,
-    useGetRevision: useRevisionsModuleIdBeleidsdoelVersionObjectUuidGet,
-    useGetRelations: useBeleidsdoelenRelationsLineageIdGet,
-    usePutRelations: useBeleidsdoelenRelationsLineageIdPut,
-    useGetLatestLineageInModule:
-        useModulesModuleIdObjectBeleidsdoelLatestLineageIdGet,
-    usePatchObjectInModule: useModulesModuleIdObjectBeleidsdoelLineageIdPatch,
+    useGetValid: useBeleidsdoelListValidLineages,
+    useGetValidLineage: useBeleidsdoelListValidLineageTree,
+    useGetVersion: useBeleidsdoelViewObjectVersion,
+    useGetLatestLineage: useBeleidsdoelViewObjectLatest,
+    useGetRevision: useGetRevisionsBeleidsdoelVersion,
+    useGetRelations: useBeleidsdoelGetRelationsList,
+    usePutRelations: useBeleidsdoelPostRelationsOverwrite,
+    useGetLatestLineageInModule: useBeleidsdoelViewModuleObjectLatest,
+    usePatchObjectInModule: useBeleidsdoelPostModulePatchObject,
     usePatchObject: null,
     useDeleteObject: null,
-    usePostStatic: useBeleidsdoelStaticLineageIdPost,
+    usePostStatic: useBeleidsdoelEditObjectStatic,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
     usePostObject: null,
-    useGetActiveModules: useModulesObjectBeleidsdoelActiveLineageIdGet,
+    useGetActiveModules: useBeleidsdoelGetListActiveModuleObjects,
 }
 
 const beleidsdoel: DynamicObject<

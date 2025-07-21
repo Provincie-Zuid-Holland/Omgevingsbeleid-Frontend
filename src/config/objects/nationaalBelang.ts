@@ -1,13 +1,13 @@
 import { Flag } from '@pzh-ui/icons'
 
 import {
-    useNationaalBelangLatestLineageIdGet,
-    useNationaalBelangLineageIdDelete,
-    useNationaalBelangLineageIdPost,
-    useNationaalBelangPost,
-    useNationaalBelangRelationsLineageIdGet,
-    useNationaalBelangRelationsLineageIdPut,
-    useNationaalBelangValidGet,
+    useNationaalBelangAtemporalCreateObject,
+    useNationaalBelangAtemporalDeleteObject,
+    useNationaalBelangAtemporalEditObject,
+    useNationaalBelangGetRelationsList,
+    useNationaalBelangListValidLineages,
+    useNationaalBelangPostRelationsOverwrite,
+    useNationaalBelangViewObjectLatest,
 } from '@/api/fetchers'
 import {
     NationaalBelangEdit,
@@ -19,22 +19,22 @@ import { schemaDefaults } from '@/validation/zodSchema'
 import { DynamicObject } from './types'
 
 const fetchers = {
-    useGetValid: useNationaalBelangValidGet,
+    useGetValid: useNationaalBelangListValidLineages,
     useGetValidLineage: null,
     useGetVersion: null,
-    useGetLatestLineage: useNationaalBelangLatestLineageIdGet,
+    useGetLatestLineage: useNationaalBelangViewObjectLatest,
     useGetRevision: null,
-    useGetRelations: useNationaalBelangRelationsLineageIdGet,
-    usePutRelations: useNationaalBelangRelationsLineageIdPut,
+    useGetRelations: useNationaalBelangGetRelationsList,
+    usePutRelations: useNationaalBelangPostRelationsOverwrite,
     useGetLatestLineageInModule: null,
     usePatchObjectInModule: null,
-    usePatchObject: useNationaalBelangLineageIdPost,
-    useDeleteObject: useNationaalBelangLineageIdDelete,
+    usePatchObject: useNationaalBelangAtemporalEditObject,
+    useDeleteObject: useNationaalBelangAtemporalDeleteObject,
     usePostStatic: null,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
-    usePostObject: useNationaalBelangPost,
+    usePostObject: useNationaalBelangAtemporalCreateObject,
     useGetActiveModules: null,
 }
 

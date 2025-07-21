@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 
-import { getModulesModuleIdGetResponseMock } from '@/api/fetchers.msw'
+import { getModulesViewModuleOverviewResponseMock } from '@/api/fetchers.msw'
 import AuthProvider from '@/context/AuthContext'
 
 import ModuleCard from './ModuleCard'
@@ -10,7 +10,7 @@ import ModuleCard from './ModuleCard'
 describe('ModuleCard', () => {
     const queryClient = new QueryClient()
 
-    const props = getModulesModuleIdGetResponseMock().Module
+    const props = getModulesViewModuleOverviewResponseMock().Module
 
     const setup = () => {
         render(

@@ -2,15 +2,15 @@ import { DrawPolygon } from '@pzh-ui/icons'
 import { ZodIssueCode } from 'zod'
 
 import {
-    useModulesModuleIdObjectWerkingsgebiedLatestLineageIdGet,
-    useModulesModuleIdObjectWerkingsgebiedLineageIdPatch,
-    useModulesObjectWerkingsgebiedActiveLineageIdGet,
-    useRevisionsModuleIdWerkingsgebiedVersionObjectUuidGet,
-    useWerkingsgebiedStaticLineageIdPost,
-    useWerkingsgebiedenLatestLineageIdGet,
-    useWerkingsgebiedenValidGet,
-    useWerkingsgebiedenValidLineageIdGet,
-    useWerkingsgebiedenVersionObjectUuidGet,
+    useGetRevisionsWerkingsgebiedVersion,
+    useWerkingsgebiedEditObjectStatic,
+    useWerkingsgebiedGetListActiveModuleObjects,
+    useWerkingsgebiedListValidLineageTree,
+    useWerkingsgebiedListValidLineages,
+    useWerkingsgebiedPostModulePatchObject,
+    useWerkingsgebiedViewModuleObjectLatest,
+    useWerkingsgebiedViewObjectLatest,
+    useWerkingsgebiedViewObjectVersion,
 } from '@/api/fetchers'
 import {
     WerkingsgebiedPatch,
@@ -22,25 +22,23 @@ import { schemaDefaults } from '@/validation/zodSchema'
 import { DynamicObject } from './types'
 
 const fetchers = {
-    useGetValid: useWerkingsgebiedenValidGet,
-    useGetValidLineage: useWerkingsgebiedenValidLineageIdGet,
-    useGetVersion: useWerkingsgebiedenVersionObjectUuidGet,
-    useGetLatestLineage: useWerkingsgebiedenLatestLineageIdGet,
-    useGetRevision: useRevisionsModuleIdWerkingsgebiedVersionObjectUuidGet,
+    useGetValid: useWerkingsgebiedListValidLineages,
+    useGetValidLineage: useWerkingsgebiedListValidLineageTree,
+    useGetVersion: useWerkingsgebiedViewObjectVersion,
+    useGetLatestLineage: useWerkingsgebiedViewObjectLatest,
+    useGetRevision: useGetRevisionsWerkingsgebiedVersion,
     useGetRelations: null,
     usePutRelations: null,
-    useGetLatestLineageInModule:
-        useModulesModuleIdObjectWerkingsgebiedLatestLineageIdGet,
-    usePatchObjectInModule:
-        useModulesModuleIdObjectWerkingsgebiedLineageIdPatch,
+    useGetLatestLineageInModule: useWerkingsgebiedViewModuleObjectLatest,
+    usePatchObjectInModule: useWerkingsgebiedPostModulePatchObject,
     usePatchObject: null,
     useDeleteObject: null,
-    usePostStatic: useWerkingsgebiedStaticLineageIdPost,
+    usePostStatic: useWerkingsgebiedEditObjectStatic,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
     usePostObject: null,
-    useGetActiveModules: useModulesObjectWerkingsgebiedActiveLineageIdGet,
+    useGetActiveModules: useWerkingsgebiedGetListActiveModuleObjects,
 }
 
 const werkingsgebied: DynamicObject<

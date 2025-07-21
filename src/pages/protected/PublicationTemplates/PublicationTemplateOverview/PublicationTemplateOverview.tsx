@@ -12,7 +12,7 @@ import { keepPreviousData } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { usePublicationTemplatesGet } from '@/api/fetchers'
+import { usePublicationTemplatesGetListTemplates } from '@/api/fetchers'
 import model from '@/config/publicationTemplates'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
@@ -83,7 +83,7 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
         pageSize: PAGE_LIMIT,
     })
 
-    const { data, isFetching } = usePublicationTemplatesGet(
+    const { data, isFetching } = usePublicationTemplatesGetListTemplates(
         {
             limit: PAGE_LIMIT,
             offset: (pageIndex - 1) * PAGE_LIMIT,

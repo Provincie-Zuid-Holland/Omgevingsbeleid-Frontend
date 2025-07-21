@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useMap } from 'react-leaflet'
 
 import { getGeoJsonData } from '@/api/axiosGeoJSON'
-import { useWerkingsgebiedenLatestLineageIdGet } from '@/api/fetchers'
+import { useWerkingsgebiedViewObjectLatest } from '@/api/fetchers'
 import ToggleableSection from '@/components/ToggleableSection'
 
 import { LeafletAreaLayer, LeafletControlLayer } from '../LeafletLayers'
@@ -50,14 +50,14 @@ const LeafletRevisionOverviewInner = ({
 
     const [werkingsgebied, setWerkingsgebied] = useState<any[]>([])
 
-    const { data: oldUUID } = useWerkingsgebiedenLatestLineageIdGet(area.old!, {
+    const { data: oldUUID } = useWerkingsgebiedViewObjectLatest(area.old!, {
         query: {
             enabled: !!area.old,
             select: data => data.Area_UUID,
         },
     })
 
-    const { data: newUUID } = useWerkingsgebiedenLatestLineageIdGet(area.new!, {
+    const { data: newUUID } = useWerkingsgebiedViewObjectLatest(area.new!, {
         query: {
             enabled: !!area.new,
             select: data => data.Area_UUID,
@@ -93,15 +93,15 @@ const LeafletRevisionOverviewInner = ({
             area.old === area.new
                 ? '#7BADDE'
                 : !area.new || area.old !== area.new
-                ? '#00804D'
-                : '#D11F3D'
+                  ? '#00804D'
+                  : '#D11F3D'
 
         const colorTo =
             area.old === area.new
                 ? '#7BADDE'
                 : !area.old || area.old !== area.new
-                ? '#D11F3D'
-                : '#00804D'
+                  ? '#D11F3D'
+                  : '#00804D'
 
         const mainLayer = {
             from:

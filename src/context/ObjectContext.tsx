@@ -9,7 +9,7 @@ import { ReactNode, createContext, useEffect, useMemo } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
 import {
-    ActiveModuleObjectWrapper,
+    ActiveModuleObjectsResponse,
     HTTPValidationError,
     ResponseOK,
 } from '@/api/fetchers.schemas'
@@ -54,7 +54,7 @@ interface ObjectContextType extends QueryObserverBaseResult<ModelReturnType> {
     /** Is user client of object */
     isClient?: boolean
     /** List the last modified module object grouped per module ID */
-    activeModules?: ActiveModuleObjectWrapper[]
+    activeModules?: ActiveModuleObjectsResponse[]
     /** Active modules loading */
     activeModulesLoading?: boolean
 }

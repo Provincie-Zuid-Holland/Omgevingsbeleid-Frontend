@@ -10,7 +10,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useShallow } from 'zustand/react/shallow'
 
-import { useSearchValidPost } from '@/api/fetchers'
+import { useSearchGetMssqlValidSearch } from '@/api/fetchers'
 import { Container } from '@/components/Container'
 import { LoaderSpinner } from '@/components/Loader'
 import SearchBar from '@/components/SearchBar'
@@ -92,7 +92,7 @@ const SearchResults = () => {
         set('page', page.toString())
     }
 
-    const { data, mutate, isPending, isError } = useSearchValidPost({
+    const { data, mutate, isPending, isError } = useSearchGetMssqlValidSearch({
         mutation: {
             onSuccess(data) {
                 if (!!!data.results.length) {
@@ -176,7 +176,7 @@ const SearchResults = () => {
                 </Container>
             </div>
 
-            <Container className="relative pb-20 pt-8">
+            <Container className="relative pt-8 pb-20">
                 <div className="col-span-2">
                     <div className="sticky top-[120px]">
                         {filters.map((filter, index) => (
@@ -185,7 +185,7 @@ const SearchResults = () => {
                                 className={classNames({
                                     'mb-6': index + 1 !== filters.length,
                                 })}>
-                                <Text bold className="mb-3 text-pzh-blue-500">
+                                <Text bold className="text-pzh-blue-500 mb-3">
                                     {filter.label}
                                 </Text>
 
@@ -215,7 +215,7 @@ const SearchResults = () => {
                             ))}
                         </ul>
                     ) : (
-                        <span className="italic text-pzh-gray-600">
+                        <span className="text-pzh-gray-600 italic">
                             Er zijn geen resultaten gevonden
                         </span>
                     )}

@@ -1,13 +1,13 @@
 import { BookBookmark } from '@pzh-ui/icons'
 
 import {
-    useWettelijkeTaakLatestLineageIdGet,
-    useWettelijkeTaakLineageIdDelete,
-    useWettelijkeTaakLineageIdPost,
-    useWettelijkeTaakPost,
-    useWettelijkeTaakRelationsLineageIdGet,
-    useWettelijkeTaakRelationsLineageIdPut,
-    useWettelijkeTaakValidGet,
+    useWettelijkeTaakAtemporalCreateObject,
+    useWettelijkeTaakAtemporalDeleteObject,
+    useWettelijkeTaakAtemporalEditObject,
+    useWettelijkeTaakGetRelationsList,
+    useWettelijkeTaakListValidLineages,
+    useWettelijkeTaakPostRelationsOverwrite,
+    useWettelijkeTaakViewObjectLatest,
 } from '@/api/fetchers'
 import {
     WettelijkeTaakEdit,
@@ -19,22 +19,22 @@ import { schemaDefaults } from '@/validation/zodSchema'
 import { DynamicObject } from './types'
 
 const fetchers = {
-    useGetValid: useWettelijkeTaakValidGet,
+    useGetValid: useWettelijkeTaakListValidLineages,
     useGetValidLineage: null,
     useGetVersion: null,
-    useGetLatestLineage: useWettelijkeTaakLatestLineageIdGet,
+    useGetLatestLineage: useWettelijkeTaakViewObjectLatest,
     useGetRevision: null,
-    useGetRelations: useWettelijkeTaakRelationsLineageIdGet,
-    usePutRelations: useWettelijkeTaakRelationsLineageIdPut,
+    useGetRelations: useWettelijkeTaakGetRelationsList,
+    usePutRelations: useWettelijkeTaakPostRelationsOverwrite,
     useGetLatestLineageInModule: null,
     usePatchObjectInModule: null,
-    usePatchObject: useWettelijkeTaakLineageIdPost,
-    useDeleteObject: useWettelijkeTaakLineageIdDelete,
+    usePatchObject: useWettelijkeTaakAtemporalEditObject,
+    useDeleteObject: useWettelijkeTaakAtemporalDeleteObject,
     usePostStatic: null,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
-    usePostObject: useWettelijkeTaakPost,
+    usePostObject: useWettelijkeTaakAtemporalCreateObject,
     useGetActiveModules: null,
 }
 

@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { jwtDecode } from 'jwt-decode'
 import { ReactNode, createContext, useEffect } from 'react'
 
-import { loginAccessTokenPost } from '@/api/fetchers'
+import { authenticationPostAuthLoginAccessToken } from '@/api/fetchers'
 import { AuthToken, UserLoginDetail } from '@/api/fetchers.schemas'
 import { decryptData, encryptData } from '@/utils/encryption'
 
@@ -74,7 +74,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
      * Signin to application
      */
     const signin = async (username: string, password: string) => {
-        return loginAccessTokenPost({ username, password })
+        return authenticationPostAuthLoginAccessToken({ username, password })
             .then(response => {
                 setIdentifier(response.identifier)
                 setAccessToken(response.access_token)
