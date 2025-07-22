@@ -4,7 +4,11 @@ import classNames from 'clsx'
 
 import useNetworkStore from '@/store/networkStore'
 
-const NetworkGraphButtons = () => {
+interface NetworkGraphButtonsProps {
+    handleZoom: (type: 'zoomIn' | 'zoomOut') => void
+}
+
+const NetworkGraphButtons = ({ handleZoom }: NetworkGraphButtonsProps) => {
     const activeNode = useNetworkStore(state => state.activeNode)
 
     return (
@@ -14,7 +18,8 @@ const NetworkGraphButtons = () => {
                     variant="default"
                     size="small"
                     className="bg-pzh-white text-pzh-blue-900 hover:bg-pzh-gray-100 flex h-10 w-10 items-center justify-center rounded-t-md"
-                    data-d3="zoom-in">
+                    data-d3="zoom-in"
+                    onPress={() => handleZoom('zoomIn')}>
                     <Plus />
                     <span className="sr-only">Inzoomen</span>
                 </Button>
@@ -22,7 +27,8 @@ const NetworkGraphButtons = () => {
                 <Button
                     variant="default"
                     className="bg-pzh-white text-pzh-blue-900 hover:bg-pzh-gray-100 flex h-10 w-10 items-center justify-center rounded-b-md"
-                    data-d3="zoom-out">
+                    data-d3="zoom-out"
+                    onPress={() => handleZoom('zoomOut')}>
                     <Minus />
                     <span className="sr-only">Uitzoomen</span>
                 </Button>
