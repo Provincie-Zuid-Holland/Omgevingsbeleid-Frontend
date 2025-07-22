@@ -8,7 +8,6 @@ import {
     forceX,
     forceY,
     select,
-    selectAll,
 } from 'd3'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow'
@@ -129,8 +128,6 @@ const NetworkVisual = ({ graph }: NetworkVisualProps) => {
         const handleZoom = zoomHandler(svg)
         svg.call(handleZoom).on('dblclick.zoom', null)
 
-        selectAll('[data-d3="reset"]').on('click', resetGraph)
-
         /**
          * When we simulate the nodes, we need to define their strength of attracting or repelling each other.
          * The higher the strength, the more they repel each other.
@@ -204,7 +201,10 @@ const NetworkVisual = ({ graph }: NetworkVisualProps) => {
     return (
         <>
             <NetworkLegend />
-            <NetworkGraphButtons handleZoom={handleZoom} />
+            <NetworkGraphButtons
+                handleZoom={handleZoom}
+                resetGraph={resetGraph}
+            />
             <NetworkGraphPopup />
             <NetworkGraphTooltip
                 ref={tooltipRef}
