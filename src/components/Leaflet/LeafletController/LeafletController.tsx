@@ -58,7 +58,7 @@ function LeafletController(props: LayersControlProps) {
         return null
     }
 
-    return createPortal(props.children, controlContainer)
+    return <>{createPortal(props.children, controlContainer)}</>
 }
 
 export default LeafletController
