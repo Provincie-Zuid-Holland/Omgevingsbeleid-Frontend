@@ -38,6 +38,7 @@ const Filter = ({
             data-testid="filter-type"
             name="Filter"
             placeholder="Filter op type"
+            aria-label="Filter op type"
             options={filters}
             value={defaultValue}
             onChange={val =>

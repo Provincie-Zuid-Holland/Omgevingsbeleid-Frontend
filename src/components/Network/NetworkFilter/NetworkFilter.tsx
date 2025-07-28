@@ -181,6 +181,7 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
                         }}
                         onChange={e => handleChange(e as (typeof options)[0])}
                         filterOption={handleFilter}
+                        aria-label="Zoek op titel van beleid"
                     />
                 </div>
                 <Filter
