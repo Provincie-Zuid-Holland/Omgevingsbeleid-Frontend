@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import { menuGroups } from '@/constants/menu'
 import useBreakpoint from '@/hooks/useBreakpoint'
 
+import { FocusTrap } from '@headlessui/react'
 import { Container } from '../Container'
 import SearchBar from '../SearchBar'
 
@@ -50,15 +51,18 @@ const NavigationPopupMenu = ({
 
     return (
         <>
-            <ToggleMenuButton
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-                isMobile={isMobile}
-            />
-            {isMobile ? (
-                <div className="fixed bottom-0 right-0 z-50">
+            {!isOpen && (
+                <ToggleMenuButton
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
+                    isMobile={isMobile}
+                />
+            )}
+
+            {isMobile && (
+                <div className="fixed right-0 bottom-0 z-50">
                     <div
-                        className="flex cursor-pointer items-center justify-center bg-pzh-blue-900 p-8 text-pzh-white"
+                        className="bg-pzh-blue-900 text-pzh-white flex cursor-pointer items-center justify-center p-8"
                         onClick={() => setIsOpen(!isOpen)}>
                         {isOpen ? (
                             <Xmark
@@ -75,12 +79,19 @@ const NavigationPopupMenu = ({
                         )}
                     </div>
                 </div>
-            ) : null}
+            )}
+
             {isOpen ? (
-                <>
+                <FocusTrap features={FocusTrap.features['FocusLock']}>
+                    <ToggleMenuButton
+                        isOpen={isOpen}
+                        setIsOpen={setIsOpen}
+                        isMobile={isMobile}
+                    />
+
                     <nav
                         id="popup-menu"
-                        className="absolute left-0 top-24 z-[10] w-full bg-pzh-white pb-8"
+                        className="bg-pzh-white absolute top-24 left-0 z-[10] w-full pb-8"
                         aria-label="primary">
                         <Container
                             className="h-full overflow-y-auto"
@@ -99,7 +110,7 @@ const NavigationPopupMenu = ({
                                         <Link
                                             to="/zoeken-op-kaart"
                                             onClick={() => setIsOpen(false)}
-                                            className="text-pzh-green-500 underline hover:text-pzh-green-900">
+                                            className="text-pzh-green-500 hover:text-pzh-green-900 underline">
                                             Zoek op de kaart
                                         </Link>
                                     </Text>
@@ -113,16 +124,14 @@ const NavigationPopupMenu = ({
                                         <Link
                                             to={group.to}
                                             onClick={() => setIsOpen(false)}
-                                            className="group flex items-center gap-1 hover:text-pzh-green-900">
+                                            className="group hover:text-pzh-green-900 flex items-center gap-1">
                                             <Heading
                                                 level="3"
                                                 size="m"
                                                 className="group-hover:text-pzh-green-900 group-hover:underline">
                                                 {group.title}
                                             </Heading>
-                                            <AngleRight
-                                                size={20}
-                                            />
+                                            <AngleRight size={20} />
                                         </Link>
                                     ) : (
                                         <Heading level="3" size="m">
@@ -147,7 +156,7 @@ const NavigationPopupMenu = ({
                             ))}
                         </Container>
                     </nav>
-                </>
+                </FocusTrap>
             ) : null}
         </>
     )
@@ -173,7 +182,7 @@ const ToggleMenuButton = ({
         }}
         id="popup-menu-toggle"
         className={classNames(
-            'relative mb-1 flex items-center justify-center rounded px-2 pb-1 pt-2 transition-colors duration-100 ease-in lg:-mr-6',
+            'relative mb-1 flex items-center justify-center rounded px-2 pt-2 pb-1 transition-colors duration-100 ease-in lg:-mr-6',
             {
                 hidden: isMobile,
                 'text-pzh-white hover:bg-pzh-gray-100 hover:text-pzh-blue-500':
@@ -212,7 +221,7 @@ const ListItem = ({
 }: ListItemProps) => {
     if (targetBlank) {
         return (
-            <li className="pt-1 text-pzh-green-500 hover:text-pzh-green-900">
+            <li className="text-pzh-green-500 hover:text-pzh-green-900 pt-1">
                 <a
                     onKeyDown={onKeyDown}
                     href={to}
@@ -228,7 +237,7 @@ const ListItem = ({
     }
 
     return (
-        <li className="pt-1 text-pzh-green-500 hover:text-pzh-green-900">
+        <li className="text-pzh-green-500 hover:text-pzh-green-900 pt-1">
             <Link
                 onKeyDown={onKeyDown}
                 to={to}
