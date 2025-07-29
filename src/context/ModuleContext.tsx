@@ -86,6 +86,14 @@ function ModuleProvider({ children }: { children?: ReactNode }) {
     const module = useModulesViewModuleOverview(parseInt(moduleId!), {
         query: {
             enabled: !!moduleId,
+            select: ({ Objects, ...rest }) => ({
+                ...rest,
+                Objects: Objects.slice().sort(
+                    (a, b) =>
+                        a.Object_Type.localeCompare(b.Object_Type) ||
+                        a.Title.localeCompare(b.Title)
+                ),
+            }),
         },
     })
 
