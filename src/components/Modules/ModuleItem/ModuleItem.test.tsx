@@ -25,9 +25,6 @@ describe('ModuleItem', () => {
                                 Code=""
                                 UUID="123"
                                 Modified_Date=""
-                                editCallback={() => {}}
-                                deleteCallback={() => {}}
-                                viewCallback={() => {}}
                                 ModuleObjectContext={{ Action: 'Toevoegen' }}
                                 model={beleidskeuze}
                             />
