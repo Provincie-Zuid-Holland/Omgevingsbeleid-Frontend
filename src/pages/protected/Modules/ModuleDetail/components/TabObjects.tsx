@@ -15,10 +15,12 @@ import ModuleItemList from '@/components/Modules/ModuleItemList'
 import ModuleLock from '@/components/Modules/ModuleLock'
 import ModuleTimeline from '@/components/Modules/ModuleTimeline'
 import ModuleVersionCard from '@/components/Modules/ModuleVersionCard'
+
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
 import * as modules from '@/validation/modules'
+import ObjectsTable from './ObjectsTable'
 
 const TabObjects = () => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
@@ -44,6 +46,17 @@ const TabObjects = () => {
 
     if (isLoading || !module) return <LoaderContent />
 
+    const canAddObject =
+        (canAddExistingObjectToModule || canAddNewObjectToModule) && !isLocked
+    const showInactiveCard =
+        !module.Activated && (canPatchModuleStatus || isModuleManager)
+    const showVersionCard =
+        module.Activated &&
+        isLocked &&
+        !canComplete &&
+        (canPatchModuleStatus || isModuleManager)
+    const showCompleteCard = canComplete && isLocked && canPatchModuleStatus
+
     return (
         <>
             {module.Activated ? (
@@ -53,47 +66,49 @@ const TabObjects = () => {
                 !isModuleManager && <Divider className="mb-4" />
             )}
 
-            <div className="grid grid-cols-6 gap-x-10 gap-y-0 pt-6">
-                <div className="col-span-6 lg:col-span-4">
-                    <ModuleItemList objects={objects} module={module} />
+            <div className="grid grid-cols-6 gap-x-10 pt-6">
+                {!canEditModule && !isModuleManager ? (
+                    <>
+                        <div className="col-span-6 lg:col-span-4">
+                            <ModuleItemList objects={objects} module={module} />
 
-                    {(canAddExistingObjectToModule ||
-                        canAddNewObjectToModule) &&
-                        !isLocked && (
-                            <Button
-                                variant="link"
-                                onPress={() =>
-                                    setActiveModal('moduleAddObject')
-                                }
-                                className="block text-pzh-green-500 hover:text-pzh-green-900">
-                                Onderdeel toevoegen
-                            </Button>
+                            {canAddObject && (
+                                <Button
+                                    variant="link"
+                                    onPress={() =>
+                                        setActiveModal('moduleAddObject')
+                                    }
+                                    className="text-pzh-green-500 hover:text-pzh-green-900 block">
+                                    Onderdeel toevoegen
+                                </Button>
+                            )}
+                        </div>
+
+                        <div className="col-span-6 lg:col-span-2">
+                            {showInactiveCard && <ModuleInactiveCard />}
+                            {showVersionCard && <ModuleVersionCard />}
+                            {showCompleteCard && <ModuleCompleteCard />}
+                            {module.Activated && statusHistory && (
+                                <ModuleTimeline statusHistory={statusHistory} />
+                            )}
+                        </div>
+                    </>
+                ) : (
+                    <div className="col-span-6 flex flex-col gap-y-6">
+                        {showInactiveCard && (
+                            <ModuleInactiveCard variant="row" />
                         )}
-                </div>
-
-                <div className="col-span-6 lg:col-span-2">
-                    {!module.Activated &&
-                        (canPatchModuleStatus || isModuleManager) && (
-                            <ModuleInactiveCard />
+                        {showVersionCard && <ModuleVersionCard variant="row" />}
+                        {showCompleteCard && (
+                            <ModuleCompleteCard variant="row" />
                         )}
 
-                    {module.Activated &&
-                        isLocked &&
-                        !canComplete &&
-                        (canPatchModuleStatus || isModuleManager) && (
-                            <ModuleVersionCard />
-                        )}
-
-                    {canComplete && isLocked && canPatchModuleStatus && (
-                        <ModuleCompleteCard />
-                    )}
-
-                    {module.Activated && statusHistory && (
-                        <ModuleTimeline statusHistory={statusHistory} />
-                    )}
-                </div>
+                        <ObjectsTable isLocked={isLocked} />
+                    </div>
+                )}
             </div>
 
+            {/* Modals */}
             <ModuleContentsModal
                 initialStep={1}
                 initialValues={{
@@ -104,15 +119,10 @@ const TabObjects = () => {
                 }}
                 module={module}
             />
-
             <ModuleActivateModal />
-
             <ModuleLockModal />
-
             <ModuleEditObjectModal />
-
             <ModuleObjectDeleteConfirmationModal />
-
             <ModuleCompleteModal />
         </>
     )

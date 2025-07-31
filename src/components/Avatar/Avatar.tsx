@@ -34,14 +34,16 @@ const Avatar = ({ uuid, prefix, className, isSmall }: AvatarProps) => {
             }>
             <div
                 className={classNames(
-                    'flex cursor-pointer items-center justify-center rounded-full bg-pzh-blue-500',
+                    'bg-pzh-blue-500 flex cursor-pointer items-center justify-center rounded-full',
                     {
-                        'h-10 w-10 text-s': isSmall,
+                        'text-s h-10 w-10': isSmall,
                         'h-[46px] w-[46px]': !isSmall,
                     },
                     className
                 )}>
-                <span className="-mb-1 font-bold text-pzh-white">{initials}</span>
+                <span className="text-pzh-white -mb-1 font-bold">
+                    {initials}
+                </span>
             </div>
         </Tooltip>
     )

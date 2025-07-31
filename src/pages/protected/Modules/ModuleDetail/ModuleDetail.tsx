@@ -1,7 +1,13 @@
 import { TabItem, Tabs, TabsProps } from '@pzh-ui/components'
 import classNames from 'clsx'
-import { useMemo, useState } from 'react'
-import { Outlet, useNavigate, useParams } from 'react-router-dom'
+import { useMemo } from 'react'
+import {
+    matchPath,
+    Outlet,
+    useLocation,
+    useNavigate,
+    useParams,
+} from 'react-router-dom'
 
 import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
 import { LoaderContent } from '@/components/Loader'
@@ -10,37 +16,51 @@ import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 
-type TabType = 'objecten' | 'besluiten'
+type TabType = 'objecten' | 'besluiten' | 'tijdlijn'
 
-export interface ModuleContext {
-    object?: ModuleObjectShort
+const TABS: TabType[] = ['objecten', 'besluiten', 'tijdlijn']
+
+const getActiveTab = (pathname: string): TabType => {
+    return (
+        TABS.find(
+            tab =>
+                matchPath(`/muteer/modules/:moduleId/${tab}/*`, pathname) ||
+                matchPath(`/muteer/modules/:moduleId/${tab}`, pathname)
+        ) || 'objecten'
+    )
+}
+
+const getDisabledTabs = (
+    objects?: ModuleObjectShort[],
     module?: Module
+): TabType[] => {
+    if (!objects?.length || !module?.Activated) return ['besluiten']
+    return []
 }
 
 const ModuleDetail = () => {
-    const { canCreatePublication } = usePermissions()
+    const { moduleId } = useParams<{ moduleId: string }>()
+    const location = useLocation()
     const navigate = useNavigate()
-    const { moduleId, tab } = useParams<{ moduleId: string; tab?: TabType }>()
-
-    const [activeTab, setActiveTab] = useState<TabType>(tab || 'objecten')
+    const { canCreatePublication } = usePermissions()
 
     const { data: { Module: module, Objects: objects } = {}, isLoading } =
         useModule()
 
-    const handleTabChange: TabsProps['onSelectionChange'] = key => {
-        setActiveTab(key as TabType)
-
-        navigate(
-            `/muteer/modules/${moduleId}${
-                key === 'besluiten' ? '/besluiten' : ''
-            }`
-        )
-    }
-
-    const disabledKeys: TabType[] = useMemo(
-        () => (!objects?.length || !module?.Activated ? ['besluiten'] : []),
+    const activeTab = useMemo(
+        () => getActiveTab(location.pathname),
+        [location.pathname]
+    )
+    const disabledKeys = useMemo(
+        () => getDisabledTabs(objects, module),
         [objects, module]
     )
+
+    const handleTabChange: TabsProps['onSelectionChange'] = key => {
+        navigate(
+            `/muteer/modules/${moduleId}${key !== 'objecten' ? `/${key}` : ''}`
+        )
+    }
 
     if (isLoading || !module) return <LoaderContent />
 
@@ -56,12 +76,19 @@ const ModuleDetail = () => {
                     selectedKey={activeTab}
                     onSelectionChange={handleTabChange}
                     disabledKeys={disabledKeys}>
-                    <TabItem title="Onderdelen" key="objecten">
-                        <Outlet />
-                    </TabItem>
-                    <TabItem title="Besluiten" key="besluiten">
-                        <Outlet />
-                    </TabItem>
+                    {TABS.map(tab => (
+                        <TabItem
+                            key={tab}
+                            title={
+                                tab === 'objecten'
+                                    ? 'Onderdelen'
+                                    : tab === 'besluiten'
+                                      ? 'Besluiten'
+                                      : 'Tijdlijn'
+                            }>
+                            <Outlet />
+                        </TabItem>
+                    ))}
                 </Tabs>
             </div>
         </MutateLayout>

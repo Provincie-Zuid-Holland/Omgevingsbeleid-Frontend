@@ -11,7 +11,6 @@ import {
     filterConnections,
     formatGraphData,
     highlightConnections,
-    resetHighlightConnections,
 } from '@/utils/d3'
 
 interface NetworkFilterProps {
@@ -129,15 +128,6 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
             highlightConnections(connectedLinks, node)
             setActiveNode(node)
         }
-    }
-
-    /**
-     * Clear value of select field and reset connection higlight
-     */
-    const handleClear = (e: { clearValue: () => void }) => {
-        e.clearValue()
-        setActiveNode(undefined)
-        resetHighlightConnections()
     }
 
     /**

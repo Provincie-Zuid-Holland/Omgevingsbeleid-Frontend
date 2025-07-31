@@ -2813,9 +2813,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.621":
-  version: 0.0.621
-  resolution: "@pzh-ui/components@npm:0.0.621"
+"@pzh-ui/components@npm:^0.0.623":
+  version: 0.0.623
+  resolution: "@pzh-ui/components@npm:0.0.623"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
@@ -2868,7 +2868,7 @@ __metadata:
     react-toastify: "npm:^9.1.2"
     tailwind-merge: "npm:^3.2.0"
     uuid: "npm:^11.1.0"
-  checksum: 200d9298b63eac28214944c6ff0b37ac0d10f8bf3913b1750f449a9aec913bf7a0bbe682d98697b8fcbb9f2171be2490e1738820c2088b0a6916a2db224dd9fc
+  checksum: f2bf9e0fc8967b5194e1e49b68294e1887513b729983dd4069322166dee023eef3fab238f30987cedc19d5a170860f652c767132ce4ed46de17854001ef0eb26
   languageName: node
   linkType: hard
 
@@ -12741,7 +12741,7 @@ __metadata:
     "@axe-core/react": "npm:^4.10.0"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-    "@pzh-ui/components": "npm:^0.0.621"
+    "@pzh-ui/components": "npm:^0.0.623"
     "@pzh-ui/config": "npm:^0.0.81"
     "@pzh-ui/css": "npm:^0.0.114"
     "@pzh-ui/icons": "npm:^0.0.82"
