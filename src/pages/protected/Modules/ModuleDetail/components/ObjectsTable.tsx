@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { ModuleObjectShort } from '@/api/fetchers.schemas'
@@ -10,6 +10,7 @@ import useModule from '@/hooks/useModule'
 import { getObjectActionText } from '@/utils/dynamicObject'
 
 import useModalStore from '@/store/modalStore'
+import useObjectTableStore from '@/store/objectTableStore'
 import {
     Button,
     FieldInput,
@@ -151,21 +152,7 @@ const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
     const { data: { Objects: objects = [] } = {}, isLoading } = useModule()
 
-    const [sortBy, setSortBy] = useState([{ id: 'Object_Type', desc: false }])
-    const [filters, setFilters] = useState({
-        Title: '',
-        Object_Type: [] as FilterOption[],
-        Action: [] as FilterOption[],
-    })
-
-    useEffect(() => {
-        if (!objects.length) return
-        setFilters(prev => ({
-            ...prev,
-            Object_Type: getUniqueOptions(objects, 'Object_Type'),
-            Action: getUniqueOptions(objects, 'ModuleObjectContext.Action'),
-        }))
-    }, [objects])
+    const { filters, sortBy, setFilter, setSortBy } = useObjectTableStore()
 
     const typeOptions = useMemo(
         () => getUniqueOptions(objects, 'Object_Type'),
@@ -189,7 +176,7 @@ const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
         key: keyof typeof filters,
         value: string | FilterOption[]
     ) => {
-        setFilters(prev => ({ ...prev, [key]: value }))
+        setFilter(key, value)
     }
 
     const columns = useMemo(
@@ -219,10 +206,12 @@ const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
                     />
                 </div>
                 <div className="relative flex-1">
-                    <Indicator
-                        amount={activeTypeFilters}
-                        className="border-pzh-blue-500 bg-pzh-blue-500 text-pzh-white absolute -top-3 -right-3 z-[1]"
-                    />
+                    {!!activeTypeFilters && (
+                        <Indicator
+                            amount={activeTypeFilters}
+                            className="border-pzh-blue-500 bg-pzh-blue-500 text-pzh-white absolute -top-3 -right-3 z-[1]"
+                        />
+                    )}
                     <FieldSelect
                         name="Object_Type"
                         options={typeOptions}
@@ -243,10 +232,12 @@ const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
                     />
                 </div>
                 <div className="relative flex-1">
-                    <Indicator
-                        amount={activeActionFilters}
-                        className="border-pzh-blue-500 bg-pzh-blue-500 text-pzh-white absolute -top-3 -right-3 z-[1]"
-                    />
+                    {!!activeActionFilters && (
+                        <Indicator
+                            amount={activeActionFilters}
+                            className="border-pzh-blue-500 bg-pzh-blue-500 text-pzh-white absolute -top-3 -right-3 z-[1]"
+                        />
+                    )}
                     <FieldSelect
                         name="Action"
                         options={actionOptions}
@@ -279,7 +270,15 @@ const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
                 enableSortingRemoval={false}
                 enableMultiSort={false}
                 state={{ sorting: sortBy }}
-                onSortingChange={setSortBy}
+                onSortingChange={updater => {
+                    if (typeof updater === 'function') {
+                        setSortBy(
+                            updater(useObjectTableStore.getState().sortBy)
+                        )
+                    } else {
+                        setSortBy(updater)
+                    }
+                }}
                 manualSorting
                 isLoading={isLoading}
             />
