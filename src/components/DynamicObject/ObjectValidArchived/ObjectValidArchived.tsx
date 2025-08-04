@@ -44,7 +44,7 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                 </div>
             ) : !!archivedObjects?.length ? (
                 <div>
-                    <div className="grid grid-cols-9 px-3 py-2">
+                    <div className="grid grid-cols-9 p-2">
                         <div className="col-span-5">
                             <Text bold color="text-pzh-blue-500">
                                 Naam
@@ -70,7 +70,7 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                                 key={object.UUID}
                                 to={`/${slugOverview}/${plural}/${object.UUID}`}
                                 target="_blank"
-                                className="grid grid-cols-9 border-b border-pzh-gray-300 px-3 py-2 hover:bg-pzh-gray-100">
+                                className="border-pzh-gray-300 hover:bg-pzh-gray-100 grid grid-cols-9 border-b p-2">
                                 <div className="col-span-5">
                                     <Text bold color="text-pzh-blue-500">
                                         {object.Title}
