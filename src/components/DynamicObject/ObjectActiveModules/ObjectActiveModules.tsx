@@ -1,7 +1,7 @@
 import { Heading } from '@pzh-ui/components'
 
 import { LoaderSpinner } from '@/components/Loader'
-import ModuleCard from '@/components/Modules/ModuleCard'
+import ModuleTile from '@/components/Modules/ModuleTile'
 import useObject from '@/hooks/useObject'
 
 const ObjectActiveModules = () => {
@@ -20,7 +20,7 @@ const ObjectActiveModules = () => {
             ) : !!activeModules?.length ? (
                 <ul className="grid grid-cols-1 gap-9 lg:grid-cols-2">
                     {activeModules.map(object => (
-                        <ModuleCard
+                        <ModuleTile
                             key={object.Module_Object.UUID}
                             {...object.Module}
                         />
