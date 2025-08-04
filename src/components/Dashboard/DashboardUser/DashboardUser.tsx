@@ -22,7 +22,6 @@ import {
 } from '@/api/fetchers.schemas'
 import ObjectCard from '@/components/DynamicObject/ObjectActiveModules/ObjectCard'
 import { LoaderCard } from '@/components/Loader'
-import ModuleCard from '@/components/Modules/ModuleCard'
 import ModuleTile from '@/components/Modules/ModuleTile'
 import * as models from '@/config/objects'
 import { ModelReturnType, ModelType } from '@/config/objects/types'
@@ -193,7 +192,7 @@ const ItemList = ({ isLoading, items, type }: ItemListProps) => (
                             'Module_ID' in item &&
                             'Status' in item &&
                             type === 'module' ? (
-                                <ModuleCard key={item.Module_ID} {...item} />
+                                <ModuleTile key={item.Module_ID} {...item} />
                             ) : (
                                 'Object_ID' in item &&
                                 type === 'object' && (

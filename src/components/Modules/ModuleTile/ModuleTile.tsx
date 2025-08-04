@@ -1,13 +1,18 @@
 import { Badge, Button, Heading, Text } from '@pzh-ui/components'
 import { Link } from 'react-router-dom'
 
-import { Module } from '@/api/fetchers.schemas'
+import { Module, ModuleShort } from '@/api/fetchers.schemas'
 
-const ModuleTile = ({ Title, Description, Status, Module_ID }: Module) => (
+const ModuleTile = ({
+    Title,
+    Description,
+    Status,
+    Module_ID,
+}: Module | ModuleShort) => (
     <Link
         to={`/muteer/modules/${Module_ID}`}
         data-testid="dashboard-module-tile"
-        className="group flex flex-col justify-between rounded border border-pzh-gray-200 p-6">
+        className="group border-pzh-gray-200 flex flex-col justify-between rounded border p-6">
         <div className="mb-4">
             <Heading level="3" size="m">
                 {Title}
