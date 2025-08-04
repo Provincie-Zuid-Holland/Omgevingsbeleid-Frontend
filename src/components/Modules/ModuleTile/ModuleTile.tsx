@@ -2,6 +2,7 @@ import { Badge, Button, Heading, Text } from '@pzh-ui/components'
 import { Link } from 'react-router-dom'
 
 import { Module, ModuleShort } from '@/api/fetchers.schemas'
+import { getModuleStatusColor } from '@/utils/module'
 
 const ModuleTile = ({
     Title,
@@ -24,9 +25,8 @@ const ModuleTile = ({
         <div className="flex items-center justify-between">
             <Badge
                 text={Status?.Status.replace('-', ' ') || ''}
-                variant={Status?.Status === 'Niet-Actief' ? 'gray' : 'green'}
+                variant={getModuleStatusColor(Status?.Status)}
                 upperCase={false}
-                solid={Status?.Status === 'Vastgesteld'}
                 className="whitespace-nowrap"
             />
             <Button
