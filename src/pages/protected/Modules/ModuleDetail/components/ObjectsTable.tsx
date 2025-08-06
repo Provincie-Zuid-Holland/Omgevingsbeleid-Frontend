@@ -17,6 +17,7 @@ import {
     FieldSelect,
     formatDate,
     Table,
+    TableProps,
     Text,
 } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
@@ -150,9 +151,14 @@ interface ObjectsTableProps {
 const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
     const navigate = useNavigate()
     const setActiveModal = useModalStore(state => state.setActiveModal)
-    const { data: { Objects: objects = [] } = {}, isLoading } = useModule()
+    const {
+        data: { Objects: objects = [], Module: { Module_ID = 0 } = {} } = {},
+        isLoading,
+    } = useModule()
 
-    const { filters, sortBy, setFilter, setSortBy } = useObjectTableStore()
+    const store = useObjectTableStore()
+    const filters = store.getFilters(Module_ID)
+    const sortBy = store.getSortBy(Module_ID)
 
     const typeOptions = useMemo(
         () => getUniqueOptions(objects, 'Object_Type'),
@@ -167,16 +173,24 @@ const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
         filters.Object_Type.length <= typeOptions.length
             ? filters.Object_Type.length
             : 0
-    const activeActionFilters =
-        filters.Action.length <= actionOptions.length
-            ? filters.Action.length
-            : 0
+    const activeActionFilters = filters.Action.filter(f =>
+        actionOptions.some(opt => opt.value === f.value)
+    ).length
 
     const handleFilterChange = (
         key: keyof typeof filters,
         value: string | FilterOption[]
     ) => {
-        setFilter(key, value)
+        store.setFilter(Module_ID, key, value)
+    }
+
+    const handleSortChange: TableProps['onSortingChange'] = updater => {
+        const newSort =
+            typeof updater === 'function'
+                ? updater(store.getSortBy(Module_ID))
+                : updater
+
+        store.setSortBy(Module_ID, newSort)
     }
 
     const columns = useMemo(
@@ -270,15 +284,7 @@ const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
                 enableSortingRemoval={false}
                 enableMultiSort={false}
                 state={{ sorting: sortBy }}
-                onSortingChange={updater => {
-                    if (typeof updater === 'function') {
-                        setSortBy(
-                            updater(useObjectTableStore.getState().sortBy)
-                        )
-                    } else {
-                        setSortBy(updater)
-                    }
-                }}
+                onSortingChange={handleSortChange}
                 manualSorting
                 isLoading={isLoading}
             />
