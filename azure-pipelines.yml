@@ -24,12 +24,14 @@ stages:
                       key: 'yarn | "$(Agent.OS)" | $(Build.SourcesDirectory)/yarn.lock'
                       restoreKeys: |
                           yarn | "$(Agent.OS)"
-                      path: $(Build.SourcesDirectory)/.yarn/cache
+                      path: |
+                          $(Build.SourcesDirectory)/.yarn/cache
+                          $(Build.SourcesDirectory)/node_modules
                   displayName: Cache Yarn cache
 
                 - task: NodeTool@0
                   inputs:
-                      versionSpec: '22.x'
+                      versionSpec: '20.x'
                   displayName: Install Node.js
 
                   # Enable Corepack
