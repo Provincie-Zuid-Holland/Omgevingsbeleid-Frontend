@@ -172,7 +172,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                 actions: ['Create', 'Edit'],
             }),
             ...(!!query && {
-                filter_title: `%${query}%`,
+                [type === 'valid' ? 'filter_title' : 'title']: `%${query}%`,
             }),
         },
         {
