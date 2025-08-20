@@ -14,10 +14,7 @@ import { keepPreviousData } from '@tanstack/react-query'
 import { ChangeEvent, KeyboardEvent, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-import {
-    useModulesGetListModuleObjects,
-    useSearchGetMssqlValidSearch,
-} from '@/api/fetchers'
+import { useModulesGetListModuleObjects } from '@/api/fetchers'
 import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import { Model, ModelReturnType } from '@/config/objects/types'
@@ -89,17 +86,15 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
                             </Link>
                         </Button>
                     ) : (
-                        activeTab !== 'latest' && (
-                            <FieldInput
-                                key={plural}
-                                name="search"
-                                placeholder="Zoeken in lijst"
-                                className="min-w-[368px]"
-                                icon={MagnifyingGlass}
-                                onKeyDown={handleKeyDown}
-                                onChange={handleChange}
-                            />
-                        )
+                        <FieldInput
+                            key={plural + activeTab}
+                            name="search"
+                            placeholder="Zoeken in lijst"
+                            className="min-w-[368px]"
+                            icon={MagnifyingGlass}
+                            onKeyDown={handleKeyDown}
+                            onChange={handleChange}
+                        />
                     )}
                 </div>
 
@@ -108,9 +103,10 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
                 ) : (
                     <Tabs
                         selectedKey={activeTab}
-                        onSelectionChange={key =>
+                        onSelectionChange={key => {
                             setActiveTab(key as typeof activeTab)
-                        }>
+                            setQuery('')
+                        }}>
                         <TabItem title="Vigerend" key="valid">
                             <TabTable
                                 type="valid"
@@ -175,6 +171,9 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                 object_type: singular,
                 actions: ['Create', 'Edit'],
             }),
+            ...(!!query && {
+                filter_title: `%${query}%`,
+            }),
         },
         {
             query: {
@@ -187,40 +186,12 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
         }
     )
 
-    const {
-        data: searchData,
-        isPending: searchLoading,
-        mutate,
-    } = useSearchGetMssqlValidSearch()
-
-    useUpdateEffect(() => {
-        if (!query) {
-            return
-        }
-
-        mutate({
-            data: {
-                Object_Types: [singular],
-            },
-            params: {
-                query,
-                limit: 50,
-            },
-        })
-    }, [query, pageIndex])
-
     useUpdateEffect(() => {
         setPagination({
             pageIndex: 1,
             pageSize: PAGE_LIMIT,
         })
     }, [plural])
-
-    /**
-     * Show search results if query is not empty and tab is valid
-     */
-    const results =
-        !!query && activeTab !== 'latest' ? searchData?.results : data?.results
 
     /**
      * Setup Table columns
@@ -252,7 +223,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
      */
     const formattedData = useMemo(
         () =>
-            results?.map(
+            data?.results?.map(
                 ({
                     Title,
                     Modified_Date,
@@ -297,7 +268,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                     }),
                 })
             ) || [],
-        [results, atemporal, plural, canCreateModule, navigate, type]
+        [data?.results, atemporal, plural, canCreateModule, navigate, type]
     )
 
     return (
@@ -317,7 +288,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                     }}
                     onSortingChange={setSortBy}
                     manualSorting
-                    isLoading={isFetching || searchLoading}
+                    isLoading={isFetching}
                 />
             ) : !isFetching ? (
                 <span className="italic">
