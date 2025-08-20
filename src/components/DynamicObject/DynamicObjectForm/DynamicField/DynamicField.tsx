@@ -58,6 +58,8 @@ const DynamicField = ({
         throw new Error(`Oh no! No field found for type: ${type}..`)
     }
 
+    console.log(field)
+
     if (type === 'image') {
         // @ts-ignore
         field.defaultValue = null

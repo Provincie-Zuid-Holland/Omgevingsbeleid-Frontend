@@ -191,16 +191,22 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                     defaultValues={{
                         ...(object?.Hierarchy_Statics && {
                             Hierarchy_Code: {
-                                label: object?.Hierarchy_Statics?.Cached_Title,
-                                value: object?.Hierarchy_Statics?.Code,
+                                label: object.Hierarchy_Statics.Cached_Title,
+                                value: object.Hierarchy_Statics.Code,
                             },
                         }),
                         ...(object?.Werkingsgebied_Statics && {
                             Werkingsgebied_Code: {
-                                label: object?.Werkingsgebied_Statics
-                                    ?.Cached_Title,
-                                value: object?.Werkingsgebied_Statics?.Code,
+                                label: object.Werkingsgebied_Statics
+                                    .Cached_Title,
+                                value: object.Werkingsgebied_Statics.Code,
                             },
+                        }),
+                        ...(object?.Documents_Statics && {
+                            Documents: object.Documents_Statics.map(obj => ({
+                                label: obj.Cached_Title,
+                                value: obj.Code,
+                            })),
                         }),
                     }}
                 />
