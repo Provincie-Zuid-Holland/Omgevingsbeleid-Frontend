@@ -61,8 +61,8 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
 
         const objectData = {} as { [key in (typeof fields)[number]]: any }
 
-        fields?.forEach(field => {
-            return (objectData[field] = object?.[field as keyof typeof data])
+        fields.forEach(field => {
+            objectData[field] = object?.[field as keyof typeof object]
         })
 
         if (
@@ -93,6 +93,13 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                 delete (payload as any)[key]
             }
         })
+
+        // Transform multi-selects to array of values
+        if (Array.isArray(payload.Documents)) {
+            payload.Documents = payload.Documents.map(
+                (item: any) => item.value ?? item
+            )
+        }
 
         if (
             'Ambtsgebied' in payload &&

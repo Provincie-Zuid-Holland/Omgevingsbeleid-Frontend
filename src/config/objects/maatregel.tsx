@@ -1,6 +1,7 @@
 import { Hyperlink } from '@pzh-ui/components'
 import { AngleDown, CalendarCheck } from '@pzh-ui/icons'
 import { Link } from 'react-router-dom'
+import { z } from 'zod'
 
 import {
     useGetRevisionsMaatregelVersion,
@@ -122,7 +123,9 @@ const maatregel: DynamicObject<
                     hasAreaSelect: true,
                     customMenuOptions: ['image', 'table'],
                     imageOptions: {
-                        maxSize: 819200,
+                        uploadOptions: {
+                            maxSize: 819200,
+                        },
                     },
                 },
                 {
@@ -146,7 +149,9 @@ const maatregel: DynamicObject<
                     hasAreaSelect: true,
                     customMenuOptions: ['image', 'table'],
                     imageOptions: {
-                        maxSize: 819200,
+                        uploadOptions: {
+                            maxSize: 819200,
+                        },
                     },
                 },
             ],
@@ -245,7 +250,18 @@ const maatregel: DynamicObject<
                         ),
                     },
                     // @ts-ignore
-                    validation: schemaDefaults.optionalArray,
+                    validation: z
+                        .array(
+                            z.union([
+                                z.string(),
+                                z.object({ label: z.any(), value: z.string() }),
+                            ])
+                        )
+                        .optional()
+                        .nullable()
+                        .transform(val =>
+                            val?.map(v => (typeof v === 'string' ? v : v.value))
+                        ),
                 },
             ],
         },

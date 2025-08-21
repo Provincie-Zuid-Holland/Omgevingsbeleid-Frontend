@@ -21,7 +21,7 @@ import { DynamicField as DynamicFieldProps } from '@/config/types'
 import useModalStore from '@/store/modalStore'
 import { fileToBase64 } from '@/utils/file'
 
-import DynamicObjectSearch from '../../DynamicObjectSearch'
+import DynamicObjectSearch, { Option } from '../../DynamicObjectSearch'
 import { Area } from './extensions/area'
 
 const inputFieldMap = {
@@ -39,17 +39,19 @@ const inputFieldMap = {
     file: FieldFile,
 }
 
+type Props = DynamicFieldProps & {
+    isFirst?: boolean
+    isLocked?: boolean
+    model?: Model
+}
+
 const DynamicField = ({
     type,
     isFirst,
     isLocked,
     conditionalField,
     ...field
-}: DynamicFieldProps & {
-    isFirst?: boolean
-    isLocked?: boolean
-    model?: Model
-}) => {
+}: Props) => {
     const { setFieldValue, values } = useFormikContext<FormikValues>()
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
@@ -58,34 +60,51 @@ const DynamicField = ({
         throw new Error(`Oh no! No field found for type: ${type}..`)
     }
 
-    console.log(field)
-
+    // IMAGE
     if (type === 'image') {
-        // @ts-ignore
-        field.defaultValue = null
+        const imageField = field as Extract<
+            DynamicFieldProps,
+            { type: 'image' }
+        >
+
+        imageField.defaultValue = values[imageField.name]
+            ? [values[imageField.name]]
+            : undefined
 
         // @ts-ignore
-        field.onChange = async files => {
-            if (!!!files.length) {
-                return setFieldValue(field.name, null)
-            }
-
-            return setFieldValue(field.name, await fileToBase64(files[0]))
+        imageField.onChange = async (files: File[]) => {
+            if (!files.length) return setFieldValue(imageField.name, null)
+            return setFieldValue(imageField.name, await fileToBase64(files[0]))
         }
 
-        // @ts-ignore
-        field.onDropAccepted = async files => {
+        imageField.onDropAccepted = async (files: File[]) => {
             return setFieldValue(
-                field.name,
-                !!files.length ? await fileToBase64(files[0]) : null
+                imageField.name,
+                files.length ? await fileToBase64(files[0]) : null
             )
         }
+    }
 
-        // @ts-ignore
-        if (!!values[field.name]) field.defaultValue = [values[field.name]]
-    } else if (type === 'wysiwyg') {
-        // @ts-ignore
-        field.menuClassName = 'sticky top-24'
+    // WYSIWYG
+    if (type === 'wysiwyg') {
+        const wysiwygField = field as Extract<
+            DynamicFieldProps,
+            { type: 'wysiwyg' }
+        >
+        wysiwygField.menuClassName = 'sticky top-24'
+    }
+
+    // SEARCH
+    if (type === 'search') {
+        const searchField = field as Extract<
+            DynamicFieldProps,
+            { type: 'search' }
+        >
+        if (searchField.defaultValue) {
+            searchField.initialOptions = Array.isArray(searchField.defaultValue)
+                ? (searchField.defaultValue as Option[])
+                : [searchField.defaultValue as Option]
+        }
     }
 
     return (
@@ -100,9 +119,7 @@ const DynamicField = ({
             {/* @ts-ignore */}
             <InputField
                 disabled={isLocked}
-                {...(type === 'url' && {
-                    type: 'url',
-                })}
+                {...(type === 'url' && { type: 'url' })}
                 {...(type === 'select' && {
                     blurInputOnSelect: true,
                     isClearable: !field.required,
@@ -111,8 +128,10 @@ const DynamicField = ({
                     'hasAreaSelect' in field &&
                     field.hasAreaSelect && {
                         customExtensions: [Area],
-                        customMenuButtons: editor => (
-                            <Tooltip label="Binnenkort is het mogelijk om gebiedsaanwijzingen aan te maken, meer informatie bij regieteam Omgevingsbeleid">
+                        customMenuButtons: editor => [
+                            <Tooltip
+                                key="area-button"
+                                label="Binnenkort is het mogelijk om gebiedsaanwijzingen aan te maken, meer informatie bij regieteam Omgevingsbeleid">
                                 <span className="cursor-help">
                                     <RteMenuButton
                                         disabled
@@ -121,9 +140,7 @@ const DynamicField = ({
                                         onClick={() =>
                                             setActiveModal(
                                                 'objectAreaAnnotate',
-                                                {
-                                                    editor,
-                                                }
+                                                { editor }
                                             )
                                         }
                                         aria-label="Gebiedsaanwijzing"
@@ -131,8 +148,8 @@ const DynamicField = ({
                                         <DrawPolygon />
                                     </RteMenuButton>
                                 </span>
-                            </Tooltip>
-                        ),
+                            </Tooltip>,
+                        ],
                         className: `[&_[data-hint-gebiedengroep]]:text-pzh-blue-900 [&_[data-hint-gebiedengroep]]:bg-pzh-blue-10`,
                     })}
                 {...field}
