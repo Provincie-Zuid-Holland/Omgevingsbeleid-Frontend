@@ -7,6 +7,7 @@ import { LeafletRevisionOverview } from '@/components/Leaflet'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useRevisionStore from '@/store/revisionStore'
 
+import { normalizeImages } from '@/utils/normalizeImages'
 import { fields } from '../ObjectContent/ObjectContent'
 
 interface ObjectRevisionProps {
@@ -56,7 +57,7 @@ const ObjectRevision = ({
 
             <h2
                 className={classNames(
-                    'mb-4 text-pzh-blue-500',
+                    'text-pzh-blue-500 mb-4',
                     getHeadingStyles('l')
                 )}
                 dangerouslySetInnerHTML={{ __html: titleDiff }}
@@ -84,11 +85,11 @@ const ObjectRevision = ({
                                           'Wat wil de provincie bereiken?',
                                   }
                                 : singular === 'maatregel'
-                                ? {
-                                      Description:
-                                          'Wat gaat de provincie doen?',
-                                  }
-                                : undefined
+                                  ? {
+                                        Description:
+                                            'Wat gaat de provincie doen?',
+                                    }
+                                  : undefined
                         }
                         {...field}
                     />
@@ -98,7 +99,7 @@ const ObjectRevision = ({
             {(!!compareA.Werkingsgebied_Statics ||
                 !!compareB.Werkingsgebied_Statics) && (
                 <>
-                    <Divider className="mb-6 mt-0" />
+                    <Divider className="mt-0 mb-6" />
 
                     <Heading level="3" size="m" className="mb-2">
                         Werkingsgebied
@@ -109,11 +110,11 @@ const ObjectRevision = ({
                         compareB.Werkingsgebied_Statics?.Object_ID
                             ? `Het gebied '${compareA.Werkingsgebied_Statics?.Cached_Title}' in ${singularReadable} '${compareA.Title}' is ongewijzigd.`
                             : !!compareA.Werkingsgebied_Statics?.Object_ID &&
-                              !!compareB.Werkingsgebied_Statics?.Object_ID
-                            ? `${singularCapitalize} '${compareA.Title}' is gewijzigd van gebied '${compareA.Werkingsgebied_Statics?.Cached_Title}' naar gebied '${compareB.Werkingsgebied_Statics?.Cached_Title}'`
-                            : !!compareA.Werkingsgebied_Statics?.Object_ID
-                            ? `Het gebied '${compareA.Werkingsgebied_Statics?.Cached_Title}' in ${singularReadable} '${compareA.Title}' is verwijderd.`
-                            : `Het gebied '${compareB.Werkingsgebied_Statics?.Cached_Title}' in ${singularReadable} '${compareA.Title}' is toegevoegd.`}
+                                !!compareB.Werkingsgebied_Statics?.Object_ID
+                              ? `${singularCapitalize} '${compareA.Title}' is gewijzigd van gebied '${compareA.Werkingsgebied_Statics?.Cached_Title}' naar gebied '${compareB.Werkingsgebied_Statics?.Cached_Title}'`
+                              : !!compareA.Werkingsgebied_Statics?.Object_ID
+                                ? `Het gebied '${compareA.Werkingsgebied_Statics?.Cached_Title}' in ${singularReadable} '${compareA.Title}' is verwijderd.`
+                                : `Het gebied '${compareB.Werkingsgebied_Statics?.Cached_Title}' in ${singularReadable} '${compareA.Title}' is toegevoegd.`}
                     </Text>
 
                     <div className="h-[320px] overflow-hidden rounded-lg">
@@ -128,15 +129,15 @@ const ObjectRevision = ({
                     </div>
                     <div className="mt-3">
                         <span className="flex items-center">
-                            <div className="-mt-1 mr-2 h-[14px] w-[14px] rounded-full bg-pzh-red-500" />{' '}
+                            <div className="bg-pzh-red-500 -mt-1 mr-2 h-[14px] w-[14px] rounded-full" />{' '}
                             Verwijderd werkingsgebied
                         </span>
                         <span className="flex items-center">
-                            <div className="-mt-1 mr-2 h-[14px] w-[14px] rounded-full bg-pzh-green-500" />{' '}
+                            <div className="bg-pzh-green-500 -mt-1 mr-2 h-[14px] w-[14px] rounded-full" />{' '}
                             Toegevoegd werkingsgebied
                         </span>
                         <span className="flex items-center">
-                            <div className="-mt-1 mr-2 h-[14px] w-[14px] rounded-full bg-pzh-blue-100" />{' '}
+                            <div className="bg-pzh-blue-100 -mt-1 mr-2 h-[14px] w-[14px] rounded-full" />{' '}
                             Ongewijzigd werkingsgebied
                         </span>
                     </div>
@@ -164,7 +165,8 @@ const Content = ({
     htmlFrom,
     htmlTo,
 }: ContentProps) => {
-    const diff = htmlDiff(htmlFrom, htmlTo)
+    const { normalizedA, normalizedB } = normalizeImages(htmlFrom, htmlTo)
+    const diff = htmlDiff(normalizedA, normalizedB)
 
     return (
         <>
@@ -172,7 +174,7 @@ const Content = ({
                 {customTitle?.[value] || title}
             </Text>
             <p
-                className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 md:mb-8"
+                className="prose prose-neutral text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 mb-4 max-w-full whitespace-pre-line md:mb-8"
                 dangerouslySetInnerHTML={{ __html: diff }}
             />
         </>
