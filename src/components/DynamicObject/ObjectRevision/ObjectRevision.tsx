@@ -7,7 +7,10 @@ import { LeafletRevisionOverview } from '@/components/Leaflet'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useRevisionStore from '@/store/revisionStore'
 
-import { normalizeImages } from '@/utils/normalizeImages'
+import {
+    replaceImagesWithTokens,
+    restoreImagesWithDiff,
+} from '@/utils/normalizeImages'
 import { fields } from '../ObjectContent/ObjectContent'
 
 interface ObjectRevisionProps {
@@ -165,17 +168,24 @@ const Content = ({
     htmlFrom,
     htmlTo,
 }: ContentProps) => {
-    const { normalizedA, normalizedB } = normalizeImages(htmlFrom, htmlTo)
-    const diff = htmlDiff(normalizedA, normalizedB)
+    const storeA: Record<string, string> = {}
+    const storeB: Record<string, string> = {}
+
+    const cleanA = replaceImagesWithTokens(htmlFrom, storeA)
+    const cleanB = replaceImagesWithTokens(htmlTo, storeB)
+
+    const diff = htmlDiff(cleanA, cleanB)
+
+    const finalDiff = restoreImagesWithDiff(diff, storeA, storeB)
 
     return (
         <>
             <Text bold className="mb-2">
                 {customTitle?.[value] || title}
             </Text>
-            <p
-                className="prose prose-neutral text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 mb-4 max-w-full whitespace-pre-line md:mb-8"
-                dangerouslySetInnerHTML={{ __html: diff }}
+            <div
+                className="prose prose-neutral text-m text-pzh-blue-900 prose-li:my-0 mb-4 max-w-full whitespace-pre-line md:mb-8"
+                dangerouslySetInnerHTML={{ __html: finalDiff }}
             />
         </>
     )
