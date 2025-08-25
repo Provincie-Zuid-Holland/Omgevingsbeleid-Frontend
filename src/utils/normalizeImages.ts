@@ -1,33 +1,43 @@
-const base64ImgRegex = /<img[^>]+src="data:image\/[^">]+"[^>]*>/g
-
-export function normalizeImages(htmlA: string, htmlB: string) {
-    const imgsA = htmlA.match(base64ImgRegex) || []
-    const imgsB = htmlB.match(base64ImgRegex) || []
-
-    let normalizedA = htmlA
-    let normalizedB = htmlB
-
-    imgsA.forEach((imgTag, i) => {
-        const otherImg = imgsB[i]
-
-        if (otherImg === imgTag) {
-            // identical image, replace both with a lightweight placeholder
-            normalizedA = normalizedA.replace(imgTag, '<img src="[image]" />')
-            normalizedB = normalizedB.replace(otherImg, '<img src="[image]" />')
-        } else {
-            // different image, mark them explicitly
-            normalizedA = normalizedA.replace(
-                imgTag,
-                '<span>⚠️ Afbeelding gewijzigd (oud)</span>'
-            )
-            if (otherImg) {
-                normalizedB = normalizedB.replace(
-                    otherImg,
-                    '<span>⚠️ Afbeelding gewijzigd (nieuw)</span>'
-                )
-            }
-        }
+export function replaceImagesWithTokens(
+    html: string,
+    store: Record<string, string>,
+    prefix: string
+): string {
+    let counter = 0
+    return html.replace(/<img[^>]*>/g, match => {
+        const key = `${prefix}-IMG-${counter++}`
+        store[key] = match
+        return `[[${key}]]` // a unique token
     })
+}
 
-    return { normalizedA, normalizedB }
+export function restoreImagesWithDiff(
+    html: string,
+    storeA: Record<string, string>,
+    storeB: Record<string, string>
+): string {
+    return html.replace(/\[\[(.*?)\]\]/g, (_, key) => {
+        const oldImg = storeA[key]
+        const newImg = storeB[key]
+
+        if (oldImg && newImg) {
+            if (oldImg === newImg) {
+                return oldImg
+            }
+            return `
+        <del>⚠️ Oude afbeelding<br/>${oldImg}</del>
+        <ins>⚠️ Nieuwe afbeelding<br/>${newImg}</ins>
+      `
+        }
+
+        if (oldImg && !newImg) {
+            return `<del>⚠️ Afbeeding verwijderd<br/>${oldImg}</del>`
+        }
+
+        if (!oldImg && newImg) {
+            return `<ins>⚠️ Afbeelding toegevoegd<br/>${newImg}</ins>`
+        }
+
+        return ''
+    })
 }
