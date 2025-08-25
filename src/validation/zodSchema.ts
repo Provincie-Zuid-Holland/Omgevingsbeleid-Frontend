@@ -71,9 +71,12 @@ const customRteValidation = () =>
     custom<string>(html => {
         const doc = new DOMParser().parseFromString(html as string, 'text/html')
 
-        const containsEmptyParagraphs = Array.from(
-            doc.querySelectorAll('p')
-        ).some(p => p.innerHTML.trim() === '<br>' || p.innerHTML.trim() === '')
+        const containsEmptyParagraphs = Array.from(doc.querySelectorAll('p'))
+            // exclude <p> elements that are inside tables
+            .filter(p => !p.closest('table'))
+            .some(
+                p => p.innerHTML.trim() === '<br>' || p.innerHTML.trim() === ''
+            )
 
         return !containsEmptyParagraphs
     }, 'Lege paragrafen zijn niet toegestaan. Vul ze in of verwijder ze.')
