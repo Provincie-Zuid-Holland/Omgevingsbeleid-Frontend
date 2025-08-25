@@ -171,8 +171,8 @@ const Content = ({
     const storeA: Record<string, string> = {}
     const storeB: Record<string, string> = {}
 
-    const cleanA = replaceImagesWithTokens(htmlFrom, storeA, 'A')
-    const cleanB = replaceImagesWithTokens(htmlTo, storeB, 'B')
+    const cleanA = replaceImagesWithTokens(htmlFrom, storeA)
+    const cleanB = replaceImagesWithTokens(htmlTo, storeB)
 
     const diff = htmlDiff(cleanA, cleanB)
 

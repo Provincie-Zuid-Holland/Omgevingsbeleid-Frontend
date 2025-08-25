@@ -1,13 +1,12 @@
 export function replaceImagesWithTokens(
     html: string,
-    store: Record<string, string>,
-    prefix: string
+    store: Record<string, string>
 ): string {
     let counter = 0
     return html.replace(/<img[^>]*>/g, match => {
-        const key = `${prefix}-IMG-${counter++}`
+        const key = `IMG-${counter++}` // no prefix → consistent
         store[key] = match
-        return `[[${key}]]` // a unique token
+        return `[[${key}]]`
     })
 }
 
