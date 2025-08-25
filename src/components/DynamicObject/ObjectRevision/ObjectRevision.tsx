@@ -7,6 +7,7 @@ import { LeafletRevisionOverview } from '@/components/Leaflet'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useRevisionStore from '@/store/revisionStore'
 
+import { normalizeImages } from '@/utils/normalizeImages'
 import { fields } from '../ObjectContent/ObjectContent'
 
 interface ObjectRevisionProps {
@@ -164,7 +165,8 @@ const Content = ({
     htmlFrom,
     htmlTo,
 }: ContentProps) => {
-    const diff = htmlDiff(htmlFrom, htmlTo)
+    const { normalizedA, normalizedB } = normalizeImages(htmlFrom, htmlTo)
+    const diff = htmlDiff(normalizedA, normalizedB)
 
     return (
         <>
