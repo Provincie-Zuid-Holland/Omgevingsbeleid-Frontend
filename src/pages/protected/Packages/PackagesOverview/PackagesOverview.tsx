@@ -1,11 +1,10 @@
-import {
-    usePublicationActPackagesGet,
-    usePublicationAnnouncementPackagesGet,
-} from '@/api/fetchers'
+import { usePublicationPackagesGetListUnifiedPackages } from '@/api/fetchers'
 import {
     DocumentType,
     PackageType,
+    PublicationType,
     ReportStatusType,
+    SortOrder,
 } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import { getStatus } from '@/components/Publications/PublicationPackages/components/utils'
@@ -14,47 +13,23 @@ import {
     Button,
     Divider,
     formatDate,
-    FormikSelect,
     Heading,
-    TabItem,
     Table,
-    Tabs,
+    TableProps,
+    Tag,
     Text,
 } from '@pzh-ui/components'
 import { AngleRight, ArrowUpToLine } from '@pzh-ui/icons'
 import { keepPreviousData } from '@tanstack/react-query'
-import { Form, Formik } from 'formik'
 import { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { config as providedConfig } from '../config'
+import Filter from './components/Filter'
 
 const PAGE_LIMIT = 20
-
-type TabType = 'act' | 'announcement'
-
-const config = {
-    title: 'Leveringen',
-    plural: 'leveringen',
-    documentType: {
-        omgevingsvisie: {
-            label: 'Visie',
-        },
-        programma: {
-            label: 'Programma',
-        },
-    },
-    packageType: {
-        validation: {
-            label: 'Validatie',
-        },
-        publication: {
-            label: 'Publicatie',
-        },
-    },
-}
+const config = { title: 'Leveringen', plural: 'leveringen', ...providedConfig }
 
 const PackagesOverview = () => {
-    const [activeTab, setActiveTab] = useState<TabType>('act')
-
     const breadcrumbPaths = [
         { name: 'Dashboard', path: '/muteer' },
         { name: config.title, isCurrent: true },
@@ -87,239 +62,226 @@ const PackagesOverview = () => {
                 <Heading level="2" size="xl">
                     {config.title}
                 </Heading>
-                <Tabs
-                    selectedKey={activeTab}
-                    onSelectionChange={key =>
-                        setActiveTab(key as typeof activeTab)
-                    }>
-                    <TabItem title="Regeling" key="act">
-                        <TabTable type="act" activeTab={activeTab} />
-                    </TabItem>
-                    <TabItem title="Kennisgeving" key="announcement">
-                        <TabTable type="announcement" activeTab={activeTab} />
-                    </TabItem>
-                </Tabs>
+                <Overview />
             </div>
         </MutateLayout>
     )
 }
 
-interface TabTableProps {
-    type: TabType
-    activeTab: TabType
-}
-
-const TabTable = ({ type, activeTab }: TabTableProps) => {
+const Overview = () => {
     const navigate = useNavigate()
+    const [searchParams] = useSearchParams()
 
-    const [{ pageIndex }, setPagination] = useState({
-        pageIndex: 1,
-        pageSize: PAGE_LIMIT,
-    })
+    // -------------------------------
+    // Hydrate state from URL once
+    // -------------------------------
+    const initialPage = Number(searchParams.get('page') || 1)
+    const initialFilter: Filter = {
+        publication_type:
+            (searchParams.get('publication_type') as PublicationType) ||
+            undefined,
+        document_type:
+            (searchParams.get('document_type') as DocumentType) || undefined,
+        package_type:
+            (searchParams.get('package_type') as PackageType) || undefined,
+        report_status:
+            (searchParams.get('report_status') as ReportStatusType) ||
+            undefined,
+        module_id: searchParams.get('module_id')
+            ? parseInt(searchParams.get('module_id')!)
+            : undefined,
+    }
 
-    const [sortBy, setSortBy] = useState([
-        {
-            id: 'Created_Date',
-            desc: true,
-        },
-    ])
+    const [pageIndex, setPageIndex] = useState(initialPage)
+    const [filter, setFilter] = useState(initialFilter)
+    const [sorting, setSorting] = useState([{ id: 'Created_Date', desc: true }])
 
-    const [filter, setFilter] = useState<Filter>()
+    const sortColumn = sorting[0]?.id || 'Created_Date'
+    const sortOrder: SortOrder = sorting[0]?.desc ? 'DESC' : 'ASC'
 
-    const useGetPackages =
-        type === 'act'
-            ? usePublicationActPackagesGet
-            : usePublicationAnnouncementPackagesGet
-
-    const { data, isFetching } = useGetPackages(
+    // -------------------------------
+    // Data fetching
+    // -------------------------------
+    const { data, isFetching } = usePublicationPackagesGetListUnifiedPackages(
         {
             limit: PAGE_LIMIT,
             offset: (pageIndex - 1) * PAGE_LIMIT,
-            sort_column: sortBy?.[0]?.id || 'Created_Date',
-            sort_order: sortBy?.[0]?.desc ? 'DESC' : 'ASC',
+            sort_column: sortColumn,
+            sort_order: sortOrder,
             ...filter,
         },
         {
             query: {
                 placeholderData: keepPreviousData,
-                enabled: activeTab === type,
+                select: data => ({
+                    ...data,
+                    ...(filter.module_id && {
+                        Module_Title: data.results.find(
+                            item => item.Module_ID === filter.module_id
+                        )?.Module_Title,
+                    }),
+                }),
             },
         }
     )
 
-    /**
-     * Setup Table columns
-     */
+    // -------------------------------
+    // Sync URL on state change without jumping
+    // -------------------------------
+    const syncURL = () => {
+        const params = new URLSearchParams(window.location.search)
+
+        params.set('page', String(pageIndex))
+        Object.entries(filter).forEach(([key, value]) => {
+            if (value != null) params.set(key, String(value))
+            else params.delete(key)
+        })
+
+        // Replace URL manually without triggering scroll
+        window.history.replaceState(
+            null,
+            '',
+            `${window.location.pathname}?${params.toString()}`
+        )
+    }
+
+    // Call whenever filter or page changes
+    useMemo(() => syncURL(), [pageIndex, filter])
+
+    // -------------------------------
+    // Table columns
+    // -------------------------------
     const columns = useMemo(
         () => [
-            {
-                header: 'Module',
-                accessorKey: 'Module',
-            },
-            {
-                header: 'Instrument',
-                accessorKey: 'Document_Type',
-            },
-            {
-                header: 'Type',
-                accessorKey: 'Package_Type',
-            },
-            {
-                header: 'Status',
-                accessorKey: 'Report_Status',
-            },
-            {
-                header: 'Gemaakt op',
-                accessorKey: 'Created_Date',
-            },
+            { header: 'Module', accessorKey: 'Module_Title' },
+            { header: 'Soort', accessorKey: 'Publication_Type' },
+            { header: 'Instrument', accessorKey: 'Document_Type' },
+            { header: 'Type', accessorKey: 'Package_Type' },
+            { header: 'Gemaakt op', accessorKey: 'Created_Date' },
+            { header: 'Status', accessorKey: 'Report_Status' },
         ],
         []
     )
 
-    /**
-     * Format data before passing to Table
-     */
+    // -------------------------------
+    // Format API results for table
+    // -------------------------------
     const formattedData = useMemo(
         () =>
             data?.results.map(
-                ({ Package_Type, Report_Status, Created_Date, UUID }) => ({
-                    Module: (
-                        <Text bold color="text-pzh-blue-500">
-                            To-Do: Module_Title toevoegen
+                ({
+                    Package_Type,
+                    Publication_Type,
+                    Document_Type,
+                    Report_Status,
+                    Created_Date,
+                    UUID,
+                    Module_Title,
+                }) => ({
+                    Module_Title: (
+                        <Text bold color="text-pzh-blue-500" as="span">
+                            {Module_Title}
                         </Text>
                     ),
-                    Document_Type: 'To-Do: Document_Type toevoegen',
+                    Publication_Type:
+                        config.publicationType[
+                            Publication_Type as PublicationType
+                        ].label,
+                    Document_Type:
+                        config.documentType[Document_Type as DocumentType]
+                            .label,
                     Package_Type:
                         config.packageType[Package_Type as PackageType].label,
-                    Report_Status: getStatus(Report_Status)?.text,
-                    Created_Date: (
+                    Created_Date: formatDate(
+                        new Date(Created_Date + 'Z'),
+                        'dd-MM-yyyy, p'
+                    ),
+                    Report_Status: (
                         <span className="flex items-center justify-between">
-                            {formatDate(
-                                new Date(Created_Date + 'Z'),
-                                'dd-MM-yyyy, p'
-                            )}
+                            {getStatus(Report_Status)?.text}
                             <AngleRight size={20} />
                         </span>
                     ),
                     onClick: () =>
-                        navigate(`/muteer/${config.plural}/${type}/${UUID}`),
+                        navigate(
+                            `/muteer/${config.plural}/${Publication_Type}/${UUID}`
+                        ),
                 })
             ) || [],
-        [data, navigate]
+        [data?.results, navigate]
     )
+
+    // -------------------------------
+    // Handlers
+    // -------------------------------
+    const handlePagination: TableProps['onPaginationChange'] =
+        updaterOrValue => {
+            const newPage =
+                typeof updaterOrValue === 'function'
+                    ? updaterOrValue({ pageIndex, pageSize: PAGE_LIMIT })
+                          .pageIndex
+                    : updaterOrValue.pageIndex
+            setPageIndex(newPage)
+        }
+
+    const handleSortingChange: TableProps['onSortingChange'] =
+        updaterOrValue => {
+            const newSorting =
+                typeof updaterOrValue === 'function'
+                    ? updaterOrValue(sorting)
+                    : updaterOrValue
+            setSorting(newSorting)
+        }
+
+    const handleFilter = (newFilter: Filter) => {
+        setFilter(prev => ({ ...prev, ...newFilter }))
+        setPageIndex(1)
+    }
 
     return (
         <>
             <div className="mb-6">
-                <Filter setFilter={setFilter} />
+                <Filter setFilter={handleFilter} />
+                {filter.module_id && data?.Module_Title && (
+                    <Tag
+                        text={data.Module_Title}
+                        onClick={() =>
+                            setFilter(prev => ({
+                                ...prev,
+                                module_id: undefined,
+                            }))
+                        }
+                        className="mt-2"
+                    />
+                )}
             </div>
 
-            {!!formattedData?.length ? (
-                <Table
-                    columns={columns}
-                    data={formattedData}
-                    enableSortingRemoval={false}
-                    enableMultiSort={false}
-                    limit={PAGE_LIMIT}
-                    total={data?.total}
-                    current={pageIndex}
-                    onPaginationChange={setPagination}
-                    state={{
-                        sorting: sortBy,
-                    }}
-                    onSortingChange={setSortBy}
-                    manualSorting
-                    isLoading={isFetching}
-                />
-            ) : !isFetching ? (
+            <Table
+                columns={columns}
+                data={formattedData}
+                enableSortingRemoval={false}
+                enableMultiSort={false}
+                limit={PAGE_LIMIT}
+                total={data?.total}
+                current={pageIndex}
+                onPaginationChange={handlePagination}
+                state={{ sorting }}
+                onSortingChange={handleSortingChange}
+                manualSorting
+                isLoading={isFetching}
+            />
+
+            {!isFetching && formattedData.length === 0 && (
                 <span className="italic">
                     Er zijn geen leveringen gevonden.
                 </span>
-            ) : (
+            )}
+            {isFetching && (
                 <div className="flex justify-center">
                     <LoaderSpinner />
                 </div>
             )}
         </>
-    )
-}
-
-interface Filter {
-    document_type?: DocumentType
-    package_type?: PackageType
-    report_status?: ReportStatusType
-}
-
-interface FilterProps {
-    setFilter: (filter: Filter) => void
-}
-
-const Filter = ({ setFilter }: FilterProps) => {
-    const documentTypeOptions = Object.entries(DocumentType).map(
-        ([, value]) => ({
-            label: config.documentType[value].label,
-            value,
-        })
-    )
-
-    const packageTypeOptions = Object.entries(PackageType).map(([, value]) => ({
-        label: config.packageType[value].label,
-        value,
-    }))
-
-    const reportStatusOptions = Object.entries(ReportStatusType)
-        .map(([, value]) => ({
-            label: getStatus(value)?.text,
-            value,
-        }))
-        .filter(e => e.value !== 'not_applicable')
-
-    return (
-        <Formik initialValues={{}} onSubmit={setFilter}>
-            {({ submitForm }) => (
-                <Form className="flex flex-col gap-x-4 gap-y-2 sm:flex-row">
-                    <div className="flex-1">
-                        <FormikSelect
-                            name="document_type"
-                            label="Instrument"
-                            placeholder="Kies een instrument"
-                            options={documentTypeOptions}
-                            isClearable
-                            noOptionsMessage={({ inputValue }) =>
-                                !!inputValue && 'Geen resultaten gevonden'
-                            }
-                            onChange={submitForm}
-                        />
-                    </div>
-                    <div className="flex-1">
-                        <FormikSelect
-                            name="package_type"
-                            label="Type"
-                            placeholder="Kies een type"
-                            options={packageTypeOptions}
-                            isClearable
-                            noOptionsMessage={({ inputValue }) =>
-                                !!inputValue && 'Geen resultaten gevonden'
-                            }
-                            onChange={submitForm}
-                        />
-                    </div>
-                    <div className="flex-1">
-                        <FormikSelect
-                            name="report_status"
-                            label="Status"
-                            placeholder="Kies een status"
-                            options={reportStatusOptions}
-                            isClearable
-                            noOptionsMessage={({ inputValue }) =>
-                                !!inputValue && 'Geen resultaten gevonden'
-                            }
-                            onChange={submitForm}
-                        />
-                    </div>
-                </Form>
-            )}
-        </Formik>
     )
 }
 

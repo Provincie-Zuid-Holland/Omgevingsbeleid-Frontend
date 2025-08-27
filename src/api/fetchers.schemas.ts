@@ -9,6 +9,7 @@
  * OpenAPI spec version: 5.0.0
  */
 export type WettelijkeTaakListValidLineagesParams = {
+    filter_title?: string | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
@@ -34,6 +35,7 @@ export type WerkingsgebiedListValidLineageTreeParams = {
 }
 
 export type WerkingsgebiedListValidLineagesParams = {
+    filter_title?: string | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
@@ -59,6 +61,7 @@ export type VisieAlgemeenListValidLineageTreeParams = {
 }
 
 export type VisieAlgemeenListValidLineagesParams = {
+    filter_title?: string | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
@@ -66,6 +69,7 @@ export type VisieAlgemeenListValidLineagesParams = {
 }
 
 export type VerplichtProgrammaListValidLineagesParams = {
+    filter_title?: string | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
@@ -91,6 +95,7 @@ export type ProgrammaAlgemeenListValidLineageTreeParams = {
 }
 
 export type ProgrammaAlgemeenListValidLineagesParams = {
+    filter_title?: string | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
@@ -116,6 +121,7 @@ export type OnderverdelingListValidLineageTreeParams = {
 }
 
 export type OnderverdelingListValidLineagesParams = {
+    filter_title?: string | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
@@ -123,6 +129,7 @@ export type OnderverdelingListValidLineagesParams = {
 }
 
 export type NationaalBelangListValidLineagesParams = {
+    filter_title?: string | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
@@ -148,6 +155,7 @@ export type MaatregelListValidLineageTreeParams = {
 }
 
 export type MaatregelListValidLineagesParams = {
+    filter_title?: string | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
@@ -173,6 +181,7 @@ export type GebiedsprogrammaListValidLineageTreeParams = {
 }
 
 export type GebiedsprogrammaListValidLineagesParams = {
+    filter_title?: string | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
@@ -198,6 +207,7 @@ export type DocumentListValidLineageTreeParams = {
 }
 
 export type DocumentListValidLineagesParams = {
+    filter_title?: string | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
@@ -223,6 +233,7 @@ export type BeleidsregelListValidLineageTreeParams = {
 }
 
 export type BeleidsregelListValidLineagesParams = {
+    filter_title?: string | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
@@ -254,6 +265,7 @@ export type BeleidskeuzeListValidLineageTreeParams = {
 }
 
 export type BeleidskeuzeListValidLineagesParams = {
+    filter_title?: string | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
@@ -279,6 +291,7 @@ export type BeleidsdoelListValidLineageTreeParams = {
 }
 
 export type BeleidsdoelListValidLineagesParams = {
+    filter_title?: string | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
@@ -304,6 +317,7 @@ export type AmbitieListValidLineageTreeParams = {
 }
 
 export type AmbitieListValidLineagesParams = {
+    filter_title?: string | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
@@ -392,6 +406,19 @@ export type PublicationTemplatesGetListTemplatesParams = {
     limit?: number | null
 }
 
+export type PublicationPackagesGetListUnifiedPackagesParams = {
+    environment_uuid?: string | null
+    module_id?: number | null
+    report_status?: ReportStatusType | null
+    package_type?: PackageType | null
+    document_type?: DocumentType | null
+    publication_type?: PublicationType | null
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
 export type PublicationEnvironmentsGetListEnvironmentsParams = {
     is_active?: boolean | null
     offset?: number | null
@@ -461,6 +488,7 @@ export type ModulesGetListModuleObjectsParams = {
     owner_uuid?: string | null
     minimum_status?: ModuleStatusCode | null
     only_active_modules?: boolean
+    title?: string | null
     actions?: ModuleObjectActionFull[]
     offset?: number | null
     limit?: number | null
@@ -628,8 +656,6 @@ export interface WerkingsgebiedStaticPostStatics {
     Owner_2_UUID?: WerkingsgebiedStaticPostStaticsOwner2UUID
 }
 
-export type WerkingsgebiedRelatedObjectShortTitle = string | null
-
 export interface WerkingsgebiedRelatedObjectShort {
     Object_ID: number
     Object_Type: string
@@ -637,6 +663,13 @@ export interface WerkingsgebiedRelatedObjectShort {
     UUID: string
     Werkingsgebied_Code: string
 }
+
+export interface WerkingsgebiedRelatedObjects {
+    Module_Objects: WerkingsgebiedRelatedModuleObjectShort[]
+    Valid_Objects: WerkingsgebiedRelatedObjectShort[]
+}
+
+export type WerkingsgebiedRelatedObjectShortTitle = string | null
 
 export type WerkingsgebiedRelatedModuleObjectShortTitle = string | null
 
@@ -652,11 +685,6 @@ export interface WerkingsgebiedRelatedModuleObjectShort {
     Title: WerkingsgebiedRelatedModuleObjectShortTitle
     UUID: string
     Werkingsgebied_Code: string
-}
-
-export interface WerkingsgebiedRelatedObjects {
-    Module_Objects: WerkingsgebiedRelatedModuleObjectShort[]
-    Valid_Objects: WerkingsgebiedRelatedObjectShort[]
 }
 
 export type WerkingsgebiedPatchTitle = string | null
@@ -1065,6 +1093,20 @@ export interface UploadAttachmentResponse {
     ID: number
 }
 
+export interface UnifiedPackage {
+    Created_Date: string
+    Delivery_ID: string
+    Document_Type: string
+    Environment_UUID: string
+    Modified_Date: string
+    Module_ID: number
+    Module_Title: string
+    Package_Type: string
+    Publication_Type: string
+    Report_Status: string
+    UUID: string
+}
+
 export type TemplateEditTitle = string | null
 
 export type TemplateEditTextTemplate = string | null
@@ -1340,6 +1382,15 @@ export interface PublicationVersion {
     UUID: string
 }
 
+export type PublicationType =
+    (typeof PublicationType)[keyof typeof PublicationType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PublicationType = {
+    act: 'act',
+    announcement: 'announcement',
+} as const
+
 export interface PublicationTemplate {
     Created_Date: string
     Description: string
@@ -1486,6 +1537,39 @@ export interface PublicationAnnouncementPackageReport {
     UUID: string
 }
 
+export type PublicationAnnouncementPackageDetailResponseUsedEnvironmentStateUUID =
+    string | null
+
+export type PublicationAnnouncementPackageDetailResponseDocVersionUUID =
+    | string
+    | null
+
+export type PublicationAnnouncementPackageDetailResponseCreatedEnvironmentStateUUID =
+    string | null
+
+export interface PublicationAnnouncementPackageDetailResponse {
+    Announcement_UUID: string
+    Created_By_UUID: string
+    Created_Date: string
+    Created_Environment_State_UUID: PublicationAnnouncementPackageDetailResponseCreatedEnvironmentStateUUID
+    Delivery_ID: string
+    Doc_Version_UUID: PublicationAnnouncementPackageDetailResponseDocVersionUUID
+    Document_Type: string
+    Environment_Title: string
+    Environment_UUID: string
+    Modified_By_UUID: string
+    Modified_Date: string
+    Module_ID: number
+    Module_Status_ID: number
+    Module_Status_Status: string
+    Module_Title: string
+    Package_Type: string
+    Report_Status: string
+    Used_Environment_State_UUID: PublicationAnnouncementPackageDetailResponseUsedEnvironmentStateUUID
+    UUID: string
+    Zip: PackageZipShort
+}
+
 export interface PublicationAnnouncementPackageCreatedResponse {
     Package_UUID: string
     Zip_UUID: string
@@ -1568,6 +1652,42 @@ export interface PublicationActPackageReport {
     UUID: string
 }
 
+export type PublicationActPackageDetailResponseUsedEnvironmentStateUUID =
+    | string
+    | null
+
+export type PublicationActPackageDetailResponseCreatedEnvironmentStateUUID =
+    | string
+    | null
+
+export type PublicationActPackageDetailResponseBillVersionUUID = string | null
+
+export type PublicationActPackageDetailResponseActVersionUUID = string | null
+
+export interface PublicationActPackageDetailResponse {
+    Act_Version_UUID: PublicationActPackageDetailResponseActVersionUUID
+    Bill_Version_UUID: PublicationActPackageDetailResponseBillVersionUUID
+    Created_By_UUID: string
+    Created_Date: string
+    Created_Environment_State_UUID: PublicationActPackageDetailResponseCreatedEnvironmentStateUUID
+    Delivery_ID: string
+    Document_Type: string
+    Environment_Title: string
+    Environment_UUID: string
+    Modified_By_UUID: string
+    Modified_Date: string
+    Module_ID: number
+    Module_Status_ID: number
+    Module_Status_Status: string
+    Module_Title: string
+    Package_Type: string
+    Publication_Version_UUID: string
+    Report_Status: string
+    Used_Environment_State_UUID: PublicationActPackageDetailResponseUsedEnvironmentStateUUID
+    UUID: string
+    Zip: PackageZipShort
+}
+
 export type PublicationActMetadata = { [key: string]: unknown }
 
 export interface PublicationAct {
@@ -1635,18 +1755,6 @@ export interface PublicModuleShort {
     Title: string
 }
 
-export interface PublicModuleObjectShort {
-    Code: string
-    Description: string
-    Modified_Date: string
-    Module_ID: number
-    ModuleObjectContext?: PublicModuleObjectShortModuleObjectContext
-    Object_ID: number
-    Object_Type: string
-    Title: string
-    UUID: string
-}
-
 export interface PublicModuleOverview {
     Module: PublicModuleShort
     Objects: PublicModuleObjectShort[]
@@ -1671,6 +1779,18 @@ export interface PublicModuleObjectContextShort {
 
 export type PublicModuleObjectShortModuleObjectContext =
     PublicModuleObjectContextShort | null
+
+export interface PublicModuleObjectShort {
+    Code: string
+    Description: string
+    Modified_Date: string
+    Module_ID: number
+    ModuleObjectContext?: PublicModuleObjectShortModuleObjectContext
+    Object_ID: number
+    Object_Type: string
+    Title: string
+    UUID: string
+}
 
 export interface ProgrammaAlgemeenUUID {
     Object_ID?: number
@@ -1869,6 +1989,13 @@ export interface PagedResponseUser {
     limit?: number
     offset?: number
     results: User[]
+    total: number
+}
+
+export interface PagedResponseUnifiedPackage {
+    limit?: number
+    offset?: number
+    results: UnifiedPackage[]
     total: number
 }
 
@@ -2248,6 +2375,13 @@ export interface OnderverdelingBasic {
     UUID?: string
 }
 
+export interface ObjectStatics {
+    Cached_Title: string
+    Code: string
+    Object_ID: number
+    Object_Type: string
+}
+
 export type ObjectStaticShortPortfolioHolder2UUID = string | null
 
 export type ObjectStaticShortPortfolioHolder1UUID = string | null
@@ -2467,6 +2601,12 @@ export interface ModulePatchStatus {
     Status: ModuleStatusCode
 }
 
+export interface ModuleOverview {
+    Module: Module
+    Objects: ModuleObjectShort[]
+    StatusHistory: ModuleStatus[]
+}
+
 export type ModuleObjectsResponseObjectStatics = ObjectStaticShort | null
 
 export type ModuleObjectsResponseModuleObjectContext =
@@ -2487,16 +2627,6 @@ export interface ModuleObjectsResponse {
 
 export type ModuleObjectShortObjectStatics = ObjectStaticShort | null
 
-export type ModuleObjectContextShortOriginalAdjustOn = string | null
-
-export interface ModuleObjectContextShort {
-    Action: string
-    Original_Adjust_On?: ModuleObjectContextShortOriginalAdjustOn
-}
-
-export type ModuleObjectShortModuleObjectContext =
-    ModuleObjectContextShort | null
-
 export interface ModuleObjectShort {
     Code: string
     Modified_Date: string
@@ -2509,11 +2639,15 @@ export interface ModuleObjectShort {
     UUID: string
 }
 
-export interface ModuleOverview {
-    Module: Module
-    Objects: ModuleObjectShort[]
-    StatusHistory: ModuleStatus[]
+export type ModuleObjectContextShortOriginalAdjustOn = string | null
+
+export interface ModuleObjectContextShort {
+    Action: string
+    Original_Adjust_On?: ModuleObjectContextShortOriginalAdjustOn
 }
+
+export type ModuleObjectShortModuleObjectContext =
+    ModuleObjectContextShort | null
 
 export type ModuleObjectContextOriginalAdjustOn = string | null
 
@@ -2753,6 +2887,7 @@ export interface MaatregelFull {
     Created_Date?: string
     Description?: string
     Documents?: string[]
+    Documents_Statics?: ObjectStatics[]
     Effect?: string
     End_Validity?: MaatregelFullEndValidity
     Gebiedsprogrammas?: ReadRelationShortGebiedsprogrammaMinimal[]
