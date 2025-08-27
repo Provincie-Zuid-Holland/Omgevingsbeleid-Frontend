@@ -5,9 +5,9 @@ import { useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import {
-    getPublicationTemplatesGetQueryKey,
-    usePublicationTemplatesTemplateUuidGet,
-    usePublicationTemplatesTemplateUuidPost,
+    getPublicationTemplatesGetListTemplatesQueryKey,
+    usePublicationTemplatesGetDetailTemplate,
+    usePublicationTemplatesPostEditTemplate,
 } from '@/api/fetchers'
 import { TemplateEdit } from '@/api/fetchers.schemas'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
@@ -31,13 +31,13 @@ const PublicationTemplateEdit = () => {
     const { plural, pluralCapitalize, singularCapitalize } = model.defaults
 
     const { data, isFetching, queryKey } =
-        usePublicationTemplatesTemplateUuidGet(uuid!, {
+        usePublicationTemplatesGetDetailTemplate(uuid!, {
             query: {
                 enabled: !!uuid,
             },
         })
 
-    const { mutate, mutateAsync } = usePublicationTemplatesTemplateUuidPost()
+    const { mutate, mutateAsync } = usePublicationTemplatesPostEditTemplate()
 
     /**
      * Format initialData based on object fields
@@ -88,7 +88,8 @@ const PublicationTemplateEdit = () => {
             .then(() => {
                 Promise.all([
                     queryClient.invalidateQueries({
-                        queryKey: getPublicationTemplatesGetQueryKey(),
+                        queryKey:
+                            getPublicationTemplatesGetListTemplatesQueryKey(),
                         refetchType: 'all',
                     }),
                     queryClient.invalidateQueries({ queryKey }),
@@ -108,7 +109,8 @@ const PublicationTemplateEdit = () => {
                 onSuccess: () =>
                     Promise.all([
                         queryClient.invalidateQueries({
-                            queryKey: getPublicationTemplatesGetQueryKey(),
+                            queryKey:
+                                getPublicationTemplatesGetListTemplatesQueryKey(),
                             refetchType: 'all',
                         }),
                         queryClient.invalidateQueries({ queryKey }),
@@ -141,7 +143,7 @@ const PublicationTemplateEdit = () => {
                     {singularCapitalize} bewerken
                 </Heading>
 
-                <div className="flex items-center justify-between gap-4 rounded border border-pzh-gray-200 px-6 py-4">
+                <div className="border-pzh-gray-200 flex items-center justify-between gap-4 rounded border px-6 py-4">
                     <div className="flex items-center gap-4">
                         <Badge
                             variant={data?.Is_Active ? 'green' : 'red'}

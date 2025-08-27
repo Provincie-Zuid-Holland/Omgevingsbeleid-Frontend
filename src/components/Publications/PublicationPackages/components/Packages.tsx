@@ -3,9 +3,9 @@ import { keepPreviousData } from '@tanstack/react-query'
 import { useCallback, useState } from 'react'
 
 import {
-    usePublicationActPackagesGet,
-    usePublicationAnnouncementPackagesGet,
-    usePublicationAnnouncementsGet,
+    usePublicationActPackagesGetListActPackages,
+    usePublicationAnnouncementPackagesGetListAnnouncementPackages,
+    usePublicationAnnouncementsGetListAnnouncements,
 } from '@/api/fetchers'
 import {
     PackageType,
@@ -78,7 +78,7 @@ const Packages = ({
     })
 
     return (
-        <div className="grid grid-cols-12 border-b border-pzh-gray-200 last:border-b-0">
+        <div className="border-pzh-gray-200 grid grid-cols-12 border-b last:border-b-0">
             <div className="col-span-3 p-6 pt-9">
                 <Text
                     bold
@@ -92,7 +92,7 @@ const Packages = ({
             <div className="col-span-9 px-6 py-4">
                 <div
                     className={cn(
-                        'rounded-lg border border-pzh-gray-200 bg-pzh-white',
+                        'border-pzh-gray-200 bg-pzh-white rounded-lg border',
                         {
                             'bg-pzh-gray-100': isLocked && !!!data?.length,
                         }
@@ -109,14 +109,14 @@ const Packages = ({
                     ) : (
                         <>
                             {!!total && total > 3 && (
-                                <div className="flex bg-pzh-gray-100 px-6 py-4">
+                                <div className="bg-pzh-gray-100 flex px-6 py-4">
                                     <Button
                                         onPress={handleShowAll}
                                         isLoading={isFetching}
                                         isDisabled={isFetching}
                                         variant="default"
                                         iconSize={19}
-                                        className="flex items-center gap-4 font-bold text-pzh-green-500 [&>svg]:-mt-1 [&>svg]:mr-0">
+                                        className="text-pzh-green-500 flex items-center gap-4 font-bold [&>svg]:-mt-1 [&>svg]:mr-0">
                                         {!showAll
                                             ? `Alle ${total} leveringen tonen`
                                             : 'Minder tonen'}
@@ -196,29 +196,30 @@ export const ActPackages = ({
         showAll: false,
     })
 
-    const { data, isLoading, isFetching } = usePublicationActPackagesGet(
-        {
-            limit: limit.amount,
-            version_uuid: version.UUID,
-            package_type: packageType,
-            sort_column: 'Created_Date',
-            sort_order: 'DESC',
-        },
-        {
-            query: {
-                enabled: !!version.UUID,
-                placeholderData: keepPreviousData,
-                select: data => ({
-                    ...data,
-                    results: data.results.sort(
-                        (a, b) =>
-                            new Date(a.Created_Date + 'Z').getTime() -
-                            new Date(b.Created_Date + 'Z').getTime()
-                    ),
-                }),
+    const { data, isLoading, isFetching } =
+        usePublicationActPackagesGetListActPackages(
+            {
+                limit: limit.amount,
+                version_uuid: version.UUID,
+                package_type: packageType,
+                sort_column: 'Created_Date',
+                sort_order: 'DESC',
             },
-        }
-    )
+            {
+                query: {
+                    enabled: !!version.UUID,
+                    placeholderData: keepPreviousData,
+                    select: data => ({
+                        ...data,
+                        results: data.results.sort(
+                            (a, b) =>
+                                new Date(a.Created_Date + 'Z').getTime() -
+                                new Date(b.Created_Date + 'Z').getTime()
+                        ),
+                    }),
+                },
+            }
+        )
 
     const handleShowAll = useCallback(() => {
         if (!limit.showAll) {
@@ -254,21 +255,22 @@ export const AnnouncementPackages = ({
         showAll: false,
     })
 
-    const { data: announcement } = usePublicationAnnouncementsGet(
-        {
-            limit: 100,
-            act_package_uuid: validPublicationPackage?.UUID,
-        },
-        {
-            query: {
-                enabled: !!validPublicationPackage?.UUID,
-                select: data => data.results[0],
+    const { data: announcement } =
+        usePublicationAnnouncementsGetListAnnouncements(
+            {
+                limit: 100,
+                act_package_uuid: validPublicationPackage?.UUID,
             },
-        }
-    )
+            {
+                query: {
+                    enabled: !!validPublicationPackage?.UUID,
+                    select: data => data.results[0],
+                },
+            }
+        )
 
     const { data, isLoading, isFetching } =
-        usePublicationAnnouncementPackagesGet(
+        usePublicationAnnouncementPackagesGetListAnnouncementPackages(
             {
                 limit: limit.amount,
                 announcement_uuid: announcement?.UUID,
@@ -293,7 +295,7 @@ export const AnnouncementPackages = ({
         )
 
     const { data: validAnnouncementPackage } =
-        usePublicationAnnouncementPackagesGet(
+        usePublicationAnnouncementPackagesGetListAnnouncementPackages(
             {
                 limit: 3,
                 announcement_uuid: announcement?.UUID,

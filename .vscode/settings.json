@@ -12,5 +12,6 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "explicit"
     },
-    "explorer.autoReveal": true
+    "explorer.autoReveal": true,
+    "typescript.tsdk": "node_modules/typescript/lib"
 }

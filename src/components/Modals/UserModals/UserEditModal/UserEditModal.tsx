@@ -2,9 +2,9 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 
 import {
-    getUsersSearchGetQueryKey,
-    useUsersUserUuidGet,
-    useUsersUserUuidPost,
+    getUserGetSearchUsersQueryKey,
+    useUserPostEditUser,
+    useUserViewGetUser,
 } from '@/api/fetchers'
 import { EditUser } from '@/api/fetchers.schemas'
 import Modal from '@/components/Modal'
@@ -18,16 +18,16 @@ const UserEditModal = () => {
     const { uuid } = useParams()
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { data, queryKey } = useUsersUserUuidGet(uuid!, {
+    const { data, queryKey } = useUserViewGetUser(uuid!, {
         query: { enabled: !!uuid },
     })
 
-    const { mutateAsync } = useUsersUserUuidPost({
+    const { mutateAsync } = useUserPostEditUser({
         mutation: {
             onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey })
                 queryClient.invalidateQueries({
-                    queryKey: getUsersSearchGetQueryKey(),
+                    queryKey: getUserGetSearchUsersQueryKey(),
                     refetchType: 'all',
                 })
 

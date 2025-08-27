@@ -65,7 +65,7 @@ const TabObjects = () => {
                                 onPress={() =>
                                     setActiveModal('moduleAddObject')
                                 }
-                                className="block text-pzh-green-500 hover:text-pzh-green-900">
+                                className="text-pzh-green-500 hover:text-pzh-green-900 block">
                                 Onderdeel toevoegen
                             </Button>
                         )}

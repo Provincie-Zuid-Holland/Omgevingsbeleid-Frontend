@@ -1,13 +1,13 @@
 import { CircleExclamation } from '@pzh-ui/icons'
 
 import {
-    useVerplichtProgrammaLatestLineageIdGet,
-    useVerplichtProgrammaLineageIdDelete,
-    useVerplichtProgrammaLineageIdPost,
-    useVerplichtProgrammaPost,
-    useVerplichtProgrammaRelationsLineageIdGet,
-    useVerplichtProgrammaRelationsLineageIdPut,
-    useVerplichtProgrammaValidGet,
+    useVerplichtProgrammaAtemporalCreateObject,
+    useVerplichtProgrammaAtemporalDeleteObject,
+    useVerplichtProgrammaAtemporalEditObject,
+    useVerplichtProgrammaGetRelationsList,
+    useVerplichtProgrammaListValidLineages,
+    useVerplichtProgrammaPostRelationsOverwrite,
+    useVerplichtProgrammaViewObjectLatest,
 } from '@/api/fetchers'
 import {
     VerplichtProgrammaEdit,
@@ -19,22 +19,22 @@ import { schemaDefaults } from '@/validation/zodSchema'
 import { DynamicObject } from './types'
 
 const fetchers = {
-    useGetValid: useVerplichtProgrammaValidGet,
-    useGetValidLineage: useVerplichtProgrammaLatestLineageIdGet,
+    useGetValid: useVerplichtProgrammaListValidLineages,
+    useGetValidLineage: null,
     useGetVersion: null,
-    useGetLatestLineage: useVerplichtProgrammaLatestLineageIdGet,
+    useGetLatestLineage: useVerplichtProgrammaViewObjectLatest,
     useGetRevision: null,
-    useGetRelations: useVerplichtProgrammaRelationsLineageIdGet,
-    usePutRelations: useVerplichtProgrammaRelationsLineageIdPut,
+    useGetRelations: useVerplichtProgrammaGetRelationsList,
+    usePutRelations: useVerplichtProgrammaPostRelationsOverwrite,
     useGetLatestLineageInModule: null,
     usePatchObjectInModule: null,
-    usePatchObject: useVerplichtProgrammaLineageIdPost,
-    useDeleteObject: useVerplichtProgrammaLineageIdDelete,
+    usePatchObject: useVerplichtProgrammaAtemporalEditObject,
+    useDeleteObject: useVerplichtProgrammaAtemporalDeleteObject,
     usePostStatic: null,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
-    usePostObject: useVerplichtProgrammaPost,
+    usePostObject: useVerplichtProgrammaAtemporalCreateObject,
     useGetActiveModules: null,
 }
 

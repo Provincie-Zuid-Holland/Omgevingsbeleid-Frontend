@@ -6,7 +6,7 @@ import { ReactNode, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useShallow } from 'zustand/react/shallow'
 
-import { useWerkingsgebiedenValidGet } from '@/api/fetchers'
+import { useWerkingsgebiedListValidLineages } from '@/api/fetchers'
 import { LeafletSearchInput } from '@/components/Leaflet'
 import { MAP_SEARCH_PAGE } from '@/constants/leaflet'
 import useSearchParam from '@/hooks/useSearchParam'
@@ -38,7 +38,7 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
     const [werkingsgebied, setWerkingsgebied] =
         useState<Leaflet.TileLayer.WMS | null>(null)
 
-    const { data, isLoading } = useWerkingsgebiedenValidGet({
+    const { data, isLoading } = useWerkingsgebiedListValidLineages({
         limit: 1000,
         sort_column: 'Title',
         sort_order: 'ASC',
@@ -97,7 +97,7 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
     }, [paramWerkingsgebied, mapInstance])
 
     return (
-        <div className="relative z-[1] flex px-4 md:px-0 md:shadow-pane">
+        <div className="md:shadow-pane relative z-[1] flex px-4 md:px-0">
             <Transition
                 show={!sidebarOpen}
                 enter="transition-all ease-out duration-300 transform"
@@ -106,7 +106,7 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
                 leave="transition-all ease-in duration-300 transform"
                 leaveFrom="ml-0"
                 leaveTo="-ml-[570px]"
-                className="overflow-auto pb-8 pt-4 md:min-w-[570px] md:max-w-[570px] md:px-10 md:pt-12 lg:px-20 lg:pb-16 lg:pt-16">
+                className="overflow-auto pt-4 pb-8 md:max-w-[570px] md:min-w-[570px] md:px-10 md:pt-12 lg:px-20 lg:pt-16 lg:pb-16">
                 <Heading level="1" size="xxl">
                     Zoeken op de kaart
                 </Heading>
@@ -230,7 +230,7 @@ const InfoText = ({
     title: string
     description: string | ReactNode
 }) => (
-    <div className="mt-8 ">
+    <div className="mt-8">
         <span className="block font-bold">{title}</span>
         <Text className="mt-1 block">{description}</Text>
     </div>

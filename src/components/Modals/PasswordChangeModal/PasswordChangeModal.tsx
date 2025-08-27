@@ -2,7 +2,7 @@ import { Button, FormikInput, Notification } from '@pzh-ui/components'
 import { Form, Formik } from 'formik'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
-import { usePasswordResetPost } from '@/api/fetchers'
+import { useAuthenticationPostAuthResetPassword } from '@/api/fetchers'
 import Modal from '@/components/Modal'
 import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
@@ -15,7 +15,7 @@ import * as passwordReset from '@/validation/passwordReset'
 export default function PasswordChangeModal() {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { isPending, mutate } = usePasswordResetPost({
+    const { isPending, mutate } = useAuthenticationPostAuthResetPassword({
         mutation: {
             onSuccess: () => {
                 setActiveModal(null)

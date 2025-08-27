@@ -5,10 +5,10 @@ import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import {
-    getModulesGetQueryKey,
-    getModulesModuleIdGetQueryKey,
-    getModulesModuleIdStatusGetQueryKey,
-    useModulesModuleIdStatusPatch,
+    getModulesGetListModulesQueryKey,
+    getModulesViewModuleListStatusesQueryKey,
+    getModulesViewModuleOverviewQueryKey,
+    useModulesPostModulePatchStatus,
 } from '@/api/fetchers'
 import { ModuleStatusCode } from '@/api/fetchers.schemas'
 import { toastNotification } from '@/utils/toastNotification'
@@ -21,21 +21,21 @@ const ModuleVersionCard = () => {
     /**
      * Patch module status version
      */
-    const createVersion = useModulesModuleIdStatusPatch({
+    const createVersion = useModulesPostModulePatchStatus({
         mutation: {
             onSuccess: () => {
                 Promise.all([
                     queryClient.invalidateQueries({
-                        queryKey: getModulesModuleIdGetQueryKey(
+                        queryKey: getModulesViewModuleOverviewQueryKey(
                             parseInt(moduleId!)
                         ),
                     }),
                     queryClient.invalidateQueries({
-                        queryKey: getModulesGetQueryKey(),
+                        queryKey: getModulesGetListModulesQueryKey(),
                         refetchType: 'all',
                     }),
                     queryClient.invalidateQueries({
-                        queryKey: getModulesModuleIdStatusGetQueryKey(
+                        queryKey: getModulesViewModuleListStatusesQueryKey(
                             parseInt(moduleId!)
                         ),
                         refetchType: 'all',
@@ -83,7 +83,7 @@ const ModuleVersionCard = () => {
     )
 
     return (
-        <div className="mb-5 bg-pzh-gray-100 px-8 py-6">
+        <div className="bg-pzh-gray-100 mb-5 px-8 py-6">
             <Text bold color="text-pzh-blue-500" className="mb-2">
                 Versie aanmaken
             </Text>

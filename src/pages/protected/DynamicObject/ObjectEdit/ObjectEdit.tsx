@@ -1,9 +1,10 @@
-import { Heading } from '@pzh-ui/components'
+import { File, Heading } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { FormikHelpers } from 'formik'
 import { useMemo } from 'react'
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 
+import { useStorageFilePostFilesUpload } from '@/api/fetchers'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import { LockedNotification } from '@/components/Modules/ModuleLock/ModuleLock'
 import { Model } from '@/config/objects/types'
@@ -43,15 +44,20 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
         queryKey: objectQueryKey,
     } = useObject()
 
+    const { mutateAsync: uploadStorageFile } = useStorageFilePostFilesUpload()
+
     const patchObject = usePatchObject()
 
     /**
      * Format initialData based on object fields
      */
     const initialData = useMemo(() => {
-        const fields = model.dynamicSections.flatMap(section =>
-            section.fields.map(field => field.name)
-        )
+        const fields = [
+            ...model.dynamicSections.flatMap(section =>
+                section.fields.map(field => field.name)
+            ),
+            'File',
+        ]
 
         const objectData = {} as { [key in (typeof fields)[number]]: any }
 
@@ -66,6 +72,10 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
             objectData['Ambtsgebied'] = ['true']
         }
 
+        if (fields.includes('File_UUID')) {
+            objectData.File = null
+        }
+
         return objectData
     }, [object, model.dynamicSections])
 
@@ -76,7 +86,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
         payload: typeof initialData,
         helpers: FormikHelpers<typeof initialData>
     ) => {
-        if (!payload) return
+        if (!payload) return Promise.resolve()
 
         Object.keys(payload).forEach(key => {
             if (!(key in initialData)) {
@@ -92,21 +102,42 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
             payload.Werkingsgebied_Code = null
         }
 
-        patchObject
-            ?.mutateAsync({
-                moduleId: parseInt(moduleId!),
-                lineageId: parseInt(objectId!),
-                data: payload,
-            })
-            .then(() => {
-                Promise.all([
-                    queryClient.invalidateQueries({ queryKey: objectQueryKey }),
-                    queryClient.invalidateQueries({ queryKey }),
-                ]).then(() => navigate(`/muteer/modules/${moduleId}`))
-            })
-            .catch(err =>
-                handleError<typeof initialData>(err.response, helpers)
-            )
+        const triggerSubmit = async () => {
+            // Await file upload before patching object
+            if ('File' in payload && !!payload.File) {
+                const res = await uploadStorageFile({
+                    data: {
+                        title: payload.Filename,
+                        uploaded_file: payload.File as File,
+                    },
+                })
+                if (res) {
+                    payload.File_UUID = res.UUID
+                    delete payload.File
+                }
+            }
+
+            return patchObject
+                ?.mutateAsync({
+                    moduleId: parseInt(moduleId!),
+                    lineageId: parseInt(objectId!),
+                    data: payload,
+                })
+                .then(() => {
+                    return Promise.all([
+                        queryClient.invalidateQueries({
+                            queryKey: objectQueryKey,
+                        }),
+                        queryClient.invalidateQueries({ queryKey }),
+                    ])
+                })
+                .then(() => navigate(`/muteer/modules/${moduleId}`))
+                .catch(err =>
+                    handleError<typeof initialData>(err.response, helpers)
+                )
+        }
+
+        return triggerSubmit()
     }
 
     const breadcrumbPaths = [

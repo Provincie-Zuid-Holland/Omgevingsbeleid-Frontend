@@ -6,8 +6,8 @@ import { z } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import {
-    usePublicationDsoValueListsAreaDesignationGroupsGet,
-    usePublicationDsoValueListsAreaDesignationTypesGet,
+    usePublicationValueListsGetAreaDesignationGroups,
+    usePublicationValueListsGetAreaDesignationTypes,
 } from '@/api/fetchers'
 import { AREA_DATA_ATTRS } from '@/components/DynamicObject/DynamicObjectForm/DynamicField/extensions/area'
 import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
@@ -112,9 +112,9 @@ const InnerForm = <TData extends Values>({
         data: areaTypeOptions,
         isFetching: areaTypesFetching,
         queryKey: areaTypeQueryKey,
-    } = usePublicationDsoValueListsAreaDesignationTypesGet(
+    } = usePublicationValueListsGetAreaDesignationTypes(
         {
-            document_type:
+            values:
                 model.defaults.parentType === 'Visie'
                     ? 'omgevingsvisie'
                     : 'programma',
@@ -134,7 +134,7 @@ const InnerForm = <TData extends Values>({
         data: areaGroupOptions,
         isFetching: areaGroupsFetching,
         queryKey: areaGroupQueryKey,
-    } = usePublicationDsoValueListsAreaDesignationGroupsGet(
+    } = usePublicationValueListsGetAreaDesignationGroups(
         {
             type: values.type,
         },
@@ -162,9 +162,16 @@ const InnerForm = <TData extends Values>({
                         required
                         placeholder="Zoek op gebiedengroep"
                         objectKey="Werkingsgebied_Code"
-                        onChange={object => {
-                            setFieldValue('label', object?.Title)
-                            setFieldValue('id', object?.Object_ID.toString())
+                        onChange={val => {
+                            const selected = Array.isArray(val) ? val[0] : val
+                            setFieldValue(
+                                'label',
+                                selected?.object?.Title ?? ''
+                            )
+                            setFieldValue(
+                                'id',
+                                selected?.object?.Object_ID?.toString() ?? ''
+                            )
                         }}
                         defaultValue={
                             values.label &&
@@ -185,8 +192,8 @@ const InnerForm = <TData extends Values>({
                                 ...base,
                                 position: 'relative',
                                 zIndex: 9999,
-                                marginTop: 2,
-                                boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                                marginTop: 4,
+                                boxShadow: 'none',
                             }),
                         }}
                     />
@@ -213,8 +220,8 @@ const InnerForm = <TData extends Values>({
                                 ...base,
                                 position: 'relative',
                                 zIndex: 9999,
-                                marginTop: 2,
-                                boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                                marginTop: 4,
+                                boxShadow: 'none',
                             }),
                         }}
                     />
@@ -236,8 +243,8 @@ const InnerForm = <TData extends Values>({
                                 ...base,
                                 position: 'relative',
                                 zIndex: 9999,
-                                marginTop: 2,
-                                boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                                marginTop: 4,
+                                boxShadow: 'none',
                             }),
                         }}
                     />

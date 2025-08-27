@@ -29,146 +29,114 @@ Therefore, The Province of South-Holland is committed to maintaining and develop
 
 ### Clone and install packages
 
-Create a new folder within your documents where you’ll clone the repository to. In Github go to the tab ‘Code’. Click the green button ‘Clone or download’ and copy the link. Using a Terminal, navigate to your recently added folder and run:
-
-```
-$ git clone https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend.git
-$ cd Omgevingsbeleid-Frontend
-$ yarn
+```sh
+git clone https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend.git
+cd Omgevingsbeleid-Frontend
+yarn
 ```
 
 ### Create a .env file
 
-Create a .env file in the root of the project.
+Create a `.env` file in the root of the project with the following variables:
 
-```jsx
-VITE_API_URL_DEV = ''
-VITE_API_URL_TEST = ''
-VITE_API_URL_ACC = ''
-VITE_API_URL_PROD = ''
-VITE_GEOSERVER_API_URL = '' // Used in the Geoserver API url (in axiosGeoJSON.ts)
-VITE_API_ENV = 'dev' // Used to get correct API url (in instance.ts)
-VITE_KEY_API_ACCESS_TOKEN = '' // Used to set login token
-VITE_KEY_IDENTIFIER = '' // Used to set login identifier
-VITE_ENABLE_AXE = true // Used to see accessibility issues in the console
-VITE_GTAG_ID = '' // Used to enable tracking using Google Tag Manager
-VITE_CRYPTO_SECRET_KEY = '' // Used to encrypt and decrypt data
+```env
+VITE_API_URL_DEV=
+VITE_API_URL_TEST=
+VITE_API_URL_ACC=
+VITE_API_URL_PROD=
+VITE_GEOSERVER_API_URL=        # Used in the Geoserver API url (in axiosGeoJSON.ts)
+VITE_API_ENV=dev               # Used to get correct API url (in instance.ts)
+VITE_KEY_API_ACCESS_TOKEN=     # Used to set login token
+VITE_KEY_IDENTIFIER=           # Used to set login identifier
+VITE_ENABLE_AXE=true           # Used to see accessibility issues in the console
+VITE_GTAG_ID=                  # Used to enable tracking using Google Tag Manager
+VITE_CRYPTO_SECRET_KEY=        # Used for encryption/decryption in utils/encryption.ts
 ```
 
 ## Available scripts
 
 ---
 
-This runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000/) to view it in the browser. The page will reload using [Vite HMR](https://vitejs.dev/guide/features.html#hot-module-replacement) if you make edits to the code. You will also see any lint errors or accessibility improvements in the console.
+- **Start development server:**
 
-```
-yarn start
-```
+    ```sh
+    yarn start
+    ```
 
-Launches the test runner in the interactive watch mode. See the section about [running tests](https://vitest.dev/guide/) for more information.
+    Runs the app in development mode at [http://localhost:3000](http://localhost:3000/). Supports Vite HMR for fast refresh.
 
-```
-yarn test
-```
+- **Run tests:**
 
-Builds the app for production to the **`\*build**`\*\* folder. It correctly bundles React in production mode and optimizes the build for the best performance.
+    ```sh
+    yarn test
+    ```
 
-```
-yarn build
-```
+    Launches the test runner in interactive watch mode. Uses [Vitest](https://vitest.dev/) and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/).
 
-# Source File Structure
+- **Build for production:**
+
+    ```sh
+    yarn build
+    ```
+
+    Builds the app for production to the `dist` folder.
+
+- **Generate API types and fetchers (Orval):**
+
+    ```sh
+    yarn generate-types
+    ```
+
+    Generates TypeScript API clients and models from the OpenAPI spec using [Orval](https://orval.dev/).
+
+## Source File Structure
 
 ---
 
-The project uses the following structure:
-
-- src
-    - api
-    - App
-    - components
-    - config
-    - constants
-    - context
-    - css
-    - fonts
-    - hooks
-    - images
-    - mocks
-    - pages
-    - store
-    - templates
-    - types
-    - utils
-    - validation
-
-### src/api
-
-The api folder holds our API Functionality. We use [Axios](https://github.com/axios/axios) as the HTTP client in combination with [React-query](https://tanstack.com/query/latest/). In the /api folder there are three files for the different API's. It contains:
-
-- `instance.ts` - Which is our general API (check [API docs](https://api-obzh.azurewebsites.net/docs) for more information about the different endpoints)
-- `axiosGeoJSON.ts` - Which is our API to connect to the GEO Server
-- `axiosLocatieserver.ts` - Which is our API to connect to PDOK Location server
-
-There are also two generated files which holds all of the endpoints and models. These files are generated using [Orval](https://orval.dev/):
-
-- `fetchers.ts` - Contains all API endpoints
-- `fetchers.schemas.ts` - Contains all Typescript models
-
-These files can be generated using the following command:
-
 ```
+src/
+  api/            # API clients and generated fetchers (Orval)
+  App/            # Main application component and routing
+  components/     # Reusable UI components
+  config/         # Configuration files for policy objects
+  constants/      # Application-wide constants
+  context/        # React context providers
+  css/            # Tailwind and Sass styles
+  fonts/          # Custom fonts
+  hooks/          # Custom React hooks
+  images/         # Images and logos
+  mocks/          # Mock data for development/testing
+  pages/          # Page-level components
+  store/          # State management
+  templates/      # Page and component templates
+  types/          # TypeScript types and interfaces
+  utils/          # Utility functions (e.g., encryption)
+  validation/     # Validation schemas
+```
+
+### API
+
+- `instance.ts` - Axios instance for the main API ([API docs](https://api-obzh.azurewebsites.net/docs))
+- `axiosGeoJSON.ts` - Axios instance for the GEO Server
+- `axiosLocatieserver.ts` - Axios instance for PDOK Location server
+- `fetchers.ts` - **Generated**: All API endpoints (Orval)
+- `fetchers.schemas.ts` - **Generated**: All TypeScript models (Orval)
+
+Generate these files with:
+
+```sh
 yarn generate-types
 ```
 
-### src/App
+### Styling
 
-Contains the main application component, which contains the sub components and the routing.
+- Uses [Tailwind CSS](https://tailwindcss.com/) and Sass for styling.
+- Custom classes are defined in `tailwind.src.css` and `styles.scss`.
 
-### src/pages and src/components
+### Testing
 
-The folder /src contains two main folders for our components. It contains /pages and /components. The /pages folder contains the main files for specific pages. The /components folder contains the universal components. When a component is page specific we place it in the specific /pages/page folder, to not further clutter the /components folder.
-
-Every component sits in its own folder with the name of the component. In the folder there are at least two files:
-
-- index.ts - importing the ComponentName.tsx and exporting it
-- ComponentName.tsx - Containing the component code
-
-The reason for this approach is so that we can organize our code (and if needed it’s tests) in folders, import from the folder name and not end up with multiple index.ts filenames in our code editor.
-
-### src/constants
-
-This folder contains the constants for our dimensions and
-
-### src/css
-
-For our styling we use [Tailwind](https://tailwindcss.com/) combined with Sass. The CSS folder contains our styles.scss, tailwind.css and tailwind.src.css files. In our tailwind.src.css we define our custom classes which we apply tailwind classes on.
-
-Every component is styled with Tailwind classes, much like Styled Components, but only then with utilities classes.
-
-For when we need to apply specific styling to an element (e.g. calculating a specific width/height for an element) we create a custom class that we style in our styles.scss Sass file.
-
-### src/utils
-
-Contains functions that are used in different components.
-
-### src/hooks
-
-Contains hooks that are used in different components.
-
-### src/images
-
-Contains the images that we use in the front-end, like the Provincie Zuid-Holland logo.
-
-### src/config
-
-Contains the configuration files for all possible policy objects.
-
-## Testing
-
----
-
-Static testing is done via ES Lint. Unit testing is done with Vitest and React Testing Library.
+- Static testing via ESLint.
+- Unit testing with [Vitest](https://vitest.dev/) and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/).
 
 ## Contributors ✨
 

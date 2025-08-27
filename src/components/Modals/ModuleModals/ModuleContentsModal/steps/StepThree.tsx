@@ -8,7 +8,7 @@ import {
 import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
 
-import { useUsersGet } from '@/api/fetchers'
+import { useUserGetListUsers } from '@/api/fetchers'
 import { ModuleAddNewObject } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
@@ -18,7 +18,11 @@ import { StepProps } from './types'
 
 export const StepThree = ({}: StepProps) => {
     const { values } = useFormikContext<ModuleAddNewObject>()
-    const { data: users, isFetching, isLoading } = useUsersGet({ limit: 500 })
+    const {
+        data: users,
+        isFetching,
+        isLoading,
+    } = useUserGetListUsers({ limit: 500 })
 
     const model =
         models[('Object_Type' in values && values.Object_Type) as ModelType] ||

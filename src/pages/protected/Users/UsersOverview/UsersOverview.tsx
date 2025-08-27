@@ -14,7 +14,7 @@ import { Form, Formik } from 'formik'
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useUsersSearchGet } from '@/api/fetchers'
+import { useUserGetSearchUsers } from '@/api/fetchers'
 import UserAddModal from '@/components/Modals/UserModals/UserAddModal'
 import { Role, availableRoleTypes } from '@/context/AuthContext'
 import useModalStore from '@/store/modalStore'
@@ -87,7 +87,7 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
     ])
     const [filter, setFilter] = useState<Filter>()
 
-    const { data, isFetching } = useUsersSearchGet(
+    const { data, isFetching } = useUserGetSearchUsers(
         {
             limit: PAGE_LIMIT,
             offset: (pageIndex - 1) * PAGE_LIMIT,

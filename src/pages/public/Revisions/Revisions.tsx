@@ -4,7 +4,7 @@ import { ArrowUpRightFromSquare, Plus } from '@pzh-ui/icons'
 import { Fragment } from 'react'
 import { Helmet } from 'react-helmet-async'
 
-import { useRevisionsGet } from '@/api/fetchers'
+import { usePublicModulesGetPublicListModules } from '@/api/fetchers'
 import { Container } from '@/components/Container'
 import { LoaderSpinner } from '@/components/Loader'
 import imageRevisions from '@/images/revisions.webp'
@@ -19,7 +19,9 @@ const META = {
 }
 
 const Revisions = () => {
-    const { data, isLoading } = useRevisionsGet({ limit: 100 })
+    const { data, isLoading } = usePublicModulesGetPublicListModules({
+        limit: 100,
+    })
 
     return (
         <div className="flex flex-col gap-12 pb-12">

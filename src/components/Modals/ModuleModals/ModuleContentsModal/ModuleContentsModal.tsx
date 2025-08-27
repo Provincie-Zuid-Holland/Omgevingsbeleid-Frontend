@@ -6,10 +6,10 @@ import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import {
-    getModulesModuleIdGetQueryKey,
-    getModulesObjectsLatestGetQueryKey,
-    useModulesModuleIdAddExistingObjectPost,
-    useModulesModuleIdAddNewObjectPost,
+    getModulesGetListModuleObjectsQueryKey,
+    getModulesViewModuleOverviewQueryKey,
+    useModulesPostModuleAddExistingObject,
+    useModulesPostModuleAddNewObject,
 } from '@/api/fetchers'
 import {
     Module,
@@ -39,7 +39,7 @@ interface ModuleContentsModalProps {
     initialStep: number
     initialValues: ContentsModalForm
     module?: Module
-    selectedObject?: SearchObject
+    selectedObject?: SearchObject | null
 }
 
 const ModuleContentsModal = ({
@@ -55,7 +55,7 @@ const ModuleContentsModal = ({
 
     const [step, setStep] = useState(initialStep)
     const [existingObject, setExistingObject] = useState<
-        SearchObject | ModuleObjectShort | undefined
+        SearchObject | ModuleObjectShort | undefined | null
     >(selectedObject)
 
     const CurrentStep = steps[step - 1]
@@ -98,17 +98,17 @@ const ModuleContentsModal = ({
     /**
      * Add new object to module
      */
-    const addNewObjectToModule = useModulesModuleIdAddNewObjectPost({
+    const addNewObjectToModule = useModulesPostModuleAddNewObject({
         mutation: {
             onSuccess: () => {
                 Promise.all([
                     queryClient.invalidateQueries({
-                        queryKey: getModulesModuleIdGetQueryKey(
+                        queryKey: getModulesViewModuleOverviewQueryKey(
                             parseInt(moduleId!)
                         ),
                     }),
                     queryClient.invalidateQueries({
-                        queryKey: getModulesObjectsLatestGetQueryKey(),
+                        queryKey: getModulesGetListModuleObjectsQueryKey(),
                         refetchType: 'all',
                         exact: false,
                     }),
@@ -122,17 +122,17 @@ const ModuleContentsModal = ({
     /**
      * Add existing object to module
      */
-    const addExistingObjectToModule = useModulesModuleIdAddExistingObjectPost({
+    const addExistingObjectToModule = useModulesPostModuleAddExistingObject({
         mutation: {
             onSuccess: () => {
                 Promise.all([
                     queryClient.invalidateQueries({
-                        queryKey: getModulesModuleIdGetQueryKey(
+                        queryKey: getModulesViewModuleOverviewQueryKey(
                             parseInt(moduleId!)
                         ),
                     }),
                     queryClient.invalidateQueries({
-                        queryKey: getModulesObjectsLatestGetQueryKey(),
+                        queryKey: getModulesGetListModuleObjectsQueryKey(),
                         refetchType: 'all',
                         exact: false,
                     }),

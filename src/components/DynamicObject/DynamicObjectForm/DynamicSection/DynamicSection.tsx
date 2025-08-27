@@ -27,7 +27,7 @@ const DynamicSection = ({
                 level="2"
                 size="s"
                 className="mb-3"
-                color="text-pzh-blue-900">
+                color="text-pzh-blue-500">
                 {title}
             </Heading>
 

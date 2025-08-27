@@ -3,7 +3,7 @@ import { keepPreviousData } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 
-import { useBeleidsdoelenValidGet } from '@/api/fetchers'
+import { useBeleidsdoelListValidLineages } from '@/api/fetchers'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
@@ -15,12 +15,12 @@ const META = {
         'De provincie heeft een aantal beleidsdoelen geformuleerd. Deze beleidsdoelen zijn direct de thema’s voor de thematische programma’s. Een overzicht van alle thematische programma’s vindt u hier.',
 }
 
-const PAGE_LIMIT = 20
+const PAGE_LIMIT = 50
 
 function ThemeOverview() {
     const [currPage, setCurrPage] = useState(1)
 
-    const { isLoading, data } = useBeleidsdoelenValidGet(
+    const { isLoading, data } = useBeleidsdoelListValidLineages(
         {
             limit: PAGE_LIMIT,
             offset: (currPage - 1) * PAGE_LIMIT,

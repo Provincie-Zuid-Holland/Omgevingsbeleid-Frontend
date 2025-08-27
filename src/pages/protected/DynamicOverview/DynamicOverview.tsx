@@ -14,8 +14,11 @@ import { keepPreviousData } from '@tanstack/react-query'
 import { ChangeEvent, KeyboardEvent, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { useModulesObjectsLatestGet, useSearchValidPost } from '@/api/fetchers'
-import { ModuleObjectShortStatus } from '@/api/fetchers.schemas'
+import {
+    useModulesGetListModuleObjects,
+    useSearchGetMssqlValidSearch,
+} from '@/api/fetchers'
+import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import usePermissions from '@/hooks/usePermissions'
@@ -160,7 +163,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
      * Get correct data fetcher based on type
      */
     const useGetData =
-        type === 'valid' ? useGetValid : useModulesObjectsLatestGet
+        type === 'valid' ? useGetValid : useModulesGetListModuleObjects
 
     const { data, isFetching } = useGetData(
         {
@@ -188,7 +191,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
         data: searchData,
         isPending: searchLoading,
         mutate,
-    } = useSearchValidPost()
+    } = useSearchGetMssqlValidSearch()
 
     useUpdateEffect(() => {
         if (!query) {
@@ -256,7 +259,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                     Object_ID,
                     Object_Type,
                     ...props
-                }: ModelReturnType | ModuleObjectShortStatus) => ({
+                }: ModelReturnType | ModuleObjectShort) => ({
                     Title: (
                         <Text bold color="text-pzh-blue-500">
                             {Title}
@@ -288,8 +291,8 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                                           atemporal ? '/bewerk' : ''
                                       }`
                                     : 'Module_ID' in props
-                                    ? `/muteer/modules/${props.Module_ID}/${Object_Type}/${Object_ID}`
-                                    : ''
+                                      ? `/muteer/modules/${props.Module_ID}/${Object_Type}/${Object_ID}`
+                                      : ''
                             ),
                     }),
                 })
@@ -321,8 +324,8 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                     {!!query
                         ? `Er zijn geen resultaten gevonden voor '${query}'`
                         : type === 'valid'
-                        ? `Er zijn geen vigerende ${pluralCapitalize.toLowerCase()} gevonden`
-                        : `Er zijn geen ${pluralCapitalize.toLowerCase()} in ontwerp`}
+                          ? `Er zijn geen vigerende ${pluralCapitalize.toLowerCase()} gevonden`
+                          : `Er zijn geen ${pluralCapitalize.toLowerCase()} in ontwerp`}
                 </span>
             ) : (
                 <div className="mt-8 flex justify-center">

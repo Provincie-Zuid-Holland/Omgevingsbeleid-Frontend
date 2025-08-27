@@ -3,9 +3,9 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 
 import {
-    getModulesGetQueryKey,
-    getModulesModuleIdGetQueryKey,
-    useModulesModuleIdActivatePost,
+    getModulesGetListModulesQueryKey,
+    getModulesViewModuleOverviewQueryKey,
+    useModulesPostActivateModule,
 } from '@/api/fetchers'
 import Modal from '@/components/Modal'
 import useModalStore from '@/store/modalStore'
@@ -20,16 +20,16 @@ const ModuleActivateModal = () => {
     /**
      * Activate module
      */
-    const { mutate, isPending } = useModulesModuleIdActivatePost({
+    const { mutate, isPending } = useModulesPostActivateModule({
         mutation: {
             onSuccess: () => {
                 Promise.all([
                     queryClient.invalidateQueries({
-                        queryKey: getModulesGetQueryKey(),
+                        queryKey: getModulesGetListModulesQueryKey(),
                         refetchType: 'all',
                     }),
                     queryClient.invalidateQueries({
-                        queryKey: getModulesModuleIdGetQueryKey(
+                        queryKey: getModulesViewModuleOverviewQueryKey(
                             parseInt(moduleId!)
                         ),
                     }),

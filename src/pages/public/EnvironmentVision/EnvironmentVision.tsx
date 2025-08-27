@@ -2,7 +2,7 @@ import { Heading, ListLink, Text } from '@pzh-ui/components'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
-import { useVisiesAlgemeenValidGet } from '@/api/fetchers'
+import { useVisieAlgemeenListValidLineages } from '@/api/fetchers'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import { LoaderSpinner } from '@/components/Loader'
@@ -16,7 +16,7 @@ const META = {
 }
 
 function EnvironmentVision() {
-    const { data, isFetching } = useVisiesAlgemeenValidGet(
+    const { data, isFetching } = useVisieAlgemeenListValidLineages(
         { limit: 100 },
         {
             query: {
@@ -42,7 +42,7 @@ function EnvironmentVision() {
             </Helmet>
 
             <div
-                className="hidden h-[288px] w-full bg-pzh-blue-500 bg-cover bg-center bg-no-repeat md:block"
+                className="bg-pzh-blue-500 hidden h-[288px] w-full bg-cover bg-center bg-no-repeat md:block"
                 style={{
                     backgroundImage: `url(${imgEnvironmentProgram})`,
                 }}
@@ -89,7 +89,7 @@ function EnvironmentVision() {
                         en worden vastgesteld in de Omgevingsvisie.
                     </Text>
                     <Link
-                        className="mt-4 block text-pzh-green-500 underline hover:text-pzh-green-900"
+                        className="text-pzh-green-500 hover:text-pzh-green-900 mt-4 block underline"
                         to="/omgevingsvisie/ambities">
                         Bekijk de ambities
                     </Link>
@@ -102,7 +102,7 @@ function EnvironmentVision() {
                         ambities en komen voort uit de begroting.
                     </Text>
                     <Link
-                        className="mt-4 block text-pzh-green-500 underline hover:text-pzh-green-900"
+                        className="text-pzh-green-500 hover:text-pzh-green-900 mt-4 block underline"
                         to="/omgevingsvisie/beleidsdoelen">
                         Bekijk de beleidsdoelen
                     </Link>
@@ -115,7 +115,7 @@ function EnvironmentVision() {
                         de beleidsdoelen en komen voort uit de Omgevingsvisie.
                     </Text>
                     <Link
-                        className="mt-4 block text-pzh-green-500 underline hover:text-pzh-green-900"
+                        className="text-pzh-green-500 hover:text-pzh-green-900 mt-4 block underline"
                         to="/omgevingsvisie/beleidskeuzes">
                         Bekijk de beleidskeuzes
                     </Link>

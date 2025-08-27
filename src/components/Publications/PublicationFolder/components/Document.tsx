@@ -2,8 +2,8 @@ import { Badge, BadgeProps, Button, Heading, Text } from '@pzh-ui/components'
 import { FilePdf, Gear, PencilLight, PenNib, PenToSquare } from '@pzh-ui/icons'
 
 import {
-    usePublicationsPublicationUuidVersionsGet,
-    usePublicationVersionsVersionUuidPdfExportPost,
+    usePublicationVersionsGetListVersions,
+    usePublicationVersionsPostCreatePdf,
 } from '@/api/fetchers'
 import {
     DocumentType,
@@ -50,22 +50,21 @@ const Document = ({
 
     const Icon = config[documentType].icon
 
-    const { data: version, isFetching } =
-        usePublicationsPublicationUuidVersionsGet(
-            publication?.UUID || '',
-            {
-                limit: 100,
+    const { data: version, isFetching } = usePublicationVersionsGetListVersions(
+        publication?.UUID || '',
+        {
+            limit: 100,
+        },
+        {
+            query: {
+                enabled: !!publication?.UUID,
+                select: data => data.results[0],
             },
-            {
-                query: {
-                    enabled: !!publication?.UUID,
-                    select: data => data.results[0],
-                },
-            }
-        )
+        }
+    )
 
-    const { mutate: download, isPending } =
-        usePublicationVersionsVersionUuidPdfExportPost({
+    const { mutate: download, isPending } = usePublicationVersionsPostCreatePdf(
+        {
             mutation: {
                 mutationFn: async ({ versionUuid, data }): Promise<any> =>
                     downloadFile(
@@ -73,7 +72,8 @@ const Document = ({
                         data
                     ),
             },
-        })
+        }
+    )
 
     const status = useMemo((): BadgeProps => {
         const steps = publication?.Procedure_Type === 'draft' ? '3' : '2'
@@ -143,9 +143,9 @@ const Document = ({
     ]
 
     return (
-        <div className="border-pzh-gray-200 hover:bg-pzh-blue-10 hover:ring-pzh-blue-100 flex h-16 border-b first:border-t last:border-b-0 hover:ring-1 hover:ring-inset">
+        <div className="border-pzh-gray-200 flex h-16 border-b first:border-t last:border-b-0">
             <div className="border-pzh-gray-200 flex h-[inherit] w-5/12 items-center border-r pr-6 pl-8">
-                <div className="border-pzh-gray-200 flex h-[inherit] w-full items-center gap-4">
+                <div className="border-pzh-gray-200 flex h-[inherit] items-center gap-4">
                     <Icon
                         size={24}
                         className="text-pzh-blue-100 group-data-[disabled]/procedure:text-pzh-gray-300"
@@ -158,13 +158,15 @@ const Document = ({
                     </Heading>
                 </div>
 
-                {environment?.Has_State &&
-                    !!version &&
-                    (isFetching ? (
-                        <LoaderCard height="24" className="w-20" mb="0" />
-                    ) : (
-                        <Badge upperCase={false} {...status} />
-                    ))}
+                {environment?.Has_State && !!version && (
+                    <div className="ml-auto">
+                        {isFetching ? (
+                            <LoaderCard height="24" className="w-20" mb="0" />
+                        ) : (
+                            <Badge upperCase={false} {...status} />
+                        )}
+                    </div>
+                )}
             </div>
 
             {isFetching ? (

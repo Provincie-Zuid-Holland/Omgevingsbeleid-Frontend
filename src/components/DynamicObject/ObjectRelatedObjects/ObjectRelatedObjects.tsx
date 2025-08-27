@@ -3,9 +3,9 @@ import { Eye } from '@pzh-ui/icons'
 import { Link } from 'react-router-dom'
 
 import {
-    DynamicModuleObjectShort,
-    DynamicObjectShort,
+    WerkingsgebiedRelatedModuleObjectShort,
     WerkingsgebiedRelatedObjects,
+    WerkingsgebiedRelatedObjectShort,
 } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
@@ -44,8 +44,8 @@ const ObjectRelatedObjects = ({ objects }: ObjectRelatedObjectsProps) => {
 }
 
 interface RelatedObjectProps
-    extends DynamicModuleObjectShort,
-        DynamicObjectShort {
+    extends WerkingsgebiedRelatedModuleObjectShort,
+        WerkingsgebiedRelatedObjectShort {
     type: 'valid' | 'module'
 }
 

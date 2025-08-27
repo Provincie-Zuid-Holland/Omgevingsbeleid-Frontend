@@ -229,7 +229,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                     <Heading
                         level="1"
                         size="xxl"
-                        className="order-2 mb-2 mt-4 md:order-3 md:mb-4">
+                        className="order-2 mt-4 mb-2 md:order-3 md:mb-4">
                         {data?.Title}
                     </Heading>
 
@@ -246,11 +246,11 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                                               'Wat wil de provincie bereiken?',
                                       }
                                     : singular === 'maatregel'
-                                    ? {
-                                          Description:
-                                              'Wat gaat de provincie doen?',
-                                      }
-                                    : undefined
+                                      ? {
+                                            Description:
+                                                'Wat gaat de provincie doen?',
+                                        }
+                                      : undefined
                             }
                         />
                     </div>

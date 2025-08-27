@@ -1,11 +1,11 @@
-import { useUsersGet } from '@/api/fetchers'
+import { useUserGetListUsers } from '@/api/fetchers'
 
 import useAuth from './useAuth'
 
 const useUserInfo = (uuid: string) => {
     const { user } = useAuth()
 
-    const { data } = useUsersGet(
+    const { data } = useUserGetListUsers(
         { limit: 500 },
         {
             query: {

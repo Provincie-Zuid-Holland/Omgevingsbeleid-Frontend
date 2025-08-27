@@ -2,7 +2,7 @@ import { Button, Heading, Text } from '@pzh-ui/components'
 import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { useModulesModuleIdGet } from '@/api/fetchers'
+import { useModulesViewModuleOverview } from '@/api/fetchers'
 import { SearchObject } from '@/api/fetchers.schemas'
 import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
 import ModuleContentsModal from '@/components/Modals/ModuleModals/ModuleContentsModal'
@@ -19,7 +19,7 @@ interface ModalProps {
     /** Initial values of contents form */
     initialValues: ContentsModalForm
     /** Object which gets selected after search */
-    selectedObject?: SearchObject
+    selectedObject?: SearchObject | null
 }
 
 const initialModalValues: ModalProps = {
@@ -39,7 +39,7 @@ const FormContents = () => {
     const [modal, setModal] = useState<ModalProps>(initialModalValues)
 
     const { data: { Objects: objects, Module: module } = {} } =
-        useModulesModuleIdGet(parseInt(moduleId!), {
+        useModulesViewModuleOverview(parseInt(moduleId!), {
             query: { enabled: !!moduleId },
         })
 
@@ -80,18 +80,19 @@ const FormContents = () => {
 
             <div className="col-span-4 pt-[42px]">
                 <DynamicObjectSearch
-                    onChange={object =>
+                    onChange={val => {
+                        const selected = Array.isArray(val) ? val[0] : val
                         setModal({
                             ...modal,
                             initialStep: 5,
                             initialValues: {
                                 ...modules.EMPTY_MODULE_OBJECT,
                                 state: 'existing',
-                                Object_UUID: object?.UUID,
+                                Object_UUID: selected?.object?.UUID,
                             },
-                            selectedObject: object,
+                            selectedObject: selected?.object,
                         })
-                    }
+                    }}
                 />
 
                 {!!existingObjects?.length && (
@@ -133,7 +134,7 @@ const FormContents = () => {
                             ))}
                         </div>
                     ) : (
-                        <Text size="s" className="mt-2 text-pzh-gray-600">
+                        <Text size="s" className="text-pzh-gray-600 mt-2">
                             Er zijn nog geen nieuwe onderdelen toegevoegd
                         </Text>
                     )}

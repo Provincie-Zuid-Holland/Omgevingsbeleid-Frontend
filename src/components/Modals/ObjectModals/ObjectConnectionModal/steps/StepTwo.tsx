@@ -96,15 +96,21 @@ export const StepTwo = ({
                             ...base,
                             position: 'relative',
                             zIndex: 9999,
-                            marginTop: 2,
-                            boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                            marginTop: 4,
+                            boxShadow: 'none',
                         }),
                     }}
                     blurInputOnSelect
                 />
             ) : (
                 <DynamicObjectSearch
-                    onChange={object => setFieldValue('Title', object?.Title)}
+                    onChange={val => {
+                        if (Array.isArray(val)) {
+                            setFieldValue('Title', val[0].object?.Title ?? '')
+                        } else {
+                            setFieldValue('Title', val?.object?.Title ?? '')
+                        }
+                    }}
                     objectKey="Object_ID"
                     filter={selected}
                     filterType={singular && [singular]}
@@ -122,8 +128,8 @@ export const StepTwo = ({
                             ...base,
                             position: 'relative',
                             zIndex: 9999,
-                            marginTop: 2,
-                            boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                            marginTop: 4,
+                            boxShadow: 'none',
                         }),
                     }}
                 />

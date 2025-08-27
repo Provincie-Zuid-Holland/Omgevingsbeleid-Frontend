@@ -6,8 +6,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import {
-    getModulesGetQueryKey,
-    useModulesModuleIdCompletePost,
+    getModulesGetListModulesQueryKey,
+    useModulesPostCompleteModule,
 } from '@/api/fetchers'
 import { CompleteModule } from '@/api/fetchers.schemas'
 import Modal from '@/components/Modal'
@@ -31,12 +31,12 @@ const ModuleCompleteModal = () => {
     const CurrentStep = steps[step - 1]
     const isFinalStep = step === 2
 
-    const completeModule = useModulesModuleIdCompletePost({
+    const completeModule = useModulesPostCompleteModule({
         mutation: {
             onSuccess: () => {
                 queryClient
                     .invalidateQueries({
-                        queryKey: getModulesGetQueryKey(),
+                        queryKey: getModulesGetListModulesQueryKey(),
                         refetchType: 'all',
                     })
                     .then(() => {

@@ -19,7 +19,7 @@ export const StepOne = ({ title, id, model, relations }: StepProps) => {
         ...(relations?.map(relation => relation.Side_B.Object_ID) || []),
         ...(id ? [id] : []),
     ]
-
+    
     return (
         <>
             <Text className="mb-4">
@@ -28,7 +28,13 @@ export const StepOne = ({ title, id, model, relations }: StepProps) => {
                 <span className="font-bold">{title}</span>
             </Text>
             <DynamicObjectSearch
-                onChange={object => setFieldValue('Title', object?.Title)}
+                onChange={val => {
+                    if (Array.isArray(val)) {
+                        setFieldValue('Title', val[0].object?.Title ?? '')
+                    } else {
+                        setFieldValue('Title', val?.object?.Title ?? '')
+                    }
+                }}
                 objectKey="Object_ID"
                 filter={filter}
                 filterType={[singular]}
@@ -46,8 +52,8 @@ export const StepOne = ({ title, id, model, relations }: StepProps) => {
                         ...base,
                         position: 'relative',
                         zIndex: 9999,
-                        marginTop: 2,
-                        boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                        marginTop: 4,
+                        boxShadow: 'none',
                     }),
                 }}
                 blurInputOnSelect

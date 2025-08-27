@@ -10,7 +10,7 @@ import { Form, Formik } from 'formik'
 import debounce from 'lodash.debounce'
 import { useMemo, useState } from 'react'
 
-import { useSourceWerkingsgebiedenGet } from '@/api/fetchers'
+import { useSourceWerkingsgebiedenGetListWerkingsgebieden } from '@/api/fetchers'
 import AreaPreview from '@/components/AreaPreview'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
@@ -36,14 +36,15 @@ const AreaModalAdd = ({
 
     const [query, setQuery] = useState('')
 
-    const { data, isLoading } = useSourceWerkingsgebiedenGet(
-        { limit: 1000 },
-        {
-            query: {
-                enabled: activeModal === 'areaAdd',
-            },
-        }
-    )
+    const { data, isLoading } =
+        useSourceWerkingsgebiedenGetListWerkingsgebieden(
+            { limit: 1000 },
+            {
+                query: {
+                    enabled: activeModal === 'areaAdd',
+                },
+            }
+        )
 
     const handleChange = debounce(e => setQuery(e.target.value), 500)
 
@@ -122,7 +123,7 @@ const AreaModalAdd = ({
                                         />
                                     </div>
 
-                                    <div className="h-[444px] overflow-y-auto rounded border border-pzh-gray-200 p-4">
+                                    <div className="border-pzh-gray-200 h-[444px] overflow-y-auto rounded border p-4">
                                         {isLoading ? (
                                             <div className="flex h-full w-full items-center justify-center">
                                                 <LoaderSpinner />

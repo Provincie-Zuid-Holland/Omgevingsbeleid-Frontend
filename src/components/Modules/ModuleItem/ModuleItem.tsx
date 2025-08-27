@@ -135,12 +135,12 @@ const ModuleItem = ({
                             {singularCapitalize}
                         </Text>
                         <div className="flex items-center">
-                            <Text size="s" className="mr-1 text-pzh-gray-600">
+                            <Text size="s" className="text-pzh-gray-600 mr-1">
                                 {getObjectActionText(
                                     ModuleObjectContext?.Action
                                 )}
                             </Text>
-                            <CircleInfo className="-mt-1 text-pzh-gray-600" />
+                            <CircleInfo className="text-pzh-gray-600" />
                         </div>
                     </div>
                     <Text className="truncate">{Title}</Text>
@@ -169,7 +169,7 @@ const ModuleItem = ({
                 {!!dropdownItems.length ? (
                     <div className="relative">
                         <button
-                            className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-pzh-gray-100"
+                            className="hover:bg-pzh-gray-100 flex h-8 w-8 items-center justify-center rounded-full"
                             onClick={() => setIsOpen(!isOpen)}
                             aria-label="Onderdeel menu"
                             data-testid="module-item-menu">

@@ -2,7 +2,7 @@ import { Heading, Hyperlink, ListLink, Text } from '@pzh-ui/components'
 import { Helmet } from 'react-helmet-async'
 import { Link, useParams } from 'react-router-dom'
 
-import { useBeleidsdoelenVersionObjectUuidGet } from '@/api/fetchers'
+import { useBeleidsdoelViewObjectVersion } from '@/api/fetchers'
 import { ReadRelationShortBeleidskeuzeMinimal } from '@/api/fetchers.schemas'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
@@ -16,9 +16,7 @@ import NotFoundPage from '../NotFoundPage'
 function ThemeDetail() {
     const { uuid } = useParams<{ uuid: string }>()
 
-    const { data, isLoading, isError } = useBeleidsdoelenVersionObjectUuidGet(
-        uuid!
-    )
+    const { data, isLoading, isError } = useBeleidsdoelViewObjectVersion(uuid!)
 
     const breadcrumbPaths = [
         { name: 'Home', to: '/' },
@@ -91,7 +89,7 @@ function ThemeDetail() {
                     <div data-section="Inhoud">
                         {data?.Description && (
                             <Text
-                                className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0"
+                                className="prose prose-neutral text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 mb-4 max-w-full whitespace-pre-line"
                                 dangerouslySetInnerHTML={{
                                     __html: data.Description,
                                 }}
@@ -160,7 +158,7 @@ const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
                     })}
                 </div>
             ) : (
-                <span className="italic text-pzh-gray-600">
+                <span className="text-pzh-gray-600 italic">
                     Er zijn geen maatregelen gekoppeld
                 </span>
             )}

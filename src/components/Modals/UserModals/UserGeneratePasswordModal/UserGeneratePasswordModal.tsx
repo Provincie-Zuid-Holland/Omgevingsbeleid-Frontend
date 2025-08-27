@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import {
-    useUsersUserUuidGet,
-    useUsersUserUuidResetPasswordPost,
+    useUserPostResetUserPassword,
+    useUserViewGetUser,
 } from '@/api/fetchers'
 import Modal from '@/components/Modal'
 import useModalStore from '@/store/modalStore'
@@ -23,11 +23,11 @@ const UserGeneratePasswordModal = () => {
 
     const CurrentStep = steps[step - 1]
 
-    const { data } = useUsersUserUuidGet(uuid!, {
+    const { data } = useUserViewGetUser(uuid!, {
         query: { enabled: !!uuid },
     })
 
-    const { mutateAsync, isPending } = useUsersUserUuidResetPasswordPost({
+    const { mutateAsync, isPending } = useUserPostResetUserPassword({
         mutation: {
             onSuccess: res => {
                 setNewPassword(res.NewPassword)

@@ -8,7 +8,6 @@ import {
     forceX,
     forceY,
     select,
-    selectAll,
 } from 'd3'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow'
@@ -129,16 +128,6 @@ const NetworkVisual = ({ graph }: NetworkVisualProps) => {
         const handleZoom = zoomHandler(svg)
         svg.call(handleZoom).on('dblclick.zoom', null)
 
-        select('[data-d3="zoom-in"]').on('click', () => {
-            handleZoom.scaleBy(svg.transition().duration(750), 1.4)
-        })
-
-        select('[data-d3="zoom-out"]').on('click', () => {
-            handleZoom.scaleBy(svg.transition().duration(750), 0.6)
-        })
-
-        selectAll('[data-d3="reset"]').on('click', resetGraph)
-
         /**
          * When we simulate the nodes, we need to define their strength of attracting or repelling each other.
          * The higher the strength, the more they repel each other.
@@ -196,10 +185,26 @@ const NetworkVisual = ({ graph }: NetworkVisualProps) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [links, nodes, handleMouseInteraction])
 
+    const handleZoom = useCallback(
+        (type: 'zoomIn' | 'zoomOut') => {
+            if (!containerRef.current) return
+
+            const svg = select(containerRef.current)
+            zoomHandler(svg).scaleBy(
+                svg.transition().duration(750),
+                type === 'zoomOut' ? 0.6 : 1.4
+            )
+        },
+        [containerRef.current]
+    )
+
     return (
         <>
             <NetworkLegend />
-            <NetworkGraphButtons />
+            <NetworkGraphButtons
+                handleZoom={handleZoom}
+                resetGraph={resetGraph}
+            />
             <NetworkGraphPopup />
             <NetworkGraphTooltip
                 ref={tooltipRef}

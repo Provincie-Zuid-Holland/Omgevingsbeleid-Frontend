@@ -14,10 +14,10 @@ import {
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import {
-    useModulesModuleIdStatusGet,
-    usePublicationActsGet,
-    usePublicationEnvironmentsGet,
-    usePublicationTemplatesGet,
+    useModulesViewModuleListStatuses,
+    usePublicationActsGetListActs,
+    usePublicationEnvironmentsGetListEnvironments,
+    usePublicationTemplatesGetListTemplates,
 } from '@/api/fetchers'
 import {
     DocumentType,
@@ -75,7 +75,7 @@ const Fields = ({ type }: PublicationFormProps) => {
     const {
         data: publicationTemplateOptions,
         isFetching: publicationTemplatesFetching,
-    } = usePublicationTemplatesGet(
+    } = usePublicationTemplatesGetListTemplates(
         {
             limit: 100,
             is_active: true,
@@ -93,7 +93,7 @@ const Fields = ({ type }: PublicationFormProps) => {
     )
 
     const { data: environmentOptions, isFetching: environmentsFetching } =
-        usePublicationEnvironmentsGet(
+        usePublicationEnvironmentsGetListEnvironments(
             { limit: 100, is_active: true },
             {
                 query: {
@@ -108,7 +108,7 @@ const Fields = ({ type }: PublicationFormProps) => {
         )
 
     const { data: publicationActOptions, isFetching: publicationActsFetching } =
-        usePublicationActsGet(
+        usePublicationActsGetListActs(
             {
                 limit: 100,
                 is_active: true,
@@ -129,7 +129,7 @@ const Fields = ({ type }: PublicationFormProps) => {
         )
 
     const { data: statusOptions, isFetching: moduleStatusFetching } =
-        useModulesModuleIdStatusGet(parseInt(String(moduleId)), {
+        useModulesViewModuleListStatuses(parseInt(String(moduleId)), {
             query: {
                 enabled: !!moduleId && type === 'add',
                 select: data =>
@@ -237,8 +237,8 @@ const Fields = ({ type }: PublicationFormProps) => {
                                 ...base,
                                 position: 'relative',
                                 zIndex: 9999,
-                                marginTop: 2,
-                                boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.10)',
+                                marginTop: 4,
+                                boxShadow: 'none',
                             }),
                         }}
                     />
