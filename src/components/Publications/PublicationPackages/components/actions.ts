@@ -4,8 +4,8 @@ import { AxiosError } from 'axios'
 import {
     getPublicationActPackagesGetDownloadActPackageQueryKey,
     getPublicationActPackagesGetListActPackagesQueryKey,
+    getPublicationAnnouncementPackagesGetDownloadAnnouncementPackageQueryKey,
     getPublicationAnnouncementPackagesGetListAnnouncementPackagesQueryKey,
-    getPublicationAnnouncementReportsGetDownloadAnnouncementPackageReportQueryKey,
     getPublicationVersionsGetListVersionsQueryKey,
     usePublicationActPackagesPostCreateActPackage,
     usePublicationActReportsPostUploadActPackageReport,
@@ -90,7 +90,7 @@ export const useActions = ({
             downloadFile(
                 (publicationType === 'act'
                     ? getPublicationActPackagesGetDownloadActPackageQueryKey
-                    : getPublicationAnnouncementReportsGetDownloadAnnouncementPackageReportQueryKey)(
+                    : getPublicationAnnouncementPackagesGetDownloadAnnouncementPackageQueryKey)(
                     String(packageUUID)
                 )[0]
             ).finally(() =>
