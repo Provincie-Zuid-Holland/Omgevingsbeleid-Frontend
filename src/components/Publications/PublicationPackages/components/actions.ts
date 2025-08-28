@@ -4,8 +4,11 @@ import { AxiosError } from 'axios'
 import {
     getPublicationActPackagesGetDownloadActPackageQueryKey,
     getPublicationActPackagesGetListActPackagesQueryKey,
+    getPublicationActReportsGetDownloadActPackageReportQueryKey,
     getPublicationAnnouncementPackagesGetDownloadAnnouncementPackageQueryKey,
     getPublicationAnnouncementPackagesGetListAnnouncementPackagesQueryKey,
+    getPublicationAnnouncementReportsGetDownloadAnnouncementPackageReportQueryKey,
+    getPublicationPackagesGetListUnifiedPackagesQueryKey,
     getPublicationVersionsGetListVersionsQueryKey,
     usePublicationActPackagesPostCreateActPackage,
     usePublicationActReportsPostUploadActPackageReport,
@@ -23,6 +26,7 @@ interface ActionsProps {
     announcementUUID?: string
     publicationUUID: string
     packageUUID?: string
+    reportUUID?: string
 }
 
 export const useActions = ({
@@ -31,6 +35,7 @@ export const useActions = ({
     announcementUUID,
     publicationUUID,
     packageUUID,
+    reportUUID,
 }: ActionsProps) => {
     const queryClient = useQueryClient()
 
@@ -74,6 +79,12 @@ export const useActions = ({
                         }
                     ),
                 })
+                queryClient.invalidateQueries({
+                    queryKey:
+                        getPublicationPackagesGetListUnifiedPackagesQueryKey(),
+                    refetchType: 'all',
+                    exact: false,
+                })
             },
             onError: (error: AxiosError<HTTPValidationError>) => {
                 console.error(
@@ -108,6 +119,19 @@ export const useActions = ({
                                   }
                               ),
                 })
+            ),
+        enabled: false,
+    })
+
+    const downloadReport = useQuery({
+        queryKey: ['downloadReport', reportUUID, versionUUID],
+        queryFn: async () =>
+            downloadFile(
+                (publicationType === 'act'
+                    ? getPublicationActReportsGetDownloadActPackageReportQueryKey
+                    : getPublicationAnnouncementReportsGetDownloadAnnouncementPackageReportQueryKey)(
+                    String(reportUUID)
+                )[0]
             ),
         enabled: false,
     })
@@ -147,9 +171,16 @@ export const useActions = ({
                             ),
                     })
                 }
+
+                queryClient.invalidateQueries({
+                    queryKey:
+                        getPublicationPackagesGetListUnifiedPackagesQueryKey(),
+                    refetchType: 'all',
+                    exact: false,
+                })
             },
         },
     })
 
-    return { createPackage, downloadPackage, uploadReports }
+    return { createPackage, downloadPackage, downloadReport, uploadReports }
 }

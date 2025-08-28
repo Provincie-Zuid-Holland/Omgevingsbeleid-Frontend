@@ -26,7 +26,7 @@ import {
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
 import { useActions } from '@/components/Publications/PublicationPackages/components/actions'
-import { getStatus } from '@/components/Publications/PublicationPackages/components/utils'
+import { getReportStatus } from '@/components/Publications/PublicationPackages/components/utils'
 import useModalStore from '@/store/modalStore'
 
 import { ModalStateMap } from '../../types'
@@ -249,7 +249,7 @@ const InnerForm = <TData extends { uploaded_files: File[] }>({
                     </Text>
                     <ul className="flex flex-col gap-2">
                         {reports.results.map(file => {
-                            const status = getStatus(file.Report_Status)
+                            const status = getReportStatus(file.Report_Status)
 
                             return (
                                 <li

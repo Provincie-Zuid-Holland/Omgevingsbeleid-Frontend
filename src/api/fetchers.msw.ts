@@ -847,6 +847,7 @@ export const getPublicationActPackagesGetDetailActPackageResponseMock = (
         null,
     ]),
     Delivery_ID: faker.word.sample(),
+    Document_Type: faker.word.sample(),
     Environment_Title: faker.word.sample(),
     Environment_UUID: faker.string.uuid(),
     Modified_By_UUID: faker.string.uuid(),
@@ -863,7 +864,21 @@ export const getPublicationActPackagesGetDetailActPackageResponseMock = (
         null,
     ]),
     UUID: faker.string.uuid(),
-    Zip_UUID: faker.string.uuid(),
+    Zip: {
+        Filename: faker.word.sample(),
+        Latest_Download_By_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Latest_Download_Date: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                `${faker.date.past().toISOString().split('.')[0]}Z`,
+                null,
+            ]),
+            undefined,
+        ]),
+        UUID: faker.string.uuid(),
+    },
     ...overrideResponse,
 })
 
@@ -1069,6 +1084,7 @@ export const getPublicationAnnouncementPackagesGetDetailAnnouncementPackageRespo
             faker.string.uuid(),
             null,
         ]),
+        Document_Type: faker.word.sample(),
         Environment_Title: faker.word.sample(),
         Environment_UUID: faker.string.uuid(),
         Modified_By_UUID: faker.string.uuid(),
@@ -1084,7 +1100,21 @@ export const getPublicationAnnouncementPackagesGetDetailAnnouncementPackageRespo
             null,
         ]),
         UUID: faker.string.uuid(),
-        Zip_UUID: faker.string.uuid(),
+        Zip: {
+            Filename: faker.word.sample(),
+            Latest_Download_By_UUID: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([faker.string.uuid(), null]),
+                undefined,
+            ]),
+            Latest_Download_Date: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    `${faker.date.past().toISOString().split('.')[0]}Z`,
+                    null,
+                ]),
+                undefined,
+            ]),
+            UUID: faker.string.uuid(),
+        },
         ...overrideResponse,
     })
 

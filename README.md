@@ -19,9 +19,9 @@ Therefore, The Province of South-Holland is committed to maintaining and develop
 
 ## Pre-Requisites
 
--   [Git](https://git-scm.com/)
--   [Node.js](https://nodejs.org/en/)
--   [Yarn](https://yarnpkg.com/getting-started/install)
+- [Git](https://git-scm.com/)
+- [Node.js](https://nodejs.org/en/)
+- [Yarn](https://yarnpkg.com/getting-started/install)
 
 ## Setting up a local version
 
@@ -57,7 +57,7 @@ VITE_CRYPTO_SECRET_KEY=        # Used for encryption/decryption in utils/encrypt
 
 ---
 
--   **Start development server:**
+- **Start development server:**
 
     ```sh
     yarn start
@@ -65,7 +65,7 @@ VITE_CRYPTO_SECRET_KEY=        # Used for encryption/decryption in utils/encrypt
 
     Runs the app in development mode at [http://localhost:3000](http://localhost:3000/). Supports Vite HMR for fast refresh.
 
--   **Run tests:**
+- **Run tests:**
 
     ```sh
     yarn test
@@ -73,7 +73,7 @@ VITE_CRYPTO_SECRET_KEY=        # Used for encryption/decryption in utils/encrypt
 
     Launches the test runner in interactive watch mode. Uses [Vitest](https://vitest.dev/) and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/).
 
--   **Build for production:**
+- **Build for production:**
 
     ```sh
     yarn build
@@ -81,7 +81,7 @@ VITE_CRYPTO_SECRET_KEY=        # Used for encryption/decryption in utils/encrypt
 
     Builds the app for production to the `dist` folder.
 
--   **Generate API types and fetchers (Orval):**
+- **Generate API types and fetchers (Orval):**
 
     ```sh
     yarn generate-types
@@ -116,11 +116,11 @@ src/
 
 ### API
 
--   `instance.ts` - Axios instance for the main API ([API docs](https://api-obzh.azurewebsites.net/docs))
--   `axiosGeoJSON.ts` - Axios instance for the GEO Server
--   `axiosLocatieserver.ts` - Axios instance for PDOK Location server
--   `fetchers.ts` - **Generated**: All API endpoints (Orval)
--   `fetchers.schemas.ts` - **Generated**: All TypeScript models (Orval)
+- `instance.ts` - Axios instance for the main API ([API docs](https://api-obzh.azurewebsites.net/docs))
+- `axiosGeoJSON.ts` - Axios instance for the GEO Server
+- `axiosLocatieserver.ts` - Axios instance for PDOK Location server
+- `fetchers.ts` - **Generated**: All API endpoints (Orval)
+- `fetchers.schemas.ts` - **Generated**: All TypeScript models (Orval)
 
 Generate these files with:
 
@@ -130,13 +130,13 @@ yarn generate-types
 
 ### Styling
 
--   Uses [Tailwind CSS](https://tailwindcss.com/) and Sass for styling.
--   Custom classes are defined in `tailwind.src.css` and `styles.scss`.
+- Uses [Tailwind CSS](https://tailwindcss.com/) and Sass for styling.
+- Custom classes are defined in `tailwind.src.css` and `styles.scss`.
 
 ### Testing
 
--   Static testing via ESLint.
--   Unit testing with [Vitest](https://vitest.dev/) and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/).
+- Static testing via ESLint.
+- Unit testing with [Vitest](https://vitest.dev/) and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/).
 
 ## Contributors ✨
 

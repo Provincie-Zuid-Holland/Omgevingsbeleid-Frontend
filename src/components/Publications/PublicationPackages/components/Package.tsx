@@ -12,7 +12,7 @@ import useModalStore from '@/store/modalStore'
 
 import { PublicationType } from '../../types'
 import { useActions } from './actions'
-import { getIndicatorClass, getStatus } from './utils'
+import { getIndicatorClass, getPackageStatus } from './utils'
 
 interface PackageProps extends PublicationPackage {
     publicationType: PublicationType
@@ -70,12 +70,12 @@ const Package = ({
     )
 
     const status = useMemo(
-        (): BadgeProps | undefined => getStatus(Report_Status),
+        (): BadgeProps | undefined => getPackageStatus(Report_Status),
         [Report_Status]
     )
 
     return (
-        <div className="flex items-center justify-between border-b border-pzh-gray-200 px-6 py-3 last:border-b-0">
+        <div className="border-pzh-gray-200 flex items-center justify-between border-b px-6 py-3 last:border-b-0">
             <div className="flex items-center gap-4">
                 <div className={indicatorClass}>
                     {Report_Status !== 'pending' && (
@@ -131,7 +131,7 @@ const Package = ({
 
                                 <ArrowUpRightFromSquareLight
                                     size={14}
-                                    className="-mt-0.5 text-pzh-green-500"
+                                    className="text-pzh-green-500 -mt-0.5"
                                 />
                             </Button>
                         )}
