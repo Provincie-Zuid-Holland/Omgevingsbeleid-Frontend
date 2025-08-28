@@ -74,7 +74,7 @@ const ModuleCreate = () => {
                             </div>
 
                             <ButtonSubmitFixed
-                                onCancel={() => navigate('/muteer')}
+                                onCancel={() => navigate('/muteer/modules')}
                                 disabled={isSubmitting || isPending}
                                 isLoading={isPending}
                             />

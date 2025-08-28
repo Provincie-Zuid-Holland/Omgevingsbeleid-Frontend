@@ -56,8 +56,8 @@ export interface ModalStateMap {
         object: ModuleObjectShort
     }
     moduleDeleteObject: {
-        object: ModuleObjectShort
-        module: Module
+        object: Pick<ModuleObjectShort, 'Object_Type' | 'Object_ID' | 'Title'>
+        module: Pick<Module, 'Module_ID' | 'Title'>
     }
     objectArea: {
         moduleId: string

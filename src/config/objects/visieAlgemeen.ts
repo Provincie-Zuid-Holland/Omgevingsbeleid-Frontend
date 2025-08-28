@@ -89,7 +89,9 @@ const visieAlgemeen: DynamicObject<
                         'table',
                     ],
                     imageOptions: {
-                        maxSize: 819200,
+                        uploadOptions: {
+                            maxSize: 819200,
+                        },
                     },
                 },
             ],

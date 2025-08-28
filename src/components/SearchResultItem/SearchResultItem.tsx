@@ -58,9 +58,9 @@ const SearchResultItem = ({
                     {model.defaults.singularCapitalize}
                 </span>
                 <Heading
-                    level="3"
+                    level="2"
                     size="m"
-                    className="mb-2 group-hover:text-pzh-green-500">
+                    className="group-hover:text-pzh-green-500 mb-2">
                     <span
                         dangerouslySetInnerHTML={{ __html: highlightedTitle }}
                     />

@@ -144,7 +144,7 @@ const beleidskeuze: DynamicObject<
                 },
                 {
                     name: 'Provincial_Interest',
-                    label: 'Provinciaal belang',
+                    label: 'Motivering provinciaal belang',
                     description:
                         'Beschrijf waarom de provincie deze keuze maakt en waarom dit niet (enkel) kan worden overgelaten aan andere overheden. Vanuit juridisch perspectief is het belangrijk om het provinciaal belang te definiëren. Zie ook artikel 2.3 van de Omgevingswet.',
                     type: 'wysiwyg',

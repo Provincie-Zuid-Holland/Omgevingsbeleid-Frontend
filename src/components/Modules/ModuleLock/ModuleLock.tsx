@@ -1,4 +1,4 @@
-import { Divider, Notification, Text } from '@pzh-ui/components'
+import { cn, Divider, Notification, Text } from '@pzh-ui/components'
 import { Lock, LockOpen } from '@pzh-ui/icons'
 import { useParams } from 'react-router-dom'
 
@@ -24,7 +24,7 @@ const ModuleLock = () => {
     }
 
     return (
-        <div className="mt-4 flex bg-pzh-gray-100 px-4 pb-3 pt-4">
+        <div className="bg-pzh-gray-100 mt-6 flex items-center px-4 py-2">
             {isLocked ? <Lock size={24} /> : <LockOpen size={24} />}
             <Text className="ml-3">
                 {isLocked
@@ -67,7 +67,7 @@ export const LockedNotification = ({ isDetail }: LockedNotificationProps) => (
         <Notification
             variant="warning"
             title="De module is op dit moment gelockt, er kunnen geen wijzigingen worden aangebracht."
-            className={!isDetail ? 'mt-6' : ''}
+            className={cn('w-full', { 'mt-6': !isDetail })}
         />
     </>
 )

@@ -1,4 +1,4 @@
-import { Button, FormikSelect, Text } from '@pzh-ui/components'
+import { Button, cn, FormikSelect, Text } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { useMemo } from 'react'
@@ -13,7 +13,11 @@ import {
 import { ModuleStatusCode } from '@/api/fetchers.schemas'
 import { toastNotification } from '@/utils/toastNotification'
 
-const ModuleVersionCard = () => {
+interface ModuleVersionCardProps {
+    variant?: 'column' | 'row'
+}
+
+const ModuleVersionCard = ({ variant = 'column' }: ModuleVersionCardProps) => {
     const queryClient = useQueryClient()
 
     const { moduleId } = useParams()
@@ -83,10 +87,15 @@ const ModuleVersionCard = () => {
     )
 
     return (
-        <div className="bg-pzh-gray-100 mb-5 px-8 py-6">
+        <div
+            className={cn('bg-pzh-blue-10', {
+                'mb-5 px-8 py-6': variant === 'column',
+                'p-6': variant === 'row',
+            })}>
             <Text bold color="text-pzh-blue-500" className="mb-2">
                 Versie aanmaken
             </Text>
+
             <Text className="mb-2">
                 Geef aan welke versie de objecten moeten krijgen.
             </Text>
@@ -95,22 +104,27 @@ const ModuleVersionCard = () => {
                 initialValues={{ Status: undefined }}
                 enableReinitialize>
                 {({ isSubmitting }) => (
-                    <Form>
-                        <FormikSelect
-                            name="Status"
-                            placeholder="Selecteer een versie"
-                            options={options}
-                            optimized={false}
-                            blurInputOnSelect
-                            noOptionsMessage={({ inputValue }) =>
-                                !!inputValue && 'Geen resultaten gevonden'
-                            }
-                        />
+                    <Form
+                        className={cn({
+                            'flex flex-1 items-center gap-2': variant === 'row',
+                        })}>
+                        <div className={cn({ 'flex-1': variant === 'row' })}>
+                            <FormikSelect
+                                name="Status"
+                                placeholder="Selecteer een versie"
+                                options={options}
+                                optimized={false}
+                                blurInputOnSelect
+                                noOptionsMessage={({ inputValue }) =>
+                                    !!inputValue && 'Geen resultaten gevonden'
+                                }
+                            />
+                        </div>
 
                         <Button
                             type="submit"
                             variant="cta"
-                            className="mt-2"
+                            className={cn({ 'mt-2': variant === 'column' })}
                             isLoading={isSubmitting}
                             isDisabled={isSubmitting}
                             data-testid="module-version-create">

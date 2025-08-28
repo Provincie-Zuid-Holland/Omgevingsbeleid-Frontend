@@ -4,11 +4,10 @@ export const getModuleStatusColor = (status?: string) => {
         case 'Ontwerp GS':
         case 'Ontwerp PS':
         case 'Ter Inzage':
-            return 'red'
         case 'Definitief ontwerp GS Concept':
         case 'Definitief ontwerp GS':
         case 'Definitief ontwerp PS':
-            return 'purple'
+            return 'blue'
         case 'Vigerend':
         case 'Vastgesteld':
         case 'Module afgerond':

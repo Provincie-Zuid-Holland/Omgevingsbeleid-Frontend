@@ -70,6 +70,7 @@ const ObjectForm = <TData extends FormikValues>({
     dirty,
     defaultValues,
     canEdit = true,
+    values,
 }: Omit<DynamicObjectFormProps<TData>, 'initialData' | 'handleSubmit'> &
     FormikProps<TData>) => {
     const sections = model.dynamicSections
