@@ -3646,13 +3646,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/icons@npm:^0.0.85":
-  version: 0.0.85
-  resolution: "@pzh-ui/icons@npm:0.0.85"
+"@pzh-ui/icons@npm:^0.0.88":
+  version: 0.0.88
+  resolution: "@pzh-ui/icons@npm:0.0.88"
   dependencies:
     react: "npm:^18.2.0"
     react-toastify: "npm:^9.1.2"
-  checksum: 58177414af67632407858e6154da0424fca9a95808afd6a3825b730ded5d62356b62b8323e44a2f2ffb479e9bf2f39a5c5cdbda5e9a84522dc3d8283a51a1d2a
+  checksum: 323bc9ec6fdb03a981db4b184c4b77507d2c731e644bbad7862112890fc5e5b4fa70e1e5d5f48e58aaa54e3a6cb967485913deeecd74afb6a430a0140008ad93
   languageName: node
   linkType: hard
 
@@ -14222,7 +14222,7 @@ __metadata:
     "@pzh-ui/components": "npm:^0.0.645"
     "@pzh-ui/config": "npm:^0.0.81"
     "@pzh-ui/css": "npm:^0.0.114"
-    "@pzh-ui/icons": "npm:^0.0.85"
+    "@pzh-ui/icons": "npm:^0.0.88"
     "@react-hookz/web": "npm:^24.0.4"
     "@tailwindcss/cli": "npm:^4.1.4"
     "@tailwindcss/vite": "npm:^4.1.4"

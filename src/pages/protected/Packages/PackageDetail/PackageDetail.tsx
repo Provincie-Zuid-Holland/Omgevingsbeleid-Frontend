@@ -7,13 +7,12 @@ import {
 import {
     DocumentType,
     PackageType,
-    PublicationActPackageReportShort,
-    PublicationAnnouncementPackageReportShort,
     PublicationType,
 } from '@/api/fetchers.schemas'
 import { LoaderContent } from '@/components/Loader'
 import { useActions } from '@/components/Publications/PublicationPackages/components/actions'
-import { getStatus } from '@/components/Publications/PublicationPackages/components/utils'
+import Report from '@/components/Publications/PublicationPackages/components/Report'
+import { getPackageStatus } from '@/components/Publications/PublicationPackages/components/utils'
 import MutateLayout from '@/templates/MutateLayout'
 import {
     Button,
@@ -22,7 +21,7 @@ import {
     Hyperlink,
     Text,
 } from '@pzh-ui/components'
-import { ArrowDownToLine, ArrowUpToLine, File as FileIcon } from '@pzh-ui/icons'
+import { ArrowDownToLine, ArrowUpToLine } from '@pzh-ui/icons'
 import { Link, useParams } from 'react-router-dom'
 import { config as providedConfig } from '../config'
 
@@ -67,7 +66,10 @@ const PackageDetail = () => {
     const { downloadPackage } = useActions({
         publicationType,
         publicationUUID: '',
-        versionUUID: data?.Publication_Version_UUID,
+        versionUUID:
+            data && 'Publication_Version_UUID' in data
+                ? data?.Publication_Version_UUID
+                : undefined,
         announcementUUID: uuid,
         packageUUID: uuid,
     })
@@ -116,7 +118,7 @@ const PackageDetail = () => {
                     />
                     <Row
                         label="Resultaat"
-                        value={getStatus(data?.Report_Status)?.text}
+                        value={getPackageStatus(data?.Report_Status)?.text}
                     />
                     <Row
                         label="Gemaakt op"
@@ -132,7 +134,6 @@ const PackageDetail = () => {
                 </div>
 
                 <Button
-                    variant="cta"
                     onPress={() => downloadPackage.refetch()}
                     isLoading={downloadPackage.isFetching}
                     isDisabled={downloadPackage.isFetching}
@@ -145,7 +146,7 @@ const PackageDetail = () => {
                 <div>
                     <Hyperlink asChild>
                         <Link
-                            to={`/muteer/leveringen?module_id=${data?.Module_ID}`}>
+                            to={`/muteer/leveringen?environment=${data?.Environment_UUID}&module_id=${data?.Module_ID}`}>
                             Bekijk alle "{data?.Module_Title}" leveringen
                         </Link>
                     </Hyperlink>
@@ -162,12 +163,22 @@ const PackageDetail = () => {
                     </Button>
                 </div>
                 <div className="border-pzh-gray-200 flex flex-col gap-2 rounded-sm border p-4">
-                    <Heading level="3" size="s" className="text-center">
+                    <Heading level="3" size="s" className="mb-2 text-center">
                         Levering ({data?.Delivery_ID})
                     </Heading>
-                    {reports?.results.map(result => (
-                        <File key={result.UUID} {...result} />
-                    ))}
+                    {!!reports?.results.length ? (
+                        reports.results.map(result => (
+                            <Report
+                                key={result.UUID}
+                                publicationType={publicationType}
+                                {...result}
+                            />
+                        ))
+                    ) : (
+                        <Text size="s" className="italic">
+                            Geen rapporten gevonden voor deze levering.
+                        </Text>
+                    )}
                 </div>
             </div>
         </MutateLayout>
@@ -189,39 +200,5 @@ const Row = ({ label, value }: RowProps) => (
         </div>
     </div>
 )
-
-const File = ({
-    Filename,
-    UUID,
-}:
-    | PublicationActPackageReportShort
-    | PublicationAnnouncementPackageReportShort) => {
-    const { type: publicationType } = useParams<{ type: PublicationType }>()
-
-    if (!publicationType) return
-
-    const { downloadReport } = useActions({
-        publicationType,
-        publicationUUID: '',
-        reportUUID: UUID,
-    })
-
-    return (
-        <Button
-            variant="default"
-            onPress={() => downloadReport.refetch()}
-            isLoading={downloadReport.isFetching}
-            isDisabled={downloadReport.isFetching}
-            className="border-pzh-gray-200 flex items-center justify-between rounded-sm border px-4 py-2">
-            <div className="flex items-center gap-4">
-                <FileIcon className="text-pzh-blue-500" size={20} />
-                <Text bold color="text-pzh-blue-500">
-                    {Filename}
-                </Text>
-            </div>
-            <ArrowDownToLine className="text-pzh-blue-500" size={20} />
-        </Button>
-    )
-}
 
 export default PackageDetail

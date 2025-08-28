@@ -7,6 +7,7 @@ import {
     getPublicationActReportsGetDownloadActPackageReportQueryKey,
     getPublicationAnnouncementPackagesGetListAnnouncementPackagesQueryKey,
     getPublicationAnnouncementReportsGetDownloadAnnouncementPackageReportQueryKey,
+    getPublicationPackagesGetListUnifiedPackagesQueryKey,
     getPublicationVersionsGetListVersionsQueryKey,
     usePublicationActPackagesPostCreateActPackage,
     usePublicationActReportsPostUploadActPackageReport,
@@ -76,6 +77,12 @@ export const useActions = ({
                             limit: 100,
                         }
                     ),
+                })
+                queryClient.invalidateQueries({
+                    queryKey:
+                        getPublicationPackagesGetListUnifiedPackagesQueryKey(),
+                    refetchType: 'all',
+                    exact: false,
                 })
             },
             onError: (error: AxiosError<HTTPValidationError>) => {
@@ -163,6 +170,13 @@ export const useActions = ({
                             ),
                     })
                 }
+
+                queryClient.invalidateQueries({
+                    queryKey:
+                        getPublicationPackagesGetListUnifiedPackagesQueryKey(),
+                    refetchType: 'all',
+                    exact: false,
+                })
             },
         },
     })
