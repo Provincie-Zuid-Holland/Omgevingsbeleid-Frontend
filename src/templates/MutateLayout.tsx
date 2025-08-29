@@ -18,6 +18,7 @@ interface MutateLayoutProps {
         isCurrent?: boolean
     }[]
     hasOwnBreadcrumbs?: boolean
+    className?: string
 }
 
 const MutateLayout = ({
@@ -25,6 +26,7 @@ const MutateLayout = ({
     children,
     breadcrumbs,
     hasOwnBreadcrumbs,
+    className,
 }: MutateLayoutProps) => {
     const { isDesktop } = useBreakpoint()
 
@@ -65,12 +67,17 @@ const MutateLayout = ({
                 )}
 
                 <Container
-                    className={classNames('pb-20', {
-                        'pt-12':
-                            !!!breadcrumbPaths?.length && !hasOwnBreadcrumbs,
-                        'pt-10': hasOwnBreadcrumbs,
-                        'pt-6': !!breadcrumbPaths?.length,
-                    })}>
+                    className={classNames(
+                        'pb-20',
+                        {
+                            'pt-12':
+                                !!!breadcrumbPaths?.length &&
+                                !hasOwnBreadcrumbs,
+                            'pt-10': hasOwnBreadcrumbs,
+                            'pt-6': !!breadcrumbPaths?.length,
+                        },
+                        className
+                    )}>
                     {children}
                 </Container>
             </div>

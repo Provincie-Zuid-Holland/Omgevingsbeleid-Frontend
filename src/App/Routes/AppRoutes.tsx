@@ -31,6 +31,8 @@ import TabDecisions, {
 import TabObjects from '@/pages/protected/Modules/ModuleDetail/components/TabObjects'
 import TabTimeline from '@/pages/protected/Modules/ModuleDetail/components/TabTimeline'
 import ModulesOverview from '@/pages/protected/Modules/ModulesOverview'
+import PackageDetail from '@/pages/protected/Packages/PackageDetail'
+import PackagesOverview from '@/pages/protected/Packages/PackagesOverview'
 import {
     Accessibility,
     AreaDetail,
@@ -345,6 +347,35 @@ const AppRoutes = () => {
                                     }}
                                     redirectTo="/muteer">
                                     <PublicationTemplateCreate />
+                                </ProtectedRoute>
+                            ),
+                        },
+                    ],
+                },
+                {
+                    path: 'leveringen',
+                    children: [
+                        {
+                            index: true,
+                            element: (
+                                <ProtectedRoute
+                                    permissions={{
+                                        canViewPublicationPackage: true,
+                                    }}
+                                    redirectTo="/muteer">
+                                    <PackagesOverview />
+                                </ProtectedRoute>
+                            ),
+                        },
+                        {
+                            path: ':type/:uuid',
+                            element: (
+                                <ProtectedRoute
+                                    permissions={{
+                                        canViewPublicationPackage: true,
+                                    }}
+                                    redirectTo="/muteer">
+                                    <PackageDetail />
                                 </ProtectedRoute>
                             ),
                         },

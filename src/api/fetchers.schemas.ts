@@ -1554,6 +1554,7 @@ export interface PublicationAnnouncementPackageDetailResponse {
     Created_Environment_State_UUID: PublicationAnnouncementPackageDetailResponseCreatedEnvironmentStateUUID
     Delivery_ID: string
     Doc_Version_UUID: PublicationAnnouncementPackageDetailResponseDocVersionUUID
+    Document_Type: string
     Environment_Title: string
     Environment_UUID: string
     Modified_By_UUID: string
@@ -1566,7 +1567,7 @@ export interface PublicationAnnouncementPackageDetailResponse {
     Report_Status: string
     Used_Environment_State_UUID: PublicationAnnouncementPackageDetailResponseUsedEnvironmentStateUUID
     UUID: string
-    Zip_UUID: string
+    Zip: PackageZipShort
 }
 
 export interface PublicationAnnouncementPackageCreatedResponse {
@@ -1670,6 +1671,7 @@ export interface PublicationActPackageDetailResponse {
     Created_Date: string
     Created_Environment_State_UUID: PublicationActPackageDetailResponseCreatedEnvironmentStateUUID
     Delivery_ID: string
+    Document_Type: string
     Environment_Title: string
     Environment_UUID: string
     Modified_By_UUID: string
@@ -1683,7 +1685,7 @@ export interface PublicationActPackageDetailResponse {
     Report_Status: string
     Used_Environment_State_UUID: PublicationActPackageDetailResponseUsedEnvironmentStateUUID
     UUID: string
-    Zip_UUID: string
+    Zip: PackageZipShort
 }
 
 export type PublicationActMetadata = { [key: string]: unknown }
