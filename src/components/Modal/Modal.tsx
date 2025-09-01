@@ -32,7 +32,7 @@ const Modal = ({
             }
             title={title}
             {...rest}>
-            <div className="px-8 py-6">
+            <div className="px-10 py-8">
                 {title && !hideTitle && (
                     <Heading level="2" className="mb-4">
                         {title}
