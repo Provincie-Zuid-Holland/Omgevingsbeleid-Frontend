@@ -25,6 +25,7 @@ import {
     Publication,
 } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
+import { ModalFooter } from '@/components/Modal/Modal'
 import useModalStore from '@/store/modalStore'
 import { PUBLICATION_EDIT_SCHEMA } from '@/validation/publication'
 import { useParams } from 'react-router-dom'
@@ -47,9 +48,9 @@ const PublicationForm = <TData extends FormikValues>({
             validationSchema={toFormikValidationSchema(PUBLICATION_EDIT_SCHEMA)}
             {...rest}>
             {({ isSubmitting }) => (
-                <Form className="flex flex-col gap-12">
+                <Form className="flex flex-col gap-4">
                     <Fields type={type} />
-                    <div className="flex items-center justify-between">
+                    <ModalFooter>
                         <Button
                             variant="link"
                             onPress={() => setActiveModal(null)}>
@@ -61,7 +62,7 @@ const PublicationForm = <TData extends FormikValues>({
                             isLoading={isSubmitting}>
                             {submitText}
                         </Button>
-                    </div>
+                    </ModalFooter>
                 </Form>
             )}
         </Formik>

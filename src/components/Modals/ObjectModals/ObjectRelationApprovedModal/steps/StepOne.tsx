@@ -19,7 +19,7 @@ export const StepOne = ({
 
     return (
         <>
-            <Heading level="2" className="mb-2">
+            <Heading level="2" size="xl" className="mb-2">
                 Gelegde beleidsrelaties
             </Heading>
 
@@ -56,8 +56,6 @@ export const StepOne = ({
                     </button>
                 </div>
             ))}
-
-            <Divider className="my-5" />
         </>
     )
 }

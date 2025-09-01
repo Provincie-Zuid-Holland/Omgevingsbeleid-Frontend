@@ -16,6 +16,7 @@ import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as objectConnection from '@/validation/objectConnection'
 
+import { ModalFooter } from '@/components/Modal/Modal'
 import { StepFour, StepOne, StepThree, StepTwo } from './steps'
 
 const steps = [StepOne, StepTwo, StepThree, StepFour]
@@ -243,10 +244,9 @@ export const ConnectionModal = ({
             id="objectAddConnection"
             title={`${connectionModel?.defaults?.singularCapitalize} koppelen`}
             hideTitle
-            size="xl"
             onClose={handleClose}>
             {isFetching && (
-                <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-pzh-black/20">
+                <div className="bg-pzh-black/20 absolute top-0 left-0 flex h-full w-full items-center justify-center">
                     <LoaderSpinner />
                 </div>
             )}
@@ -271,7 +271,7 @@ export const ConnectionModal = ({
                             )}
                             setStep={setStep}
                         />
-                        <div className="mt-6 flex items-center justify-between">
+                        <ModalFooter className="mt-4">
                             <Button variant="link" onPress={handleClose}>
                                 Annuleren
                             </Button>
@@ -307,12 +307,12 @@ export const ConnectionModal = ({
                                         {isFinalStep
                                             ? 'Opslaan'
                                             : isDeleteStep
-                                            ? 'Koppeling verbreken'
-                                            : 'Volgende stap'}
+                                              ? 'Koppeling verbreken'
+                                              : 'Volgende stap'}
                                     </Button>
                                 </div>
                             )}
-                        </div>
+                        </ModalFooter>
                     </Form>
                 )}
             </Formik>

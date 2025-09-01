@@ -1,4 +1,5 @@
 import {
+    cn,
     Heading,
     Modal as ProvidedModal,
     ModalProps as ProvidedModalProps,
@@ -6,6 +7,7 @@ import {
 
 import { ModalType } from '@/components/Modals/types'
 import useModalStore from '@/store/modalStore'
+import { ReactNode } from 'react'
 
 interface ModalProps extends Omit<ProvidedModalProps, 'id'> {
     id: ModalType
@@ -17,6 +19,7 @@ const Modal = ({
     id,
     title,
     hideTitle,
+    size = 'xl',
     onClose,
     children,
     ...rest
@@ -31,10 +34,11 @@ const Modal = ({
                 !isOpen && onClose ? onClose() : setActiveModal(null)
             }
             title={title}
+            size={size}
             {...rest}>
-            <div className="px-10 py-8">
+            <div className="flex flex-col gap-4 px-10 py-8">
                 {title && !hideTitle && (
-                    <Heading level="2" className="mb-4">
+                    <Heading level="2" size="xl">
                         {title}
                     </Heading>
                 )}
@@ -43,5 +47,21 @@ const Modal = ({
         </ProvidedModal>
     )
 }
+
+export const ModalFooter = ({
+    children,
+    className,
+}: {
+    children: ReactNode
+    className?: string
+}) => (
+    <div
+        className={cn(
+            'border-pzh-gray-300 flex items-center justify-between border-t pt-4',
+            className
+        )}>
+        {children}
+    </div>
+)
 
 export default Modal

@@ -79,7 +79,7 @@ const PublicationAddModal = () => {
     }
 
     return (
-        <Modal id="publicationAdd" title="Instrument toevoegen" size="m">
+        <Modal id="publicationAdd" title="Instrument toevoegen">
             <PublicationForm
                 type="add"
                 onSubmit={handleFormSubmit}

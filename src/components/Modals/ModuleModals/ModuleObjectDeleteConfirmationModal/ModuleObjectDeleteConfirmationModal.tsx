@@ -7,6 +7,7 @@ import { ModelType } from '@/config/objects/types'
 import useModule from '@/hooks/useModule'
 import useModalStore from '@/store/modalStore'
 
+import { ModalFooter } from '@/components/Modal/Modal'
 import { ModalStateMap } from '../../types'
 
 const ModuleObjectDeleteConfirmationModal = () => {
@@ -41,12 +42,12 @@ const ModuleObjectDeleteConfirmationModal = () => {
                 Weet je zeker dat je dit onderdeel wilt verwijderen?
             </Text>
 
-            <div className="mt-6 flex items-center justify-between">
+            <ModalFooter>
                 <Button variant="link" onPress={() => setActiveModal(null)}>
                     Annuleren
                 </Button>
                 <Button onPress={handleDeletion}>Ja, verwijder</Button>
-            </div>
+            </ModalFooter>
         </Modal>
     )
 }

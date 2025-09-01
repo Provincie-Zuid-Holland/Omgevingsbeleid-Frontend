@@ -16,6 +16,7 @@ import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as objectRelation from '@/validation/objectRelation'
 
+import { ModalFooter } from '@/components/Modal/Modal'
 import { ObjectRelationModalActions } from '../types'
 import { StepOne, StepTwo } from './steps'
 
@@ -121,7 +122,6 @@ const ObjectRelationSentModal = ({
             id="objectRelationSent"
             title="Gelegde beleidsrelaties"
             hideTitle
-            size="xl"
             onClose={handleClose}>
             <Formik
                 onSubmit={handleFormSubmit}
@@ -139,7 +139,7 @@ const ObjectRelationSentModal = ({
                             history={history}
                             handleEdit={handleEdit}
                         />
-                        <div className="mt-6 flex items-center justify-between">
+                        <ModalFooter className="mt-4">
                             {step !== 1 && (
                                 <Button variant="link" onPress={handleClose}>
                                     Annuleren
@@ -174,7 +174,7 @@ const ObjectRelationSentModal = ({
                                         : 'Sluiten'}
                                 </Button>
                             </div>
-                        </div>
+                        </ModalFooter>
                     </Form>
                 )}
             </Formik>

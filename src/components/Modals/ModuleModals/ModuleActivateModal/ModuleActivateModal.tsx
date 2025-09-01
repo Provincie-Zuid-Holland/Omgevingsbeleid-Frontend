@@ -8,6 +8,7 @@ import {
     useModulesPostActivateModule,
 } from '@/api/fetchers'
 import Modal from '@/components/Modal'
+import { ModalFooter } from '@/components/Modal/Modal'
 import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 
@@ -48,7 +49,7 @@ const ModuleActivateModal = () => {
                 eigenaar van één of meerdere objecten in deze module.
             </Text>
 
-            <div className="mt-6 flex items-center justify-between">
+            <ModalFooter>
                 <Button variant="link" onPress={() => setActiveModal(null)}>
                     Annuleren
                 </Button>
@@ -59,7 +60,7 @@ const ModuleActivateModal = () => {
                     isLoading={isPending}>
                     Activeren
                 </Button>
-            </div>
+            </ModalFooter>
         </Modal>
     )
 }

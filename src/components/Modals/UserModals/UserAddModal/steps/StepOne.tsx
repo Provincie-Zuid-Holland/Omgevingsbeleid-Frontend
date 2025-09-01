@@ -7,7 +7,7 @@ import { StepProps } from './types'
 
 export const StepOne = ({ handleSubmit, handleClose }: StepProps) => (
     <>
-        <Heading level="2" className="mb-4">
+        <Heading level="2" size="xl">
             Gebruiker toevoegen
         </Heading>
         <UserForm

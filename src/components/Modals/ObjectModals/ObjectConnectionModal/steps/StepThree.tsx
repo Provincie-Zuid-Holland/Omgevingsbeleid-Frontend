@@ -13,7 +13,7 @@ export const StepThree = ({ title, connectionModel, model }: StepProps) => {
 
     return (
         <>
-            <Heading level="2" className="mb-2">
+            <Heading level="2" size="xl" className="mb-2">
                 {singularCapitalize} koppelen
             </Heading>
 

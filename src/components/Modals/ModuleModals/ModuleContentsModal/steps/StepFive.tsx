@@ -20,7 +20,7 @@ export const StepFive = ({ title, existingObject }: StepProps) => {
 
     return (
         <div>
-            <Heading level="2" className="mb-4">
+            <Heading level="2" size="xl" className="mb-4">
                 Bestaande {existingObject?.Object_Type}
             </Heading>
             <Text className="mb-4">

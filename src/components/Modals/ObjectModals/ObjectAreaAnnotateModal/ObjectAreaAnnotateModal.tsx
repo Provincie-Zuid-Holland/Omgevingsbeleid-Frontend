@@ -16,6 +16,7 @@ import { Model } from '@/config/objects/types'
 import useModalStore from '@/store/modalStore'
 import { SCHEMA_OBJECT_ANNOTATE_AREA } from '@/validation/objectAnnotate'
 
+import { ModalFooter } from '@/components/Modal/Modal'
 import { ModalStateMap } from '../../types'
 
 type Values = z.infer<typeof SCHEMA_OBJECT_ANNOTATE_AREA>
@@ -67,10 +68,7 @@ const ObjectAreaAnnotateModal = ({ model }: ObjectAreaAnnotateModalProps) => {
     }
 
     return (
-        <Modal
-            id="objectAreaAnnotate"
-            title="Gebiedsaanwijzing toevoegen"
-            size="m">
+        <Modal id="objectAreaAnnotate" title="Gebiedsaanwijzing toevoegen">
             <Formik
                 onSubmit={handleSubmit}
                 initialValues={initialValues}
@@ -152,7 +150,7 @@ const InnerForm = <TData extends Values>({
 
     return (
         <Form>
-            <div className="flex flex-col gap-4">
+            <div className="mb-4 flex flex-col gap-4">
                 <div>
                     <DynamicObjectSearch
                         fieldName="location"
@@ -251,7 +249,7 @@ const InnerForm = <TData extends Values>({
                 </div>
             </div>
 
-            <div className="mt-6 flex items-center justify-between">
+            <ModalFooter>
                 {!hasValues ? (
                     <Button variant="link" onPress={() => setActiveModal(null)}>
                         Annuleren
@@ -279,7 +277,7 @@ const InnerForm = <TData extends Values>({
                     isLoading={isSubmitting}>
                     Opslaan
                 </Button>
-            </div>
+            </ModalFooter>
         </Form>
     )
 }

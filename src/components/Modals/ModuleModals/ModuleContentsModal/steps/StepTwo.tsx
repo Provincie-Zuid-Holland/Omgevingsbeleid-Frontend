@@ -15,7 +15,7 @@ export const StepTwo = ({}: StepProps) => {
 
     return (
         <div>
-            <Heading level="2" className="mb-4">
+            <Heading level="2" size="xl" className="mb-4">
                 Wat wil je toevoegen?
             </Heading>
             <Text className="mb-4">
