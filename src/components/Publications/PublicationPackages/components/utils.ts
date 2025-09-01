@@ -14,7 +14,27 @@ export const getIndicatorClass = (isSucceeded?: boolean) =>
         }
     )
 
-export const getStatus = (status?: string): BadgeProps | undefined => {
+export const getPackageStatus = (status?: string): BadgeProps | undefined => {
+    switch (status) {
+        case 'pending':
+            return {
+                text: 'In afwachting',
+                variant: 'yellow',
+            }
+        case 'valid':
+            return {
+                text: 'Geslaagd',
+                variant: 'green',
+            }
+        case 'failed':
+            return {
+                text: 'Mislukt',
+                variant: 'red',
+            }
+    }
+}
+
+export const getReportStatus = (status?: string): BadgeProps | undefined => {
     switch (status) {
         case 'pending':
             return {
