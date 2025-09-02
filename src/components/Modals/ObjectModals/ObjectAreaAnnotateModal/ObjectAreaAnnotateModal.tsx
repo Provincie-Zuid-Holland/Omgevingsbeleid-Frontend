@@ -6,8 +6,8 @@ import { z } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import {
-    usePublicationDsoValueListsAreaDesignationGroupsGet,
-    usePublicationDsoValueListsAreaDesignationTypesGet,
+    usePublicationValueListsGetAreaDesignationGroups,
+    usePublicationValueListsGetAreaDesignationTypes,
 } from '@/api/fetchers'
 import { AREA_DATA_ATTRS } from '@/components/DynamicObject/DynamicObjectForm/DynamicField/extensions/area'
 import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
@@ -112,9 +112,9 @@ const InnerForm = <TData extends Values>({
         data: areaTypeOptions,
         isFetching: areaTypesFetching,
         queryKey: areaTypeQueryKey,
-    } = usePublicationDsoValueListsAreaDesignationTypesGet(
+    } = usePublicationValueListsGetAreaDesignationTypes(
         {
-            document_type:
+            values:
                 model.defaults.parentType === 'Visie'
                     ? 'omgevingsvisie'
                     : 'programma',
@@ -134,7 +134,7 @@ const InnerForm = <TData extends Values>({
         data: areaGroupOptions,
         isFetching: areaGroupsFetching,
         queryKey: areaGroupQueryKey,
-    } = usePublicationDsoValueListsAreaDesignationGroupsGet(
+    } = usePublicationValueListsGetAreaDesignationGroups(
         {
             type: values.type,
         },

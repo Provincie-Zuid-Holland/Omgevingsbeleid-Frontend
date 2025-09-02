@@ -1,10 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query'
 
 import {
-    getPublicationsGetQueryKey,
-    getPublicationsPublicationUuidVersionsGetQueryKey,
-    usePublicationsPost,
-    usePublicationsPublicationUuidVersionPost,
+    getPublicationsGetListPublicationsQueryKey,
+    getPublicationVersionsGetListVersionsQueryKey,
+    usePublicationsPostCreatePublication,
+    usePublicationVersionsPostCreateVersion,
 } from '@/api/fetchers'
 import Modal from '@/components/Modal/Modal'
 import PublicationForm from '@/components/Publications/PublicationForm'
@@ -31,9 +31,10 @@ const PublicationAddModal = () => {
     ) as ModalStateMap['publicationAdd']
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { mutateAsync: postPublication } = usePublicationsPost()
+    const { mutateAsync: postPublication } =
+        usePublicationsPostCreatePublication()
     const { mutateAsync: postVersion } =
-        usePublicationsPublicationUuidVersionPost()
+        usePublicationVersionsPostCreateVersion()
 
     const initialValues: PublicationSchema = {
         ...EMPTY_PUBLICATION_OBJECT,
@@ -59,10 +60,9 @@ const PublicationAddModal = () => {
                     },
                 }).finally(() => {
                     queryClient.invalidateQueries({
-                        queryKey:
-                            getPublicationsPublicationUuidVersionsGetQueryKey(
-                                data.UUID
-                            ),
+                        queryKey: getPublicationVersionsGetListVersionsQueryKey(
+                            data.UUID
+                        ),
                     })
 
                     setActiveModal(null)
@@ -70,7 +70,7 @@ const PublicationAddModal = () => {
             })
             .finally(() => {
                 queryClient.invalidateQueries({
-                    queryKey: getPublicationsGetQueryKey({
+                    queryKey: getPublicationsGetListPublicationsQueryKey({
                         module_id: parseInt(String(moduleId)),
                         limit: 100,
                     }),

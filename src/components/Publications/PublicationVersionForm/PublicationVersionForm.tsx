@@ -13,7 +13,7 @@ import { useMountEffect } from '@react-hookz/web'
 import { Form, Formik, FormikConfig, FormikProps, FormikValues } from 'formik'
 import { useParams } from 'react-router-dom'
 
-import { useModulesModuleIdStatusGet } from '@/api/fetchers'
+import { useModulesViewModuleListStatuses } from '@/api/fetchers'
 import { HTTPValidationError } from '@/api/fetchers.schemas'
 import FieldArray from '@/components/Form/FieldArray'
 import ScrollToFieldError from '@/components/ScrollToFieldError'
@@ -49,7 +49,7 @@ const InnerForm = <TData extends FormikValues>({
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { data: statusOptions, isLoading } = useModulesModuleIdStatusGet(
+    const { data: statusOptions, isLoading } = useModulesViewModuleListStatuses(
         parseInt(moduleId!),
         {
             query: {

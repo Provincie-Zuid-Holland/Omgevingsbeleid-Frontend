@@ -1,15 +1,15 @@
 import { ListCheck } from '@pzh-ui/icons'
 
 import {
-    useModulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGet,
-    useModulesModuleIdObjectProgrammaAlgemeenLineageIdPatch,
-    useModulesObjectProgrammaAlgemeenActiveLineageIdGet,
-    useProgrammaAlgemeenStaticLineageIdPost,
-    useProgrammasAlgemeenLatestLineageIdGet,
-    useProgrammasAlgemeenValidGet,
-    useProgrammasAlgemeenValidLineageIdGet,
-    useProgrammasAlgemeenVersionObjectUuidGet,
-    useRevisionsModuleIdProgrammaAlgemeenVersionObjectUuidGet,
+    useGetRevisionsProgrammaAlgemeenVersion,
+    useProgrammaAlgemeenEditObjectStatic,
+    useProgrammaAlgemeenGetListActiveModuleObjects,
+    useProgrammaAlgemeenListValidLineages,
+    useProgrammaAlgemeenListValidLineageTree,
+    useProgrammaAlgemeenPostModulePatchObject,
+    useProgrammaAlgemeenViewModuleObjectLatest,
+    useProgrammaAlgemeenViewObjectLatest,
+    useProgrammaAlgemeenViewObjectVersion,
 } from '@/api/fetchers'
 import {
     VisieAlgemeenPatch,
@@ -21,25 +21,23 @@ import { schemaDefaults } from '@/validation/zodSchema'
 import { DynamicObject } from './types'
 
 const fetchers = {
-    useGetValid: useProgrammasAlgemeenValidGet,
-    useGetValidLineage: useProgrammasAlgemeenValidLineageIdGet,
-    useGetVersion: useProgrammasAlgemeenVersionObjectUuidGet,
-    useGetLatestLineage: useProgrammasAlgemeenLatestLineageIdGet,
-    useGetRevision: useRevisionsModuleIdProgrammaAlgemeenVersionObjectUuidGet,
+    useGetValid: useProgrammaAlgemeenListValidLineages,
+    useGetValidLineage: useProgrammaAlgemeenListValidLineageTree,
+    useGetVersion: useProgrammaAlgemeenViewObjectVersion,
+    useGetLatestLineage: useProgrammaAlgemeenViewObjectLatest,
+    useGetRevision: useGetRevisionsProgrammaAlgemeenVersion,
     useGetRelations: null,
     usePutRelations: null,
-    useGetLatestLineageInModule:
-        useModulesModuleIdObjectProgrammaAlgemeenLatestLineageIdGet,
-    usePatchObjectInModule:
-        useModulesModuleIdObjectProgrammaAlgemeenLineageIdPatch,
+    useGetLatestLineageInModule: useProgrammaAlgemeenViewModuleObjectLatest,
+    usePatchObjectInModule: useProgrammaAlgemeenPostModulePatchObject,
     usePatchObject: null,
     useDeleteObject: null,
-    usePostStatic: useProgrammaAlgemeenStaticLineageIdPost,
+    usePostStatic: useProgrammaAlgemeenEditObjectStatic,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
     usePostObject: null,
-    useGetActiveModules: useModulesObjectProgrammaAlgemeenActiveLineageIdGet,
+    useGetActiveModules: useProgrammaAlgemeenGetListActiveModuleObjects,
 }
 
 const programmaAlgemeen: DynamicObject<
@@ -91,7 +89,9 @@ const programmaAlgemeen: DynamicObject<
                         'table',
                     ],
                     imageOptions: {
-                        maxSize: 819200,
+                        uploadOptions: {
+                            maxSize: 819200,
+                        },
                     },
                 },
             ],

@@ -1,26 +1,25 @@
 /// <reference types="vitest" />
 
+import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { defineConfig } from 'vite'
 import svgrPlugin from 'vite-plugin-svgr'
 import viteTsconfigPaths from 'vite-tsconfig-paths'
-import tailwindcss from "@tailwindcss/vite"
 
-// https://vitejs.dev/config/
 export default defineConfig({
     server: {
         host: 'localhost',
         port: 3000,
     },
-    preview: {},
     build: {
         target: 'esnext',
         outDir: 'build',
+        sourcemap: true,
         rollupOptions: {
             output: {
-                dir: 'build',
                 manualChunks: {
+                    vendor: ['react', 'react-dom'],
                     d3: ['d3'],
                     tiptap: [
                         '@tiptap/core',
@@ -37,6 +36,8 @@ export default defineConfig({
                         '@tiptap/extension-placeholder',
                         '@tiptap/extension-text',
                         '@tiptap/extension-underline',
+                        'prosemirror-tables',
+                        'prosemirror-gapcursor',
                     ],
                     leaflet: [
                         'leaflet',
@@ -47,7 +48,8 @@ export default defineConfig({
                     zod: ['zod', 'zod-formik-adapter'],
                     dompurify: ['dompurify'],
                     formik: ['formik'],
-                    pzh: ['@pzh-ui/components', '@pzh-ui/icons'],
+                    components: ['@pzh-ui/components'],
+                    icons: ['@pzh-ui/icons'],
                 },
             },
         },
@@ -61,10 +63,10 @@ export default defineConfig({
         viteTsconfigPaths(),
         svgrPlugin(),
         visualizer({
-            template: 'treemap', // or sunburst
+            template: 'treemap',
             gzipSize: true,
             brotliSize: true,
-            filename: 'analyse.html', // will be saved in project's root
+            filename: 'analyse.html',
         }),
     ],
     test: {
@@ -82,9 +84,7 @@ export default defineConfig({
         restoreMocks: true,
         mockReset: true,
         server: {
-            deps: {
-                inline: ['@pzh-ui/components'],
-            },
+            deps: { inline: ['@pzh-ui/components'] },
         },
     },
 })

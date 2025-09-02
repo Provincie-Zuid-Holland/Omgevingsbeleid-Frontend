@@ -3,17 +3,17 @@ import { LocationDot } from '@pzh-ui/icons'
 import { Link } from 'react-router-dom'
 
 import {
-    useGebiedsprogrammasLatestLineageIdGet,
-    useGebiedsprogrammasRelationsLineageIdGet,
-    useGebiedsprogrammasRelationsLineageIdPut,
-    useGebiedsprogrammasStaticLineageIdPost,
-    useGebiedsprogrammasValidGet,
-    useGebiedsprogrammasValidLineageIdGet,
-    useGebiedsprogrammasVersionObjectUuidGet,
-    useModulesModuleIdObjectGebiedsprogrammasLatestLineageIdGet,
-    useModulesModuleIdObjectGebiedsprogrammasLineageIdPatch,
-    useModulesObjectsGebiedsprogrammaActiveLineageIdGet,
-    useRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGet,
+    useGebiedsprogrammaEditObjectStatic,
+    useGebiedsprogrammaGetListActiveModuleObjects,
+    useGebiedsprogrammaGetRelationsList,
+    useGebiedsprogrammaListValidLineages,
+    useGebiedsprogrammaListValidLineageTree,
+    useGebiedsprogrammaPostModulePatchObject,
+    useGebiedsprogrammaPostRelationsOverwrite,
+    useGebiedsprogrammaViewModuleObjectLatest,
+    useGebiedsprogrammaViewObjectLatest,
+    useGebiedsprogrammaViewObjectVersion,
+    useGetRevisionsGebiedsprogrammaVersion,
 } from '@/api/fetchers'
 import {
     GebiedsprogrammaPatch,
@@ -25,25 +25,23 @@ import { schemaDefaults } from '@/validation/zodSchema'
 import { DynamicObject } from './types'
 
 const fetchers = {
-    useGetValid: useGebiedsprogrammasValidGet,
-    useGetValidLineage: useGebiedsprogrammasValidLineageIdGet,
-    useGetVersion: useGebiedsprogrammasVersionObjectUuidGet,
-    useGetLatestLineage: useGebiedsprogrammasLatestLineageIdGet,
-    useGetRevision: useRevisionsModuleIdGebiedsprogrammaVersionObjectUuidGet,
-    useGetRelations: useGebiedsprogrammasRelationsLineageIdGet,
-    usePutRelations: useGebiedsprogrammasRelationsLineageIdPut,
-    useGetLatestLineageInModule:
-        useModulesModuleIdObjectGebiedsprogrammasLatestLineageIdGet,
-    usePatchObjectInModule:
-        useModulesModuleIdObjectGebiedsprogrammasLineageIdPatch,
+    useGetValid: useGebiedsprogrammaListValidLineages,
+    useGetValidLineage: useGebiedsprogrammaListValidLineageTree,
+    useGetVersion: useGebiedsprogrammaViewObjectVersion,
+    useGetLatestLineage: useGebiedsprogrammaViewObjectLatest,
+    useGetRevision: useGetRevisionsGebiedsprogrammaVersion,
+    useGetRelations: useGebiedsprogrammaGetRelationsList,
+    usePutRelations: useGebiedsprogrammaPostRelationsOverwrite,
+    useGetLatestLineageInModule: useGebiedsprogrammaViewModuleObjectLatest,
+    usePatchObjectInModule: useGebiedsprogrammaPostModulePatchObject,
     usePatchObject: null,
     useDeleteObject: null,
-    usePostStatic: useGebiedsprogrammasStaticLineageIdPost,
+    usePostStatic: useGebiedsprogrammaEditObjectStatic,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
     usePostObject: null,
-    useGetActiveModules: useModulesObjectsGebiedsprogrammaActiveLineageIdGet,
+    useGetActiveModules: useGebiedsprogrammaGetListActiveModuleObjects,
 }
 
 const gebiedsprogramma: DynamicObject<

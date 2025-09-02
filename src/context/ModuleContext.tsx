@@ -7,13 +7,13 @@ import { ReactNode, createContext, useEffect, useMemo } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
 import {
-    getModulesGetQueryKey,
-    getModulesModuleIdGetQueryKey,
-    getModulesObjectsLatestGetQueryKey,
-    useModulesModuleIdClosePost,
-    useModulesModuleIdGet,
-    useModulesModuleIdPost,
-    useModulesModuleIdRemoveObjectTypeLineageIdDelete,
+    getModulesGetListModuleObjectsQueryKey,
+    getModulesGetListModulesQueryKey,
+    getModulesViewModuleOverviewQueryKey,
+    useModulesPostCloseModule,
+    useModulesPostEditModule,
+    useModulesPostModuleRemoveObject,
+    useModulesViewModuleOverview,
 } from '@/api/fetchers'
 import {
     HTTPValidationError,
@@ -83,9 +83,17 @@ function ModuleProvider({ children }: { children?: ReactNode }) {
     const { moduleId } = useParams()
     const { user } = useAuth()
 
-    const module = useModulesModuleIdGet(parseInt(moduleId!), {
+    const module = useModulesViewModuleOverview(parseInt(moduleId!), {
         query: {
             enabled: !!moduleId,
+            select: ({ Objects, ...rest }) => ({
+                ...rest,
+                Objects: Objects.slice().sort(
+                    (a, b) =>
+                        a.Object_Type.localeCompare(b.Object_Type) ||
+                        a.Title.localeCompare(b.Title)
+                ),
+            }),
         },
     })
 
@@ -93,17 +101,17 @@ function ModuleProvider({ children }: { children?: ReactNode }) {
         toastType = 'moduleEdit' as ToastType,
         onSuccess?: () => void
     ) =>
-        useModulesModuleIdPost({
+        useModulesPostEditModule({
             mutation: {
                 onSuccess: () => {
                     Promise.all([
                         queryClient.invalidateQueries({
-                            queryKey: getModulesModuleIdGetQueryKey(
+                            queryKey: getModulesViewModuleOverviewQueryKey(
                                 parseInt(moduleId!)
                             ),
                         }),
                         queryClient.invalidateQueries({
-                            queryKey: getModulesGetQueryKey(),
+                            queryKey: getModulesGetListModulesQueryKey(),
                             refetchType: 'all',
                         }),
                     ]).then(onSuccess)
@@ -114,12 +122,12 @@ function ModuleProvider({ children }: { children?: ReactNode }) {
         })
 
     const useCloseModule = (onSuccess?: () => void) =>
-        useModulesModuleIdClosePost({
+        useModulesPostCloseModule({
             mutation: {
                 onSuccess: () => {
                     queryClient
                         .invalidateQueries({
-                            queryKey: getModulesGetQueryKey(),
+                            queryKey: getModulesGetListModulesQueryKey(),
                             refetchType: 'all',
                         })
                         .then(onSuccess)
@@ -130,17 +138,17 @@ function ModuleProvider({ children }: { children?: ReactNode }) {
         })
 
     const useRemoveObjectFromModule = (onSuccess?: () => void) =>
-        useModulesModuleIdRemoveObjectTypeLineageIdDelete({
+        useModulesPostModuleRemoveObject({
             mutation: {
                 onSuccess: () => {
                     Promise.all([
                         queryClient.invalidateQueries({
-                            queryKey: getModulesModuleIdGetQueryKey(
+                            queryKey: getModulesViewModuleOverviewQueryKey(
                                 parseInt(moduleId!)
                             ),
                         }),
                         queryClient.invalidateQueries({
-                            queryKey: getModulesObjectsLatestGetQueryKey(),
+                            queryKey: getModulesGetListModuleObjectsQueryKey(),
                             refetchType: 'all',
                             exact: false,
                         }),

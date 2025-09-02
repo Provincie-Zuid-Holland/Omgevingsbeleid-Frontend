@@ -2,9 +2,9 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 
 import {
-    getPublicationsGetQueryKey,
-    usePublicationsPublicationUuidGet,
-    usePublicationsPublicationUuidPost,
+    getPublicationsGetListPublicationsQueryKey,
+    usePublicationsGetDetailPublication,
+    usePublicationsPostEditPublication,
 } from '@/api/fetchers'
 import { PublicationEdit } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
@@ -24,7 +24,7 @@ const PublicationEditModal = () => {
     ) as ModalStateMap['publicationEdit']
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { data, isFetching, queryKey } = usePublicationsPublicationUuidGet(
+    const { data, isFetching, queryKey } = usePublicationsGetDetailPublication(
         modalState?.publication.UUID,
         {
             query: {
@@ -33,12 +33,12 @@ const PublicationEditModal = () => {
         }
     )
 
-    const { mutate } = usePublicationsPublicationUuidPost({
+    const { mutate } = usePublicationsPostEditPublication({
         mutation: {
             onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey })
                 queryClient.invalidateQueries({
-                    queryKey: getPublicationsGetQueryKey({
+                    queryKey: getPublicationsGetListPublicationsQueryKey({
                         module_id: parseInt(String(moduleId)),
                         limit: 100,
                     }),

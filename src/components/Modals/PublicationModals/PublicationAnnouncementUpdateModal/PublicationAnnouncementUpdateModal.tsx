@@ -11,8 +11,8 @@ import { isNull, isUndefined, mergeWith } from 'lodash'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import {
-    usePublicationAnnouncementsAnnouncementUuidGet,
-    usePublicationAnnouncementsAnnouncementUuidPost,
+    usePublicationAnnouncementsGetDetailAnnouncement,
+    usePublicationAnnouncementsPostEditAnnouncement,
 } from '@/api/fetchers'
 import { PublicationAnnouncementEdit } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
@@ -33,7 +33,7 @@ const PublicationAnnouncementUpdateModal = () => {
     const isLocked = modalState?.isLocked || false
 
     const { data, isFetching, queryKey } =
-        usePublicationAnnouncementsAnnouncementUuidGet(
+        usePublicationAnnouncementsGetDetailAnnouncement(
             modalState?.announcementUuid,
             {
                 query: {
@@ -43,7 +43,7 @@ const PublicationAnnouncementUpdateModal = () => {
         )
 
     const { mutateAsync, isError } =
-        usePublicationAnnouncementsAnnouncementUuidPost({
+        usePublicationAnnouncementsPostEditAnnouncement({
             mutation: {
                 onSuccess: () => {
                     queryClient

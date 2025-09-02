@@ -1,14 +1,14 @@
 import { Heading, Text } from '@pzh-ui/components'
 import { Helmet } from 'react-helmet-async'
 
-import { useGebiedsprogrammasValidGet } from '@/api/fetchers'
+import { useGebiedsprogrammaListValidLineages } from '@/api/fetchers'
 import AreaCard from '@/components/AreaCard'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import { LoaderContent, LoaderSpinner } from '@/components/Loader'
 
 function AreaOverview() {
-    const { data, isLoading } = useGebiedsprogrammasValidGet()
+    const { data, isLoading } = useGebiedsprogrammaListValidLineages()
 
     const breadcrumbPaths = [
         { name: 'Home', to: '/' },

@@ -1,4 +1,4 @@
-import { Heading, Text } from '@pzh-ui/components'
+import { cn, Heading, Text } from '@pzh-ui/components'
 import { useMemo } from 'react'
 
 import { UserShort } from '@/api/fetchers.schemas'
@@ -43,7 +43,7 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
                             onClick={() =>
                                 setActiveModal('objectGeneralInformation')
                             }
-                            className="text-pzh-green-500 underline hover:text-pzh-green-900">
+                            className="text-pzh-green-500 hover:text-pzh-green-900 underline">
                             Wijzigen
                         </button>
                     )}
@@ -80,13 +80,16 @@ const Item = ({ label, user: providedUser, isLoading }: ItemProps) => {
     const user = useUserInfo(providedUser?.UUID ?? '')
 
     return (
-        <div className="mt-3 border-b border-pzh-gray-300 pb-2">
-            <Text bold color="text-pzh-blue-500">
+        <div className="border-pzh-gray-300 mt-3 border-b px-2 pb-2">
+            <Text bold color="text-pzh-blue-900">
                 {label}
             </Text>
             <div className="relative flex items-center justify-between">
                 {!isLoading ? (
-                    <Text className={!user ? 'text-pzh-gray-600' : ''}>
+                    <Text
+                        className={cn({
+                            'text-pzh-gray-600': !user,
+                        })}>
                         {user?.Gebruikersnaam || 'Niet geselecteerd'}
                     </Text>
                 ) : (

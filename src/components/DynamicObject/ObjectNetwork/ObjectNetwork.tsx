@@ -4,7 +4,7 @@ import groupBy from 'lodash.groupby'
 import { useCallback, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 
-import { useObjectGraphGet } from '@/api/fetchers'
+import { useGraphGetObjectGraph } from '@/api/fetchers'
 import { GraphVertice } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
 import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
@@ -18,7 +18,7 @@ interface ObjectNetworkProps {
 }
 
 const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
-    const { data: graph } = useObjectGraphGet(
+    const { data: graph } = useGraphGetObjectGraph(
         { uuid: data.UUID! },
         { query: { enabled: !!data.UUID } }
     )
@@ -61,7 +61,7 @@ const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
     if (Object.keys(relations).length === 0) return null
 
     return (
-        <div className="grid grid-cols-4 rounded border border-pzh-gray-500 px-6 py-4 ">
+        <div className="border-pzh-gray-500 grid grid-cols-4 rounded border px-6 py-4">
             <div className="col-span-6">
                 <Heading level="3" size="m" color="text-pzh-green-500">
                     Beleidsnetwerk
@@ -77,7 +77,7 @@ const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
 
                     return (
                         <div key={index}>
-                            <Text bold className="mb-2 mt-4">
+                            <Text bold className="mt-4 mb-2">
                                 {model.defaults.pluralCapitalize}
                             </Text>
 
@@ -130,20 +130,20 @@ const getObjectIcon = (key: ModelType) => {
             return (
                 <Triangle
                     size={12}
-                    className="mt-0.5 text-pzh-apple-green-500"
+                    className="text-pzh-apple-green-500 mt-0.5"
                 />
             )
         case 'beleidsdoel':
             return (
-                <div className="rounded-0.5 mt-0.5 h-3 w-3 bg-pzh-orange-500" />
+                <div className="rounded-0.5 bg-pzh-orange-500 mt-0.5 h-3 w-3" />
             )
         case 'beleidskeuze':
             return (
-                <div className="mt-0.5 h-3 w-3 rounded-full bg-pzh-yellow-500" />
+                <div className="bg-pzh-yellow-500 mt-0.5 h-3 w-3 rounded-full" />
             )
         case 'maatregel':
             return (
-                <div className="rounded-0.5 mr-0.5 mt-0.5 h-2.5 w-2.5 min-w-[10px] rotate-45 bg-pzh-green-500" />
+                <div className="rounded-0.5 bg-pzh-green-500 mt-0.5 mr-0.5 h-2.5 w-2.5 min-w-[10px] rotate-45" />
             )
     }
 }

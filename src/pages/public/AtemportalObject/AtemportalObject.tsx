@@ -33,9 +33,13 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
         data = {},
         isLoading,
         isError,
-    } = useGetValidLineage?.<ModelReturnType>(parseInt(id!), {
-        query: { enabled: !!id },
-    }) || {}
+    } = useGetValidLineage?.<ModelReturnType>(
+        parseInt(id!),
+        {},
+        {
+            query: { enabled: !!id },
+        }
+    ) || {}
 
     const formattedRelations = useMemo(() => {
         const connections = model.allowedConnections
@@ -84,7 +88,7 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
                     </Heading>
                     {data?.Description && (
                         <Text
-                            className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0"
+                            className="prose prose-neutral text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 mb-4 max-w-full whitespace-pre-line"
                             dangerouslySetInnerHTML={{
                                 __html: data.Description,
                             }}

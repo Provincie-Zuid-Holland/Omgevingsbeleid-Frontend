@@ -4,10 +4,10 @@ import { Form, Formik } from 'formik'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import {
-    getModulesModuleIdGetQueryKey,
-    getModulesModuleIdObjectContextObjectTypeLineageIdGetQueryKey,
-    useModulesModuleIdObjectContextObjectTypeLineageIdGet,
-    useModulesModuleIdObjectContextObjectTypeLineageIdPost,
+    getModulesGetModuleGetObjectContextQueryKey,
+    getModulesViewModuleOverviewQueryKey,
+    useModulesGetModuleGetObjectContext,
+    useModulesPostModuleEditObjectContext,
 } from '@/api/fetchers'
 import {
     ModuleEditObjectContext,
@@ -45,7 +45,7 @@ const ModuleEditObjectModal = () => {
         data: objectData,
         isLoading: isDataLoading,
         isFetching: isDataFetching,
-    } = useModulesModuleIdObjectContextObjectTypeLineageIdGet(
+    } = useModulesGetModuleGetObjectContext(
         object.Module_ID,
         object.Object_Type,
         object.Object_ID,
@@ -60,20 +60,20 @@ const ModuleEditObjectModal = () => {
      * Edit object
      */
     const { mutate, isPending, isError } =
-        useModulesModuleIdObjectContextObjectTypeLineageIdPost({
+        useModulesPostModuleEditObjectContext({
             mutation: {
                 onSuccess: () => {
                     Promise.all([
                         queryClient.invalidateQueries({
                             queryKey:
-                                getModulesModuleIdObjectContextObjectTypeLineageIdGetQueryKey(
+                                getModulesGetModuleGetObjectContextQueryKey(
                                     object.Module_ID,
                                     object.Object_Type,
                                     object.Object_ID
                                 ),
                         }),
                         queryClient.invalidateQueries({
-                            queryKey: getModulesModuleIdGetQueryKey(
+                            queryKey: getModulesViewModuleOverviewQueryKey(
                                 object.Module_ID
                             ),
                         }),

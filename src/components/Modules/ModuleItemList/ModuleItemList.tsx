@@ -133,7 +133,7 @@ const ItemList = ({
                         <Button
                             variant="link"
                             onPress={() => setActiveModal('moduleAddObject')}
-                            className="block text-pzh-green-500 hover:text-pzh-green-900">
+                            className="text-pzh-green-500 hover:text-pzh-green-900 block">
                             Onderdeel toevoegen
                         </Button>
                     )}
@@ -146,32 +146,12 @@ const ItemList = ({
                             models[
                                 object.Object_Type.toLowerCase() as ModelType
                             ]
-                        const { slugOverview, plural } = model?.defaults || {}
 
                         if (!model) return null
 
                         return (
                             <ModuleItem
                                 key={object.UUID}
-                                editCallback={() =>
-                                    setActiveModal('moduleEditObject', {
-                                        object,
-                                    })
-                                }
-                                deleteCallback={() =>
-                                    setActiveModal('moduleDeleteObject', {
-                                        object,
-                                        module,
-                                    })
-                                }
-                                viewCallback={() =>
-                                    window
-                                        .open(
-                                            `/${slugOverview}/${plural}/ontwerpversie/${module?.Module_ID}/${object.UUID}`,
-                                            '_blank'
-                                        )
-                                        ?.focus()
-                                }
                                 hasEditButton={hasEditButton}
                                 hasViewButton={hasViewButton}
                                 model={model}

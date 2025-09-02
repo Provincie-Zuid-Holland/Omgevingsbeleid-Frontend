@@ -11,9 +11,9 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import {
-    useModulesGet,
-    useObjectsValidCountGet,
-    useObjectsValidGet,
+    useModulesGetListModules,
+    useObjectsViewObjectCounts,
+    useSearchDoListAllLatest,
 } from '@/api/fetchers'
 import {
     GenericObjectShort,
@@ -22,7 +22,6 @@ import {
 } from '@/api/fetchers.schemas'
 import ObjectCard from '@/components/DynamicObject/ObjectActiveModules/ObjectCard'
 import { LoaderCard } from '@/components/Loader'
-import ModuleCard from '@/components/Modules/ModuleCard'
 import ModuleTile from '@/components/Modules/ModuleTile'
 import * as models from '@/config/objects'
 import { ModelReturnType, ModelType } from '@/config/objects/types'
@@ -31,18 +30,19 @@ import useAuth from '@/hooks/useAuth'
 const PAGE_LIMIT = 9
 
 const DashboardUser = () => {
-    const { data: modules, isFetching: modulesLoading } = useModulesGet(
-        {
-            filter_activated: true,
-            only_mine: false,
-            limit: 3,
-        },
-        {
-            query: {
-                placeholderData: keepPreviousData,
+    const { data: modules, isFetching: modulesLoading } =
+        useModulesGetListModules(
+            {
+                filter_activated: true,
+                only_mine: false,
+                limit: 3,
             },
-        }
-    )
+            {
+                query: {
+                    placeholderData: keepPreviousData,
+                },
+            }
+        )
 
     return (
         <div className="col-span-6">
@@ -99,9 +99,9 @@ const UserObject = () => {
     const [activeTab, setActiveTab] = useState<ModelType>()
     const [currPage, setCurrPage] = useState(1)
 
-    const { data: availableObjectTypes } = useObjectsValidCountGet()
+    const { data: availableObjectTypes } = useObjectsViewObjectCounts()
 
-    const { data: objects, isFetching } = useObjectsValidGet(
+    const { data: objects, isFetching } = useSearchDoListAllLatest(
         {
             owner_uuid: user?.UUID,
             object_type: activeTab,
@@ -127,12 +127,12 @@ const UserObject = () => {
                             setCurrPage(1)
                         }}>
                         {availableObjectTypes?.map(type => {
-                            const model = models[type.Object_Type as ModelType]
+                            const model = models[type.object_type as ModelType]
 
                             return (
                                 <TabItem
-                                    key={type.Object_Type}
-                                    title={`${model.defaults.pluralCapitalize} (${type.Count})`}>
+                                    key={type.object_type}
+                                    title={`${model.defaults.pluralCapitalize} (${type.count})`}>
                                     <ItemList
                                         items={objects?.results}
                                         isLoading={isFetching}
@@ -192,7 +192,7 @@ const ItemList = ({ isLoading, items, type }: ItemListProps) => (
                             'Module_ID' in item &&
                             'Status' in item &&
                             type === 'module' ? (
-                                <ModuleCard key={item.Module_ID} {...item} />
+                                <ModuleTile key={item.Module_ID} {...item} />
                             ) : (
                                 'Object_ID' in item &&
                                 type === 'object' && (

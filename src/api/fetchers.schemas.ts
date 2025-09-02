@@ -6,193 +6,325 @@
         This API serves all the object that make up the policies 
         of a provincial government. 
         
- * OpenAPI spec version: 3.0-alpha
+ * OpenAPI spec version: 5.0.0
  */
-export type PasswordResetPostParams = {
-    password: string
-    new_password: string
-}
-
-export type PublicationDsoValueListsAreaDesignationGroupsGetParams = {
-    type: AreaDesignationTypeEnum
-}
-
-export type PublicationDsoValueListsAreaDesignationTypesGetParams = {
-    document_type: DocumentType
-}
-
-export type PublicationAnnouncementReportsGetParams = {
-    announcement_package_uuid?: string | null
-    report_status?: ReportStatusType | null
-    offset?: number | null
-    limit?: number | null
-}
-
-export type PublicationAnnouncementPackagesGetParams = {
-    announcement_uuid?: string | null
-    package_type?: PackageType | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type PublicationAnnouncementsGetParams = {
-    act_package_uuid?: string | null
-    offset?: number | null
-    limit?: number | null
-}
-
-export type PublicationActReportsGetParams = {
-    act_package_uuid?: string | null
-    report_status?: ReportStatusType | null
-    offset?: number | null
-    limit?: number | null
-}
-
-export type PublicationActPackagesGetParams = {
-    version_uuid?: string | null
-    package_type?: PackageType | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type PublicationsPublicationUuidVersionsGetParams = {
-    offset?: number | null
-    limit?: number | null
-}
-
-export type PublicationsGetParams = {
-    document_type?: DocumentType | null
-    module_id?: number | null
-    offset?: number | null
-    limit?: number | null
-}
-
-export type PublicationEnvironmentsGetParams = {
-    is_active?: boolean | null
-    offset?: number | null
-    limit?: number | null
-}
-
-export type PublicationActsGetParams = {
-    is_active?: boolean | null
-    environment_uuid?: string | null
-    document_type?: DocumentType | null
-    procedure_type?: ProcedureType | null
-    offset?: number | null
-    limit?: number | null
-}
-
-export type PublicationTemplatesGetParams = {
-    is_active?: boolean | null
-    document_type?: DocumentType | null
-    offset?: number | null
-    limit?: number | null
-}
-
-export type PublicationAojGetParams = {
-    offset?: number | null
-    limit?: number | null
-}
-
-export type ObjectsValidGetParams = {
-    owner_uuid?: string | null
-    object_type?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type ModulesObjectsLatestGetParams = {
-    object_type?: string | null
-    owner_uuid?: string | null
-    minimum_status?: ModuleStatusCode | null
-    actions?: ModuleObjectActionFull[]
-    action?: ModuleObjectActionFull | null
-    only_active_modules?: boolean
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type ModulesModuleIdDiffGetParams = {
-    output_format?: Format
-    show_differences?: boolean
-    status_id?: number | null
-}
-
-export type ModulesGetParams = {
-    only_mine?: boolean
-    filter_activated?: boolean | null
-    filter_closed?: boolean | null
-    filter_successful?: boolean | null
+export type WettelijkeTaakListValidLineagesParams = {
     filter_title?: string | null
     offset?: number | null
     limit?: number | null
-    sort_column?: ModuleSortColumn | null
-    sort_order?: SortOrder | null
-    object_type?: string | null
-    lineage_id?: number | null
-}
-
-export type StorageFilesGetParams = {
-    only_mine?: boolean
-    filter_filename?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: StorageFileSortColumn | null
+    sort_column?: string | null
     sort_order?: SortOrder | null
 }
 
-export type RevisionsGetParams = {
-    offset?: number | null
-    limit?: number | null
+export type WerkingsgebiedGetListActiveModuleObjectsParams = {
+    minimum_status: ModuleStatusCode
 }
 
-export type ObjectGraphGetParams = {
-    uuid: string
-}
-
-export type SearchValidPostParams = {
-    query: string
-    offset?: number | null
-    limit?: number | null
-}
-
-export type SearchPostParams = {
-    query: string
-    offset?: number | null
-    limit?: number | null
-}
-
-export type SearchByGeometryPostParams = {
+export type WerkingsgebiedGetModuleListLineageTreeParams = {
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
 }
 
-export type SearchByAreasPostParams = {
+export type WerkingsgebiedListValidLineageTreeParams = {
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
 }
 
-export type SourceWerkingsgebiedenGetParams = {
-    title?: string | null
+export type WerkingsgebiedListValidLineagesParams = {
+    filter_title?: string | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
 }
 
-export type UsersSearchGetParams = {
+export type VisieAlgemeenGetListActiveModuleObjectsParams = {
+    minimum_status: ModuleStatusCode
+}
+
+export type VisieAlgemeenGetModuleListLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type VisieAlgemeenListValidLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type VisieAlgemeenListValidLineagesParams = {
+    filter_title?: string | null
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type VerplichtProgrammaListValidLineagesParams = {
+    filter_title?: string | null
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type ProgrammaAlgemeenGetListActiveModuleObjectsParams = {
+    minimum_status: ModuleStatusCode
+}
+
+export type ProgrammaAlgemeenGetModuleListLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type ProgrammaAlgemeenListValidLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type ProgrammaAlgemeenListValidLineagesParams = {
+    filter_title?: string | null
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type OnderverdelingGetListActiveModuleObjectsParams = {
+    minimum_status: ModuleStatusCode
+}
+
+export type OnderverdelingGetModuleListLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type OnderverdelingListValidLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type OnderverdelingListValidLineagesParams = {
+    filter_title?: string | null
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type NationaalBelangListValidLineagesParams = {
+    filter_title?: string | null
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type MaatregelGetListActiveModuleObjectsParams = {
+    minimum_status: ModuleStatusCode
+}
+
+export type MaatregelGetModuleListLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type MaatregelListValidLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type MaatregelListValidLineagesParams = {
+    filter_title?: string | null
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type GebiedsprogrammaGetListActiveModuleObjectsParams = {
+    minimum_status: ModuleStatusCode
+}
+
+export type GebiedsprogrammaGetModuleListLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type GebiedsprogrammaListValidLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type GebiedsprogrammaListValidLineagesParams = {
+    filter_title?: string | null
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type DocumentGetListActiveModuleObjectsParams = {
+    minimum_status: ModuleStatusCode
+}
+
+export type DocumentGetModuleListLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type DocumentListValidLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type DocumentListValidLineagesParams = {
+    filter_title?: string | null
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type BeleidsregelGetListActiveModuleObjectsParams = {
+    minimum_status: ModuleStatusCode
+}
+
+export type BeleidsregelGetModuleListLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type BeleidsregelListValidLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type BeleidsregelListValidLineagesParams = {
+    filter_title?: string | null
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type BeleidskeuzeGetListActiveModuleObjectsParams = {
+    minimum_status: ModuleStatusCode
+}
+
+export type BeleidskeuzeGetModuleListLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type BeleidskeuzeGetAcknowledgedRelationListParams = {
+    requested_by_us?: boolean
+    acknowledged?: boolean | null
+    show_inactive?: boolean
+}
+
+export type BeleidskeuzeListValidLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type BeleidskeuzeListValidLineagesParams = {
+    filter_title?: string | null
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type BeleidsdoelGetListActiveModuleObjectsParams = {
+    minimum_status: ModuleStatusCode
+}
+
+export type BeleidsdoelGetModuleListLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type BeleidsdoelListValidLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type BeleidsdoelListValidLineagesParams = {
+    filter_title?: string | null
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type AmbitieGetListActiveModuleObjectsParams = {
+    minimum_status: ModuleStatusCode
+}
+
+export type AmbitieGetModuleListLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type AmbitieListValidLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type AmbitieListValidLineagesParams = {
+    filter_title?: string | null
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type UserGetSearchUsersParams = {
     role?: string | null
     query?: string | null
     active?: boolean | null
@@ -202,381 +334,199 @@ export type UsersSearchGetParams = {
     sort_order?: SortOrder | null
 }
 
-export type UsersGetParams = {
+export type UserGetListUsersParams = {
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
 }
 
-export type WettelijkeTaakValidGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
+export type StorageFileGetFilesListParams = {
+    only_mine?: boolean
+    filter_filename?: string | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
 }
 
-export type ModulesObjectWerkingsgebiedActiveLineageIdGetParams = {
-    minimum_status?: ModuleStatusCode
-}
-
-export type ModulesModuleIdObjectWerkingsgebiedLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
+export type SourceWerkingsgebiedenGetListWerkingsgebiedenParams = {
+    title?: string | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
 }
 
-export type WerkingsgebiedenValidLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
+export type SearchDoListAllLatestParams = {
+    owner_uuid?: string | null
+    object_type?: string | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
 }
 
-export type WerkingsgebiedenValidGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
+export type SearchGetMssqlValidSearchParams = {
+    query: string
+    offset?: number | null
+    limit?: number | null
+}
+
+export type SearchGetMssqlSearchParams = {
+    query: string
+    offset?: number | null
+    limit?: number | null
+}
+
+export type PublicationsGetListPublicationsParams = {
+    document_type?: DocumentType | null
+    module_id?: number | null
+    offset?: number | null
+    limit?: number | null
+}
+
+export type PublicationVersionsGetListVersionsParams = {
+    offset?: number | null
+    limit?: number | null
+}
+
+export type PublicationValueListsGetAreaDesignationGroupsParams = {
+    type: AreaDesignationTypeEnum
+}
+
+export type PublicationValueListsGetAreaDesignationTypesParams = {
+    values: unknown
+}
+
+export type PublicationTemplatesGetListTemplatesParams = {
+    is_active?: boolean | null
+    document_type?: DocumentType | null
+    offset?: number | null
+    limit?: number | null
+}
+
+export type PublicationPackagesGetListUnifiedPackagesParams = {
+    environment_uuid?: string | null
+    module_id?: number | null
+    report_status?: ReportStatusType | null
+    package_type?: PackageType | null
+    document_type?: DocumentType | null
+    publication_type?: PublicationType | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
 }
 
-export type ModulesObjectVisieAlgemeenActiveLineageIdGetParams = {
-    minimum_status?: ModuleStatusCode
+export type PublicationEnvironmentsGetListEnvironmentsParams = {
+    is_active?: boolean | null
+    offset?: number | null
+    limit?: number | null
 }
 
-export type ModulesModuleIdObjectVisieAlgemeenLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
+export type PublicationAnnouncementsGetListAnnouncementsParams = {
+    act_package_uuid?: string | null
+    offset?: number | null
+    limit?: number | null
+}
+
+export type PublicationAnnouncementReportsGetListAnnnouncementPackageReportsParams =
+    {
+        announcement_package_uuid?: string | null
+        report_status?: ReportStatusType | null
+        offset?: number | null
+        limit?: number | null
+    }
+
+export type PublicationAnnouncementPackagesGetListAnnouncementPackagesParams = {
+    announcement_uuid?: string | null
+    package_type?: PackageType | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
 }
 
-export type VisiesAlgemeenValidLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
+export type PublicationActsGetListActsParams = {
+    is_active?: boolean | null
+    environment_uuid?: string | null
+    document_type?: DocumentType | null
+    procedure_type?: ProcedureType | null
+    offset?: number | null
+    limit?: number | null
+}
+
+export type PublicationActReportsGetListActPackageReportsParams = {
+    act_package_uuid?: string | null
+    report_status?: ReportStatusType | null
+    offset?: number | null
+    limit?: number | null
+}
+
+export type PublicationActPackagesGetListActPackagesParams = {
+    version_uuid?: string | null
+    package_type?: PackageType | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
 }
 
-export type VisiesAlgemeenValidGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
+export type PublicationAojGetListAojParams = {
+    offset?: number | null
+    limit?: number | null
+}
+
+export type PublicModulesGetPublicListModulesParams = {
+    offset?: number | null
+    limit?: number | null
+}
+
+export type ModulesGetListModuleObjectsParams = {
+    object_type?: string | null
+    owner_uuid?: string | null
+    minimum_status?: ModuleStatusCode | null
+    only_active_modules?: boolean
+    title?: string | null
+    actions?: ModuleObjectActionFull[]
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
 }
 
-export type VerplichtProgrammaValidGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
+export type ModulesGetListModulesParams = {
+    only_mine?: boolean
+    filter_activated?: boolean | null
+    filter_closed?: boolean | null
+    filter_successful?: boolean | null
+    filter_title?: string | null
+    object_type?: string | null
+    lineage_id?: number | null
+    offset?: number | null
+    limit?: number | null
+    sort_column?: ModuleSortColumn | null
+    sort_order?: SortOrder | null
+}
+
+export type GraphGetObjectGraphParams = {
+    uuid: string
+}
+
+export type AuthenticationPostAuthResetPasswordParams = {
+    password: string
+    new_password: string
+}
+
+export type AreasGetListObjectsByGeometryParams = {
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
 }
 
-export type ModulesObjectProgrammaAlgemeenActiveLineageIdGetParams = {
-    minimum_status?: ModuleStatusCode
-}
-
-export type ModulesModuleIdObjectProgrammaAlgemeenLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type ProgrammasAlgemeenValidLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type ProgrammasAlgemeenValidGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type ModulesObjectOnderverdelingActiveLineageIdGetParams = {
-    minimum_status?: ModuleStatusCode
-}
-
-export type ModulesModuleIdObjectOnderverdelingLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type OnderverdelingenValidLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type OnderverdelingenValidGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type NationaalBelangValidGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type ModulesObjectsMaatregelActiveLineageIdGetParams = {
-    minimum_status?: ModuleStatusCode
-}
-
-export type ModulesModuleIdObjectMaatregelLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type MaatregelenValidLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type MaatregelenValidGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type ModulesObjectsGebiedsprogrammaActiveLineageIdGetParams = {
-    minimum_status?: ModuleStatusCode
-}
-
-export type ModulesModuleIdObjectGebiedsprogrammasLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type GebiedsprogrammasValidLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type GebiedsprogrammasValidGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type ModulesObjectDocumentActiveLineageIdGetParams = {
-    minimum_status?: ModuleStatusCode
-}
-
-export type ModulesModuleIdObjectDocumentLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type DocumentenValidLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type DocumentenValidGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type ModulesObjectsBeleidsregelActiveLineageIdGetParams = {
-    minimum_status?: ModuleStatusCode
-}
-
-export type ModulesModuleIdObjectBeleidsregelLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type BeleidsregelsValidLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type BeleidsregelsValidGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type ModulesObjectsBeleidskeuzeActiveLineageIdGetParams = {
-    minimum_status?: ModuleStatusCode
-}
-
-export type ModulesModuleIdObjectBeleidskeuzeLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type BeleidskeuzeAcknowledgedRelationsLineageIdGetParams = {
-    requested_by_us?: boolean
-    acknowledged?: boolean | null
-    show_inactive?: boolean | null
-}
-
-export type BeleidskeuzesValidLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type BeleidskeuzesValidGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type ModulesObjectBeleidsdoelActiveLineageIdGetParams = {
-    minimum_status?: ModuleStatusCode
-}
-
-export type ModulesModuleIdObjectBeleidsdoelLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type BeleidsdoelenValidLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type BeleidsdoelenValidGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type ModulesObjectAmbitieActiveLineageIdGetParams = {
-    minimum_status?: ModuleStatusCode
-}
-
-export type ModulesModuleIdObjectAmbitieLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type AmbitiesValidLineageIdGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type AmbitiesValidGetParams = {
-    all_filters?: string | null
-    any_filters?: string | null
+export type AreasGetListObjectsByAreasParams = {
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
@@ -706,9 +656,35 @@ export interface WerkingsgebiedStaticPostStatics {
     Owner_2_UUID?: WerkingsgebiedStaticPostStaticsOwner2UUID
 }
 
+export interface WerkingsgebiedRelatedObjectShort {
+    Object_ID: number
+    Object_Type: string
+    Title: WerkingsgebiedRelatedObjectShortTitle
+    UUID: string
+    Werkingsgebied_Code: string
+}
+
 export interface WerkingsgebiedRelatedObjects {
-    Module_Objects: DynamicModuleObjectShort[]
-    Valid_Objects: DynamicObjectShort[]
+    Module_Objects: WerkingsgebiedRelatedModuleObjectShort[]
+    Valid_Objects: WerkingsgebiedRelatedObjectShort[]
+}
+
+export type WerkingsgebiedRelatedObjectShortTitle = string | null
+
+export type WerkingsgebiedRelatedModuleObjectShortTitle = string | null
+
+export type WerkingsgebiedRelatedModuleObjectShortModuleTitle = string | null
+
+export type WerkingsgebiedRelatedModuleObjectShortModuleID = number | null
+
+export interface WerkingsgebiedRelatedModuleObjectShort {
+    Module_ID?: WerkingsgebiedRelatedModuleObjectShortModuleID
+    Module_Title?: WerkingsgebiedRelatedModuleObjectShortModuleTitle
+    Object_ID: number
+    Object_Type: string
+    Title: WerkingsgebiedRelatedModuleObjectShortTitle
+    UUID: string
+    Werkingsgebied_Code: string
 }
 
 export type WerkingsgebiedPatchTitle = string | null
@@ -734,6 +710,9 @@ export interface WerkingsgebiedFullStatics {
 
 export type WerkingsgebiedFullStartValidity = string | null
 
+export type WerkingsgebiedFullRelatedObjects =
+    WerkingsgebiedRelatedObjects | null
+
 export type WerkingsgebiedFullModifiedBy = UserShort | null
 
 export type WerkingsgebiedFullEndValidity = string | null
@@ -757,7 +736,7 @@ export interface WerkingsgebiedFull {
     Modified_Date?: string
     Object_ID?: number
     ObjectStatics?: WerkingsgebiedFullStatics
-    Related_Objects?: WerkingsgebiedRelatedObjects
+    Related_Objects?: WerkingsgebiedFullRelatedObjects
     Start_Validity?: WerkingsgebiedFullStartValidity
     Title?: string
     UUID?: string
@@ -872,11 +851,7 @@ export interface VisieAlgemeenFullStatics {
 
 export type VisieAlgemeenFullStartValidity = string | null
 
-export type VisieAlgemeenFullPublicRevisions =
-    | PublicModuleObjectRevision[]
-    | null
-
-export type VisieAlgemeenFullNextVersion = NextObjectValidities | null
+export type VisieAlgemeenFullNextVersion = NextObjectVersion | null
 
 export type VisieAlgemeenFullModifiedBy = UserShort | null
 
@@ -898,7 +873,7 @@ export interface VisieAlgemeenFull {
     Next_Version?: VisieAlgemeenFullNextVersion
     Object_ID?: number
     ObjectStatics?: VisieAlgemeenFullStatics
-    Public_Revisions?: VisieAlgemeenFullPublicRevisions
+    Public_Revisions?: PublicModuleObjectRevision[]
     Start_Validity?: VisieAlgemeenFullStartValidity
     Title?: string
     UUID?: string
@@ -940,7 +915,7 @@ export interface VisieAlgemeenExtended {
 
 export type VisieAlgemeenBasicStartValidity = string | null
 
-export type VisieAlgemeenBasicNextVersion = NextObjectValidities | null
+export type VisieAlgemeenBasicNextVersion = NextObjectVersion | null
 
 export type VisieAlgemeenBasicEndValidity = string | null
 
@@ -1118,6 +1093,20 @@ export interface UploadAttachmentResponse {
     ID: number
 }
 
+export interface UnifiedPackage {
+    Created_Date: string
+    Delivery_ID: string
+    Document_Type: string
+    Environment_UUID: string
+    Modified_Date: string
+    Module_ID: number
+    Module_Title: string
+    Package_Type: string
+    Publication_Type: string
+    Report_Status: string
+    UUID: string
+}
+
 export type TemplateEditTitle = string | null
 
 export type TemplateEditTextTemplate = string | null
@@ -1165,16 +1154,6 @@ export interface TemplateCreate {
     Title: string
 }
 
-export type StorageFileSortColumn =
-    (typeof StorageFileSortColumn)[keyof typeof StorageFileSortColumn]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const StorageFileSortColumn = {
-    Created_Date: 'Created_Date',
-    Filename: 'Filename',
-    Size: 'Size',
-} as const
-
 export interface StorageFileBasic {
     Checksum: string
     Content_Type: string
@@ -1218,8 +1197,10 @@ export interface SearchGeoRequestData {
     Object_Types?: string[]
 }
 
+export type RootModelListObjectCount = ObjectCount[]
+
 export interface ResponseOK {
-    message: string
+    message?: string
 }
 
 export interface ResetPasswordResponse {
@@ -1401,6 +1382,15 @@ export interface PublicationVersion {
     UUID: string
 }
 
+export type PublicationType =
+    (typeof PublicationType)[keyof typeof PublicationType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PublicationType = {
+    act: 'act',
+    announcement: 'announcement',
+} as const
+
 export interface PublicationTemplate {
     Created_Date: string
     Description: string
@@ -1547,6 +1537,39 @@ export interface PublicationAnnouncementPackageReport {
     UUID: string
 }
 
+export type PublicationAnnouncementPackageDetailResponseUsedEnvironmentStateUUID =
+    string | null
+
+export type PublicationAnnouncementPackageDetailResponseDocVersionUUID =
+    | string
+    | null
+
+export type PublicationAnnouncementPackageDetailResponseCreatedEnvironmentStateUUID =
+    string | null
+
+export interface PublicationAnnouncementPackageDetailResponse {
+    Announcement_UUID: string
+    Created_By_UUID: string
+    Created_Date: string
+    Created_Environment_State_UUID: PublicationAnnouncementPackageDetailResponseCreatedEnvironmentStateUUID
+    Delivery_ID: string
+    Doc_Version_UUID: PublicationAnnouncementPackageDetailResponseDocVersionUUID
+    Document_Type: string
+    Environment_Title: string
+    Environment_UUID: string
+    Modified_By_UUID: string
+    Modified_Date: string
+    Module_ID: number
+    Module_Status_ID: number
+    Module_Status_Status: string
+    Module_Title: string
+    Package_Type: string
+    Report_Status: string
+    Used_Environment_State_UUID: PublicationAnnouncementPackageDetailResponseUsedEnvironmentStateUUID
+    UUID: string
+    Zip: PackageZipShort
+}
+
 export interface PublicationAnnouncementPackageCreatedResponse {
     Package_UUID: string
     Zip_UUID: string
@@ -1629,6 +1652,42 @@ export interface PublicationActPackageReport {
     UUID: string
 }
 
+export type PublicationActPackageDetailResponseUsedEnvironmentStateUUID =
+    | string
+    | null
+
+export type PublicationActPackageDetailResponseCreatedEnvironmentStateUUID =
+    | string
+    | null
+
+export type PublicationActPackageDetailResponseBillVersionUUID = string | null
+
+export type PublicationActPackageDetailResponseActVersionUUID = string | null
+
+export interface PublicationActPackageDetailResponse {
+    Act_Version_UUID: PublicationActPackageDetailResponseActVersionUUID
+    Bill_Version_UUID: PublicationActPackageDetailResponseBillVersionUUID
+    Created_By_UUID: string
+    Created_Date: string
+    Created_Environment_State_UUID: PublicationActPackageDetailResponseCreatedEnvironmentStateUUID
+    Delivery_ID: string
+    Document_Type: string
+    Environment_Title: string
+    Environment_UUID: string
+    Modified_By_UUID: string
+    Modified_Date: string
+    Module_ID: number
+    Module_Status_ID: number
+    Module_Status_Status: string
+    Module_Title: string
+    Package_Type: string
+    Publication_Version_UUID: string
+    Report_Status: string
+    Used_Environment_State_UUID: PublicationActPackageDetailResponseUsedEnvironmentStateUUID
+    UUID: string
+    Zip: PackageZipShort
+}
+
 export type PublicationActMetadata = { [key: string]: unknown }
 
 export interface PublicationAct {
@@ -1696,6 +1755,28 @@ export interface PublicModuleShort {
     Title: string
 }
 
+export interface PublicModuleOverview {
+    Module: PublicModuleShort
+    Objects: PublicModuleObjectShort[]
+}
+
+export interface PublicModuleObjectRevision {
+    Action: ModuleObjectActionFull
+    Module_ID: number
+    Module_Object_Code: string
+    Module_Object_Status: PublicModuleStatusCode
+    Module_Object_UUID: string
+    Module_Status: ModuleStatusCode
+    Module_Title: string
+}
+
+export type PublicModuleObjectContextShortOriginalAdjustOn = string | null
+
+export interface PublicModuleObjectContextShort {
+    Action: string
+    Original_Adjust_On?: PublicModuleObjectContextShortOriginalAdjustOn
+}
+
 export type PublicModuleObjectShortModuleObjectContext =
     PublicModuleObjectContextShort | null
 
@@ -1709,27 +1790,6 @@ export interface PublicModuleObjectShort {
     Object_Type: string
     Title: string
     UUID: string
-}
-
-export interface PublicModuleOverview {
-    Module: PublicModuleShort
-    Objects: PublicModuleObjectShort[]
-}
-
-export interface PublicModuleObjectRevision {
-    Action: ModuleObjectActionFull
-    Module_ID: number
-    Module_Object_Status: PublicModuleStatusCode
-    Module_Object_UUID: string
-    Module_Status: ModuleStatusCode
-    Module_Title: string
-}
-
-export type PublicModuleObjectContextShortOriginalAdjustOn = string | null
-
-export interface PublicModuleObjectContextShort {
-    Action: string
-    Original_Adjust_On?: PublicModuleObjectContextShortOriginalAdjustOn
 }
 
 export interface ProgrammaAlgemeenUUID {
@@ -1766,11 +1826,7 @@ export interface ProgrammaAlgemeenFullStatics {
 
 export type ProgrammaAlgemeenFullStartValidity = string | null
 
-export type ProgrammaAlgemeenFullPublicRevisions =
-    | PublicModuleObjectRevision[]
-    | null
-
-export type ProgrammaAlgemeenFullNextVersion = NextObjectValidities | null
+export type ProgrammaAlgemeenFullNextVersion = NextObjectVersion | null
 
 export type ProgrammaAlgemeenFullModifiedBy = UserShort | null
 
@@ -1792,7 +1848,7 @@ export interface ProgrammaAlgemeenFull {
     Next_Version?: ProgrammaAlgemeenFullNextVersion
     Object_ID?: number
     ObjectStatics?: ProgrammaAlgemeenFullStatics
-    Public_Revisions?: ProgrammaAlgemeenFullPublicRevisions
+    Public_Revisions?: PublicModuleObjectRevision[]
     Start_Validity?: ProgrammaAlgemeenFullStartValidity
     Title?: string
     UUID?: string
@@ -1834,7 +1890,7 @@ export interface ProgrammaAlgemeenExtended {
 
 export type ProgrammaAlgemeenBasicStartValidity = string | null
 
-export type ProgrammaAlgemeenBasicNextVersion = NextObjectValidities | null
+export type ProgrammaAlgemeenBasicNextVersion = NextObjectVersion | null
 
 export type ProgrammaAlgemeenBasicEndValidity = string | null
 
@@ -1933,6 +1989,13 @@ export interface PagedResponseUser {
     limit?: number
     offset?: number
     results: User[]
+    total: number
+}
+
+export interface PagedResponseUnifiedPackage {
+    limit?: number
+    offset?: number
+    results: UnifiedPackage[]
     total: number
 }
 
@@ -2069,10 +2132,10 @@ export interface PagedResponseModule {
     total: number
 }
 
-export interface PagedResponseModuleObjectShortStatus {
+export interface PagedResponseModuleObjectsResponse {
     limit?: number
     offset?: number
-    results: ModuleObjectShortStatus[]
+    results: ModuleObjectsResponse[]
     total: number
 }
 
@@ -2227,6 +2290,8 @@ export interface OnderverdelingFullStatics {
 
 export type OnderverdelingFullStartValidity = string | null
 
+export type OnderverdelingFullNextVersion = NextObjectVersion | null
+
 export type OnderverdelingFullModifiedBy = UserShort | null
 
 export type OnderverdelingFullEndValidity = string | null
@@ -2247,8 +2312,10 @@ export interface OnderverdelingFull {
     End_Validity?: OnderverdelingFullEndValidity
     Modified_By?: OnderverdelingFullModifiedBy
     Modified_Date?: string
+    Next_Version?: OnderverdelingFullNextVersion
     Object_ID?: number
     ObjectStatics?: OnderverdelingFullStatics
+    Public_Revisions?: PublicModuleObjectRevision[]
     Start_Validity?: OnderverdelingFullStartValidity
     Title?: string
     UUID?: string
@@ -2308,6 +2375,13 @@ export interface OnderverdelingBasic {
     UUID?: string
 }
 
+export interface ObjectStatics {
+    Cached_Title: string
+    Code: string
+    Object_ID: number
+    Object_Type: string
+}
+
 export type ObjectStaticShortPortfolioHolder2UUID = string | null
 
 export type ObjectStaticShortPortfolioHolder1UUID = string | null
@@ -2326,26 +2400,20 @@ export interface ObjectStaticShort {
     Portfolio_Holder_2_UUID?: ObjectStaticShortPortfolioHolder2UUID
 }
 
-export type ObjectSpecifiekeGeldigheidStartValidity = string | null
-
-export interface ObjectSpecifiekeGeldigheid {
-    Object_ID: number
-    Object_Type: string
-    Start_Validity?: ObjectSpecifiekeGeldigheidStartValidity
-}
-
 export interface ObjectCount {
-    Count: number
-    Object_Type: string
+    count: number
+    object_type: string
 }
 
-export type NextObjectValiditiesEndValidity = string | null
+export type NextObjectVersionEndValidity = string | null
 
-export interface NextObjectValidities {
+export interface NextObjectVersion {
     Created_Date: string
-    End_Validity?: NextObjectValiditiesEndValidity
+    End_Validity?: NextObjectVersionEndValidity
     Modified_Date: string
+    Previous_UUID: string
     Start_Validity: string
+    Title: string
     UUID: string
 }
 
@@ -2497,8 +2565,14 @@ export type ModuleSortColumn =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ModuleSortColumn = {
+    Module_ID: 'Module_ID',
+    Title: 'Title',
     Created_Date: 'Created_Date',
     Modified_Date: 'Modified_Date',
+    Activated: 'Activated',
+    Closed: 'Closed',
+    Successful: 'Successful',
+    Temporary_Locked: 'Temporary_Locked',
 } as const
 
 export type ModuleSnapshotObjectsItem = { [key: string]: unknown }
@@ -2527,19 +2601,25 @@ export interface ModulePatchStatus {
     Status: ModuleStatusCode
 }
 
-export type ModuleObjectShortStatusObjectStatics = ObjectStaticShort | null
+export interface ModuleOverview {
+    Module: Module
+    Objects: ModuleObjectShort[]
+    StatusHistory: ModuleStatus[]
+}
 
-export type ModuleObjectShortStatusModuleObjectContext =
+export type ModuleObjectsResponseObjectStatics = ObjectStaticShort | null
+
+export type ModuleObjectsResponseModuleObjectContext =
     ModuleObjectContextShort | null
 
-export interface ModuleObjectShortStatus {
+export interface ModuleObjectsResponse {
     Code: string
     Modified_Date: string
     Module_ID: number
-    ModuleObjectContext?: ModuleObjectShortStatusModuleObjectContext
+    ModuleObjectContext?: ModuleObjectsResponseModuleObjectContext
     Object_ID: number
     Object_Type: string
-    ObjectStatics?: ModuleObjectShortStatusObjectStatics
+    ObjectStatics?: ModuleObjectsResponseObjectStatics
     Status: string
     Title: string
     UUID: string
@@ -2557,12 +2637,6 @@ export interface ModuleObjectShort {
     ObjectStatics?: ModuleObjectShortObjectStatics
     Title: string
     UUID: string
-}
-
-export interface ModuleOverview {
-    Module: Module
-    Objects: ModuleObjectShort[]
-    StatusHistory: ModuleStatus[]
 }
 
 export type ModuleObjectContextShortOriginalAdjustOn = string | null
@@ -2793,9 +2867,7 @@ export type MaatregelFullWerkingsgebied = WerkingsgebiedBasic | null
 
 export type MaatregelFullStartValidity = string | null
 
-export type MaatregelFullPublicRevisions = PublicModuleObjectRevision[] | null
-
-export type MaatregelFullNextVersion = NextObjectValidities | null
+export type MaatregelFullNextVersion = NextObjectVersion | null
 
 export type MaatregelFullModifiedBy = UserShort | null
 
@@ -2815,6 +2887,7 @@ export interface MaatregelFull {
     Created_Date?: string
     Description?: string
     Documents?: string[]
+    Documents_Statics?: ObjectStatics[]
     Effect?: string
     End_Validity?: MaatregelFullEndValidity
     Gebiedsprogrammas?: ReadRelationShortGebiedsprogrammaMinimal[]
@@ -2825,7 +2898,7 @@ export interface MaatregelFull {
     Next_Version?: MaatregelFullNextVersion
     Object_ID?: number
     ObjectStatics?: MaatregelFullStatics
-    Public_Revisions?: MaatregelFullPublicRevisions
+    Public_Revisions?: PublicModuleObjectRevision[]
     Role?: string
     Start_Validity?: MaatregelFullStartValidity
     Title?: string
@@ -2882,7 +2955,7 @@ export interface MaatregelExtended {
 
 export type MaatregelBasicStartValidity = string | null
 
-export type MaatregelBasicNextVersion = NextObjectValidities | null
+export type MaatregelBasicNextVersion = NextObjectVersion | null
 
 export type MaatregelBasicEndValidity = string | null
 
@@ -2899,12 +2972,6 @@ export interface MaatregelBasic {
     Start_Validity?: MaatregelBasicStartValidity
     Title?: string
     UUID?: string
-}
-
-export interface ListObjectsByGeometryRequestData {
-    Function?: GeometryFunctions
-    Geometry: string
-    Object_Types?: string[]
 }
 
 export interface HierarchyStatics {
@@ -2926,11 +2993,6 @@ export interface GraphVertice {
     UUID: string
 }
 
-export interface GraphResponse {
-    Edges: GraphEdge[]
-    Vertices: GraphVertice[]
-}
-
 export type GraphEdgeType = (typeof GraphEdgeType)[keyof typeof GraphEdgeType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -2945,6 +3007,11 @@ export interface GraphEdge {
     Vertice_B_Code: string
 }
 
+export interface GraphResponse {
+    Edges: GraphEdge[]
+    Vertices: GraphVertice[]
+}
+
 export type GeometryFunctions =
     (typeof GeometryFunctions)[keyof typeof GeometryFunctions]
 
@@ -2956,11 +3023,20 @@ export const GeometryFunctions = {
     INTERSECTS: 'INTERSECTS',
 } as const
 
+export interface ListObjectsByGeometryRequestData {
+    Function?: GeometryFunctions
+    Geometry: string
+    Object_Types?: string[]
+}
+
 export type GeoSearchResultTitel = string | null
 
 export type GeoSearchResultOmschrijving = string | null
 
+export type GeoSearchResultAreaUUID = string | null
+
 export interface GeoSearchResult {
+    Area_UUID?: GeoSearchResultAreaUUID
     Object_Type: string
     Omschrijving?: GeoSearchResultOmschrijving
     Titel?: GeoSearchResultTitel
@@ -3042,11 +3118,7 @@ export interface GebiedsprogrammaFullStatics {
 
 export type GebiedsprogrammaFullStartValidity = string | null
 
-export type GebiedsprogrammaFullPublicRevisions =
-    | PublicModuleObjectRevision[]
-    | null
-
-export type GebiedsprogrammaFullNextVersion = NextObjectValidities | null
+export type GebiedsprogrammaFullNextVersion = NextObjectVersion | null
 
 export type GebiedsprogrammaFullModifiedBy = UserShort | null
 
@@ -3072,7 +3144,7 @@ export interface GebiedsprogrammaFull {
     Next_Version?: GebiedsprogrammaFullNextVersion
     Object_ID?: number
     ObjectStatics?: GebiedsprogrammaFullStatics
-    Public_Revisions?: GebiedsprogrammaFullPublicRevisions
+    Public_Revisions?: PublicModuleObjectRevision[]
     Start_Validity?: GebiedsprogrammaFullStartValidity
     Title?: string
     UUID?: string
@@ -3126,7 +3198,7 @@ export interface GebiedsprogrammaExtended {
 
 export type GebiedsprogrammaBasicStartValidity = string | null
 
-export type GebiedsprogrammaBasicNextVersion = NextObjectValidities | null
+export type GebiedsprogrammaBasicNextVersion = NextObjectVersion | null
 
 export type GebiedsprogrammaBasicImage = string | null
 
@@ -3147,17 +3219,6 @@ export interface GebiedsprogrammaBasic {
     Title?: string
     UUID?: string
 }
-
-export type Format = (typeof Format)[keyof typeof Format]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const Format = {
-    html: 'html',
-    odt: 'odt',
-    doc: 'doc',
-    docx: 'docx',
-    pdf: 'pdf',
-} as const
 
 export type EnvironmentEditTitle = string | null
 
@@ -3242,30 +3303,6 @@ export interface EditAcknowledgedRelation {
     Object_Type: string
 }
 
-export type DynamicObjectShortTitle = string | null
-
-export interface DynamicObjectShort {
-    Object_ID: number
-    Object_Type: string
-    Title: DynamicObjectShortTitle
-    UUID: string
-}
-
-export type DynamicModuleObjectShortTitle = string | null
-
-export type DynamicModuleObjectShortModuleTitle = string | null
-
-export type DynamicModuleObjectShortModuleID = number | null
-
-export interface DynamicModuleObjectShort {
-    Module_ID?: DynamicModuleObjectShortModuleID
-    Module_Title?: DynamicModuleObjectShortModuleTitle
-    Object_ID: number
-    Object_Type: string
-    Title: DynamicModuleObjectShortTitle
-    UUID: string
-}
-
 export interface DocumentUUID {
     Object_ID?: number
     UUID?: string
@@ -3314,6 +3351,8 @@ export interface DocumentFullStatics {
 
 export type DocumentFullStartValidity = string | null
 
+export type DocumentFullNextVersion = NextObjectVersion | null
+
 export type DocumentFullModifiedBy = UserShort | null
 
 export type DocumentFullFile = StorageFileBasic | null
@@ -3336,13 +3375,13 @@ export interface DocumentFull {
     Filename?: string
     Modified_By?: DocumentFullModifiedBy
     Modified_Date?: string
+    Next_Version?: DocumentFullNextVersion
     Object_ID?: number
     ObjectStatics?: DocumentFullStatics
+    Public_Revisions?: PublicModuleObjectRevision[]
     Start_Validity?: DocumentFullStartValidity
     Title?: string
     UUID?: string
-    Next_Version?: AmbitieFullNextVersion
-    Public_Revisions?: AmbitieFullPublicRevisions
 }
 
 export type DocumentExtendedStaticsOwner2 = UserShort | null
@@ -3383,6 +3422,8 @@ export interface DocumentExtended {
 
 export type DocumentBasicStartValidity = string | null
 
+export type DocumentBasicNextVersion = NextObjectVersion | null
+
 export type DocumentBasicEndValidity = string | null
 
 export type DocumentBasicAdjustOn = string | null
@@ -3395,47 +3436,49 @@ export interface DocumentBasic {
     File_UUID?: string
     Filename?: string
     Modified_Date?: string
+    Next_Version?: DocumentBasicNextVersion
     Object_ID?: number
     Start_Validity?: DocumentBasicStartValidity
     Title?: string
     UUID?: string
 }
 
-export type CompleteModuleDefaultStartValidity = string | null
+export type CompleteModuleStartValidity = string | null
 
 export interface CompleteModule {
-    Default_Start_Validity?: CompleteModuleDefaultStartValidity
-    ObjectSpecifiekeGeldigheden?: ObjectSpecifiekeGeldigheid[]
+    start_validity?: CompleteModuleStartValidity
 }
 
-export interface BodyFastapiHandlerStorageFilesPost {
+export interface BodyStorageFilePostFilesUpload {
     title: string
     uploaded_file: Blob
 }
 
-export interface BodyFastapiHandlerPublicationVersionsVersionUuidAttachmentsPost {
+export interface BodyPublicationVersionsPostUploadAttachment {
     title: string
     uploaded_file: Blob
 }
 
-export interface BodyFastapiHandlerPublicationAnnouncementPackagesAnnouncementPackageUuidReportPost {
+export interface BodyPublicationAnnouncementReportsPostUploadAnnouncementPackageReport {
     uploaded_files: Blob[]
 }
 
-export interface BodyFastapiHandlerPublicationActPackagesActPackageUuidReportPost {
+export interface BodyPublicationActReportsPostUploadActPackageReport {
     uploaded_files: Blob[]
 }
 
-export type BodyFastapiHandlerLoginAccessTokenPostGrantType = string | null
+export type BodyAuthenticationPostAuthLoginAccessTokenGrantType = string | null
 
-export type BodyFastapiHandlerLoginAccessTokenPostClientSecret = string | null
+export type BodyAuthenticationPostAuthLoginAccessTokenClientSecret =
+    | string
+    | null
 
-export type BodyFastapiHandlerLoginAccessTokenPostClientId = string | null
+export type BodyAuthenticationPostAuthLoginAccessTokenClientId = string | null
 
-export interface BodyFastapiHandlerLoginAccessTokenPost {
-    client_id?: BodyFastapiHandlerLoginAccessTokenPostClientId
-    client_secret?: BodyFastapiHandlerLoginAccessTokenPostClientSecret
-    grant_type?: BodyFastapiHandlerLoginAccessTokenPostGrantType
+export interface BodyAuthenticationPostAuthLoginAccessToken {
+    client_id?: BodyAuthenticationPostAuthLoginAccessTokenClientId
+    client_secret?: BodyAuthenticationPostAuthLoginAccessTokenClientSecret
+    grant_type?: BodyAuthenticationPostAuthLoginAccessTokenGrantType
     password: string
     scope?: string
     username: string
@@ -3524,11 +3567,7 @@ export interface BeleidsregelFullStatics {
 
 export type BeleidsregelFullStartValidity = string | null
 
-export type BeleidsregelFullPublicRevisions =
-    | PublicModuleObjectRevision[]
-    | null
-
-export type BeleidsregelFullNextVersion = NextObjectValidities | null
+export type BeleidsregelFullNextVersion = NextObjectVersion | null
 
 export type BeleidsregelFullModifiedBy = UserShort | null
 
@@ -3551,7 +3590,7 @@ export interface BeleidsregelFull {
     Next_Version?: BeleidsregelFullNextVersion
     Object_ID?: number
     ObjectStatics?: BeleidsregelFullStatics
-    Public_Revisions?: BeleidsregelFullPublicRevisions
+    Public_Revisions?: PublicModuleObjectRevision[]
     Start_Validity?: BeleidsregelFullStartValidity
     Title?: string
     UUID?: string
@@ -3604,7 +3643,7 @@ export interface BeleidsregelExtended {
 
 export type BeleidsregelBasicStartValidity = string | null
 
-export type BeleidsregelBasicNextVersion = NextObjectValidities | null
+export type BeleidsregelBasicNextVersion = NextObjectVersion | null
 
 export type BeleidsregelBasicEndValidity = string | null
 
@@ -3702,11 +3741,7 @@ export type BeleidskeuzeFullWerkingsgebied = WerkingsgebiedBasic | null
 
 export type BeleidskeuzeFullStartValidity = string | null
 
-export type BeleidskeuzeFullPublicRevisions =
-    | PublicModuleObjectRevision[]
-    | null
-
-export type BeleidskeuzeFullNextVersion = NextObjectValidities | null
+export type BeleidskeuzeFullNextVersion = NextObjectVersion | null
 
 export type BeleidskeuzeFullModifiedBy = UserShort | null
 
@@ -3739,7 +3774,7 @@ export interface BeleidskeuzeFull {
     Object_ID?: number
     ObjectStatics?: BeleidskeuzeFullStatics
     Provincial_Interest?: string
-    Public_Revisions?: BeleidskeuzeFullPublicRevisions
+    Public_Revisions?: PublicModuleObjectRevision[]
     Start_Validity?: BeleidskeuzeFullStartValidity
     Title?: string
     UUID?: string
@@ -3796,7 +3831,7 @@ export interface BeleidskeuzeExtended {
 
 export type BeleidskeuzeBasicStartValidity = string | null
 
-export type BeleidskeuzeBasicNextVersion = NextObjectValidities | null
+export type BeleidskeuzeBasicNextVersion = NextObjectVersion | null
 
 export type BeleidskeuzeBasicEndValidity = string | null
 
@@ -3877,9 +3912,7 @@ export interface BeleidsdoelFullStatics {
 
 export type BeleidsdoelFullStartValidity = string | null
 
-export type BeleidsdoelFullPublicRevisions = PublicModuleObjectRevision[] | null
-
-export type BeleidsdoelFullNextVersion = NextObjectValidities | null
+export type BeleidsdoelFullNextVersion = NextObjectVersion | null
 
 export type BeleidsdoelFullModifiedBy = UserShort | null
 
@@ -3907,7 +3940,7 @@ export interface BeleidsdoelFull {
     Next_Version?: BeleidsdoelFullNextVersion
     Object_ID?: number
     ObjectStatics?: BeleidsdoelFullStatics
-    Public_Revisions?: BeleidsdoelFullPublicRevisions
+    Public_Revisions?: PublicModuleObjectRevision[]
     Start_Validity?: BeleidsdoelFullStartValidity
     Title?: string
     UUID?: string
@@ -3960,7 +3993,7 @@ export interface BeleidsdoelExtended {
 
 export type BeleidsdoelBasicStartValidity = string | null
 
-export type BeleidsdoelBasicNextVersion = NextObjectValidities | null
+export type BeleidsdoelBasicNextVersion = NextObjectVersion | null
 
 export type BeleidsdoelBasicEndValidity = string | null
 
@@ -4140,9 +4173,7 @@ export interface AmbitieFullStatics {
 
 export type AmbitieFullStartValidity = string | null
 
-export type AmbitieFullPublicRevisions = PublicModuleObjectRevision[] | null
-
-export type AmbitieFullNextVersion = NextObjectValidities | null
+export type AmbitieFullNextVersion = NextObjectVersion | null
 
 export type AmbitieFullModifiedBy = UserShort | null
 
@@ -4165,7 +4196,7 @@ export interface AmbitieFull {
     Next_Version?: AmbitieFullNextVersion
     Object_ID?: number
     ObjectStatics?: AmbitieFullStatics
-    Public_Revisions?: AmbitieFullPublicRevisions
+    Public_Revisions?: PublicModuleObjectRevision[]
     Start_Validity?: AmbitieFullStartValidity
     Title?: string
     UUID?: string
@@ -4216,7 +4247,7 @@ export interface AmbitieExtended {
 
 export type AmbitieBasicStartValidity = string | null
 
-export type AmbitieBasicNextVersion = NextObjectValidities | null
+export type AmbitieBasicNextVersion = NextObjectVersion | null
 
 export type AmbitieBasicEndValidity = string | null
 
@@ -4244,7 +4275,7 @@ export interface ActiveModuleObject {
     UUID: string
 }
 
-export interface ActiveModuleObjectWrapper {
+export interface ActiveModuleObjectsResponse {
     Action: ModuleObjectActionFull
     Module: ModuleShort
     Module_Object: ActiveModuleObject

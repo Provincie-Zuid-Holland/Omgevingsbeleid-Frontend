@@ -4,7 +4,7 @@ import { useCallback, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
-import { useUsersGet } from '@/api/fetchers'
+import { useUserGetListUsers } from '@/api/fetchers'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
 import { Model, ModelPatchStaticType } from '@/config/objects/types'
@@ -38,7 +38,7 @@ const ObjectPersonModal = ({ model }: ObjectPersonModalProps) => {
         data: users,
         isFetching,
         isLoading: loadingUsers,
-    } = useUsersGet(
+    } = useUserGetListUsers(
         { limit: 500 },
         { query: { enabled: activeModal === 'objectGeneralInformation' } }
     )

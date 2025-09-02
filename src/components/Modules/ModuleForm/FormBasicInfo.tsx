@@ -8,14 +8,18 @@ import {
 import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
 
-import { useUsersGet } from '@/api/fetchers'
+import { useUserGetListUsers } from '@/api/fetchers'
 import { ModuleCreate } from '@/api/fetchers.schemas'
 import { Role } from '@/context/AuthContext'
 
 const FormBasicInfo = () => {
     const { values } = useFormikContext<ModuleCreate>()
 
-    const { data: users, isFetching, isLoading } = useUsersGet({ limit: 500 })
+    const {
+        data: users,
+        isFetching,
+        isLoading,
+    } = useUserGetListUsers({ limit: 500 })
 
     const allowedUserRoles: Role[] = [
         'Functioneel beheerder',

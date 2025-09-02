@@ -5,8 +5,8 @@ import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import {
-    getPublicationTemplatesGetQueryKey,
-    usePublicationTemplatesPost,
+    getPublicationTemplatesGetListTemplatesQueryKey,
+    usePublicationTemplatesPostCreateTemplate,
 } from '@/api/fetchers'
 import { TemplateCreate } from '@/api/fetchers.schemas'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
@@ -23,7 +23,7 @@ const PublicationTemplateCreate = () => {
 
     const { plural, pluralCapitalize, singularCapitalize } = model.defaults
 
-    const { mutateAsync } = usePublicationTemplatesPost()
+    const { mutateAsync } = usePublicationTemplatesPostCreateTemplate()
 
     /**
      * Format initialData based on object fields
@@ -60,7 +60,8 @@ const PublicationTemplateCreate = () => {
             {
                 onSuccess: () => {
                     queryClient.invalidateQueries({
-                        queryKey: getPublicationTemplatesGetQueryKey(),
+                        queryKey:
+                            getPublicationTemplatesGetListTemplatesQueryKey(),
                         refetchType: 'all',
                     })
 

@@ -1,5 +1,11 @@
 import { Text } from '@pzh-ui/components'
-import { FileInvoice, House, LayerGroupLight, Users } from '@pzh-ui/icons'
+import {
+    FileImport,
+    FileInvoice,
+    House,
+    LayerGroupLight,
+    Users,
+} from '@pzh-ui/icons'
 import classNames from 'clsx'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -9,7 +15,11 @@ import { ModelType } from '@/config/objects/types'
 import usePermissions from '@/hooks/usePermissions'
 
 const Sidebar = () => {
-    const { canEditUser, canViewPublicationTemplate } = usePermissions()
+    const {
+        canEditUser,
+        canViewPublicationTemplate,
+        canViewPublicationPackage,
+    } = usePermissions()
 
     const [expanded, setExpanded] = useState(false)
 
@@ -36,7 +46,7 @@ const Sidebar = () => {
             data-testid="sidebar">
             <div
                 className={classNames(
-                    'after:content-[" "] relative bg-pzh-gray-100 transition-[min-width] duration-200 ease-[cubic-bezier(.47,1.64,.41,.8)] after:absolute after:left-0 after:top-0 after:-z-[1] after:h-[calc(100vh-97px)] after:w-full after:bg-pzh-gray-100 after:shadow-[0px_18px_60px_rgba(0,0,0,0.07),0px_4px_13px_rgba(0,0,0,0.04),0px_2px_6px_rgba(0,0,0,0.03)]',
+                    'after:content-[" "] bg-pzh-gray-100 after:bg-pzh-gray-100 relative transition-[min-width] duration-200 ease-[cubic-bezier(.47,1.64,.41,.8)] after:absolute after:top-0 after:left-0 after:-z-[1] after:h-[calc(100vh-97px)] after:w-full after:shadow-[0px_18px_60px_rgba(0,0,0,0.07),0px_4px_13px_rgba(0,0,0,0.04),0px_2px_6px_rgba(0,0,0,0.03)]',
                     {
                         'min-w-[56px]': !expanded,
                         'min-w-[260px]': expanded,
@@ -55,7 +65,7 @@ const Sidebar = () => {
                         onClick={() => window.clearTimeout(timer)}
                     />
 
-                    <div className="h-px w-full bg-pzh-blue-500" />
+                    <div className="bg-pzh-blue-500 h-px w-full" />
 
                     <MenuItem
                         name="Modules"
@@ -66,7 +76,7 @@ const Sidebar = () => {
                         onClick={() => window.clearTimeout(timer)}
                     />
 
-                    <div className="h-px w-full bg-pzh-blue-500" />
+                    <div className="bg-pzh-blue-500 h-px w-full" />
 
                     {Object.keys(models).map(key => {
                         const model = models[key as ModelType]
@@ -88,9 +98,40 @@ const Sidebar = () => {
                         )
                     })}
 
+                    {canViewPublicationTemplate ||
+                        (canViewPublicationPackage && (
+                            <>
+                                <div className="bg-pzh-blue-500 h-px w-full" />
+                                {canViewPublicationPackage && (
+                                    <MenuItem
+                                        name="Leveringen"
+                                        path="/muteer/leveringen"
+                                        icon={FileImport}
+                                        expanded={expanded}
+                                        onHover={endAndStartTimer}
+                                        onClick={() =>
+                                            window.clearTimeout(timer)
+                                        }
+                                    />
+                                )}
+                                {canViewPublicationTemplate && (
+                                    <MenuItem
+                                        name="Publicatietemplates"
+                                        path="/muteer/publicatietemplates"
+                                        icon={FileInvoice}
+                                        expanded={expanded}
+                                        onHover={endAndStartTimer}
+                                        onClick={() =>
+                                            window.clearTimeout(timer)
+                                        }
+                                    />
+                                )}
+                            </>
+                        ))}
+
                     {canEditUser && (
                         <>
-                            <div className="h-px w-full bg-pzh-blue-500" />
+                            <div className="bg-pzh-blue-500 h-px w-full" />
                             <MenuItem
                                 name="Gebruikers"
                                 path="/muteer/gebruikers"
@@ -101,17 +142,6 @@ const Sidebar = () => {
                                 onClick={() => window.clearTimeout(timer)}
                             />
                         </>
-                    )}
-
-                    {canViewPublicationTemplate && (
-                        <MenuItem
-                            name="Publicatietemplates"
-                            path="/muteer/publicatietemplates"
-                            icon={FileInvoice}
-                            expanded={expanded}
-                            onHover={endAndStartTimer}
-                            onClick={() => window.clearTimeout(timer)}
-                        />
                     )}
                 </div>
             </div>
@@ -144,7 +174,7 @@ const MenuItem = ({
         <Link
             to={path}
             className={classNames(
-                'group flex h-10 items-center rounded hover:text-pzh-green-500',
+                'group hover:text-pzh-green-500 flex h-10 items-center rounded',
                 {
                     'bg-pzh-gray-200 text-pzh-green-500':
                         path === pathname ||
@@ -166,7 +196,7 @@ const MenuItem = ({
             />
             <Text
                 className={classNames(
-                    '-mb-0.5 ml-2 group-hover:text-pzh-green-500',
+                    'group-hover:text-pzh-green-500 -mb-0.5 ml-2',
                     {
                         'opacity-0': !expanded,
                         'text-pzh-green-500': path === pathname,

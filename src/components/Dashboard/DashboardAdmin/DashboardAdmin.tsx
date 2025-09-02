@@ -3,7 +3,7 @@ import { AngleRight } from '@pzh-ui/icons'
 import { keepPreviousData } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 
-import { useModulesGet } from '@/api/fetchers'
+import { useModulesGetListModules } from '@/api/fetchers'
 import { LoaderCard } from '@/components/Loader'
 import ModuleTile from '@/components/Modules/ModuleTile'
 import * as models from '@/config/objects'
@@ -12,21 +12,22 @@ import { Model } from '@/config/objects/types'
 const PAGE_LIMIT = 3
 
 const DashboardAdmin = () => {
-    const { data: modules, isFetching: modulesLoading } = useModulesGet(
-        {
-            filter_activated: true,
-            filter_closed: false,
-            only_mine: false,
-            limit: PAGE_LIMIT,
-            sort_column: 'Modified_Date',
-            sort_order: 'DESC',
-        },
-        {
-            query: {
-                placeholderData: keepPreviousData,
+    const { data: modules, isFetching: modulesLoading } =
+        useModulesGetListModules(
+            {
+                filter_activated: true,
+                filter_closed: false,
+                only_mine: false,
+                limit: PAGE_LIMIT,
+                sort_column: 'Modified_Date',
+                sort_order: 'DESC',
             },
-        }
-    )
+            {
+                query: {
+                    placeholderData: keepPreviousData,
+                },
+            }
+        )
 
     return (
         <div className="grid grid-cols-6">
@@ -101,9 +102,9 @@ const ModelTile = ({ model }: { model: Model }) => {
 
     return (
         <Link to={`/muteer/${plural}`} data-testid="dashboard-model-tile">
-            <div className="group flex items-center justify-between rounded border border-pzh-gray-200 px-6 py-7">
+            <div className="group border-pzh-gray-200 flex items-center justify-between rounded border px-6 py-7">
                 <div className="flex items-center">
-                    <Icon size={20} className="mr-4 text-pzh-blue-500" />
+                    <Icon size={20} className="text-pzh-blue-500 mr-4" />
                     <Heading level="3" size="s" className="-mb-1.5">
                         {pluralCapitalize}
                     </Heading>

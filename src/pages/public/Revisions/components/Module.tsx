@@ -11,7 +11,7 @@ import clsx from 'clsx'
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 
-import { useRevisionsModuleIdGet } from '@/api/fetchers'
+import { usePublicModulesGetPublicModuleOverview } from '@/api/fetchers'
 import {
     PublicModuleObjectShort,
     PublicModuleShort,
@@ -42,7 +42,8 @@ const Module = ({
     Description,
     Status,
 }: PublicModuleShort) => {
-    const { data, isLoading } = useRevisionsModuleIdGet(Module_ID)
+    const { data, isLoading } =
+        usePublicModulesGetPublicModuleOverview(Module_ID)
 
     /**
      * Disable tabs which have no objects

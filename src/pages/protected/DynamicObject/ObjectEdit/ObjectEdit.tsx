@@ -4,7 +4,7 @@ import { FormikHelpers } from 'formik'
 import { useMemo } from 'react'
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 
-import { useStorageFilesPost } from '@/api/fetchers'
+import { useStorageFilePostFilesUpload } from '@/api/fetchers'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import { LockedNotification } from '@/components/Modules/ModuleLock/ModuleLock'
 import { Model } from '@/config/objects/types'
@@ -44,7 +44,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
         queryKey: objectQueryKey,
     } = useObject()
 
-    const { mutateAsync: uploadStorageFile } = useStorageFilesPost()
+    const { mutateAsync: uploadStorageFile } = useStorageFilePostFilesUpload()
 
     const patchObject = usePatchObject()
 
@@ -61,8 +61,8 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
 
         const objectData = {} as { [key in (typeof fields)[number]]: any }
 
-        fields?.forEach(field => {
-            return (objectData[field] = object?.[field as keyof typeof data])
+        fields.forEach(field => {
+            objectData[field] = object?.[field as keyof typeof object]
         })
 
         if (
@@ -93,6 +93,13 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                 delete (payload as any)[key]
             }
         })
+
+        // Transform multi-selects to array of values
+        if (Array.isArray(payload.Documents)) {
+            payload.Documents = payload.Documents.map(
+                (item: any) => item.value ?? item
+            )
+        }
 
         if (
             'Ambtsgebied' in payload &&
@@ -191,16 +198,22 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                     defaultValues={{
                         ...(object?.Hierarchy_Statics && {
                             Hierarchy_Code: {
-                                label: object?.Hierarchy_Statics?.Cached_Title,
-                                value: object?.Hierarchy_Statics?.Code,
+                                label: object.Hierarchy_Statics.Cached_Title,
+                                value: object.Hierarchy_Statics.Code,
                             },
                         }),
                         ...(object?.Werkingsgebied_Statics && {
                             Werkingsgebied_Code: {
-                                label: object?.Werkingsgebied_Statics
-                                    ?.Cached_Title,
-                                value: object?.Werkingsgebied_Statics?.Code,
+                                label: object.Werkingsgebied_Statics
+                                    .Cached_Title,
+                                value: object.Werkingsgebied_Statics.Code,
                             },
+                        }),
+                        ...(object?.Documents_Statics && {
+                            Documents: object.Documents_Statics.map(obj => ({
+                                label: obj.Cached_Title,
+                                value: obj.Code,
+                            })),
                         }),
                     }}
                 />

@@ -2,8 +2,8 @@ import { Badge, BadgeProps, Button, Heading, Text } from '@pzh-ui/components'
 import { FilePdf, Gear, PencilLight, PenNib, PenToSquare } from '@pzh-ui/icons'
 
 import {
-    usePublicationsPublicationUuidVersionsGet,
-    usePublicationVersionsVersionUuidPdfExportPost,
+    usePublicationVersionsGetListVersions,
+    usePublicationVersionsPostCreatePdf,
 } from '@/api/fetchers'
 import {
     DocumentType,
@@ -50,22 +50,21 @@ const Document = ({
 
     const Icon = config[documentType].icon
 
-    const { data: version, isFetching } =
-        usePublicationsPublicationUuidVersionsGet(
-            publication?.UUID || '',
-            {
-                limit: 100,
+    const { data: version, isFetching } = usePublicationVersionsGetListVersions(
+        publication?.UUID || '',
+        {
+            limit: 100,
+        },
+        {
+            query: {
+                enabled: !!publication?.UUID,
+                select: data => data.results[0],
             },
-            {
-                query: {
-                    enabled: !!publication?.UUID,
-                    select: data => data.results[0],
-                },
-            }
-        )
+        }
+    )
 
-    const { mutate: download, isPending } =
-        usePublicationVersionsVersionUuidPdfExportPost({
+    const { mutate: download, isPending } = usePublicationVersionsPostCreatePdf(
+        {
             mutation: {
                 mutationFn: async ({ versionUuid, data }): Promise<any> =>
                     downloadFile(
@@ -73,7 +72,8 @@ const Document = ({
                         data
                     ),
             },
-        })
+        }
+    )
 
     const status = useMemo((): BadgeProps => {
         const steps = publication?.Procedure_Type === 'draft' ? '3' : '2'

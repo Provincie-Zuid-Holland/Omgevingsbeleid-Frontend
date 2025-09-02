@@ -52,18 +52,19 @@ export const SCHEMA_EDIT_EXISTING_OBJECT = object({
 })
 
 export const SCHEMA_COMPLETE_MODULE = object({
-    IDMS_Link: schemaDefaults.url(),
-    Decision_Number: schemaDefaults.requiredString(),
-    Link_To_Decision_Document: schemaDefaults.url(),
-    ObjectSpecifiekeGeldigheden: array(
-        object({
-            Object_Type: schemaDefaults.requiredString(),
-            Object_ID: schemaDefaults.requiredNumber(),
-            Start_Validity: schemaDefaults.date(),
-        }).partial({
-            Start_Validity: true,
-        })
-    ),
+    start_validity: schemaDefaults.date(),
+    // IDMS_Link: schemaDefaults.url(),
+    // Decision_Number: schemaDefaults.requiredString(),
+    // Link_To_Decision_Document: schemaDefaults.url(),
+    // ObjectSpecifiekeGeldigheden: array(
+    //     object({
+    //         Object_Type: schemaDefaults.requiredString(),
+    //         Object_ID: schemaDefaults.requiredNumber(),
+    //         Start_Validity: schemaDefaults.date(),
+    //     }).partial({
+    //         Start_Validity: true,
+    //     })
+    // ),
 })
 
 export const SCHEMA_COMPLETE_MODULE_STEPS = [

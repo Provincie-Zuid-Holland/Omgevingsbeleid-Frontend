@@ -1,15 +1,15 @@
 import { EyeLight } from '@pzh-ui/icons'
 
 import {
-    useModulesModuleIdObjectVisieAlgemeenLatestLineageIdGet,
-    useModulesModuleIdObjectVisieAlgemeenLineageIdPatch,
-    useModulesObjectVisieAlgemeenActiveLineageIdGet,
-    useRevisionsModuleIdVisieAlgemeenVersionObjectUuidGet,
-    useVisieAlgemeenStaticLineageIdPost,
-    useVisiesAlgemeenLatestLineageIdGet,
-    useVisiesAlgemeenValidGet,
-    useVisiesAlgemeenValidLineageIdGet,
-    useVisiesAlgemeenVersionObjectUuidGet,
+    useGetRevisionsVisieAlgemeenVersion,
+    useVisieAlgemeenEditObjectStatic,
+    useVisieAlgemeenGetListActiveModuleObjects,
+    useVisieAlgemeenListValidLineages,
+    useVisieAlgemeenListValidLineageTree,
+    useVisieAlgemeenPostModulePatchObject,
+    useVisieAlgemeenViewModuleObjectLatest,
+    useVisieAlgemeenViewObjectLatest,
+    useVisieAlgemeenViewObjectVersion,
 } from '@/api/fetchers'
 import {
     VisieAlgemeenPatch,
@@ -21,24 +21,23 @@ import { schemaDefaults } from '@/validation/zodSchema'
 import { DynamicObject } from './types'
 
 const fetchers = {
-    useGetValid: useVisiesAlgemeenValidGet,
-    useGetValidLineage: useVisiesAlgemeenValidLineageIdGet,
-    useGetVersion: useVisiesAlgemeenVersionObjectUuidGet,
-    useGetLatestLineage: useVisiesAlgemeenLatestLineageIdGet,
-    useGetRevision: useRevisionsModuleIdVisieAlgemeenVersionObjectUuidGet,
+    useGetValid: useVisieAlgemeenListValidLineages,
+    useGetValidLineage: useVisieAlgemeenListValidLineageTree,
+    useGetVersion: useVisieAlgemeenViewObjectVersion,
+    useGetLatestLineage: useVisieAlgemeenViewObjectLatest,
+    useGetRevision: useGetRevisionsVisieAlgemeenVersion,
     useGetRelations: null,
     usePutRelations: null,
-    useGetLatestLineageInModule:
-        useModulesModuleIdObjectVisieAlgemeenLatestLineageIdGet,
-    usePatchObjectInModule: useModulesModuleIdObjectVisieAlgemeenLineageIdPatch,
+    useGetLatestLineageInModule: useVisieAlgemeenViewModuleObjectLatest,
+    usePatchObjectInModule: useVisieAlgemeenPostModulePatchObject,
     usePatchObject: null,
     useDeleteObject: null,
-    usePostStatic: useVisieAlgemeenStaticLineageIdPost,
+    usePostStatic: useVisieAlgemeenEditObjectStatic,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
     usePostObject: null,
-    useGetActiveModules: useModulesObjectVisieAlgemeenActiveLineageIdGet,
+    useGetActiveModules: useVisieAlgemeenGetListActiveModuleObjects,
 }
 
 const visieAlgemeen: DynamicObject<
@@ -90,7 +89,9 @@ const visieAlgemeen: DynamicObject<
                         'table',
                     ],
                     imageOptions: {
-                        maxSize: 819200,
+                        uploadOptions: {
+                            maxSize: 819200,
+                        },
                     },
                 },
             ],

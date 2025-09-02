@@ -1,8 +1,8 @@
 import { Text } from '@pzh-ui/components'
 
 import {
-    useModulesModuleIdObjectWerkingsgebiedLatestLineageIdGet,
-    useWerkingsgebiedenLatestLineageIdGet,
+    useWerkingsgebiedViewModuleObjectLatest,
+    useWerkingsgebiedViewObjectLatest,
 } from '@/api/fetchers'
 import { LeafletTinyViewer } from '@/components/Leaflet'
 import Modal from '@/components/Modal'
@@ -22,7 +22,7 @@ const ObjectAreaModal = () => {
         data: moduleData,
         isSuccess,
         isError,
-    } = useModulesModuleIdObjectWerkingsgebiedLatestLineageIdGet(
+    } = useWerkingsgebiedViewModuleObjectLatest(
         parseInt(modalState?.moduleId),
         parseInt(modalState?.id),
         {
@@ -32,7 +32,7 @@ const ObjectAreaModal = () => {
         }
     )
 
-    const { data: validData } = useWerkingsgebiedenLatestLineageIdGet(
+    const { data: validData } = useWerkingsgebiedViewObjectLatest(
         parseInt(modalState?.id),
         {
             query: {

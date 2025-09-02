@@ -14,19 +14,19 @@ import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import {
-    getPublicationActPackagesGetQueryKey,
-    getPublicationActReportsGetQueryKey,
-    getPublicationAnnouncementPackagesGetQueryKey,
-    getPublicationAnnouncementReportsGetQueryKey,
-    getPublicationAnnouncementsGetQueryKey,
-    getPublicationVersionsVersionUuidGetQueryKey,
-    usePublicationActReportsGet,
-    usePublicationAnnouncementReportsGet,
+    getPublicationActPackagesGetListActPackagesQueryKey,
+    getPublicationActReportsGetListActPackageReportsQueryKey,
+    getPublicationAnnouncementPackagesGetListAnnouncementPackagesQueryKey,
+    getPublicationAnnouncementReportsGetListAnnnouncementPackageReportsQueryKey,
+    getPublicationAnnouncementsGetListAnnouncementsQueryKey,
+    getPublicationVersionsGetDetailVersionQueryKey,
+    usePublicationActReportsGetListActPackageReports,
+    usePublicationAnnouncementReportsGetListAnnnouncementPackageReports,
 } from '@/api/fetchers'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
 import { useActions } from '@/components/Publications/PublicationPackages/components/actions'
-import { getStatus } from '@/components/Publications/PublicationPackages/components/utils'
+import { getReportStatus } from '@/components/Publications/PublicationPackages/components/utils'
 import useModalStore from '@/store/modalStore'
 
 import { ModalStateMap } from '../../types'
@@ -57,27 +57,31 @@ const PublicationPackageReportUploadModal = () => {
                 queryClient.invalidateQueries({
                     queryKey:
                         modalState.publicationType === 'act'
-                            ? getPublicationActReportsGetQueryKey()
-                            : getPublicationAnnouncementReportsGetQueryKey(),
+                            ? getPublicationActReportsGetListActPackageReportsQueryKey()
+                            : getPublicationAnnouncementReportsGetListAnnnouncementPackageReportsQueryKey(),
                 })
                 queryClient.invalidateQueries({
                     queryKey:
                         modalState.publicationType === 'act'
-                            ? getPublicationActPackagesGetQueryKey({
-                                  version_uuid: versionUUID,
-                                  package_type: modalState.packageType,
-                                  limit: 3,
-                                  sort_column: 'Created_Date',
-                                  sort_order: 'DESC',
-                              })
-                            : getPublicationAnnouncementPackagesGetQueryKey({
-                                  announcement_uuid:
-                                      modalState.announcementUUID,
-                                  package_type: modalState.packageType,
-                                  limit: 3,
-                                  sort_column: 'Created_Date',
-                                  sort_order: 'DESC',
-                              }),
+                            ? getPublicationActPackagesGetListActPackagesQueryKey(
+                                  {
+                                      version_uuid: versionUUID,
+                                      package_type: modalState.packageType,
+                                      limit: 3,
+                                      sort_column: 'Created_Date',
+                                      sort_order: 'DESC',
+                                  }
+                              )
+                            : getPublicationAnnouncementPackagesGetListAnnouncementPackagesQueryKey(
+                                  {
+                                      announcement_uuid:
+                                          modalState.announcementUUID,
+                                      package_type: modalState.packageType,
+                                      limit: 3,
+                                      sort_column: 'Created_Date',
+                                      sort_order: 'DESC',
+                                  }
+                              ),
                 })
 
                 if (
@@ -85,9 +89,10 @@ const PublicationPackageReportUploadModal = () => {
                     modalState.packageType === 'publication'
                 ) {
                     queryClient.invalidateQueries({
-                        queryKey: getPublicationVersionsVersionUuidGetQueryKey(
-                            String(versionUUID)
-                        ),
+                        queryKey:
+                            getPublicationVersionsGetDetailVersionQueryKey(
+                                String(versionUUID)
+                            ),
                     })
                 }
 
@@ -97,7 +102,8 @@ const PublicationPackageReportUploadModal = () => {
                     modalState.packageType === 'publication'
                 ) {
                     queryClient.invalidateQueries({
-                        queryKey: getPublicationAnnouncementsGetQueryKey(),
+                        queryKey:
+                            getPublicationAnnouncementsGetListAnnouncementsQueryKey(),
                         refetchType: 'all',
                     })
                 }
@@ -134,27 +140,29 @@ const InnerForm = <TData extends { uploaded_files: File[] }>({
         state => state.modalStates['publicationPackageReportUpload']
     ) as ModalStateMap['publicationPackageReportUpload']
 
-    const { data: actReports } = usePublicationActReportsGet(
-        {
-            act_package_uuid: modalState.packageUUID,
-        },
-        {
-            query: {
-                enabled: modalState.publicationType === 'act',
+    const { data: actReports } =
+        usePublicationActReportsGetListActPackageReports(
+            {
+                act_package_uuid: modalState.packageUUID,
             },
-        }
-    )
+            {
+                query: {
+                    enabled: modalState.publicationType === 'act',
+                },
+            }
+        )
 
-    const { data: announcementReports } = usePublicationAnnouncementReportsGet(
-        {
-            announcement_package_uuid: modalState.packageUUID,
-        },
-        {
-            query: {
-                enabled: modalState.publicationType === 'announcement',
+    const { data: announcementReports } =
+        usePublicationAnnouncementReportsGetListAnnnouncementPackageReports(
+            {
+                announcement_package_uuid: modalState.packageUUID,
             },
-        }
-    )
+            {
+                query: {
+                    enabled: modalState.publicationType === 'announcement',
+                },
+            }
+        )
 
     const reports =
         modalState.publicationType === 'act' ? actReports : announcementReports
@@ -182,7 +190,7 @@ const InnerForm = <TData extends { uploaded_files: File[] }>({
                 accept={{ '*': [] }}
             />
             {!!values.uploaded_files.length && (
-                <div className="mt-6 rounded border border-pzh-gray-300 p-4">
+                <div className="border-pzh-gray-300 mt-6 rounded border p-4">
                     <Text bold color="text-pzh-blue-500 mb-2">
                         Geselecteerde bestanden
                     </Text>
@@ -190,7 +198,7 @@ const InnerForm = <TData extends { uploaded_files: File[] }>({
                         {values.uploaded_files.map((file, index) => (
                             <li
                                 key={file.path || `file-${index}`}
-                                className="pzh-form-input overflow-hidden border-pzh-gray-200">
+                                className="pzh-form-input border-pzh-gray-200 overflow-hidden">
                                 <div className="flex items-center justify-between gap-2 px-4">
                                     <Text
                                         bold
@@ -213,10 +221,10 @@ const InnerForm = <TData extends { uploaded_files: File[] }>({
                                             {!isSubmitting ? (
                                                 <TrashCan
                                                     size={16}
-                                                    className="-mt-[2px] ml-4 text-pzh-red-500"
+                                                    className="text-pzh-red-500 -mt-[2px] ml-4"
                                                 />
                                             ) : (
-                                                <LoaderSpinner className="-mt-[2px] ml-4 text-pzh-blue-500" />
+                                                <LoaderSpinner className="text-pzh-blue-500 -mt-[2px] ml-4" />
                                             )}
                                         </Button>
                                     </div>
@@ -235,18 +243,18 @@ const InnerForm = <TData extends { uploaded_files: File[] }>({
                 </div>
             )}
             {!!reports?.results.length && (
-                <div className="mt-6 rounded border border-pzh-gray-300 p-4">
+                <div className="border-pzh-gray-300 mt-6 rounded border p-4">
                     <Text bold color="text-pzh-blue-500 mb-2">
                         Laatst geüploade rapporten
                     </Text>
                     <ul className="flex flex-col gap-2">
                         {reports.results.map(file => {
-                            const status = getStatus(file.Report_Status)
+                            const status = getReportStatus(file.Report_Status)
 
                             return (
                                 <li
                                     key={file.UUID}
-                                    className="pzh-form-input overflow-hidden border-pzh-gray-200">
+                                    className="pzh-form-input border-pzh-gray-200 overflow-hidden">
                                     <div className="flex items-center justify-between gap-2 px-4">
                                         <Text
                                             bold

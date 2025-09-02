@@ -8,14 +8,14 @@ import { z } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import {
-    getPublicationsGetQueryKey,
-    getPublicationsPublicationUuidVersionsGetQueryKey,
-    useModulesModuleIdStatusGet,
-    usePublicationActsGet,
-    usePublicationEnvironmentsGet,
-    usePublicationsPost,
-    usePublicationsPublicationUuidVersionPost,
-    usePublicationTemplatesGet,
+    getPublicationsGetListPublicationsQueryKey,
+    getPublicationVersionsGetListVersionsQueryKey,
+    useModulesViewModuleListStatuses,
+    usePublicationActsGetListActs,
+    usePublicationEnvironmentsGetListEnvironments,
+    usePublicationsPostCreatePublication,
+    usePublicationTemplatesGetListTemplates,
+    usePublicationVersionsPostCreateVersion,
 } from '@/api/fetchers'
 import { PublicationCreate } from '@/api/fetchers.schemas'
 import usePublicationStore from '@/store/publicationStore'
@@ -55,9 +55,10 @@ const PublicationWizard = ({ handleClose }: PublicationWizardProps) => {
     const isFinalStep = step === 5
     const currentValidationSchema = SCHEMA_PUBLICATION_STEPS[step]
 
-    const { mutateAsync: postPublication } = usePublicationsPost()
+    const { mutateAsync: postPublication } =
+        usePublicationsPostCreatePublication()
     const { mutateAsync: postVersion } =
-        usePublicationsPublicationUuidVersionPost()
+        usePublicationVersionsPostCreateVersion()
 
     const initialValues = {
         ...EMPTY_PUBLICATION_OBJECT,
@@ -82,7 +83,7 @@ const PublicationWizard = ({ handleClose }: PublicationWizardProps) => {
                     }).finally(() => {
                         queryClient.invalidateQueries({
                             queryKey:
-                                getPublicationsPublicationUuidVersionsGetQueryKey(
+                                getPublicationVersionsGetListVersionsQueryKey(
                                     data.UUID
                                 ),
                         })
@@ -101,7 +102,7 @@ const PublicationWizard = ({ handleClose }: PublicationWizardProps) => {
                 })
                 .finally(() => {
                     queryClient.invalidateQueries({
-                        queryKey: getPublicationsGetQueryKey({
+                        queryKey: getPublicationsGetListPublicationsQueryKey({
                             limit: 100,
                         }),
                     })
@@ -123,7 +124,7 @@ const PublicationWizard = ({ handleClose }: PublicationWizardProps) => {
             )}
             enableReinitialize>
             {({ isSubmitting, isValid, submitForm }) => (
-                <Form className="rounded-lg border border-pzh-gray-200 p-6">
+                <Form className="border-pzh-gray-200 rounded-lg border p-6">
                     <div className="flex items-center justify-between">
                         <Heading level="2" size="s">
                             Nieuwe publicatie aanmaken
@@ -171,7 +172,7 @@ const WizardForm = ({ step }: WizardFormProps) => {
     const {
         data: publicationTemplateOptions = [],
         isFetching: publicationTemplatesFetching,
-    } = usePublicationTemplatesGet(
+    } = usePublicationTemplatesGetListTemplates(
         { limit: 100, document_type: values.Document_Type, is_active: true },
         {
             query: {
@@ -185,7 +186,7 @@ const WizardForm = ({ step }: WizardFormProps) => {
     )
 
     const { data: environmentOptions = [], isFetching: environmentsFetching } =
-        usePublicationEnvironmentsGet(
+        usePublicationEnvironmentsGetListEnvironments(
             { limit: 100 },
             {
                 query: {
@@ -201,7 +202,7 @@ const WizardForm = ({ step }: WizardFormProps) => {
     const {
         data: publicationActOptions = [],
         isFetching: publicationActsFetching,
-    } = usePublicationActsGet(
+    } = usePublicationActsGetListActs(
         {
             limit: 100,
             is_active: true,
@@ -221,7 +222,7 @@ const WizardForm = ({ step }: WizardFormProps) => {
     )
 
     const { data: moduleStatusOptions = [], isFetching: moduleStatusFetching } =
-        useModulesModuleIdStatusGet(parseInt(moduleId!), {
+        useModulesViewModuleListStatuses(parseInt(moduleId!), {
             query: {
                 enabled: !!moduleId,
                 select: data =>

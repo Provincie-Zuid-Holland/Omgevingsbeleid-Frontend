@@ -4,7 +4,10 @@ import { useMountEffect, useUpdateEffect } from '@react-hookz/web'
 import { useMemo, useRef } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
-import { useSearchByAreasPost, useSearchByGeometryPost } from '@/api/fetchers'
+import {
+    useAreasGetListObjectsByAreas,
+    useAreasGetListObjectsByGeometry,
+} from '@/api/fetchers'
 import Filter from '@/components/Filter'
 import { LoaderCard } from '@/components/Loader'
 import SearchResultItem from '@/components/SearchResultItem'
@@ -75,8 +78,8 @@ const SidebarResults = () => {
 
     const useSearch =
         drawType === 'werkingsgebied'
-            ? useSearchByAreasPost
-            : useSearchByGeometryPost
+            ? useAreasGetListObjectsByAreas
+            : useAreasGetListObjectsByGeometry
 
     const {
         data,
@@ -247,20 +250,20 @@ const SidebarResults = () => {
             leave="transition-all ease-in duration-300 transform"
             leaveFrom="mr-0"
             leaveTo="-mr-[840px]"
-            className="relative z-[1] w-full max-w-2xl overflow-hidden px-4 pb-4 pt-4 md:px-10 md:pb-0 md:shadow-pane lg:px-20">
-            <div className="border-b border-pzh-gray-300 pb-3">
+            className="md:shadow-pane relative z-[1] w-full max-w-2xl overflow-hidden px-4 pt-4 pb-4 md:px-10 md:pb-0 lg:px-20">
+            <div className="border-pzh-gray-300 border-b pb-3">
                 <div className="flex items-start justify-between">
                     <div>
                         <Heading level="3" size="m">
                             Resultaten
                         </Heading>
                         {!isLoading && !geoLoading ? (
-                            <span className="block text-s text-pzh-blue-900/50">
+                            <span className="text-s text-pzh-blue-900/50 block">
                                 {!data?.total
                                     ? 'Er zijn geen resultaten'
                                     : data.total === 1
-                                    ? `Er is 1 resultaat`
-                                    : `Er zijn ${data.total} resultaten`}
+                                      ? `Er is 1 resultaat`
+                                      : `Er zijn ${data.total} resultaten`}
                             </span>
                         ) : (
                             <LoaderCard
@@ -282,7 +285,7 @@ const SidebarResults = () => {
             <div className="mt-2 h-full">
                 <div
                     ref={resultsContainer}
-                    className="h-full pb-8 pt-4 md:overflow-auto md:pb-24">
+                    className="h-full pt-4 pb-8 md:overflow-auto md:pb-24">
                     {!isLoading && !geoLoading ? (
                         <>
                             {!!data?.results.length ? (
@@ -305,10 +308,10 @@ const SidebarResults = () => {
                                     {drawType === 'polygon'
                                         ? 'het getekende gebied'
                                         : drawType === 'marker'
-                                        ? 'het ingevoerde adres'
-                                        : drawType === 'werkingsgebied'
-                                        ? 'dit werkingsgebied'
-                                        : 'de geplaatste marker'}
+                                          ? 'het ingevoerde adres'
+                                          : drawType === 'werkingsgebied'
+                                            ? 'dit werkingsgebied'
+                                            : 'de geplaatste marker'}
                                     . Probeer het opnieuw (binnen de grenzen van
                                     de provincie Zuid-Holland).
                                 </Text>

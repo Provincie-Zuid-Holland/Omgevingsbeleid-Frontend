@@ -10,7 +10,7 @@ import { CircleInfo } from '@pzh-ui/icons'
 import { Form, Formik } from 'formik'
 import { useMemo } from 'react'
 
-import { useSourceWerkingsgebiedenGet } from '@/api/fetchers'
+import { useSourceWerkingsgebiedenGetListWerkingsgebieden } from '@/api/fetchers'
 import AreaPreview from '@/components/AreaPreview'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
@@ -34,25 +34,29 @@ const AreaModalEdit = ({
     const activeModal = useModalStore(state => state.activeModal)
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { data, isLoading } = useSourceWerkingsgebiedenGet(
-        { limit: 1000, title: initialValues.Title },
-        {
-            query: {
-                enabled: activeModal === 'areaEdit',
-            },
-        }
-    )
+    const { data, isLoading } =
+        useSourceWerkingsgebiedenGetListWerkingsgebieden(
+            { limit: 1000, title: initialValues.Title },
+            {
+                query: {
+                    enabled: activeModal === 'areaEdit',
+                },
+            }
+        )
 
     const options = useMemo(() => {
         if (!data) return []
 
         // Group results by Geometry_Hash
-        const geometryHashGroups = data.results.reduce((acc, item) => {
-            if (item.Geometry_Hash) {
-                ;(acc[item.Geometry_Hash] ||= []).push(item)
-            }
-            return acc
-        }, {} as Record<string, (typeof data.results)[0][]>)
+        const geometryHashGroups = data.results.reduce(
+            (acc, item) => {
+                if (item.Geometry_Hash) {
+                    ;(acc[item.Geometry_Hash] ||= []).push(item)
+                }
+                return acc
+            },
+            {} as Record<string, (typeof data.results)[0][]>
+        )
 
         // Identify duplicates
         const duplicateUUIDs = new Set<string>()
@@ -124,7 +128,7 @@ const AreaModalEdit = ({
                                         label={initialValues.Title || ''}
                                     />
 
-                                    <div className="h-[500px] overflow-y-auto rounded border border-pzh-gray-200 p-4">
+                                    <div className="border-pzh-gray-200 h-[500px] overflow-y-auto rounded border p-4">
                                         {isLoading ? (
                                             <div className="flex h-full w-full items-center justify-center">
                                                 <LoaderSpinner />
@@ -168,13 +172,13 @@ const AreaModalEdit = ({
                                                             {version.isDuplicate && (
                                                                 <div className="z-[1]">
                                                                     <Tooltip label="Deze versie bevat dezelfde geo als de vorige versie en kan daarom niet worden gekozen">
-                                                                        <CircleInfo className="-mt-1 cursor-pointer text-pzh-blue-900" />
+                                                                        <CircleInfo className="text-pzh-blue-900 -mt-1 cursor-pointer" />
                                                                     </Tooltip>
                                                                 </div>
                                                             )}
                                                         </div>
 
-                                                        <span className="-mt-1 ml-7 block text-s">
+                                                        <span className="text-s -mt-1 ml-7 block">
                                                             Datum:{' '}
                                                             {formatDate(
                                                                 new Date(

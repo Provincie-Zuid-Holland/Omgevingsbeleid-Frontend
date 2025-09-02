@@ -11,7 +11,6 @@ import {
     filterConnections,
     formatGraphData,
     highlightConnections,
-    resetHighlightConnections,
 } from '@/utils/d3'
 
 interface NetworkFilterProps {
@@ -132,15 +131,6 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
     }
 
     /**
-     * Clear value of select field and reset connection higlight
-     */
-    const handleClear = (e: { clearValue: () => void }) => {
-        e.clearValue()
-        setActiveNode(undefined)
-        resetHighlightConnections()
-    }
-
-    /**
      * Handle filtering of select field
      */
     const handleFilter: FieldSelectProps['filterOption'] = (
@@ -181,6 +171,7 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
                         }}
                         onChange={e => handleChange(e as (typeof options)[0])}
                         filterOption={handleFilter}
+                        aria-label="Zoek op titel van beleid"
                     />
                 </div>
                 <Filter

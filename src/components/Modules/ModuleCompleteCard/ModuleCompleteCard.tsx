@@ -1,23 +1,34 @@
-import { Button, Text, Tooltip } from '@pzh-ui/components'
+import { Button, cn, Text, Tooltip } from '@pzh-ui/components'
 import { CircleInfo } from '@pzh-ui/icons'
 
 import useModalStore from '@/store/modalStore'
 
-const ModuleCompleteCard = () => {
+interface ModuleCompleteCardProps {
+    variant?: 'column' | 'row'
+}
+
+const ModuleCompleteCard = ({
+    variant = 'column',
+}: ModuleCompleteCardProps) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     return (
         <div
-            className="mb-5 bg-pzh-gray-100 px-8 py-6"
+            className={cn('bg-pzh-gray-100', {
+                'mb-5 px-8 py-6': variant === 'column',
+                'flex items-center justify-between p-4': variant === 'row',
+            })}
             data-testid="module-complete-card">
-            <Text className="mb-2" bold color="text-pzh-blue-500">
-                Module afsluiten
-            </Text>
+            {variant === 'column' && (
+                <Text className="mb-2" bold color="text-pzh-blue-500">
+                    Module afsluiten
+                </Text>
+            )}
 
-            <Text className="mb-4">
+            <Text className={cn({ 'mb-4': variant === 'column' })}>
                 Is er een besluit vastgesteld? Sluit dan de module af.
             </Text>
-            <div className="mb-2 flex items-center">
+            <div className="flex items-center">
                 <Button
                     variant="cta"
                     onPress={() => setActiveModal('moduleComplete')}

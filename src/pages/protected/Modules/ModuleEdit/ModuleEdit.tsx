@@ -3,7 +3,7 @@ import { Form, Formik, FormikHelpers } from 'formik'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
-import { useModulesModuleIdGet } from '@/api/fetchers'
+import { useModulesViewModuleOverview } from '@/api/fetchers'
 import { Module } from '@/api/fetchers.schemas'
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed/ButtonSubmitFixed'
 import { LoaderContent } from '@/components/Loader'
@@ -22,12 +22,10 @@ const ModuleEdit = () => {
 
     const { canEditModule } = usePermissions()
 
-    const { data: { Module: module } = {}, isLoading } = useModulesModuleIdGet(
-        parseInt(moduleId!),
-        {
+    const { data: { Module: module } = {}, isLoading } =
+        useModulesViewModuleOverview(parseInt(moduleId!), {
             query: { enabled: !!moduleId },
-        }
-    )
+        })
 
     const { useEditModule, isModuleManager } = useModule()
     const { mutateAsync } = useEditModule('moduleEdit', () =>

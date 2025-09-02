@@ -1,15 +1,15 @@
 import { FilePdf } from '@pzh-ui/icons'
 
 import {
-    useDocumentStaticLineageIdPost,
-    useDocumentenLatestLineageIdGet,
-    useDocumentenValidGet,
-    useDocumentenValidLineageIdGet,
-    useDocumentenVersionObjectUuidGet,
-    useModulesModuleIdObjectDocumentLatestLineageIdGet,
-    useModulesModuleIdObjectDocumentLineageIdPatch,
-    useModulesObjectDocumentActiveLineageIdGet,
-    useRevisionsModuleIdDocumentVersionObjectUuidGet,
+    useDocumentEditObjectStatic,
+    useDocumentGetListActiveModuleObjects,
+    useDocumentListValidLineageTree,
+    useDocumentListValidLineages,
+    useDocumentPostModulePatchObject,
+    useDocumentViewModuleObjectLatest,
+    useDocumentViewObjectLatest,
+    useDocumentViewObjectVersion,
+    useGetRevisionsDocumentVersion,
 } from '@/api/fetchers'
 import {
     DocumentPatch,
@@ -21,24 +21,23 @@ import { schemaDefaults } from '@/validation/zodSchema'
 import { DynamicObject } from './types'
 
 const fetchers = {
-    useGetValid: useDocumentenValidGet,
-    useGetValidLineage: useDocumentenValidLineageIdGet,
-    useGetVersion: useDocumentenVersionObjectUuidGet,
-    useGetLatestLineage: useDocumentenLatestLineageIdGet,
-    useGetRevision: useRevisionsModuleIdDocumentVersionObjectUuidGet,
+    useGetValid: useDocumentListValidLineages,
+    useGetValidLineage: useDocumentListValidLineageTree,
+    useGetVersion: useDocumentViewObjectVersion,
+    useGetLatestLineage: useDocumentViewObjectLatest,
+    useGetRevision: useGetRevisionsDocumentVersion,
     useGetRelations: null,
     usePutRelations: null,
-    useGetLatestLineageInModule:
-        useModulesModuleIdObjectDocumentLatestLineageIdGet,
-    usePatchObjectInModule: useModulesModuleIdObjectDocumentLineageIdPatch,
+    useGetLatestLineageInModule: useDocumentViewModuleObjectLatest,
+    usePatchObjectInModule: useDocumentPostModulePatchObject,
     usePatchObject: null,
     useDeleteObject: null,
-    usePostStatic: useDocumentStaticLineageIdPost,
+    usePostStatic: useDocumentEditObjectStatic,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
     usePostObject: null,
-    useGetActiveModules: useModulesObjectDocumentActiveLineageIdGet,
+    useGetActiveModules: useDocumentGetListActiveModuleObjects,
 }
 
 const document: DynamicObject<

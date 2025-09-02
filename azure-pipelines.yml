@@ -11,7 +11,6 @@ pool:
 
 variables:
     VITE_API_ENV: $(Build.SourceBranchName)
-    YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn/cache
 
 stages:
     - stage: Build
@@ -19,19 +18,18 @@ stages:
       jobs:
           - job:
             steps:
-                # Cache .yarn/cache for faster installs
+                # Cache node_modules for faster installs
                 - task: Cache@2
                   inputs:
-                      key: 'yarn | $(Agent.OS) | yarn.lock'
+                      key: 'yarn | "$(Agent.OS)" | yarn.lock'
                       restoreKeys: |
-                          yarn | $(Agent.OS)
-                          yarn
-                      path: $(YARN_CACHE_FOLDER)
-                  displayName: Cache dependencies
+                          yarn | "$(Agent.OS)"
+                      path: .yarn/cache
+                  displayName: Cache Yarn cache
 
                 - task: NodeTool@0
                   inputs:
-                      versionSpec: '18.x'
+                      versionSpec: '20.x'
                   displayName: Install Node.js
 
                   # Enable Corepack

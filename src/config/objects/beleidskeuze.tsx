@@ -3,21 +3,21 @@ import { AngleDown, Split } from '@pzh-ui/icons'
 import { Link } from 'react-router-dom'
 
 import {
-    getBeleidskeuzeAcknowledgedRelationsLineageIdGetQueryKey,
-    useBeleidskeuzeAcknowledgedRelationsLineageIdEditPost,
-    useBeleidskeuzeAcknowledgedRelationsLineageIdGet,
-    useBeleidskeuzeAcknowledgedRelationsLineageIdPost,
-    useBeleidskeuzeStaticLineageIdPost,
-    useBeleidskeuzesLatestLineageIdGet,
-    useBeleidskeuzesRelationsLineageIdGet,
-    useBeleidskeuzesRelationsLineageIdPut,
-    useBeleidskeuzesValidGet,
-    useBeleidskeuzesValidLineageIdGet,
-    useBeleidskeuzesVersionObjectUuidGet,
-    useModulesModuleIdObjectBeleidskeuzeLatestLineageIdGet,
-    useModulesModuleIdObjectBeleidskeuzeLineageIdPatch,
-    useModulesObjectsBeleidskeuzeActiveLineageIdGet,
-    useRevisionsModuleIdBeleidskeuzeVersionObjectUuidGet,
+    getBeleidskeuzeGetAcknowledgedRelationListQueryKey,
+    useBeleidskeuzeEditObjectStatic,
+    useBeleidskeuzeGetAcknowledgedRelationList,
+    useBeleidskeuzeGetAcknowledgedRelationRequest,
+    useBeleidskeuzeGetListActiveModuleObjects,
+    useBeleidskeuzeGetRelationsList,
+    useBeleidskeuzeListValidLineageTree,
+    useBeleidskeuzeListValidLineages,
+    useBeleidskeuzePostAcknowledgedRelationEdit,
+    useBeleidskeuzePostModulePatchObject,
+    useBeleidskeuzePostRelationsOverwrite,
+    useBeleidskeuzeViewModuleObjectLatest,
+    useBeleidskeuzeViewObjectLatest,
+    useBeleidskeuzeViewObjectVersion,
+    useGetRevisionsBeleidskeuzeVersion,
 } from '@/api/fetchers'
 import {
     BeleidskeuzePatch,
@@ -29,32 +29,28 @@ import { schemaDefaults } from '@/validation/zodSchema'
 import { DynamicObject } from './types'
 
 const fetchers = {
-    useGetValid: useBeleidskeuzesValidGet,
-    useGetValidLineage: useBeleidskeuzesValidLineageIdGet,
-    useGetVersion: useBeleidskeuzesVersionObjectUuidGet,
-    useGetLatestLineage: useBeleidskeuzesLatestLineageIdGet,
-    useGetRevision: useRevisionsModuleIdBeleidskeuzeVersionObjectUuidGet,
-    useGetRelations: useBeleidskeuzesRelationsLineageIdGet,
-    usePutRelations: useBeleidskeuzesRelationsLineageIdPut,
-    useGetLatestLineageInModule:
-        useModulesModuleIdObjectBeleidskeuzeLatestLineageIdGet,
-    usePatchObjectInModule: useModulesModuleIdObjectBeleidskeuzeLineageIdPatch,
+    useGetValid: useBeleidskeuzeListValidLineages,
+    useGetValidLineage: useBeleidskeuzeListValidLineageTree,
+    useGetVersion: useBeleidskeuzeViewObjectVersion,
+    useGetLatestLineage: useBeleidskeuzeViewObjectLatest,
+    useGetRevision: useGetRevisionsBeleidskeuzeVersion,
+    useGetRelations: useBeleidskeuzeGetRelationsList,
+    usePutRelations: useBeleidskeuzePostRelationsOverwrite,
+    useGetLatestLineageInModule: useBeleidskeuzeViewModuleObjectLatest,
+    usePatchObjectInModule: useBeleidskeuzePostModulePatchObject,
     usePatchObject: null,
     useDeleteObject: null,
-    usePostStatic: useBeleidskeuzeStaticLineageIdPost,
-    useGetAcknowledgedRelations:
-        useBeleidskeuzeAcknowledgedRelationsLineageIdGet,
-    usePostAcknowledgedRelations:
-        useBeleidskeuzeAcknowledgedRelationsLineageIdPost,
-    usePatchAcknowledgedRelations:
-        useBeleidskeuzeAcknowledgedRelationsLineageIdEditPost,
+    usePostStatic: useBeleidskeuzeEditObjectStatic,
+    useGetAcknowledgedRelations: useBeleidskeuzeGetAcknowledgedRelationList,
+    usePostAcknowledgedRelations: useBeleidskeuzeGetAcknowledgedRelationRequest,
+    usePatchAcknowledgedRelations: useBeleidskeuzePostAcknowledgedRelationEdit,
     usePostObject: null,
-    useGetActiveModules: useModulesObjectsBeleidskeuzeActiveLineageIdGet,
+    useGetActiveModules: useBeleidskeuzeGetListActiveModuleObjects,
 }
 
 const queryKeys = {
     getAcknowledgedRelations:
-        getBeleidskeuzeAcknowledgedRelationsLineageIdGetQueryKey,
+        getBeleidskeuzeGetAcknowledgedRelationListQueryKey,
 }
 
 const beleidskeuze: DynamicObject<
@@ -148,7 +144,7 @@ const beleidskeuze: DynamicObject<
                 },
                 {
                     name: 'Provincial_Interest',
-                    label: 'Provinciaal belang',
+                    label: 'Motivering provinciaal belang',
                     description:
                         'Beschrijf waarom de provincie deze keuze maakt en waarom dit niet (enkel) kan worden overgelaten aan andere overheden. Vanuit juridisch perspectief is het belangrijk om het provinciaal belang te definiëren. Zie ook artikel 2.3 van de Omgevingswet.',
                     type: 'wysiwyg',

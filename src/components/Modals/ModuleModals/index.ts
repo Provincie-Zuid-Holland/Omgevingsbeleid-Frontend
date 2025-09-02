@@ -6,9 +6,9 @@ import ModuleLockModal from './ModuleLockModal'
 import ModuleObjectDeleteConfirmationModal from './ModuleObjectDeleteConfirmationModal'
 
 export {
-    ModuleContentsModal,
     ModuleActivateModal,
     ModuleCompleteModal,
+    ModuleContentsModal,
     ModuleEditObjectModal,
     ModuleLockModal,
     ModuleObjectDeleteConfirmationModal,

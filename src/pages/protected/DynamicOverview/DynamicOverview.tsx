@@ -14,8 +14,8 @@ import { keepPreviousData } from '@tanstack/react-query'
 import { ChangeEvent, KeyboardEvent, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { useModulesObjectsLatestGet, useSearchValidPost } from '@/api/fetchers'
-import { ModuleObjectShortStatus } from '@/api/fetchers.schemas'
+import { useModulesGetListModuleObjects } from '@/api/fetchers'
+import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import usePermissions from '@/hooks/usePermissions'
@@ -86,17 +86,15 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
                             </Link>
                         </Button>
                     ) : (
-                        activeTab !== 'latest' && (
-                            <FieldInput
-                                key={plural}
-                                name="search"
-                                placeholder="Zoeken in lijst"
-                                className="min-w-[368px]"
-                                icon={MagnifyingGlass}
-                                onKeyDown={handleKeyDown}
-                                onChange={handleChange}
-                            />
-                        )
+                        <FieldInput
+                            key={plural + activeTab}
+                            name="search"
+                            placeholder="Zoeken in lijst"
+                            className="min-w-[368px]"
+                            icon={MagnifyingGlass}
+                            onKeyDown={handleKeyDown}
+                            onChange={handleChange}
+                        />
                     )}
                 </div>
 
@@ -105,9 +103,10 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
                 ) : (
                     <Tabs
                         selectedKey={activeTab}
-                        onSelectionChange={key =>
+                        onSelectionChange={key => {
                             setActiveTab(key as typeof activeTab)
-                        }>
+                            setQuery('')
+                        }}>
                         <TabItem title="Vigerend" key="valid">
                             <TabTable
                                 type="valid"
@@ -160,7 +159,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
      * Get correct data fetcher based on type
      */
     const useGetData =
-        type === 'valid' ? useGetValid : useModulesObjectsLatestGet
+        type === 'valid' ? useGetValid : useModulesGetListModuleObjects
 
     const { data, isFetching } = useGetData(
         {
@@ -171,6 +170,9 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
             ...(type === 'latest' && {
                 object_type: singular,
                 actions: ['Create', 'Edit'],
+            }),
+            ...(!!query && {
+                [type === 'valid' ? 'filter_title' : 'title']: `%${query}%`,
             }),
         },
         {
@@ -184,40 +186,12 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
         }
     )
 
-    const {
-        data: searchData,
-        isPending: searchLoading,
-        mutate,
-    } = useSearchValidPost()
-
-    useUpdateEffect(() => {
-        if (!query) {
-            return
-        }
-
-        mutate({
-            data: {
-                Object_Types: [singular],
-            },
-            params: {
-                query,
-                limit: 50,
-            },
-        })
-    }, [query, pageIndex])
-
     useUpdateEffect(() => {
         setPagination({
             pageIndex: 1,
             pageSize: PAGE_LIMIT,
         })
     }, [plural])
-
-    /**
-     * Show search results if query is not empty and tab is valid
-     */
-    const results =
-        !!query && activeTab !== 'latest' ? searchData?.results : data?.results
 
     /**
      * Setup Table columns
@@ -249,14 +223,14 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
      */
     const formattedData = useMemo(
         () =>
-            results?.map(
+            data?.results?.map(
                 ({
                     Title,
                     Modified_Date,
                     Object_ID,
                     Object_Type,
                     ...props
-                }: ModelReturnType | ModuleObjectShortStatus) => ({
+                }: ModelReturnType | ModuleObjectShort) => ({
                     Title: (
                         <Text bold color="text-pzh-blue-500">
                             {Title}
@@ -288,13 +262,13 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                                           atemporal ? '/bewerk' : ''
                                       }`
                                     : 'Module_ID' in props
-                                    ? `/muteer/modules/${props.Module_ID}/${Object_Type}/${Object_ID}`
-                                    : ''
+                                      ? `/muteer/modules/${props.Module_ID}/${Object_Type}/${Object_ID}`
+                                      : ''
                             ),
                     }),
                 })
             ) || [],
-        [results, atemporal, plural, canCreateModule, navigate, type]
+        [data?.results, atemporal, plural, canCreateModule, navigate, type]
     )
 
     return (
@@ -314,15 +288,15 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                     }}
                     onSortingChange={setSortBy}
                     manualSorting
-                    isLoading={isFetching || searchLoading}
+                    isLoading={isFetching}
                 />
             ) : !isFetching ? (
                 <span className="italic">
                     {!!query
                         ? `Er zijn geen resultaten gevonden voor '${query}'`
                         : type === 'valid'
-                        ? `Er zijn geen vigerende ${pluralCapitalize.toLowerCase()} gevonden`
-                        : `Er zijn geen ${pluralCapitalize.toLowerCase()} in ontwerp`}
+                          ? `Er zijn geen vigerende ${pluralCapitalize.toLowerCase()} gevonden`
+                          : `Er zijn geen ${pluralCapitalize.toLowerCase()} in ontwerp`}
                 </span>
             ) : (
                 <div className="mt-8 flex justify-center">

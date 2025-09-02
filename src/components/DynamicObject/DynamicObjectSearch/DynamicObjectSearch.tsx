@@ -4,11 +4,11 @@ import { useFormikContext } from 'formik'
 import debounce from 'lodash.debounce'
 import { useState } from 'react'
 
-import { searchPost, searchValidPost } from '@/api/fetchers'
+import { searchGetMssqlSearch, searchGetMssqlValidSearch } from '@/api/fetchers'
 import { SearchObject, ValidSearchObject } from '@/api/fetchers.schemas'
 import { ModelType } from '@/config/objects/types'
 
-type Option = {
+export type Option = {
     label: JSX.Element
     value: string | number
     object?: SearchObject
@@ -37,6 +37,8 @@ export interface DynamicObjectSearchProps
     filterType?: ModelType[]
     /** Status of object */
     status?: 'valid' | 'all'
+    /** Initial options  */
+    initialOptions?: Option[]
 }
 
 const DynamicObjectSearch = ({
@@ -47,13 +49,15 @@ const DynamicObjectSearch = ({
     filter,
     filterType,
     status = 'valid',
+    initialOptions = [],
     ...rest
 }: DynamicObjectSearchProps) => {
     const { setFieldValue } = useFormikContext()
 
-    const [optionsState, setOptionsState] = useState<Option[]>([])
+    const [optionsState, setOptionsState] = useState<Option[]>(initialOptions)
 
-    const searchEndpoint = status === 'valid' ? searchValidPost : searchPost
+    const searchEndpoint =
+        status === 'valid' ? searchGetMssqlValidSearch : searchGetMssqlSearch
 
     const loadSuggestions = (
         query: string,
@@ -72,8 +76,8 @@ const DynamicObjectSearch = ({
                                       object.Object_ID
                                   )
                             : objectKey === 'Object_UUID'
-                            ? object.UUID !== filter
-                            : object.Object_ID !== filter
+                              ? object.UUID !== filter
+                              : object.Object_ID !== filter
                     )
                 }
 
@@ -101,10 +105,10 @@ const DynamicObjectSearch = ({
                             objectKey === 'Object_UUID'
                                 ? object.UUID
                                 : objectKey === 'Hierarchy_Code' ||
-                                  objectKey === 'Werkingsgebied_Code' ||
-                                  objectKey === 'Document_Code'
-                                ? object.Object_Code
-                                : object.Object_ID,
+                                    objectKey === 'Werkingsgebied_Code' ||
+                                    objectKey === 'Document_Code'
+                                  ? object.Object_Code
+                                  : object.Object_ID,
                         object,
                     })
                 )

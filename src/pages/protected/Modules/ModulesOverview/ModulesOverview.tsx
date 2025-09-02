@@ -15,7 +15,7 @@ import { Form, Formik } from 'formik'
 import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { useModulesGet } from '@/api/fetchers'
+import { useModulesGetListModules } from '@/api/fetchers'
 import { ModuleSortColumn } from '@/api/fetchers.schemas'
 import { LoaderCard } from '@/components/Loader'
 import ModuleTile from '@/components/Modules/ModuleTile'
@@ -93,7 +93,7 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
         pageSize: PAGE_LIMIT,
     })
 
-    const { data: modules, isFetching } = useModulesGet(
+    const { data: modules, isFetching } = useModulesGetListModules(
         {
             filter_activated: activeTab === 'inactive' ? false : true,
             filter_closed: activeTab === 'archive' ? true : false,

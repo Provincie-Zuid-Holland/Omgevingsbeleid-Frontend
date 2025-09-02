@@ -4,7 +4,10 @@ import { Form, Formik, FormikHelpers } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
-import { getModulesGetQueryKey, useModulesPost } from '@/api/fetchers'
+import {
+    getModulesGetListModulesQueryKey,
+    useModulesPostCreateModule,
+} from '@/api/fetchers'
 import { ModuleCreate as ModuleCreateSchema } from '@/api/fetchers.schemas'
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed/ButtonSubmitFixed'
 import { FormBasicInfo } from '@/components/Modules/ModuleForm'
@@ -18,12 +21,12 @@ const ModuleCreate = () => {
 
     const navigate = useNavigate()
 
-    const { mutateAsync, isPending } = useModulesPost({
+    const { mutateAsync, isPending } = useModulesPostCreateModule({
         mutation: {
             onSuccess: res => {
                 queryClient
                     .invalidateQueries({
-                        queryKey: getModulesGetQueryKey(),
+                        queryKey: getModulesGetListModulesQueryKey(),
                         refetchType: 'all',
                     })
                     .then(() => navigate(`/muteer/modules/${res.Module_ID}`))
@@ -71,7 +74,7 @@ const ModuleCreate = () => {
                             </div>
 
                             <ButtonSubmitFixed
-                                onCancel={() => navigate('/muteer')}
+                                onCancel={() => navigate('/muteer/modules')}
                                 disabled={isSubmitting || isPending}
                                 isLoading={isPending}
                             />

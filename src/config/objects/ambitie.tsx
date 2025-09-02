@@ -3,17 +3,17 @@ import { ArrowTrendUp } from '@pzh-ui/icons'
 import { Link } from 'react-router-dom'
 
 import {
-    useAmbitieStaticLineageIdPost,
-    useAmbitiesLatestLineageIdGet,
-    useAmbitiesRelationsLineageIdGet,
-    useAmbitiesRelationsLineageIdPut,
-    useAmbitiesValidGet,
-    useAmbitiesValidLineageIdGet,
-    useAmbitiesVersionObjectUuidGet,
-    useModulesModuleIdObjectAmbitieLatestLineageIdGet,
-    useModulesModuleIdObjectAmbitieLineageIdPatch,
-    useModulesObjectAmbitieActiveLineageIdGet,
-    useRevisionsModuleIdAmbitieVersionObjectUuidGet,
+    useAmbitieEditObjectStatic,
+    useAmbitieGetListActiveModuleObjects,
+    useAmbitieGetRelationsList,
+    useAmbitieListValidLineageTree,
+    useAmbitieListValidLineages,
+    useAmbitiePostModulePatchObject,
+    useAmbitiePostRelationsOverwrite,
+    useAmbitieViewModuleObjectLatest,
+    useAmbitieViewObjectLatest,
+    useAmbitieViewObjectVersion,
+    useGetRevisionsAmbitieVersion,
 } from '@/api/fetchers'
 import { AmbitiePatch, AmbitieStaticPostStatics } from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
@@ -22,24 +22,23 @@ import { schemaDefaults } from '@/validation/zodSchema'
 import { DynamicObject } from './types'
 
 const fetchers = {
-    useGetValid: useAmbitiesValidGet,
-    useGetValidLineage: useAmbitiesValidLineageIdGet,
-    useGetVersion: useAmbitiesVersionObjectUuidGet,
-    useGetLatestLineage: useAmbitiesLatestLineageIdGet,
-    useGetRevision: useRevisionsModuleIdAmbitieVersionObjectUuidGet,
-    useGetRelations: useAmbitiesRelationsLineageIdGet,
-    usePutRelations: useAmbitiesRelationsLineageIdPut,
-    useGetLatestLineageInModule:
-        useModulesModuleIdObjectAmbitieLatestLineageIdGet,
-    usePatchObjectInModule: useModulesModuleIdObjectAmbitieLineageIdPatch,
+    useGetValid: useAmbitieListValidLineages,
+    useGetValidLineage: useAmbitieListValidLineageTree,
+    useGetVersion: useAmbitieViewObjectVersion,
+    useGetLatestLineage: useAmbitieViewObjectLatest,
+    useGetRevision: useGetRevisionsAmbitieVersion,
+    useGetRelations: useAmbitieGetRelationsList,
+    usePutRelations: useAmbitiePostRelationsOverwrite,
+    useGetLatestLineageInModule: useAmbitieViewModuleObjectLatest,
+    usePatchObjectInModule: useAmbitiePostModulePatchObject,
     usePatchObject: null,
     useDeleteObject: null,
-    usePostStatic: useAmbitieStaticLineageIdPost,
+    usePostStatic: useAmbitieEditObjectStatic,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
     usePostObject: null,
-    useGetActiveModules: useModulesObjectAmbitieActiveLineageIdGet,
+    useGetActiveModules: useAmbitieGetListActiveModuleObjects,
 }
 
 const ambitie: DynamicObject<

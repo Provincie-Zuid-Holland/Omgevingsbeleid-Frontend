@@ -5,13 +5,13 @@ import { Link, Outlet, useParams } from 'react-router-dom'
 import { useShallow } from 'zustand/react/shallow'
 
 import {
-    usePublicationActPackagesGet,
-    usePublicationAnnouncementPackagesGet,
-    usePublicationAnnouncementsGet,
-    usePublicationEnvironmentsEnvironmentUuidGet,
-    usePublicationEnvironmentsGet,
-    usePublicationsGet,
-    usePublicationVersionsVersionUuidGet,
+    usePublicationActPackagesGetListActPackages,
+    usePublicationAnnouncementPackagesGetListAnnouncementPackages,
+    usePublicationAnnouncementsGetListAnnouncements,
+    usePublicationEnvironmentsGetDetailEnvironment,
+    usePublicationEnvironmentsGetListEnvironments,
+    usePublicationsGetListPublications,
+    usePublicationVersionsGetDetailVersion,
 } from '@/api/fetchers'
 import {
     DocumentType,
@@ -63,12 +63,13 @@ export const Publications = () => {
     const procedureTypes = Object.keys(ProcedureType) as Array<ProcedureType>
 
     const { data: publications, isFetching: publicationsFetching } =
-        usePublicationsGet({
+        usePublicationsGetListPublications({
             module_id: parseInt(moduleId!),
             limit: 100,
         })
 
-    const { data: environments } = usePublicationEnvironmentsGet({ limit: 100 })
+    const { data: environments } =
+        usePublicationEnvironmentsGetListEnvironments({ limit: 100 })
 
     useEffect(() => {
         if (!!publications?.results.length && !publicationsFetching) {
@@ -130,14 +131,14 @@ export const Packages = () => {
     const { moduleId, versionUUID } = useParams()
 
     const { data: version, isFetching: versionFetching } =
-        usePublicationVersionsVersionUuidGet(String(versionUUID), {
+        usePublicationVersionsGetDetailVersion(String(versionUUID), {
             query: {
                 enabled: !!versionUUID,
             },
         })
 
     const { data: environment, isFetching: environmentFetching } =
-        usePublicationEnvironmentsEnvironmentUuidGet(
+        usePublicationEnvironmentsGetDetailEnvironment(
             String(version?.Publication.Environment_UUID),
             {
                 query: {
@@ -146,27 +147,29 @@ export const Packages = () => {
             }
         )
 
-    const { data: validActPackage } = usePublicationActPackagesGet(
-        {
-            version_uuid: version?.UUID,
-            package_type: PackageType['publication'],
-            limit: 3,
-            sort_column: 'Created_Date',
-            sort_order: 'DESC',
-        },
-        {
-            query: {
-                enabled: !!version?.UUID,
-                select: data =>
-                    data.results.find(
-                        pkg => pkg.Report_Status === ReportStatusType['valid']
-                    ),
+    const { data: validActPackage } =
+        usePublicationActPackagesGetListActPackages(
+            {
+                version_uuid: version?.UUID,
+                package_type: PackageType['publication'],
+                limit: 3,
+                sort_column: 'Created_Date',
+                sort_order: 'DESC',
             },
-        }
-    )
+            {
+                query: {
+                    enabled: !!version?.UUID,
+                    select: data =>
+                        data.results.find(
+                            pkg =>
+                                pkg.Report_Status === ReportStatusType['valid']
+                        ),
+                },
+            }
+        )
 
     const { data: announcement, isFetching: announcementFetching } =
-        usePublicationAnnouncementsGet(
+        usePublicationAnnouncementsGetListAnnouncements(
             {
                 limit: 100,
                 act_package_uuid: validActPackage?.UUID,
@@ -180,7 +183,7 @@ export const Packages = () => {
         )
 
     const { data: validAnnouncementPackage } =
-        usePublicationAnnouncementPackagesGet(
+        usePublicationAnnouncementPackagesGetListAnnouncementPackages(
             {
                 announcement_uuid: announcement?.UUID,
                 limit: 3,

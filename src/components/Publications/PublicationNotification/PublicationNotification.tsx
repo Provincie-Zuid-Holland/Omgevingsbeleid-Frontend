@@ -3,8 +3,8 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
 import {
-    getPublicationAnnouncementsGetQueryKey,
-    usePublicationActPackagesActPackageUuidCreateAnnouncementPost,
+    getPublicationAnnouncementsGetListAnnouncementsQueryKey,
+    usePublicationAnnouncementsPostCreateAnnouncement,
 } from '@/api/fetchers'
 import {
     PublicationAnnouncementShort,
@@ -30,14 +30,18 @@ const PublicationNotification = ({
     const queryClient = useQueryClient()
 
     const { mutate: createAnnouncement } =
-        usePublicationActPackagesActPackageUuidCreateAnnouncementPost({
+        usePublicationAnnouncementsPostCreateAnnouncement({
             mutation: {
                 onSuccess: () => {
                     queryClient.invalidateQueries({
-                        queryKey: getPublicationAnnouncementsGetQueryKey({
-                            act_package_uuid: validPublicationPackage.UUID,
-                            limit: 100,
-                        }),
+                        queryKey:
+                            getPublicationAnnouncementsGetListAnnouncementsQueryKey(
+                                {
+                                    act_package_uuid:
+                                        validPublicationPackage.UUID,
+                                    limit: 100,
+                                }
+                            ),
                     })
                 },
             },

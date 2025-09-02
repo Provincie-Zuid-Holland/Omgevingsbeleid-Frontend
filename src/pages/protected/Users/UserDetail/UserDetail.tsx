@@ -4,9 +4,9 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 
 import {
-    getUsersSearchGetQueryKey,
-    useUsersUserUuidGet,
-    useUsersUserUuidPost,
+    getUserGetSearchUsersQueryKey,
+    useUserPostEditUser,
+    useUserViewGetUser,
 } from '@/api/fetchers'
 import { LoaderCard } from '@/components/Loader'
 import UserEditModal from '@/components/Modals/UserModals/UserEditModal'
@@ -21,13 +21,13 @@ const UserDetail = () => {
     const { uuid } = useParams()
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { data, isLoading, queryKey } = useUsersUserUuidGet(uuid!, {
+    const { data, isLoading, queryKey } = useUserViewGetUser(uuid!, {
         query: {
             enabled: !!uuid,
         },
     })
 
-    const { mutate } = useUsersUserUuidPost({
+    const { mutate } = useUserPostEditUser({
         mutation: {
             onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey })
@@ -42,7 +42,7 @@ const UserDetail = () => {
                 onSuccess: () =>
                     queryClient
                         .invalidateQueries({
-                            queryKey: getUsersSearchGetQueryKey(),
+                            queryKey: getUserGetSearchUsersQueryKey(),
                             refetchType: 'all',
                         })
                         .then(() =>
@@ -73,7 +73,7 @@ const UserDetail = () => {
                     </Heading>
                 </div>
                 <div className="col-span-6 lg:col-span-3 xl:col-span-2">
-                    <div className="flex items-center justify-between gap-4 rounded border border-pzh-gray-200 px-6 py-4">
+                    <div className="border-pzh-gray-200 flex items-center justify-between gap-4 rounded border px-6 py-4">
                         <Text
                             bold
                             className="-mb-1 whitespace-nowrap"
@@ -99,7 +99,7 @@ const UserDetail = () => {
                     </div>
                 </div>
                 <div className="col-span-6">
-                    <Divider className="mb-10 mt-6" />
+                    <Divider className="mt-6 mb-10" />
                 </div>
                 <div className="col-span-6 flex flex-col gap-4 lg:col-span-3 xl:col-span-4">
                     <div className="mb-2 flex items-center justify-between">
@@ -108,7 +108,7 @@ const UserDetail = () => {
                         </Heading>
                         <button
                             onClick={() => setActiveModal('userEdit')}
-                            className="text-s text-pzh-green-500 underline hover:text-pzh-green-900">
+                            className="text-s text-pzh-green-500 hover:text-pzh-green-900 underline">
                             Gegevens wijzigen
                         </button>
                     </div>
@@ -162,7 +162,7 @@ const Item = ({
     value?: string
     isLoading: boolean
 }) => (
-    <div className="flex border-b border-pzh-gray-200 pb-2">
+    <div className="border-pzh-gray-200 flex border-b pb-2">
         <Text bold className="w-40">
             {label}
         </Text>

@@ -94,7 +94,7 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
                                     color="text-pzh-white"
                                     className="block">
                                     Gebiedsaanwijzing:
-                                    <strong className="ml-1 font-bold text-pzh-white">
+                                    <strong className="text-pzh-white ml-1 font-bold">
                                         {label}
                                     </strong>
                                 </Text>
@@ -102,7 +102,7 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
                             <Button
                                 key={label}
                                 variant="default"
-                                className="text-pzh-red-900 underline hover:text-pzh-blue-900"
+                                className="text-pzh-red-900 hover:text-pzh-blue-900 underline"
                                 onPress={() =>
                                     setActiveModal('objectArea', {
                                         moduleId,
@@ -151,7 +151,7 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
                     {customTitle?.[value] || title}
                 </Heading>
             )}
-            <Wrapper className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-h3:text-pzh-blue-900 prose-li:my-0 md:mb-8">
+            <Wrapper className="prose prose-neutral text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-h3:text-pzh-blue-900 prose-li:my-0 mb-4 max-w-full whitespace-pre-line md:mb-8">
                 {parsedContent}
             </Wrapper>
             <ObjectAreaModal />
@@ -172,7 +172,7 @@ interface ListProps {
 const List = ({ title, description, items, hidden }: ListProps) => (
     <div
         data-section={title}
-        className="prose prose-neutral mb-4 max-w-full whitespace-pre-line text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 md:mb-8">
+        className="prose prose-neutral text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 mb-4 max-w-full whitespace-pre-line md:mb-8">
         <Heading
             level="2"
             className={classNames('mb-4', { 'sr-only': hidden })}>
@@ -235,7 +235,7 @@ export const fields: {
         value: 'Cause',
     },
     {
-        title: 'Provinciaal Belang',
+        title: 'Motivering provinciaal belang',
         value: 'Provincial_Interest',
     },
     {

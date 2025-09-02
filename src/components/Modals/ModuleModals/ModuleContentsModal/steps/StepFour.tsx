@@ -8,7 +8,10 @@ import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { useModulesGet, useModulesModuleIdGet } from '@/api/fetchers'
+import {
+    useModulesGetListModules,
+    useModulesViewModuleOverview,
+} from '@/api/fetchers'
 import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
@@ -22,7 +25,7 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
     const { values, setFieldValue, setFieldError } =
         useFormikContext<ContentsModalForm>()
 
-    const { data, isFetching } = useModulesGet(
+    const { data, isFetching } = useModulesGetListModules(
         {
             only_mine: false,
             filter_activated: true,
@@ -40,7 +43,7 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
     )
 
     const { data: moduleObjects, isFetching: moduleIsFetching } =
-        useModulesModuleIdGet(values.validOrModule as number, {
+        useModulesViewModuleOverview(values.validOrModule as number, {
             query: {
                 enabled:
                     !!values.validOrModule && values.validOrModule !== 'valid',

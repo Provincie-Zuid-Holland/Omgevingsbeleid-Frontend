@@ -2,10 +2,10 @@ import { useQueryClient } from '@tanstack/react-query'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import {
-    getPublicationVersionsVersionUuidGetQueryKey,
-    getPublicationsPublicationUuidVersionsGetQueryKey,
-    usePublicationVersionsVersionUuidGet,
-    usePublicationVersionsVersionUuidPost,
+    getPublicationVersionsGetDetailVersionQueryKey,
+    getPublicationVersionsGetListVersionsQueryKey,
+    usePublicationVersionsGetDetailVersion,
+    usePublicationVersionsPostEditVersion,
 } from '@/api/fetchers'
 import { PublicationVersionEdit } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
@@ -24,7 +24,7 @@ const PublicationVersionEditModal = () => {
         state => state.modalStates['publicationVersionEdit']
     ) as ModalStateMap['publicationVersionEdit']
 
-    const { data, isFetching } = usePublicationVersionsVersionUuidGet(
+    const { data, isFetching } = usePublicationVersionsGetDetailVersion(
         modalState?.UUID,
         {
             query: {
@@ -33,16 +33,16 @@ const PublicationVersionEditModal = () => {
         }
     )
 
-    const { mutate } = usePublicationVersionsVersionUuidPost({
+    const { mutate } = usePublicationVersionsPostEditVersion({
         mutation: {
             onSuccess: () => {
                 queryClient.invalidateQueries({
-                    queryKey: getPublicationsPublicationUuidVersionsGetQueryKey(
+                    queryKey: getPublicationVersionsGetListVersionsQueryKey(
                         modalState.publication.UUID
                     ),
                 })
                 queryClient.invalidateQueries({
-                    queryKey: getPublicationVersionsVersionUuidGetQueryKey(
+                    queryKey: getPublicationVersionsGetDetailVersionQueryKey(
                         modalState.UUID
                     ),
                 })

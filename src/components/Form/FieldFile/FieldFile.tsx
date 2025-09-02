@@ -8,7 +8,7 @@ import {
 import { useFormikContext } from 'formik'
 import { useEffect, useState } from 'react'
 
-import { useStorageFilesFileUuidGet } from '@/api/fetchers'
+import { useStorageFileGetFilesDetail } from '@/api/fetchers'
 import { ModelReturnType } from '@/config/objects/types'
 import { DynamicField } from '@/config/types'
 
@@ -21,7 +21,7 @@ const FieldFile = ({
     const { values, setFieldValue } = useFormikContext<ModelReturnType>()
     const [fileName, setFileName] = useState<string | undefined>()
 
-    const { data } = useStorageFilesFileUuidGet(String(values.File_UUID), {
+    const { data } = useStorageFileGetFilesDetail(String(values.File_UUID), {
         query: { enabled: !!values.File_UUID },
     })
 

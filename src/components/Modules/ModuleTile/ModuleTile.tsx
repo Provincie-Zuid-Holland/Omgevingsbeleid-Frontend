@@ -1,13 +1,19 @@
-import { Badge, Button, Heading, Text } from '@pzh-ui/components'
+import { Badge, Heading, Text } from '@pzh-ui/components'
 import { Link } from 'react-router-dom'
 
-import { Module } from '@/api/fetchers.schemas'
+import { Module, ModuleShort } from '@/api/fetchers.schemas'
+import { getModuleStatusColor } from '@/utils/module'
 
-const ModuleTile = ({ Title, Description, Status, Module_ID }: Module) => (
+const ModuleTile = ({
+    Title,
+    Description,
+    Status,
+    Module_ID,
+}: Module | ModuleShort) => (
     <Link
         to={`/muteer/modules/${Module_ID}`}
         data-testid="dashboard-module-tile"
-        className="group flex flex-col justify-between rounded border border-pzh-gray-200 p-6">
+        className="group border-pzh-gray-200 flex flex-col justify-between rounded border p-6">
         <div className="mb-4">
             <Heading level="3" size="m">
                 {Title}
@@ -19,17 +25,13 @@ const ModuleTile = ({ Title, Description, Status, Module_ID }: Module) => (
         <div className="flex items-center justify-between">
             <Badge
                 text={Status?.Status.replace('-', ' ') || ''}
-                variant={Status?.Status === 'Niet-Actief' ? 'gray' : 'green'}
+                variant={getModuleStatusColor(Status?.Status)}
                 upperCase={false}
-                solid={Status?.Status === 'Vastgesteld'}
                 className="whitespace-nowrap"
             />
-            <Button
-                variant="link"
-                size="small"
-                className="text-pzh-green-500 group-hover:text-pzh-green-900 group-hover:no-underline">
+            <button className="text-pzh-green-500 text-s group-hover:text-pzh-green-900 underline group-hover:no-underline">
                 Bekijk module
-            </Button>
+            </button>
         </div>
     </Link>
 )
