@@ -6,8 +6,10 @@ import { useVisieAlgemeenListValidLineages } from '@/api/fetchers'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import { LoaderSpinner } from '@/components/Loader'
+import PageHero from '@/components/PageHero'
 import model from '@/config/objects/visieAlgemeen'
 import imgEnvironmentProgram from '@/images/environment-program.webp'
+import { useWindowSize } from '@react-hookz/web'
 
 const META = {
     title: 'Omgevingsvisie',
@@ -16,6 +18,8 @@ const META = {
 }
 
 function EnvironmentVision() {
+    const { width } = useWindowSize()
+
     const { data, isFetching } = useVisieAlgemeenListValidLineages(
         { limit: 100 },
         {
@@ -41,12 +45,8 @@ function EnvironmentVision() {
                 <meta name="og:description" content={META.description} />
             </Helmet>
 
-            <div
-                className="bg-pzh-blue-500 hidden h-[288px] w-full bg-cover bg-center bg-no-repeat md:block"
-                style={{
-                    backgroundImage: `url(${imgEnvironmentProgram})`,
-                }}
-            />
+            <PageHero image={imgEnvironmentProgram} />
+
             <Container className="overflow-hidden pb-20">
                 <div className="col-span-6 lg:col-span-4">
                     <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
