@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
+import PageHero from '@/components/PageHero'
 import imgEnvironmentProgram from '@/images/environment-program.webp'
 
 const META = {
@@ -25,12 +26,8 @@ function EnvironmentProgram() {
                 <meta name="og:description" content={META.description} />
             </Helmet>
 
-            <div
-                className="hidden h-[288px] w-full bg-pzh-blue-500 bg-cover bg-center bg-no-repeat md:block"
-                style={{
-                    backgroundImage: `url(${imgEnvironmentProgram})`,
-                }}
-            />
+            <PageHero image={imgEnvironmentProgram} />
+
             <Container className="overflow-hidden pb-20">
                 <div className="col-span-6 lg:col-span-4">
                     <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
@@ -63,7 +60,7 @@ function EnvironmentProgram() {
                         het Beheerplan Natura 2000 en het Actieplan geluid.
                     </Text>
                     <Link
-                        className="mt-3 block text-pzh-green-500 underline hover:text-pzh-green-900"
+                        className="text-pzh-green-500 hover:text-pzh-green-900 mt-3 block underline"
                         to="/omgevingsprogramma/verplichte-programmas">
                         Bekijk de verplichte programma’s
                     </Link>
@@ -77,7 +74,7 @@ function EnvironmentProgram() {
                         beleidsdoelen vindt u hier.
                     </Text>
                     <Link
-                        className="mt-3 block text-pzh-green-500 underline hover:text-pzh-green-900"
+                        className="text-pzh-green-500 hover:text-pzh-green-900 mt-3 block underline"
                         to="/omgevingsprogramma/thematische-programmas">
                         Bekijk de thematische programma’s
                     </Link>
@@ -91,7 +88,7 @@ function EnvironmentProgram() {
                         gebieden (welke soms overlappen) is hieronder te vinden.
                     </Text>
                     <Link
-                        className="mt-3 block text-pzh-green-500 underline hover:text-pzh-green-900"
+                        className="text-pzh-green-500 hover:text-pzh-green-900 mt-3 block underline"
                         to="/omgevingsprogramma/gebiedsprogrammas">
                         Bekijk de gebiedsprogramma’s
                     </Link>
@@ -105,7 +102,7 @@ function EnvironmentProgram() {
                         Omgevingsprogramma.
                     </Text>
                     <Link
-                        className="mt-3 block text-pzh-green-500 underline hover:text-pzh-green-900"
+                        className="text-pzh-green-500 hover:text-pzh-green-900 mt-3 block underline"
                         to="/omgevingsprogramma/maatregelen">
                         Bekijk de maatregelen
                     </Link>
