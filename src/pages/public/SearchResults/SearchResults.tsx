@@ -216,7 +216,10 @@ const SearchResults = () => {
                         </ul>
                     ) : (
                         <span className="text-pzh-gray-600 italic">
-                            Er zijn geen resultaten gevonden
+                            Er zijn geen resultaten gevonden voor{' '}
+                            <Text as="span" bold>
+                                {query}
+                            </Text>
                         </span>
                     )}
 
