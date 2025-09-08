@@ -51,6 +51,7 @@ const werkingsgebied: DynamicObject<
         singularReadable: 'werkingsgebied',
         singularCapitalize: 'Werkingsgebied',
         plural: 'werkingsgebieden',
+        pluralReadable: 'werkingsgebieden',
         pluralCapitalize: 'Werkingsgebieden',
         prefixSingular: 'het',
         prefixPlural: 'de',
