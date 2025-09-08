@@ -1,5 +1,4 @@
 import { Divider, Heading, Text } from '@pzh-ui/components'
-import { LinkSlash } from '@pzh-ui/icons'
 import { useMemo } from 'react'
 
 import ObjectAcknowledgedRelationPart from '@/components/DynamicObject/ObjectAcknowledgedRelationPart'
@@ -12,8 +11,7 @@ export const StepOne = ({
     relations,
     handleDisconnect,
 }: StepProps) => {
-    const { plural, pluralCapitalize, singular, singularCapitalize } =
-        model.defaults
+    const { plural, singular, singularReadable } = model.defaults
 
     const amount = useMemo(() => relations?.length || 0, [relations])
 
@@ -31,7 +29,7 @@ export const StepOne = ({
             <Divider className="mb-5" />
 
             <Text bold>
-                {amount} {amount !== 1 ? pluralCapitalize : singularCapitalize}
+                {amount} {amount !== 1 ? plural : singularReadable}
             </Text>
 
             {relations?.map((relation, index) => (
@@ -40,20 +38,9 @@ export const StepOne = ({
                     className="mt-3 flex items-center">
                     <ObjectAcknowledgedRelationPart
                         type="approved"
+                        handleDisconnect={handleDisconnect}
                         {...relation}
                     />
-                    <button
-                        type="button"
-                        className="px-3"
-                        onClick={() =>
-                            handleDisconnect(
-                                relation.Side_B.Object_ID,
-                                relation.Side_B.Title
-                            )
-                        }>
-                        <LinkSlash size={20} className="text-pzh-red-500" />
-                        <span className="sr-only">Wijzigen</span>
-                    </button>
                 </div>
             ))}
 
