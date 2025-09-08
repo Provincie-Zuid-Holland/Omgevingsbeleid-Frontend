@@ -48,6 +48,7 @@ const wettelijkeTaak: DynamicObject<
         singularReadable: 'wettelijke taak',
         singularCapitalize: 'Wettelijke taak',
         plural: 'wettelijke-taken',
+        pluralReadable: 'wettelijke taken',
         pluralCapitalize: 'Wettelijke taken',
         prefixSingular: 'de',
         prefixPlural: 'de',

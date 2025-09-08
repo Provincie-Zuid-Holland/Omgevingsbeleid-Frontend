@@ -55,6 +55,7 @@ const maatregel: DynamicObject<
         singularReadable: 'maatregel',
         singularCapitalize: 'Maatregel',
         plural: 'maatregelen',
+        pluralReadable: 'maatregelen',
         pluralCapitalize: 'Maatregelen',
         prefixSingular: 'de',
         prefixPlural: 'de',

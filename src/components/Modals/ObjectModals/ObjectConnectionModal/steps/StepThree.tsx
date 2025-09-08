@@ -28,6 +28,7 @@ export const StepThree = ({ title, connectionModel, model }: StepProps) => {
                 name="Description"
                 placeholder="Beschrijving / Motivering van de koppeling"
                 label="Toelichting"
+                required
             />
         </>
     )

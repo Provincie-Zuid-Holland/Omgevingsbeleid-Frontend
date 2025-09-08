@@ -64,6 +64,7 @@ const beleidskeuze: DynamicObject<
         singularReadable: 'beleidskeuze',
         singularCapitalize: 'Beleidskeuze',
         plural: 'beleidskeuzes',
+        pluralReadable: 'beleidskeuzes',
         pluralCapitalize: 'Beleidskeuzes',
         prefixSingular: 'de',
         prefixPlural: 'de',

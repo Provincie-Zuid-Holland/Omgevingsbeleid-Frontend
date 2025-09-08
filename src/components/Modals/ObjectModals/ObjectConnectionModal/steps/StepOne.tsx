@@ -19,7 +19,7 @@ export const StepOne = ({
     const {
         atemporal,
         pluralCapitalize,
-        plural,
+        pluralReadable,
         prefixNewObject,
         singularReadable,
         singularCapitalize,
@@ -47,10 +47,8 @@ export const StepOne = ({
             <Divider />
             <div className="mt-4 flex items-center justify-between">
                 <span className="font-bold">
-                    {amount} Gekoppelde{' '}
-                    {amount === 1
-                        ? singularReadable
-                        : plural?.replaceAll('-', ' ')}
+                    {amount} gekoppelde{' '}
+                    {amount === 1 ? singularReadable : pluralReadable}
                 </span>
                 <Button
                     size="small"
