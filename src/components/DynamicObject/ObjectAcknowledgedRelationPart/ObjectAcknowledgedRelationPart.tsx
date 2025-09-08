@@ -3,9 +3,11 @@ import {
     AngleDown,
     Ban,
     CircleCheck,
+    LinkSlash,
     MessageCheck,
     MessageQuestion,
     MessageXmark,
+    PenToSquare,
     Share,
 } from '@pzh-ui/icons'
 import classNames from 'clsx'
@@ -18,6 +20,10 @@ interface ObjectAcknowledgedRelationPartProps extends AcknowledgedRelation {
     type: 'awaiting' | 'approved' | 'declined' | 'received'
     /** Handle action function */
     handleAction?: (type: 'accept' | 'deny', e: AcknowledgedRelation) => void
+    /** Handle edit function */
+    handleEdit?: (relation: AcknowledgedRelation) => void
+    /** Handle disconnect function */
+    handleDisconnect?: (Object_ID: number, Title?: string | null) => void
 }
 
 const ObjectAcknowledgedRelationPart = ({
@@ -25,6 +31,8 @@ const ObjectAcknowledgedRelationPart = ({
     Side_A,
     Side_B,
     handleAction,
+    handleEdit,
+    handleDisconnect,
     ...rest
 }: ObjectAcknowledgedRelationPartProps) => {
     const [open, setOpen] = useState(false)
@@ -72,52 +80,79 @@ const ObjectAcknowledgedRelationPart = ({
                     />
                     <Text bold>{title}</Text>
                 </div>
-                {type !== 'received' ? (
-                    <button
-                        type="button"
-                        onClick={() => setOpen(!open)}
-                        className="after:content-[' '] after:absolute after:top-0 after:left-0 after:h-full after:w-full">
-                        <AngleDown
-                            size={18}
-                            className={classNames('transition', {
-                                'rotate-180': open,
-                            })}
-                        />
-                        <span className="sr-only">
-                            {open ? 'Lees meer' : 'Lees minder'}
-                        </span>
-                    </button>
-                ) : (
-                    !!handleAction && (
-                        <div className="flex">
-                            <Button
-                                variant="secondary"
-                                size="small"
-                                className="bg-pzh-white mr-3"
-                                onPress={() =>
-                                    handleAction('deny', {
-                                        ...rest,
-                                        Side_A,
-                                        Side_B,
-                                    })
-                                }>
-                                Afwijzen
-                            </Button>
-                            <Button
-                                variant="cta"
-                                size="small"
-                                onPress={() =>
-                                    handleAction('accept', {
-                                        ...rest,
-                                        Side_A,
-                                        Side_B,
-                                    })
-                                }>
-                                Accepteren
-                            </Button>
-                        </div>
-                    )
-                )}
+                <div className="flex content-center">
+                    {type === 'awaiting' && !!handleEdit && (
+                        <Button
+                            variant="default"
+                            className="z-1 mr-3"
+                            onClick={() =>
+                                handleEdit({ Side_A, Side_B, ...rest })
+                            }>
+                            <PenToSquare
+                                size={18}
+                                className="text-pzh-green-500"
+                            />
+                            <span className="sr-only">Wijzigen</span>
+                        </Button>
+                    )}
+                    {type === 'approved' && !!handleDisconnect && (
+                        <Button
+                            variant="default"
+                            className="z-1 mr-3"
+                            onClick={() =>
+                                handleDisconnect(Side_B.Object_ID, Side_B.Title)
+                            }>
+                            <LinkSlash size={18} className="text-pzh-red-500" />
+                            <span className="sr-only">Wijzigen</span>
+                        </Button>
+                    )}
+                    {type !== 'received' ? (
+                        <Button
+                            variant="default"
+                            onClick={() => setOpen(!open)}
+                            className="after:content-[' '] after:absolute after:top-0 after:left-0 after:h-full after:w-full">
+                            <AngleDown
+                                size={18}
+                                className={classNames('transition', {
+                                    'rotate-180': open,
+                                })}
+                            />
+                            <span className="sr-only">
+                                {open ? 'Lees meer' : 'Lees minder'}
+                            </span>
+                        </Button>
+                    ) : (
+                        !!handleAction && (
+                            <div className="flex">
+                                <Button
+                                    variant="secondary"
+                                    size="small"
+                                    className="bg-pzh-white mr-3"
+                                    onPress={() =>
+                                        handleAction('deny', {
+                                            ...rest,
+                                            Side_A,
+                                            Side_B,
+                                        })
+                                    }>
+                                    Afwijzen
+                                </Button>
+                                <Button
+                                    variant="cta"
+                                    size="small"
+                                    onPress={() =>
+                                        handleAction('accept', {
+                                            ...rest,
+                                            Side_A,
+                                            Side_B,
+                                        })
+                                    }>
+                                    Accepteren
+                                </Button>
+                            </div>
+                        )
+                    )}
+                </div>
             </div>
             {(open || type === 'received') && (
                 <>

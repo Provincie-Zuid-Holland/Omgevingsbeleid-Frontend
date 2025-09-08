@@ -126,7 +126,7 @@ const ObjectRelationReceivedModal = ({
                     objectRelation.SCHEMA_RELATION_EDIT
                 )}
                 enableReinitialize>
-                {({ isValid, isSubmitting, submitForm }) => (
+                {({ dirty, isValid, isSubmitting, submitForm }) => (
                     <Form>
                         <CurrentStep
                             model={model}
@@ -149,7 +149,8 @@ const ObjectRelationReceivedModal = ({
                                     type="button"
                                     isDisabled={
                                         (isFinalStep && !isValid) ||
-                                        (isFinalStep && isSubmitting)
+                                        (isFinalStep && isSubmitting) ||
+                                        !dirty
                                     }
                                     onPress={() => {
                                         !isFinalStep
