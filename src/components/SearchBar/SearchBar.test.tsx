@@ -1,56 +1,71 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
-
 import SearchBar from './SearchBar'
+
+const mockNavigate = vi.fn()
 
 vi.mock('react-router-dom', async () => {
     const actual = (await vi.importActual('react-router-dom')) as any
-
     return {
         ...actual,
-        useLocation: () => ({
-            pathname: '/zoekresultaten',
-            search: '?query=',
-        }),
+        useLocation: () => ({ pathname: '/', search: '' }),
+        useNavigate: () => mockNavigate,
     }
 })
 
 describe('SearchBar', () => {
-    const defaultProps = {}
+    beforeEach(() => {
+        mockNavigate.mockClear()
+    })
 
     const setup = (customProps?: any) => {
-        const props = { ...defaultProps, ...customProps }
-        render(
+        const utils = render(
             <BrowserRouter>
-                <SearchBar {...props} />
+                <SearchBar {...customProps} />
             </BrowserRouter>
         )
-        const searchBar = screen.getByPlaceholderText(
+        const input = screen.getByPlaceholderText(
             'Zoek binnen het beleid van de provincie Zuid-Holland'
         ) as HTMLInputElement
-        return { searchBar }
+        const form = utils.container.querySelector('form') as HTMLFormElement
+        if (!form) throw new Error('Form not found')
+        return { input, form }
     }
 
     it('Component renders', () => {
-        const { searchBar } = setup()
-        expect(searchBar).toBeTruthy()
+        const { input } = setup()
+        expect(input).toBeTruthy()
     })
 
     it('User can search', async () => {
-        const { searchBar } = setup()
+        const { input, form } = setup()
 
-        // Assertion onChange
         const searchQuery = 'Test'
-        fireEvent.change(searchBar, { target: { value: searchQuery } })
-        expect(searchBar.value).toBe(searchQuery)
+        fireEvent.change(input, { target: { value: searchQuery } })
+        expect(input.value).toBe(searchQuery)
 
-        // Check if url changes when user hits enter
-        fireEvent.keyDown(searchBar, {
-            key: 'Enter',
-            code: 'Enter',
-            keyCode: 13,
-        })
-        expect(location.pathname).toBe(`/zoekresultaten`)
-        expect(location.search).toBe(`?query=${searchQuery}`)
+        fireEvent.submit(form)
+
+        await waitFor(() =>
+            expect(mockNavigate).toHaveBeenCalledWith({
+                pathname: '/zoekresultaten',
+                search: `?query=${searchQuery}`,
+            })
+        )
+    })
+
+    it('Includes filter when provided', async () => {
+        const { input, form } = setup({ filter: 'beleid' })
+
+        const searchQuery = 'Klimaat'
+        fireEvent.change(input, { target: { value: searchQuery } })
+        fireEvent.submit(form)
+
+        await waitFor(() =>
+            expect(mockNavigate).toHaveBeenCalledWith({
+                pathname: '/zoekresultaten',
+                search: `?query=${searchQuery}&filter=beleid`,
+            })
+        )
     })
 })
