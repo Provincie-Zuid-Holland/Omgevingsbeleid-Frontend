@@ -11,6 +11,7 @@ import { Form, Formik, FormikHelpers } from 'formik'
 import { useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
+import { HTTPValidationError } from '@/api/fetchers.schemas'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import { LoaderSpinner } from '@/components/Loader'
 import * as models from '@/config/objects'
@@ -18,6 +19,7 @@ import { ModelType } from '@/config/objects/types'
 import MutateLayout from '@/templates/MutateLayout'
 import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
+import { AxiosError } from 'axios'
 
 interface ObjectWriteProps {
     model: (typeof models)[ModelType]
@@ -146,8 +148,10 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
                     },
                 }
             )
-            .catch(err =>
-                handleError<typeof initialData>(err.response, helpers)
+            .catch(
+                (err: AxiosError<HTTPValidationError>) =>
+                    err.response &&
+                    handleError<typeof initialData>(err.response, helpers)
             )
     }
 

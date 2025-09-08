@@ -8,6 +8,7 @@ import useAuth from '@/hooks/useAuth'
 import useModalStore from '@/store/modalStore'
 import * as loginForm from '@/validation/loginForm'
 
+import { AxiosError } from 'axios'
 import Modal from '../Modal'
 import { ModalFooter } from '../Modal/Modal'
 
@@ -37,14 +38,15 @@ const LoginForm = () => {
                 setLoading(false)
                 navigate('/muteer')
             })
-            .catch(err => {
+            .catch((err: AxiosError<{ detail: string }>) => {
                 setLoading(false)
-                setError(
-                    err?.response?.data?.detail ===
-                        'Incorrect email or password'
-                        ? 'Onjuist e-mailadres of wachtwoord'
-                        : 'Er is iets mis gegaan.'
-                )
+                err?.response &&
+                    setError(
+                        err?.response?.data?.detail ===
+                            'Incorrect email or password'
+                            ? 'Onjuist e-mailadres of wachtwoord'
+                            : 'Er is iets mis gegaan.'
+                    )
             })
     }
 

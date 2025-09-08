@@ -8,13 +8,17 @@ import {
     getModulesGetListModulesQueryKey,
     useModulesPostCreateModule,
 } from '@/api/fetchers'
-import { ModuleCreate as ModuleCreateSchema } from '@/api/fetchers.schemas'
+import {
+    HTTPValidationError,
+    ModuleCreate as ModuleCreateSchema,
+} from '@/api/fetchers.schemas'
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed/ButtonSubmitFixed'
 import { FormBasicInfo } from '@/components/Modules/ModuleForm'
 import MutateLayout from '@/templates/MutateLayout'
 import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
+import { AxiosError } from 'axios'
 
 const ModuleCreate = () => {
     const queryClient = useQueryClient()
@@ -40,8 +44,10 @@ const ModuleCreate = () => {
         payload: ModuleCreateSchema,
         helpers: FormikHelpers<ModuleCreateSchema>
     ) => {
-        mutateAsync({ data: payload }).catch(err =>
-            handleError<ModuleCreateSchema>(err.response, helpers)
+        mutateAsync({ data: payload }).catch(
+            (err: AxiosError<HTTPValidationError>) =>
+                err.response &&
+                handleError<ModuleCreateSchema>(err.response, helpers)
         )
     }
 

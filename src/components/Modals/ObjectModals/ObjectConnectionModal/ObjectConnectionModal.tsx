@@ -237,6 +237,8 @@ export const ConnectionModal = ({
         }
     }
 
+    console.log(initialStep, isFinalStep)
+
     return (
         <Modal
             id="objectAddConnection"
@@ -278,7 +280,10 @@ export const ConnectionModal = ({
                                     {!isDeleteStep &&
                                         values.type !== 'edit' &&
                                         !(
-                                            initialStep === 2 && !isFinalStep
+                                            initialStep === 2 &&
+                                            (!isFinalStep ||
+                                                connectionModel?.defaults
+                                                    ?.atemporal)
                                         ) && (
                                             <Button
                                                 variant="secondary"
