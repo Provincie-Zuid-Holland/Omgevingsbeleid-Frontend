@@ -19,8 +19,7 @@ export const StepTwo = ({}: StepProps) => {
                 Wat wil je toevoegen?
             </Heading>
             <Text className="mb-4">
-                Je wilt een nieuw onderdeel toevoegen aan deze module. Wat wil
-                je toevoegen?
+                Welk soort onderdeel wil je toevoegen aan deze module?
             </Text>
             <FormikRadioGroup name="Object_Type" options={options} />
         </div>

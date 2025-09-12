@@ -15,6 +15,8 @@ import { StepProps } from './types'
 export const StepFive = ({ title, existingObject }: StepProps) => {
     const { values } = useFormikContext<ModuleAddExistingObject>()
 
+    console.log(existingObject)
+
     const model = models[existingObject?.Object_Type as ModelType] || {}
     const { singularReadable, prefixSingular } = model.defaults || {}
 
@@ -24,7 +26,8 @@ export const StepFive = ({ title, existingObject }: StepProps) => {
                 Bestaande {existingObject?.Object_Type}
             </Heading>
             <Text className="mb-4">
-                “{existingObject?.Title}” toevoegen aan de module “{title}”
+                <Text as="strong">{existingObject?.Title}</Text> toevoegen aan
+                de module <Text as="strong">{title}</Text>
             </Text>
             <FormikRadioGroup
                 key="Action"
@@ -50,7 +53,7 @@ export const StepFive = ({ title, existingObject }: StepProps) => {
                     name="Explanation"
                     label="Toelichting"
                     placeholder="Vul de toelichting in (dit kan ook later)"
-                    description="Geef aan waarom je deze wijziging aanbrengt"
+                    description="Geef aan waarom je deze wijziging aanbrengt."
                 />
             </div>
             {values.Action !== 'Terminate' && (
@@ -59,7 +62,7 @@ export const StepFive = ({ title, existingObject }: StepProps) => {
                         name="Conclusion"
                         label="Conclusie"
                         placeholder="Vul de conclusie in (dit kan ook later)"
-                        description={`Geef aan welke wijzigingen doorgevoerd gaan worden aan ${prefixSingular} ${singularReadable}`}
+                        description={`Geef aan welke wijzigingen doorgevoerd gaan worden aan ${prefixSingular} ${singularReadable}.`}
                     />
                 </div>
             )}

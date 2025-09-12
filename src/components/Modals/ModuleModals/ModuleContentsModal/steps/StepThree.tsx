@@ -108,7 +108,7 @@ export const StepThree = ({}: StepProps) => {
                     name="Explanation"
                     label="Toelichting"
                     placeholder="Vul de toelichting in (dit kan ook later)"
-                    description={`Geef aan waarom ${prefixSingular} ${singularReadable} gaat worden toegevoegd aan deze module`}
+                    description={`Geef aan waarom ${prefixSingular} ${singularReadable} gaat worden toegevoegd aan deze module.`}
                 />
             </div>
             <div className="mt-3">
@@ -116,7 +116,7 @@ export const StepThree = ({}: StepProps) => {
                     name="Conclusion"
                     label="Conclusie"
                     placeholder="Vul de conclusie in (dit kan ook later)"
-                    description={`Geef aan welke wijzigingen doorgevoerd gaan worden aan ${prefixSingular} ${singularReadable}`}
+                    description={`Geef aan welke wijzigingen doorgevoerd gaan worden aan ${prefixSingular} ${singularReadable}.`}
                 />
             </div>
         </div>

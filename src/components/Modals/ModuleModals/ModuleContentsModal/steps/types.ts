@@ -1,7 +1,7 @@
-import { ModuleObjectShort, SearchObject } from '@/api/fetchers.schemas'
+import { GenericObjectShort, ModuleObjectShort } from '@/api/fetchers.schemas'
 
 export interface StepProps {
-    setExistingObject: (object?: SearchObject | ModuleObjectShort) => void
-    existingObject?: SearchObject | ModuleObjectShort | null
+    setExistingObject: (object?: GenericObjectShort | ModuleObjectShort) => void
+    existingObject?: GenericObjectShort | ModuleObjectShort | null
     title?: string
 }
