@@ -191,7 +191,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
             pageIndex: 1,
             pageSize: PAGE_LIMIT,
         })
-    }, [plural])
+    }, [plural, query])
 
     /**
      * Setup Table columns
