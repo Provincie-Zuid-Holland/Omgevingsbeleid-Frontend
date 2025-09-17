@@ -21,6 +21,7 @@ import { LoaderCard } from '@/components/Loader'
 import ModuleTile from '@/components/Modules/ModuleTile'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
+import { useUpdateEffect } from '@react-hookz/web'
 
 const PAGE_LIMIT = 9
 type TabType = 'active' | 'inactive' | 'archive'
@@ -92,6 +93,14 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
         pageIndex: 1,
         pageSize: PAGE_LIMIT,
     })
+
+    useUpdateEffect(() => {
+        setCurrPage(1)
+        setPagination({
+            pageIndex: 1,
+            pageSize: PAGE_LIMIT,
+        })
+    }, [filter])
 
     const { data: modules, isFetching } = useModulesGetListModules(
         {
