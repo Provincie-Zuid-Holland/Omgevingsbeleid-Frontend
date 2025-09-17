@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 
 import { ModuleStatus } from '@/api/fetchers.schemas'
 import { getModuleStatusColor } from '@/utils/module'
+import { parseUtc } from '@/utils/parseUtc'
 
 interface ModuleTimelineProps {
     /** Array containing module history */
@@ -34,15 +35,15 @@ const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
                             className={classNames('flex items-center', {
                                 'mb-5': hasPeer,
                             })}>
-                            <span className="-mb-1 w-[84px] text-s">
+                            <span className="text-s -mb-1 w-[84px]">
                                 {formatDate(
-                                    new Date(status.Created_Date + 'Z'),
+                                    parseUtc(status.Created_Date),
                                     'dd-MM-yyyy'
                                 )}
                             </span>
-                            <div className="relative mx-2 h-[13px] w-[13px] rounded-full border-2 border-pzh-blue-500">
+                            <div className="border-pzh-blue-500 relative mx-2 h-[13px] w-[13px] rounded-full border-2">
                                 {hasPeer && (
-                                    <div className="absolute left-1 top-[11px] h-8 w-px bg-pzh-blue-500" />
+                                    <div className="bg-pzh-blue-500 absolute top-[11px] left-1 h-8 w-px" />
                                 )}
                             </div>
 

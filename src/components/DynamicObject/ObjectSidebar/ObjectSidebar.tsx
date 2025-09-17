@@ -8,6 +8,7 @@ import TableOfContents from '@/components/TableOfContents/TableOfContents'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import { getStaticDataLabel } from '@/utils/dynamicObject'
+import { parseUtc } from '@/utils/parseUtc'
 
 interface ObjectSidebarProps extends ModelReturnType {
     /** Model of object */
@@ -44,10 +45,10 @@ const ObjectSidebar = ({
 
     const formattedDate = useMemo(() => {
         const today = new Date()
-        const startDate = Start_Validity ? new Date(Start_Validity) : null
-        const endDate = End_Validity ? new Date(End_Validity) : null
+        const startDate = Start_Validity ? parseUtc(Start_Validity) : null
+        const endDate = End_Validity ? parseUtc(End_Validity) : null
         const nextStartDate = Next_Version?.Start_Validity
-            ? new Date(Next_Version.Start_Validity)
+            ? parseUtc(Next_Version.Start_Validity)
             : null
 
         if (!startDate || isRevision) {
@@ -80,7 +81,7 @@ const ObjectSidebar = ({
             if (currentIndex !== -1 && currentIndex < revisions.length - 1) {
                 const prevRevision = revisions[currentIndex + 1]
                 const prevStartDate = prevRevision.Start_Validity
-                    ? new Date(prevRevision.Start_Validity)
+                    ? parseUtc(prevRevision.Start_Validity)
                     : null
 
                 if (prevStartDate) {

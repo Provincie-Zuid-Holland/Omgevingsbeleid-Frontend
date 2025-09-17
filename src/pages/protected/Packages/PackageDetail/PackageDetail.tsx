@@ -14,6 +14,7 @@ import { useActions } from '@/components/Publications/PublicationPackages/compon
 import Report from '@/components/Publications/PublicationPackages/components/Report'
 import { getPackageStatus } from '@/components/Publications/PublicationPackages/components/utils'
 import MutateLayout from '@/templates/MutateLayout'
+import { parseUtc } from '@/utils/parseUtc'
 import {
     Button,
     formatDate,
@@ -125,7 +126,7 @@ const PackageDetail = () => {
                         value={
                             data?.Created_Date &&
                             formatDate(
-                                new Date(data?.Created_Date + 'Z'),
+                                parseUtc(data?.Created_Date),
                                 "dd-MM-yyyy 'om' HH:mm"
                             )
                         }

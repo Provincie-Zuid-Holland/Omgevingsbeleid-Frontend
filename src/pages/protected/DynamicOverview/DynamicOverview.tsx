@@ -20,6 +20,7 @@ import SearchBar from '@/components/SearchBar'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
+import { parseUtc } from '@/utils/parseUtc'
 
 const PAGE_LIMIT = 20
 
@@ -238,7 +239,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                         <span className="flex items-center justify-between">
                             {Modified_Date
                                 ? formatDate(
-                                      new Date(Modified_Date + 'Z'),
+                                      parseUtc(Modified_Date),
                                       'cccccc d MMMM yyyy, p'
                                   )
                                 : 'nooit'}

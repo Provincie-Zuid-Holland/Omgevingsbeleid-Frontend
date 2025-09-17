@@ -16,6 +16,7 @@ import { usePublicationTemplatesGetListTemplates } from '@/api/fetchers'
 import model from '@/config/publicationTemplates'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
+import { parseUtc } from '@/utils/parseUtc'
 
 const PAGE_LIMIT = 20
 
@@ -133,7 +134,7 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
                     Created_Date: (
                         <span className="flex items-center justify-between">
                             {formatDate(
-                                new Date(Created_Date + 'Z'),
+                                parseUtc(Created_Date),
                                 'cccccc d MMMM yyyy, p'
                             )}
                             <AngleRight size={20} />

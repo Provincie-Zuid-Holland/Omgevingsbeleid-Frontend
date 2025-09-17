@@ -11,6 +11,7 @@ import { getObjectActionText } from '@/utils/dynamicObject'
 
 import useModalStore from '@/store/modalStore'
 import useObjectTableStore from '@/store/objectTableStore'
+import { parseUtc } from '@/utils/parseUtc'
 import {
     Button,
     FieldInput,
@@ -90,7 +91,7 @@ const useFilteredAndSortedData = (
 
             const model = models[Object_Type as ModelType]
             const actionText = getObjectActionText(ModuleObjectContext?.Action)
-            const modifiedDate = new Date(Modified_Date + 'Z')
+            const modifiedDate = parseUtc(Modified_Date)
 
             return {
                 raw: {

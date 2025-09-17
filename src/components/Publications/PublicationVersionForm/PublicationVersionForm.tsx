@@ -5,20 +5,21 @@ import {
     FormikRte,
     FormikSelect,
     FormikTextArea,
+    Notification,
     Text,
-    formatDate,
 } from '@pzh-ui/components'
 import { useMountEffect } from '@react-hookz/web'
 import { Form, Formik, FormikConfig, FormikProps, FormikValues } from 'formik'
 import { useParams } from 'react-router-dom'
 
-import { useModulesViewModuleListStatuses } from '@/api/fetchers'
 import { HTTPValidationError } from '@/api/fetchers.schemas'
 import FieldArray from '@/components/Form/FieldArray'
 import { ModalFooter } from '@/components/Modal/Modal'
 import ScrollToFieldError from '@/components/ScrollToFieldError'
+import { useModuleStatusData } from '@/hooks/useModuleStatusData'
 import useModalStore from '@/store/modalStore'
 import handleError from '@/utils/handleError'
+import { useMemo } from 'react'
 
 interface PublicationVersionFormProps {
     isRequired?: boolean
@@ -43,29 +44,19 @@ const InnerForm = <TData extends FormikValues>({
     isSubmitting,
     isRequired,
     error,
+    values,
     ...rest
 }: PublicationVersionFormProps & FormikProps<TData>) => {
     const { moduleId } = useParams()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { data: statusOptions, isLoading } = useModulesViewModuleListStatuses(
-        parseInt(moduleId!),
-        {
-            query: {
-                enabled: !!moduleId,
-                select: data =>
-                    data
-                        .filter(status => status.Status !== 'Niet-Actief')
-                        .map(status => ({
-                            label: `${status.Status} (${formatDate(
-                                new Date(status.Created_Date + 'Z'),
-                                "dd-MM-yyyy 'om' HH:mm"
-                            )})`,
-                            value: status.ID,
-                        })),
-            },
-        }
+    const { statusOptions, lastStatus, isLoading } =
+        useModuleStatusData(moduleId)
+
+    const isLastStatus = useMemo(
+        () => values.Module_Status_ID === lastStatus?.ID,
+        [lastStatus, values.Module_Status_ID]
     )
 
     useMountEffect(() => {
@@ -97,6 +88,12 @@ const InnerForm = <TData extends FormikValues>({
                             }),
                         }}
                     />
+                    {!isLastStatus && (
+                        <Notification className="mt-2 w-full">
+                            De modulestatus is niet de meest recente versie die
+                            beschikbaar is.
+                        </Notification>
+                    )}
                 </div>
                 <FormikInput
                     name="Bill_Metadata.Official_Title"
