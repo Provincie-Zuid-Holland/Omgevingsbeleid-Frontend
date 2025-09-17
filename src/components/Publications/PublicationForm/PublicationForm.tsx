@@ -1,9 +1,4 @@
-import {
-    Button,
-    formatDate,
-    FormikInput,
-    FormikSelect,
-} from '@pzh-ui/components'
+import { Button, FormikInput, FormikSelect } from '@pzh-ui/components'
 import {
     Form,
     Formik,
@@ -14,7 +9,6 @@ import {
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import {
-    useModulesViewModuleListStatuses,
     usePublicationActsGetListActs,
     usePublicationEnvironmentsGetListEnvironments,
     usePublicationTemplatesGetListTemplates,
@@ -25,6 +19,7 @@ import {
     Publication,
 } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
+import { useModuleStatusData } from '@/hooks/useModuleStatusData'
 import useModalStore from '@/store/modalStore'
 import { PUBLICATION_EDIT_SCHEMA } from '@/validation/publication'
 import { useParams } from 'react-router-dom'
@@ -71,6 +66,9 @@ const PublicationForm = <TData extends FormikValues>({
 const Fields = ({ type }: PublicationFormProps) => {
     const { moduleId } = useParams()
     const { values } = useFormikContext<Publication>()
+
+    const { statusOptions, isFetching: moduleStatusFetching } =
+        useModuleStatusData(moduleId)
 
     const {
         data: publicationTemplateOptions,
@@ -127,23 +125,6 @@ const Fields = ({ type }: PublicationFormProps) => {
                 },
             }
         )
-
-    const { data: statusOptions, isFetching: moduleStatusFetching } =
-        useModulesViewModuleListStatuses(parseInt(String(moduleId)), {
-            query: {
-                enabled: !!moduleId && type === 'add',
-                select: data =>
-                    data
-                        .filter(status => status.Status !== 'Niet-Actief')
-                        .map(status => ({
-                            label: `${status.Status} (${formatDate(
-                                new Date(status.Created_Date + 'Z'),
-                                "dd-MM-yyyy 'om' HH:mm"
-                            )})`,
-                            value: status.ID,
-                        })),
-            },
-        })
 
     const documentTypeOptions = Object.entries(DocumentType).map(
         ([, value]) => ({ label: value, value })

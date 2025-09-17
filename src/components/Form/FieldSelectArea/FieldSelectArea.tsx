@@ -12,6 +12,7 @@ import { ModelReturnType } from '@/config/objects/types'
 import { DynamicField } from '@/config/types'
 import useObject from '@/hooks/useObject'
 import useModalStore from '@/store/modalStore'
+import { parseUtc } from '@/utils/parseUtc'
 
 const FieldSelectArea = ({
     name,
@@ -34,7 +35,7 @@ const FieldSelectArea = ({
     const createdDate = useMemo(
         () =>
             area?.Created_Date &&
-            formatDate(new Date(area.Created_Date + 'Z'), 'd MMMM yyyy'),
+            formatDate(parseUtc(area.Created_Date), 'd MMMM yyyy'),
         [area?.Created_Date]
     )
 
@@ -81,7 +82,7 @@ const FieldSelectArea = ({
                     onClick={() => setActiveModal('areaAdd')}
                     type="button"
                     className={classNames(
-                        'mt-4 w-full rounded border border-pzh-gray-600 px-2 py-4 underline',
+                        'border-pzh-gray-600 mt-4 w-full rounded border px-2 py-4 underline',
                         {
                             'text-pzh-green-500': !disabled,
                             'bg-pzh-gray-100 text-pzh-gray-600': disabled,
@@ -91,14 +92,14 @@ const FieldSelectArea = ({
                     Werkingsgebied koppelen
                 </button>
             ) : (
-                <div className="mt-4 w-full rounded border border-pzh-gray-600 p-2">
+                <div className="border-pzh-gray-600 mt-4 w-full rounded border p-2">
                     <div className="grid grid-cols-9 gap-4">
                         <div className="col-span-9 p-4 md:col-span-3">
                             <Text bold>Gekoppeld werkingsgebied</Text>
 
-                            <div className="mt-6 rounded border border-pzh-gray-200 p-2">
+                            <div className="border-pzh-gray-200 mt-6 rounded border p-2">
                                 <div className="flex items-start justify-between">
-                                    <p className="font-bold leading-5">
+                                    <p className="leading-5 font-bold">
                                         {area?.Source_Title}
                                     </p>
                                     <div className="flex items-center gap-2">
@@ -113,7 +114,8 @@ const FieldSelectArea = ({
                                             </span>
                                             <Pencil
                                                 className={classNames('mt-1', {
-                                                    'text-pzh-blue-500': !disabled,
+                                                    'text-pzh-blue-500':
+                                                        !disabled,
                                                     'text-pzh-gray-600':
                                                         disabled,
                                                 })}
@@ -137,7 +139,7 @@ const FieldSelectArea = ({
                                         </button>
                                     </div>
                                 </div>
-                                <span className="block text-s">
+                                <span className="text-s block">
                                     Datum: {createdDate}
                                 </span>
                             </div>

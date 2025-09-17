@@ -4,6 +4,7 @@ import {
     PublicationType,
     ReportStatusType,
 } from '@/api/fetchers.schemas'
+import { parseUtc } from '@/utils/parseUtc'
 import { Button, cn, formatDate, Text } from '@pzh-ui/components'
 import {
     CircleCheckSolid,
@@ -81,7 +82,7 @@ const Report = ({
                     <Text className="text-[12px] leading-normal whitespace-nowrap">
                         {status === 'valid' ? 'Goedgekeurd' : 'Gefaald'} op{' '}
                         {formatDate(
-                            new Date(Created_Date + 'Z'),
+                            parseUtc(Created_Date),
                             "dd-MM-yyyy 'om' HH:mm"
                         )}
                     </Text>

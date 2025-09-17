@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 
 import { CompleteModule } from '@/api/fetchers.schemas'
 import useModule from '@/hooks/useModule'
+import { parseUtc } from '@/utils/parseUtc'
 
 export const StepTwo = () => {
     const { values } = useFormikContext<CompleteModule>()
@@ -19,7 +20,7 @@ export const StepTwo = () => {
     const date = useMemo(
         () =>
             values.start_validity &&
-            formatDate(new Date(values.start_validity), 'dd-MM-yyyy'),
+            formatDate(parseUtc(values.start_validity), 'dd-MM-yyyy'),
         [values.start_validity]
     )
 

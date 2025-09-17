@@ -1,6 +1,7 @@
 import { formatDate } from '@pzh-ui/components'
 
 import { ModelReturnType } from '@/config/objects/types'
+import { parseUtc } from './parseUtc'
 
 const getRevisionLabel = (
     object: ModelReturnType,
@@ -11,8 +12,8 @@ const getRevisionLabel = (
     if (!Start_Validity) return ''
 
     const today = new Date()
-    const startDate = new Date(Start_Validity)
-    const endDate = End_Validity ? new Date(End_Validity) : null
+    const startDate = parseUtc(Start_Validity)
+    const endDate = End_Validity ? parseUtc(End_Validity) : null
     const formattedDate = formatDate(startDate, 'd MMMM yyyy')
 
     let status = 'Vigerend'

@@ -15,6 +15,7 @@ import AreaPreview from '@/components/AreaPreview'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
 import useModalStore from '@/store/modalStore'
+import { parseUtc } from '@/utils/parseUtc'
 
 export interface AreaProps {
     area?: string
@@ -181,7 +182,7 @@ const AreaModalEdit = ({
                                                         <span className="text-s -mt-1 ml-7 block">
                                                             Datum:{' '}
                                                             {formatDate(
-                                                                new Date(
+                                                                parseUtc(
                                                                     area.Created_Date
                                                                 ),
                                                                 'd MMMM yyyy'

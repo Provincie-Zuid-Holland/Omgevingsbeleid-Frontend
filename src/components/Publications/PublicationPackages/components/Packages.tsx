@@ -18,6 +18,7 @@ import {
 import { LoaderCard } from '@/components/Loader'
 import useModalStore from '@/store/modalStore'
 
+import { parseUtc } from '@/utils/parseUtc'
 import { PublicationType } from '../../types'
 import { useActions } from './actions'
 import Package from './Package'
@@ -213,8 +214,8 @@ export const ActPackages = ({
                         ...data,
                         results: data.results.sort(
                             (a, b) =>
-                                new Date(a.Created_Date + 'Z').getTime() -
-                                new Date(b.Created_Date + 'Z').getTime()
+                                parseUtc(a.Created_Date).getTime() -
+                                parseUtc(b.Created_Date).getTime()
                         ),
                     }),
                 },
@@ -286,8 +287,8 @@ export const AnnouncementPackages = ({
                         ...data,
                         results: data.results.sort(
                             (a, b) =>
-                                new Date(a.Created_Date + 'Z').getTime() -
-                                new Date(b.Created_Date + 'Z').getTime()
+                                parseUtc(a.Created_Date).getTime() -
+                                parseUtc(b.Created_Date).getTime()
                         ),
                     }),
                 },

@@ -21,6 +21,7 @@ import { LoaderCard } from '@/components/Loader'
 import ModuleTile from '@/components/Modules/ModuleTile'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
+import { parseUtc } from '@/utils/parseUtc'
 
 const PAGE_LIMIT = 9
 type TabType = 'active' | 'inactive' | 'archive'
@@ -146,10 +147,7 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
                 ),
                 Modified_Date: (
                     <span className="flex items-center justify-between">
-                        {formatDate(
-                            new Date(Modified_Date + 'Z'),
-                            'dd-MM-yyyy'
-                        )}
+                        {formatDate(parseUtc(Modified_Date), 'dd-MM-yyyy')}
                         <AngleRight size={20} />
                     </span>
                 ),

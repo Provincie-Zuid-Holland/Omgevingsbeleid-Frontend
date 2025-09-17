@@ -70,7 +70,7 @@ const PublicationVersionEditModal = () => {
     } as PublicationVersionEdit
 
     return (
-        <Modal id="publicationVersionEdit" title="Versie" size="xl">
+        <Modal id="publicationVersionEdit" title="Besluit" size="xl">
             {isFetching ? (
                 <div className="flex justify-center">
                     <LoaderSpinner />
