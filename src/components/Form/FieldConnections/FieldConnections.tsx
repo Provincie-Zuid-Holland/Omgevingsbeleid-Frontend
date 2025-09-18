@@ -44,9 +44,7 @@ const FieldConnections = ({
     )
 
     const handleSubmit = (
-        payload:
-            | WriteRelation
-            | { items?: { Object_ID: number; Title: string }[] }
+        payload: WriteRelation | { items?: { value: number; label: string }[] }
     ) => {
         let newData = value || []
 
@@ -75,6 +73,7 @@ const FieldConnections = ({
                 ),
                 ...(payload.items?.map(item => ({
                     Object_Type: modal.connectionModel?.defaults?.singular,
+                    Object_ID: item.value,
                     ...item,
                 })) || []),
             ]

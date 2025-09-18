@@ -54,6 +54,7 @@ const beleidsdoel: DynamicObject<
         singularReadable: 'beleidsdoel',
         singularCapitalize: 'Beleidsdoel',
         plural: 'beleidsdoelen',
+        pluralReadable: 'beleidsdoelen',
         pluralCapitalize: 'Beleidsdoelen',
         prefixSingular: 'het',
         prefixPlural: 'de',

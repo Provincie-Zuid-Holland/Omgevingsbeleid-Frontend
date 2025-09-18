@@ -58,7 +58,7 @@ const PublicationEditModal = () => {
     }
 
     return (
-        <Modal id="publicationEdit" title="Publicatie" size="xl">
+        <Modal id="publicationEdit" title="Publicatie">
             {isFetching ? (
                 <div className="flex justify-center">
                     <LoaderSpinner />

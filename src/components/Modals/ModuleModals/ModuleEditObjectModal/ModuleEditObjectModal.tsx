@@ -21,6 +21,7 @@ import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
 
+import { ModalFooter } from '@/components/Modal/Modal'
 import { ModalStateMap } from '../../types'
 
 const ModuleEditObjectModal = () => {
@@ -151,7 +152,7 @@ const ModuleEditObjectModal = () => {
                                 optimized={false}
                             />
                         </div>
-                        <div className="mt-3">
+                        <div className="mt-3 mb-4">
                             <FormikTextArea
                                 name="Conclusion"
                                 label="Conclusie"
@@ -161,7 +162,7 @@ const ModuleEditObjectModal = () => {
                             />
                         </div>
 
-                        <div className="mt-6 flex items-center justify-between">
+                        <ModalFooter>
                             <Button
                                 variant="link"
                                 onPress={() => setActiveModal(null)}>
@@ -174,7 +175,7 @@ const ModuleEditObjectModal = () => {
                                 isLoading={isPending && !isError}>
                                 Opslaan
                             </Button>
-                        </div>
+                        </ModalFooter>
                     </Form>
                 </Formik>
             )}

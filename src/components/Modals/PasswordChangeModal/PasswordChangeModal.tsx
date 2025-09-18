@@ -4,6 +4,7 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { useAuthenticationPostAuthResetPassword } from '@/api/fetchers'
 import Modal from '@/components/Modal'
+import { ModalFooter } from '@/components/Modal/Modal'
 import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as passwordReset from '@/validation/passwordReset'
@@ -41,7 +42,7 @@ export default function PasswordChangeModal() {
     }
 
     return (
-        <Modal id="passwordReset" size="s" title="Wachtwoord wijzigen">
+        <Modal id="passwordReset" title="Wachtwoord wijzigen">
             <Formik
                 initialValues={{
                     currentPassword: '',
@@ -54,17 +55,27 @@ export default function PasswordChangeModal() {
                 )}>
                 {({ handleSubmit, isValid, isSubmitting }) => (
                     <Form onSubmit={handleSubmit}>
-                        <div className="">
-                            <FormikInput
-                                label="Huidig wachtwoord"
-                                id="password-reset-current-password"
-                                required
-                                name="currentPassword"
-                                type="password"
-                                placeholder="Voer hier je huidig wachtwoord in"
-                            />
-                        </div>
-                        <Notification className="my-4">
+                        <Notification className="mb-4 w-full">
+                            <>
+                                Ben je je huidige wachtwoord vergeten? Neem dan
+                                contact op met
+                                <a
+                                    href="mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten"
+                                    className="ml-1 underline"
+                                    data-testid="wachtwoord-reset-mail">
+                                    omgevingsbeleid@pzh.nl
+                                </a>
+                            </>
+                        </Notification>
+                        <FormikInput
+                            label="Huidig wachtwoord"
+                            id="password-reset-current-password"
+                            required
+                            name="currentPassword"
+                            type="password"
+                            placeholder="Voer hier je huidig wachtwoord in"
+                        />
+                        <Notification className="my-4 w-full">
                             Het nieuwe wachtwoord moet minimaal 12 karakters
                             bevatten en moet ten minste 1 cijfer, 1 speciaal
                             karakter en 1 hoofdletter bevatten.
@@ -88,7 +99,7 @@ export default function PasswordChangeModal() {
                             />
                         </div>
 
-                        <div className="mt-5 flex items-center justify-between">
+                        <ModalFooter className="mt-4">
                             <Button
                                 type="button"
                                 variant="link"
@@ -103,23 +114,10 @@ export default function PasswordChangeModal() {
                                 isLoading={isPending}>
                                 Wijzig
                             </Button>
-                        </div>
+                        </ModalFooter>
                     </Form>
                 )}
             </Formik>
-
-            <Notification className="mt-4">
-                <>
-                    Ben je je huidige wachtwoord vergeten? Neem dan contact op
-                    met
-                    <a
-                        href="mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten"
-                        className="ml-1 underline"
-                        data-testid="wachtwoord-reset-mail">
-                        omgevingsbeleid@pzh.nl
-                    </a>
-                </>
-            </Notification>
         </Modal>
     )
 }

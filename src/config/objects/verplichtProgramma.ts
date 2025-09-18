@@ -48,6 +48,7 @@ const verplichtProgramma: DynamicObject<
         singularReadable: 'verplicht programma',
         singularCapitalize: 'Verplicht programma',
         plural: 'verplichte-programmas',
+        pluralReadable: "verplichte programma's",
         pluralCapitalize: "Verplichte programma's",
         prefixSingular: 'het',
         prefixPlural: 'de',

@@ -1,20 +1,21 @@
 import { Button, Heading, Text } from '@pzh-ui/components'
 import { Key } from '@pzh-ui/icons'
 
+import { ModalFooter } from '@/components/Modal/Modal'
 import { StepProps } from './types'
 
 export const StepOne = ({ handleClick, handleClose, isLoading }: StepProps) => (
     <>
-        <Heading level="2" className="mb-4">
+        <Heading level="2" size="xl">
             Nieuw wachtwoord
         </Heading>
-        <Text className="mb-6">
+        <Text>
             Wanneer je een nieuw wachtwoord laat genereren, is het oude
             wachtwoord niet meer te gebruiken. Het systeem maakt een nieuw
             wachtwoord aan, de functioneel beheerder dient dit wachtwoord per
             mail te delen met de gebruiker zodat deze weer opnieuw kan inloggen.
         </Text>
-        <div className="flex items-center justify-between border-t border-pzh-gray-200 pt-6">
+        <ModalFooter>
             <Button variant="link" onPress={handleClose}>
                 Annuleren
             </Button>
@@ -30,6 +31,6 @@ export const StepOne = ({ handleClick, handleClose, isLoading }: StepProps) => (
                     Genereer nieuw wachtwoord
                 </Button>
             </div>
-        </div>
+        </ModalFooter>
     </>
 )

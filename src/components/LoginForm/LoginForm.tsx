@@ -8,7 +8,9 @@ import useAuth from '@/hooks/useAuth'
 import useModalStore from '@/store/modalStore'
 import * as loginForm from '@/validation/loginForm'
 
+import { AxiosError } from 'axios'
 import Modal from '../Modal'
+import { ModalFooter } from '../Modal/Modal'
 
 interface FormProps {
     email: string
@@ -36,14 +38,15 @@ const LoginForm = () => {
                 setLoading(false)
                 navigate('/muteer')
             })
-            .catch(err => {
+            .catch((err: AxiosError<{ detail: string }>) => {
                 setLoading(false)
-                setError(
-                    err?.response?.data?.detail ===
-                        'Incorrect email or password'
-                        ? 'Onjuist e-mailadres of wachtwoord'
-                        : 'Er is iets mis gegaan.'
-                )
+                err?.response &&
+                    setError(
+                        err?.response?.data?.detail ===
+                            'Incorrect email or password'
+                            ? 'Onjuist e-mailadres of wachtwoord'
+                            : 'Er is iets mis gegaan.'
+                    )
             })
     }
 
@@ -79,7 +82,7 @@ const LoginForm = () => {
                             </Button>
                             <button
                                 type="button"
-                                className="mt-4 cursor-pointer text-s text-pzh-green-500 underline hover:text-pzh-green-900 sm:ml-4 sm:mt-0"
+                                className="text-s text-pzh-green-500 hover:text-pzh-green-900 mt-4 cursor-pointer underline sm:mt-0 sm:ml-4"
                                 onClick={() => setActiveModal('passwordForget')}
                                 tabIndex={0}>
                                 Wachtwoord vergeten?
@@ -108,19 +111,20 @@ interface PopupPasswordForgotProps {
 }
 
 const PopupPasswordForgot = ({ onClose }: PopupPasswordForgotProps) => (
-    <Modal id="passwordForget" size="s" title="Wachtwoord vergeten">
-        <Notification className="mb-4 mt-2">
+    <Modal id="passwordForget" title="Wachtwoord vergeten">
+        <Notification>
             Binnenkort willen wij het mogelijk maken dat medewerkers van
             provincie Zuid-Holland automatisch kunnen inloggen. Tot die tijd
             moet het nog met een e-mailadres en een wachtwoord.
         </Notification>
 
-        <p className="py-1 text-pzh-blue-900">
+        <p className="text-pzh-blue-900">
             Wachtwoord vergeten? Stuur dan een e-mail naar het team
             Omgevingsbeleid door op de link te klikken. Je ontvangt dan binnen
             één werkdag een nieuw wachtwoord.
         </p>
-        <div className="mt-5 flex items-center justify-between">
+
+        <ModalFooter>
             <Button
                 variant="link"
                 onPress={onClose}
@@ -138,7 +142,7 @@ const PopupPasswordForgot = ({ onClose }: PopupPasswordForgotProps) => (
                 }}>
                 Mail versturen
             </Button>
-        </div>
+        </ModalFooter>
     </Modal>
 )
 

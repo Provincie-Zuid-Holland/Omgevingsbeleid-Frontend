@@ -16,6 +16,7 @@ import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as objectConnection from '@/validation/objectConnection'
 
+import { ModalFooter } from '@/components/Modal/Modal'
 import { StepFour, StepOne, StepThree, StepTwo } from './steps'
 
 const steps = [StepOne, StepTwo, StepThree, StepFour]
@@ -66,9 +67,7 @@ const ObjectConnectionModal = ({
      * Handle for submit
      */
     const handleFormSubmit = (
-        payload:
-            | WriteRelation
-            | { items?: { Object_ID: number; Title: string }[] }
+        payload: WriteRelation | { items?: { value: number; label: string }[] }
     ) => {
         refetchRelations?.().then(({ data, isSuccess }) => {
             if (isSuccess && !!data) {
@@ -102,7 +101,7 @@ const ObjectConnectionModal = ({
                                 connectionModel?.defaults?.singular
                         ),
                         ...(payload.items?.map(item => ({
-                            Object_ID: item.Object_ID,
+                            Object_ID: item.value,
                             Object_Type: connectionModel?.defaults?.singular,
                         })) || []),
                     ]
@@ -138,7 +137,7 @@ const ObjectConnectionModal = ({
                     if ('items' in initialValues) {
                         initialValues.items?.splice(
                             initialValues.items.findIndex(
-                                item => item.Object_ID === connection.Object_ID
+                                item => item.value === connection.Object_ID
                             ),
                             1
                         )
@@ -167,7 +166,7 @@ const ObjectConnectionModal = ({
 
 type ConnectionPayload =
     | WriteRelation
-    | { items?: { Object_ID: number; Title: string }[] }
+    | { items?: { value: number; label: string }[] }
 
 interface ConnectionModalProps extends ObjectConnectionModalProps {
     isFetching?: boolean
@@ -238,15 +237,16 @@ export const ConnectionModal = ({
         }
     }
 
+    console.log(initialStep, isFinalStep)
+
     return (
         <Modal
             id="objectAddConnection"
             title={`${connectionModel?.defaults?.singularCapitalize} koppelen`}
             hideTitle
-            size="xl"
             onClose={handleClose}>
             {isFetching && (
-                <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-pzh-black/20">
+                <div className="bg-pzh-black/20 absolute top-0 left-0 flex h-full w-full items-center justify-center">
                     <LoaderSpinner />
                 </div>
             )}
@@ -271,14 +271,20 @@ export const ConnectionModal = ({
                             )}
                             setStep={setStep}
                         />
-                        <div className="mt-6 flex items-center justify-between">
+                        <ModalFooter className="mt-4">
                             <Button variant="link" onPress={handleClose}>
                                 Annuleren
                             </Button>
                             {step !== 1 && (
                                 <div>
                                     {!isDeleteStep &&
-                                        values.type !== 'edit' && (
+                                        values.type !== 'edit' &&
+                                        !(
+                                            initialStep === 2 &&
+                                            (!isFinalStep ||
+                                                connectionModel?.defaults
+                                                    ?.atemporal)
+                                        ) && (
                                             <Button
                                                 variant="secondary"
                                                 type="button"
@@ -307,12 +313,12 @@ export const ConnectionModal = ({
                                         {isFinalStep
                                             ? 'Opslaan'
                                             : isDeleteStep
-                                            ? 'Koppeling verbreken'
-                                            : 'Volgende stap'}
+                                              ? 'Koppeling verbreken'
+                                              : 'Volgende stap'}
                                     </Button>
                                 </div>
                             )}
-                        </div>
+                        </ModalFooter>
                     </Form>
                 )}
             </Formik>

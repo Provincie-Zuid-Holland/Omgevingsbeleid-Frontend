@@ -7,6 +7,7 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 import { useUserGetListUsers } from '@/api/fetchers'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
+import { ModalFooter } from '@/components/Modal/Modal'
 import { Model, ModelPatchStaticType } from '@/config/objects/types'
 import { Role } from '@/context/AuthContext'
 import useObject from '@/hooks/useObject'
@@ -126,7 +127,7 @@ const ObjectPersonModal = ({ model }: ObjectPersonModalProps) => {
                                 })}
                             </div>
 
-                            <div className="mt-6 flex items-center justify-between">
+                            <ModalFooter className="mt-4">
                                 <Button
                                     variant="link"
                                     onPress={() => setActiveModal(null)}>
@@ -141,7 +142,7 @@ const ObjectPersonModal = ({ model }: ObjectPersonModalProps) => {
                                     isLoading={isSubmitting}>
                                     Opslaan
                                 </Button>
-                            </div>
+                            </ModalFooter>
                         </Form>
                     )}
                 </Formik>

@@ -1,6 +1,5 @@
 import {
     Button,
-    Divider,
     FormikDate,
     FormikInput,
     FormikRte,
@@ -16,6 +15,7 @@ import { useParams } from 'react-router-dom'
 import { useModulesViewModuleListStatuses } from '@/api/fetchers'
 import { HTTPValidationError } from '@/api/fetchers.schemas'
 import FieldArray from '@/components/Form/FieldArray'
+import { ModalFooter } from '@/components/Modal/Modal'
 import ScrollToFieldError from '@/components/ScrollToFieldError'
 import useModalStore from '@/store/modalStore'
 import handleError from '@/utils/handleError'
@@ -165,8 +165,7 @@ const InnerForm = <TData extends FormikValues>({
                     </div>
                 </div>
             </div>
-            <Divider className="my-6" />
-            <div className="flex items-center justify-between">
+            <ModalFooter className="mt-4">
                 <Button variant="link" onPress={() => setActiveModal(null)}>
                     Annuleren
                 </Button>
@@ -177,7 +176,7 @@ const InnerForm = <TData extends FormikValues>({
                     isDisabled={isSubmitting}>
                     Versie opslaan
                 </Button>
-            </div>
+            </ModalFooter>
 
             <ScrollToFieldError />
         </Form>

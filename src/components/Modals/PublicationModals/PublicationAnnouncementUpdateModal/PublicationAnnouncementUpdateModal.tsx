@@ -1,10 +1,4 @@
-import {
-    Button,
-    Divider,
-    FormikDate,
-    FormikInput,
-    FormikRte,
-} from '@pzh-ui/components'
+import { Button, FormikDate, FormikInput, FormikRte } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { isNull, isUndefined, mergeWith } from 'lodash'
@@ -14,13 +8,17 @@ import {
     usePublicationAnnouncementsGetDetailAnnouncement,
     usePublicationAnnouncementsPostEditAnnouncement,
 } from '@/api/fetchers'
-import { PublicationAnnouncementEdit } from '@/api/fetchers.schemas'
+import {
+    HTTPValidationError,
+    PublicationAnnouncementEdit,
+} from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
-import Modal from '@/components/Modal/Modal'
+import Modal, { ModalFooter } from '@/components/Modal/Modal'
 import { ModalStateMap } from '@/components/Modals/types'
 import useModalStore from '@/store/modalStore'
 import handleError from '@/utils/handleError'
 import { ANNOUNCEMENT_EDIT_SCHEMA } from '@/validation/announcement'
+import { AxiosError } from 'axios'
 
 const PublicationAnnouncementUpdateModal = () => {
     const queryClient = useQueryClient()
@@ -102,14 +100,15 @@ const PublicationAnnouncementUpdateModal = () => {
         mutateAsync({
             announcementUuid: modalState?.announcementUuid,
             data: payload,
-        }).catch(err => handleError<typeof payload>(err.response, helpers))
+        }).catch(
+            (err: AxiosError<HTTPValidationError>) =>
+                err.response &&
+                handleError<typeof payload>(err.response, helpers)
+        )
     }
 
     return (
-        <Modal
-            id="publicationAnnouncementUpdate"
-            title="Kennisgeving"
-            size="xl">
+        <Modal id="publicationAnnouncementUpdate" title="Kennisgeving">
             {isFetching ? (
                 <div className="flex justify-center">
                     <LoaderSpinner />
@@ -213,8 +212,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                     </div>
                                 </div>
                             </div>
-                            <Divider className="my-6" />
-                            <div className="flex items-center justify-between">
+                            <ModalFooter className="mt-4">
                                 <Button
                                     variant="link"
                                     type="button"
@@ -231,7 +229,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                     isLoading={isSubmitting && !isError}>
                                     Opslaan
                                 </Button>
-                            </div>
+                            </ModalFooter>
                         </Form>
                     )}
                 </Formik>

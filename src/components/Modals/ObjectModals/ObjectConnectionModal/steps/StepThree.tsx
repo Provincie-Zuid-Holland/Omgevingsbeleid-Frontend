@@ -13,7 +13,7 @@ export const StepThree = ({ title, connectionModel, model }: StepProps) => {
 
     return (
         <>
-            <Heading level="2" className="mb-2">
+            <Heading level="2" size="xl" className="mb-2">
                 {singularCapitalize} koppelen
             </Heading>
 
@@ -28,6 +28,7 @@ export const StepThree = ({ title, connectionModel, model }: StepProps) => {
                 name="Description"
                 placeholder="Beschrijving / Motivering van de koppeling"
                 label="Toelichting"
+                required
             />
         </>
     )

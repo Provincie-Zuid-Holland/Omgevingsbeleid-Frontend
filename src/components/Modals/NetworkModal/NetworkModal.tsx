@@ -21,7 +21,7 @@ const NetworkModal = () => {
 
     return (
         <Modal id="objectDetails" title="Details van object">
-            <Text className="mb-4">
+            <Text>
                 Een overzicht van de koppelingen van {prefixSingular} {singular}{' '}
                 ‘{activeNode?.Title}’. Er{' '}
                 {activeConnections?.length === 1 ? 'is' : 'zijn'} in totaal{' '}
@@ -30,7 +30,7 @@ const NetworkModal = () => {
             </Text>
 
             {!!activeConnections?.length && (
-                <ul className="mb-5">
+                <ul className="mb-2">
                     {activeConnections.map(connection => {
                         const model =
                             models[connection?.Object_Type as ModelType]
@@ -39,7 +39,7 @@ const NetworkModal = () => {
                             <li key={connection.UUID}>
                                 <Link
                                     to={`/${model.defaults.slugOverview}/${model.defaults.plural}/${connection.UUID}`}
-                                    className="flex items-center justify-between border-b border-pzh-blue-900/35 px-2 pb-1 pt-2">
+                                    className="border-pzh-blue-900/35 flex items-center justify-between border-b px-2 pt-2 pb-1">
                                     <p className="leading-none underline decoration-1">
                                         {connection.Title}
                                     </p>
