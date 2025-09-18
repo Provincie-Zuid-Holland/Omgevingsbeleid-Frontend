@@ -237,8 +237,6 @@ export const ConnectionModal = ({
         }
     }
 
-    console.log(initialStep, isFinalStep)
-
     return (
         <Modal
             id="objectAddConnection"
@@ -272,9 +270,21 @@ export const ConnectionModal = ({
                             setStep={setStep}
                         />
                         <ModalFooter className="mt-4">
-                            <Button variant="link" onPress={handleClose}>
-                                Annuleren
-                            </Button>
+                            {step === 1 && initialStep !== 2 ? (
+                                <Button
+                                    key="close"
+                                    onPress={handleClose}
+                                    className="ml-auto">
+                                    Sluiten
+                                </Button>
+                            ) : (
+                                <Button
+                                    key="cancel"
+                                    variant="link"
+                                    onPress={handleClose}>
+                                    Annuleren
+                                </Button>
+                            )}
                             {step !== 1 && (
                                 <div>
                                     {!isDeleteStep &&
@@ -288,7 +298,6 @@ export const ConnectionModal = ({
                                             <Button
                                                 variant="secondary"
                                                 type="button"
-                                                size="small"
                                                 onPress={() =>
                                                     setStep(step - 1)
                                                 }
@@ -302,7 +311,6 @@ export const ConnectionModal = ({
                                                 ? 'cta'
                                                 : 'primary'
                                         }
-                                        size="small"
                                         isDisabled={
                                             (isFinalStep && !isValid) ||
                                             ((isFinalStep || isDeleteStep) &&
