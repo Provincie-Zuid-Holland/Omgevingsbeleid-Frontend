@@ -134,6 +134,7 @@ const maatregel: DynamicObject<
                     description: 'Welke rol...',
                     placeholder: 'Kies de rol',
                     type: 'select',
+                    isSearchable: false,
                     options: [
                         { label: 'Presterend', value: 'Presterend' },
                         { label: 'Samenwerkend', value: 'Samenwerkend' },

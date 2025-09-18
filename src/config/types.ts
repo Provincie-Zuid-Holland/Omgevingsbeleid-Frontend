@@ -2,6 +2,7 @@ import {
     FieldCheckboxGroupProps,
     FieldFileUploadProps,
     FieldRteProps,
+    FieldSelectProps,
 } from '@pzh-ui/components'
 
 import { DynamicObjectSearchProps } from '@/components/DynamicObject/DynamicObjectSearch'
@@ -60,7 +61,7 @@ export type DynamicField<FieldType = string> = {
     CheckboxProps
 
 type SelectProps =
-    | { type: 'select'; options: { label: string; value: string }[] }
+    | ({ type: 'select' } & FieldSelectProps)
     | {
           type: Exclude<DynamicFieldType, 'select'>
       }
