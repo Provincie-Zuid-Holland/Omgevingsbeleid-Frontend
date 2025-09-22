@@ -8,6 +8,7 @@ import TableOfContents from '@/components/TableOfContents/TableOfContents'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import { getStaticDataLabel } from '@/utils/dynamicObject'
+import { formatValidityDate } from '@/utils/formatValidityDate'
 
 interface ObjectSidebarProps extends ModelReturnType {
     /** Model of object */
@@ -42,63 +43,25 @@ const ObjectSidebar = ({
 
     const today = useMemo(() => formatDate(new Date(), 'd MMMM yyyy'), [])
 
-    const formattedDate = useMemo(() => {
-        const today = new Date()
-        const startDate = Start_Validity ? new Date(Start_Validity) : null
-        const endDate = End_Validity ? new Date(End_Validity) : null
-        const nextStartDate = Next_Version?.Start_Validity
-            ? new Date(Next_Version.Start_Validity)
-            : null
-
-        if (!startDate || isRevision) {
-            return 'Nog niet geldig, versie in bewerking'
-        }
-
-        const isCurrentlyValid =
-            today > startDate && (!endDate || today <= endDate)
-        const hasNextVersionStarted = nextStartDate && today > nextStartDate
-
-        if (isCurrentlyValid) {
-            if (!Next_Version) {
-                return `Geldend van ${formatDate(
-                    startDate,
-                    'dd-MM-yyyy'
-                )} t/m heden`
-            }
-            if (hasNextVersionStarted) {
-                return `Geldend van ${formatDate(
-                    startDate,
-                    'dd-MM-yyyy'
-                )} tot ${formatDate(nextStartDate, 'dd-MM-yyyy')}`
-            }
-        }
-
-        if (endDate && revisions?.length) {
-            const currentIndex = revisions.findIndex(
-                revision => revision.UUID === UUID
-            )
-            if (currentIndex !== -1 && currentIndex < revisions.length - 1) {
-                const prevRevision = revisions[currentIndex + 1]
-                const prevStartDate = prevRevision.Start_Validity
-                    ? new Date(prevRevision.Start_Validity)
-                    : null
-
-                if (prevStartDate) {
-                    return `Geldend van ${formatDate(
-                        prevStartDate,
-                        'dd-MM-yyyy'
-                    )} t/m ${formatDate(endDate, 'dd-MM-yyyy')}`
-                }
-            }
-        }
-    }, [
-        Start_Validity,
-        End_Validity,
-        isRevision,
-        Next_Version,
-        revisions,
-        UUID,
-    ])
+    const formattedDate = useMemo(
+        () =>
+            formatValidityDate({
+                UUID,
+                Start_Validity,
+                End_Validity,
+                isRevision,
+                Next_Version,
+                revisions,
+            }),
+        [
+            Start_Validity,
+            End_Validity,
+            isRevision,
+            Next_Version,
+            revisions,
+            UUID,
+        ]
+    )
 
     return (
         <aside className="sticky top-[120px]">
@@ -126,7 +89,7 @@ const ObjectSidebar = ({
                                     : 'revisies'}
                             </button>
                         ) : (
-                            <span className="italic text-pzh-gray-600">
+                            <span className="text-pzh-gray-600 italic">
                                 Geen revisies
                             </span>
                         )}
@@ -144,7 +107,7 @@ const ObjectSidebar = ({
 
             {!!user && (
                 <div>
-                    <Text size="s" className="mb-3 italic text-pzh-blue-900">
+                    <Text size="s" className="text-pzh-blue-900 mb-3 italic">
                         Onderstaande informatie is alleen inzichtelijk voor
                         gebruikers die zijn ingelogd
                     </Text>

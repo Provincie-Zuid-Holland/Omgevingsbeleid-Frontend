@@ -248,13 +248,9 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                     ...((!atemporal || (atemporal && canCreateModule)) && {
                         onClick: () =>
                             navigate(
-                                type === 'valid'
-                                    ? `/muteer/${plural}/${Object_ID}${
-                                          atemporal ? '/bewerk' : ''
-                                      }`
-                                    : 'Module_ID' in props
-                                      ? `/muteer/modules/${props.Module_ID}/${Object_Type}/${Object_ID}`
-                                      : ''
+                                `/muteer/${plural}/${Object_ID}${
+                                    atemporal ? '/bewerk' : ''
+                                }`
                             ),
                     }),
                 })

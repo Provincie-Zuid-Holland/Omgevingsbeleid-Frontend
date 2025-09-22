@@ -22,7 +22,7 @@ const Breadcrumbs = ({ items, className }: BreadcrumbsProps) => (
                     key={`breadcrumb-${index}`}
                     isCurrent={index === items.length - 1}
                     asChild>
-                    {item.to ? (
+                    {item.to && index !== items.length - 1 ? (
                         <Link to={item.to}>{item.name}</Link>
                     ) : (
                         item.name

@@ -37,7 +37,7 @@ const ModuleItem = ({
 
     const { isModuleManager, isLocked, isActive } = useModule()
 
-    const { singularCapitalize } = model.defaults
+    const { singularCapitalize, plural } = model.defaults
 
     /**
      * Check if user has owner rights in object
@@ -95,7 +95,11 @@ const ModuleItem = ({
                     {hasViewButton && !hasRights && (
                         <Hyperlink asChild>
                             <Link
-                                to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`}>
+                                to={
+                                    ModuleObjectContext?.Action === 'Create'
+                                        ? `/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`
+                                        : `/muteer/${plural}/${Object_ID}`
+                                }>
                                 Bekijken
                             </Link>
                         </Hyperlink>

@@ -237,8 +237,6 @@ export const ConnectionModal = ({
         }
     }
 
-    console.log(initialStep, isFinalStep)
-
     return (
         <Modal
             id="objectAddConnection"
