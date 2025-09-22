@@ -73,7 +73,7 @@ const ModuleItemDropdown = ({
         ...((hasRights && [
             {
                 text: 'Bekijken',
-                link: `/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`,
+                link: `/muteer/${plural}/${Object_ID}`,
             },
         ]) ||
             []),

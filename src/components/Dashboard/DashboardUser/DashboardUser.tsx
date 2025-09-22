@@ -20,7 +20,7 @@ import {
     Module,
     ModuleObjectShort,
 } from '@/api/fetchers.schemas'
-import ObjectCard from '@/components/DynamicObject/ObjectActiveModules/ObjectCard'
+import ObjectCard from '@/components/DynamicObject/ObjectCard'
 import { LoaderCard } from '@/components/Loader'
 import ModuleTile from '@/components/Modules/ModuleTile'
 import * as models from '@/config/objects'

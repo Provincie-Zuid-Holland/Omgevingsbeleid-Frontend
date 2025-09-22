@@ -8,7 +8,7 @@ import TableOfContents from '@/components/TableOfContents/TableOfContents'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import { getStaticDataLabel } from '@/utils/dynamicObject'
-import { parseUtc } from '@/utils/parseUtc'
+import { formatValidityDate } from '@/utils/formatValidityDate'
 
 interface ObjectSidebarProps extends ModelReturnType {
     /** Model of object */
@@ -43,63 +43,25 @@ const ObjectSidebar = ({
 
     const today = useMemo(() => formatDate(new Date(), 'd MMMM yyyy'), [])
 
-    const formattedDate = useMemo(() => {
-        const today = new Date()
-        const startDate = Start_Validity ? parseUtc(Start_Validity) : null
-        const endDate = End_Validity ? parseUtc(End_Validity) : null
-        const nextStartDate = Next_Version?.Start_Validity
-            ? parseUtc(Next_Version.Start_Validity)
-            : null
-
-        if (!startDate || isRevision) {
-            return 'Nog niet geldig, versie in bewerking'
-        }
-
-        const isCurrentlyValid =
-            today > startDate && (!endDate || today <= endDate)
-        const hasNextVersionStarted = nextStartDate && today > nextStartDate
-
-        if (isCurrentlyValid) {
-            if (!Next_Version) {
-                return `Geldend van ${formatDate(
-                    startDate,
-                    'dd-MM-yyyy'
-                )} t/m heden`
-            }
-            if (hasNextVersionStarted) {
-                return `Geldend van ${formatDate(
-                    startDate,
-                    'dd-MM-yyyy'
-                )} tot ${formatDate(nextStartDate, 'dd-MM-yyyy')}`
-            }
-        }
-
-        if (endDate && revisions?.length) {
-            const currentIndex = revisions.findIndex(
-                revision => revision.UUID === UUID
-            )
-            if (currentIndex !== -1 && currentIndex < revisions.length - 1) {
-                const prevRevision = revisions[currentIndex + 1]
-                const prevStartDate = prevRevision.Start_Validity
-                    ? parseUtc(prevRevision.Start_Validity)
-                    : null
-
-                if (prevStartDate) {
-                    return `Geldend van ${formatDate(
-                        prevStartDate,
-                        'dd-MM-yyyy'
-                    )} t/m ${formatDate(endDate, 'dd-MM-yyyy')}`
-                }
-            }
-        }
-    }, [
-        Start_Validity,
-        End_Validity,
-        isRevision,
-        Next_Version,
-        revisions,
-        UUID,
-    ])
+    const formattedDate = useMemo(
+        () =>
+            formatValidityDate({
+                UUID,
+                Start_Validity,
+                End_Validity,
+                isRevision,
+                Next_Version,
+                revisions,
+            }),
+        [
+            Start_Validity,
+            End_Validity,
+            isRevision,
+            Next_Version,
+            revisions,
+            UUID,
+        ]
+    )
 
     return (
         <aside className="sticky top-[120px]">
