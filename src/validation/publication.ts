@@ -70,7 +70,7 @@ export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
         Time_Article: schemaDefaults.requiredString(),
         Custom_Articles: array(
             object({
-                Label: schemaDefaults.requiredString(),
+                Number: schemaDefaults.requiredString(),
                 Content: schemaDefaults.requiredString(),
             })
         ).optional(),
