@@ -88,7 +88,7 @@ const ModuleItem = ({
                             <Hyperlink asChild>
                                 <Link
                                     to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}/bewerk`}>
-                                    Bewerken
+                                    Bewerk onderdeel
                                 </Link>
                             </Hyperlink>
                         )}
@@ -96,7 +96,7 @@ const ModuleItem = ({
                         <Hyperlink asChild>
                             <Link
                                 to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`}>
-                                Bekijken
+                                Bekijk detailpagina
                             </Link>
                         </Hyperlink>
                     )}
