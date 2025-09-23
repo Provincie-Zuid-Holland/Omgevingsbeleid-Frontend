@@ -22,7 +22,7 @@ interface ObjectDetailProps {
 }
 
 const ObjectDetail = ({ model }: ObjectDetailProps) => {
-    const { moduleId, objectId } = useParams()
+    const { objectId } = useParams()
     const objectIdNum = objectId ? Number(objectId) : undefined
 
     const [pageIndex, setPageIndex] = useState(1)
@@ -122,7 +122,7 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
                         {pageIndex * PAGE_LIMIT <
                             (validLineage?.total || 0) && (
                             <Button
-                                className="self-start"
+                                className="self-end"
                                 onPress={() => setPageIndex(prev => prev + 1)}
                                 isLoading={isFetching}>
                                 Laad meer versies
