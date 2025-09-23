@@ -211,13 +211,14 @@ const Articles = () => (
             fields={[
                 {
                     type: 'text',
-                    name: 'Label',
-                    label: '',
+                    name: 'Number',
+                    label: 'Nummer',
+                    placeholder: 'Voer hier een nummer in, bijvoorbeeld: III',
                 },
                 {
                     type: 'wysiwyg',
                     name: 'Content',
-                    label: '',
+                    label: 'Inhoud van artikel',
                 },
             ]}
         />
