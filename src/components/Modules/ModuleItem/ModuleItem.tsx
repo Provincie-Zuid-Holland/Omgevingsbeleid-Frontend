@@ -88,19 +88,15 @@ const ModuleItem = ({
                             <Hyperlink asChild>
                                 <Link
                                     to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}/bewerk`}>
-                                    Bewerken
+                                    Bewerk onderdeel
                                 </Link>
                             </Hyperlink>
                         )}
                     {hasViewButton && !hasRights && (
                         <Hyperlink asChild>
                             <Link
-                                to={
-                                    ModuleObjectContext?.Action === 'Create'
-                                        ? `/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`
-                                        : `/muteer/${plural}/${Object_ID}`
-                                }>
-                                Bekijken
+                                to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`}>
+                                Bekijk detailpagina
                             </Link>
                         </Hyperlink>
                     )}
