@@ -123,6 +123,10 @@ const maatregel: DynamicObject<
                     hasAreaSelect: true,
                     customMenuOptions: ['image', 'table'],
                     imageOptions: {
+                        options: {
+                            allowBase64: true,
+                            inline: true,
+                        },
                         uploadOptions: {
                             maxSize: 819200,
                         },
@@ -149,6 +153,10 @@ const maatregel: DynamicObject<
                     hasAreaSelect: true,
                     customMenuOptions: ['image', 'table'],
                     imageOptions: {
+                        options: {
+                            allowBase64: true,
+                            inline: true,
+                        },
                         uploadOptions: {
                             maxSize: 819200,
                         },
