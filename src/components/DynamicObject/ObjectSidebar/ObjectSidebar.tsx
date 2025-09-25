@@ -112,26 +112,22 @@ const ObjectSidebar = ({
                     {formattedDate}
                 </Text>
 
-                {!isRevision && (
-                    <div className="mt-2">
-                        {revisionsLoading ? (
-                            <LoaderCard height="30" mb="" className="w-28" />
-                        ) : !!revisions && revisions.length > 1 ? (
-                            <button
-                                className="text-pzh-green-500 underline"
-                                onClick={handleModal}>
-                                Bekijk {revisions.length - 1}{' '}
-                                {revisions.length === 2
-                                    ? 'revisie'
-                                    : 'revisies'}
-                            </button>
-                        ) : (
-                            <span className="italic text-pzh-gray-600">
-                                Geen revisies
-                            </span>
-                        )}
-                    </div>
-                )}
+                <div className="mt-2">
+                    {revisionsLoading ? (
+                        <LoaderCard height="30" mb="" className="w-28" />
+                    ) : !!revisions && revisions.length > 1 ? (
+                        <button
+                            className="text-pzh-green-500 underline"
+                            onClick={handleModal}>
+                            Bekijk {revisions.length - 1}{' '}
+                            {revisions.length === 2 ? 'revisie' : 'revisies'}
+                        </button>
+                    ) : (
+                        <span className="text-pzh-gray-600 italic">
+                            Geen revisies
+                        </span>
+                    )}
+                </div>
             </div>
 
             <div className="mb-6">
@@ -144,7 +140,7 @@ const ObjectSidebar = ({
 
             {!!user && (
                 <div>
-                    <Text size="s" className="mb-3 italic text-pzh-blue-900">
+                    <Text size="s" className="text-pzh-blue-900 mb-3 italic">
                         Onderstaande informatie is alleen inzichtelijk voor
                         gebruikers die zijn ingelogd
                     </Text>

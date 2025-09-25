@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
 import { ToastType } from '@/config/notifications'
+import { ACCESS_TOKEN_KEY, IDENTIFIER_KEY } from '@/context/AuthContext'
 import getApiUrl from '@/utils/getApiUrl'
 import globalErrorBoundary from '@/utils/globalErrorBoundary'
 import globalRouter from '@/utils/globalRouter'
@@ -41,7 +42,10 @@ const handleAxiosError = (error: AxiosError) => {
     console.error(`Axios error: ${error.message}`)
 
     // Handle authentication errors
-    if (status && new Set([401, 403]).has(status)) {
+    if (status && (status === 401 || status === 403)) {
+        // clear auth
+        localStorage.removeItem(ACCESS_TOKEN_KEY)
+        localStorage.removeItem(IDENTIFIER_KEY)
         toastNotification('notLoggedIn')
         globalRouter.navigate?.('/login')
         return

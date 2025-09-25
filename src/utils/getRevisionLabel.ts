@@ -1,22 +1,40 @@
+import { ModelReturnType } from '@/config/objects/types'
 import { formatDate } from '@pzh-ui/components'
 
-import { ModelReturnType } from '@/config/objects/types'
+type MaybeRevision<T> = T & { isRevision?: boolean }
+type STATUS = 'Vigerend' | 'Vastgesteld' | 'Gearchiveerd'
+type PREFIX = 'Sinds' | 'Vanaf'
 
+/**
+ * Convert an ISO date string (or null/undefined) to a Date object,
+ * or return null if falsy.
+ */
+const toDate = (iso?: string | null): Date | null =>
+    iso ? new Date(iso) : null
+
+/**
+ * Builds a revision label based on validity dates/status.
+ */
 const getRevisionLabel = (
-    object: ModelReturnType,
-    initialObject: ModelReturnType,
+    object: MaybeRevision<ModelReturnType>,
+    initialObject: MaybeRevision<ModelReturnType>,
     latest?: string
 ): string => {
-    const { Start_Validity, End_Validity, UUID } = object
+    const { Start_Validity, End_Validity, UUID, isRevision } = object
     if (!Start_Validity) return ''
 
     const today = new Date()
-    const startDate = new Date(Start_Validity)
-    const endDate = End_Validity ? new Date(End_Validity) : null
+    today.setHours(0, 0, 0, 0)
+
+    const startDate = toDate(Start_Validity)!
+    const endDate = toDate(End_Validity)
     const formattedDate = formatDate(startDate, 'd MMMM yyyy')
 
-    let status = 'Vigerend'
-    let prefix = 'Sinds'
+    if (isRevision) return 'Ontwerpversie'
+
+    // Defaults
+    let status: STATUS = 'Vigerend'
+    let prefix: PREFIX = 'Sinds'
 
     if (startDate > today) {
         status = 'Vastgesteld'

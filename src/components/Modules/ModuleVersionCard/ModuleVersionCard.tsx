@@ -12,6 +12,7 @@ import {
 } from '@/api/fetchers'
 import { ModuleStatusCode } from '@/api/fetchers.schemas'
 import { toastNotification } from '@/utils/toastNotification'
+import { AxiosError } from 'axios'
 
 interface ModuleVersionCardProps {
     variant?: 'column' | 'row'
@@ -65,8 +66,8 @@ const ModuleVersionCard = ({ variant = 'column' }: ModuleVersionCardProps) => {
                     data: { Status: payload.Status },
                 })
                 .then(() => helpers.resetForm())
-                .catch(err => {
-                    helpers.setFieldError('Status', err.data.detail)
+                .catch((err: AxiosError<{ detail: string }>) => {
+                    helpers.setFieldError('Status', err.response?.data.detail)
                     helpers.setSubmitting(false)
                 })
         }

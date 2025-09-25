@@ -50,6 +50,7 @@ const visieAlgemeen: DynamicObject<
         singularReadable: 'visie algemeen',
         singularCapitalize: 'Visie',
         plural: 'visies-algemeen',
+        pluralReadable: 'visies algemeen',
         pluralCapitalize: 'Visies algemeen',
         prefixSingular: 'de',
         prefixPlural: 'de',

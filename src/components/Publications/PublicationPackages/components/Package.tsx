@@ -10,6 +10,7 @@ import { useMemo } from 'react'
 import { PackageType, PublicationPackage } from '@/api/fetchers.schemas'
 import useModalStore from '@/store/modalStore'
 
+import { useNavigate } from 'react-router-dom'
 import { PublicationType } from '../../types'
 import { useActions } from './actions'
 import { getIndicatorClass, getPackageStatus } from './utils'
@@ -36,6 +37,7 @@ const Package = ({
     canPublicate,
     Package_Type,
 }: PackageProps) => {
+    const navigate = useNavigate()
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const { downloadPackage } = useActions({
@@ -142,6 +144,11 @@ const Package = ({
                             size="small"
                             icon={EyeLight}
                             aria-label="Bekijk levering"
+                            onPress={() =>
+                                navigate(
+                                    `/muteer/leveringen/${publicationType}/${UUID}`
+                                )
+                            }
                         />
                     )}
                     <Button

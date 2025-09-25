@@ -58,6 +58,8 @@ export interface DynamicObject<
         singularCapitalize: string
         /** Plural of object type */
         plural: string
+        /** Readable plural of object type */
+        pluralReadable: string
         /** Plural of object type (capitalized) */
         pluralCapitalize: string
         /** Prefix value of singular */

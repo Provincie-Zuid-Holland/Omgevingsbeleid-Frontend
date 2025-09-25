@@ -4,7 +4,7 @@ import { StepProps } from './types'
 
 export const StepOne = ({}: StepProps) => (
     <div>
-        <Heading level="2" className="mb-4">
+        <Heading level="2" size="xl" className="mb-4">
             Wat wil je toevoegen?
         </Heading>
         <Text className="mb-4">

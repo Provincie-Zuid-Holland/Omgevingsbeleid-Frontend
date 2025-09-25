@@ -3,6 +3,7 @@ import { Form, Formik } from 'formik'
 import { useShallow } from 'zustand/react/shallow'
 
 import Modal from '@/components/Modal'
+import { ModalFooter } from '@/components/Modal/Modal'
 import * as sections from '@/config/regulations/sections'
 import useModalStore from '@/store/modalStore'
 import useRegulationStore from '@/store/regulationStore'
@@ -35,7 +36,6 @@ const RegulationDeleteSectionModal = () => {
 
     return (
         <Modal
-            size="m"
             id="regulationDelete"
             title={`${singularCapitalize} ${itemAction.index} verwijderen`}>
             <Text className="mb-3">
@@ -55,7 +55,7 @@ const RegulationDeleteSectionModal = () => {
                             wil verwijderen
                         </FormikCheckbox>
 
-                        <div className="mt-5 flex items-center justify-between">
+                        <ModalFooter className="mt-4">
                             <Button
                                 variant="link"
                                 onPress={() => setActiveModal(null)}>
@@ -68,7 +68,7 @@ const RegulationDeleteSectionModal = () => {
                                 isLoading={isSubmitting}>
                                 Verwijderen
                             </Button>
-                        </div>
+                        </ModalFooter>
                     </Form>
                 )}
             </Formik>

@@ -5,6 +5,7 @@ import { useMemo } from 'react'
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { useStorageFilePostFilesUpload } from '@/api/fetchers'
+import { HTTPValidationError } from '@/api/fetchers.schemas'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import { LockedNotification } from '@/components/Modules/ModuleLock/ModuleLock'
 import { Model } from '@/config/objects/types'
@@ -13,6 +14,7 @@ import useObject from '@/hooks/useObject'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 import handleError from '@/utils/handleError'
+import { AxiosError } from 'axios'
 
 interface ObjectEditProps {
     model: Model
@@ -139,8 +141,10 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                     ])
                 })
                 .then(() => navigate(`/muteer/modules/${moduleId}`))
-                .catch(err =>
-                    handleError<typeof initialData>(err.response, helpers)
+                .catch(
+                    (err: AxiosError<HTTPValidationError>) =>
+                        err.response &&
+                        handleError<typeof initialData>(err.response, helpers)
                 )
         }
 

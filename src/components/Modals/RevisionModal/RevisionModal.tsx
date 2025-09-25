@@ -90,7 +90,7 @@ const RevisionModal = ({
     }, [revisionToUuid])
 
     return (
-        <Modal id="revision" title="Revisieoverzicht" size="m">
+        <Modal id="revision" title="Revisieoverzicht">
             <Text className="mb-4">
                 Vergelijk de versies van {prefixSingular} {singularReadable} “
                 {initialObject?.Title}”.

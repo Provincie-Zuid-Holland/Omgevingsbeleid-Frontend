@@ -50,6 +50,7 @@ const programmaAlgemeen: DynamicObject<
         singularReadable: 'programma algemeen',
         singularCapitalize: 'Programma algemeen',
         plural: 'programmas-algemeen',
+        pluralReadable: "programma's algemeen",
         pluralCapitalize: "Programma's algemeen",
         prefixSingular: 'het',
         prefixPlural: 'de',

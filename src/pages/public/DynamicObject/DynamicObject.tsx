@@ -94,7 +94,22 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                 limit: 100,
             },
             {
-                query: { enabled: !!data?.Object_ID && !isRevision },
+                query: {
+                    enabled: !!data?.Object_ID,
+                    select: e => {
+                        if (isRevision) {
+                            return {
+                                ...e,
+                                results: [
+                                    { ...data, isRevision: true },
+                                    ...e.results,
+                                ],
+                            }
+                        }
+
+                        return e
+                    },
+                },
             }
         ) || {}
 
@@ -141,8 +156,8 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
      * Set initial object which can be used in the revision modal
      */
     useEffect(() => {
-        setInitialObject(latest)
-        setRevisionFrom(latest)
+        setInitialObject(isRevision ? data : latest)
+        setRevisionFrom(isRevision ? data : latest)
         setRevisionTo(undefined)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [latest])

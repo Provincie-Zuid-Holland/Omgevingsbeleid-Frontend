@@ -50,6 +50,7 @@ const document: DynamicObject<
         singularReadable: 'document',
         singularCapitalize: 'Document',
         plural: 'documenten',
+        pluralReadable: 'documenten',
         pluralCapitalize: 'Documenten',
         prefixSingular: 'het',
         prefixPlural: 'de',

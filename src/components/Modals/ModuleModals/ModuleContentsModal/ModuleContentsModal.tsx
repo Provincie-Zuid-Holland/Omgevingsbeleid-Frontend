@@ -23,6 +23,7 @@ import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
 
+import { ModalFooter } from '@/components/Modal/Modal'
 import { StepFive, StepFour, StepOne, StepThree, StepTwo } from './steps'
 
 const steps = [StepOne, StepTwo, StepThree, StepFour, StepFive]
@@ -192,13 +193,15 @@ const ModuleContentsModal = ({
                 enableReinitialize
                 validateOnBlur={false}>
                 {({ values, isValid, isSubmitting, submitForm }) => (
-                    <Form onSubmit={e => e.preventDefault()}>
+                    <Form
+                        onSubmit={e => e.preventDefault()}
+                        className="flex flex-col gap-4">
                         <CurrentStep
                             title={module?.Title}
                             existingObject={existingObject}
                             setExistingObject={setExistingObject}
                         />
-                        <div className="mt-6 flex items-center justify-between">
+                        <ModalFooter>
                             <Button variant="link" onPress={handleClose}>
                                 Annuleren
                             </Button>
@@ -234,7 +237,7 @@ const ModuleContentsModal = ({
                                         : 'Volgende stap'}
                                 </Button>
                             </div>
-                        </div>
+                        </ModalFooter>
                     </Form>
                 )}
             </Formik>

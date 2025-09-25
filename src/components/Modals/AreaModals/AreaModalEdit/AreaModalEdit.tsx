@@ -14,6 +14,7 @@ import { useSourceWerkingsgebiedenGetListWerkingsgebieden } from '@/api/fetchers
 import AreaPreview from '@/components/AreaPreview'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
+import { ModalFooter } from '@/components/Modal/Modal'
 import useModalStore from '@/store/modalStore'
 
 export interface AreaProps {
@@ -108,7 +109,6 @@ const AreaModalEdit = ({
         <Modal
             id="areaEdit"
             title="Werkingsgebied wijzigen"
-            size="xl"
             onClose={handleClose}>
             <Formik
                 onSubmit={handleSubmit}
@@ -116,8 +116,8 @@ const AreaModalEdit = ({
                 enableReinitialize>
                 {({ isSubmitting, values }) => (
                     <Form>
-                        <div>
-                            <Text className="mb-6">
+                        <div className="mb-4">
+                            <Text className="mb-4">
                                 Selecteer een versie om te koppelen.
                             </Text>
 
@@ -208,7 +208,7 @@ const AreaModalEdit = ({
                             </div>
                         </div>
 
-                        <div className="mt-6 flex items-center justify-between">
+                        <ModalFooter>
                             <Button variant="link" onPress={handleClose}>
                                 Annuleren
                             </Button>
@@ -218,7 +218,7 @@ const AreaModalEdit = ({
                                 isDisabled={isSubmitting}>
                                 Koppelen
                             </Button>
-                        </div>
+                        </ModalFooter>
                     </Form>
                 )}
             </Formik>
