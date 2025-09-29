@@ -98,19 +98,38 @@ const InnerForm = <TData extends FormikValues>({
                         }}
                     />
                 </div>
-                <FormikInput
-                    name="Bill_Metadata.Official_Title"
-                    label="Officiële titel van het besluit"
-                    required
-                />
-                <FormikRte name="Bill_Compact.Preamble" label="Aanhef" />
+                <div>
+                    <FormikInput
+                        name="Bill_Metadata.Official_Title"
+                        label="Officiële titel van het besluit"
+                        required
+                    />
+                </div>
+                <div>
+                    <FormikInput
+                        name="Bill_Metadata.Quote_Title"
+                        label="Citeertitel"
+                        placeholder="Bijv. (Ontwerpbesluit) Wijziging [instrument] Zuid-Holland [modulenaam]"
+                        required
+                    />
+                </div>
+                <div>
+                    <FormikRte name="Bill_Compact.Preamble" label="Aanhef" />
+                </div>
                 <Articles />
-                <FormikRte
-                    name="Bill_Compact.Closing"
-                    label="Sluiting"
-                    placeholder="Bijv. Gegeven te 's-Gravenhage, 27 september 2023"
-                />
-                <FormikRte name="Bill_Compact.Signed" label="Ondertekening" />
+                <div>
+                    <FormikRte
+                        name="Bill_Compact.Closing"
+                        label="Sluiting"
+                        placeholder="Bijv. Gegeven te 's-Gravenhage, 27 september 2023"
+                    />
+                </div>
+                <div>
+                    <FormikRte
+                        name="Bill_Compact.Signed"
+                        label="Ondertekening"
+                    />
+                </div>
 
                 <div className="bg-pzh-gray-100 flex flex-col gap-4 p-4">
                     <Text>Procedureverloop</Text>

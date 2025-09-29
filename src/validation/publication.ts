@@ -63,6 +63,7 @@ export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
         .nullable(),
     Bill_Metadata: object({
         Official_Title: schemaDefaults.requiredString(),
+        Quote_Title: schemaDefaults.requiredString(),
     }),
     Bill_Compact: object({
         Preamble: schemaDefaults.optionalString,
