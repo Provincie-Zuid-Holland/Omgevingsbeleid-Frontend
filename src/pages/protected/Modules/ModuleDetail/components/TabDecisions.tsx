@@ -69,7 +69,10 @@ export const Publications = () => {
         })
 
     const { data: environments } =
-        usePublicationEnvironmentsGetListEnvironments({ limit: 100 })
+        usePublicationEnvironmentsGetListEnvironments({
+            limit: 100,
+            is_active: true,
+        })
 
     useEffect(() => {
         if (!!publications?.results.length && !publicationsFetching) {
