@@ -217,7 +217,7 @@ const Document = ({
                                     {version?.Module_Status.Status} (
                                     {statusCreatedDate})
                                 </Text>
-                                {!isLastStatus && (
+                                {!isLastStatus && !version.Is_Locked && (
                                     <Tooltip
                                         label={
                                             <Text
