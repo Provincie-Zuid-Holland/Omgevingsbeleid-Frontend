@@ -20,7 +20,7 @@ import { DynamicObject } from './types'
 
 const fetchers = {
     useGetValid: useVerplichtProgrammaListValidLineages,
-    useGetValidLineage: null,
+    useGetValidLineage: useVerplichtProgrammaViewObjectLatest,
     useGetVersion: null,
     useGetLatestLineage: useVerplichtProgrammaViewObjectLatest,
     useGetRevision: null,
