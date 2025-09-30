@@ -79,13 +79,8 @@ const ModuleItemDropdown = ({
             []),
         {
             text: 'Bekijk voorbeeld',
-            callback: () =>
-                window
-                    .open(
-                        `/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${UUID}`,
-                        '_blank'
-                    )
-                    ?.focus(),
+            isExternal: true,
+            link: `/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${UUID}`,
         },
         ...((ModuleObjectContext?.Action !== 'Terminate' &&
             hasRights &&
