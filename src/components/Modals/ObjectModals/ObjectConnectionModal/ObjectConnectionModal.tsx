@@ -1,8 +1,8 @@
 import { Button } from '@pzh-ui/components'
 import { useUpdateEffect } from '@react-hookz/web'
 import { useQueryClient } from '@tanstack/react-query'
-import { Form, Formik, FormikHelpers } from 'formik'
-import { useState } from 'react'
+import { Form, Formik, FormikHelpers, FormikProps } from 'formik'
+import { useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
@@ -193,6 +193,9 @@ export const ConnectionModal = ({
 
     const [step, setStep] = useState(initialStep)
 
+    const formikRef =
+        useRef<FormikProps<ConnectionPayload & { type?: 'edit' }>>(null)
+
     const CurrentStep = steps[step - 1]
     const isFinalStep = step === (connectionModel?.defaults?.atemporal ? 2 : 3)
     const isDeleteStep = step === 4
@@ -203,6 +206,10 @@ export const ConnectionModal = ({
      * Update step if initialStep has changed
      */
     useUpdateEffect(() => setStep(initialStep), [initialStep])
+
+    useUpdateEffect(() => {
+        formikRef.current?.validateForm()
+    }, [step])
 
     /**
      * Update step if activeModal has changed
@@ -256,7 +263,8 @@ export const ConnectionModal = ({
                 validationSchema={toFormikValidationSchema(
                     currentValidationSchema
                 )}
-                enableReinitialize>
+                enableReinitialize
+                innerRef={formikRef}>
                 {({ isValid, isSubmitting, submitForm, values }) => (
                     <Form onSubmit={e => e.preventDefault()}>
                         <CurrentStep
