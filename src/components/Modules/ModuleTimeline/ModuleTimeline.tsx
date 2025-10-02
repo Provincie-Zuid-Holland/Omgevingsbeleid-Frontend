@@ -1,6 +1,5 @@
-import { Badge, Text, formatDate } from '@pzh-ui/components'
-import classNames from 'clsx'
-import { useMemo } from 'react'
+import { Badge, Text, cn, formatDate } from '@pzh-ui/components'
+import { Fragment, useMemo } from 'react'
 
 import { ModuleStatus } from '@/api/fetchers.schemas'
 import { getModuleStatusColor } from '@/utils/module'
@@ -13,7 +12,14 @@ interface ModuleTimelineProps {
 
 const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
     const filteredHistory = useMemo(
-        () => statusHistory.filter(status => status.Status !== 'Niet-Actief'),
+        () =>
+            statusHistory
+                .filter(status => status.Status !== 'Niet-Actief')
+                .sort(
+                    (a, b) =>
+                        parseUtc(b.Created_Date).getTime() -
+                        parseUtc(a.Created_Date).getTime()
+                ),
         [statusHistory]
     )
 
@@ -23,37 +29,51 @@ const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
                 Tijdlijn
             </Text>
 
-            <div className="mt-4">
+            <div className="mt-4 grid grid-cols-[max-content_45px_1fr] items-center gap-y-5">
                 {filteredHistory.map((status, index) => {
                     const hasPeer =
                         index + 1 !== filteredHistory.length &&
                         filteredHistory.length !== 1
 
                     return (
-                        <div
-                            key={status.ID}
-                            className={classNames('flex items-center', {
-                                'mb-5': hasPeer,
-                            })}>
-                            <span className="text-s -mb-1 w-[84px]">
+                        <Fragment key={status.ID}>
+                            <span className="text-s whitespace-nowrap">
                                 {formatDate(
                                     parseUtc(status.Created_Date),
-                                    'dd-MM-yyyy'
+                                    'dd-MM-yyyy, kk:mm'
                                 )}
                             </span>
-                            <div className="border-pzh-blue-500 relative mx-2 h-[13px] w-[13px] rounded-full border-2">
+
+                            <div className="relative flex items-start justify-center">
+                                <div
+                                    className={cn(
+                                        'border-pzh-blue-500 h-[13px] w-[13px] rounded-full border-2 bg-white',
+                                        {
+                                            'bg-pzh-blue-500 outline-pzh-blue-500 outline-2 outline-offset-1':
+                                                index === 0,
+                                        }
+                                    )}
+                                />
                                 {hasPeer && (
-                                    <div className="bg-pzh-blue-500 absolute top-[11px] left-1 h-8 w-px" />
+                                    <div
+                                        className={cn(
+                                            'bg-pzh-blue-500 absolute top-[13px] left-1/2 h-8 w-px -translate-x-1/2',
+                                            {
+                                                'top-4 h-7': index === 0,
+                                            }
+                                        )}
+                                    />
                                 )}
                             </div>
 
                             <Badge
-                                className="truncate"
+                                className="w-fit truncate"
                                 text={status.Status}
                                 variant={getModuleStatusColor(status.Status)}
+                                solid={status.Status === 'Module afgerond'}
                                 upperCase={false}
                             />
-                        </div>
+                        </Fragment>
                     )
                 })}
             </div>
