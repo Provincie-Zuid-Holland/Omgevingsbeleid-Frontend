@@ -70,7 +70,7 @@ const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
                                 className="w-fit truncate"
                                 text={status.Status}
                                 variant={getModuleStatusColor(status.Status)}
-                                solid={status.Status === 'Module afgerond'}
+                                solid={index === 0}
                                 upperCase={false}
                             />
                         </Fragment>
