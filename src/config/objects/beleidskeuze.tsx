@@ -133,6 +133,16 @@ const beleidskeuze: DynamicObject<
                     type: 'wysiwyg',
                     required: true,
                     hasAreaSelect: true,
+                    customMenuOptions: ['image'],
+                    imageOptions: {
+                        options: {
+                            allowBase64: true,
+                            inline: true,
+                        },
+                        uploadOptions: {
+                            maxSize: 819200,
+                        },
+                    },
                 },
                 {
                     name: 'Cause',
@@ -142,6 +152,16 @@ const beleidskeuze: DynamicObject<
                     type: 'wysiwyg',
                     required: true,
                     hasAreaSelect: true,
+                    customMenuOptions: ['image'],
+                    imageOptions: {
+                        options: {
+                            allowBase64: true,
+                            inline: true,
+                        },
+                        uploadOptions: {
+                            maxSize: 819200,
+                        },
+                    },
                 },
                 {
                     name: 'Provincial_Interest',
@@ -151,6 +171,16 @@ const beleidskeuze: DynamicObject<
                     type: 'wysiwyg',
                     required: true,
                     hasAreaSelect: true,
+                    customMenuOptions: ['image'],
+                    imageOptions: {
+                        options: {
+                            allowBase64: true,
+                            inline: true,
+                        },
+                        uploadOptions: {
+                            maxSize: 819200,
+                        },
+                    },
                 },
                 {
                     name: 'Explanation',
@@ -159,6 +189,16 @@ const beleidskeuze: DynamicObject<
                         'Op welke thema’s, onderwerpen en gebieden gaat de beleidskeuze iets wijzigen, en waarom is dit gewenst? Beschrijf ook de relatie met andere beleidsterreinen.',
                     type: 'wysiwyg',
                     hasAreaSelect: true,
+                    customMenuOptions: ['image'],
+                    imageOptions: {
+                        options: {
+                            allowBase64: true,
+                            inline: true,
+                        },
+                        uploadOptions: {
+                            maxSize: 819200,
+                        },
+                    },
                 },
             ],
         },
