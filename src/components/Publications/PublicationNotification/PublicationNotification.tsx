@@ -12,6 +12,7 @@ import {
     PublicationVersion,
 } from '@/api/fetchers.schemas'
 
+import { parseUtc } from '@/utils/parseUtc'
 import { PublicationType } from '../types'
 
 interface PublicationNotificationProps {
@@ -50,14 +51,14 @@ const PublicationNotification = ({
     const actAnnouncementDate = useMemo(
         () =>
             version?.Announcement_Date &&
-            formatDate(new Date(version.Announcement_Date), 'd LLLL yyyy'),
+            formatDate(parseUtc(version.Announcement_Date), 'd LLLL yyyy'),
         [version]
     )
 
     const announcementDate = useMemo(
         () =>
             announcement?.Announcement_Date &&
-            formatDate(new Date(announcement.Announcement_Date), 'd LLLL yyyy'),
+            formatDate(parseUtc(announcement.Announcement_Date), 'd LLLL yyyy'),
         [announcement]
     )
 

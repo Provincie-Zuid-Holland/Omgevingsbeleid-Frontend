@@ -1,5 +1,6 @@
 import { Transition } from '@headlessui/react'
 import { cn } from '@pzh-ui/components'
+import { ArrowUpRightFromSquareLight } from '@pzh-ui/icons'
 import { useClickOutside } from '@react-hookz/web'
 import classNames from 'clsx'
 import { ReactNode, useRef } from 'react'
@@ -10,6 +11,7 @@ export type DropdownItem = {
     className?: string
     callback?: () => void
     link?: string
+    isExternal?: boolean
 }
 
 export interface DropdownProps {
@@ -25,7 +27,7 @@ function Dropdown({ isOpen, setIsOpen, items, className }: DropdownProps) {
             className={className}
             isOpen={isOpen}
             setIsOpen={setIsOpen}>
-            {items.map((item, index) => {
+            {items.map(item => {
                 const Element = item.link
                     ? DropdownLinkElement
                     : DropdownTextElement
@@ -34,7 +36,6 @@ function Dropdown({ isOpen, setIsOpen, items, className }: DropdownProps) {
                     <Element
                         setIsOpen={setIsOpen}
                         item={item}
-                        index={index}
                         key={item.text}
                     />
                 )
@@ -75,12 +76,14 @@ const DropdownContainer = ({
                 leaveFrom="scale-100 top-0"
                 leaveTo="scale-90 -top-1"
                 className={classNames(
-                    'tooltip-right tooltip-triangle bg-pzh-white text-pzh-gray-700 absolute top-0 right-0 z-50 mt-12 min-w-[200px] rounded text-left shadow-[0_0_15px_5px_rgba(0,0,0,0.1)]',
+                    'tooltip-right tooltip-triangle bg-pzh-white text-pzh-gray-700 absolute top-0 right-0 z-50 mt-12 min-w-[200px] rounded text-left shadow-[0_0_8px_1px_rgba(0,0,0,0.2)]',
                     className
                 )}
                 ref={innerContainer}>
                 <div className="relative h-full">
-                    <ul className="text-pzh-gray-800 w-max py-1">{children}</ul>
+                    <ul className="text-pzh-blue-500 flex w-max flex-col gap-2 py-4">
+                        {children}
+                    </ul>
                 </div>
             </Transition>
             {hasBackdrop && isOpen && (
@@ -92,60 +95,48 @@ const DropdownContainer = ({
 
 type DropdownElementProps = {
     item: DropdownItem
-    index: number
     setIsOpen: (isOpen: boolean) => void
 }
 
-const DropdownLinkElement = ({
-    item,
-    index,
-    setIsOpen,
-}: DropdownElementProps) => {
-    return (
-        <li key={item.text}>
-            <Link
-                className={cn(
-                    'hover:bg-pzh-gray-100/25 block w-full px-4 pt-1.5 pb-0.5 hover:underline',
-                    {
-                        'border-pzh-gray-300 border-t': index !== 0,
-                    },
-                    item.className
-                )}
-                to={item.link || ''}
-                onClick={() => {
-                    item.callback?.()
-                    setIsOpen(false)
-                }}>
-                {item.text}
-            </Link>
-        </li>
-    )
-}
+const DropdownLinkElement = ({ item, setIsOpen }: DropdownElementProps) => (
+    <li key={item.text}>
+        <Link
+            className={cn(
+                'flex w-full items-center px-6 hover:underline',
+                item.className
+            )}
+            to={item.link || ''}
+            onClick={() => {
+                item.callback?.()
+                setIsOpen(false)
+            }}
+            {...(item.isExternal && {
+                target: '_blank',
+                rel: 'noopener noreferrer',
+            })}>
+            {item.text}
+            {item.isExternal && (
+                <ArrowUpRightFromSquareLight className="ml-1" />
+            )}
+        </Link>
+    </li>
+)
 
-const DropdownTextElement = ({
-    item,
-    index,
-    setIsOpen,
-}: DropdownElementProps) => {
-    return (
-        <li key={item.text}>
-            <button
-                onClick={() => {
-                    item.callback?.()
-                    setIsOpen(false)
-                }}
-                className={cn(
-                    'hover:bg-pzh-gray-100/50 w-full cursor-pointer px-4 pt-1.5 pb-0.5 text-left hover:underline',
-                    {
-                        'border-pzh-gray-300 border-t': index !== 0,
-                    },
-                    item.className
-                )}>
-                {item.text}
-            </button>
-        </li>
-    )
-}
+const DropdownTextElement = ({ item, setIsOpen }: DropdownElementProps) => (
+    <li key={item.text}>
+        <button
+            onClick={() => {
+                item.callback?.()
+                setIsOpen(false)
+            }}
+            className={cn(
+                'w-full cursor-pointer px-6 text-left hover:underline',
+                item.className
+            )}>
+            {item.text}
+        </button>
+    </li>
+)
 
 export { DropdownContainer }
 export default Dropdown

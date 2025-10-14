@@ -20,6 +20,7 @@ import SearchBar from '@/components/SearchBar'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
+import { parseUtc } from '@/utils/parseUtc'
 
 const PAGE_LIMIT = 20
 
@@ -182,7 +183,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
             pageIndex: 1,
             pageSize: PAGE_LIMIT,
         })
-    }, [plural])
+    }, [plural, query])
 
     /**
      * Setup Table columns
@@ -238,7 +239,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                         <span className="flex items-center justify-between">
                             {Modified_Date
                                 ? formatDate(
-                                      new Date(Modified_Date + 'Z'),
+                                      parseUtc(Modified_Date),
                                       'cccccc d MMMM yyyy, p'
                                   )
                                 : 'nooit'}
@@ -248,13 +249,9 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                     ...((!atemporal || (atemporal && canCreateModule)) && {
                         onClick: () =>
                             navigate(
-                                type === 'valid'
-                                    ? `/muteer/${plural}/${Object_ID}${
-                                          atemporal ? '/bewerk' : ''
-                                      }`
-                                    : 'Module_ID' in props
-                                      ? `/muteer/modules/${props.Module_ID}/${Object_Type}/${Object_ID}`
-                                      : ''
+                                `/muteer/${plural}/${Object_ID}${
+                                    atemporal ? '/bewerk' : ''
+                                }`
                             ),
                     }),
                 })

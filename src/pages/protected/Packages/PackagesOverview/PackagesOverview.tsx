@@ -12,6 +12,7 @@ import {
 import { LoaderSpinner } from '@/components/Loader'
 import { getPackageStatus } from '@/components/Publications/PublicationPackages/components/utils'
 import MutateLayout from '@/templates/MutateLayout'
+import { parseUtc } from '@/utils/parseUtc'
 import {
     Divider,
     formatDate,
@@ -293,7 +294,7 @@ const Overview = ({
                     Package_Type:
                         config.packageType[Package_Type as PackageType].label,
                     Created_Date: formatDate(
-                        new Date(Created_Date + 'Z'),
+                        parseUtc(Created_Date),
                         'dd-MM-yyyy, p'
                     ),
                     Report_Status: (

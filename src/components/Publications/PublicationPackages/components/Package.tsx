@@ -10,6 +10,7 @@ import { useMemo } from 'react'
 import { PackageType, PublicationPackage } from '@/api/fetchers.schemas'
 import useModalStore from '@/store/modalStore'
 
+import { parseUtc } from '@/utils/parseUtc'
 import { useNavigate } from 'react-router-dom'
 import { PublicationType } from '../../types'
 import { useActions } from './actions'
@@ -49,7 +50,7 @@ const Package = ({
     })
 
     const createdDate = useMemo(
-        () => formatDate(new Date(Created_Date + 'Z'), "dd-MM-yyyy 'om' HH:mm"),
+        () => formatDate(parseUtc(Created_Date), "dd-MM-yyyy 'om' HH:mm"),
 
         [Created_Date]
     )
@@ -57,10 +58,7 @@ const Package = ({
     const downloadDate = useMemo(
         () =>
             Zip.Latest_Download_Date
-                ? formatDate(
-                      new Date(Zip.Latest_Download_Date + 'Z'),
-                      'dd-MM-yyyy'
-                  )
+                ? formatDate(parseUtc(Zip.Latest_Download_Date), 'dd-MM-yyyy')
                 : null,
 
         [Zip.Latest_Download_Date]

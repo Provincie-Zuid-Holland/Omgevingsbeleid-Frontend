@@ -30,6 +30,7 @@ import { getReportStatus } from '@/components/Publications/PublicationPackages/c
 import useModalStore from '@/store/modalStore'
 
 import { ModalFooter } from '@/components/Modal/Modal'
+import { parseUtc } from '@/utils/parseUtc'
 import { ModalStateMap } from '../../types'
 
 const PublicationPackageReportUploadModal = () => {
@@ -267,9 +268,7 @@ const InnerForm = <TData extends { uploaded_files: File[] }>({
                                                 color="text-pzh-gray-600"
                                                 className="whitespace-nowrap">
                                                 {formatDate(
-                                                    new Date(
-                                                        file.Created_Date + 'Z'
-                                                    ),
+                                                    parseUtc(file.Created_Date),
                                                     "dd-MM-yyyy 'om' kk:mm"
                                                 )}
                                             </Text>

@@ -16,14 +16,8 @@ export const StepOne = ({
     setStep,
 }: StepProps) => {
     const { defaults } = connectionModel || {}
-    const {
-        atemporal,
-        pluralCapitalize,
-        pluralReadable,
-        prefixNewObject,
-        singularReadable,
-        singularCapitalize,
-    } = defaults || {}
+    const { atemporal, pluralCapitalize, pluralReadable, singularReadable } =
+        defaults || {}
 
     /**
      * Get amount of connections
@@ -36,7 +30,7 @@ export const StepOne = ({
     return (
         <>
             <Heading level="2" size="xl" className="mb-2">
-                {singularCapitalize} koppelen
+                {pluralCapitalize}
             </Heading>
 
             <Text className="mb-4">
@@ -51,11 +45,10 @@ export const StepOne = ({
                     {amount === 1 ? singularReadable : pluralReadable}
                 </span>
                 <Button
-                    size="small"
                     variant="cta"
                     type="button"
                     onPress={() => setStep?.(2)}>
-                    {prefixNewObject} {singularReadable} koppelen
+                    Nieuwe koppeling maken
                 </Button>
             </div>
 
@@ -98,7 +91,7 @@ const Connection = ({
         <div className="mt-3">
             <div
                 className={classNames(
-                    'border-pzh-gray-300 bg-pzh-gray-100 flex items-center justify-between border px-3 pt-2 pb-1',
+                    'border-pzh-gray-300 bg-pzh-gray-100 flex items-center justify-between border p-4',
                     {
                         rounded: atemporal,
                         'rounded-tl rounded-tr': !atemporal,

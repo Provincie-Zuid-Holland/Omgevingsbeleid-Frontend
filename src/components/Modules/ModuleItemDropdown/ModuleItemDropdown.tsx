@@ -72,11 +72,16 @@ const ModuleItemDropdown = ({
     const dropdownItems: DropdownItem[] = [
         ...((hasRights && [
             {
-                text: 'Bekijken',
-                link: `/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`,
+                text: 'Bekijk detailpagina',
+                link: `/muteer/${plural}/${Object_ID}`,
             },
         ]) ||
             []),
+        {
+            text: 'Bekijk voorbeeld',
+            isExternal: true,
+            link: `/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${UUID}`,
+        },
         ...((ModuleObjectContext?.Action !== 'Terminate' &&
             hasRights &&
             canPatchObjectInModule &&
@@ -84,7 +89,7 @@ const ModuleItemDropdown = ({
             isActive &&
             !hasEditButton && [
                 {
-                    text: 'Bewerken',
+                    text: 'Bewerk onderdeel',
                     link: `/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}/bewerk`,
                 },
             ]) ||
@@ -112,20 +117,10 @@ const ModuleItemDropdown = ({
                 },
             ]) ||
             []),
-        {
-            text: 'Bekijk in raadpleegomgeving',
-            callback: () =>
-                window
-                    .open(
-                        `/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${UUID}`,
-                        '_blank'
-                    )
-                    ?.focus(),
-        },
         ...(((canRemoveObjectFromModule || isModuleManager) &&
             !isLocked && [
                 {
-                    text: 'Verwijderen uit module',
+                    text: 'Verwijder uit module',
                     callback: () =>
                         setActiveModal('moduleDeleteObject', {
                             object: { Object_Type, Object_ID, Title },

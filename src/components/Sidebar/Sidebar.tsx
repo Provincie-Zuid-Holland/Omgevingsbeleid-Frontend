@@ -105,32 +105,32 @@ const Sidebar = () => {
                         )
                     })}
 
-                    {canViewPublicationTemplate ||
-                        (canViewPublicationPackage && (
-                            <>
-                                <div className="bg-pzh-blue-500 h-px w-full" />
-                                {canViewPublicationPackage && (
-                                    <MenuItem
-                                        name="Leveringen"
-                                        path="/muteer/leveringen"
-                                        icon={FileImport}
-                                        expanded={expanded}
-                                        onHover={startHoverTimer}
-                                        onClick={clearHoverTimer}
-                                    />
-                                )}
-                                {canViewPublicationTemplate && (
-                                    <MenuItem
-                                        name="Publicatietemplates"
-                                        path="/muteer/publicatietemplates"
-                                        icon={FileInvoice}
-                                        expanded={expanded}
-                                        onHover={startHoverTimer}
-                                        onClick={clearHoverTimer}
-                                    />
-                                )}
-                            </>
-                        ))}
+                    {(canViewPublicationTemplate ||
+                        canViewPublicationPackage) && (
+                        <>
+                            <div className="bg-pzh-blue-500 h-px w-full" />
+                            {canViewPublicationPackage && (
+                                <MenuItem
+                                    name="Leveringen"
+                                    path="/muteer/leveringen"
+                                    icon={FileImport}
+                                    expanded={expanded}
+                                    onHover={startHoverTimer}
+                                    onClick={clearHoverTimer}
+                                />
+                            )}
+                            {canViewPublicationTemplate && (
+                                <MenuItem
+                                    name="Publicatietemplates"
+                                    path="/muteer/publicatietemplates"
+                                    icon={FileInvoice}
+                                    expanded={expanded}
+                                    onHover={startHoverTimer}
+                                    onClick={clearHoverTimer}
+                                />
+                            )}
+                        </>
+                    )}
 
                     {canEditUser && (
                         <>

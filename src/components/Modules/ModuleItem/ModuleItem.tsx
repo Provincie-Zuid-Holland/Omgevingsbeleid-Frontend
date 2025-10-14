@@ -37,7 +37,7 @@ const ModuleItem = ({
 
     const { isModuleManager, isLocked, isActive } = useModule()
 
-    const { singularCapitalize } = model.defaults
+    const { singularCapitalize, plural } = model.defaults
 
     /**
      * Check if user has owner rights in object
@@ -88,7 +88,7 @@ const ModuleItem = ({
                             <Hyperlink asChild>
                                 <Link
                                     to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}/bewerk`}>
-                                    Bewerken
+                                    Bewerk onderdeel
                                 </Link>
                             </Hyperlink>
                         )}
@@ -96,7 +96,7 @@ const ModuleItem = ({
                         <Hyperlink asChild>
                             <Link
                                 to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`}>
-                                Bekijken
+                                Bekijk detailpagina
                             </Link>
                         </Hyperlink>
                     )}

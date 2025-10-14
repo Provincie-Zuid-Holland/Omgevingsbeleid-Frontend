@@ -3139,13 +3139,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.649":
-  version: 0.0.649
-  resolution: "@pzh-ui/components@npm:0.0.649"
+"@pzh-ui/components@npm:^0.0.652":
+  version: 0.0.652
+  resolution: "@pzh-ui/components@npm:0.0.652"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
-    "@pzh-ui/icons": "npm:^0.0.70"
+    "@pzh-ui/icons": "npm:^0.0.92"
     "@radix-ui/react-accordion": "npm:^1.1.2"
     "@radix-ui/react-slot": "npm:^1.0.2"
     "@react-aria/utils": "npm:^3.29.1"
@@ -3196,7 +3196,7 @@ __metadata:
     react-toastify: "npm:^9.1.2"
     tailwind-merge: "npm:^3.2.0"
     uuid: "npm:^11.1.0"
-  checksum: 6711525bc5f70cdce67b1f7f5b4e0d40f862043c5aae0e3a8907dd81dd94d133bdb44acc753c1a7071f8099a748c0f6cf85b5cc61711505c90723aeca3b2e6b2
+  checksum: 3998b61a2e05b48c7e255315caf0fbe247ed5b7401a2b7a0935961165a47f7c2ff3034b17e2bb162d13eab63b7343b9ade3ac62bd33838d69d1544e7067a2537
   languageName: node
   linkType: hard
 
@@ -3239,23 +3239,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/icons@npm:^0.0.70":
-  version: 0.0.70
-  resolution: "@pzh-ui/icons@npm:0.0.70"
+"@pzh-ui/icons@npm:^0.0.92":
+  version: 0.0.92
+  resolution: "@pzh-ui/icons@npm:0.0.92"
   dependencies:
     react: "npm:^18.2.0"
     react-toastify: "npm:^9.1.2"
-  checksum: 3f5023141c8ae04ed900c1539f50e5d4c80bf2bc37e2294bdd14f46480853855b0230aa40278c020d5d6157376f369643ddaa49a88c0f5cff0d69f722da1f79a
-  languageName: node
-  linkType: hard
-
-"@pzh-ui/icons@npm:^0.0.88":
-  version: 0.0.88
-  resolution: "@pzh-ui/icons@npm:0.0.88"
-  dependencies:
-    react: "npm:^18.2.0"
-    react-toastify: "npm:^9.1.2"
-  checksum: 323bc9ec6fdb03a981db4b184c4b77507d2c731e644bbad7862112890fc5e5b4fa70e1e5d5f48e58aaa54e3a6cb967485913deeecd74afb6a430a0140008ad93
+  checksum: 49bf9600797d1abb627d45c80dc481fa5420f1c4c8696c778b374490c3a72f303f8b781331a083ca6f7bb83efa30f2a03dd8022bb259b99eab99eb3f46db5a05
   languageName: node
   linkType: hard
 
@@ -13658,10 +13648,10 @@ __metadata:
     "@axe-core/react": "npm:^4.10.0"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-    "@pzh-ui/components": "npm:^0.0.649"
+    "@pzh-ui/components": "npm:^0.0.652"
     "@pzh-ui/config": "npm:^0.0.81"
     "@pzh-ui/css": "npm:^0.0.114"
-    "@pzh-ui/icons": "npm:^0.0.88"
+    "@pzh-ui/icons": "npm:^0.0.92"
     "@react-hookz/web": "npm:^24.0.4"
     "@tailwindcss/cli": "npm:^4.1.4"
     "@tailwindcss/vite": "npm:^4.1.4"

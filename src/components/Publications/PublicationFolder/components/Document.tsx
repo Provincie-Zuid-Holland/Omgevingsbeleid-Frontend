@@ -1,5 +1,20 @@
-import { Badge, BadgeProps, Button, Heading, Text } from '@pzh-ui/components'
-import { FilePdf, Gear, PencilLight, PenNib, PenToSquare } from '@pzh-ui/icons'
+import {
+    Badge,
+    BadgeProps,
+    Button,
+    formatDate,
+    Heading,
+    Text,
+    Tooltip,
+} from '@pzh-ui/components'
+import {
+    FilePdf,
+    Gear,
+    PencilLight,
+    PenNib,
+    PenToSquare,
+    TriangleExclamationSolid,
+} from '@pzh-ui/icons'
 
 import {
     usePublicationVersionsGetListVersions,
@@ -13,8 +28,10 @@ import {
 } from '@/api/fetchers.schemas'
 import Dropdown, { DropdownItem } from '@/components/Dropdown'
 import { LoaderCard, LoaderSpinner } from '@/components/Loader'
+import { useModuleStatusData } from '@/hooks/useModuleStatusData'
 import useModalStore from '@/store/modalStore'
 import { downloadFile } from '@/utils/file'
+import { parseUtc } from '@/utils/parseUtc'
 import { useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
@@ -46,6 +63,8 @@ const Document = ({
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
+    const { lastStatus } = useModuleStatusData(moduleId)
+
     const [isDownloadOpen, setIsDownloadOpen] = useState(false)
 
     const Icon = config[documentType].icon
@@ -73,6 +92,21 @@ const Document = ({
                     ),
             },
         }
+    )
+
+    const isLastStatus = useMemo(
+        () => version?.Module_Status.ID === lastStatus?.ID,
+        [lastStatus, version?.Module_Status]
+    )
+
+    const statusCreatedDate = useMemo(
+        () =>
+            version &&
+            formatDate(
+                parseUtc(version.Module_Status.Created_Date),
+                "dd-MM-yyyy 'om' HH:mm"
+            ),
+        [version?.Module_Status.Created_Date]
     )
 
     const status = useMemo((): BadgeProps => {
@@ -178,9 +212,29 @@ const Document = ({
                             <Text size="s" color="text-pzh-blue-500">
                                 Gebaseerd op modulestatus
                             </Text>
-                            <Text size="s" bold color="text-pzh-blue-500">
-                                {version?.Module_Status.Status}
-                            </Text>
+                            <div className="flex items-center">
+                                <Text size="s" bold color="text-pzh-blue-500">
+                                    {version?.Module_Status.Status} (
+                                    {statusCreatedDate})
+                                </Text>
+                                {!isLastStatus && !version.Is_Locked && (
+                                    <Tooltip
+                                        label={
+                                            <Text
+                                                size="s"
+                                                color="text-pzh-white">
+                                                Deze levering is niet gebaseerd
+                                                op de meest recente
+                                                modulestatus.
+                                            </Text>
+                                        }>
+                                        <TriangleExclamationSolid
+                                            size={18}
+                                            className="text-pzh-red-500 -mt-0.5 ml-2 cursor-help"
+                                        />
+                                    </Tooltip>
+                                )}
+                            </div>
                         </div>
                     </div>
 
