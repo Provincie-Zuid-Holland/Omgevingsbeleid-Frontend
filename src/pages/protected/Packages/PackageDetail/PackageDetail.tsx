@@ -95,7 +95,11 @@ const PackageDetail = () => {
             <div className="col-span-3 flex flex-col gap-10">
                 <div>
                     <Row label="Levering ID" value={data?.Delivery_ID} />
-                    <Row label="Module" value={data?.Module_Title} />
+                    <Row
+                        label="Module"
+                        value={data?.Module_Title}
+                        link={`/muteer/modules/${data?.Module_ID}/besluiten`}
+                    />
                     <Row label="Omgeving" value={data?.Environment_Title} />
                     <Row
                         label="Instrument"
@@ -189,15 +193,22 @@ const PackageDetail = () => {
 interface RowProps {
     label: string
     value?: string
+    link?: string
 }
 
-const Row = ({ label, value }: RowProps) => (
+const Row = ({ label, value, link }: RowProps) => (
     <div className="border-pzh-gray-200 grid grid-cols-4 gap-x-6 border-b py-2">
         <div className="col-span-1">
             <Text bold>{label}</Text>
         </div>
         <div className="col-span-3">
-            <Text>{value}</Text>
+            {link ? (
+                <Hyperlink asChild>
+                    <Link to={link}>{value}</Link>
+                </Hyperlink>
+            ) : (
+                <Text>{value}</Text>
+            )}
         </div>
     </div>
 )
