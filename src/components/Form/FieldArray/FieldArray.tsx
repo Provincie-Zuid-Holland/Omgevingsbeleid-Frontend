@@ -20,27 +20,23 @@ const FieldArray = ({
     fields,
     model,
     buttonLabel = 'Toevoegen',
-    buttonOptions = {
-        variant: 'primary',
-        size: 'large',
-    },
+    buttonOptions = { variant: 'primary', size: 'large' },
     itemClassName,
+    startIndex = 0,
 }: Omit<Extract<DynamicField, { type: 'array' }>, 'type'> & {
     model?: Model
     buttonLabel?: string
     buttonOptions?: ButtonProps
     itemClassName?: string
+    startIndex?: number
 }) => {
     const { values } = useFormikContext<FormikValues>()
-    const nestedProperties = name.split('.') // Split the nested property string
-    let nestedValue = values // Initialize nestedValue with values object
+    const nestedProperties = name.split('.')
+    let nestedValue = values as any
+    for (const prop of nestedProperties) nestedValue = nestedValue?.[prop]
 
-    // Traverse through the nested properties
-    for (const prop of nestedProperties) {
-        nestedValue = nestedValue?.[prop] // Access nested property
-    }
-
-    const groupChildren = nestedValue as any[]
+    const list = Array.isArray(nestedValue) ? nestedValue : []
+    const visibleItems = list.slice(startIndex)
 
     return (
         <>
@@ -57,44 +53,43 @@ const FieldArray = ({
                 name={name}
                 render={(arrayHelpers: ArrayHelpers) => (
                     <div className="flex flex-col gap-2">
-                        {Array.isArray(groupChildren) &&
-                            (groupChildren as any[])?.map(
-                                (child, childIndex) => (
-                                    <div
-                                        key={name + child.type + childIndex}
-                                        className={cn(
-                                            'flex flex-col gap-2 bg-pzh-gray-100 p-4',
-                                            itemClassName
-                                        )}>
-                                        <div className="flex justify-between">
-                                            {!!arrayLabel && (
-                                                <Text bold>{arrayLabel}</Text>
-                                            )}
-                                            <Button
-                                                variant="default"
-                                                onPress={() =>
-                                                    arrayHelpers.remove(
-                                                        childIndex
-                                                    )
-                                                }>
-                                                <Xmark
-                                                    className="text-pzh-blue-900"
-                                                    size={16}
-                                                />
-                                            </Button>
-                                        </div>
-                                        {fields.map(field => (
-                                            <DynamicObjectField
-                                                key={field.name + childIndex}
-                                                model={model}
-                                                isFirst
-                                                {...field}
-                                                name={`${name}.${childIndex}.${field.name}`}
+                        {visibleItems.map((child, idx) => {
+                            const actualIndex = idx + startIndex
+                            return (
+                                <div
+                                    key={`${name}-${actualIndex}`}
+                                    className={cn(
+                                        'bg-pzh-gray-100 flex flex-col gap-2 p-4',
+                                        itemClassName
+                                    )}>
+                                    <div className="flex justify-between">
+                                        {!!arrayLabel && (
+                                            <Text bold>{arrayLabel}</Text>
+                                        )}
+                                        <Button
+                                            variant="default"
+                                            onPress={() =>
+                                                arrayHelpers.remove(actualIndex)
+                                            }>
+                                            <Xmark
+                                                className="text-pzh-blue-900"
+                                                size={16}
                                             />
-                                        ))}
+                                        </Button>
                                     </div>
-                                )
-                            )}
+
+                                    {fields.map(field => (
+                                        <DynamicObjectField
+                                            key={`${field.name}-${actualIndex}`}
+                                            model={model}
+                                            isFirst
+                                            {...field}
+                                            name={`${name}.${actualIndex}.${field.name}`}
+                                        />
+                                    ))}
+                                </div>
+                            )
+                        })}
 
                         <div className="mt-2">
                             <Button
