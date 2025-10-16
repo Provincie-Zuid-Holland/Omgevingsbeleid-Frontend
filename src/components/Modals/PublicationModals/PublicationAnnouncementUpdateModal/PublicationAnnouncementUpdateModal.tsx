@@ -58,32 +58,7 @@ const PublicationAnnouncementUpdateModal = () => {
             },
         })
 
-    const initialValues = {
-        Content: {
-            Texts: [
-                {
-                    Title: null,
-                    Description: '',
-                },
-                {
-                    Title: 'Planning',
-                    Description: '',
-                },
-                {
-                    Title: 'Reageren',
-                    Description: '',
-                },
-                {
-                    Title: 'Inzien',
-                    Description: '',
-                },
-                {
-                    Title: 'Sluiting',
-                    Description: '',
-                },
-            ],
-        },
-    } as PublicationAnnouncementEdit
+    const initialValues = {} as PublicationAnnouncementEdit
 
     const mergedValues = mergeWith(
         initialValues,
@@ -171,6 +146,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                             size: 'small',
                                         }}
                                         itemClassName="py-4 px-0 first:pt-0 first:border-t-0 border-t border-pzh-gray-600 gap-4"
+                                        startIndex={1}
                                         fields={[
                                             {
                                                 type: 'text',
