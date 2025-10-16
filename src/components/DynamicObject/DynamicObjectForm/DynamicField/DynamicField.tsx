@@ -91,7 +91,10 @@ const DynamicField = ({
             DynamicFieldProps,
             { type: 'wysiwyg' }
         >
-        wysiwygField.menuClassName = 'sticky top-24'
+
+        if (!wysiwygField.menuClassName) {
+            wysiwygField.menuClassName = 'sticky top-24'
+        }
     }
 
     // SEARCH
