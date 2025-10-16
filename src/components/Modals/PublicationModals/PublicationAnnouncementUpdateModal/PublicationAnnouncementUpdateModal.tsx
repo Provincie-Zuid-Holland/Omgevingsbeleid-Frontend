@@ -167,6 +167,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                                 menuClassName: 'top-0',
                                             },
                                         ]}
+                                        disabled={isLocked}
                                     />
                                 </div>
                                 <div className="flex gap-4 [&_>div]:flex-1">

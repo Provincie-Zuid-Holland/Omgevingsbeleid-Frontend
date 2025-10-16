@@ -23,12 +23,14 @@ const FieldArray = ({
     buttonOptions = { variant: 'primary', size: 'large' },
     itemClassName,
     startIndex = 0,
+    disabled,
 }: Omit<Extract<DynamicField, { type: 'array' }>, 'type'> & {
     model?: Model
     buttonLabel?: string
     buttonOptions?: ButtonProps
     itemClassName?: string
     startIndex?: number
+    disabled?: boolean
 }) => {
     const { values } = useFormikContext<FormikValues>()
     const nestedProperties = name.split('.')
@@ -66,16 +68,20 @@ const FieldArray = ({
                                         {!!arrayLabel && (
                                             <Text bold>{arrayLabel}</Text>
                                         )}
-                                        <Button
-                                            variant="default"
-                                            onPress={() =>
-                                                arrayHelpers.remove(actualIndex)
-                                            }>
-                                            <Xmark
-                                                className="text-pzh-blue-900"
-                                                size={16}
-                                            />
-                                        </Button>
+                                        {!disabled && (
+                                            <Button
+                                                variant="default"
+                                                onPress={() =>
+                                                    arrayHelpers.remove(
+                                                        actualIndex
+                                                    )
+                                                }>
+                                                <Xmark
+                                                    className="text-pzh-blue-900"
+                                                    size={16}
+                                                />
+                                            </Button>
+                                        )}
                                     </div>
 
                                     {fields.map(field => (
@@ -91,14 +97,16 @@ const FieldArray = ({
                             )
                         })}
 
-                        <div className="mt-2">
-                            <Button
-                                icon={Plus}
-                                {...buttonOptions}
-                                onPress={() => arrayHelpers.push({})}>
-                                {buttonLabel}
-                            </Button>
-                        </div>
+                        {!disabled && (
+                            <div className="mt-2">
+                                <Button
+                                    icon={Plus}
+                                    {...buttonOptions}
+                                    onPress={() => arrayHelpers.push({})}>
+                                    {buttonLabel}
+                                </Button>
+                            </div>
+                        )}
                     </div>
                 )}
             />
