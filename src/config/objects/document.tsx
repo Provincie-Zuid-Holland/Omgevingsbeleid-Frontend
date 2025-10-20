@@ -15,7 +15,6 @@ import {
     DocumentPatch,
     DocumentStaticPostStatics,
 } from '@/api/fetchers.schemas'
-import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
 import { DynamicObject } from './types'
@@ -101,11 +100,5 @@ const document: DynamicObject<
         },
     ],
 }
-
-document.validationSchema = generateDynamicSchema(
-    document.dynamicSections
-).superRefine((props: any, ctx) => {
-    console.log(props)
-})
 
 export default document

@@ -115,7 +115,6 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
         const triggerSubmit = async () => {
             // Await file upload before patching object
             if ('File' in payload && !!payload.File) {
-                console.log(payload)
                 const res = await uploadStorageFile({
                     data: {
                         title: payload.Filename,

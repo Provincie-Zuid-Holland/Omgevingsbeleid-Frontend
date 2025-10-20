@@ -35,8 +35,6 @@ const FieldFile = ({
 
     const hasError = useMemo(() => !!errors['File'], [errors])
 
-    console.log(values)
-
     return (
         <>
             {label && (
