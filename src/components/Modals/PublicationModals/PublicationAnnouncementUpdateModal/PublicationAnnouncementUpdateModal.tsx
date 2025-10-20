@@ -121,7 +121,6 @@ const PublicationAnnouncementUpdateModal = () => {
                                         label="Titel van kennisgeving"
                                         placeholder="Titel"
                                         disabled={isLocked}
-                                        required
                                     />
                                 </div>
                                 <div>
@@ -155,7 +154,6 @@ const PublicationAnnouncementUpdateModal = () => {
                                                 disabled: isLocked,
                                                 placeholder:
                                                     'Voer hier een titel in, bijvoorbeeld: Planning',
-                                                required: true,
                                             },
                                             {
                                                 type: 'wysiwyg',
