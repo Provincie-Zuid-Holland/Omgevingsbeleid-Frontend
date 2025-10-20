@@ -13,7 +13,7 @@ import useModule from '@/hooks/useModule'
 import useObject from '@/hooks/useObject'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
-import handleError from '@/utils/handleError'
+import handleError, { handleFileError } from '@/utils/handleError'
 import { AxiosError } from 'axios'
 
 interface ObjectEditProps {
@@ -59,6 +59,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                 section.fields.map(field => field.name)
             ),
             'File',
+            'File_Ignore',
         ]
 
         const objectData = {} as { [key in (typeof fields)[number]]: any }
@@ -114,12 +115,26 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
         const triggerSubmit = async () => {
             // Await file upload before patching object
             if ('File' in payload && !!payload.File) {
+                console.log(payload)
                 const res = await uploadStorageFile({
                     data: {
                         title: payload.Filename,
                         uploaded_file: payload.File as File,
+                        ignore_report:
+                            ('File_Ignore' in payload &&
+                                !!payload.File_Ignore) ||
+                            false,
                     },
+                }).catch((err: AxiosError<HTTPValidationError>) => {
+                    err.response &&
+                        handleFileError<typeof initialData>(
+                            err.response,
+                            helpers
+                        )
+
+                    return Promise.reject()
                 })
+
                 if (res) {
                     payload.File_UUID = res.UUID
                     delete payload.File

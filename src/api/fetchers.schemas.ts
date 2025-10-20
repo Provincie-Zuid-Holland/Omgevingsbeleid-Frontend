@@ -656,6 +656,8 @@ export interface WerkingsgebiedStaticPostStatics {
     Owner_2_UUID?: WerkingsgebiedStaticPostStaticsOwner2UUID
 }
 
+export type WerkingsgebiedRelatedObjectShortTitle = string | null
+
 export interface WerkingsgebiedRelatedObjectShort {
     Object_ID: number
     Object_Type: string
@@ -663,19 +665,6 @@ export interface WerkingsgebiedRelatedObjectShort {
     UUID: string
     Werkingsgebied_Code: string
 }
-
-export interface WerkingsgebiedRelatedObjects {
-    Module_Objects: WerkingsgebiedRelatedModuleObjectShort[]
-    Valid_Objects: WerkingsgebiedRelatedObjectShort[]
-}
-
-export type WerkingsgebiedRelatedObjectShortTitle = string | null
-
-export type WerkingsgebiedRelatedModuleObjectShortTitle = string | null
-
-export type WerkingsgebiedRelatedModuleObjectShortModuleTitle = string | null
-
-export type WerkingsgebiedRelatedModuleObjectShortModuleID = number | null
 
 export interface WerkingsgebiedRelatedModuleObjectShort {
     Module_ID?: WerkingsgebiedRelatedModuleObjectShortModuleID
@@ -686,6 +675,17 @@ export interface WerkingsgebiedRelatedModuleObjectShort {
     UUID: string
     Werkingsgebied_Code: string
 }
+
+export interface WerkingsgebiedRelatedObjects {
+    Module_Objects: WerkingsgebiedRelatedModuleObjectShort[]
+    Valid_Objects: WerkingsgebiedRelatedObjectShort[]
+}
+
+export type WerkingsgebiedRelatedModuleObjectShortTitle = string | null
+
+export type WerkingsgebiedRelatedModuleObjectShortModuleTitle = string | null
+
+export type WerkingsgebiedRelatedModuleObjectShortModuleID = number | null
 
 export type WerkingsgebiedPatchTitle = string | null
 
@@ -1035,6 +1035,17 @@ export interface ValidationError {
     loc: ValidationErrorLocItem[]
     msg: string
     type: string
+}
+
+export interface ValidateModuleError {
+    messages: string[]
+    object_code: string
+    rule: string
+}
+
+export interface ValidateModuleResult {
+    errors: ValidateModuleError[]
+    readonly status: string
 }
 
 export interface ValidSearchObject {
@@ -3450,11 +3461,13 @@ export interface CompleteModule {
 }
 
 export interface BodyStorageFilePostFilesUpload {
+    ignore_report: boolean
     title: string
     uploaded_file: Blob
 }
 
 export interface BodyPublicationVersionsPostUploadAttachment {
+    ignore_report: boolean
     title: string
     uploaded_file: Blob
 }

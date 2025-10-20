@@ -118,6 +118,7 @@ import type {
     UploadPackageReportResponse,
     User,
     UserCreateResponse,
+    ValidateModuleResult,
     VerplichtProgrammaFull,
     VerplichtProgrammaUUID,
     VisieAlgemeenFull,
@@ -470,6 +471,24 @@ export const getModulesPostEditModuleResponseMock = (
     overrideResponse: Partial<ResponseOK> = {}
 ): ResponseOK => ({
     message: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    ...overrideResponse,
+})
+
+export const getModulesGetModuleValidateResponseMock = (
+    overrideResponse: Partial<ValidateModuleResult> = {}
+): ValidateModuleResult => ({
+    errors: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        messages: Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => faker.word.sample()),
+        object_code: faker.word.sample(),
+        rule: faker.word.sample(),
+    })),
+    status: faker.word.sample(),
     ...overrideResponse,
 })
 
@@ -17403,6 +17422,33 @@ export const getModulesPostEditModuleMockHandler = (
     })
 }
 
+export const getModulesGetModuleValidateMockHandler = (
+    overrideResponse?:
+        | ValidateModuleResult
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<ValidateModuleResult> | ValidateModuleResult)
+) => {
+    return http.get('*/modules/:moduleId/validate', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getModulesGetModuleValidateResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
 export const getModulesPostActivateModuleMockHandler = (
     overrideResponse?:
         | ResponseOK
@@ -19406,6 +19452,18 @@ export const getStorageFileGetFilesDetailMockHandler = (
                 },
             }
         )
+    })
+}
+
+export const getStorageFileGetFilesDownloadMockHandler = () => {
+    return http.get('*/storage-files/:fileUuid/download', async () => {
+        await delay(1000)
+        return new HttpResponse(null, {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
     })
 }
 
@@ -24182,6 +24240,7 @@ export const getOmgevingsbeleidAPIMock = () => [
     getModulesGetListModulesMockHandler(),
     getModulesViewModuleOverviewMockHandler(),
     getModulesPostEditModuleMockHandler(),
+    getModulesGetModuleValidateMockHandler(),
     getModulesPostActivateModuleMockHandler(),
     getModulesPostCompleteModuleMockHandler(),
     getModulesPostCloseModuleMockHandler(),
@@ -24254,6 +24313,7 @@ export const getOmgevingsbeleidAPIMock = () => [
     getStorageFileGetFilesListMockHandler(),
     getStorageFilePostFilesUploadMockHandler(),
     getStorageFileGetFilesDetailMockHandler(),
+    getStorageFileGetFilesDownloadMockHandler(),
     getUserGetListUsersMockHandler(),
     getUserPostCreateUserMockHandler(),
     getUserGetSearchUsersMockHandler(),

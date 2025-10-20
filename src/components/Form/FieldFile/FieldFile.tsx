@@ -1,12 +1,13 @@
 import {
     Button,
+    FieldCheckbox,
     FieldInput,
     FieldLabel,
     FormikError,
     FormikInput,
 } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { useStorageFileGetFilesDetail } from '@/api/fetchers'
 import { ModelReturnType } from '@/config/objects/types'
@@ -18,7 +19,8 @@ const FieldFile = ({
     required,
     description,
 }: Omit<DynamicField, 'type'>) => {
-    const { values, setFieldValue } = useFormikContext<ModelReturnType>()
+    const { values, setFieldValue, errors } =
+        useFormikContext<ModelReturnType>()
     const [fileName, setFileName] = useState<string | undefined>()
 
     const { data } = useStorageFileGetFilesDetail(String(values.File_UUID), {
@@ -30,6 +32,10 @@ const FieldFile = ({
             setFileName(data.Filename)
         }
     }, [data])
+
+    const hasError = useMemo(() => !!errors['File'], [errors])
+
+    console.log(values)
 
     return (
         <>
@@ -44,7 +50,11 @@ const FieldFile = ({
 
             <div className="relative flex gap-2">
                 <div className="flex-1">
-                    <FieldInput name={name} defaultValue={fileName} />
+                    <FieldInput
+                        name={name}
+                        defaultValue={fileName}
+                        hasError={hasError}
+                    />
                 </div>
                 <Button>Bestand kiezen</Button>
                 <div className="absolute top-0 left-0 h-full w-full opacity-0">
@@ -64,7 +74,27 @@ const FieldFile = ({
                 </div>
             </div>
 
-            <FormikError name={name} />
+            <FormikError name="File" />
+
+            <FormikInput name="File_Ignore" type="hidden" />
+
+            {hasError && (
+                <div className="mt-2">
+                    <FieldCheckbox
+                        name="File_Ignore"
+                        onChange={e => {
+                            if (e.target.checked) {
+                                setFieldValue('File_Ignore', 'true', false)
+                            } else {
+                                setFieldValue('File_Ignore', null, false)
+                            }
+                        }}>
+                        Ik ben mij ervan bewust dat het document een auteur
+                        heeft, en ik verspreid hiermee geen naam of namen van
+                        mij of mijn collega's.
+                    </FieldCheckbox>
+                </div>
+            )}
         </>
     )
 }

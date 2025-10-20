@@ -102,6 +102,10 @@ const document: DynamicObject<
     ],
 }
 
-document.validationSchema = generateDynamicSchema(document.dynamicSections)
+document.validationSchema = generateDynamicSchema(
+    document.dynamicSections
+).superRefine((props: any, ctx) => {
+    console.log(props)
+})
 
 export default document
