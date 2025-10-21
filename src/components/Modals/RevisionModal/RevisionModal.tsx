@@ -134,7 +134,6 @@ const RevisionModal = ({
                             model={model}
                             revisionFrom={revisionFrom}
                             revisionTo={revisionTo}
-                            latestUUID={latestUUID}
                         />
                     )
                 )}

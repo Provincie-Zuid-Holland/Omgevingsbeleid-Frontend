@@ -1,7 +1,6 @@
 import { Divider, Heading, Text, getHeadingStyles } from '@pzh-ui/components'
 import classNames from 'clsx'
 import htmlDiff from 'node-htmldiff'
-import { useMemo } from 'react'
 
 import { LeafletRevisionOverview } from '@/components/Leaflet'
 import { Model, ModelReturnType } from '@/config/objects/types'
@@ -17,40 +16,18 @@ interface ObjectRevisionProps {
     model: Model
     revisionFrom: ModelReturnType
     revisionTo: ModelReturnType
-    latestUUID?: string
 }
 
 const ObjectRevision = ({
     model,
     revisionFrom,
     revisionTo,
-    latestUUID,
 }: ObjectRevisionProps) => {
     const initialObject = useRevisionStore(state => state.initialObject)
 
-    const { compareA, compareB } = useMemo(() => {
-        if (!latestUUID)
-            return {
-                compareA: revisionTo,
-                compareB: revisionFrom,
-            }
-
-        if (revisionFrom.UUID === latestUUID) {
-            return {
-                compareA: revisionTo,
-                compareB: revisionFrom,
-            }
-        }
-
-        return {
-            compareA: revisionFrom,
-            compareB: revisionTo,
-        }
-    }, [revisionFrom, revisionTo, latestUUID])
-
     const { singularCapitalize, singularReadable, singular } = model.defaults
 
-    const titleDiff = htmlDiff(compareA.Title || '', compareB.Title || '')
+    const titleDiff = htmlDiff(revisionTo.Title || '', revisionFrom.Title || '')
 
     return (
         <div>
@@ -67,8 +44,8 @@ const ObjectRevision = ({
             />
 
             {fields.map(field => {
-                const contentFrom = compareA[field.value]
-                const contentTo = compareB[field.value]
+                const contentFrom = revisionTo[field.value]
+                const contentTo = revisionFrom[field.value]
 
                 if (
                     (typeof contentFrom !== 'string' && contentFrom !== null) ||
@@ -99,8 +76,8 @@ const ObjectRevision = ({
                 )
             })}
 
-            {(!!compareA.Werkingsgebied_Statics ||
-                !!compareB.Werkingsgebied_Statics) && (
+            {(!!revisionTo.Werkingsgebied_Statics ||
+                !!revisionFrom.Werkingsgebied_Statics) && (
                 <>
                     <Divider className="mt-0 mb-6" />
 
@@ -109,15 +86,15 @@ const ObjectRevision = ({
                     </Heading>
 
                     <Text className="mb-3">
-                        {compareA.Werkingsgebied_Statics?.Object_ID ===
-                        compareB.Werkingsgebied_Statics?.Object_ID
-                            ? `Het gebied '${compareA.Werkingsgebied_Statics?.Cached_Title}' in ${singularReadable} '${compareA.Title}' is ongewijzigd.`
-                            : !!compareA.Werkingsgebied_Statics?.Object_ID &&
-                                !!compareB.Werkingsgebied_Statics?.Object_ID
-                              ? `${singularCapitalize} '${compareA.Title}' is gewijzigd van gebied '${compareA.Werkingsgebied_Statics?.Cached_Title}' naar gebied '${compareB.Werkingsgebied_Statics?.Cached_Title}'`
-                              : !!compareA.Werkingsgebied_Statics?.Object_ID
-                                ? `Het gebied '${compareA.Werkingsgebied_Statics?.Cached_Title}' in ${singularReadable} '${compareA.Title}' is verwijderd.`
-                                : `Het gebied '${compareB.Werkingsgebied_Statics?.Cached_Title}' in ${singularReadable} '${compareA.Title}' is toegevoegd.`}
+                        {revisionTo.Werkingsgebied_Statics?.Object_ID ===
+                        revisionFrom.Werkingsgebied_Statics?.Object_ID
+                            ? `Het gebied '${revisionTo.Werkingsgebied_Statics?.Cached_Title}' in ${singularReadable} '${revisionTo.Title}' is ongewijzigd.`
+                            : !!revisionTo.Werkingsgebied_Statics?.Object_ID &&
+                                !!revisionFrom.Werkingsgebied_Statics?.Object_ID
+                              ? `${singularCapitalize} '${revisionTo.Title}' is gewijzigd van gebied '${revisionTo.Werkingsgebied_Statics?.Cached_Title}' naar gebied '${revisionFrom.Werkingsgebied_Statics?.Cached_Title}'`
+                              : !!revisionTo.Werkingsgebied_Statics?.Object_ID
+                                ? `Het gebied '${revisionTo.Werkingsgebied_Statics?.Cached_Title}' in ${singularReadable} '${revisionTo.Title}' is verwijderd.`
+                                : `Het gebied '${revisionFrom.Werkingsgebied_Statics?.Cached_Title}' in ${singularReadable} '${revisionTo.Title}' is toegevoegd.`}
                     </Text>
 
                     <div className="h-[320px] overflow-hidden rounded-lg">
@@ -125,8 +102,10 @@ const ObjectRevision = ({
                             id={`revision-map-${initialObject?.UUID}`}
                             area={{
                                 type: 'Werkingsgebieden',
-                                old: compareB.Werkingsgebied_Statics?.Object_ID,
-                                new: compareA.Werkingsgebied_Statics?.Object_ID,
+                                old: revisionFrom.Werkingsgebied_Statics
+                                    ?.Object_ID,
+                                new: revisionTo.Werkingsgebied_Statics
+                                    ?.Object_ID,
                             }}
                         />
                     </div>
