@@ -10,7 +10,7 @@ export const SCHEMA_CONNECTION_STEPS = [
         Object_ID: schemaDefaults.requiredNumber(),
     }),
     object({
-        Description: schemaDefaults.optionalString,
+        Description: schemaDefaults.requiredString(),
     }),
     object({}),
 ]
