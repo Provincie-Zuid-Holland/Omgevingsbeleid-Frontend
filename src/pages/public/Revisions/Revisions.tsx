@@ -10,7 +10,6 @@ import { LoaderSpinner } from '@/components/Loader'
 import imageRevisions from '@/images/revisions.webp'
 
 import Module from './components/Module'
-import TempAlert from './components/TempAlert'
 
 const META = {
     title: 'Herzieningen',
@@ -77,7 +76,6 @@ const Revisions = () => {
                 </div>
             </Container>
             <Divider className="pzh-container mx-auto" />
-            <TempAlert />
             {!isLoading ? (
                 !!data?.results.length ? (
                     data?.results.map(module => (
