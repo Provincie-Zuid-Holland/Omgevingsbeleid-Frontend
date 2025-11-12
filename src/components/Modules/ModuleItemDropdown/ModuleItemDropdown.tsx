@@ -1,11 +1,14 @@
+import { getStorageFileGetFilesDownloadQueryKey } from '@/api/fetchers'
 import Dropdown, { DropdownItem } from '@/components/Dropdown'
 import { Model, ModelReturnTypeBasic } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
+import { downloadFile } from '@/utils/file'
 import { cn } from '@pzh-ui/components'
 import { EllipsisVertical } from '@pzh-ui/icons'
+import { useQuery } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
 
 interface ModuleItemDropdownProps extends ModelReturnTypeBasic {
@@ -63,6 +66,21 @@ const ModuleItemDropdown = ({
         user?.UUID,
     ])
 
+    const downloadDocument =
+        'File_UUID' in Model &&
+        useQuery({
+            queryKey: ['downloadStorageFile', Model.File_UUID],
+            queryFn: () =>
+                downloadFile(
+                    getStorageFileGetFilesDownloadQueryKey(
+                        String(Model.File_UUID)
+                    )[0],
+                    undefined,
+                    true
+                ),
+            enabled: false,
+        })
+
     /**
      * Array of dropdown items based on user rights
      */
@@ -74,11 +92,24 @@ const ModuleItemDropdown = ({
             },
         ]) ||
             []),
-        {
-            text: 'Bekijk voorbeeld',
-            isExternal: true,
-            link: `/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${Model.UUID}`,
-        },
+        ...(Object_Type === 'document' &&
+        'File_UUID' in Model &&
+        !!Model.File_UUID
+            ? [
+                  {
+                      text: 'Bekijk document',
+                      isExternal: true,
+                      callback: () =>
+                          !!downloadDocument && downloadDocument.refetch(),
+                  },
+              ]
+            : [
+                  {
+                      text: 'Bekijk voorbeeld',
+                      isExternal: true,
+                      link: `/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${Model.UUID}`,
+                  },
+              ]),
         ...((ModuleObjectContext?.Action !== 'Terminate' &&
             hasRights &&
             canPatchObjectInModule &&
