@@ -82,7 +82,7 @@ const FieldFile = ({
                 </div>
             </div>
 
-            {data?.UUID && (
+            {data?.UUID && data.UUID === values.File_UUID && (
                 <Hyperlink asChild>
                     <button
                         type="button"
