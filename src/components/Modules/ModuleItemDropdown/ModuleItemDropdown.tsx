@@ -66,20 +66,21 @@ const ModuleItemDropdown = ({
         user?.UUID,
     ])
 
-    const downloadDocument =
-        'File_UUID' in Model &&
-        useQuery({
-            queryKey: ['downloadStorageFile', Model.File_UUID],
-            queryFn: () =>
-                downloadFile(
-                    getStorageFileGetFilesDownloadQueryKey(
-                        String(Model.File_UUID)
-                    )[0],
-                    undefined,
-                    true
-                ),
-            enabled: false,
-        })
+    const downloadDocument = useQuery({
+        queryKey: [
+            'downloadStorageFile',
+            'File_UUID' in Model && Model.File_UUID,
+        ],
+        queryFn: () =>
+            downloadFile(
+                getStorageFileGetFilesDownloadQueryKey(
+                    'File_UUID' in Model ? String(Model.File_UUID) : ''
+                )[0],
+                undefined,
+                true
+            ),
+        enabled: false,
+    })
 
     /**
      * Array of dropdown items based on user rights
