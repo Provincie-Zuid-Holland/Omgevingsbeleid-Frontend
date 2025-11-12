@@ -94,7 +94,7 @@ const FieldFile = ({
 
             <FormikInput name="File_Ignore" type="hidden" />
 
-            {data?.UUID && (
+            {data?.UUID && data.UUID === values.File_UUID && (
                 <Hyperlink asChild>
                     <button
                         type="button"
