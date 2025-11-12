@@ -118,6 +118,10 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                     data: {
                         title: payload.Filename,
                         uploaded_file: payload.File as File,
+                        ignore_report:
+                            ('File_Ignore' in payload &&
+                                !!payload.File_Ignore) ||
+                            false,
                     },
                 })
                 if (res) {

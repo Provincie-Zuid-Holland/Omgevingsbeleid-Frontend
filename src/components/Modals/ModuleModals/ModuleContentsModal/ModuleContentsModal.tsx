@@ -15,7 +15,6 @@ import {
     Module,
     ModuleAddExistingObject,
     ModuleAddNewObject,
-    ModuleObjectShort,
     SearchObject,
 } from '@/api/fetchers.schemas'
 import Modal from '@/components/Modal'
@@ -24,6 +23,7 @@ import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
 
 import { ModalFooter } from '@/components/Modal/Modal'
+import { ModelReturnTypeBasic } from '@/config/objects/types'
 import { StepFive, StepFour, StepOne, StepThree, StepTwo } from './steps'
 
 const steps = [StepOne, StepTwo, StepThree, StepFour, StepFive]
@@ -56,7 +56,7 @@ const ModuleContentsModal = ({
 
     const [step, setStep] = useState(initialStep)
     const [existingObject, setExistingObject] = useState<
-        SearchObject | ModuleObjectShort | undefined | null
+        SearchObject | ModelReturnTypeBasic | undefined | null
     >(selectedObject)
 
     const CurrentStep = steps[step - 1]

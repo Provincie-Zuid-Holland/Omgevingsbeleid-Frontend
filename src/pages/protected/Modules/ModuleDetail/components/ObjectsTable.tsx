@@ -1,11 +1,10 @@
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import Indicator from '@/components/Indicator'
 import ModuleItemDropdown from '@/components/Modules/ModuleItemDropdown'
 import * as models from '@/config/objects'
-import { ModelType } from '@/config/objects/types'
+import { ModelReturnTypeBasic, ModelType } from '@/config/objects/types'
 import useModule from '@/hooks/useModule'
 import { getObjectActionText } from '@/utils/dynamicObject'
 
@@ -25,7 +24,7 @@ import { MagnifyingGlass } from '@pzh-ui/icons'
 
 type FilterOption = { label?: string; value?: string }
 
-const getUniqueOptions = (items: ModuleObjectShort[] = [], path: string) => {
+const getUniqueOptions = (items: ModelReturnTypeBasic[] = [], path: string) => {
     const seen = new Set<string>()
     return items
         .map(obj => {
@@ -54,7 +53,7 @@ const getUniqueOptions = (items: ModuleObjectShort[] = [], path: string) => {
 }
 
 const useFilteredAndSortedData = (
-    objects: ModuleObjectShort[],
+    objects: ModelReturnTypeBasic[],
     filters: {
         Title: string
         Object_Type: FilterOption[]
@@ -65,7 +64,7 @@ const useFilteredAndSortedData = (
 ) => {
     return useMemo(() => {
         const filtered = objects.filter(obj => {
-            const matchesTitle = obj.Title?.toLowerCase().includes(
+            const matchesTitle = obj.Model.Title?.toLowerCase().includes(
                 filters.Title.toLowerCase()
             )
             const matchesType =
@@ -81,21 +80,15 @@ const useFilteredAndSortedData = (
         })
 
         const formatted = filtered.map(obj => {
-            const {
-                Title,
-                Object_Type,
-                ModuleObjectContext,
-                Modified_Date,
-                ...rest
-            } = obj
+            const { Object_Type, ModuleObjectContext, Model, ...rest } = obj
 
             const model = models[Object_Type as ModelType]
             const actionText = getObjectActionText(ModuleObjectContext?.Action)
-            const modifiedDate = parseUtc(Modified_Date)
+            const modifiedDate = parseUtc(Model.Modified_Date || '')
 
             return {
                 raw: {
-                    Title: Title.toLowerCase(),
+                    Title: Model.Title?.toLowerCase(),
                     Object_Type,
                     Action: actionText,
                     Modified_Date: modifiedDate,
@@ -103,7 +96,7 @@ const useFilteredAndSortedData = (
                 display: {
                     Title: (
                         <Text bold color="text-pzh-blue-500">
-                            {Title}
+                            {Model.Title}
                         </Text>
                     ),
                     Object_Type: model?.defaults?.singularCapitalize,
@@ -113,10 +106,9 @@ const useFilteredAndSortedData = (
                             {formatDate(modifiedDate, 'dd-MM-yyyy, p')}
                             <ModuleItemDropdown
                                 model={model}
-                                Title={Title}
                                 Object_Type={Object_Type}
                                 ModuleObjectContext={ModuleObjectContext}
-                                Modified_Date={Modified_Date}
+                                Model={Model}
                                 invertHover
                                 {...rest}
                             />
@@ -124,7 +116,7 @@ const useFilteredAndSortedData = (
                     ),
                     onClick: () =>
                         navigate(
-                            `/muteer/modules/${rest.Module_ID}/${Object_Type}/${rest.Object_ID}/bewerk`
+                            `/muteer/modules/${rest.Module_ID}/${Object_Type}/${Model.Object_ID}/bewerk`
                         ),
                 },
             }

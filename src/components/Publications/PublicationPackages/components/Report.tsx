@@ -28,6 +28,7 @@ const statusStyles: Record<ReportStatusType, string> = {
     failed: 'border-pzh-red-500 bg-pzh-red-10 text-pzh-red-500',
     pending: 'border-pzh-blue-500 text-pzh-blue-500',
     not_applicable: 'border-pzh-blue-500 text-pzh-blue-500',
+    aborted: 'border-pzh-red-500 bg-pzh-red-10 text-pzh-red-500',
 }
 
 const statusIcons: Record<ReportStatusType, JSX.Element> = {
@@ -42,6 +43,9 @@ const statusIcons: Record<ReportStatusType, JSX.Element> = {
         <ClockRotateLeft size={22} className="text-pzh-blue-500 min-w-[22px]" />
     ),
     not_applicable: <></>,
+    aborted: (
+        <CircleXmark size={22} className="text-pzh-red-500 min-w-[22px]" />
+    ),
 }
 
 const Report = ({

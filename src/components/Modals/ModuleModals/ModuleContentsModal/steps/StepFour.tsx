@@ -51,13 +51,13 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
                     data.Objects.map(object => ({
                         label: (
                             <div className="flex justify-between">
-                                <span>{object.Title}</span>
+                                <span>{object.Model.Title}</span>
                                 <span className="capitalize opacity-50">
                                     {object.Object_Type.replace('_', ' ')}
                                 </span>
                             </div>
                         ),
-                        value: object.UUID,
+                        value: object.Model.UUID,
                         objectContext: object,
                     })),
             },
@@ -102,7 +102,7 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
 
         if (
             label.toLowerCase().includes(inputValue.toLowerCase()) ||
-            data.value.toLowerCase().includes(inputValue.toLowerCase())
+            data.value?.toLowerCase().includes(inputValue.toLowerCase())
         ) {
             return true
         }
@@ -157,8 +157,14 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
                         }}
                         defaultValue={
                             existingObject && {
-                                label: existingObject?.Title,
-                                value: existingObject?.UUID,
+                                label:
+                                    'Model' in existingObject
+                                        ? existingObject?.Model.Title
+                                        : existingObject.Title,
+                                value:
+                                    'Model' in existingObject
+                                        ? existingObject?.Model.UUID
+                                        : existingObject.UUID,
                             }
                         }
                         filterType={filterTypes}
@@ -184,12 +190,8 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
                         options={moduleObjects}
                         isLoading={moduleIsFetching}
                         placeholder={`Selecteer een onderdeel binnen de module '${selectedModule?.label}'`}
-                        onChange={val => {
-                            const selected = moduleObjects?.find(
-                                object => object.value === val
-                            )
-
-                            setExistingObject(selected?.objectContext)
+                        onChange={(val: any) => {
+                            setExistingObject(val?.objectContext)
                         }}
                         filterOption={handleFilter}
                         styles={{
