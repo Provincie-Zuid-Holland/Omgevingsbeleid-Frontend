@@ -134,6 +134,11 @@ const Document = ({
                     text: 'Publicatie gefaald',
                     variant: 'red',
                 }
+            case 'publication_aborted':
+                return {
+                    text: 'Publicatie afgebroken',
+                    variant: 'red',
+                }
             case 'announcement':
                 return {
                     text: '3/3: Kennisgeving',

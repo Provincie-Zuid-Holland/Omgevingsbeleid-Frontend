@@ -31,6 +31,11 @@ export const getPackageStatus = (status?: string): BadgeProps | undefined => {
                 text: 'Mislukt',
                 variant: 'red',
             }
+        case 'aborted':
+            return {
+                text: 'Afgebroken',
+                variant: 'red',
+            }
     }
 }
 
@@ -49,6 +54,11 @@ export const getReportStatus = (status?: string): BadgeProps | undefined => {
         case 'failed':
             return {
                 text: 'Gefaald',
+                variant: 'red',
+            }
+        case 'aborted':
+            return {
+                text: 'Afgebroken',
                 variant: 'red',
             }
     }
