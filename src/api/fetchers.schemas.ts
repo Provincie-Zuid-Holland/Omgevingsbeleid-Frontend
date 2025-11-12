@@ -8,6 +8,14 @@
         
  * OpenAPI spec version: 5.0.0
  */
+export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SortOrder = {
+    ASC: 'ASC',
+    DESC: 'DESC',
+} as const
+
 export type WettelijkeTaakListValidLineagesParams = {
     filter_title?: string | null
     offset?: number | null
@@ -464,6 +472,10 @@ export type PublicationActReportsGetListActPackageReportsParams = {
     limit?: number | null
 }
 
+export type PublicationActPackagesPostAbortActPackageParams = {
+    confirm?: boolean
+}
+
 export type PublicationActPackagesGetListActPackagesParams = {
     version_uuid?: string | null
     package_type?: PackageType | null
@@ -531,6 +543,11 @@ export type AreasGetListObjectsByAreasParams = {
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
+}
+
+export interface AppApiDomainsPublicationsEndpointsPublicationsActReportsUploadActPackageReportEndpointUploadPackageReportResponse {
+    Duplicate_Count: number
+    Status: ReportStatusType
 }
 
 export interface WriteRelation {
@@ -1091,11 +1108,6 @@ export interface User {
     UUID: string
 }
 
-export interface UploadPackageReportResponse {
-    Duplicate_Count: number
-    Status: ReportStatusType
-}
-
 export interface UploadFileResponse {
     UUID: string
 }
@@ -1175,14 +1187,6 @@ export interface StorageFileBasic {
     UUID: string
 }
 
-export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const SortOrder = {
-    ASC: 'ASC',
-    DESC: 'DESC',
-} as const
-
 export type SearchRequestDataObjectTypes = string[] | null
 
 export interface SearchRequestData {
@@ -1236,6 +1240,7 @@ export const ReportStatusType = {
     pending: 'pending',
     valid: 'valid',
     failed: 'failed',
+    aborted: 'aborted',
 } as const
 
 export interface ReadRelationShort {
@@ -1302,6 +1307,7 @@ export const PublicationVersionStatus = {
     validation_failed: 'validation_failed',
     publication: 'publication',
     publication_failed: 'publication_failed',
+    publication_aborted: 'publication_aborted',
     announcement: 'announcement',
     completed: 'completed',
 } as const
@@ -1766,6 +1772,21 @@ export interface PublicModuleShort {
     Title: string
 }
 
+export type PublicModuleObjectShortModuleObjectContext =
+    PublicModuleObjectContextShort | null
+
+export interface PublicModuleObjectShort {
+    Code: string
+    Description: string
+    Modified_Date: string
+    Module_ID: number
+    ModuleObjectContext?: PublicModuleObjectShortModuleObjectContext
+    Object_ID: number
+    Object_Type: string
+    Title: string
+    UUID: string
+}
+
 export interface PublicModuleOverview {
     Module: PublicModuleShort
     Objects: PublicModuleObjectShort[]
@@ -1786,21 +1807,6 @@ export type PublicModuleObjectContextShortOriginalAdjustOn = string | null
 export interface PublicModuleObjectContextShort {
     Action: string
     Original_Adjust_On?: PublicModuleObjectContextShortOriginalAdjustOn
-}
-
-export type PublicModuleObjectShortModuleObjectContext =
-    PublicModuleObjectContextShort | null
-
-export interface PublicModuleObjectShort {
-    Code: string
-    Description: string
-    Modified_Date: string
-    Module_ID: number
-    ModuleObjectContext?: PublicModuleObjectShortModuleObjectContext
-    Object_ID: number
-    Object_Type: string
-    Title: string
-    UUID: string
 }
 
 export interface ProgrammaAlgemeenUUID {
@@ -2143,13 +2149,6 @@ export interface PagedResponseModule {
     total: number
 }
 
-export interface PagedResponseModuleObjectsResponse {
-    limit?: number
-    offset?: number
-    results: ModuleObjectsResponse[]
-    total: number
-}
-
 export interface PagedResponseMaatregelExtended {
     limit?: number
     offset?: number
@@ -2259,6 +2258,29 @@ export interface PagedResponseAmbitieBasic {
     limit?: number
     offset?: number
     results: AmbitieBasic[]
+    total: number
+}
+
+export type PagedListModuleObjectsResponseResultsItem =
+    | AmbitieBasic
+    | BeleidsdoelBasic
+    | BeleidskeuzeBasic
+    | BeleidsregelBasic
+    | DocumentBasic
+    | GebiedsprogrammaBasic
+    | MaatregelBasic
+    | NationaalBelangBasic
+    | OnderverdelingBasic
+    | ProgrammaAlgemeenBasic
+    | VerplichtProgrammaBasic
+    | VisieAlgemeenBasic
+    | WerkingsgebiedBasic
+    | WettelijkeTaakBasic
+
+export interface PagedListModuleObjectsResponse {
+    limit?: number
+    offset?: number
+    results: PagedListModuleObjectsResponseResultsItem[]
     total: number
 }
 
@@ -2612,43 +2634,28 @@ export interface ModulePatchStatus {
     Status: ModuleStatusCode
 }
 
-export interface ModuleOverview {
+export interface ModuleOverviewResponse {
     Module: Module
-    Objects: ModuleObjectShort[]
+    Objects: ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicOnderverdelingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic[]
     StatusHistory: ModuleStatus[]
 }
 
-export type ModuleObjectsResponseObjectStatics = ObjectStaticShort | null
+export type ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicOnderverdelingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel =
 
-export type ModuleObjectsResponseModuleObjectContext =
-    ModuleObjectContextShort | null
-
-export interface ModuleObjectsResponse {
-    Code: string
-    Modified_Date: string
-    Module_ID: number
-    ModuleObjectContext?: ModuleObjectsResponseModuleObjectContext
-    Object_ID: number
-    Object_Type: string
-    ObjectStatics?: ModuleObjectsResponseObjectStatics
-    Status: string
-    Title: string
-    UUID: string
-}
-
-export type ModuleObjectShortObjectStatics = ObjectStaticShort | null
-
-export interface ModuleObjectShort {
-    Code: string
-    Modified_Date: string
-    Module_ID: number
-    ModuleObjectContext?: ModuleObjectShortModuleObjectContext
-    Object_ID: number
-    Object_Type: string
-    ObjectStatics?: ModuleObjectShortObjectStatics
-    Title: string
-    UUID: string
-}
+        | AmbitieBasic
+        | BeleidsdoelBasic
+        | BeleidskeuzeBasic
+        | BeleidsregelBasic
+        | DocumentBasic
+        | GebiedsprogrammaBasic
+        | MaatregelBasic
+        | NationaalBelangBasic
+        | OnderverdelingBasic
+        | ProgrammaAlgemeenBasic
+        | VerplichtProgrammaBasic
+        | VisieAlgemeenBasic
+        | WerkingsgebiedBasic
+        | WettelijkeTaakBasic
 
 export type ModuleObjectContextShortOriginalAdjustOn = string | null
 
@@ -2657,8 +2664,13 @@ export interface ModuleObjectContextShort {
     Original_Adjust_On?: ModuleObjectContextShortOriginalAdjustOn
 }
 
-export type ModuleObjectShortModuleObjectContext =
-    ModuleObjectContextShort | null
+export interface ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicOnderverdelingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic {
+    Model: ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicOnderverdelingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel
+    Module_ID: number
+    ModuleObjectContext: ModuleObjectContextShort
+    Object_Type: string
+    ObjectStatics: ObjectStaticShort
+}
 
 export type ModuleObjectContextOriginalAdjustOn = string | null
 
@@ -2985,11 +2997,28 @@ export interface MaatregelBasic {
     UUID?: string
 }
 
+export interface ListObjectsByGeometryRequestData {
+    Function?: GeometryFunctions
+    Geometry: string
+    Object_Types?: string[]
+}
+
 export interface HierarchyStatics {
     Cached_Title: string
     Code: string
     Object_ID: number
     Object_Type: string
+}
+
+export type HierachyReferenceTitle = string | null
+
+export interface HierachyReference {
+    Code: string
+    Hierarchy_Code: string
+    Object_ID: number
+    Object_Type: string
+    Title?: HierachyReferenceTitle
+    UUID: string
 }
 
 export interface HTTPValidationError {
@@ -3010,6 +3039,7 @@ export type GraphEdgeType = (typeof GraphEdgeType)[keyof typeof GraphEdgeType]
 export const GraphEdgeType = {
     relation: 'relation',
     acknowledged_relation: 'acknowledged_relation',
+    hierarchy_code: 'hierarchy_code',
 } as const
 
 export interface GraphEdge {
@@ -3033,12 +3063,6 @@ export const GeometryFunctions = {
     OVERLAPS: 'OVERLAPS',
     INTERSECTS: 'INTERSECTS',
 } as const
-
-export interface ListObjectsByGeometryRequestData {
-    Function?: GeometryFunctions
-    Geometry: string
-    Object_Types?: string[]
-}
 
 export type GeoSearchResultTitel = string | null
 
@@ -3777,6 +3801,7 @@ export interface BeleidskeuzeFull {
     Description?: string
     End_Validity?: BeleidskeuzeFullEndValidity
     Explanation?: string
+    Hierarchy_Children?: HierachyReference[]
     Hierarchy_Code?: string
     Hierarchy_Statics?: BeleidskeuzeFullHierarchyStatics
     Maatregelen?: ReadRelationShortMaatregelMinimal[]
@@ -3946,6 +3971,7 @@ export interface BeleidsdoelFull {
     Created_Date?: string
     Description?: string
     End_Validity?: BeleidsdoelFullEndValidity
+    Hierarchy_Children?: HierachyReference[]
     Hierarchy_Code?: string
     Hierarchy_Statics?: BeleidsdoelFullHierarchyStatics
     Modified_By?: BeleidsdoelFullModifiedBy
@@ -4092,9 +4118,11 @@ export interface Appendix {
     Title: string
 }
 
+export type AnnouncementTextTitle = string | null
+
 export interface AnnouncementText {
     Description: string
-    Title: string
+    Title: AnnouncementTextTitle
 }
 
 export type AnnouncementProceduralProceduralAnnouncementDate = string | null
@@ -4204,6 +4232,7 @@ export interface AmbitieFull {
     Created_Date?: string
     Description?: string
     End_Validity?: AmbitieFullEndValidity
+    Hierarchy_Children?: HierachyReference[]
     Modified_By?: AmbitieFullModifiedBy
     Modified_Date?: string
     Next_Version?: AmbitieFullNextVersion
@@ -4355,6 +4384,10 @@ export interface AcknowledgedRelation {
     Side_A: AcknowledgedRelationSide
     Side_B: AcknowledgedRelationSide
     Version: number
+}
+
+export interface AbortResponse {
+    new_state_uuid: string
 }
 
 export interface AOJCreatedResponse {

@@ -1,6 +1,5 @@
-import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import Dropdown, { DropdownItem } from '@/components/Dropdown'
-import { Model } from '@/config/objects/types'
+import { Model, ModelReturnTypeBasic } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
@@ -9,7 +8,7 @@ import { cn } from '@pzh-ui/components'
 import { EllipsisVertical } from '@pzh-ui/icons'
 import { useMemo, useState } from 'react'
 
-interface ModuleItemDropdownProps extends ModuleObjectShort {
+interface ModuleItemDropdownProps extends ModelReturnTypeBasic {
     /** Model */
     model: Model
     /** Has edit button */
@@ -26,9 +25,7 @@ const ModuleItemDropdown = ({
     ModuleObjectContext,
     hasEditButton,
     Object_Type,
-    Object_ID,
-    UUID,
-    Title,
+    Model,
     invertHover,
 }: ModuleItemDropdownProps) => {
     const { user } = useAuth()
@@ -73,14 +70,14 @@ const ModuleItemDropdown = ({
         ...((hasRights && [
             {
                 text: 'Bekijk detailpagina',
-                link: `/muteer/${plural}/${Object_ID}`,
+                link: `/muteer/${plural}/${Model.Object_ID}`,
             },
         ]) ||
             []),
         {
             text: 'Bekijk voorbeeld',
             isExternal: true,
-            link: `/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${UUID}`,
+            link: `/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${Model.UUID}`,
         },
         ...((ModuleObjectContext?.Action !== 'Terminate' &&
             hasRights &&
@@ -90,7 +87,7 @@ const ModuleItemDropdown = ({
             !hasEditButton && [
                 {
                     text: 'Bewerk onderdeel',
-                    link: `/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}/bewerk`,
+                    link: `/muteer/modules/${Module_ID}/${Object_Type}/${Model.Object_ID}/bewerk`,
                 },
             ]) ||
             []),
@@ -108,10 +105,10 @@ const ModuleItemDropdown = ({
                         setActiveModal('moduleEditObject', {
                             object: {
                                 Object_Type,
-                                Object_ID,
-                                Title,
+                                Model,
                                 Module_ID,
                                 ModuleObjectContext,
+                                ObjectStatics,
                             },
                         }),
                 },
@@ -123,7 +120,13 @@ const ModuleItemDropdown = ({
                     text: 'Verwijder uit module',
                     callback: () =>
                         setActiveModal('moduleDeleteObject', {
-                            object: { Object_Type, Object_ID, Title },
+                            object: {
+                                Object_Type,
+                                Model,
+                                Module_ID,
+                                ModuleObjectContext,
+                                ObjectStatics,
+                            },
                             module: {
                                 Title: String(data?.Module.Title),
                                 Module_ID: Number(data?.Module.Module_ID),

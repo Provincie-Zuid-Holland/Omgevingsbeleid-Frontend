@@ -18,7 +18,7 @@ import {
 
 import {
     usePublicationVersionsGetListVersions,
-    usePublicationVersionsPostCreatePdf,
+    usePublicationVersionsPostCreateVersionPdf,
 } from '@/api/fetchers'
 import {
     DocumentType,
@@ -82,8 +82,8 @@ const Document = ({
         }
     )
 
-    const { mutate: download, isPending } = usePublicationVersionsPostCreatePdf(
-        {
+    const { mutate: download, isPending } =
+        usePublicationVersionsPostCreateVersionPdf({
             mutation: {
                 mutationFn: async ({ versionUuid, data }): Promise<any> =>
                     downloadFile(
@@ -91,8 +91,7 @@ const Document = ({
                         data
                     ),
             },
-        }
-    )
+        })
 
     const isLastStatus = useMemo(
         () => version?.Module_Status.ID === lastStatus?.ID,

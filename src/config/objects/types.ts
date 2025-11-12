@@ -21,6 +21,7 @@ import {
     MaatregelFull,
     MaatregelPatch,
     MaatregelStaticPostStatics,
+    ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicOnderverdelingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
     NationaalBelangFull,
     ProgrammaAlgemeenFull,
     ProgrammaAlgemeenPatch,
@@ -125,6 +126,9 @@ export type ModelReturnType = BeleidsdoelFull &
     WerkingsgebiedFull &
     ProgrammaAlgemeenFull &
     DocumentFull
+
+export type ModelReturnTypeBasic =
+    ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicOnderverdelingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
 
 export type ModelPatchType = BeleidsdoelPatch &
     AmbitiePatch &
