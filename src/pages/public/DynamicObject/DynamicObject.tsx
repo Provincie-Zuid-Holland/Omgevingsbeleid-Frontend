@@ -278,7 +278,6 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                             <ObjectArea
                                 model={model}
                                 objectTitle={data.Title}
-                                moduleId={moduleId}
                                 {...data.Werkingsgebied_Statics}
                             />
                         </div>

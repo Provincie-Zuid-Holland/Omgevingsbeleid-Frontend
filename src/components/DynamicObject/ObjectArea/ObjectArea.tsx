@@ -1,55 +1,24 @@
 import { Heading, Text } from '@pzh-ui/components'
 
-import {
-    useWerkingsgebiedViewModuleObjectLatest,
-    useWerkingsgebiedViewObjectLatest,
-} from '@/api/fetchers'
 import { WerkingsgebiedStatics } from '@/api/fetchers.schemas'
 import { LeafletTinyViewer } from '@/components/Leaflet'
 import { Model } from '@/config/objects/types'
-import useAuth from '@/hooks/useAuth'
+import { useWerkingsgebied } from '@/hooks/useWerkingsgebied'
 
 interface ObjectAreaProps extends WerkingsgebiedStatics {
     objectTitle?: string
-    moduleId?: string
     model: Model
 }
 
 const ObjectArea = ({
     objectTitle,
-    moduleId,
     model,
     Object_ID,
     Cached_Title,
 }: ObjectAreaProps) => {
-    const { user } = useAuth()
-
     const { singular, prefixSingular } = model.defaults
 
-    const {
-        data: moduleData,
-        isSuccess,
-        isError,
-    } = useWerkingsgebiedViewModuleObjectLatest(
-        parseInt(moduleId!),
-        Object_ID,
-        {
-            query: {
-                enabled: !!moduleId && !!Object_ID && !!user,
-            },
-        }
-    )
-
-    const { data: validData } = useWerkingsgebiedViewObjectLatest(Object_ID, {
-        query: {
-            enabled:
-                (!moduleId && !!Object_ID) ||
-                (!!moduleId && !!Object_ID && !moduleData && isSuccess) ||
-                isError,
-        },
-    })
-
-    const data = moduleId && isSuccess ? moduleData : validData
+    const data = useWerkingsgebied(Object_ID)
 
     return (
         <div data-section="Werkingsgebied">

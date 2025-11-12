@@ -23,6 +23,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import type {
     AOJCreate,
     AOJCreatedResponse,
+    AbortResponse,
     AcknowledgedRelation,
     ActCreate,
     ActCreatedResponse,
@@ -37,6 +38,7 @@ import type {
     AmbitieStaticPostStatics,
     AmbitieUUID,
     AnnouncementCreatedResponse,
+    AppApiDomainsPublicationsEndpointsPublicationsActReportsUploadActPackageReportEndpointUploadPackageReportResponse,
     AreaDesignationValueList,
     AreasGetListObjectsByAreasParams,
     AreasGetListObjectsByGeometryParams,
@@ -113,7 +115,7 @@ import type {
     ModuleEdit,
     ModuleEditObjectContext,
     ModuleObjectContext,
-    ModuleOverview,
+    ModuleOverviewResponse,
     ModulePatchStatus,
     ModuleSnapshot,
     ModuleStatus,
@@ -132,6 +134,7 @@ import type {
     OnderverdelingListValidLineageTreeParams,
     OnderverdelingListValidLineagesParams,
     OnderverdelingStaticPostStatics,
+    PagedListModuleObjectsResponse,
     PagedResponseAmbitieBasic,
     PagedResponseAmbitieExtended,
     PagedResponseBeleidsdoelBasic,
@@ -149,7 +152,6 @@ import type {
     PagedResponseMaatregelBasic,
     PagedResponseMaatregelExtended,
     PagedResponseModule,
-    PagedResponseModuleObjectsResponse,
     PagedResponseNationaalBelangBasic,
     PagedResponseOnderverdelingBasic,
     PagedResponseOnderverdelingExtended,
@@ -193,6 +195,7 @@ import type {
     PublicationActPackageDetailResponse,
     PublicationActPackageReport,
     PublicationActPackagesGetListActPackagesParams,
+    PublicationActPackagesPostAbortActPackageParams,
     PublicationActReportsGetListActPackageReportsParams,
     PublicationActsGetListActsParams,
     PublicationAnnouncement,
@@ -243,7 +246,6 @@ import type {
     TemplateEdit,
     UploadAttachmentResponse,
     UploadFileResponse,
-    UploadPackageReportResponse,
     User,
     UserCreate,
     UserCreateResponse,
@@ -973,7 +975,7 @@ export const modulesViewModuleOverview = (
     moduleId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<ModuleOverview>({
+    return customInstance<ModuleOverviewResponse>({
         url: `/modules/${moduleId}`,
         method: 'GET',
         signal,
@@ -2167,7 +2169,7 @@ export const modulesGetListModuleObjects = (
     params?: ModulesGetListModuleObjectsParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<PagedResponseModuleObjectsResponse>({
+    return customInstance<PagedListModuleObjectsResponse>({
         url: `/modules/objects/latest`,
         method: 'GET',
         params,
@@ -2955,6 +2957,98 @@ export const usePublicationActPackagesGetDetailActPackage = <
 }
 
 /**
+ * @summary ABORT an Publication Act Package
+ */
+export const publicationActPackagesPostAbortActPackage = (
+    actPackageUuid: string,
+    params?: PublicationActPackagesPostAbortActPackageParams
+) => {
+    return customInstance<AbortResponse>({
+        url: `/publication-act-packages/${actPackageUuid}/abort`,
+        method: 'POST',
+        params,
+    })
+}
+
+export const getPublicationActPackagesPostAbortActPackageMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationActPackagesPostAbortActPackage>>,
+        TError,
+        {
+            actPackageUuid: string
+            params?: PublicationActPackagesPostAbortActPackageParams
+        },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof publicationActPackagesPostAbortActPackage>>,
+    TError,
+    {
+        actPackageUuid: string
+        params?: PublicationActPackagesPostAbortActPackageParams
+    },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof publicationActPackagesPostAbortActPackage>>,
+        {
+            actPackageUuid: string
+            params?: PublicationActPackagesPostAbortActPackageParams
+        }
+    > = props => {
+        const { actPackageUuid, params } = props ?? {}
+
+        return publicationActPackagesPostAbortActPackage(actPackageUuid, params)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type PublicationActPackagesPostAbortActPackageMutationResult =
+    NonNullable<
+        Awaited<ReturnType<typeof publicationActPackagesPostAbortActPackage>>
+    >
+
+export type PublicationActPackagesPostAbortActPackageMutationError =
+    HTTPValidationError
+
+/**
+ * @summary ABORT an Publication Act Package
+ */
+export const usePublicationActPackagesPostAbortActPackage = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof publicationActPackagesPostAbortActPackage>>,
+        TError,
+        {
+            actPackageUuid: string
+            params?: PublicationActPackagesPostAbortActPackageParams
+        },
+        TContext
+    >
+}): UseMutationResult<
+    Awaited<ReturnType<typeof publicationActPackagesPostAbortActPackage>>,
+    TError,
+    {
+        actPackageUuid: string
+        params?: PublicationActPackagesPostAbortActPackageParams
+    },
+    TContext
+> => {
+    const mutationOptions =
+        getPublicationActPackagesPostAbortActPackageMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
  * @summary Download a generated publication act package ZIP file
  */
 export const publicationActPackagesGetDownloadActPackage = (
@@ -3076,12 +3170,14 @@ export const publicationActReportsPostUploadActPackageReport = (
         value => formData.append('uploaded_files', value)
     )
 
-    return customInstance<UploadPackageReportResponse>({
-        url: `/publication-act-packages/${actPackageUuid}/report`,
-        method: 'POST',
-        headers: { 'Content-Type': 'multipart/form-data' },
-        data: formData,
-    })
+    return customInstance<AppApiDomainsPublicationsEndpointsPublicationsActReportsUploadActPackageReportEndpointUploadPackageReportResponse>(
+        {
+            url: `/publication-act-packages/${actPackageUuid}/report`,
+            method: 'POST',
+            headers: { 'Content-Type': 'multipart/form-data' },
+            data: formData,
+        }
+    )
 }
 
 export const getPublicationActReportsPostUploadActPackageReportMutationOptions =
@@ -4458,12 +4554,14 @@ export const publicationAnnouncementReportsPostUploadAnnouncementPackageReport =
             value => formData.append('uploaded_files', value)
         )
 
-        return customInstance<UploadPackageReportResponse>({
-            url: `/publication-announcement-packages/${announcementPackageUuid}/report`,
-            method: 'POST',
-            headers: { 'Content-Type': 'multipart/form-data' },
-            data: formData,
-        })
+        return customInstance<AppApiDomainsPublicationsEndpointsPublicationsActReportsUploadActPackageReportEndpointUploadPackageReportResponse>(
+            {
+                url: `/publication-announcement-packages/${announcementPackageUuid}/report`,
+                method: 'POST',
+                headers: { 'Content-Type': 'multipart/form-data' },
+                data: formData,
+            }
+        )
     }
 
 export const getPublicationAnnouncementReportsPostUploadAnnouncementPackageReportMutationOptions =
@@ -5376,6 +5474,99 @@ export const usePublicationAnnouncementsGetDetailAnnouncement = <
     query.queryKey = queryOptions.queryKey
 
     return query
+}
+
+/**
+ * @summary Download Announcement as Pdf
+ */
+export const publicationAnnouncementsPostCreateAnnouncementPdf = (
+    announcementUuid: string
+) => {
+    return customInstance<unknown>({
+        url: `/publication-announcements/${announcementUuid}/pdf_export`,
+        method: 'POST',
+    })
+}
+
+export const getPublicationAnnouncementsPostCreateAnnouncementPdfMutationOptions =
+    <TError = HTTPValidationError, TContext = unknown>(options?: {
+        mutation?: UseMutationOptions<
+            Awaited<
+                ReturnType<
+                    typeof publicationAnnouncementsPostCreateAnnouncementPdf
+                >
+            >,
+            TError,
+            { announcementUuid: string },
+            TContext
+        >
+    }): UseMutationOptions<
+        Awaited<
+            ReturnType<typeof publicationAnnouncementsPostCreateAnnouncementPdf>
+        >,
+        TError,
+        { announcementUuid: string },
+        TContext
+    > => {
+        const { mutation: mutationOptions } = options ?? {}
+
+        const mutationFn: MutationFunction<
+            Awaited<
+                ReturnType<
+                    typeof publicationAnnouncementsPostCreateAnnouncementPdf
+                >
+            >,
+            { announcementUuid: string }
+        > = props => {
+            const { announcementUuid } = props ?? {}
+
+            return publicationAnnouncementsPostCreateAnnouncementPdf(
+                announcementUuid
+            )
+        }
+
+        return { mutationFn, ...mutationOptions }
+    }
+
+export type PublicationAnnouncementsPostCreateAnnouncementPdfMutationResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof publicationAnnouncementsPostCreateAnnouncementPdf>
+        >
+    >
+
+export type PublicationAnnouncementsPostCreateAnnouncementPdfMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Download Announcement as Pdf
+ */
+export const usePublicationAnnouncementsPostCreateAnnouncementPdf = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<
+            ReturnType<typeof publicationAnnouncementsPostCreateAnnouncementPdf>
+        >,
+        TError,
+        { announcementUuid: string },
+        TContext
+    >
+}): UseMutationResult<
+    Awaited<
+        ReturnType<typeof publicationAnnouncementsPostCreateAnnouncementPdf>
+    >,
+    TError,
+    { announcementUuid: string },
+    TContext
+> => {
+    const mutationOptions =
+        getPublicationAnnouncementsPostCreateAnnouncementPdfMutationOptions(
+            options
+        )
+
+    return useMutation(mutationOptions)
 }
 
 /**
@@ -7036,7 +7227,7 @@ export const usePublicationVersionsPostDeleteAttachment = <
 /**
  * @summary Download Publication Version as Pdf
  */
-export const publicationVersionsPostCreatePdf = (
+export const publicationVersionsPostCreateVersionPdf = (
     versionUuid: string,
     publicationPackagePdf: PublicationPackagePdf
 ) => {
@@ -7048,18 +7239,18 @@ export const publicationVersionsPostCreatePdf = (
     })
 }
 
-export const getPublicationVersionsPostCreatePdfMutationOptions = <
+export const getPublicationVersionsPostCreateVersionPdfMutationOptions = <
     TError = HTTPValidationError,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof publicationVersionsPostCreatePdf>>,
+        Awaited<ReturnType<typeof publicationVersionsPostCreateVersionPdf>>,
         TError,
         { versionUuid: string; data: PublicationPackagePdf },
         TContext
     >
 }): UseMutationOptions<
-    Awaited<ReturnType<typeof publicationVersionsPostCreatePdf>>,
+    Awaited<ReturnType<typeof publicationVersionsPostCreateVersionPdf>>,
     TError,
     { versionUuid: string; data: PublicationPackagePdf },
     TContext
@@ -7067,44 +7258,46 @@ export const getPublicationVersionsPostCreatePdfMutationOptions = <
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof publicationVersionsPostCreatePdf>>,
+        Awaited<ReturnType<typeof publicationVersionsPostCreateVersionPdf>>,
         { versionUuid: string; data: PublicationPackagePdf }
     > = props => {
         const { versionUuid, data } = props ?? {}
 
-        return publicationVersionsPostCreatePdf(versionUuid, data)
+        return publicationVersionsPostCreateVersionPdf(versionUuid, data)
     }
 
     return { mutationFn, ...mutationOptions }
 }
 
-export type PublicationVersionsPostCreatePdfMutationResult = NonNullable<
-    Awaited<ReturnType<typeof publicationVersionsPostCreatePdf>>
+export type PublicationVersionsPostCreateVersionPdfMutationResult = NonNullable<
+    Awaited<ReturnType<typeof publicationVersionsPostCreateVersionPdf>>
 >
-export type PublicationVersionsPostCreatePdfMutationBody = PublicationPackagePdf
-export type PublicationVersionsPostCreatePdfMutationError = HTTPValidationError
+export type PublicationVersionsPostCreateVersionPdfMutationBody =
+    PublicationPackagePdf
+export type PublicationVersionsPostCreateVersionPdfMutationError =
+    HTTPValidationError
 
 /**
  * @summary Download Publication Version as Pdf
  */
-export const usePublicationVersionsPostCreatePdf = <
+export const usePublicationVersionsPostCreateVersionPdf = <
     TError = HTTPValidationError,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof publicationVersionsPostCreatePdf>>,
+        Awaited<ReturnType<typeof publicationVersionsPostCreateVersionPdf>>,
         TError,
         { versionUuid: string; data: PublicationPackagePdf },
         TContext
     >
 }): UseMutationResult<
-    Awaited<ReturnType<typeof publicationVersionsPostCreatePdf>>,
+    Awaited<ReturnType<typeof publicationVersionsPostCreateVersionPdf>>,
     TError,
     { versionUuid: string; data: PublicationPackagePdf },
     TContext
 > => {
     const mutationOptions =
-        getPublicationVersionsPostCreatePdfMutationOptions(options)
+        getPublicationVersionsPostCreateVersionPdfMutationOptions(options)
 
     return useMutation(mutationOptions)
 }

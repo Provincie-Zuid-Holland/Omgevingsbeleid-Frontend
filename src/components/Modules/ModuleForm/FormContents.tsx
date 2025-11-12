@@ -99,13 +99,13 @@ const FormContents = () => {
                     <div className="mt-4">
                         {existingObjects.map((object, index) => (
                             <ModulePart
-                                key={object.UUID}
+                                key={object.Model.UUID}
                                 isLast={existingObjects.length === index + 1}
                                 handleRemove={() =>
                                     mutate({
                                         moduleId: object.Module_ID,
                                         objectType: object.Object_Type,
-                                        lineageId: object.Object_ID,
+                                        lineageId: object.Model.Object_ID || 0,
                                     })
                                 }
                                 {...object}
@@ -120,13 +120,14 @@ const FormContents = () => {
                         <div className="mt-2">
                             {newObjects.map((object, index) => (
                                 <ModulePart
-                                    key={object.UUID}
+                                    key={object.Model.UUID}
                                     isLast={newObjects.length === index + 1}
                                     handleRemove={() =>
                                         mutate({
                                             moduleId: object.Module_ID,
                                             objectType: object.Object_Type,
-                                            lineageId: object.Object_ID,
+                                            lineageId:
+                                                object.Model.Object_ID || 0,
                                         })
                                     }
                                     {...object}

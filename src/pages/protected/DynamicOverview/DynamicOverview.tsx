@@ -14,10 +14,10 @@ import { KeyboardEvent, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { useModulesGetListModuleObjects } from '@/api/fetchers'
-import { ModuleObjectShort } from '@/api/fetchers.schemas'
+import { PagedListModuleObjectsResponseResultsItem } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import SearchBar from '@/components/SearchBar'
-import { Model, ModelReturnType } from '@/config/objects/types'
+import { Model } from '@/config/objects/types'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 import { parseUtc } from '@/utils/parseUtc'
@@ -170,6 +170,16 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
         {
             query: {
                 placeholderData: keepPreviousData,
+                select: data => {
+                    if (type === 'valid') return data
+
+                    return {
+                        ...data,
+                        results: data.results.map(result =>
+                            'Model' in result ? result.Model : result
+                        ),
+                    }
+                },
                 enabled:
                     type === 'valid'
                         ? atemporal || (activeTab === 'valid' && !atemporal)
@@ -215,14 +225,8 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
      */
     const formattedData = useMemo(
         () =>
-            data?.results?.map(
-                ({
-                    Title,
-                    Modified_Date,
-                    Object_ID,
-                    Object_Type,
-                    ...props
-                }: ModelReturnType | ModuleObjectShort) => ({
+            (data?.results as PagedListModuleObjectsResponseResultsItem[])?.map(
+                ({ Title, Modified_Date, Object_ID, ...props }) => ({
                     Title: (
                         <Text bold color="text-pzh-blue-500">
                             {Title}
