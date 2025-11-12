@@ -2335,6 +2335,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@floating-ui/core@npm:^1.7.3":
+  version: 1.7.3
+  resolution: "@floating-ui/core@npm:1.7.3"
+  dependencies:
+    "@floating-ui/utils": "npm:^0.2.10"
+  checksum: a8952ff2673ddf28f12feeb86d90c54949e45bcb1af5758b7672850ac0dadb36d4bd61aa45dad1b6a35ba40d4756d3573afac6610b90502639d7266b91e0864e
+  languageName: node
+  linkType: hard
+
 "@floating-ui/dom@npm:^1.0.0":
   version: 1.6.13
   resolution: "@floating-ui/dom@npm:1.6.13"
@@ -2355,6 +2364,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@floating-ui/dom@npm:^1.7.4":
+  version: 1.7.4
+  resolution: "@floating-ui/dom@npm:1.7.4"
+  dependencies:
+    "@floating-ui/core": "npm:^1.7.3"
+    "@floating-ui/utils": "npm:^0.2.10"
+  checksum: d3d6a23e7b9804ba56338c7c666590258683af14b6026270d32afc1202f72b5b82cca359004bdc7830bf2463a045da6c7bd4e7d5351218cf270ff94206197971
+  languageName: node
+  linkType: hard
+
 "@floating-ui/react-dom@npm:^2.0.1":
   version: 2.1.3
   resolution: "@floating-ui/react-dom@npm:2.1.3"
@@ -2367,15 +2386,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/react-dom@npm:^2.1.2":
-  version: 2.1.2
-  resolution: "@floating-ui/react-dom@npm:2.1.2"
+"@floating-ui/react-dom@npm:^2.1.6":
+  version: 2.1.6
+  resolution: "@floating-ui/react-dom@npm:2.1.6"
   dependencies:
-    "@floating-ui/dom": "npm:^1.0.0"
+    "@floating-ui/dom": "npm:^1.7.4"
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 2a67dc8499674e42ff32c7246bded185bb0fdd492150067caf9568569557ac4756a67787421d8604b0f241e5337de10762aee270d9aeef106d078a0ff13596c4
+  checksum: fbfd3319b42edb9c156e4e872f500d2edb112bc9cfd1b45892bff16ccf21c2484ddc9c416f7631c2aaaadec1b2f98b205db8a3f89eb78ca870905fcfe3917c35
   languageName: node
   linkType: hard
 
@@ -2393,17 +2412,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/react@npm:^0.27.3":
-  version: 0.27.8
-  resolution: "@floating-ui/react@npm:0.27.8"
+"@floating-ui/react@npm:^0.27.15":
+  version: 0.27.16
+  resolution: "@floating-ui/react@npm:0.27.16"
   dependencies:
-    "@floating-ui/react-dom": "npm:^2.1.2"
-    "@floating-ui/utils": "npm:^0.2.9"
+    "@floating-ui/react-dom": "npm:^2.1.6"
+    "@floating-ui/utils": "npm:^0.2.10"
     tabbable: "npm:^6.0.0"
   peerDependencies:
     react: ">=17.0.0"
     react-dom: ">=17.0.0"
-  checksum: 9423e3b7d6298918cb14ad3cfa36ba7b88ef86f18c4c47f7870b367716e918757dc0cf9842ef4995ee784b68aebe725c28c2ae143ecfe16380d3ccfd05cacb43
+  checksum: b9baedee124035323a8f74794ec782678faf52af1c88731ce7d2641b7e7c97748fda1e711a3c4db007a0153d93158d867f4726ee632d713d3de76ec4bdfd84e1
   languageName: node
   linkType: hard
 
@@ -2411,6 +2430,13 @@ __metadata:
   version: 0.2.1
   resolution: "@floating-ui/utils@npm:0.2.1"
   checksum: 33c9ab346e7b05c5a1e6a95bc902aafcfc2c9d513a147e2491468843bd5607531b06d0b9aa56aa491cbf22a6c2495c18ccfc4c0344baec54a689a7bb8e4898d6
+  languageName: node
+  linkType: hard
+
+"@floating-ui/utils@npm:^0.2.10":
+  version: 0.2.10
+  resolution: "@floating-ui/utils@npm:0.2.10"
+  checksum: b635ea865a8be2484b608b7157f5abf9ed439f351011a74b7e988439e2898199a9a8b790f52291e05bdcf119088160dc782d98cff45cc98c5a271bc6f51327ae
   languageName: node
   linkType: hard
 
@@ -3139,9 +3165,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.652":
-  version: 0.0.652
-  resolution: "@pzh-ui/components@npm:0.0.652"
+"@pzh-ui/components@npm:^0.0.655":
+  version: 0.0.655
+  resolution: "@pzh-ui/components@npm:0.0.655"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
@@ -3187,7 +3213,7 @@ __metadata:
     react-aria: "npm:^3.41.1"
     react-aria-components: "npm:^1.10.1"
     react-color: "npm:^2.19.3"
-    react-datepicker: "npm:^8.3.0"
+    react-datepicker: "npm:^8.7.0"
     react-dom: "npm:^18.3.1"
     react-dropzone-esm: "npm:^15.0.1"
     react-responsive-pagination: "npm:^2.4.2"
@@ -3196,7 +3222,7 @@ __metadata:
     react-toastify: "npm:^9.1.2"
     tailwind-merge: "npm:^3.2.0"
     uuid: "npm:^11.1.0"
-  checksum: 3998b61a2e05b48c7e255315caf0fbe247ed5b7401a2b7a0935961165a47f7c2ff3034b17e2bb162d13eab63b7343b9ade3ac62bd33838d69d1544e7067a2537
+  checksum: f85e7d17ea3f92320cdfd9f2f6bbf9c70089d57f9dab9685e05e2792925e3c4d4080f2c97b93bd6cece687c7fa141d94d7c8d8a9a3959d179bf733d845726bb8
   languageName: node
   linkType: hard
 
@@ -13648,7 +13674,7 @@ __metadata:
     "@axe-core/react": "npm:^4.10.0"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-    "@pzh-ui/components": "npm:^0.0.652"
+    "@pzh-ui/components": "npm:^0.0.655"
     "@pzh-ui/config": "npm:^0.0.81"
     "@pzh-ui/css": "npm:^0.0.114"
     "@pzh-ui/icons": "npm:^0.0.92"
@@ -13855,17 +13881,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-datepicker@npm:^8.3.0":
-  version: 8.3.0
-  resolution: "react-datepicker@npm:8.3.0"
+"react-datepicker@npm:^8.7.0":
+  version: 8.7.0
+  resolution: "react-datepicker@npm:8.7.0"
   dependencies:
-    "@floating-ui/react": "npm:^0.27.3"
+    "@floating-ui/react": "npm:^0.27.15"
     clsx: "npm:^2.1.1"
     date-fns: "npm:^4.1.0"
   peerDependencies:
     react: ^16.9.0 || ^17 || ^18 || ^19 || ^19.0.0-rc
     react-dom: ^16.9.0 || ^17 || ^18 || ^19 || ^19.0.0-rc
-  checksum: 7c044cb95d630d5f35458cd622975ea2c94b93e522e819ab77cbacca2f92d5d4115861e42785ce8a810b83ce0e133d0b57557149d32107c598317e8579be8d89
+  checksum: af3cff5f23b82fb711a4f10b2a46a8f266f3be0cbf48094ccac0dd8309a9c2912fab7dbfa23782554f4976c2ea9fa1abfbb46d1a7728af3bb18e2e309f24a083
   languageName: node
   linkType: hard
 
