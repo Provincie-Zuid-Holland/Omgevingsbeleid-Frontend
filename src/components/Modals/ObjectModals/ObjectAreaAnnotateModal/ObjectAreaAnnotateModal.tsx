@@ -164,11 +164,12 @@ const InnerForm = <TData extends Values>({
                             const selected = Array.isArray(val) ? val[0] : val
                             setFieldValue(
                                 'label',
-                                selected?.object?.Title ?? ''
+                                selected?.object?.Model.Title ?? ''
                             )
                             setFieldValue(
                                 'id',
-                                selected?.object?.Object_ID?.toString() ?? ''
+                                selected?.object?.Model.Object_ID?.toString() ??
+                                    ''
                             )
                         }}
                         defaultValue={

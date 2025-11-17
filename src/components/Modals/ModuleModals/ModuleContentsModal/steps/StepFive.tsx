@@ -24,12 +24,8 @@ export const StepFive = ({ title, existingObject }: StepProps) => {
                 Bestaande {existingObject?.Object_Type}
             </Heading>
             <Text className="mb-4">
-                “
-                {existingObject &&
-                    ('Model' in existingObject
-                        ? existingObject?.Model.Title
-                        : existingObject.Title)}
-                ” toevoegen aan de module “{title}”
+                “{existingObject?.Model.Title}” toevoegen aan de module “{title}
+                ”
             </Text>
             <FormikRadioGroup
                 key="Action"
