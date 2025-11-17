@@ -8,14 +8,6 @@
         
  * OpenAPI spec version: 5.0.0
  */
-export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const SortOrder = {
-    ASC: 'ASC',
-    DESC: 'DESC',
-} as const
-
 export type WettelijkeTaakListValidLineagesParams = {
     filter_title?: string | null
     offset?: number | null
@@ -110,32 +102,6 @@ export type ProgrammaAlgemeenListValidLineagesParams = {
     sort_order?: SortOrder | null
 }
 
-export type OnderverdelingGetListActiveModuleObjectsParams = {
-    minimum_status: ModuleStatusCode
-}
-
-export type OnderverdelingGetModuleListLineageTreeParams = {
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type OnderverdelingListValidLineageTreeParams = {
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type OnderverdelingListValidLineagesParams = {
-    filter_title?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
 export type NationaalBelangListValidLineagesParams = {
     filter_title?: string | null
     offset?: number | null
@@ -189,6 +155,58 @@ export type GebiedsprogrammaListValidLineageTreeParams = {
 }
 
 export type GebiedsprogrammaListValidLineagesParams = {
+    filter_title?: string | null
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type GebiedengroepGetListActiveModuleObjectsParams = {
+    minimum_status: ModuleStatusCode
+}
+
+export type GebiedengroepGetModuleListLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type GebiedengroepListValidLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type GebiedengroepListValidLineagesParams = {
+    filter_title?: string | null
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type GebiedGetListActiveModuleObjectsParams = {
+    minimum_status: ModuleStatusCode
+}
+
+export type GebiedGetModuleListLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type GebiedListValidLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type GebiedListValidLineagesParams = {
     filter_title?: string | null
     offset?: number | null
     limit?: number | null
@@ -522,6 +540,18 @@ export type ModulesGetListModulesParams = {
     sort_order?: SortOrder | null
 }
 
+export type InputGeoGetInputGeoWerkingsgebiedenHistoryParams = {
+    title: string
+    from_date?: string | null
+}
+
+export type InputGeoGetInputGeoListLatestWerkingsgebiedenParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: InputGeoWerkingsgebiedenSortColumn | null
+    sort_order?: SortOrder | null
+}
+
 export type GraphGetObjectGraphParams = {
     uuid: string
 }
@@ -548,6 +578,38 @@ export type AreasGetListObjectsByAreasParams = {
 export interface AppApiDomainsPublicationsEndpointsPublicationsActReportsUploadActPackageReportEndpointUploadPackageReportResponse {
     Duplicate_Count: number
     Status: ReportStatusType
+}
+
+export type AppApiDomainsModulesTypesObjectStaticShortPortfolioHolder2UUID =
+    | string
+    | null
+
+export type AppApiDomainsModulesTypesObjectStaticShortPortfolioHolder1UUID =
+    | string
+    | null
+
+export type AppApiDomainsModulesTypesObjectStaticShortOwner2UUID = string | null
+
+export type AppApiDomainsModulesTypesObjectStaticShortOwner1UUID = string | null
+
+export type AppApiDomainsModulesTypesObjectStaticShortClient1UUID =
+    | string
+    | null
+
+export interface AppApiDomainsModulesTypesObjectStaticShort {
+    Client_1_UUID?: AppApiDomainsModulesTypesObjectStaticShortClient1UUID
+    Owner_1_UUID?: AppApiDomainsModulesTypesObjectStaticShortOwner1UUID
+    Owner_2_UUID?: AppApiDomainsModulesTypesObjectStaticShortOwner2UUID
+    Portfolio_Holder_1_UUID?: AppApiDomainsModulesTypesObjectStaticShortPortfolioHolder1UUID
+    Portfolio_Holder_2_UUID?: AppApiDomainsModulesTypesObjectStaticShortPortfolioHolder2UUID
+}
+
+export type AppApiDomainsModulesEndpointsModuleOverviewEndpointModuleObjectContextShortOriginalAdjustOn =
+    string | null
+
+export interface AppApiDomainsModulesEndpointsModuleOverviewEndpointModuleObjectContextShort {
+    Action: string
+    Original_Adjust_On?: AppApiDomainsModulesEndpointsModuleOverviewEndpointModuleObjectContextShortOriginalAdjustOn
 }
 
 export interface WriteRelation {
@@ -683,16 +745,6 @@ export interface WerkingsgebiedRelatedObjectShort {
     Werkingsgebied_Code: string
 }
 
-export interface WerkingsgebiedRelatedModuleObjectShort {
-    Module_ID?: WerkingsgebiedRelatedModuleObjectShortModuleID
-    Module_Title?: WerkingsgebiedRelatedModuleObjectShortModuleTitle
-    Object_ID: number
-    Object_Type: string
-    Title: WerkingsgebiedRelatedModuleObjectShortTitle
-    UUID: string
-    Werkingsgebied_Code: string
-}
-
 export interface WerkingsgebiedRelatedObjects {
     Module_Objects: WerkingsgebiedRelatedModuleObjectShort[]
     Valid_Objects: WerkingsgebiedRelatedObjectShort[]
@@ -703,6 +755,16 @@ export type WerkingsgebiedRelatedModuleObjectShortTitle = string | null
 export type WerkingsgebiedRelatedModuleObjectShortModuleTitle = string | null
 
 export type WerkingsgebiedRelatedModuleObjectShortModuleID = number | null
+
+export interface WerkingsgebiedRelatedModuleObjectShort {
+    Module_ID?: WerkingsgebiedRelatedModuleObjectShortModuleID
+    Module_Title?: WerkingsgebiedRelatedModuleObjectShortModuleTitle
+    Object_ID: number
+    Object_Type: string
+    Title: WerkingsgebiedRelatedModuleObjectShortTitle
+    UUID: string
+    Werkingsgebied_Code: string
+}
 
 export type WerkingsgebiedPatchTitle = string | null
 
@@ -789,7 +851,6 @@ export interface WerkingsgebiedExtended {
     Modified_Date?: string
     Object_ID?: number
     ObjectStatics?: WerkingsgebiedExtendedStatics
-    Onderverdelingen?: string[]
     Start_Validity?: WerkingsgebiedExtendedStartValidity
     Title?: string
     UUID?: string
@@ -809,7 +870,6 @@ export interface WerkingsgebiedBasic {
     End_Validity?: WerkingsgebiedBasicEndValidity
     Modified_Date?: string
     Object_ID?: number
-    Onderverdelingen?: string[]
     Start_Validity?: WerkingsgebiedBasicStartValidity
     Title?: string
     UUID?: string
@@ -1065,14 +1125,29 @@ export interface ValidateModuleResult {
     readonly status: string
 }
 
-export interface ValidSearchObject {
+export type ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel =
+
+        | AmbitieBasic
+        | BeleidsdoelBasic
+        | BeleidskeuzeBasic
+        | BeleidsregelBasic
+        | DocumentBasic
+        | GebiedsprogrammaBasic
+        | MaatregelBasic
+        | NationaalBelangBasic
+        | GebiedengroepBasic
+        | GebiedBasic
+        | ProgrammaAlgemeenBasic
+        | VerplichtProgrammaBasic
+        | VisieAlgemeenBasic
+        | WerkingsgebiedBasic
+        | WettelijkeTaakBasic
+
+export interface ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic {
     Description: string
-    Object_Code: string
-    Object_ID: number
+    Model: ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel
     Object_Type: string
     Score: number
-    Title: string
-    UUID: string
 }
 
 export interface UserShort {
@@ -1187,24 +1262,54 @@ export interface StorageFileBasic {
     UUID: string
 }
 
+export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SortOrder = {
+    ASC: 'ASC',
+    DESC: 'DESC',
+} as const
+
+export type SearchRequestDataWithLikeObjectTypes = string[] | null
+
+export interface SearchRequestDataWithLike {
+    Like?: boolean
+    Object_Types?: SearchRequestDataWithLikeObjectTypes
+}
+
 export type SearchRequestDataObjectTypes = string[] | null
 
 export interface SearchRequestData {
-    Like?: boolean
     Object_Types?: SearchRequestDataObjectTypes
 }
 
-export type SearchObjectModuleID = number | null
+export type SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModuleID =
+    number | null
 
-export interface SearchObject {
+export type SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel =
+
+        | AmbitieBasic
+        | BeleidsdoelBasic
+        | BeleidskeuzeBasic
+        | BeleidsregelBasic
+        | DocumentBasic
+        | GebiedsprogrammaBasic
+        | MaatregelBasic
+        | NationaalBelangBasic
+        | GebiedengroepBasic
+        | GebiedBasic
+        | ProgrammaAlgemeenBasic
+        | VerplichtProgrammaBasic
+        | VisieAlgemeenBasic
+        | WerkingsgebiedBasic
+        | WettelijkeTaakBasic
+
+export interface SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic {
     Description: string
-    Module_ID?: SearchObjectModuleID
-    Object_Code: string
-    Object_ID: number
+    Model: SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel
+    Module_ID?: SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModuleID
     Object_Type: string
     Score: number
-    Title: string
-    UUID: string
 }
 
 export interface SearchGeoRequestData {
@@ -1772,9 +1877,6 @@ export interface PublicModuleShort {
     Title: string
 }
 
-export type PublicModuleObjectShortModuleObjectContext =
-    PublicModuleObjectContextShort | null
-
 export interface PublicModuleObjectShort {
     Code: string
     Description: string
@@ -1808,6 +1910,9 @@ export interface PublicModuleObjectContextShort {
     Action: string
     Original_Adjust_On?: PublicModuleObjectContextShortOriginalAdjustOn
 }
+
+export type PublicModuleObjectShortModuleObjectContext =
+    PublicModuleObjectContextShort | null
 
 export interface ProgrammaAlgemeenUUID {
     Object_ID?: number
@@ -1946,6 +2051,24 @@ export interface Procedural {
     Signed_Date?: ProceduralSignedDate
 }
 
+export interface PatchResponse {
+    UUID: string
+}
+
+export interface PagedValidSearchObjectResponse {
+    limit?: number
+    offset?: number
+    results: ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic[]
+    total: number
+}
+
+export interface PagedSearchObjectResponse {
+    limit?: number
+    offset?: number
+    results: SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic[]
+    total: number
+}
+
 export interface PagedResponseWettelijkeTaakBasic {
     limit?: number
     offset?: number
@@ -1995,13 +2118,6 @@ export interface PagedResponseVerplichtProgrammaBasic {
     total: number
 }
 
-export interface PagedResponseValidSearchObject {
-    limit?: number
-    offset?: number
-    results: ValidSearchObject[]
-    total: number
-}
-
 export interface PagedResponseUser {
     limit?: number
     offset?: number
@@ -2020,13 +2136,6 @@ export interface PagedResponseStorageFileBasic {
     limit?: number
     offset?: number
     results: StorageFileBasic[]
-    total: number
-}
-
-export interface PagedResponseSearchObject {
-    limit?: number
-    offset?: number
-    results: SearchObject[]
     total: number
 }
 
@@ -2121,20 +2230,6 @@ export interface PagedResponseProgrammaAlgemeenBasic {
     total: number
 }
 
-export interface PagedResponseOnderverdelingExtended {
-    limit?: number
-    offset?: number
-    results: OnderverdelingExtended[]
-    total: number
-}
-
-export interface PagedResponseOnderverdelingBasic {
-    limit?: number
-    offset?: number
-    results: OnderverdelingBasic[]
-    total: number
-}
-
 export interface PagedResponseNationaalBelangBasic {
     limit?: number
     offset?: number
@@ -2163,6 +2258,13 @@ export interface PagedResponseMaatregelBasic {
     total: number
 }
 
+export interface PagedResponseInputGeoWerkingsgebied {
+    limit?: number
+    offset?: number
+    results: InputGeoWerkingsgebied[]
+    total: number
+}
+
 export interface PagedResponseGeoSearchResult {
     limit?: number
     offset?: number
@@ -2188,6 +2290,34 @@ export interface PagedResponseGebiedsprogrammaBasic {
     limit?: number
     offset?: number
     results: GebiedsprogrammaBasic[]
+    total: number
+}
+
+export interface PagedResponseGebiedengroepExtended {
+    limit?: number
+    offset?: number
+    results: GebiedengroepExtended[]
+    total: number
+}
+
+export interface PagedResponseGebiedengroepBasic {
+    limit?: number
+    offset?: number
+    results: GebiedengroepBasic[]
+    total: number
+}
+
+export interface PagedResponseGebiedExtended {
+    limit?: number
+    offset?: number
+    results: GebiedExtended[]
+    total: number
+}
+
+export interface PagedResponseGebiedBasic {
+    limit?: number
+    offset?: number
+    results: GebiedBasic[]
     total: number
 }
 
@@ -2261,26 +2391,10 @@ export interface PagedResponseAmbitieBasic {
     total: number
 }
 
-export type PagedListModuleObjectsResponseResultsItem =
-    | AmbitieBasic
-    | BeleidsdoelBasic
-    | BeleidskeuzeBasic
-    | BeleidsregelBasic
-    | DocumentBasic
-    | GebiedsprogrammaBasic
-    | MaatregelBasic
-    | NationaalBelangBasic
-    | OnderverdelingBasic
-    | ProgrammaAlgemeenBasic
-    | VerplichtProgrammaBasic
-    | VisieAlgemeenBasic
-    | WerkingsgebiedBasic
-    | WettelijkeTaakBasic
-
 export interface PagedListModuleObjectsResponse {
     limit?: number
     offset?: number
-    results: PagedListModuleObjectsResponseResultsItem[]
+    results: ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic[]
     total: number
 }
 
@@ -2303,134 +2417,11 @@ export const PackageType = {
     publication: 'publication',
 } as const
 
-export type OnderverdelingStaticPostStaticsOwner2UUID = string | null
-
-export type OnderverdelingStaticPostStaticsOwner1UUID = string | null
-
-export interface OnderverdelingStaticPostStatics {
-    Owner_1_UUID?: OnderverdelingStaticPostStaticsOwner1UUID
-    Owner_2_UUID?: OnderverdelingStaticPostStaticsOwner2UUID
-}
-
-export type OnderverdelingFullStaticsOwner2 = UserShort | null
-
-export type OnderverdelingFullStaticsOwner1 = UserShort | null
-
-export interface OnderverdelingFullStatics {
-    Owner_1?: OnderverdelingFullStaticsOwner1
-    Owner_2?: OnderverdelingFullStaticsOwner2
-}
-
-export type OnderverdelingFullStartValidity = string | null
-
-export type OnderverdelingFullNextVersion = NextObjectVersion | null
-
-export type OnderverdelingFullModifiedBy = UserShort | null
-
-export type OnderverdelingFullEndValidity = string | null
-
-export type OnderverdelingFullCreatedBy = UserShort | null
-
-export type OnderverdelingFullArea = AreaBasic | null
-
-export type OnderverdelingFullAdjustOn = string | null
-
-export interface OnderverdelingFull {
-    Adjust_On?: OnderverdelingFullAdjustOn
-    Area?: OnderverdelingFullArea
-    Area_UUID?: string
-    Code?: string
-    Created_By?: OnderverdelingFullCreatedBy
-    Created_Date?: string
-    End_Validity?: OnderverdelingFullEndValidity
-    Modified_By?: OnderverdelingFullModifiedBy
-    Modified_Date?: string
-    Next_Version?: OnderverdelingFullNextVersion
-    Object_ID?: number
-    ObjectStatics?: OnderverdelingFullStatics
-    Public_Revisions?: PublicModuleObjectRevision[]
-    Start_Validity?: OnderverdelingFullStartValidity
-    Title?: string
-    UUID?: string
-}
-
-export type OnderverdelingExtendedStaticsOwner2 = UserShort | null
-
-export type OnderverdelingExtendedStaticsOwner1 = UserShort | null
-
-export interface OnderverdelingExtendedStatics {
-    Owner_1?: OnderverdelingExtendedStaticsOwner1
-    Owner_2?: OnderverdelingExtendedStaticsOwner2
-}
-
-export type OnderverdelingExtendedStartValidity = string | null
-
-export type OnderverdelingExtendedModifiedBy = UserShort | null
-
-export type OnderverdelingExtendedEndValidity = string | null
-
-export type OnderverdelingExtendedCreatedBy = UserShort | null
-
-export type OnderverdelingExtendedAdjustOn = string | null
-
-export interface OnderverdelingExtended {
-    Adjust_On?: OnderverdelingExtendedAdjustOn
-    Area_UUID?: string
-    Code?: string
-    Created_By?: OnderverdelingExtendedCreatedBy
-    Created_Date?: string
-    End_Validity?: OnderverdelingExtendedEndValidity
-    Modified_By?: OnderverdelingExtendedModifiedBy
-    Modified_Date?: string
-    Object_ID?: number
-    ObjectStatics?: OnderverdelingExtendedStatics
-    Start_Validity?: OnderverdelingExtendedStartValidity
-    Title?: string
-    UUID?: string
-}
-
-export type OnderverdelingBasicStartValidity = string | null
-
-export type OnderverdelingBasicEndValidity = string | null
-
-export type OnderverdelingBasicAdjustOn = string | null
-
-export interface OnderverdelingBasic {
-    Adjust_On?: OnderverdelingBasicAdjustOn
-    Area_UUID?: string
-    Code?: string
-    Created_Date?: string
-    End_Validity?: OnderverdelingBasicEndValidity
-    Modified_Date?: string
-    Object_ID?: number
-    Start_Validity?: OnderverdelingBasicStartValidity
-    Title?: string
-    UUID?: string
-}
-
 export interface ObjectStatics {
     Cached_Title: string
     Code: string
     Object_ID: number
     Object_Type: string
-}
-
-export type ObjectStaticShortPortfolioHolder2UUID = string | null
-
-export type ObjectStaticShortPortfolioHolder1UUID = string | null
-
-export type ObjectStaticShortOwner2UUID = string | null
-
-export type ObjectStaticShortOwner1UUID = string | null
-
-export type ObjectStaticShortClient1UUID = string | null
-
-export interface ObjectStaticShort {
-    Client_1_UUID?: ObjectStaticShortClient1UUID
-    Owner_1_UUID?: ObjectStaticShortOwner1UUID
-    Owner_2_UUID?: ObjectStaticShortOwner2UUID
-    Portfolio_Holder_1_UUID?: ObjectStaticShortPortfolioHolder1UUID
-    Portfolio_Holder_2_UUID?: ObjectStaticShortPortfolioHolder2UUID
 }
 
 export interface ObjectCount {
@@ -2634,13 +2625,7 @@ export interface ModulePatchStatus {
     Status: ModuleStatusCode
 }
 
-export interface ModuleOverviewResponse {
-    Module: Module
-    Objects: ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicOnderverdelingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic[]
-    StatusHistory: ModuleStatus[]
-}
-
-export type ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicOnderverdelingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel =
+export type ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel =
 
         | AmbitieBasic
         | BeleidsdoelBasic
@@ -2650,26 +2635,53 @@ export type ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBas
         | GebiedsprogrammaBasic
         | MaatregelBasic
         | NationaalBelangBasic
-        | OnderverdelingBasic
+        | GebiedengroepBasic
+        | GebiedBasic
         | ProgrammaAlgemeenBasic
         | VerplichtProgrammaBasic
         | VisieAlgemeenBasic
         | WerkingsgebiedBasic
         | WettelijkeTaakBasic
 
-export type ModuleObjectContextShortOriginalAdjustOn = string | null
-
-export interface ModuleObjectContextShort {
-    Action: string
-    Original_Adjust_On?: ModuleObjectContextShortOriginalAdjustOn
+export interface ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic {
+    Model: ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel
+    Module_ID: number
+    ModuleObjectContext: AppApiDomainsModulesEndpointsModuleOverviewEndpointModuleObjectContextShort
+    Object_Type: string
+    ObjectStatics: AppApiDomainsModulesTypesObjectStaticShort
 }
 
-export interface ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicOnderverdelingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic {
-    Model: ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicOnderverdelingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel
+export interface ModuleOverviewResponse {
+    Module: Module
+    Objects: ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic[]
+    StatusHistory: ModuleStatus[]
+}
+
+export type ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel =
+
+        | AmbitieBasic
+        | BeleidsdoelBasic
+        | BeleidskeuzeBasic
+        | BeleidsregelBasic
+        | DocumentBasic
+        | GebiedsprogrammaBasic
+        | MaatregelBasic
+        | NationaalBelangBasic
+        | GebiedengroepBasic
+        | GebiedBasic
+        | ProgrammaAlgemeenBasic
+        | VerplichtProgrammaBasic
+        | VisieAlgemeenBasic
+        | WerkingsgebiedBasic
+        | WettelijkeTaakBasic
+
+export interface ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic {
+    Model: ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel
     Module_ID: number
-    ModuleObjectContext: ModuleObjectContextShort
+    Module_Latest_Status: string
+    ModuleObjectContext: AppApiDomainsModulesEndpointsModuleOverviewEndpointModuleObjectContextShort
     Object_Type: string
-    ObjectStatics: ObjectStaticShort
+    ObjectStatics: AppApiDomainsModulesTypesObjectStaticShort
 }
 
 export type ModuleObjectContextOriginalAdjustOn = string | null
@@ -2843,6 +2855,8 @@ export type MaatregelPatchRole = string | null
 
 export type MaatregelPatchHierarchyCode = string | null
 
+export type MaatregelPatchGebiedengroepCode = string | null
+
 export type MaatregelPatchEffect = string | null
 
 export type MaatregelPatchDocuments = string[] | null
@@ -2853,6 +2867,7 @@ export interface MaatregelPatch {
     Description?: MaatregelPatchDescription
     Documents?: MaatregelPatchDocuments
     Effect?: MaatregelPatchEffect
+    Gebiedengroep_Code?: MaatregelPatchGebiedengroepCode
     Hierarchy_Code?: MaatregelPatchHierarchyCode
     Role?: MaatregelPatchRole
     Title?: MaatregelPatchTitle
@@ -2896,6 +2911,8 @@ export type MaatregelFullModifiedBy = UserShort | null
 
 export type MaatregelFullHierarchyStatics = HierarchyStatics | null
 
+export type MaatregelFullGebiedengroep = GebiedengroepBasic | null
+
 export type MaatregelFullEndValidity = string | null
 
 export type MaatregelFullCreatedBy = UserShort | null
@@ -2913,6 +2930,8 @@ export interface MaatregelFull {
     Documents_Statics?: ObjectStatics[]
     Effect?: string
     End_Validity?: MaatregelFullEndValidity
+    Gebiedengroep?: MaatregelFullGebiedengroep
+    Gebiedengroep_Code?: string
     Gebiedsprogrammas?: ReadRelationShortGebiedsprogrammaMinimal[]
     Hierarchy_Code?: string
     Hierarchy_Statics?: MaatregelFullHierarchyStatics
@@ -2965,6 +2984,7 @@ export interface MaatregelExtended {
     Created_By?: MaatregelExtendedCreatedBy
     Created_Date?: string
     End_Validity?: MaatregelExtendedEndValidity
+    Gebiedengroep_Code?: string
     Hierarchy_Code?: string
     Modified_By?: MaatregelExtendedModifiedBy
     Modified_Date?: string
@@ -3001,6 +3021,35 @@ export interface ListObjectsByGeometryRequestData {
     Function?: GeometryFunctions
     Geometry: string
     Object_Types?: string[]
+}
+
+export type InputGeoWerkingsgebiedenSortColumn =
+    (typeof InputGeoWerkingsgebiedenSortColumn)[keyof typeof InputGeoWerkingsgebiedenSortColumn]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const InputGeoWerkingsgebiedenSortColumn = {
+    Title: 'Title',
+    Created_Date: 'Created_Date',
+} as const
+
+export interface InputGeoWerkingsgebied {
+    Created_Date: string
+    Title: string
+    UUID: string
+}
+
+export interface InputGeoOnderverdeling {
+    Created_Date: string
+    Geometry_Hash: string
+    Title: string
+    UUID: string
+}
+
+export interface InputGeoWerkingsgebiedDetailed {
+    Created_Date: string
+    Onderverdelingen: InputGeoOnderverdeling[]
+    Title: string
+    UUID: string
 }
 
 export interface HierarchyStatics {
@@ -3251,6 +3300,236 @@ export interface GebiedsprogrammaBasic {
     Next_Version?: GebiedsprogrammaBasicNextVersion
     Object_ID?: number
     Start_Validity?: GebiedsprogrammaBasicStartValidity
+    Title?: string
+    UUID?: string
+}
+
+export interface GebiedengroepUUID {
+    Object_ID?: number
+    UUID?: string
+}
+
+export type GebiedengroepStaticPostStaticsOwner2UUID = string | null
+
+export type GebiedengroepStaticPostStaticsOwner1UUID = string | null
+
+export interface GebiedengroepStaticPostStatics {
+    Owner_1_UUID?: GebiedengroepStaticPostStaticsOwner1UUID
+    Owner_2_UUID?: GebiedengroepStaticPostStaticsOwner2UUID
+}
+
+export type GebiedengroepPatchTitle = string | null
+
+export type GebiedengroepPatchDescription = string | null
+
+export interface GebiedengroepPatch {
+    Description?: GebiedengroepPatchDescription
+    Title?: GebiedengroepPatchTitle
+}
+
+export type GebiedengroepFullStaticsOwner2 = UserShort | null
+
+export type GebiedengroepFullStaticsOwner1 = UserShort | null
+
+export interface GebiedengroepFullStatics {
+    Owner_1?: GebiedengroepFullStaticsOwner1
+    Owner_2?: GebiedengroepFullStaticsOwner2
+}
+
+export type GebiedengroepFullStartValidity = string | null
+
+export type GebiedengroepFullModifiedBy = UserShort | null
+
+export type GebiedengroepFullEndValidity = string | null
+
+export type GebiedengroepFullCreatedBy = UserShort | null
+
+export type GebiedengroepFullAdjustOn = string | null
+
+export interface GebiedengroepFull {
+    Adjust_On?: GebiedengroepFullAdjustOn
+    Code?: string
+    Created_By?: GebiedengroepFullCreatedBy
+    Created_Date?: string
+    Description?: string
+    End_Validity?: GebiedengroepFullEndValidity
+    Gebieden?: string[]
+    Gebieden_Objects?: GebiedBasic[]
+    Modified_By?: GebiedengroepFullModifiedBy
+    Modified_Date?: string
+    Object_ID?: number
+    ObjectStatics?: GebiedengroepFullStatics
+    Start_Validity?: GebiedengroepFullStartValidity
+    Title?: string
+    UUID?: string
+}
+
+export type GebiedengroepExtendedStaticsOwner2 = UserShort | null
+
+export type GebiedengroepExtendedStaticsOwner1 = UserShort | null
+
+export interface GebiedengroepExtendedStatics {
+    Owner_1?: GebiedengroepExtendedStaticsOwner1
+    Owner_2?: GebiedengroepExtendedStaticsOwner2
+}
+
+export type GebiedengroepExtendedStartValidity = string | null
+
+export type GebiedengroepExtendedModifiedBy = UserShort | null
+
+export type GebiedengroepExtendedEndValidity = string | null
+
+export type GebiedengroepExtendedCreatedBy = UserShort | null
+
+export type GebiedengroepExtendedAdjustOn = string | null
+
+export interface GebiedengroepExtended {
+    Adjust_On?: GebiedengroepExtendedAdjustOn
+    Code?: string
+    Created_By?: GebiedengroepExtendedCreatedBy
+    Created_Date?: string
+    End_Validity?: GebiedengroepExtendedEndValidity
+    Gebieden?: string[]
+    Modified_By?: GebiedengroepExtendedModifiedBy
+    Modified_Date?: string
+    Object_ID?: number
+    ObjectStatics?: GebiedengroepExtendedStatics
+    Start_Validity?: GebiedengroepExtendedStartValidity
+    Title?: string
+    UUID?: string
+}
+
+export type GebiedengroepBasicStartValidity = string | null
+
+export type GebiedengroepBasicEndValidity = string | null
+
+export type GebiedengroepBasicAdjustOn = string | null
+
+export interface GebiedengroepBasic {
+    Adjust_On?: GebiedengroepBasicAdjustOn
+    Code?: string
+    Created_Date?: string
+    End_Validity?: GebiedengroepBasicEndValidity
+    Gebieden?: string[]
+    Modified_Date?: string
+    Object_ID?: number
+    Start_Validity?: GebiedengroepBasicStartValidity
+    Title?: string
+    UUID?: string
+}
+
+export interface GebiedUUID {
+    Object_ID?: number
+    UUID?: string
+}
+
+export type GebiedStaticPostStaticsOwner2UUID = string | null
+
+export type GebiedStaticPostStaticsOwner1UUID = string | null
+
+export interface GebiedStaticPostStatics {
+    Owner_1_UUID?: GebiedStaticPostStaticsOwner1UUID
+    Owner_2_UUID?: GebiedStaticPostStaticsOwner2UUID
+}
+
+export type GebiedPatchTitle = string | null
+
+export interface GebiedPatch {
+    Title?: GebiedPatchTitle
+}
+
+export type GebiedFullStaticsOwner2 = UserShort | null
+
+export type GebiedFullStaticsOwner1 = UserShort | null
+
+export interface GebiedFullStatics {
+    Owner_1?: GebiedFullStaticsOwner1
+    Owner_2?: GebiedFullStaticsOwner2
+}
+
+export type GebiedFullStartValidity = string | null
+
+export type GebiedFullNextVersion = NextObjectVersion | null
+
+export type GebiedFullModifiedBy = UserShort | null
+
+export type GebiedFullEndValidity = string | null
+
+export type GebiedFullCreatedBy = UserShort | null
+
+export type GebiedFullArea = AreaBasic | null
+
+export type GebiedFullAdjustOn = string | null
+
+export interface GebiedFull {
+    Adjust_On?: GebiedFullAdjustOn
+    Area?: GebiedFullArea
+    Area_UUID?: string
+    Code?: string
+    Created_By?: GebiedFullCreatedBy
+    Created_Date?: string
+    End_Validity?: GebiedFullEndValidity
+    Modified_By?: GebiedFullModifiedBy
+    Modified_Date?: string
+    Next_Version?: GebiedFullNextVersion
+    Object_ID?: number
+    ObjectStatics?: GebiedFullStatics
+    Public_Revisions?: PublicModuleObjectRevision[]
+    Start_Validity?: GebiedFullStartValidity
+    Title?: string
+    UUID?: string
+}
+
+export type GebiedExtendedStaticsOwner2 = UserShort | null
+
+export type GebiedExtendedStaticsOwner1 = UserShort | null
+
+export interface GebiedExtendedStatics {
+    Owner_1?: GebiedExtendedStaticsOwner1
+    Owner_2?: GebiedExtendedStaticsOwner2
+}
+
+export type GebiedExtendedStartValidity = string | null
+
+export type GebiedExtendedModifiedBy = UserShort | null
+
+export type GebiedExtendedEndValidity = string | null
+
+export type GebiedExtendedCreatedBy = UserShort | null
+
+export type GebiedExtendedAdjustOn = string | null
+
+export interface GebiedExtended {
+    Adjust_On?: GebiedExtendedAdjustOn
+    Area_UUID?: string
+    Code?: string
+    Created_By?: GebiedExtendedCreatedBy
+    Created_Date?: string
+    End_Validity?: GebiedExtendedEndValidity
+    Modified_By?: GebiedExtendedModifiedBy
+    Modified_Date?: string
+    Object_ID?: number
+    ObjectStatics?: GebiedExtendedStatics
+    Start_Validity?: GebiedExtendedStartValidity
+    Title?: string
+    UUID?: string
+}
+
+export type GebiedBasicStartValidity = string | null
+
+export type GebiedBasicEndValidity = string | null
+
+export type GebiedBasicAdjustOn = string | null
+
+export interface GebiedBasic {
+    Adjust_On?: GebiedBasicAdjustOn
+    Area_UUID?: string
+    Code?: string
+    Created_Date?: string
+    End_Validity?: GebiedBasicEndValidity
+    Modified_Date?: string
+    Object_ID?: number
+    Start_Validity?: GebiedBasicStartValidity
     Title?: string
     UUID?: string
 }
@@ -3731,6 +4010,8 @@ export type BeleidskeuzePatchProvincialInterest = string | null
 
 export type BeleidskeuzePatchHierarchyCode = string | null
 
+export type BeleidskeuzePatchGebiedengroepCode = string | null
+
 export type BeleidskeuzePatchExplanation = string | null
 
 export type BeleidskeuzePatchDescription = string | null
@@ -3741,6 +4022,7 @@ export interface BeleidskeuzePatch {
     Cause?: BeleidskeuzePatchCause
     Description?: BeleidskeuzePatchDescription
     Explanation?: BeleidskeuzePatchExplanation
+    Gebiedengroep_Code?: BeleidskeuzePatchGebiedengroepCode
     Hierarchy_Code?: BeleidskeuzePatchHierarchyCode
     Provincial_Interest?: BeleidskeuzePatchProvincialInterest
     Title?: BeleidskeuzePatchTitle
@@ -3784,6 +4066,8 @@ export type BeleidskeuzeFullModifiedBy = UserShort | null
 
 export type BeleidskeuzeFullHierarchyStatics = HierarchyStatics | null
 
+export type BeleidskeuzeFullGebiedengroep = GebiedengroepBasic | null
+
 export type BeleidskeuzeFullEndValidity = string | null
 
 export type BeleidskeuzeFullCreatedBy = UserShort | null
@@ -3801,6 +4085,8 @@ export interface BeleidskeuzeFull {
     Description?: string
     End_Validity?: BeleidskeuzeFullEndValidity
     Explanation?: string
+    Gebiedengroep?: BeleidskeuzeFullGebiedengroep
+    Gebiedengroep_Code?: string
     Hierarchy_Children?: HierachyReference[]
     Hierarchy_Code?: string
     Hierarchy_Statics?: BeleidskeuzeFullHierarchyStatics
@@ -3856,6 +4142,7 @@ export interface BeleidskeuzeExtended {
     Created_By?: BeleidskeuzeExtendedCreatedBy
     Created_Date?: string
     End_Validity?: BeleidskeuzeExtendedEndValidity
+    Gebiedengroep_Code?: string
     Hierarchy_Code?: string
     Modified_By?: BeleidskeuzeExtendedModifiedBy
     Modified_Date?: string
@@ -4106,7 +4393,7 @@ export const AreaDesignationTypeEnum = {
 export interface AreaBasic {
     Created_By_UUID: string
     Created_Date: string
-    Source_Modified_Date: string
+    Source_Created_Date: string
     Source_Title: string
     Source_UUID: string
     UUID: string

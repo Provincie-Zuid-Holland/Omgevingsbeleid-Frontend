@@ -14,10 +14,13 @@ import { KeyboardEvent, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { useModulesGetListModuleObjects } from '@/api/fetchers'
-import { PagedListModuleObjectsResponseResultsItem } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import SearchBar from '@/components/SearchBar'
-import { Model } from '@/config/objects/types'
+import {
+    Model,
+    ModelReturnTypeBasic,
+    ModelReturnTypeBasicUnion,
+} from '@/config/objects/types'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 import { parseUtc } from '@/utils/parseUtc'
@@ -225,8 +228,16 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
      */
     const formattedData = useMemo(
         () =>
-            (data?.results as PagedListModuleObjectsResponseResultsItem[])?.map(
-                ({ Title, Modified_Date, Object_ID, ...props }) => ({
+            (
+                data?.results as (
+                    | ModelReturnTypeBasic
+                    | ModelReturnTypeBasicUnion
+                )[]
+            )?.map(props => {
+                const { Title, Modified_Date, Object_ID } =
+                    'Model' in props ? props.Model : props
+
+                return {
                     Title: (
                         <Text bold color="text-pzh-blue-500">
                             {Title}
@@ -258,8 +269,8 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                                 }`
                             ),
                     }),
-                })
-            ) || [],
+                }
+            }) || [],
         [data?.results, atemporal, plural, canCreateModule, navigate, type]
     )
 

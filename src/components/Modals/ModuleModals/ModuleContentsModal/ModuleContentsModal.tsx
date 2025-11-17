@@ -15,7 +15,7 @@ import {
     Module,
     ModuleAddExistingObject,
     ModuleAddNewObject,
-    SearchObject,
+    SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
 } from '@/api/fetchers.schemas'
 import Modal from '@/components/Modal'
 import useModalStore from '@/store/modalStore'
@@ -40,7 +40,7 @@ interface ModuleContentsModalProps {
     initialStep: number
     initialValues: ContentsModalForm
     module?: Module
-    selectedObject?: SearchObject | null
+    selectedObject?: SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic | null
 }
 
 const ModuleContentsModal = ({
@@ -56,7 +56,10 @@ const ModuleContentsModal = ({
 
     const [step, setStep] = useState(initialStep)
     const [existingObject, setExistingObject] = useState<
-        SearchObject | ModelReturnTypeBasic | undefined | null
+        | SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
+        | ModelReturnTypeBasic
+        | undefined
+        | null
     >(selectedObject)
 
     const CurrentStep = steps[step - 1]

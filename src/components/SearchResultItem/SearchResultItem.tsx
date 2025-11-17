@@ -1,19 +1,21 @@
 import { Heading } from '@pzh-ui/components'
 import { Link } from 'react-router-dom'
 
-import { ValidSearchObject } from '@/api/fetchers.schemas'
+import { ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 
 interface SearchResultItem
-    extends Omit<ValidSearchObject, 'Object_ID' | 'Score' | 'Object_Code'> {
+    extends Omit<
+        ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+        'Object_ID' | 'Score' | 'Object_Code'
+    > {
     query?: string
 }
 
 const SearchResultItem = ({
-    Title,
     Object_Type,
-    UUID,
+    Model,
     Description,
     query,
 }: SearchResultItem) => {
@@ -47,12 +49,12 @@ const SearchResultItem = ({
     }
 
     const highlightedSentence = highlightString(Description, query)
-    const highlightedTitle = highlightString(Title, query)
+    const highlightedTitle = highlightString(Model.Title, query)
 
     return (
         <li className="mb-6">
             <Link
-                to={`/${model.defaults.slugOverview}/${model.defaults.plural}/${UUID}`}
+                to={`/${model.defaults.slugOverview}/${model.defaults.plural}/${Model.UUID}`}
                 className="group">
                 <span className="text-s text-pzh-gray-600">
                     {model.defaults.singularCapitalize}

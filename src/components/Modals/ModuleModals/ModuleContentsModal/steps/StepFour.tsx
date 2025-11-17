@@ -157,14 +157,8 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
                         }}
                         defaultValue={
                             existingObject && {
-                                label:
-                                    'Model' in existingObject
-                                        ? existingObject?.Model.Title
-                                        : existingObject.Title,
-                                value:
-                                    'Model' in existingObject
-                                        ? existingObject?.Model.UUID
-                                        : existingObject.UUID,
+                                label: existingObject?.Model.Title,
+                                value: existingObject?.Model.UUID,
                             }
                         }
                         filterType={filterTypes}
