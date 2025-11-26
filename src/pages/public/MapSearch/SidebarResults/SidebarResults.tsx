@@ -299,6 +299,7 @@ const SidebarResults = () => {
                                             }
                                             Model={{
                                                 Title: item.Titel || '',
+                                                UUID: item.UUID,
                                             }}
                                             {...item}
                                         />
