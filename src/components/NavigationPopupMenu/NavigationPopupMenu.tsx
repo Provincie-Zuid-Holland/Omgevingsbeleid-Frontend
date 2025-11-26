@@ -61,8 +61,10 @@ const NavigationPopupMenu = ({
 
             {isMobile && (
                 <div className="fixed right-0 bottom-0 z-50">
-                    <div
+                    <button
+                        type="button"
                         className="bg-pzh-blue-900 text-pzh-white flex cursor-pointer items-center justify-center p-8"
+                        aria-label="Menu"
                         onClick={() => setIsOpen(!isOpen)}>
                         {isOpen ? (
                             <Xmark
@@ -77,7 +79,7 @@ const NavigationPopupMenu = ({
                                 className="absolute"
                             />
                         )}
-                    </div>
+                    </button>
                 </div>
             )}
 

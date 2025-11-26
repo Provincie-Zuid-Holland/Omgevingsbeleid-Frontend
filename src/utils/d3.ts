@@ -43,7 +43,7 @@ export const generateNodes = (
         .attr('stroke-width', 1.5)
         .attr(
             'class',
-            'cursor-pointer stroke-pzh-white hover:stroke-pzh-blue-900 data-[active=true]:stroke-pzh-blue-900'
+            'cursor-pointer stroke-pzh-black hover:stroke-pzh-blue-900 data-[active=true]:stroke-pzh-blue-900'
         )
         .attr('data-code-shape', d => d.Code)
 
@@ -187,12 +187,12 @@ export const highlightConnections = (
                     ? 1
                     : 0.3
                 : !!!links.find(
-                      link =>
-                          link.source.Code === d.Code ||
-                          link.target.Code === d.Code
-                  )
-                ? 0.3
-                : 1
+                        link =>
+                            link.source.Code === d.Code ||
+                            link.target.Code === d.Code
+                    )
+                  ? 0.3
+                  : 1
         )
 
     svgElement

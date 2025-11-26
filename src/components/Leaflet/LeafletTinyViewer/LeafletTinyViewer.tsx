@@ -26,7 +26,8 @@ const LeafletTinyViewer = ({ uuid, isSource }: LeafletTinyViewerProps) => (
             boundsOptions: { padding: [100, 100] },
         }}
         controllers={{ showLayers: false }}
-        id={`leaflet-tiny-viewer-${uuid}`}>
+        id={`leaflet-tiny-viewer-${uuid}`}
+        ariaLabel="Hier staat een kaartviewer waarin de kaart wordt weergegeven waar ons beleid van toepassing is.">
         <LeafletTinyViewerInner uuid={uuid} isSource={isSource} />
     </LeafletMap>
 )

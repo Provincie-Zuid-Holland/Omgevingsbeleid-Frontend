@@ -195,6 +195,7 @@ const MapSearch = () => {
                 options={{
                     ...MAP_OPTIONS,
                 }}
+                ariaLabel="Een kaartviewer waar kan worden gezocht op beleid door middel van het plaatsen van een speld of het tekenen van een gebied"
             />
         ),
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -217,7 +218,7 @@ const MapSearch = () => {
                         'h-80': !sidebarOpen,
                     })}>
                     {isAreaLoading && (
-                        <div className="absolute left-0 top-0 z-[1] flex h-full w-full items-center justify-center">
+                        <div className="absolute top-0 left-0 z-[1] flex h-full w-full items-center justify-center">
                             <LoaderSpinner />
                         </div>
                     )}

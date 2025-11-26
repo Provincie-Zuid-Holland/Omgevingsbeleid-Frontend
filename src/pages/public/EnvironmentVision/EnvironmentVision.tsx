@@ -73,11 +73,17 @@ function EnvironmentVision() {
                         {isFetching ? (
                             <LoaderSpinner />
                         ) : (
-                            data?.map(item => (
-                                <ListLink key={item.to} asChild>
-                                    <Link to={item.to}>{item.text}</Link>
-                                </ListLink>
-                            ))
+                            <ul className="flex flex-col">
+                                {data?.map(item => (
+                                    <ListLink key={item.to} asChild>
+                                        <li>
+                                            <Link to={item.to}>
+                                                {item.text}
+                                            </Link>
+                                        </li>
+                                    </ListLink>
+                                ))}
+                            </ul>
                         )}
                     </div>
                     <Heading level="2" className="mt-8">

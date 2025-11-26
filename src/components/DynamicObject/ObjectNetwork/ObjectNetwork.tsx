@@ -77,9 +77,9 @@ const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
 
                     return (
                         <div key={index}>
-                            <Text bold className="mt-4 mb-2">
+                            <Heading level="4" size="s" className="mt-4 mb-2">
                                 {model.defaults.pluralCapitalize}
-                            </Text>
+                            </Heading>
 
                             {Array.isArray(objects) &&
                                 objects.map(object => (
@@ -131,19 +131,21 @@ const getObjectIcon = (key: ModelType) => {
                 <Triangle
                     size={12}
                     className="text-pzh-apple-green-500 mt-0.5"
+                    stroke="black"
+                    strokeWidth={40}
                 />
             )
         case 'beleidsdoel':
             return (
-                <div className="rounded-0.5 bg-pzh-orange-500 mt-0.5 h-3 w-3" />
+                <div className="rounded-0.5 bg-pzh-orange-500 border-pzh-black mt-0.5 h-3 w-3 border" />
             )
         case 'beleidskeuze':
             return (
-                <div className="bg-pzh-yellow-500 mt-0.5 h-3 w-3 rounded-full" />
+                <div className="bg-pzh-yellow-500 border-pzh-black mt-0.5 h-3 w-3 rounded-full border" />
             )
         case 'maatregel':
             return (
-                <div className="rounded-0.5 bg-pzh-green-500 mt-0.5 mr-0.5 h-2.5 w-2.5 min-w-[10px] rotate-45" />
+                <div className="rounded-0.5 bg-pzh-green-500 border-pzh-black mt-0.5 mr-0.5 h-2.5 w-2.5 min-w-[10px] rotate-45 border" />
             )
     }
 }

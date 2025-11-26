@@ -84,8 +84,8 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                     isMulti: true,
                     required: true,
                     validation: array(schemaDefaults.requiredString(), {
-                        required_error: 'Dit veld is verplicht.',
-                        invalid_type_error: 'Dit veld is verplicht.',
+                        required_error: 'Het veld is niet (goed) ingevuld.',
+                        invalid_type_error: 'Het veld is niet (goed) ingevuld.',
                     }),
                 },
             ],
@@ -141,8 +141,8 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                     placeholder: 'Vul een waarde in en druk op enter',
                     isMulti: true,
                     validation: array(schemaDefaults.requiredString(), {
-                        required_error: 'Dit veld is verplicht.',
-                        invalid_type_error: 'Dit veld is verplicht.',
+                        required_error: 'Het veld is niet (goed) ingevuld.',
+                        invalid_type_error: 'Het veld is niet (goed) ingevuld.',
                     }),
                     isCreatable: true,
                     menuIsOpen: false,

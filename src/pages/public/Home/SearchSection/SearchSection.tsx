@@ -6,7 +6,7 @@ import SearchBar from '@/components/SearchBar'
 import { MAP_SEARCH_PAGE } from '@/constants/leaflet'
 
 const SearchSection = () => (
-    <div className="col-span-6 mt-4 bg-pzh-gray-200 px-4 pb-8 pt-4 sm:px-6 lg:col-span-4 lg:mt-0">
+    <div className="bg-pzh-gray-200 col-span-6 mt-4 px-4 pt-4 pb-8 sm:px-6 lg:col-span-4 lg:mt-0">
         <Tabs>
             <TabItem title="Zoeken op tekst">
                 <div className="mt-4">
@@ -27,13 +27,14 @@ const SearchSection = () => (
                                 showDraw: true,
                                 showLayers: false,
                             }}
-                            className="w-full rounded border border-pzh-gray-300"
+                            className="border-pzh-gray-300 w-full rounded border"
+                            ariaLabel="Een kaartviewer waar kan worden gezocht op beleid door middel van het plaatsen van een speld of het tekenen van een gebied"
                         />
                     </div>
                     <div className="mt-4">
                         <Link
                             to={MAP_SEARCH_PAGE}
-                            className="text-pzh-green-500 underline hover:text-pzh-green-900">
+                            className="text-pzh-green-500 hover:text-pzh-green-900 underline">
                             Wilt u uitgebreider zoeken op de kaart?
                         </Link>
                     </div>

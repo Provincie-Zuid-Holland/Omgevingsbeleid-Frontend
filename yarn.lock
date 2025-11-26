@@ -3165,9 +3165,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.655":
-  version: 0.0.655
-  resolution: "@pzh-ui/components@npm:0.0.655"
+"@pzh-ui/components@npm:^0.0.656":
+  version: 0.0.656
+  resolution: "@pzh-ui/components@npm:0.0.656"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
@@ -3216,13 +3216,13 @@ __metadata:
     react-datepicker: "npm:^8.7.0"
     react-dom: "npm:^18.3.1"
     react-dropzone-esm: "npm:^15.0.1"
-    react-responsive-pagination: "npm:^2.4.2"
+    react-responsive-pagination: "npm:^2.11.3"
     react-select: "npm:^5.8.0"
     react-stately: "npm:^3.30.1"
     react-toastify: "npm:^9.1.2"
     tailwind-merge: "npm:^3.2.0"
     uuid: "npm:^11.1.0"
-  checksum: f85e7d17ea3f92320cdfd9f2f6bbf9c70089d57f9dab9685e05e2792925e3c4d4080f2c97b93bd6cece687c7fa141d94d7c8d8a9a3959d179bf733d845726bb8
+  checksum: f367bb311a4e1c78e451c278defb48e69487066ef0080aeb02952c1ddbc3b4ab3ec90ba5a18d1cf2e49ed18b99ef24802255900035e1390a45447494d6ba708d
   languageName: node
   linkType: hard
 
@@ -11818,10 +11818,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"leaflet.pattern@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "leaflet.pattern@npm:0.1.0"
+  dependencies:
+    leaflet: "npm:~0.7.1"
+  checksum: fc5287739a7318a4e9637be11bc6441759ca639e19ff63e1c89892ecf2effcc96fd17ad44eea367310971efdd5a4bde51c4e35d604ee71fe88383eb054167d77
+  languageName: node
+  linkType: hard
+
 "leaflet@npm:^1.9.4":
   version: 1.9.4
   resolution: "leaflet@npm:1.9.4"
   checksum: 7b6a74d503980961a85bdabebf9d1162c26db0e88195800ceea311682b653d621718f2ada3c9aab903a735af9862c9ae278ba550d4429acbd954d43449cd0d77
+  languageName: node
+  linkType: hard
+
+"leaflet@npm:~0.7.1":
+  version: 0.7.7
+  resolution: "leaflet@npm:0.7.7"
+  checksum: fc52c1fc4caddf53e554182cb842d66a12bd929783163f6f7e16cf7ffd3f88c54b8179959b77edcf723086260e8b84c380d9de69a1b69e8b4fcd2c5626894a37
   languageName: node
   linkType: hard
 
@@ -13674,7 +13690,7 @@ __metadata:
     "@axe-core/react": "npm:^4.10.0"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-    "@pzh-ui/components": "npm:^0.0.655"
+    "@pzh-ui/components": "npm:^0.0.656"
     "@pzh-ui/config": "npm:^0.0.81"
     "@pzh-ui/css": "npm:^0.0.114"
     "@pzh-ui/icons": "npm:^0.0.92"
@@ -13719,6 +13735,7 @@ __metadata:
     jwt-decode: "npm:^4.0.0"
     leaflet: "npm:^1.9.4"
     leaflet-draw: "npm:^1.0.4"
+    leaflet.pattern: "npm:^0.1.0"
     lodash.clonedeep: "npm:^4.5.0"
     lodash.debounce: "npm:^4.0.8"
     lodash.groupby: "npm:^4.6.0"
@@ -13997,15 +14014,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-responsive-pagination@npm:^2.4.2":
-  version: 2.4.2
-  resolution: "react-responsive-pagination@npm:2.4.2"
+"react-responsive-pagination@npm:^2.11.3":
+  version: 2.11.3
+  resolution: "react-responsive-pagination@npm:2.11.3"
   dependencies:
     prop-types: "npm:^15.8.1"
   peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: e48bbe452e4d1b9876c9eaf908fbac5b40d1f5e2961458f8e6d2fcc000c954f4d84b006719e7bd38db810b234f31183dcdcd007d14f395bcc57def40292e1a82
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 2c59759d9e5a8aa88a4da79014d4343e562fe5731901fd29d874c291705fc4180a874676d8d3289487ae053560d708fa6559ab47839512c593eed9f6c112ddee
   languageName: node
   linkType: hard
 

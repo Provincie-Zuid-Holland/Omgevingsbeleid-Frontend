@@ -55,27 +55,29 @@ const SearchResultItem = ({
         <li className="mb-6">
             <Link
                 to={`/${model.defaults.slugOverview}/${model.defaults.plural}/${Model.UUID}`}
-                className="group">
-                <span className="text-s text-pzh-gray-600">
-                    {model.defaults.singularCapitalize}
-                </span>
+                className="group flex flex-col">
                 <Heading
                     level="2"
                     size="m"
-                    className="group-hover:text-pzh-green-500 mb-2">
+                    className="group-hover:text-pzh-green-500 order-2 mb-2">
                     <span
                         dangerouslySetInnerHTML={{ __html: highlightedTitle }}
                     />
                 </Heading>
+                <span className="text-s text-pzh-gray-600 order-1">
+                    {model.defaults.singularCapitalize}
+                </span>
                 {!!Description ? (
                     <p
-                        className="line-clamp-3"
+                        className="order-3 line-clamp-3"
                         dangerouslySetInnerHTML={{
                             __html: highlightedSentence,
                         }}
                     />
                 ) : (
-                    <span className="italic">Geen voorbeeld beschikbaar</span>
+                    <span className="order-3 italic">
+                        Geen voorbeeld beschikbaar
+                    </span>
                 )}
             </Link>
         </li>

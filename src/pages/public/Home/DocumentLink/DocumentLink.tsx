@@ -15,7 +15,13 @@ const DocumentLink = ({ href, title, icon: Icon }: DocumentLinkProps) => (
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2">
-                {Icon && <Icon size={18} className="-mt-1" />}
+                {Icon && (
+                    <Icon
+                        size={18}
+                        className="-mt-1"
+                        aria-label="opent een nieuwe browsertab"
+                    />
+                )}
                 {title}
             </a>
         </Hyperlink>

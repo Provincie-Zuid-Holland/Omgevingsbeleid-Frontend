@@ -102,6 +102,7 @@ const RevisionModal = ({
                 <FieldSelect
                     name="revisionFrom"
                     placeholder="Kies een versie"
+                    aria-label="Kies een versie"
                     options={options?.filter(
                         option => option.value !== revisionTo?.UUID
                     )}
@@ -113,7 +114,8 @@ const RevisionModal = ({
             </div>
             <FieldSelect
                 name="revisionTo"
-                placeholder="Kies een versie"
+                placeholder="Kies een versie om te vergelijken"
+                aria-label="Kies een versie om te vergelijken"
                 options={options?.filter(
                     option => option.value !== revisionFrom?.UUID
                 )}

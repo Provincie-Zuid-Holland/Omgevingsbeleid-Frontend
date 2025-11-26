@@ -116,7 +116,10 @@ const DropdownLinkElement = ({ item, setIsOpen }: DropdownElementProps) => (
             })}>
             {item.text}
             {item.isExternal && (
-                <ArrowUpRightFromSquareLight className="ml-1" />
+                <ArrowUpRightFromSquareLight
+                    className="ml-1"
+                    aria-label="opent een nieuwe browsertab"
+                />
             )}
         </Link>
     </li>

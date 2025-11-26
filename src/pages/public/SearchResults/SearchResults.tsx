@@ -151,9 +151,9 @@ const SearchResults = () => {
                 <meta name="og:description" content={META.description} />
             </Helmet>
 
-            <div className="bg-pzh-blue-500">
-                <Container className="h-24 items-center">
-                    <div className="col-span-2">
+            <div className="bg-pzh-blue-500 py-5">
+                <Container className="items-center">
+                    <div className="col-span-6 md:col-span-2">
                         <Heading
                             level="1"
                             size="xxl"
@@ -162,7 +162,7 @@ const SearchResults = () => {
                             Zoeken
                         </Heading>
                     </div>
-                    <div className="col-span-4">
+                    <div className="col-span-6 md:col-span-4">
                         <SearchBar
                             defaultValue={query || ''}
                             callBack={() =>
@@ -177,29 +177,30 @@ const SearchResults = () => {
             </div>
 
             <Container className="relative pt-8 pb-20">
-                <div className="col-span-2">
+                <div className="col-span-6 mb-6 md:col-span-2 md:mb-0">
                     <div className="sticky top-[120px]">
                         {filters.map((filter, index) => (
-                            <div
+                            <fieldset
                                 key={filter.label}
                                 className={classNames({
                                     'mb-6': index + 1 !== filters.length,
                                 })}>
-                                <Text bold className="text-pzh-blue-500 mb-3">
+                                <legend className="text-pzh-blue-500 mb-3 font-bold break-all">
                                     {filter.label}
-                                </Text>
+                                </legend>
 
                                 <FieldCheckboxGroup
                                     name={filter.label}
                                     options={filter.options}
                                     value={selectedFilters}
                                     onChange={onFilterChange}
+                                    className="break-all"
                                 />
-                            </div>
+                            </fieldset>
                         ))}
                     </div>
                 </div>
-                <div className="col-span-4">
+                <div className="col-span-6 md:col-span-4">
                     {isPending ? (
                         <div className="flex justify-center">
                             <LoaderSpinner />
