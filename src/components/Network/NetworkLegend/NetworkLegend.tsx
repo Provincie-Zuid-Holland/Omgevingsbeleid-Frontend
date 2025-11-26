@@ -1,4 +1,4 @@
-import { Text } from '@pzh-ui/components'
+import { Heading } from '@pzh-ui/components'
 import { Triangle } from '@pzh-ui/icons'
 import classNames from 'clsx'
 import { useMemo } from 'react'
@@ -57,10 +57,13 @@ const NetworkLegend = () => {
             {transformedFilters.map((group, index) => (
                 <div
                     key={group.label}
-                    className={classNames({ 'mt-1': index !== 0 })}>
-                    <Text bold className="text-pzh-blue-500 mb-1">
+                    className={classNames({ 'mt-2': index !== 0 })}>
+                    <Heading
+                        level="2"
+                        size="s"
+                        className="text-pzh-blue-500 mb-1">
                         {group.label}
-                    </Text>
+                    </Heading>
 
                     {group.options.map(option => (
                         <button
@@ -74,6 +77,14 @@ const NetworkLegend = () => {
                             })}>
                             {getIcon(option.value)}
                             <span>{option.label}</span>
+                            {!selectedFilters?.network.includes(
+                                option.value
+                            ) && (
+                                <span className="sr-only">
+                                    {' '}
+                                    Niet geselecteerd
+                                </span>
+                            )}
                         </button>
                     ))}
                 </div>
@@ -85,18 +96,24 @@ const NetworkLegend = () => {
 const getIcon = (type: ModelType) => {
     switch (type) {
         case 'ambitie':
-            return <Triangle className="text-pzh-apple-green-500 mr-2" />
+            return (
+                <Triangle
+                    className="text-pzh-apple-green-500 mr-2"
+                    stroke="black"
+                    strokeWidth={28}
+                />
+            )
         case 'beleidsdoel':
             return (
-                <div className="rounded-0.5 bg-pzh-orange-500 mr-[11px] h-3 w-3" />
+                <div className="rounded-0.5 bg-pzh-orange-500 border-pzh-black mr-[11px] h-3 w-3 border" />
             )
         case 'beleidskeuze':
             return (
-                <div className="bg-pzh-yellow-500 mr-[11px] h-3 w-3 rounded-full" />
+                <div className="bg-pzh-yellow-500 border-pzh-black mr-[11px] h-3 w-3 rounded-full border" />
             )
         case 'maatregel':
             return (
-                <div className="rounded-0.5 bg-pzh-green-500 mr-[11px] h-2.5 w-2.5 translate-x-px -translate-y-0.5 rotate-[45deg]" />
+                <div className="rounded-0.5 bg-pzh-green-500 border-pzh-black mr-[11px] h-2.5 w-2.5 translate-x-px -translate-y-0.5 rotate-[45deg] border" />
             )
         default:
             return <div />

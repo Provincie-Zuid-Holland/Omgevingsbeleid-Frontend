@@ -22,7 +22,10 @@ const Indicator = ({
             },
             className
         )}>
-        <span className="text-s -mb-px font-bold">{amount}</span>
+        <span className="text-s -mb-px font-bold" aria-live="polite">
+            {amount}
+            <span className="sr-only"> filters geselecteerd</span>
+        </span>
     </div>
 )
 

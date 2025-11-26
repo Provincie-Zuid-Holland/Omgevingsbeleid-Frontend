@@ -64,6 +64,7 @@ const LoginForm = () => {
                             name="email"
                             type="email"
                             placeholder="medewerker@pzh.nl"
+                            autoComplete="email"
                         />
                         <div className="mt-6">
                             <FormikInput
@@ -71,6 +72,7 @@ const LoginForm = () => {
                                 name="password"
                                 type="password"
                                 placeholder="Vul hier je wachtwoord in"
+                                autoComplete="current-password"
                             />
                         </div>
                         <div className="mt-7 flex items-center justify-between">

@@ -7,9 +7,9 @@ export interface Error {
 }
 
 const ERRORS: { [key: string]: string } = {
-    'none is not an allowed value': 'Dit veld is verplicht.',
-    'field required': 'Dit veld is verplicht.',
-    'Input should be a valid string': 'Dit veld is verplicht.',
+    'none is not an allowed value': 'Het veld is niet (goed) ingevuld.',
+    'field required': 'Het veld is niet (goed) ingevuld.',
+    'Input should be a valid string': 'Het veld is niet (goed) ingevuld.',
 }
 
 const handleError = <T>(err: Error, helpers: FormikHelpers<T>) => {

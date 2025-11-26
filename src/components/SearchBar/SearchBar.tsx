@@ -60,10 +60,13 @@ const SearchBar = ({
                     <FormikInput
                         name="query"
                         placeholder={placeholder}
+                        aria-label={placeholder}
+                        className="pr-12 text-ellipsis"
                         inlineButton={
                             <Button
                                 type="submit"
                                 className="absolute top-1 right-1 flex h-10 w-10 items-center justify-center p-0"
+                                aria-label="Zoeken"
                                 icon={MagnifyingGlass}
                                 iconSize={18}
                             />

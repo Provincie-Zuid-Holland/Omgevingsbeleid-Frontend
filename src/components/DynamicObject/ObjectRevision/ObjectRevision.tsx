@@ -118,17 +118,19 @@ const ObjectRevision = ({
                                 }}
                             />
                         </div>
-                        <div className="mt-3">
+                        <div className="mt-3 space-y-1">
                             <span className="flex items-center">
-                                <div className="bg-pzh-red-500 -mt-1 mr-2 h-[14px] w-[14px] rounded-full" />{' '}
+                                <div className="border-pzh-red-500 mr-2 h-[14px] w-[14px] rounded-full border bg-[repeating-linear-gradient(-45deg,#D11F3D_0px,#D11F3D_2px,white_2px,white_4px)]" />
                                 Verwijderd werkingsgebied
                             </span>
+
                             <span className="flex items-center">
-                                <div className="bg-pzh-green-500 -mt-1 mr-2 h-[14px] w-[14px] rounded-full" />{' '}
+                                <div className="border-pzh-green-500 mr-2 h-[14px] w-[14px] rounded-full border bg-[repeating-linear-gradient(45deg,#00804D_0px,#00804D_2px,white_2px,white_4px)]" />
                                 Toegevoegd werkingsgebied
                             </span>
+
                             <span className="flex items-center">
-                                <div className="bg-pzh-blue-100 -mt-1 mr-2 h-[14px] w-[14px] rounded-full" />{' '}
+                                <div className="border-pzh-blue-500 mr-2 h-[14px] w-[14px] rounded-full border bg-[repeating-linear-gradient(0deg,#281F6B_0px,#281F6B_2px,white_2px,white_4px)]" />
                                 Ongewijzigd werkingsgebied
                             </span>
                         </div>
@@ -168,9 +170,13 @@ const Content = ({
 
     return (
         <>
-            <Text bold className="mb-2">
+            <Heading
+                level="3"
+                size="s"
+                className="mb-2"
+                color="text-pzh-blue-900">
                 {customTitle?.[value] || title}
-            </Text>
+            </Heading>
             <div
                 className="prose prose-neutral text-m text-pzh-blue-900 prose-li:my-0 mb-4 max-w-full whitespace-pre-line md:mb-8"
                 dangerouslySetInnerHTML={{ __html: finalDiff }}

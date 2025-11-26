@@ -66,7 +66,7 @@ const ObjectSidebar = ({
     return (
         <aside className="sticky top-[120px]">
             <div className="mb-6">
-                <Heading level="3" size="m" className="mb-2">
+                <Heading level="2" size="m" className="mb-2">
                     Informatie
                 </Heading>
 
@@ -94,7 +94,7 @@ const ObjectSidebar = ({
             </div>
 
             <div className="mb-6">
-                <Heading level="3" size="m" className="mb-2">
+                <Heading level="2" size="m" className="mb-2">
                     Inhoudsopgave
                 </Heading>
 
