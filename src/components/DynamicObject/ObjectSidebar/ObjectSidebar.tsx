@@ -19,8 +19,9 @@ interface ObjectSidebarProps extends ModelReturnType {
     revisionsLoading?: boolean
     /** If object is a revision */
     isRevision?: boolean
+    hideRevisions?: boolean
     /** Handle revision modal state */
-    handleModal: () => void
+    handleModal?: () => void
 }
 
 const ObjectSidebar = ({
@@ -32,6 +33,7 @@ const ObjectSidebar = ({
     ObjectStatics,
     model,
     isRevision,
+    hideRevisions,
     handleModal,
     Next_Version,
     UUID,
@@ -76,22 +78,26 @@ const ObjectSidebar = ({
                     {formattedDate}
                 </Text>
 
-                <div className="mt-2">
-                    {revisionsLoading ? (
-                        <LoaderCard height="30" mb="" className="w-28" />
-                    ) : !!revisions && revisions.length > 1 ? (
-                        <button
-                            className="text-pzh-green-500 underline"
-                            onClick={handleModal}>
-                            Bekijk {revisions.length - 1}{' '}
-                            {revisions.length === 2 ? 'revisie' : 'revisies'}
-                        </button>
-                    ) : (
-                        <span className="text-pzh-gray-600 italic">
-                            Geen revisies
-                        </span>
-                    )}
-                </div>
+                {!hideRevisions && (
+                    <div className="mt-2">
+                        {revisionsLoading ? (
+                            <LoaderCard height="30" mb="" className="w-28" />
+                        ) : !!revisions && revisions.length > 1 ? (
+                            <button
+                                className="text-pzh-green-500 underline"
+                                onClick={handleModal}>
+                                Bekijk {revisions.length - 1}{' '}
+                                {revisions.length === 2
+                                    ? 'revisie'
+                                    : 'revisies'}
+                            </button>
+                        ) : (
+                            <span className="text-pzh-gray-600 italic">
+                                Geen revisies
+                            </span>
+                        )}
+                    </div>
+                )}
             </div>
 
             {!!Documents_Statics?.length && (
