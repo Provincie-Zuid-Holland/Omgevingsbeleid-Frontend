@@ -100,11 +100,14 @@ const ObjectSidebar = ({
                 )}
             </div>
 
-            {!!Documents_Statics?.length && (
-                <div className="mb-6">
-                    <ObjectConnectedDocuments documents={Documents_Statics} />
-                </div>
-            )}
+            {!!Documents_Statics?.length &&
+                ((!!user && !!moduleId) || (!user && !moduleId)) && (
+                    <div className="mb-6">
+                        <ObjectConnectedDocuments
+                            documents={Documents_Statics}
+                        />
+                    </div>
+                )}
 
             {!!user && (
                 <div>
