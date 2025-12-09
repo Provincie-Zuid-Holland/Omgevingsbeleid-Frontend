@@ -11,13 +11,10 @@ import * as models from '@/config/objects'
 import { ModelReturnType, ModelType } from '@/config/objects/types'
 
 import Sidebar from '@/components/DynamicObject/ObjectSidebar'
-import useModalStore from '@/store/modalStore'
 import NotFoundPage from '../NotFoundPage'
 
 function ThemeDetail() {
     const { uuid } = useParams<{ uuid: string }>()
-
-    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const {
         data = {},
