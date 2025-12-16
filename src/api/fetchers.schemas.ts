@@ -604,12 +604,13 @@ export interface AppApiDomainsModulesTypesObjectStaticShort {
     Portfolio_Holder_2_UUID?: AppApiDomainsModulesTypesObjectStaticShortPortfolioHolder2UUID
 }
 
-export type AppApiDomainsModulesEndpointsModuleOverviewEndpointModuleObjectContextShortOriginalAdjustOn =
-    string | null
+export type AppApiDomainsModulesTypesModuleObjectContextShortOriginalAdjustOn =
+    | string
+    | null
 
-export interface AppApiDomainsModulesEndpointsModuleOverviewEndpointModuleObjectContextShort {
+export interface AppApiDomainsModulesTypesModuleObjectContextShort {
     Action: string
-    Original_Adjust_On?: AppApiDomainsModulesEndpointsModuleOverviewEndpointModuleObjectContextShortOriginalAdjustOn
+    Original_Adjust_On?: AppApiDomainsModulesTypesModuleObjectContextShortOriginalAdjustOn
 }
 
 export interface WriteRelation {
@@ -1114,9 +1115,16 @@ export interface ValidationError {
     type: string
 }
 
+export interface ValidateObject {
+    code: string
+    object_id: number
+    object_type: string
+    title: string
+}
+
 export interface ValidateModuleError {
     messages: string[]
-    object_code: string
+    object: ValidateObject
     rule: string
 }
 
@@ -2646,7 +2654,7 @@ export type ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBas
 export interface ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic {
     Model: ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel
     Module_ID: number
-    ModuleObjectContext: AppApiDomainsModulesEndpointsModuleOverviewEndpointModuleObjectContextShort
+    ModuleObjectContext: AppApiDomainsModulesTypesModuleObjectContextShort
     Object_Type: string
     ObjectStatics: AppApiDomainsModulesTypesObjectStaticShort
 }
@@ -2679,7 +2687,7 @@ export interface ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidske
     Model: ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel
     Module_ID: number
     Module_Latest_Status: string
-    ModuleObjectContext: AppApiDomainsModulesEndpointsModuleOverviewEndpointModuleObjectContextShort
+    ModuleObjectContext: AppApiDomainsModulesTypesModuleObjectContextShort
     Object_Type: string
     ObjectStatics: AppApiDomainsModulesTypesObjectStaticShort
 }

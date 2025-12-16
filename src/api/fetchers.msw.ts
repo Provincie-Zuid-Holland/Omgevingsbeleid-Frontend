@@ -653,7 +653,12 @@ export const getModulesGetModuleValidateResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => faker.word.sample()),
-        object_code: faker.word.sample(),
+        object: {
+            code: faker.word.sample(),
+            object_id: faker.number.int({ min: undefined, max: undefined }),
+            object_type: faker.word.sample(),
+            title: faker.word.sample(),
+        },
         rule: faker.word.sample(),
     })),
     status: faker.word.sample(),

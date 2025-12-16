@@ -20,7 +20,7 @@ import {
     TableProps,
     Text,
 } from '@pzh-ui/components'
-import { MagnifyingGlass } from '@pzh-ui/icons'
+import { ListCheck, MagnifyingGlass } from '@pzh-ui/icons'
 
 type FilterOption = { label?: string; value?: string }
 
@@ -205,11 +205,19 @@ const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
                     <FieldInput
                         name="Title"
                         placeholder="Zoek op titel van een onderdeel"
-                        icon={MagnifyingGlass}
                         value={filters.Title}
                         onChange={e =>
                             handleFilterChange('Title', e.target.value)
                         }
+                        inlineButton={
+                            <Button
+                                className="absolute top-1 right-1 flex h-8 w-8 items-center justify-center p-0"
+                                aria-label="Zoeken"
+                                icon={MagnifyingGlass}
+                                iconSize={14}
+                            />
+                        }
+                        variant="small"
                     />
                 </div>
                 <div className="relative flex-1">
@@ -236,6 +244,7 @@ const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
                                 selected as FilterOption[]
                             )
                         }
+                        variant="small"
                     />
                 </div>
                 <div className="relative flex-1">
@@ -262,13 +271,23 @@ const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
                                 selected as FilterOption[]
                             )
                         }
+                        variant="small"
                     />
                 </div>
                 <Button
                     onPress={() => setActiveModal('moduleAddObject')}
-                    isDisabled={isLocked}>
+                    isDisabled={isLocked}
+                    size="small">
                     Onderdeel toevoegen
                 </Button>
+                <Button
+                    onPress={() => setActiveModal('moduleScan')}
+                    variant="secondary"
+                    icon={ListCheck}
+                    iconSize={18}
+                    size="small"
+                    className="w-10"
+                />
             </div>
 
             <Table

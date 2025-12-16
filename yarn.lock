@@ -3165,9 +3165,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.657":
-  version: 0.0.657
-  resolution: "@pzh-ui/components@npm:0.0.657"
+"@pzh-ui/components@npm:^0.0.660":
+  version: 0.0.660
+  resolution: "@pzh-ui/components@npm:0.0.660"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
@@ -3216,13 +3216,13 @@ __metadata:
     react-datepicker: "npm:^8.7.0"
     react-dom: "npm:^18.3.1"
     react-dropzone-esm: "npm:^15.0.1"
-    react-responsive-pagination: "npm:^2.11.3"
+    react-responsive-pagination: "npm:^2.12.0"
     react-select: "npm:^5.8.0"
     react-stately: "npm:^3.30.1"
     react-toastify: "npm:^9.1.2"
     tailwind-merge: "npm:^3.2.0"
     uuid: "npm:^11.1.0"
-  checksum: 37426812cfaf75f4d0f9d4f7d263bd9cde57eee21d46dc2f2613c4639324972456f20c9085c94860931ebdef6812a8bd8f2f01c343a87917d3d403826d9f4876
+  checksum: c392b77e3231cc4245c8088118a8fd9e88396dd19ddc9272e56e0427be76382394eb709743755503cc9b498fd3868d3c42c9c5ea7980cda5ae53c7217582a7fb
   languageName: node
   linkType: hard
 
@@ -3254,14 +3254,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/css@npm:^0.0.114":
-  version: 0.0.114
-  resolution: "@pzh-ui/css@npm:0.0.114"
+"@pzh-ui/css@npm:^0.0.118":
+  version: 0.0.118
+  resolution: "@pzh-ui/css@npm:0.0.118"
   dependencies:
     "@rollup/plugin-typescript": "npm:^12.1.2"
     "@tailwindcss/typography": "npm:^0.5.16"
     react-toastify: "npm:^9.1.2"
-  checksum: 57ea3b2ea223404690712a38563184a6303b91d11f16c0a3d9ea9e562227cbb1ac3410f3b5b13eba7535ed9a4a4081d257c7311e1dbee328fe52fe33fbd4e206
+  checksum: 55df59a0bb0cefafd52fdc22d1ddb21780f9d0874e95cbf010bdc6875d7b279e4bd1445655c6740eca900704b6ed86bde2b9169782fddb89e1a3c36170310fa0
   languageName: node
   linkType: hard
 
@@ -13690,9 +13690,9 @@ __metadata:
     "@axe-core/react": "npm:^4.10.0"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^1.7.17"
-    "@pzh-ui/components": "npm:^0.0.657"
+    "@pzh-ui/components": "npm:^0.0.660"
     "@pzh-ui/config": "npm:^0.0.81"
-    "@pzh-ui/css": "npm:^0.0.114"
+    "@pzh-ui/css": "npm:^0.0.118"
     "@pzh-ui/icons": "npm:^0.0.92"
     "@react-hookz/web": "npm:^24.0.4"
     "@tailwindcss/cli": "npm:^4.1.4"
@@ -14014,15 +14014,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-responsive-pagination@npm:^2.11.3":
-  version: 2.11.3
-  resolution: "react-responsive-pagination@npm:2.11.3"
+"react-responsive-pagination@npm:^2.12.0":
+  version: 2.12.0
+  resolution: "react-responsive-pagination@npm:2.12.0"
   dependencies:
     prop-types: "npm:^15.8.1"
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: 2c59759d9e5a8aa88a4da79014d4343e562fe5731901fd29d874c291705fc4180a874676d8d3289487ae053560d708fa6559ab47839512c593eed9f6c112ddee
+  checksum: 2e92630b4c8f5b927d5f2bc0833535773bda4081eaef30f816137fe3d10db2e00fc6a3e6864707130f1574d56589a2bfc06b537b5c04a4ad595bc49e57fe6e8d
   languageName: node
   linkType: hard
 
