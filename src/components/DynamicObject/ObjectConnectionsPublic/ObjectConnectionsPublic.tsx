@@ -1,9 +1,10 @@
 import { Heading, ListLink, Text } from '@pzh-ui/components'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 import { HierachyReference } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
 import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
+import useAuth from '@/hooks/useAuth'
 import { generateObjectPath } from '@/utils/dynamicObject'
 import groupBy from 'lodash.groupby'
 import { useMemo } from 'react'
@@ -17,9 +18,44 @@ const ObjectConnectionsPublic = ({
     model,
     data,
 }: ObjectConnectionsPublicProps) => {
+    const { moduleId } = useParams()
+    const { user } = useAuth()
+
     const acknowledgedRelationModel =
         data.Hierarchy_Statics &&
         models[data.Hierarchy_Statics.Object_Type as ModelType]
+    const { useGetLatestLineage, useGetLatestLineageInModule } =
+        acknowledgedRelationModel?.fetchers || {}
+
+    const {
+        data: moduleData,
+        isSuccess,
+        isError,
+    } = useGetLatestLineageInModule?.(
+        parseInt(moduleId!),
+        Number(data.Hierarchy_Statics?.Object_ID),
+        {
+            query: {
+                enabled:
+                    !!moduleId && !!data.Hierarchy_Statics?.Object_ID && !!user,
+            },
+        }
+    ) || {}
+
+    const { data: validData } =
+        useGetLatestLineage?.(Number(data.Hierarchy_Statics?.Object_ID), {
+            query: {
+                enabled:
+                    (!moduleId && !!data.Hierarchy_Statics?.Object_ID) ||
+                    (!!moduleId &&
+                        !!data.Hierarchy_Statics?.Object_ID &&
+                        !moduleData &&
+                        isSuccess) ||
+                    isError,
+            },
+        }) || {}
+
+    const acknowledgedRelation = moduleId && isSuccess ? moduleData : validData
 
     const relationChildrens = useMemo(() => {
         if (!data.Hierarchy_Children) return
@@ -59,9 +95,7 @@ const ObjectConnectionsPublic = ({
                                     to={generateObjectPath(
                                         acknowledgedRelationModel.defaults
                                             .singular,
-                                        String(
-                                            data.Hierarchy_Statics?.Object_ID
-                                        )
+                                        String(acknowledgedRelation?.UUID)
                                     )}>
                                     {data.Hierarchy_Statics?.Cached_Title}
                                 </Link>
