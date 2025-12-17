@@ -42,7 +42,7 @@ const fetchers = {
 
 const gebiedengroep: DynamicObject<
     typeof fetchers,
-    keyof GebiedengroepPatch,
+    keyof GebiedengroepPatch | 'Werkingsgebied',
     (keyof GebiedengroepStaticPostStatics)[]
 > = {
     defaults: {
@@ -83,6 +83,13 @@ const gebiedengroep: DynamicObject<
                     type: 'wysiwyg',
                     required: true,
                     hasAreaSelect: true,
+                },
+                {
+                    name: 'Werkingsgebied',
+                    label: 'Bron',
+                    type: 'area',
+                    placeholder:
+                        'Zoek een werkingsgebied op naam of de naam van een versie',
                 },
             ],
         },

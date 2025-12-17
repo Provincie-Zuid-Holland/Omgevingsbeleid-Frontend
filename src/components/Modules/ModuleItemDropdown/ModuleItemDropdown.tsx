@@ -104,13 +104,15 @@ const ModuleItemDropdown = ({
                           !!downloadDocument && downloadDocument.refetch(),
                   },
               ]
-            : [
-                  {
-                      text: 'Bekijk voorbeeld',
-                      isExternal: true,
-                      link: `/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${Model.UUID}`,
-                  },
-              ]),
+            : !!model.defaults.slugOverviewPublic
+              ? [
+                    {
+                        text: 'Bekijk voorbeeld',
+                        isExternal: true,
+                        link: `/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${Model.UUID}`,
+                    },
+                ]
+              : []),
         ...((ModuleObjectContext?.Action !== 'Terminate' &&
             hasRights &&
             canPatchObjectInModule &&

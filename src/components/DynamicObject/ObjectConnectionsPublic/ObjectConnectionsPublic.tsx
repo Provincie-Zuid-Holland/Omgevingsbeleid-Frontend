@@ -87,7 +87,7 @@ const ObjectConnectionsPublic = ({
 
                             {Array.isArray(items) && items.length > 0 ? (
                                 <ul>
-                                    {(items as any[]).map(item => (
+                                    {items.map(item => (
                                         <li key={item.UUID}>
                                             <ListLink
                                                 asChild
