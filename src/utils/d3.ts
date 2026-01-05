@@ -71,7 +71,7 @@ export const getColor = (type: string) => {
         case 'ambitie':
             return '#76BC21'
         case 'maatregel':
-            return '#00804D'
+            return '#281F6B'
         default:
             return '#000000'
     }

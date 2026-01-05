@@ -113,7 +113,7 @@ const getIcon = (type: ModelType) => {
             )
         case 'maatregel':
             return (
-                <div className="rounded-0.5 bg-pzh-green-500 border-pzh-black mr-[11px] h-2.5 w-2.5 translate-x-px -translate-y-0.5 rotate-[45deg] border" />
+                <div className="bg-pzh-blue-500 border-pzh-black mr-[11px] h-2.5 w-2.5 translate-x-px -translate-y-0.5 rotate-[45deg] rounded-xs border" />
             )
         default:
             return <div />

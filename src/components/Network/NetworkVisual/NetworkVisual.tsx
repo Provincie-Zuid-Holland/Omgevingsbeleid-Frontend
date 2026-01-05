@@ -386,7 +386,7 @@ const NetworkVisual = ({ graph }: NetworkVisualProps) => {
                 resetGraph={resetGraph}
             />
 
-            <NetworkGraphPopup />
+            <NetworkGraphPopup resetGraph={resetGraph} />
 
             <NetworkGraphTooltip
                 ref={tooltipRef}
