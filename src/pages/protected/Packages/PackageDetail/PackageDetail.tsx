@@ -22,7 +22,7 @@ import {
     Hyperlink,
     Text,
 } from '@pzh-ui/components'
-import { ArrowDownToLine, ArrowUpToLine } from '@pzh-ui/icons'
+import { ArrowDownToLine } from '@pzh-ui/icons'
 import { Link, useParams } from 'react-router-dom'
 import { config as providedConfig } from '../config'
 
@@ -138,23 +138,23 @@ const PackageDetail = () => {
                     <Row label="Bestandsnaam" value={data?.Zip.Filename} />
                 </div>
 
-                <Button
-                    onPress={() => downloadPackage.refetch()}
-                    isLoading={downloadPackage.isFetching}
-                    isDisabled={downloadPackage.isFetching}
-                    icon={ArrowDownToLine}
-                    iconSize={20}
-                    className="self-start">
-                    Download (.zip)
-                </Button>
-
-                <div>
+                <div className="flex flex-wrap justify-between gap-4">
                     <Hyperlink asChild>
                         <Link
                             to={`/muteer/leveringen?environment=${data?.Environment_UUID}&module_id=${data?.Module_ID}`}>
                             Bekijk alle "{data?.Module_Title}" leveringen
                         </Link>
                     </Hyperlink>
+
+                    <Button
+                        onPress={() => downloadPackage.refetch()}
+                        isLoading={downloadPackage.isFetching}
+                        isDisabled={downloadPackage.isFetching}
+                        icon={ArrowDownToLine}
+                        iconSize={20}
+                        className="self-start">
+                        Download (.zip)
+                    </Button>
                 </div>
             </div>
 
@@ -163,14 +163,14 @@ const PackageDetail = () => {
                     <Heading level="2" size="m">
                         Rapporten
                     </Heading>
-                    <Button variant="cta" icon={ArrowUpToLine} iconSize={20}>
+                    <Button
+                        variant="link"
+                        iconSize={20}
+                        className="text-pzh-green-500 hover:text-pzh-blue-500">
                         Upload rapporten
                     </Button>
                 </div>
                 <div className="border-pzh-gray-200 flex flex-col gap-2 rounded-sm border p-4">
-                    <Heading level="3" size="s" className="mb-2 text-center">
-                        Levering ({data?.Delivery_ID})
-                    </Heading>
                     {!!reports?.results.length ? (
                         reports.results.map(result => (
                             <Report
