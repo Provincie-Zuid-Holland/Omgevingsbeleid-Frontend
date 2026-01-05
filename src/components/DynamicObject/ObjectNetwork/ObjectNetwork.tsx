@@ -145,7 +145,7 @@ const getObjectIcon = (key: ModelType) => {
             )
         case 'maatregel':
             return (
-                <div className="rounded-0.5 bg-pzh-green-500 border-pzh-black mt-0.5 mr-0.5 h-2.5 w-2.5 min-w-[10px] rotate-45 border" />
+                <div className="rounded-0.5 bg-pzh-blue-500 border-pzh-black mt-0.5 mr-0.5 h-2.5 w-2.5 min-w-[10px] rotate-45 rounded-xs border" />
             )
     }
 }
