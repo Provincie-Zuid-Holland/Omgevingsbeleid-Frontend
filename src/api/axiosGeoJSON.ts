@@ -24,9 +24,7 @@ const api_version = '1.3.0'
 // https://geo-omgevingsbeleid-test.azurewebsites.net/OMGEVINGSBELEID/wms?service=WMS&version=1.1.0&request=GetMap&layers=OMGEVINGSBELEID%3AWerkingsgebieden&bbox=43662.62000000104%2C406692.0%2C138647.9990000017%2C483120.0&width=768&height=617&srs=EPSG%3A28992&format=application/openlayers
 
 const instance = axios.create({
-    baseURL: `${
-        import.meta.env.VITE_GEOSERVER_API_URL
-    }/geoserver/Omgevingsbeleid/wms`,
+    baseURL: `${import.meta.env.VITE_GEOSERVER_API_URL}/geoserver`,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -159,14 +157,12 @@ const generateImageUrl = (symbol: string) => {
 }
 
 const getGeoserverLayer = (isSource?: boolean): string => {
-    const environment = isSource
-        ? 'source'
-        : (import.meta.env.VITE_API_ENV as Environment)
+    const environment = import.meta.env.VITE_API_ENV as Environment
 
     switch (environment) {
-        case 'source':
-            return 'Omgevingsbeleid:Werkingsgebieden'
         case 'dev':
+            if (isSource)
+                return 'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_dev_new'
             return 'Omgevingsbeleid:Werkingsgebieden_dev'
         case 'test':
             return 'Omgevingsbeleid:Werkingsgebieden_test'
@@ -186,7 +182,7 @@ export {
     getGeoJsonData,
     getGeoserverLayer,
     getOnderverdeling,
+    getWerkingsgebied,
     getWerkingsGebieden,
     getWerkingsGebiedenByArea,
-    getWerkingsgebied,
 }

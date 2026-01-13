@@ -104,19 +104,22 @@ const ModuleItemDropdown = ({
                           !!downloadDocument && downloadDocument.refetch(),
                   },
               ]
-            : [
-                  {
-                      text: 'Bekijk voorbeeld',
-                      isExternal: true,
-                      link: `/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${Model.UUID}`,
-                  },
-              ]),
+            : !!model.defaults.slugOverviewPublic
+              ? [
+                    {
+                        text: 'Bekijk voorbeeld',
+                        isExternal: true,
+                        link: `/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${Model.UUID}`,
+                    },
+                ]
+              : []),
         ...((ModuleObjectContext?.Action !== 'Terminate' &&
             hasRights &&
             canPatchObjectInModule &&
             !isLocked &&
             isActive &&
-            !hasEditButton && [
+            !hasEditButton &&
+            !model.defaults.disabled && [
                 {
                     text: 'Bewerk onderdeel',
                     link: `/muteer/modules/${Module_ID}/${Object_Type}/${Model.Object_ID}/bewerk`,

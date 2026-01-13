@@ -88,6 +88,8 @@ export interface DynamicObject<
         parentType?: ParentType
         /** Hide breadcrumbs */
         hideBreadcrumbs?: boolean
+        /** If is disabled in UI */
+        disabled?: boolean
     }
     /** Array containing static data fields of object */
     staticData?: StaticData

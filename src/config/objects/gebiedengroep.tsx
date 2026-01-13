@@ -42,7 +42,7 @@ const fetchers = {
 
 const gebiedengroep: DynamicObject<
     typeof fetchers,
-    keyof GebiedengroepPatch,
+    keyof GebiedengroepPatch | 'Source_UUID',
     (keyof GebiedengroepStaticPostStatics)[]
 > = {
     defaults: {
@@ -83,6 +83,18 @@ const gebiedengroep: DynamicObject<
                     type: 'wysiwyg',
                     required: true,
                     hasAreaSelect: true,
+                },
+            ],
+        },
+        {
+            title: 'Geodata',
+            fields: [
+                {
+                    name: 'Source_UUID',
+                    label: 'Geodata koppelen',
+                    description:
+                        'Hieronder staan de ‘Werkingsgebieden’ uit de Geodatabase. Selecteer een ‘Werkingsgebied’ en kies vervolgens de gewenste versie. Zodra een versie wordt geselecteerd, worden onderliggende gebieden zichtbaar op de kaart.',
+                    type: 'area',
                 },
             ],
         },

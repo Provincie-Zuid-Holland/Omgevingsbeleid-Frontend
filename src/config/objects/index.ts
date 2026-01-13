@@ -3,6 +3,7 @@ import { default as beleidsdoel } from './beleidsdoel'
 import { default as beleidskeuze } from './beleidskeuze'
 import { default as beleidsregel } from './beleidsregel'
 import { default as document } from './document'
+import { default as gebied } from './gebied'
 import { default as gebiedengroep } from './gebiedengroep'
 import { default as gebiedsprogramma } from './gebiedsprogramma'
 import { default as maatregel } from './maatregel'
@@ -19,6 +20,7 @@ export {
     beleidskeuze,
     beleidsregel,
     document,
+    gebied,
     gebiedengroep,
     gebiedsprogramma,
     maatregel,

@@ -1,17 +1,21 @@
-import { FieldLabel, FormikError, Text, formatDate } from '@pzh-ui/components'
-import { Pencil, TrashCan } from '@pzh-ui/icons'
-import classNames from 'clsx'
+import {
+    FieldLabel,
+    formatDate,
+    FormikError,
+    FormikRadio,
+    FormikSelect,
+    Text,
+} from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
-import { useEffect, useMemo, useState } from 'react'
 
-import { WerkingsgebiedFullArea } from '@/api/fetchers.schemas'
+import {
+    useInputGeoGetInputGeoListLatestWerkingsgebieden,
+    useInputGeoGetInputGeoWerkingsgebiedenHistory,
+} from '@/api/fetchers'
 import AreaPreview from '@/components/AreaPreview'
-import { AreaModalAdd, AreaModalEdit } from '@/components/Modals/AreaModals'
-import { AreaProps } from '@/components/Modals/AreaModals/AreaModalAdd'
+import { LoaderSpinner } from '@/components/Loader'
 import { ModelReturnType } from '@/config/objects/types'
 import { DynamicField } from '@/config/types'
-import useObject from '@/hooks/useObject'
-import useModalStore from '@/store/modalStore'
 import { parseUtc } from '@/utils/parseUtc'
 
 const FieldSelectArea = ({
@@ -21,50 +25,39 @@ const FieldSelectArea = ({
     description,
     disabled,
 }: Omit<DynamicField, 'type'> & { disabled?: boolean }) => {
-    const setActiveModal = useModalStore(state => state.setActiveModal)
+    const { values } = useFormikContext<
+        ModelReturnType & { Source_Title?: string; Source_UUID?: string }
+    >()
 
-    const { values, setFieldValue } = useFormikContext<ModelReturnType>()
-    const value = values[name as keyof typeof values]
+    const { data: options, isLoading } =
+        useInputGeoGetInputGeoListLatestWerkingsgebieden(
+            { limit: 1000 },
+            {
+                query: {
+                    select: data =>
+                        data.results.map(item => ({
+                            label: item.Title,
+                            value: item.Title,
+                        })),
+                },
+            }
+        )
 
-    const { data } = useObject()
-
-    const [area, setArea] = useState<
-        Partial<WerkingsgebiedFullArea | undefined>
-    >(data?.Area)
-
-    const createdDate = useMemo(
-        () =>
-            area?.Created_Date &&
-            formatDate(parseUtc(area.Created_Date), 'd MMMM yyyy'),
-        [area?.Created_Date]
-    )
-
-    /**
-     * On delete clear Formik value
-     */
-    const handleDeleteArea = () => {
-        setFieldValue(name, null)
-        setFieldValue('Source_Title', null)
-        setArea(undefined)
-    }
-
-    /**
-     * Handle form submit, set Formik value
-     */
-    const handleFormSubmit = (payload: AreaProps) => {
-        setArea({
-            Source_Title: payload.Title || '',
-            UUID: payload.area,
-            Source_UUID: payload.area,
-            Created_Date: payload.Created_Date,
-        })
-        setFieldValue(name, payload.area)
-        setFieldValue('Source_Title', payload.Title)
-    }
-
-    useEffect(() => {
-        setFieldValue('Source_Title', area?.Source_Title)
-    }, [area?.Source_Title, setFieldValue])
+    const { data: versions, isLoading: versionsLoading } =
+        useInputGeoGetInputGeoWerkingsgebiedenHistory(
+            { title: String(values.Source_Title) },
+            {
+                query: {
+                    enabled: !!values.Source_Title,
+                    select: data =>
+                        data.sort(
+                            (a, b) =>
+                                new Date(b.Created_Date).getTime() -
+                                new Date(a.Created_Date).getTime()
+                        ),
+                },
+            }
+        )
 
     return (
         <>
@@ -77,113 +70,73 @@ const FieldSelectArea = ({
                 />
             )}
 
-            {!value ? (
-                <button
-                    onClick={() => setActiveModal('areaAdd')}
-                    type="button"
-                    className={classNames(
-                        'border-pzh-gray-600 mt-4 w-full rounded border px-2 py-4 underline',
-                        {
-                            'text-pzh-green-500': !disabled,
-                            'bg-pzh-gray-100 text-pzh-gray-600': disabled,
-                        }
-                    )}
-                    disabled={disabled}>
-                    Werkingsgebied koppelen
-                </button>
-            ) : (
-                <div className="border-pzh-gray-600 mt-4 w-full rounded border p-2">
-                    <div className="grid grid-cols-9 gap-4">
-                        <div className="col-span-9 p-4 md:col-span-3">
-                            <Text bold>Gekoppeld werkingsgebied</Text>
+            <FormikSelect
+                key={isLoading?.toString()}
+                name="Source_Title"
+                placeholder="Selecteer geodata om te koppelen"
+                options={options}
+                isLoading={isLoading}
+                disabled={disabled}
+            />
 
-                            <div className="border-pzh-gray-200 mt-6 rounded border p-2">
-                                <div className="flex items-start justify-between">
-                                    <p className="leading-5 font-bold">
-                                        {area?.Source_Title}
-                                    </p>
-                                    <div className="flex items-center gap-2">
-                                        <button
-                                            type="button"
-                                            onClick={() =>
-                                                setActiveModal('areaEdit')
-                                            }
-                                            disabled={disabled}>
-                                            <span className="sr-only">
-                                                Werkingsgebied wijzigen
-                                            </span>
-                                            <Pencil
-                                                className={classNames('mt-1', {
-                                                    'text-pzh-blue-500':
-                                                        !disabled,
-                                                    'text-pzh-gray-600':
-                                                        disabled,
-                                                })}
-                                            />
-                                        </button>
-                                        <button
-                                            type="button"
-                                            onClick={handleDeleteArea}
-                                            disabled={disabled}>
-                                            <span className="sr-only">
-                                                Werkingsgebied verwijderen
-                                            </span>
-                                            <TrashCan
-                                                className={classNames('mt-1', {
-                                                    'text-pzh-red-500':
-                                                        !disabled,
-                                                    'text-pzh-gray-600':
-                                                        disabled,
-                                                })}
-                                            />
-                                        </button>
+            {!!values.Source_Title && !!versions?.length && (
+                <div className="mt-4">
+                    <Text bold className="mb-2" color="text-pzh-blue-500">
+                        Selecteer een versie
+                    </Text>
+
+                    <div className="grid grid-cols-6 gap-12">
+                        <div className="col-span-2">
+                            <div className="border-pzh-gray-200 flex h-[500px] flex-col gap-2 overflow-y-auto rounded border p-2">
+                                {versionsLoading ? (
+                                    <div className="flex h-full w-full items-center justify-center">
+                                        <LoaderSpinner />
                                     </div>
-                                </div>
-                                <span className="text-s block">
-                                    Datum: {createdDate}
-                                </span>
+                                ) : (
+                                    versions?.map((version, index) => (
+                                        <div
+                                            key={version.UUID}
+                                            className="border-pzh-gray-200 relative rounded border px-4 py-2">
+                                            <div className="flex items-center gap-2 [&_input]:top-0 [&_input]:left-0 [&_input]:h-full [&_input]:w-full [&_input]:cursor-pointer [&_input]:opacity-0">
+                                                <FormikRadio
+                                                    name="Source_UUID"
+                                                    value={version.UUID}
+                                                    defaultChecked={
+                                                        version.UUID ===
+                                                        values.Source_UUID
+                                                    }
+                                                    disabled={disabled}>
+                                                    Versie{' '}
+                                                    {versions.length - index}
+                                                </FormikRadio>
+                                            </div>
+
+                                            <span className="text-s -mt-1 ml-7 block">
+                                                {formatDate(
+                                                    parseUtc(
+                                                        version.Created_Date
+                                                    ),
+                                                    'd MMMM yyyy'
+                                                )}
+                                            </span>
+                                        </div>
+                                    ))
+                                )}
                             </div>
                         </div>
-                        <div className="col-span-9 flex h-[500px] flex-1 md:col-span-6">
-                            <AreaPreview
-                                key={
-                                    area &&
-                                    'Source_UUID' in area &&
-                                    area.Source_UUID
-                                        ? area.Source_UUID
-                                        : area?.UUID || ''
-                                }
-                                UUID={
-                                    area &&
-                                    'Source_UUID' in area &&
-                                    area.Source_UUID
-                                        ? area.Source_UUID
-                                        : area?.UUID || ''
-                                }
-                            />
+                        <div className="col-span-4 flex flex-col">
+                            <div className="border-pzh-gray-200 flex flex-1 rounded border">
+                                <AreaPreview
+                                    key={values?.Source_UUID}
+                                    UUID={values.Source_UUID}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
             )}
 
-            <input name={name} type="hidden" />
-            <input name="Source_Title" type="hidden" />
-
             <FormikError name={name} />
-
-            <AreaModalAdd
-                initialValues={{
-                    area: area?.Source_UUID,
-                }}
-                handleFormSubmit={handleFormSubmit}
-            />
-            <AreaModalEdit
-                initialValues={{
-                    area: area?.Source_UUID,
-                    Title: area?.Source_Title,
-                }}
-                handleFormSubmit={handleFormSubmit}
-            />
         </>
     )
 }

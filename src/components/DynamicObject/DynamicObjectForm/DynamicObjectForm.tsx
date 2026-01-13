@@ -5,7 +5,6 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
 import { LoaderSpinner } from '@/components/Loader'
-import ObjectAreaAnnotateModal from '@/components/Modals/ObjectModals/ObjectAreaAnnotateModal'
 import ScrollToFieldError from '@/components/ScrollToFieldError'
 import { Model } from '@/config/objects/types'
 import { usePrompt } from '@/hooks/usePrompt'
@@ -118,7 +117,7 @@ const ObjectForm = <TData extends FormikValues>({
                 <ScrollToFieldError />
             </Form>
 
-            {containsRteField && <ObjectAreaAnnotateModal model={model} />}
+            {/* {containsRteField && <ObjectAreaAnnotateModal model={model} />} */}
         </>
     )
 }
