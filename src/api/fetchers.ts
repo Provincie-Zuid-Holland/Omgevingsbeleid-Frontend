@@ -38,8 +38,6 @@ import type {
     AmbitieStaticPostStatics,
     AmbitieUUID,
     AnnouncementCreatedResponse,
-    AppApiDomainsPublicationsEndpointsPublicationsActReportsUploadActPackageReportEndpointUploadPackageReportResponse,
-    AreaDesignationValueList,
     AreasGetListObjectsByAreasParams,
     AreasGetListObjectsByGeometryParams,
     AuthToken,
@@ -119,6 +117,7 @@ import type {
     InputGeoGetInputGeoWerkingsgebiedenHistoryParams,
     InputGeoWerkingsgebied,
     InputGeoWerkingsgebiedDetailed,
+    ListAreaDesignationResponse,
     ListObjectsByGeometryRequestData,
     MaatregelFull,
     MaatregelGetListActiveModuleObjectsParams,
@@ -237,8 +236,6 @@ import type {
     PublicationPackagesGetListUnifiedPackagesParams,
     PublicationTemplate,
     PublicationTemplatesGetListTemplatesParams,
-    PublicationValueListsGetAreaDesignationGroupsParams,
-    PublicationValueListsGetAreaDesignationTypesParams,
     PublicationVersion,
     PublicationVersionCreate,
     PublicationVersionCreatedResponse,
@@ -265,6 +262,7 @@ import type {
     TemplateEdit,
     UploadAttachmentResponse,
     UploadFileResponse,
+    UploadPackageReportResponse,
     User,
     UserCreate,
     UserCreateResponse,
@@ -3528,14 +3526,12 @@ export const publicationActReportsPostUploadActPackageReport = (
         value => formData.append('uploaded_files', value)
     )
 
-    return customInstance<AppApiDomainsPublicationsEndpointsPublicationsActReportsUploadActPackageReportEndpointUploadPackageReportResponse>(
-        {
-            url: `/publication-act-packages/${actPackageUuid}/report`,
-            method: 'POST',
-            headers: { 'Content-Type': 'multipart/form-data' },
-            data: formData,
-        }
-    )
+    return customInstance<UploadPackageReportResponse>({
+        url: `/publication-act-packages/${actPackageUuid}/report`,
+        method: 'POST',
+        headers: { 'Content-Type': 'multipart/form-data' },
+        data: formData,
+    })
 }
 
 export const getPublicationActReportsPostUploadActPackageReportMutationOptions =
@@ -4912,14 +4908,12 @@ export const publicationAnnouncementReportsPostUploadAnnouncementPackageReport =
             value => formData.append('uploaded_files', value)
         )
 
-        return customInstance<AppApiDomainsPublicationsEndpointsPublicationsActReportsUploadActPackageReportEndpointUploadPackageReportResponse>(
-            {
-                url: `/publication-announcement-packages/${announcementPackageUuid}/report`,
-                method: 'POST',
-                headers: { 'Content-Type': 'multipart/form-data' },
-                data: formData,
-            }
-        )
+        return customInstance<UploadPackageReportResponse>({
+            url: `/publication-announcement-packages/${announcementPackageUuid}/report`,
+            method: 'POST',
+            headers: { 'Content-Type': 'multipart/form-data' },
+            data: formData,
+        })
     }
 
 export const getPublicationAnnouncementReportsPostUploadAnnouncementPackageReportMutationOptions =
@@ -6754,221 +6748,73 @@ export const usePublicationTemplatesGetDetailTemplate = <
 }
 
 /**
- * @summary List the allowed types of area designations to use for this publication document_type
+ * @summary List the available area designations to use for this publication
  */
-export const publicationValueListsGetAreaDesignationTypes = (
-    params: PublicationValueListsGetAreaDesignationTypesParams,
+export const publicationValueListsGetAreaDesignation = (
     signal?: AbortSignal
 ) => {
-    return customInstance<AreaDesignationValueList>({
-        url: `/publication-dso-value-lists/area-designation-types`,
+    return customInstance<ListAreaDesignationResponse>({
+        url: `/publication-dso-value-lists/area-designation`,
         method: 'GET',
-        params,
         signal,
     })
 }
 
-export const getPublicationValueListsGetAreaDesignationTypesQueryKey = (
-    params: PublicationValueListsGetAreaDesignationTypesParams
-) => {
-    return [
-        `/publication-dso-value-lists/area-designation-types`,
-        ...(params ? [params] : []),
-    ] as const
+export const getPublicationValueListsGetAreaDesignationQueryKey = () => {
+    return [`/publication-dso-value-lists/area-designation`] as const
 }
 
-export const getPublicationValueListsGetAreaDesignationTypesQueryOptions = <
-    TData = Awaited<
-        ReturnType<typeof publicationValueListsGetAreaDesignationTypes>
-    >,
-    TError = HTTPValidationError,
->(
-    params: PublicationValueListsGetAreaDesignationTypesParams,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<
-                Awaited<
-                    ReturnType<
-                        typeof publicationValueListsGetAreaDesignationTypes
-                    >
-                >,
-                TError,
-                TData
-            >
+export const getPublicationValueListsGetAreaDesignationQueryOptions = <
+    TData = Awaited<ReturnType<typeof publicationValueListsGetAreaDesignation>>,
+    TError = unknown,
+>(options?: {
+    query?: Partial<
+        UseQueryOptions<
+            Awaited<ReturnType<typeof publicationValueListsGetAreaDesignation>>,
+            TError,
+            TData
         >
-    }
-) => {
+    >
+}) => {
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
         queryOptions?.queryKey ??
-        getPublicationValueListsGetAreaDesignationTypesQueryKey(params)
+        getPublicationValueListsGetAreaDesignationQueryKey()
 
     const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof publicationValueListsGetAreaDesignationTypes>>
-    > = ({ signal }) =>
-        publicationValueListsGetAreaDesignationTypes(params, signal)
+        Awaited<ReturnType<typeof publicationValueListsGetAreaDesignation>>
+    > = ({ signal }) => publicationValueListsGetAreaDesignation(signal)
 
     return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-        Awaited<
-            ReturnType<typeof publicationValueListsGetAreaDesignationTypes>
-        >,
+        Awaited<ReturnType<typeof publicationValueListsGetAreaDesignation>>,
         TError,
         TData
     > & { queryKey: QueryKey }
 }
 
-export type PublicationValueListsGetAreaDesignationTypesQueryResult =
-    NonNullable<
-        Awaited<ReturnType<typeof publicationValueListsGetAreaDesignationTypes>>
-    >
-export type PublicationValueListsGetAreaDesignationTypesQueryError =
-    HTTPValidationError
+export type PublicationValueListsGetAreaDesignationQueryResult = NonNullable<
+    Awaited<ReturnType<typeof publicationValueListsGetAreaDesignation>>
+>
+export type PublicationValueListsGetAreaDesignationQueryError = unknown
 
 /**
- * @summary List the allowed types of area designations to use for this publication document_type
+ * @summary List the available area designations to use for this publication
  */
-export const usePublicationValueListsGetAreaDesignationTypes = <
-    TData = Awaited<
-        ReturnType<typeof publicationValueListsGetAreaDesignationTypes>
-    >,
-    TError = HTTPValidationError,
->(
-    params: PublicationValueListsGetAreaDesignationTypesParams,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<
-                Awaited<
-                    ReturnType<
-                        typeof publicationValueListsGetAreaDesignationTypes
-                    >
-                >,
-                TError,
-                TData
-            >
-        >
-    }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-    const queryOptions =
-        getPublicationValueListsGetAreaDesignationTypesQueryOptions(
-            params,
-            options
-        )
-
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-        queryKey: QueryKey
-    }
-
-    query.queryKey = queryOptions.queryKey
-
-    return query
-}
-
-/**
- * @summary List the allowed groups to use for this publication document_type
- */
-export const publicationValueListsGetAreaDesignationGroups = (
-    params: PublicationValueListsGetAreaDesignationGroupsParams,
-    signal?: AbortSignal
-) => {
-    return customInstance<AreaDesignationValueList>({
-        url: `/publication-dso-value-lists/area-designation-groups`,
-        method: 'GET',
-        params,
-        signal,
-    })
-}
-
-export const getPublicationValueListsGetAreaDesignationGroupsQueryKey = (
-    params: PublicationValueListsGetAreaDesignationGroupsParams
-) => {
-    return [
-        `/publication-dso-value-lists/area-designation-groups`,
-        ...(params ? [params] : []),
-    ] as const
-}
-
-export const getPublicationValueListsGetAreaDesignationGroupsQueryOptions = <
-    TData = Awaited<
-        ReturnType<typeof publicationValueListsGetAreaDesignationGroups>
-    >,
-    TError = HTTPValidationError,
->(
-    params: PublicationValueListsGetAreaDesignationGroupsParams,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<
-                Awaited<
-                    ReturnType<
-                        typeof publicationValueListsGetAreaDesignationGroups
-                    >
-                >,
-                TError,
-                TData
-            >
-        >
-    }
-) => {
-    const { query: queryOptions } = options ?? {}
-
-    const queryKey =
-        queryOptions?.queryKey ??
-        getPublicationValueListsGetAreaDesignationGroupsQueryKey(params)
-
-    const queryFn: QueryFunction<
-        Awaited<
-            ReturnType<typeof publicationValueListsGetAreaDesignationGroups>
-        >
-    > = ({ signal }) =>
-        publicationValueListsGetAreaDesignationGroups(params, signal)
-
-    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-        Awaited<
-            ReturnType<typeof publicationValueListsGetAreaDesignationGroups>
-        >,
-        TError,
-        TData
-    > & { queryKey: QueryKey }
-}
-
-export type PublicationValueListsGetAreaDesignationGroupsQueryResult =
-    NonNullable<
-        Awaited<
-            ReturnType<typeof publicationValueListsGetAreaDesignationGroups>
+export const usePublicationValueListsGetAreaDesignation = <
+    TData = Awaited<ReturnType<typeof publicationValueListsGetAreaDesignation>>,
+    TError = unknown,
+>(options?: {
+    query?: Partial<
+        UseQueryOptions<
+            Awaited<ReturnType<typeof publicationValueListsGetAreaDesignation>>,
+            TError,
+            TData
         >
     >
-export type PublicationValueListsGetAreaDesignationGroupsQueryError =
-    HTTPValidationError
-
-/**
- * @summary List the allowed groups to use for this publication document_type
- */
-export const usePublicationValueListsGetAreaDesignationGroups = <
-    TData = Awaited<
-        ReturnType<typeof publicationValueListsGetAreaDesignationGroups>
-    >,
-    TError = HTTPValidationError,
->(
-    params: PublicationValueListsGetAreaDesignationGroupsParams,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<
-                Awaited<
-                    ReturnType<
-                        typeof publicationValueListsGetAreaDesignationGroups
-                    >
-                >,
-                TError,
-                TData
-            >
-        >
-    }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const queryOptions =
-        getPublicationValueListsGetAreaDesignationGroupsQueryOptions(
-            params,
-            options
-        )
+        getPublicationValueListsGetAreaDesignationQueryOptions(options)
 
     const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
         queryKey: QueryKey

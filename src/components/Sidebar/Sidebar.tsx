@@ -92,6 +92,8 @@ const Sidebar = () => {
 
                         const path = `/muteer/${plural}`
 
+                        if (model.defaults.disabled) return null
+
                         return (
                             <MenuItem
                                 key={key}

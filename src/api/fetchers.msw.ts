@@ -19,8 +19,6 @@ import type {
     AmbitieFull,
     AmbitieUUID,
     AnnouncementCreatedResponse,
-    AppApiDomainsPublicationsEndpointsPublicationsActReportsUploadActPackageReportEndpointUploadPackageReportResponse,
-    AreaDesignationValueList,
     AuthToken,
     BeleidsdoelFull,
     BeleidsdoelUUID,
@@ -40,6 +38,7 @@ import type {
     GraphResponse,
     InputGeoWerkingsgebied,
     InputGeoWerkingsgebiedDetailed,
+    ListAreaDesignationResponse,
     MaatregelFull,
     MaatregelUUID,
     ModuleCreatedResponse,
@@ -126,6 +125,7 @@ import type {
     TemplateCreatedResponse,
     UploadAttachmentResponse,
     UploadFileResponse,
+    UploadPackageReportResponse,
     User,
     UserCreateResponse,
     ValidateModuleResult,
@@ -577,6 +577,10 @@ export const getModulesViewModuleOverviewResponseMock = (
                     ).map(() => faker.word.sample()),
                     undefined,
                 ]),
+                Source_Title: faker.helpers.arrayElement([
+                    faker.word.sample(),
+                    undefined,
+                ]),
             },
             {
                 Area_UUID: faker.helpers.arrayElement([
@@ -893,6 +897,10 @@ export const getModulesGetListModuleObjectsResponseMock = (
                     ).map(() => faker.word.sample()),
                     undefined,
                 ]),
+                Source_Title: faker.helpers.arrayElement([
+                    faker.word.sample(),
+                    undefined,
+                ]),
             },
             {
                 Area_UUID: faker.helpers.arrayElement([
@@ -1183,8 +1191,8 @@ export const getPublicationActPackagesPostAbortActPackageResponseMock = (
 })
 
 export const getPublicationActReportsPostUploadActPackageReportResponseMock = (
-    overrideResponse: Partial<AppApiDomainsPublicationsEndpointsPublicationsActReportsUploadActPackageReportEndpointUploadPackageReportResponse> = {}
-): AppApiDomainsPublicationsEndpointsPublicationsActReportsUploadActPackageReportEndpointUploadPackageReportResponse => ({
+    overrideResponse: Partial<UploadPackageReportResponse> = {}
+): UploadPackageReportResponse => ({
     Duplicate_Count: faker.number.int({ min: undefined, max: undefined }),
     Status: faker.helpers.arrayElement(Object.values(ReportStatusType)),
     ...overrideResponse,
@@ -1420,8 +1428,8 @@ export const getPublicationAnnouncementPackagesGetDetailAnnouncementPackageRespo
 
 export const getPublicationAnnouncementReportsPostUploadAnnouncementPackageReportResponseMock =
     (
-        overrideResponse: Partial<AppApiDomainsPublicationsEndpointsPublicationsActReportsUploadActPackageReportEndpointUploadPackageReportResponse> = {}
-    ): AppApiDomainsPublicationsEndpointsPublicationsActReportsUploadActPackageReportEndpointUploadPackageReportResponse => ({
+        overrideResponse: Partial<UploadPackageReportResponse> = {}
+    ): UploadPackageReportResponse => ({
         Duplicate_Count: faker.number.int({ min: undefined, max: undefined }),
         Status: faker.helpers.arrayElement(Object.values(ReportStatusType)),
         ...overrideResponse,
@@ -1695,9 +1703,9 @@ export const getPublicationTemplatesGetListTemplatesResponseMock = (
         Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
         Description: faker.word.sample(),
         Document_Type: faker.word.sample(),
-        Field_Map: faker.helpers.arrayElement([{}, undefined]),
         Is_Active: faker.datatype.boolean(),
         Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Object_Field_Map: faker.helpers.arrayElement([{}, undefined]),
         Object_Templates: faker.helpers.arrayElement([{}, undefined]),
         Object_Types: faker.helpers.arrayElement([{}, undefined]),
         Text_Template: faker.word.sample(),
@@ -1721,9 +1729,9 @@ export const getPublicationTemplatesGetDetailTemplateResponseMock = (
     Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
     Description: faker.word.sample(),
     Document_Type: faker.word.sample(),
-    Field_Map: faker.helpers.arrayElement([{}, undefined]),
     Is_Active: faker.datatype.boolean(),
     Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Object_Field_Map: faker.helpers.arrayElement([{}, undefined]),
     Object_Templates: faker.helpers.arrayElement([{}, undefined]),
     Object_Types: faker.helpers.arrayElement([{}, undefined]),
     Text_Template: faker.word.sample(),
@@ -1732,23 +1740,43 @@ export const getPublicationTemplatesGetDetailTemplateResponseMock = (
     ...overrideResponse,
 })
 
-export const getPublicationValueListsGetAreaDesignationTypesResponseMock = (
-    overrideResponse: Partial<AreaDesignationValueList> = {}
-): AreaDesignationValueList => ({
-    Allowed_Values: Array.from(
+export const getPublicationValueListsGetAreaDesignationResponseMock = (
+    overrideResponse: Partial<ListAreaDesignationResponse> = {}
+): ListAreaDesignationResponse => ({
+    gebiedsaanwijzingen: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
-    ).map(() => faker.word.sample()),
-    ...overrideResponse,
-})
-
-export const getPublicationValueListsGetAreaDesignationGroupsResponseMock = (
-    overrideResponse: Partial<AreaDesignationValueList> = {}
-): AreaDesignationValueList => ({
-    Allowed_Values: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => faker.word.sample()),
+    ).map(() => ({
+        aanwijzing_groep: {
+            label: faker.word.sample(),
+            omschrijving: faker.word.sample(),
+            titel: faker.word.sample(),
+            toelichting: faker.word.sample(),
+            uri: faker.word.sample(),
+        },
+        aanwijzing_type: {
+            bron: faker.word.sample(),
+            definitie: faker.word.sample(),
+            deprecated: faker.datatype.boolean(),
+            domein: faker.word.sample(),
+            label: faker.word.sample(),
+            term: faker.word.sample(),
+            uri: faker.word.sample(),
+        },
+        waardes: Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            bron: faker.word.sample(),
+            definitie: faker.word.sample(),
+            deprecated: faker.datatype.boolean(),
+            domein: faker.word.sample(),
+            label: faker.word.sample(),
+            term: faker.word.sample(),
+            toelichting: faker.word.sample(),
+            uri: faker.word.sample(),
+        })),
+    })),
     ...overrideResponse,
 })
 
@@ -2135,6 +2163,10 @@ export const getSearchGetMssqlSearchResponseMock = (
                     ).map(() => faker.word.sample()),
                     undefined,
                 ]),
+                Source_Title: faker.helpers.arrayElement([
+                    faker.word.sample(),
+                    undefined,
+                ]),
             },
             {
                 Area_UUID: faker.helpers.arrayElement([
@@ -2286,6 +2318,10 @@ export const getSearchGetMssqlValidSearchResponseMock = (
                         { length: faker.number.int({ min: 1, max: 10 }) },
                         (_, i) => i + 1
                     ).map(() => faker.word.sample()),
+                    undefined,
+                ]),
+                Source_Title: faker.helpers.arrayElement([
+                    faker.word.sample(),
                     undefined,
                 ]),
             },
@@ -5688,65 +5724,20 @@ export const getBeleidskeuzeViewObjectVersionResponseMock = (
         undefined,
     ]),
     Explanation: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Gebiedengroep: faker.helpers.arrayElement([
+    Gebiedengroep_Code: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
+    Gebiedengroep_Static: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
             {
-                Adjust_On: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.string.uuid(), null]),
-                    undefined,
-                ]),
-                Code: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Created_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                End_Validity: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        null,
-                    ]),
-                    undefined,
-                ]),
-                Gebieden: faker.helpers.arrayElement([
-                    Array.from(
-                        { length: faker.number.int({ min: 1, max: 10 }) },
-                        (_, i) => i + 1
-                    ).map(() => faker.word.sample()),
-                    undefined,
-                ]),
-                Modified_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Start_Validity: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        null,
-                    ]),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
+                Cached_Title: faker.word.sample(),
+                Code: faker.word.sample(),
+                Object_ID: faker.number.int({ min: undefined, max: undefined }),
+                Object_Type: faker.word.sample(),
             },
             null,
         ]),
-        undefined,
-    ]),
-    Gebiedengroep_Code: faker.helpers.arrayElement([
-        faker.word.sample(),
         undefined,
     ]),
     Hierarchy_Children: faker.helpers.arrayElement([
@@ -6231,65 +6222,20 @@ export const getBeleidskeuzeViewObjectLatestResponseMock = (
         undefined,
     ]),
     Explanation: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Gebiedengroep: faker.helpers.arrayElement([
+    Gebiedengroep_Code: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
+    Gebiedengroep_Static: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
             {
-                Adjust_On: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.string.uuid(), null]),
-                    undefined,
-                ]),
-                Code: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Created_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                End_Validity: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        null,
-                    ]),
-                    undefined,
-                ]),
-                Gebieden: faker.helpers.arrayElement([
-                    Array.from(
-                        { length: faker.number.int({ min: 1, max: 10 }) },
-                        (_, i) => i + 1
-                    ).map(() => faker.word.sample()),
-                    undefined,
-                ]),
-                Modified_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Start_Validity: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        null,
-                    ]),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
+                Cached_Title: faker.word.sample(),
+                Code: faker.word.sample(),
+                Object_ID: faker.number.int({ min: undefined, max: undefined }),
+                Object_Type: faker.word.sample(),
             },
             null,
         ]),
-        undefined,
-    ]),
-    Gebiedengroep_Code: faker.helpers.arrayElement([
-        faker.word.sample(),
         undefined,
     ]),
     Hierarchy_Children: faker.helpers.arrayElement([
@@ -7014,65 +6960,20 @@ export const getBeleidskeuzeViewModuleObjectLatestResponseMock = (
         undefined,
     ]),
     Explanation: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Gebiedengroep: faker.helpers.arrayElement([
+    Gebiedengroep_Code: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
+    Gebiedengroep_Static: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
             {
-                Adjust_On: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.string.uuid(), null]),
-                    undefined,
-                ]),
-                Code: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Created_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                End_Validity: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        null,
-                    ]),
-                    undefined,
-                ]),
-                Gebieden: faker.helpers.arrayElement([
-                    Array.from(
-                        { length: faker.number.int({ min: 1, max: 10 }) },
-                        (_, i) => i + 1
-                    ).map(() => faker.word.sample()),
-                    undefined,
-                ]),
-                Modified_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Start_Validity: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        null,
-                    ]),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
+                Cached_Title: faker.word.sample(),
+                Code: faker.word.sample(),
+                Object_ID: faker.number.int({ min: undefined, max: undefined }),
+                Object_Type: faker.word.sample(),
             },
             null,
         ]),
-        undefined,
-    ]),
-    Gebiedengroep_Code: faker.helpers.arrayElement([
-        faker.word.sample(),
         undefined,
     ]),
     Hierarchy_Children: faker.helpers.arrayElement([
@@ -7557,65 +7458,20 @@ export const getGetModulesObjectBeleidskeuzeVersionResponseMock = (
         undefined,
     ]),
     Explanation: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Gebiedengroep: faker.helpers.arrayElement([
+    Gebiedengroep_Code: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
+    Gebiedengroep_Static: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
             {
-                Adjust_On: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.string.uuid(), null]),
-                    undefined,
-                ]),
-                Code: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Created_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                End_Validity: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        null,
-                    ]),
-                    undefined,
-                ]),
-                Gebieden: faker.helpers.arrayElement([
-                    Array.from(
-                        { length: faker.number.int({ min: 1, max: 10 }) },
-                        (_, i) => i + 1
-                    ).map(() => faker.word.sample()),
-                    undefined,
-                ]),
-                Modified_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Start_Validity: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        null,
-                    ]),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
+                Cached_Title: faker.word.sample(),
+                Code: faker.word.sample(),
+                Object_ID: faker.number.int({ min: undefined, max: undefined }),
+                Object_Type: faker.word.sample(),
             },
             null,
         ]),
-        undefined,
-    ]),
-    Gebiedengroep_Code: faker.helpers.arrayElement([
-        faker.word.sample(),
         undefined,
     ]),
     Hierarchy_Children: faker.helpers.arrayElement([
@@ -8162,65 +8018,20 @@ export const getGetRevisionsBeleidskeuzeVersionResponseMock = (
         undefined,
     ]),
     Explanation: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    Gebiedengroep: faker.helpers.arrayElement([
+    Gebiedengroep_Code: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
+    Gebiedengroep_Static: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
             {
-                Adjust_On: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.string.uuid(), null]),
-                    undefined,
-                ]),
-                Code: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Created_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                End_Validity: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        null,
-                    ]),
-                    undefined,
-                ]),
-                Gebieden: faker.helpers.arrayElement([
-                    Array.from(
-                        { length: faker.number.int({ min: 1, max: 10 }) },
-                        (_, i) => i + 1
-                    ).map(() => faker.word.sample()),
-                    undefined,
-                ]),
-                Modified_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Start_Validity: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        null,
-                    ]),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
+                Cached_Title: faker.word.sample(),
+                Code: faker.word.sample(),
+                Object_ID: faker.number.int({ min: undefined, max: undefined }),
+                Object_Type: faker.word.sample(),
             },
             null,
         ]),
-        undefined,
-    ]),
-    Gebiedengroep_Code: faker.helpers.arrayElement([
-        faker.word.sample(),
         undefined,
     ]),
     Hierarchy_Children: faker.helpers.arrayElement([
@@ -11690,6 +11501,10 @@ export const getGebiedengroepListValidLineagesResponseMock = (
             faker.number.int({ min: undefined, max: undefined }),
             undefined,
         ]),
+        Source_Title: faker.helpers.arrayElement([
+            faker.word.sample(),
+            undefined,
+        ]),
         Start_Validity: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -11750,6 +11565,10 @@ export const getGebiedengroepListValidLineageTreeResponseMock = (
             faker.number.int({ min: undefined, max: undefined }),
             undefined,
         ]),
+        Source_Title: faker.helpers.arrayElement([
+            faker.word.sample(),
+            undefined,
+        ]),
         Start_Validity: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -11795,48 +11614,15 @@ export const getGebiedengroepViewObjectVersionResponseMock = (
         ).map(() => faker.word.sample()),
         undefined,
     ]),
-    Gebieden_Objects: faker.helpers.arrayElement([
+    Gebieden_Statics: faker.helpers.arrayElement([
         Array.from(
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
-            Adjust_On: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([faker.string.uuid(), null]),
-                undefined,
-            ]),
-            Area_UUID: faker.helpers.arrayElement([
-                faker.string.uuid(),
-                undefined,
-            ]),
-            Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            Created_Date: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            End_Validity: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    null,
-                ]),
-                undefined,
-            ]),
-            Modified_Date: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            Object_ID: faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                undefined,
-            ]),
-            Start_Validity: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    null,
-                ]),
-                undefined,
-            ]),
-            Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
         })),
         undefined,
     ]),
@@ -11869,6 +11655,11 @@ export const getGebiedengroepViewObjectVersionResponseMock = (
                 undefined,
             ]),
         },
+        undefined,
+    ]),
+    Source_Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    Source_UUID: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.uuid(), null]),
         undefined,
     ]),
     Start_Validity: faker.helpers.arrayElement([
@@ -11914,48 +11705,15 @@ export const getGebiedengroepViewObjectLatestResponseMock = (
         ).map(() => faker.word.sample()),
         undefined,
     ]),
-    Gebieden_Objects: faker.helpers.arrayElement([
+    Gebieden_Statics: faker.helpers.arrayElement([
         Array.from(
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
-            Adjust_On: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([faker.string.uuid(), null]),
-                undefined,
-            ]),
-            Area_UUID: faker.helpers.arrayElement([
-                faker.string.uuid(),
-                undefined,
-            ]),
-            Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            Created_Date: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            End_Validity: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    null,
-                ]),
-                undefined,
-            ]),
-            Modified_Date: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            Object_ID: faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                undefined,
-            ]),
-            Start_Validity: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    null,
-                ]),
-                undefined,
-            ]),
-            Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
         })),
         undefined,
     ]),
@@ -11988,6 +11746,11 @@ export const getGebiedengroepViewObjectLatestResponseMock = (
                 undefined,
             ]),
         },
+        undefined,
+    ]),
+    Source_Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    Source_UUID: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.uuid(), null]),
         undefined,
     ]),
     Start_Validity: faker.helpers.arrayElement([
@@ -12093,6 +11856,14 @@ export const getGebiedengroepGetModuleListLineageTreeResponseMock = (
             },
             undefined,
         ]),
+        Source_Title: faker.helpers.arrayElement([
+            faker.word.sample(),
+            undefined,
+        ]),
+        Source_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
         Start_Validity: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -12142,48 +11913,15 @@ export const getGebiedengroepViewModuleObjectLatestResponseMock = (
         ).map(() => faker.word.sample()),
         undefined,
     ]),
-    Gebieden_Objects: faker.helpers.arrayElement([
+    Gebieden_Statics: faker.helpers.arrayElement([
         Array.from(
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
-            Adjust_On: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([faker.string.uuid(), null]),
-                undefined,
-            ]),
-            Area_UUID: faker.helpers.arrayElement([
-                faker.string.uuid(),
-                undefined,
-            ]),
-            Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            Created_Date: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            End_Validity: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    null,
-                ]),
-                undefined,
-            ]),
-            Modified_Date: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            Object_ID: faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                undefined,
-            ]),
-            Start_Validity: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    null,
-                ]),
-                undefined,
-            ]),
-            Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
         })),
         undefined,
     ]),
@@ -12216,6 +11954,11 @@ export const getGebiedengroepViewModuleObjectLatestResponseMock = (
                 undefined,
             ]),
         },
+        undefined,
+    ]),
+    Source_Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    Source_UUID: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.uuid(), null]),
         undefined,
     ]),
     Start_Validity: faker.helpers.arrayElement([
@@ -12261,48 +12004,15 @@ export const getGetModulesObjectGebiedengroepVersionResponseMock = (
         ).map(() => faker.word.sample()),
         undefined,
     ]),
-    Gebieden_Objects: faker.helpers.arrayElement([
+    Gebieden_Statics: faker.helpers.arrayElement([
         Array.from(
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
-            Adjust_On: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([faker.string.uuid(), null]),
-                undefined,
-            ]),
-            Area_UUID: faker.helpers.arrayElement([
-                faker.string.uuid(),
-                undefined,
-            ]),
-            Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            Created_Date: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            End_Validity: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    null,
-                ]),
-                undefined,
-            ]),
-            Modified_Date: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            Object_ID: faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                undefined,
-            ]),
-            Start_Validity: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    null,
-                ]),
-                undefined,
-            ]),
-            Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
         })),
         undefined,
     ]),
@@ -12335,6 +12045,11 @@ export const getGetModulesObjectGebiedengroepVersionResponseMock = (
                 undefined,
             ]),
         },
+        undefined,
+    ]),
+    Source_Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    Source_UUID: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.uuid(), null]),
         undefined,
     ]),
     Start_Validity: faker.helpers.arrayElement([
@@ -12442,48 +12157,15 @@ export const getGetRevisionsGebiedengroepVersionResponseMock = (
         ).map(() => faker.word.sample()),
         undefined,
     ]),
-    Gebieden_Objects: faker.helpers.arrayElement([
+    Gebieden_Statics: faker.helpers.arrayElement([
         Array.from(
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => ({
-            Adjust_On: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([faker.string.uuid(), null]),
-                undefined,
-            ]),
-            Area_UUID: faker.helpers.arrayElement([
-                faker.string.uuid(),
-                undefined,
-            ]),
-            Code: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            Created_Date: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            End_Validity: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    null,
-                ]),
-                undefined,
-            ]),
-            Modified_Date: faker.helpers.arrayElement([
-                `${faker.date.past().toISOString().split('.')[0]}Z`,
-                undefined,
-            ]),
-            Object_ID: faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                undefined,
-            ]),
-            Start_Validity: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    null,
-                ]),
-                undefined,
-            ]),
-            Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
         })),
         undefined,
     ]),
@@ -12516,6 +12198,11 @@ export const getGetRevisionsGebiedengroepVersionResponseMock = (
                 undefined,
             ]),
         },
+        undefined,
+    ]),
+    Source_Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    Source_UUID: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.uuid(), null]),
         undefined,
     ]),
     Start_Validity: faker.helpers.arrayElement([
@@ -14013,65 +13700,20 @@ export const getMaatregelViewObjectVersionResponseMock = (
         ]),
         undefined,
     ]),
-    Gebiedengroep: faker.helpers.arrayElement([
+    Gebiedengroep_Code: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
+    Gebiedengroep_Static: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
             {
-                Adjust_On: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.string.uuid(), null]),
-                    undefined,
-                ]),
-                Code: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Created_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                End_Validity: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        null,
-                    ]),
-                    undefined,
-                ]),
-                Gebieden: faker.helpers.arrayElement([
-                    Array.from(
-                        { length: faker.number.int({ min: 1, max: 10 }) },
-                        (_, i) => i + 1
-                    ).map(() => faker.word.sample()),
-                    undefined,
-                ]),
-                Modified_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Start_Validity: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        null,
-                    ]),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
+                Cached_Title: faker.word.sample(),
+                Code: faker.word.sample(),
+                Object_ID: faker.number.int({ min: undefined, max: undefined }),
+                Object_Type: faker.word.sample(),
             },
             null,
         ]),
-        undefined,
-    ]),
-    Gebiedengroep_Code: faker.helpers.arrayElement([
-        faker.word.sample(),
         undefined,
     ]),
     Gebiedsprogrammas: faker.helpers.arrayElement([
@@ -14397,65 +14039,20 @@ export const getMaatregelViewObjectLatestResponseMock = (
         ]),
         undefined,
     ]),
-    Gebiedengroep: faker.helpers.arrayElement([
+    Gebiedengroep_Code: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
+    Gebiedengroep_Static: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
             {
-                Adjust_On: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.string.uuid(), null]),
-                    undefined,
-                ]),
-                Code: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Created_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                End_Validity: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        null,
-                    ]),
-                    undefined,
-                ]),
-                Gebieden: faker.helpers.arrayElement([
-                    Array.from(
-                        { length: faker.number.int({ min: 1, max: 10 }) },
-                        (_, i) => i + 1
-                    ).map(() => faker.word.sample()),
-                    undefined,
-                ]),
-                Modified_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Start_Validity: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        null,
-                    ]),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
+                Cached_Title: faker.word.sample(),
+                Code: faker.word.sample(),
+                Object_ID: faker.number.int({ min: undefined, max: undefined }),
+                Object_Type: faker.word.sample(),
             },
             null,
         ]),
-        undefined,
-    ]),
-    Gebiedengroep_Code: faker.helpers.arrayElement([
-        faker.word.sample(),
         undefined,
     ]),
     Gebiedsprogrammas: faker.helpers.arrayElement([
@@ -14933,65 +14530,20 @@ export const getMaatregelViewModuleObjectLatestResponseMock = (
         ]),
         undefined,
     ]),
-    Gebiedengroep: faker.helpers.arrayElement([
+    Gebiedengroep_Code: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
+    Gebiedengroep_Static: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
             {
-                Adjust_On: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.string.uuid(), null]),
-                    undefined,
-                ]),
-                Code: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Created_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                End_Validity: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        null,
-                    ]),
-                    undefined,
-                ]),
-                Gebieden: faker.helpers.arrayElement([
-                    Array.from(
-                        { length: faker.number.int({ min: 1, max: 10 }) },
-                        (_, i) => i + 1
-                    ).map(() => faker.word.sample()),
-                    undefined,
-                ]),
-                Modified_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Start_Validity: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        null,
-                    ]),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
+                Cached_Title: faker.word.sample(),
+                Code: faker.word.sample(),
+                Object_ID: faker.number.int({ min: undefined, max: undefined }),
+                Object_Type: faker.word.sample(),
             },
             null,
         ]),
-        undefined,
-    ]),
-    Gebiedengroep_Code: faker.helpers.arrayElement([
-        faker.word.sample(),
         undefined,
     ]),
     Gebiedsprogrammas: faker.helpers.arrayElement([
@@ -15317,65 +14869,20 @@ export const getGetModulesObjectMaatregelVersionResponseMock = (
         ]),
         undefined,
     ]),
-    Gebiedengroep: faker.helpers.arrayElement([
+    Gebiedengroep_Code: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
+    Gebiedengroep_Static: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
             {
-                Adjust_On: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.string.uuid(), null]),
-                    undefined,
-                ]),
-                Code: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Created_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                End_Validity: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        null,
-                    ]),
-                    undefined,
-                ]),
-                Gebieden: faker.helpers.arrayElement([
-                    Array.from(
-                        { length: faker.number.int({ min: 1, max: 10 }) },
-                        (_, i) => i + 1
-                    ).map(() => faker.word.sample()),
-                    undefined,
-                ]),
-                Modified_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Start_Validity: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        null,
-                    ]),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
+                Cached_Title: faker.word.sample(),
+                Code: faker.word.sample(),
+                Object_ID: faker.number.int({ min: undefined, max: undefined }),
+                Object_Type: faker.word.sample(),
             },
             null,
         ]),
-        undefined,
-    ]),
-    Gebiedengroep_Code: faker.helpers.arrayElement([
-        faker.word.sample(),
         undefined,
     ]),
     Gebiedsprogrammas: faker.helpers.arrayElement([
@@ -15763,65 +15270,20 @@ export const getGetRevisionsMaatregelVersionResponseMock = (
         ]),
         undefined,
     ]),
-    Gebiedengroep: faker.helpers.arrayElement([
+    Gebiedengroep_Code: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+    ]),
+    Gebiedengroep_Static: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
             {
-                Adjust_On: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([faker.string.uuid(), null]),
-                    undefined,
-                ]),
-                Code: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                Created_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                End_Validity: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        null,
-                    ]),
-                    undefined,
-                ]),
-                Gebieden: faker.helpers.arrayElement([
-                    Array.from(
-                        { length: faker.number.int({ min: 1, max: 10 }) },
-                        (_, i) => i + 1
-                    ).map(() => faker.word.sample()),
-                    undefined,
-                ]),
-                Modified_Date: faker.helpers.arrayElement([
-                    `${faker.date.past().toISOString().split('.')[0]}Z`,
-                    undefined,
-                ]),
-                Object_ID: faker.helpers.arrayElement([
-                    faker.number.int({ min: undefined, max: undefined }),
-                    undefined,
-                ]),
-                Start_Validity: faker.helpers.arrayElement([
-                    faker.helpers.arrayElement([
-                        `${faker.date.past().toISOString().split('.')[0]}Z`,
-                        null,
-                    ]),
-                    undefined,
-                ]),
-                Title: faker.helpers.arrayElement([
-                    faker.word.sample(),
-                    undefined,
-                ]),
-                UUID: faker.helpers.arrayElement([
-                    faker.string.uuid(),
-                    undefined,
-                ]),
+                Cached_Title: faker.word.sample(),
+                Code: faker.word.sample(),
+                Object_ID: faker.number.int({ min: undefined, max: undefined }),
+                Object_Type: faker.word.sample(),
             },
             null,
         ]),
-        undefined,
-    ]),
-    Gebiedengroep_Code: faker.helpers.arrayElement([
-        faker.word.sample(),
         undefined,
     ]),
     Gebiedsprogrammas: faker.helpers.arrayElement([
@@ -20349,12 +19811,12 @@ export const getPublicationActPackagesGetDownloadActPackageMockHandler = () => {
 
 export const getPublicationActReportsPostUploadActPackageReportMockHandler = (
     overrideResponse?:
-        | AppApiDomainsPublicationsEndpointsPublicationsActReportsUploadActPackageReportEndpointUploadPackageReportResponse
+        | UploadPackageReportResponse
         | ((
               info: Parameters<Parameters<typeof http.post>[1]>[0]
           ) =>
-              | Promise<AppApiDomainsPublicationsEndpointsPublicationsActReportsUploadActPackageReportEndpointUploadPackageReportResponse>
-              | AppApiDomainsPublicationsEndpointsPublicationsActReportsUploadActPackageReportEndpointUploadPackageReportResponse)
+              | Promise<UploadPackageReportResponse>
+              | UploadPackageReportResponse)
 ) => {
     return http.post(
         '*/publication-act-packages/:actPackageUuid/report',
@@ -20705,12 +20167,12 @@ export const getPublicationAnnouncementPackagesGetDownloadAnnouncementPackageMoc
 export const getPublicationAnnouncementReportsPostUploadAnnouncementPackageReportMockHandler =
     (
         overrideResponse?:
-            | AppApiDomainsPublicationsEndpointsPublicationsActReportsUploadActPackageReportEndpointUploadPackageReportResponse
+            | UploadPackageReportResponse
             | ((
                   info: Parameters<Parameters<typeof http.post>[1]>[0]
               ) =>
-                  | Promise<AppApiDomainsPublicationsEndpointsPublicationsActReportsUploadActPackageReportEndpointUploadPackageReportResponse>
-                  | AppApiDomainsPublicationsEndpointsPublicationsActReportsUploadActPackageReportEndpointUploadPackageReportResponse)
+                  | Promise<UploadPackageReportResponse>
+                  | UploadPackageReportResponse)
     ) => {
         return http.post(
             '*/publication-announcement-packages/:announcementPackageUuid/report',
@@ -21206,15 +20668,17 @@ export const getPublicationTemplatesGetDetailTemplateMockHandler = (
     })
 }
 
-export const getPublicationValueListsGetAreaDesignationTypesMockHandler = (
+export const getPublicationValueListsGetAreaDesignationMockHandler = (
     overrideResponse?:
-        | AreaDesignationValueList
+        | ListAreaDesignationResponse
         | ((
               info: Parameters<Parameters<typeof http.get>[1]>[0]
-          ) => Promise<AreaDesignationValueList> | AreaDesignationValueList)
+          ) =>
+              | Promise<ListAreaDesignationResponse>
+              | ListAreaDesignationResponse)
 ) => {
     return http.get(
-        '*/publication-dso-value-lists/area-designation-types',
+        '*/publication-dso-value-lists/area-designation',
         async info => {
             await delay(1000)
             return new HttpResponse(
@@ -21223,37 +20687,7 @@ export const getPublicationValueListsGetAreaDesignationTypesMockHandler = (
                         ? typeof overrideResponse === 'function'
                             ? await overrideResponse(info)
                             : overrideResponse
-                        : getPublicationValueListsGetAreaDesignationTypesResponseMock()
-                ),
-                {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-        }
-    )
-}
-
-export const getPublicationValueListsGetAreaDesignationGroupsMockHandler = (
-    overrideResponse?:
-        | AreaDesignationValueList
-        | ((
-              info: Parameters<Parameters<typeof http.get>[1]>[0]
-          ) => Promise<AreaDesignationValueList> | AreaDesignationValueList)
-) => {
-    return http.get(
-        '*/publication-dso-value-lists/area-designation-groups',
-        async info => {
-            await delay(1000)
-            return new HttpResponse(
-                JSON.stringify(
-                    overrideResponse !== undefined
-                        ? typeof overrideResponse === 'function'
-                            ? await overrideResponse(info)
-                            : overrideResponse
-                        : getPublicationValueListsGetAreaDesignationGroupsResponseMock()
+                        : getPublicationValueListsGetAreaDesignationResponseMock()
                 ),
                 {
                     status: 200,
@@ -27005,8 +26439,7 @@ export const getOmgevingsbeleidAPIMock = () => [
     getPublicationTemplatesGetListTemplatesMockHandler(),
     getPublicationTemplatesPostEditTemplateMockHandler(),
     getPublicationTemplatesGetDetailTemplateMockHandler(),
-    getPublicationValueListsGetAreaDesignationTypesMockHandler(),
-    getPublicationValueListsGetAreaDesignationGroupsMockHandler(),
+    getPublicationValueListsGetAreaDesignationMockHandler(),
     getPublicationVersionsPostCreateVersionMockHandler(),
     getPublicationVersionsGetListVersionsMockHandler(),
     getPublicationVersionsPostEditVersionMockHandler(),

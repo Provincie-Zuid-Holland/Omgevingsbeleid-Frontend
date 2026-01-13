@@ -118,7 +118,8 @@ const ModuleItemDropdown = ({
             canPatchObjectInModule &&
             !isLocked &&
             isActive &&
-            !hasEditButton && [
+            !hasEditButton &&
+            !model.defaults.disabled && [
                 {
                     text: 'Bewerk onderdeel',
                     link: `/muteer/modules/${Module_ID}/${Object_Type}/${Model.Object_ID}/bewerk`,

@@ -69,7 +69,7 @@ const LeafletTinyViewerInner = ({ uuid, isSource }: LeafletTinyViewerProps) => {
             version: '1.3.0',
             format: 'image/png',
             transparent: true,
-            cql_filter: `UUID='${uuid}'`,
+            cql_filter: `Werkingsgebied_UUID='${uuid}'`,
             tiled: true,
             updateWhenZooming: false,
             tileSize: 512,

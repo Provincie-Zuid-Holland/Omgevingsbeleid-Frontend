@@ -42,7 +42,7 @@ const fetchers = {
 
 const gebiedengroep: DynamicObject<
     typeof fetchers,
-    keyof GebiedengroepPatch | 'Werkingsgebied',
+    keyof GebiedengroepPatch | 'Source_UUID',
     (keyof GebiedengroepStaticPostStatics)[]
 > = {
     defaults: {
@@ -84,12 +84,17 @@ const gebiedengroep: DynamicObject<
                     required: true,
                     hasAreaSelect: true,
                 },
+            ],
+        },
+        {
+            title: 'Geodata',
+            fields: [
                 {
-                    name: 'Werkingsgebied',
-                    label: 'Bron',
+                    name: 'Source_UUID',
+                    label: 'Geodata koppelen',
+                    description:
+                        'Hieronder staan de ‘Werkingsgebieden’ uit de Geodatabase. Selecteer een ‘Werkingsgebied’ en kies vervolgens de gewenste versie. Zodra een versie wordt geselecteerd, worden onderliggende gebieden zichtbaar op de kaart.',
                     type: 'area',
-                    placeholder:
-                        'Zoek een werkingsgebied op naam of de naam van een versie',
                 },
             ],
         },
