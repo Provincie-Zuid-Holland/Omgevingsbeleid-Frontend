@@ -148,7 +148,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
             }
 
             if ('Source_UUID' in payload) {
-                if (payload.Source_UUID !== object.Source_UUID) {
+                if (payload.Source_UUID !== object?.Source_UUID) {
                     await patchInputGeo({
                         moduleId: parseInt(moduleId!),
                         lineageId: parseInt(objectId!),

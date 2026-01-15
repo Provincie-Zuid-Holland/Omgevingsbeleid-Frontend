@@ -15,6 +15,10 @@ import {
     DocumentFull,
     DocumentPatch,
     DocumentStaticPostStatics,
+    GebiedengroepFull,
+    GebiedengroepPatch,
+    GebiedFull,
+    GebiedPatch,
     GebiedsprogrammaFull,
     GebiedsprogrammaPatch,
     GebiedsprogrammaStaticPostStatics,
@@ -122,6 +126,8 @@ export type ModelReturnType = BeleidsdoelFull &
     AmbitieFull &
     BeleidskeuzeFull &
     MaatregelFull &
+    GebiedFull &
+    GebiedengroepFull &
     GebiedsprogrammaFull &
     NationaalBelangFull &
     WettelijkeTaakFull &
@@ -140,6 +146,8 @@ export type ModelPatchType = BeleidsdoelPatch &
     AmbitiePatch &
     BeleidskeuzePatch &
     MaatregelPatch &
+    GebiedPatch &
+    GebiedengroepPatch &
     GebiedsprogrammaPatch &
     BeleidsregelPatch &
     VisieAlgemeenPatch &
