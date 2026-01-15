@@ -1,14 +1,10 @@
-import { Button, FormikInput, FormikSelect } from '@pzh-ui/components'
+import { Button, FormikInput } from '@pzh-ui/components'
 import { AngleDown } from '@pzh-ui/icons'
 import { Form, Formik, FormikProps } from 'formik'
 import { useMemo } from 'react'
 import { z } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
-import {
-    usePublicationValueListsGetAreaDesignationGroups,
-    usePublicationValueListsGetAreaDesignationTypes,
-} from '@/api/fetchers'
 import { AREA_DATA_ATTRS } from '@/components/DynamicObject/DynamicObjectForm/DynamicField/extensions/area'
 import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
 import Modal from '@/components/Modal'
@@ -106,47 +102,47 @@ const InnerForm = <TData extends Values>({
         [modalState?.editor, modalState?.editor?.state.selection]
     )
 
-    const {
-        data: areaTypeOptions,
-        isFetching: areaTypesFetching,
-        queryKey: areaTypeQueryKey,
-    } = usePublicationValueListsGetAreaDesignationTypes(
-        {
-            values:
-                model.defaults.parentType === 'Visie'
-                    ? 'omgevingsvisie'
-                    : 'programma',
-        },
-        {
-            query: {
-                select: data =>
-                    data.Allowed_Values.map(value => ({
-                        label: value,
-                        value,
-                    })),
-            },
-        }
-    )
+    // const {
+    //     data: areaTypeOptions,
+    //     isFetching: areaTypesFetching,
+    //     queryKey: areaTypeQueryKey,
+    // } = usePublicationValueListsGetAreaDesignationTypes(
+    //     {
+    //         values:
+    //             model.defaults.parentType === 'Visie'
+    //                 ? 'omgevingsvisie'
+    //                 : 'programma',
+    //     },
+    //     {
+    //         query: {
+    //             select: data =>
+    //                 data.Allowed_Values.map(value => ({
+    //                     label: value,
+    //                     value,
+    //                 })),
+    //         },
+    //     }
+    // )
 
-    const {
-        data: areaGroupOptions,
-        isFetching: areaGroupsFetching,
-        queryKey: areaGroupQueryKey,
-    } = usePublicationValueListsGetAreaDesignationGroups(
-        {
-            type: values.type,
-        },
-        {
-            query: {
-                enabled: !!values.type,
-                select: data =>
-                    data.Allowed_Values.map(value => ({
-                        label: value,
-                        value,
-                    })),
-            },
-        }
-    )
+    // const {
+    //     data: areaGroupOptions,
+    //     isFetching: areaGroupsFetching,
+    //     queryKey: areaGroupQueryKey,
+    // } = usePublicationValueListsGetAreaDesignationGroups(
+    //     {
+    //         type: values.type,
+    //     },
+    //     {
+    //         query: {
+    //             enabled: !!values.type,
+    //             select: data =>
+    //                 data.Allowed_Values.map(value => ({
+    //                     label: value,
+    //                     value,
+    //                 })),
+    //         },
+    //     }
+    // )
 
     return (
         <Form>
@@ -199,7 +195,7 @@ const InnerForm = <TData extends Values>({
                     <FormikInput name="label" type="hidden" />
                     <FormikInput name="id" type="hidden" />
                 </div>
-                <div>
+                {/* <div>
                     <FormikSelect
                         key={JSON.stringify(
                             areaTypeQueryKey + String(areaTypesFetching)
@@ -247,7 +243,7 @@ const InnerForm = <TData extends Values>({
                             }),
                         }}
                     />
-                </div>
+                </div> */}
             </div>
 
             <ModalFooter>

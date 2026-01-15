@@ -85,6 +85,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
         isLoading: latestIsLoading,
         isError: latestIsError,
     } = useGetLatestLineage(data!.Object_ID!, {
+        // @ts-ignore
         query: { enabled: !!data?.Object_ID },
     })
     const { data: revisions, isPending: revisionsLoading } =
