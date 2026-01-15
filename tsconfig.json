@@ -25,7 +25,9 @@
         "paths": {
             "@public/*": ["./public/*"],
             "@/*": ["./src/*"]
-        }
+        },
+        "incremental": true,
+        "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo/tsconfig.tsbuildinfo"
     },
     "include": ["src"],
     "exclude": ["node_modules", "dist", "build"]
