@@ -162,7 +162,7 @@ const getGeoserverLayer = (isSource?: boolean): string => {
     switch (environment) {
         case 'dev':
             if (isSource)
-                return 'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_dev_new'
+                return 'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_dev_input_geo'
             return 'Omgevingsbeleid:Werkingsgebieden_dev'
         case 'test':
             return 'Omgevingsbeleid:Werkingsgebieden_test'

@@ -27,16 +27,6 @@ stages:
                       path: .yarn/cache
                   displayName: Cache Yarn cache
 
-                  # Cache TypeScript incremental build info
-                - task: Cache@2
-                  inputs:
-                      key: 'tsc | "$(Agent.OS)" | yarn.lock | **/tsconfig.json'
-                      restoreKeys: |
-                          tsc | "$(Agent.OS)" | yarn.lock
-                          tsc | "$(Agent.OS)"
-                      path: node_modules/.cache/tsbuildinfo
-                  displayName: Cache TypeScript build info
-
                 - task: NodeTool@0
                   inputs:
                       versionSpec: '20.x'
