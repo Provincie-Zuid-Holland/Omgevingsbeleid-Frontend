@@ -3,6 +3,7 @@ import {
     Heading,
     Modal as ProvidedModal,
     ModalProps as ProvidedModalProps,
+    Text,
 } from '@pzh-ui/components'
 
 import { ModalType } from '@/components/Modals/types'
@@ -13,11 +14,13 @@ interface ModalProps extends Omit<ProvidedModalProps, 'id'> {
     id: ModalType
     hideTitle?: boolean
     onClose?: () => void
+    description?: string
 }
 
 const Modal = ({
     id,
     title,
+    description,
     hideTitle,
     size = 'xl',
     onClose,
@@ -37,10 +40,15 @@ const Modal = ({
             size={size}
             {...rest}>
             <div className="flex flex-col gap-4 px-10 py-8">
-                {title && !hideTitle && (
-                    <Heading level="2" size="xl">
-                        {title}
-                    </Heading>
+                {(!!title || !!description) && (
+                    <div>
+                        {title && !hideTitle && (
+                            <Heading level="2" size="xl">
+                                {title}
+                            </Heading>
+                        )}
+                        {description && <Text>{description}</Text>}
+                    </div>
                 )}
                 {children}
             </div>
