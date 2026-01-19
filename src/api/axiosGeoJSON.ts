@@ -163,13 +163,19 @@ const getGeoserverLayer = (isSource?: boolean): string => {
         case 'dev':
             if (isSource)
                 return 'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_dev_input_geo'
-            return 'Omgevingsbeleid:Werkingsgebieden_dev'
+            return 'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_dev_areas'
         case 'test':
-            return 'Omgevingsbeleid:Werkingsgebieden_test'
+            if (isSource)
+                return 'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_test_input_geo'
+            return 'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_test_areas'
         case 'acc':
-            return 'Omgevingsbeleid:Werkingsgebieden_acc'
+            if (isSource)
+                return 'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_acc_input_geo'
+            return 'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_acc_areas'
         case 'main':
-            return 'Omgevingsbeleid:Werkingsgebieden_prod'
+            if (isSource)
+                return 'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_prod_input_geo'
+            return 'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_prod_areas'
         default:
             return ''
     }
