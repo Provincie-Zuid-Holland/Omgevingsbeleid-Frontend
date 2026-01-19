@@ -163,9 +163,6 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                         return Promise.reject()
                     })
                 }
-
-                delete payload.Source_UUID
-                delete payload.Source_Title
             }
 
             return patchObject
