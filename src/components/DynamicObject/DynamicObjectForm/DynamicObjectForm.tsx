@@ -9,6 +9,7 @@ import ScrollToFieldError from '@/components/ScrollToFieldError'
 import { Model } from '@/config/objects/types'
 import { usePrompt } from '@/hooks/usePrompt'
 
+import ObjectAreaAnnotateModal from '@/components/Modals/ObjectModals/ObjectAreaAnnotateModal'
 import DynamicSection from './DynamicSection'
 
 interface DynamicObjectFormProps<TData> {
@@ -117,7 +118,7 @@ const ObjectForm = <TData extends FormikValues>({
                 <ScrollToFieldError />
             </Form>
 
-            {/* {containsRteField && <ObjectAreaAnnotateModal model={model} />} */}
+            {containsRteField && <ObjectAreaAnnotateModal />}
         </>
     )
 }
