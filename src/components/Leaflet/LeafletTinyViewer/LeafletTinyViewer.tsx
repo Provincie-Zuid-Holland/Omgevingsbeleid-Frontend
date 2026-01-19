@@ -139,7 +139,11 @@ const LeafletTinyViewerInner = ({ uuid, isSource }: LeafletTinyViewerProps) => {
         if (!wmsRef.current) return
 
         wmsRef.current.setParams({
-            cql_filter: buildCql(uuid, layerFilter.onderverdelingUuids),
+            cql_filter: buildCql(
+                uuid,
+                layerFilter.onderverdelingUuids,
+                isSource
+            ),
         })
     }, [uuid, layerFilter.onderverdelingUuids])
 
