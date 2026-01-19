@@ -1,4 +1,5 @@
 import {
+    cn,
     FieldLabel,
     formatDate,
     FormikError,
@@ -17,6 +18,7 @@ import { LoaderSpinner } from '@/components/Loader'
 import { ModelReturnType } from '@/config/objects/types'
 import { DynamicField } from '@/config/types'
 import { parseUtc } from '@/utils/parseUtc'
+import { useUpdateEffect } from '@react-hookz/web'
 
 const FieldSelectArea = ({
     name,
@@ -25,9 +27,10 @@ const FieldSelectArea = ({
     description,
     disabled,
 }: Omit<DynamicField, 'type'> & { disabled?: boolean }) => {
-    const { values } = useFormikContext<
-        ModelReturnType & { Source_Title?: string; Source_UUID?: string }
-    >()
+    const { values, setFieldValue, setFieldTouched, errors, touched } =
+        useFormikContext<
+            ModelReturnType & { Source_Title?: string; Source_UUID?: string }
+        >()
 
     const { data: options, isLoading } =
         useInputGeoGetInputGeoListLatestWerkingsgebieden(
@@ -59,6 +62,11 @@ const FieldSelectArea = ({
             }
         )
 
+    useUpdateEffect(() => {
+        setFieldValue('Source_UUID', null)
+        setFieldTouched('Source_UUID', false)
+    }, [values.Source_Title])
+
     return (
         <>
             {label && (
@@ -87,7 +95,19 @@ const FieldSelectArea = ({
 
                     <div className="grid grid-cols-6 gap-12">
                         <div className="col-span-2">
-                            <div className="border-pzh-gray-200 flex h-[500px] flex-col gap-2 overflow-y-auto rounded border p-2">
+                            <div
+                                className={cn(
+                                    'border-pzh-gray-200 flex h-[500px] flex-col gap-2 overflow-y-auto rounded border p-2',
+                                    {
+                                        'border-pzh-red-500':
+                                            !!errors?.[
+                                                name as keyof typeof errors
+                                            ] &&
+                                            !!touched?.[
+                                                name as keyof typeof touched
+                                            ],
+                                    }
+                                )}>
                                 {versionsLoading ? (
                                     <div className="flex h-full w-full items-center justify-center">
                                         <LoaderSpinner />
@@ -97,7 +117,7 @@ const FieldSelectArea = ({
                                         <div
                                             key={version.UUID}
                                             className="border-pzh-gray-200 relative rounded border px-4 py-2">
-                                            <div className="flex items-center gap-2 [&_input]:top-0 [&_input]:left-0 [&_input]:h-full [&_input]:w-full [&_input]:cursor-pointer [&_input]:opacity-0">
+                                            <div className="flex items-center gap-2 [&_>span]:hidden [&_input]:top-0 [&_input]:left-0 [&_input]:h-full [&_input]:w-full [&_input]:cursor-pointer [&_input]:opacity-0">
                                                 <FormikRadio
                                                     name="Source_UUID"
                                                     value={version.UUID}
