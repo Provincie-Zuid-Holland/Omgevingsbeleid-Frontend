@@ -7,7 +7,11 @@ import { StepProps } from './types'
 
 export const StepTwo = ({}: StepProps) => {
     const options = Object.keys(models)
-        .filter(model => !models[model as ModelType].defaults.atemporal)
+        .filter(
+            model =>
+                !models[model as ModelType].defaults.atemporal &&
+                !models[model as ModelType].defaults.disabled
+        )
         .map(model => ({
             label: models[model as ModelType].defaults.singularCapitalize,
             value: model,

@@ -47,7 +47,7 @@ const ObjectLineageCard = ({
     module,
     validDate,
 }: ObjectLineageCardProps) => {
-    const { slugOverview, plural } = model.defaults
+    const { slugOverview, plural, slugOverviewPublic } = model.defaults
 
     return (
         <div
@@ -80,19 +80,21 @@ const ObjectLineageCard = ({
                     <Text>{validDate}</Text>
                 )}
 
-                <Hyperlink asChild icon={ArrowUpRightFromSquare}>
-                    <Link
-                        to={toDetailHref(
-                            slugOverview || '',
-                            plural,
-                            UUID,
-                            module
-                        )}
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        Bekijk deze versie
-                    </Link>
-                </Hyperlink>
+                {!!slugOverviewPublic && (
+                    <Hyperlink asChild icon={ArrowUpRightFromSquare}>
+                        <Link
+                            to={toDetailHref(
+                                slugOverview || '',
+                                plural,
+                                UUID,
+                                module
+                            )}
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            Bekijk deze versie
+                        </Link>
+                    </Hyperlink>
+                )}
             </div>
         </div>
     )
