@@ -101,7 +101,7 @@ const generateImageUrl = (symbol: string) => {
 
     return `${
         import.meta.env.VITE_GEOSERVER_API_URL
-    }/geoserver/Omgevingsbeleid/wms?${path}`
+    }/geoserver/omgevingsbeleid_werkingsgebieden/wms?${path}`
 }
 
 const getGeoserverLayer = (isSource?: boolean): string => {
