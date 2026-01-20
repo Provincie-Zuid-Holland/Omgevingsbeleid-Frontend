@@ -147,27 +147,26 @@ const LeafletTinyViewerInner = ({ uuid, isSource }: LeafletTinyViewerProps) => {
         })
     }, [uuid, layerFilter.onderverdelingUuids])
 
-    // useEffect(() => {
-    //     if (!werkingsgebied?.features?.length) return
+    useEffect(() => {
+        if (!werkingsgebied?.features?.length) return
 
-    //     const allOnderverdelingUuids = Array.from(
-    //         new Set(
-    //             werkingsgebied.features
-    //                 .map(f => f?.properties?.Onderverdeling_UUID)
-    //                 .filter(Boolean)
-    //         )
-    //     )
+        const allOnderverdelingUuids = Array.from(
+            new Set(
+                werkingsgebied.features
+                    .map(f => f?.properties?.Onderverdeling_UUID)
+                    .filter(Boolean)
+            )
+        )
 
-    //     setLayerFilter(prev => {
-    //         // prevent re-initializing if already set
-    //         if (prev.onderverdelingUuids.length) return prev
+        setLayerFilter(prev => {
+            if (prev.onderverdelingUuids.length) return prev
 
-    //         return {
-    //             ...prev,
-    //             onderverdelingUuids: allOnderverdelingUuids,
-    //         }
-    //     })
-    // }, [werkingsgebied])
+            return {
+                ...prev,
+                onderverdelingUuids: allOnderverdelingUuids,
+            }
+        })
+    }, [werkingsgebied])
 
     const toggleOnderverdeling = useCallback((onderverdelingUuid: string) => {
         setLayerFilter(prev => {
