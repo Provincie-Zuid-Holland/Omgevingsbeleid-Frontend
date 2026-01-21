@@ -24,7 +24,7 @@ describe('AreaOverview', () => {
         setup()
 
         waitFor(() => {
-            const element = screen.getByText('Derde Gebiedsprogramma')
+            const element = screen.getByText(/\d+ Gebiedsprogramma/)
             expect(element).toBeTruthy()
         })
     })

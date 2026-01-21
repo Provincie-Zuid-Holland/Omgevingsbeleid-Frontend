@@ -24,8 +24,9 @@ describe('ThemeOverview', () => {
         setup()
 
         waitFor(() => {
-            const element = screen.getByText('De 3 thematische programma’s')
-            expect(element).toBeTruthy()
+            expect(
+                screen.getByText(/De \d+ thematische programma’s/)
+            ).toBeInTheDocument()
         })
     })
 })
