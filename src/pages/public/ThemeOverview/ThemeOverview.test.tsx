@@ -25,7 +25,9 @@ describe('ThemeOverview', () => {
 
         waitFor(() => {
             expect(
-                screen.getByText(/De \d+ thematische programma’s/)
+                screen.getByRole('heading', {
+                    name: /Thematische programma’s/i,
+                })
             ).toBeInTheDocument()
         })
     })

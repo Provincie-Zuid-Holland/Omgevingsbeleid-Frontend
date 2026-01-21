@@ -24,8 +24,11 @@ describe('AreaOverview', () => {
         setup()
 
         waitFor(() => {
-            const element = screen.getByText(/\d+ Gebiedsprogramma/)
-            expect(element).toBeTruthy()
+            expect(
+                screen.getByRole('heading', {
+                    name: /Gebiedsprogramma’s/i,
+                })
+            ).toBeInTheDocument()
         })
     })
 })
