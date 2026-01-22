@@ -172,7 +172,7 @@ const InnerForm = <TData extends Values>({
                 </div>
                 <div>
                     <FormikSelect
-                        key={isLoading.toString() && values.type}
+                        key={isLoading.toString() || values.type}
                         name="group"
                         label="Groep"
                         placeholder="Selecteer een groep"
