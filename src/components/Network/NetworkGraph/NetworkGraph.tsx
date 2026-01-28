@@ -46,19 +46,18 @@ const NetworkGraph = () => {
     )
 
     return (
-        <div className="py-6">
-            <NetworkFilter
-                graph={{ links, nodes }}
-                results={activeTab === 'textual' ? nodes.length : undefined}
-            />
+        <>
             {activeTab === 'visual' ? (
-                <div className="border-pzh-gray-200 bg-pzh-white relative mt-3 h-[60vh] min-h-[600px] overflow-hidden rounded border">
-                    <NetworkVisual graph={{ links, nodes }} />
+                <div className="py-6">
+                    <NetworkFilter graph={{ links, nodes }} />
+                    <div className="border-pzh-gray-200 bg-pzh-white relative mt-3 h-[60vh] min-h-[600px] overflow-hidden rounded border">
+                        <NetworkVisual graph={{ links, nodes }} />
+                    </div>
                 </div>
             ) : (
                 <NetworkTextual graph={{ links, nodes }} />
             )}
-        </div>
+        </>
     )
 }
 

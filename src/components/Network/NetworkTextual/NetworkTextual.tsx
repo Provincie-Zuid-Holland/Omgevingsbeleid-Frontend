@@ -1,6 +1,5 @@
 import { Table } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
-import { useUpdateEffect } from '@react-hookz/web'
 import { useCallback, useMemo, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
@@ -65,31 +64,6 @@ const NetworkTextual = ({ graph }: NetworkTextualProps) => {
         },
         [graph, setActiveConnections, setActiveNode, setActiveModal]
     )
-
-    /**
-     * If activeNode is changed by Search input, find connected links and open modal.
-     */
-    useUpdateEffect(() => {
-        if (!open && activeNode) {
-            const connectedLinks = filterConnections(graph.links, activeNode)
-            const connections = [
-                ...new Set(
-                    connectedLinks
-                        .flatMap(connection => [
-                            connection.source,
-                            connection.target,
-                        ])
-                        .filter(connection => connection !== activeNode.Code)
-                ),
-            ]
-            const nodes = connections.map(connection =>
-                graph.nodes.find(node => node.Code === connection)
-            ) as GraphVertice[]
-
-            setActiveConnections(nodes)
-            setActiveModal('objectDetails')
-        }
-    }, [activeNode])
 
     const [sortBy, setSortBy] = useState([
         {
