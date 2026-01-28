@@ -208,7 +208,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                 accessorKey: 'Title',
             },
         ],
-        [atemporal]
+        []
     )
 
     /**
