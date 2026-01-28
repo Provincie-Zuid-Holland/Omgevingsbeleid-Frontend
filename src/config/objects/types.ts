@@ -15,12 +15,18 @@ import {
     DocumentFull,
     DocumentPatch,
     DocumentStaticPostStatics,
+    GebiedengroepFull,
+    GebiedengroepPatch,
+    GebiedFull,
+    GebiedPatch,
     GebiedsprogrammaFull,
     GebiedsprogrammaPatch,
     GebiedsprogrammaStaticPostStatics,
     MaatregelFull,
     MaatregelPatch,
     MaatregelStaticPostStatics,
+    ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+    ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel,
     NationaalBelangFull,
     ProgrammaAlgemeenFull,
     ProgrammaAlgemeenPatch,
@@ -86,6 +92,8 @@ export interface DynamicObject<
         parentType?: ParentType
         /** Hide breadcrumbs */
         hideBreadcrumbs?: boolean
+        /** If is disabled in UI */
+        disabled?: boolean
     }
     /** Array containing static data fields of object */
     staticData?: StaticData
@@ -118,6 +126,8 @@ export type ModelReturnType = BeleidsdoelFull &
     AmbitieFull &
     BeleidskeuzeFull &
     MaatregelFull &
+    GebiedFull &
+    GebiedengroepFull &
     GebiedsprogrammaFull &
     NationaalBelangFull &
     WettelijkeTaakFull &
@@ -126,10 +136,18 @@ export type ModelReturnType = BeleidsdoelFull &
     ProgrammaAlgemeenFull &
     DocumentFull
 
+export type ModelReturnTypeBasic =
+    ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
+
+export type ModelReturnTypeBasicUnion =
+    ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel
+
 export type ModelPatchType = BeleidsdoelPatch &
     AmbitiePatch &
     BeleidskeuzePatch &
     MaatregelPatch &
+    GebiedPatch &
+    GebiedengroepPatch &
     GebiedsprogrammaPatch &
     BeleidsregelPatch &
     VisieAlgemeenPatch &

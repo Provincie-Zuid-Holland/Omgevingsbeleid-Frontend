@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig } from 'axios'
-import { Point } from 'leaflet'
 
 import generateQueryString from '@/utils/queryString'
 
@@ -10,8 +9,9 @@ export interface Feature {
     properties: {
         Onderverdeling?: string
         Werkingsgebied?: string
-        UUID: string
-        symbol: string
+        Onderverdeling_UUID?: string
+        Werkingsgebied_UUID?: string
+        Symbol: string
     }
 }
 
@@ -20,13 +20,12 @@ export interface FeatureCollection {
 }
 
 const api_version = '1.3.0'
+export const geoserverBaseURL = `${import.meta.env.VITE_GEOSERVER_API_URL}/geoserver/omgevingsbeleid_werkingsgebieden`
 
 // https://geo-omgevingsbeleid-test.azurewebsites.net/OMGEVINGSBELEID/wms?service=WMS&version=1.1.0&request=GetMap&layers=OMGEVINGSBELEID%3AWerkingsgebieden&bbox=43662.62000000104%2C406692.0%2C138647.9990000017%2C483120.0&width=768&height=617&srs=EPSG%3A28992&format=application/openlayers
 
 const instance = axios.create({
-    baseURL: `${
-        import.meta.env.VITE_GEOSERVER_API_URL
-    }/geoserver/Omgevingsbeleid/wms`,
+    baseURL: geoserverBaseURL,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -35,12 +34,16 @@ const instance = axios.create({
 // Function to fetch data using a generic template
 const fetchData = async (
     params: Record<string, string | number | boolean>,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
+    path?: string
 ) => {
     const queryString = generateQueryString(params)
 
     try {
-        const response = await instance.get(`?${queryString}`, config)
+        const response = await instance.get(
+            `${path || ''}?${queryString}`,
+            config
+        )
         return response.data
     } catch (error) {
         // Handle error if necessary
@@ -66,78 +69,21 @@ const getGeoJsonData = async (
     return fetchData(params, config)
 }
 
-const getOnderverdeling = async (
-    UUID: string,
-    config?: AxiosRequestConfig
-): Promise<FeatureCollection> => {
-    const params = {
-        service: 'wfs',
-        version: api_version,
-        request: 'GetFeature',
-        typeName: 'Omgevingsbeleid:Werkingsgebieden_Onderverdeling',
-        outputFormat: 'application/json',
-        cql_filter: `UUID='${UUID}'`,
-        propertyName: 'Onderverdeling,symbol,UUID',
-    }
-
-    return fetchData(params, config)
-}
-
 const getWerkingsgebied = async (
     UUID: string,
     config?: AxiosRequestConfig
 ): Promise<FeatureCollection> => {
     const params = {
-        service: 'wfs',
         version: api_version,
         request: 'GetFeature',
-        typeName: 'Omgevingsbeleid:Werkingsgebieden',
+        typeName:
+            'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_dev_input_geo',
         outputFormat: 'application/json',
-        cql_filter: `UUID='${UUID}'`,
-        propertyName: 'Werkingsgebied,UUID',
+        cql_filter: `Werkingsgebied_UUID='${UUID}'`,
+        propertyName: 'Werkingsgebied,Werkingsgebied_UUID,Symbol',
     }
 
-    return fetchData(params, config)
-}
-
-const getWerkingsGebieden = async (
-    pointA: string,
-    pointB: string,
-    config?: AxiosRequestConfig
-) => {
-    const params = {
-        service: 'wfs',
-        version: api_version,
-        request: 'GetFeature',
-        outputFormat: 'application/json',
-        typeName: 'Omgevingsbeleid:Werkingsgebieden',
-        cql_filter: `INTERSECTS(Shape, POINT (${pointA} ${pointB}))`,
-        propertyName: 'UUID,Werkingsgebied',
-    }
-
-    const data = await fetchData(params, config)
-    return data.features
-}
-
-const getWerkingsGebiedenByArea = async (
-    points: Point[],
-    config?: AxiosRequestConfig
-) => {
-    const polygon = points
-        .map((part: Point) => [part.x.toFixed(2), part.y.toFixed(2)].join(' '))
-        .join(', ')
-
-    const params = {
-        service: 'wfs',
-        version: '1.1.0',
-        request: 'GetFeature',
-        outputFormat: 'application/json',
-        typeName: 'Omgevingsbeleid:Werkingsgebieden',
-        cql_filter: `CONTAINS(Shape, POLYGON ((${polygon})))`,
-        propertyName: 'UUID,Werkingsgebied',
-    }
-
-    return fetchData(params, config)
+    return fetchData(params, config, '/wfs')
 }
 
 const generateImageUrl = (symbol: string) => {
@@ -145,7 +91,7 @@ const generateImageUrl = (symbol: string) => {
         version: api_version,
         request: 'GetLegendGraphic',
         format: 'image/png',
-        layer: 'Omgevingsbeleid:Werkingsgebieden',
+        layer: getGeoserverLayer(true),
         width: 20,
         height: 20,
         rule: symbol,
@@ -155,25 +101,29 @@ const generateImageUrl = (symbol: string) => {
 
     return `${
         import.meta.env.VITE_GEOSERVER_API_URL
-    }/geoserver/Omgevingsbeleid/wms?${path}`
+    }/geoserver/omgevingsbeleid_werkingsgebieden/wms?${path}`
 }
 
 const getGeoserverLayer = (isSource?: boolean): string => {
-    const environment = isSource
-        ? 'source'
-        : (import.meta.env.VITE_API_ENV as Environment)
+    const environment = import.meta.env.VITE_API_ENV as Environment
 
     switch (environment) {
-        case 'source':
-            return 'Omgevingsbeleid:Werkingsgebieden'
         case 'dev':
-            return 'Omgevingsbeleid:Werkingsgebieden_dev'
+            if (isSource)
+                return 'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_dev_input_geo'
+            return 'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_dev_areas'
         case 'test':
-            return 'Omgevingsbeleid:Werkingsgebieden_test'
+            if (isSource)
+                return 'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_test_input_geo'
+            return 'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_test_areas'
         case 'acc':
-            return 'Omgevingsbeleid:Werkingsgebieden_acc'
+            if (isSource)
+                return 'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_acc_input_geo'
+            return 'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_acc_areas'
         case 'main':
-            return 'Omgevingsbeleid:Werkingsgebieden_prod'
+            if (isSource)
+                return 'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_prod_input_geo'
+            return 'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_prod_areas'
         default:
             return ''
     }
@@ -185,8 +135,5 @@ export {
     generateImageUrl,
     getGeoJsonData,
     getGeoserverLayer,
-    getOnderverdeling,
-    getWerkingsGebieden,
-    getWerkingsGebiedenByArea,
     getWerkingsgebied,
 }

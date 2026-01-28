@@ -3,6 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 
 import { getBeleidsdoelListValidLineagesResponseMock } from '@/api/fetchers.msw'
+import AuthProvider from '@/context/AuthContext'
 
 import ThemeDetail from './ThemeDetail'
 
@@ -23,7 +24,11 @@ describe('ThemeDetail', () => {
                     <Routes>
                         <Route
                             path={path}
-                            element={<ThemeDetail {...props} />}
+                            element={
+                                <AuthProvider>
+                                    <ThemeDetail {...props} />
+                                </AuthProvider>
+                            }
                         />
                     </Routes>
                 </MemoryRouter>

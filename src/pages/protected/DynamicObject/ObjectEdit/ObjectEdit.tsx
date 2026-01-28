@@ -4,7 +4,10 @@ import { FormikHelpers } from 'formik'
 import { useMemo } from 'react'
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 
-import { useStorageFilePostFilesUpload } from '@/api/fetchers'
+import {
+    useGebiedengroepPatchInputGeoUseWerkingsgebied,
+    useStorageFilePostFilesUpload,
+} from '@/api/fetchers'
 import { HTTPValidationError } from '@/api/fetchers.schemas'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import { LockedNotification } from '@/components/Modules/ModuleLock/ModuleLock'
@@ -13,7 +16,7 @@ import useModule from '@/hooks/useModule'
 import useObject from '@/hooks/useObject'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
-import handleError from '@/utils/handleError'
+import handleError, { handleFileError } from '@/utils/handleError'
 import { AxiosError } from 'axios'
 
 interface ObjectEditProps {
@@ -47,6 +50,8 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
     } = useObject()
 
     const { mutateAsync: uploadStorageFile } = useStorageFilePostFilesUpload()
+    const { mutateAsync: patchInputGeo } =
+        useGebiedengroepPatchInputGeoUseWerkingsgebied()
 
     const patchObject = usePatchObject()
 
@@ -59,6 +64,9 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                 section.fields.map(field => field.name)
             ),
             'File',
+            'File_Ignore',
+            'Werkingsgebied_Version',
+            'Source_Title',
         ]
 
         const objectData = {} as { [key in (typeof fields)[number]]: any }
@@ -118,11 +126,42 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                     data: {
                         title: payload.Filename,
                         uploaded_file: payload.File as File,
+                        ignore_report:
+                            ('File_Ignore' in payload &&
+                                !!payload.File_Ignore) ||
+                            false,
                     },
+                }).catch((err: AxiosError<HTTPValidationError>) => {
+                    err.response &&
+                        handleFileError<typeof initialData>(
+                            err.response,
+                            helpers
+                        )
+
+                    return Promise.reject()
                 })
+
                 if (res) {
                     payload.File_UUID = res.UUID
                     delete payload.File
+                }
+            }
+
+            if ('Source_UUID' in payload) {
+                if (payload.Source_UUID !== object?.Source_UUID) {
+                    await patchInputGeo({
+                        moduleId: parseInt(moduleId!),
+                        lineageId: parseInt(objectId!),
+                        inputGeoWerkingsgebiedUuid: payload.Source_UUID,
+                    }).catch((err: AxiosError<HTTPValidationError>) => {
+                        err.response &&
+                            handleFileError<typeof initialData>(
+                                err.response,
+                                helpers
+                            )
+
+                        return Promise.reject()
+                    })
                 }
             }
 

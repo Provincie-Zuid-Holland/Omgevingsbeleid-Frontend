@@ -4,11 +4,11 @@ import { Link, useParams } from 'react-router-dom'
 
 import Avatar from '@/components/Avatar/Avatar'
 import { LoaderCard } from '@/components/Loader'
-import TableOfContents from '@/components/TableOfContents/TableOfContents'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import { getStaticDataLabel } from '@/utils/dynamicObject'
 import { formatValidityDate } from '@/utils/formatValidityDate'
+import ObjectConnectedDocuments from '../ObjectConnectedDocuments'
 
 interface ObjectSidebarProps extends ModelReturnType {
     /** Model of object */
@@ -19,8 +19,9 @@ interface ObjectSidebarProps extends ModelReturnType {
     revisionsLoading?: boolean
     /** If object is a revision */
     isRevision?: boolean
+    hideRevisions?: boolean
     /** Handle revision modal state */
-    handleModal: () => void
+    handleModal?: () => void
 }
 
 const ObjectSidebar = ({
@@ -32,9 +33,11 @@ const ObjectSidebar = ({
     ObjectStatics,
     model,
     isRevision,
+    hideRevisions,
     handleModal,
     Next_Version,
     UUID,
+    Documents_Statics,
 }: ObjectSidebarProps) => {
     const { user } = useAuth()
     const { moduleId } = useParams()
@@ -75,37 +78,42 @@ const ObjectSidebar = ({
                     {formattedDate}
                 </Text>
 
-                <div className="mt-2">
-                    {revisionsLoading ? (
-                        <LoaderCard height="30" mb="" className="w-28" />
-                    ) : !!revisions && revisions.length > 1 ? (
-                        <button
-                            className="text-pzh-green-500 underline"
-                            onClick={handleModal}>
-                            Bekijk {revisions.length - 1}{' '}
-                            {revisions.length === 2 ? 'revisie' : 'revisies'}
-                        </button>
-                    ) : (
-                        <span className="text-pzh-gray-600 italic">
-                            Geen revisies
-                        </span>
-                    )}
-                </div>
+                {!hideRevisions && (
+                    <div className="mt-2">
+                        {revisionsLoading ? (
+                            <LoaderCard height="30" mb="" className="w-28" />
+                        ) : !!revisions && revisions.length > 1 ? (
+                            <button
+                                className="text-pzh-green-500 underline"
+                                onClick={handleModal}>
+                                Bekijk {revisions.length - 1}{' '}
+                                {revisions.length === 2
+                                    ? 'revisie'
+                                    : 'revisies'}
+                            </button>
+                        ) : (
+                            <span className="text-pzh-gray-600 italic">
+                                Geen revisies
+                            </span>
+                        )}
+                    </div>
+                )}
             </div>
 
-            <div className="mb-6">
-                <Heading level="2" size="m" className="mb-2">
-                    Inhoudsopgave
-                </Heading>
-
-                <TableOfContents />
-            </div>
+            {!!Documents_Statics?.length &&
+                ((!!user && !!moduleId) || (!user && !moduleId)) && (
+                    <div className="mb-6">
+                        <ObjectConnectedDocuments
+                            documents={Documents_Statics}
+                        />
+                    </div>
+                )}
 
             {!!user && (
                 <div>
                     <Text size="s" className="text-pzh-blue-900 mb-3 italic">
                         Onderstaande informatie is alleen inzichtelijk voor
-                        gebruikers die zijn ingelogd
+                        gebruikers die zijn ingelogd.
                     </Text>
 
                     <People ObjectStatics={ObjectStatics} />

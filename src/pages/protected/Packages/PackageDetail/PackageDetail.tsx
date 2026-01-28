@@ -88,7 +88,11 @@ const PackageDetailInner = ({
             <div className="col-span-3 flex flex-col gap-10">
                 <div>
                     <Row label="Levering ID" value={data?.Delivery_ID} />
-                    <Row label="Module" value={data?.Module_Title} />
+                    <Row
+                        label="Module"
+                        value={data?.Module_Title}
+                        link={`/muteer/modules/${data?.Module_ID}/besluiten`}
+                    />
                     <Row label="Omgeving" value={data?.Environment_Title} />
                     <Row
                         label="Instrument"
@@ -127,23 +131,23 @@ const PackageDetailInner = ({
                     <Row label="Bestandsnaam" value={data?.Zip.Filename} />
                 </div>
 
-                <Button
-                    onPress={() => downloadPackage.refetch()}
-                    isLoading={downloadPackage.isFetching}
-                    isDisabled={downloadPackage.isFetching}
-                    icon={ArrowDownToLine}
-                    iconSize={20}
-                    className="self-start">
-                    Download (.zip)
-                </Button>
-
-                <div>
+                <div className="flex flex-wrap justify-between gap-4">
                     <Hyperlink asChild>
                         <Link
                             to={`/muteer/leveringen?environment=${data?.Environment_UUID}&module_id=${data?.Module_ID}`}>
                             Bekijk alle "{data?.Module_Title}" leveringen
                         </Link>
                     </Hyperlink>
+
+                    <Button
+                        onPress={() => downloadPackage.refetch()}
+                        isLoading={downloadPackage.isFetching}
+                        isDisabled={downloadPackage.isFetching}
+                        icon={ArrowDownToLine}
+                        iconSize={20}
+                        className="self-start">
+                        Download (.zip)
+                    </Button>
                 </div>
             </div>
 
@@ -152,7 +156,10 @@ const PackageDetailInner = ({
                     <Heading level="2" size="m">
                         Rapporten
                     </Heading>
-                    <Button variant="cta" icon={ArrowUpToLine} iconSize={20}>
+                    <Button
+                        variant="link"
+                        iconSize={20}
+                        className="text-pzh-green-500 hover:text-pzh-blue-500">
                         Upload rapporten
                     </Button>
                 </div>
@@ -198,15 +205,22 @@ const PackageDetailInner = ({
 interface RowProps {
     label: string
     value?: string
+    link?: string
 }
 
-const Row = ({ label, value }: RowProps) => (
+const Row = ({ label, value, link }: RowProps) => (
     <div className="border-pzh-gray-200 grid grid-cols-4 gap-x-6 border-b py-2">
         <div className="col-span-1">
             <Text bold>{label}</Text>
         </div>
         <div className="col-span-3">
-            <Text>{value}</Text>
+            {link ? (
+                <Hyperlink asChild>
+                    <Link to={link}>{value}</Link>
+                </Hyperlink>
+            ) : (
+                <Text>{value}</Text>
+            )}
         </div>
     </div>
 )

@@ -1,17 +1,11 @@
-import { object, z } from 'zod'
-
-import { AreaDesignationTypeEnum } from '@/api/fetchers.schemas'
+import { object } from 'zod'
 
 import { schemaDefaults } from './zodSchema'
 
 export const SCHEMA_OBJECT_ANNOTATE_AREA = object({
+    title: schemaDefaults.requiredString(),
+    type: schemaDefaults.requiredString(),
     group: schemaDefaults.requiredString(),
-    type: z.nativeEnum(AreaDesignationTypeEnum, {
-        errorMap: () => {
-            return { message: 'Het veld is niet (goed) ingevuld.' }
-        },
-    }),
-    location: schemaDefaults.requiredString(),
-    label: schemaDefaults.requiredString(),
-    id: schemaDefaults.requiredString(),
+    locations: schemaDefaults.requiredArray(),
+    context: schemaDefaults.requiredString(),
 })

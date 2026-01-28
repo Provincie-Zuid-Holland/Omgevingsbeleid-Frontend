@@ -1,6 +1,6 @@
 import Leaflet, { Map } from 'leaflet'
 
-import { getGeoserverLayer } from '@/api/axiosGeoJSON'
+import { geoserverBaseURL, getGeoserverLayer } from '@/api/axiosGeoJSON'
 
 type SelectedOption = { label: string; value: string }
 
@@ -17,21 +17,15 @@ const handleWerkingsgebiedSelect = async (
         mapInstance.removeLayer(werkingsgebied)
     }
 
-    const layerInstance = Leaflet.tileLayer.wms(
-        `${
-            import.meta.env.VITE_GEOSERVER_API_URL
-        }/geoserver/Omgevingsbeleid/wms`,
-        {
-            layers: getGeoserverLayer(),
-            version: '1.3.0',
-            format: 'image/png',
-            transparent: true,
-            // @ts-ignore
-            cql_filter: `UUID='${selected.value}'`,
-            tiled: true,
-            tileSize: 512,
-        }
-    )
+    const layerInstance = Leaflet.tileLayer.wms(`${geoserverBaseURL}/wms`, {
+        layers: getGeoserverLayer(),
+        version: '1.3.0',
+        format: 'image/png',
+        transparent: true,
+        cql_filter: `UUID='${selected.value}'`,
+        tiled: true,
+        tileSize: 512,
+    })
     setWerkingsgebied(layerInstance)
     layerInstance.addTo(mapInstance)
 

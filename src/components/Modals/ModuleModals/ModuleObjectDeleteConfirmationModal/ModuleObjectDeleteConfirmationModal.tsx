@@ -1,9 +1,9 @@
 import { Button, Text } from '@pzh-ui/components'
 
-import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
+import { Module } from '@/api/fetchers.schemas'
 import Modal from '@/components/Modal'
 import * as models from '@/config/objects'
-import { ModelType } from '@/config/objects/types'
+import { ModelReturnTypeBasic, ModelType } from '@/config/objects/types'
 import useModule from '@/hooks/useModule'
 import useModalStore from '@/store/modalStore'
 
@@ -16,7 +16,7 @@ const ModuleObjectDeleteConfirmationModal = () => {
         state => state.modalStates['moduleDeleteObject']
     ) as ModalStateMap['moduleDeleteObject']
 
-    const { object = {} as ModuleObjectShort, module = {} as Module } =
+    const { object = {} as ModelReturnTypeBasic, module = {} as Module } =
         modalState || {}
 
     const { useRemoveObjectFromModule } = useModule()
@@ -26,7 +26,7 @@ const ModuleObjectDeleteConfirmationModal = () => {
         mutate({
             moduleId: module.Module_ID,
             objectType: object.Object_Type,
-            lineageId: object.Object_ID,
+            lineageId: object.Model?.Object_ID || 0,
         })
 
     const model = models[object?.Object_Type as ModelType]
@@ -35,8 +35,8 @@ const ModuleObjectDeleteConfirmationModal = () => {
         <Modal id="moduleDeleteObject" title="Onderdeel verwijderen">
             <Text>
                 Wanneer je {model?.defaults.prefixSingular} {object.Object_Type}{' '}
-                ‘{object.Title}’ uit de module ‘{module.Title}’ verwijdert, zal
-                de huidige ontwerpversie komen te vervallen.
+                ‘{object.Model?.Title}’ uit de module ‘{module.Title}’
+                verwijdert, zal de huidige ontwerpversie komen te vervallen.
                 <br />
                 <br />
                 Weet je zeker dat je dit onderdeel wilt verwijderen?

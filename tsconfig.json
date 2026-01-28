@@ -22,12 +22,13 @@
         "noEmit": true,
         "jsx": "react-jsx",
         "noErrorTruncation": true,
-        "baseUrl": ".",
         "paths": {
             "@public/*": ["./public/*"],
             "@/*": ["./src/*"]
-        }
+        },
+        "incremental": true,
+        "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo/tsconfig.tsbuildinfo"
     },
-    "include": ["src", "eslint.config.mjs"],
-    "exclude": ["node_modules", "dist"]
+    "include": ["src"],
+    "exclude": ["node_modules", "dist", "build"]
 }

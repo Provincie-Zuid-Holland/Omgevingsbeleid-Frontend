@@ -30,7 +30,11 @@ export async function base64ToFile(
     return new File([blob], fileName, { type: 'image/png' })
 }
 
-export const downloadFile = async (path: string, postData?: object) => {
+export const downloadFile = async (
+    path: string,
+    postData?: object,
+    openInNewTab = false
+) => {
     try {
         const response = await fetch(`${getApiUrl()}/${path}`, {
             method: postData ? 'POST' : 'GET',
@@ -54,16 +58,20 @@ export const downloadFile = async (path: string, postData?: object) => {
         const fileNameMatch = contentDisposition?.match(/filename="?(.+)"?/)
         const fileName = fileNameMatch?.[1] || 'downloaded_file'
 
-        const url = URL.createObjectURL(blob)
-        const link = document.createElement('a')
-        link.href = url
-        link.setAttribute('download', fileName)
-        document.body.appendChild(link)
-        link.click()
+        const fileUrl = URL.createObjectURL(blob)
 
-        // Clean up
-        link.remove()
-        URL.revokeObjectURL(url)
+        if (openInNewTab) {
+            window.open(fileUrl, '_blank')
+            setTimeout(() => URL.revokeObjectURL(fileUrl), 10_000)
+        } else {
+            const link = document.createElement('a')
+            link.href = fileUrl
+            link.setAttribute('download', fileName)
+            document.body.appendChild(link)
+            link.click()
+            link.remove()
+            URL.revokeObjectURL(fileUrl)
+        }
     } catch (error) {
         handleDownloadError(error)
     }
