@@ -59,26 +59,18 @@ const NavigationPopupMenu = ({
                 />
             )}
 
-            {isMobile && (
+            {isMobile && !isOpen && (
                 <div className="fixed right-0 bottom-0 z-50">
                     <button
                         type="button"
                         className="bg-pzh-blue-900 text-pzh-white flex cursor-pointer items-center justify-center p-8"
                         aria-label="Menu"
-                        onClick={() => setIsOpen(!isOpen)}>
-                        {isOpen ? (
-                            <Xmark
-                                aria-hidden="true"
-                                size={18}
-                                className="absolute"
-                            />
-                        ) : (
-                            <Bars
-                                aria-hidden="true"
-                                size={18}
-                                className="absolute"
-                            />
-                        )}
+                        onClick={() => setIsOpen(true)}>
+                        <Bars
+                            aria-hidden="true"
+                            size={18}
+                            className="absolute"
+                        />
                     </button>
                 </div>
             )}
@@ -158,6 +150,20 @@ const NavigationPopupMenu = ({
                             ))}
                         </Container>
                     </nav>
+
+                    <div className="fixed right-0 bottom-0 z-50">
+                        <button
+                            type="button"
+                            className="bg-pzh-blue-900 text-pzh-white flex cursor-pointer items-center justify-center p-8"
+                            aria-label="Menu"
+                            onClick={() => setIsOpen(false)}>
+                            <Xmark
+                                aria-hidden="true"
+                                size={18}
+                                className="absolute"
+                            />
+                        </button>
+                    </div>
                 </FocusTrap>
             ) : null}
         </>
