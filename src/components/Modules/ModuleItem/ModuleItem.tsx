@@ -3,15 +3,14 @@ import { CircleInfo } from '@pzh-ui/icons'
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 
-import { ModuleObjectShort } from '@/api/fetchers.schemas'
-import { Model } from '@/config/objects/types'
+import { Model, ModelReturnTypeBasic } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
 import { getObjectActionText } from '@/utils/dynamicObject'
 import ModuleItemDropdown from '../ModuleItemDropdown'
 
-interface ModuleItemProps extends ModuleObjectShort {
+interface ModuleItemProps extends ModelReturnTypeBasic {
     /** Model */
     model: Model
     /** Has edit button */
@@ -22,11 +21,10 @@ interface ModuleItemProps extends ModuleObjectShort {
 
 const ModuleItem = ({
     model,
-    Object_ID,
+    Model,
     Object_Type,
     Module_ID,
     ModuleObjectContext,
-    Title,
     ObjectStatics,
     hasEditButton,
     hasViewButton,
@@ -37,7 +35,7 @@ const ModuleItem = ({
 
     const { isModuleManager, isLocked, isActive } = useModule()
 
-    const { singularCapitalize, plural } = model.defaults
+    const { singularCapitalize } = model.defaults
 
     /**
      * Check if user has owner rights in object
@@ -78,7 +76,7 @@ const ModuleItem = ({
                             <CircleInfo className="text-pzh-gray-600" />
                         </div>
                     </div>
-                    <Text className="truncate">{Title}</Text>
+                    <Text className="truncate">{Model.Title}</Text>
                     {hasEditButton &&
                         ModuleObjectContext?.Action !== 'Terminate' &&
                         hasRights &&
@@ -87,7 +85,7 @@ const ModuleItem = ({
                         isActive && (
                             <Hyperlink asChild>
                                 <Link
-                                    to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}/bewerk`}>
+                                    to={`/muteer/modules/${Module_ID}/${Object_Type}/${Model.Object_ID}/bewerk`}>
                                     Bewerk onderdeel
                                 </Link>
                             </Hyperlink>
@@ -95,7 +93,7 @@ const ModuleItem = ({
                     {hasViewButton && !hasRights && (
                         <Hyperlink asChild>
                             <Link
-                                to={`/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}`}>
+                                to={`/muteer/modules/${Module_ID}/${Object_Type}/${Model.Object_ID}`}>
                                 Bekijk detailpagina
                             </Link>
                         </Hyperlink>
@@ -105,8 +103,9 @@ const ModuleItem = ({
                     model={model}
                     Module_ID={Module_ID}
                     Object_Type={Object_Type}
-                    Object_ID={Object_ID}
-                    Title={Title}
+                    ObjectStatics={ObjectStatics}
+                    ModuleObjectContext={ModuleObjectContext}
+                    Model={Model}
                     {...rest}
                 />
             </div>

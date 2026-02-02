@@ -1,15 +1,17 @@
 import { Mark, mergeAttributes } from '@tiptap/core'
 
 export const AREA_DATA_ATTRS = {
-    group: 'data-hint-gebiedengroep',
-    type: 'data-hint-gebiedsaanwijzingtype',
-    location: 'data-hint-locatie',
-    label: 'data-gebiedengroep-label',
-    id: 'data-gebiedengroep-id',
+    group: 'data-aanwijzing-group',
+    type: 'data-aanwijzing-type',
+    locations: 'data-target-codes',
+    title: 'data-title',
+    context: 'data-context',
 } as const
 
 type AreaAttributes = {
-    [key in (typeof AREA_DATA_ATTRS)[keyof typeof AREA_DATA_ATTRS]]: string
+    [key in (typeof AREA_DATA_ATTRS)[keyof typeof AREA_DATA_ATTRS]]:
+        | string
+        | string[]
 }
 
 declare module '@tiptap/core' {
@@ -34,11 +36,12 @@ export const Area = Mark.create({
         return {
             HTMLAttributes: {
                 href: '#',
+                'data-hint-type': 'gebiedsaanwijzing',
                 [AREA_DATA_ATTRS.group]: null,
                 [AREA_DATA_ATTRS.type]: null,
-                [AREA_DATA_ATTRS.location]: null,
-                [AREA_DATA_ATTRS.label]: null,
-                [AREA_DATA_ATTRS.id]: null,
+                [AREA_DATA_ATTRS.locations]: null,
+                [AREA_DATA_ATTRS.title]: null,
+                [AREA_DATA_ATTRS.context]: null,
             },
         }
     },
@@ -48,20 +51,23 @@ export const Area = Mark.create({
             href: {
                 default: this.options.HTMLAttributes.href,
             },
+            'data-hint-type': {
+                default: this.options.HTMLAttributes['data-hint-type'],
+            },
             [AREA_DATA_ATTRS.group]: {
                 default: this.options.HTMLAttributes[AREA_DATA_ATTRS.group],
             },
             [AREA_DATA_ATTRS.type]: {
                 default: this.options.HTMLAttributes[AREA_DATA_ATTRS.type],
             },
-            [AREA_DATA_ATTRS.location]: {
-                default: this.options.HTMLAttributes[AREA_DATA_ATTRS.location],
+            [AREA_DATA_ATTRS.locations]: {
+                default: this.options.HTMLAttributes[AREA_DATA_ATTRS.locations],
             },
-            [AREA_DATA_ATTRS.label]: {
-                default: this.options.HTMLAttributes[AREA_DATA_ATTRS.label],
+            [AREA_DATA_ATTRS.title]: {
+                default: this.options.HTMLAttributes[AREA_DATA_ATTRS.title],
             },
-            [AREA_DATA_ATTRS.id]: {
-                default: this.options.HTMLAttributes[AREA_DATA_ATTRS.id],
+            [AREA_DATA_ATTRS.context]: {
+                default: this.options.HTMLAttributes[AREA_DATA_ATTRS.context],
             },
         }
     },
@@ -90,7 +96,7 @@ export const Area = Mark.create({
                     const { empty } = state.selection
 
                     if (empty) {
-                        const { text = 'Gebied', ...rest } = attributes
+                        const { text = 'Locatie', ...rest } = attributes
                         return chain()
                             .insertContentAt(state.selection.anchor, [
                                 {

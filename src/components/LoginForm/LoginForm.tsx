@@ -139,7 +139,7 @@ const PopupPasswordForgot = ({ onClose }: PopupPasswordForgotProps) => (
                 data-testid="wachtwoord-reset-button-mailto"
                 onPress={() => {
                     window.location.href =
-                        'mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten'
+                        'mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten (Platform Omgevingsbeleid)'
                     onClose()
                 }}>
                 Mail versturen

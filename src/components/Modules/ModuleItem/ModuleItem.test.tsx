@@ -19,13 +19,12 @@ describe('ModuleItem', () => {
                         <ModuleProvider>
                             <ModuleItem
                                 Object_Type="beleidskeuze"
-                                Object_ID={1}
                                 Module_ID={1}
-                                Title="My Policy"
-                                Code=""
-                                UUID="123"
-                                Modified_Date=""
                                 ModuleObjectContext={{ Action: 'Toevoegen' }}
+                                Model={{
+                                    Title: 'My Policy',
+                                }}
+                                ObjectStatics={{}}
                                 model={beleidskeuze}
                             />
                         </ModuleProvider>

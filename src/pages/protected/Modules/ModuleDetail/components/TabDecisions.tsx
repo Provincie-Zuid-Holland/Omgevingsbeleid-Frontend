@@ -1,5 +1,4 @@
 import { Accordion, BackLink, Heading, TabItem, Tabs } from '@pzh-ui/components'
-import { useUnmountEffect } from '@react-hookz/web'
 import { useEffect, useState } from 'react'
 import { Link, Outlet, useParams } from 'react-router-dom'
 import { useShallow } from 'zustand/react/shallow'
@@ -14,7 +13,6 @@ import {
     usePublicationVersionsGetDetailVersion,
 } from '@/api/fetchers'
 import {
-    DocumentType,
     PackageType,
     ProcedureType,
     ReportStatusType,
@@ -49,24 +47,19 @@ const TabDecisions = () => (
 export const Publications = () => {
     const { moduleId } = useParams()
 
-    const { wizardActive, setWizardActive, activeFolders, setActiveFolders } =
-        usePublicationStore(
-            useShallow(state => ({
-                wizardActive: state.wizardActive,
-                setWizardActive: state.setWizardActive,
-                activeFolders: state.activeFolders,
-                setActiveFolders: state.setActiveFolders,
-            }))
-        )
+    const { activeFolders, setActiveFolders } = usePublicationStore(
+        useShallow(state => ({
+            activeFolders: state.activeFolders,
+            setActiveFolders: state.setActiveFolders,
+        }))
+    )
 
-    const documentTypes = Object.keys(DocumentType) as Array<DocumentType>
     const procedureTypes = Object.keys(ProcedureType) as Array<ProcedureType>
 
-    const { data: publications, isFetching: publicationsFetching } =
-        usePublicationsGetListPublications({
-            module_id: parseInt(moduleId!),
-            limit: 100,
-        })
+    const { data: publications } = usePublicationsGetListPublications({
+        module_id: parseInt(moduleId!),
+        limit: 100,
+    })
 
     const { data: environments } =
         usePublicationEnvironmentsGetListEnvironments({
@@ -74,30 +67,8 @@ export const Publications = () => {
             is_active: true,
         })
 
-    useEffect(() => {
-        if (!!publications?.results.length && !publicationsFetching) {
-            setWizardActive(false)
-        }
-    }, [publications?.results, publicationsFetching, setWizardActive])
-
-    useUnmountEffect(() => setWizardActive(true))
-
     return (
         <div className="col-span-6 flex flex-col gap-6">
-            {/* {publicationsFetching ? (
-                <LoaderSpinner />
-            ) : !wizardActive ? (
-                <Button
-                    size="small"
-                    icon={Plus}
-                    className="self-end"
-                    onPress={() => setWizardActive(true)}>
-                    Nieuw
-                </Button>
-            ) : (
-                <PublicationWizard handleClose={() => setWizardActive(false)} />
-            )} */}
-
             {!!environments?.results.length && (
                 <Tabs variant="filled" className="place-self-center">
                     {environments.results.map(environment => (

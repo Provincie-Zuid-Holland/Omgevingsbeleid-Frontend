@@ -1,9 +1,9 @@
 import { Button, Text } from '@pzh-ui/components'
 import { useMemo } from 'react'
 
-import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
+import { Module } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
-import { ModelType } from '@/config/objects/types'
+import { ModelReturnTypeBasic, ModelType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
@@ -13,7 +13,7 @@ import ModuleItem from '../ModuleItem'
 
 interface ModuleItemListProps {
     /** Array of objects */
-    objects?: ModuleObjectShort[]
+    objects?: ModelReturnTypeBasic[]
     /** Current model object */
     module?: Module
 }
@@ -151,7 +151,7 @@ const ItemList = ({
 
                         return (
                             <ModuleItem
-                                key={object.UUID}
+                                key={object.Model.UUID}
                                 hasEditButton={hasEditButton}
                                 hasViewButton={hasViewButton}
                                 model={model}

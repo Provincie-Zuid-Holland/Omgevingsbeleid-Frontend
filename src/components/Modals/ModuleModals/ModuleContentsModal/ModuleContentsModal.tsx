@@ -15,8 +15,7 @@ import {
     Module,
     ModuleAddExistingObject,
     ModuleAddNewObject,
-    ModuleObjectShort,
-    SearchObject,
+    SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
 } from '@/api/fetchers.schemas'
 import Modal from '@/components/Modal'
 import useModalStore from '@/store/modalStore'
@@ -24,6 +23,7 @@ import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
 
 import { ModalFooter } from '@/components/Modal/Modal'
+import { ModelReturnTypeBasic } from '@/config/objects/types'
 import { StepFive, StepFour, StepOne, StepThree, StepTwo } from './steps'
 
 const steps = [StepOne, StepTwo, StepThree, StepFour, StepFive]
@@ -40,7 +40,7 @@ interface ModuleContentsModalProps {
     initialStep: number
     initialValues: ContentsModalForm
     module?: Module
-    selectedObject?: SearchObject | null
+    selectedObject?: SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic | null
 }
 
 const ModuleContentsModal = ({
@@ -56,7 +56,10 @@ const ModuleContentsModal = ({
 
     const [step, setStep] = useState(initialStep)
     const [existingObject, setExistingObject] = useState<
-        SearchObject | ModuleObjectShort | undefined | null
+        | SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
+        | ModelReturnTypeBasic
+        | undefined
+        | null
     >(selectedObject)
 
     const CurrentStep = steps[step - 1]
