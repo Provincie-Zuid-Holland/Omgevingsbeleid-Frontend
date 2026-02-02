@@ -18,7 +18,7 @@ import {
     Pagination,
     Text,
 } from '@pzh-ui/components'
-import { ArrowDownToLine, ArrowUpToLine } from '@pzh-ui/icons'
+import { ArrowDownToLine } from '@pzh-ui/icons'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { config as providedConfig } from '../config'

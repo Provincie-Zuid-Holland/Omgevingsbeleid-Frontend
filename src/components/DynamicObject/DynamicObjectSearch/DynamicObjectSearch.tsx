@@ -27,6 +27,7 @@ export interface DynamicObjectSearchProps
         | 'Object_ID'
         | 'Hierarchy_Code'
         | 'Werkingsgebied_Code'
+        | 'Gebiedengroep_Code'
         | 'Document_Code'
     /** Name of field */
     fieldName?: string
@@ -115,6 +116,7 @@ const DynamicObjectSearch = ({
                                 ? object.Model.UUID
                                 : objectKey === 'Hierarchy_Code' ||
                                     objectKey === 'Werkingsgebied_Code' ||
+                                    objectKey === 'Gebiedengroep_Code' ||
                                     objectKey === 'Document_Code'
                                   ? object.Model.Code
                                   : object.Model.Object_ID,
