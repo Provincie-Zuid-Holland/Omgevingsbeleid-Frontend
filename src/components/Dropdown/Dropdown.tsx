@@ -133,10 +133,13 @@ const DropdownTextElement = ({ item, setIsOpen }: DropdownElementProps) => (
                 setIsOpen(false)
             }}
             className={cn(
-                'w-full cursor-pointer px-6 text-left hover:underline',
+                'flex w-full cursor-pointer items-center px-6 text-left hover:underline',
                 item.className
             )}>
             {item.text}
+            {item.isExternal && (
+                <ArrowUpRightFromSquareLight className="ml-1" />
+            )}
         </button>
     </li>
 )

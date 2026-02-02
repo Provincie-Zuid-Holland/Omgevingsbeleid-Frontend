@@ -297,7 +297,10 @@ const SidebarResults = () => {
                                             Description={
                                                 item.Omschrijving || ''
                                             }
-                                            Title={item.Titel || ''}
+                                            Model={{
+                                                Title: item.Titel || '',
+                                                UUID: item.UUID,
+                                            }}
                                             {...item}
                                         />
                                     ))}

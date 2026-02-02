@@ -9,7 +9,7 @@ import {
     useParams,
 } from 'react-router-dom'
 
-import { Module, ModuleObjectShort } from '@/api/fetchers.schemas'
+import { Module, ModuleOverviewResponse } from '@/api/fetchers.schemas'
 import { LoaderContent } from '@/components/Loader'
 import ModuleHeader from '@/components/Modules/ModuleHeader'
 import useModule from '@/hooks/useModule'
@@ -31,7 +31,7 @@ const getActiveTab = (pathname: string): TabType => {
 }
 
 const getDisabledTabs = (
-    objects?: ModuleObjectShort[],
+    objects?: ModuleOverviewResponse['Objects'],
     module?: Module
 ): TabType[] => {
     if (!objects?.length || !module?.Activated) return ['besluiten']

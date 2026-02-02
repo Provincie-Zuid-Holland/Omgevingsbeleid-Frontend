@@ -57,8 +57,6 @@ const werkingsgebied: DynamicObject<
         prefixPlural: 'de',
         prefixNewObject: 'Nieuw',
         demonstrative: 'dit',
-        description:
-            'De ambities geven aan waar de provincie naar wil streven. De ambities komen voort uit het coalitieakkoord en worden vastgesteld in de Omgevingsvisie.',
         icon: DrawPolygon,
     },
     staticData: ['Owner_1_UUID', 'Owner_2_UUID'],

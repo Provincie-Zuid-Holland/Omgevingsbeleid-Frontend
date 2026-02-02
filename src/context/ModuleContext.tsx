@@ -18,7 +18,7 @@ import {
 import {
     HTTPValidationError,
     ModuleEdit,
-    ModuleOverview,
+    ModuleOverviewResponse,
     ResponseOK,
 } from '@/api/fetchers.schemas'
 import { ToastType } from '@/config/notifications'
@@ -27,7 +27,7 @@ import { toastNotification } from '@/utils/toastNotification'
 
 interface ModuleContextType {
     /** Data of the module */
-    data?: ModuleOverview
+    data?: ModuleOverviewResponse
     /** Is module data loading */
     isLoading: boolean
     /** Can be used to edit the module */
@@ -91,7 +91,10 @@ function ModuleProvider({ children }: { children?: ReactNode }) {
                 Objects: Objects.slice().sort(
                     (a, b) =>
                         a.Object_Type.localeCompare(b.Object_Type) ||
-                        a.Title.localeCompare(b.Title)
+                        (a.Model?.Title &&
+                            b.Model?.Title &&
+                            a.Model.Title.localeCompare(b.Model.Title)) ||
+                        0
                 ),
             }),
         },

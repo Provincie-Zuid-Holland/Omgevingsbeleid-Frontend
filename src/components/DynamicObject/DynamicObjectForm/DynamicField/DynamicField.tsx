@@ -6,7 +6,6 @@ import {
     FormikSelect,
     FormikTextArea,
     RteMenuButton,
-    Tooltip,
 } from '@pzh-ui/components'
 import { DrawPolygon } from '@pzh-ui/icons'
 import clsx from 'clsx'
@@ -132,28 +131,19 @@ const DynamicField = ({
                     field.hasAreaSelect && {
                         customExtensions: [Area],
                         customMenuButtons: editor => [
-                            <Tooltip
-                                key="area-button"
-                                label="Binnenkort is het mogelijk om gebiedsaanwijzingen aan te maken, meer informatie bij regieteam Omgevingsbeleid">
-                                <span className="cursor-help">
-                                    <RteMenuButton
-                                        disabled
-                                        className="text-pzh-gray-400"
-                                        isActive={editor.isActive('area')}
-                                        onClick={() =>
-                                            setActiveModal(
-                                                'objectAreaAnnotate',
-                                                { editor }
-                                            )
-                                        }
-                                        aria-label="Gebiedsaanwijzing"
-                                        title="Gebiedsaanwijzing">
-                                        <DrawPolygon />
-                                    </RteMenuButton>
-                                </span>
-                            </Tooltip>,
+                            <RteMenuButton
+                                isActive={editor.isActive('area')}
+                                onClick={() =>
+                                    setActiveModal('objectAreaAnnotate', {
+                                        editor,
+                                    })
+                                }
+                                aria-label="Gebiedsaanwijzing"
+                                title="Gebiedsaanwijzing">
+                                <DrawPolygon />
+                            </RteMenuButton>,
                         ],
-                        className: `[&_[data-hint-gebiedengroep]]:text-pzh-blue-900 [&_[data-hint-gebiedengroep]]:bg-pzh-blue-10`,
+                        className: `[&_[data-hint-type="gebiedsaanwijzing"]]:text-pzh-blue-900 [&_[data-hint-type="gebiedsaanwijzing"]]:bg-pzh-yellow-10 [&_[data-hint-type="gebiedsaanwijzing"]]:no-underline [&_[data-hint-type="gebiedsaanwijzing"]]:border [&_[data-hint-type="gebiedsaanwijzing"]]:border-pzh-gray-300 [&_[data-hint-type="gebiedsaanwijzing"]]:rounded-sm [&_[data-hint-type="gebiedsaanwijzing"]]:px-0.5`,
                     })}
                 {...field}
             />

@@ -1,15 +1,17 @@
-import { ModuleObjectShort } from '@/api/fetchers.schemas'
+import { getStorageFileGetFilesDownloadQueryKey } from '@/api/fetchers'
 import Dropdown, { DropdownItem } from '@/components/Dropdown'
-import { Model } from '@/config/objects/types'
+import { Model, ModelReturnTypeBasic } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
+import { downloadFile } from '@/utils/file'
 import { cn } from '@pzh-ui/components'
 import { EllipsisVertical } from '@pzh-ui/icons'
+import { useQuery } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
 
-interface ModuleItemDropdownProps extends ModuleObjectShort {
+interface ModuleItemDropdownProps extends ModelReturnTypeBasic {
     /** Model */
     model: Model
     /** Has edit button */
@@ -26,9 +28,7 @@ const ModuleItemDropdown = ({
     ModuleObjectContext,
     hasEditButton,
     Object_Type,
-    Object_ID,
-    UUID,
-    Title,
+    Model,
     invertHover,
 }: ModuleItemDropdownProps) => {
     const { user } = useAuth()
@@ -66,6 +66,22 @@ const ModuleItemDropdown = ({
         user?.UUID,
     ])
 
+    const downloadDocument = useQuery({
+        queryKey: [
+            'downloadStorageFile',
+            'File_UUID' in Model && Model.File_UUID,
+        ],
+        queryFn: () =>
+            downloadFile(
+                getStorageFileGetFilesDownloadQueryKey(
+                    'File_UUID' in Model ? String(Model.File_UUID) : ''
+                )[0],
+                undefined,
+                true
+            ),
+        enabled: false,
+    })
+
     /**
      * Array of dropdown items based on user rights
      */
@@ -73,24 +89,40 @@ const ModuleItemDropdown = ({
         ...((hasRights && [
             {
                 text: 'Bekijk detailpagina',
-                link: `/muteer/${plural}/${Object_ID}`,
+                link: `/muteer/${plural}/${Model.Object_ID}`,
             },
         ]) ||
             []),
-        {
-            text: 'Bekijk voorbeeld',
-            isExternal: true,
-            link: `/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${UUID}`,
-        },
+        ...(Object_Type === 'document' &&
+        'File_UUID' in Model &&
+        !!Model.File_UUID
+            ? [
+                  {
+                      text: 'Bekijk document',
+                      isExternal: true,
+                      callback: () =>
+                          !!downloadDocument && downloadDocument.refetch(),
+                  },
+              ]
+            : !!model.defaults.slugOverviewPublic
+              ? [
+                    {
+                        text: 'Bekijk voorbeeld',
+                        isExternal: true,
+                        link: `/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${Model.UUID}`,
+                    },
+                ]
+              : []),
         ...((ModuleObjectContext?.Action !== 'Terminate' &&
             hasRights &&
             canPatchObjectInModule &&
             !isLocked &&
             isActive &&
-            !hasEditButton && [
+            !hasEditButton &&
+            !model.defaults.disabled && [
                 {
                     text: 'Bewerk onderdeel',
-                    link: `/muteer/modules/${Module_ID}/${Object_Type}/${Object_ID}/bewerk`,
+                    link: `/muteer/modules/${Module_ID}/${Object_Type}/${Model.Object_ID}/bewerk`,
                 },
             ]) ||
             []),
@@ -108,10 +140,10 @@ const ModuleItemDropdown = ({
                         setActiveModal('moduleEditObject', {
                             object: {
                                 Object_Type,
-                                Object_ID,
-                                Title,
+                                Model,
                                 Module_ID,
                                 ModuleObjectContext,
+                                ObjectStatics,
                             },
                         }),
                 },
@@ -123,7 +155,13 @@ const ModuleItemDropdown = ({
                     text: 'Verwijder uit module',
                     callback: () =>
                         setActiveModal('moduleDeleteObject', {
-                            object: { Object_Type, Object_ID, Title },
+                            object: {
+                                Object_Type,
+                                Model,
+                                Module_ID,
+                                ModuleObjectContext,
+                                ObjectStatics,
+                            },
                             module: {
                                 Title: String(data?.Module.Title),
                                 Module_ID: Number(data?.Module.Module_ID),

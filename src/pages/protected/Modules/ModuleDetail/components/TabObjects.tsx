@@ -16,6 +16,7 @@ import ModuleLock from '@/components/Modules/ModuleLock'
 import ModuleTimeline from '@/components/Modules/ModuleTimeline'
 import ModuleVersionCard from '@/components/Modules/ModuleVersionCard'
 
+import ModuleScanModal from '@/components/Modals/ModuleModals/ModuleScanModal'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
@@ -126,6 +127,7 @@ const TabObjects = () => {
             <ModuleEditObjectModal />
             <ModuleObjectDeleteConfirmationModal />
             <ModuleCompleteModal />
+            <ModuleScanModal />
         </>
     )
 }

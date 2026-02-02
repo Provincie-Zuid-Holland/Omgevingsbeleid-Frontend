@@ -47,6 +47,8 @@ const DashboardAdmin = () => {
                     {Object.keys(models).map(key => {
                         const model = models[key as keyof typeof models]
 
+                        if (model.defaults.disabled) return null
+
                         return <ModelTile key={`model-${key}`} model={model} />
                     })}
                 </div>

@@ -5,13 +5,16 @@ import debounce from 'lodash.debounce'
 import { useState } from 'react'
 
 import { searchGetMssqlSearch, searchGetMssqlValidSearch } from '@/api/fetchers'
-import { SearchObject, ValidSearchObject } from '@/api/fetchers.schemas'
+import {
+    SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+    ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+} from '@/api/fetchers.schemas'
 import { ModelType } from '@/config/objects/types'
 
 export type Option = {
     label: JSX.Element
-    value: string | number
-    object?: SearchObject
+    value?: string | number
+    object?: SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
 }
 
 export interface DynamicObjectSearchProps
@@ -71,22 +74,28 @@ const DynamicObjectSearch = ({
                     filteredObject = data.results.filter(object =>
                         Array.isArray(filter)
                             ? objectKey === 'Object_UUID'
-                                ? !(filter as string[]).includes(object.UUID)
+                                ? !(filter as string[]).includes(
+                                      object.Model.UUID || ''
+                                  )
                                 : !(filter as number[]).includes(
-                                      object.Object_ID
+                                      object.Model.Object_ID || 0
                                   )
                             : objectKey === 'Object_UUID'
-                              ? object.UUID !== filter
-                              : object.Object_ID !== filter
+                              ? object.Model.UUID !== filter
+                              : object.Model.Object_ID !== filter
                     )
                 }
 
                 const options = filteredObject.map(
-                    (object: SearchObject | ValidSearchObject) => ({
+                    (
+                        object:
+                            | SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
+                            | ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
+                    ) => ({
                         label: (
                             <div className="flex justify-between gap-4">
                                 <span>
-                                    {object.Title}
+                                    {object.Model.Title}
 
                                     {'Module_ID' in object &&
                                         object.Module_ID && (
@@ -103,12 +112,12 @@ const DynamicObjectSearch = ({
                         ),
                         value:
                             objectKey === 'Object_UUID'
-                                ? object.UUID
+                                ? object.Model.UUID
                                 : objectKey === 'Hierarchy_Code' ||
                                     objectKey === 'Werkingsgebied_Code' ||
                                     objectKey === 'Document_Code'
-                                  ? object.Object_Code
-                                  : object.Object_ID,
+                                  ? object.Model.Code
+                                  : object.Model.Object_ID,
                         object,
                     })
                 )
