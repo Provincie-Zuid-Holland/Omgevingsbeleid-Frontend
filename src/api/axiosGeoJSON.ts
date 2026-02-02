@@ -76,8 +76,7 @@ const getWerkingsgebied = async (
     const params = {
         version: api_version,
         request: 'GetFeature',
-        typeName:
-            'omgevingsbeleid_werkingsgebieden:Werkingsgebieden_dev_input_geo',
+        typeName: getGeoserverLayer(true),
         outputFormat: 'application/json',
         cql_filter: `Werkingsgebied_UUID='${UUID}'`,
         propertyName: 'Werkingsgebied,Werkingsgebied_UUID,Symbol',
