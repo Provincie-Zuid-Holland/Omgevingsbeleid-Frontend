@@ -113,6 +113,7 @@ const beleidsdoel: DynamicObject<
                         'Geef een korte omschrijving van dit beleidsdoel.',
                     type: 'wysiwyg',
                     required: true,
+                    hasAreaSelect: true,
                 },
             ],
         },
