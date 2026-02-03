@@ -17,6 +17,7 @@ import {
 } from '@/api/fetchers.schemas'
 import { schemaDefaults } from '@/validation/zodSchema'
 
+import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { DynamicObject } from './types'
 
 const fetchers = {
@@ -61,7 +62,7 @@ const document: DynamicObject<
     fetchers,
     dynamicSections: [
         {
-            title: 'Titel en bestandenaam',
+            title: 'Titel en bestandsnaam',
             description:
                 'De titel van het document, is wat we standaard tonen. De bestandsnaam is hoe het document heet als een gebruiker het bestand bekijkt of download.',
             fields: [
@@ -75,8 +76,16 @@ const document: DynamicObject<
                 {
                     name: 'Filename',
                     label: 'Bestandsnaam',
+                    description:
+                        'Voer een bestandsnaam in die enkel uit letters, cijfers, minnetjes en punten bestaat. Deze bestandsnaam wordt gebruikt bij de publicatie naar de landelijke voorziening.',
                     type: 'text',
                     required: true,
+                    validation: schemaDefaults
+                        .requiredString()
+                        .regex(
+                            /^[\w\-.]+\.pdf$/,
+                            'Het veld is niet goed ingevuld en moet eindigen op ".pdf".'
+                        ),
                 },
                 {
                     name: 'Description',
@@ -100,5 +109,7 @@ const document: DynamicObject<
         },
     ],
 }
+
+document.validationSchema = generateDynamicSchema(document.dynamicSections)
 
 export default document
