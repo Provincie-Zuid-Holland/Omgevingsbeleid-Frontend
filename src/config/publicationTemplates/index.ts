@@ -102,7 +102,7 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                     fields: [
                         {
                             type: 'select',
-                            placeholder: 'key',
+                            placeholder: 'Object type',
                             name: 'key',
                             required: true,
                             options: Object.keys(models)
@@ -117,7 +117,6 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                         },
                         {
                             type: 'textarea',
-                            placeholder: 'value',
                             name: 'value',
                             required: true,
                         },
@@ -150,6 +149,40 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                         DropdownIndicator: null,
                     },
                     required: true,
+                },
+                {
+                    name: 'Object_Field_Map',
+                    arrayLabel: 'Field maps',
+                    type: 'array',
+                    fields: [
+                        {
+                            type: 'select',
+                            placeholder: 'Object type',
+                            name: 'key',
+                            required: true,
+                            options: Object.keys(models)
+                                .filter(
+                                    model => !!!models[model].defaults.atemporal
+                                )
+                                .map(model => ({
+                                    label: models[model].defaults
+                                        .singularCapitalize,
+                                    value: models[model].defaults.singular,
+                                })),
+                        },
+                        {
+                            type: 'select',
+                            placeholder: 'Field map',
+                            name: 'value',
+                            required: true,
+                        },
+                    ],
+                    validation: array(
+                        object({
+                            key: schemaDefaults.requiredString(),
+                            value: schemaDefaults.requiredString(),
+                        })
+                    ),
                 },
             ],
         },
