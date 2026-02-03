@@ -143,7 +143,7 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
         <>
             {title && (
                 <Heading
-                    level="2"
+                    level="3"
                     size="m"
                     className={classNames('mb-4', {
                         'sr-only': hidden && !customTitle?.[value],

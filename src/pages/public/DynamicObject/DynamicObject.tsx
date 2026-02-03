@@ -233,7 +233,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                             </Notification>
                         ))}
 
-                    <Heading level="3" size="m" className="order-1">
+                    <Heading level="2" size="m" className="order-1">
                         {singularCapitalize}
                     </Heading>
 
