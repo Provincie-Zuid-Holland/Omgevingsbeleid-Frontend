@@ -203,17 +203,17 @@ const beleidskeuze: DynamicObject<
             ],
         },
         {
-            title: 'Werkingsgebied',
+            title: 'Gebiedengroep',
             description:
-                'Het werkingsgebied geeft het gebied weer waar de beleidskeuze betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld, toegestaan of juist verboden.',
+                'De gebiedengroep geeft het gebied weer waar de beleidskeuze betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld, toegestaan of juist verboden.',
             fields: [
                 {
                     name: 'Ambtsgebied',
-                    label: 'Selecteer het gebied',
+                    label: 'Selecteer de gebiedengroep',
                     description: (
                         <>
                             Is op deze beleidskeuze het ambtsgebied van
-                            toepassing of een specifiek werkingsgebied? Heeft
+                            toepassing of een specifieke gebiedengroep? Heeft
                             jouw beleidskeuze nog geen geschikt gebied, of moet
                             het huidige gebied aangepast worden? Neem dan
                             contact op via{' '}
@@ -234,13 +234,13 @@ const beleidskeuze: DynamicObject<
                     ],
                 },
                 {
-                    name: 'Werkingsgebied_Code',
-                    label: 'Werkingsgebied',
+                    name: 'Gebiedengroep_Code',
+                    label: 'Gebiedengroep',
                     type: 'search',
                     status: 'all',
-                    placeholder: 'Selecteer een werkingsgebied',
-                    filterType: ['werkingsgebied'],
-                    objectKey: 'Werkingsgebied_Code',
+                    placeholder: 'Selecteer een gebiedengroep',
+                    filterType: ['gebiedengroep'],
+                    objectKey: 'Gebiedengroep_Code',
                     components: {
                         DropdownIndicator: () => (
                             <div className="mr-4">

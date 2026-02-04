@@ -207,20 +207,8 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                 header: 'Titel',
                 accessorKey: 'Title',
             },
-            ...((!atemporal && [
-                {
-                    header: 'Status',
-                    accessorKey: 'Status',
-                    enableSorting: false,
-                },
-            ]) ||
-                []),
-            {
-                header: 'Laatst gewijzigd',
-                accessorKey: 'Modified_Date',
-            },
         ],
-        [atemporal]
+        []
     )
 
     /**
