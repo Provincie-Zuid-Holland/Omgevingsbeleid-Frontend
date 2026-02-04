@@ -52,17 +52,11 @@ const PublicationVersionEditModal = () => {
         },
     })
 
-    const handleFormSubmit = (payload: PublicationVersionEdit) => {
-        if (payload.Announcement_Date && payload.Procedural) {
-            payload.Procedural.Procedural_Announcement_Date =
-                payload.Announcement_Date
-        }
-
+    const handleFormSubmit = (payload: PublicationVersionEdit) =>
         mutate({
             versionUuid: modalState.UUID,
             data: payload,
         })
-    }
 
     const initialValues = {
         ...data,

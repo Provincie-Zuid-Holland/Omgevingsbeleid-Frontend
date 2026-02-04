@@ -11,7 +11,5 @@
     "json.format.enable": true,
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "explicit"
-    },
-    "explorer.autoReveal": true,
-    "typescript.tsdk": "node_modules/typescript/lib"
+    }
 }

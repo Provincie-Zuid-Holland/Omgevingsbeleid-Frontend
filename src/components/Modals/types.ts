@@ -3,7 +3,6 @@ import { Editor } from '@tiptap/core'
 import {
     DocumentType,
     Module,
-    ModuleObjectShort,
     PackageType,
     ProcedureType,
     Publication,
@@ -12,6 +11,7 @@ import {
 } from '@/api/fetchers.schemas'
 import { Error } from '@/utils/handleError'
 
+import { ModelReturnTypeBasic } from '@/config/objects/types'
 import { PublicationType } from '../Publications/types'
 
 export type ModalType =
@@ -27,6 +27,7 @@ export type ModalType =
     | 'moduleAddObject'
     | 'moduleEditObject'
     | 'moduleDeleteObject'
+    | 'moduleScan'
     | 'areaAdd'
     | 'areaEdit'
     | 'objectArea'
@@ -53,10 +54,10 @@ export type ModalType =
 
 export interface ModalStateMap {
     moduleEditObject: {
-        object: ModuleObjectShort
+        object: ModelReturnTypeBasic
     }
     moduleDeleteObject: {
-        object: Pick<ModuleObjectShort, 'Object_Type' | 'Object_ID' | 'Title'>
+        object: ModelReturnTypeBasic
         module: Pick<Module, 'Module_ID' | 'Title'>
     }
     objectArea: {

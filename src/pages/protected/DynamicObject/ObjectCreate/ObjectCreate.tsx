@@ -24,7 +24,10 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
     const { singularCapitalize, plural, pluralCapitalize } = model.defaults
     const { usePostObject, useGetValid, usePutRelations } = model.fetchers
 
-    const { queryKey } = useGetValid(undefined, { query: { enabled: false } })
+    const { queryKey } = useGetValid(undefined, {
+        // @ts-ignore
+        query: { enabled: false },
+    })
 
     const createObject = usePostObject?.()
 

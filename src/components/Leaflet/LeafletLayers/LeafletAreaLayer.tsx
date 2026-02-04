@@ -31,7 +31,7 @@ const LeafletAreaLayer = ({
         return (
             <li
                 className={classNames(
-                    'flex justify-between px-2 py-1 text-pzh-gray-700 hover:bg-pzh-gray-100 hover:text-pzh-gray-800 focus:text-pzh-gray-800',
+                    'text-pzh-gray-700 hover:bg-pzh-gray-100 hover:text-pzh-gray-800 focus:text-pzh-gray-800 flex justify-between px-2 py-1',
                     {
                         'pl-6': index,
                     }
@@ -50,8 +50,8 @@ const LeafletAreaLayer = ({
                             backgroundColor: color
                                 ? color
                                 : index
-                                ? colors[parseInt(index)]
-                                : '#3388ff',
+                                  ? colors[parseInt(index)]
+                                  : '#3388ff',
                         }}
                     />
 
@@ -67,24 +67,24 @@ const LeafletAreaLayer = ({
     return (
         <li
             className={classNames(
-                'flex cursor-pointer items-baseline justify-between gap-2 px-2 py-1 text-s text-pzh-gray-700',
+                'text-s text-pzh-gray-700 flex cursor-pointer items-baseline justify-between gap-2 px-2 py-1',
                 {
                     'pl-8': parseInt(index || '0') > 0,
                 }
             )}
             onClick={() => {
                 onClick?.(
-                    properties?.Onderverdeling ||
+                    properties?.Onderverdeling_UUID ||
                         properties?.Werkingsgebied ||
                         ''
                 )
             }}>
             <div className="flex items-baseline gap-2">
                 <div className="min-w-[20px]">
-                    {properties?.symbol && (
+                    {properties?.Symbol && (
                         <img
-                            src={generateImageUrl(properties.symbol)}
-                            alt={properties.symbol}
+                            src={generateImageUrl(properties.Symbol)}
+                            alt={properties.Symbol}
                             className="-mb-1"
                         />
                     )}

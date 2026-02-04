@@ -5,27 +5,19 @@ import { useMemo } from 'react'
 import { z } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
-import {
-    usePublicationValueListsGetAreaDesignationGroups,
-    usePublicationValueListsGetAreaDesignationTypes,
-} from '@/api/fetchers'
 import { AREA_DATA_ATTRS } from '@/components/DynamicObject/DynamicObjectForm/DynamicField/extensions/area'
 import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
 import Modal from '@/components/Modal'
-import { Model } from '@/config/objects/types'
 import useModalStore from '@/store/modalStore'
 import { SCHEMA_OBJECT_ANNOTATE_AREA } from '@/validation/objectAnnotate'
 
+import { usePublicationValueListsGetAreaDesignation } from '@/api/fetchers'
 import { ModalFooter } from '@/components/Modal/Modal'
 import { ModalStateMap } from '../../types'
 
 type Values = z.infer<typeof SCHEMA_OBJECT_ANNOTATE_AREA>
 
-interface ObjectAreaAnnotateModalProps {
-    model: Model
-}
-
-const ObjectAreaAnnotateModal = ({ model }: ObjectAreaAnnotateModalProps) => {
+const ObjectAreaAnnotateModal = () => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
     const modalState = useModalStore(
         state => state.modalStates['objectAreaAnnotate']
@@ -36,15 +28,27 @@ const ObjectAreaAnnotateModal = ({ model }: ObjectAreaAnnotateModalProps) => {
         [modalState?.editor.state.selection.empty]
     )
 
+    const selectedText = useMemo(
+        () =>
+            modalState?.editor.state.doc.textBetween(
+                modalState?.editor.state.selection.from,
+                modalState?.editor.state.selection.to
+            ),
+        [
+            modalState?.editor.state.selection.from,
+            modalState?.editor.state.selection.to,
+        ]
+    )
+
     const initialValues: Values = useMemo(() => {
         const previousValues = modalState?.editor?.getAttributes('area')
 
         return {
             group: previousValues?.[AREA_DATA_ATTRS.group] ?? '',
             type: previousValues?.[AREA_DATA_ATTRS.type] ?? '',
-            location: previousValues?.[AREA_DATA_ATTRS.location] ?? '',
-            label: previousValues?.[AREA_DATA_ATTRS.label] ?? '',
-            id: previousValues?.[AREA_DATA_ATTRS.id] ?? '',
+            locations: previousValues?.[AREA_DATA_ATTRS.locations] ?? '',
+            title: previousValues?.[AREA_DATA_ATTRS.title] ?? selectedText,
+            context: previousValues?.[AREA_DATA_ATTRS.context] ?? '',
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [modalState?.editor, modalState?.editor?.state.selection])
@@ -57,10 +61,10 @@ const ObjectAreaAnnotateModal = ({ model }: ObjectAreaAnnotateModalProps) => {
             .setArea({
                 [AREA_DATA_ATTRS.group]: payload.group,
                 [AREA_DATA_ATTRS.type]: payload.type,
-                [AREA_DATA_ATTRS.location]: payload.location,
-                [AREA_DATA_ATTRS.label]: payload.label,
-                [AREA_DATA_ATTRS.id]: payload.id,
-                text: isEmptySelection ? payload.label : undefined,
+                [AREA_DATA_ATTRS.locations]: payload.locations,
+                [AREA_DATA_ATTRS.title]: payload.title,
+                [AREA_DATA_ATTRS.context]: payload.context,
+                text: isEmptySelection ? payload.title : undefined,
             })
             .run()
 
@@ -68,7 +72,10 @@ const ObjectAreaAnnotateModal = ({ model }: ObjectAreaAnnotateModalProps) => {
     }
 
     return (
-        <Modal id="objectAreaAnnotate" title="Gebiedsaanwijzing toevoegen">
+        <Modal
+            id="objectAreaAnnotate"
+            title="Gebiedsaanwijzing"
+            description="Een gebiedsaanwijzing wordt gebruikt als een annotatie waarmee nadere informatie kan worden toegevoegd aan een gebied dat is aangewezen door een juridische regel of een tekstdeel.">
             <Formik
                 onSubmit={handleSubmit}
                 initialValues={initialValues}
@@ -76,21 +83,19 @@ const ObjectAreaAnnotateModal = ({ model }: ObjectAreaAnnotateModalProps) => {
                 validationSchema={toFormikValidationSchema(
                     SCHEMA_OBJECT_ANNOTATE_AREA
                 )}>
-                {props => <InnerForm model={model} {...props} />}
+                {props => <InnerForm {...props} />}
             </Formik>
         </Modal>
     )
 }
 
 const InnerForm = <TData extends Values>({
-    model,
     dirty,
     values,
     isSubmitting,
     isValid,
     setFieldValue,
-    setFieldTouched,
-}: ObjectAreaAnnotateModalProps & FormikProps<TData>) => {
+}: FormikProps<TData>) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
     const modalState = useModalStore(
         state => state.modalStates['objectAreaAnnotate']
@@ -106,81 +111,120 @@ const InnerForm = <TData extends Values>({
         [modalState?.editor, modalState?.editor?.state.selection]
     )
 
-    const {
-        data: areaTypeOptions,
-        isFetching: areaTypesFetching,
-        queryKey: areaTypeQueryKey,
-    } = usePublicationValueListsGetAreaDesignationTypes(
-        {
-            values:
-                model.defaults.parentType === 'Visie'
-                    ? 'omgevingsvisie'
-                    : 'programma',
-        },
-        {
-            query: {
-                select: data =>
-                    data.Allowed_Values.map(value => ({
-                        label: value,
-                        value,
-                    })),
-            },
-        }
+    const { data, isLoading } = usePublicationValueListsGetAreaDesignation()
+
+    const typeOptions = useMemo(
+        () =>
+            data?.gebiedsaanwijzingen
+                .filter(item => !item.aanwijzing_type.deprecated)
+                .map(item => ({
+                    label: item.aanwijzing_type.label,
+                    value: item.aanwijzing_type.label,
+                })),
+        [data]
     )
 
-    const {
-        data: areaGroupOptions,
-        isFetching: areaGroupsFetching,
-        queryKey: areaGroupQueryKey,
-    } = usePublicationValueListsGetAreaDesignationGroups(
-        {
-            type: values.type,
-        },
-        {
-            query: {
-                enabled: !!values.type,
-                select: data =>
-                    data.Allowed_Values.map(value => ({
-                        label: value,
-                        value,
-                    })),
-            },
-        }
+    const groupOptions = useMemo(
+        () =>
+            !!values.type
+                ? data?.gebiedsaanwijzingen
+                      .find(item => item.aanwijzing_type.label === values.type)
+                      ?.waardes.filter(item => !item.deprecated)
+                      .map(item => ({
+                          label: item.label,
+                          value: item.label,
+                      }))
+                : undefined,
+        [values.type, data]
     )
+
+    // console.log(typeOptions)
 
     return (
         <Form>
             <div className="mb-4 flex flex-col gap-4">
                 <div>
+                    <FormikInput
+                        name="title"
+                        label="Titel"
+                        placeholder='Bijv. "Bedrijventerrein"'
+                    />
+                </div>
+                <div>
+                    <FormikSelect
+                        key={isLoading.toString()}
+                        name="type"
+                        label="Type"
+                        placeholder="Selecteer een type"
+                        description="Geef aan van welk type de gebiedsaanwijzing is"
+                        options={typeOptions}
+                        isLoading={isLoading}
+                        styles={{
+                            menu: base => ({
+                                ...base,
+                                position: 'relative',
+                                zIndex: 9999,
+                                marginTop: 4,
+                                boxShadow: 'none',
+                            }),
+                        }}
+                    />
+                </div>
+                <div>
+                    <FormikSelect
+                        key={isLoading.toString() || values.type}
+                        name="group"
+                        label="Groep"
+                        placeholder="Selecteer een groep"
+                        description="Geef aan in welke groep de gebiedsaanwijzing valt"
+                        options={groupOptions}
+                        disabled={!values.type}
+                        isLoading={isLoading}
+                        styles={{
+                            menu: base => ({
+                                ...base,
+                                position: 'relative',
+                                zIndex: 9999,
+                                marginTop: 4,
+                                boxShadow: 'none',
+                            }),
+                        }}
+                    />
+                </div>
+                <div>
                     <DynamicObjectSearch
-                        fieldName="location"
-                        filterType={['werkingsgebied']}
+                        fieldName="locations"
+                        filterType={['gebiedengroep', 'gebied']}
                         status="all"
-                        label="Gebiedengroep"
+                        label="Locaties"
+                        isMulti
                         required
-                        placeholder="Zoek op gebiedengroep"
+                        placeholder="Zoek op locaties"
+                        description="Geef aan welke gebieden moeten worden geannoteerd"
                         objectKey="Werkingsgebied_Code"
                         onChange={val => {
-                            const selected = Array.isArray(val) ? val[0] : val
-                            setFieldValue(
-                                'label',
-                                selected?.object?.Title ?? ''
-                            )
-                            setFieldValue(
-                                'id',
-                                selected?.object?.Object_ID?.toString() ?? ''
-                            )
+                            const selected = Array.isArray(val)
+                                ? val.map(item => ({
+                                      label: !!item.object
+                                          ? item.object?.Model.Title
+                                          : item.label,
+                                      value: item.value,
+                                  }))
+                                : {
+                                      label: !!val?.object
+                                          ? val?.object?.Model.Title
+                                          : val?.label,
+                                      value: val?.value,
+                                  }
+
+                            setFieldValue('context', JSON.stringify(selected))
                         }}
                         defaultValue={
-                            values.label &&
-                            values.location && {
-                                label: values.label,
-                                value: values.location,
-                            }
+                            !!values.context && JSON.parse(values.context)
                         }
                         components={{
                             DropdownIndicator: () => (
-                                <div className="mr-4">
+                                <div className="mr-2">
                                     <AngleDown className="text-pzh-blue-900" />
                                 </div>
                             ),
@@ -195,57 +239,7 @@ const InnerForm = <TData extends Values>({
                             }),
                         }}
                     />
-                    <FormikInput name="label" type="hidden" />
-                    <FormikInput name="id" type="hidden" />
-                </div>
-                <div>
-                    <FormikSelect
-                        key={JSON.stringify(
-                            areaTypeQueryKey + String(areaTypesFetching)
-                        )}
-                        name="type"
-                        label="Type gebiedsaanwijzing"
-                        placeholder="Selecteer een type gebiedsaanwijzing"
-                        options={areaTypeOptions}
-                        isLoading={areaTypesFetching}
-                        required
-                        onChange={() => {
-                            setFieldValue('group', null)
-                            setFieldTouched('group', false)
-                        }}
-                        styles={{
-                            menu: base => ({
-                                ...base,
-                                position: 'relative',
-                                zIndex: 9999,
-                                marginTop: 4,
-                                boxShadow: 'none',
-                            }),
-                        }}
-                    />
-                </div>
-                <div>
-                    <FormikSelect
-                        key={JSON.stringify(
-                            areaGroupQueryKey + String(areaGroupsFetching)
-                        )}
-                        name="group"
-                        label="Gebiedsaanwijzinggroep"
-                        placeholder="Selecteer een gebiedsaanwijzinggroep"
-                        options={areaGroupOptions}
-                        isLoading={areaGroupsFetching}
-                        disabled={!values.type}
-                        required
-                        styles={{
-                            menu: base => ({
-                                ...base,
-                                position: 'relative',
-                                zIndex: 9999,
-                                marginTop: 4,
-                                boxShadow: 'none',
-                            }),
-                        }}
-                    />
+                    <FormikInput name="context" type="hidden" />
                 </div>
             </div>
 

@@ -82,9 +82,11 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
         replace: domNode => {
             if (domNode.type === 'tag' && domNode.name === 'a') {
                 const element = domNode as any
-                const label = element.attribs['data-gebiedengroep-label']
+                const objectArea =
+                    element.attribs['data-hint-type'] === 'gebiedsaanwijzing'
+                const label = element.attribs['data-title']
 
-                if (label) {
+                if (objectArea) {
                     return (
                         <Tooltip
                             label={
@@ -102,7 +104,7 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
                             <Button
                                 key={label}
                                 variant="default"
-                                className="text-pzh-red-900 hover:text-pzh-blue-900 underline"
+                                className="bg-pzh-yellow-10 border-pzh-gray-300 rounded-sm border px-0.5"
                                 onPress={() =>
                                     setActiveModal('objectArea', {
                                         moduleId,
@@ -116,11 +118,11 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
                                             ],
                                         gebiedsaanwijzingtype:
                                             element.attribs[
-                                                'data-hint-gebiedsaanwijzingtype'
+                                                'data-aanwijzing-type'
                                             ],
                                         gebiedengroep:
                                             element.attribs[
-                                                'data-hint-gebiedengroep'
+                                                'data-aanwijzing-group'
                                             ],
                                     })
                                 }

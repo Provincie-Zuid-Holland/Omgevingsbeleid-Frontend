@@ -7,16 +7,20 @@ import { ReadRelationShortBeleidskeuzeMinimal } from '@/api/fetchers.schemas'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import { LoaderContent, LoaderSpinner } from '@/components/Loader'
-import TableOfContents from '@/components/TableOfContents'
 import * as models from '@/config/objects'
 import { ModelReturnType, ModelType } from '@/config/objects/types'
 
+import Sidebar from '@/components/DynamicObject/ObjectSidebar'
 import NotFoundPage from '../NotFoundPage'
 
 function ThemeDetail() {
     const { uuid } = useParams<{ uuid: string }>()
 
-    const { data, isLoading, isError } = useBeleidsdoelViewObjectVersion(uuid!)
+    const {
+        data = {},
+        isLoading,
+        isError,
+    } = useBeleidsdoelViewObjectVersion(uuid!)
 
     const breadcrumbPaths = [
         { name: 'Home', to: '/' },
@@ -67,13 +71,11 @@ function ThemeDetail() {
                 </div>
 
                 <div className="order-1 col-span-6 xl:col-span-2">
-                    <aside className="sticky top-[120px]">
-                        <Heading level="3" size="m" className="mb-2">
-                            Inhoudsopgave
-                        </Heading>
-
-                        <TableOfContents />
-                    </aside>
+                    <Sidebar
+                        model={models.beleidsdoel}
+                        hideRevisions
+                        {...data}
+                    />
                 </div>
 
                 <div className="order-2 col-span-6 flex flex-col gap-8 xl:col-span-4 xl:mt-0">

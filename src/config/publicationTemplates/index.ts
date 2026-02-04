@@ -102,7 +102,7 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                     fields: [
                         {
                             type: 'select',
-                            placeholder: 'Object type',
+                            placeholder: 'Selecteer een gebruikt object type',
                             name: 'key',
                             required: true,
                             options: Object.keys(models)
@@ -131,33 +131,18 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
             ],
         },
         {
-            title: 'Field map',
+            title: 'Field maps',
             fields: [
                 {
-                    name: 'Field_Map',
-                    type: 'select',
-                    label: 'Field map',
-                    placeholder: 'Vul een waarde in en druk op enter',
-                    isMulti: true,
-                    validation: array(schemaDefaults.requiredString(), {
-                        required_error: 'Het veld is niet (goed) ingevuld.',
-                        invalid_type_error: 'Het veld is niet (goed) ingevuld.',
-                    }),
-                    isCreatable: true,
-                    menuIsOpen: false,
-                    components: {
-                        DropdownIndicator: null,
-                    },
-                    required: true,
-                },
-                {
                     name: 'Object_Field_Map',
-                    arrayLabel: 'Field maps',
+                    label: 'Field maps',
+                    description: 'Geef per gebruikt object een field map',
+                    arrayLabel: 'Field map',
                     type: 'array',
                     fields: [
                         {
                             type: 'select',
-                            placeholder: 'Object type',
+                            placeholder: 'Selecteer een gebruikt object type',
                             name: 'key',
                             required: true,
                             options: Object.keys(models)
@@ -172,17 +157,26 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                         },
                         {
                             type: 'select',
-                            placeholder: 'Field map',
+                            placeholder: 'Kies een of meerdere waarden',
                             name: 'value',
                             required: true,
+                            isMulti: true,
+                            isCreatable: true,
                         },
                     ],
                     validation: array(
                         object({
                             key: schemaDefaults.requiredString(),
-                            value: schemaDefaults.requiredString(),
+                            value: array(schemaDefaults.requiredString(), {
+                                required_error:
+                                    'Het veld is niet (goed) ingevuld.',
+                                invalid_type_error:
+                                    'Het veld is niet (goed) ingevuld.',
+                            }),
                         })
-                    ),
+                    )
+                        .optional()
+                        .nullable(),
                 },
             ],
         },

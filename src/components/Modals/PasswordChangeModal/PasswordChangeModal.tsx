@@ -60,7 +60,7 @@ export default function PasswordChangeModal() {
                                 Ben je je huidige wachtwoord vergeten? Neem dan
                                 contact op met
                                 <a
-                                    href="mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten"
+                                    href="mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten (Platform Omgevingsbeleid)"
                                     className="ml-1 underline"
                                     data-testid="wachtwoord-reset-mail">
                                     omgevingsbeleid@pzh.nl
