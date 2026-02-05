@@ -67,7 +67,10 @@ const DynamicObjectSearch = ({
         query: string,
         callback: (options: Option[]) => void
     ) => {
-        searchEndpoint({ Object_Types: filterType }, { query, limit: 50 })
+        searchEndpoint(
+            { Object_Types: filterType, Like: true },
+            { query, limit: 50 }
+        )
             .then(data => {
                 let filteredObject = data.results
 

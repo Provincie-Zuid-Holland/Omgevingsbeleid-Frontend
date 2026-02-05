@@ -138,8 +138,6 @@ const InnerForm = <TData extends Values>({
         [values.type, data]
     )
 
-    // console.log(typeOptions)
-
     return (
         <Form>
             <div className="mb-4 flex flex-col gap-4">
@@ -172,7 +170,7 @@ const InnerForm = <TData extends Values>({
                 </div>
                 <div>
                     <FormikSelect
-                        key={isLoading.toString() || values.type}
+                        key={isLoading.toString() + values.type}
                         name="group"
                         label="Groep"
                         placeholder="Selecteer een groep"
@@ -202,6 +200,7 @@ const InnerForm = <TData extends Values>({
                         placeholder="Zoek op locaties"
                         description="Geef aan welke gebieden moeten worden geannoteerd"
                         objectKey="Werkingsgebied_Code"
+                        blurInputOnSelect
                         onChange={val => {
                             const selected = Array.isArray(val)
                                 ? val.map(item => ({
