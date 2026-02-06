@@ -193,6 +193,7 @@ const InnerForm = <TData extends Values>({
                     <DynamicObjectSearch
                         fieldName="locations"
                         filterType={['gebiedengroep', 'gebied']}
+                        filterOnModule
                         status="all"
                         label="Locaties"
                         isMulti

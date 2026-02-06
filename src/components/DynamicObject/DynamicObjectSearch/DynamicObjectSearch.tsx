@@ -10,6 +10,7 @@ import {
     ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
 } from '@/api/fetchers.schemas'
 import { ModelType } from '@/config/objects/types'
+import { useParams } from 'react-router-dom'
 
 export type Option = {
     label: JSX.Element
@@ -39,6 +40,8 @@ export interface DynamicObjectSearchProps
     filter?: number | string | number[] | string[]
     /** Filter items by Object_Type */
     filterType?: ModelType[]
+    /** Filter on Module ID */
+    filterOnModule?: boolean
     /** Status of object */
     status?: 'valid' | 'all'
     /** Initial options  */
@@ -52,10 +55,13 @@ const DynamicObjectSearch = ({
     placeholder = 'Zoek op titel van beleidskeuze, maatregel, etc.',
     filter,
     filterType,
+    filterOnModule,
     status = 'valid',
     initialOptions = [],
     ...rest
 }: DynamicObjectSearchProps) => {
+    const { moduleId } = useParams()
+
     const { setFieldValue } = useFormikContext()
 
     const [optionsState, setOptionsState] = useState<Option[]>(initialOptions)
@@ -88,6 +94,20 @@ const DynamicObjectSearch = ({
                               ? object.Model.UUID !== filter
                               : object.Model.Object_ID !== filter
                     )
+                }
+
+                if (filterOnModule && !!moduleId) {
+                    filteredObject = filteredObject.filter(object => {
+                        if (
+                            'Module_ID' in object &&
+                            (object.Module_ID === null ||
+                                object.Module_ID === parseInt(moduleId))
+                        ) {
+                            return true
+                        }
+
+                        return false
+                    })
                 }
 
                 const options = filteredObject.map(
