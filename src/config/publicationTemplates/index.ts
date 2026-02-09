@@ -157,11 +157,15 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                         },
                         {
                             type: 'select',
-                            placeholder: 'Kies een of meerdere waarden',
+                            placeholder: 'Vul een waarde in en druk op enter',
                             name: 'value',
                             required: true,
                             isMulti: true,
                             isCreatable: true,
+                            menuIsOpen: false,
+                            components: {
+                                DropdownIndicator: null,
+                            },
                         },
                     ],
                     validation: array(
