@@ -299,6 +299,7 @@ export const getInputGeoGetInputGeoListLatestWerkingsgebiedenResponseMock = (
         (_, i) => i + 1
     ).map(() => ({
         Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Description: faker.word.sample(),
         Title: faker.word.sample(),
         UUID: faker.string.uuid(),
     })),
@@ -313,6 +314,7 @@ export const getInputGeoGetInputGeoWerkingsgebiedenHistoryResponseMock =
             (_, i) => i + 1
         ).map(() => ({
             Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            Description: faker.word.sample(),
             Title: faker.word.sample(),
             UUID: faker.string.uuid(),
         }))
@@ -321,11 +323,13 @@ export const getInputGeoGetInputGeoWerkingsgebiedenDetailResponseMock = (
     overrideResponse: Partial<InputGeoWerkingsgebiedDetailed> = {}
 ): InputGeoWerkingsgebiedDetailed => ({
     Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    Description: faker.word.sample(),
     Onderverdelingen: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
         Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Description: faker.word.sample(),
         Geometry_Hash: faker.word.sample(),
         Title: faker.word.sample(),
         UUID: faker.string.uuid(),
@@ -570,13 +574,6 @@ export const getModulesViewModuleOverviewResponseMock = (
                 ]),
             },
             {
-                Gebieden: faker.helpers.arrayElement([
-                    Array.from(
-                        { length: faker.number.int({ min: 1, max: 10 }) },
-                        (_, i) => i + 1
-                    ).map(() => faker.word.sample()),
-                    undefined,
-                ]),
                 Source_Title: faker.helpers.arrayElement([
                     faker.word.sample(),
                     undefined,
@@ -895,13 +892,6 @@ export const getModulesGetListModuleObjectsResponseMock = (
                 ]),
             },
             {
-                Gebieden: faker.helpers.arrayElement([
-                    Array.from(
-                        { length: faker.number.int({ min: 1, max: 10 }) },
-                        (_, i) => i + 1
-                    ).map(() => faker.word.sample()),
-                    undefined,
-                ]),
                 Source_Title: faker.helpers.arrayElement([
                     faker.word.sample(),
                     undefined,
@@ -2161,13 +2151,6 @@ export const getSearchGetMssqlSearchResponseMock = (
                 ]),
             },
             {
-                Gebieden: faker.helpers.arrayElement([
-                    Array.from(
-                        { length: faker.number.int({ min: 1, max: 10 }) },
-                        (_, i) => i + 1
-                    ).map(() => faker.word.sample()),
-                    undefined,
-                ]),
                 Source_Title: faker.helpers.arrayElement([
                     faker.word.sample(),
                     undefined,
@@ -2318,13 +2301,6 @@ export const getSearchGetMssqlValidSearchResponseMock = (
                 ]),
             },
             {
-                Gebieden: faker.helpers.arrayElement([
-                    Array.from(
-                        { length: faker.number.int({ min: 1, max: 10 }) },
-                        (_, i) => i + 1
-                    ).map(() => faker.word.sample()),
-                    undefined,
-                ]),
                 Source_Title: faker.helpers.arrayElement([
                     faker.word.sample(),
                     undefined,
@@ -11491,13 +11467,6 @@ export const getGebiedengroepListValidLineagesResponseMock = (
             ]),
             undefined,
         ]),
-        Gebieden: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => faker.word.sample()),
-            undefined,
-        ]),
         Modified_Date: faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             undefined,
@@ -11553,13 +11522,6 @@ export const getGebiedengroepListValidLineageTreeResponseMock = (
                 `${faker.date.past().toISOString().split('.')[0]}Z`,
                 null,
             ]),
-            undefined,
-        ]),
-        Gebieden: faker.helpers.arrayElement([
-            Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1
-            ).map(() => faker.word.sample()),
             undefined,
         ]),
         Modified_Date: faker.helpers.arrayElement([
