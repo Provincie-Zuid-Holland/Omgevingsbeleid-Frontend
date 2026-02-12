@@ -199,7 +199,7 @@ const InnerForm = <TData extends Values>({
                         isMulti
                         required
                         placeholder="Zoek op locaties"
-                        description="Geef aan welke gebieden moeten worden geannoteerd"
+                        description="Hiermee selecteer je de bijbehorende geo-data, meestal is dit de legenda laag van een kaart. Denk hierbij aan gebieden, lijnen en punten en de groepen hiervan."
                         objectKey="Werkingsgebied_Code"
                         blurInputOnSelect
                         onChange={val => {
