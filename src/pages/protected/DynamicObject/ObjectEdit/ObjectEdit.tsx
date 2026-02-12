@@ -77,7 +77,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
 
         if (
             fields.includes('Ambtsgebied') &&
-            object?.Werkingsgebied_Code === null
+            object?.Gebiedengroep_Code === null
         ) {
             objectData['Ambtsgebied'] = ['true']
         }
@@ -116,7 +116,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
             Array.isArray(payload.Ambtsgebied) &&
             payload.Ambtsgebied.includes('true')
         ) {
-            payload.Werkingsgebied_Code = null
+            payload.Gebiedengroep_Code = null
         }
 
         const triggerSubmit = async () => {
@@ -245,11 +245,10 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                                 value: object.Hierarchy_Statics.Code,
                             },
                         }),
-                        ...(object?.Werkingsgebied_Statics && {
-                            Werkingsgebied_Code: {
-                                label: object.Werkingsgebied_Statics
-                                    .Cached_Title,
-                                value: object.Werkingsgebied_Statics.Code,
+                        ...(object?.Gebiedengroep_Static && {
+                            Gebiedengroep_Code: {
+                                label: object.Gebiedengroep_Static.Cached_Title,
+                                value: object.Gebiedengroep_Static.Code,
                             },
                         }),
                         ...(object?.Documents_Statics && {
