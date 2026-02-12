@@ -1,5 +1,5 @@
 import { useModulesGetModuleValidate } from '@/api/fetchers'
-import { ValidateObject } from '@/api/fetchers.schemas'
+import { ValidateModuleObject } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal, { ModalFooter } from '@/components/Modal/Modal'
 import useModalStore from '@/store/modalStore'
@@ -28,12 +28,12 @@ interface StatusItemProps {
     value: string
     title: string
     status: Status
-    objects: ValidateObject[]
+    objects: ValidateModuleObject[]
 }
 
 type RuleErrorSummary = {
     count: number
-    objects: ValidateObject[]
+    objects: ValidateModuleObject[]
 }
 
 const STATUS_CONFIG: Record<
