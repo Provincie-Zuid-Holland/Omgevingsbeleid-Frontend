@@ -138,8 +138,6 @@ const InnerForm = <TData extends Values>({
         [values.type, data]
     )
 
-    // console.log(typeOptions)
-
     return (
         <Form>
             <div className="mb-4 flex flex-col gap-4">
@@ -172,7 +170,7 @@ const InnerForm = <TData extends Values>({
                 </div>
                 <div>
                     <FormikSelect
-                        key={isLoading.toString() || values.type}
+                        key={isLoading.toString() + values.type}
                         name="group"
                         label="Groep"
                         placeholder="Selecteer een groep"
@@ -195,13 +193,15 @@ const InnerForm = <TData extends Values>({
                     <DynamicObjectSearch
                         fieldName="locations"
                         filterType={['gebiedengroep', 'gebied']}
+                        filterOnModule
                         status="all"
                         label="Locaties"
                         isMulti
                         required
                         placeholder="Zoek op locaties"
-                        description="Geef aan welke gebieden moeten worden geannoteerd"
+                        description="Hiermee selecteer je de bijbehorende geo-data, meestal is dit de legenda laag van een kaart. Denk hierbij aan gebieden, lijnen en punten en de groepen hiervan."
                         objectKey="Werkingsgebied_Code"
+                        blurInputOnSelect
                         onChange={val => {
                             const selected = Array.isArray(val)
                                 ? val.map(item => ({

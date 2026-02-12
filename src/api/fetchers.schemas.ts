@@ -1069,7 +1069,7 @@ export interface ValidationError {
     type: string
 }
 
-export interface ValidateObject {
+export interface ValidateModuleObject {
     code: string
     object_id: number
     object_type: string
@@ -1078,7 +1078,7 @@ export interface ValidateObject {
 
 export interface ValidateModuleError {
     messages: string[]
-    object: ValidateObject
+    object: ValidateModuleObject
     rule: string
 }
 
@@ -3041,12 +3041,14 @@ export const InputGeoWerkingsgebiedenSortColumn = {
 
 export interface InputGeoWerkingsgebied {
     Created_Date: string
+    Description: string
     Title: string
     UUID: string
 }
 
 export interface InputGeoOnderverdeling {
     Created_Date: string
+    Description: string
     Geometry_Hash: string
     Title: string
     UUID: string
@@ -3054,6 +3056,7 @@ export interface InputGeoOnderverdeling {
 
 export interface InputGeoWerkingsgebiedDetailed {
     Created_Date: string
+    Description: string
     Onderverdelingen: InputGeoOnderverdeling[]
     Title: string
     UUID: string
@@ -3463,7 +3466,6 @@ export interface GebiedengroepBasic {
     Code?: string
     Created_Date?: string
     End_Validity?: GebiedengroepBasicEndValidity
-    Gebieden?: string[]
     Modified_Date?: string
     Object_ID?: number
     Source_Title?: string

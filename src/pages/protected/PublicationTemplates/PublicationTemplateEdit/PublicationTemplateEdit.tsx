@@ -52,7 +52,8 @@ const PublicationTemplateEdit = () => {
 
         fields?.forEach(field => {
             if (
-                field === 'Object_Templates' &&
+                (field === 'Object_Templates' ||
+                    field === 'Object_Field_Map') &&
                 !!data?.[field as keyof typeof data] &&
                 typeof data[field] === 'object'
             ) {
@@ -78,6 +79,15 @@ const PublicationTemplateEdit = () => {
     ) => {
         if (!!payload.Object_Templates?.length) {
             payload.Object_Templates = (payload.Object_Templates as any).reduce(
+                (acc: any, curr: { key: string; value: string }) => (
+                    (acc[curr.key] = curr.value), acc
+                ),
+                {}
+            )
+        }
+
+        if (!!payload.Object_Field_Map?.length) {
+            payload.Object_Field_Map = (payload.Object_Field_Map as any).reduce(
                 (acc: any, curr: { key: string; value: string }) => (
                     (acc[curr.key] = curr.value), acc
                 ),
