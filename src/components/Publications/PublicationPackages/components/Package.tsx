@@ -82,7 +82,7 @@ const Package = ({
                         <Check className="text-pzh-white" size={11} />
                     )}
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                     <Text
                         bold
                         className="heading-s -mb-1"

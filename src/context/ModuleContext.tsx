@@ -69,6 +69,8 @@ interface ModuleContextType {
     isActive: boolean
     /** Is module locked */
     isLocked: boolean
+    /** Is module closed */
+    isClosed: boolean
     /** Can module be completed */
     canComplete: boolean
     /** Querykey */
@@ -187,6 +189,11 @@ function ModuleProvider({ children }: { children?: ReactNode }) {
         [module.data?.Module.Temporary_Locked]
     )
 
+    const isClosed = useMemo(
+        () => !!module.data?.Module.Closed,
+        [module.data?.Module.Closed]
+    )
+
     const canComplete = useMemo(
         () => module.data?.Module.Status?.Status === 'Vastgesteld',
         [module.data?.Module.Status?.Status]
@@ -200,6 +207,7 @@ function ModuleProvider({ children }: { children?: ReactNode }) {
         isModuleManager,
         isActive,
         isLocked,
+        isClosed,
         canComplete,
     }
 

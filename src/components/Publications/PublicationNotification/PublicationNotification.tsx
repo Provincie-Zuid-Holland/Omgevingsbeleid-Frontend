@@ -12,6 +12,7 @@ import {
     PublicationVersion,
 } from '@/api/fetchers.schemas'
 
+import useModule from '@/hooks/useModule'
 import { parseUtc } from '@/utils/parseUtc'
 import { PublicationType } from '../types'
 
@@ -29,6 +30,8 @@ const PublicationNotification = ({
     validPublicationPackage,
 }: PublicationNotificationProps) => {
     const queryClient = useQueryClient()
+
+    const { isClosed } = useModule()
 
     const { mutate: createAnnouncement } =
         usePublicationAnnouncementsPostCreateAnnouncement({
@@ -82,7 +85,8 @@ const PublicationNotification = ({
                                 actPackageUuid: validPublicationPackage.UUID,
                             })
                         }
-                        className="whitespace-nowrap">
+                        className="whitespace-nowrap"
+                        isDisabled={isClosed}>
                         Maak kennisgeving
                     </Button>
                 )}

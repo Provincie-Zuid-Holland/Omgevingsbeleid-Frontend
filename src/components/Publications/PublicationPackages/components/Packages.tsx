@@ -48,6 +48,7 @@ interface PackagesProps {
     validPublicationPackage?: PublicationPackage
     customLabel?: string
     isLocked?: boolean
+    isClosed?: boolean
     canPublicate?: boolean
     handleShowAll: () => void
     showAll: boolean
@@ -65,6 +66,7 @@ const Packages = ({
     packageType,
     customLabel,
     isLocked,
+    isClosed,
     canPublicate,
     handleShowAll,
     showAll,
@@ -106,6 +108,7 @@ const Packages = ({
                             announcementUUID={announcement?.UUID}
                             packageType={packageType}
                             isLocked={isLocked}
+                            isClosed={isClosed}
                         />
                     ) : (
                         <>
@@ -142,6 +145,7 @@ const Packages = ({
                                     announcementUUID={announcement?.UUID}
                                     inline
                                     packageType={packageType}
+                                    isClosed={isClosed}
                                 />
                             )}
                         </>

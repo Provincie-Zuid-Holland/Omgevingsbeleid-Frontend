@@ -13,13 +13,13 @@ const ModuleLock = () => {
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { useEditModule, isModuleManager, isLocked, canComplete } =
+    const { useEditModule, isModuleManager, isLocked, isClosed, canComplete } =
         useModule()
     const { mutate } = useEditModule('moduleUnlocked')
 
-    if (!canEditModule && !isModuleManager && isLocked) {
+    if (!canEditModule && !isModuleManager && isLocked && !isClosed) {
         return <LockedNotification />
-    } else if (!canEditModule && !isModuleManager && !isLocked) {
+    } else if (!canEditModule && !isModuleManager && (!isLocked || isClosed)) {
         return <Divider className="mb-4" />
     }
 
@@ -27,13 +27,15 @@ const ModuleLock = () => {
         <div className="bg-pzh-gray-100 mt-6 flex items-center px-4 py-2">
             {isLocked ? <Lock size={24} /> : <LockOpen size={24} />}
             <Text className="ml-3">
-                {isLocked
-                    ? canComplete
-                        ? 'Onderdelen in deze module kun niet meer worden bewerkt'
-                        : 'Onderdelen in deze module kunnen tijdelijk niet bewerkt worden'
-                    : 'Onderdelen in deze module mogen worden bewerkt door de behandelend ambtenaren'}
+                {isClosed
+                    ? 'Onderdelen in deze module kunnen niet meer worden bewerkt'
+                    : isLocked
+                      ? canComplete
+                          ? 'Onderdelen in deze module kun niet meer worden bewerkt'
+                          : 'Onderdelen in deze module kunnen tijdelijk niet bewerkt worden'
+                      : 'Onderdelen in deze module mogen worden bewerkt door de behandelend ambtenaren'}
             </Text>
-            {!canComplete && (
+            {!canComplete && !isClosed && (
                 <div className="ml-auto">
                     <ToggleSwitch
                         title={isLocked ? 'Module unlocken' : 'Module locken'}

@@ -28,6 +28,7 @@ import {
 import PublicationFolder from '@/components/Publications/PublicationFolder'
 import PublicationNotification from '@/components/Publications/PublicationNotification'
 import PublicationPackages from '@/components/Publications/PublicationPackages'
+import useModule from '@/hooks/useModule'
 import usePublicationStore from '@/store/publicationStore'
 
 const TabDecisions = () => (
@@ -103,6 +104,8 @@ export const Publications = () => {
 
 export const Packages = () => {
     const { moduleId, versionUUID } = useParams()
+
+    const { isClosed } = useModule()
 
     const { data: version, isFetching: versionFetching } =
         usePublicationVersionsGetDetailVersion(String(versionUUID), {
@@ -225,6 +228,7 @@ export const Packages = () => {
                     publication={version?.Publication}
                     publicationType="act"
                     isLocked={version.Is_Locked}
+                    isClosed={isClosed}
                 />
                 {version?.Publication.Procedure_Type === 'draft' &&
                     environment?.Can_Publicate &&
@@ -248,6 +252,7 @@ export const Packages = () => {
                             isDisabled={
                                 !!!announcement || !!validAnnouncementPackage
                             }
+                            isClosed={isClosed}
                         />
                     )}
                 {environment?.Can_Publicate && !!validAnnouncementPackage && (
