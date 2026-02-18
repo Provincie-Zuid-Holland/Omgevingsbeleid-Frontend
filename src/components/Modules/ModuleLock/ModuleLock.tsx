@@ -31,7 +31,7 @@ const ModuleLock = () => {
                     ? 'Onderdelen in deze module kunnen niet meer worden bewerkt'
                     : isLocked
                       ? canComplete
-                          ? 'Onderdelen in deze module kun niet meer worden bewerkt'
+                          ? 'Onderdelen in deze module kunnen niet meer worden bewerkt'
                           : 'Onderdelen in deze module kunnen tijdelijk niet bewerkt worden'
                       : 'Onderdelen in deze module mogen worden bewerkt door de behandelend ambtenaren'}
             </Text>
