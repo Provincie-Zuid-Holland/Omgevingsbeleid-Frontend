@@ -6,6 +6,7 @@ import { ReactNode, createContext, useEffect } from 'react'
 import { authenticationPostAuthLoginAccessToken } from '@/api/fetchers'
 import { AuthToken, UserLoginDetail } from '@/api/fetchers.schemas'
 import { decryptData, encryptData } from '@/utils/encryption'
+import { useLocation } from 'react-router-dom'
 
 export const ACCESS_TOKEN_KEY =
     import.meta.env.VITE_KEY_API_ACCESS_TOKEN ?? 'app.accessToken'
@@ -49,6 +50,7 @@ export const AuthContext = createContext<AuthContextType>(null!)
 
 function AuthProvider({ children }: { children: ReactNode }) {
     const queryClient = useQueryClient()
+    const { pathname } = useLocation()
 
     const {
         value: accessToken,
@@ -108,17 +110,23 @@ function AuthProvider({ children }: { children: ReactNode }) {
             try {
                 const { exp } = jwtDecode<JWTToken>(accessToken)
                 if (Number.isFinite(exp) && Date.now() >= exp * 1000) {
-                    queryClient.removeQueries()
+                    queryClient.clear()
                     removeIdentifier()
                     removeAccessToken()
                 }
             } catch {
-                queryClient.removeQueries()
+                queryClient.clear()
                 removeIdentifier()
                 removeAccessToken()
             }
         }
-    }, [accessToken, queryClient, removeAccessToken, removeIdentifier])
+    }, [
+        accessToken,
+        queryClient,
+        removeAccessToken,
+        removeIdentifier,
+        pathname,
+    ])
 
     const value = {
         user: identifier,

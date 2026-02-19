@@ -23,7 +23,7 @@ const queryClient = new QueryClient({
         queries: {
             refetchOnWindowFocus: false,
             refetchOnMount: false,
-            staleTime: 1000 * 60 * 60 * 24,
+            staleTime: 1000 * 60 * 60 * 1,
             retry: false,
             retryOnMount: true,
         },
@@ -54,7 +54,7 @@ const App = () => {
             <QueryClientProvider client={queryClient}>
                 <AuthProvider>
                     <div
-                        className="relative flex min-h-screen flex-col text-pzh-blue-900"
+                        className="text-pzh-blue-900 relative flex min-h-screen flex-col"
                         id="main-container">
                         <Helmet titleTemplate="%s - Omgevingsbeleid Provincie Zuid-Holland">
                             <meta charSet="utf-8" />
