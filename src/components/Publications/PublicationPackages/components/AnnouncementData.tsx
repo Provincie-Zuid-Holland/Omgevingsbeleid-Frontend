@@ -14,9 +14,14 @@ import { getIndicatorClass } from './utils'
 
 interface AnnouncementDataProps extends PublicationAnnouncementShort {
     isLocked?: boolean
+    isClosed?: boolean
 }
 
-const AnnouncementData = ({ UUID, isLocked }: AnnouncementDataProps) => {
+const AnnouncementData = ({
+    UUID,
+    isLocked,
+    isClosed,
+}: AnnouncementDataProps) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const { data: isSucceeded } =
@@ -95,7 +100,8 @@ const AnnouncementData = ({ UUID, isLocked }: AnnouncementDataProps) => {
                                     'publicationAnnouncementUpdate',
                                     { announcementUuid: UUID, isLocked }
                                 )
-                            }>
+                            }
+                            isDisabled={isClosed}>
                             Ga naar het formulier
                         </Button>
                     </div>

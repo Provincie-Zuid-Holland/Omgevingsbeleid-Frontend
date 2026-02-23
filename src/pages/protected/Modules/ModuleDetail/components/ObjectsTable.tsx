@@ -141,9 +141,10 @@ const useFilteredAndSortedData = (
 
 interface ObjectsTableProps {
     isLocked: boolean
+    isClosed: boolean
 }
 
-const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
+const ObjectsTable = ({ isLocked, isClosed }: ObjectsTableProps) => {
     const navigate = useNavigate()
     const setActiveModal = useModalStore(state => state.setActiveModal)
     const {
@@ -276,20 +277,24 @@ const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
                         variant="small"
                     />
                 </div>
-                <Button
-                    onPress={() => setActiveModal('moduleAddObject')}
-                    isDisabled={isLocked}
-                    size="small">
-                    Onderdeel toevoegen
-                </Button>
-                <Button
-                    onPress={() => setActiveModal('moduleScan')}
-                    variant="secondary"
-                    icon={ListCheck}
-                    iconSize={18}
-                    size="small"
-                    className="w-10"
-                />
+                {!isClosed && (
+                    <>
+                        <Button
+                            onPress={() => setActiveModal('moduleAddObject')}
+                            isDisabled={isLocked}
+                            size="small">
+                            Onderdeel toevoegen
+                        </Button>
+                        <Button
+                            onPress={() => setActiveModal('moduleScan')}
+                            variant="secondary"
+                            icon={ListCheck}
+                            iconSize={18}
+                            size="small"
+                            className="w-10"
+                        />
+                    </>
+                )}
             </div>
 
             <Table
