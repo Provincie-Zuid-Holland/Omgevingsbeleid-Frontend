@@ -57,6 +57,7 @@ const gebiedengroep: DynamicObject<
         prefixNewObject: 'Nieuwe',
         demonstrative: 'deze',
         icon: DrawPolygon,
+        hideFromModuleFilter: true,
     },
     staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
     fetchers,

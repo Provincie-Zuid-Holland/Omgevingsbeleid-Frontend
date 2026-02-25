@@ -58,6 +58,7 @@ const werkingsgebied: DynamicObject<
         prefixNewObject: 'Nieuw',
         demonstrative: 'dit',
         icon: DrawPolygon,
+        hideFromModuleFilter: true,
     },
     staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
     fetchers,

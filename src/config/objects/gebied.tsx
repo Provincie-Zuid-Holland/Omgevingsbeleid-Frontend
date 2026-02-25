@@ -55,6 +55,7 @@ const gebied: DynamicObject<
         demonstrative: 'deze',
         icon: DrawPolygon,
         disabled: true,
+        hideFromModuleFilter: true,
     },
     staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
     fetchers,
