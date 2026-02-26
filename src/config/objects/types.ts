@@ -94,6 +94,8 @@ export interface DynamicObject<
         hideBreadcrumbs?: boolean
         /** If is disabled in UI */
         disabled?: boolean
+        /** Hide from default module object type filter */
+        hideFromModuleFilter?: boolean
     }
     /** Array containing static data fields of object */
     staticData?: StaticData

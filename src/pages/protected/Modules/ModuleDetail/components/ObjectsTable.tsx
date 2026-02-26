@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import Indicator from '@/components/Indicator'
@@ -153,6 +153,7 @@ const ObjectsTable = ({ isLocked, isClosed }: ObjectsTableProps) => {
     } = useModule()
 
     const store = useObjectTableStore()
+    const moduleStates = useObjectTableStore(state => state.moduleStates)
     const filters = store.getFilters(Module_ID)
     const sortBy = store.getSortBy(Module_ID)
 
@@ -164,6 +165,19 @@ const ObjectsTable = ({ isLocked, isClosed }: ObjectsTableProps) => {
         () => getUniqueOptions(objects, 'ModuleObjectContext.Action'),
         [objects]
     )
+
+    const isModuleInitialized = Module_ID !== 0 && Module_ID in moduleStates
+
+    useEffect(() => {
+        if (!isModuleInitialized && Module_ID !== 0 && typeOptions.length > 0) {
+            const filteredTypes = typeOptions.filter(
+                opt =>
+                    !models[opt.value as ModelType]?.defaults
+                        ?.hideFromModuleFilter
+            )
+            store.setFilter(Module_ID, 'Object_Type', filteredTypes)
+        }
+    }, [isModuleInitialized, Module_ID, typeOptions, store])
 
     const activeTypeFilters =
         filters.Object_Type.length <= typeOptions.length
