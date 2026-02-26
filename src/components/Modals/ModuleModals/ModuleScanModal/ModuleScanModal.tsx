@@ -51,15 +51,12 @@ const ModuleScanModal = () => {
     const activeModal = useModalStore(state => state.activeModal)
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const {
-        data,
-        isFetching,
-        isSuccess,
-        refetch: validateModule,
-        queryKey,
-    } = useModulesGetModuleValidate(Number(moduleId), {
-        query: { enabled: activeModal === 'moduleScan' },
-    })
+    const { data, isFetching, queryKey } = useModulesGetModuleValidate(
+        Number(moduleId),
+        {
+            query: { enabled: activeModal === 'moduleScan' },
+        }
+    )
 
     const issuesByObject = useMemo<ObjectIssueItem[]>(() => {
         if (!data?.errors?.length) return []
