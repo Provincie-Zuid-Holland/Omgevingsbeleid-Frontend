@@ -18,7 +18,7 @@ import {
 import {
     HTTPValidationError,
     ModuleEdit,
-    ModuleOverviewResponse,
+    ModuleOverviewResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
     ResponseOK,
 } from '@/api/fetchers.schemas'
 import { ToastType } from '@/config/notifications'
@@ -27,7 +27,7 @@ import { toastNotification } from '@/utils/toastNotification'
 
 interface ModuleContextType {
     /** Data of the module */
-    data?: ModuleOverviewResponse
+    data?: ModuleOverviewResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
     /** Is module data loading */
     isLoading: boolean
     /** Can be used to edit the module */
