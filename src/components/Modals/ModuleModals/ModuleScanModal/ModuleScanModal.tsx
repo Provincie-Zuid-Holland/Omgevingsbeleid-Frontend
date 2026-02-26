@@ -141,17 +141,11 @@ const ModuleScanModal = () => {
 
             <ModalFooter>
                 <Button
-                    variant={!isSuccess ? 'link' : 'secondary'}
+                    variant={isFetching ? 'secondary' : 'primary'}
                     onPress={handleCloseModal}
-                    className={cn({ 'ml-auto': isSuccess })}>
-                    Annuleren
+                    className="ml-auto">
+                    Sluiten
                 </Button>
-
-                {!isSuccess && (
-                    <Button variant="cta" onPress={() => validateModule()}>
-                        Start scan
-                    </Button>
-                )}
             </ModalFooter>
         </Modal>
     )
