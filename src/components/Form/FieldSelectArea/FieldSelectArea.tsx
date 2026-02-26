@@ -88,75 +88,78 @@ const FieldSelectArea = ({
             />
 
             {!!values.Source_Title && !!versions?.length && (
-                <div className="mt-4">
-                    <Text bold className="mb-2" color="text-pzh-blue-500">
-                        Selecteer een versie
-                    </Text>
+                <>
+                    <div className="mt-4">
+                        <Text bold className="mb-2" color="text-pzh-blue-500">
+                            Selecteer een versie
+                        </Text>
 
-                    <div className="grid grid-cols-6 gap-12">
-                        <div className="col-span-2">
-                            <div
-                                className={cn(
-                                    'border-pzh-gray-200 flex h-[500px] flex-col gap-2 overflow-y-auto rounded border p-2',
-                                    {
-                                        'border-pzh-red-500':
-                                            !!errors?.[
-                                                name as keyof typeof errors
-                                            ] &&
-                                            !!touched?.[
-                                                name as keyof typeof touched
-                                            ],
-                                    }
-                                )}>
-                                {versionsLoading ? (
-                                    <div className="flex h-full w-full items-center justify-center">
-                                        <LoaderSpinner />
-                                    </div>
-                                ) : (
-                                    versions?.map((version, index) => (
-                                        <div
-                                            key={version.UUID}
-                                            className="border-pzh-gray-200 relative rounded border px-4 py-2">
-                                            <div className="flex items-center gap-2 [&_>span]:hidden [&_input]:top-0 [&_input]:left-0 [&_input]:h-full [&_input]:w-full [&_input]:cursor-pointer [&_input]:opacity-0">
-                                                <FormikRadio
-                                                    name="Source_UUID"
-                                                    value={version.UUID}
-                                                    defaultChecked={
-                                                        version.UUID ===
-                                                        values.Source_UUID
-                                                    }
-                                                    disabled={disabled}>
-                                                    Versie{' '}
-                                                    {versions.length - index}
-                                                </FormikRadio>
-                                            </div>
-
-                                            <span className="text-s -mt-1 ml-7 block">
-                                                {formatDate(
-                                                    parseUtc(
-                                                        version.Created_Date
-                                                    ),
-                                                    'd MMMM yyyy'
-                                                )}
-                                            </span>
+                        <div className="grid grid-cols-6 gap-12">
+                            <div className="col-span-2">
+                                <div
+                                    className={cn(
+                                        'border-pzh-gray-200 flex h-[500px] flex-col gap-2 overflow-y-auto rounded border p-2',
+                                        {
+                                            'border-pzh-red-500':
+                                                !!errors?.[
+                                                    name as keyof typeof errors
+                                                ] &&
+                                                !!touched?.[
+                                                    name as keyof typeof touched
+                                                ],
+                                        }
+                                    )}>
+                                    {versionsLoading ? (
+                                        <div className="flex h-full w-full items-center justify-center">
+                                            <LoaderSpinner />
                                         </div>
-                                    ))
-                                )}
+                                    ) : (
+                                        versions?.map((version, index) => (
+                                            <div
+                                                key={version.UUID}
+                                                className="border-pzh-gray-200 relative rounded border px-4 py-2">
+                                                <div className="flex items-center gap-2 [&_>span]:hidden [&_input]:top-0 [&_input]:left-0 [&_input]:h-full [&_input]:w-full [&_input]:cursor-pointer [&_input]:opacity-0">
+                                                    <FormikRadio
+                                                        name="Source_UUID"
+                                                        value={version.UUID}
+                                                        defaultChecked={
+                                                            version.UUID ===
+                                                            values.Source_UUID
+                                                        }
+                                                        disabled={disabled}>
+                                                        Versie{' '}
+                                                        {versions.length -
+                                                            index}
+                                                    </FormikRadio>
+                                                </div>
+
+                                                <span className="text-s -mt-1 ml-7 block">
+                                                    {formatDate(
+                                                        parseUtc(
+                                                            version.Created_Date
+                                                        ),
+                                                        'd MMMM yyyy'
+                                                    )}
+                                                </span>
+                                            </div>
+                                        ))
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                        <div className="col-span-4 flex flex-col">
-                            <div className="border-pzh-gray-200 flex flex-1 rounded border">
-                                <AreaPreview
-                                    key={values?.Source_UUID}
-                                    UUID={values.Source_UUID}
-                                />
+                            <div className="col-span-4 flex flex-col">
+                                <div className="border-pzh-gray-200 flex flex-1 rounded border">
+                                    <AreaPreview
+                                        key={values?.Source_UUID}
+                                        UUID={values.Source_UUID}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
 
-            <FormikError name={name} />
+                    <FormikError name={name} />
+                </>
+            )}
         </>
     )
 }
