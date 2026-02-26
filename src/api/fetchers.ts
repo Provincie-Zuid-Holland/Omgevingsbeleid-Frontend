@@ -134,7 +134,7 @@ import type {
     ModuleEdit,
     ModuleEditObjectContext,
     ModuleObjectContext,
-    ModuleOverviewResponse,
+    ModuleOverviewResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
     ModulePatchStatus,
     ModuleSnapshot,
     ModuleStatus,
@@ -147,7 +147,6 @@ import type {
     NationaalBelangStaticPostStatics,
     NationaalBelangUUID,
     NewObjectStaticResponse,
-    PagedListModuleObjectsResponse,
     PagedResponseAmbitieBasic,
     PagedResponseAmbitieExtended,
     PagedResponseBeleidsdoelBasic,
@@ -170,6 +169,7 @@ import type {
     PagedResponseMaatregelBasic,
     PagedResponseMaatregelExtended,
     PagedResponseModule,
+    PagedResponseModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
     PagedResponseNationaalBelangBasic,
     PagedResponseProgrammaAlgemeenBasic,
     PagedResponseProgrammaAlgemeenExtended,
@@ -184,9 +184,11 @@ import type {
     PagedResponsePublicationPackage,
     PagedResponsePublicationTemplate,
     PagedResponsePublicationVersionShort,
+    PagedResponseSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
     PagedResponseStorageFileBasic,
     PagedResponseUnifiedPackage,
     PagedResponseUser,
+    PagedResponseValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
     PagedResponseVerplichtProgrammaBasic,
     PagedResponseVisieAlgemeenBasic,
     PagedResponseVisieAlgemeenExtended,
@@ -194,8 +196,6 @@ import type {
     PagedResponseWerkingsgebiedBasic,
     PagedResponseWerkingsgebiedExtended,
     PagedResponseWettelijkeTaakBasic,
-    PagedSearchObjectResponse,
-    PagedValidSearchObjectResponse,
     PatchResponse,
     ProgrammaAlgemeenFull,
     ProgrammaAlgemeenGetListActiveModuleObjectsParams,
@@ -1331,11 +1331,9 @@ export const modulesViewModuleOverview = (
     moduleId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<ModuleOverviewResponse>({
-        url: `/modules/${moduleId}`,
-        method: 'GET',
-        signal,
-    })
+    return customInstance<ModuleOverviewResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>(
+        { url: `/modules/${moduleId}`, method: 'GET', signal }
+    )
 }
 
 export const getModulesViewModuleOverviewQueryKey = (moduleId: number) => {
@@ -2525,12 +2523,9 @@ export const modulesGetListModuleObjects = (
     params?: ModulesGetListModuleObjectsParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<PagedListModuleObjectsResponse>({
-        url: `/modules/objects/latest`,
-        method: 'GET',
-        params,
-        signal,
-    })
+    return customInstance<PagedResponseModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>(
+        { url: `/modules/objects/latest`, method: 'GET', params, signal }
+    )
 }
 
 export const getModulesGetListModuleObjectsQueryKey = (
@@ -3502,6 +3497,116 @@ export const usePublicationActPackagesGetDownloadActPackage = <
     const queryOptions =
         getPublicationActPackagesGetDownloadActPackageQueryOptions(
             actPackageUuid,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Validate Publication Act Package
+ */
+export const publicationActPackagesGetValidateActPackage = (
+    versionUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<ResponseOK>({
+        url: `/publication-act-packages/${versionUuid}/validate`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getPublicationActPackagesGetValidateActPackageQueryKey = (
+    versionUuid: string
+) => {
+    return [`/publication-act-packages/${versionUuid}/validate`] as const
+}
+
+export const getPublicationActPackagesGetValidateActPackageQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof publicationActPackagesGetValidateActPackage>
+    >,
+    TError = HTTPValidationError,
+>(
+    versionUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof publicationActPackagesGetValidateActPackage
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getPublicationActPackagesGetValidateActPackageQueryKey(versionUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof publicationActPackagesGetValidateActPackage>>
+    > = ({ signal }) =>
+        publicationActPackagesGetValidateActPackage(versionUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!versionUuid,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof publicationActPackagesGetValidateActPackage>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PublicationActPackagesGetValidateActPackageQueryResult =
+    NonNullable<
+        Awaited<ReturnType<typeof publicationActPackagesGetValidateActPackage>>
+    >
+export type PublicationActPackagesGetValidateActPackageQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Validate Publication Act Package
+ */
+export const usePublicationActPackagesGetValidateActPackage = <
+    TData = Awaited<
+        ReturnType<typeof publicationActPackagesGetValidateActPackage>
+    >,
+    TError = HTTPValidationError,
+>(
+    versionUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof publicationActPackagesGetValidateActPackage
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getPublicationActPackagesGetValidateActPackageQueryOptions(
+            versionUuid,
             options
         )
 
@@ -7849,13 +7954,15 @@ export const searchGetMssqlSearch = (
     searchRequestDataWithLike: SearchRequestDataWithLike,
     params: SearchGetMssqlSearchParams
 ) => {
-    return customInstance<PagedSearchObjectResponse>({
-        url: `/search`,
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        data: searchRequestDataWithLike,
-        params,
-    })
+    return customInstance<PagedResponseSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>(
+        {
+            url: `/search`,
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            data: searchRequestDataWithLike,
+            params,
+        }
+    )
 }
 
 export const getSearchGetMssqlSearchMutationOptions = <
@@ -7925,13 +8032,15 @@ export const searchGetMssqlValidSearch = (
     searchRequestData: SearchRequestData,
     params: SearchGetMssqlValidSearchParams
 ) => {
-    return customInstance<PagedValidSearchObjectResponse>({
-        url: `/search/valid`,
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        data: searchRequestData,
-        params,
-    })
+    return customInstance<PagedResponseValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>(
+        {
+            url: `/search/valid`,
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            data: searchRequestData,
+            params,
+        }
+    )
 }
 
 export const getSearchGetMssqlValidSearchMutationOptions = <

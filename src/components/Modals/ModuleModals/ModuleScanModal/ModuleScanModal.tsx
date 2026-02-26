@@ -1,121 +1,54 @@
 import { useModulesGetModuleValidate } from '@/api/fetchers'
-import { ValidateModuleObject } from '@/api/fetchers.schemas'
+import {
+    ValidateModuleObject,
+    ValidateModuleSeverity,
+} from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal, { ModalFooter } from '@/components/Modal/Modal'
 import useModalStore from '@/store/modalStore'
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-    Button,
-    cn,
-    Text,
-} from '@pzh-ui/components'
+import { Button, cn, Text } from '@pzh-ui/components'
 import {
     ArrowUpRightFromSquare,
     CircleCheckSolid,
-    CircleExclamation,
+    CircleInfoSolid,
     CircleXmark,
 } from '@pzh-ui/icons'
 import { useQueryClient } from '@tanstack/react-query'
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
-type Status = 'initial' | 'pending' | 'valid' | 'failed' | 'warning'
-
-interface StatusItemProps {
-    value: string
-    title: string
-    status: Status
-    objects: ValidateModuleObject[]
-}
-
-type RuleErrorSummary = {
-    count: number
-    objects: ValidateModuleObject[]
-}
-
-const STATUS_CONFIG: Record<
-    Status,
-    {
-        className: string
-        icon: JSX.Element
-        expandable: boolean
-    }
-> = {
-    initial: {
-        className: 'border-pzh-gray-300',
-        icon: (
-            <div className="border-pzh-gray-500 h-6 w-6 rounded-full border" />
-        ),
-        expandable: false,
-    },
-    pending: {
-        className: 'border-pzh-gray-300',
-        icon: (
-            <div className="border-pzh-gray-500 h-6 w-6 rounded-full border" />
-        ),
-        expandable: false,
-    },
-    valid: {
-        className: 'border-pzh-green-500 bg-pzh-green-10 text-pzh-green-500',
-        icon: (
-            <CircleCheckSolid
-                size={22}
-                className="text-pzh-green-500 min-w-6"
-            />
-        ),
-        expandable: false,
-    },
-    failed: {
-        className: 'border-pzh-red-500 bg-pzh-red-10 text-pzh-red-500',
-        icon: <CircleXmark size={22} className="text-pzh-red-500 min-w-6" />,
-        expandable: true,
-    },
-    warning: {
-        className: 'border-pzh-yellow-500 bg-pzh-yellow-10',
-        icon: (
-            <CircleExclamation
-                size={22}
-                className="text-pzh-blue-500 min-w-6"
-            />
-        ),
-        expandable: true,
-    },
+type ObjectIssueItem = {
+    object: ValidateModuleObject
+    messages: string[]
+    severity?: ValidateModuleSeverity
 }
 
 const SCAN_RULES: Array<{
     ruleKey: string
-    dynamicTitle?: (count: number) => string
     defaultTitle: string
 }> = [
     {
         ruleKey: 'required_object_fields_rule',
-        defaultTitle: 'Verplichte velden ingevuld',
-        dynamicTitle: count => `${count} verplichte velden zijn niet ingevuld`,
+        defaultTitle: 'Alle verplichte velden zijn gevuld',
     },
     {
-        ruleKey: 'required_hierarchy_code_rule',
-        defaultTitle: 'Primaire koppelingen zijn gekoppeld',
-        dynamicTitle: count => `${count} primaire koppelingen ontbreken`,
+        ruleKey: 'newest_input_geo_onderverdeling_used_rule',
+        defaultTitle: 'Alle geo-data is up-to-date',
     },
-    // {
-    //     ruleKey: 'TODO',
-    //     defaultTitle: 'Werkingsgebieden bevatten geo-data'
-    // },
     {
-        ruleKey: 'newest_source_werkingsgebied_used_rule',
-        defaultTitle: 'Geo-data is meest recent',
-        dynamicTitle: count =>
-            `${count} werkingsgebieden hebben niet de meest recente geo-data`,
+        ruleKey: 'require_existing_hierarchy_code_rule',
+        defaultTitle: 'Alle hiërarchische koppelingen zijn op orde',
+    },
+    {
+        ruleKey: 'forbid_empty_html_nodes',
+        defaultTitle: 'Er zijn geen lege html-tags gevonden',
     },
 ]
 
 const ModuleScanModal = () => {
     const queryClient = useQueryClient()
-
     const { moduleId } = useParams()
+    const activeModal = useModalStore(state => state.activeModal)
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const {
@@ -125,84 +58,86 @@ const ModuleScanModal = () => {
         refetch: validateModule,
         queryKey,
     } = useModulesGetModuleValidate(Number(moduleId), {
-        query: {
-            enabled: false,
-        },
+        query: { enabled: activeModal === 'moduleScan' },
     })
 
-    const failingRules = useMemo(
-        () => new Set(data?.errors?.map(err => err.rule) ?? []),
-        [data?.errors]
-    )
+    const issuesByObject = useMemo<ObjectIssueItem[]>(() => {
+        if (!data?.errors?.length) return []
 
-    const errorSummaryByRule = useMemo<Record<string, RuleErrorSummary>>(() => {
-        const summary: Record<string, RuleErrorSummary> = {}
+        const map = new Map<string, ObjectIssueItem>()
 
-        data?.errors?.forEach(err => {
-            const rule = err.rule
+        for (const err of data.errors) {
+            const key = err.object.code
+            const existing = map.get(key)
 
-            if (!summary[rule]) {
-                summary[rule] = {
-                    count: 0,
-                    objects: [],
-                }
+            if (existing) {
+                existing.messages.push(...err.messages)
+            } else {
+                map.set(key, {
+                    object: err.object,
+                    messages: [...err.messages],
+                    severity: err.severity,
+                })
             }
+        }
 
-            summary[rule].count += err.messages.length
-            summary[rule].objects.push(err.object)
-        })
-
-        return summary
+        return Array.from(map.values())
     }, [data?.errors])
-
-    const getStatus = useCallback(
-        (key: string): Status => {
-            if (isFetching) return 'pending'
-            if (!data) return 'initial'
-
-            if (data.status === 'OK') return 'valid'
-
-            if (data.status === 'Failed') {
-                return failingRules.has(key) ? 'failed' : 'valid'
-            }
-
-            return 'initial'
-        },
-        [isFetching, data, failingRules]
-    )
 
     const handleCloseModal = () => {
         queryClient.resetQueries({ queryKey })
         setActiveModal(null)
     }
 
+    const showSuccess = !!data && data.status === 'OK' && !isFetching
+    const showIssues = !!data && data.status === 'Failed' && !isFetching
+
     return (
         <Modal
             id="moduleScan"
             title="Volledigheidsscan"
             onClose={handleCloseModal}>
-            <Accordion type="multiple" className="flex flex-col gap-4">
-                {SCAN_RULES.map(rule => {
-                    const status = getStatus(rule.ruleKey)
-                    const count = errorSummaryByRule[rule.ruleKey]?.count ?? 0
-                    const objects = errorSummaryByRule[rule.ruleKey]?.objects
+            {!data && !isFetching && (
+                <div className="text-pzh-gray-700 flex items-center justify-between">
+                    <Text>
+                        Start de scan om te controleren op volledigheid.
+                    </Text>
+                </div>
+            )}
+            {isFetching && <LoaderSpinner />}
 
-                    const title =
-                        status === 'failed' && rule.dynamicTitle
-                            ? rule.dynamicTitle(count)
-                            : rule.defaultTitle
-
-                    return (
-                        <StatusItem
-                            key={rule.ruleKey}
-                            value={rule.ruleKey}
-                            title={title}
-                            status={status}
-                            objects={objects}
+            {showSuccess && (
+                <div className="border-pzh-green-500 bg-pzh-green-10 rounded-lg border p-4">
+                    <div className="flex items-start gap-3">
+                        <CircleCheckSolid
+                            size={16}
+                            className="text-pzh-green-500 min-w-4"
                         />
-                    )
-                })}
-            </Accordion>
+                        <div className="-mt-1.5 flex flex-col gap-2">
+                            <Text className="text-pzh-blue-500 font-bold">
+                                Geen fouten gevonden
+                            </Text>
+                            <ul className="text-pzh-blue-500 flex flex-col gap-1">
+                                {SCAN_RULES.map(r => (
+                                    <li
+                                        key={r.ruleKey}
+                                        className="text-s flex pl-2 before:relative before:top-2 before:mr-2 before:text-4xl before:leading-1 before:content-['·']">
+                                        {r.defaultTitle}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showIssues && (
+                <div className="flex flex-col gap-3">
+                    {issuesByObject.map(item => (
+                        <ObjectIssueCard key={item.object.code} item={item} />
+                    ))}
+                </div>
+            )}
 
             <ModalFooter>
                 <Button
@@ -211,6 +146,7 @@ const ModuleScanModal = () => {
                     className={cn({ 'ml-auto': isSuccess })}>
                     Annuleren
                 </Button>
+
                 {!isSuccess && (
                     <Button variant="cta" onPress={() => validateModule()}>
                         Start scan
@@ -221,51 +157,63 @@ const ModuleScanModal = () => {
     )
 }
 
-const StatusItem = ({ value, title, status, objects }: StatusItemProps) => {
+const ObjectIssueCard = ({ item }: { item: ObjectIssueItem }) => {
     const { moduleId } = useParams()
-    const { className, icon, expandable } = STATUS_CONFIG[status]
+    const { object, messages, severity } = item
+    const icon =
+        severity === 'error' ? (
+            <CircleXmark size={16} className="text-pzh-red-500 min-w-4" />
+        ) : (
+            <CircleInfoSolid
+                size={16}
+                className="text-pzh-orange-500 min-w-4"
+            />
+        )
+
+    const isLink = object.object_type !== 'gebied'
+    const title = `${object.title} (${object.object_type})`
 
     return (
-        <AccordionItem
-            value={value}
-            disabled={!expandable}
-            className={cn(
-                'w-full min-w-0 flex-1 flex-wrap items-center justify-between gap-4 rounded-lg border px-4 py-2',
-                className
-            )}>
-            <AccordionTrigger
-                className={cn('flex w-full py-0 font-normal', {
-                    'hover:no-underline': !expandable,
-                })}
-                hideIcon={!expandable}>
-                <div className="flex gap-4">
-                    <div className="text-pzh-gray-800 mt-2 flex flex-shrink-0 items-center gap-4 sm:mt-0">
-                        {icon}
-                    </div>
-                    <Text>{title}</Text>
-                </div>
-                {status === 'pending' && <LoaderSpinner />}
-            </AccordionTrigger>
-            <AccordionContent className="text-pzh-blue-500 mt-2">
-                <ul className="flex flex-col gap-2">
-                    {objects?.map(object => (
-                        <li
-                            key={object.code}
-                            className="relative flex items-center pl-6 before:absolute before:-top-1 before:left-2 before:text-3xl before:leading-none before:content-['·']">
+        <div
+            className={cn('w-full rounded-lg border px-4 py-3', {
+                'border-pzh-red-500 bg-pzh-red-10': severity === 'error',
+                'border-pzh-orange-500 bg-pzh-orange-500/10':
+                    severity !== 'error',
+            })}>
+            <div className="flex items-start justify-between gap-4">
+                <div className="flex min-w-0 items-start gap-2">
+                    <div className="flex-shrink-0">{icon}</div>
+
+                    <div className="-mt-1.5 min-w-0">
+                        {isLink ? (
                             <Link
                                 to={`/muteer/modules/${moduleId}/${object.object_type}/${object.object_id}/bewerk`}
-                                className="text-pzh-blue-500 text-s hover:text-pzh-green-500 inline-flex items-center font-bold underline decoration-1">
-                                {object.title} ({object.object_type})
-                                <ArrowUpRightFromSquare
-                                    size={16}
-                                    className="ml-1"
-                                />
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-pzh-blue-500 hover:text-pzh-green-500 inline-flex items-center gap-2 font-bold"
+                                title={`${object.title} (${object.object_type})`}>
+                                <span className="truncate">{title}</span>
+                                <ArrowUpRightFromSquare size={16} />
                             </Link>
-                        </li>
-                    ))}
-                </ul>
-            </AccordionContent>
-        </AccordionItem>
+                        ) : (
+                            <Text bold className="text-pzh-blue-500">
+                                {title}
+                            </Text>
+                        )}
+
+                        <ul className="text-pzh-blue-500 mt-1 flex flex-col gap-1">
+                            {messages.map((m, idx) => (
+                                <li
+                                    key={`${object.code}-${idx}`}
+                                    className="text-s flex pl-2 before:relative before:top-2 before:mr-2 before:text-4xl before:leading-1 before:content-['·']">
+                                    {m}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     )
 }
 

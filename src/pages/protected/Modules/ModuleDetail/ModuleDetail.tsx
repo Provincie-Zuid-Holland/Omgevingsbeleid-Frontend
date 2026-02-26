@@ -9,7 +9,10 @@ import {
     useParams,
 } from 'react-router-dom'
 
-import { Module, ModuleOverviewResponse } from '@/api/fetchers.schemas'
+import {
+    Module,
+    ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+} from '@/api/fetchers.schemas'
 import { LoaderContent } from '@/components/Loader'
 import ModuleHeader from '@/components/Modules/ModuleHeader'
 import useModule from '@/hooks/useModule'
@@ -31,7 +34,7 @@ const getActiveTab = (pathname: string): TabType => {
 }
 
 const getDisabledTabs = (
-    objects?: ModuleOverviewResponse['Objects'],
+    objects?: ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic[],
     module?: Module
 ): TabType[] => {
     if (!objects?.length || !module?.Activated) return ['besluiten']
