@@ -42,19 +42,19 @@ const TabObjects = () => {
         isLoading,
         isModuleManager,
         isLocked,
+        isClosed,
         canComplete,
     } = useModule()
 
     if (isLoading || !module) return <LoaderContent />
 
-    const canAddObject =
-        (canAddExistingObjectToModule || canAddNewObjectToModule) && !isLocked
     const showInactiveCard =
         !module.Activated && (canPatchModuleStatus || isModuleManager)
     const showVersionCard =
         module.Activated &&
         isLocked &&
         !canComplete &&
+        !isClosed &&
         (canPatchModuleStatus || isModuleManager)
     const showCompleteCard = canComplete && isLocked && canPatchModuleStatus
 
@@ -106,7 +106,7 @@ const TabObjects = () => {
                             <ModuleCompleteCard variant="row" />
                         )}
 
-                        <ObjectsTable isLocked={isLocked} />
+                        <ObjectsTable isLocked={isLocked} isClosed={isClosed} />
                     </div>
                 )}
             </div>

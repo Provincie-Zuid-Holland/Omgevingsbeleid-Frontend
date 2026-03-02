@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import Indicator from '@/components/Indicator'
@@ -141,9 +141,10 @@ const useFilteredAndSortedData = (
 
 interface ObjectsTableProps {
     isLocked: boolean
+    isClosed: boolean
 }
 
-const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
+const ObjectsTable = ({ isLocked, isClosed }: ObjectsTableProps) => {
     const navigate = useNavigate()
     const setActiveModal = useModalStore(state => state.setActiveModal)
     const {
@@ -152,6 +153,7 @@ const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
     } = useModule()
 
     const store = useObjectTableStore()
+    const moduleStates = useObjectTableStore(state => state.moduleStates)
     const filters = store.getFilters(Module_ID)
     const sortBy = store.getSortBy(Module_ID)
 
@@ -163,6 +165,19 @@ const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
         () => getUniqueOptions(objects, 'ModuleObjectContext.Action'),
         [objects]
     )
+
+    const isModuleInitialized = Module_ID !== 0 && Module_ID in moduleStates
+
+    useEffect(() => {
+        if (!isModuleInitialized && Module_ID !== 0 && typeOptions.length > 0) {
+            const filteredTypes = typeOptions.filter(
+                opt =>
+                    !models[opt.value as ModelType]?.defaults
+                        ?.hideFromModuleFilter
+            )
+            store.setFilter(Module_ID, 'Object_Type', filteredTypes)
+        }
+    }, [isModuleInitialized, Module_ID, typeOptions, store])
 
     const activeTypeFilters =
         filters.Object_Type.length <= typeOptions.length
@@ -276,20 +291,24 @@ const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
                         variant="small"
                     />
                 </div>
-                <Button
-                    onPress={() => setActiveModal('moduleAddObject')}
-                    isDisabled={isLocked}
-                    size="small">
-                    Onderdeel toevoegen
-                </Button>
-                <Button
-                    onPress={() => setActiveModal('moduleScan')}
-                    variant="secondary"
-                    icon={ListCheck}
-                    iconSize={18}
-                    size="small"
-                    className="w-10"
-                />
+                {!isClosed && (
+                    <>
+                        <Button
+                            onPress={() => setActiveModal('moduleAddObject')}
+                            isDisabled={isLocked}
+                            size="small">
+                            Onderdeel toevoegen
+                        </Button>
+                        <Button
+                            onPress={() => setActiveModal('moduleScan')}
+                            variant="secondary"
+                            icon={ListCheck}
+                            iconSize={18}
+                            size="small"
+                            className="w-10"
+                        />
+                    </>
+                )}
             </div>
 
             <Table

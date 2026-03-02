@@ -37,6 +37,7 @@ interface PublicationPackagesProps {
     validPublicationPackage?: PublicationPackage
     announcement?: PublicationAnnouncementShort
     isLocked?: boolean
+    isClosed?: boolean
     isDisabled?: boolean
 }
 
@@ -46,6 +47,7 @@ const PublicationPackages = ({
     version,
     announcement,
     isDisabled,
+    isClosed,
     ...rest
 }: PublicationPackagesProps) => {
     const Packages = config[publicationType].component
@@ -73,6 +75,7 @@ const PublicationPackages = ({
                 {publicationType === 'announcement' && !!announcement && (
                     <AnnouncementData
                         isLocked={isDisabled}
+                        isClosed={isClosed}
                         {...announcement}
                         {...rest}
                     />
@@ -89,6 +92,7 @@ const PublicationPackages = ({
                         }
                         canPublicate={environment.Can_Publicate}
                         isLocked={isDisabled}
+                        isClosed={isClosed}
                         {...rest}
                     />
                 )}
@@ -99,6 +103,7 @@ const PublicationPackages = ({
                         packageType="publication"
                         canPublicate={environment.Can_Publicate}
                         isLocked={isDisabled}
+                        isClosed={isClosed}
                         {...rest}
                     />
                 )}

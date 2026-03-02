@@ -28,6 +28,7 @@ import {
 } from '@/api/fetchers.schemas'
 import Dropdown, { DropdownItem } from '@/components/Dropdown'
 import { LoaderCard, LoaderSpinner } from '@/components/Loader'
+import useModule from '@/hooks/useModule'
 import { useModuleStatusData } from '@/hooks/useModuleStatusData'
 import useModalStore from '@/store/modalStore'
 import { downloadFile } from '@/utils/file'
@@ -64,6 +65,7 @@ const Document = ({
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const { lastStatus } = useModuleStatusData(moduleId)
+    const { isClosed } = useModule()
 
     const [isDownloadOpen, setIsDownloadOpen] = useState(false)
 
@@ -277,7 +279,7 @@ const Document = ({
                             icon={PenToSquare}
                             iconSize={16}
                             aria-label="Wijzig publicatie versie"
-                            isDisabled={version.Is_Locked}
+                            isDisabled={version.Is_Locked || isClosed}
                             onPress={() =>
                                 setActiveModal('publicationVersionEdit', {
                                     publication,
@@ -291,7 +293,7 @@ const Document = ({
                             icon={Gear}
                             iconSize={16}
                             aria-label="Wijzig publicatie"
-                            isDisabled={version.Is_Locked}
+                            isDisabled={version.Is_Locked || isClosed}
                             onPress={() =>
                                 setActiveModal('publicationEdit', {
                                     publication,
@@ -300,7 +302,7 @@ const Document = ({
                         />
                     </div>
                 </>
-            ) : (
+            ) : !isClosed ? (
                 <div className="ml-auto flex items-center gap-2 px-6">
                     <Button
                         variant="secondary"
@@ -315,7 +317,7 @@ const Document = ({
                         Voeg instrument toe
                     </Button>
                 </div>
-            )}
+            ) : null}
         </div>
     )
 }
