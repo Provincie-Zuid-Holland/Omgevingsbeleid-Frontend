@@ -18,6 +18,7 @@ export const availableRoleTypes = [
     'Behandelend Ambtenaar',
     'Functioneel beheerder',
     'Portefeuillehouder',
+    'Basic',
 ] as Role[]
 export type Role =
     | 'Ambtelijk opdrachtgever'
