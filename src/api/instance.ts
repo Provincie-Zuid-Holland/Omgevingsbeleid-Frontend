@@ -62,7 +62,6 @@ const handleAxiosError = (error: AxiosError) => {
         [441, 'error441'],
         [442, 'error442'],
         [443, 'error443'],
-        [444, 'error444'],
     ])
 
     if (status && errorMessages.has(status)) {

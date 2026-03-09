@@ -18,6 +18,7 @@ import {
 import { HTTPValidationError } from '@/api/fetchers.schemas'
 import { downloadFile } from '@/utils/file'
 
+import useModalStore from '@/store/modalStore'
 import { PublicationType } from '../../types'
 
 interface ActionsProps {
@@ -38,6 +39,7 @@ export const useActions = ({
     reportUUID,
 }: ActionsProps) => {
     const queryClient = useQueryClient()
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const createPackage = (
         publicationType === 'act'
@@ -87,6 +89,14 @@ export const useActions = ({
                 })
             },
             onError: (error: AxiosError<HTTPValidationError>) => {
+                if (
+                    Array.isArray(error.response?.data.detail) &&
+                    error.status === 444
+                ) {
+                    setActiveModal('publicationScan', {
+                        errors: error.response?.data.detail as any[],
+                    })
+                }
                 console.error(
                     'Er is iets mis gegaan bij het maken van de levering, zie foutmelding:\n\n',
                     JSON.stringify(error.response?.data.detail, null, 2)
