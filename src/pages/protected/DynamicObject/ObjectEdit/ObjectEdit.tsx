@@ -207,6 +207,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
             !isOwner &&
             !canEditModule &&
             !isModuleManager) ||
+        // @ts-ignore
         error?.status === 400
     ) {
         return (
