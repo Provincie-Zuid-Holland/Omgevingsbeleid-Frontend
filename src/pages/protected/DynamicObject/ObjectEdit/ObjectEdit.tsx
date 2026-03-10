@@ -1,5 +1,6 @@
 import { File, Heading } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 import { FormikHelpers } from 'formik'
 import { useMemo } from 'react'
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
@@ -17,19 +18,112 @@ import useObject from '@/hooks/useObject'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 import handleError, { handleFileError } from '@/utils/handleError'
-import { AxiosError } from 'axios'
 
 interface ObjectEditProps {
     model: Model
 }
 
+type FormData = Record<string, any>
+
+const EXTRA_FIELDS = [
+    'File',
+    'File_Ignore',
+    'Werkingsgebied_Version',
+    'Source_Title',
+]
+
+const isVisuallyEmptyRichText = (value: unknown): boolean => {
+    if (typeof value !== 'string') return false
+
+    const text = value
+        .replace(/<[^>]*>/g, '') // remove HTML tags
+        .replace(/&nbsp;/g, ' ')
+        .replace(/\u00A0/g, ' ')
+        .replace(/\u200B/g, '')
+        .trim()
+
+    return text.length === 0
+}
+
+const normalizePayload = (payload: FormData, initialData: FormData) => {
+    const cleanedPayload = Object.fromEntries(
+        Object.entries(payload).filter(([key]) => key in initialData)
+    ) as FormData
+
+    Object.keys(cleanedPayload).forEach(key => {
+        const value = cleanedPayload[key]
+
+        if (typeof value === 'string' && isVisuallyEmptyRichText(value)) {
+            cleanedPayload[key] = null
+        }
+    })
+
+    if (Array.isArray(cleanedPayload.Documents)) {
+        cleanedPayload.Documents = cleanedPayload.Documents.map(
+            (item: any) => item?.value ?? item
+        )
+    }
+
+    if (
+        Array.isArray(cleanedPayload.Ambtsgebied) &&
+        cleanedPayload.Ambtsgebied.includes('true')
+    ) {
+        cleanedPayload.Gebiedengroep_Code = null
+    }
+
+    return cleanedPayload
+}
+
+const getInitialData = (model: Model, object?: Record<string, any>) => {
+    const fields = [
+        ...model.dynamicSections.flatMap(section =>
+            section.fields.map(field => field.name)
+        ),
+        ...EXTRA_FIELDS,
+    ]
+
+    const objectData = fields.reduce<FormData>((acc, field) => {
+        acc[field] = object?.[field]
+        return acc
+    }, {})
+
+    if (fields.includes('Ambtsgebied') && object?.Gebiedengroep_Code === null) {
+        objectData.Ambtsgebied = ['true']
+    }
+
+    if (fields.includes('File_UUID')) {
+        objectData.File = null
+    }
+
+    return objectData
+}
+
+const getDefaultValues = (object?: Record<string, any>) => ({
+    ...(object?.Hierarchy_Statics && {
+        Hierarchy_Code: {
+            label: object.Hierarchy_Statics.Cached_Title,
+            value: object.Hierarchy_Statics.Code,
+        },
+    }),
+    ...(object?.Gebiedengroep_Static && {
+        Gebiedengroep_Code: {
+            label: object.Gebiedengroep_Static.Cached_Title,
+            value: object.Gebiedengroep_Static.Code,
+        },
+    }),
+    ...(object?.Documents_Statics && {
+        Documents: object.Documents_Statics.map((doc: any) => ({
+            label: doc.Cached_Title,
+            value: doc.Code,
+        })),
+    }),
+})
+
 const ObjectEdit = ({ model }: ObjectEditProps) => {
     const queryClient = useQueryClient()
-
     const navigate = useNavigate()
-
-    const { moduleId, objectId } = useParams()
     const location = useLocation()
+    const { moduleId, objectId } = useParams()
     const { canEditModule } = usePermissions()
 
     const { singularCapitalize } = model.defaults
@@ -41,6 +135,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
         isModuleManager,
         queryKey,
     } = useModule()
+
     const {
         data: object,
         isLoading,
@@ -55,139 +150,75 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
 
     const patchObject = usePatchObject()
 
-    /**
-     * Format initialData based on object fields
-     */
-    const initialData = useMemo(() => {
-        const fields = [
-            ...model.dynamicSections.flatMap(section =>
-                section.fields.map(field => field.name)
-            ),
-            'File',
-            'File_Ignore',
-            'Werkingsgebied_Version',
-            'Source_Title',
-        ]
+    const initialData = useMemo(
+        () => getInitialData(model, object),
+        [model, object]
+    )
 
-        const objectData = {} as { [key in (typeof fields)[number]]: any }
+    const defaultValues = useMemo(() => getDefaultValues(object), [object])
 
-        fields.forEach(field => {
-            objectData[field] = object?.[field as keyof typeof object]
-        })
-
-        if (
-            fields.includes('Ambtsgebied') &&
-            object?.Gebiedengroep_Code === null
-        ) {
-            objectData['Ambtsgebied'] = ['true']
-        }
-
-        if (fields.includes('File_UUID')) {
-            objectData.File = null
-        }
-
-        return objectData
-    }, [object, model.dynamicSections])
-
-    /**
-     * Handle submit of form
-     */
-    const handleSubmit = (
-        payload: typeof initialData,
-        helpers: FormikHelpers<typeof initialData>
+    const handleSubmit = async (
+        payload: FormData,
+        helpers: FormikHelpers<FormData>
     ) => {
-        if (!payload) return Promise.resolve()
+        if (!payload || !moduleId || !objectId || !patchObject) return
 
-        Object.keys(payload).forEach(key => {
-            if (!(key in initialData)) {
-                delete (payload as any)[key]
-            }
-        })
+        const cleanedPayload = normalizePayload(payload, initialData)
 
-        // Transform multi-selects to array of values
-        if (Array.isArray(payload.Documents)) {
-            payload.Documents = payload.Documents.map(
-                (item: any) => item.value ?? item
-            )
-        }
-
-        if (
-            'Ambtsgebied' in payload &&
-            Array.isArray(payload.Ambtsgebied) &&
-            payload.Ambtsgebied.includes('true')
-        ) {
-            payload.Gebiedengroep_Code = null
-        }
-
-        const triggerSubmit = async () => {
-            // Await file upload before patching object
-            if ('File' in payload && !!payload.File) {
+        try {
+            if ('File' in cleanedPayload && cleanedPayload.File) {
                 const res = await uploadStorageFile({
                     data: {
-                        title: payload.Filename,
-                        uploaded_file: payload.File as File,
-                        ignore_report:
-                            ('File_Ignore' in payload &&
-                                !!payload.File_Ignore) ||
-                            false,
+                        title: cleanedPayload.Filename,
+                        uploaded_file: cleanedPayload.File as File,
+                        ignore_report: Boolean(cleanedPayload.File_Ignore),
                     },
-                }).catch((err: AxiosError<HTTPValidationError>) => {
-                    err.response &&
-                        handleFileError<typeof initialData>(
-                            err.response,
-                            helpers
-                        )
-
-                    return Promise.reject()
                 })
 
-                if (res) {
-                    payload.File_UUID = res.UUID
-                    delete payload.File
-                }
+                cleanedPayload.File_UUID = res.UUID
+                delete cleanedPayload.File
             }
 
-            if ('Source_UUID' in payload) {
-                if (payload.Source_UUID !== object?.Source_UUID) {
-                    await patchInputGeo({
-                        moduleId: parseInt(moduleId!),
-                        lineageId: parseInt(objectId!),
-                        inputGeoWerkingsgebiedUuid: payload.Source_UUID,
-                    }).catch((err: AxiosError<HTTPValidationError>) => {
-                        err.response &&
-                            handleFileError<typeof initialData>(
-                                err.response,
-                                helpers
-                            )
-
-                        return Promise.reject()
-                    })
-                }
+            if (
+                'Source_UUID' in cleanedPayload &&
+                cleanedPayload.Source_UUID !== object?.Source_UUID
+            ) {
+                await patchInputGeo({
+                    moduleId: parseInt(moduleId, 10),
+                    lineageId: parseInt(objectId, 10),
+                    inputGeoWerkingsgebiedUuid: cleanedPayload.Source_UUID,
+                })
             }
 
-            return patchObject
-                ?.mutateAsync({
-                    moduleId: parseInt(moduleId!),
-                    lineageId: parseInt(objectId!),
-                    data: payload,
-                })
-                .then(() => {
-                    return Promise.all([
-                        queryClient.invalidateQueries({
-                            queryKey: objectQueryKey,
-                        }),
-                        queryClient.invalidateQueries({ queryKey }),
-                    ])
-                })
-                .then(() => navigate(`/muteer/modules/${moduleId}`))
-                .catch(
-                    (err: AxiosError<HTTPValidationError>) =>
-                        err.response &&
-                        handleError<typeof initialData>(err.response, helpers)
-                )
+            await patchObject.mutateAsync({
+                moduleId: parseInt(moduleId, 10),
+                lineageId: parseInt(objectId, 10),
+                data: cleanedPayload,
+            })
+
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: objectQueryKey }),
+                queryClient.invalidateQueries({ queryKey }),
+            ])
+
+            navigate(`/muteer/modules/${moduleId}`)
+        } catch (err) {
+            const error = err as AxiosError<HTTPValidationError>
+
+            if (!error.response) return
+
+            const hasFileError =
+                'File' in cleanedPayload ||
+                'File_UUID' in cleanedPayload ||
+                'Source_UUID' in cleanedPayload
+
+            if (hasFileError) {
+                handleFileError<FormData>(error.response, helpers)
+                return
+            }
+
+            handleError<FormData>(error.response, helpers)
         }
-
-        return triggerSubmit()
     }
 
     const breadcrumbPaths = [
@@ -238,26 +269,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                     onCancel={() => navigate(`/muteer/modules/${moduleId}`)}
                     isLocked={isLocked}
                     isLoading={isLoading || moduleIsLoading}
-                    defaultValues={{
-                        ...(object?.Hierarchy_Statics && {
-                            Hierarchy_Code: {
-                                label: object.Hierarchy_Statics.Cached_Title,
-                                value: object.Hierarchy_Statics.Code,
-                            },
-                        }),
-                        ...(object?.Gebiedengroep_Static && {
-                            Gebiedengroep_Code: {
-                                label: object.Gebiedengroep_Static.Cached_Title,
-                                value: object.Gebiedengroep_Static.Code,
-                            },
-                        }),
-                        ...(object?.Documents_Statics && {
-                            Documents: object.Documents_Statics.map(obj => ({
-                                label: obj.Cached_Title,
-                                value: obj.Code,
-                            })),
-                        }),
-                    }}
+                    defaultValues={defaultValues}
                 />
             </div>
         </MutateLayout>

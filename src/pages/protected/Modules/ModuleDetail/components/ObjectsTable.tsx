@@ -114,12 +114,13 @@ const useFilteredAndSortedData = (
                             />
                         </span>
                     ),
-                    ...(!model.defaults.disabled && {
-                        onClick: () =>
-                            navigate(
-                                `/muteer/modules/${rest.Module_ID}/${Object_Type}/${Model.Object_ID}/bewerk`
-                            ),
-                    }),
+                    ...(!model.defaults.disabled &&
+                        ModuleObjectContext?.Action !== 'Terminate' && {
+                            onClick: () =>
+                                navigate(
+                                    `/muteer/modules/${rest.Module_ID}/${Object_Type}/${Model.Object_ID}/bewerk`
+                                ),
+                        }),
                 },
             }
         })
