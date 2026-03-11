@@ -156,12 +156,12 @@ const PackageDetailInner = ({
                     <Heading level="2" size="m">
                         Rapporten
                     </Heading>
-                    <Button
+                    {/* <Button
                         variant="link"
                         iconSize={20}
                         className="text-pzh-green-500 hover:text-pzh-blue-500">
                         Upload rapporten
-                    </Button>
+                    </Button> */}
                 </div>
                 <div className="border-pzh-gray-200 flex flex-col gap-2 rounded-sm border p-4">
                     <Heading level="3" size="s" className="mb-2 text-center">
