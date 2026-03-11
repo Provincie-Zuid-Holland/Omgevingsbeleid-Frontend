@@ -8,6 +8,7 @@ import {
     Publication,
     PublicationEnvironment,
     PublicationVersionShort,
+    ValidateModuleError,
 } from '@/api/fetchers.schemas'
 import { Error } from '@/utils/handleError'
 
@@ -44,6 +45,7 @@ export type ModalType =
     | 'userPasswordReset'
     | 'publicationAdd'
     | 'publicationEdit'
+    | 'publicationScan'
     | 'publicationVersionAdd'
     | 'publicationVersionEdit'
     | 'publicationPackages'
@@ -77,6 +79,7 @@ export interface ModalStateMap {
         environmentUUID: string
     }
     publicationEdit: { publication: Publication }
+    publicationScan: { errors?: ValidateModuleError[] }
     publicationVersionAdd: { publication: Publication }
     publicationVersionEdit: {
         publication: Publication

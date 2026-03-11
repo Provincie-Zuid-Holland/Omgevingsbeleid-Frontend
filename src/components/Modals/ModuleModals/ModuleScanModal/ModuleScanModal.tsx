@@ -5,17 +5,13 @@ import {
 } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal, { ModalFooter } from '@/components/Modal/Modal'
+import ScanRule from '@/components/ScanRule'
 import useModalStore from '@/store/modalStore'
-import { Button, cn, Text } from '@pzh-ui/components'
-import {
-    ArrowUpRightFromSquare,
-    CircleCheckSolid,
-    CircleInfoSolid,
-    CircleXmark,
-} from '@pzh-ui/icons'
+import { Button, Text } from '@pzh-ui/components'
+import { CircleCheckSolid } from '@pzh-ui/icons'
 import { useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 type ObjectIssueItem = {
     object: ValidateModuleObject
@@ -151,60 +147,20 @@ const ModuleScanModal = () => {
 const ObjectIssueCard = ({ item }: { item: ObjectIssueItem }) => {
     const { moduleId } = useParams()
     const { object, messages, severity } = item
-    const icon =
-        severity === 'error' ? (
-            <CircleXmark size={16} className="text-pzh-red-500 min-w-4" />
-        ) : (
-            <CircleInfoSolid
-                size={16}
-                className="text-pzh-orange-500 min-w-4"
-            />
-        )
 
-    const isLink = object.object_type !== 'gebied'
+    const link =
+        object.object_type !== 'gebied'
+            ? `/muteer/modules/${moduleId}/${object.object_type}/${object.object_id}/bewerk`
+            : undefined
     const title = `${object.title} (${object.object_type})`
 
     return (
-        <div
-            className={cn('w-full rounded-lg border px-4 py-3', {
-                'border-pzh-red-500 bg-pzh-red-10': severity === 'error',
-                'border-pzh-orange-500 bg-pzh-orange-500/10':
-                    severity !== 'error',
-            })}>
-            <div className="flex items-start justify-between gap-4">
-                <div className="flex min-w-0 items-start gap-2">
-                    <div className="flex-shrink-0">{icon}</div>
-
-                    <div className="-mt-1.5 min-w-0">
-                        {isLink ? (
-                            <Link
-                                to={`/muteer/modules/${moduleId}/${object.object_type}/${object.object_id}/bewerk`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-pzh-blue-500 hover:text-pzh-green-500 inline-flex items-center gap-2 font-bold"
-                                title={`${object.title} (${object.object_type})`}>
-                                <span className="truncate">{title}</span>
-                                <ArrowUpRightFromSquare size={16} />
-                            </Link>
-                        ) : (
-                            <Text bold className="text-pzh-blue-500">
-                                {title}
-                            </Text>
-                        )}
-
-                        <ul className="text-pzh-blue-500 mt-1 flex flex-col gap-1">
-                            {messages.map((m, idx) => (
-                                <li
-                                    key={`${object.code}-${idx}`}
-                                    className="text-s flex pl-2 before:relative before:top-2 before:mr-2 before:text-4xl before:leading-1 before:content-['·']">
-                                    {m}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <ScanRule
+            severity={severity}
+            title={title}
+            link={link}
+            messages={messages}
+        />
     )
 }
 

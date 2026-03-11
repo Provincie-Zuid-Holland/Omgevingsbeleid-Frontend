@@ -25,6 +25,7 @@ import {
     PublicationPackageReportUploadModal,
     PublicationVersionEditModal,
 } from '@/components/Modals/PublicationModals'
+import PublicationScanModal from '@/components/Modals/PublicationModals/PublicationScanModal'
 import PublicationFolder from '@/components/Publications/PublicationFolder'
 import PublicationNotification from '@/components/Publications/PublicationNotification'
 import PublicationPackages from '@/components/Publications/PublicationPackages'
@@ -39,6 +40,7 @@ const TabDecisions = () => (
 
         <PublicationAddModal />
         <PublicationEditModal />
+        <PublicationScanModal />
         <PublicationVersionEditModal />
         <PublicationAnnouncementUpdateModal />
         <PublicationPackageReportUploadModal />

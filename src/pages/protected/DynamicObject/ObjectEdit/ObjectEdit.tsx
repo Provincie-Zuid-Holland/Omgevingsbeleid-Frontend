@@ -47,6 +47,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
         isOwner,
         usePatchObject,
         queryKey: objectQueryKey,
+        error,
     } = useObject()
 
     const { mutateAsync: uploadStorageFile } = useStorageFilePostFilesUpload()
@@ -201,11 +202,13 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
     ]
 
     if (
-        !isLoading &&
-        !moduleIsLoading &&
-        !isOwner &&
-        !canEditModule &&
-        !isModuleManager
+        (!isLoading &&
+            !moduleIsLoading &&
+            !isOwner &&
+            !canEditModule &&
+            !isModuleManager) ||
+        // @ts-ignore
+        error?.status === 400
     ) {
         return (
             <Navigate
