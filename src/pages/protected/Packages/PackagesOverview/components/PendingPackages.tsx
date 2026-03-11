@@ -3,7 +3,6 @@ import { PublicationEnvironment } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import PackageTile from '@/components/Publications/PublicationPackages/components/PackageTile'
 import { Button, Heading, Text } from '@pzh-ui/components'
-import { ArrowUpToLine } from '@pzh-ui/icons'
 import { useNavigate } from 'react-router-dom'
 import type { Filter } from './Filter'
 
@@ -30,14 +29,14 @@ const PendingPackages = ({ Title, UUID, setFilter }: PendingPackagesProps) => {
                 <Heading level="2" size="xl">
                     In afwachting ({Title})
                 </Heading>
-                <Button
+                {/* <Button
                     variant="cta"
                     icon={ArrowUpToLine}
                     iconSize={20}
                     isDisabled={!!!data?.results.length || isFetching}
                     isLoading={isFetching}>
                     Upload rapporten
-                </Button>
+                </Button> */}
             </div>
 
             {isFetching ? (
