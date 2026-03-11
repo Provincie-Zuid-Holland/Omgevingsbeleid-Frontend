@@ -1,36 +1,42 @@
+import { isVisuallyEmpty } from '@/utils/removeEmptyInlineTags'
 import {
     ZodTypeAny,
     any,
     array,
-    custom,
     instanceof as instanceOf,
     number,
     string,
 } from 'zod'
 
+const EMPTY_ERROR = 'Het veld is niet (goed) ingevuld.'
+const EMPTY_PARAGRAPH_ERROR =
+    'Lege paragrafen zijn niet toegestaan. Vul ze in of verwijder ze.'
+export const EMPTY_TAGS_ERROR =
+    'Er staan nog lege tags in het tekstveld, haal de lege tags weg voordat je verder kan gaan.'
+
 export const schemaDefaults = {
-    requiredString: (msg = 'Het veld is niet (goed) ingevuld.') =>
+    requiredString: (msg = EMPTY_ERROR) =>
         string({
             required_error: msg,
             invalid_type_error: msg,
         })
             .trim()
-            .min(1, 'Het veld is niet (goed) ingevuld.'),
+            .min(1, EMPTY_ERROR),
     optionalString: string().optional().nullable(),
-    requiredNumber: (msg = 'Het veld is niet (goed) ingevuld.') =>
+    requiredNumber: (msg = EMPTY_ERROR) =>
         number({
             required_error: msg,
             invalid_type_error: msg,
         }),
     optionalNumber: number().optional().nullable(),
-    email: (msg = 'Het veld is niet (goed) ingevuld.') =>
+    email: (msg = EMPTY_ERROR) =>
         string({
             required_error: msg,
             invalid_type_error: msg,
         })
             .email('Onjuist e-mailadres')
             .max(255, 'Vul een e-mailadres in van maximaal 255 karakters'),
-    url: (msg = 'Het veld is niet (goed) ingevuld.') =>
+    url: (msg = EMPTY_ERROR) =>
         string({
             required_error: msg,
             invalid_type_error: msg,
@@ -49,15 +55,9 @@ export const schemaDefaults = {
         ),
     optionalDate: string().datetime().optional().nullable(),
     file: instanceOf(File),
-    rte: () =>
-        customRteValidation().and(
-            string({
-                required_error: 'Het veld is niet (goed) ingevuld.',
-                invalid_type_error: 'Het veld is niet (goed) ingevuld.',
-            })
-        ),
+    rte: () => customRteValidation(),
     optionalRte: () => customRteValidation().optional().nullable(),
-    requiredArray: (msg = 'Het veld is niet (goed) ingevuld.') =>
+    requiredArray: (msg = EMPTY_ERROR) =>
         array(
             string({
                 required_error: msg,
@@ -68,18 +68,42 @@ export const schemaDefaults = {
 }
 
 const customRteValidation = () =>
-    custom<string>(html => {
-        const doc = new DOMParser().parseFromString(html as string, 'text/html')
+    string({
+        required_error: EMPTY_ERROR,
+        invalid_type_error: EMPTY_ERROR,
+    }).superRefine((html, ctx) => {
+        if (isVisuallyEmpty(html)) {
+            ctx.addIssue({
+                code: 'custom',
+                message: EMPTY_ERROR,
+            })
+            return
+        }
+
+        const doc = new DOMParser().parseFromString(html, 'text/html')
 
         const containsEmptyParagraphs = Array.from(doc.querySelectorAll('p'))
-            // exclude <p> elements that are inside tables
-            .filter(p => !p.closest('table'))
-            .some(
-                p => p.innerHTML.trim() === '<br>' || p.innerHTML.trim() === ''
-            )
+            .filter(p => !p.closest('table, li'))
+            .some(p => isVisuallyEmpty(p.innerHTML))
 
-        return !containsEmptyParagraphs
-    }, 'Lege paragrafen zijn niet toegestaan. Vul ze in of verwijder ze.')
+        if (containsEmptyParagraphs) {
+            ctx.addIssue({
+                code: 'custom',
+                message: EMPTY_PARAGRAPH_ERROR,
+            })
+        }
+
+        const emptyInlineTags = Array.from(
+            doc.querySelectorAll('em, strong, b, i, u, li p')
+        ).some(el => isVisuallyEmpty(el.innerHTML))
+
+        if (emptyInlineTags) {
+            ctx.addIssue({
+                code: 'custom',
+                message: EMPTY_TAGS_ERROR,
+            })
+        }
+    })
 
 export type Validation = {
     [K in keyof typeof schemaDefaults]?: (typeof schemaDefaults)[K]

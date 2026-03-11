@@ -1,4 +1,5 @@
 import {
+    Button,
     FormikCheckboxGroup,
     FormikFileUpload,
     FormikInput,
@@ -17,9 +18,11 @@ import FieldFile from '@/components/Form/FieldFile'
 import FieldSelectArea from '@/components/Form/FieldSelectArea'
 import { Model } from '@/config/objects/types'
 import { DynamicField as DynamicFieldProps } from '@/config/types'
+import { useRteEditorStore } from '@/store/editorStore'
 import useModalStore from '@/store/modalStore'
 import { fileToBase64 } from '@/utils/file'
 
+import { EMPTY_TAGS_ERROR } from '@/validation/zodSchema'
 import DynamicObjectSearch, { Option } from '../../DynamicObjectSearch'
 import { Area } from './extensions/area'
 
@@ -53,13 +56,14 @@ const DynamicField = ({
 }: Props) => {
     const { setFieldValue, values } = useFormikContext<FormikValues>()
     const setActiveModal = useModalStore(state => state.setActiveModal)
+    const registerEditor = useRteEditorStore(state => state.registerEditor)
+    const clearEmptyTags = useRteEditorStore(state => state.clearEmptyTags)
 
     const InputField = inputFieldMap[type]
     if (!InputField) {
         throw new Error(`Oh no! No field found for type: ${type}..`)
     }
 
-    // IMAGE
     if (type === 'image') {
         const imageField = field as Extract<
             DynamicFieldProps,
@@ -84,19 +88,58 @@ const DynamicField = ({
         }
     }
 
-    // WYSIWYG
+    let wysiwygProps = {}
+
     if (type === 'wysiwyg') {
         const wysiwygField = field as Extract<
             DynamicFieldProps,
             { type: 'wysiwyg' }
         >
 
-        if (!wysiwygField.menuClassName) {
-            wysiwygField.menuClassName = 'sticky top-24'
+        wysiwygProps = {
+            menuClassName: wysiwygField.menuClassName || 'sticky top-24',
+            onCreate: ({ editor }: { editor: any }) => {
+                registerEditor(wysiwygField.name, editor, value =>
+                    setFieldValue(wysiwygField.name, value)
+                )
+            },
+            renderErrorAction: (message: string) =>
+                message === EMPTY_TAGS_ERROR ? (
+                    <>
+                        {' '}
+                        <Button
+                            variant="link"
+                            type="button"
+                            className="h-auto"
+                            onClick={() => clearEmptyTags(wysiwygField.name)}>
+                            Verwijder
+                        </Button>
+                    </>
+                ) : null,
+        }
+
+        if ('hasAreaSelect' in field && field.hasAreaSelect) {
+            wysiwygProps = {
+                ...wysiwygProps,
+                customExtensions: [Area],
+                customMenuButtons: (editor: any) => [
+                    <RteMenuButton
+                        key="gebiedsaanwijzing"
+                        isActive={editor.isActive('area')}
+                        onClick={() =>
+                            setActiveModal('objectAreaAnnotate', { editor })
+                        }
+                        aria-label="Gebiedsaanwijzing"
+                        title="Gebiedsaanwijzing">
+                        <DrawPolygon />
+                    </RteMenuButton>,
+                ],
+                className:
+                    '[&_[data-hint-type="gebiedsaanwijzing"]]:text-pzh-blue-900 [&_[data-hint-type="gebiedsaanwijzing"]]:bg-pzh-yellow-10 [&_[data-hint-type="gebiedsaanwijzing"]]:no-underline [&_[data-hint-type="gebiedsaanwijzing"]]:border [&_[data-hint-type="gebiedsaanwijzing"]]:border-pzh-gray-300 [&_[data-hint-type="gebiedsaanwijzing"]]:rounded-sm [&_[data-hint-type="gebiedsaanwijzing"]]:px-0.5',
+            }
         }
     }
 
-    // SEARCH
     if (type === 'search') {
         const searchField = field as Extract<
             DynamicFieldProps,
@@ -126,26 +169,8 @@ const DynamicField = ({
                     blurInputOnSelect: true,
                     isClearable: !field.required,
                 })}
-                {...(type === 'wysiwyg' &&
-                    'hasAreaSelect' in field &&
-                    field.hasAreaSelect && {
-                        customExtensions: [Area],
-                        customMenuButtons: editor => [
-                            <RteMenuButton
-                                isActive={editor.isActive('area')}
-                                onClick={() =>
-                                    setActiveModal('objectAreaAnnotate', {
-                                        editor,
-                                    })
-                                }
-                                aria-label="Gebiedsaanwijzing"
-                                title="Gebiedsaanwijzing">
-                                <DrawPolygon />
-                            </RteMenuButton>,
-                        ],
-                        className: `[&_[data-hint-type="gebiedsaanwijzing"]]:text-pzh-blue-900 [&_[data-hint-type="gebiedsaanwijzing"]]:bg-pzh-yellow-10 [&_[data-hint-type="gebiedsaanwijzing"]]:no-underline [&_[data-hint-type="gebiedsaanwijzing"]]:border [&_[data-hint-type="gebiedsaanwijzing"]]:border-pzh-gray-300 [&_[data-hint-type="gebiedsaanwijzing"]]:rounded-sm [&_[data-hint-type="gebiedsaanwijzing"]]:px-0.5`,
-                    })}
                 {...field}
+                {...wysiwygProps}
             />
         </div>
     )
