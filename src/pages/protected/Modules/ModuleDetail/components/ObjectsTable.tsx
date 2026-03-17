@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import Indicator from '@/components/Indicator'
@@ -168,22 +168,49 @@ const ObjectsTable = ({ isLocked, isClosed }: ObjectsTableProps) => {
     )
 
     const isModuleInitialized = Module_ID !== 0 && Module_ID in moduleStates
+    const knownTypesRef = useRef<Set<string>>(new Set())
 
     useEffect(() => {
-        if (!isModuleInitialized && Module_ID !== 0 && typeOptions.length > 0) {
-            const filteredTypes = typeOptions.filter(
-                opt =>
-                    !models[opt.value as ModelType]?.defaults
-                        ?.hideFromModuleFilter
-            )
+        if (Module_ID === 0 || typeOptions.length === 0) return
+
+        const isVisible = (opt: { value?: string }) =>
+            !models[opt.value as ModelType]?.defaults?.hideFromModuleFilter
+
+        if (!isModuleInitialized) {
+            knownTypesRef.current = new Set()
+            const filteredTypes = typeOptions.filter(isVisible)
             store.setFilter(Module_ID, 'Object_Type', filteredTypes)
+            filteredTypes.forEach(opt => {
+                if (opt.value) knownTypesRef.current.add(opt.value)
+            })
+        } else {
+            const known = knownTypesRef.current
+
+            if (known.size === 0) {
+                typeOptions.forEach(opt => {
+                    if (opt.value) known.add(opt.value)
+                })
+            } else {
+                const newTypes = typeOptions.filter(
+                    opt => opt.value && !known.has(opt.value) && isVisible(opt)
+                )
+                typeOptions.forEach(opt => {
+                    if (opt.value) known.add(opt.value)
+                })
+                if (newTypes.length > 0) {
+                    const currentFilters = store.getFilters(Module_ID)
+                    store.setFilter(Module_ID, 'Object_Type', [
+                        ...currentFilters.Object_Type,
+                        ...newTypes,
+                    ])
+                }
+            }
         }
     }, [isModuleInitialized, Module_ID, typeOptions, store])
 
-    const activeTypeFilters =
-        filters.Object_Type.length <= typeOptions.length
-            ? filters.Object_Type.length
-            : 0
+    const activeTypeFilters = filters.Object_Type.filter(f =>
+        typeOptions.some(opt => opt.value === f.value)
+    ).length
     const activeActionFilters = filters.Action.filter(f =>
         actionOptions.some(opt => opt.value === f.value)
     ).length
