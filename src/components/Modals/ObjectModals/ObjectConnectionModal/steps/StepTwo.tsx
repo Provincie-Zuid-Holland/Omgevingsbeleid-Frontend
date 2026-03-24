@@ -6,6 +6,7 @@ import { useMemo } from 'react'
 import { ReadRelation } from '@/api/fetchers.schemas'
 
 import { Option } from '@/components/DynamicObject/DynamicObjectSearch'
+import { ModelReturnTypeBasicUnion } from '@/config/objects/types'
 import { StepProps } from './types'
 
 export const StepTwo = ({
@@ -34,7 +35,9 @@ export const StepTwo = ({
     const { useGetValid } = fetchers || {}
 
     const { data: items, isLoading } =
-        useGetValid?.(
+        useGetValid?.<{
+            results: ModelReturnTypeBasicUnion[]
+        }>(
             {
                 limit: 500,
                 sort_column: 'Title',
@@ -42,7 +45,9 @@ export const StepTwo = ({
             },
             {
                 query: {
-                    select: data => {
+                    select: (data: {
+                        results: ModelReturnTypeBasicUnion[]
+                    }) => {
                         if (atemporal || !selected?.length) return data
 
                         return {

@@ -11,10 +11,6 @@ import {
     useGebiedengroepViewObjectVersion,
     useGetRevisionsGebiedengroepVersion,
 } from '@/api/fetchers'
-import {
-    GebiedengroepPatch,
-    GebiedengroepStaticPostStatics,
-} from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
@@ -40,11 +36,7 @@ const fetchers = {
     useGetActiveModules: useGebiedengroepGetListActiveModuleObjects,
 }
 
-const gebiedengroep: DynamicObject<
-    typeof fetchers,
-    keyof GebiedengroepPatch | 'Source_UUID',
-    (keyof GebiedengroepStaticPostStatics)[]
-> = {
+const gebiedengroep: DynamicObject<typeof fetchers> = {
     defaults: {
         singular: 'gebiedengroep',
         singularReadable: 'gebiedengroep',

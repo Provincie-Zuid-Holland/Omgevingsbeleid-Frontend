@@ -15,10 +15,6 @@ import {
     useBeleidsdoelViewObjectVersion,
     useGetRevisionsBeleidsdoelVersion,
 } from '@/api/fetchers'
-import {
-    BeleidsdoelPatch,
-    BeleidsdoelStaticPostStatics,
-} from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
@@ -44,11 +40,7 @@ const fetchers = {
     useGetActiveModules: useBeleidsdoelGetListActiveModuleObjects,
 }
 
-const beleidsdoel: DynamicObject<
-    typeof fetchers,
-    keyof BeleidsdoelPatch,
-    (keyof BeleidsdoelStaticPostStatics)[]
-> = {
+const beleidsdoel: DynamicObject<typeof fetchers> = {
     defaults: {
         singular: 'beleidsdoel',
         singularReadable: 'beleidsdoel',
@@ -125,7 +117,7 @@ const beleidsdoel: DynamicObject<
                     label: 'Ambitie',
                     type: 'search',
                     required: true,
-                    objectKey: 'Hierarchy_Code',
+                    objectKey: 'Object_Code',
                     filterType: ['ambitie'],
                     status: 'all',
                     placeholder: 'Kies de ambitie',

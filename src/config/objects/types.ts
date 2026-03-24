@@ -25,9 +25,10 @@ import {
     MaatregelFull,
     MaatregelPatch,
     MaatregelStaticPostStatics,
-    ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
-    ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel,
+    ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+    ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel,
     NationaalBelangFull,
+    ObjectStaticShort,
     ProgrammaAlgemeenFull,
     ProgrammaAlgemeenPatch,
     ProgrammaAlgemeenStaticPostStatics,
@@ -40,86 +41,87 @@ import {
     WettelijkeTaakFull,
 } from '@/api/fetchers.schemas'
 
+import { UseMutationResult, UseQueryResult } from '@tanstack/react-query'
+import * as models from '.'
 import { DynamicSection } from '../types'
 
-import * as models from '.'
+export interface ModelQueryKeys {
+    [key: string]: (...args: any[]) => readonly unknown[]
+}
 
-export interface DynamicObject<
-    Fetchers = {
-        [key: string]: any
-    },
-    FieldType = any,
-    StaticData = any,
-    QueryKeys = {
-        [key: string]: any
-    },
-> {
-    /** Default information of object */
+export interface DynamicObjectBase<Q extends ModelQueryKeys = ModelQueryKeys> {
     defaults: {
-        /** Singular of object type */
         singular: ModelType
-        /** Readable singular of object type */
         singularReadable: string
-        /** Singular of object type (capitalized) */
         singularCapitalize: string
-        /** Plural of object type */
         plural: string
-        /** Readable plural of object type */
         pluralReadable: string
-        /** Plural of object type (capitalized) */
         pluralCapitalize: string
-        /** Prefix value of singular */
         prefixSingular: string
-        /** Prefix value of plural */
         prefixPlural: string
-        /** Prefix when creating new object */
         prefixNewObject: string
-        /** Description of object */
         description?: string
-        /** Slug overview */
         slugOverview?: string
-        /** If slug overview page is publicly accessible */
         slugOverviewPublic?: boolean
-        /** Demonstrative pronoun of object type */
         demonstrative?: string
-        /** If singular is different in combination with demonstrative */
         demonstrativeSingular?: string
-        /** Atemporal object */
         atemporal?: boolean
-        /** Icon of object */
         icon: any
-        /** Parent of object */
         parentType?: ParentType
-        /** Hide breadcrumbs */
         hideBreadcrumbs?: boolean
-        /** If is disabled in UI */
         disabled?: boolean
-        /** Hide from default module object type filter */
         hideFromModuleFilter?: boolean
     }
-    /** Array containing static data fields of object */
-    staticData?: StaticData
-    /** Fetchers for fetching object data */
-    fetchers: Fetchers
-    /** Query keys for requests */
-    queryKeys?: QueryKeys
-    /** Validation schema of form */
+    staticData?: (keyof ObjectStaticShort)[]
+    queryKeys?: Q
     validationSchema?: Schema
-    /** Dynamic section containing form fields */
-    dynamicSections: DynamicSection<FieldType>[]
-    /** Allowed connection types which object can get a connection with */
+    dynamicSections: DynamicSection[]
     allowedConnections?: {
-        /** Type of connection */
         type: ModelType
-        /** Key of connection, this corresponds with the API field */
-        key: keyof ModelReturnType
+        key: string
     }[]
-    /** Description which is shown in the connections section on a detail page */
     connectionsDescription?: string | JSX.Element
-    /** Acknowledged relation type */
     acknowledgedRelation?: ModelType
-    /** Has related objects */
     hasRelatedObjects?: boolean
+}
+
+export type QueryHook<TArgs extends unknown[] = any[]> = <TData = any>(
+    ...args: TArgs
+) => UseQueryResult<TData> & {
+    queryKey: readonly unknown[]
+}
+
+export type MutationHook<
+    TData = any,
+    TVariables = any,
+    TArgs extends any[] = any[],
+> = (...args: TArgs) => UseMutationResult<TData, any, TVariables>
+
+export interface ModelFetchers {
+    useGetValid?: QueryHook | null
+    useGetValidLineage?: QueryHook | null
+    useGetVersion?: QueryHook | null
+    useGetLatestLineage?: QueryHook | null
+    useGetRevision?: QueryHook | null
+    useGetRelations?: QueryHook | null
+    usePutRelations?: MutationHook | null
+    useGetLatestLineageInModule?: QueryHook | null
+    usePatchObjectInModule?: MutationHook | null
+    usePatchObject?: MutationHook | null
+    useDeleteObject?: MutationHook | null
+    usePostStatic?: MutationHook | null
+    useGetAcknowledgedRelations?: QueryHook | null
+    usePostAcknowledgedRelations?: MutationHook | null
+    usePatchAcknowledgedRelations?: MutationHook | null
+    usePostObject?: MutationHook | null
+    useGetActiveModules?: QueryHook | null
+}
+
+export type DynamicObject<
+    F extends ModelFetchers = ModelFetchers,
+    Q extends ModelQueryKeys = ModelQueryKeys,
+> = DynamicObjectBase<Q> & {
+    fetchers: F
 }
 
 export type ModelType = keyof typeof models
@@ -139,10 +141,10 @@ export type ModelReturnType = BeleidsdoelFull &
     DocumentFull
 
 export type ModelReturnTypeBasic =
-    ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
+    ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
 
 export type ModelReturnTypeBasicUnion =
-    ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel
+    ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel
 
 export type ModelPatchType = BeleidsdoelPatch &
     AmbitiePatch &
@@ -168,7 +170,7 @@ export type ModelPatchStaticType = BeleidsdoelStaticPostStatics &
     ProgrammaAlgemeenStaticPostStatics &
     DocumentStaticPostStatics
 
-export type Model = (typeof models)[ModelType]
+export type Model = DynamicObject
 
 export const parentTypes = [
     'Visie',

@@ -72,7 +72,7 @@ function ObjectProvider({
         usePostStatic,
     } = model.fetchers
 
-    const latestInModule = useGetLatestLineageInModule?.<ModelReturnType>(
+    const latestInModule = useGetLatestLineageInModule?.(
         parseInt(moduleId!),
         parseInt(objectId!),
         {
@@ -81,7 +81,7 @@ function ObjectProvider({
             },
         }
     )
-    const latest = useGetLatestLineage!<ModelReturnType>(parseInt(objectId!), {
+    const latest = useGetLatestLineage!(parseInt(objectId!), {
         query: {
             enabled: !!objectId && !moduleId,
         },

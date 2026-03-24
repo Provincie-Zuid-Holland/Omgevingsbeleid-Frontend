@@ -11,7 +11,6 @@ import {
     useGebiedViewObjectVersion,
     useGetRevisionsGebiedVersion,
 } from '@/api/fetchers'
-import { GebiedPatch, GebiedStaticPostStatics } from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
@@ -37,11 +36,7 @@ const fetchers = {
     useGetActiveModules: useGebiedGetListActiveModuleObjects,
 }
 
-const gebied: DynamicObject<
-    typeof fetchers,
-    keyof GebiedPatch,
-    (keyof GebiedStaticPostStatics)[]
-> = {
+const gebied: DynamicObject<typeof fetchers> = {
     defaults: {
         singular: 'gebied',
         singularReadable: 'gebied',

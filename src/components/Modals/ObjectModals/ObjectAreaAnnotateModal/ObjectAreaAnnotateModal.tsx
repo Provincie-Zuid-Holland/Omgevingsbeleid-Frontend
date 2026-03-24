@@ -200,7 +200,7 @@ const InnerForm = <TData extends Values>({
                         required
                         placeholder="Zoek op locaties"
                         description="Hiermee selecteer je de bijbehorende geo-data, meestal is dit de legenda laag van een kaart. Denk hierbij aan gebieden, lijnen en punten en de groepen hiervan."
-                        objectKey="Werkingsgebied_Code"
+                        objectKey="Object_Code"
                         blurInputOnSelect
                         onChange={val => {
                             const selected = Array.isArray(val)

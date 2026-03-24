@@ -15,10 +15,6 @@ import {
     useGebiedsprogrammaViewObjectVersion,
     useGetRevisionsGebiedsprogrammaVersion,
 } from '@/api/fetchers'
-import {
-    GebiedsprogrammaPatch,
-    GebiedsprogrammaStaticPostStatics,
-} from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
@@ -44,11 +40,7 @@ const fetchers = {
     useGetActiveModules: useGebiedsprogrammaGetListActiveModuleObjects,
 }
 
-const gebiedsprogramma: DynamicObject<
-    typeof fetchers,
-    keyof GebiedsprogrammaPatch,
-    (keyof GebiedsprogrammaStaticPostStatics)[]
-> = {
+const gebiedsprogramma: DynamicObject<typeof fetchers> = {
     defaults: {
         singular: 'gebiedsprogramma',
         singularReadable: 'gebiedsprogramma',

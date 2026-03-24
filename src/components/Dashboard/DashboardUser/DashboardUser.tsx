@@ -12,15 +12,18 @@ import { Link } from 'react-router-dom'
 
 import {
     useModulesGetListModules,
+    useObjectsDoListAllLatest,
     useObjectsViewObjectCounts,
-    useSearchDoListAllLatest,
 } from '@/api/fetchers'
-import { GenericObjectShort, Module } from '@/api/fetchers.schemas'
+import {
+    Module,
+    ObjectListAllLatestResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+} from '@/api/fetchers.schemas'
 import ObjectCard from '@/components/DynamicObject/ObjectCard'
 import { LoaderCard } from '@/components/Loader'
 import ModuleTile from '@/components/Modules/ModuleTile'
 import * as models from '@/config/objects'
-import { ModelReturnType, ModelType } from '@/config/objects/types'
+import { ModelType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 
 const PAGE_LIMIT = 9
@@ -97,10 +100,10 @@ const UserObject = () => {
 
     const { data: availableObjectTypes } = useObjectsViewObjectCounts()
 
-    const { data: objects, isFetching } = useSearchDoListAllLatest(
+    const { data: objects, isFetching } = useObjectsDoListAllLatest(
         {
             owner_uuid: user?.UUID,
-            object_type: activeTab,
+            object_types: activeTab ? [activeTab] : [],
             limit: PAGE_LIMIT,
             offset: (currPage - 1) * PAGE_LIMIT,
         },
@@ -164,7 +167,9 @@ const UserObject = () => {
 
 interface ItemListProps {
     isLoading: boolean
-    items?: Module[] | ModelReturnType[] | GenericObjectShort[]
+    items?:
+        | Module[]
+        | ObjectListAllLatestResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic[]
     type: 'module' | 'object'
 }
 
@@ -186,12 +191,11 @@ const ItemList = ({ isLoading, items, type }: ItemListProps) => (
                             type === 'module' ? (
                                 <ModuleTile key={item.Module_ID} {...item} />
                             ) : (
-                                'Object_ID' in item &&
+                                'Model' in item &&
                                 type === 'object' && (
                                     <ObjectCard
-                                        key={item.UUID}
-                                        Object_Type={item.Object_Type}
-                                        {...(item as ModelReturnType)}
+                                        key={item.Model.UUID}
+                                        {...item}
                                     />
                                 )
                             )

@@ -20,6 +20,7 @@ import { DynamicField as DynamicFieldProps } from '@/config/types'
 import useModalStore from '@/store/modalStore'
 import { fileToBase64 } from '@/utils/file'
 
+import FieldAreaAnnotate from '@/components/Form/FieldAreaAnnotate'
 import DynamicObjectSearch, { Option } from '../../DynamicObjectSearch'
 import { Area } from './extensions/area'
 
@@ -36,6 +37,7 @@ const inputFieldMap = {
     array: FieldArray,
     checkbox: FormikCheckboxGroup,
     file: FieldFile,
+    areaAnnotate: FieldAreaAnnotate,
 }
 
 type Props = DynamicFieldProps & {

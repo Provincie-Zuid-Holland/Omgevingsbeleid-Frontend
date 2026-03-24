@@ -14,15 +14,14 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { HTTPValidationError } from '@/api/fetchers.schemas'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import { LoaderSpinner } from '@/components/Loader'
-import * as models from '@/config/objects'
-import { ModelType } from '@/config/objects/types'
+import { Model } from '@/config/objects/types'
 import MutateLayout from '@/templates/MutateLayout'
 import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
 import { AxiosError } from 'axios'
 
 interface ObjectWriteProps {
-    model: (typeof models)[ModelType]
+    model: Model
 }
 
 const ObjectWrite = ({ model }: ObjectWriteProps) => {
@@ -47,12 +46,10 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
         usePutRelations,
     } = model.fetchers
 
-    const { data, isLoading, queryKey } = useGetLatestLineage?.(
-        parseInt(objectId!),
-        {
+    const { data, isLoading, queryKey } =
+        useGetLatestLineage?.(parseInt(objectId!), {
             query: { enabled: !!objectId },
-        }
-    )
+        }) || {}
 
     const {
         data: relations,
@@ -62,9 +59,10 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
         query: { enabled: !!objectId },
     }) || {}
 
-    const { queryKey: validQueryKey } = useGetValid(undefined, {
-        query: { enabled: false },
-    })
+    const { queryKey: validQueryKey } =
+        useGetValid?.(undefined, {
+            query: { enabled: false },
+        }) || {}
 
     const writeObject = usePatchObject?.()
     const putRelations = usePutRelations?.()
