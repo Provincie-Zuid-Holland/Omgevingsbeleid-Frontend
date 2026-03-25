@@ -3,41 +3,31 @@ import { Schema } from 'zod'
 import {
     AmbitieFull,
     AmbitiePatch,
-    AmbitieStaticPostStatics,
     BeleidsdoelFull,
     BeleidsdoelPatch,
-    BeleidsdoelStaticPostStatics,
     BeleidskeuzeFull,
     BeleidskeuzePatch,
-    BeleidskeuzeStaticPostStatics,
     BeleidsregelPatch,
-    BeleidsregelStaticPostStatics,
     DocumentFull,
     DocumentPatch,
-    DocumentStaticPostStatics,
     GebiedengroepFull,
     GebiedengroepPatch,
     GebiedFull,
     GebiedPatch,
     GebiedsprogrammaFull,
     GebiedsprogrammaPatch,
-    GebiedsprogrammaStaticPostStatics,
     MaatregelFull,
     MaatregelPatch,
-    MaatregelStaticPostStatics,
     ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
     ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel,
     NationaalBelangFull,
     ObjectStaticShort,
     ProgrammaAlgemeenFull,
     ProgrammaAlgemeenPatch,
-    ProgrammaAlgemeenStaticPostStatics,
     VisieAlgemeenFull,
     VisieAlgemeenPatch,
-    VisieAlgemeenStaticPostStatics,
     WerkingsgebiedFull,
     WerkingsgebiedPatch,
-    WerkingsgebiedStaticPostStatics,
     WettelijkeTaakFull,
 } from '@/api/fetchers.schemas'
 
@@ -158,17 +148,6 @@ export type ModelPatchType = BeleidsdoelPatch &
     WerkingsgebiedPatch &
     ProgrammaAlgemeenPatch &
     DocumentPatch
-
-export type ModelPatchStaticType = BeleidsdoelStaticPostStatics &
-    AmbitieStaticPostStatics &
-    BeleidskeuzeStaticPostStatics &
-    MaatregelStaticPostStatics &
-    GebiedsprogrammaStaticPostStatics &
-    BeleidsregelStaticPostStatics &
-    VisieAlgemeenStaticPostStatics &
-    WerkingsgebiedStaticPostStatics &
-    ProgrammaAlgemeenStaticPostStatics &
-    DocumentStaticPostStatics
 
 export type Model = DynamicObject
 

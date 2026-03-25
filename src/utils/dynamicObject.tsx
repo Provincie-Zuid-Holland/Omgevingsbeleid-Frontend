@@ -3,12 +3,15 @@ import { Pencil, Plus, Xmark } from '@pzh-ui/icons'
 import { Link } from 'react-router-dom'
 
 import * as models from '@/config/objects'
-import { ModelPatchStaticType, ModelType } from '@/config/objects/types'
+import { ModelType } from '@/config/objects/types'
 import { Role } from '@/context/AuthContext'
 
-import { PublicModuleObjectRevision } from '../api/fetchers.schemas'
+import {
+    ObjectStaticShort,
+    PublicModuleObjectRevision,
+} from '../api/fetchers.schemas'
 
-export const getStaticDataLabel = (key: keyof ModelPatchStaticType) => {
+export const getStaticDataLabel = (key: keyof ObjectStaticShort) => {
     switch (key) {
         case 'Client_1_UUID':
             return 'Ambtelijk opdrachtgever'
@@ -22,12 +25,12 @@ export const getStaticDataLabel = (key: keyof ModelPatchStaticType) => {
             return 'Tweede portefeuillehouder'
         default:
             throw new Error(
-                `Oh no! The type '${key}' could not be found within ModelPatchStaticType...`
+                `Oh no! The type '${key}' could not be found within ObjectStaticShort...`
             )
     }
 }
 
-export const getStaticDataPropertyKey = (key: keyof ModelPatchStaticType) => {
+export const getStaticDataPropertyKey = (key: keyof ObjectStaticShort) => {
     switch (key) {
         case 'Client_1_UUID':
             return 'Client_1'
@@ -41,14 +44,12 @@ export const getStaticDataPropertyKey = (key: keyof ModelPatchStaticType) => {
             return 'Portfolio_Holder_2'
         default:
             throw new Error(
-                `Oh no! The type '${key}' could not be found within ModelPatchStaticType...`
+                `Oh no! The type '${key}' could not be found within ObjectStaticShort...`
             )
     }
 }
 
-export const getStaticDataPropertyRequired = (
-    key: keyof ModelPatchStaticType
-) => {
+export const getStaticDataPropertyRequired = (key: keyof ObjectStaticShort) => {
     switch (key) {
         case 'Owner_2_UUID':
         case 'Portfolio_Holder_2_UUID':
@@ -59,14 +60,12 @@ export const getStaticDataPropertyRequired = (
             return true
         default:
             throw new Error(
-                `Oh no! The type '${key}' could not be found within ModelPatchStaticType...`
+                `Oh no! The type '${key}' could not be found within ObjectStaticShort...`
             )
     }
 }
 
-export const getStaticDataFilterProperty = (
-    key: keyof ModelPatchStaticType
-) => {
+export const getStaticDataFilterProperty = (key: keyof ObjectStaticShort) => {
     switch (key) {
         case 'Owner_1_UUID':
             return 'Owner_2'
@@ -82,7 +81,7 @@ export const getStaticDataFilterProperty = (
 }
 
 export const getStaticDataFilterRoles = (
-    key: keyof ModelPatchStaticType
+    key: keyof ObjectStaticShort
 ): Role[] | undefined => {
     switch (key) {
         case 'Owner_1_UUID':
