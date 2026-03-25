@@ -5,10 +5,11 @@ import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { useUserGetListUsers } from '@/api/fetchers'
+import { ObjectStaticShort } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
 import { ModalFooter } from '@/components/Modal/Modal'
-import { Model, ModelPatchStaticType } from '@/config/objects/types'
+import { Model } from '@/config/objects/types'
 import { Role } from '@/context/AuthContext'
 import useObject from '@/hooks/useObject'
 import useModalStore from '@/store/modalStore'
@@ -64,23 +65,20 @@ const ObjectPersonModal = ({ model }: ObjectPersonModalProps) => {
     /**
      * Update person
      */
-    const handleFormSubmit = (payload: ModelPatchStaticType) => {
+    const handleFormSubmit = (payload: ObjectStaticShort) => {
         mutate({ lineageId: parseInt(objectId!), data: payload })
     }
 
     if (!!!staticData?.length) return null
 
-    const initialValues = staticData.reduce(
-        (acc: ModelPatchStaticType, item) => {
-            const key = getStaticDataPropertyKey(item)
-            const user = data?.[key]
+    const initialValues = staticData.reduce((acc: ObjectStaticShort, item) => {
+        const key = getStaticDataPropertyKey(item)
+        const user = data?.[key]
 
-            acc[item] = user?.UUID
+        acc[item] = user?.UUID
 
-            return acc
-        },
-        {}
-    )
+        return acc
+    }, {})
 
     return (
         <Modal id="objectGeneralInformation" title="Algemene informatie">

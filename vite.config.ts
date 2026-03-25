@@ -1,11 +1,10 @@
-/// <reference types="vitest" />
+/// <reference types="vitest/config" />
 
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { defineConfig } from 'vite'
 import svgrPlugin from 'vite-plugin-svgr'
-import viteTsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
     server: {
@@ -16,40 +15,50 @@ export default defineConfig({
         target: 'esnext',
         outDir: 'build',
         sourcemap: true,
-        rollupOptions: {
+        rolldownOptions: {
             output: {
-                manualChunks: {
-                    vendor: ['react', 'react-dom'],
-                    d3: ['d3'],
-                    tiptap: [
-                        '@tiptap/core',
-                        '@tiptap/extension-bold',
-                        '@tiptap/extension-bullet-list',
-                        '@tiptap/extension-document',
-                        '@tiptap/extension-history',
-                        '@tiptap/extension-image',
-                        '@tiptap/extension-italic',
-                        '@tiptap/extension-link',
-                        '@tiptap/extension-list-item',
-                        '@tiptap/extension-ordered-list',
-                        '@tiptap/extension-paragraph',
-                        '@tiptap/extension-placeholder',
-                        '@tiptap/extension-text',
-                        '@tiptap/extension-underline',
-                        'prosemirror-tables',
-                        'prosemirror-gapcursor',
+                codeSplitting: {
+                    // optional: avoid generating tiny named chunks
+                    minSize: 0,
+
+                    groups: [
+                        {
+                            name: 'vendor',
+                            test: /node_modules\/(react|react-dom)\//,
+                        },
+                        {
+                            name: 'd3',
+                            test: /node_modules\/d3\//,
+                        },
+                        {
+                            name: 'tiptap',
+                            test: /node_modules\/(@tiptap\/|prosemirror-tables|prosemirror-gapcursor)/,
+                        },
+                        {
+                            name: 'leaflet',
+                            test: /node_modules\/(leaflet|leaflet-draw|proj4leaflet|react-leaflet)\//,
+                        },
+                        {
+                            name: 'zod',
+                            test: /node_modules\/(zod|zod-formik-adapter)\//,
+                        },
+                        {
+                            name: 'dompurify',
+                            test: /node_modules\/dompurify\//,
+                        },
+                        {
+                            name: 'formik',
+                            test: /node_modules\/formik\//,
+                        },
+                        {
+                            name: 'components',
+                            test: /node_modules\/@pzh-ui\/components\//,
+                        },
+                        {
+                            name: 'icons',
+                            test: /node_modules\/@pzh-ui\/icons\//,
+                        },
                     ],
-                    leaflet: [
-                        'leaflet',
-                        'leaflet-draw',
-                        'proj4leaflet',
-                        'react-leaflet',
-                    ],
-                    zod: ['zod', 'zod-formik-adapter'],
-                    dompurify: ['dompurify'],
-                    formik: ['formik'],
-                    components: ['@pzh-ui/components'],
-                    icons: ['@pzh-ui/icons'],
                 },
             },
         },
@@ -57,10 +66,12 @@ export default defineConfig({
     define: {
         'process.env': {},
     },
+    resolve: {
+        tsconfigPaths: true,
+    },
     plugins: [
         react(),
         tailwindcss(),
-        viteTsconfigPaths(),
         svgrPlugin(),
         visualizer({
             template: 'treemap',

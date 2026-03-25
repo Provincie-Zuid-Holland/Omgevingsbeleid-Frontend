@@ -9,7 +9,7 @@ import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import ObjectList from '@/components/ObjectList'
 import * as models from '@/config/objects'
-import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
+import { Model, ModelType } from '@/config/objects/types'
 
 import NotFoundPage from '../NotFoundPage'
 
@@ -33,7 +33,7 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
         data = {},
         isLoading,
         isError,
-    } = useGetValidLineage?.<ModelReturnType>(
+    } = useGetValidLineage?.(
         parseInt(id!),
         {},
         {

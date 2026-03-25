@@ -48,4 +48,9 @@ src/css/tailwind.css
 !.yarn/plugins
 !.yarn/releases
 !.yarn/sdks
-!.yarn/versions
+!.yarn/versions\
+
+# debug
+trace.json
+types.json
+--incremental

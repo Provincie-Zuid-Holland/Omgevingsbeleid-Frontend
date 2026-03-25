@@ -44,6 +44,7 @@ const ObjectConnectionsPublic = ({
 
     const { data: validData } =
         useGetLatestLineage?.(Number(data.Hierarchy_Statics?.Object_ID), {
+            // @ts-ignore
             query: {
                 enabled:
                     (!moduleId && !!data.Hierarchy_Statics?.Object_ID) ||

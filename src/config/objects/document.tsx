@@ -11,10 +11,6 @@ import {
     useDocumentViewObjectVersion,
     useGetRevisionsDocumentVersion,
 } from '@/api/fetchers'
-import {
-    DocumentPatch,
-    DocumentStaticPostStatics,
-} from '@/api/fetchers.schemas'
 import { schemaDefaults } from '@/validation/zodSchema'
 
 import { generateDynamicSchema } from '@/validation/dynamicObject'
@@ -40,11 +36,7 @@ const fetchers = {
     useGetActiveModules: useDocumentGetListActiveModuleObjects,
 }
 
-const document: DynamicObject<
-    typeof fetchers,
-    keyof DocumentPatch,
-    (keyof DocumentStaticPostStatics)[]
-> = {
+const document: DynamicObject<typeof fetchers> = {
     defaults: {
         singular: 'document',
         singularReadable: 'document',

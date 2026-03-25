@@ -9,10 +9,6 @@ import {
     useWettelijkeTaakPostRelationsOverwrite,
     useWettelijkeTaakViewObjectLatest,
 } from '@/api/fetchers'
-import {
-    WettelijkeTaakEdit,
-    WettelijkeTaakStaticPostStatics,
-} from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
@@ -38,11 +34,7 @@ const fetchers = {
     useGetActiveModules: null,
 }
 
-const wettelijkeTaak: DynamicObject<
-    typeof fetchers,
-    keyof WettelijkeTaakEdit,
-    (keyof WettelijkeTaakStaticPostStatics)[]
-> = {
+const wettelijkeTaak: DynamicObject<typeof fetchers> = {
     defaults: {
         singular: 'wettelijke_taak',
         singularReadable: 'wettelijke taak',

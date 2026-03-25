@@ -1,4 +1,4 @@
-import { File, Heading } from '@pzh-ui/components'
+import { Heading } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { FormikHelpers } from 'formik'
@@ -64,6 +64,12 @@ const normalizePayload = (payload: FormData, initialData: FormData) => {
         )
     }
 
+    if (Array.isArray(cleanedPayload.Target_Codes)) {
+        cleanedPayload.Target_Codes = cleanedPayload.Target_Codes.map(
+            (item: any) => item?.value ?? item
+        )
+    }
+
     if (
         Array.isArray(cleanedPayload.Ambtsgebied) &&
         cleanedPayload.Ambtsgebied.includes('true')
@@ -112,9 +118,15 @@ const getDefaultValues = (object?: Record<string, any>) => ({
         },
     }),
     ...(object?.Documents_Statics && {
-        Documents: object.Documents_Statics.map((doc: any) => ({
-            label: doc.Cached_Title,
-            value: doc.Code,
+        Documents: object.Documents_Statics.map((item: any) => ({
+            label: item.Cached_Title,
+            value: item.Code,
+        })),
+    }),
+    ...(object?.Geo_Statics && {
+        Target_Codes: object.Geo_Statics.map((item: any) => ({
+            label: item.Cached_Title,
+            value: item.Code,
         })),
     }),
 })
@@ -171,7 +183,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                 const res = await uploadStorageFile({
                     data: {
                         title: cleanedPayload.Filename,
-                        uploaded_file: cleanedPayload.File as File,
+                        uploaded_file: cleanedPayload.File,
                         ignore_report: Boolean(cleanedPayload.File_Ignore),
                     },
                 })

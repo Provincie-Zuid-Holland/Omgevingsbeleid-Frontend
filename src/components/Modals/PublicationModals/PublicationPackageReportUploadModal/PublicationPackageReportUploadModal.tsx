@@ -46,7 +46,7 @@ const PublicationPackageReportUploadModal = () => {
     const { uploadReports } = useActions(modalState || {})
 
     const handleSubmit = (
-        payload: { uploaded_files: File[] },
+        payload: { uploaded_files: string[] },
         helpers: FormikHelpers<{ uploaded_files: never[] }>
     ) => {
         uploadReports

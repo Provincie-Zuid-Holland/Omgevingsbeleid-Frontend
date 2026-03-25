@@ -5,15 +5,14 @@ import {
     useQueryClient,
 } from '@tanstack/react-query'
 import { ReactNode, createContext, useMemo } from 'react'
-import { Outlet, useNavigate, useParams } from 'react-router-dom'
+import { Outlet, useParams } from 'react-router-dom'
 
-import { HTTPValidationError, ResponseOK } from '@/api/fetchers.schemas'
 import {
-    Model,
-    ModelPatchStaticType,
-    ModelPatchType,
-    ModelReturnType,
-} from '@/config/objects/types'
+    HTTPValidationError,
+    ObjectStaticShort,
+    ResponseOK,
+} from '@/api/fetchers.schemas'
+import { Model, ModelPatchType, ModelReturnType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import { toastNotification } from '@/utils/toastNotification'
 
@@ -40,7 +39,7 @@ interface ObjectContextType extends QueryObserverBaseResult<ModelReturnType> {
         HTTPValidationError,
         {
             lineageId: number
-            data: ModelPatchStaticType
+            data: ObjectStaticShort
         },
         unknown
     >
@@ -61,7 +60,6 @@ function ObjectProvider({
 }) {
     const queryClient = useQueryClient()
     const { user } = useAuth()
-    const navigate = useNavigate()
 
     const { moduleId, objectId } = useParams()
 
@@ -72,7 +70,7 @@ function ObjectProvider({
         usePostStatic,
     } = model.fetchers
 
-    const latestInModule = useGetLatestLineageInModule?.<ModelReturnType>(
+    const latestInModule = useGetLatestLineageInModule?.(
         parseInt(moduleId!),
         parseInt(objectId!),
         {
@@ -81,7 +79,7 @@ function ObjectProvider({
             },
         }
     )
-    const latest = useGetLatestLineage!<ModelReturnType>(parseInt(objectId!), {
+    const latest = useGetLatestLineage!(parseInt(objectId!), {
         query: {
             enabled: !!objectId && !moduleId,
         },

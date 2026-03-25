@@ -102,6 +102,14 @@ import type {
     GebiedengroepPatch,
     GebiedengroepStaticPostStatics,
     GebiedengroepUUID,
+    GebiedsaanwijzingFull,
+    GebiedsaanwijzingGetListActiveModuleObjectsParams,
+    GebiedsaanwijzingGetModuleListLineageTreeParams,
+    GebiedsaanwijzingListValidLineageTreeParams,
+    GebiedsaanwijzingListValidLineagesParams,
+    GebiedsaanwijzingPatch,
+    GebiedsaanwijzingStaticPostStatics,
+    GebiedsaanwijzingUUID,
     GebiedsprogrammaFull,
     GebiedsprogrammaGetListActiveModuleObjectsParams,
     GebiedsprogrammaGetModuleListLineageTreeParams,
@@ -134,7 +142,7 @@ import type {
     ModuleEdit,
     ModuleEditObjectContext,
     ModuleObjectContext,
-    ModuleOverviewResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+    ModuleOverviewResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
     ModulePatchStatus,
     ModuleSnapshot,
     ModuleStatus,
@@ -147,6 +155,7 @@ import type {
     NationaalBelangStaticPostStatics,
     NationaalBelangUUID,
     NewObjectStaticResponse,
+    ObjectsDoListAllLatestParams,
     PagedResponseAmbitieBasic,
     PagedResponseAmbitieExtended,
     PagedResponseBeleidsdoelBasic,
@@ -161,16 +170,18 @@ import type {
     PagedResponseGebiedExtended,
     PagedResponseGebiedengroepBasic,
     PagedResponseGebiedengroepExtended,
+    PagedResponseGebiedsaanwijzingBasic,
+    PagedResponseGebiedsaanwijzingExtended,
     PagedResponseGebiedsprogrammaBasic,
     PagedResponseGebiedsprogrammaExtended,
-    PagedResponseGenericObjectShort,
     PagedResponseGeoSearchResult,
     PagedResponseInputGeoWerkingsgebied,
     PagedResponseMaatregelBasic,
     PagedResponseMaatregelExtended,
     PagedResponseModule,
-    PagedResponseModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+    PagedResponseModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
     PagedResponseNationaalBelangBasic,
+    PagedResponseObjectListAllLatestResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
     PagedResponseProgrammaAlgemeenBasic,
     PagedResponseProgrammaAlgemeenExtended,
     PagedResponsePublicModuleShort,
@@ -184,11 +195,11 @@ import type {
     PagedResponsePublicationPackage,
     PagedResponsePublicationTemplate,
     PagedResponsePublicationVersionShort,
-    PagedResponseSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+    PagedResponseSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
     PagedResponseStorageFileBasic,
     PagedResponseUnifiedPackage,
     PagedResponseUser,
-    PagedResponseValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+    PagedResponseValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
     PagedResponseVerplichtProgrammaBasic,
     PagedResponseVisieAlgemeenBasic,
     PagedResponseVisieAlgemeenExtended,
@@ -248,7 +259,6 @@ import type {
     ResetPasswordResponse,
     ResponseOK,
     RootModelListObjectCount,
-    SearchDoListAllLatestParams,
     SearchGeoRequestData,
     SearchGetMssqlSearchParams,
     SearchGetMssqlValidSearchParams,
@@ -1331,7 +1341,7 @@ export const modulesViewModuleOverview = (
     moduleId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<ModuleOverviewResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>(
+    return customInstance<ModuleOverviewResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>(
         { url: `/modules/${moduleId}`, method: 'GET', signal }
     )
 }
@@ -2523,7 +2533,7 @@ export const modulesGetListModuleObjects = (
     params?: ModulesGetListModuleObjectsParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<PagedResponseModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>(
+    return customInstance<PagedResponseModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>(
         { url: `/modules/objects/latest`, method: 'GET', params, signal }
     )
 }
@@ -2666,6 +2676,89 @@ export const useObjectsViewObjectCounts = <
     >
 }): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const queryOptions = getObjectsViewObjectCountsQueryOptions(options)
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary List all objects filterable in short format
+ */
+export const objectsDoListAllLatest = (
+    params?: ObjectsDoListAllLatestParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseObjectListAllLatestResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>(
+        { url: `/objects/valid`, method: 'GET', params, signal }
+    )
+}
+
+export const getObjectsDoListAllLatestQueryKey = (
+    params?: ObjectsDoListAllLatestParams
+) => {
+    return [`/objects/valid`, ...(params ? [params] : [])] as const
+}
+
+export const getObjectsDoListAllLatestQueryOptions = <
+    TData = Awaited<ReturnType<typeof objectsDoListAllLatest>>,
+    TError = HTTPValidationError,
+>(
+    params?: ObjectsDoListAllLatestParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof objectsDoListAllLatest>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getObjectsDoListAllLatestQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof objectsDoListAllLatest>>
+    > = ({ signal }) => objectsDoListAllLatest(params, signal)
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof objectsDoListAllLatest>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type ObjectsDoListAllLatestQueryResult = NonNullable<
+    Awaited<ReturnType<typeof objectsDoListAllLatest>>
+>
+export type ObjectsDoListAllLatestQueryError = HTTPValidationError
+
+/**
+ * @summary List all objects filterable in short format
+ */
+export const useObjectsDoListAllLatest = <
+    TData = Awaited<ReturnType<typeof objectsDoListAllLatest>>,
+    TError = HTTPValidationError,
+>(
+    params?: ObjectsDoListAllLatestParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof objectsDoListAllLatest>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getObjectsDoListAllLatestQueryOptions(params, options)
 
     const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
         queryKey: QueryKey
@@ -7954,7 +8047,7 @@ export const searchGetMssqlSearch = (
     searchRequestDataWithLike: SearchRequestDataWithLike,
     params: SearchGetMssqlSearchParams
 ) => {
-    return customInstance<PagedResponseSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>(
+    return customInstance<PagedResponseSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>(
         {
             url: `/search`,
             method: 'POST',
@@ -8032,7 +8125,7 @@ export const searchGetMssqlValidSearch = (
     searchRequestData: SearchRequestData,
     params: SearchGetMssqlValidSearchParams
 ) => {
-    return customInstance<PagedResponseValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>(
+    return customInstance<PagedResponseValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>(
         {
             url: `/search/valid`,
             method: 'POST',
@@ -8101,92 +8194,6 @@ export const useSearchGetMssqlValidSearch = <
     const mutationOptions = getSearchGetMssqlValidSearchMutationOptions(options)
 
     return useMutation(mutationOptions)
-}
-
-/**
- * @summary List all objects filterable in short format
- */
-export const searchDoListAllLatest = (
-    params?: SearchDoListAllLatestParams,
-    signal?: AbortSignal
-) => {
-    return customInstance<PagedResponseGenericObjectShort>({
-        url: `/objects/valid`,
-        method: 'GET',
-        params,
-        signal,
-    })
-}
-
-export const getSearchDoListAllLatestQueryKey = (
-    params?: SearchDoListAllLatestParams
-) => {
-    return [`/objects/valid`, ...(params ? [params] : [])] as const
-}
-
-export const getSearchDoListAllLatestQueryOptions = <
-    TData = Awaited<ReturnType<typeof searchDoListAllLatest>>,
-    TError = HTTPValidationError,
->(
-    params?: SearchDoListAllLatestParams,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<
-                Awaited<ReturnType<typeof searchDoListAllLatest>>,
-                TError,
-                TData
-            >
-        >
-    }
-) => {
-    const { query: queryOptions } = options ?? {}
-
-    const queryKey =
-        queryOptions?.queryKey ?? getSearchDoListAllLatestQueryKey(params)
-
-    const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof searchDoListAllLatest>>
-    > = ({ signal }) => searchDoListAllLatest(params, signal)
-
-    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-        Awaited<ReturnType<typeof searchDoListAllLatest>>,
-        TError,
-        TData
-    > & { queryKey: QueryKey }
-}
-
-export type SearchDoListAllLatestQueryResult = NonNullable<
-    Awaited<ReturnType<typeof searchDoListAllLatest>>
->
-export type SearchDoListAllLatestQueryError = HTTPValidationError
-
-/**
- * @summary List all objects filterable in short format
- */
-export const useSearchDoListAllLatest = <
-    TData = Awaited<ReturnType<typeof searchDoListAllLatest>>,
-    TError = HTTPValidationError,
->(
-    params?: SearchDoListAllLatestParams,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<
-                Awaited<ReturnType<typeof searchDoListAllLatest>>,
-                TError,
-                TData
-            >
-        >
-    }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-    const queryOptions = getSearchDoListAllLatestQueryOptions(params, options)
-
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-        queryKey: QueryKey
-    }
-
-    query.queryKey = queryOptions.queryKey
-
-    return query
 }
 
 /**
@@ -17542,6 +17549,1127 @@ export const useGetRevisionsGebiedengroepVersion = <
     }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const queryOptions = getGetRevisionsGebiedengroepVersionQueryOptions(
+        moduleId,
+        objectUuid,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get all the valid gebiedsaanwijzing lineages and shows the latest object of each
+ */
+export const gebiedsaanwijzingListValidLineages = (
+    params?: GebiedsaanwijzingListValidLineagesParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseGebiedsaanwijzingBasic>({
+        url: `/gebiedsaanwijzingen/valid`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getGebiedsaanwijzingListValidLineagesQueryKey = (
+    params?: GebiedsaanwijzingListValidLineagesParams
+) => {
+    return [`/gebiedsaanwijzingen/valid`, ...(params ? [params] : [])] as const
+}
+
+export const getGebiedsaanwijzingListValidLineagesQueryOptions = <
+    TData = Awaited<ReturnType<typeof gebiedsaanwijzingListValidLineages>>,
+    TError = HTTPValidationError,
+>(
+    params?: GebiedsaanwijzingListValidLineagesParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof gebiedsaanwijzingListValidLineages>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGebiedsaanwijzingListValidLineagesQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof gebiedsaanwijzingListValidLineages>>
+    > = ({ signal }) => gebiedsaanwijzingListValidLineages(params, signal)
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof gebiedsaanwijzingListValidLineages>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type GebiedsaanwijzingListValidLineagesQueryResult = NonNullable<
+    Awaited<ReturnType<typeof gebiedsaanwijzingListValidLineages>>
+>
+export type GebiedsaanwijzingListValidLineagesQueryError = HTTPValidationError
+
+/**
+ * @summary Get all the valid gebiedsaanwijzing lineages and shows the latest object of each
+ */
+export const useGebiedsaanwijzingListValidLineages = <
+    TData = Awaited<ReturnType<typeof gebiedsaanwijzingListValidLineages>>,
+    TError = HTTPValidationError,
+>(
+    params?: GebiedsaanwijzingListValidLineagesParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof gebiedsaanwijzingListValidLineages>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getGebiedsaanwijzingListValidLineagesQueryOptions(
+        params,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get all the valid gebiedsaanwijzing of a single lineage
+ */
+export const gebiedsaanwijzingListValidLineageTree = (
+    lineageId: number,
+    params?: GebiedsaanwijzingListValidLineageTreeParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseGebiedsaanwijzingBasic>({
+        url: `/gebiedsaanwijzingen/valid/${lineageId}`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getGebiedsaanwijzingListValidLineageTreeQueryKey = (
+    lineageId: number,
+    params?: GebiedsaanwijzingListValidLineageTreeParams
+) => {
+    return [
+        `/gebiedsaanwijzingen/valid/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getGebiedsaanwijzingListValidLineageTreeQueryOptions = <
+    TData = Awaited<ReturnType<typeof gebiedsaanwijzingListValidLineageTree>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    params?: GebiedsaanwijzingListValidLineageTreeParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof gebiedsaanwijzingListValidLineageTree>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGebiedsaanwijzingListValidLineageTreeQueryKey(lineageId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof gebiedsaanwijzingListValidLineageTree>>
+    > = ({ signal }) =>
+        gebiedsaanwijzingListValidLineageTree(lineageId, params, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof gebiedsaanwijzingListValidLineageTree>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type GebiedsaanwijzingListValidLineageTreeQueryResult = NonNullable<
+    Awaited<ReturnType<typeof gebiedsaanwijzingListValidLineageTree>>
+>
+export type GebiedsaanwijzingListValidLineageTreeQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get all the valid gebiedsaanwijzing of a single lineage
+ */
+export const useGebiedsaanwijzingListValidLineageTree = <
+    TData = Awaited<ReturnType<typeof gebiedsaanwijzingListValidLineageTree>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    params?: GebiedsaanwijzingListValidLineageTreeParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof gebiedsaanwijzingListValidLineageTree>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getGebiedsaanwijzingListValidLineageTreeQueryOptions(
+        lineageId,
+        params,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific gebiedsaanwijzing by uuid
+ */
+export const gebiedsaanwijzingViewObjectVersion = (
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<GebiedsaanwijzingFull>({
+        url: `/gebiedsaanwijzingen/version/${objectUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getGebiedsaanwijzingViewObjectVersionQueryKey = (
+    objectUuid: string
+) => {
+    return [`/gebiedsaanwijzingen/version/${objectUuid}`] as const
+}
+
+export const getGebiedsaanwijzingViewObjectVersionQueryOptions = <
+    TData = Awaited<ReturnType<typeof gebiedsaanwijzingViewObjectVersion>>,
+    TError = HTTPValidationError,
+>(
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof gebiedsaanwijzingViewObjectVersion>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGebiedsaanwijzingViewObjectVersionQueryKey(objectUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof gebiedsaanwijzingViewObjectVersion>>
+    > = ({ signal }) => gebiedsaanwijzingViewObjectVersion(objectUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!objectUuid,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof gebiedsaanwijzingViewObjectVersion>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type GebiedsaanwijzingViewObjectVersionQueryResult = NonNullable<
+    Awaited<ReturnType<typeof gebiedsaanwijzingViewObjectVersion>>
+>
+export type GebiedsaanwijzingViewObjectVersionQueryError = HTTPValidationError
+
+/**
+ * @summary Get specific gebiedsaanwijzing by uuid
+ */
+export const useGebiedsaanwijzingViewObjectVersion = <
+    TData = Awaited<ReturnType<typeof gebiedsaanwijzingViewObjectVersion>>,
+    TError = HTTPValidationError,
+>(
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof gebiedsaanwijzingViewObjectVersion>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getGebiedsaanwijzingViewObjectVersionQueryOptions(
+        objectUuid,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get latest lineage record for gebiedsaanwijzing by their lineage id
+ */
+export const gebiedsaanwijzingViewObjectLatest = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<GebiedsaanwijzingFull>({
+        url: `/gebiedsaanwijzingen/latest/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getGebiedsaanwijzingViewObjectLatestQueryKey = (
+    lineageId: number
+) => {
+    return [`/gebiedsaanwijzingen/latest/${lineageId}`] as const
+}
+
+export const getGebiedsaanwijzingViewObjectLatestQueryOptions = <
+    TData = Awaited<ReturnType<typeof gebiedsaanwijzingViewObjectLatest>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof gebiedsaanwijzingViewObjectLatest>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGebiedsaanwijzingViewObjectLatestQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof gebiedsaanwijzingViewObjectLatest>>
+    > = ({ signal }) => gebiedsaanwijzingViewObjectLatest(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof gebiedsaanwijzingViewObjectLatest>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type GebiedsaanwijzingViewObjectLatestQueryResult = NonNullable<
+    Awaited<ReturnType<typeof gebiedsaanwijzingViewObjectLatest>>
+>
+export type GebiedsaanwijzingViewObjectLatestQueryError = HTTPValidationError
+
+/**
+ * @summary Get latest lineage record for gebiedsaanwijzing by their lineage id
+ */
+export const useGebiedsaanwijzingViewObjectLatest = <
+    TData = Awaited<ReturnType<typeof gebiedsaanwijzingViewObjectLatest>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof gebiedsaanwijzingViewObjectLatest>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getGebiedsaanwijzingViewObjectLatestQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Edit static data of an object
+ */
+export const gebiedsaanwijzingEditObjectStatic = (
+    lineageId: number,
+    gebiedsaanwijzingStaticPostStatics: GebiedsaanwijzingStaticPostStatics
+) => {
+    return customInstance<ResponseOK>({
+        url: `/gebiedsaanwijzing/static/${lineageId}`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: gebiedsaanwijzingStaticPostStatics,
+    })
+}
+
+export const getGebiedsaanwijzingEditObjectStaticMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof gebiedsaanwijzingEditObjectStatic>>,
+        TError,
+        { lineageId: number; data: GebiedsaanwijzingStaticPostStatics },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof gebiedsaanwijzingEditObjectStatic>>,
+    TError,
+    { lineageId: number; data: GebiedsaanwijzingStaticPostStatics },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof gebiedsaanwijzingEditObjectStatic>>,
+        { lineageId: number; data: GebiedsaanwijzingStaticPostStatics }
+    > = props => {
+        const { lineageId, data } = props ?? {}
+
+        return gebiedsaanwijzingEditObjectStatic(lineageId, data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type GebiedsaanwijzingEditObjectStaticMutationResult = NonNullable<
+    Awaited<ReturnType<typeof gebiedsaanwijzingEditObjectStatic>>
+>
+export type GebiedsaanwijzingEditObjectStaticMutationBody =
+    GebiedsaanwijzingStaticPostStatics
+export type GebiedsaanwijzingEditObjectStaticMutationError = HTTPValidationError
+
+/**
+ * @summary Edit static data of an object
+ */
+export const useGebiedsaanwijzingEditObjectStatic = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof gebiedsaanwijzingEditObjectStatic>>,
+        TError,
+        { lineageId: number; data: GebiedsaanwijzingStaticPostStatics },
+        TContext
+    >
+}): UseMutationResult<
+    Awaited<ReturnType<typeof gebiedsaanwijzingEditObjectStatic>>,
+    TError,
+    { lineageId: number; data: GebiedsaanwijzingStaticPostStatics },
+    TContext
+> => {
+    const mutationOptions =
+        getGebiedsaanwijzingEditObjectStaticMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Add a new version to the gebiedsaanwijzing lineage in a module
+ */
+export const gebiedsaanwijzingPostModulePatchObject = (
+    moduleId: number,
+    lineageId: number,
+    gebiedsaanwijzingPatch: GebiedsaanwijzingPatch
+) => {
+    return customInstance<GebiedsaanwijzingUUID>({
+        url: `/modules/${moduleId}/object/gebiedsaanwijzing/${lineageId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: gebiedsaanwijzingPatch,
+    })
+}
+
+export const getGebiedsaanwijzingPostModulePatchObjectMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof gebiedsaanwijzingPostModulePatchObject>>,
+        TError,
+        { moduleId: number; lineageId: number; data: GebiedsaanwijzingPatch },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof gebiedsaanwijzingPostModulePatchObject>>,
+    TError,
+    { moduleId: number; lineageId: number; data: GebiedsaanwijzingPatch },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof gebiedsaanwijzingPostModulePatchObject>>,
+        { moduleId: number; lineageId: number; data: GebiedsaanwijzingPatch }
+    > = props => {
+        const { moduleId, lineageId, data } = props ?? {}
+
+        return gebiedsaanwijzingPostModulePatchObject(moduleId, lineageId, data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type GebiedsaanwijzingPostModulePatchObjectMutationResult = NonNullable<
+    Awaited<ReturnType<typeof gebiedsaanwijzingPostModulePatchObject>>
+>
+export type GebiedsaanwijzingPostModulePatchObjectMutationBody =
+    GebiedsaanwijzingPatch
+export type GebiedsaanwijzingPostModulePatchObjectMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Add a new version to the gebiedsaanwijzing lineage in a module
+ */
+export const useGebiedsaanwijzingPostModulePatchObject = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof gebiedsaanwijzingPostModulePatchObject>>,
+        TError,
+        { moduleId: number; lineageId: number; data: GebiedsaanwijzingPatch },
+        TContext
+    >
+}): UseMutationResult<
+    Awaited<ReturnType<typeof gebiedsaanwijzingPostModulePatchObject>>,
+    TError,
+    { moduleId: number; lineageId: number; data: GebiedsaanwijzingPatch },
+    TContext
+> => {
+    const mutationOptions =
+        getGebiedsaanwijzingPostModulePatchObjectMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get all the gebiedsaanwijzing of a single lineage in a module
+ */
+export const gebiedsaanwijzingGetModuleListLineageTree = (
+    moduleId: number,
+    lineageId: number,
+    params?: GebiedsaanwijzingGetModuleListLineageTreeParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseGebiedsaanwijzingExtended>({
+        url: `/modules/${moduleId}/object/gebiedsaanwijzing/${lineageId}`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getGebiedsaanwijzingGetModuleListLineageTreeQueryKey = (
+    moduleId: number,
+    lineageId: number,
+    params?: GebiedsaanwijzingGetModuleListLineageTreeParams
+) => {
+    return [
+        `/modules/${moduleId}/object/gebiedsaanwijzing/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getGebiedsaanwijzingGetModuleListLineageTreeQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof gebiedsaanwijzingGetModuleListLineageTree>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    lineageId: number,
+    params?: GebiedsaanwijzingGetModuleListLineageTreeParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof gebiedsaanwijzingGetModuleListLineageTree>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGebiedsaanwijzingGetModuleListLineageTreeQueryKey(
+            moduleId,
+            lineageId,
+            params
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof gebiedsaanwijzingGetModuleListLineageTree>>
+    > = ({ signal }) =>
+        gebiedsaanwijzingGetModuleListLineageTree(
+            moduleId,
+            lineageId,
+            params,
+            signal
+        )
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && lineageId),
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof gebiedsaanwijzingGetModuleListLineageTree>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type GebiedsaanwijzingGetModuleListLineageTreeQueryResult = NonNullable<
+    Awaited<ReturnType<typeof gebiedsaanwijzingGetModuleListLineageTree>>
+>
+export type GebiedsaanwijzingGetModuleListLineageTreeQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get all the gebiedsaanwijzing of a single lineage in a module
+ */
+export const useGebiedsaanwijzingGetModuleListLineageTree = <
+    TData = Awaited<
+        ReturnType<typeof gebiedsaanwijzingGetModuleListLineageTree>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    lineageId: number,
+    params?: GebiedsaanwijzingGetModuleListLineageTreeParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof gebiedsaanwijzingGetModuleListLineageTree>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getGebiedsaanwijzingGetModuleListLineageTreeQueryOptions(
+            moduleId,
+            lineageId,
+            params,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get latest lineage record for gebiedsaanwijzing by their lineage id in a module
+ */
+export const gebiedsaanwijzingViewModuleObjectLatest = (
+    moduleId: number,
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<GebiedsaanwijzingFull>({
+        url: `/modules/${moduleId}/object/gebiedsaanwijzing/latest/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getGebiedsaanwijzingViewModuleObjectLatestQueryKey = (
+    moduleId: number,
+    lineageId: number
+) => {
+    return [
+        `/modules/${moduleId}/object/gebiedsaanwijzing/latest/${lineageId}`,
+    ] as const
+}
+
+export const getGebiedsaanwijzingViewModuleObjectLatestQueryOptions = <
+    TData = Awaited<ReturnType<typeof gebiedsaanwijzingViewModuleObjectLatest>>,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof gebiedsaanwijzingViewModuleObjectLatest>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGebiedsaanwijzingViewModuleObjectLatestQueryKey(moduleId, lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof gebiedsaanwijzingViewModuleObjectLatest>>
+    > = ({ signal }) =>
+        gebiedsaanwijzingViewModuleObjectLatest(moduleId, lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && lineageId),
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof gebiedsaanwijzingViewModuleObjectLatest>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type GebiedsaanwijzingViewModuleObjectLatestQueryResult = NonNullable<
+    Awaited<ReturnType<typeof gebiedsaanwijzingViewModuleObjectLatest>>
+>
+export type GebiedsaanwijzingViewModuleObjectLatestQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get latest lineage record for gebiedsaanwijzing by their lineage id in a module
+ */
+export const useGebiedsaanwijzingViewModuleObjectLatest = <
+    TData = Awaited<ReturnType<typeof gebiedsaanwijzingViewModuleObjectLatest>>,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof gebiedsaanwijzingViewModuleObjectLatest>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getGebiedsaanwijzingViewModuleObjectLatestQueryOptions(
+        moduleId,
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific gebiedsaanwijzing by uuid in a module
+ */
+export const getModulesObjectGebiedsaanwijzingVersion = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<GebiedsaanwijzingFull>({
+        url: `/modules/${moduleId}/object/gebiedsaanwijzing/version/${objectUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getGetModulesObjectGebiedsaanwijzingVersionQueryKey = (
+    moduleId: number,
+    objectUuid: string
+) => {
+    return [
+        `/modules/${moduleId}/object/gebiedsaanwijzing/version/${objectUuid}`,
+    ] as const
+}
+
+export const getGetModulesObjectGebiedsaanwijzingVersionQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof getModulesObjectGebiedsaanwijzingVersion>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof getModulesObjectGebiedsaanwijzingVersion>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetModulesObjectGebiedsaanwijzingVersionQueryKey(
+            moduleId,
+            objectUuid
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof getModulesObjectGebiedsaanwijzingVersion>>
+    > = ({ signal }) =>
+        getModulesObjectGebiedsaanwijzingVersion(moduleId, objectUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && objectUuid),
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof getModulesObjectGebiedsaanwijzingVersion>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type GetModulesObjectGebiedsaanwijzingVersionQueryResult = NonNullable<
+    Awaited<ReturnType<typeof getModulesObjectGebiedsaanwijzingVersion>>
+>
+export type GetModulesObjectGebiedsaanwijzingVersionQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get specific gebiedsaanwijzing by uuid in a module
+ */
+export const useGetModulesObjectGebiedsaanwijzingVersion = <
+    TData = Awaited<
+        ReturnType<typeof getModulesObjectGebiedsaanwijzingVersion>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof getModulesObjectGebiedsaanwijzingVersion>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getGetModulesObjectGebiedsaanwijzingVersionQueryOptions(
+            moduleId,
+            objectUuid,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const gebiedsaanwijzingGetListActiveModuleObjects = (
+    lineageId: number,
+    params: GebiedsaanwijzingGetListActiveModuleObjectsParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<ActiveModuleObjectsResponse[]>({
+        url: `/modules/object/gebiedsaanwijzing/active/${lineageId}`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getGebiedsaanwijzingGetListActiveModuleObjectsQueryKey = (
+    lineageId: number,
+    params: GebiedsaanwijzingGetListActiveModuleObjectsParams
+) => {
+    return [
+        `/modules/object/gebiedsaanwijzing/active/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getGebiedsaanwijzingGetListActiveModuleObjectsQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof gebiedsaanwijzingGetListActiveModuleObjects>
+    >,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    params: GebiedsaanwijzingGetListActiveModuleObjectsParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof gebiedsaanwijzingGetListActiveModuleObjects
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGebiedsaanwijzingGetListActiveModuleObjectsQueryKey(
+            lineageId,
+            params
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof gebiedsaanwijzingGetListActiveModuleObjects>>
+    > = ({ signal }) =>
+        gebiedsaanwijzingGetListActiveModuleObjects(lineageId, params, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof gebiedsaanwijzingGetListActiveModuleObjects>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type GebiedsaanwijzingGetListActiveModuleObjectsQueryResult =
+    NonNullable<
+        Awaited<ReturnType<typeof gebiedsaanwijzingGetListActiveModuleObjects>>
+    >
+export type GebiedsaanwijzingGetListActiveModuleObjectsQueryError =
+    HTTPValidationError
+
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const useGebiedsaanwijzingGetListActiveModuleObjects = <
+    TData = Awaited<
+        ReturnType<typeof gebiedsaanwijzingGetListActiveModuleObjects>
+    >,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    params: GebiedsaanwijzingGetListActiveModuleObjectsParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof gebiedsaanwijzingGetListActiveModuleObjects
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getGebiedsaanwijzingGetListActiveModuleObjectsQueryOptions(
+            lineageId,
+            params,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get specific gebiedsaanwijzing by uuid in a module
+ */
+export const getRevisionsGebiedsaanwijzingVersion = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<GebiedsaanwijzingFull>({
+        url: `/revisions/${moduleId}/gebiedsaanwijzing/version/${objectUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getGetRevisionsGebiedsaanwijzingVersionQueryKey = (
+    moduleId: number,
+    objectUuid: string
+) => {
+    return [
+        `/revisions/${moduleId}/gebiedsaanwijzing/version/${objectUuid}`,
+    ] as const
+}
+
+export const getGetRevisionsGebiedsaanwijzingVersionQueryOptions = <
+    TData = Awaited<ReturnType<typeof getRevisionsGebiedsaanwijzingVersion>>,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof getRevisionsGebiedsaanwijzingVersion>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetRevisionsGebiedsaanwijzingVersionQueryKey(moduleId, objectUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof getRevisionsGebiedsaanwijzingVersion>>
+    > = ({ signal }) =>
+        getRevisionsGebiedsaanwijzingVersion(moduleId, objectUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(moduleId && objectUuid),
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof getRevisionsGebiedsaanwijzingVersion>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type GetRevisionsGebiedsaanwijzingVersionQueryResult = NonNullable<
+    Awaited<ReturnType<typeof getRevisionsGebiedsaanwijzingVersion>>
+>
+export type GetRevisionsGebiedsaanwijzingVersionQueryError = HTTPValidationError
+
+/**
+ * @summary Get specific gebiedsaanwijzing by uuid in a module
+ */
+export const useGetRevisionsGebiedsaanwijzingVersion = <
+    TData = Awaited<ReturnType<typeof getRevisionsGebiedsaanwijzingVersion>>,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof getRevisionsGebiedsaanwijzingVersion>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getGetRevisionsGebiedsaanwijzingVersionQueryOptions(
         moduleId,
         objectUuid,
         options

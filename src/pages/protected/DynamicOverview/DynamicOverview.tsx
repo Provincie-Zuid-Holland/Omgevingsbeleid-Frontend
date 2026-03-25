@@ -29,6 +29,23 @@ const PAGE_LIMIT = 20
 
 type TabType = 'valid' | 'latest'
 
+type OverviewQueryResult<TData> = {
+    data?: TData
+    isFetching?: boolean
+}
+
+type OverviewQueryHook<TData> = (
+    params?: Record<string, unknown>,
+    options?: {
+        query?: Record<string, unknown>
+    }
+) => OverviewQueryResult<TData>
+
+type OverviewData = {
+    results: (ModelReturnTypeBasic | ModelReturnTypeBasicUnion)[]
+    total?: number
+}
+
 interface DynamicOverviewProps {
     model: Model
 }
@@ -150,46 +167,50 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
         },
     ])
 
-    /**
-     * Get correct data fetcher based on type
-     */
-    const useGetData =
-        type === 'valid' ? useGetValid : useModulesGetListModuleObjects
+    const queryParams = {
+        limit: PAGE_LIMIT,
+        offset: (pageIndex - 1) * PAGE_LIMIT,
+        sort_column: sortBy?.[0]?.id || 'Gebruikersnaam',
+        sort_order: sortBy?.[0]?.desc ? 'DESC' : 'ASC',
+        ...(type === 'latest' && {
+            object_type: singular,
+            actions: ['Create', 'Edit'],
+        }),
+        ...(!!query && {
+            [type === 'valid' ? 'filter_title' : 'title']: `%${query}%`,
+        }),
+    }
 
-    const { data, isFetching } = useGetData(
-        {
-            limit: PAGE_LIMIT,
-            offset: (pageIndex - 1) * PAGE_LIMIT,
-            sort_column: sortBy?.[0]?.id || 'Gebruikersnaam',
-            sort_order: sortBy?.[0]?.desc ? 'DESC' : 'ASC',
-            ...(type === 'latest' && {
-                object_type: singular,
-                actions: ['Create', 'Edit'],
-            }),
-            ...(!!query && {
-                [type === 'valid' ? 'filter_title' : 'title']: `%${query}%`,
-            }),
-        },
-        {
-            query: {
-                placeholderData: keepPreviousData,
-                select: data => {
-                    if (type === 'valid') return data
+    const queryOptions = {
+        query: {
+            placeholderData: keepPreviousData,
+            select: (data: OverviewData) => {
+                if (type === 'valid') return data
 
-                    return {
-                        ...data,
-                        results: data.results.map(result =>
-                            'Model' in result ? result.Model : result
-                        ),
-                    }
-                },
-                enabled:
-                    type === 'valid'
-                        ? atemporal || (activeTab === 'valid' && !atemporal)
-                        : activeTab === 'latest' && !atemporal,
+                return {
+                    ...data,
+                    results: data.results.map(result =>
+                        'Model' in result ? result.Model : result
+                    ),
+                }
             },
-        }
-    )
+            enabled:
+                type === 'valid'
+                    ? atemporal || (activeTab === 'valid' && !atemporal)
+                    : activeTab === 'latest' && !atemporal,
+        },
+    }
+
+    const validQuery = (
+        useGetValid as OverviewQueryHook<OverviewData> | null | undefined
+    )?.(queryParams, queryOptions)
+
+    const latestQuery = (
+        useModulesGetListModuleObjects as OverviewQueryHook<OverviewData>
+    )(queryParams, queryOptions)
+
+    const { data, isFetching } =
+        (type === 'valid' ? validQuery : latestQuery) ?? {}
 
     useUpdateEffect(() => {
         setPagination({

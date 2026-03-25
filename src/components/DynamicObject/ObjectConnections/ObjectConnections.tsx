@@ -39,11 +39,11 @@ const ObjectConnections = ({ model }: ObjectConnectionsProps) => {
     })
 
     const { data: relations } =
-        useGetRelations?.(parseInt(objectId!), {
+        (useGetRelations?.(parseInt(objectId!), {
             query: {
                 enabled: !!objectId,
             },
-        }) || {}
+        }) as { data?: ReadRelation[] }) || {}
 
     /**
      * Get connections of Object_Type
@@ -58,7 +58,7 @@ const ObjectConnections = ({ model }: ObjectConnectionsProps) => {
 
     return (
         <>
-            <div className="mb-5 mt-8">
+            <div className="mt-8 mb-5">
                 <Heading level="3" size="m">
                     Koppelingen
                 </Heading>

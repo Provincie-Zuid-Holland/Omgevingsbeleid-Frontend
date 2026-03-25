@@ -9,10 +9,6 @@ import {
     useVerplichtProgrammaPostRelationsOverwrite,
     useVerplichtProgrammaViewObjectLatest,
 } from '@/api/fetchers'
-import {
-    VerplichtProgrammaEdit,
-    VerplichtProgrammaStaticPostStatics,
-} from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
@@ -38,11 +34,7 @@ const fetchers = {
     useGetActiveModules: null,
 }
 
-const verplichtProgramma: DynamicObject<
-    typeof fetchers,
-    keyof VerplichtProgrammaEdit | 'connections',
-    (keyof VerplichtProgrammaStaticPostStatics)[]
-> = {
+const verplichtProgramma: DynamicObject<typeof fetchers> = {
     defaults: {
         singular: 'verplicht_programma',
         singularReadable: 'verplicht programma',

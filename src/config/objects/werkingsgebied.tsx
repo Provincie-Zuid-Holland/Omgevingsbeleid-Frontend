@@ -12,10 +12,6 @@ import {
     useWerkingsgebiedViewObjectLatest,
     useWerkingsgebiedViewObjectVersion,
 } from '@/api/fetchers'
-import {
-    WerkingsgebiedPatch,
-    WerkingsgebiedStaticPostStatics,
-} from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
@@ -41,11 +37,7 @@ const fetchers = {
     useGetActiveModules: useWerkingsgebiedGetListActiveModuleObjects,
 }
 
-const werkingsgebied: DynamicObject<
-    typeof fetchers,
-    keyof WerkingsgebiedPatch,
-    (keyof WerkingsgebiedStaticPostStatics)[]
-> = {
+const werkingsgebied: DynamicObject<typeof fetchers> = {
     defaults: {
         singular: 'werkingsgebied',
         singularReadable: 'werkingsgebied',

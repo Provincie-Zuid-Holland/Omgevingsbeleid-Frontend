@@ -16,10 +16,6 @@ import {
     useMaatregelViewObjectLatest,
     useMaatregelViewObjectVersion,
 } from '@/api/fetchers'
-import {
-    MaatregelPatch,
-    MaatregelStaticPostStatics,
-} from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
@@ -45,11 +41,7 @@ const fetchers = {
     useGetActiveModules: useMaatregelGetListActiveModuleObjects,
 }
 
-const maatregel: DynamicObject<
-    typeof fetchers,
-    keyof MaatregelPatch,
-    (keyof MaatregelStaticPostStatics)[]
-> = {
+const maatregel: DynamicObject<typeof fetchers> = {
     defaults: {
         singular: 'maatregel',
         singularReadable: 'maatregel',
@@ -204,7 +196,7 @@ const maatregel: DynamicObject<
                     status: 'all',
                     placeholder: 'Selecteer een gebiedengroep',
                     filterType: ['gebiedengroep'],
-                    objectKey: 'Gebiedengroep_Code',
+                    objectKey: 'Object_Code',
                     components: {
                         DropdownIndicator: () => (
                             <div className="mr-4">
@@ -224,7 +216,7 @@ const maatregel: DynamicObject<
                     label: 'Beleidskeuze',
                     type: 'search',
                     required: true,
-                    objectKey: 'Hierarchy_Code',
+                    objectKey: 'Object_Code',
                     filterType: ['beleidskeuze'],
                     status: 'all',
                     placeholder: 'Kies de beleidskeuze',
@@ -247,7 +239,7 @@ const maatregel: DynamicObject<
                     label: 'Selecteer één of meerdere documenten',
                     type: 'search',
                     filterType: ['document'],
-                    objectKey: 'Document_Code',
+                    objectKey: 'Object_Code',
                     isMulti: true,
                     closeMenuOnSelect: false,
                     status: 'all',

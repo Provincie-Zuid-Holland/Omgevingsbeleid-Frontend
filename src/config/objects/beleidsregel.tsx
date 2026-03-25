@@ -15,10 +15,6 @@ import {
     useBeleidsregelViewObjectVersion,
     useGetRevisionsBeleidsregelVersion,
 } from '@/api/fetchers'
-import {
-    BeleidsregelPatch,
-    BeleidsregelStaticPostStatics,
-} from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
@@ -44,11 +40,7 @@ const fetchers = {
     useGetActiveModules: useBeleidsregelGetListActiveModuleObjects,
 }
 
-const beleidsregel: DynamicObject<
-    typeof fetchers,
-    keyof BeleidsregelPatch,
-    (keyof BeleidsregelStaticPostStatics)[]
-> = {
+const beleidsregel: DynamicObject<typeof fetchers> = {
     defaults: {
         singular: 'beleidsregel',
         singularReadable: 'beleidsregel',

@@ -9,8 +9,9 @@ import ObjectRelatedObjects from '@/components/DynamicObject/ObjectRelatedObject
 import ObjectRelations from '@/components/DynamicObject/ObjectRelations'
 import MutateLayout from '@/templates/MutateLayout'
 
+import { ActiveModuleObjectsResponse } from '@/api/fetchers.schemas'
 import { LoaderCard } from '@/components/Loader'
-import type { Model } from '@/config/objects/types'
+import type { Model, ModelReturnTypeBasicUnion } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import { formatValidityDate } from '@/utils/formatValidityDate'
 import { keepPreviousData } from '@tanstack/react-query'
@@ -36,7 +37,7 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
         data: activeModules,
         isLoading: activeModulesLoading,
         isFetching,
-    } = useGetActiveModules?.(
+    } = useGetActiveModules?.<ActiveModuleObjectsResponse[]>(
         parseInt(objectId!),
         { minimum_status: 'Ontwerp GS Concept' },
         {
@@ -45,7 +46,10 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
     ) || {}
 
     const { data: validLineage, isLoading: validLineageLoading } =
-        useGetValidLineage?.(
+        useGetValidLineage?.<{
+            results?: ModelReturnTypeBasicUnion[]
+            total?: number
+        }>(
             objectIdNum ?? 0,
             {
                 limit: pageIndex * PAGE_LIMIT,

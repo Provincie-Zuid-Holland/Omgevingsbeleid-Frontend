@@ -84,10 +84,9 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
         data: latest,
         isLoading: latestIsLoading,
         isError: latestIsError,
-    } = useGetLatestLineage(data!.Object_ID!, {
-        // @ts-ignore
+    } = useGetLatestLineage?.<ModelReturnType>(data!.Object_ID!, {
         query: { enabled: !!data?.Object_ID },
-    })
+    }) || {}
     const { data: revisions, isPending: revisionsLoading } =
         useGetValidLineage?.<{ results?: ModelReturnType[] }>(
             data!.Object_ID!,
@@ -97,7 +96,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
             {
                 query: {
                     enabled: !!data?.Object_ID,
-                    select: e => {
+                    select: (e: { results: ModelReturnType[] }) => {
                         if (isRevision) {
                             return {
                                 ...e,

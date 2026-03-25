@@ -3,7 +3,10 @@ import { Plus } from '@pzh-ui/icons'
 import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { RequestAcknowledgedRelation } from '@/api/fetchers.schemas'
+import {
+    AcknowledgedRelation,
+    RequestAcknowledgedRelation,
+} from '@/api/fetchers.schemas'
 import ObjectRelationApprovedModal from '@/components/Modals/ObjectModals/ObjectRelationApprovedModal'
 import ObjectRelationNewModal from '@/components/Modals/ObjectModals/ObjectRelationNewModal'
 import ObjectRelationReceivedModal from '@/components/Modals/ObjectModals/ObjectRelationReceivedModal'
@@ -32,9 +35,13 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
 
     const { useGetAcknowledgedRelations } = model.fetchers
     const { data, isLoading, queryKey } =
-        useGetAcknowledgedRelations?.(parseInt(objectId!), undefined, {
-            query: { enabled: !!objectId },
-        }) || {}
+        useGetAcknowledgedRelations?.<AcknowledgedRelation[]>(
+            parseInt(objectId!),
+            undefined,
+            {
+                query: { enabled: !!objectId },
+            }
+        ) || {}
 
     const { approved, sent, received } = useMemo(() => {
         const filteredData = data?.filter(
@@ -92,7 +99,7 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
 
     return (
         <>
-            <div className="mb-5 mt-8 flex items-center justify-between">
+            <div className="mt-8 mb-5 flex items-center justify-between">
                 <Heading level="3" size="m">
                     Beleidsrelaties
                 </Heading>
@@ -106,7 +113,7 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
                             })
                             setActiveModal('objectRelationAdd')
                         }}
-                        className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-pzh-green-500">
+                        className="bg-pzh-green-500 flex h-[18px] w-[18px] items-center justify-center rounded-full">
                         <span className="sr-only">
                             Beleidsrelatie toevoegen
                         </span>
