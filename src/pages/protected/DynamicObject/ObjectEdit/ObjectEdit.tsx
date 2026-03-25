@@ -118,9 +118,15 @@ const getDefaultValues = (object?: Record<string, any>) => ({
         },
     }),
     ...(object?.Documents_Statics && {
-        Documents: object.Documents_Statics.map((doc: any) => ({
-            label: doc.Cached_Title,
-            value: doc.Code,
+        Documents: object.Documents_Statics.map((item: any) => ({
+            label: item.Cached_Title,
+            value: item.Code,
+        })),
+    }),
+    ...(object?.Geo_Statics && {
+        Target_Codes: object.Geo_Statics.map((item: any) => ({
+            label: item.Cached_Title,
+            value: item.Code,
         })),
     }),
 })

@@ -1,11 +1,7 @@
 import { Mark, mergeAttributes } from '@tiptap/core'
 
 export const AREA_DATA_ATTRS = {
-    group: 'data-aanwijzing-group',
-    type: 'data-aanwijzing-type',
-    locations: 'data-target-codes',
-    title: 'data-title',
-    context: 'data-context',
+    code: 'data-code',
 } as const
 
 type AreaAttributes = {
@@ -37,11 +33,7 @@ export const Area = Mark.create({
             HTMLAttributes: {
                 href: '#',
                 'data-hint-type': 'gebiedsaanwijzing',
-                [AREA_DATA_ATTRS.group]: null,
-                [AREA_DATA_ATTRS.type]: null,
-                [AREA_DATA_ATTRS.locations]: null,
-                [AREA_DATA_ATTRS.title]: null,
-                [AREA_DATA_ATTRS.context]: null,
+                [AREA_DATA_ATTRS.code]: null,
             },
         }
     },
@@ -54,20 +46,8 @@ export const Area = Mark.create({
             'data-hint-type': {
                 default: this.options.HTMLAttributes['data-hint-type'],
             },
-            [AREA_DATA_ATTRS.group]: {
-                default: this.options.HTMLAttributes[AREA_DATA_ATTRS.group],
-            },
-            [AREA_DATA_ATTRS.type]: {
-                default: this.options.HTMLAttributes[AREA_DATA_ATTRS.type],
-            },
-            [AREA_DATA_ATTRS.locations]: {
-                default: this.options.HTMLAttributes[AREA_DATA_ATTRS.locations],
-            },
-            [AREA_DATA_ATTRS.title]: {
-                default: this.options.HTMLAttributes[AREA_DATA_ATTRS.title],
-            },
-            [AREA_DATA_ATTRS.context]: {
-                default: this.options.HTMLAttributes[AREA_DATA_ATTRS.context],
+            [AREA_DATA_ATTRS.code]: {
+                default: this.options.HTMLAttributes[AREA_DATA_ATTRS.code],
             },
         }
     },
@@ -75,7 +55,7 @@ export const Area = Mark.create({
     parseHTML() {
         return [
             {
-                tag: `a[${[AREA_DATA_ATTRS.group]}]`,
+                tag: `a[${[AREA_DATA_ATTRS.code]}]`,
             },
         ]
     },

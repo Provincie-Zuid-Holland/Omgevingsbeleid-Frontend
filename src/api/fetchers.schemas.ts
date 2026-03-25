@@ -1615,6 +1615,7 @@ export interface PublicationEnvironment {
     Governing_Body_Type: string
     Has_State: boolean
     Is_Active: boolean
+    Is_Locked: boolean
     Modified_Date: string
     Province_ID: string
     Submitter_ID: string
@@ -3470,6 +3471,7 @@ export interface GebiedsaanwijzingFull {
     Created_By?: GebiedsaanwijzingFullCreatedBy
     Created_Date?: string
     End_Validity?: GebiedsaanwijzingFullEndValidity
+    Geo_Statics?: ObjectStatics[]
     Modified_By?: GebiedsaanwijzingFullModifiedBy
     Modified_Date?: string
     Object_ID?: number

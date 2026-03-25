@@ -1482,6 +1482,7 @@ export const getPublicationActsGetDetailActResponseMock = (
         Governing_Body_Type: faker.word.sample(),
         Has_State: faker.datatype.boolean(),
         Is_Active: faker.datatype.boolean(),
+        Is_Locked: faker.datatype.boolean(),
         Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
         Province_ID: faker.word.sample(),
         Submitter_ID: faker.word.sample(),
@@ -1786,6 +1787,7 @@ export const getPublicationEnvironmentsGetListEnvironmentsResponseMock = (
         Governing_Body_Type: faker.word.sample(),
         Has_State: faker.datatype.boolean(),
         Is_Active: faker.datatype.boolean(),
+        Is_Locked: faker.datatype.boolean(),
         Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
         Province_ID: faker.word.sample(),
         Submitter_ID: faker.word.sample(),
@@ -1816,6 +1818,7 @@ export const getPublicationEnvironmentsGetDetailEnvironmentResponseMock = (
     Governing_Body_Type: faker.word.sample(),
     Has_State: faker.datatype.boolean(),
     Is_Active: faker.datatype.boolean(),
+    Is_Locked: faker.datatype.boolean(),
     Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
     Province_ID: faker.word.sample(),
     Submitter_ID: faker.word.sample(),
@@ -12548,6 +12551,18 @@ export const getGebiedsaanwijzingViewObjectVersionResponseMock = (
         ]),
         undefined,
     ]),
+    Geo_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
+        undefined,
+    ]),
     Modified_By: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
@@ -12621,6 +12636,18 @@ export const getGebiedsaanwijzingViewObjectLatestResponseMock = (
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             null,
         ]),
+        undefined,
+    ]),
+    Geo_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Modified_By: faker.helpers.arrayElement([
@@ -12805,6 +12832,18 @@ export const getGebiedsaanwijzingViewModuleObjectLatestResponseMock = (
         ]),
         undefined,
     ]),
+    Geo_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
+        undefined,
+    ]),
     Modified_By: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
@@ -12878,6 +12917,18 @@ export const getGetModulesObjectGebiedsaanwijzingVersionResponseMock = (
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             null,
         ]),
+        undefined,
+    ]),
+    Geo_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Modified_By: faker.helpers.arrayElement([
@@ -13015,6 +13066,18 @@ export const getGetRevisionsGebiedsaanwijzingVersionResponseMock = (
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             null,
         ]),
+        undefined,
+    ]),
+    Geo_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Modified_By: faker.helpers.arrayElement([

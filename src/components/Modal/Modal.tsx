@@ -14,7 +14,7 @@ interface ModalProps extends Omit<ProvidedModalProps, 'id'> {
     id: ModalType
     hideTitle?: boolean
     onClose?: () => void
-    description?: string
+    description?: JSX.Element | string
 }
 
 const Modal = ({

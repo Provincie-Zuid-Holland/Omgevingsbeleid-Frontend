@@ -43,14 +43,15 @@ const FieldAreaAnnotate = ({
     return (
         <FormikSelect
             key={
-                optionType === 'group'
+                props.name +
+                (optionType === 'group'
                     ? isLoading.toString() + values.Ref_Type
-                    : isLoading.toString()
+                    : isLoading.toString())
             }
-            options={options}
-            disabled={optionType === 'group' ? !values.Ref_Type : undefined}
-            isLoading={isLoading}
             {...props}
+            options={options}
+            isLoading={isLoading}
+            disabled={optionType === 'group' ? !values.Ref_Type : undefined}
         />
     )
 }

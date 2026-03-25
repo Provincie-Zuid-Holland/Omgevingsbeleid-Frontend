@@ -1,14 +1,7 @@
-import { object, union } from 'zod'
+import { object } from 'zod'
 
 import { schemaDefaults } from './zodSchema'
 
 export const SCHEMA_OBJECT_ANNOTATE_AREA = object({
-    title: schemaDefaults.requiredString(),
-    type: schemaDefaults.requiredString(),
-    group: schemaDefaults.requiredString(),
-    locations: union([
-        schemaDefaults.requiredArray(),
-        schemaDefaults.requiredString(),
-    ]),
-    context: schemaDefaults.requiredString(),
+    code: schemaDefaults.requiredString(),
 })
