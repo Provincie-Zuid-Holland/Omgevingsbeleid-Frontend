@@ -3,7 +3,12 @@ import { Link, useParams } from 'react-router-dom'
 
 import { HierachyReference } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
-import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
+import {
+    Model,
+    ModelReturnType,
+    ModelType,
+    QueryHook,
+} from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import { generateObjectPath } from '@/utils/dynamicObject'
 import groupBy from 'lodash.groupby'
@@ -43,17 +48,20 @@ const ObjectConnectionsPublic = ({
     ) || {}
 
     const { data: validData } =
-        useGetLatestLineage?.(Number(data.Hierarchy_Statics?.Object_ID), {
-            query: {
-                enabled:
-                    (!moduleId && !!data.Hierarchy_Statics?.Object_ID) ||
-                    (!!moduleId &&
-                        !!data.Hierarchy_Statics?.Object_ID &&
-                        !moduleData &&
-                        isSuccess) ||
-                    isError,
-            },
-        }) || {}
+        (useGetLatestLineage as QueryHook | null | undefined)?.(
+            Number(data.Hierarchy_Statics?.Object_ID),
+            {
+                query: {
+                    enabled:
+                        (!moduleId && !!data.Hierarchy_Statics?.Object_ID) ||
+                        (!!moduleId &&
+                            !!data.Hierarchy_Statics?.Object_ID &&
+                            !moduleData &&
+                            isSuccess) ||
+                        isError,
+                },
+            }
+        ) || {}
 
     const acknowledgedRelation = moduleId && isSuccess ? moduleData : validData
 

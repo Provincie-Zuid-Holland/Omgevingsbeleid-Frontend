@@ -1,13 +1,13 @@
 import { object } from 'zod'
 
-import { ModelPatchStaticType } from '@/config/objects/types'
+import { ObjectStaticShort } from '@/api/fetchers.schemas'
 import { getStaticDataPropertyRequired } from '@/utils/dynamicObject'
 import { schemaDefaults, zodAlwaysRefine } from '@/validation/zodSchema'
 
 /**
  * Create SCHEMA based on provided values
  */
-const generateSchema = (values: (keyof ModelPatchStaticType)[]) => {
+const generateSchema = (values: (keyof ObjectStaticShort)[]) => {
     let schema = object({})
 
     values.forEach(val => {

@@ -19,10 +19,6 @@ import {
     useBeleidskeuzeViewObjectVersion,
     useGetRevisionsBeleidskeuzeVersion,
 } from '@/api/fetchers'
-import {
-    BeleidskeuzePatch,
-    BeleidskeuzeStaticPostStatics,
-} from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
@@ -53,12 +49,7 @@ const queryKeys = {
         getBeleidskeuzeGetAcknowledgedRelationListQueryKey,
 }
 
-const beleidskeuze: DynamicObject<
-    typeof fetchers,
-    keyof BeleidskeuzePatch,
-    (keyof BeleidskeuzeStaticPostStatics)[],
-    typeof queryKeys
-> = {
+const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
     defaults: {
         singular: 'beleidskeuze',
         singularReadable: 'beleidskeuze',
@@ -240,7 +231,7 @@ const beleidskeuze: DynamicObject<
                     status: 'all',
                     placeholder: 'Selecteer een gebiedengroep',
                     filterType: ['gebiedengroep'],
-                    objectKey: 'Gebiedengroep_Code',
+                    objectKey: 'Object_Code',
                     components: {
                         DropdownIndicator: () => (
                             <div className="mr-4">
@@ -260,7 +251,7 @@ const beleidskeuze: DynamicObject<
                     label: 'Beleidsdoel',
                     type: 'search',
                     required: true,
-                    objectKey: 'Hierarchy_Code',
+                    objectKey: 'Object_Code',
                     filterType: ['beleidsdoel'],
                     status: 'all',
                     placeholder: 'Kies het beleidsdoel',

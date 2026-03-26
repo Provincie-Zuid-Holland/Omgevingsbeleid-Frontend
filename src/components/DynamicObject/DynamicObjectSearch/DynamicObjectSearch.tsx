@@ -6,8 +6,8 @@ import { useState } from 'react'
 
 import { searchGetMssqlSearch, searchGetMssqlValidSearch } from '@/api/fetchers'
 import {
-    SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
-    ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+    SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+    ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
 } from '@/api/fetchers.schemas'
 import { ModelType } from '@/config/objects/types'
 import { useParams } from 'react-router-dom'
@@ -15,7 +15,7 @@ import { useParams } from 'react-router-dom'
 export type Option = {
     label: JSX.Element
     value?: string | number
-    object?: SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
+    object?: SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
 }
 
 export interface DynamicObjectSearchProps
@@ -23,13 +23,7 @@ export interface DynamicObjectSearchProps
     /** Gets called when selecting an option */
     onChange?: (object?: Option | Option[] | null) => void
     /** Key of model */
-    objectKey?:
-        | 'Object_UUID'
-        | 'Object_ID'
-        | 'Hierarchy_Code'
-        | 'Werkingsgebied_Code'
-        | 'Gebiedengroep_Code'
-        | 'Document_Code'
+    objectKey?: 'Object_UUID' | 'Object_ID' | 'Object_Code'
     /** Name of field */
     fieldName?: string
     /** Placeholder of field (optional) */
@@ -113,8 +107,8 @@ const DynamicObjectSearch = ({
                 const options = filteredObject.map(
                     (
                         object:
-                            | SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
-                            | ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
+                            | SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
+                            | ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
                     ) => ({
                         label: (
                             <div className="flex justify-between gap-4">
@@ -137,10 +131,7 @@ const DynamicObjectSearch = ({
                         value:
                             objectKey === 'Object_UUID'
                                 ? object.Model.UUID
-                                : objectKey === 'Hierarchy_Code' ||
-                                    objectKey === 'Werkingsgebied_Code' ||
-                                    objectKey === 'Gebiedengroep_Code' ||
-                                    objectKey === 'Document_Code'
+                                : objectKey === 'Object_Code'
                                   ? object.Model.Code
                                   : object.Model.Object_ID,
                         object,

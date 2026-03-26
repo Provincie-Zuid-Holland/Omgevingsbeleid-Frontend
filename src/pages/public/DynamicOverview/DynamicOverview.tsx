@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet-async'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import ObjectList from '@/components/ObjectList'
-import { Model } from '@/config/objects/types'
+import { Model, ModelReturnTypeBasicUnion } from '@/config/objects/types'
 import useSearchParam from '@/hooks/useSearchParam'
 
 const PAGE_LIMIT = 50
@@ -33,19 +33,23 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
         atemporal,
     } = model.defaults
 
-    const { data, isLoading } = useGetValid(
-        {
-            limit: PAGE_LIMIT,
-            offset: (currPage - 1) * PAGE_LIMIT,
-            sort_column: 'Title',
-            sort_order: 'ASC',
-        },
-        {
-            query: {
-                placeholderData: keepPreviousData,
+    const { data, isLoading } =
+        useGetValid?.<{
+            results?: ModelReturnTypeBasicUnion[]
+            total?: number
+        }>(
+            {
+                limit: PAGE_LIMIT,
+                offset: (currPage - 1) * PAGE_LIMIT,
+                sort_column: 'Title',
+                sort_order: 'ASC',
             },
-        }
-    )
+            {
+                query: {
+                    placeholderData: keepPreviousData,
+                },
+            }
+        ) || {}
 
     /**
      * Create array of returned data with correct format
@@ -94,7 +98,7 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
                 )}
             </Helmet>
 
-            <Container className="pb-16 pt-4">
+            <Container className="pt-4 pb-16">
                 <div className="col-span-6 mb-8 capitalize">
                     <Breadcrumbs items={breadcrumbPaths} />
                 </div>

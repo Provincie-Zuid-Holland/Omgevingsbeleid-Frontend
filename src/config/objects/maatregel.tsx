@@ -1,7 +1,6 @@
 import { Hyperlink } from '@pzh-ui/components'
 import { AngleDown, CalendarCheck } from '@pzh-ui/icons'
 import { Link } from 'react-router-dom'
-import { z } from 'zod'
 
 import {
     useGetRevisionsMaatregelVersion,
@@ -16,10 +15,6 @@ import {
     useMaatregelViewObjectLatest,
     useMaatregelViewObjectVersion,
 } from '@/api/fetchers'
-import {
-    MaatregelPatch,
-    MaatregelStaticPostStatics,
-} from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
@@ -45,11 +40,7 @@ const fetchers = {
     useGetActiveModules: useMaatregelGetListActiveModuleObjects,
 }
 
-const maatregel: DynamicObject<
-    typeof fetchers,
-    keyof MaatregelPatch,
-    (keyof MaatregelStaticPostStatics)[]
-> = {
+const maatregel: DynamicObject<typeof fetchers> = {
     defaults: {
         singular: 'maatregel',
         singularReadable: 'maatregel',
@@ -204,7 +195,7 @@ const maatregel: DynamicObject<
                     status: 'all',
                     placeholder: 'Selecteer een gebiedengroep',
                     filterType: ['gebiedengroep'],
-                    objectKey: 'Gebiedengroep_Code',
+                    objectKey: 'Object_Code',
                     components: {
                         DropdownIndicator: () => (
                             <div className="mr-4">
@@ -224,7 +215,7 @@ const maatregel: DynamicObject<
                     label: 'Beleidskeuze',
                     type: 'search',
                     required: true,
-                    objectKey: 'Hierarchy_Code',
+                    objectKey: 'Object_Code',
                     filterType: ['beleidskeuze'],
                     status: 'all',
                     placeholder: 'Kies de beleidskeuze',
@@ -247,7 +238,7 @@ const maatregel: DynamicObject<
                     label: 'Selecteer één of meerdere documenten',
                     type: 'search',
                     filterType: ['document'],
-                    objectKey: 'Document_Code',
+                    objectKey: 'Object_Code',
                     isMulti: true,
                     closeMenuOnSelect: false,
                     status: 'all',
@@ -259,19 +250,7 @@ const maatregel: DynamicObject<
                             </div>
                         ),
                     },
-                    // @ts-ignore
-                    validation: z
-                        .array(
-                            z.union([
-                                z.string(),
-                                z.object({ label: z.any(), value: z.string() }),
-                            ])
-                        )
-                        .optional()
-                        .nullable()
-                        .transform(val =>
-                            val?.map(v => (typeof v === 'string' ? v : v.value))
-                        ),
+                    validation: schemaDefaults.options,
                 },
             ],
         },

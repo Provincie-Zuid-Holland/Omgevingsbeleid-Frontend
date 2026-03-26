@@ -9,6 +9,7 @@ import {
 import { DynamicObjectSearchProps } from '@/components/DynamicObject/DynamicObjectSearch'
 import { Validation } from '@/validation/zodSchema'
 
+import { FieldAreaAnnotateProps } from '@/components/Form/FieldAreaAnnotate/FieldAreaAnnotate'
 import { ModelReturnType, ModelType } from './objects/types'
 
 type DynamicFieldType =
@@ -24,6 +25,7 @@ type DynamicFieldType =
     | 'array'
     | 'checkbox'
     | 'file'
+    | 'areaAnnotate'
 
 export type DynamicSection<FieldType = string> = {
     /** Title of section */
@@ -60,7 +62,8 @@ export type DynamicField<FieldType = string> = {
     ConnectionsProps &
     SearchProps &
     ArrayProps &
-    CheckboxProps
+    CheckboxProps &
+    AreaAnnotateProps
 
 type TextProps =
     | ({ type: 'text' } & FieldInputProps)
@@ -123,4 +126,10 @@ type CheckboxProps =
     | ({ type: 'checkbox' } & Omit<FieldCheckboxGroupProps, 'value'>)
     | {
           type: Exclude<DynamicFieldType, 'checkbox'>
+      }
+
+type AreaAnnotateProps =
+    | ({ type: 'areaAnnotate' } & FieldAreaAnnotateProps)
+    | {
+          type: Exclude<DynamicFieldType, 'areaAnnotate'>
       }

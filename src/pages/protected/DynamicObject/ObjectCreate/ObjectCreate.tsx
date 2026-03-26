@@ -6,15 +6,16 @@ import { useNavigate } from 'react-router-dom'
 
 import { HTTPValidationError } from '@/api/fetchers.schemas'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
-import * as models from '@/config/objects'
-import { ModelType } from '@/config/objects/types'
+import { Model } from '@/config/objects/types'
 import MutateLayout from '@/templates/MutateLayout'
 import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
 import { AxiosError } from 'axios'
 
+type FormData = Record<string, unknown>
+
 interface ObjectCreateProps {
-    model: (typeof models)[ModelType]
+    model: Model
 }
 
 const ObjectCreate = ({ model }: ObjectCreateProps) => {
@@ -24,10 +25,10 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
     const { singularCapitalize, plural, pluralCapitalize } = model.defaults
     const { usePostObject, useGetValid, usePutRelations } = model.fetchers
 
-    const { queryKey } = useGetValid(undefined, {
-        // @ts-ignore
-        query: { enabled: false },
-    })
+    const { queryKey } =
+        useGetValid?.(undefined, {
+            query: { enabled: false },
+        }) || {}
 
     const createObject = usePostObject?.()
 
@@ -41,7 +42,7 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
             section.fields.map(field => field.name)
         )
 
-        const objectData = {} as { [key in (typeof fields)[number]]: any }
+        const objectData: FormData = {}
 
         fields?.forEach(field => {
             return (objectData[field] = null)
@@ -54,8 +55,8 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
      * Handle submit of form
      */
     const handleSubmit = (
-        payload: typeof initialData,
-        helpers: FormikHelpers<typeof initialData>
+        payload: FormData,
+        helpers: FormikHelpers<FormData>
     ) => {
         if (!payload) return
 

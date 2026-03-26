@@ -9,10 +9,6 @@ import {
     useNationaalBelangPostRelationsOverwrite,
     useNationaalBelangViewObjectLatest,
 } from '@/api/fetchers'
-import {
-    NationaalBelangEdit,
-    NationaalBelangStaticPostStatics,
-} from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
@@ -38,11 +34,7 @@ const fetchers = {
     useGetActiveModules: null,
 }
 
-const nationaalBelang: DynamicObject<
-    typeof fetchers,
-    keyof NationaalBelangEdit,
-    (keyof NationaalBelangStaticPostStatics)[]
-> = {
+const nationaalBelang: DynamicObject<typeof fetchers> = {
     defaults: {
         singular: 'nationaal_belang',
         singularReadable: 'nationaal belang',

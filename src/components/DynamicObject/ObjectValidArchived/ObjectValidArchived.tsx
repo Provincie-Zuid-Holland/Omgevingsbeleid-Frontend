@@ -3,6 +3,7 @@ import { Eye } from '@pzh-ui/icons'
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 
+import { ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import { Model } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
@@ -19,8 +20,13 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
     const { useGetValidLineage } = model.fetchers
 
     const { data, isLoading } =
-        useGetValidLineage?.(object?.Object_ID || 0, undefined, {
+        (useGetValidLineage?.(object?.Object_ID || 0, undefined, {
             query: { enabled: !!object?.Object_ID },
+        }) as {
+            data?: {
+                results?: ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel[]
+            }
+            isLoading: boolean
         }) || {}
 
     /** Filter out first object which is the valid one */
@@ -79,7 +85,8 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                                 </div>
                                 <div className="col-span-2">
                                     <Text>
-                                        {object.Start_Validity &&
+                                        {'Start_Validity' in object &&
+                                            object.Start_Validity &&
                                             formatDate(
                                                 parseUtc(object.Start_Validity),
                                                 'dd-MM-yyyy'

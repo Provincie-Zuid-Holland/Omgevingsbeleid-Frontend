@@ -43,7 +43,7 @@ const ObjectConnectionModal = ({
         data: relations,
         refetch: refetchRelations,
         queryKey,
-    } = useGetRelations?.(parseInt(objectId!), {
+    } = useGetRelations?.<ReadRelation[]>(parseInt(objectId!), {
         query: { enabled: !!objectId },
     }) || {}
 

@@ -1,9 +1,10 @@
 import {
     AcknowledgedRelation,
+    ObjectStaticShort,
     ReadRelation,
     UserShort,
 } from '@/api/fetchers.schemas'
-import { Model, ModelPatchStaticType, ModelType } from '@/config/objects/types'
+import { Model, ModelType } from '@/config/objects/types'
 import { Role } from '@/context/AuthContext'
 
 export interface ObjectConnectionModalActions {
@@ -25,7 +26,7 @@ export interface ObjectPersonModalActions {
         filterRoles?: Role[]
     }
     isEdit?: boolean
-    initialValues: ModelPatchStaticType
+    initialValues: ObjectStaticShort
 }
 
 export interface ObjectRelationModalActions {

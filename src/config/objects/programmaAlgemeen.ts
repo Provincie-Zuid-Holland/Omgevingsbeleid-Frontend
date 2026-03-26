@@ -11,10 +11,6 @@ import {
     useProgrammaAlgemeenViewObjectLatest,
     useProgrammaAlgemeenViewObjectVersion,
 } from '@/api/fetchers'
-import {
-    VisieAlgemeenPatch,
-    VisieAlgemeenStaticPostStatics,
-} from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
@@ -40,11 +36,7 @@ const fetchers = {
     useGetActiveModules: useProgrammaAlgemeenGetListActiveModuleObjects,
 }
 
-const programmaAlgemeen: DynamicObject<
-    typeof fetchers,
-    keyof VisieAlgemeenPatch,
-    (keyof VisieAlgemeenStaticPostStatics)[]
-> = {
+const programmaAlgemeen: DynamicObject<typeof fetchers> = {
     defaults: {
         singular: 'programma_algemeen',
         singularReadable: 'programma algemeen',

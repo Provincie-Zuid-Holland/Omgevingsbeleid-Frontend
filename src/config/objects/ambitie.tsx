@@ -15,7 +15,6 @@ import {
     useAmbitieViewObjectVersion,
     useGetRevisionsAmbitieVersion,
 } from '@/api/fetchers'
-import { AmbitiePatch, AmbitieStaticPostStatics } from '@/api/fetchers.schemas'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
@@ -41,11 +40,7 @@ const fetchers = {
     useGetActiveModules: useAmbitieGetListActiveModuleObjects,
 }
 
-const ambitie: DynamicObject<
-    typeof fetchers,
-    keyof AmbitiePatch,
-    (keyof AmbitieStaticPostStatics)[]
-> = {
+const ambitie: DynamicObject<typeof fetchers> = {
     defaults: {
         singular: 'ambitie',
         singularReadable: 'ambitie',

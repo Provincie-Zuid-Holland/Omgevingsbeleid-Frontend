@@ -41,7 +41,7 @@ const PublicationTemplateCreate = () => {
         })
 
         return objectData
-    }, [])
+    }, []) as TemplateCreate
 
     const handleSubmit = (
         payload: TemplateCreate,

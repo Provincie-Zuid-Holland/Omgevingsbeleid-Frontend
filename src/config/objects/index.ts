@@ -5,6 +5,7 @@ import { default as beleidsregel } from './beleidsregel'
 import { default as document } from './document'
 import { default as gebied } from './gebied'
 import { default as gebiedengroep } from './gebiedengroep'
+import { default as gebiedsaanwijzing } from './gebiedsaanwijzing'
 import { default as gebiedsprogramma } from './gebiedsprogramma'
 import { default as maatregel } from './maatregel'
 import { default as nationaal_belang } from './nationaalBelang'
@@ -22,6 +23,7 @@ export {
     document,
     gebied,
     gebiedengroep,
+    gebiedsaanwijzing,
     gebiedsprogramma,
     maatregel,
     nationaal_belang,
