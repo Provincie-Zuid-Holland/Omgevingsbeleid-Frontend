@@ -1,7 +1,6 @@
 import { Hyperlink } from '@pzh-ui/components'
 import { AngleDown, CalendarCheck } from '@pzh-ui/icons'
 import { Link } from 'react-router-dom'
-import { z } from 'zod'
 
 import {
     useGetRevisionsMaatregelVersion,
@@ -251,19 +250,7 @@ const maatregel: DynamicObject<typeof fetchers> = {
                             </div>
                         ),
                     },
-                    // @ts-ignore
-                    validation: z
-                        .array(
-                            z.union([
-                                z.string(),
-                                z.object({ label: z.any(), value: z.string() }),
-                            ])
-                        )
-                        .optional()
-                        .nullable()
-                        .transform(val =>
-                            val?.map(v => (typeof v === 'string' ? v : v.value))
-                        ),
+                    validation: schemaDefaults.options,
                 },
             ],
         },

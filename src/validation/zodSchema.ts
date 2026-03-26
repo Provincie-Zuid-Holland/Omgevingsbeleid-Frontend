@@ -5,7 +5,9 @@ import {
     array,
     instanceof as instanceOf,
     number,
+    object,
     string,
+    union,
 } from 'zod'
 
 const EMPTY_ERROR = 'Het veld is niet (goed) ingevuld.'
@@ -65,6 +67,10 @@ export const schemaDefaults = {
             })
         ).nonempty(msg),
     optionalArray: array(string()).optional().nullable(),
+    options: array(union([string(), object({ label: any(), value: string() })]))
+        .optional()
+        .nullable()
+        .transform(val => val?.map(v => (typeof v === 'string' ? v : v.value))),
 }
 
 const customRteValidation = () =>
@@ -105,9 +111,7 @@ const customRteValidation = () =>
         }
     })
 
-export type Validation = {
-    [K in keyof typeof schemaDefaults]?: (typeof schemaDefaults)[K]
-}
+export type Validation = ZodTypeAny
 
 export function zodAlwaysRefine<T extends ZodTypeAny>(zodType: T) {
     return any().superRefine(async (value, ctx) => {

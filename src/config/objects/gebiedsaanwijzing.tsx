@@ -13,7 +13,6 @@ import {
 } from '@/api/fetchers'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
-import { z } from 'zod'
 
 import { DynamicObject } from './types'
 
@@ -108,19 +107,7 @@ const gebiedsaanwijzing: DynamicObject<typeof fetchers> = {
                         ),
                     },
                     required: true,
-                    // @ts-ignore
-                    validation: z
-                        .array(
-                            z.union([
-                                z.string(),
-                                z.object({ label: z.any(), value: z.string() }),
-                            ])
-                        )
-                        .optional()
-                        .nullable()
-                        .transform(val =>
-                            val?.map(v => (typeof v === 'string' ? v : v.value))
-                        ),
+                    validation: schemaDefaults.options,
                 },
             ],
         },
