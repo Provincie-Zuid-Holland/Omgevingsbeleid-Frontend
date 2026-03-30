@@ -11,8 +11,10 @@ import { useParams } from 'react-router-dom'
 import {
     useModulesGetListModules,
     useModulesViewModuleOverview,
-    useSearchDoListAllLatest,
+    useObjectsDoListAllLatest,
 } from '@/api/fetchers'
+import * as models from '@/config/objects'
+import { ModelType } from '@/config/objects/types'
 
 import { ContentsModalForm } from '../ModuleContentsModal'
 import { StepProps } from './types'
@@ -23,10 +25,15 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
     const { values, setFieldValue, setFieldError } =
         useFormikContext<ContentsModalForm>()
 
+    const availableTypes = Object.keys(models).filter(
+        model => !models[model as ModelType].defaults.atemporal
+    )
+
     const { data, isFetching } = useModulesGetListModules(
         {
             only_mine: false,
             filter_activated: true,
+            filter_closed: false,
             limit: 100,
         },
         {
@@ -41,11 +48,12 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
     )
 
     const { data: validObjects, isFetching: validIsFetching } =
-        useSearchDoListAllLatest(
+        useObjectsDoListAllLatest(
             {
                 limit: 500,
                 sort_column: 'Title',
                 sort_order: 'ASC',
+                object_types: availableTypes,
             },
             {
                 query: {
@@ -55,14 +63,16 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
                     select: data =>
                         data.results.map(object => ({
                             label: (
-                                <div className="flex justify-between">
-                                    <span>{object.Title}</span>
-                                    <span className="capitalize opacity-50">
+                                <div className="flex justify-between gap-4">
+                                    <span className="truncate">
+                                        {object.Model.Title}
+                                    </span>
+                                    <span className="whitespace-nowrap capitalize opacity-50">
                                         {object.Object_Type.replace('_', ' ')}
                                     </span>
                                 </div>
                             ),
-                            value: object.UUID,
+                            value: object.Model.UUID,
                             objectContext: object,
                         })),
                 },
@@ -77,9 +87,9 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
                 select: data =>
                     data.Objects.map(object => ({
                         label: (
-                            <div className="flex justify-between">
+                            <div className="flex justify-between gap-4">
                                 <span>{object.Model.Title}</span>
-                                <span className="capitalize opacity-50">
+                                <span className="whitespace-nowrap capitalize opacity-50">
                                     {object.Object_Type.replace('_', ' ')}
                                 </span>
                             </div>
@@ -129,7 +139,7 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
         const label = data.label.props.children[0].props.children as string
 
         if (
-            label.toLowerCase().includes(inputValue.toLowerCase()) ||
+            label?.toLowerCase().includes(inputValue.toLowerCase()) ||
             data.value?.toLowerCase().includes(inputValue.toLowerCase())
         ) {
             return true
@@ -146,10 +156,12 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
             <Text>
                 Je wilt een bestaand onderdeel toevoegen aan deze module. Geef
                 aan vanuit welke bron je een onderdeel wilt toevoegen en
-                selecteer daarna het juiste onderdeel. Indien je een onderdeel
-                uit een andere module selecteert, wordt er een kopie gemaakt
-                vanuit die module en worden wijzigingen niet automatisch
-                doorgevoerd in andere modules.
+                selecteer daarna het juiste onderdeel.
+            </Text>
+            <Text>
+                Indien je een onderdeel uit een andere module selecteert, wordt
+                er een kopie gemaakt vanuit die module en worden wijzigingen
+                niet automatisch doorgevoerd in andere modules.
             </Text>
             <FormikSelect
                 key={isFetching?.toString() + String(options.length)}

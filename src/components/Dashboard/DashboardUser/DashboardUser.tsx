@@ -12,8 +12,8 @@ import { Link } from 'react-router-dom'
 
 import {
     useModulesGetListModules,
+    useObjectsDoListAllLatest,
     useObjectsViewObjectCounts,
-    useSearchDoListAllLatest,
 } from '@/api/fetchers'
 import { GenericObjectShort, Module } from '@/api/fetchers.schemas'
 import ObjectCard from '@/components/DynamicObject/ObjectCard'
@@ -97,7 +97,7 @@ const UserObject = () => {
 
     const { data: availableObjectTypes } = useObjectsViewObjectCounts()
 
-    const { data: objects, isFetching } = useSearchDoListAllLatest(
+    const { data: objects, isFetching } = useObjectsDoListAllLatest(
         {
             owner_uuid: user?.UUID,
             object_type: activeTab,
