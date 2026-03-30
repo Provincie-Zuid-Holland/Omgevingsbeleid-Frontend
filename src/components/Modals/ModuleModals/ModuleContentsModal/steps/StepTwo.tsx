@@ -7,7 +7,11 @@ import { StepProps } from './types'
 
 export const StepTwo = ({}: StepProps) => {
     const options = Object.keys(models)
-        .filter(model => !models[model as ModelType].defaults.atemporal)
+        .filter(
+            model =>
+                !models[model as ModelType].defaults.atemporal &&
+                !models[model as ModelType].defaults.disabled
+        )
         .map(model => ({
             label: models[model as ModelType].defaults.singularCapitalize,
             value: model,
@@ -15,7 +19,7 @@ export const StepTwo = ({}: StepProps) => {
 
     return (
         <div>
-            <Heading level="2" className="mb-4">
+            <Heading level="2" size="xl" className="mb-4">
                 Wat wil je toevoegen?
             </Heading>
             <Text className="mb-4">

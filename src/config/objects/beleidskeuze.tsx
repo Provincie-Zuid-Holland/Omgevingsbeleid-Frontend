@@ -64,6 +64,7 @@ const beleidskeuze: DynamicObject<
         singularReadable: 'beleidskeuze',
         singularCapitalize: 'Beleidskeuze',
         plural: 'beleidskeuzes',
+        pluralReadable: 'beleidskeuzes',
         pluralCapitalize: 'Beleidskeuzes',
         prefixSingular: 'de',
         prefixPlural: 'de',
@@ -132,6 +133,16 @@ const beleidskeuze: DynamicObject<
                     type: 'wysiwyg',
                     required: true,
                     hasAreaSelect: true,
+                    customMenuOptions: ['image'],
+                    imageOptions: {
+                        options: {
+                            allowBase64: true,
+                            inline: true,
+                        },
+                        uploadOptions: {
+                            maxSize: 819200,
+                        },
+                    },
                 },
                 {
                     name: 'Cause',
@@ -141,6 +152,16 @@ const beleidskeuze: DynamicObject<
                     type: 'wysiwyg',
                     required: true,
                     hasAreaSelect: true,
+                    customMenuOptions: ['image'],
+                    imageOptions: {
+                        options: {
+                            allowBase64: true,
+                            inline: true,
+                        },
+                        uploadOptions: {
+                            maxSize: 819200,
+                        },
+                    },
                 },
                 {
                     name: 'Provincial_Interest',
@@ -150,6 +171,16 @@ const beleidskeuze: DynamicObject<
                     type: 'wysiwyg',
                     required: true,
                     hasAreaSelect: true,
+                    customMenuOptions: ['image'],
+                    imageOptions: {
+                        options: {
+                            allowBase64: true,
+                            inline: true,
+                        },
+                        uploadOptions: {
+                            maxSize: 819200,
+                        },
+                    },
                 },
                 {
                     name: 'Explanation',
@@ -158,21 +189,31 @@ const beleidskeuze: DynamicObject<
                         'Op welke thema’s, onderwerpen en gebieden gaat de beleidskeuze iets wijzigen, en waarom is dit gewenst? Beschrijf ook de relatie met andere beleidsterreinen.',
                     type: 'wysiwyg',
                     hasAreaSelect: true,
+                    customMenuOptions: ['image'],
+                    imageOptions: {
+                        options: {
+                            allowBase64: true,
+                            inline: true,
+                        },
+                        uploadOptions: {
+                            maxSize: 819200,
+                        },
+                    },
                 },
             ],
         },
         {
-            title: 'Werkingsgebied',
+            title: 'Gebiedengroep',
             description:
-                'Het werkingsgebied geeft het gebied weer waar de beleidskeuze betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld, toegestaan of juist verboden.',
+                'De gebiedengroep geeft het gebied weer waar de beleidskeuze betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld, toegestaan of juist verboden.',
             fields: [
                 {
                     name: 'Ambtsgebied',
-                    label: 'Selecteer het gebied',
+                    label: 'Selecteer de gebiedengroep',
                     description: (
                         <>
                             Is op deze beleidskeuze het ambtsgebied van
-                            toepassing of een specifiek werkingsgebied? Heeft
+                            toepassing of een specifieke gebiedengroep? Heeft
                             jouw beleidskeuze nog geen geschikt gebied, of moet
                             het huidige gebied aangepast worden? Neem dan
                             contact op via{' '}
@@ -193,13 +234,13 @@ const beleidskeuze: DynamicObject<
                     ],
                 },
                 {
-                    name: 'Werkingsgebied_Code',
-                    label: 'Werkingsgebied',
+                    name: 'Gebiedengroep_Code',
+                    label: 'Gebiedengroep',
                     type: 'search',
                     status: 'all',
-                    placeholder: 'Selecteer een werkingsgebied',
-                    filterType: ['werkingsgebied'],
-                    objectKey: 'Werkingsgebied_Code',
+                    placeholder: 'Selecteer een gebiedengroep',
+                    filterType: ['gebiedengroep'],
+                    objectKey: 'Gebiedengroep_Code',
                     components: {
                         DropdownIndicator: () => (
                             <div className="mr-4">

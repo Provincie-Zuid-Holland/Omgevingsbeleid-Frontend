@@ -1,19 +1,21 @@
 import { Heading } from '@pzh-ui/components'
 import { Link } from 'react-router-dom'
 
-import { ValidSearchObject } from '@/api/fetchers.schemas'
+import { ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 
 interface SearchResultItem
-    extends Omit<ValidSearchObject, 'Object_ID' | 'Score' | 'Object_Code'> {
+    extends Omit<
+        ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+        'Object_ID' | 'Score' | 'Object_Code'
+    > {
     query?: string
 }
 
 const SearchResultItem = ({
-    Title,
     Object_Type,
-    UUID,
+    Model,
     Description,
     query,
 }: SearchResultItem) => {
@@ -47,33 +49,35 @@ const SearchResultItem = ({
     }
 
     const highlightedSentence = highlightString(Description, query)
-    const highlightedTitle = highlightString(Title, query)
+    const highlightedTitle = highlightString(Model.Title, query)
 
     return (
         <li className="mb-6">
             <Link
-                to={`/${model.defaults.slugOverview}/${model.defaults.plural}/${UUID}`}
-                className="group">
-                <span className="text-s text-pzh-gray-600">
-                    {model.defaults.singularCapitalize}
-                </span>
+                to={`/${model.defaults.slugOverview}/${model.defaults.plural}/${Model.UUID}`}
+                className="group flex flex-col">
                 <Heading
                     level="2"
                     size="m"
-                    className="group-hover:text-pzh-green-500 mb-2">
+                    className="group-hover:text-pzh-green-500 order-2 mb-2">
                     <span
                         dangerouslySetInnerHTML={{ __html: highlightedTitle }}
                     />
                 </Heading>
+                <span className="text-s text-pzh-gray-600 order-1">
+                    {model.defaults.singularCapitalize}
+                </span>
                 {!!Description ? (
                     <p
-                        className="line-clamp-3"
+                        className="order-3 line-clamp-3"
                         dangerouslySetInnerHTML={{
                             __html: highlightedSentence,
                         }}
                     />
                 ) : (
-                    <span className="italic">Geen voorbeeld beschikbaar</span>
+                    <span className="order-3 italic">
+                        Geen voorbeeld beschikbaar
+                    </span>
                 )}
             </Link>
         </li>

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { LoaderSpinner } from '@/components/Loader'
 import { Model } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
+import { parseUtc } from '@/utils/parseUtc'
 
 interface ObjectValidArchivedProps {
     model: Model
@@ -80,7 +81,7 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                                     <Text>
                                         {object.Start_Validity &&
                                             formatDate(
-                                                new Date(object.Start_Validity),
+                                                parseUtc(object.Start_Validity),
                                                 'dd-MM-yyyy'
                                             )}
                                     </Text>
@@ -90,7 +91,7 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                                         {'Next_Version' in object &&
                                         object.Next_Version
                                             ? formatDate(
-                                                  new Date(
+                                                  parseUtc(
                                                       (
                                                           object.Next_Version as {
                                                               Start_Validity: string

@@ -4,8 +4,8 @@ import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
 
 import { ReadRelation } from '@/api/fetchers.schemas'
-import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
 
+import { Option } from '@/components/DynamicObject/DynamicObjectSearch'
 import { StepProps } from './types'
 
 export const StepTwo = ({
@@ -18,13 +18,16 @@ export const StepTwo = ({
         ReadRelation & { items?: ReadRelation[] }
     >()
 
+    const selected = useMemo(
+        () => connections?.map(connection => connection.Object_ID),
+        [connections]
+    )
+
     const { defaults, fetchers } = connectionModel || {}
     const {
         atemporal,
-        pluralCapitalize,
-        plural,
+        pluralReadable,
         prefixSingular,
-        singular,
         singularReadable,
         singularCapitalize,
     } = defaults || {}
@@ -32,9 +35,28 @@ export const StepTwo = ({
 
     const { data: items, isLoading } =
         useGetValid?.(
-            { limit: 500, sort_column: 'Title', sort_order: 'ASC' },
             {
-                query: { enabled: atemporal },
+                limit: 500,
+                sort_column: 'Title',
+                sort_order: 'ASC',
+            },
+            {
+                query: {
+                    select: data => {
+                        if (atemporal || !selected?.length) return data
+
+                        return {
+                            ...data,
+                            results: data.results.filter(object =>
+                                Array.isArray(selected)
+                                    ? !selected.includes(
+                                          Number(object.Object_ID)
+                                      )
+                                    : object.Object_ID !== selected
+                            ),
+                        }
+                    },
+                },
             }
         ) || {}
 
@@ -42,19 +64,14 @@ export const StepTwo = ({
         () =>
             items?.results.map(({ Title, Object_ID }) => ({
                 label: Title,
-                value: { Object_ID, Title },
+                value: Object_ID,
             })),
         [items]
     )
 
-    const selected = useMemo(
-        () => connections?.map(connection => connection.Object_ID),
-        [connections]
-    )
-
     return (
         <>
-            <Heading level="2" className="mb-2">
+            <Heading level="2" size="xl" className="mb-2">
                 {singularCapitalize} koppelen
             </Heading>
 
@@ -68,8 +85,8 @@ export const StepTwo = ({
                     key={isLoading?.toString()}
                     name="items"
                     options={options}
-                    placeholder={`Zoek in de ${plural?.replaceAll('-', ' ')}`}
-                    label={pluralCapitalize}
+                    placeholder={`Zoek in de ${pluralReadable}`}
+                    label={`Selecteer een ${singularReadable}`}
                     isMulti
                     menuIsOpen
                     isSearchable
@@ -78,9 +95,10 @@ export const StepTwo = ({
                     hideSelectedOptions={false}
                     controlShouldRenderValue={false}
                     noOptionsMessage={() =>
-                        `Er zijn geen ${plural?.replaceAll('-', ' ')} gevonden`
+                        `Er zijn geen ${pluralReadable} gevonden`
                     }
                     isLoading={isLoading}
+                    required
                     components={{
                         DropdownIndicator: () => (
                             <div className="mr-4">
@@ -103,19 +121,10 @@ export const StepTwo = ({
                     blurInputOnSelect
                 />
             ) : (
-                <DynamicObjectSearch
-                    onChange={val => {
-                        if (Array.isArray(val)) {
-                            setFieldValue('Title', val[0].object?.Title ?? '')
-                        } else {
-                            setFieldValue('Title', val?.object?.Title ?? '')
-                        }
-                    }}
-                    objectKey="Object_ID"
-                    filter={selected}
-                    filterType={singular && [singular]}
-                    placeholder={`Zoek in de ${plural}`}
-                    label={pluralCapitalize}
+                <FormikSelect
+                    key={isLoading?.toString()}
+                    name="Object_ID"
+                    options={options}
                     defaultValue={
                         values.Title &&
                         values.Object_ID && {
@@ -123,6 +132,29 @@ export const StepTwo = ({
                             value: values.Object_ID,
                         }
                     }
+                    onChange={val =>
+                        setFieldValue('Title', (val as Option)?.label)
+                    }
+                    placeholder={`Zoek in de ${pluralReadable}`}
+                    label={`Selecteer een ${singularReadable}`}
+                    defaultMenuIsOpen
+                    isSearchable
+                    isClearable={false}
+                    noOptionsMessage={() =>
+                        `Er zijn geen ${pluralReadable} gevonden`
+                    }
+                    isLoading={isLoading}
+                    required
+                    components={{
+                        DropdownIndicator: () => (
+                            <div className="mr-4">
+                                <MagnifyingGlass
+                                    size={18}
+                                    className="text-pzh-blue-900"
+                                />
+                            </div>
+                        ),
+                    }}
                     styles={{
                         menu: base => ({
                             ...base,
@@ -132,6 +164,7 @@ export const StepTwo = ({
                             boxShadow: 'none',
                         }),
                     }}
+                    blurInputOnSelect
                 />
             )}
         </>

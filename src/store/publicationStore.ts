@@ -18,7 +18,9 @@ interface PublicationState {
 const usePublicationStore = create<PublicationState>(set => ({
     wizardActive: true,
     setWizardActive: wizardActive => set(state => ({ ...state, wizardActive })),
-    activeFolders: {},
+    activeFolders: {
+        procedureTypes: ['draft', 'final'],
+    },
     setActiveFolders: activeFolders =>
         set(state => ({
             ...state,

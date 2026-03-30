@@ -4,7 +4,7 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { useModulesViewModuleOverview } from '@/api/fetchers'
-import { Module } from '@/api/fetchers.schemas'
+import { HTTPValidationError, Module } from '@/api/fetchers.schemas'
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed/ButtonSubmitFixed'
 import { LoaderContent } from '@/components/Loader'
 import { FormBasicInfo, FormDelete } from '@/components/Modules/ModuleForm'
@@ -15,6 +15,7 @@ import { formatEditModuleData } from '@/utils/formatModuleData'
 import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
+import { AxiosError } from 'axios'
 
 const ModuleEdit = () => {
     const { moduleId } = useParams()
@@ -35,8 +36,9 @@ const ModuleEdit = () => {
     const handleSubmit = (payload: Module, helpers: FormikHelpers<Module>) => {
         const data = formatEditModuleData(payload)
 
-        mutateAsync({ moduleId: parseInt(moduleId!), data }).catch(err =>
-            handleError<Module>(err.response, helpers)
+        mutateAsync({ moduleId: parseInt(moduleId!), data }).catch(
+            (err: AxiosError<HTTPValidationError>) =>
+                err.response && handleError<Module>(err.response, helpers)
         )
     }
 

@@ -16,7 +16,7 @@ interface ModuleHeaderProps {
 const ModuleHeader = ({ module }: ModuleHeaderProps) => {
     const { canEditModule } = usePermissions()
 
-    const { isModuleManager } = useModule()
+    const { isModuleManager, isClosed } = useModule()
 
     const managers = useModuleManagers(module)
 
@@ -30,7 +30,7 @@ const ModuleHeader = ({ module }: ModuleHeaderProps) => {
         <div className="col-span-6 mb-4">
             <div className="mb-4 flex items-center justify-between whitespace-nowrap">
                 <Breadcrumbs items={breadcrumbPaths} />
-                {(canEditModule || isModuleManager) && (
+                {(canEditModule || isModuleManager) && !isClosed && (
                     <Hyperlink asChild>
                         <Link to={`/muteer/modules/${module.Module_ID}/bewerk`}>
                             Module bewerken

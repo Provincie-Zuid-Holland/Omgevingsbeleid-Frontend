@@ -1,5 +1,5 @@
 import { Button, Divider } from '@pzh-ui/components'
-import { Minus, Plus, RotateLeft } from '@pzh-ui/icons'
+import { MinusLight, PlusLight, RotateLeft } from '@pzh-ui/icons'
 import classNames from 'clsx'
 
 import useNetworkStore from '@/store/networkStore'
@@ -23,7 +23,7 @@ const NetworkGraphButtons = ({
                     size="small"
                     className="bg-pzh-white text-pzh-blue-900 hover:bg-pzh-gray-100 flex h-10 w-10 items-center justify-center rounded-t-md"
                     onPress={() => handleZoom('zoomIn')}>
-                    <Plus />
+                    <PlusLight />
                     <span className="sr-only">Inzoomen</span>
                 </Button>
                 <Divider className="my-0" />
@@ -31,7 +31,7 @@ const NetworkGraphButtons = ({
                     variant="default"
                     className="bg-pzh-white text-pzh-blue-900 hover:bg-pzh-gray-100 flex h-10 w-10 items-center justify-center rounded-b-md"
                     onPress={() => handleZoom('zoomOut')}>
-                    <Minus />
+                    <MinusLight />
                     <span className="sr-only">Uitzoomen</span>
                 </Button>
             </div>

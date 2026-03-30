@@ -1,8 +1,8 @@
 import { Button } from '@pzh-ui/components'
 import { useUpdateEffect } from '@react-hookz/web'
 import { useQueryClient } from '@tanstack/react-query'
-import { Form, Formik, FormikHelpers } from 'formik'
-import { useState } from 'react'
+import { Form, Formik, FormikHelpers, FormikProps } from 'formik'
+import { useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
@@ -16,6 +16,7 @@ import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as objectConnection from '@/validation/objectConnection'
 
+import { ModalFooter } from '@/components/Modal/Modal'
 import { StepFour, StepOne, StepThree, StepTwo } from './steps'
 
 const steps = [StepOne, StepTwo, StepThree, StepFour]
@@ -66,9 +67,7 @@ const ObjectConnectionModal = ({
      * Handle for submit
      */
     const handleFormSubmit = (
-        payload:
-            | WriteRelation
-            | { items?: { Object_ID: number; Title: string }[] }
+        payload: WriteRelation | { items?: { value: number; label: string }[] }
     ) => {
         refetchRelations?.().then(({ data, isSuccess }) => {
             if (isSuccess && !!data) {
@@ -102,7 +101,7 @@ const ObjectConnectionModal = ({
                                 connectionModel?.defaults?.singular
                         ),
                         ...(payload.items?.map(item => ({
-                            Object_ID: item.Object_ID,
+                            Object_ID: item.value,
                             Object_Type: connectionModel?.defaults?.singular,
                         })) || []),
                     ]
@@ -138,7 +137,7 @@ const ObjectConnectionModal = ({
                     if ('items' in initialValues) {
                         initialValues.items?.splice(
                             initialValues.items.findIndex(
-                                item => item.Object_ID === connection.Object_ID
+                                item => item.value === connection.Object_ID
                             ),
                             1
                         )
@@ -167,7 +166,7 @@ const ObjectConnectionModal = ({
 
 type ConnectionPayload =
     | WriteRelation
-    | { items?: { Object_ID: number; Title: string }[] }
+    | { items?: { value: number; label: string }[] }
 
 interface ConnectionModalProps extends ObjectConnectionModalProps {
     isFetching?: boolean
@@ -194,6 +193,9 @@ export const ConnectionModal = ({
 
     const [step, setStep] = useState(initialStep)
 
+    const formikRef =
+        useRef<FormikProps<ConnectionPayload & { type?: 'edit' }>>(null)
+
     const CurrentStep = steps[step - 1]
     const isFinalStep = step === (connectionModel?.defaults?.atemporal ? 2 : 3)
     const isDeleteStep = step === 4
@@ -204,6 +206,10 @@ export const ConnectionModal = ({
      * Update step if initialStep has changed
      */
     useUpdateEffect(() => setStep(initialStep), [initialStep])
+
+    useUpdateEffect(() => {
+        formikRef.current?.validateForm()
+    }, [step])
 
     /**
      * Update step if activeModal has changed
@@ -243,10 +249,9 @@ export const ConnectionModal = ({
             id="objectAddConnection"
             title={`${connectionModel?.defaults?.singularCapitalize} koppelen`}
             hideTitle
-            size="xl"
             onClose={handleClose}>
             {isFetching && (
-                <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-pzh-black/20">
+                <div className="bg-pzh-black/20 absolute top-0 left-0 flex h-full w-full items-center justify-center">
                     <LoaderSpinner />
                 </div>
             )}
@@ -258,7 +263,8 @@ export const ConnectionModal = ({
                 validationSchema={toFormikValidationSchema(
                     currentValidationSchema
                 )}
-                enableReinitialize>
+                enableReinitialize
+                innerRef={formikRef}>
                 {({ isValid, isSubmitting, submitForm, values }) => (
                     <Form onSubmit={e => e.preventDefault()}>
                         <CurrentStep
@@ -271,18 +277,35 @@ export const ConnectionModal = ({
                             )}
                             setStep={setStep}
                         />
-                        <div className="mt-6 flex items-center justify-between">
-                            <Button variant="link" onPress={handleClose}>
-                                Annuleren
-                            </Button>
+                        <ModalFooter className="mt-4">
+                            {step === 1 && initialStep !== 2 ? (
+                                <Button
+                                    key="close"
+                                    onPress={handleClose}
+                                    className="ml-auto">
+                                    Sluiten
+                                </Button>
+                            ) : (
+                                <Button
+                                    key="cancel"
+                                    variant="link"
+                                    onPress={handleClose}>
+                                    Annuleren
+                                </Button>
+                            )}
                             {step !== 1 && (
                                 <div>
                                     {!isDeleteStep &&
-                                        values.type !== 'edit' && (
+                                        values.type !== 'edit' &&
+                                        !(
+                                            initialStep === 2 &&
+                                            (!isFinalStep ||
+                                                connectionModel?.defaults
+                                                    ?.atemporal)
+                                        ) && (
                                             <Button
                                                 variant="secondary"
                                                 type="button"
-                                                size="small"
                                                 onPress={() =>
                                                     setStep(step - 1)
                                                 }
@@ -296,7 +319,6 @@ export const ConnectionModal = ({
                                                 ? 'cta'
                                                 : 'primary'
                                         }
-                                        size="small"
                                         isDisabled={
                                             (isFinalStep && !isValid) ||
                                             ((isFinalStep || isDeleteStep) &&
@@ -307,12 +329,12 @@ export const ConnectionModal = ({
                                         {isFinalStep
                                             ? 'Opslaan'
                                             : isDeleteStep
-                                            ? 'Koppeling verbreken'
-                                            : 'Volgende stap'}
+                                              ? 'Koppeling verbreken'
+                                              : 'Volgende stap'}
                                     </Button>
                                 </div>
                             )}
-                        </div>
+                        </ModalFooter>
                     </Form>
                 )}
             </Formik>

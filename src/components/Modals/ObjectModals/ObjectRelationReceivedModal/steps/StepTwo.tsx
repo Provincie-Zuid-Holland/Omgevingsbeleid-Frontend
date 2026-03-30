@@ -12,7 +12,7 @@ export const StepTwo = ({ title, model, actionType }: StepProps) => {
 
     return (
         <>
-            <Heading level="2" className="mb-2">
+            <Heading level="2" size="xl" className="mb-2">
                 Binnengekomen verzoek{' '}
                 {actionType === 'accept' ? 'accepteren' : 'afwijzen'}
             </Heading>

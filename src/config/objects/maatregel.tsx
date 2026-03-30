@@ -55,6 +55,7 @@ const maatregel: DynamicObject<
         singularReadable: 'maatregel',
         singularCapitalize: 'Maatregel',
         plural: 'maatregelen',
+        pluralReadable: 'maatregelen',
         pluralCapitalize: 'Maatregelen',
         prefixSingular: 'de',
         prefixPlural: 'de',
@@ -123,6 +124,10 @@ const maatregel: DynamicObject<
                     hasAreaSelect: true,
                     customMenuOptions: ['image', 'table'],
                     imageOptions: {
+                        options: {
+                            allowBase64: true,
+                            inline: true,
+                        },
                         uploadOptions: {
                             maxSize: 819200,
                         },
@@ -134,6 +139,7 @@ const maatregel: DynamicObject<
                     description: 'Welke rol...',
                     placeholder: 'Kies de rol',
                     type: 'select',
+                    isSearchable: false,
                     options: [
                         { label: 'Presterend', value: 'Presterend' },
                         { label: 'Samenwerkend', value: 'Samenwerkend' },
@@ -149,6 +155,10 @@ const maatregel: DynamicObject<
                     hasAreaSelect: true,
                     customMenuOptions: ['image', 'table'],
                     imageOptions: {
+                        options: {
+                            allowBase64: true,
+                            inline: true,
+                        },
                         uploadOptions: {
                             maxSize: 819200,
                         },
@@ -157,17 +167,17 @@ const maatregel: DynamicObject<
             ],
         },
         {
-            title: 'Werkingsgebied',
+            title: 'Gebiedengroep',
             description:
-                'Het werkingsgebied geeft het gebied weer waar de maatregel betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld, toegestaan of juist verboden.',
+                'De gebiedengroep geeft het gebied weer waar de maatregel betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld, toegestaan of juist verboden.',
             fields: [
                 {
                     name: 'Ambtsgebied',
-                    label: 'Selecteer het gebied',
+                    label: 'Selecteer de gebiedengroep',
                     description: (
                         <>
                             Is op deze maatregel het ambtsgebied van toepassing
-                            of een specifiek werkingsgebied? Heeft jouw
+                            of een specifieke gebiedengroep? Heeft jouw
                             maatregel nog geen geschikt gebied, of moet het
                             huidige gebied aangepast worden? Neem dan contact op
                             via{' '}
@@ -188,13 +198,13 @@ const maatregel: DynamicObject<
                     ],
                 },
                 {
-                    name: 'Werkingsgebied_Code',
-                    label: 'Werkingsgebied',
+                    name: 'Gebiedengroep_Code',
+                    label: 'Gebiedengroep',
                     type: 'search',
                     status: 'all',
-                    placeholder: 'Selecteer een werkingsgebied',
-                    filterType: ['werkingsgebied'],
-                    objectKey: 'Werkingsgebied_Code',
+                    placeholder: 'Selecteer een gebiedengroep',
+                    filterType: ['gebiedengroep'],
+                    objectKey: 'Gebiedengroep_Code',
                     components: {
                         DropdownIndicator: () => (
                             <div className="mr-4">

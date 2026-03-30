@@ -15,12 +15,18 @@ import {
     DocumentFull,
     DocumentPatch,
     DocumentStaticPostStatics,
+    GebiedengroepFull,
+    GebiedengroepPatch,
+    GebiedFull,
+    GebiedPatch,
     GebiedsprogrammaFull,
     GebiedsprogrammaPatch,
     GebiedsprogrammaStaticPostStatics,
     MaatregelFull,
     MaatregelPatch,
     MaatregelStaticPostStatics,
+    ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+    ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel,
     NationaalBelangFull,
     ProgrammaAlgemeenFull,
     ProgrammaAlgemeenPatch,
@@ -58,6 +64,8 @@ export interface DynamicObject<
         singularCapitalize: string
         /** Plural of object type */
         plural: string
+        /** Readable plural of object type */
+        pluralReadable: string
         /** Plural of object type (capitalized) */
         pluralCapitalize: string
         /** Prefix value of singular */
@@ -84,6 +92,10 @@ export interface DynamicObject<
         parentType?: ParentType
         /** Hide breadcrumbs */
         hideBreadcrumbs?: boolean
+        /** If is disabled in UI */
+        disabled?: boolean
+        /** Hide from default module object type filter */
+        hideFromModuleFilter?: boolean
     }
     /** Array containing static data fields of object */
     staticData?: StaticData
@@ -116,6 +128,8 @@ export type ModelReturnType = BeleidsdoelFull &
     AmbitieFull &
     BeleidskeuzeFull &
     MaatregelFull &
+    GebiedFull &
+    GebiedengroepFull &
     GebiedsprogrammaFull &
     NationaalBelangFull &
     WettelijkeTaakFull &
@@ -124,10 +138,18 @@ export type ModelReturnType = BeleidsdoelFull &
     ProgrammaAlgemeenFull &
     DocumentFull
 
+export type ModelReturnTypeBasic =
+    ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
+
+export type ModelReturnTypeBasicUnion =
+    ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel
+
 export type ModelPatchType = BeleidsdoelPatch &
     AmbitiePatch &
     BeleidskeuzePatch &
     MaatregelPatch &
+    GebiedPatch &
+    GebiedengroepPatch &
     GebiedsprogrammaPatch &
     BeleidsregelPatch &
     VisieAlgemeenPatch &

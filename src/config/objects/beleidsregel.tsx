@@ -54,6 +54,7 @@ const beleidsregel: DynamicObject<
         singularReadable: 'beleidsregel',
         singularCapitalize: 'Beleidsregel',
         plural: 'beleidsregels',
+        pluralReadable: 'beleidsregels',
         pluralCapitalize: 'Beleidsregels',
         prefixSingular: 'de',
         prefixPlural: 'de',

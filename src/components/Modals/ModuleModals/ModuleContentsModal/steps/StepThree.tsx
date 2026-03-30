@@ -60,7 +60,7 @@ export const StepThree = ({}: StepProps) => {
 
     return (
         <div>
-            <Heading level="2" className="mb-4">
+            <Heading level="2" size="xl" className="mb-4">
                 Nieuwe {singularReadable}
             </Heading>
             <Text className="mb-4">

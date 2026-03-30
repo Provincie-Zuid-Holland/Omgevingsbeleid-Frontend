@@ -78,13 +78,13 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
                     data.Objects.map(object => ({
                         label: (
                             <div className="flex justify-between">
-                                <span>{object.Title}</span>
+                                <span>{object.Model.Title}</span>
                                 <span className="capitalize opacity-50">
                                     {object.Object_Type.replace('_', ' ')}
                                 </span>
                             </div>
                         ),
-                        value: object.UUID,
+                        value: object.Model.UUID,
                         objectContext: object,
                     })),
             },
@@ -130,7 +130,7 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
 
         if (
             label.toLowerCase().includes(inputValue.toLowerCase()) ||
-            data.value.toLowerCase().includes(inputValue.toLowerCase())
+            data.value?.toLowerCase().includes(inputValue.toLowerCase())
         ) {
             return true
         }
@@ -140,7 +140,9 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
 
     return (
         <div className="flex flex-col gap-4">
-            <Heading level="2">Wat wil je toevoegen?</Heading>
+            <Heading level="2" size="xl">
+                Wat wil je toevoegen?
+            </Heading>
             <Text>
                 Je wilt een bestaand onderdeel toevoegen aan deze module. Geef
                 aan vanuit welke bron je een onderdeel wilt toevoegen en

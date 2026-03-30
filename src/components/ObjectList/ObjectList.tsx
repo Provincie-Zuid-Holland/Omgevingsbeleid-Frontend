@@ -1,9 +1,8 @@
-import { FieldInput, Heading, ListLink, Pagination } from '@pzh-ui/components'
-import { MagnifyingGlass } from '@pzh-ui/icons'
-import { KeyboardEvent } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Heading, ListLink, Pagination } from '@pzh-ui/components'
+import { Link } from 'react-router-dom'
 
 import { LoaderCard, LoaderSpinner } from '@/components/Loader'
+import SearchBar from '../SearchBar'
 
 interface ObjectListProps {
     /** Type of the object */
@@ -49,96 +48,66 @@ const ObjectList = ({
     limit = 20,
     currPage,
     onPageChange,
-}: ObjectListProps) => {
-    const navigate = useNavigate()
+}: ObjectListProps) => (
+    <>
+        <div className="flex flex-col justify-between sm:flex-row">
+            <Heading size="m" level="2" className="mb-3">
+                {title
+                    ? title
+                    : isLoading
+                      ? `De ${objectType} worden geladen`
+                      : `De ${total} ${objectType}`}
+                {isLoading && <LoaderSpinner className="ml-2" />}
+            </Heading>
+        </div>
 
-    /**
-     * Handle change of search field
-     */
-    const handleChange = (e: KeyboardEvent) => {
-        const searchParams = new URLSearchParams(window.location.search)
-
-        if (e.key === 'Enter' && objectSingular) {
-            const value = (e.target as HTMLInputElement).value
-
-            searchParams.delete('query')
-            searchParams.append('query', value)
-
-            searchParams.delete('filter')
-            searchParams.append('filter', objectSingular)
-
-            searchParams.delete('page')
-
-            navigate({
-                pathname: '/zoekresultaten',
-                search: `?${searchParams}`,
-            })
-        }
-    }
-
-    return (
-        <>
-            <div className="flex flex-col justify-between sm:flex-row">
-                <Heading size="m" level="2" className="mb-3">
-                    {title
-                        ? title
-                        : isLoading
-                        ? `De ${objectType} worden geladen`
-                        : `De ${total} ${objectType}`}
-                    {isLoading && <LoaderSpinner className="ml-2" />}
-                </Heading>
-            </div>
-
-            {hasSearch &&
-                objectSingular &&
-                !isLoading &&
-                !!total &&
-                total > limit && (
-                    <div className="my-4">
-                        <FieldInput
-                            name="search"
-                            placeholder={`Zoek in ${objectType}`}
-                            icon={MagnifyingGlass}
-                            onKeyDown={handleChange}
-                        />
-                    </div>
-                )}
-            <ul className="mt-2">
-                {isLoading ? (
-                    <li className="mt-6">
-                        <LoaderCard height="25" />
-                        <LoaderCard height="25" />
-                        <LoaderCard height="25" />
-                    </li>
-                ) : (
-                    data?.map((obj, index) => (
-                        <li key={index} className="py-0.5">
-                            <ListLink asChild>
-                                <Link
-                                    to={`/${objectSlug}/${
-                                        objectKey === 'uuid'
-                                            ? obj.UUID
-                                            : obj.Object_ID
-                                    }`}>
-                                    {obj.Title}
-                                </Link>
-                            </ListLink>
-                        </li>
-                    ))
-                )}
-            </ul>
-            {onPageChange && total > limit && (
-                <div className="mt-8 flex justify-center">
-                    <Pagination
-                        onPageChange={onPageChange}
-                        total={total}
-                        limit={limit}
-                        current={currPage || 1}
+        {hasSearch &&
+            objectSingular &&
+            !isLoading &&
+            !!total &&
+            total > limit && (
+                <div className="my-4">
+                    <SearchBar
+                        placeholder={`Zoek in ${objectType}`}
+                        filter={objectSingular}
                     />
                 </div>
             )}
-        </>
-    )
-}
+        <ul className="mt-2">
+            {isLoading ? (
+                <li className="mt-6">
+                    <LoaderCard height="25" />
+                    <LoaderCard height="25" />
+                    <LoaderCard height="25" />
+                </li>
+            ) : (
+                data?.map((obj, index) => (
+                    <li key={index} className="py-0.5">
+                        <ListLink asChild>
+                            <Link
+                                to={`/${objectSlug}/${
+                                    objectKey === 'uuid'
+                                        ? obj.UUID
+                                        : obj.Object_ID
+                                }`}>
+                                {obj.Title}
+                            </Link>
+                        </ListLink>
+                    </li>
+                ))
+            )}
+        </ul>
+        {onPageChange && total > limit && (
+            <div className="mt-8 flex justify-center">
+                <Pagination
+                    onPageChange={onPageChange}
+                    total={total}
+                    limit={limit}
+                    current={currPage || 1}
+                />
+            </div>
+        )}
+    </>
+)
 
 export default ObjectList

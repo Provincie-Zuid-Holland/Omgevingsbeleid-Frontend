@@ -30,10 +30,22 @@ export interface LeafletMapProps {
     className?: string
     id?: string
     children?: ReactNode
+    ariaLabel?: string
 }
 
 const LeafletMap = forwardRef<Map, LeafletMapProps>(
-    ({ options, controllers, callbacks, className, id, children }, ref) => {
+    (
+        {
+            options,
+            controllers,
+            callbacks,
+            className,
+            id,
+            children,
+            ariaLabel = 'Visuele weergave van het werkingsgebied',
+        },
+        ref
+    ) => {
         const mapOptions = {
             crs: RDCrs,
             center: leafletCenter,
@@ -59,7 +71,8 @@ const LeafletMap = forwardRef<Map, LeafletMapProps>(
                     {...mapOptions}
                     className={`leaflet-map z-0 ${className || ''}`}
                     id={id}
-                    ref={ref}>
+                    ref={ref}
+                    preferCanvas={false}>
                     {mapControllers.showLayers && <LeafletControlLayer />}
 
                     {mapControllers.showDraw && (
@@ -89,7 +102,12 @@ const LeafletMap = forwardRef<Map, LeafletMapProps>(
             [id]
         )
 
-        return leafletMap
+        return (
+            <>
+                <span className="sr-only">{ariaLabel}</span>
+                {leafletMap}
+            </>
+        )
     }
 )
 

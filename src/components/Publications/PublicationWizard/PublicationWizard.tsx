@@ -1,4 +1,4 @@
-import { Button, formatDate, Heading } from '@pzh-ui/components'
+import { Button, Heading } from '@pzh-ui/components'
 import { XmarkLarge } from '@pzh-ui/icons'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers, useFormikContext } from 'formik'
@@ -10,7 +10,6 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 import {
     getPublicationsGetListPublicationsQueryKey,
     getPublicationVersionsGetListVersionsQueryKey,
-    useModulesViewModuleListStatuses,
     usePublicationActsGetListActs,
     usePublicationEnvironmentsGetListEnvironments,
     usePublicationsPostCreatePublication,
@@ -25,6 +24,7 @@ import {
     SCHEMA_PUBLICATION_STEPS,
 } from '@/validation/publication'
 
+import { useModuleStatusData } from '@/hooks/useModuleStatusData'
 import {
     StepFive,
     StepFour,
@@ -170,6 +170,11 @@ const WizardForm = ({ step }: WizardFormProps) => {
     const { values } = useFormikContext<PublicationCreate>()
 
     const {
+        statusOptions: moduleStatusOptions,
+        isFetching: moduleStatusFetching,
+    } = useModuleStatusData(moduleId)
+
+    const {
         data: publicationTemplateOptions = [],
         isFetching: publicationTemplatesFetching,
     } = usePublicationTemplatesGetListTemplates(
@@ -220,28 +225,6 @@ const WizardForm = ({ step }: WizardFormProps) => {
             },
         }
     )
-
-    const { data: moduleStatusOptions = [], isFetching: moduleStatusFetching } =
-        useModulesViewModuleListStatuses(parseInt(moduleId!), {
-            query: {
-                enabled: !!moduleId,
-                select: data =>
-                    data
-                        .filter(status => status.Status !== 'Niet-Actief')
-                        .sort(
-                            (a, b) =>
-                                new Date(b.Created_Date + 'Z').getTime() -
-                                new Date(a.Created_Date + 'Z').getTime()
-                        )
-                        .map(status => ({
-                            label: `${status.Status} (${formatDate(
-                                new Date(status.Created_Date + 'Z'),
-                                "dd-MM-yyyy 'om' HH:mm"
-                            )})`,
-                            value: status.ID,
-                        })),
-            },
-        })
 
     const CurrentStep = steps[step]
 

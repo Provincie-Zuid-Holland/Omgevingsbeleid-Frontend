@@ -19,6 +19,7 @@ import UserAddModal from '@/components/Modals/UserModals/UserAddModal'
 import { Role, availableRoleTypes } from '@/context/AuthContext'
 import useModalStore from '@/store/modalStore'
 import MutateLayout from '@/templates/MutateLayout'
+import { useUpdateEffect } from '@react-hookz/web'
 
 const PAGE_LIMIT = 20
 
@@ -86,6 +87,13 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
         },
     ])
     const [filter, setFilter] = useState<Filter>()
+
+    useUpdateEffect(() => {
+        setPagination({
+            pageIndex: 1,
+            pageSize: PAGE_LIMIT,
+        })
+    }, [filter])
 
     const { data, isFetching } = useUserGetSearchUsers(
         {

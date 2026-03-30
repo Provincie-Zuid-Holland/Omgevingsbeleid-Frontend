@@ -50,6 +50,7 @@ const visieAlgemeen: DynamicObject<
         singularReadable: 'visie algemeen',
         singularCapitalize: 'Visie',
         plural: 'visies-algemeen',
+        pluralReadable: 'visies algemeen',
         pluralCapitalize: 'Visies algemeen',
         prefixSingular: 'de',
         prefixPlural: 'de',
@@ -89,6 +90,10 @@ const visieAlgemeen: DynamicObject<
                         'table',
                     ],
                     imageOptions: {
+                        options: {
+                            allowBase64: true,
+                            inline: true,
+                        },
                         uploadOptions: {
                             maxSize: 819200,
                         },

@@ -7,8 +7,8 @@ import {
     Users,
 } from '@pzh-ui/icons'
 import classNames from 'clsx'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
@@ -23,25 +23,32 @@ const Sidebar = () => {
 
     const [expanded, setExpanded] = useState(false)
 
-    let timer: number
+    const timerRef = useRef<number | null>(null)
 
-    /**
-     * Function to setExpanded to true after 750ms second of hovering
-     */
-    const endAndStartTimer = () => {
-        window.clearTimeout(timer)
-
-        timer = window.setTimeout(() => {
-            setExpanded(true)
-        }, 750)
+    const startHoverTimer = () => {
+        if (timerRef.current) window.clearTimeout(timerRef.current)
+        timerRef.current = window.setTimeout(() => setExpanded(true), 750)
     }
+
+    const clearHoverTimer = () => {
+        if (timerRef.current) {
+            window.clearTimeout(timerRef.current)
+            timerRef.current = null
+        }
+    }
+
+    const location = useLocation()
+    useEffect(() => {
+        clearHoverTimer()
+        setExpanded(false)
+    }, [location.pathname])
 
     return (
         <div
             className="sticky top-[97px] z-[1] h-full w-14 whitespace-nowrap"
             onMouseLeave={() => {
-                window.clearTimeout(timer)
-                expanded && setExpanded(false)
+                clearHoverTimer()
+                if (expanded) setExpanded(false)
             }}
             data-testid="sidebar">
             <div
@@ -61,8 +68,8 @@ const Sidebar = () => {
                         path="/muteer"
                         icon={House}
                         expanded={expanded}
-                        onHover={endAndStartTimer}
-                        onClick={() => window.clearTimeout(timer)}
+                        onHover={startHoverTimer}
+                        onClick={clearHoverTimer}
                     />
 
                     <div className="bg-pzh-blue-500 h-px w-full" />
@@ -72,8 +79,8 @@ const Sidebar = () => {
                         path="/muteer/modules"
                         icon={LayerGroupLight}
                         expanded={expanded}
-                        onHover={endAndStartTimer}
-                        onClick={() => window.clearTimeout(timer)}
+                        onHover={startHoverTimer}
+                        onClick={clearHoverTimer}
                     />
 
                     <div className="bg-pzh-blue-500 h-px w-full" />
@@ -85,6 +92,8 @@ const Sidebar = () => {
 
                         const path = `/muteer/${plural}`
 
+                        if (model.defaults.disabled) return null
+
                         return (
                             <MenuItem
                                 key={key}
@@ -92,42 +101,38 @@ const Sidebar = () => {
                                 path={path}
                                 icon={icon}
                                 expanded={expanded}
-                                onHover={endAndStartTimer}
-                                onClick={() => window.clearTimeout(timer)}
+                                onHover={startHoverTimer}
+                                onClick={clearHoverTimer}
                             />
                         )
                     })}
 
-                    {canViewPublicationTemplate ||
-                        (canViewPublicationPackage && (
-                            <>
-                                <div className="bg-pzh-blue-500 h-px w-full" />
-                                {canViewPublicationPackage && (
-                                    <MenuItem
-                                        name="Leveringen"
-                                        path="/muteer/leveringen"
-                                        icon={FileImport}
-                                        expanded={expanded}
-                                        onHover={endAndStartTimer}
-                                        onClick={() =>
-                                            window.clearTimeout(timer)
-                                        }
-                                    />
-                                )}
-                                {canViewPublicationTemplate && (
-                                    <MenuItem
-                                        name="Publicatietemplates"
-                                        path="/muteer/publicatietemplates"
-                                        icon={FileInvoice}
-                                        expanded={expanded}
-                                        onHover={endAndStartTimer}
-                                        onClick={() =>
-                                            window.clearTimeout(timer)
-                                        }
-                                    />
-                                )}
-                            </>
-                        ))}
+                    {(canViewPublicationTemplate ||
+                        canViewPublicationPackage) && (
+                        <>
+                            <div className="bg-pzh-blue-500 h-px w-full" />
+                            {canViewPublicationPackage && (
+                                <MenuItem
+                                    name="Leveringen"
+                                    path="/muteer/leveringen"
+                                    icon={FileImport}
+                                    expanded={expanded}
+                                    onHover={startHoverTimer}
+                                    onClick={clearHoverTimer}
+                                />
+                            )}
+                            {canViewPublicationTemplate && (
+                                <MenuItem
+                                    name="Publicatietemplates"
+                                    path="/muteer/publicatietemplates"
+                                    icon={FileInvoice}
+                                    expanded={expanded}
+                                    onHover={startHoverTimer}
+                                    onClick={clearHoverTimer}
+                                />
+                            )}
+                        </>
+                    )}
 
                     {canEditUser && (
                         <>
@@ -138,8 +143,8 @@ const Sidebar = () => {
                                 icon={Users}
                                 largerIcon
                                 expanded={expanded}
-                                onHover={endAndStartTimer}
-                                onClick={() => window.clearTimeout(timer)}
+                                onHover={startHoverTimer}
+                                onClick={clearHoverTimer}
                             />
                         </>
                     )}

@@ -1,89 +1,150 @@
-import { Divider, Heading } from '@pzh-ui/components'
-import { ArrowUpRightFromSquare } from '@pzh-ui/icons'
-import { Link, useParams } from 'react-router-dom'
+import { Button, Heading } from '@pzh-ui/components'
+import { useMemo, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
-import ObjectActiveModules from '@/components/DynamicObject/ObjectActiveModules'
 import ObjectConnections from '@/components/DynamicObject/ObjectConnections'
 import ObjectDefaultInfo from '@/components/DynamicObject/ObjectDefaultInfo'
+import LineageCard from '@/components/DynamicObject/ObjectLineageCard'
 import ObjectRelatedObjects from '@/components/DynamicObject/ObjectRelatedObjects'
 import ObjectRelations from '@/components/DynamicObject/ObjectRelations'
-import ObjectValidArchived from '@/components/DynamicObject/ObjectValidArchived'
-import { LoaderCard } from '@/components/Loader'
-import { Model } from '@/config/objects/types'
-import useModule from '@/hooks/useModule'
-import useObject from '@/hooks/useObject'
 import MutateLayout from '@/templates/MutateLayout'
+
+import { LoaderCard } from '@/components/Loader'
+import type { Model } from '@/config/objects/types'
+import useObject from '@/hooks/useObject'
+import { formatValidityDate } from '@/utils/formatValidityDate'
+import { keepPreviousData } from '@tanstack/react-query'
+
+const PAGE_LIMIT = 3
 
 interface ObjectDetailProps {
     model: Model
 }
 
 const ObjectDetail = ({ model }: ObjectDetailProps) => {
-    const { moduleId } = useParams()
+    const { objectId } = useParams()
+    const objectIdNum = objectId ? Number(objectId) : undefined
 
-    const { singularCapitalize, plural, pluralCapitalize, slugOverview } =
-        model.defaults
+    const [pageIndex, setPageIndex] = useState(1)
 
-    const { data: module } = useModule() || {}
+    const { singularCapitalize, plural, pluralCapitalize } = model.defaults
+    const { useGetActiveModules, useGetValidLineage } = model.fetchers
+
     const { data: object, isLoading } = useObject()
 
-    const breadcrumbPaths = [
-        { name: 'Dashboard', path: '/muteer' },
-        ...((!!moduleId && [
-            { name: 'Modules', path: '/muteer/modules' },
+    const {
+        data: activeModules,
+        isLoading: activeModulesLoading,
+        isFetching,
+    } = useGetActiveModules?.(
+        parseInt(objectId!),
+        { minimum_status: 'Ontwerp GS Concept' },
+        {
+            query: { enabled: !!objectId },
+        }
+    ) || {}
+
+    const { data: validLineage, isLoading: validLineageLoading } =
+        useGetValidLineage?.(
+            objectIdNum ?? 0,
             {
-                name: module?.Module.Title || '',
-                path: `/muteer/modules/${module?.Module.Module_ID}`,
+                limit: pageIndex * PAGE_LIMIT,
             },
-        ]) || [{ name: pluralCapitalize, path: `/muteer/${plural}` }]),
-        { name: object?.Title || '', isCurrent: true },
-    ]
+            {
+                query: {
+                    enabled: Boolean(objectIdNum),
+                    placeholderData: keepPreviousData,
+                },
+            }
+        ) || {}
+
+    const lineage = useMemo(() => {
+        const fromActive = (activeModules ?? []).map(item => (
+            <LineageCard
+                key={item.Module_Object.UUID}
+                model={model}
+                status={item.Module.Status?.Status}
+                module={item.Module}
+                {...item.Module_Object}
+            />
+        ))
+        const fromValid = (validLineage?.results ?? []).map(item => (
+            <LineageCard
+                key={item.UUID}
+                model={model}
+                status={
+                    item.UUID === object?.UUID ? 'Vigerend' : 'Gearchiveerd'
+                }
+                validDate={formatValidityDate({ ...item, withPrefix: false })}
+                {...item}
+            />
+        ))
+        return [...fromActive, ...fromValid]
+    }, [activeModules, validLineage, object])
+
+    const lineageLoading =
+        isLoading || activeModulesLoading || validLineageLoading
+
+    // Breadcrumbs
+    const breadcrumbs = useMemo(() => {
+        const base = [{ name: 'Dashboard', path: '/muteer' }]
+        const tail = [
+            {
+                name:
+                    (!!object
+                        ? object.Title
+                        : activeModules?.[0]?.Module_Object.Title) || '',
+                isCurrent: true,
+            },
+        ]
+
+        return [
+            ...base,
+            { name: pluralCapitalize, path: `/muteer/${plural}` },
+            ...tail,
+        ]
+    }, [object?.Title, plural, pluralCapitalize, activeModules])
 
     return (
         <MutateLayout
-            title={`${singularCapitalize}: ${object?.Title}`}
-            breadcrumbs={breadcrumbPaths}>
-            <div className="col-span-6 sm:col-span-4">
-                <Heading level="2" size="m" className="mb-2">
+            title={`${singularCapitalize}: ${object?.Title ?? ''}`}
+            breadcrumbs={breadcrumbs}>
+            <div className="col-span-6 flex flex-col gap-6 sm:col-span-4">
+                <Heading level="1" size="m">
                     {singularCapitalize}
                 </Heading>
-                {isLoading && <LoaderCard height="56" className="w-auto" />}
-                <Heading level="1" size="xxl" className="mb-2">
-                    {object?.Title}
-                </Heading>
-                <Link
-                    to={`/${slugOverview}/${plural}/${
-                        moduleId
-                            ? `ontwerpversie/${moduleId}/${object?.UUID}`
-                            : object?.UUID
-                    }`}
-                    className="flex items-center text-pzh-green-500 underline hover:text-pzh-green-900">
-                    Bekijk in raadpleegomgeving
-                    <ArrowUpRightFromSquare className="ml-2" />
-                </Link>
 
-                <Divider className="mb-8 mt-6" />
-
-                <ObjectActiveModules />
-
-                <Divider className="my-6" />
-
-                <ObjectValidArchived model={model} />
+                {lineageLoading ? (
+                    <LoaderCard height="165" />
+                ) : (
+                    <>
+                        {lineage}
+                        {pageIndex * PAGE_LIMIT <
+                            (validLineage?.total || 0) && (
+                            <Button
+                                className="self-end"
+                                onPress={() => setPageIndex(prev => prev + 1)}
+                                isLoading={isFetching}>
+                                Laad meer versies
+                            </Button>
+                        )}
+                    </>
+                )}
             </div>
 
             <div className="col-span-6 mt-6 sm:col-span-2 sm:mt-0">
                 <ObjectDefaultInfo model={model} />
 
-                {!!model.allowedConnections?.length && (
+                {Boolean(model.allowedConnections?.length) && (
                     <ObjectConnections model={model} />
                 )}
 
-                {!!model.acknowledgedRelation && (
+                {Boolean(model.acknowledgedRelation) && (
                     <ObjectRelations model={model} />
                 )}
 
                 {model.hasRelatedObjects && !!object?.Related_Objects && (
-                    <ObjectRelatedObjects objects={object?.Related_Objects} />
+                    <ObjectRelatedObjects objects={object.Related_Objects} />
                 )}
             </div>
         </MutateLayout>

@@ -15,12 +15,8 @@ import {
     useObjectsViewObjectCounts,
     useSearchDoListAllLatest,
 } from '@/api/fetchers'
-import {
-    GenericObjectShort,
-    Module,
-    ModuleObjectShort,
-} from '@/api/fetchers.schemas'
-import ObjectCard from '@/components/DynamicObject/ObjectActiveModules/ObjectCard'
+import { GenericObjectShort, Module } from '@/api/fetchers.schemas'
+import ObjectCard from '@/components/DynamicObject/ObjectCard'
 import { LoaderCard } from '@/components/Loader'
 import ModuleTile from '@/components/Modules/ModuleTile'
 import * as models from '@/config/objects'
@@ -168,11 +164,7 @@ const UserObject = () => {
 
 interface ItemListProps {
     isLoading: boolean
-    items?:
-        | Module[]
-        | ModelReturnType[]
-        | ModuleObjectShort[]
-        | GenericObjectShort[]
+    items?: Module[] | ModelReturnType[] | GenericObjectShort[]
     type: 'module' | 'object'
 }
 

@@ -1,16 +1,16 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import Indicator from '@/components/Indicator'
 import ModuleItemDropdown from '@/components/Modules/ModuleItemDropdown'
 import * as models from '@/config/objects'
-import { ModelType } from '@/config/objects/types'
+import { ModelReturnTypeBasic, ModelType } from '@/config/objects/types'
 import useModule from '@/hooks/useModule'
 import { getObjectActionText } from '@/utils/dynamicObject'
 
 import useModalStore from '@/store/modalStore'
 import useObjectTableStore from '@/store/objectTableStore'
+import { parseUtc } from '@/utils/parseUtc'
 import {
     Button,
     FieldInput,
@@ -20,11 +20,11 @@ import {
     TableProps,
     Text,
 } from '@pzh-ui/components'
-import { MagnifyingGlass } from '@pzh-ui/icons'
+import { ListCheck, MagnifyingGlass } from '@pzh-ui/icons'
 
 type FilterOption = { label?: string; value?: string }
 
-const getUniqueOptions = (items: ModuleObjectShort[] = [], path: string) => {
+const getUniqueOptions = (items: ModelReturnTypeBasic[] = [], path: string) => {
     const seen = new Set<string>()
     return items
         .map(obj => {
@@ -53,7 +53,7 @@ const getUniqueOptions = (items: ModuleObjectShort[] = [], path: string) => {
 }
 
 const useFilteredAndSortedData = (
-    objects: ModuleObjectShort[],
+    objects: ModelReturnTypeBasic[],
     filters: {
         Title: string
         Object_Type: FilterOption[]
@@ -64,7 +64,7 @@ const useFilteredAndSortedData = (
 ) => {
     return useMemo(() => {
         const filtered = objects.filter(obj => {
-            const matchesTitle = obj.Title?.toLowerCase().includes(
+            const matchesTitle = obj.Model.Title?.toLowerCase().includes(
                 filters.Title.toLowerCase()
             )
             const matchesType =
@@ -80,21 +80,15 @@ const useFilteredAndSortedData = (
         })
 
         const formatted = filtered.map(obj => {
-            const {
-                Title,
-                Object_Type,
-                ModuleObjectContext,
-                Modified_Date,
-                ...rest
-            } = obj
+            const { Object_Type, ModuleObjectContext, Model, ...rest } = obj
 
             const model = models[Object_Type as ModelType]
             const actionText = getObjectActionText(ModuleObjectContext?.Action)
-            const modifiedDate = new Date(Modified_Date + 'Z')
+            const modifiedDate = parseUtc(Model.Modified_Date || '')
 
             return {
                 raw: {
-                    Title: Title.toLowerCase(),
+                    Title: Model.Title?.toLowerCase(),
                     Object_Type,
                     Action: actionText,
                     Modified_Date: modifiedDate,
@@ -102,7 +96,7 @@ const useFilteredAndSortedData = (
                 display: {
                     Title: (
                         <Text bold color="text-pzh-blue-500">
-                            {Title}
+                            {Model.Title}
                         </Text>
                     ),
                     Object_Type: model?.defaults?.singularCapitalize,
@@ -112,19 +106,20 @@ const useFilteredAndSortedData = (
                             {formatDate(modifiedDate, 'dd-MM-yyyy, p')}
                             <ModuleItemDropdown
                                 model={model}
-                                Title={Title}
                                 Object_Type={Object_Type}
                                 ModuleObjectContext={ModuleObjectContext}
-                                Modified_Date={Modified_Date}
+                                Model={Model}
                                 invertHover
                                 {...rest}
                             />
                         </span>
                     ),
-                    onClick: () =>
-                        navigate(
-                            `/muteer/modules/${rest.Module_ID}/${Object_Type}/${rest.Object_ID}/bewerk`
-                        ),
+                    ...(!model.defaults.disabled && {
+                        onClick: () =>
+                            navigate(
+                                `/muteer/modules/${rest.Module_ID}/${Object_Type}/${Model.Object_ID}/bewerk`
+                            ),
+                    }),
                 },
             }
         })
@@ -146,9 +141,10 @@ const useFilteredAndSortedData = (
 
 interface ObjectsTableProps {
     isLocked: boolean
+    isClosed: boolean
 }
 
-const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
+const ObjectsTable = ({ isLocked, isClosed }: ObjectsTableProps) => {
     const navigate = useNavigate()
     const setActiveModal = useModalStore(state => state.setActiveModal)
     const {
@@ -157,6 +153,7 @@ const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
     } = useModule()
 
     const store = useObjectTableStore()
+    const moduleStates = useObjectTableStore(state => state.moduleStates)
     const filters = store.getFilters(Module_ID)
     const sortBy = store.getSortBy(Module_ID)
 
@@ -168,6 +165,19 @@ const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
         () => getUniqueOptions(objects, 'ModuleObjectContext.Action'),
         [objects]
     )
+
+    const isModuleInitialized = Module_ID !== 0 && Module_ID in moduleStates
+
+    useEffect(() => {
+        if (!isModuleInitialized && Module_ID !== 0 && typeOptions.length > 0) {
+            const filteredTypes = typeOptions.filter(
+                opt =>
+                    !models[opt.value as ModelType]?.defaults
+                        ?.hideFromModuleFilter
+            )
+            store.setFilter(Module_ID, 'Object_Type', filteredTypes)
+        }
+    }, [isModuleInitialized, Module_ID, typeOptions, store])
 
     const activeTypeFilters =
         filters.Object_Type.length <= typeOptions.length
@@ -212,11 +222,19 @@ const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
                     <FieldInput
                         name="Title"
                         placeholder="Zoek op titel van een onderdeel"
-                        icon={MagnifyingGlass}
                         value={filters.Title}
                         onChange={e =>
                             handleFilterChange('Title', e.target.value)
                         }
+                        inlineButton={
+                            <Button
+                                className="absolute top-1 right-1 flex h-8 w-8 items-center justify-center p-0"
+                                aria-label="Zoeken"
+                                icon={MagnifyingGlass}
+                                iconSize={14}
+                            />
+                        }
+                        variant="small"
                     />
                 </div>
                 <div className="relative flex-1">
@@ -243,6 +261,7 @@ const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
                                 selected as FilterOption[]
                             )
                         }
+                        variant="small"
                     />
                 </div>
                 <div className="relative flex-1">
@@ -269,13 +288,27 @@ const ObjectsTable = ({ isLocked }: ObjectsTableProps) => {
                                 selected as FilterOption[]
                             )
                         }
+                        variant="small"
                     />
                 </div>
-                <Button
-                    onPress={() => setActiveModal('moduleAddObject')}
-                    isDisabled={isLocked}>
-                    Onderdeel toevoegen
-                </Button>
+                {!isClosed && (
+                    <>
+                        <Button
+                            onPress={() => setActiveModal('moduleAddObject')}
+                            isDisabled={isLocked}
+                            size="small">
+                            Onderdeel toevoegen
+                        </Button>
+                        <Button
+                            onPress={() => setActiveModal('moduleScan')}
+                            variant="secondary"
+                            icon={ListCheck}
+                            iconSize={18}
+                            size="small"
+                            className="w-10"
+                        />
+                    </>
+                )}
             </div>
 
             <Table

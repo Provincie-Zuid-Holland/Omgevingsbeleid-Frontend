@@ -12,6 +12,7 @@ interface PackageCreateProps {
     inline?: boolean
     packageType: PackageType
     isLocked?: boolean
+    isClosed?: boolean
 }
 
 const PackageCreate = ({
@@ -20,6 +21,7 @@ const PackageCreate = ({
     inline,
     packageType,
     isLocked,
+    isClosed,
 }: PackageCreateProps) => {
     const { versionUUID } = useParams()
 
@@ -32,7 +34,7 @@ const PackageCreate = ({
 
     if (inline) {
         return (
-            <div className="flex bg-pzh-gray-100 px-6 py-4">
+            <div className="bg-pzh-gray-100 flex px-6 py-4">
                 <Button
                     onPress={handleAction}
                     isLoading={createPackage.isPending}
@@ -40,7 +42,7 @@ const PackageCreate = ({
                     variant="default"
                     icon={PlusLight}
                     iconSize={19}
-                    className="flex items-center gap-4 font-bold text-pzh-green-500 [&>svg]:-mt-1 [&>svg]:mr-0">
+                    className="text-pzh-green-500 flex items-center gap-4 font-bold [&>svg]:-mt-1 [&>svg]:mr-0">
                     Nieuwe levering maken
                 </Button>
             </div>
@@ -50,7 +52,7 @@ const PackageCreate = ({
     return (
         <div className="flex items-center justify-between px-6 py-3">
             <div className="flex items-center gap-4">
-                <div className="after:content-[` `] flex h-[19px] w-[19px] items-center justify-center rounded-full border border-pzh-gray-600" />
+                <div className="after:content-[` `] border-pzh-gray-600 flex h-[19px] w-[19px] items-center justify-center rounded-full border" />
                 <Text
                     bold
                     className="heading-s -mb-1"
@@ -69,7 +71,7 @@ const PackageCreate = ({
                 <Button
                     variant="cta"
                     size="small"
-                    isDisabled={createPackage.isPending || isLocked}
+                    isDisabled={createPackage.isPending || isLocked || isClosed}
                     onPress={handleAction}
                     isLoading={createPackage.isPending}>
                     Maak levering

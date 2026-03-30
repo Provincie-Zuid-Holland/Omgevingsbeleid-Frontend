@@ -1,10 +1,6 @@
 import classNames from 'clsx'
 import { forwardRef } from 'react'
 
-/**
- * Displays a tooltip for the NetworkGraph items.
- */
-
 export type TooltipVariables = {
     active: boolean
     left?: number
@@ -19,28 +15,36 @@ export type TooltipContent = {
 interface NetworkGraphTooltipProps {
     variables: TooltipVariables
     content?: TooltipContent
+    onMouseEnter?: () => void
+    onMouseLeave?: () => void
 }
 
 const NetworkGraphTooltip = forwardRef<
     HTMLDivElement,
     NetworkGraphTooltipProps
->(({ variables, content }, ref) => (
+>(({ variables, content, onMouseEnter, onMouseLeave }, ref) => (
     <div
         ref={ref}
         id="d3-tooltip-network-graph"
-        style={{
-            left: variables.left,
-            top: variables.top,
-        }}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        style={
+            variables.active
+                ? {
+                      left: variables.left,
+                      top: variables.top,
+                  }
+                : undefined
+        }
         className={classNames('fixed z-50 max-w-[calc(100vw-40px-2rem)]', {
-            'left-[-100%]': !variables.active,
+            'left-[-100vw]': !variables.active,
         })}>
         <span className="-mt-2.5 block h-2.5 w-full" />
-        <div className="rounded bg-pzh-black/80 px-3 pb-2 pt-3">
-            <span className="block text-s capitalize text-pzh-white">
+        <div className="bg-pzh-black/80 rounded px-3 pt-3 pb-2">
+            <span className="text-s text-pzh-white block capitalize">
                 {content?.type}
             </span>
-            <span className="block max-w-[400px] truncate font-bold text-pzh-white group-hover:underline">
+            <span className="text-pzh-white block max-w-[400px] truncate font-bold group-hover:underline">
                 {content?.title}
             </span>
         </div>

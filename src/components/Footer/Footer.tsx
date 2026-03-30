@@ -12,17 +12,17 @@ function Footer() {
 
     return (
         <footer
-            className={classNames('z-[1] mt-auto w-full bg-pzh-gray-200', {
+            className={classNames('bg-pzh-gray-200 z-[1] mt-auto w-full', {
                 'has-feedback':
                     !userIsInMuteerEnvironment && !isAdvancedSearchPage,
             })}>
             <Container
                 className={classNames({
-                    'pb-16 pt-8 md:py-8 md:pb-12': !userIsInMuteerEnvironment,
+                    'pt-8 pb-16 md:py-8 md:pb-12': !userIsInMuteerEnvironment,
                     'py-10': userIsInMuteerEnvironment,
                 })}>
                 <div className="col-span-6 md:col-span-3 lg:col-span-2">
-                    <Heading level="3" size="m" color="text-pzh-blue-500">
+                    <Heading level="2" size="m" color="text-pzh-blue-500">
                         Krachtig Zuid-Holland
                     </Heading>
                 </div>

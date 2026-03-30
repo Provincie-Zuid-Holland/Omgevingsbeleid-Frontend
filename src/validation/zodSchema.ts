@@ -9,28 +9,28 @@ import {
 } from 'zod'
 
 export const schemaDefaults = {
-    requiredString: (msg = 'Dit veld is verplicht.') =>
+    requiredString: (msg = 'Het veld is niet (goed) ingevuld.') =>
         string({
             required_error: msg,
             invalid_type_error: msg,
         })
             .trim()
-            .min(1, 'Dit veld is verplicht.'),
+            .min(1, 'Het veld is niet (goed) ingevuld.'),
     optionalString: string().optional().nullable(),
-    requiredNumber: (msg = 'Dit veld is verplicht.') =>
+    requiredNumber: (msg = 'Het veld is niet (goed) ingevuld.') =>
         number({
             required_error: msg,
             invalid_type_error: msg,
         }),
     optionalNumber: number().optional().nullable(),
-    email: (msg = 'Dit veld is verplicht.') =>
+    email: (msg = 'Het veld is niet (goed) ingevuld.') =>
         string({
             required_error: msg,
             invalid_type_error: msg,
         })
             .email('Onjuist e-mailadres')
             .max(255, 'Vul een e-mailadres in van maximaal 255 karakters'),
-    url: (msg = 'Dit veld is verplicht.') =>
+    url: (msg = 'Het veld is niet (goed) ingevuld.') =>
         string({
             required_error: msg,
             invalid_type_error: msg,
@@ -52,12 +52,12 @@ export const schemaDefaults = {
     rte: () =>
         customRteValidation().and(
             string({
-                required_error: 'Dit veld is verplicht.',
-                invalid_type_error: 'Dit veld is verplicht.',
+                required_error: 'Het veld is niet (goed) ingevuld.',
+                invalid_type_error: 'Het veld is niet (goed) ingevuld.',
             })
         ),
     optionalRte: () => customRteValidation().optional().nullable(),
-    requiredArray: (msg = 'Dit veld is verplicht.') =>
+    requiredArray: (msg = 'Het veld is niet (goed) ingevuld.') =>
         array(
             string({
                 required_error: msg,

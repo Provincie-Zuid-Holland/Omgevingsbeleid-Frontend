@@ -1,9 +1,9 @@
 import {
     Button,
-    Divider,
     FormikDate,
     FormikInput,
     FormikRte,
+    Text,
 } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers } from 'formik'
@@ -14,13 +14,18 @@ import {
     usePublicationAnnouncementsGetDetailAnnouncement,
     usePublicationAnnouncementsPostEditAnnouncement,
 } from '@/api/fetchers'
-import { PublicationAnnouncementEdit } from '@/api/fetchers.schemas'
+import {
+    HTTPValidationError,
+    PublicationAnnouncementEdit,
+} from '@/api/fetchers.schemas'
+import FieldArray from '@/components/Form/FieldArray'
 import { LoaderSpinner } from '@/components/Loader'
-import Modal from '@/components/Modal/Modal'
+import Modal, { ModalFooter } from '@/components/Modal/Modal'
 import { ModalStateMap } from '@/components/Modals/types'
 import useModalStore from '@/store/modalStore'
 import handleError from '@/utils/handleError'
 import { ANNOUNCEMENT_EDIT_SCHEMA } from '@/validation/announcement'
+import { AxiosError } from 'axios'
 
 const PublicationAnnouncementUpdateModal = () => {
     const queryClient = useQueryClient()
@@ -53,32 +58,7 @@ const PublicationAnnouncementUpdateModal = () => {
             },
         })
 
-    const initialValues = {
-        Content: {
-            Texts: [
-                {
-                    Title: null,
-                    Description: '',
-                },
-                {
-                    Title: 'Planning',
-                    Description: '',
-                },
-                {
-                    Title: 'Reageren',
-                    Description: '',
-                },
-                {
-                    Title: 'Inzien',
-                    Description: '',
-                },
-                {
-                    Title: 'Sluiting',
-                    Description: '',
-                },
-            ],
-        },
-    } as PublicationAnnouncementEdit
+    const initialValues = {} as PublicationAnnouncementEdit
 
     const mergedValues = mergeWith(
         initialValues,
@@ -102,14 +82,15 @@ const PublicationAnnouncementUpdateModal = () => {
         mutateAsync({
             announcementUuid: modalState?.announcementUuid,
             data: payload,
-        }).catch(err => handleError<typeof payload>(err.response, helpers))
+        }).catch(
+            (err: AxiosError<HTTPValidationError>) =>
+                err.response &&
+                handleError<typeof payload>(err.response, helpers)
+        )
     }
 
     return (
-        <Modal
-            id="publicationAnnouncementUpdate"
-            title="Kennisgeving"
-            size="xl">
+        <Modal id="publicationAnnouncementUpdate" title="Kennisgeving">
             {isFetching ? (
                 <div className="flex justify-center">
                     <LoaderSpinner />
@@ -140,47 +121,51 @@ const PublicationAnnouncementUpdateModal = () => {
                                         label="Titel van kennisgeving"
                                         placeholder="Titel"
                                         disabled={isLocked}
-                                        required
                                     />
                                 </div>
                                 <div>
                                     <FormikRte
                                         name="Content.Texts.0.Description"
                                         label="Tekst van kennisgeving"
+                                        customMenuOptions={['link']}
                                         disabled={isLocked}
                                         required
                                     />
                                 </div>
-                                <div>
-                                    <FormikRte
-                                        name="Content.Texts.1.Description"
-                                        label="Planning"
+                                <div className="bg-pzh-gray-100 flex flex-col gap-4 p-4">
+                                    <Text>Tekstblokken</Text>
+
+                                    <FieldArray
+                                        name="Content.Texts"
+                                        label=""
+                                        arrayLabel="Tekstblok"
+                                        buttonLabel="Tekstblok toevoegen"
+                                        buttonOptions={{
+                                            variant: 'secondary',
+                                            size: 'small',
+                                        }}
+                                        itemClassName="py-4 px-0 first:pt-0 first:border-t-0 border-t border-pzh-gray-600 gap-4"
+                                        startIndex={1}
+                                        fields={[
+                                            {
+                                                type: 'text',
+                                                name: 'Title',
+                                                label: 'Titel',
+                                                disabled: isLocked,
+                                                placeholder:
+                                                    'Voer hier een titel in, bijvoorbeeld: Planning',
+                                            },
+                                            {
+                                                type: 'wysiwyg',
+                                                name: 'Description',
+                                                label: 'Inhoud van tekstblok',
+                                                disabled: isLocked,
+                                                required: true,
+                                                customMenuOptions: ['link'],
+                                                menuClassName: 'top-0',
+                                            },
+                                        ]}
                                         disabled={isLocked}
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <FormikRte
-                                        name="Content.Texts.2.Description"
-                                        label="Reageren"
-                                        disabled={isLocked}
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <FormikRte
-                                        name="Content.Texts.3.Description"
-                                        label="Inzien"
-                                        disabled={isLocked}
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <FormikRte
-                                        name="Content.Texts.4.Description"
-                                        label="Sluiting"
-                                        disabled={isLocked}
-                                        required
                                     />
                                 </div>
                                 <div className="flex gap-4 [&_>div]:flex-1">
@@ -213,8 +198,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                     </div>
                                 </div>
                             </div>
-                            <Divider className="my-6" />
-                            <div className="flex items-center justify-between">
+                            <ModalFooter className="mt-4">
                                 <Button
                                     variant="link"
                                     type="button"
@@ -231,7 +215,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                     isLoading={isSubmitting && !isError}>
                                     Opslaan
                                 </Button>
-                            </div>
+                            </ModalFooter>
                         </Form>
                     )}
                 </Formik>

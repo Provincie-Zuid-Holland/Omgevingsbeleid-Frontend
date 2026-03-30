@@ -29,6 +29,8 @@ import { useActions } from '@/components/Publications/PublicationPackages/compon
 import { getReportStatus } from '@/components/Publications/PublicationPackages/components/utils'
 import useModalStore from '@/store/modalStore'
 
+import { ModalFooter } from '@/components/Modal/Modal'
+import { parseUtc } from '@/utils/parseUtc'
 import { ModalStateMap } from '../../types'
 
 const PublicationPackageReportUploadModal = () => {
@@ -113,10 +115,7 @@ const PublicationPackageReportUploadModal = () => {
     }
 
     return (
-        <Modal
-            id="publicationPackageReportUpload"
-            title="Upload rapporten"
-            size="xl">
+        <Modal id="publicationPackageReportUpload" title="Upload rapporten">
             <Formik
                 initialValues={{
                     uploaded_files: [],
@@ -124,9 +123,9 @@ const PublicationPackageReportUploadModal = () => {
                 onSubmit={handleSubmit}>
                 {props => <InnerForm {...props} />}
             </Formik>
-            <div className="mt-12 flex justify-end">
+            <ModalFooter>
                 <Button onPress={() => setActiveModal(null)}>Sluiten</Button>
-            </div>
+            </ModalFooter>
         </Modal>
     )
 }
@@ -269,9 +268,7 @@ const InnerForm = <TData extends { uploaded_files: File[] }>({
                                                 color="text-pzh-gray-600"
                                                 className="whitespace-nowrap">
                                                 {formatDate(
-                                                    new Date(
-                                                        file.Created_Date + 'Z'
-                                                    ),
+                                                    parseUtc(file.Created_Date),
                                                     "dd-MM-yyyy 'om' kk:mm"
                                                 )}
                                             </Text>

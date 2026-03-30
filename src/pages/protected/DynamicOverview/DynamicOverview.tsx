@@ -1,6 +1,5 @@
 import {
     Button,
-    FieldInput,
     Heading,
     TabItem,
     Table,
@@ -8,18 +7,23 @@ import {
     Text,
     formatDate,
 } from '@pzh-ui/components'
-import { AngleRight, MagnifyingGlass } from '@pzh-ui/icons'
+import { AngleRight } from '@pzh-ui/icons'
 import { useUpdateEffect } from '@react-hookz/web'
 import { keepPreviousData } from '@tanstack/react-query'
-import { ChangeEvent, KeyboardEvent, useMemo, useState } from 'react'
+import { KeyboardEvent, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { useModulesGetListModuleObjects } from '@/api/fetchers'
-import { ModuleObjectShort } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
-import { Model, ModelReturnType } from '@/config/objects/types'
+import SearchBar from '@/components/SearchBar'
+import {
+    Model,
+    ModelReturnTypeBasic,
+    ModelReturnTypeBasicUnion,
+} from '@/config/objects/types'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
+import { parseUtc } from '@/utils/parseUtc'
 
 const PAGE_LIMIT = 20
 
@@ -43,22 +47,16 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
         prefixNewObject,
     } = model.defaults
 
-    /**
-     * Handle key down of search field
-     */
-    const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'Enter') {
-            const value = (e.target as HTMLInputElement).value
-            setQuery(value)
-        }
-    }
-
-    const handleChange = (e: ChangeEvent) => {
+    const handleChange = (e: KeyboardEvent) => {
         const value = (e.target as HTMLInputElement).value
 
         if (!value) {
             setQuery('')
         }
+    }
+
+    const handleSearch = ({ query }: { query: string }) => {
+        setQuery(query)
     }
 
     useUpdateEffect(() => {
@@ -86,14 +84,11 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
                             </Link>
                         </Button>
                     ) : (
-                        <FieldInput
-                            key={plural + activeTab}
-                            name="search"
+                        <SearchBar
+                            handleSubmit={handleSearch}
+                            onKeyUp={handleChange}
+                            className="w-auto min-w-[368px]"
                             placeholder="Zoeken in lijst"
-                            className="min-w-[368px]"
-                            icon={MagnifyingGlass}
-                            onKeyDown={handleKeyDown}
-                            onChange={handleChange}
                         />
                     )}
                 </div>
@@ -178,6 +173,16 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
         {
             query: {
                 placeholderData: keepPreviousData,
+                select: data => {
+                    if (type === 'valid') return data
+
+                    return {
+                        ...data,
+                        results: data.results.map(result =>
+                            'Model' in result ? result.Model : result
+                        ),
+                    }
+                },
                 enabled:
                     type === 'valid'
                         ? atemporal || (activeTab === 'valid' && !atemporal)
@@ -191,7 +196,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
             pageIndex: 1,
             pageSize: PAGE_LIMIT,
         })
-    }, [plural])
+    }, [plural, query])
 
     /**
      * Setup Table columns
@@ -202,20 +207,8 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                 header: 'Titel',
                 accessorKey: 'Title',
             },
-            ...((!atemporal && [
-                {
-                    header: 'Status',
-                    accessorKey: 'Status',
-                    enableSorting: false,
-                },
-            ]) ||
-                []),
-            {
-                header: 'Laatst gewijzigd',
-                accessorKey: 'Modified_Date',
-            },
         ],
-        [atemporal]
+        []
     )
 
     /**
@@ -223,14 +216,16 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
      */
     const formattedData = useMemo(
         () =>
-            data?.results?.map(
-                ({
-                    Title,
-                    Modified_Date,
-                    Object_ID,
-                    Object_Type,
-                    ...props
-                }: ModelReturnType | ModuleObjectShort) => ({
+            (
+                data?.results as (
+                    | ModelReturnTypeBasic
+                    | ModelReturnTypeBasicUnion
+                )[]
+            )?.map(props => {
+                const { Title, Modified_Date, Object_ID } =
+                    'Model' in props ? props.Model : props
+
+                return {
                     Title: (
                         <Text bold color="text-pzh-blue-500">
                             {Title}
@@ -247,7 +242,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                         <span className="flex items-center justify-between">
                             {Modified_Date
                                 ? formatDate(
-                                      new Date(Modified_Date + 'Z'),
+                                      parseUtc(Modified_Date),
                                       'cccccc d MMMM yyyy, p'
                                   )
                                 : 'nooit'}
@@ -257,17 +252,13 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                     ...((!atemporal || (atemporal && canCreateModule)) && {
                         onClick: () =>
                             navigate(
-                                type === 'valid'
-                                    ? `/muteer/${plural}/${Object_ID}${
-                                          atemporal ? '/bewerk' : ''
-                                      }`
-                                    : 'Module_ID' in props
-                                      ? `/muteer/modules/${props.Module_ID}/${Object_Type}/${Object_ID}`
-                                      : ''
+                                `/muteer/${plural}/${Object_ID}${
+                                    atemporal ? '/bewerk' : ''
+                                }`
                             ),
                     }),
-                })
-            ) || [],
+                }
+            }) || [],
         [data?.results, atemporal, plural, canCreateModule, navigate, type]
     )
 

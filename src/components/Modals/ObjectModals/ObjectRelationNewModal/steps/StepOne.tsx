@@ -19,7 +19,7 @@ export const StepOne = ({ title, id, model, relations }: StepProps) => {
         ...(relations?.map(relation => relation.Side_B.Object_ID) || []),
         ...(id ? [id] : []),
     ]
-    
+
     return (
         <>
             <Text className="mb-4">
@@ -30,9 +30,9 @@ export const StepOne = ({ title, id, model, relations }: StepProps) => {
             <DynamicObjectSearch
                 onChange={val => {
                     if (Array.isArray(val)) {
-                        setFieldValue('Title', val[0].object?.Title ?? '')
+                        setFieldValue('Title', val[0].object?.Model.Title ?? '')
                     } else {
-                        setFieldValue('Title', val?.object?.Title ?? '')
+                        setFieldValue('Title', val?.object?.Model.Title ?? '')
                     }
                 }}
                 objectKey="Object_ID"

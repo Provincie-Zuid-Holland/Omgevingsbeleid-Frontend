@@ -14,6 +14,7 @@ import { useSourceWerkingsgebiedenGetListWerkingsgebieden } from '@/api/fetchers
 import AreaPreview from '@/components/AreaPreview'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
+import { ModalFooter } from '@/components/Modal/Modal'
 import useModalStore from '@/store/modalStore'
 
 export interface AreaProps {
@@ -94,7 +95,6 @@ const AreaModalAdd = ({
         <Modal
             id="areaAdd"
             title="Werkingsgebied koppelen"
-            size="xl"
             onClose={handleClose}>
             <Formik
                 onSubmit={handleSubmit}
@@ -102,8 +102,8 @@ const AreaModalAdd = ({
                 enableReinitialize>
                 {({ isSubmitting, values }) => (
                     <Form>
-                        <div>
-                            <Text className="mb-6">
+                        <div className="mb-4">
+                            <Text className="mb-4">
                                 Selecteer een werkingsgebied om te koppelen.
                             </Text>
 
@@ -155,7 +155,7 @@ const AreaModalAdd = ({
                             </div>
                         </div>
 
-                        <div className="mt-6 flex items-center justify-between">
+                        <ModalFooter>
                             <Button variant="link" onPress={handleClose}>
                                 Annuleren
                             </Button>
@@ -165,7 +165,7 @@ const AreaModalAdd = ({
                                 isDisabled={isSubmitting}>
                                 Koppelen
                             </Button>
-                        </div>
+                        </ModalFooter>
                     </Form>
                 )}
             </Formik>

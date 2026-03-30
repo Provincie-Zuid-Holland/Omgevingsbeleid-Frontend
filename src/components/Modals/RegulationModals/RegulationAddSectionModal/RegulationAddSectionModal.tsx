@@ -40,10 +40,7 @@ const RegulationAddSectionModal = () => {
     }
 
     return (
-        <Modal
-            size="l"
-            id="regulationAdd"
-            title={`${singularCapitalize} toevoegen`}>
+        <Modal id="regulationAdd" title={`${singularCapitalize} toevoegen`}>
             <RegulationForm
                 initialValues={{
                     type: itemAction.type,

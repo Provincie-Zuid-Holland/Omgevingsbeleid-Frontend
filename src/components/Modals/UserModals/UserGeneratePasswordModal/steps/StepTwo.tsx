@@ -10,10 +10,10 @@ export const StepTwo = ({ newPassword, user }: StepProps) => {
 
     return (
         <>
-            <Heading level="2" className="mb-2">
+            <Heading level="2" size="xl">
                 Wachtwoord opgeslagen
             </Heading>
-            <Text className="mb-4">
+            <Text>
                 Gegenereerd wachtwoord: <strong>{newPassword}</strong>
             </Text>
             <Text>
@@ -21,7 +21,7 @@ export const StepTwo = ({ newPassword, user }: StepProps) => {
                 <br />
                 <a
                     href={`mailto:${user?.Email}?subject=${mailTo.subject}&body=${mailTo.body}`}
-                    className="text-pzh-green-500 underline hover:text-pzh-green-900">
+                    className="text-pzh-green-500 hover:text-pzh-green-900 underline">
                     E-mail naar {user?.Email}
                 </a>
             </Text>

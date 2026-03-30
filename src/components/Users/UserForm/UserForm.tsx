@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { UserCreate } from '@/api/fetchers.schemas'
+import { ModalFooter } from '@/components/Modal/Modal'
 import { availableRoleTypes } from '@/context/AuthContext'
 import { SCHEMA_ADD_USER } from '@/validation/user'
 
@@ -64,7 +65,7 @@ const UserForm = ({
                         />
                     </div>
 
-                    <div className="border-pzh-gray-200 flex items-center justify-between border-t pt-6">
+                    <ModalFooter>
                         <Button variant="link" onPress={handleClose}>
                             Annuleren
                         </Button>
@@ -78,7 +79,7 @@ const UserForm = ({
                                 {submitText}
                             </Button>
                         </div>
-                    </div>
+                    </ModalFooter>
                 </Form>
             )}
         </Formik>

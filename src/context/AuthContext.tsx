@@ -6,12 +6,19 @@ import { ReactNode, createContext, useEffect } from 'react'
 import { authenticationPostAuthLoginAccessToken } from '@/api/fetchers'
 import { AuthToken, UserLoginDetail } from '@/api/fetchers.schemas'
 import { decryptData, encryptData } from '@/utils/encryption'
+import { useLocation } from 'react-router-dom'
+
+export const ACCESS_TOKEN_KEY =
+    import.meta.env.VITE_KEY_API_ACCESS_TOKEN ?? 'app.accessToken'
+export const IDENTIFIER_KEY =
+    import.meta.env.VITE_KEY_IDENTIFIER ?? 'app.identifier'
 
 export const availableRoleTypes = [
     'Ambtelijk opdrachtgever',
     'Behandelend Ambtenaar',
     'Functioneel beheerder',
     'Portefeuillehouder',
+    'Basic',
 ] as Role[]
 export type Role =
     | 'Ambtelijk opdrachtgever'
@@ -44,31 +51,26 @@ export const AuthContext = createContext<AuthContextType>(null!)
 
 function AuthProvider({ children }: { children: ReactNode }) {
     const queryClient = useQueryClient()
+    const { pathname } = useLocation()
 
     const {
         value: accessToken,
         set: setAccessToken,
         remove: removeAccessToken,
-    } = useLocalStorageValue<string>(
-        import.meta.env.VITE_KEY_API_ACCESS_TOKEN || '',
-        {
-            parse: (data: string | null) => data,
-            stringify: (data: string) => data,
-        }
-    )
+    } = useLocalStorageValue<string>(ACCESS_TOKEN_KEY, {
+        parse: (data: string | null) => data,
+        stringify: (data: string) => data,
+    })
     const {
         value: identifier,
         set: setIdentifier,
         remove: removeIdentifier,
-    } = useLocalStorageValue<UserLoginDetail>(
-        import.meta.env.VITE_KEY_IDENTIFIER || '',
-        {
-            parse: (data: string | null) =>
-                data ? decryptData<UserLoginDetail>(data) : null,
-            stringify: (data: UserLoginDetail) =>
-                encryptData<UserLoginDetail>(data),
-        }
-    )
+    } = useLocalStorageValue<UserLoginDetail>(IDENTIFIER_KEY, {
+        parse: (data: string | null) =>
+            data ? decryptData<UserLoginDetail>(data) : null,
+        stringify: (data: UserLoginDetail) =>
+            encryptData<UserLoginDetail>(data),
+    })
 
     /**
      * Signin to application
@@ -103,22 +105,29 @@ function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     useEffect(() => {
+        if (accessToken === undefined) return
+
         if (accessToken) {
-            const { exp } = jwtDecode(accessToken) as JWTToken
-
-            if (Date.now() >= exp * 1000) {
-                /**
-                 * Remove cache for queries
-                 */
-                queryClient.removeQueries()
-
+            try {
+                const { exp } = jwtDecode<JWTToken>(accessToken)
+                if (Number.isFinite(exp) && Date.now() >= exp * 1000) {
+                    queryClient.clear()
+                    removeIdentifier()
+                    removeAccessToken()
+                }
+            } catch {
+                queryClient.clear()
                 removeIdentifier()
                 removeAccessToken()
             }
-        } else {
-            removeIdentifier()
         }
-    })
+    }, [
+        accessToken,
+        queryClient,
+        removeAccessToken,
+        removeIdentifier,
+        pathname,
+    ])
 
     const value = {
         user: identifier,

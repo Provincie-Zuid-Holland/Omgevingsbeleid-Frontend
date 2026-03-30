@@ -35,7 +35,6 @@ const RegulationEditSectionModal = () => {
 
     return (
         <Modal
-            size="l"
             id="regulationEdit"
             title={`${singularCapitalize} ${itemAction.index} wijzigen`}>
             <RegulationForm

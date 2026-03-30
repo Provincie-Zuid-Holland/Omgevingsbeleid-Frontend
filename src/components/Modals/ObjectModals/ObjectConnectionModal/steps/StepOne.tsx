@@ -16,14 +16,8 @@ export const StepOne = ({
     setStep,
 }: StepProps) => {
     const { defaults } = connectionModel || {}
-    const {
-        atemporal,
-        pluralCapitalize,
-        plural,
-        prefixNewObject,
-        singularReadable,
-        singularCapitalize,
-    } = defaults || {}
+    const { atemporal, pluralCapitalize, pluralReadable, singularReadable } =
+        defaults || {}
 
     /**
      * Get amount of connections
@@ -35,8 +29,8 @@ export const StepOne = ({
 
     return (
         <>
-            <Heading level="2" className="mb-2">
-                {singularCapitalize} koppelen
+            <Heading level="2" size="xl" className="mb-2">
+                {pluralCapitalize}
             </Heading>
 
             <Text className="mb-4">
@@ -47,17 +41,14 @@ export const StepOne = ({
             <Divider />
             <div className="mt-4 flex items-center justify-between">
                 <span className="font-bold">
-                    {amount} Gekoppelde{' '}
-                    {amount === 1
-                        ? singularReadable
-                        : plural?.replaceAll('-', ' ')}
+                    {amount} gekoppelde{' '}
+                    {amount === 1 ? singularReadable : pluralReadable}
                 </span>
                 <Button
-                    size="small"
                     variant="cta"
                     type="button"
                     onPress={() => setStep?.(2)}>
-                    {prefixNewObject} {singularReadable} koppelen
+                    Nieuwe koppeling maken
                 </Button>
             </div>
 
@@ -100,11 +91,11 @@ const Connection = ({
         <div className="mt-3">
             <div
                 className={classNames(
-                    'flex items-center justify-between border border-pzh-gray-300 bg-pzh-gray-100 px-3 pb-1 pt-2',
+                    'border-pzh-gray-300 bg-pzh-gray-100 flex items-center justify-between border p-4',
                     {
                         rounded: atemporal,
                         'rounded-tl rounded-tr': !atemporal,
-                        'rounded-bl rounded-br': !Description && !atemporal,
+                        'rounded-br rounded-bl': !Description && !atemporal,
                     }
                 )}>
                 <span className="font-bold">{Title}</span>
@@ -141,7 +132,7 @@ const Connection = ({
                 </div>
             </div>
             {!atemporal && !!Description && (
-                <div className="rounded-bl rounded-br border border-t-0 border-pzh-gray-300 px-3 py-2">
+                <div className="border-pzh-gray-300 rounded-br rounded-bl border border-t-0 px-3 py-2">
                     <Text>{Description}</Text>
                 </div>
             )}

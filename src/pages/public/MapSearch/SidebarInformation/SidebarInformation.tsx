@@ -146,6 +146,8 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
                         <InfoText
                             title="Zoek op adres"
                             description="Geef een adres op, om te zoeken op die locatie."
+                            isField
+                            name="leaflet-search"
                         />
                         <div className="relative mt-2">
                             <LeafletSearchInput
@@ -160,6 +162,8 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
                 <InfoText
                     title="Werkingsgebied"
                     description="Selecteer een werkingsgebied om het gekoppelde beleid in te zien."
+                    isField
+                    name="werkingsgebied"
                 />
                 {data && (
                     <FieldSelect
@@ -226,12 +230,32 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
 const InfoText = ({
     title,
     description,
+    isField,
+    name,
 }: {
     title: string
     description: string | ReactNode
+    isField?: boolean
+    name?: string
 }) => (
     <div className="mt-8">
-        <span className="block font-bold">{title}</span>
+        {isField ? (
+            <Text
+                as="label"
+                htmlFor={name}
+                className="block font-bold"
+                color="text-pzh-blue-900">
+                {title}
+            </Text>
+        ) : (
+            <Heading
+                level="2"
+                size="s"
+                className="block font-bold"
+                color="text-pzh-blue-900">
+                {title}
+            </Heading>
+        )}
         <Text className="mt-1 block">{description}</Text>
     </div>
 )

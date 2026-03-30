@@ -1,7 +1,9 @@
 import {
     FieldCheckboxGroupProps,
     FieldFileUploadProps,
+    FieldInputProps,
     FieldRteProps,
+    FieldSelectProps,
 } from '@pzh-ui/components'
 
 import { DynamicObjectSearchProps } from '@/components/DynamicObject/DynamicObjectSearch'
@@ -51,7 +53,8 @@ export type DynamicField<FieldType = string> = {
     optimized?: boolean
     /** Conditional field */
     conditionalField?: FieldType | 'Ambtsgebied'
-} & SelectProps &
+} & TextProps &
+    SelectProps &
     ImageProps &
     WysiwygProps &
     ConnectionsProps &
@@ -59,8 +62,14 @@ export type DynamicField<FieldType = string> = {
     ArrayProps &
     CheckboxProps
 
+type TextProps =
+    | ({ type: 'text' } & FieldInputProps)
+    | {
+          type: Exclude<DynamicFieldType, 'text'>
+      }
+
 type SelectProps =
-    | { type: 'select'; options: { label: string; value: string }[] }
+    | ({ type: 'select' } & FieldSelectProps)
     | {
           type: Exclude<DynamicFieldType, 'select'>
       }

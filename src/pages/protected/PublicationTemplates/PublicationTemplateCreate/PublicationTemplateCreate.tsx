@@ -8,13 +8,14 @@ import {
     getPublicationTemplatesGetListTemplatesQueryKey,
     usePublicationTemplatesPostCreateTemplate,
 } from '@/api/fetchers'
-import { TemplateCreate } from '@/api/fetchers.schemas'
+import { HTTPValidationError, TemplateCreate } from '@/api/fetchers.schemas'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import { Model } from '@/config/objects/types'
 import model from '@/config/publicationTemplates'
 import MutateLayout from '@/templates/MutateLayout'
 import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
+import { AxiosError } from 'axios'
 
 const PublicationTemplateCreate = () => {
     const queryClient = useQueryClient()
@@ -69,7 +70,11 @@ const PublicationTemplateCreate = () => {
                     navigate('/muteer/publicatietemplates')
                 },
             }
-        ).catch(err => handleError<TemplateCreate>(err.response, helpers))
+        ).catch(
+            (err: AxiosError<HTTPValidationError>) =>
+                err.response &&
+                handleError<TemplateCreate>(err.response, helpers)
+        )
     }
 
     const breadcrumbPaths = [

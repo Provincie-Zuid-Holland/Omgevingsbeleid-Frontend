@@ -40,7 +40,7 @@ const Navigation = () => {
     return (
         <header
             className={classNames(
-                'top-0 z-[99] h-24 w-full border-b border-b-pzh-gray-200',
+                'border-b-pzh-gray-200 top-0 z-[99] h-24 w-full border-b',
                 {
                     sticky: !isAdvancedSearchPage,
                     relative: isAdvancedSearchPage,
@@ -115,7 +115,8 @@ const Navigation = () => {
                                     aria-hidden="true"
                                 />
                             }
-                            label={isMobile ? null : 'Inloggen'}
+                            label="Inloggen"
+                            className="sr-only md:not-sr-only"
                             color="blue"
                         />
                     ) : null}
@@ -131,7 +132,7 @@ const Navigation = () => {
                 </div>
             </Container>
             {isOpen && (
-                <div className="fixed left-0 top-24 z-0 block h-screen w-screen bg-pzh-gray-800/30" />
+                <div className="bg-pzh-gray-800/30 fixed top-24 left-0 z-0 block h-screen w-screen" />
             )}
         </header>
     )
@@ -154,6 +155,7 @@ const MenuIcon = ({
     label,
     children = null,
     color,
+    className,
 }: MenuIconProps) => (
     <Link
         to={to}
@@ -169,7 +171,7 @@ const MenuIcon = ({
         }}>
         <span>
             {icon}
-            <span className="font-bold">{label}</span>
+            <span className={classNames('font-bold', className)}>{label}</span>
         </span>
         <div>{children}</div>
     </Link>

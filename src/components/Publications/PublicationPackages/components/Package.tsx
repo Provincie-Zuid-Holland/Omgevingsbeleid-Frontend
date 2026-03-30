@@ -10,6 +10,8 @@ import { useMemo } from 'react'
 import { PackageType, PublicationPackage } from '@/api/fetchers.schemas'
 import useModalStore from '@/store/modalStore'
 
+import { parseUtc } from '@/utils/parseUtc'
+import { useNavigate } from 'react-router-dom'
 import { PublicationType } from '../../types'
 import { useActions } from './actions'
 import { getIndicatorClass, getPackageStatus } from './utils'
@@ -36,6 +38,7 @@ const Package = ({
     canPublicate,
     Package_Type,
 }: PackageProps) => {
+    const navigate = useNavigate()
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const { downloadPackage } = useActions({
@@ -47,7 +50,7 @@ const Package = ({
     })
 
     const createdDate = useMemo(
-        () => formatDate(new Date(Created_Date + 'Z'), "dd-MM-yyyy 'om' HH:mm"),
+        () => formatDate(parseUtc(Created_Date), "dd-MM-yyyy 'om' HH:mm"),
 
         [Created_Date]
     )
@@ -55,10 +58,7 @@ const Package = ({
     const downloadDate = useMemo(
         () =>
             Zip.Latest_Download_Date
-                ? formatDate(
-                      new Date(Zip.Latest_Download_Date + 'Z'),
-                      'dd-MM-yyyy'
-                  )
+                ? formatDate(parseUtc(Zip.Latest_Download_Date), 'dd-MM-yyyy')
                 : null,
 
         [Zip.Latest_Download_Date]
@@ -82,7 +82,7 @@ const Package = ({
                         <Check className="text-pzh-white" size={11} />
                     )}
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                     <Text
                         bold
                         className="heading-s -mb-1"
@@ -142,6 +142,11 @@ const Package = ({
                             size="small"
                             icon={EyeLight}
                             aria-label="Bekijk levering"
+                            onPress={() =>
+                                navigate(
+                                    `/muteer/leveringen/${publicationType}/${UUID}`
+                                )
+                            }
                         />
                     )}
                     <Button

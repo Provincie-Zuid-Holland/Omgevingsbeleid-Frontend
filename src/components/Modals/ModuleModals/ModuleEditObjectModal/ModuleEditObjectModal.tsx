@@ -9,18 +9,16 @@ import {
     useModulesGetModuleGetObjectContext,
     useModulesPostModuleEditObjectContext,
 } from '@/api/fetchers'
-import {
-    ModuleEditObjectContext,
-    ModuleObjectShort,
-} from '@/api/fetchers.schemas'
+import { ModuleEditObjectContext } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
 import * as models from '@/config/objects'
-import { ModelType } from '@/config/objects/types'
+import { ModelReturnTypeBasic, ModelType } from '@/config/objects/types'
 import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
 
+import { ModalFooter } from '@/components/Modal/Modal'
 import { ModalStateMap } from '../../types'
 
 const ModuleEditObjectModal = () => {
@@ -31,8 +29,7 @@ const ModuleEditObjectModal = () => {
         state => state.modalStates['moduleEditObject']
     ) as ModalStateMap['moduleEditObject']
 
-    const { object = {} as ModuleObjectShort } = modalState || {}
-
+    const { object = {} as ModelReturnTypeBasic } = modalState || {}
     const model = models[object.Object_Type as ModelType] || {}
     const { singularReadable, singularCapitalize, prefixSingular } =
         model.defaults || {}
@@ -48,10 +45,10 @@ const ModuleEditObjectModal = () => {
     } = useModulesGetModuleGetObjectContext(
         object.Module_ID,
         object.Object_Type,
-        object.Object_ID,
+        object.Model?.Object_ID || 0,
         {
             query: {
-                enabled: !!object.Object_ID,
+                enabled: !!object.Model?.Object_ID,
             },
         }
     )
@@ -69,7 +66,7 @@ const ModuleEditObjectModal = () => {
                                 getModulesGetModuleGetObjectContextQueryKey(
                                     object.Module_ID,
                                     object.Object_Type,
-                                    object.Object_ID
+                                    object.Model?.Object_ID || 0
                                 ),
                         }),
                         queryClient.invalidateQueries({
@@ -88,7 +85,7 @@ const ModuleEditObjectModal = () => {
             mutate({
                 moduleId: object.Module_ID,
                 objectType: object.Object_Type,
-                lineageId: object.Object_ID,
+                lineageId: object.Model?.Object_ID || 0,
                 data: {
                     Explanation: payload.Explanation,
                     Conclusion: payload.Conclusion,
@@ -116,7 +113,7 @@ const ModuleEditObjectModal = () => {
                         <Text className="mb-4">
                             Hier kun je de {!isAdded ? 'actie, ' : ''}
                             toelichting en conclusie aanpassen van “
-                            {object.Title}”.
+                            {object.Model?.Title}”.
                         </Text>
                         {!isAdded && (
                             <FormikSelect
@@ -151,7 +148,7 @@ const ModuleEditObjectModal = () => {
                                 optimized={false}
                             />
                         </div>
-                        <div className="mt-3">
+                        <div className="mt-3 mb-4">
                             <FormikTextArea
                                 name="Conclusion"
                                 label="Conclusie"
@@ -161,7 +158,7 @@ const ModuleEditObjectModal = () => {
                             />
                         </div>
 
-                        <div className="mt-6 flex items-center justify-between">
+                        <ModalFooter>
                             <Button
                                 variant="link"
                                 onPress={() => setActiveModal(null)}>
@@ -174,7 +171,7 @@ const ModuleEditObjectModal = () => {
                                 isLoading={isPending && !isError}>
                                 Opslaan
                             </Button>
-                        </div>
+                        </ModalFooter>
                     </Form>
                 </Formik>
             )}

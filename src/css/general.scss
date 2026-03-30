@@ -107,3 +107,7 @@ del {
 footer:not(.has-feedback) {
     transform: translate3d(0, 0, 0);
 }
+
+html {
+    scroll-padding-top: 6rem;
+}

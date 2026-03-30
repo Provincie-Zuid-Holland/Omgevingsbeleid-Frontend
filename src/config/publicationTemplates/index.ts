@@ -84,8 +84,8 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                     isMulti: true,
                     required: true,
                     validation: array(schemaDefaults.requiredString(), {
-                        required_error: 'Dit veld is verplicht.',
-                        invalid_type_error: 'Dit veld is verplicht.',
+                        required_error: 'Het veld is niet (goed) ingevuld.',
+                        invalid_type_error: 'Het veld is niet (goed) ingevuld.',
                     }),
                 },
             ],
@@ -102,7 +102,7 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                     fields: [
                         {
                             type: 'select',
-                            placeholder: 'key',
+                            placeholder: 'Selecteer een gebruikt object type',
                             name: 'key',
                             required: true,
                             options: Object.keys(models)
@@ -117,7 +117,6 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                         },
                         {
                             type: 'textarea',
-                            placeholder: 'value',
                             name: 'value',
                             required: true,
                         },
@@ -132,24 +131,56 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
             ],
         },
         {
-            title: 'Field map',
+            title: 'Field maps',
             fields: [
                 {
-                    name: 'Field_Map',
-                    type: 'select',
-                    label: 'Field map',
-                    placeholder: 'Vul een waarde in en druk op enter',
-                    isMulti: true,
-                    validation: array(schemaDefaults.requiredString(), {
-                        required_error: 'Dit veld is verplicht.',
-                        invalid_type_error: 'Dit veld is verplicht.',
-                    }),
-                    isCreatable: true,
-                    menuIsOpen: false,
-                    components: {
-                        DropdownIndicator: null,
-                    },
-                    required: true,
+                    name: 'Object_Field_Map',
+                    label: 'Field maps',
+                    description: 'Geef per gebruikt object een field map',
+                    arrayLabel: 'Field map',
+                    type: 'array',
+                    fields: [
+                        {
+                            type: 'select',
+                            placeholder: 'Selecteer een gebruikt object type',
+                            name: 'key',
+                            required: true,
+                            options: Object.keys(models)
+                                .filter(
+                                    model => !!!models[model].defaults.atemporal
+                                )
+                                .map(model => ({
+                                    label: models[model].defaults
+                                        .singularCapitalize,
+                                    value: models[model].defaults.singular,
+                                })),
+                        },
+                        {
+                            type: 'select',
+                            placeholder: 'Vul een waarde in en druk op enter',
+                            name: 'value',
+                            required: true,
+                            isMulti: true,
+                            isCreatable: true,
+                            menuIsOpen: false,
+                            components: {
+                                DropdownIndicator: null,
+                            },
+                        },
+                    ],
+                    validation: array(
+                        object({
+                            key: schemaDefaults.requiredString(),
+                            value: array(schemaDefaults.requiredString(), {
+                                required_error:
+                                    'Het veld is niet (goed) ingevuld.',
+                                invalid_type_error:
+                                    'Het veld is niet (goed) ingevuld.',
+                            }),
+                        })
+                    )
+                        .optional()
+                        .nullable(),
                 },
             ],
         },

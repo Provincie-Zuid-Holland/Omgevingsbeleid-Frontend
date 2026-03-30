@@ -4,7 +4,11 @@ import { FormikHelpers } from 'formik'
 import { useMemo } from 'react'
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 
-import { useStorageFilePostFilesUpload } from '@/api/fetchers'
+import {
+    useGebiedengroepPatchInputGeoUseWerkingsgebied,
+    useStorageFilePostFilesUpload,
+} from '@/api/fetchers'
+import { HTTPValidationError } from '@/api/fetchers.schemas'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import { LockedNotification } from '@/components/Modules/ModuleLock/ModuleLock'
 import { Model } from '@/config/objects/types'
@@ -12,7 +16,8 @@ import useModule from '@/hooks/useModule'
 import useObject from '@/hooks/useObject'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
-import handleError from '@/utils/handleError'
+import handleError, { handleFileError } from '@/utils/handleError'
+import { AxiosError } from 'axios'
 
 interface ObjectEditProps {
     model: Model
@@ -45,6 +50,8 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
     } = useObject()
 
     const { mutateAsync: uploadStorageFile } = useStorageFilePostFilesUpload()
+    const { mutateAsync: patchInputGeo } =
+        useGebiedengroepPatchInputGeoUseWerkingsgebied()
 
     const patchObject = usePatchObject()
 
@@ -57,6 +64,9 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                 section.fields.map(field => field.name)
             ),
             'File',
+            'File_Ignore',
+            'Werkingsgebied_Version',
+            'Source_Title',
         ]
 
         const objectData = {} as { [key in (typeof fields)[number]]: any }
@@ -67,7 +77,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
 
         if (
             fields.includes('Ambtsgebied') &&
-            object?.Werkingsgebied_Code === null
+            object?.Gebiedengroep_Code === null
         ) {
             objectData['Ambtsgebied'] = ['true']
         }
@@ -106,7 +116,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
             Array.isArray(payload.Ambtsgebied) &&
             payload.Ambtsgebied.includes('true')
         ) {
-            payload.Werkingsgebied_Code = null
+            payload.Gebiedengroep_Code = null
         }
 
         const triggerSubmit = async () => {
@@ -116,11 +126,42 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                     data: {
                         title: payload.Filename,
                         uploaded_file: payload.File as File,
+                        ignore_report:
+                            ('File_Ignore' in payload &&
+                                !!payload.File_Ignore) ||
+                            false,
                     },
+                }).catch((err: AxiosError<HTTPValidationError>) => {
+                    err.response &&
+                        handleFileError<typeof initialData>(
+                            err.response,
+                            helpers
+                        )
+
+                    return Promise.reject()
                 })
+
                 if (res) {
                     payload.File_UUID = res.UUID
                     delete payload.File
+                }
+            }
+
+            if ('Source_UUID' in payload) {
+                if (payload.Source_UUID !== object?.Source_UUID) {
+                    await patchInputGeo({
+                        moduleId: parseInt(moduleId!),
+                        lineageId: parseInt(objectId!),
+                        inputGeoWerkingsgebiedUuid: payload.Source_UUID,
+                    }).catch((err: AxiosError<HTTPValidationError>) => {
+                        err.response &&
+                            handleFileError<typeof initialData>(
+                                err.response,
+                                helpers
+                            )
+
+                        return Promise.reject()
+                    })
                 }
             }
 
@@ -139,8 +180,10 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                     ])
                 })
                 .then(() => navigate(`/muteer/modules/${moduleId}`))
-                .catch(err =>
-                    handleError<typeof initialData>(err.response, helpers)
+                .catch(
+                    (err: AxiosError<HTTPValidationError>) =>
+                        err.response &&
+                        handleError<typeof initialData>(err.response, helpers)
                 )
         }
 
@@ -202,11 +245,10 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
                                 value: object.Hierarchy_Statics.Code,
                             },
                         }),
-                        ...(object?.Werkingsgebied_Statics && {
-                            Werkingsgebied_Code: {
-                                label: object.Werkingsgebied_Statics
-                                    .Cached_Title,
-                                value: object.Werkingsgebied_Statics.Code,
+                        ...(object?.Gebiedengroep_Static && {
+                            Gebiedengroep_Code: {
+                                label: object.Gebiedengroep_Static.Cached_Title,
+                                value: object.Gebiedengroep_Static.Code,
                             },
                         }),
                         ...(object?.Documents_Statics && {

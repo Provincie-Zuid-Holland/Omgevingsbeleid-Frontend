@@ -10,7 +10,6 @@ import { LoaderSpinner } from '@/components/Loader'
 import imageRevisions from '@/images/revisions.webp'
 
 import Module from './components/Module'
-import TempAlert from './components/TempAlert'
 
 const META = {
     title: 'Herzieningen',
@@ -41,15 +40,15 @@ const Revisions = () => {
                         beleid momenteel herzien wordt en in welke fase van
                         besluitvorming dit zich bevindt.
                     </Text>
-                    <Text>
+                    <Text className="mb-6">
                         Herzieningen van het Omgevingsbeleid zijn vaak modulair.
                         Dat houdt in dat een herziening vaak bestaat uit
                         wijzigingen op één of enkele onderwerpen. In een
                         herziening kunnen zowel de visie, het programma als de
                         verordening wijzigen. Hieronder staat een overzicht van
                         de herzieningen.
-                        <br />
-                        <br />
+                    </Text>
+                    <Text>
                         Wanneer een herziening ter consultatie of ter inzage
                         ligt, kan iedereen een reactie geven op de voorgestelde
                         wijzigingen. Op de{' '}
@@ -61,7 +60,10 @@ const Revisions = () => {
                                     rel="noopener noreferrer">
                                     provinciale website
                                 </a>
-                                <ArrowUpRightFromSquare className="-mt-0.5" />
+                                <ArrowUpRightFromSquare
+                                    className="-mt-0.5"
+                                    aria-label="opent een nieuwe browsertab"
+                                />
                             </span>
                         </Hyperlink>{' '}
                         zie je precies welk beleid gewijzigd wordt en hoe je een
@@ -77,7 +79,6 @@ const Revisions = () => {
                 </div>
             </Container>
             <Divider className="pzh-container mx-auto" />
-            <TempAlert />
             {!isLoading ? (
                 !!data?.results.length ? (
                     data?.results.map(module => (
@@ -129,7 +130,7 @@ const Revisions = () => {
                         Het proces ziet er dan als volgt uit.
                     </Text>
                 </div>
-                <div className="col-span-6 mt-4 lg:col-span-4 lg:mt-[92px]">
+                <div className="col-span-6 mt-4 lg:col-span-4 lg:mt-[84px]">
                     <Dropdown
                         buttonText="Concept ontwerp"
                         panelText="Een beleidsmedewerker van de provincie maakt een concept van het nieuwe beleid of de wijziging van het beleid. Dit concept wordt met verschillende collega’s besproken, waaronder met de desbetreffende portefeuillehouder."
@@ -173,7 +174,7 @@ const Revisions = () => {
                         Omgevingsverordening, maar niet helemaal hetzelfde.
                     </Text>
                 </div>
-                <div className="col-span-6 mt-4 lg:col-span-4 lg:mt-[92px]">
+                <div className="col-span-6 mt-4 lg:col-span-4 lg:mt-[84px]">
                     <Dropdown
                         buttonText="Concept ontwerp"
                         panelText="Een beleidsmedewerker van de provincie maakt een concept van het nieuwe beleid of de wijziging van het beleid. Dit concept wordt met verschillende collega’s besproken, waaronder met de desbetreffende portefeuillehouder."
@@ -211,10 +212,16 @@ const Dropdown = ({
         {({ open }) => (
             <>
                 <Disclosure.Button
-                    className={`group bg-pzh-pink-100/10 text-pzh-pink-900 mt-2 flex w-full items-center justify-between px-5 py-3 font-bold transition-colors duration-200 ease-in ${
+                    className={`group bg-pzh-pink-100/10 text-pzh-pink-900 flex w-full items-center justify-between px-5 py-3 font-bold transition-colors duration-200 ease-in not-first:mt-2 ${
                         open ? 'rounded-t-md' : 'rounded-md'
                     }`}>
-                    <span>{buttonText}</span>
+                    <Heading
+                        level="4"
+                        size="s"
+                        color="text-pzh-pink-900"
+                        className="py-1">
+                        {buttonText}
+                    </Heading>
 
                     <Plus
                         size={20}

@@ -16,6 +16,7 @@ import ModuleLock from '@/components/Modules/ModuleLock'
 import ModuleTimeline from '@/components/Modules/ModuleTimeline'
 import ModuleVersionCard from '@/components/Modules/ModuleVersionCard'
 
+import ModuleScanModal from '@/components/Modals/ModuleModals/ModuleScanModal'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
@@ -41,19 +42,19 @@ const TabObjects = () => {
         isLoading,
         isModuleManager,
         isLocked,
+        isClosed,
         canComplete,
     } = useModule()
 
     if (isLoading || !module) return <LoaderContent />
 
-    const canAddObject =
-        (canAddExistingObjectToModule || canAddNewObjectToModule) && !isLocked
     const showInactiveCard =
         !module.Activated && (canPatchModuleStatus || isModuleManager)
     const showVersionCard =
         module.Activated &&
         isLocked &&
         !canComplete &&
+        !isClosed &&
         (canPatchModuleStatus || isModuleManager)
     const showCompleteCard = canComplete && isLocked && canPatchModuleStatus
 
@@ -105,7 +106,7 @@ const TabObjects = () => {
                             <ModuleCompleteCard variant="row" />
                         )}
 
-                        <ObjectsTable isLocked={isLocked} />
+                        <ObjectsTable isLocked={isLocked} isClosed={isClosed} />
                     </div>
                 )}
             </div>
@@ -126,6 +127,7 @@ const TabObjects = () => {
             <ModuleEditObjectModal />
             <ModuleObjectDeleteConfirmationModal />
             <ModuleCompleteModal />
+            <ModuleScanModal />
         </>
     )
 }

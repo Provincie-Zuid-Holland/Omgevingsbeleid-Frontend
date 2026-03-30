@@ -9,7 +9,7 @@ export const ANNOUNCEMENT_EDIT_SCHEMA = object({
     Content: object({
         Texts: array(
             object({
-                Title: schemaDefaults.requiredString(),
+                Title: schemaDefaults.optionalString,
                 Description: schemaDefaults.requiredString(),
             })
         ),

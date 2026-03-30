@@ -54,6 +54,7 @@ const gebiedsprogramma: DynamicObject<
         singularReadable: 'gebiedsprogramma',
         singularCapitalize: 'Gebiedsprogramma',
         plural: 'gebiedsprogrammas',
+        pluralReadable: "gebiedsprogramma's",
         pluralCapitalize: "Gebiedsprogramma's",
         prefixSingular: 'het',
         prefixPlural: 'de',

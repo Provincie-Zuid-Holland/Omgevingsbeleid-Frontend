@@ -52,17 +52,11 @@ const PublicationVersionEditModal = () => {
         },
     })
 
-    const handleFormSubmit = (payload: PublicationVersionEdit) => {
-        if (payload.Announcement_Date && payload.Procedural) {
-            payload.Procedural.Procedural_Announcement_Date =
-                payload.Announcement_Date
-        }
-
+    const handleFormSubmit = (payload: PublicationVersionEdit) =>
         mutate({
             versionUuid: modalState.UUID,
             data: payload,
         })
-    }
 
     const initialValues = {
         ...data,
@@ -70,7 +64,7 @@ const PublicationVersionEditModal = () => {
     } as PublicationVersionEdit
 
     return (
-        <Modal id="publicationVersionEdit" title="Versie" size="xl">
+        <Modal id="publicationVersionEdit" title="Besluit">
             {isFetching ? (
                 <div className="flex justify-center">
                     <LoaderSpinner />

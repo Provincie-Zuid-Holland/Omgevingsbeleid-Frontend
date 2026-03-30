@@ -50,11 +50,11 @@ const ObjectAreaModal = () => {
     const data = modalState?.moduleId && isSuccess ? moduleData : validData
 
     return (
-        <Modal id="objectArea" size="xl" title="Gebiedsaanwijzing">
+        <Modal id="objectArea" title="Gebiedsaanwijzing">
             <div className="flex gap-4">
                 <div className="flex w-1/2 flex-col gap-4">
                     <div>
-                        <Text>Gebiedengroep</Text>
+                        <Text>Titel</Text>
                         <Text bold>{modalState?.label}</Text>
                     </div>
                     <div>

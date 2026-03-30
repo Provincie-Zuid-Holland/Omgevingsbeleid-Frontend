@@ -5,13 +5,17 @@ import debounce from 'lodash.debounce'
 import { useState } from 'react'
 
 import { searchGetMssqlSearch, searchGetMssqlValidSearch } from '@/api/fetchers'
-import { SearchObject, ValidSearchObject } from '@/api/fetchers.schemas'
+import {
+    SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+    ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+} from '@/api/fetchers.schemas'
 import { ModelType } from '@/config/objects/types'
+import { useParams } from 'react-router-dom'
 
 export type Option = {
     label: JSX.Element
-    value: string | number
-    object?: SearchObject
+    value?: string | number
+    object?: SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
 }
 
 export interface DynamicObjectSearchProps
@@ -24,6 +28,7 @@ export interface DynamicObjectSearchProps
         | 'Object_ID'
         | 'Hierarchy_Code'
         | 'Werkingsgebied_Code'
+        | 'Gebiedengroep_Code'
         | 'Document_Code'
     /** Name of field */
     fieldName?: string
@@ -35,6 +40,8 @@ export interface DynamicObjectSearchProps
     filter?: number | string | number[] | string[]
     /** Filter items by Object_Type */
     filterType?: ModelType[]
+    /** Filter on Module ID */
+    filterOnModule?: boolean
     /** Status of object */
     status?: 'valid' | 'all'
     /** Initial options  */
@@ -48,10 +55,13 @@ const DynamicObjectSearch = ({
     placeholder = 'Zoek op titel van beleidskeuze, maatregel, etc.',
     filter,
     filterType,
+    filterOnModule,
     status = 'valid',
     initialOptions = [],
     ...rest
 }: DynamicObjectSearchProps) => {
+    const { moduleId } = useParams()
+
     const { setFieldValue } = useFormikContext()
 
     const [optionsState, setOptionsState] = useState<Option[]>(initialOptions)
@@ -63,7 +73,10 @@ const DynamicObjectSearch = ({
         query: string,
         callback: (options: Option[]) => void
     ) => {
-        searchEndpoint({ Object_Types: filterType }, { query, limit: 50 })
+        searchEndpoint(
+            { Object_Types: filterType, Like: true },
+            { query, limit: 50 }
+        )
             .then(data => {
                 let filteredObject = data.results
 
@@ -71,22 +84,42 @@ const DynamicObjectSearch = ({
                     filteredObject = data.results.filter(object =>
                         Array.isArray(filter)
                             ? objectKey === 'Object_UUID'
-                                ? !(filter as string[]).includes(object.UUID)
+                                ? !(filter as string[]).includes(
+                                      object.Model.UUID || ''
+                                  )
                                 : !(filter as number[]).includes(
-                                      object.Object_ID
+                                      object.Model.Object_ID || 0
                                   )
                             : objectKey === 'Object_UUID'
-                              ? object.UUID !== filter
-                              : object.Object_ID !== filter
+                              ? object.Model.UUID !== filter
+                              : object.Model.Object_ID !== filter
                     )
                 }
 
+                if (filterOnModule && !!moduleId) {
+                    filteredObject = filteredObject.filter(object => {
+                        if (
+                            'Module_ID' in object &&
+                            (object.Module_ID === null ||
+                                object.Module_ID === parseInt(moduleId))
+                        ) {
+                            return true
+                        }
+
+                        return false
+                    })
+                }
+
                 const options = filteredObject.map(
-                    (object: SearchObject | ValidSearchObject) => ({
+                    (
+                        object:
+                            | SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
+                            | ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
+                    ) => ({
                         label: (
                             <div className="flex justify-between gap-4">
                                 <span>
-                                    {object.Title}
+                                    {object.Model.Title}
 
                                     {'Module_ID' in object &&
                                         object.Module_ID && (
@@ -103,12 +136,13 @@ const DynamicObjectSearch = ({
                         ),
                         value:
                             objectKey === 'Object_UUID'
-                                ? object.UUID
+                                ? object.Model.UUID
                                 : objectKey === 'Hierarchy_Code' ||
                                     objectKey === 'Werkingsgebied_Code' ||
+                                    objectKey === 'Gebiedengroep_Code' ||
                                     objectKey === 'Document_Code'
-                                  ? object.Object_Code
-                                  : object.Object_ID,
+                                  ? object.Model.Code
+                                  : object.Model.Object_ID,
                         object,
                     })
                 )

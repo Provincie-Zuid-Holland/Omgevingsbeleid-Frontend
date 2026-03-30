@@ -26,6 +26,7 @@ import useRegulationStore from '@/store/regulationStore'
 import equalArrays from '@/utils/equalArrays'
 import handleViewTransition from '@/utils/handleViewTransition'
 
+import { ModalFooter } from '@/components/Modal/Modal'
 import RegulationField from './components/RegulationField'
 
 interface RegulationFormProps {
@@ -73,7 +74,7 @@ const RegulationForm = ({
 
                 {section.contents?.length && (
                     <>
-                        <Divider className="my-6 bg-pzh-gray-600" />
+                        <Divider className="bg-pzh-gray-600 my-6" />
                         <Heading level="3" size="m" color="text-pzh-blue-900">
                             Inhoud
                         </Heading>
@@ -82,14 +83,14 @@ const RegulationForm = ({
                     </>
                 )}
 
-                <div className="mt-6 flex items-center justify-between border-t border-pzh-gray-600 pt-4">
+                <ModalFooter className="mt-4">
                     <Button variant="link" onPress={() => setActiveModal(null)}>
                         Annuleren
                     </Button>
                     <Button variant="cta" type="submit">
                         Opslaan
                     </Button>
-                </div>
+                </ModalFooter>
             </Form>
         </Formik>
     )
@@ -135,7 +136,7 @@ const FormContents = ({ section }: Pick<RegulationFormProps, 'section'>) => {
                         return (
                             <div
                                 key={type + index}
-                                className="relative border-b border-pzh-gray-300 py-6">
+                                className="border-pzh-gray-300 relative border-b py-6">
                                 {showTopDropArea && draggingItem && (
                                     <DropArea
                                         position="top"

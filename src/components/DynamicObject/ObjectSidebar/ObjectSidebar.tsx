@@ -4,10 +4,11 @@ import { Link, useParams } from 'react-router-dom'
 
 import Avatar from '@/components/Avatar/Avatar'
 import { LoaderCard } from '@/components/Loader'
-import TableOfContents from '@/components/TableOfContents/TableOfContents'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import { getStaticDataLabel } from '@/utils/dynamicObject'
+import { formatValidityDate } from '@/utils/formatValidityDate'
+import ObjectConnectedDocuments from '../ObjectConnectedDocuments'
 
 interface ObjectSidebarProps extends ModelReturnType {
     /** Model of object */
@@ -18,8 +19,9 @@ interface ObjectSidebarProps extends ModelReturnType {
     revisionsLoading?: boolean
     /** If object is a revision */
     isRevision?: boolean
+    hideRevisions?: boolean
     /** Handle revision modal state */
-    handleModal: () => void
+    handleModal?: () => void
 }
 
 const ObjectSidebar = ({
@@ -31,9 +33,11 @@ const ObjectSidebar = ({
     ObjectStatics,
     model,
     isRevision,
+    hideRevisions,
     handleModal,
     Next_Version,
     UUID,
+    Documents_Statics,
 }: ObjectSidebarProps) => {
     const { user } = useAuth()
     const { moduleId } = useParams()
@@ -42,68 +46,30 @@ const ObjectSidebar = ({
 
     const today = useMemo(() => formatDate(new Date(), 'd MMMM yyyy'), [])
 
-    const formattedDate = useMemo(() => {
-        const today = new Date()
-        const startDate = Start_Validity ? new Date(Start_Validity) : null
-        const endDate = End_Validity ? new Date(End_Validity) : null
-        const nextStartDate = Next_Version?.Start_Validity
-            ? new Date(Next_Version.Start_Validity)
-            : null
-
-        if (!startDate || isRevision) {
-            return 'Nog niet geldig, versie in bewerking'
-        }
-
-        const isCurrentlyValid =
-            today > startDate && (!endDate || today <= endDate)
-        const hasNextVersionStarted = nextStartDate && today > nextStartDate
-
-        if (isCurrentlyValid) {
-            if (!Next_Version) {
-                return `Geldend van ${formatDate(
-                    startDate,
-                    'dd-MM-yyyy'
-                )} t/m heden`
-            }
-            if (hasNextVersionStarted) {
-                return `Geldend van ${formatDate(
-                    startDate,
-                    'dd-MM-yyyy'
-                )} tot ${formatDate(nextStartDate, 'dd-MM-yyyy')}`
-            }
-        }
-
-        if (endDate && revisions?.length) {
-            const currentIndex = revisions.findIndex(
-                revision => revision.UUID === UUID
-            )
-            if (currentIndex !== -1 && currentIndex < revisions.length - 1) {
-                const prevRevision = revisions[currentIndex + 1]
-                const prevStartDate = prevRevision.Start_Validity
-                    ? new Date(prevRevision.Start_Validity)
-                    : null
-
-                if (prevStartDate) {
-                    return `Geldend van ${formatDate(
-                        prevStartDate,
-                        'dd-MM-yyyy'
-                    )} t/m ${formatDate(endDate, 'dd-MM-yyyy')}`
-                }
-            }
-        }
-    }, [
-        Start_Validity,
-        End_Validity,
-        isRevision,
-        Next_Version,
-        revisions,
-        UUID,
-    ])
+    const formattedDate = useMemo(
+        () =>
+            formatValidityDate({
+                UUID,
+                Start_Validity,
+                End_Validity,
+                isRevision,
+                Next_Version,
+                revisions,
+            }),
+        [
+            Start_Validity,
+            End_Validity,
+            isRevision,
+            Next_Version,
+            revisions,
+            UUID,
+        ]
+    )
 
     return (
         <aside className="sticky top-[120px]">
             <div className="mb-6">
-                <Heading level="3" size="m" className="mb-2">
+                <Heading level="2" size="m" className="mb-2">
                     Informatie
                 </Heading>
 
@@ -112,7 +78,7 @@ const ObjectSidebar = ({
                     {formattedDate}
                 </Text>
 
-                {!isRevision && (
+                {!hideRevisions && (
                     <div className="mt-2">
                         {revisionsLoading ? (
                             <LoaderCard height="30" mb="" className="w-28" />
@@ -126,7 +92,7 @@ const ObjectSidebar = ({
                                     : 'revisies'}
                             </button>
                         ) : (
-                            <span className="italic text-pzh-gray-600">
+                            <span className="text-pzh-gray-600 italic">
                                 Geen revisies
                             </span>
                         )}
@@ -134,19 +100,20 @@ const ObjectSidebar = ({
                 )}
             </div>
 
-            <div className="mb-6">
-                <Heading level="3" size="m" className="mb-2">
-                    Inhoudsopgave
-                </Heading>
-
-                <TableOfContents />
-            </div>
+            {!!Documents_Statics?.length &&
+                ((!!user && !!moduleId) || (!user && !moduleId)) && (
+                    <div className="mb-6">
+                        <ObjectConnectedDocuments
+                            documents={Documents_Statics}
+                        />
+                    </div>
+                )}
 
             {!!user && (
                 <div>
-                    <Text size="s" className="mb-3 italic text-pzh-blue-900">
+                    <Text size="s" className="text-pzh-blue-900 mb-3 italic">
                         Onderstaande informatie is alleen inzichtelijk voor
-                        gebruikers die zijn ingelogd
+                        gebruikers die zijn ingelogd.
                     </Text>
 
                     <People ObjectStatics={ObjectStatics} />

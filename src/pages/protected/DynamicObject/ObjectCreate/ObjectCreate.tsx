@@ -4,12 +4,14 @@ import { FormikHelpers } from 'formik'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { HTTPValidationError } from '@/api/fetchers.schemas'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 import MutateLayout from '@/templates/MutateLayout'
 import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
+import { AxiosError } from 'axios'
 
 interface ObjectCreateProps {
     model: (typeof models)[ModelType]
@@ -22,7 +24,10 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
     const { singularCapitalize, plural, pluralCapitalize } = model.defaults
     const { usePostObject, useGetValid, usePutRelations } = model.fetchers
 
-    const { queryKey } = useGetValid(undefined, { query: { enabled: false } })
+    const { queryKey } = useGetValid(undefined, {
+        // @ts-ignore
+        query: { enabled: false },
+    })
 
     const createObject = usePostObject?.()
 
@@ -97,8 +102,10 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
                     },
                 }
             )
-            .catch(err =>
-                handleError<typeof initialData>(err.response, helpers)
+            .catch(
+                (err: AxiosError<HTTPValidationError>) =>
+                    err.response &&
+                    handleError<typeof initialData>(err.response, helpers)
             )
     }
 

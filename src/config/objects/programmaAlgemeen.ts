@@ -50,6 +50,7 @@ const programmaAlgemeen: DynamicObject<
         singularReadable: 'programma algemeen',
         singularCapitalize: 'Programma algemeen',
         plural: 'programmas-algemeen',
+        pluralReadable: "programma's algemeen",
         pluralCapitalize: "Programma's algemeen",
         prefixSingular: 'het',
         prefixPlural: 'de',
@@ -89,6 +90,10 @@ const programmaAlgemeen: DynamicObject<
                         'table',
                     ],
                     imageOptions: {
+                        options: {
+                            allowBase64: true,
+                            inline: true,
+                        },
                         uploadOptions: {
                             maxSize: 819200,
                         },

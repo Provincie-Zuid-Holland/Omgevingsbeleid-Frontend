@@ -22,12 +22,12 @@ export const StepFive = ({ title, existingObject }: StepProps) => {
 
     return (
         <div>
-            <Heading level="2" className="mb-4">
+            <Heading level="2" size="xl" className="mb-4">
                 Bestaande {existingObject?.Object_Type}
             </Heading>
             <Text className="mb-4">
-                <Text as="strong">{existingObject?.Title}</Text> toevoegen aan
-                de module <Text as="strong">{title}</Text>
+                <Text as="strong">{existingObject?.Model.Title}</Text> toevoegen
+                aan de module <Text as="strong">{title}</Text>
             </Text>
             <FormikRadioGroup
                 key="Action"

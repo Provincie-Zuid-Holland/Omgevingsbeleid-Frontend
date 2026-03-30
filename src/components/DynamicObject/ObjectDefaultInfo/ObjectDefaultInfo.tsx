@@ -34,7 +34,7 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
         <>
             <div>
                 <div className="mb-6 flex items-center justify-between">
-                    <Heading level="3" size="m">
+                    <Heading level="2" size="m">
                         Algemene informatie
                     </Heading>
                     {((canPatchObjectInModule && (isOwner || isClient)) ||

@@ -5,7 +5,6 @@ import {
     AccordionTrigger,
     Heading,
 } from '@pzh-ui/components'
-import { AngleRight } from '@pzh-ui/icons'
 import clsx from 'clsx'
 import { useCallback, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -78,18 +77,15 @@ const PublicationFolder = ({
 
     return (
         <AccordionItem
-            value={`${moduleId}-${environment.UUID}-${procedureType}`}
-            className="border-pzh-gray-200 rounded-lg border">
+            value={procedureType}
+            className="border-pzh-gray-200 rounded-lg border"
+            disabled>
             <AccordionTrigger
                 hideIcon
-                className="bg-pzh-gray-100 [&[data-disabled]>*]:text-pzh-gray-300 flex h-16 items-center justify-between rounded-t-lg px-6 hover:[&[data-disabled]]:no-underline [&[data-state=closed]]:rounded-b-lg [&[data-state=open]>svg]:rotate-90">
+                className="bg-pzh-gray-100 flex h-16 items-center justify-between rounded-t-lg px-6 hover:[&[data-disabled]]:no-underline [&[data-state=closed]]:rounded-b-lg [&[data-state=open]>svg]:rotate-90">
                 <Heading level="3" size="m" className="capitalize">
                     {config[procedureType].label}
                 </Heading>
-                <AngleRight
-                    size={20}
-                    className="transition-transform duration-200"
-                />
             </AccordionTrigger>
             <AccordionContent
                 className={clsx('pb-0', {

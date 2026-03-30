@@ -6,12 +6,17 @@ import {
     getUserGetSearchUsersQueryKey,
     useUserPostCreateUser,
 } from '@/api/fetchers'
-import { UserCreate, UserCreateResponse } from '@/api/fetchers.schemas'
+import {
+    HTTPValidationError,
+    UserCreate,
+    UserCreateResponse,
+} from '@/api/fetchers.schemas'
 import Modal from '@/components/Modal'
 import useModalStore from '@/store/modalStore'
 import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
 
+import { AxiosError } from 'axios'
 import { StepOne, StepTwo } from './steps'
 
 const steps = [StepOne, StepTwo]
@@ -59,7 +64,10 @@ const UserAddModal = () => {
                     toastNotification('userCreated')
                 },
             }
-        ).catch(err => handleError<UserCreate>(err.response, helpers))
+        ).catch(
+            (err: AxiosError<HTTPValidationError>) =>
+                err.response && handleError<UserCreate>(err.response, helpers)
+        )
     }
 
     return (

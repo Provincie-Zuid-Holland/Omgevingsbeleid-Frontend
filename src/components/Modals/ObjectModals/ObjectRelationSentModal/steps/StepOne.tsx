@@ -1,5 +1,4 @@
 import { Divider, Heading, Text } from '@pzh-ui/components'
-import { PenToSquare } from '@pzh-ui/icons'
 import { useMemo } from 'react'
 
 import ObjectAcknowledgedRelationPart from '@/components/DynamicObject/ObjectAcknowledgedRelationPart'
@@ -20,7 +19,7 @@ export const StepOne = ({
 
     return (
         <>
-            <Heading level="2" className="mb-2">
+            <Heading level="2" size="xl" className="mb-2">
                 Uitgezonden verzoeken tot beleidsrelatie
             </Heading>
 
@@ -33,10 +32,10 @@ export const StepOne = ({
 
             <Text bold>
                 {amount === 1
-                    ? `${amount} Openstaand verzoek`
+                    ? `${amount} openstaand verzoek`
                     : amount > 1
-                    ? `${amount} Openstaande verzoeken`
-                    : 'Geen openstaande verzoeken'}
+                      ? `${amount} openstaande verzoeken`
+                      : 'Geen openstaande verzoeken'}
             </Text>
 
             {relations?.map((relation, index) => (
@@ -45,15 +44,9 @@ export const StepOne = ({
                     className="mt-3 flex items-center">
                     <ObjectAcknowledgedRelationPart
                         type="awaiting"
+                        handleEdit={handleEdit}
                         {...relation}
                     />
-                    <button
-                        type="button"
-                        className="px-3"
-                        onClick={() => handleEdit(relation)}>
-                        <PenToSquare size={20} className="text-pzh-green-500" />
-                        <span className="sr-only">Wijzigen</span>
-                    </button>
                 </div>
             ))}
 
@@ -63,8 +56,8 @@ export const StepOne = ({
                 {historyAmount === 0
                     ? 'Geen afgeronde verzoeken'
                     : historyAmount > 1
-                    ? `${historyAmount} Afgeronde verzoeken`
-                    : `${historyAmount} Afgerond verzoek`}
+                      ? `${historyAmount} afgeronde verzoeken`
+                      : `${historyAmount} afgerond verzoek`}
             </Text>
 
             {history?.map((relation, index) => (
@@ -77,8 +70,6 @@ export const StepOne = ({
                     />
                 </div>
             ))}
-
-            <Divider className="my-5" />
         </>
     )
 }

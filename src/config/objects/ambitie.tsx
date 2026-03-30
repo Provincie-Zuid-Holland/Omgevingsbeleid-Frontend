@@ -51,6 +51,7 @@ const ambitie: DynamicObject<
         singularReadable: 'ambitie',
         singularCapitalize: 'Ambitie',
         plural: 'ambities',
+        pluralReadable: 'ambities',
         pluralCapitalize: 'Ambities',
         prefixSingular: 'de',
         prefixPlural: 'de',

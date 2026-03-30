@@ -2,6 +2,7 @@ import { Button, Text } from '@pzh-ui/components'
 import { useParams } from 'react-router-dom'
 
 import Modal from '@/components/Modal'
+import { ModalFooter } from '@/components/Modal/Modal'
 import useModule from '@/hooks/useModule'
 import useModalStore from '@/store/modalStore'
 
@@ -27,7 +28,7 @@ const ModuleLockModal = () => {
                 werken.
             </Text>
 
-            <div className="mt-6 flex items-center justify-between">
+            <ModalFooter>
                 <Button variant="link" onPress={() => setActiveModal(null)}>
                     Annuleren
                 </Button>
@@ -41,7 +42,7 @@ const ModuleLockModal = () => {
                     }>
                     Locken
                 </Button>
-            </div>
+            </ModalFooter>
         </Modal>
     )
 }

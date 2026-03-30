@@ -85,6 +85,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
         isLoading: latestIsLoading,
         isError: latestIsError,
     } = useGetLatestLineage(data!.Object_ID!, {
+        // @ts-ignore
         query: { enabled: !!data?.Object_ID },
     })
     const { data: revisions, isPending: revisionsLoading } =
@@ -94,7 +95,22 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                 limit: 100,
             },
             {
-                query: { enabled: !!data?.Object_ID && !isRevision },
+                query: {
+                    enabled: !!data?.Object_ID,
+                    select: e => {
+                        if (isRevision) {
+                            return {
+                                ...e,
+                                results: [
+                                    { ...data, isRevision: true },
+                                    ...e.results,
+                                ],
+                            }
+                        }
+
+                        return e
+                    },
+                },
             }
         ) || {}
 
@@ -141,8 +157,8 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
      * Set initial object which can be used in the revision modal
      */
     useEffect(() => {
-        setInitialObject(latest)
-        setRevisionFrom(latest)
+        setInitialObject(isRevision ? data : latest)
+        setRevisionFrom(isRevision ? data : latest)
         setRevisionTo(undefined)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [latest])
@@ -189,20 +205,12 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                     </div>
                 )}
 
-                <div className="order-1 col-span-6 xl:col-span-2">
-                    <Sidebar
-                        revisions={revisions?.results}
-                        revisionsLoading={revisionsLoading}
-                        model={model}
-                        handleModal={() => setActiveModal('revision')}
-                        isRevision={isRevision}
-                        {...data}
-                    />
-                </div>
-
                 <div className="order-2 col-span-6 mt-6 flex flex-col xl:col-span-4 xl:mt-0">
-                    <Heading level="3" size="m" className="order-1">
-                        {singularCapitalize}
+                    <Heading
+                        level="1"
+                        size="xxl"
+                        className="order-2 mt-4 mb-2 md:order-3 md:mb-4">
+                        {data?.Title}
                     </Heading>
 
                     {!latestIsLoading &&
@@ -226,11 +234,8 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                             </Notification>
                         ))}
 
-                    <Heading
-                        level="1"
-                        size="xxl"
-                        className="order-2 mt-4 mb-2 md:order-3 md:mb-4">
-                        {data?.Title}
+                    <Heading level="2" size="m" className="order-1">
+                        {singularCapitalize}
                     </Heading>
 
                     <div
@@ -263,7 +268,6 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                             <ObjectArea
                                 model={model}
                                 objectTitle={data.Title}
-                                moduleId={moduleId}
                                 {...data.Werkingsgebied_Statics}
                             />
                         </div>
@@ -298,6 +302,17 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                                 />
                             </div>
                         )}
+                </div>
+
+                <div className="order-1 col-span-6 xl:col-span-2">
+                    <Sidebar
+                        revisions={revisions?.results}
+                        revisionsLoading={revisionsLoading}
+                        model={model}
+                        handleModal={() => setActiveModal('revision')}
+                        isRevision={isRevision}
+                        {...data}
+                    />
                 </div>
             </Container>
 

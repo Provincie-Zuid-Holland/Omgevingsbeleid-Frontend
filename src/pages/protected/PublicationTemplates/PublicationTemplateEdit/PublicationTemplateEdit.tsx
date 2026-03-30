@@ -9,7 +9,7 @@ import {
     usePublicationTemplatesGetDetailTemplate,
     usePublicationTemplatesPostEditTemplate,
 } from '@/api/fetchers'
-import { TemplateEdit } from '@/api/fetchers.schemas'
+import { HTTPValidationError, TemplateEdit } from '@/api/fetchers.schemas'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import ToggleSwitch from '@/components/ToggleSwitch'
 import { Model } from '@/config/objects/types'
@@ -18,6 +18,7 @@ import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
+import { AxiosError } from 'axios'
 
 const PublicationTemplateEdit = () => {
     const queryClient = useQueryClient()
@@ -51,7 +52,8 @@ const PublicationTemplateEdit = () => {
 
         fields?.forEach(field => {
             if (
-                field === 'Object_Templates' &&
+                (field === 'Object_Templates' ||
+                    field === 'Object_Field_Map') &&
                 !!data?.[field as keyof typeof data] &&
                 typeof data[field] === 'object'
             ) {
@@ -84,6 +86,15 @@ const PublicationTemplateEdit = () => {
             )
         }
 
+        if (!!payload.Object_Field_Map?.length) {
+            payload.Object_Field_Map = (payload.Object_Field_Map as any).reduce(
+                (acc: any, curr: { key: string; value: string }) => (
+                    (acc[curr.key] = curr.value), acc
+                ),
+                {}
+            )
+        }
+
         mutateAsync({ templateUuid: uuid!, data: payload })
             .then(() => {
                 Promise.all([
@@ -95,8 +106,10 @@ const PublicationTemplateEdit = () => {
                     queryClient.invalidateQueries({ queryKey }),
                 ]).then(() => navigate('/muteer/publicatietemplates'))
             })
-            .catch(err =>
-                handleError<typeof initialData>(err.response, helpers)
+            .catch(
+                (err: AxiosError<HTTPValidationError>) =>
+                    err.response &&
+                    handleError<typeof initialData>(err.response, helpers)
             )
     }
 

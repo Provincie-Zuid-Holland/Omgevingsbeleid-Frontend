@@ -37,8 +37,8 @@ const ObjectConnectionPart = ({
                 ? {
                       Object_ID: 0,
                       items: connections?.map(({ Object_ID, Title }) => ({
-                          Object_ID,
-                          Title,
+                          value: Object_ID,
+                          label: Title,
                       })),
                   }
                 : {

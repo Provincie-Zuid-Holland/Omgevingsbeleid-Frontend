@@ -12,7 +12,7 @@ export const StepFour = ({ title, model, connectionModel }: StepProps) => {
 
     return (
         <>
-            <Heading level="2" className="mb-2">
+            <Heading level="2" size="xl" className="mb-2">
                 Koppeling verbreken
             </Heading>
 
