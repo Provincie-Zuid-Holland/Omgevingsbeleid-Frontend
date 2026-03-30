@@ -11,24 +11,29 @@ import { useParams } from 'react-router-dom'
 import {
     useModulesGetListModules,
     useModulesViewModuleOverview,
+    useObjectsDoListAllLatest,
 } from '@/api/fetchers'
-import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 
 import { ContentsModalForm } from '../ModuleContentsModal'
 import { StepProps } from './types'
 
-export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
+export const StepFour = ({ setExistingObject }: StepProps) => {
     const { moduleId } = useParams()
 
     const { values, setFieldValue, setFieldError } =
         useFormikContext<ContentsModalForm>()
 
+    const availableTypes = Object.keys(models).filter(
+        model => !models[model as ModelType].defaults.atemporal
+    )
+
     const { data, isFetching } = useModulesGetListModules(
         {
             only_mine: false,
             filter_activated: true,
+            filter_closed: false,
             limit: 100,
         },
         {
@@ -42,6 +47,38 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
         }
     )
 
+    const { data: validObjects, isFetching: validIsFetching } =
+        useObjectsDoListAllLatest(
+            {
+                limit: 500,
+                sort_column: 'Title',
+                sort_order: 'ASC',
+                object_types: availableTypes,
+            },
+            {
+                query: {
+                    enabled:
+                        !!values.validOrModule &&
+                        values.validOrModule === 'valid',
+                    select: data =>
+                        data.results.map(object => ({
+                            label: (
+                                <div className="flex justify-between gap-4">
+                                    <span className="truncate">
+                                        {object.Model.Title}
+                                    </span>
+                                    <span className="whitespace-nowrap capitalize opacity-50">
+                                        {object.Object_Type.replace('_', ' ')}
+                                    </span>
+                                </div>
+                            ),
+                            value: object.Model.UUID,
+                            objectContext: object,
+                        })),
+                },
+            }
+        )
+
     const { data: moduleObjects, isFetching: moduleIsFetching } =
         useModulesViewModuleOverview(values.validOrModule as number, {
             query: {
@@ -50,9 +87,9 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
                 select: data =>
                     data.Objects.map(object => ({
                         label: (
-                            <div className="flex justify-between">
+                            <div className="flex justify-between gap-4">
                                 <span>{object.Model.Title}</span>
-                                <span className="capitalize opacity-50">
+                                <span className="whitespace-nowrap capitalize opacity-50">
                                     {object.Object_Type.replace('_', ' ')}
                                 </span>
                             </div>
@@ -84,9 +121,10 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
         return options.find(option => option.value === values.validOrModule)
     }, [values.validOrModule, options])
 
-    const filterTypes = Object.keys(models).filter(
-        model => !!!models[model as ModelType].defaults.atemporal
-    ) as ModelType[]
+    const objects =
+        values.validOrModule === 'valid' ? validObjects : moduleObjects
+    const objectsFetching =
+        values.validOrModule === 'valid' ? validIsFetching : moduleIsFetching
 
     /**
      * Handle filtering of select field
@@ -95,13 +133,13 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
         option,
         inputValue
     ) => {
-        if (!moduleObjects) return false
+        if (!objects) return false
 
-        const data = option.data as (typeof moduleObjects)[0]
+        const data = option.data as (typeof objects)[0]
         const label = data.label.props.children[0].props.children as string
 
         if (
-            label.toLowerCase().includes(inputValue.toLowerCase()) ||
+            label?.toLowerCase().includes(inputValue.toLowerCase()) ||
             data.value?.toLowerCase().includes(inputValue.toLowerCase())
         ) {
             return true
@@ -118,14 +156,17 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
             <Text>
                 Je wilt een bestaand onderdeel toevoegen aan deze module. Geef
                 aan vanuit welke bron je een onderdeel wilt toevoegen en
-                selecteer daarna het juiste onderdeel. Indien je een onderdeel
-                uit een andere module selecteert, wordt er een kopie gemaakt
-                vanuit die module en worden wijzigingen niet automatisch
-                doorgevoerd in andere modules.
+                selecteer daarna het juiste onderdeel.
+            </Text>
+            <Text>
+                Indien je een onderdeel uit een andere module selecteert, wordt
+                er een kopie gemaakt vanuit die module en worden wijzigingen
+                niet automatisch doorgevoerd in andere modules.
             </Text>
             <FormikSelect
                 key={isFetching?.toString() + String(options.length)}
                 name="validOrModule"
+                label="Kies een bron (module of vigerend)"
                 options={options}
                 isLoading={isFetching}
                 onChange={() => {
@@ -143,63 +184,45 @@ export const StepFour = ({ existingObject, setExistingObject }: StepProps) => {
                     }),
                 }}
             />
-            {values.validOrModule === 'valid' ? (
-                <div>
-                    <DynamicObjectSearch
-                        onChange={val => {
-                            if (Array.isArray(val)) {
-                                setExistingObject(val[0].object ?? undefined)
-                            } else if (val && val !== null) {
-                                setExistingObject(val.object)
-                            } else {
-                                setExistingObject(undefined)
-                            }
-                        }}
-                        defaultValue={
-                            existingObject && {
-                                label: existingObject?.Model.Title,
-                                value: existingObject?.Model.UUID,
-                            }
-                        }
-                        filterType={filterTypes}
-                        styles={{
-                            menu: base => ({
-                                ...base,
-                                position: 'relative',
-                                zIndex: 9999,
-                                marginTop: 4,
-                                boxShadow: 'none',
-                            }),
-                        }}
-                    />
-                </div>
-            ) : (
-                <div>
-                    <FormikSelect
-                        key={
-                            moduleIsFetching?.toString() +
-                            String(moduleObjects?.length)
-                        }
-                        name="Object_UUID"
-                        options={moduleObjects}
-                        isLoading={moduleIsFetching}
-                        placeholder={`Selecteer een onderdeel binnen de module '${selectedModule?.label}'`}
-                        onChange={(val: any) => {
-                            setExistingObject(val?.objectContext)
-                        }}
-                        filterOption={handleFilter}
-                        styles={{
-                            menu: base => ({
-                                ...base,
-                                position: 'relative',
-                                zIndex: 9999,
-                                marginTop: 4,
-                                boxShadow: 'none',
-                            }),
-                        }}
-                    />
-                </div>
-            )}
+
+            <div>
+                <FormikSelect
+                    key={objectsFetching?.toString() + String(objects?.length)}
+                    name="Object_UUID"
+                    label="Selecteer een onderdeel"
+                    options={objects}
+                    isLoading={objectsFetching}
+                    placeholder={
+                        values.validOrModule === 'valid'
+                            ? 'Selecteer een vigerend onderdeel'
+                            : `Selecteer een onderdeel binnen de module '${selectedModule?.label}'`
+                    }
+                    onChange={val => {
+                        const selected = objects?.find(
+                            object =>
+                                object.value ===
+                                (val as (typeof objects)[0]).value
+                        )
+
+                        setExistingObject(selected?.objectContext)
+                    }}
+                    defaultMenuIsOpen
+                    filterOption={handleFilter}
+                    styles={{
+                        menu: base => ({
+                            ...base,
+                            position: 'relative',
+                            zIndex: 9999,
+                            marginTop: 4,
+                            boxShadow: 'none',
+                        }),
+                        menuList: base => ({
+                            ...base,
+                            maxHeight: 300,
+                        }),
+                    }}
+                />
+            </div>
         </div>
     )
 }
