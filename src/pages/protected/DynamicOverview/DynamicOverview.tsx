@@ -1,12 +1,4 @@
-import {
-    Button,
-    Heading,
-    TabItem,
-    Table,
-    Tabs,
-    Text,
-    formatDate,
-} from '@pzh-ui/components'
+import { Button, Heading, TabItem, Table, Tabs, Text } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
 import { useUpdateEffect } from '@react-hookz/web'
 import { keepPreviousData } from '@tanstack/react-query'
@@ -23,7 +15,6 @@ import {
 } from '@/config/objects/types'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
-import { parseUtc } from '@/utils/parseUtc'
 
 const PAGE_LIMIT = 20
 
@@ -248,25 +239,10 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
 
                 return {
                     Title: (
-                        <Text bold color="text-pzh-blue-500">
-                            {Title}
-                        </Text>
-                    ),
-                    ...(!atemporal && 'Start_Validity' in props
-                        ? {
-                              Status: 'Vigerend',
-                          }
-                        : 'Status' in props && {
-                              Status: props.Status,
-                          }),
-                    Modified_Date: (
                         <span className="flex items-center justify-between">
-                            {Modified_Date
-                                ? formatDate(
-                                      parseUtc(Modified_Date),
-                                      'cccccc d MMMM yyyy, p'
-                                  )
-                                : 'nooit'}
+                            <Text bold color="text-pzh-blue-500">
+                                {Title}
+                            </Text>
                             <AngleRight size={20} />
                         </span>
                     ),
