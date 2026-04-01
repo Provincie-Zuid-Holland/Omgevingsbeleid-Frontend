@@ -284,6 +284,7 @@ const Document = ({
                                 setActiveModal('publicationVersionEdit', {
                                     publication,
                                     UUID: version.UUID,
+                                    error: undefined,
                                 })
                             }
                         />
