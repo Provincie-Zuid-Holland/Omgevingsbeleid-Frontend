@@ -90,7 +90,7 @@ const PublicationPackages = ({
                                 ? 'Publicatie'
                                 : undefined
                         }
-                        canPublicate={environment.Can_Publicate}
+                        environment={environment}
                         isLocked={isDisabled}
                         isClosed={isClosed}
                         {...rest}
@@ -101,7 +101,7 @@ const PublicationPackages = ({
                         version={version}
                         publicationType={publicationType}
                         packageType="publication"
-                        canPublicate={environment.Can_Publicate}
+                        environment={environment}
                         isLocked={isDisabled}
                         isClosed={isClosed}
                         {...rest}

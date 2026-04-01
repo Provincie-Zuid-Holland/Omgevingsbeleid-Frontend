@@ -10,6 +10,7 @@ import {
 import {
     PackageType,
     PublicationAnnouncementShort,
+    PublicationEnvironment,
     PublicationPackage,
     PublicationShort,
     PublicationVersion,
@@ -44,12 +45,12 @@ interface PackagesProps {
     version: PublicationVersion
     announcement?: PublicationAnnouncementShort
     publication?: PublicationShort
+    environment?: PublicationEnvironment
     packageType: PackageType
     validPublicationPackage?: PublicationPackage
     customLabel?: string
     isLocked?: boolean
     isClosed?: boolean
-    canPublicate?: boolean
     handleShowAll: () => void
     showAll: boolean
 }
@@ -63,11 +64,11 @@ const Packages = ({
     version,
     announcement,
     publication,
+    environment,
     packageType,
     customLabel,
     isLocked,
     isClosed,
-    canPublicate,
     handleShowAll,
     showAll,
 }: PackagesProps) => {
@@ -107,7 +108,11 @@ const Packages = ({
                             createPackage={createPackage}
                             announcementUUID={announcement?.UUID}
                             packageType={packageType}
-                            isLocked={isLocked}
+                            isLocked={
+                                isLocked ||
+                                (environment?.Is_Locked &&
+                                    packageType === 'publication')
+                            }
                             isClosed={isClosed}
                         />
                     ) : (
@@ -135,22 +140,39 @@ const Packages = ({
                                     publicationUUID={String(publication?.UUID)}
                                     versionUUID={version.UUID}
                                     announcementUUID={announcement?.UUID}
-                                    canPublicate={canPublicate}
+                                    canPublicate={environment?.Can_Publicate}
                                     {...item}
                                 />
                             ))}
-                            {!version.Is_Locked && (
-                                <PackageCreate
-                                    createPackage={createPackage}
-                                    announcementUUID={announcement?.UUID}
-                                    inline
-                                    packageType={packageType}
-                                    isClosed={isClosed}
-                                />
-                            )}
+                            {!version.Is_Locked ||
+                                (environment?.Is_Locked &&
+                                    packageType === 'publication' && (
+                                        <PackageCreate
+                                            createPackage={createPackage}
+                                            announcementUUID={
+                                                announcement?.UUID
+                                            }
+                                            inline
+                                            packageType={packageType}
+                                            isClosed={isClosed}
+                                        />
+                                    ))}
                         </>
                     )}
                 </div>
+
+                {environment?.Is_Locked && packageType === 'publication' && (
+                    <Notification
+                        title="De publicatieomgeving is gelockt"
+                        variant="warning"
+                        className="mt-4">
+                        Deze publicatieomgeving is momenteel gelockt omdat er
+                        een publicatielevering is gemaakt, deze wordt weer
+                        vrijgegeven zodra er een leveringsrapport is upload. Tot
+                        die tijd kun je geen nieuwe publicatie leveringen
+                        aanmaken. Je kan wel validatie leveringen maken.
+                    </Notification>
+                )}
 
                 {createPackage.isError && !!createPackage.error && (
                     <Notification

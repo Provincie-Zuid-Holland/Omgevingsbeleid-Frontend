@@ -56,9 +56,7 @@ const PackageCreate = ({
                 <Text
                     bold
                     className="heading-s -mb-1"
-                    color={
-                        !isLocked ? 'text-pzh-blue-500' : 'text-pzh-gray-300'
-                    }>
+                    color="text-pzh-blue-500">
                     Levering maken
                 </Text>
             </div>

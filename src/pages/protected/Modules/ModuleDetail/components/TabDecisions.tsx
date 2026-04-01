@@ -1,5 +1,12 @@
-import { Accordion, BackLink, Heading, TabItem, Tabs } from '@pzh-ui/components'
-import { useEffect, useState } from 'react'
+import {
+    Accordion,
+    BackLink,
+    Heading,
+    Notification,
+    TabItem,
+    Tabs,
+} from '@pzh-ui/components'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, Outlet, useParams } from 'react-router-dom'
 import { useShallow } from 'zustand/react/shallow'
 
@@ -49,6 +56,7 @@ const TabDecisions = () => (
 
 export const Publications = () => {
     const { moduleId } = useParams()
+    const [activeEnv, setActiveEnv] = useState<string | null>(null)
 
     const { activeFolders, setActiveFolders } = usePublicationStore(
         useShallow(state => ({
@@ -70,14 +78,40 @@ export const Publications = () => {
             is_active: true,
         })
 
+    const isEnvironmentLocked = useMemo(
+        () =>
+            environments?.results.find(env => env.UUID === activeEnv)
+                ?.Is_Locked,
+        [environments, activeEnv]
+    )
+
     return (
         <div className="col-span-6 flex flex-col gap-6">
             {!!environments?.results.length && (
-                <Tabs variant="filled" className="place-self-center">
+                <Tabs
+                    variant="filled"
+                    selectedKey={activeEnv ?? undefined}
+                    onSelectionChange={val => setActiveEnv(val as string)}
+                    className="place-self-center">
                     {environments.results.map(environment => (
                         <TabItem
                             title={environment.Title}
                             key={environment.UUID}>
+                            {isEnvironmentLocked && (
+                                <Notification
+                                    title="De publicatieomgeving is gelockt"
+                                    variant="warning"
+                                    className="mb-6">
+                                    Deze publicatieomgeving is momenteel gelockt
+                                    omdat er een publicatielevering is gemaakt,
+                                    deze wordt weer vrijgegeven zodra er een
+                                    leveringsrapport is upload. Tot die tijd kun
+                                    je geen nieuwe publicatie leveringen
+                                    aanmaken. Je kan wel validatie leveringen
+                                    maken.
+                                </Notification>
+                            )}
+
                             <Accordion
                                 type="multiple"
                                 className="flex flex-col gap-6"
