@@ -104,7 +104,10 @@ const PublicationTemplateEdit = () => {
                         refetchType: 'all',
                     }),
                     queryClient.invalidateQueries({ queryKey }),
-                ]).then(() => navigate('/muteer/publicatietemplates'))
+                ]).then(() => {
+                    toastNotification('templateEdit')
+                    navigate('/muteer/publicatietemplates')
+                })
             })
             .catch(
                 (err: AxiosError<HTTPValidationError>) =>
