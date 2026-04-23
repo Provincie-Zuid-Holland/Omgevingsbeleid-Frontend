@@ -26,6 +26,7 @@ export type ToastType =
     | 'userPasswordGenerated'
     | 'templateActivated'
     | 'templateDeactivated'
+    | 'templateEdit'
 
 type MessageType = 'default' | 'success' | 'error' | 'warning' | 'info'
 
@@ -140,6 +141,10 @@ export const notifications: Record<
     },
     templateDeactivated: {
         message: 'De template is gedeactiveerd',
+        type: 'success',
+    },
+    templateEdit: {
+        message: 'De template is aangepast',
         type: 'success',
     },
 }

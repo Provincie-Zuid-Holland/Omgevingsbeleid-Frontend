@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { array, object } from 'zod'
+import { array, object, union } from 'zod'
 
 import { DocumentType, TemplateEdit } from '@/api/fetchers.schemas'
 import { DynamicObject } from '@/config/objects/types'
@@ -171,12 +171,15 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                     validation: array(
                         object({
                             key: schemaDefaults.requiredString(),
-                            value: array(schemaDefaults.requiredString(), {
-                                required_error:
-                                    'Het veld is niet (goed) ingevuld.',
-                                invalid_type_error:
-                                    'Het veld is niet (goed) ingevuld.',
-                            }),
+                            value: union([
+                                array(schemaDefaults.requiredString()),
+                                array(
+                                    object({
+                                        label: schemaDefaults.requiredString(),
+                                        value: schemaDefaults.requiredString(),
+                                    })
+                                ),
+                            ]),
                         })
                     )
                         .optional()
