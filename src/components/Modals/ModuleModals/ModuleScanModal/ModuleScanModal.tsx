@@ -9,7 +9,6 @@ import ScanRule from '@/components/ScanRule'
 import useModalStore from '@/store/modalStore'
 import { Button, Text } from '@pzh-ui/components'
 import { CircleCheckSolid } from '@pzh-ui/icons'
-import { useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
@@ -42,17 +41,13 @@ const SCAN_RULES: Array<{
 ]
 
 const ModuleScanModal = () => {
-    const queryClient = useQueryClient()
     const { moduleId } = useParams()
     const activeModal = useModalStore(state => state.activeModal)
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { data, isFetching, queryKey } = useModulesGetModuleValidate(
-        Number(moduleId),
-        {
-            query: { enabled: activeModal === 'moduleScan' },
-        }
-    )
+    const { data, isFetching } = useModulesGetModuleValidate(Number(moduleId), {
+        query: { enabled: activeModal === 'moduleScan', staleTime: 0 },
+    })
 
     const issuesByObject = useMemo<ObjectIssueItem[]>(() => {
         if (!data?.errors?.length) return []
@@ -78,7 +73,6 @@ const ModuleScanModal = () => {
     }, [data?.errors])
 
     const handleCloseModal = () => {
-        queryClient.resetQueries({ queryKey })
         setActiveModal(null)
     }
 
