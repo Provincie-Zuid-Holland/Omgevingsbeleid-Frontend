@@ -1,9 +1,15 @@
-import { Heading, Hyperlink, Text, formatDate } from '@pzh-ui/components'
+import {
+    Button,
+    Heading,
+    Hyperlink,
+    Text,
+    Tooltip,
+    formatDate,
+} from '@pzh-ui/components'
 import { useMemo } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 import Avatar from '@/components/Avatar/Avatar'
-import { LoaderCard } from '@/components/Loader'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import { getStaticDataLabel } from '@/utils/dynamicObject'
@@ -66,6 +72,18 @@ const ObjectSidebar = ({
         ]
     )
 
+    const hasMultipleVersions = !!revisions && revisions.length > 1
+
+    const revisionsButton = (
+        <Button
+            variant="primary"
+            isDisabled={!hasMultipleVersions}
+            isLoading={revisionsLoading}
+            onPress={hasMultipleVersions ? handleModal : undefined}>
+            Versies bekijken en vergelijken
+        </Button>
+    )
+
     return (
         <aside className="sticky top-[120px]">
             <div className="mb-6">
@@ -78,26 +96,18 @@ const ObjectSidebar = ({
                     {formattedDate}
                 </Text>
 
-                {!hideRevisions && (
-                    <div className="mt-2">
-                        {revisionsLoading ? (
-                            <LoaderCard height="30" mb="" className="w-28" />
-                        ) : !!revisions && revisions.length > 1 ? (
-                            <button
-                                className="text-pzh-green-500 underline"
-                                onClick={handleModal}>
-                                Bekijk {revisions.length - 1}{' '}
-                                {revisions.length === 2
-                                    ? 'revisie'
-                                    : 'revisies'}
-                            </button>
-                        ) : (
-                            <span className="text-pzh-gray-600 italic">
-                                Geen revisies
-                            </span>
-                        )}
-                    </div>
-                )}
+                {!hideRevisions &&
+                    (hasMultipleVersions ? (
+                        <div className="mt-2">{revisionsButton}</div>
+                    ) : (
+                        <div className="mt-2">
+                            <Tooltip
+                                label={`Er zijn geen andere versies van ${model.defaults.demonstrative} ${model.defaults.singularReadable}`}
+                                placement="bottom">
+                                {revisionsButton}
+                            </Tooltip>
+                        </div>
+                    ))}
             </div>
 
             {!!Documents_Statics?.length &&

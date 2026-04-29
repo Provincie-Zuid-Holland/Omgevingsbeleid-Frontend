@@ -1,12 +1,24 @@
-import { Divider, FieldSelect, Text } from '@pzh-ui/components'
+import {
+    Button,
+    Divider,
+    FieldCheckbox,
+    FieldSelect,
+    Heading,
+    Text,
+    getHeadingStyles,
+} from '@pzh-ui/components'
 import { useUpdateEffect } from '@react-hookz/web'
+import classNames from 'clsx'
 import { useMemo, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
+import ObjectContent from '@/components/DynamicObject/ObjectContent'
 import ObjectRevision from '@/components/DynamicObject/ObjectRevision'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
+import { ModalFooter } from '@/components/Modal/Modal'
 import { Model, ModelReturnType } from '@/config/objects/types'
+import useModalStore from '@/store/modalStore'
 import useRevisionStore from '@/store/revisionStore'
 import getRevisionLabel from '@/utils/getRevisionLabel'
 
@@ -35,6 +47,7 @@ const RevisionModal = ({
         setRevisionFrom,
         setRevisionTo,
     } = useRevisionStore(useShallow(state => ({ ...state })))
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     /**
      * Format options for select fields
@@ -48,6 +61,8 @@ const RevisionModal = ({
         }))
     }, [revisions, initialObject, latestUUID])
 
+    const [isComparing, setIsComparing] = useState(false)
+
     const [revisionFromUuid, setRevisionFromUuid] = useState<
         string | undefined
     >(undefined)
@@ -55,7 +70,8 @@ const RevisionModal = ({
         undefined
     )
 
-    const { singularReadable, prefixSingular } = model.defaults
+    const { singularReadable, prefixSingular, singularCapitalize, singular } =
+        model.defaults
     const { useGetVersion } = model.fetchers
 
     const { isFetching: revisionFromFetching, refetch: refetchRevisionFrom } =
@@ -89,57 +105,114 @@ const RevisionModal = ({
         }
     }, [revisionToUuid])
 
+    const customTitle =
+        singular === 'beleidskeuze'
+            ? { Description: 'Wat wil de provincie bereiken?' }
+            : singular === 'maatregel'
+              ? { Description: 'Wat gaat de provincie doen?' }
+              : undefined
+
+    // Ensure the newest version is always revisionFrom and the older is always revisionTo
+    const [orderedRevisionTo, orderedRevisionFrom] = useMemo(() => {
+        if (!revisionFrom || !revisionTo) return [undefined, undefined]
+        const fromDate = new Date(revisionFrom.Modified_Date || 0)
+        const toDate = new Date(revisionTo.Modified_Date || 0)
+        return fromDate >= toDate
+            ? [revisionTo, revisionFrom]
+            : [revisionFrom, revisionTo]
+    }, [revisionFrom, revisionTo])
+
+    const content =
+        isComparing && orderedRevisionFrom && orderedRevisionTo ? (
+            <ObjectRevision
+                model={model}
+                revisionFrom={orderedRevisionFrom}
+                revisionTo={orderedRevisionTo}
+            />
+        ) : !isComparing && revisionFrom ? (
+            <div>
+                <Heading size="s">{singularCapitalize}</Heading>
+                <h2
+                    className={classNames(
+                        'text-pzh-blue-500 mb-4',
+                        getHeadingStyles('l')
+                    )}>
+                    {revisionFrom.Title}
+                </h2>
+                <ObjectContent data={revisionFrom} customTitle={customTitle} />
+            </div>
+        ) : null
+
     return (
-        <Modal id="revision" title="Revisieoverzicht">
+        <Modal id="revision" title="Versies bekijken en vergelijken">
             <Text className="mb-4">
-                Vergelijk de versies van {prefixSingular} {singularReadable} “
-                {initialObject?.Title}”.
+                Bekijk en vergelijk de versies van {prefixSingular}{' '}
+                {singularReadable} “{initialObject?.Title}”.
             </Text>
             <Text bold className="mb-2">
-                Welke versies wil je vergelijken?
+                Welke versie wil je bekijken?
             </Text>
             <div className="mb-2">
                 <FieldSelect
                     name="revisionFrom"
                     placeholder="Kies een versie"
                     aria-label="Kies een versie"
-                    options={options?.filter(
-                        option => option.value !== revisionTo?.UUID
-                    )}
+                    options={
+                        isComparing
+                            ? options?.filter(
+                                  option => option.value !== revisionTo?.UUID
+                              )
+                            : options
+                    }
                     defaultValue={options?.find(
                         option => option.value === revisionFrom?.UUID
                     )}
                     onChange={e => handleChange(e as Option, 'from')}
                 />
             </div>
-            <FieldSelect
-                name="revisionTo"
-                placeholder="Kies een versie om te vergelijken"
-                aria-label="Kies een versie om te vergelijken"
-                options={options?.filter(
-                    option => option.value !== revisionFrom?.UUID
-                )}
-                defaultValue={options?.find(
-                    option => option.value === revisionTo?.UUID
-                )}
-                onChange={e => handleChange(e as Option, 'to')}
-            />
+            <FieldCheckbox
+                checked={isComparing}
+                onChange={e => setIsComparing(e.target.checked)}>
+                Versies vergelijken
+            </FieldCheckbox>
+            {isComparing && (
+                <div className="mt-2">
+                    <Text bold className="mb-2">
+                        Met welke versie wil je vergelijken?
+                    </Text>
+                    <FieldSelect
+                        name="revisionTo"
+                        placeholder="Kies een versie om te vergelijken"
+                        aria-label="Kies een versie om te vergelijken"
+                        options={options?.filter(
+                            option => option.value !== revisionFrom?.UUID
+                        )}
+                        defaultValue={options?.find(
+                            option => option.value === revisionTo?.UUID
+                        )}
+                        onChange={e => handleChange(e as Option, 'to')}
+                    />
+                </div>
+            )}
+
             <Divider className="my-4" />
 
             <div className="inline-block min-h-[120px]">
                 {revisionFromFetching || revisionToFetching ? (
                     <LoaderSpinner />
                 ) : (
-                    !!revisionFrom &&
-                    !!revisionTo && (
-                        <ObjectRevision
-                            model={model}
-                            revisionFrom={revisionFrom}
-                            revisionTo={revisionTo}
-                        />
-                    )
+                    content
                 )}
             </div>
+
+            <ModalFooter className="justify-end">
+                <Button
+                    variant="primary"
+                    type="button"
+                    onPress={() => setActiveModal(null)}>
+                    Sluiten
+                </Button>
+            </ModalFooter>
         </Modal>
     )
 }
