@@ -104,7 +104,7 @@ const ObjectSidebar = ({
                             <Tooltip
                                 label={`Er zijn geen andere versies van ${model.defaults.demonstrative} ${model.defaults.singularReadable}`}
                                 placement="bottom">
-                                <span>{revisionsButton}</span>
+                                {revisionsButton}
                             </Tooltip>
                         </div>
                     ))}

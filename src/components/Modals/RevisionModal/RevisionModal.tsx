@@ -1,7 +1,9 @@
 import {
+    Button,
     Divider,
     FieldCheckbox,
     FieldSelect,
+    Heading,
     Text,
     getHeadingStyles,
 } from '@pzh-ui/components'
@@ -14,7 +16,9 @@ import ObjectContent from '@/components/DynamicObject/ObjectContent'
 import ObjectRevision from '@/components/DynamicObject/ObjectRevision'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
+import { ModalFooter } from '@/components/Modal/Modal'
 import { Model, ModelReturnType } from '@/config/objects/types'
+import useModalStore from '@/store/modalStore'
 import useRevisionStore from '@/store/revisionStore'
 import getRevisionLabel from '@/utils/getRevisionLabel'
 
@@ -43,6 +47,7 @@ const RevisionModal = ({
         setRevisionFrom,
         setRevisionTo,
     } = useRevisionStore(useShallow(state => ({ ...state })))
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     /**
      * Format options for select fields
@@ -126,9 +131,7 @@ const RevisionModal = ({
             />
         ) : !isComparing && revisionFrom ? (
             <div>
-                <Text bold className="block">
-                    {singularCapitalize}
-                </Text>
+                <Heading size="s">{singularCapitalize}</Heading>
                 <h2
                     className={classNames(
                         'text-pzh-blue-500 mb-4',
@@ -167,7 +170,9 @@ const RevisionModal = ({
                     onChange={e => handleChange(e as Option, 'from')}
                 />
             </div>
-            <FieldCheckbox onChange={e => setIsComparing(e.target.checked)}>
+            <FieldCheckbox
+                checked={isComparing}
+                onChange={e => setIsComparing(e.target.checked)}>
                 Versies vergelijken
             </FieldCheckbox>
             {isComparing && (
@@ -189,6 +194,7 @@ const RevisionModal = ({
                     />
                 </div>
             )}
+
             <Divider className="my-4" />
 
             <div className="inline-block min-h-[120px]">
@@ -198,6 +204,15 @@ const RevisionModal = ({
                     content
                 )}
             </div>
+
+            <ModalFooter className="justify-end">
+                <Button
+                    variant="primary"
+                    type="button"
+                    onPress={() => setActiveModal(null)}>
+                    Sluiten
+                </Button>
+            </ModalFooter>
         </Modal>
     )
 }
