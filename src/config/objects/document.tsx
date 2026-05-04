@@ -83,6 +83,7 @@ const document: DynamicObject<typeof fetchers> = {
                     name: 'Description',
                     label: 'Omschrijving',
                     type: 'wysiwyg',
+                    customMenuOptions: ['heading'],
                     required: true,
                 },
             ],

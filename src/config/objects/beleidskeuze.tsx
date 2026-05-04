@@ -124,7 +124,7 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                     type: 'wysiwyg',
                     required: true,
                     hasAreaSelect: true,
-                    customMenuOptions: ['image'],
+                    customMenuOptions: ['heading', 'image'],
                     imageOptions: {
                         options: {
                             allowBase64: true,
@@ -143,7 +143,7 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                     type: 'wysiwyg',
                     required: true,
                     hasAreaSelect: true,
-                    customMenuOptions: ['image'],
+                    customMenuOptions: ['heading', 'image'],
                     imageOptions: {
                         options: {
                             allowBase64: true,
@@ -162,7 +162,7 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                     type: 'wysiwyg',
                     required: true,
                     hasAreaSelect: true,
-                    customMenuOptions: ['image'],
+                    customMenuOptions: ['heading', 'image'],
                     imageOptions: {
                         options: {
                             allowBase64: true,
@@ -180,7 +180,7 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                         'Op welke thema’s, onderwerpen en gebieden gaat de beleidskeuze iets wijzigen, en waarom is dit gewenst? Beschrijf ook de relatie met andere beleidsterreinen.',
                     type: 'wysiwyg',
                     hasAreaSelect: true,
-                    customMenuOptions: ['image'],
+                    customMenuOptions: ['heading', 'image'],
                     imageOptions: {
                         options: {
                             allowBase64: true,

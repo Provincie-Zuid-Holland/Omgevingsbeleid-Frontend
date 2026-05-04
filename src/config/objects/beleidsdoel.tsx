@@ -104,6 +104,7 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
                     description:
                         'Geef een korte omschrijving van dit beleidsdoel.',
                     type: 'wysiwyg',
+                    customMenuOptions: ['heading'],
                     required: true,
                     hasAreaSelect: true,
                 },

@@ -100,6 +100,7 @@ const beleidsregel: DynamicObject<typeof fetchers> = {
                     description:
                         'Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct wat de provincie gaat doen en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',
                     type: 'wysiwyg',
+                    customMenuOptions: ['heading'],
                     required: true,
                 },
                 {
