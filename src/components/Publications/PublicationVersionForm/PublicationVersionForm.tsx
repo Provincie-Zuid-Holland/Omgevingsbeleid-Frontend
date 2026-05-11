@@ -61,6 +61,7 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
     isSubmitting,
     isRequired,
     error,
+    errors,
     values,
     dirty,
     ...rest
@@ -266,6 +267,7 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
                                 label="Bekendmakingsdatum"
                                 placeholder="Kies een datum"
                                 required={isRequired}
+                                popperPlacement="top"
                             />
                         </div>
                         {values.Publication.Procedure_Type !== 'draft' && (
@@ -275,6 +277,7 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
                                     label="Inwerkingtredingsdatum"
                                     placeholder="Kies een datum"
                                     required={isRequired}
+                                    popperPlacement="top"
                                 />
                             </div>
                         )}
