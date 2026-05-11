@@ -26,6 +26,8 @@ export type ToastType =
     | 'userPasswordGenerated'
     | 'templateActivated'
     | 'templateDeactivated'
+    | 'publicationAttachmentAdded'
+    | 'publicationAttachmentDeleted'
 
 type MessageType = 'default' | 'success' | 'error' | 'warning' | 'info'
 
@@ -140,6 +142,14 @@ export const notifications: Record<
     },
     templateDeactivated: {
         message: 'De template is gedeactiveerd',
+        type: 'success',
+    },
+    publicationAttachmentAdded: {
+        message: 'Het document is toegevoegd',
+        type: 'success',
+    },
+    publicationAttachmentDeleted: {
+        message: 'Het document is verwijderd',
         type: 'success',
     },
 }

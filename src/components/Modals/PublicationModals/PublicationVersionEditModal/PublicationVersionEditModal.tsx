@@ -7,7 +7,10 @@ import {
     usePublicationVersionsGetDetailVersion,
     usePublicationVersionsPostEditVersion,
 } from '@/api/fetchers'
-import { PublicationVersionEdit } from '@/api/fetchers.schemas'
+import {
+    PublicationVersion,
+    PublicationVersionEdit,
+} from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal/Modal'
 import PublicationVersionForm from '@/components/Publications/PublicationVersionForm'
@@ -61,7 +64,7 @@ const PublicationVersionEditModal = () => {
     const initialValues = {
         ...data,
         Module_Status_ID: data?.Module_Status.ID,
-    } as PublicationVersionEdit
+    } as PublicationVersion
 
     return (
         <Modal id="publicationVersionEdit" title="Besluit">
