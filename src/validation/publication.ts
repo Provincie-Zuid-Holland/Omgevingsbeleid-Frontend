@@ -1,4 +1,4 @@
-import { ZodIssueCode, array, object, z } from 'zod'
+import { ZodIssueCode, array, boolean, object, z } from 'zod'
 
 import { DocumentType, ProcedureType } from '@/api/fetchers.schemas'
 import createEmptyObject from '@/utils/createEmptyObject'
@@ -122,6 +122,12 @@ export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
             path: ['Announcement_Date'],
         })
     }
+})
+
+export const PUBLICATION_VERSION_ATTACHMENT_SCHEMA = object({
+    title: schemaDefaults.requiredString(),
+    uploaded_file: schemaDefaults.file,
+    ignore_report: boolean().optional(),
 })
 
 export const EMPTY_PUBLICATION_OBJECT = createEmptyObject(SCHEMA_PUBLICATION)

@@ -7,6 +7,7 @@ import { ModalFooter } from '@/components/Modal/Modal'
 import { DynamicField } from '@/config/types'
 import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
+import { PUBLICATION_VERSION_ATTACHMENT_SCHEMA } from '@/validation/publication'
 import {
     Button,
     FieldInput,
@@ -18,6 +19,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, useFormikContext } from 'formik'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 const PublicationAttachmentAddModal = () => {
     const queryClient = useQueryClient()
@@ -79,8 +81,13 @@ const PublicationAttachmentAddModal = () => {
             onClose={onClose}
             title="Upload document"
             description="Upload hier je document voor de bijlages, eenmaal opgeslagen krijgt het document ook een ID.">
-            <Formik initialValues={initialValues} onSubmit={() => {}}>
-                {({ values, setFieldValue, resetForm }) => (
+            <Formik
+                initialValues={initialValues}
+                validationSchema={toFormikValidationSchema(
+                    PUBLICATION_VERSION_ATTACHMENT_SCHEMA
+                )}
+                onSubmit={() => {}}>
+                {({ values, dirty, isValid, resetForm }) => (
                     <Form className="flex flex-col gap-2">
                         <div>
                             <FormikInput
@@ -111,7 +118,11 @@ const PublicationAttachmentAddModal = () => {
                             </Button>
                             <div className="flex gap-4">
                                 <Button
-                                    isDisabled={isPending && !isError}
+                                    isDisabled={
+                                        !dirty ||
+                                        !isValid ||
+                                        (isPending && !isError)
+                                    }
                                     isLoading={isPending && !isError}
                                     onPress={() =>
                                         handleFormSubmit(values, () =>
@@ -122,7 +133,11 @@ const PublicationAttachmentAddModal = () => {
                                 </Button>
                                 <Button
                                     variant="cta"
-                                    isDisabled={isPending && !isError}
+                                    isDisabled={
+                                        !dirty ||
+                                        !isValid ||
+                                        (isPending && !isError)
+                                    }
                                     isLoading={isPending && !isError}
                                     onPress={() => handleFormSubmit(values)}>
                                     Opslaan & Sluiten
