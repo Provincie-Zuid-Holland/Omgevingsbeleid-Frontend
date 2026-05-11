@@ -75,6 +75,17 @@ export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
                 Content: schemaDefaults.requiredString(),
             })
         ).optional(),
+        Appendices: array(
+            object({
+                Number: schemaDefaults.requiredString(),
+                Title: schemaDefaults.requiredString(),
+                Content: schemaDefaults.requiredString(),
+            })
+        ).optional(),
+        Motivation: object({
+            Title: schemaDefaults.requiredString(),
+            Content: schemaDefaults.requiredString(),
+        }).optional(),
         Closing: schemaDefaults.optionalString,
         Signed: schemaDefaults.optionalString,
     }),

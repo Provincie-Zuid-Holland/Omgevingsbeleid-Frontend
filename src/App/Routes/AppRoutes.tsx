@@ -24,8 +24,10 @@ import {
     UserDetail,
     UsersOverview,
 } from '@/pages/protected'
+import DecisionDetail from '@/pages/protected/Modules/ModuleDetail/components/DecisionDetail'
+import PublicationVersionEdit from '@/pages/protected/Modules/ModuleDetail/components/PublicationVersionEdit'
+import PublicationVersionPackages from '@/pages/protected/Modules/ModuleDetail/components/PublicationVersionPackages'
 import TabDecisions, {
-    Packages,
     Publications,
 } from '@/pages/protected/Modules/ModuleDetail/components/TabDecisions'
 import TabObjects from '@/pages/protected/Modules/ModuleDetail/components/TabObjects'
@@ -267,8 +269,22 @@ const AppRoutes = () => {
                                                     element: <Publications />,
                                                 },
                                                 {
-                                                    path: ':versionUUID/leveringen',
-                                                    element: <Packages />,
+                                                    path: ':versionUUID',
+                                                    element: <DecisionDetail />,
+                                                    children: [
+                                                        {
+                                                            path: 'leveringen',
+                                                            element: (
+                                                                <PublicationVersionPackages />
+                                                            ),
+                                                        },
+                                                        {
+                                                            path: 'bewerk',
+                                                            element: (
+                                                                <PublicationVersionEdit />
+                                                            ),
+                                                        },
+                                                    ],
                                                 },
                                             ],
                                         },

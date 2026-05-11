@@ -19,6 +19,7 @@ import type {
     AmbitieFull,
     AmbitieUUID,
     AnnouncementCreatedResponse,
+    AttachmentShort,
     AuthToken,
     BeleidsdoelFull,
     BeleidsdoelUUID,
@@ -2159,6 +2160,20 @@ export const getPublicationVersionsPostUploadAttachmentResponseMock = (
     ID: faker.number.int({ min: undefined, max: undefined }),
     ...overrideResponse,
 })
+
+export const getPublicationVersionsGetListAttachmentsResponseMock =
+    (): AttachmentShort[] =>
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            File_UUID: faker.string.uuid(),
+            Filename: faker.word.sample(),
+            ID: faker.number.int({ min: undefined, max: undefined }),
+            Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            Title: faker.word.sample(),
+        }))
 
 export const getPublicationVersionsPostDeleteAttachmentResponseMock = (
     overrideResponse: Partial<ResponseOK> = {}
@@ -21871,6 +21886,36 @@ export const getPublicationVersionsPostUploadAttachmentMockHandler = (
     )
 }
 
+export const getPublicationVersionsGetListAttachmentsMockHandler = (
+    overrideResponse?:
+        | AttachmentShort[]
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<AttachmentShort[]> | AttachmentShort[])
+) => {
+    return http.get(
+        '*/publication-versions/:versionUuid/attachments',
+        async info => {
+            await delay(1000)
+            return new HttpResponse(
+                JSON.stringify(
+                    overrideResponse !== undefined
+                        ? typeof overrideResponse === 'function'
+                            ? await overrideResponse(info)
+                            : overrideResponse
+                        : getPublicationVersionsGetListAttachmentsResponseMock()
+                ),
+                {
+                    status: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+        }
+    )
+}
+
 export const getPublicationVersionsPostDeleteAttachmentMockHandler = (
     overrideResponse?:
         | ResponseOK
@@ -27744,6 +27789,7 @@ export const getOmgevingsbeleidAPIMock = () => [
     getPublicationVersionsGetDetailVersionMockHandler(),
     getPublicationVersionsPostDeleteVersionMockHandler(),
     getPublicationVersionsPostUploadAttachmentMockHandler(),
+    getPublicationVersionsGetListAttachmentsMockHandler(),
     getPublicationVersionsPostDeleteAttachmentMockHandler(),
     getPublicationVersionsPostCreateVersionPdfMockHandler(),
     getPublicationsGetListPublicationsMockHandler(),

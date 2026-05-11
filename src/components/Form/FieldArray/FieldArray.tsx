@@ -22,6 +22,7 @@ const FieldArray = ({
     buttonLabel = 'Toevoegen',
     buttonOptions = { variant: 'primary', size: 'large' },
     itemClassName,
+    wrapperClassName,
     startIndex = 0,
     disabled,
 }: Omit<Extract<DynamicField, { type: 'array' }>, 'type'> & {
@@ -29,6 +30,7 @@ const FieldArray = ({
     buttonLabel?: string
     buttonOptions?: ButtonProps
     itemClassName?: string
+    wrapperClassName?: string
     startIndex?: number
     disabled?: boolean
 }) => {
@@ -84,15 +86,21 @@ const FieldArray = ({
                                         )}
                                     </div>
 
-                                    {fields.map(field => (
-                                        <DynamicObjectField
-                                            key={`${field.name}-${actualIndex}`}
-                                            model={model}
-                                            isFirst
-                                            {...field}
-                                            name={`${name}.${actualIndex}.${field.name}`}
-                                        />
-                                    ))}
+                                    <div
+                                        className={cn(
+                                            'flex flex-col gap-4',
+                                            wrapperClassName
+                                        )}>
+                                        {fields.map(field => (
+                                            <DynamicObjectField
+                                                key={`${field.name}-${actualIndex}`}
+                                                model={model}
+                                                isFirst
+                                                {...field}
+                                                name={`${name}.${actualIndex}.${field.name}`}
+                                            />
+                                        ))}
+                                    </div>
                                 </div>
                             )
                         })}

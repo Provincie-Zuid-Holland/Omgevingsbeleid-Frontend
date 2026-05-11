@@ -1,6 +1,7 @@
 import { Editor } from '@tiptap/core'
 
 import {
+    AttachmentShort,
     DocumentType,
     Module,
     PackageType,
@@ -53,6 +54,8 @@ export type ModalType =
     | 'publicationAnnouncementPackages'
     | 'publicationAnnouncementUpdate'
     | 'publicationPackageReportUpload'
+    | 'publicationAttachmentDelete'
+    | 'publicationAttachmentAdd'
 
 export interface ModalStateMap {
     moduleEditObject: {
@@ -111,5 +114,8 @@ export interface ModalStateMap {
         packageUUID: string
         announcementUUID: string
         packageType?: PackageType
+    }
+    publicationAttachmentDelete: {
+        attachment: AttachmentShort
     }
 }
