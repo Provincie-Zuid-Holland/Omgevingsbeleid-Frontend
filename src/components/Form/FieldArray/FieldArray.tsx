@@ -34,7 +34,7 @@ const FieldArray = ({
     startIndex?: number
     disabled?: boolean
 }) => {
-    const { values } = useFormikContext<FormikValues>()
+    const { values, errors } = useFormikContext<FormikValues>()
     const nestedProperties = name.split('.')
     let nestedValue = values as any
     for (const prop of nestedProperties) nestedValue = nestedValue?.[prop]

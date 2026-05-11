@@ -53,6 +53,10 @@ const PublicationVersionEdit = () => {
             data: payload,
         })
 
+    if (data?.Publication.Procedure_Type === 'draft') {
+        delete data.Effective_Date
+    }
+
     const initialValues = {
         ...data,
         Module_Status_ID: data?.Module_Status.ID,
