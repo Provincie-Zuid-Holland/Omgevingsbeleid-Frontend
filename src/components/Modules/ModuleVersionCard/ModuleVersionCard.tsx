@@ -107,7 +107,8 @@ const ModuleVersionCard = ({ variant = 'column' }: ModuleVersionCardProps) => {
                 {({ isSubmitting }) => (
                     <Form
                         className={cn({
-                            'flex flex-1 items-center gap-2': variant === 'row',
+                            'flex flex-1 items-baseline gap-2':
+                                variant === 'row',
                         })}>
                         <div className={cn({ 'flex-1': variant === 'row' })}>
                             <FormikSelect
