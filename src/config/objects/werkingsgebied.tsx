@@ -70,6 +70,7 @@ const werkingsgebied: DynamicObject<typeof fetchers> = {
                     name: 'Description',
                     label: 'Omschrijving',
                     type: 'wysiwyg',
+                    customMenuOptions: ['heading'],
                 },
             ],
         },

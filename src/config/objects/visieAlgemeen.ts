@@ -75,8 +75,8 @@ const visieAlgemeen: DynamicObject<typeof fetchers> = {
                     required: true,
                     hasAreaSelect: true,
                     customMenuOptions: [
-                        'image',
                         'heading',
+                        'image',
                         'subscript',
                         'superscript',
                         'table',
