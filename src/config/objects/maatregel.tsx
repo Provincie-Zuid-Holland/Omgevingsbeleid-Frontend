@@ -113,7 +113,7 @@ const maatregel: DynamicObject<typeof fetchers> = {
                     type: 'wysiwyg',
                     required: true,
                     hasAreaSelect: true,
-                    customMenuOptions: ['image', 'table'],
+                    customMenuOptions: ['heading', 'image', 'table'],
                     imageOptions: {
                         options: {
                             allowBase64: true,
@@ -144,7 +144,7 @@ const maatregel: DynamicObject<typeof fetchers> = {
                     description: 'Beschrijf de uitwerking van de maatregel.',
                     type: 'wysiwyg',
                     hasAreaSelect: true,
-                    customMenuOptions: ['image', 'table'],
+                    customMenuOptions: ['heading', 'image', 'table'],
                     imageOptions: {
                         options: {
                             allowBase64: true,
