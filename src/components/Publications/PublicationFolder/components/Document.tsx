@@ -33,6 +33,7 @@ import { useModuleStatusData } from '@/hooks/useModuleStatusData'
 import useModalStore from '@/store/modalStore'
 import { downloadFile } from '@/utils/file'
 import { parseUtc } from '@/utils/parseUtc'
+import clsx from 'clsx'
 import { useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
@@ -276,18 +277,18 @@ const Document = ({
                         <Button
                             size="small"
                             variant="secondary"
-                            icon={PenToSquare}
-                            iconSize={16}
                             aria-label="Wijzig publicatie versie"
                             isDisabled={version.Is_Locked || isClosed}
-                            onPress={() =>
-                                setActiveModal('publicationVersionEdit', {
-                                    publication,
-                                    UUID: version.UUID,
-                                    error: undefined,
-                                })
-                            }
-                        />
+                            asChild
+                            className={clsx({
+                                'bg-pzh-gray-200 text-pzh-blue-900/35':
+                                    version.Is_Locked || isClosed,
+                            })}>
+                            <Link
+                                to={`/muteer/modules/${moduleId}/besluiten/${version.UUID}/bewerk`}>
+                                <PenToSquare size={16} />
+                            </Link>
+                        </Button>
                         <Button
                             size="small"
                             variant="secondary"

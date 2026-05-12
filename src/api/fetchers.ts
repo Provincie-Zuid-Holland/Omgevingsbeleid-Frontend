@@ -40,6 +40,7 @@ import type {
     AnnouncementCreatedResponse,
     AreasGetListObjectsByAreasParams,
     AreasGetListObjectsByGeometryParams,
+    AttachmentShort,
     AuthToken,
     AuthenticationPostAuthResetPasswordParams,
     BeleidsdoelFull,
@@ -7546,6 +7547,106 @@ export const usePublicationVersionsPostUploadAttachment = <
         getPublicationVersionsPostUploadAttachmentMutationOptions(options)
 
     return useMutation(mutationOptions)
+}
+
+/**
+ * @summary List attachments for a Publication Version
+ */
+export const publicationVersionsGetListAttachments = (
+    versionUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<AttachmentShort[]>({
+        url: `/publication-versions/${versionUuid}/attachments`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getPublicationVersionsGetListAttachmentsQueryKey = (
+    versionUuid: string
+) => {
+    return [`/publication-versions/${versionUuid}/attachments`] as const
+}
+
+export const getPublicationVersionsGetListAttachmentsQueryOptions = <
+    TData = Awaited<ReturnType<typeof publicationVersionsGetListAttachments>>,
+    TError = HTTPValidationError,
+>(
+    versionUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof publicationVersionsGetListAttachments>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getPublicationVersionsGetListAttachmentsQueryKey(versionUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof publicationVersionsGetListAttachments>>
+    > = ({ signal }) =>
+        publicationVersionsGetListAttachments(versionUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!versionUuid,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof publicationVersionsGetListAttachments>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PublicationVersionsGetListAttachmentsQueryResult = NonNullable<
+    Awaited<ReturnType<typeof publicationVersionsGetListAttachments>>
+>
+export type PublicationVersionsGetListAttachmentsQueryError =
+    HTTPValidationError
+
+/**
+ * @summary List attachments for a Publication Version
+ */
+export const usePublicationVersionsGetListAttachments = <
+    TData = Awaited<ReturnType<typeof publicationVersionsGetListAttachments>>,
+    TError = HTTPValidationError,
+>(
+    versionUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof publicationVersionsGetListAttachments>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getPublicationVersionsGetListAttachmentsQueryOptions(
+        versionUuid,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
 }
 
 /**

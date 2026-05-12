@@ -27,6 +27,8 @@ export type ToastType =
     | 'templateActivated'
     | 'templateDeactivated'
     | 'templateEdit'
+    | 'publicationAttachmentAdded'
+    | 'publicationAttachmentDeleted'
 
 type MessageType = 'default' | 'success' | 'error' | 'warning' | 'info'
 
@@ -145,6 +147,14 @@ export const notifications: Record<
     },
     templateEdit: {
         message: 'De template is aangepast',
+        type: 'success',
+    },
+    publicationAttachmentAdded: {
+        message: 'Het document is toegevoegd',
+        type: 'success',
+    },
+    publicationAttachmentDeleted: {
+        message: 'Het document is verwijderd',
         type: 'success',
     },
 }

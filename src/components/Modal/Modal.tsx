@@ -47,7 +47,11 @@ const Modal = ({
                                 {title}
                             </Heading>
                         )}
-                        {description && <Text>{description}</Text>}
+                        {description && typeof description === 'string' ? (
+                            <Text>{description}</Text>
+                        ) : (
+                            description
+                        )}
                     </div>
                 )}
                 {children}

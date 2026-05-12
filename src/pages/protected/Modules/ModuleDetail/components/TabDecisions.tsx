@@ -1,30 +1,13 @@
-import {
-    Accordion,
-    BackLink,
-    Heading,
-    Notification,
-    TabItem,
-    Tabs,
-} from '@pzh-ui/components'
-import { useEffect, useMemo, useState } from 'react'
-import { Link, Outlet, useParams } from 'react-router-dom'
+import { Accordion, Notification, TabItem, Tabs } from '@pzh-ui/components'
+import { useMemo, useState } from 'react'
+import { Outlet, useParams } from 'react-router-dom'
 import { useShallow } from 'zustand/react/shallow'
 
 import {
-    usePublicationActPackagesGetListActPackages,
-    usePublicationAnnouncementPackagesGetListAnnouncementPackages,
-    usePublicationAnnouncementsGetListAnnouncements,
-    usePublicationEnvironmentsGetDetailEnvironment,
     usePublicationEnvironmentsGetListEnvironments,
     usePublicationsGetListPublications,
-    usePublicationVersionsGetDetailVersion,
 } from '@/api/fetchers'
-import {
-    PackageType,
-    ProcedureType,
-    ReportStatusType,
-} from '@/api/fetchers.schemas'
-import { LoaderSpinner } from '@/components/Loader'
+import { ProcedureType } from '@/api/fetchers.schemas'
 import {
     PublicationAddModal,
     PublicationAnnouncementUpdateModal,
@@ -34,9 +17,6 @@ import {
 } from '@/components/Modals/PublicationModals'
 import PublicationScanModal from '@/components/Modals/PublicationModals/PublicationScanModal'
 import PublicationFolder from '@/components/Publications/PublicationFolder'
-import PublicationNotification from '@/components/Publications/PublicationNotification'
-import PublicationPackages from '@/components/Publications/PublicationPackages'
-import useModule from '@/hooks/useModule'
 import usePublicationStore from '@/store/publicationStore'
 
 const TabDecisions = () => (
@@ -134,172 +114,6 @@ export const Publications = () => {
             )}
 
             <div id="select-version-portal" />
-        </div>
-    )
-}
-
-export const Packages = () => {
-    const { moduleId, versionUUID } = useParams()
-
-    const { isClosed } = useModule()
-
-    const { data: version, isFetching: versionFetching } =
-        usePublicationVersionsGetDetailVersion(String(versionUUID), {
-            query: {
-                enabled: !!versionUUID,
-            },
-        })
-
-    const { data: environment, isFetching: environmentFetching } =
-        usePublicationEnvironmentsGetDetailEnvironment(
-            String(version?.Publication.Environment_UUID),
-            {
-                query: {
-                    enabled: !!version?.Publication.Environment_UUID,
-                },
-            }
-        )
-
-    const { data: validActPackage } =
-        usePublicationActPackagesGetListActPackages(
-            {
-                version_uuid: version?.UUID,
-                package_type: PackageType['publication'],
-                limit: 3,
-                sort_column: 'Created_Date',
-                sort_order: 'DESC',
-            },
-            {
-                query: {
-                    enabled: !!version?.UUID,
-                    select: data =>
-                        data.results.find(
-                            pkg =>
-                                pkg.Report_Status === ReportStatusType['valid']
-                        ),
-                },
-            }
-        )
-
-    const { data: announcement, isFetching: announcementFetching } =
-        usePublicationAnnouncementsGetListAnnouncements(
-            {
-                limit: 100,
-                act_package_uuid: validActPackage?.UUID,
-            },
-            {
-                query: {
-                    enabled: !!validActPackage?.UUID,
-                    select: data => data.results[0],
-                },
-            }
-        )
-
-    const { data: validAnnouncementPackage } =
-        usePublicationAnnouncementPackagesGetListAnnouncementPackages(
-            {
-                announcement_uuid: announcement?.UUID,
-                limit: 3,
-                package_type: PackageType['publication'],
-                sort_column: 'Created_Date',
-                sort_order: 'DESC',
-            },
-            {
-                query: {
-                    enabled: !!announcement?.UUID,
-                    select: data =>
-                        data.results.find(
-                            pkg =>
-                                pkg.Report_Status === ReportStatusType['valid']
-                        ),
-                },
-            }
-        )
-
-    const [activeItems, setActiveItems] = useState(['act'])
-
-    useEffect(() => {
-        if (
-            environment?.Can_Publicate &&
-            version?.Publication.Procedure_Type === 'draft' &&
-            !!validActPackage
-        ) {
-            setActiveItems(['act', 'announcement'])
-        }
-    }, [environment, version, announcement, validActPackage])
-
-    if (
-        versionFetching ||
-        environmentFetching ||
-        announcementFetching ||
-        !version
-    )
-        return <LoaderSpinner />
-
-    return (
-        <div className="col-span-6 flex flex-col gap-6">
-            <div>
-                <BackLink
-                    asChild
-                    className="text-s text-pzh-blue-500 inline-flex underline hover:no-underline">
-                    <Link to={`/muteer/modules/${moduleId}/besluiten`}>
-                        Terug naar het overzicht
-                    </Link>
-                </BackLink>
-            </div>
-
-            <Heading level="2" size="l">
-                {version?.Module_Status.Status} - {version?.Publication.Title} (
-                {environment?.Title})
-            </Heading>
-
-            <Accordion
-                type="multiple"
-                className="flex flex-col gap-4"
-                value={activeItems}
-                onValueChange={setActiveItems}>
-                <PublicationPackages
-                    environment={environment}
-                    version={version}
-                    publication={version?.Publication}
-                    publicationType="act"
-                    isLocked={version.Is_Locked}
-                    isClosed={isClosed}
-                />
-                {version?.Publication.Procedure_Type === 'draft' &&
-                    environment?.Can_Publicate &&
-                    !!validActPackage && (
-                        <PublicationNotification
-                            publicationType="act"
-                            validPublicationPackage={validActPackage}
-                            version={version}
-                            announcement={announcement}
-                        />
-                    )}
-                {version?.Publication.Procedure_Type === 'draft' &&
-                    environment?.Can_Publicate && (
-                        <PublicationPackages
-                            environment={environment}
-                            version={version}
-                            publication={version?.Publication}
-                            publicationType="announcement"
-                            validPublicationPackage={validActPackage}
-                            announcement={announcement}
-                            isDisabled={
-                                !!!announcement || !!validAnnouncementPackage
-                            }
-                            isClosed={isClosed}
-                        />
-                    )}
-                {environment?.Can_Publicate && !!validAnnouncementPackage && (
-                    <PublicationNotification
-                        publicationType="announcement"
-                        validPublicationPackage={validAnnouncementPackage}
-                        version={version}
-                        announcement={announcement}
-                    />
-                )}
-            </Accordion>
         </div>
     )
 }

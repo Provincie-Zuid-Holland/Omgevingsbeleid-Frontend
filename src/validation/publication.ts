@@ -1,4 +1,4 @@
-import { ZodIssueCode, array, object, z } from 'zod'
+import { ZodIssueCode, array, boolean, object, z } from 'zod'
 
 import { DocumentType, ProcedureType } from '@/api/fetchers.schemas'
 import createEmptyObject from '@/utils/createEmptyObject'
@@ -53,12 +53,12 @@ export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
     Module_Status_ID: schemaDefaults.requiredNumber(),
     Effective_Date: schemaDefaults.optionalString
         .refine(date => {
-            return date && new Date(date) > new Date(Date.now())
+            return !date || new Date(date) > new Date()
         }, 'De inwerkingtredingsdatum moet in de toekomst liggen')
         .nullable(),
     Announcement_Date: schemaDefaults.optionalString
         .refine(date => {
-            return date && new Date(date) > new Date(Date.now())
+            return !date || new Date(date) > new Date()
         }, 'De bekendmakingsdatum moet in de toekomst liggen')
         .nullable(),
     Bill_Metadata: object({
@@ -74,7 +74,33 @@ export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
                 Number: schemaDefaults.requiredString(),
                 Content: schemaDefaults.requiredString(),
             })
-        ).optional(),
+        )
+            .optional()
+            .nullable(),
+        Appendices: array(
+            object({
+                Number: schemaDefaults.requiredString(),
+                Title: schemaDefaults.requiredString(),
+                Content: schemaDefaults.requiredString(),
+            })
+        )
+            .optional()
+            .nullable(),
+        Motivation: object({
+            Title: schemaDefaults.requiredString(),
+            Content: schemaDefaults.requiredString(),
+            Appendices: array(
+                object({
+                    Number: schemaDefaults.requiredString(),
+                    Title: schemaDefaults.requiredString(),
+                    Content: schemaDefaults.requiredString(),
+                })
+            )
+                .optional()
+                .nullable(),
+        })
+            .optional()
+            .nullable(),
         Closing: schemaDefaults.optionalString,
         Signed: schemaDefaults.optionalString,
     }),
@@ -96,6 +122,12 @@ export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
             path: ['Announcement_Date'],
         })
     }
+})
+
+export const PUBLICATION_VERSION_ATTACHMENT_SCHEMA = object({
+    title: schemaDefaults.requiredString(),
+    uploaded_file: schemaDefaults.file,
+    ignore_report: boolean().optional(),
 })
 
 export const EMPTY_PUBLICATION_OBJECT = createEmptyObject(SCHEMA_PUBLICATION)
