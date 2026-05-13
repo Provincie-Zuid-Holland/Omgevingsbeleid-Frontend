@@ -322,6 +322,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                     isOpen={revisionModalOpen}
                     onClose={() => setRevisionModalOpen(false)}
                     latestUUID={latest?.UUID}
+                    moduleId={moduleId ? parseInt(moduleId) : undefined}
                 />
             )}
         </>
