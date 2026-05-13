@@ -33,12 +33,14 @@ interface RevisionModalProps {
     model: Model
     revisions?: ModelReturnType[]
     latestUUID?: string
+    moduleId?: number
 }
 
 const RevisionModal = ({
     model,
     revisions,
     latestUUID,
+    moduleId,
 }: RevisionModalProps) => {
     const {
         initialObject,
@@ -72,7 +74,10 @@ const RevisionModal = ({
 
     const { singularReadable, prefixSingular, singularCapitalize, singular } =
         model.defaults
-    const { useGetVersion } = model.fetchers
+    const { useGetVersion, useGetRevision } = model.fetchers
+
+    const [revisionFromIsDraft, setRevisionFromIsDraft] = useState(false)
+    const [revisionToIsDraft, setRevisionToIsDraft] = useState(false)
 
     const { isFetching: revisionFromFetching, refetch: refetchRevisionFrom } =
         useGetVersion!(revisionFromUuid || '', {
@@ -83,25 +88,49 @@ const RevisionModal = ({
             query: { enabled: false },
         })
 
+    const { isFetching: draftFromFetching, refetch: refetchDraftFrom } =
+        useGetRevision?.(moduleId ?? 0, revisionFromUuid || '', {
+            query: { enabled: false },
+        }) ?? {}
+    const { isFetching: draftToFetching, refetch: refetchDraftTo } =
+        useGetRevision?.(moduleId ?? 0, revisionToUuid || '', {
+            query: { enabled: false },
+        }) ?? {}
+
     const handleChange = (e: Option, type: 'from' | 'to') => {
         const option = options?.find(option => option.value === e.value)
+        const isDraft = !!(
+            revisions?.find(r => r.UUID === e.value) as
+                | (ModelReturnType & { isRevision?: boolean })
+                | undefined
+        )?.isRevision
 
         if (type === 'from') {
+            setRevisionFromIsDraft(isDraft)
             setRevisionFromUuid(option?.value)
         } else {
+            setRevisionToIsDraft(isDraft)
             setRevisionToUuid(option?.value)
         }
     }
 
     useUpdateEffect(() => {
         if (revisionFromUuid) {
-            refetchRevisionFrom().then(({ data }) => setRevisionFrom(data))
+            if (revisionFromIsDraft && refetchDraftFrom) {
+                refetchDraftFrom().then(({ data }) => setRevisionFrom(data))
+            } else {
+                refetchRevisionFrom().then(({ data }) => setRevisionFrom(data))
+            }
         }
     }, [revisionFromUuid])
 
     useUpdateEffect(() => {
         if (revisionToUuid) {
-            refetchRevisionTo().then(({ data }) => setRevisionTo(data))
+            if (revisionToIsDraft && refetchDraftTo) {
+                refetchDraftTo().then(({ data }) => setRevisionTo(data))
+            } else {
+                refetchRevisionTo().then(({ data }) => setRevisionTo(data))
+            }
         }
     }, [revisionToUuid])
 
@@ -198,7 +227,7 @@ const RevisionModal = ({
             <Divider className="my-4" />
 
             <div className="inline-block min-h-[120px]">
-                {revisionFromFetching || revisionToFetching ? (
+                {revisionFromFetching || revisionToFetching || draftFromFetching || draftToFetching ? (
                     <LoaderSpinner />
                 ) : (
                     content
