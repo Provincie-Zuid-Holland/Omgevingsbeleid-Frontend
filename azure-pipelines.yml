@@ -17,7 +17,7 @@ stages:
     - stage: Build
       displayName: Build and Test the application
       jobs:
-          - job:
+          - job: 'Build'
             steps:
                 # Cache node_modules for faster installs
                 - task: Cache@2
@@ -47,10 +47,10 @@ stages:
                   inputs:
                       script: yarn test:coverage
 
-                - task: PublishCodeCoverageResults@1
+                - task: PublishCodeCoverageResults@2
+                  displayName: Publish code coverage
                   inputs:
-                      codeCoverageTool: Cobertura
-                      summaryFileLocation: $(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml
+                      summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
 
                 - task: CmdLine@2
                   displayName: Build
@@ -68,7 +68,7 @@ stages:
           - Build
       condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'dev'))
       jobs:
-          - deployment:
+          - deployment: 'DevDeploy'
             displayName: Dev deploy
             environment: Dev
             strategy:
@@ -85,7 +85,7 @@ stages:
           - Build
       condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'test'))
       jobs:
-          - deployment:
+          - deployment: 'TestDeploy'
             displayName: Test deploy
             environment: Test
             strategy:
@@ -95,10 +95,6 @@ stages:
                             - template: azure-file-copy.yml
                               parameters:
                                   storageName: 'obfrontendtest'
-                            - template: azure-purge-cdn.yml
-                              parameters:
-                                  name: 'obzhtest'
-                                  profileName: 'dta-obfrontendtest-cdn'
 
     - stage: Acc
       displayName: Acc deploy
@@ -106,7 +102,7 @@ stages:
           - Build
       condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'acc'))
       jobs:
-          - deployment:
+          - deployment: 'AccDeploy'
             displayName: Acc deploy
             environment: Acc
             strategy:
@@ -116,10 +112,6 @@ stages:
                             - template: azure-file-copy.yml
                               parameters:
                                   storageName: 'obfrontendacc'
-                            - template: azure-purge-cdn.yml
-                              parameters:
-                                  name: 'obzhacc'
-                                  profileName: 'dta-obfrontendacc-cdn'
 
     - stage: Prod
       displayName: Prod deploy
@@ -127,7 +119,7 @@ stages:
           - Build
       condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'main'))
       jobs:
-          - deployment:
+          - deployment: 'ProdDeploy'
             displayName: Prod deploy
             environment: Prod
             strategy:
