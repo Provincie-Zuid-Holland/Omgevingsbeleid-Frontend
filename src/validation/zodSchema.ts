@@ -21,7 +21,7 @@ const HEADING_FOLLOWED_BY_TEXT_ERROR =
     'Een kop moet altijd gevolgd worden door tekst.'
 
 const HEADING_SELECTOR = 'h3, h4, h5'
-const EMPTY_INLINE_TAG_SELECTOR = 'em, strong, b, i, u, li p'
+const EMPTY_INLINE_TAG_SELECTOR = 'em, strong, b, i, u, li p, sub, sup'
 const HEADING_TAG_REGEX = /^H[3-5]$/
 
 export const schemaDefaults = {
