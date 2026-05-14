@@ -13,7 +13,7 @@ import { ModelType } from '@/config/objects/types'
 import { useParams } from 'react-router-dom'
 
 export type Option = {
-    label: JSX.Element
+    label: React.JSX.Element
     value?: string | number
     object?: SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
 }

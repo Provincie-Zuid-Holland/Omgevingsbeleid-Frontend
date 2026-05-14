@@ -30,10 +30,10 @@ const Navigation = () => {
 
     // State for popup menu
     const [isOpen, setIsOpen] = useState(false)
-    const { isDesktop, isMobile } = useBreakpoint()
+    const { isDesktop } = useBreakpoint()
 
     /** Handle close on click outside */
-    useClickOutside(headerRef, () => {
+    useClickOutside(headerRef as React.RefObject<HTMLElement>, () => {
         setIsOpen(false)
     })
 
@@ -141,7 +141,7 @@ const Navigation = () => {
 interface MenuIconProps {
     children?: ReactNode
     to: string
-    icon: JSX.Element
+    icon: React.JSX.Element
     className?: string
     setIsOpen: (e: boolean) => void
     label?: string | null

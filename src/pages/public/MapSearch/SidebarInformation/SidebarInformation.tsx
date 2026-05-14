@@ -105,100 +105,101 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
                 enterTo="ml-0"
                 leave="transition-all ease-in duration-300 transform"
                 leaveFrom="ml-0"
-                leaveTo="-ml-[570px]"
-                className="overflow-auto pt-4 pb-8 md:max-w-[570px] md:min-w-[570px] md:px-10 md:pt-12 lg:px-20 lg:pt-16 lg:pb-16">
-                <Heading level="1" size="xxl">
-                    Zoeken op de kaart
-                </Heading>
-                <Text size="l" className="mt-3">
-                    Via deze pagina kun je uitgebreid zoeken welk beleid op
-                    welke locatie van toepassing is. Hiermee wordt duidelijk wat
-                    de provincie Zuid-Holland in een bepaald gebied wil
-                    bereiken. Veel beleid is kaderstellend en richtinggevend van
-                    aard en daarom bedoeld om aan te geven waar de provincie
-                    voor staat en belang aan hecht.
-                </Text>
-                <InfoText
-                    title="Teken een gebied of plaats een speld"
-                    description={
-                        <>
-                            Teken eenvoudig een gebied (
-                            {
-                                <DrawPolygon
-                                    size={18}
-                                    className="mx-0.5 -mt-0.5 inline-block"
-                                />
-                            }
-                            ), of plaats een speld (
-                            {
-                                <LocationDot
-                                    size={18}
-                                    className="mx-0.5 -mt-0.5 inline-block"
-                                />
-                            }
-                            ) op de kaart.
-                        </>
-                    }
-                />
-
-                {mapInstance && (
-                    <>
-                        <InfoText
-                            title="Zoek op adres"
-                            description="Geef een adres op, om te zoeken op die locatie."
-                            isField
-                            name="leaflet-search"
-                        />
-                        <div className="relative mt-2">
-                            <LeafletSearchInput
-                                mapInstance={mapInstance}
-                                drawCallback={onDraw}
-                                placeholder="Geef een adres op"
-                            />
-                        </div>
-                    </>
-                )}
-
-                <InfoText
-                    title="Werkingsgebied"
-                    description="Selecteer een werkingsgebied om het gekoppelde beleid in te zien."
-                    isField
-                    name="werkingsgebied"
-                />
-                {data && (
-                    <FieldSelect
-                        className="mt-2"
-                        id="select-werkingsgebied"
-                        name="werkingsgebied"
-                        options={options}
-                        value={
-                            (selectedVal && {
-                                label: selectedVal.Title,
-                                value: selectedVal.UUID,
-                            }) ||
-                            null
+                leaveTo="-ml-[570px]">
+                <div className="overflow-auto pt-4 pb-8 md:max-w-[570px] md:min-w-[570px] md:px-10 md:pt-12 lg:px-20 lg:pt-16 lg:pb-16">
+                    <Heading level="1" size="xxl">
+                        Zoeken op de kaart
+                    </Heading>
+                    <Text size="l" className="mt-3">
+                        Via deze pagina kun je uitgebreid zoeken welk beleid op
+                        welke locatie van toepassing is. Hiermee wordt duidelijk
+                        wat de provincie Zuid-Holland in een bepaald gebied wil
+                        bereiken. Veel beleid is kaderstellend en richtinggevend
+                        van aard en daarom bedoeld om aan te geven waar de
+                        provincie voor staat en belang aan hecht.
+                    </Text>
+                    <InfoText
+                        title="Teken een gebied of plaats een speld"
+                        description={
+                            <>
+                                Teken eenvoudig een gebied (
+                                {
+                                    <DrawPolygon
+                                        size={18}
+                                        className="mx-0.5 -mt-0.5 inline-block"
+                                    />
+                                }
+                                ), of plaats een speld (
+                                {
+                                    <LocationDot
+                                        size={18}
+                                        className="mx-0.5 -mt-0.5 inline-block"
+                                    />
+                                }
+                                ) op de kaart.
+                            </>
                         }
-                        components={{
-                            IndicatorSeparator: () => null,
-                        }}
-                        aria-label="Selecteer een werkingsgebied"
-                        placeholder="Selecteer een werkingsgebied"
-                        menuPortalTarget={
-                            document.getElementById(
-                                'select-werkingsgebied-portal'
-                            ) as HTMLElement
-                        }
-                        menuPlacement="auto"
-                        isLoading={isLoading}
-                        onChange={(val: any) => {
-                            remove('geoQuery')
-                            set(
-                                'werkingsgebied',
-                                (val as { value: string })?.value
-                            )
-                        }}
                     />
-                )}
+
+                    {mapInstance && (
+                        <>
+                            <InfoText
+                                title="Zoek op adres"
+                                description="Geef een adres op, om te zoeken op die locatie."
+                                isField
+                                name="leaflet-search"
+                            />
+                            <div className="relative mt-2">
+                                <LeafletSearchInput
+                                    mapInstance={mapInstance}
+                                    drawCallback={onDraw}
+                                    placeholder="Geef een adres op"
+                                />
+                            </div>
+                        </>
+                    )}
+
+                    <InfoText
+                        title="Werkingsgebied"
+                        description="Selecteer een werkingsgebied om het gekoppelde beleid in te zien."
+                        isField
+                        name="werkingsgebied"
+                    />
+                    {data && (
+                        <FieldSelect
+                            className="mt-2"
+                            id="select-werkingsgebied"
+                            name="werkingsgebied"
+                            options={options}
+                            value={
+                                (selectedVal && {
+                                    label: selectedVal.Title,
+                                    value: selectedVal.UUID,
+                                }) ||
+                                null
+                            }
+                            components={{
+                                IndicatorSeparator: () => null,
+                            }}
+                            aria-label="Selecteer een werkingsgebied"
+                            placeholder="Selecteer een werkingsgebied"
+                            menuPortalTarget={
+                                document.getElementById(
+                                    'select-werkingsgebied-portal'
+                                ) as HTMLElement
+                            }
+                            menuPlacement="auto"
+                            isLoading={isLoading}
+                            onChange={(val: any) => {
+                                remove('geoQuery')
+                                set(
+                                    'werkingsgebied',
+                                    (val as { value: string })?.value
+                                )
+                            }}
+                        />
+                    )}
+                </div>
             </Transition>
 
             <Transition
@@ -208,11 +209,10 @@ const SidebarInformation = ({ onDraw }: SidebarInformationProps) => {
                 enterTo="opacity-100 ml-0"
                 leave="transition-all ease-in duration-[1ms] transform"
                 leaveFrom="opacity-100 ml-0"
-                leaveTo="opacity-0 -ml-12"
-                className="h-full w-12">
+                leaveTo="opacity-0 -ml-12">
                 <button
                     onClick={goBack}
-                    className="flex h-full w-full items-center py-4 md:block md:py-0">
+                    className="flex h-full w-12 items-center py-4 md:block md:py-0">
                     <div className="flex justify-center md:pt-4">
                         <ArrowLeft size={18} />
                     </div>

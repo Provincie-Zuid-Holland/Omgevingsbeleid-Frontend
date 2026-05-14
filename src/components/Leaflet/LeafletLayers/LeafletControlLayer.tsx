@@ -59,20 +59,21 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                             enterTo="transform translate-x-0 opacity-100"
                             leave="ease-in duration-300"
                             leaveFrom="transform translate-x-0 opacity-100"
-                            leaveTo="transform translate-x-64 opacity-0"
-                            className="leaflet-control-layer-container relative">
-                            <button
-                                className="bg-pzh-gray-100 text-pzh-gray-700 absolute top-0 left-0 z-[11] mr-8 flex h-8 w-8 -translate-x-8 transform items-center justify-center rounded-l p-2 opacity-100 hover:text-gray-800"
-                                onClick={() =>
-                                    setLayerControlOpen(!layerControlOpen)
-                                }
-                                type="button">
-                                <AngleRight size={16} />
-                            </button>
-                            <div
-                                className="bg-pzh-white shadow-pane relative z-[10] h-[500px] w-[375px] max-w-full overflow-y-auto"
-                                data-testid="leaflet-layers-control-pane">
-                                <div className="w-full">{children}</div>
+                            leaveTo="transform translate-x-64 opacity-0">
+                            <div className="leaflet-control-layer-container relative">
+                                <button
+                                    className="bg-pzh-gray-100 text-pzh-gray-700 absolute top-0 left-0 z-[11] mr-8 flex h-8 w-8 -translate-x-8 transform items-center justify-center rounded-l p-2 opacity-100 hover:text-gray-800"
+                                    onClick={() =>
+                                        setLayerControlOpen(!layerControlOpen)
+                                    }
+                                    type="button">
+                                    <AngleRight size={16} />
+                                </button>
+                                <div
+                                    className="bg-pzh-white shadow-pane relative z-[10] h-[500px] w-[375px] max-w-full overflow-y-auto"
+                                    data-testid="leaflet-layers-control-pane">
+                                    <div className="w-full">{children}</div>
+                                </div>
                             </div>
                         </Transition>
                     </div>
