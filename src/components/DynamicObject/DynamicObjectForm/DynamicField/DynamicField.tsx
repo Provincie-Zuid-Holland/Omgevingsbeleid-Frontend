@@ -132,7 +132,8 @@ const DynamicField = ({
                             setActiveModal('objectAreaAnnotate', { editor })
                         }
                         aria-label="Gebiedsaanwijzing"
-                        title="Gebiedsaanwijzing">
+                        title="Gebiedsaanwijzing"
+                        disabled={isLocked}>
                         <DrawPolygon />
                     </RteMenuButton>,
                 ],

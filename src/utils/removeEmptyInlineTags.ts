@@ -1,4 +1,4 @@
-const EMPTY_TAG_SELECTOR = 'em, strong, b, i, u'
+const EMPTY_TAG_SELECTOR = 'em, strong, b, i, u, sub, sup'
 
 export function isVisuallyEmpty(value: string): boolean {
     return (
@@ -11,6 +11,10 @@ export function isVisuallyEmpty(value: string): boolean {
     )
 }
 
+function unwrapElement(el: Element): void {
+    el.replaceWith(...Array.from(el.childNodes))
+}
+
 export function cleanEmptyRteNodes(html: string): string {
     const doc = new DOMParser().parseFromString(html, 'text/html')
 
@@ -19,10 +23,10 @@ export function cleanEmptyRteNodes(html: string): string {
     while (removedSomething) {
         removedSomething = false
 
-        // remove empty inline tags
+        // unwrap empty inline tags, preserving spaces inside them
         Array.from(doc.querySelectorAll(EMPTY_TAG_SELECTOR)).forEach(el => {
             if (isVisuallyEmpty(el.innerHTML)) {
-                el.remove()
+                unwrapElement(el)
                 removedSomething = true
             }
         })
