@@ -42,7 +42,7 @@ export type DynamicField<FieldType = string> = {
     /** Label of field */
     label: string
     /** Description of field (optional) */
-    description?: string | JSX.Element
+    description?: string | React.JSX.Element
     /** Placeholder of field (optional) */
     placeholder?: string
     /** Type of field */

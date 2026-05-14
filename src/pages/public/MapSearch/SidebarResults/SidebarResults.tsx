@@ -249,98 +249,99 @@ const SidebarResults = () => {
             enterTo="mr-0"
             leave="transition-all ease-in duration-300 transform"
             leaveFrom="mr-0"
-            leaveTo="-mr-[840px]"
-            className="md:shadow-pane relative z-[1] w-full max-w-2xl overflow-hidden px-4 pt-4 pb-4 md:px-10 md:pb-0 lg:px-20">
-            <div className="border-pzh-gray-300 border-b pb-3">
-                <div className="flex items-start justify-between">
-                    <div>
-                        <Heading level="3" size="m">
-                            Resultaten
-                        </Heading>
-                        {!isLoading && !geoLoading ? (
-                            <span className="text-s text-pzh-blue-900/50 block">
-                                {!data?.total
-                                    ? 'Er zijn geen resultaten'
-                                    : data.total === 1
-                                      ? `Er is 1 resultaat`
-                                      : `Er zijn ${data.total} resultaten`}
-                            </span>
-                        ) : (
-                            <LoaderCard
-                                height="18"
-                                width="130"
-                                className="w-auto"
-                            />
-                        )}
-                    </div>
-                    <Filter
-                        className="min-w-[250px]"
-                        filters={transformedFilters}
-                        activeFilters={amountOfFilters}
-                        handleChange={handleDropdownChange}
-                        defaultValue={defaultValue}
-                    />
-                </div>
-            </div>
-            <div className="mt-2 h-full">
-                <div
-                    ref={resultsContainer}
-                    className="h-full pt-4 pb-8 md:overflow-auto md:pb-24">
-                    {!isLoading && !geoLoading ? (
-                        <>
-                            {!!data?.results.length ? (
-                                <ul className="mb-4">
-                                    {data.results.map(item => (
-                                        <SearchResultItem
-                                            query={undefined}
-                                            key={item.UUID}
-                                            Description={
-                                                item.Omschrijving || ''
-                                            }
-                                            Model={{
-                                                Title: item.Titel || '',
-                                                UUID: item.UUID,
-                                            }}
-                                            {...item}
-                                        />
-                                    ))}
-                                </ul>
+            leaveTo="-mr-[840px]">
+            <div className="md:shadow-pane relative z-[1] w-full max-w-2xl overflow-hidden px-4 pt-4 pb-4 md:px-10 md:pb-0 lg:px-20">
+                <div className="border-pzh-gray-300 border-b pb-3">
+                    <div className="flex items-start justify-between">
+                        <div>
+                            <Heading level="3" size="m">
+                                Resultaten
+                            </Heading>
+                            {!isLoading && !geoLoading ? (
+                                <span className="text-s text-pzh-blue-900/50 block">
+                                    {!data?.total
+                                        ? 'Er zijn geen resultaten'
+                                        : data.total === 1
+                                          ? `Er is 1 resultaat`
+                                          : `Er zijn ${data.total} resultaten`}
+                                </span>
                             ) : (
-                                <Text className="mt-2">
-                                    Er zijn geen resultaten voor{' '}
-                                    {drawType === 'polygon'
-                                        ? 'het getekende gebied'
-                                        : drawType === 'marker'
-                                          ? 'het ingevoerde adres'
-                                          : drawType === 'werkingsgebied'
-                                            ? 'dit werkingsgebied'
-                                            : 'de geplaatste marker'}
-                                    . Probeer het opnieuw (binnen de grenzen van
-                                    de provincie Zuid-Holland).
-                                </Text>
-                            )}
-                        </>
-                    ) : (
-                        <div className="mt-4">
-                            <LoaderCard height="150" />
-                            <LoaderCard height="150" />
-                            <LoaderCard height="150" />
-                            <LoaderCard height="150" />
-                        </div>
-                    )}
-
-                    {!!pagination.total &&
-                        !!pagination.limit &&
-                        pagination.total > pagination.limit && (
-                            <div className="mt-8 flex justify-center">
-                                <Pagination
-                                    onPageChange={handlePageChange}
-                                    current={currPage}
-                                    total={pagination.total}
-                                    limit={pagination.limit}
+                                <LoaderCard
+                                    height="18"
+                                    width="130"
+                                    className="w-auto"
                                 />
+                            )}
+                        </div>
+                        <Filter
+                            className="min-w-[250px]"
+                            filters={transformedFilters}
+                            activeFilters={amountOfFilters}
+                            handleChange={handleDropdownChange}
+                            defaultValue={defaultValue}
+                        />
+                    </div>
+                </div>
+                <div className="mt-2 h-full">
+                    <div
+                        ref={resultsContainer}
+                        className="h-full pt-4 pb-8 md:overflow-auto md:pb-24">
+                        {!isLoading && !geoLoading ? (
+                            <>
+                                {!!data?.results.length ? (
+                                    <ul className="mb-4">
+                                        {data.results.map(item => (
+                                            <SearchResultItem
+                                                query={undefined}
+                                                key={item.UUID}
+                                                Description={
+                                                    item.Omschrijving || ''
+                                                }
+                                                Model={{
+                                                    Title: item.Titel || '',
+                                                    UUID: item.UUID,
+                                                }}
+                                                {...item}
+                                            />
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <Text className="mt-2">
+                                        Er zijn geen resultaten voor{' '}
+                                        {drawType === 'polygon'
+                                            ? 'het getekende gebied'
+                                            : drawType === 'marker'
+                                              ? 'het ingevoerde adres'
+                                              : drawType === 'werkingsgebied'
+                                                ? 'dit werkingsgebied'
+                                                : 'de geplaatste marker'}
+                                        . Probeer het opnieuw (binnen de grenzen
+                                        van de provincie Zuid-Holland).
+                                    </Text>
+                                )}
+                            </>
+                        ) : (
+                            <div className="mt-4">
+                                <LoaderCard height="150" />
+                                <LoaderCard height="150" />
+                                <LoaderCard height="150" />
+                                <LoaderCard height="150" />
                             </div>
                         )}
+
+                        {!!pagination.total &&
+                            !!pagination.limit &&
+                            pagination.total > pagination.limit && (
+                                <div className="mt-8 flex justify-center">
+                                    <Pagination
+                                        onPageChange={handlePageChange}
+                                        current={currPage}
+                                        total={pagination.total}
+                                        limit={pagination.limit}
+                                    />
+                                </div>
+                            )}
+                    </div>
                 </div>
             </div>
         </Transition>

@@ -70,7 +70,7 @@ export interface DynamicObjectBase<Q extends ModelQueryKeys = ModelQueryKeys> {
         type: ModelType
         key: string
     }[]
-    connectionsDescription?: string | JSX.Element
+    connectionsDescription?: string | React.JSX.Element
     acknowledgedRelation?: ModelType
     hasRelatedObjects?: boolean
 }

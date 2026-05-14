@@ -6,7 +6,7 @@ import usePermissions, { Permissions } from '@/hooks/usePermissions'
 import { toastNotification } from '@/utils/toastNotification'
 
 interface ProtectedRouteProps {
-    children?: JSX.Element | null
+    children?: React.JSX.Element | null
     redirectTo?: string
     permissions?: Partial<Permissions>
 }

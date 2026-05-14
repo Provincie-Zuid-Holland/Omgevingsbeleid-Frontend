@@ -11,7 +11,7 @@ import DropArea from '../DropArea'
 
 interface DraggableProps extends DragResult {
     as?: ElementType
-    children: JSX.Element
+    children: React.JSX.Element
     index: number
     arrayHelpers: ArrayHelpers
     className?: string
