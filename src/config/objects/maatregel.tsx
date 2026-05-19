@@ -70,12 +70,12 @@ const maatregel: DynamicObject<typeof fetchers> = {
         { type: 'beleidskeuze', key: 'Beleidskeuzes' },
         { type: 'gebiedsprogramma', key: 'Gebiedsprogrammas' },
     ],
-    connectionsDescription: (
+    connectionsDescription: object => (
         <>
-            Binnen het omgevingsbeleid bestaan koppelingen en relaties. Een
-            maatregel is veelal gekoppeld met beleidsdoelen. Hieronder een
-            overzicht van de beleidsdoelen van deze maatregel. Bekijk voor het
-            volledige overzicht het{' '}
+            Deze maatregel hoort bij de beleidskeuze '{object}'. Een maatregel
+            beschrijft wat de provincie doet om de beleidskeuze tot uitvoering
+            brengen. Daarnaast kan deze maatregel ook uitvoering geven aan
+            andere beleidskeuzes. Bekijk voor het volledige overzicht het{' '}
             <Hyperlink asChild>
                 <Link to="/beleidsnetwerk">beleidsnetwerk</Link>
             </Hyperlink>

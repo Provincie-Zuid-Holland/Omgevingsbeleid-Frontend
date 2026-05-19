@@ -71,12 +71,11 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
         { type: 'ambitie', key: 'Ambities' },
         { type: 'beleidskeuze', key: 'Beleidskeuzes' },
     ],
-    connectionsDescription: (
+    connectionsDescription: object => (
         <>
-            Binnen het omgevingsbeleid bestaan koppelingen en relaties. Een
-            beleidsdoel komt voort uit een ambitie, en wordt uitgewerkt in één
-            of meerdere beleidskeuzes. Hieronder een overzicht van de ambitie(s)
-            en beleidskeuze(s). Bekijk voor het volledige overzicht het{' '}
+            Dit beleidsdoel hoort bij de ambitie '{object}'. Het beleidsdoel is
+            verder uitgewerkt in beleidskeuzes die richting geven aan de
+            uitvoering. Bekijk voor het volledige overzicht het{' '}
             <Hyperlink asChild>
                 <Link to="/beleidsnetwerk">beleidsnetwerk</Link>
             </Hyperlink>
