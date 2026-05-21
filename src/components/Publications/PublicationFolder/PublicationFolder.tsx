@@ -5,7 +5,6 @@ import {
     AccordionTrigger,
     Heading,
 } from '@pzh-ui/components'
-import clsx from 'clsx'
 import { useCallback, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useShallow } from 'zustand/react/shallow'
@@ -88,9 +87,7 @@ const PublicationFolder = ({
                 </Heading>
             </AccordionTrigger>
             <AccordionContent
-                className={clsx('pb-0', {
-                    '[&[data-state=open]]:overflow-visible': hasOverflowClass,
-                })}
+                className="overflow-visible pb-0"
                 onAnimationEnd={() => setHasOverflowClass(!hasOverflowClass)}>
                 <Accordion
                     type="multiple"
