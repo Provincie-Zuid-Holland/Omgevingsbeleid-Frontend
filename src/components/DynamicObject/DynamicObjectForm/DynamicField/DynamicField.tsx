@@ -129,7 +129,9 @@ const DynamicField = ({
                         key="gebiedsaanwijzing"
                         isActive={editor.isActive('area')}
                         onClick={() =>
-                            setActiveModal('objectAreaAnnotate', { editor })
+                            setActiveModal('objectAreaAnnotate', {
+                                editor,
+                            })
                         }
                         aria-label="Gebiedsaanwijzing"
                         title="Gebiedsaanwijzing"
