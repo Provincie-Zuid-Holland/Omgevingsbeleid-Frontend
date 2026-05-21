@@ -29,6 +29,7 @@ export type ToastType =
     | 'templateEdit'
     | 'publicationAttachmentAdded'
     | 'publicationAttachmentDeleted'
+    | 'pdfPreviewError'
 
 type MessageType = 'default' | 'success' | 'error' | 'warning' | 'info'
 
@@ -156,5 +157,10 @@ export const notifications: Record<
     publicationAttachmentDeleted: {
         message: 'Het document is verwijderd',
         type: 'success',
+    },
+    pdfPreviewError: {
+        message:
+            'Bekendmaking Preview Service (overheid.nl) is niet bereikbaar, probeer het later nog een keer',
+        type: 'error',
     },
 }

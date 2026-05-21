@@ -2,7 +2,6 @@ import { Button } from '@pzh-ui/components'
 import { AngleDown } from '@pzh-ui/icons'
 import { Form, Formik, FormikProps } from 'formik'
 import { useMemo } from 'react'
-import { z } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { AREA_DATA_ATTRS } from '@/components/DynamicObject/DynamicObjectForm/DynamicField/extensions/area'
@@ -11,10 +10,12 @@ import Modal from '@/components/Modal'
 import useModalStore from '@/store/modalStore'
 import { SCHEMA_OBJECT_ANNOTATE_AREA } from '@/validation/objectAnnotate'
 
+import { LoaderSpinner } from '@/components/Loader'
 import { ModalFooter } from '@/components/Modal/Modal'
+import useObject from '@/hooks/useObject'
 import { ModalStateMap } from '../../types'
 
-type Values = z.infer<typeof SCHEMA_OBJECT_ANNOTATE_AREA>
+type Values = Record<string, any>
 
 const ObjectAreaAnnotateModal = () => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
@@ -22,28 +23,29 @@ const ObjectAreaAnnotateModal = () => {
         state => state.modalStates['objectAreaAnnotate']
     ) as ModalStateMap['objectAreaAnnotate']
 
-    const isEmptySelection = useMemo(
-        () => modalState?.editor.state.selection.empty,
-        [modalState?.editor.state.selection.empty]
-    )
-
-    const selectedText = useMemo(
-        () =>
-            modalState?.editor.state.doc.textBetween(
-                modalState?.editor.state.selection.from,
-                modalState?.editor.state.selection.to
-            ),
-        [
-            modalState?.editor.state.selection.from,
-            modalState?.editor.state.selection.to,
-        ]
-    )
+    const { data, isLoading } = useObject()
 
     const initialValues: Values = useMemo(() => {
-        const previousValues = modalState?.editor?.getAttributes('area')
+        const previousValue = modalState?.editor?.getAttributes('area')
+
+        if (Object.keys(previousValue ?? {}).length) {
+            const code = previousValue?.[AREA_DATA_ATTRS.Object_Code]
+            const item = data?.Gebiedsaanwijzingen_Statics?.find(
+                item => item.Code === code
+            )
+
+            return {
+                Object_Code: {
+                    label:
+                        item?.Cached_Title ??
+                        previousValue?.[AREA_DATA_ATTRS.Cached_Title],
+                    value: code,
+                },
+            }
+        }
 
         return {
-            code: previousValues?.[AREA_DATA_ATTRS.code] ?? '',
+            Object_Code: null,
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [modalState?.editor, modalState?.editor?.state.selection])
@@ -54,7 +56,8 @@ const ObjectAreaAnnotateModal = () => {
             .focus()
             .extendMarkRange('area')
             .setArea({
-                [AREA_DATA_ATTRS.code]: payload.code,
+                [AREA_DATA_ATTRS.Object_Code]: payload.Object_Code,
+                [AREA_DATA_ATTRS.Cached_Title]: payload.Cached_Title,
             })
             .run()
 
@@ -80,24 +83,28 @@ const ObjectAreaAnnotateModal = () => {
                     .
                 </>
             }>
-            <Formik
-                onSubmit={handleSubmit}
-                initialValues={initialValues}
-                enableReinitialize
-                validationSchema={toFormikValidationSchema(
-                    SCHEMA_OBJECT_ANNOTATE_AREA
-                )}>
-                {props => <InnerForm {...props} />}
-            </Formik>
+            {!isLoading ? (
+                <Formik
+                    onSubmit={handleSubmit}
+                    initialValues={initialValues}
+                    enableReinitialize
+                    validationSchema={toFormikValidationSchema(
+                        SCHEMA_OBJECT_ANNOTATE_AREA
+                    )}>
+                    {props => <InnerForm {...props} />}
+                </Formik>
+            ) : (
+                <LoaderSpinner />
+            )}
         </Modal>
     )
 }
 
 const InnerForm = <TData extends Values>({
     dirty,
-    values,
     isSubmitting,
     isValid,
+    values,
     setFieldValue,
 }: FormikProps<TData>) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
@@ -119,7 +126,6 @@ const InnerForm = <TData extends Values>({
         <Form>
             <div className="mb-4 flex flex-col gap-4">
                 <DynamicObjectSearch
-                    fieldName="code"
                     filterType={['gebiedsaanwijzing']}
                     filterOnModule
                     status="all"
@@ -128,6 +134,21 @@ const InnerForm = <TData extends Values>({
                     placeholder="Selecteer een gebiedsaanwijzing"
                     objectKey="Object_Code"
                     blurInputOnSelect
+                    initialOptions={[values.Object_Code]}
+                    defaultValue={values.Object_Code}
+                    onChange={val => {
+                        if (Array.isArray(val)) {
+                            setFieldValue(
+                                'Cached_Title',
+                                val[0].object?.Model.Title ?? ''
+                            )
+                        } else {
+                            setFieldValue(
+                                'Cached_Title',
+                                val?.object?.Model.Title ?? ''
+                            )
+                        }
+                    }}
                     components={{
                         DropdownIndicator: () => (
                             <div className="mr-2">

@@ -82,12 +82,12 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
         { type: 'nationaal_belang', key: 'NationaleBelangen' },
         { type: 'beleidsdoel', key: 'Beleidsdoelen' },
     ],
-    connectionsDescription: (
+    connectionsDescription: object => (
         <>
-            Binnen het omgevingsbeleid bestaan koppelingen en relaties. Een
-            relatie wordt aangegaan tussen beleidskeuzes inclusief een
-            duidelijke motivering en een koppeling kan met alle niveaus binnen
-            het omgevingsbeleid. Bekijk voor het volledige overzicht het{' '}
+            Deze beleidskeuze hoort bij het beleidsdoel '{object}'. De
+            beleidskeuze is uitgewerkt in maatregelen. Een maatregel beschrijft
+            wat de provincie doet om de beleidskeuze tot uitvoering brengen.
+            Bekijk voor het volledige overzicht het{' '}
             <Hyperlink asChild>
                 <Link to="/beleidsnetwerk">beleidsnetwerk</Link>
             </Hyperlink>
