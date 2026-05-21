@@ -932,6 +932,7 @@ export interface VisieAlgemeenFull {
     Created_Date?: string
     Description?: string
     End_Validity?: VisieAlgemeenFullEndValidity
+    Gebiedsaanwijzingen_Statics?: ObjectStatics[]
     Modified_By?: VisieAlgemeenFullModifiedBy
     Modified_Date?: string
     Next_Version?: VisieAlgemeenFullNextVersion
@@ -1564,7 +1565,6 @@ export interface PublicationShort {
     Module_ID: number
     Procedure_Type: string
     Template_UUID?: PublicationShortTemplateUUID
-    Title: string
     UUID: string
 }
 
@@ -1623,13 +1623,10 @@ export interface PublicationEnvironment {
     UUID: string
 }
 
-export type PublicationEditTitle = string | null
-
 export type PublicationEditTemplateUUID = string | null
 
 export interface PublicationEdit {
     Template_UUID?: PublicationEditTemplateUUID
-    Title?: PublicationEditTitle
 }
 
 export interface PublicationCreatedResponse {
@@ -1643,7 +1640,6 @@ export interface PublicationCreate {
     Module_ID: number
     Procedure_Type: ProcedureType
     Template_UUID: string
-    Title: string
 }
 
 export type PublicationAnnouncementShortMetadata = { [key: string]: unknown }
@@ -1873,7 +1869,6 @@ export interface Publication {
     Module_ID: number
     Procedure_Type: string
     Template_UUID?: PublicationTemplateUUID
-    Title: string
     UUID: string
 }
 
@@ -1987,6 +1982,7 @@ export interface ProgrammaAlgemeenFull {
     Created_Date?: string
     Description?: string
     End_Validity?: ProgrammaAlgemeenFullEndValidity
+    Gebiedsaanwijzingen_Statics?: ObjectStatics[]
     Modified_By?: ProgrammaAlgemeenFullModifiedBy
     Modified_Date?: string
     Next_Version?: ProgrammaAlgemeenFullNextVersion
@@ -3022,6 +3018,7 @@ export interface MaatregelFull {
     End_Validity?: MaatregelFullEndValidity
     Gebiedengroep_Code?: MaatregelFullGebiedengroepCode
     Gebiedengroep_Static?: MaatregelFullGebiedengroepStatic
+    Gebiedsaanwijzingen_Statics?: ObjectStatics[]
     Gebiedsprogrammas?: ReadRelationShortGebiedsprogrammaMinimal[]
     Hierarchy_Code?: string
     Hierarchy_Statics?: MaatregelFullHierarchyStatics
@@ -4366,6 +4363,7 @@ export interface BeleidskeuzeFull {
     Explanation?: string
     Gebiedengroep_Code?: BeleidskeuzeFullGebiedengroepCode
     Gebiedengroep_Static?: BeleidskeuzeFullGebiedengroepStatic
+    Gebiedsaanwijzingen_Statics?: ObjectStatics[]
     Hierarchy_Children?: HierachyReference[]
     Hierarchy_Code?: string
     Hierarchy_Statics?: BeleidskeuzeFullHierarchyStatics
@@ -4539,6 +4537,7 @@ export interface BeleidsdoelFull {
     Created_Date?: string
     Description?: string
     End_Validity?: BeleidsdoelFullEndValidity
+    Gebiedsaanwijzingen_Statics?: ObjectStatics[]
     Hierarchy_Children?: HierachyReference[]
     Hierarchy_Code?: string
     Hierarchy_Statics?: BeleidsdoelFullHierarchyStatics
@@ -4770,6 +4769,7 @@ export interface AmbitieFull {
     Created_Date?: string
     Description?: string
     End_Validity?: AmbitieFullEndValidity
+    Gebiedsaanwijzingen_Statics?: ObjectStatics[]
     Hierarchy_Children?: HierachyReference[]
     Modified_By?: AmbitieFullModifiedBy
     Modified_Date?: string

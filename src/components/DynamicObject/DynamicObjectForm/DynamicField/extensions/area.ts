@@ -1,7 +1,8 @@
 import { Mark, mergeAttributes } from '@tiptap/core'
 
 export const AREA_DATA_ATTRS = {
-    code: 'data-code',
+    Object_Code: 'data-code',
+    Cached_Title: 'data-title',
 } as const
 
 type AreaAttributes = {
@@ -33,7 +34,8 @@ export const Area = Mark.create({
             HTMLAttributes: {
                 href: '#',
                 'data-hint-type': 'gebiedsaanwijzing',
-                [AREA_DATA_ATTRS.code]: null,
+                [AREA_DATA_ATTRS.Object_Code]: null,
+                [AREA_DATA_ATTRS.Cached_Title]: null,
             },
         }
     },
@@ -46,8 +48,13 @@ export const Area = Mark.create({
             'data-hint-type': {
                 default: this.options.HTMLAttributes['data-hint-type'],
             },
-            [AREA_DATA_ATTRS.code]: {
-                default: this.options.HTMLAttributes[AREA_DATA_ATTRS.code],
+            [AREA_DATA_ATTRS.Object_Code]: {
+                default:
+                    this.options.HTMLAttributes[AREA_DATA_ATTRS.Object_Code],
+            },
+            [AREA_DATA_ATTRS.Cached_Title]: {
+                default:
+                    this.options.HTMLAttributes[AREA_DATA_ATTRS.Cached_Title],
             },
         }
     },
@@ -55,7 +62,7 @@ export const Area = Mark.create({
     parseHTML() {
         return [
             {
-                tag: `a[${[AREA_DATA_ATTRS.code]}]`,
+                tag: `a[${[AREA_DATA_ATTRS.Object_Code]}]`,
             },
         ]
     },
