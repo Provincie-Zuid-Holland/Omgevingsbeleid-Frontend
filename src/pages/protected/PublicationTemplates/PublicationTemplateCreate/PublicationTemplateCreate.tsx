@@ -14,6 +14,7 @@ import { Model } from '@/config/objects/types'
 import model from '@/config/publicationTemplates'
 import MutateLayout from '@/templates/MutateLayout'
 import handleError from '@/utils/handleError'
+import { normalizeFieldMap } from '@/utils/normalizeFieldMap'
 import { toastNotification } from '@/utils/toastNotification'
 import { AxiosError } from 'axios'
 
@@ -53,6 +54,17 @@ const PublicationTemplateCreate = () => {
                     (acc[curr.key] = curr.value), acc
                 ),
                 {}
+            )
+        }
+
+        if (!!payload.Object_Field_Map?.length) {
+            payload.Object_Field_Map =
+                normalizeFieldMap(payload.Object_Field_Map as any) || {}
+        }
+
+        if (!!payload.Object_Types?.length) {
+            payload.Object_Types = (payload.Object_Types as any).map(
+                (item: { value: string }) => item.value
             )
         }
 
