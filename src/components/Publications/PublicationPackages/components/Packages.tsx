@@ -144,19 +144,17 @@ const Packages = ({
                                     {...item}
                                 />
                             ))}
-                            {!version.Is_Locked ||
+                            {(!version.Is_Locked ||
                                 (environment?.Is_Locked &&
-                                    packageType === 'publication' && (
-                                        <PackageCreate
-                                            createPackage={createPackage}
-                                            announcementUUID={
-                                                announcement?.UUID
-                                            }
-                                            inline
-                                            packageType={packageType}
-                                            isClosed={isClosed}
-                                        />
-                                    ))}
+                                    packageType === 'publication')) && (
+                                <PackageCreate
+                                    createPackage={createPackage}
+                                    announcementUUID={announcement?.UUID}
+                                    inline
+                                    packageType={packageType}
+                                    isClosed={isClosed}
+                                />
+                            )}
                         </>
                     )}
                 </div>
