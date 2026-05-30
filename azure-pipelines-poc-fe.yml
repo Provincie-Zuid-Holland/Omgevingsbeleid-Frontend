@@ -45,39 +45,8 @@ parameters:
       values: [none, dev]
 
 stages:
-    - stage: CI
-      displayName: 'CI – Validate'
-      condition: >
-          or(
-            eq(variables['Build.Reason'], 'PullRequest'),
-            eq(variables['Build.Reason'], 'Manual'),
-            startsWith(variables['Build.SourceBranch'], 'refs/heads/poc/hotfix/')
-          )
-      variables:
-          - group: vg-ob-fe-ci
-      jobs:
-          - job: Validate
-            displayName: 'Tests, coverage & security scan (SCA)'
-            steps:
-                - checkout: self
-                  clean: true
-                - template: templates/ci-node.yml
-                  parameters:
-                      nodeVersion: '22.x'
-                      buildOutputDir: 'dist'
-                      testCommand: 'yarn test:coverage'
-                      buildCommand: 'yarn build'
-                      testRunTitle: 'Omgevingsbeleid FE – Test Suite'
-                      runSecurityScan: true
-
     - stage: Build
-      displayName: 'Build – Application (ADR-004)'
-      dependsOn: CI
-      condition: >
-          and(
-            in(dependencies.CI.result, 'Succeeded', 'SucceededWithIssues', 'Skipped'),
-            ne(variables['Build.Reason'], 'PullRequest')
-          )
+      displayName: 'Build – Application'
       jobs:
           - job: BuildApp
             displayName: 'Node.js build + versioned artifact'
@@ -113,6 +82,17 @@ stages:
 
                 - script: yarn build
                   displayName: 'Build app (output: dist/)'
+
+                - script: yarn test:coverage
+                  displayName: 'Tests uitvoeren'
+
+                - task: PublishCodeCoverageResults@2
+                  displayName: 'Coverage publiceren'
+                  inputs:
+                      summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
+
+                - script: yarn npm audit --all --recursive || true
+                  displayName: 'Security scan (SCA)'
 
                 # - script: |
                 #     set -euo pipefail
