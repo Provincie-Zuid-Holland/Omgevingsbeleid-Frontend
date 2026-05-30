@@ -1,0 +1,199 @@
+# =============================================================================
+# azure-pipelines-poc-fe.yml  ·  v1.2
+# Platform Omgevingsbeleid – Frontend Pipeline (CI + Build + Dev)
+#
+# WIJZIGING t.o.v. v1.1 (ADR-007):
+#   De embedded dependency gate (resources.pipeline.obBackend.result in de
+#   Test/Acc/Prod-deployment-condities) is verwijderd. Deze gate implementeerde
+#   choreografie met structurele zwakheden: selectiviteitsgebrek, geen werkitem-
+#   specifieke garantie, en niet-testbare logica (Bass et al., 2012).
+#   Test/Acc/Prod-deployment is verplaatst naar azure-pipelines-orchestrator.yml,
+#   die orkestratie implementeert op basis van Azure Boards "Depends On"-relaties.
+#   Zie ADR-007 voor de volledige onderbouwing.
+#
+# Verantwoordelijkheid van deze pipeline:
+#   1. CI-validatie (lint, tests, npm-audit) op PR en hotfix/*
+#   2. Build (versioned artifact + release notes) op alle push-triggers
+#   3. Dev-deployment op develop-branch (onmiddellijk, onafhankelijk van BE)
+# =============================================================================
+
+# Geen pipeline resource voor obBackend meer nodig:
+# de orchestrator regelt de FE/BE-coördinatie.
+
+trigger:
+    branches:
+        include:
+            - 'poc/dev'
+            - 'poc/release/*'
+            - 'poc/hotfix/*'
+            - 'poc/main'
+    paths:
+        exclude: ['*.md', 'docs/**']
+
+pool:
+    name: 'PZH-Agent'
+
+variables:
+    NODE_OPTIONS: --max_old_space_size=4096
+    projectName: 'obzh-fe'
+
+parameters:
+    - name: deployEnvironment
+      displayName: 'Manual Dev-deploy'
+      type: string
+      default: none
+      values: [none, dev]
+
+stages:
+    - stage: CI
+      displayName: 'CI – Validate'
+      condition: >
+          or(
+            eq(variables['Build.Reason'], 'PullRequest'),
+            eq(variables['Build.Reason'], 'Manual'),
+            startsWith(variables['Build.SourceBranch'], 'refs/heads/poc/hotfix/')
+          )
+      variables:
+          - group: vg-ob-fe-ci
+      jobs:
+          - job: Validate
+            displayName: 'Tests, coverage & security scan (SCA)'
+            steps:
+                - checkout: self
+                  clean: true
+                - template: templates/ci-node.yml
+                  parameters:
+                      nodeVersion: '22.x'
+                      buildOutputDir: 'dist'
+                      testCommand: 'yarn test:coverage'
+                      buildCommand: 'yarn build'
+                      testRunTitle: 'Omgevingsbeleid FE – Test Suite'
+                      runSecurityScan: true
+
+    - stage: Build
+      displayName: 'Build – Application (ADR-004)'
+      dependsOn: CI
+      condition: >
+          and(
+            in(dependencies.CI.result, 'Succeeded', 'SucceededWithIssues', 'Skipped'),
+            ne(variables['Build.Reason'], 'PullRequest')
+          )
+      jobs:
+          - job: BuildApp
+            displayName: 'Node.js build + versioned artifact'
+            steps:
+                - checkout: self
+                  clean: true
+
+                - script: |
+                      set -euo pipefail
+                      SEMVER=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0-untagged")
+                      echo "##vso[task.setvariable variable=semVer;isOutput=true]$SEMVER"
+                      echo "SemVer: $SEMVER | Build: $(Build.BuildId)"
+                  name: versioning
+                  displayName: 'Semantic versioning (ADR-004)'
+
+                - task: NodeTool@0
+                  inputs:
+                      versionSpec: '22.x'
+                  displayName: 'Set Node.js 22.x'
+
+                - script: corepack enable
+                  displayName: 'Enable corepack'
+
+                - task: Cache@2
+                  inputs:
+                      key: 'yarn | "$(Agent.OS)" | yarn.lock'
+                      restoreKeys: 'yarn | "$(Agent.OS)"'
+                      path: .yarn/cache
+                  displayName: 'Recover yarn cache'
+
+                - script: yarn --immutable
+                  displayName: 'Install dependencies'
+
+                - script: yarn build
+                  displayName: 'Build app (output: dist/)'
+
+                # - script: |
+                #     set -euo pipefail
+                #     PREV=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || git rev-list --max-parents=0 HEAD)
+                #     NOTES="$(Build.ArtifactStagingDirectory)/release-notes-fe.md"
+                #     echo "# Release Notes FE – $(versioning.semVer)" > "$NOTES"
+                #     echo "**Datum:** $(date +%Y-%m-%d) | **Branch:** $(Build.SourceBranchName)" >> "$NOTES"
+                #     echo "" >> "$NOTES"
+                #     echo "## Gekoppelde werkitems" >> "$NOTES"
+                #     git log --pretty=format:"%s" "${PREV}..HEAD" \
+                #       | grep -oP 'AB#\d+' | sort -u | sed 's/^/- /' >> "$NOTES" \
+                #       || echo "_Geen AB#-referenties_" >> "$NOTES"
+                #     echo "" >> "$NOTES"
+                #     echo "## Commits" >> "$NOTES"
+                #     git log --pretty=format:"- %s" "${PREV}..HEAD" >> "$NOTES"
+                #   displayName: "Release notes genereren (R08)"
+                #   condition: >
+                #     or(
+                #       startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'),
+                #       startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix/')
+                #     )
+
+                - task: PublishBuildArtifacts@1
+                  displayName: 'Build artifact publiceren (versioned naam, ADR-004)'
+                  inputs:
+                      PathtoPublish: $(Build.SourcesDirectory)/dist
+                      ArtifactName: '$(projectName)_$(Build.SourceBranchName)_$(versioning.semVer)_$(Build.BuildId)'
+
+                - script: |
+                      ARTIFACT_NAME="$(projectName)_$(Build.SourceBranchName)_$(versioning.semVer)_$(Build.BuildId)"
+                      echo "##vso[task.setvariable variable=artifactName;isOutput=true]$ARTIFACT_NAME"
+                  name: artifactRef
+                  displayName: 'Export artifact name for Dev_Deploy'
+
+            # - task: PublishBuildArtifacts@1
+            #   displayName: "Release notes publiceren als artifact"
+            #   condition: >
+            #     or(
+            #       startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'),
+            #       startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix/')
+            #     )
+            #   inputs:
+            #     PathtoPublish: $(Build.ArtifactStagingDirectory)
+            #     ArtifactName: 'release-notes'
+
+    - stage: Dev_Deploy
+      displayName: 'Deploy Dev'
+      dependsOn: Build
+      condition: >
+          and(
+            in(dependencies.Build.result, 'Succeeded', 'SucceededWithIssues'),
+            or(
+              eq(variables['Build.SourceBranch'], 'refs/heads/poc/dev'),
+              and(eq(variables['Build.Reason'], 'Manual'), eq('${{ parameters.deployEnvironment }}', 'dev'))
+            )
+          )
+      variables:
+          - group: vg-poc-ob-fe-dev
+          - name: artifactName
+            value: $[ stageDependencies.Build.BuildApp.outputs['artifactRef.artifactName'] ]
+      jobs:
+          - deployment: Dev
+            displayName: 'Dev deployment'
+            environment: POC-Dev-FE
+            strategy:
+                runOnce:
+                    deploy:
+                        steps:
+                            - download: none
+                            - task: DownloadPipelineArtifact@2
+                              displayName: 'Download FE artifact'
+                              inputs:
+                                  source: current
+                                  artifactName: $(artifactName)
+                                  targetPath: '$(Pipeline.Workspace)/BuildedApp_$(Build.BuildId)'
+                            - template: azure-file-copy.yml
+                              parameters:
+                                  storageName: 'omgevingsbeleidontst'
+                            - script: |
+                                  echo "##vso[build.addbuildtag]deployed-dev-$(date +%Y%m%d)"
+                                  echo "DEV FE: $(date -u +%Y-%m-%dT%H:%M:%SZ) | $(Build.SourceBranchName)"
+                              displayName: 'Logging deployment timestamp (meetinfrastructuur §4.4)'
+# Test / Acc / Prod: gecoördineerd via azure-pipelines-orchestrator.yml (ADR-007)
+# De orchestrator downloadt het artifact via: download: obFrontend
