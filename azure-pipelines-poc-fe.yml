@@ -60,6 +60,7 @@ stages:
                           } catch { }
                           Write-Host "##vso[task.setvariable variable=semVer;isOutput=true]$semVer"
                           Write-Host "SemVer: $semVer | Build: $(Build.BuildId)"
+                          exit 0
 
                 - task: NodeTool@1
                   displayName: 'Set Node.js 22.x'
