@@ -51,8 +51,13 @@ stages:
                   inputs:
                       targetType: inline
                       script: |
-                          $semVer = git describe --tags --abbrev=0 2>$null
-                          if (-not $semVer) { $semVer = "v0.0.0-untagged" }
+                          $semVer = "v0.0.0-untagged"
+                          try {
+                              $tag = & git describe --tags --abbrev=0 2>$null
+                              if ($LASTEXITCODE -eq 0 -and $tag) {
+                                  $semVer = $tag.Trim()
+                              }
+                          } catch { }
                           Write-Host "##vso[task.setvariable variable=semVer;isOutput=true]$semVer"
                           Write-Host "SemVer: $semVer | Build: $(Build.BuildId)"
 
