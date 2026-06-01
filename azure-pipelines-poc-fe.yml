@@ -84,10 +84,10 @@ stages:
                   displayName: 'Build app (output: dist/)'
 
                 - script: yarn test:coverage
-                  displayName: 'Tests uitvoeren'
+                  displayName: 'Execute tests'
 
                 - task: PublishCodeCoverageResults@2
-                  displayName: 'Coverage publiceren'
+                  displayName: 'Publish coverage'
                   inputs:
                       summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
 
