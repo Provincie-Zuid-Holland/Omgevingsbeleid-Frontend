@@ -23,4 +23,12 @@ export const config = {
             label: 'Kennisgeving',
         },
     },
+    procedureType: {
+        draft: {
+            label: 'Ontwerp',
+        },
+        final: {
+            label: 'Definitief',
+        },
+    },
 }

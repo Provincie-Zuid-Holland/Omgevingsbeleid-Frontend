@@ -4,24 +4,6 @@ import { DocumentType, ProcedureType } from '@/api/fetchers.schemas'
 import createEmptyObject from '@/utils/createEmptyObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
-export const SCHEMA_PUBLICATION_STEPS = [
-    object({ Document_Type: schemaDefaults.requiredString() }),
-    object({ Procedure_Type: schemaDefaults.requiredString() }),
-    object({
-        Environment_UUID: schemaDefaults.requiredString(),
-    }),
-    object({
-        Act_UUID: schemaDefaults.requiredString(),
-        Template_UUID: schemaDefaults.requiredString(),
-    }),
-    object({
-        Title: schemaDefaults.requiredString(),
-    }),
-    object({
-        Module_Status_ID: schemaDefaults.requiredNumber(),
-    }),
-]
-
 export const SCHEMA_PUBLICATION = object({
     Module_ID: schemaDefaults.requiredNumber(),
     Title: schemaDefaults.requiredString(),
@@ -34,13 +16,11 @@ export const SCHEMA_PUBLICATION = object({
 })
 
 export const PUBLICATION_EDIT_SCHEMA = object({
-    Title: schemaDefaults.requiredString(),
     Template_UUID: schemaDefaults.requiredString(),
 })
 
 export const PUBLICATION_ADD_SCHEMA = object({
     Act_UUID: schemaDefaults.requiredString(),
-    Title: schemaDefaults.requiredString(),
     Template_UUID: schemaDefaults.requiredString(),
     Module_Status_ID: schemaDefaults.requiredNumber(),
 })
