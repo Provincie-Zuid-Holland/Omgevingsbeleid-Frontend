@@ -2,23 +2,13 @@
 # azure-pipelines-poc-fe.yml  ·  v1.2
 # Platform Omgevingsbeleid – Frontend Pipeline (CI + Build + Dev)
 #
-# WIJZIGING t.o.v. v1.1 (ADR-007):
-#   De embedded dependency gate (resources.pipeline.obBackend.result in de
-#   Test/Acc/Prod-deployment-condities) is verwijderd. Deze gate implementeerde
-#   choreografie met structurele zwakheden: selectiviteitsgebrek, geen werkitem-
-#   specifieke garantie, en niet-testbare logica (Bass et al., 2012).
-#   Test/Acc/Prod-deployment is verplaatst naar azure-pipelines-orchestrator.yml,
-#   die orkestratie implementeert op basis van Azure Boards "Depends On"-relaties.
-#   Zie ADR-007 voor de volledige onderbouwing.
-#
 # Verantwoordelijkheid van deze pipeline:
 #   1. CI-validatie (lint, tests, npm-audit) op PR en hotfix/*
-#   2. Build (versioned artifact + release notes) op alle push-triggers
-#   3. Dev-deployment op develop-branch (onmiddellijk, onafhankelijk van BE)
+#   2. Build (versioned artifact) op alle push-triggers
+#   3. Dev-deployment op develop-branch
 # =============================================================================
-
-# Geen pipeline resource voor obBackend meer nodig:
-# de orchestrator regelt de FE/BE-coördinatie.
+# Test / Acc / Prod: gecoördineerd via azure-pipelines-orchestrator.yml
+# De orchestrator downloadt het artifact en regelt de FE/BE-coördinatie.
 
 trigger:
     branches:
@@ -36,6 +26,7 @@ pool:
 variables:
     NODE_OPTIONS: --max_old_space_size=4096
     projectName: 'obzh-fe'
+    # AZURE_SUBSCRIPTION: instellen als pipeline-variabele in Azure DevOps
 
 parameters:
     - name: deployEnvironment
@@ -54,18 +45,21 @@ stages:
                 - checkout: self
                   clean: true
 
-                - script: |
-                      set -euo pipefail
-                      SEMVER=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0-untagged")
-                      echo "##vso[task.setvariable variable=semVer;isOutput=true]$SEMVER"
-                      echo "SemVer: $SEMVER | Build: $(Build.BuildId)"
+                - task: PowerShell@2
+                  displayName: 'Semantic versioning'
                   name: versioning
-                  displayName: 'Semantic versioning (ADR-004)'
+                  inputs:
+                      targetType: inline
+                      script: |
+                          $semVer = git describe --tags --abbrev=0 2>$null
+                          if (-not $semVer) { $semVer = "v0.0.0-untagged" }
+                          Write-Host "##vso[task.setvariable variable=semVer;isOutput=true]$semVer"
+                          Write-Host "SemVer: $semVer | Build: $(Build.BuildId)"
 
-                - task: NodeTool@0
+                - task: NodeTool@1
+                  displayName: 'Set Node.js 22.x'
                   inputs:
                       versionSpec: '22.x'
-                  displayName: 'Set Node.js 22.x'
 
                 - script: corepack enable
                   displayName: 'Enable corepack'
@@ -91,8 +85,9 @@ stages:
                   inputs:
                       summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
 
-                - script: yarn npm audit --all --recursive || true
+                - script: yarn npm audit --all --recursive
                   displayName: 'Security scan (SCA)'
+                  continueOnError: true
 
                 # - script: |
                 #     set -euo pipefail
@@ -115,17 +110,9 @@ stages:
                 #       startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix/')
                 #     )
 
-                - task: PublishBuildArtifacts@1
-                  displayName: 'Build artifact publiceren (versioned naam, ADR-004)'
-                  inputs:
-                      PathtoPublish: $(Build.SourcesDirectory)/dist
-                      ArtifactName: '$(projectName)_$(Build.SourceBranchName)_$(versioning.semVer)_$(Build.BuildId)'
-
-                - script: |
-                      ARTIFACT_NAME="$(projectName)_$(Build.SourceBranchName)_$(versioning.semVer)_$(Build.BuildId)"
-                      echo "##vso[task.setvariable variable=artifactName;isOutput=true]$ARTIFACT_NAME"
-                  name: artifactRef
-                  displayName: 'Export artifact name for Dev_Deploy'
+                - publish: $(Build.SourcesDirectory)/dist
+                  artifact: app
+                  displayName: 'Publish artifact (app)'
 
             # - task: PublishBuildArtifacts@1
             #   displayName: "Release notes publiceren als artifact"
@@ -151,12 +138,10 @@ stages:
           )
       variables:
           - group: vg-poc-ob-fe-dev
-          - name: artifactName
-            value: $[ stageDependencies.Build.BuildApp.outputs['artifactRef.artifactName'] ]
       jobs:
           - deployment: Dev
             displayName: 'Dev deployment'
-            environment: POC-Dev-FE
+            environment: POC-Dev
             strategy:
                 runOnce:
                     deploy:
@@ -172,8 +157,6 @@ stages:
                               parameters:
                                   storageName: 'omgevingsbeleidontst'
                             - script: |
-                                  echo "##vso[build.addbuildtag]deployed-dev-$(date +%Y%m%d)"
-                                  echo "DEV FE: $(date -u +%Y-%m-%dT%H:%M:%SZ) | $(Build.SourceBranchName)"
-                              displayName: 'Logging deployment timestamp (meetinfrastructuur §4.4)'
-# Test / Acc / Prod: gecoördineerd via azure-pipelines-orchestrator.yml (ADR-007)
-# De orchestrator downloadt het artifact via: download: obFrontend
+                                  echo "##vso[build.addbuildtag]deployed-dev-%DATE:~-4,4%%DATE:~-7,2%%DATE:~-10,2%"
+                                  echo DEV FE: %DATE% %TIME% | $(Build.SourceBranchName)
+                              displayName: 'Logging deployment timestamp
