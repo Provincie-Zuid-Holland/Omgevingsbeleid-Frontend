@@ -40,6 +40,8 @@ stages:
       displayName: 'Build – Application'
       jobs:
           - job: BuildApp
+            variables:
+                - group: vg-poc-ob-fe-dev
             displayName: 'Node.js build + versioned artifact'
             steps:
                 - checkout: self
