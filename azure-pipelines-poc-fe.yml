@@ -86,7 +86,7 @@ stages:
                   displayName: 'Build app (output: dist/)'
 
                 - script: yarn test:coverage
-                  displayName: 'Execute tests'
+                  displayName: 'Run tests'
 
                 - task: PublishCodeCoverageResults@2
                   displayName: 'Publish coverage'
@@ -118,7 +118,7 @@ stages:
                 #       startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix/')
                 #     )
 
-                - publish: $(Build.SourcesDirectory)/dist
+                - publish: $(Build.SourcesDirectory)/build
                   artifact: app
                   displayName: 'Publish artifact (app)'
 
