@@ -26,7 +26,7 @@ pool:
 variables:
     NODE_OPTIONS: --max_old_space_size=4096
     projectName: 'obzh-fe'
-    # AZURE_SUBSCRIPTION: instellen als pipeline-variabele in Azure DevOps
+    # AZURE_SUBSCRIPTION: assign as pipeline-variable in Azure DevOps
 
 parameters:
     - name: deployEnvironment
@@ -151,12 +151,15 @@ stages:
                               displayName: 'Download FE artifact'
                               inputs:
                                   source: current
-                                  artifactName: $(artifactName)
+                                  artifactName: app
                                   targetPath: '$(Pipeline.Workspace)/BuildedApp_$(Build.BuildId)'
                             - template: azure-file-copy.yml
                               parameters:
                                   storageName: 'omgevingsbeleidontst'
-                            - script: |
-                                  echo "##vso[build.addbuildtag]deployed-dev-%DATE:~-4,4%%DATE:~-7,2%%DATE:~-10,2%"
-                                  echo DEV FE: %DATE% %TIME% | $(Build.SourceBranchName)
-                              displayName: 'Logging deployment timestamp
+                            - task: PowerShell@2
+                              displayName: 'Logging deployment timestamp'
+                              inputs:
+                                  targetType: inline
+                                  script: |
+                                      Write-Host "##vso[build.addbuildtag]deployed-dev-$(Get-Date -Format 'yyyyMMdd')"
+                                      Write-Host "DEV FE: $(Get-Date -Format 'yyyy-MM-ddTHH:mm:ssZ') | $(Build.SourceBranchName)"
