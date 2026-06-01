@@ -62,7 +62,7 @@ stages:
                           Write-Host "SemVer: $semVer | Build: $(Build.BuildId)"
                           exit 0
 
-                - task: NodeTool@1
+                - task: NodeTool@0
                   displayName: 'Set Node.js 22.x'
                   inputs:
                       versionSpec: '22.x'
