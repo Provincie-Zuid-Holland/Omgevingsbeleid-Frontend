@@ -77,7 +77,7 @@ stages:
                       path: .yarn/cache
                   displayName: 'Recover yarn cache'
 
-                - script: yarn
+                - script: yarn --immutable
                   displayName: 'Install dependencies'
 
                 - script: yarn build
