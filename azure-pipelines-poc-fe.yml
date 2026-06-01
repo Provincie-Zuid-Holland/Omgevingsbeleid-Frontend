@@ -77,18 +77,14 @@ stages:
                       path: .yarn/cache
                   displayName: 'Recover yarn cache'
 
-                - task: CmdLine@2
+                - script: yarn
                   displayName: 'Install dependencies'
-                  inputs:
-                      script: 'yarn --immutable'
 
                 - script: yarn build
                   displayName: 'Build app (output: dist/)'
 
-                - task: CmdLine@2
-                  displayName: Run tests
-                  inputs:
-                      script: yarn test:coverage
+                - script: yarn test:coverage
+                  displayName: 'Execute tests'
 
                 - task: PublishCodeCoverageResults@2
                   displayName: 'Publish coverage'
