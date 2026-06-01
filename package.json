@@ -115,6 +115,6 @@
     "msw": {
         "workerDirectory": "public"
     },
-    "packageManager": "yarn@4.6.0",
+    "packageManager": "yarn@4.0.1",
     "prettier": "@pzh-ui/config/prettier"
 }
