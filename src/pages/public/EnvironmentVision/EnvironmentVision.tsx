@@ -9,17 +9,25 @@ import { LoaderSpinner } from '@/components/Loader'
 import PageHero from '@/components/PageHero'
 import model from '@/config/objects/visieAlgemeen'
 import imgEnvironmentProgram from '@/images/environment-program.webp'
-import { useWindowSize } from '@react-hookz/web'
+import { ArrowUpRightFromSquare } from '@pzh-ui/icons'
 
 const META = {
     title: 'Omgevingsvisie',
     description:
         'De Omgevingsvisie van Zuid-Holland bestaat uit enkele inleidende hoofdstukken, gevolgd door de provinciale ambities, beleidsdoelen en beleidskeuzes.',
+    externalUrls: [
+        {
+            title: 'Lokale wet en regelgeving',
+            url: 'https://lokaleregelgeving.overheid.nl/CVDR719176',
+        },
+        {
+            title: 'Regels op de kaart',
+            url: 'https://omgevingswet.overheid.nl/regels-op-de-kaart/documenten/_akn_nl_act_pv28_2024_omgevingsvisie_1/overzicht',
+        },
+    ],
 }
 
 function EnvironmentVision() {
-    const { width } = useWindowSize()
-
     const { data, isFetching } = useVisieAlgemeenListValidLineages(
         { limit: 100 },
         {
@@ -48,9 +56,11 @@ function EnvironmentVision() {
             <PageHero image={imgEnvironmentProgram} />
 
             <Container className="overflow-hidden pb-20">
-                <div className="col-span-6 lg:col-span-4">
+                <div className="col-span-6 mb-10">
                     <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
-                    <Heading level="1" size="xxl" className="mt-4">
+                </div>
+                <div className="col-span-6 lg:col-span-4">
+                    <Heading level="1" size="xxl">
                         Omgevingsvisie
                     </Heading>
                     <Text size="l" className="mt-4">
@@ -66,6 +76,34 @@ function EnvironmentVision() {
                         wordt verder uitgewerkt in de ambities, beleidsdoelen en
                         beleidskeuzes.
                     </Text>
+                </div>
+                <div className="col-span-6 mt-8 lg:col-span-2 lg:mt-0">
+                    <div className="bg-pzh-gray-200 p-6">
+                        <Text
+                            bold
+                            size="l"
+                            color="text-pzh-blue-500"
+                            className="mb-2 leading-[1]">
+                            De omgevingsvisie op
+                        </Text>
+                        <div className="flex flex-col">
+                            {META.externalUrls.map(link => (
+                                <ListLink
+                                    key={link.url}
+                                    href={link.url}
+                                    target="_blank"
+                                    rel="noreffere noopener">
+                                    {link.title}
+                                    <ArrowUpRightFromSquare
+                                        className="ml-2"
+                                        aria-label="opent een nieuwe browsertab"
+                                    />
+                                </ListLink>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+                <div className="col-span-6 lg:col-span-4">
                     <Heading level="2" className="mt-8">
                         Inleidende hoofdstukken
                     </Heading>
