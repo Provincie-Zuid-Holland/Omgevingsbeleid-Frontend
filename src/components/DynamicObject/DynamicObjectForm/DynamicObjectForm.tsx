@@ -94,7 +94,7 @@ const ObjectForm = <TData extends FormikValues>({
 
     return (
         <>
-            <Form>
+            <Form noValidate>
                 <div className="grid grid-cols-6 gap-x-10 gap-y-0">
                     {sections?.map((section, index) => (
                         <DynamicSection
