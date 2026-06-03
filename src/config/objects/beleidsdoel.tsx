@@ -85,7 +85,6 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
     ),
     dynamicSections: [
         {
-            title: 'Algemene informatie',
             description:
                 'In deze sectie kun je alle tekst met betrekking tot het beleidsdoel kwijt. Een goede omschrijving is kort, krachtig en actief opgeschreven.',
             fields: [
@@ -111,7 +110,6 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
             ],
         },
         {
-            title: 'Primaire koppeling',
             fields: [
                 {
                     name: 'Hierarchy_Code',

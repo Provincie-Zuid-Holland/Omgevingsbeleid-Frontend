@@ -54,9 +54,6 @@ const document: DynamicObject<typeof fetchers> = {
     fetchers,
     dynamicSections: [
         {
-            title: 'Titel en bestandsnaam',
-            description:
-                'De titel van het document, is wat we standaard tonen. De bestandsnaam is hoe het document heet als een gebruiker het bestand bekijkt of download.',
             fields: [
                 {
                     name: 'Title',
@@ -86,12 +83,6 @@ const document: DynamicObject<typeof fetchers> = {
                     customMenuOptions: ['heading'],
                     required: true,
                 },
-            ],
-        },
-        {
-            title: 'Bestand uploaden',
-            description: 'Selecteer hier het daadwerkelijke bestand.',
-            fields: [
                 {
                     name: 'File_UUID',
                     label: 'Bestand',

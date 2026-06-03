@@ -54,9 +54,6 @@ const gebiedengroep: DynamicObject<typeof fetchers> = {
     fetchers,
     dynamicSections: [
         {
-            title: 'Algemene informatie',
-            description:
-                'In deze sectie kun je alle tekst met betrekking tot de gebiedengroep kwijt. Een goede omschrijving is kort, krachtig en actief opgeschreven.',
             fields: [
                 {
                     name: 'Title',
@@ -75,11 +72,6 @@ const gebiedengroep: DynamicObject<typeof fetchers> = {
                     type: 'wysiwyg',
                     customMenuOptions: ['heading'],
                 },
-            ],
-        },
-        {
-            title: 'Geodata',
-            fields: [
                 {
                     name: 'Source_UUID',
                     label: 'Geodata koppelen',

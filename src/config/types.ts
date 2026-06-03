@@ -28,8 +28,6 @@ type DynamicFieldType =
     | 'areaAnnotate'
 
 export type DynamicSection<FieldType = string> = {
-    /** Title of section */
-    title: string
     /** Description of section */
     description?: string
     /** Fields in section */

@@ -57,9 +57,6 @@ const visieAlgemeen: DynamicObject<typeof fetchers> = {
     fetchers,
     dynamicSections: [
         {
-            title: 'Algemene informatie',
-            description:
-                'In deze sectie kun je alle tekst met betrekking tot de visie algemeen kwijt.',
             fields: [
                 {
                     name: 'Title',

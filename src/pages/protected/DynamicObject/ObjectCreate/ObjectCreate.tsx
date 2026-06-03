@@ -123,7 +123,7 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
         <MutateLayout
             title={`${singularCapitalize} toevoegen`}
             breadcrumbs={breadcrumbPaths}>
-            <div className="col-span-6">
+            <div className="col-span-6 lg:col-span-4 lg:col-start-2">
                 <Heading level="1" size="xxl" className="mb-8">
                     {singularCapitalize} toevoegen
                 </Heading>

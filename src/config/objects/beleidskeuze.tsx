@@ -97,8 +97,6 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
     acknowledgedRelation: 'beleidskeuze',
     dynamicSections: [
         {
-            title: 'Algemene informatie',
-            description: 'De algemene informatie bevat een duidelijke titel.',
             fields: [
                 {
                     name: 'Title',
@@ -109,13 +107,6 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                     required: true,
                     validation: schemaDefaults.title,
                 },
-            ],
-        },
-        {
-            title: 'Beleidstekst',
-            description:
-                'In deze sectie kun je alle tekst met betrekking tot de beleidskeuze kwijt. Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct welke keuze de provincie maakt en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',
-            fields: [
                 {
                     name: 'Description',
                     label: 'Wat wil de provincie bereiken?',
@@ -191,13 +182,6 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                         },
                     },
                 },
-            ],
-        },
-        {
-            title: 'Gebiedengroep',
-            description:
-                'De gebiedengroep geeft het gebied weer waar de beleidskeuze betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld, toegestaan of juist verboden.',
-            fields: [
                 {
                     name: 'Ambtsgebied',
                     label: 'Selecteer de gebiedengroep',
@@ -241,11 +225,6 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                     },
                     conditionalField: 'Ambtsgebied',
                 },
-            ],
-        },
-        {
-            title: 'Primaire koppeling',
-            fields: [
                 {
                     name: 'Hierarchy_Code',
                     label: 'Beleidsdoel',

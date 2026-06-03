@@ -1,10 +1,4 @@
-import {
-    FormikInput,
-    FormikSelect,
-    FormikTextArea,
-    Heading,
-    Text,
-} from '@pzh-ui/components'
+import { FormikInput, FormikSelect, FormikTextArea } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
 
@@ -56,17 +50,7 @@ const FormBasicInfo = () => {
 
     return (
         <>
-            <div className="col-span-6 sm:col-span-2">
-                <Heading level="2" size="m" className="mb-3">
-                    Algemene informatie
-                </Heading>
-                <Text>
-                    De algemene informatie bevat een duidelijke titel en
-                    moduletrekkers.
-                </Text>
-            </div>
-
-            <div className="col-span-6 pt-[42px] sm:col-span-4">
+            <div className="col-span-6">
                 <FormikInput
                     name="Title"
                     label="Titel"

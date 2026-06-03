@@ -54,9 +54,6 @@ const gebiedsaanwijzing: DynamicObject<typeof fetchers> = {
     fetchers,
     dynamicSections: [
         {
-            title: 'Gebiedsaanwijzing',
-            description:
-                'Een gebiedsaanwijzing wordt gebruikt als een annotatie waarmee nadere informatie kan worden toegevoegd aan een gebied dat is aangewezen door een juridische regel of een tekstdeel.',
             fields: [
                 {
                     name: 'Title',

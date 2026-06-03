@@ -59,7 +59,7 @@ const ModuleCreate = () => {
 
     return (
         <MutateLayout title="Module aanmaken" breadcrumbs={breadcrumbPaths}>
-            <div className="col-span-6">
+            <div className="col-span-6 lg:col-span-4 lg:col-start-2">
                 <Formik
                     onSubmit={handleSubmit}
                     validateOnBlur={false}
