@@ -64,7 +64,7 @@ const PublicationTemplateCreate = () => {
 
         if (!!payload.Object_Types?.length) {
             payload.Object_Types = (payload.Object_Types as any).map(
-                (item: { value: string }) => item.value
+                (item: any) => (typeof item === 'string' ? item : item.value)
             )
         }
 
