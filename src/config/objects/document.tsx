@@ -58,6 +58,9 @@ const document: DynamicObject<typeof fetchers> = {
                 {
                     name: 'Title',
                     label: 'Titel',
+                    description:
+                        'Formuleer in enkele woorden de titel van het document. Deze titel is wat we standaard tonen.',
+                    placeholder: 'Bijv. ‘KRW Nota’',
                     type: 'text',
                     required: true,
                     validation: schemaDefaults.title,
@@ -66,7 +69,7 @@ const document: DynamicObject<typeof fetchers> = {
                     name: 'Filename',
                     label: 'Bestandsnaam',
                     description:
-                        'Voer een bestandsnaam in die enkel uit letters, cijfers, minnetjes en punten bestaat. Deze bestandsnaam wordt gebruikt bij de publicatie naar de landelijke voorziening.',
+                        'De bestandsnaam is hoe het document heet als een gebruiker het bestand bekijkt of downloadt. Voer een bestandsnaam in die enkel uit letters, cijfers, minnetjes en punten bestaat. Deze bestandsnaam wordt gebruikt bij de publicatie naar de landelijke voorziening.',
                     type: 'text',
                     required: true,
                     validation: schemaDefaults
@@ -79,6 +82,8 @@ const document: DynamicObject<typeof fetchers> = {
                 {
                     name: 'Description',
                     label: 'Omschrijving',
+                    description:
+                        'Geef kort en bondig aan waar het document over gaat.',
                     type: 'wysiwyg',
                     customMenuOptions: ['heading'],
                     required: true,
@@ -86,6 +91,9 @@ const document: DynamicObject<typeof fetchers> = {
                 {
                     name: 'File_UUID',
                     label: 'Bestand',
+                    description:
+                        'Upload hier het daadwerkelijke .pdf bestand. Let op dat het ‘auteur’ veld in de meta-data van het bestand geen naam van jou of een collega bevat.',
+                    placeholder: 'Selecteer een bestand om te uploaden',
                     type: 'file',
                     required: true,
                 },

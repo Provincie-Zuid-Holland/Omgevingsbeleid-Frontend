@@ -87,7 +87,7 @@ const gebiedsprogramma: DynamicObject<typeof fetchers> = {
                     name: 'Title',
                     label: 'Titel',
                     description:
-                        'Formuleer in enkele woorden de titel van de ambitie.',
+                        'Formuleer in enkele woorden de titel van het gebiedsprogramma.',
                     type: 'text',
                     required: true,
                     validation: schemaDefaults.title,

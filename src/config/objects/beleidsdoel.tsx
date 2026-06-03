@@ -85,8 +85,6 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
     ),
     dynamicSections: [
         {
-            description:
-                'In deze sectie kun je alle tekst met betrekking tot het beleidsdoel kwijt. Een goede omschrijving is kort, krachtig en actief opgeschreven.',
             fields: [
                 {
                     name: 'Title',
@@ -101,7 +99,7 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
                     name: 'Description',
                     label: 'Omschrijving',
                     description:
-                        'Geef een korte omschrijving van dit beleidsdoel.',
+                        'Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct wat de provincie gaat doen en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',
                     type: 'wysiwyg',
                     customMenuOptions: ['heading'],
                     required: true,
@@ -113,7 +111,9 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
             fields: [
                 {
                     name: 'Hierarchy_Code',
-                    label: 'Ambitie',
+                    label: 'Koppel aan ambitie',
+                    description:
+                        'Geef aan uit welke ambitie dit beleidsdoel voortkomt.',
                     type: 'search',
                     required: true,
                     objectKey: 'Object_Code',

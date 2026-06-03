@@ -97,12 +97,16 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
     acknowledgedRelation: 'beleidskeuze',
     dynamicSections: [
         {
+            description:
+                'Een beleidskeuze is een uitwerking van het beleidsdoel. Een beleidskeuze beschrijft welk effect (outcome) wordt beoogd en wat er nodig is om van de huidige naar de gewenste situatie te komen. In de beleidskeuze wordt door PS bepaald wat de provinciale rol is die wordt ingenomen om het gewenste effect te bereiken. Om een beleidsdoel te bereiken kan PS meerdere Maatregelen maken. Een beleidskeuze richt zich op de middellange termijn (zo’n 5 jaar).',
             fields: [
                 {
                     name: 'Title',
                     label: 'Titel',
                     description:
-                        'Formuleer in enkele woorden de titel van de beleidskeuze.',
+                        'De titel moet de lading dekken van het onderwerp en een richting aangeven in maximaal 10 woorden.',
+                    placeholder:
+                        "Bijv. 'Transitie havencomplex', ’Nieuwe natuur realiseren’, ‘Stikstofreductie’",
                     type: 'text',
                     required: true,
                     validation: schemaDefaults.title,
@@ -110,8 +114,21 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                 {
                     name: 'Description',
                     label: 'Wat wil de provincie bereiken?',
-                    description:
-                        'Hier geef je aan welke keuze de provincie heeft genomen. Formuleer in één of enkele zinnen wat de provincie wil bereiken en welke rechtsgevolgen dit eventueel heeft voor derden.',
+                    description: (
+                        <>
+                            Beperk je tot de hoofdlijnen en werk het beleid
+                            verder uit onder het kopje ‘Nadere uitwerking’, of
+                            breng de invulling van het beleid onder in het
+                            programma (GS).
+                            <br />
+                            <br />
+                            Benut voor het schrijven van dit onderdeel de
+                            beleidstheorie. Beschrijf de effecten wat bij
+                            anderen/in de maatschappij wordt beoogd en wordt
+                            veroorzaakt door onze inzet. Gebruik hiervoor zo’n
+                            10 zinnen.
+                        </>
+                    ),
                     type: 'wysiwyg',
                     required: true,
                     hasAreaSelect: true,
@@ -128,9 +145,9 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                 },
                 {
                     name: 'Cause',
-                    label: 'Aanleiding',
+                    label: 'Inhoudelijke aanleiding',
                     description:
-                        'De aanleiding geeft de lezer informatie over welke ontwikkelingen gaande zijn in de maatschappij en waarom de provincie hier op inspeelt. Beschrijf hier welk probleem, dreiging of kans ten grondslag ligt aan de beleidskeuze.',
+                        'Beschrijf beknopt de inhoudelijke aanleiding van de beleidskeuze. Welk probleem/dreiging of welke kans ligt ten grondslag aan deze beleidskeuze? Met andere woorden, waarom vinden wij dit belangrijk?',
                     type: 'wysiwyg',
                     required: true,
                     hasAreaSelect: true,
@@ -147,9 +164,9 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                 },
                 {
                     name: 'Provincial_Interest',
-                    label: 'Motivering provinciaal belang',
+                    label: 'Provinciaal belang',
                     description:
-                        'Beschrijf waarom de provincie deze keuze maakt en waarom dit niet (enkel) kan worden overgelaten aan andere overheden. Vanuit juridisch perspectief is het belangrijk om het provinciaal belang te definiëren. Zie ook artikel 2.3 van de Omgevingswet.',
+                        'Beschrijf waarom de provincie een rol voor zichzelf ziet bij het oplossen van deze maatschappelijke opgave.',
                     type: 'wysiwyg',
                     required: true,
                     hasAreaSelect: true,
@@ -167,8 +184,20 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                 {
                     name: 'Explanation',
                     label: 'Nadere uitwerking',
-                    description:
-                        'Op welke thema’s, onderwerpen en gebieden gaat de beleidskeuze iets wijzigen, en waarom is dit gewenst? Beschrijf ook de relatie met andere beleidsterreinen.',
+                    description: (
+                        <>
+                            Een uitwerking in dit veld is noodzakelijk wanneer
+                            er bij ‘Wat wil de provincie bereiken?’ niet
+                            voldoende ruimte is. Naast een uitwerking in de
+                            beleidskeuze heeft PS ook de mogelijkheid om sturing
+                            aan te brengen in de verordening.
+                            <br />
+                            <br />
+                            Werk op hoofdlijnen uit met welke instrumenteninzet
+                            en rolkeuze de provincie de beleidskeuze wil
+                            bereiken.
+                        </>
+                    ),
                     type: 'wysiwyg',
                     hasAreaSelect: true,
                     customMenuOptions: ['heading', 'image'],
@@ -227,7 +256,9 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                 },
                 {
                     name: 'Hierarchy_Code',
-                    label: 'Beleidsdoel',
+                    label: 'Koppel aan beleidsdoel',
+                    description:
+                        'Geef aan uit welk beleidsdoel deze beleidskeuze voortkomt.',
                     type: 'search',
                     required: true,
                     objectKey: 'Object_Code',

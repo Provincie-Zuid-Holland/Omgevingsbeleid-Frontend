@@ -60,6 +60,9 @@ const verplichtProgramma: DynamicObject<typeof fetchers> = {
                 {
                     name: 'Title',
                     label: 'Titel',
+                    description:
+                        'Formuleer in enkele woorden de titel van het verplicht programma.',
+                    placeholder: "Bijv. 'Regionaal waterprogramma'",
                     type: 'text',
                     required: true,
                     validation: schemaDefaults.title,
@@ -78,7 +81,7 @@ const verplichtProgramma: DynamicObject<typeof fetchers> = {
                     label: 'Koppelingen',
                     type: 'connections',
                     description:
-                        'Geef aan welke onderdelen gekoppeld moeten worden aan dit verplichte programma.',
+                        'Een verplicht programma is veelal gekoppeld met maatregelen en wettelijke taken. Geef aan welke onderdelen gekoppeld moeten worden aan dit verplichte programma',
                     allowedConnections: [
                         {
                             key: 'Maatregelen',

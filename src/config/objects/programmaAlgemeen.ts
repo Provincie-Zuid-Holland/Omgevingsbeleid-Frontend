@@ -61,6 +61,8 @@ const programmaAlgemeen: DynamicObject<typeof fetchers> = {
                 {
                     name: 'Title',
                     label: 'Titel',
+                    description:
+                        'Formuleer in enkele woorden de titel van het programma algemeen.',
                     type: 'text',
                     required: true,
                     validation: schemaDefaults.title,
@@ -68,6 +70,8 @@ const programmaAlgemeen: DynamicObject<typeof fetchers> = {
                 {
                     name: 'Description',
                     label: 'Inhoud',
+                    description:
+                        'Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct wat de provincie gaat doen en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',
                     type: 'wysiwyg',
                     required: true,
                     hasAreaSelect: true,

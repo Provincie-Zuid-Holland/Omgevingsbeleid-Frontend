@@ -22,7 +22,12 @@ const DynamicSection = ({
 }) => (
     <>
         <div className="col-span-6">
-            {description && <Text className="mb-4">{description}</Text>}
+            {description && (
+                <>
+                    <Text className="mb-4">{description}</Text>
+                    <Divider className="my-8" />
+                </>
+            )}
 
             {fields.map((field, index) => (
                 <DynamicField
