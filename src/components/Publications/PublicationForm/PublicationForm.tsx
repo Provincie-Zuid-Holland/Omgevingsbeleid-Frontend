@@ -1,4 +1,4 @@
-import { Button, FormikInput, FormikSelect } from '@pzh-ui/components'
+import { Button, FormikSelect } from '@pzh-ui/components'
 import {
     Form,
     Formik,
@@ -195,14 +195,6 @@ const Fields = ({ type }: PublicationFormProps) => {
                     label="Publicatie template"
                     options={publicationTemplateOptions}
                     placeholder="Selecteer een publicatie template"
-                    required
-                />
-            </div>
-            <div>
-                <FormikInput
-                    name="Title"
-                    label="Interne titel"
-                    placeholder="Bijvoorbeeld: Omgevingsvisie Herziening 2024"
                     required
                 />
             </div>

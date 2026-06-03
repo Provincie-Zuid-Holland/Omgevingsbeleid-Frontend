@@ -1749,7 +1749,6 @@ export const getPublicationAnnouncementsGetDetailAnnouncementResponseMock = (
             faker.helpers.arrayElement([faker.string.uuid(), null]),
             undefined,
         ]),
-        Title: faker.word.sample(),
         UUID: faker.string.uuid(),
     },
     UUID: faker.string.uuid(),
@@ -2139,7 +2138,6 @@ export const getPublicationVersionsGetDetailVersionResponseMock = (
             faker.helpers.arrayElement([faker.string.uuid(), null]),
             undefined,
         ]),
-        Title: faker.word.sample(),
         UUID: faker.string.uuid(),
     },
     Status: faker.helpers.arrayElement(Object.values(PublicationVersionStatus)),
@@ -2215,7 +2213,6 @@ export const getPublicationsGetListPublicationsResponseMock = (
             faker.helpers.arrayElement([faker.string.uuid(), null]),
             undefined,
         ]),
-        Title: faker.word.sample(),
         UUID: faker.string.uuid(),
     })),
     total: faker.number.int({ min: undefined, max: undefined }),
@@ -2250,7 +2247,6 @@ export const getPublicationsGetDetailPublicationResponseMock = (
         faker.helpers.arrayElement([faker.string.uuid(), null]),
         undefined,
     ]),
-    Title: faker.word.sample(),
     UUID: faker.string.uuid(),
     ...overrideResponse,
 })
@@ -2954,6 +2950,18 @@ export const getAmbitieViewObjectVersionResponseMock = (
         ]),
         undefined,
     ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
+        undefined,
+    ]),
     Hierarchy_Children: faker.helpers.arrayElement([
         Array.from(
             { length: faker.number.int({ min: 1, max: 10 }) },
@@ -3142,6 +3150,18 @@ export const getAmbitieViewObjectLatestResponseMock = (
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             null,
         ]),
+        undefined,
+    ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Hierarchy_Children: faker.helpers.arrayElement([
@@ -3474,6 +3494,18 @@ export const getAmbitieViewModuleObjectLatestResponseMock = (
         ]),
         undefined,
     ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
+        undefined,
+    ]),
     Hierarchy_Children: faker.helpers.arrayElement([
         Array.from(
             { length: faker.number.int({ min: 1, max: 10 }) },
@@ -3662,6 +3694,18 @@ export const getGetModulesObjectAmbitieVersionResponseMock = (
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             null,
         ]),
+        undefined,
+    ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Hierarchy_Children: faker.helpers.arrayElement([
@@ -3914,6 +3958,18 @@ export const getGetRevisionsAmbitieVersionResponseMock = (
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             null,
         ]),
+        undefined,
+    ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Hierarchy_Children: faker.helpers.arrayElement([
@@ -4305,6 +4361,18 @@ export const getBeleidsdoelViewObjectVersionResponseMock = (
         ]),
         undefined,
     ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
+        undefined,
+    ]),
     Hierarchy_Children: faker.helpers.arrayElement([
         Array.from(
             { length: faker.number.int({ min: 1, max: 10 }) },
@@ -4552,6 +4620,18 @@ export const getBeleidsdoelViewObjectLatestResponseMock = (
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             null,
         ]),
+        undefined,
+    ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Hierarchy_Children: faker.helpers.arrayElement([
@@ -4951,6 +5031,18 @@ export const getBeleidsdoelViewModuleObjectLatestResponseMock = (
         ]),
         undefined,
     ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
+        undefined,
+    ]),
     Hierarchy_Children: faker.helpers.arrayElement([
         Array.from(
             { length: faker.number.int({ min: 1, max: 10 }) },
@@ -5198,6 +5290,18 @@ export const getGetModulesObjectBeleidsdoelVersionResponseMock = (
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             null,
         ]),
+        undefined,
+    ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Hierarchy_Children: faker.helpers.arrayElement([
@@ -5509,6 +5613,18 @@ export const getGetRevisionsBeleidsdoelVersionResponseMock = (
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             null,
         ]),
+        undefined,
+    ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Hierarchy_Children: faker.helpers.arrayElement([
@@ -5924,6 +6040,18 @@ export const getBeleidskeuzeViewObjectVersionResponseMock = (
             },
             null,
         ]),
+        undefined,
+    ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Hierarchy_Children: faker.helpers.arrayElement([
@@ -6422,6 +6550,18 @@ export const getBeleidskeuzeViewObjectLatestResponseMock = (
             },
             null,
         ]),
+        undefined,
+    ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Hierarchy_Children: faker.helpers.arrayElement([
@@ -7162,6 +7302,18 @@ export const getBeleidskeuzeViewModuleObjectLatestResponseMock = (
         ]),
         undefined,
     ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
+        undefined,
+    ]),
     Hierarchy_Children: faker.helpers.arrayElement([
         Array.from(
             { length: faker.number.int({ min: 1, max: 10 }) },
@@ -7658,6 +7810,18 @@ export const getGetModulesObjectBeleidskeuzeVersionResponseMock = (
             },
             null,
         ]),
+        undefined,
+    ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Hierarchy_Children: faker.helpers.arrayElement([
@@ -8218,6 +8382,18 @@ export const getGetRevisionsBeleidskeuzeVersionResponseMock = (
             },
             null,
         ]),
+        undefined,
+    ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Hierarchy_Children: faker.helpers.arrayElement([
@@ -14646,6 +14822,18 @@ export const getMaatregelViewObjectVersionResponseMock = (
         ]),
         undefined,
     ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
+        undefined,
+    ]),
     Gebiedsprogrammas: faker.helpers.arrayElement([
         Array.from(
             { length: faker.number.int({ min: 1, max: 10 }) },
@@ -14983,6 +15171,18 @@ export const getMaatregelViewObjectLatestResponseMock = (
             },
             null,
         ]),
+        undefined,
+    ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Gebiedsprogrammas: faker.helpers.arrayElement([
@@ -15476,6 +15676,18 @@ export const getMaatregelViewModuleObjectLatestResponseMock = (
         ]),
         undefined,
     ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
+        undefined,
+    ]),
     Gebiedsprogrammas: faker.helpers.arrayElement([
         Array.from(
             { length: faker.number.int({ min: 1, max: 10 }) },
@@ -15813,6 +16025,18 @@ export const getGetModulesObjectMaatregelVersionResponseMock = (
             },
             null,
         ]),
+        undefined,
+    ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Gebiedsprogrammas: faker.helpers.arrayElement([
@@ -16214,6 +16438,18 @@ export const getGetRevisionsMaatregelVersionResponseMock = (
             },
             null,
         ]),
+        undefined,
+    ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Gebiedsprogrammas: faker.helpers.arrayElement([
@@ -16800,6 +17036,18 @@ export const getProgrammaAlgemeenViewObjectVersionResponseMock = (
         ]),
         undefined,
     ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
+        undefined,
+    ]),
     Modified_By: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
@@ -16907,6 +17155,18 @@ export const getProgrammaAlgemeenViewObjectLatestResponseMock = (
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             null,
         ]),
+        undefined,
+    ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Modified_By: faker.helpers.arrayElement([
@@ -17116,6 +17376,18 @@ export const getProgrammaAlgemeenViewModuleObjectLatestResponseMock = (
         ]),
         undefined,
     ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
+        undefined,
+    ]),
     Modified_By: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
@@ -17223,6 +17495,18 @@ export const getGetModulesObjectProgrammaAlgemeenVersionResponseMock = (
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             null,
         ]),
+        undefined,
+    ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Modified_By: faker.helpers.arrayElement([
@@ -17394,6 +17678,18 @@ export const getGetRevisionsProgrammaAlgemeenVersionResponseMock = (
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             null,
         ]),
+        undefined,
+    ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Modified_By: faker.helpers.arrayElement([
@@ -17880,6 +18176,18 @@ export const getVisieAlgemeenViewObjectVersionResponseMock = (
         ]),
         undefined,
     ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
+        undefined,
+    ]),
     Modified_By: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
@@ -17987,6 +18295,18 @@ export const getVisieAlgemeenViewObjectLatestResponseMock = (
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             null,
         ]),
+        undefined,
+    ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Modified_By: faker.helpers.arrayElement([
@@ -18196,6 +18516,18 @@ export const getVisieAlgemeenViewModuleObjectLatestResponseMock = (
         ]),
         undefined,
     ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
+        undefined,
+    ]),
     Modified_By: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
@@ -18303,6 +18635,18 @@ export const getGetModulesObjectVisieAlgemeenVersionResponseMock = (
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             null,
         ]),
+        undefined,
+    ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Modified_By: faker.helpers.arrayElement([
@@ -18474,6 +18818,18 @@ export const getGetRevisionsVisieAlgemeenVersionResponseMock = (
             `${faker.date.past().toISOString().split('.')[0]}Z`,
             null,
         ]),
+        undefined,
+    ]),
+    Gebiedsaanwijzingen_Statics: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Cached_Title: faker.word.sample(),
+            Code: faker.word.sample(),
+            Object_ID: faker.number.int({ min: undefined, max: undefined }),
+            Object_Type: faker.word.sample(),
+        })),
         undefined,
     ]),
     Modified_By: faker.helpers.arrayElement([

@@ -2,6 +2,7 @@ import {
     usePublicationEnvironmentsGetDetailEnvironment,
     usePublicationVersionsGetDetailVersion,
 } from '@/api/fetchers'
+import { buildVersionTitle } from '@/pages/protected/Packages/config'
 import { BackLink, Heading } from '@pzh-ui/components'
 import { Link, Outlet, useParams } from 'react-router-dom'
 
@@ -27,6 +28,8 @@ const DecisionDetail = () => {
             }
         )
 
+    const title = buildVersionTitle(version, environment)
+
     return (
         <div className="col-span-6 flex flex-col gap-6">
             <div>
@@ -39,10 +42,11 @@ const DecisionDetail = () => {
                 </BackLink>
             </div>
 
-            <Heading level="2" size="l">
-                {version?.Module_Status.Status} - {version?.Publication.Title} (
-                {environment?.Title})
-            </Heading>
+            {version && (
+                <Heading level="2" size="l">
+                    {title}
+                </Heading>
+            )}
 
             <Outlet />
         </div>
