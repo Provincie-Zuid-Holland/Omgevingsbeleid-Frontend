@@ -73,7 +73,7 @@ function EnvironmentProgram() {
                                     key={link.url}
                                     href={link.url}
                                     target="_blank"
-                                    rel="noreffere noopener">
+                                    rel="noreferrer noopener">
                                     {link.title}
                                     <ArrowUpRightFromSquare
                                         className="ml-2"
