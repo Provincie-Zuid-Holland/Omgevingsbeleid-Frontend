@@ -4,7 +4,7 @@ import {
     FieldLabel,
     FormikCheckbox,
     Heading,
-    Text,
+    Notification,
 } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers } from 'formik'
@@ -184,7 +184,7 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
         <MutateLayout
             title={`${singularCapitalize} bewerken`}
             breadcrumbs={breadcrumbPaths}>
-            <div className="col-span-6">
+            <div className="col-span-6 lg:col-span-4 lg:col-start-2">
                 <div className="mb-8 flex flex-wrap justify-between gap-2 align-middle">
                     <Heading level="1" size="xxl">
                         {singularCapitalize} bewerken
@@ -200,19 +200,9 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
                 />
 
                 <div className="grid grid-cols-6 gap-x-10 gap-y-0">
-                    <div className="col-span-6 my-6">
-                        <Divider />
-                    </div>
-                    <div className="col-span-6 sm:col-span-2">
-                        <Heading level="2" size="m" className="mb-3">
-                            {singularCapitalize} verwijderen
-                        </Heading>
-                        <Text>
-                            Verwijder {demonstrative} {singularReadable}.
-                        </Text>
-                    </div>
+                    <div className="col-span-6">
+                        <Divider className="my-8" />
 
-                    <div className="col-span-6 sm:col-span-4">
                         {!relationsLoading ? (
                             <Formik
                                 onSubmit={handleDeletion}
@@ -221,7 +211,12 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
                                     <Form>
                                         <FieldLabel
                                             name="consent"
-                                            label={`Let op! Het verwijderen van ${demonstrative} ${singularReadable} is niet terug te draaien`}
+                                            label={`${singularCapitalize} verwijderen`}
+                                        />
+                                        <Notification
+                                            title={`Let op! Het verwijderen van ${demonstrative} ${singularReadable} is niet terug te draaien`}
+                                            variant="warning"
+                                            className="my-4 block"
                                         />
                                         <FormikCheckbox
                                             name="consent"

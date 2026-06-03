@@ -23,9 +23,6 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
     },
     dynamicSections: [
         {
-            title: 'Instrument, titel en omschrijving',
-            description:
-                'Geef aan voor welk instrument dit template is, en geef er een titel en omschrijving aan',
             fields: [
                 {
                     type: 'select',
@@ -51,25 +48,12 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                     type: 'textarea',
                     required: true,
                 },
-            ],
-        },
-        {
-            title: 'Text template',
-            description:
-                'Geef aan hoe de template er uit moet komen te zien voor de export. Je kunt hier object templates gebruiken. Deze moet je hieronder definiëren.',
-            fields: [
                 {
                     name: 'Text_Template',
                     label: 'Text template',
                     type: 'textarea',
                     required: true,
                 },
-            ],
-        },
-        {
-            title: 'Object types',
-            description: 'Selecteer een of meerdere object types.',
-            fields: [
                 {
                     name: 'Object_Types',
                     type: 'select',
@@ -85,13 +69,6 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                     required: true,
                     validation: schemaDefaults.options,
                 },
-            ],
-        },
-        {
-            title: 'Object template',
-            description:
-                'Geef per gebruikt object aan hoe het moet worden getoond in de export.',
-            fields: [
                 {
                     name: 'Object_Templates',
                     arrayLabel: 'Object Template',
@@ -125,11 +102,6 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                         })
                     ),
                 },
-            ],
-        },
-        {
-            title: 'Field maps',
-            fields: [
                 {
                     name: 'Object_Field_Map',
                     label: 'Field maps',

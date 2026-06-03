@@ -286,7 +286,9 @@ const Document = ({
                                 }
                                 isLoading={isPending}
                                 isDisabled={
-                                    isPending || !version.Effective_Date
+                                    isPending ||
+                                    (!version.Effective_Date &&
+                                        procedureType === 'final')
                                 }
                             />
                             <Dropdown

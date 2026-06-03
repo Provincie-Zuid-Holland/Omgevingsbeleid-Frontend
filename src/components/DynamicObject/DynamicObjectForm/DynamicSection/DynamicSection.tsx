@@ -1,4 +1,4 @@
-import { Divider, Heading, Text } from '@pzh-ui/components'
+import { Divider, Text } from '@pzh-ui/components'
 
 import { Model } from '@/config/objects/types'
 import { DynamicSection as DynamicSectionProps } from '@/config/types'
@@ -6,7 +6,6 @@ import { DynamicSection as DynamicSectionProps } from '@/config/types'
 import DynamicField from '../DynamicField'
 
 const DynamicSection = ({
-    title,
     description,
     fields,
     isLast,
@@ -22,19 +21,9 @@ const DynamicSection = ({
     }
 }) => (
     <>
-        <div className="col-span-6 md:col-span-2">
-            <Heading
-                level="2"
-                size="s"
-                className="mb-3"
-                color="text-pzh-blue-500">
-                {title}
-            </Heading>
+        <div className="col-span-6">
+            {description && <Text className="mb-4">{description}</Text>}
 
-            {description && <Text>{description}</Text>}
-        </div>
-
-        <div className="col-span-6 md:col-span-4">
             {fields.map((field, index) => (
                 <DynamicField
                     key={`field-${field.type}-${index}`}

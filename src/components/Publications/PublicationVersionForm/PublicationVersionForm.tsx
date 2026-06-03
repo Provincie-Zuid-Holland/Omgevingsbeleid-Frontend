@@ -117,7 +117,7 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
     )
 
     return (
-        <Form>
+        <Form noValidate>
             <div className="flex flex-col gap-4">
                 <div>
                     <FormikSelect

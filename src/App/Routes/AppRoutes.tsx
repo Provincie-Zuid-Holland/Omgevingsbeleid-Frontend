@@ -278,12 +278,6 @@ const AppRoutes = () => {
                                                                 <PublicationVersionPackages />
                                                             ),
                                                         },
-                                                        {
-                                                            path: 'bewerk',
-                                                            element: (
-                                                                <PublicationVersionEdit />
-                                                            ),
-                                                        },
                                                     ],
                                                 },
                                             ],
@@ -293,6 +287,10 @@ const AppRoutes = () => {
                                             element: <TabTimeline />,
                                         },
                                     ],
+                                },
+                                {
+                                    path: 'besluiten/:versionUUID/bewerk',
+                                    element: <PublicationVersionEdit />,
                                 },
                                 { path: 'bewerk', element: <ModuleEdit /> },
                                 ...generateModuleObjectRoutes(),

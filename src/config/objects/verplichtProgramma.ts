@@ -56,9 +56,6 @@ const verplichtProgramma: DynamicObject<typeof fetchers> = {
     allowedConnections: [{ key: 'Maatregelen', type: 'maatregel' }],
     dynamicSections: [
         {
-            title: 'Algemene informatie',
-            description:
-                'Formuleer in enkele woorden de titel van het verplichte programma.',
             fields: [
                 {
                     name: 'Title',
@@ -76,13 +73,6 @@ const verplichtProgramma: DynamicObject<typeof fetchers> = {
                     customMenuOptions: ['heading'],
                     required: true,
                 },
-            ],
-        },
-        {
-            title: 'Koppelingen',
-            description:
-                'Binnen het omgevingsbeleid bestaan koppelingen en relaties. Een verplicht programma is veelal gekoppeld met maatregelen en wettelijke taken.',
-            fields: [
                 {
                     name: 'connections',
                     label: 'Koppelingen',

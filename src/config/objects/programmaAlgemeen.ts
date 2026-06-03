@@ -57,9 +57,6 @@ const programmaAlgemeen: DynamicObject<typeof fetchers> = {
     fetchers,
     dynamicSections: [
         {
-            title: 'Algemene informatie',
-            description:
-                'In deze sectie kun je alle tekst met betrekking tot het programma algemeen kwijt.',
             fields: [
                 {
                     name: 'Title',

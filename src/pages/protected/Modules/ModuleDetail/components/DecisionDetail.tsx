@@ -2,8 +2,7 @@ import {
     usePublicationEnvironmentsGetDetailEnvironment,
     usePublicationVersionsGetDetailVersion,
 } from '@/api/fetchers'
-import { DocumentType, ProcedureType } from '@/api/fetchers.schemas'
-import { config } from '@/pages/protected/Packages/config'
+import { buildVersionTitle } from '@/pages/protected/Packages/config'
 import { BackLink, Heading } from '@pzh-ui/components'
 import { Link, Outlet, useParams } from 'react-router-dom'
 
@@ -29,23 +28,7 @@ const DecisionDetail = () => {
             }
         )
 
-    const procedureLabel =
-        version?.Publication &&
-        config.procedureType[
-            version.Publication.Procedure_Type as ProcedureType
-        ]?.label
-
-    const documentLabel =
-        version?.Publication &&
-        config.documentType[version.Publication.Document_Type as DocumentType]
-            ?.label
-
-    const title =
-        procedureLabel && documentLabel
-            ? `${procedureLabel} - ${documentLabel}${
-                  environment?.Title ? ` (${environment.Title})` : ''
-              }`
-            : null
+    const title = buildVersionTitle(version, environment)
 
     return (
         <div className="col-span-6 flex flex-col gap-6">
